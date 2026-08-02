@@ -427,12 +427,15 @@ const ceilingViolations = tracks.filter(
 // The reconciliation model. Deferred is a disposition, not an absence: a track
 // counsel could not settle is accounted for, and only an expected ID that
 // appears in neither list is unaccounted.
-const EXPECTED = JSON.parse(
-  fs.readFileSync(
-    "/workspaces/legalease-legal-review-import/batch-1-amended/expected/expected-track-ids.json",
-    "utf8"
-  )
-).expected_track_ids_by_jurisdiction;
+// Each batch has its own expected-ID set, held outside Git with the reviewed
+// source package it was derived from. --expected= selects one; the default is
+// Batch 1, so a Batch 1 run is unchanged by the existence of later batches.
+const expectedArg = process.argv.find((arg) => arg.startsWith("--expected="));
+const EXPECTED_PATH = expectedArg
+  ? path.resolve(root, expectedArg.slice("--expected=".length))
+  : "/workspaces/legalease-legal-review-import/batch-1-amended/expected/expected-track-ids.json";
+
+const EXPECTED = JSON.parse(fs.readFileSync(EXPECTED_PATH, "utf8")).expected_track_ids_by_jurisdiction;
 
 // Expected IDs describe the real Batch 1 corpus. A fixture directory has no
 // relationship to it, so in fixture mode the batch is its own expectation and
@@ -518,7 +521,13 @@ const report = {
     approvalsFile: path.relative(root, APPROVALS_PATH),
     approvalsPresent,
     composedTracks: composedShapes.length,
-    approvedTracks: approvals ? (approvals.tracks ?? []).length : 0,
+    // Scoped to the jurisdictions in this run. The approvals file spans every
+    // batch, so counting the whole file here would make a per-batch report
+    // disagree with itself the moment a later batch approves a composed route.
+    approvedTracks: approvals
+      ? (approvals.tracks ?? []).filter((entry) => batchCodes.includes(entry.jurisdiction)).length
+      : 0,
+    approvedTracksAllBatches: approvals ? (approvals.tracks ?? []).length : 0,
     totalUnits: composedShapes.reduce((sum, shape) => sum + shape.units.length, 0),
     unresolvedUnits: composedShapes.reduce(
       (sum, shape) => sum + shape.units.filter((unit) => unit.unresolved).length,

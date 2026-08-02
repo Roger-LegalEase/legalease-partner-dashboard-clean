@@ -1964,8 +1964,13 @@ check("every committed Batch 1 composed route matches its approved unit substanc
   const approvals = JSON.parse(
     fs.readFileSync(path.join(process.cwd(), "data/record-clearing/legal-design-composed-unit-approvals.json"), "utf8")
   );
-  assert.equal(approvals.tracks.length, 10);
-  const modes = approvals.tracks.reduce((counts, track) => {
+  // The approvals file spans every batch, so the Batch 1 shape is asserted over
+  // the Batch 1 entries. The per-track invariants below still run over every
+  // entry in the file, whichever batch approved it.
+  const BATCH_1_CODES = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "HI", "ID"];
+  const batch1Approvals = approvals.tracks.filter((track) => BATCH_1_CODES.includes(track.jurisdiction));
+  assert.equal(batch1Approvals.length, 10);
+  const modes = batch1Approvals.reduce((counts, track) => {
     counts[track.compositionMode] = (counts[track.compositionMode] ?? 0) + 1;
     return counts;
   }, {});

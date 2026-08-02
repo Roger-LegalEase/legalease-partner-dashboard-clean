@@ -10222,6 +10222,2087 @@
         "The source review does not state a filing fee for this application.",
         "The source review does not address a fee waiver for this application."
       ]
+    },
+    {
+      "jurisdiction": "IL",
+      "trackId": "il-exp-nonconv",
+      "packetSetId": "il-exp-nonconv-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "il-exp-nonconv-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Request",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62dae17d-e95a-4185-9242-a8cce2bcffde/EXP-AD Request.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "il-exp-nonconv-attachment-2",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Case List",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "order": 2
+        },
+        {
+          "componentId": "il-exp-nonconv-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Order Granting",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/b66093d0-5c81-4d08-9d14-f8fd8f911c21/EXP-AD Order Granting.pdf",
+          "order": 3
+        },
+        {
+          "componentId": "il-exp-nonconv-continuation-4",
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "Only where the case count exceeds the Request's capacity.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Additional Cases Expungement",
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "il-exp-nonconv-fee-waiver-5",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Only where the participant cannot pay the county filing fee.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
+          "officialSourceUrl": null,
+          "order": 5
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+          "obtainedFrom": "Illinois State Police, Bureau of Identification, through the Access and Review process",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did each case end — acquitted, dismissed, released without being charged, or a conviction that was later vacated or reversed?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Chicago Police Department RAP sheet. Request the RAP sheet from the Chicago Police Department. A local fee applies.",
+          "obtainedFrom": "Chicago Police Department",
+          "requirement": "conditional",
+          "conditionDescription": "Only where there were Chicago arrests; the statewide transcript does not always capture them.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified disposition for each case. Ask each circuit clerk's office for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee while you are there.",
+          "obtainedFrom": "Circuit clerk of each county where a case was filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did each case end — acquitted, dismissed, released without being charged, or a conviction that was later vacated or reversed?\" against Certified disposition for each case, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature and verification date — Request, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Expunge-versus-seal selection for each case — Case List, per-case election column.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Hearing date — Any notice issued after an objection.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs and verifies the Request. A wet signature is expected.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136, comprising a $60 filing fee, a $60 state police fee and $16 for four certified copies. Treat every figure as county-specific.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived. Section 5.2(d)(10) waives the expungement fee entirely where the same record was previously sealed under this Section.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The circuit court clerk serves, under § 5.2(d)(4). The participant does not serve anyone. Participant-facing instructions must never tell the participant to serve the State's Attorney, ISP, the arresting agency or the chief legal officer.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the Request, Case List, any Additional Cases forms and the proposed Order with the circuit clerk in each county where an arrest occurred or a charge was brought. E-file where the county requires it. AOIC instructs users to download the form in Adobe Acrobat or Reader before filling it and to flatten the PDF before e-filing, so any LegalEase output must be delivered pre-flattened.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+        "Check your answer to \"How did each case end — acquitted, dismissed, released without being charged, or a conviction that was later vacated or reversed?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+        "Obtain Certified disposition for each case. Ask each circuit clerk's office for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee while you are there.",
+        "Check your answer to \"How did each case end — acquitted, dismissed, released without being charged, or a conviction that was later vacated or reversed?\" against Certified disposition for each case, and correct the packet if they disagree.",
+        "Petitioner's signature and verification date — Request, verification block.",
+        "Expunge-versus-seal selection for each case — Case List, per-case election column.",
+        "Hearing date — Any notice issued after an objection.",
+        "The petitioner signs and verifies the Request. A wet signature is expected.",
+        "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136, comprising a $60 filing fee, a $60 state police fee and $16 for four certified copies. Treat every figure as county-specific.",
+        "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived. Section 5.2(d)(10) waives the expungement fee entirely where the same record was previously sealed under this Section."
+      ]
+    },
+    {
+      "jurisdiction": "IL",
+      "trackId": "il-exp-supervision",
+      "packetSetId": "il-exp-supervision-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "il-exp-supervision-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Request",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62dae17d-e95a-4185-9242-a8cce2bcffde/EXP-AD Request.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "il-exp-supervision-attachment-2",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Case List",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "order": 2
+        },
+        {
+          "componentId": "il-exp-supervision-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Order Granting",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/b66093d0-5c81-4d08-9d14-f8fd8f911c21/EXP-AD Order Granting.pdf",
+          "order": 3
+        },
+        {
+          "componentId": "il-exp-supervision-fee-waiver-4",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Only where the participant cannot pay the county filing fee.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
+          "officialSourceUrl": null,
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+          "obtainedFrom": "Illinois State Police, Bureau of Identification, through Access and Review",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Was your supervision terminated satisfactorily, or was it revoked or terminated unsatisfactorily?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Chicago Police Department RAP sheet. Request the RAP sheet from the Chicago Police Department. A local fee applies.",
+          "obtainedFrom": "Chicago Police Department",
+          "requirement": "conditional",
+          "conditionDescription": "Only where there were Chicago arrests; the statewide transcript does not always capture them.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified disposition for each case. Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee.",
+          "obtainedFrom": "Circuit clerk of each county where a case was filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Was your supervision terminated satisfactorily, or was it revoked or terminated unsatisfactorily?\" against Certified disposition for each case, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature and verification date — Request, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Expunge-versus-seal selection for each case — Case List, per-case election column.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Hearing date — Any notice issued after an objection.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs and verifies the Request. A wet signature is expected.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the Request, Case List, any Additional Cases forms and the proposed Order with the circuit clerk in each county where an arrest occurred or a charge was brought. E-file where the county requires it. AOIC requires the PDF to be flattened before e-filing, so LegalEase output is delivered pre-flattened.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+        "Check your answer to \"Was your supervision terminated satisfactorily, or was it revoked or terminated unsatisfactorily?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+        "Obtain Certified disposition for each case. Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee.",
+        "Check your answer to \"Was your supervision terminated satisfactorily, or was it revoked or terminated unsatisfactorily?\" against Certified disposition for each case, and correct the packet if they disagree.",
+        "Petitioner's signature and verification date — Request, verification block.",
+        "Expunge-versus-seal selection for each case — Case List, per-case election column.",
+        "Hearing date — Any notice issued after an objection.",
+        "The petitioner signs and verifies the Request. A wet signature is expected.",
+        "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
+        "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived."
+      ]
+    },
+    {
+      "jurisdiction": "IL",
+      "trackId": "il-exp-qualprob",
+      "packetSetId": "il-exp-qualprob-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "il-exp-qualprob-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Request",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62dae17d-e95a-4185-9242-a8cce2bcffde/EXP-AD Request.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "il-exp-qualprob-attachment-2",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Case List",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "order": 2
+        },
+        {
+          "componentId": "il-exp-qualprob-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Order Granting",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/b66093d0-5c81-4d08-9d14-f8fd8f911c21/EXP-AD Order Granting.pdf",
+          "order": 3
+        },
+        {
+          "componentId": "il-exp-qualprob-fee-waiver-4",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Only where the participant cannot pay the county filing fee.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
+          "officialSourceUrl": null,
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+          "obtainedFrom": "Illinois State Police, Bureau of Identification, through Access and Review",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Was the probation terminated satisfactorily?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Chicago Police Department RAP sheet. Request the RAP sheet from the Chicago Police Department. A local fee applies.",
+          "obtainedFrom": "Chicago Police Department",
+          "requirement": "conditional",
+          "conditionDescription": "Only where there were Chicago arrests; the statewide transcript does not always capture them.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified disposition for each case. Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee.",
+          "obtainedFrom": "Circuit clerk of each county where a case was filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Was the probation terminated satisfactorily?\" against Certified disposition for each case, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature and verification date — Request, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Expunge-versus-seal selection for each case — Case List, per-case election column.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Hearing date — Any notice issued after an objection.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs and verifies the Request. A wet signature is expected.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the Request, Case List, any Additional Cases forms and the proposed Order with the circuit clerk in each county where an arrest occurred or a charge was brought. E-file where the county requires it. AOIC requires the PDF to be flattened before e-filing, so LegalEase output is delivered pre-flattened.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+        "Check your answer to \"Was the probation terminated satisfactorily?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+        "Obtain Certified disposition for each case. Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee.",
+        "Check your answer to \"Was the probation terminated satisfactorily?\" against Certified disposition for each case, and correct the packet if they disagree.",
+        "Petitioner's signature and verification date — Request, verification block.",
+        "Expunge-versus-seal selection for each case — Case List, per-case election column.",
+        "Hearing date — Any notice issued after an objection.",
+        "The petitioner signs and verifies the Request. A wet signature is expected.",
+        "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
+        "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived."
+      ]
+    },
+    {
+      "jurisdiction": "IL",
+      "trackId": "il-exp-precompletion",
+      "packetSetId": "il-exp-precompletion-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "il-exp-precompletion-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Request",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62dae17d-e95a-4185-9242-a8cce2bcffde/EXP-AD Request.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "il-exp-precompletion-attachment-2",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Case List",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "order": 2
+        },
+        {
+          "componentId": "il-exp-precompletion-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Order Granting",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/b66093d0-5c81-4d08-9d14-f8fd8f911c21/EXP-AD Order Granting.pdf",
+          "order": 3
+        },
+        {
+          "componentId": "il-exp-precompletion-fee-waiver-4",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Only where the participant cannot pay the county filing fee.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
+          "officialSourceUrl": null,
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+          "obtainedFrom": "Illinois State Police, Bureau of Identification, through Access and Review",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the case number?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Chicago Police Department RAP sheet. Request the RAP sheet from the Chicago Police Department. A local fee applies.",
+          "obtainedFrom": "Chicago Police Department",
+          "requirement": "conditional",
+          "conditionDescription": "Only where there were Chicago arrests; the statewide transcript does not always capture them.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified disposition for each case. Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee.",
+          "obtainedFrom": "Circuit clerk of each county where a case was filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the case number?\" against Certified disposition for each case, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature and verification date — Request, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Expunge-versus-seal selection for each case — Case List, per-case election column.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Hearing date — Any notice issued after an objection.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs and verifies the Request. A wet signature is expected.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the Request, Case List, any Additional Cases forms and the proposed Order with the circuit clerk in each county where an arrest occurred or a charge was brought. E-file where the county requires it. AOIC requires the PDF to be flattened before e-filing, so LegalEase output is delivered pre-flattened.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+        "Check your answer to \"What is the case number?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+        "Obtain Certified disposition for each case. Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee.",
+        "Check your answer to \"What is the case number?\" against Certified disposition for each case, and correct the packet if they disagree.",
+        "Petitioner's signature and verification date — Request, verification block.",
+        "Expunge-versus-seal selection for each case — Case List, per-case election column.",
+        "Hearing date — Any notice issued after an objection.",
+        "The petitioner signs and verifies the Request. A wet signature is expected.",
+        "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
+        "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived."
+      ]
+    },
+    {
+      "jurisdiction": "IL",
+      "trackId": "il-seal-nonconv",
+      "packetSetId": "il-seal-nonconv-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "il-seal-nonconv-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Request",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62dae17d-e95a-4185-9242-a8cce2bcffde/EXP-AD Request.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "il-seal-nonconv-attachment-2",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Case List",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "order": 2
+        },
+        {
+          "componentId": "il-seal-nonconv-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Order Granting",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/b66093d0-5c81-4d08-9d14-f8fd8f911c21/EXP-AD Order Granting.pdf",
+          "order": 3
+        },
+        {
+          "componentId": "il-seal-nonconv-fee-waiver-4",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Only where the participant cannot pay the county filing fee.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
+          "officialSourceUrl": null,
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+          "obtainedFrom": "Illinois State Police, Bureau of Identification, through Access and Review",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did each case end — acquitted, dismissed, released without being charged, or a conviction that was later vacated or reversed?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Chicago Police Department RAP sheet. Request the RAP sheet from the Chicago Police Department. A local fee applies.",
+          "obtainedFrom": "Chicago Police Department",
+          "requirement": "conditional",
+          "conditionDescription": "Only where there were Chicago arrests; the statewide transcript does not always capture them.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified disposition for each case. Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee.",
+          "obtainedFrom": "Circuit clerk of each county where a case was filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did each case end — acquitted, dismissed, released without being charged, or a conviction that was later vacated or reversed?\" against Certified disposition for each case, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature and verification date — Request, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Expunge-versus-seal selection for each case — Case List, per-case election column.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Hearing date — Any notice issued after an objection.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs and verifies the Request. A wet signature is expected.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the Request, Case List, any Additional Cases forms and the proposed Order with the circuit clerk in each county where an arrest occurred or a charge was brought. E-file where the county requires it. AOIC requires the PDF to be flattened before e-filing, so LegalEase output is delivered pre-flattened.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+        "Check your answer to \"How did each case end — acquitted, dismissed, released without being charged, or a conviction that was later vacated or reversed?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+        "Obtain Certified disposition for each case. Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee.",
+        "Check your answer to \"How did each case end — acquitted, dismissed, released without being charged, or a conviction that was later vacated or reversed?\" against Certified disposition for each case, and correct the packet if they disagree.",
+        "Petitioner's signature and verification date — Request, verification block.",
+        "Expunge-versus-seal selection for each case — Case List, per-case election column.",
+        "Hearing date — Any notice issued after an objection.",
+        "The petitioner signs and verifies the Request. A wet signature is expected.",
+        "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
+        "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived."
+      ]
+    },
+    {
+      "jurisdiction": "IL",
+      "trackId": "il-seal-2yr",
+      "packetSetId": "il-seal-2yr-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "il-seal-2yr-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Request",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62dae17d-e95a-4185-9242-a8cce2bcffde/EXP-AD Request.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "il-seal-2yr-attachment-2",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Case List",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "order": 2
+        },
+        {
+          "componentId": "il-seal-2yr-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Order Granting",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/b66093d0-5c81-4d08-9d14-f8fd8f911c21/EXP-AD Order Granting.pdf",
+          "order": 3
+        },
+        {
+          "componentId": "il-seal-2yr-fee-waiver-4",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Only where the participant cannot pay the county filing fee.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
+          "officialSourceUrl": null,
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+          "obtainedFrom": "Illinois State Police, Bureau of Identification, through Access and Review",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"For each case, was the outcome supervision, qualified probation, conditional discharge or probation completed without revocation, a misdemeanor conviction, or a felony conviction?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Chicago Police Department RAP sheet. Request the RAP sheet from the Chicago Police Department. A local fee applies.",
+          "obtainedFrom": "Chicago Police Department",
+          "requirement": "conditional",
+          "conditionDescription": "Only where there were Chicago arrests; the statewide transcript does not always capture them.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified disposition for each case. Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee.",
+          "obtainedFrom": "Circuit clerk of each county where a case was filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"For each case, was the outcome supervision, qualified probation, conditional discharge or probation completed without revocation, a misdemeanor conviction, or a felony conviction?\" against Certified disposition for each case, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature and verification date — Request, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Expunge-versus-seal selection for each case — Case List, per-case election column.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Hearing date — Any notice issued after an objection.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs and verifies the Request. A wet signature is expected.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the Request, Case List, any Additional Cases forms and the proposed Order with the circuit clerk in each county where an arrest occurred or a charge was brought. E-file where the county requires it. AOIC requires the PDF to be flattened before e-filing, so LegalEase output is delivered pre-flattened.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+        "Check your answer to \"For each case, was the outcome supervision, qualified probation, conditional discharge or probation completed without revocation, a misdemeanor conviction, or a felony conviction?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+        "Obtain Certified disposition for each case. Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee.",
+        "Check your answer to \"For each case, was the outcome supervision, qualified probation, conditional discharge or probation completed without revocation, a misdemeanor conviction, or a felony conviction?\" against Certified disposition for each case, and correct the packet if they disagree.",
+        "Petitioner's signature and verification date — Request, verification block.",
+        "Expunge-versus-seal selection for each case — Case List, per-case election column.",
+        "Hearing date — Any notice issued after an objection.",
+        "The petitioner signs and verifies the Request. A wet signature is expected.",
+        "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
+        "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived."
+      ]
+    },
+    {
+      "jurisdiction": "IL",
+      "trackId": "il-seal-3yr",
+      "packetSetId": "il-seal-3yr-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "il-seal-3yr-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Request",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62dae17d-e95a-4185-9242-a8cce2bcffde/EXP-AD Request.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "il-seal-3yr-attachment-2",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Case List",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "order": 2
+        },
+        {
+          "componentId": "il-seal-3yr-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Order Granting",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/b66093d0-5c81-4d08-9d14-f8fd8f911c21/EXP-AD Order Granting.pdf",
+          "order": 3
+        },
+        {
+          "componentId": "il-seal-3yr-fee-waiver-4",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Only where the participant cannot pay the county filing fee.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
+          "officialSourceUrl": null,
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+          "obtainedFrom": "Illinois State Police, Bureau of Identification, through Access and Review",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"For each case, was the outcome supervision, qualified probation, conditional discharge or probation completed without revocation, a misdemeanor conviction, or a felony conviction?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Chicago Police Department RAP sheet. Request the RAP sheet from the Chicago Police Department. A local fee applies.",
+          "obtainedFrom": "Chicago Police Department",
+          "requirement": "conditional",
+          "conditionDescription": "Only where there were Chicago arrests; the statewide transcript does not always capture them.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified disposition for each case. Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee.",
+          "obtainedFrom": "Circuit clerk of each county where a case was filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"For each case, was the outcome supervision, qualified probation, conditional discharge or probation completed without revocation, a misdemeanor conviction, or a felony conviction?\" against Certified disposition for each case, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature and verification date — Request, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Expunge-versus-seal selection for each case — Case List, per-case election column.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Hearing date — Any notice issued after an objection.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs and verifies the Request. A wet signature is expected.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the Request, Case List, any Additional Cases forms and the proposed Order with the circuit clerk in each county where an arrest occurred or a charge was brought. E-file where the county requires it. AOIC requires the PDF to be flattened before e-filing, so LegalEase output is delivered pre-flattened.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+        "Check your answer to \"For each case, was the outcome supervision, qualified probation, conditional discharge or probation completed without revocation, a misdemeanor conviction, or a felony conviction?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+        "Obtain Certified disposition for each case. Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee.",
+        "Check your answer to \"For each case, was the outcome supervision, qualified probation, conditional discharge or probation completed without revocation, a misdemeanor conviction, or a felony conviction?\" against Certified disposition for each case, and correct the packet if they disagree.",
+        "Petitioner's signature and verification date — Request, verification block.",
+        "Expunge-versus-seal selection for each case — Case List, per-case election column.",
+        "Hearing date — Any notice issued after an objection.",
+        "The petitioner signs and verifies the Request. A wet signature is expected.",
+        "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
+        "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived."
+      ]
+    },
+    {
+      "jurisdiction": "IL",
+      "trackId": "il-seal-edu",
+      "packetSetId": "il-seal-edu-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "il-seal-edu-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Request",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62dae17d-e95a-4185-9242-a8cce2bcffde/EXP-AD Request.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "il-seal-edu-attachment-2",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Case List",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "order": 2
+        },
+        {
+          "componentId": "il-seal-edu-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Order Granting",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/b66093d0-5c81-4d08-9d14-f8fd8f911c21/EXP-AD Order Granting.pdf",
+          "order": 3
+        },
+        {
+          "componentId": "il-seal-edu-fee-waiver-4",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Only where the participant cannot pay the county filing fee.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
+          "officialSourceUrl": null,
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+          "obtainedFrom": "Illinois State Police, Bureau of Identification, through Access and Review",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"For each case, was the outcome supervision, qualified probation, conditional discharge or probation completed without revocation, a misdemeanor conviction, or a felony conviction?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Chicago Police Department RAP sheet. Request the RAP sheet from the Chicago Police Department. A local fee applies.",
+          "obtainedFrom": "Chicago Police Department",
+          "requirement": "conditional",
+          "conditionDescription": "Only where there were Chicago arrests; the statewide transcript does not always capture them.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified disposition for each case. Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee.",
+          "obtainedFrom": "Circuit clerk of each county where a case was filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"For each case, was the outcome supervision, qualified probation, conditional discharge or probation completed without revocation, a misdemeanor conviction, or a felony conviction?\" against Certified disposition for each case, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature and verification date — Request, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Expunge-versus-seal selection for each case — Case List, per-case election column.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Hearing date — Any notice issued after an objection.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs and verifies the Request. A wet signature is expected.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the Request, Case List, any Additional Cases forms and the proposed Order with the circuit clerk in each county where an arrest occurred or a charge was brought. E-file where the county requires it. AOIC requires the PDF to be flattened before e-filing, so LegalEase output is delivered pre-flattened.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+        "Check your answer to \"For each case, was the outcome supervision, qualified probation, conditional discharge or probation completed without revocation, a misdemeanor conviction, or a felony conviction?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+        "Obtain Certified disposition for each case. Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee.",
+        "Check your answer to \"For each case, was the outcome supervision, qualified probation, conditional discharge or probation completed without revocation, a misdemeanor conviction, or a felony conviction?\" against Certified disposition for each case, and correct the packet if they disagree.",
+        "Petitioner's signature and verification date — Request, verification block.",
+        "Expunge-versus-seal selection for each case — Case List, per-case election column.",
+        "Hearing date — Any notice issued after an objection.",
+        "The petitioner signs and verifies the Request. A wet signature is expected.",
+        "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
+        "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived."
+      ]
+    },
+    {
+      "jurisdiction": "IL",
+      "trackId": "il-immediate-seal",
+      "packetSetId": "il-immediate-seal-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "il-immediate-seal-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "sign",
+          "description": "Not applicable. Section 5.2(g)(5)(A) frames the petition as filed by the defendant's attorney on the defendant's behalf.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review states no fee for this route.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable. No LegalEase packet is filed on this track.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "A copy is served on the State's Attorney in open court and on no one else.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "The petition is filed with the circuit court clerk on the same day and during the same hearing in which the case is disposed. LegalEase cannot be in the courtroom and cannot file during a hearing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Not applicable. Section 5.2(g)(5)(A) frames the petition as filed by the defendant's attorney on the defendant's behalf.",
+        "The source review states no fee for this route.",
+        "Not applicable. No LegalEase packet is filed on this track."
+      ]
+    },
+    {
+      "jurisdiction": "IL",
+      "trackId": "il-exp-pardon",
+      "packetSetId": "il-exp-pardon-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "il-exp-pardon-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Request",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62dae17d-e95a-4185-9242-a8cce2bcffde/EXP-AD Request.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "il-exp-pardon-attachment-2",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Case List",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "order": 2
+        },
+        {
+          "componentId": "il-exp-pardon-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Order Granting",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/b66093d0-5c81-4d08-9d14-f8fd8f911c21/EXP-AD Order Granting.pdf",
+          "order": 3
+        },
+        {
+          "componentId": "il-exp-pardon-fee-waiver-4",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Only where the participant cannot pay the county filing fee.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
+          "officialSourceUrl": null,
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+          "obtainedFrom": "Illinois State Police, Bureau of Identification, through Access and Review",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the case number?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Chicago Police Department RAP sheet. Request the RAP sheet from the Chicago Police Department. A local fee applies.",
+          "obtainedFrom": "Chicago Police Department",
+          "requirement": "conditional",
+          "conditionDescription": "Only where there were Chicago arrests; the statewide transcript does not always capture them.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified disposition for each case. Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee.",
+          "obtainedFrom": "Circuit clerk of each county where a case was filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the case number?\" against Certified disposition for each case, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain The Governor's pardon specifically authorizing expungement. Obtain a copy of the executed pardon. The petition depends on the pardon expressly authorizing expungement.",
+          "obtainedFrom": "Illinois Prisoner Review Board or the Office of the Governor",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Does the pardon say specifically that it authorizes expungement?\" against The Governor's pardon specifically authorizing expungement, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature and verification date — Request, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Expunge-versus-seal selection for each case — Case List, per-case election column.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Hearing date — Any notice issued after an objection.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs and verifies the Request. A wet signature is expected.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the Request, Case List, any Additional Cases forms and the proposed Order with the circuit clerk in each county where an arrest occurred or a charge was brought. E-file where the county requires it. AOIC requires the PDF to be flattened before e-filing, so LegalEase output is delivered pre-flattened.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+        "Check your answer to \"What is the case number?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+        "Obtain Certified disposition for each case. Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee.",
+        "Check your answer to \"What is the case number?\" against Certified disposition for each case, and correct the packet if they disagree.",
+        "Obtain The Governor's pardon specifically authorizing expungement. Obtain a copy of the executed pardon. The petition depends on the pardon expressly authorizing expungement.",
+        "Check your answer to \"Does the pardon say specifically that it authorizes expungement?\" against The Governor's pardon specifically authorizing expungement, and correct the packet if they disagree.",
+        "Petitioner's signature and verification date — Request, verification block.",
+        "Expunge-versus-seal selection for each case — Case List, per-case election column.",
+        "Hearing date — Any notice issued after an objection.",
+        "The petitioner signs and verifies the Request. A wet signature is expected.",
+        "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
+        "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived."
+      ]
+    },
+    {
+      "jurisdiction": "IL",
+      "trackId": "il-prb-cert",
+      "packetSetId": "il-prb-cert-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "il-prb-cert-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "il-prb-cert-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Stage 2, generated only once a certificate has been issued.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Request",
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+          "obtainedFrom": "Illinois State Police, Bureau of Identification, through Access and Review",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the case number?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Chicago Police Department RAP sheet. Request the RAP sheet from the Chicago Police Department. A local fee applies.",
+          "obtainedFrom": "Chicago Police Department",
+          "requirement": "conditional",
+          "conditionDescription": "Only where there were Chicago arrests; the statewide transcript does not always capture them.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified disposition for each case. Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee.",
+          "obtainedFrom": "Circuit clerk of each county where a case was filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the case number?\" against Certified disposition for each case, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Prisoner Review Board certificate of eligibility. Apply to the Prisoner Review Board for a certificate of eligibility for sealing or for expungement. The Board decides on an individualized rehabilitation showing.",
+          "obtainedFrom": "Illinois Prisoner Review Board",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Has the Prisoner Review Board already issued you a certificate of eligibility?\" against Prisoner Review Board certificate of eligibility, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature and verification date — Request, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Expunge-versus-seal selection for each case — Case List, per-case election column.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Hearing date — Any notice issued after an objection.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs and verifies the Request. A wet signature is expected.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the Request, Case List, any Additional Cases forms and the proposed Order with the circuit clerk in each county where an arrest occurred or a charge was brought. E-file where the county requires it. AOIC requires the PDF to be flattened before e-filing, so LegalEase output is delivered pre-flattened.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+        "Check your answer to \"What is the case number?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+        "Obtain Certified disposition for each case. Ask each circuit clerk for a certified copy of the disposition, and confirm copy counts, filing method and the exact fee.",
+        "Check your answer to \"What is the case number?\" against Certified disposition for each case, and correct the packet if they disagree.",
+        "Obtain Prisoner Review Board certificate of eligibility. Apply to the Prisoner Review Board for a certificate of eligibility for sealing or for expungement. The Board decides on an individualized rehabilitation showing.",
+        "Check your answer to \"Has the Prisoner Review Board already issued you a certificate of eligibility?\" against Prisoner Review Board certificate of eligibility, and correct the packet if they disagree.",
+        "Petitioner's signature and verification date — Request, verification block.",
+        "Expunge-versus-seal selection for each case — Case List, per-case election column.",
+        "Hearing date — Any notice issued after an objection.",
+        "The petitioner signs and verifies the Request. A wet signature is expected.",
+        "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
+        "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived."
+      ]
+    },
+    {
+      "jurisdiction": "IL",
+      "trackId": "il-auto-seal-2029",
+      "packetSetId": "il-auto-seal-2029-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "il-auto-seal-2029-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+          "obtainedFrom": "Illinois State Police, Bureau of Identification, through Access and Review",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Is your record a felony, an Article 9 or Article 11 offense, a Class X felony, or an offense requiring registration?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "No participant signature. There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No LegalEase filing fee applies. Access and Review is free on the ISP fee schedule.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable. There is no filing fee.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service. There is no petition to serve.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Is your record a felony, an Article 9 or Article 11 offense, a Class X felony, or an offense requiring registration?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+        "No participant signature. There is no participant filing on this track.",
+        "No LegalEase filing fee applies. Access and Review is free on the ISP fee schedule.",
+        "Not applicable. There is no filing fee."
+      ]
+    },
+    {
+      "jurisdiction": "IL",
+      "trackId": "il-auto-seal-2028",
+      "packetSetId": "il-auto-seal-2028-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "il-auto-seal-2028-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+          "obtainedFrom": "Illinois State Police, Bureau of Identification, through Access and Review",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Was the case a municipal ordinance violation or a Class C misdemeanor?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "No participant signature. There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No LegalEase filing fee applies. Access and Review is free on the ISP fee schedule.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable. There is no filing fee.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service. There is no petition to serve.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Was the case a municipal ordinance violation or a Class C misdemeanor?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+        "No participant signature. There is no participant filing on this track.",
+        "No LegalEase filing fee applies. Access and Review is free on the ISP fee schedule.",
+        "Not applicable. There is no filing fee."
+      ]
+    },
+    {
+      "jurisdiction": "IL",
+      "trackId": "il-cannabis-auto",
+      "packetSetId": "il-cannabis-auto-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "il-cannabis-auto-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+          "obtainedFrom": "Illinois State Police, Bureau of Identification, through Access and Review",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you already requested your free ISP Access and Review transcript to check whether the record is still there?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "No participant signature. There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No LegalEase filing fee applies. Access and Review is free on the ISP fee schedule.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable. There is no filing fee.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service. There is no petition to serve.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Have you already requested your free ISP Access and Review transcript to check whether the record is still there?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+        "No participant signature. There is no participant filing on this track.",
+        "No LegalEase filing fee applies. Access and Review is free on the ISP fee schedule.",
+        "Not applicable. There is no filing fee."
+      ]
+    },
+    {
+      "jurisdiction": "IL",
+      "trackId": "il-cannabis-vacate",
+      "packetSetId": "il-cannabis-vacate-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "il-cannabis-vacate-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CXP Motion to Vacate and Expunge",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/8562a938-0296-4236-9030-3217460e8b5c/CXP Motion to Vacate and Expunge.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "il-cannabis-vacate-continuation-2",
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "Where more than one cannabis conviction is included.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CXP Additional Cannabis Convictions",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "il-cannabis-vacate-instructions-3",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CXP Getting Started Motion to Vacate and Expunge",
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "il-cannabis-vacate-local-addendum-4",
+          "role": "local_addendum",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CXP Notice of Court Date for Motion",
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "il-cannabis-vacate-continuation-5",
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "Where additional notices of court date are required.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CXP Additional Notice of Court Date",
+          "officialSourceUrl": null,
+          "order": 5
+        },
+        {
+          "componentId": "il-cannabis-vacate-proposed-order-6",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CXP Order Granting or Denying Motion",
+          "officialSourceUrl": null,
+          "order": 6
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+          "obtainedFrom": "Illinois State Police, Bureau of Identification, through Access and Review",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the case number?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that the sentence or conditions imposed by the conviction are complete. Ask the circuit clerk or probation department for documentation that the sentence and any conditions have been completed.",
+          "obtainedFrom": "Circuit clerk or probation department of the county of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you completed every non-financial part of your sentence and any non-financial conditions?\" against Proof that the sentence or conditions imposed by the conviction are complete, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Movant's signature and date — Motion, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court date — Notice of Court Date for Motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Statement of adverse consequences — Motion, adverse-consequences section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The movant signs the motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a separate cannabis motion fee. Treat county filing charges as county-specific and confirm with the clerk. ISP charges $60 to process a court order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Clerk service applies to the motion itself under § 5.2(i)(3). The cannabis suite additionally uses petitioner-completed Notice of Court Date forms, so the adult suite's clerk-service model does not carry over.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the Motion, any Additional Cannabis Convictions form, the Notice of Court Date and the proposed Order with the circuit court, the Chief Judge, or a judge designated by the Chief Judge. Deliver the forms pre-flattened.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+        "Check your answer to \"What is the case number?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+        "Obtain Proof that the sentence or conditions imposed by the conviction are complete. Ask the circuit clerk or probation department for documentation that the sentence and any conditions have been completed.",
+        "Check your answer to \"Have you completed every non-financial part of your sentence and any non-financial conditions?\" against Proof that the sentence or conditions imposed by the conviction are complete, and correct the packet if they disagree.",
+        "Movant's signature and date — Motion, signature block.",
+        "Court date — Notice of Court Date for Motion.",
+        "Statement of adverse consequences — Motion, adverse-consequences section.",
+        "The movant signs the motion.",
+        "The source review does not state a separate cannabis motion fee. Treat county filing charges as county-specific and confirm with the clerk. ISP charges $60 to process a court order.",
+        "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies."
+      ]
+    },
+    {
+      "jurisdiction": "IL",
+      "trackId": "il-prostitution-j-auto",
+      "packetSetId": "il-prostitution-j-auto-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "il-prostitution-j-auto-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+          "obtainedFrom": "Illinois State Police, Bureau of Identification, through Access and Review",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you requested your free ISP Access and Review transcript to check the current status of the record?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "No participant signature. There is no participant filing on this branch.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No LegalEase filing fee applies. Access and Review is free on the ISP fee schedule.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable. There is no filing fee.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service. There is no petition to serve.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "There is no participant filing on this branch.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+        "Check your answer to \"Have you requested your free ISP Access and Review transcript to check the current status of the record?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+        "No participant signature. There is no participant filing on this branch.",
+        "No LegalEase filing fee applies. Access and Review is free on the ISP fee schedule.",
+        "Not applicable. There is no filing fee."
+      ]
+    },
+    {
+      "jurisdiction": "IL",
+      "trackId": "il-prostitution-j-vacate",
+      "packetSetId": "il-prostitution-j-vacate-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "il-prostitution-j-vacate-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "il-prostitution-j-vacate-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+          "obtainedFrom": "Illinois State Police, Bureau of Identification, through Access and Review",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the case number?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that the sentence or conditions imposed by the conviction are complete. Ask the circuit clerk or probation department for documentation that the sentence and any conditions have been completed.",
+          "obtainedFrom": "Circuit clerk or probation department of the county of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you completed the sentence and any conditions imposed by the conviction?\" against Proof that the sentence or conditions imposed by the conviction are complete, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Movant's signature and date — Motion, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Statement of adverse consequences — Motion, factual allegations.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Filing method and any local cover requirements — Filing instruction sheet.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The movant signs the motion. Name, address, phone, email and a pro se designation where unrepresented.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a fee for this route. Treat county charges as county-specific and confirm with the clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The subsection does not clearly state whether the clerk serves as under § 5.2(d)(4) or the movant serves as in the cannabis suite. Confirm local practice before assuming clerk service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the motion and proposed order with the circuit court with jurisdiction over the underlying conviction, or with the Chief Judge or a designated judge of that circuit. No statewide form exists, so confirm the filing method with the clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+        "Check your answer to \"What is the case number?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+        "Obtain Proof that the sentence or conditions imposed by the conviction are complete. Ask the circuit clerk or probation department for documentation that the sentence and any conditions have been completed.",
+        "Check your answer to \"Have you completed the sentence and any conditions imposed by the conviction?\" against Proof that the sentence or conditions imposed by the conviction are complete, and correct the packet if they disagree.",
+        "Movant's signature and date — Motion, signature block.",
+        "Statement of adverse consequences — Motion, factual allegations.",
+        "Filing method and any local cover requirements — Filing instruction sheet.",
+        "The movant signs the motion. Name, address, phone, email and a pro se designation where unrepresented.",
+        "The source review does not state a fee for this route. Treat county charges as county-specific and confirm with the clerk.",
+        "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies."
+      ]
     }
   ]
 }

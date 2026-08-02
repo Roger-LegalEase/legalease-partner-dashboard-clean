@@ -1,12 +1,11 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "data/record-clearing/legal-design-intake",
-  "jurisdictionsReceived": 12,
-  "jurisdictionsOutstanding": 39,
+  "jurisdictionsReceived": 13,
+  "jurisdictionsOutstanding": 38,
   "outstandingJurisdictions": [
     "GA",
     "IA",
-    "IL",
     "IN",
     "KS",
     "KY",
@@ -91,7 +90,7 @@
     {
       "batch": "C_custom_pleading",
       "label": "Custom pleading",
-      "trackCount": 11,
+      "trackCount": 12,
       "tracks": [
         {
           "jurisdiction": "AZ",
@@ -640,13 +639,61 @@
               "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
             }
           ]
+        },
+        {
+          "jurisdiction": "IL",
+          "trackId": "il-prostitution-j-vacate",
+          "publicName": "Vacating and expunging a Class 4 felony prostitution conviction",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "No statewide form exists for this route. It remains a counsel-approved custom pleading with a verified local-form override, and a published local form controls where one exists.",
+            "Cite only 20 ILCS 2630/5.2(j)(3), with the expungement mechanics at (d)(9)(A) and the effect provision at (j)(8). Cite nothing else without approval, and generate only the statutory elements and the (j)(8) effect language as static propositions.",
+            "LegalEase must not state that the participant will succeed, must not assert the conviction was a Class 4 felony where the record does not say so, must not write the adverse-consequences narrative, and must not characterise the circumstances of the offence."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 12,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (notice_or_service): Service model for the § 5.2(j)(3) prostitution motion. The subsection does not clearly state whether the clerk serves as under § 5.2(d)(4) or the movant serves as in the cannabis suite."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether e-filing is available for expungement and sealing petitions in every county, and how counties handle self-represented e-filing exemptions."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
         }
       ]
     },
     {
       "batch": "D_composed_or_process_guidance",
       "label": "Composed and process-guidance tracks",
-      "trackCount": 26,
+      "trackCount": 31,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -1720,6 +1767,176 @@
               "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
             }
           ]
+        },
+        {
+          "jurisdiction": "IL",
+          "trackId": "il-immediate-seal",
+          "publicName": "Asking for immediate sealing on the day your case is dismissed or you are acquitted",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "LegalEase does not generate a filing for this route. The product is telling the participant the right exists and to ask counsel to file it that day."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 5,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "trackId": "il-auto-seal-2029",
+          "publicName": "Automatic sealing starting in 2029, and why you may still want to file now",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Keep the § 5.2(k)(3) automatic-sealing exclusion list separate from the § 5.2(a)(3) petition list in the rules engine."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 7,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Whether ISP is already auto-sealing records identified through Access and Review, as at least one 2026 secondary source states, or whether § 5.2(k)(11) only operates from January 1, 2029."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "trackId": "il-auto-seal-2028",
+          "publicName": "Automatic sealing of ordinance violations and Class C misdemeanors starting in 2028",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 7,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "trackId": "il-cannabis-auto",
+          "publicName": "Checking whether your old cannabis arrest was already cleared automatically",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 7,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "trackId": "il-prostitution-j-auto",
+          "publicName": "Automatic sealing of Class 4 felony prostitution records by January 2028",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "This is not a general prostitution rule. Confirm the record was a Class 4 felony prostitution record before offering the branch."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 7,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
         }
       ]
     },
@@ -1771,7 +1988,7 @@
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 72,
+      "trackCount": 83,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -4965,6 +5182,503 @@
             {
               "kind": "release_blocker",
               "statement": "Impact unclassified, returned to counsel (eligibility_branch): How § 37-2732(a), (c), and (e) map to the offenses that appear on a real Idaho criminal history, since the shielding track turns on that mapping for every felony drug user."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "trackId": "il-exp-nonconv",
+          "publicName": "Expunging an arrest or charge that did not end in a conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Venue is the county of arrest or charge, not residence. Where arrests or charges span counties, a separate petition is required in each."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "The precise effective-date structure of P.A. 104-0459. June 1, 2026 is well corroborated but the effective-date section of the enrolled Act was not read directly.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
+                "sourceHeading": "PART 5: JURISDICTION COMPLETENESS / OPEN QUESTIONS",
+                "sourceStatement": "The precise effective date structure of P.A. 104-0459. June 1, 2026 is well corroborated but the effective-date section of the enrolled Act was not read directly. Unresolved."
+              }
+            }
+          ],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether e-filing is available for expungement and sealing petitions in every county, and how counties handle self-represented e-filing exemptions."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "trackId": "il-exp-supervision",
+          "publicName": "Expunging a case that ended in court supervision you completed",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The expungement clock runs from satisfactory termination of this supervision, not from the last sentence across all cases. The two clocks must not share a code path."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether e-filing is available for expungement and sealing petitions in every county, and how counties handle self-represented e-filing exemptions."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "trackId": "il-exp-qualprob",
+          "publicName": "Expunging a case that ended in qualified probation you completed",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether e-filing is available for expungement and sealing petitions in every county, and how counties handle self-represented e-filing exemptions."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "trackId": "il-exp-precompletion",
+          "publicName": "Filing early as a problem-solving court or diversion graduate",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Route this as a partner-channel product through the courts and programs themselves rather than the direct-to-consumer funnel."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether e-filing is available for expungement and sealing petitions in every county, and how counties handle self-represented e-filing exemptions."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "trackId": "il-seal-nonconv",
+          "publicName": "Sealing an arrest or charge that did not end in a conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Default to expungement for these records and offer sealing only where an exclusion, a mixed case or a stated strategic reason makes expungement unavailable or unwise."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether e-filing is available for expungement and sealing petitions in every county, and how counties handle self-represented e-filing exemptions."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "trackId": "il-seal-2yr",
+          "publicName": "Sealing supervision, qualified probation, probation or a misdemeanor conviction after two years",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The sealing clock and the expungement clock are different rules and must not share a code path. Sealing runs from the last sentence in any jurisdiction; expungement runs from termination of the specific supervision or qualified probation.",
+            "Keep the petition-sealing exclusion list at § 5.2(a)(3) and the automatic-sealing exclusion list at § 5.2(k)(3) as separate objects in the rules engine. Collapsing them produced the obsolete internal reference's error."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether e-filing is available for expungement and sealing petitions in every county, and how counties handle self-represented e-filing exemptions."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (waiting_period): Whether 'termination of the last sentence' reaches out-of-state sentences in practice. The definition says 'in any jurisdiction' but the ISP transcript will not show them, so the rule is clear and the proof problem is real."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "trackId": "il-seal-3yr",
+          "publicName": "Sealing a felony conviction after three years",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The sealing clock and the expungement clock are different rules and must not share a code path. Sealing runs from the last sentence in any jurisdiction; expungement runs from termination of the specific supervision or qualified probation.",
+            "Keep the petition-sealing exclusion list at § 5.2(a)(3) and the automatic-sealing exclusion list at § 5.2(k)(3) as separate objects in the rules engine. Collapsing them produced the obsolete internal reference's error.",
+            "Hold this track behind attorney review for violent and Class X felony convictions until counsel confirms whether the § 5.2(a)(3) list is exhaustive for petition sealing. Do not return 'eligible' on such a record from an automated screen."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Whether the § 5.2(a)(3) exclusion list is exhaustive for petition sealing, such that homicide, Class X felonies and crimes of violence are sealable by petition after three years subject to court discretion. The enrolled text reads that way; the obsolete internal reference says otherwise."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether e-filing is available for expungement and sealing petitions in every county, and how counties handle self-represented e-filing exemptions."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (waiting_period): Whether 'termination of the last sentence' reaches out-of-state sentences in practice. The definition says 'in any jurisdiction' but the ISP transcript will not show them, so the rule is clear and the proof problem is real."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "trackId": "il-seal-edu",
+          "publicName": "Sealing sooner because you earned a diploma, GED, degree or certificate while serving your sentence",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The sealing clock and the expungement clock are different rules and must not share a code path. Sealing runs from the last sentence in any jurisdiction; expungement runs from termination of the specific supervision or qualified probation.",
+            "Keep the petition-sealing exclusion list at § 5.2(a)(3) and the automatic-sealing exclusion list at § 5.2(k)(3) as separate objects in the rules engine. Collapsing them produced the obsolete internal reference's error.",
+            "Until the (c)(3)(E) scope question is resolved, do not offer the waiver as a route to shorten a two-year-category wait."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (waiting_period): Whether the educational-credential waiver at § 5.2(c)(3)(E) reaches the two-year categories. The enrolled text lists (c)(2)(C), (D), (E) and (F) and omits (c)(2)(C-5); Illinois Legal Aid says the two-year period cannot be waived."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether e-filing is available for expungement and sealing petitions in every county, and how counties handle self-represented e-filing exemptions."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (waiting_period): Whether 'termination of the last sentence' reaches out-of-state sentences in practice. The definition says 'in any jurisdiction' but the ISP transcript will not show them, so the rule is clear and the proof problem is real."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "trackId": "il-exp-pardon",
+          "publicName": "Expunging a conviction after a pardon that authorizes expungement",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The clemency petition itself is a pardon matter outside this track. LegalEase's work begins once the pardon exists and specifically authorizes expungement."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 15,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether e-filing is available for expungement and sealing petitions in every county, and how counties handle self-represented e-filing exemptions."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "trackId": "il-prb-cert",
+          "publicName": "Using a Prisoner Review Board certificate to clear a record that is otherwise excluded",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "LegalEase does not draft the rehabilitation showing for the Prisoner Review Board and does not predict whether a certificate will issue."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 15,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether e-filing is available for expungement and sealing petitions in every county, and how counties handle self-represented e-filing exemptions."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IL",
+          "trackId": "il-cannabis-vacate",
+          "publicName": "Vacating and expunging a cannabis conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The adverse-consequences showing is participant-authored. LegalEase formats the participant's own facts and does not compose the argument."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 12,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Whether the cannabis suite's 03/2022 forms remain accurate after the Clean Slate amendments to § 5.2. The suite was approved 03/2022 and was not revised by the Clean Slate Act."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant."
             },
             {
               "kind": "source_gate",

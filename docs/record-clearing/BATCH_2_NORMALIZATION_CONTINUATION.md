@@ -47,18 +47,63 @@ normalized corpus once memos exist.
 duplicate source ID is caught at the first jurisdiction rather than after all
 fourteen.
 
+## Illinois — done
+
+`data/record-clearing/legal-design-intake/IL.memo.json`
+
+16 source slots → **17 normalized nodes**, all `relief_track`, all
+runtime-disabled at `legal_review_pending`. 0 deferred. Strategies:
+`official_pdf_fill` 10, `process_guidance` 5, `custom_pleading` 1,
+`composed` 1 (`il-prb-cert`, sequential, 2 units, 0 unresolved).
+
+Source Track P split into `il-prostitution-j-auto` and
+`il-prostitution-j-vacate` under the counsel-approved crosswalk correction — see
+the erratum in `BATCH_2_ADOPTION_CHANGELOG.md`. Cannabis Tracks N and O were
+already separate and are unchanged; the statewide cannabis suite is mapped to
+`il-cannabis-vacate` only.
+
+### Batch 2 delta needs three arguments
+
+The delta defaults to Batch 1. For a Batch 2 jurisdiction:
+
+```bash
+npm run rcap:legal-design-batch-delta -- \
+  --batch=IL \
+  --expected=/workspaces/legalease-legal-review-import/batch-2/expected/expected-track-ids.json
+```
+
+The `--expected=` override was added this pass, mirroring the script's existing
+`--intake=`, `--out=` and `--approvals=` overrides. It defaults to the Batch 1
+path, so a Batch 1 run is unchanged.
+
+### ⚠️ Approving a composed unit rewrites the whole approvals file
+
+`--approve-composed-units` **replaces** `legal-design-composed-unit-approvals.json`
+with the composed tracks of the batch in that run. Running it with `--batch=IL`
+alone would have silently deleted Batch 1's ten approvals. Always pass every
+batch whose approvals must survive:
+
+```bash
+npm run rcap:legal-design-batch-delta -- \
+  --batch=AL,AK,AZ,AR,CA,CO,CT,DC,DE,FL,HI,ID,IL \
+  --expected=/workspaces/legalease-legal-review-import/batch-2/expected/expected-track-ids.json \
+  --approve-composed-units
+```
+
+Then diff the file and confirm the pre-existing entries are byte-identical
+before committing.
+
 ## Not started
 
-**B4–B9 legal-design normalization of all fourteen jurisdictions.**
+**B4–B9 legal-design normalization of the remaining thirteen jurisdictions.**
 
-`GA IL IN IA KS LA ME MD MA MI MN MS MO MT` — **0 of 14 normalized.**
-No memo has been authored.
+`GA IN IA KS LA ME MD MA MI MN MS MO MT` — **1 of 14 normalized** (IL).
 
 Committed bounded groups (operational only; does not change legal precedence):
 
 | # | Group | Slots | Status |
 |---|---|---|---|
-| 1 | Illinois, Iowa, Indiana | 16 + 7 + 10 = 33 | **not started** |
+| 1 | **Illinois done**, Iowa, Indiana | 16 + 7 + 10 = 33 | **1 of 3** |
 | 2 | Maryland, Massachusetts, Michigan, Minnesota | 11 + 8 + 11 + 12 = 42 | not started |
 | 3 | Georgia, Kansas, Louisiana, Maine | 13 + 7 + 10 + 6 = 36 | not started |
 | 4 | Mississippi, Missouri, Montana | 9 + 10 + 6 = 25 | not started |
