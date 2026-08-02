@@ -101,17 +101,43 @@ npm run rcap:legal-design-batch-delta -- \
 Then diff the file and confirm the pre-existing entries are byte-identical
 before committing.
 
+## Iowa — done
+
+`data/record-clearing/legal-design-intake/IA.memo.json`
+
+7 source slots → **7 normalized nodes**: 6 `relief_track` + 1
+`supporting_action`. 0 deferred. Strategies: `official_pdf_fill` 5,
+`composed` 1, `process_guidance` 1. 1 build blocker, 11 release blockers
+across 7 tracks.
+
+`ia-dci77` is the `supporting_action` the adopted memorandum directs: a
+criminal-history check retrieves and verifies records and alters none, so it is
+not a paid packet mechanism. Under the packet-only re-review it is nonetheless
+*expected* to be packet-capable, because DCI-77 is a participant-completed
+request carrying the participant's own release authorization signature. It is
+held as guidance only because **no copy of DCI-77 has been sourced** — the same
+fail-closed shape as the Illinois PRB gap.
+
+`ia-9079`, deferred judgments, is modelled as a **composed alternative** rather
+than one guidance route: the post-July-2013 branch is genuinely nothing-to-file,
+while the pre-2013 branch does contemplate a participant application but has no
+form, no rule and thin statutory mechanics, so that unit is unavailable and
+carries the single Iowa build blocker.
+
+Iowa's August 2024 Rule 2.86 Form 4 is mapped; the January 2021 revision stays
+`historical_obsolete` and never runtime-selectable.
+
 ## Not started
 
-**B4–B9 legal-design normalization of the remaining thirteen jurisdictions.**
+**B4–B9 legal-design normalization of the remaining twelve jurisdictions.**
 
-`GA IN IA KS LA ME MD MA MI MN MS MO MT` — **1 of 14 normalized** (IL).
+`GA IN KS LA ME MD MA MI MN MS MO MT` — **2 of 14 normalized** (IL, IA).
 
 Committed bounded groups (operational only; does not change legal precedence):
 
 | # | Group | Slots | Status |
 |---|---|---|---|
-| 1 | **Illinois done**, Iowa, Indiana | 16 + 7 + 10 = 33 | **1 of 3** |
+| 1 | **Illinois done**, **Iowa done**, Indiana | 16 + 7 + 10 = 33 | **2 of 3** |
 | 2 | Maryland, Massachusetts, Michigan, Minnesota | 11 + 8 + 11 + 12 = 42 | not started |
 | 3 | Georgia, Kansas, Louisiana, Maine | 13 + 7 + 10 + 6 = 36 | not started |
 | 4 | Mississippi, Missouri, Montana | 9 + 10 + 6 = 25 | not started |

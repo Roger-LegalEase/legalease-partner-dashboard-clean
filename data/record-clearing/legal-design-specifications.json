@@ -3183,6 +3183,184 @@
       "templateStatus": "not_drafted"
     },
     {
+      "jurisdiction": "IA",
+      "trackId": "ia-901c2",
+      "componentId": "ia-901c2-attachment-2",
+      "role": "attachment",
+      "venue": "Iowa District Court for the county of the case. Rule 2.80(3) requires the application to be filed in the case where expungement is sought, not the county of residence. Separate cases require separate applications.",
+      "authority": [
+        "Iowa Code § 901C.2",
+        "Iowa R. Crim. P. 2.80",
+        "Iowa R. Crim. P. 2.83",
+        "Iowa R. Crim. P. 2.84(1)",
+        "Iowa Code § 22.7"
+      ],
+      "rules": {
+        "filing": "eFile through the Iowa Judicial Branch eFile System where the case is available there, otherwise file on paper at the county clerk of court office. The application is filed in the case where expungement is sought, so separate cases require separate applications.",
+        "fees": "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+        "feeWaiver": "Not applicable while no fee is identified. Unresolved.",
+        "notice": "The county attorney is the notice recipient and may file a confidential response within 20 days after service unless the court orders otherwise. The court may conduct a hearing but none is required.",
+        "service": "eFiling serves the county attorney automatically. Paper filers complete the certification of service and mail or hand deliver a copy to the county attorney of the county where the application is filed.",
+        "participantSignature": "Required, under penalty of perjury. The August 2024 forms permit a digitized signature per the Iowa Judicial Branch instructions, or printing and hand-signing. Election A is self-represented, election B is by attorney.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "countyOfCase",
+          "question": "In which Iowa county was the case filed?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "allChargesResolved",
+          "question": "Were all of the charges in that case number dismissed, or were you found not guilty on all of them?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date was the acquittal entered or the case dismissed?",
+          "requirement": "required"
+        },
+        {
+          "key": "wasDeferredJudgment",
+          "question": "Was this a deferred judgment rather than a dismissal or acquittal?",
+          "requirement": "required"
+        },
+        {
+          "key": "financialObligationsPaid",
+          "question": "Have you paid all court costs, fees and other financial obligations in this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "requestsWaiverOf180Days",
+          "question": "Do you need the court to waive the 180-day wait for good cause, for example identity theft or mistaken identity?",
+          "requirement": "required"
+        },
+        {
+          "key": "goodCauseNarrative",
+          "question": "In your own words, what is the good cause for waiving the 180 days?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where a waiver is requested. The narrative is participant-authored."
+        },
+        {
+          "key": "filingMethod",
+          "question": "Will you eFile through the Iowa Judicial Branch system, or file on paper?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Do not add a proposed order to any Iowa Rule 2.86 packet. No proposed order is filed, which differs from most jurisdictions.",
+        "Never say erased, destroyed or removed from your record. Say the court record becomes confidential and comes off public access under Iowa Code § 22.7. State plainly that Iowa has no felony expungement.",
+        "Court debt is a precondition for this track. Rule 2.83(3) counts only obligations in the case where expungement is sought, and excludes room and board fees sought under a separate civil action under § 356.7.",
+        "State that after expungement the clerk shall make the record available on request and without a court order to the defendant, and to an agency or person granted access to the deferred judgment docket under § 907.4(2)."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Form 1, signature block",
+          "why": "The participant signs their own application. A digitized signature is permitted under the August 2024 forms."
+        },
+        {
+          "item": "Whether all charges were acquitted or all dismissed",
+          "whereInPacket": "Form 1, item 1",
+          "why": "The review bars auto-completion of this item; it is a legal judgment about the case's disposition."
+        },
+        {
+          "item": "Good-cause waiver narrative",
+          "whereInPacket": "Form 1, item 3.B attached sheet",
+          "why": "Participant-authored. LegalEase does not compose a factual showing of identity theft or mistaken identity."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Confirmation from the clerk that all financial obligations in this case are paid. Ask the clerk for the balance in this case number. Rule 2.83(3) counts only obligations in the case or cases where expungement is sought, and room and board fees sought under a separate civil action under § 356.7 are not counted.",
+          "obtainedFrom": "Clerk of the Iowa District Court for the county of the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you paid all court costs, fees and other financial obligations in this case?\" against Confirmation from the clerk that all financial obligations in this case are paid, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury, election A or B — Form 1, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Whether all charges were acquitted or all dismissed — Form 1, item 1.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Good-cause waiver narrative — Form 1, item 3.B attached sheet.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required, under penalty of perjury. The August 2024 forms permit a digitized signature per the Iowa Judicial Branch instructions, or printing and hand-signing. Election A is self-represented, election B is by attorney.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable while no fee is identified. Unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "eFiling serves the county attorney automatically. Paper filers complete the certification of service and mail or hand deliver a copy to the county attorney of the county where the application is filed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "eFile through the Iowa Judicial Branch eFile System where the case is available there, otherwise file on paper at the county clerk of court office. The application is filed in the case where expungement is sought, so separate cases require separate applications.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Confirmation from the clerk that all financial obligations in this case are paid. Ask the clerk for the balance in this case number. Rule 2.83(3) counts only obligations in the case or cases where expungement is sought, and room and board fees sought under a separate civil action under § 356.7 are not counted.",
+        "Check your answer to \"Have you paid all court costs, fees and other financial obligations in this case?\" against Confirmation from the clerk that all financial obligations in this case are paid, and correct the packet if they disagree.",
+        "Signature under penalty of perjury, election A or B — Form 1, signature block.",
+        "Whether all charges were acquitted or all dismissed — Form 1, item 1.",
+        "Good-cause waiver narrative — Form 1, item 3.B attached sheet.",
+        "Required, under penalty of perjury. The August 2024 forms permit a digitized signature per the Iowa Judicial Branch instructions, or printing and hand-signing. Election A is self-represented, election B is by attorney.",
+        "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+        "Not applicable while no fee is identified. Unresolved."
+      ],
+      "stopConditions": [
+        "The county attorney files a response opposing the application.",
+        "The case involves a deferred judgment.",
+        "Only some charges in the case were dismissed or acquitted.",
+        "The participant is asserting identity theft or mistaken identity as the waiver ground, which is a factual showing.",
+        "There is an unresolved dispute about what is owed and in which case.",
+        "Immigration consequences are in play.",
+        "The participant wants relief for an appellate record."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
       "jurisdiction": "ID",
       "trackId": "id_set_aside_dismissal",
       "componentId": "id_set_aside_dismissal-primary-filing-1",
@@ -23129,6 +23307,1479 @@
       "mappingStatus": "not_mapped"
     },
     {
+      "jurisdiction": "IA",
+      "trackId": "ia-901c2",
+      "componentId": "ia-901c2-primary-filing-1",
+      "officialFormId": "Rule 2.86 Form 1",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "countyOfCase",
+          "question": "In which Iowa county was the case filed?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "allChargesResolved",
+          "question": "Were all of the charges in that case number dismissed, or were you found not guilty on all of them?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date was the acquittal entered or the case dismissed?",
+          "requirement": "required"
+        },
+        {
+          "key": "wasDeferredJudgment",
+          "question": "Was this a deferred judgment rather than a dismissal or acquittal?",
+          "requirement": "required"
+        },
+        {
+          "key": "financialObligationsPaid",
+          "question": "Have you paid all court costs, fees and other financial obligations in this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "requestsWaiverOf180Days",
+          "question": "Do you need the court to waive the 180-day wait for good cause, for example identity theft or mistaken identity?",
+          "requirement": "required"
+        },
+        {
+          "key": "goodCauseNarrative",
+          "question": "In your own words, what is the good cause for waiving the 180 days?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where a waiver is requested. The narrative is participant-authored."
+        },
+        {
+          "key": "filingMethod",
+          "question": "Will you eFile through the Iowa Judicial Branch system, or file on paper?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Form 1, signature block",
+          "why": "The participant signs their own application. A digitized signature is permitted under the August 2024 forms."
+        },
+        {
+          "item": "Whether all charges were acquitted or all dismissed",
+          "whereInPacket": "Form 1, item 1",
+          "why": "The review bars auto-completion of this item; it is a legal judgment about the case's disposition."
+        },
+        {
+          "item": "Good-cause waiver narrative",
+          "whereInPacket": "Form 1, item 3.B attached sheet",
+          "why": "Participant-authored. LegalEase does not compose a factual showing of identity theft or mistaken identity."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Confirmation from the clerk that all financial obligations in this case are paid. Ask the clerk for the balance in this case number. Rule 2.83(3) counts only obligations in the case or cases where expungement is sought, and room and board fees sought under a separate civil action under § 356.7 are not counted.",
+          "obtainedFrom": "Clerk of the Iowa District Court for the county of the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you paid all court costs, fees and other financial obligations in this case?\" against Confirmation from the clerk that all financial obligations in this case are paid, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury, election A or B — Form 1, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Whether all charges were acquitted or all dismissed — Form 1, item 1.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Good-cause waiver narrative — Form 1, item 3.B attached sheet.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required, under penalty of perjury. The August 2024 forms permit a digitized signature per the Iowa Judicial Branch instructions, or printing and hand-signing. Election A is self-represented, election B is by attorney.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable while no fee is identified. Unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "eFiling serves the county attorney automatically. Paper filers complete the certification of service and mail or hand deliver a copy to the county attorney of the county where the application is filed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "eFile through the Iowa Judicial Branch eFile System where the case is available there, otherwise file on paper at the county clerk of court office. The application is filed in the case where expungement is sought, so separate cases require separate applications.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Confirmation from the clerk that all financial obligations in this case are paid. Ask the clerk for the balance in this case number. Rule 2.83(3) counts only obligations in the case or cases where expungement is sought, and room and board fees sought under a separate civil action under § 356.7 are not counted.",
+        "Check your answer to \"Have you paid all court costs, fees and other financial obligations in this case?\" against Confirmation from the clerk that all financial obligations in this case are paid, and correct the packet if they disagree.",
+        "Signature under penalty of perjury, election A or B — Form 1, signature block.",
+        "Whether all charges were acquitted or all dismissed — Form 1, item 1.",
+        "Good-cause waiver narrative — Form 1, item 3.B attached sheet.",
+        "Required, under penalty of perjury. The August 2024 forms permit a digitized signature per the Iowa Judicial Branch instructions, or printing and hand-signing. Election A is self-represented, election B is by attorney.",
+        "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+        "Not applicable while no fee is identified. Unresolved."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "IA",
+      "trackId": "ia-901c2",
+      "componentId": "ia-901c2-certificate-of-service-3",
+      "officialFormId": "Certification of Service by Mailing or Delivery",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "countyOfCase",
+          "question": "In which Iowa county was the case filed?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "allChargesResolved",
+          "question": "Were all of the charges in that case number dismissed, or were you found not guilty on all of them?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date was the acquittal entered or the case dismissed?",
+          "requirement": "required"
+        },
+        {
+          "key": "wasDeferredJudgment",
+          "question": "Was this a deferred judgment rather than a dismissal or acquittal?",
+          "requirement": "required"
+        },
+        {
+          "key": "financialObligationsPaid",
+          "question": "Have you paid all court costs, fees and other financial obligations in this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "requestsWaiverOf180Days",
+          "question": "Do you need the court to waive the 180-day wait for good cause, for example identity theft or mistaken identity?",
+          "requirement": "required"
+        },
+        {
+          "key": "goodCauseNarrative",
+          "question": "In your own words, what is the good cause for waiving the 180 days?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where a waiver is requested. The narrative is participant-authored."
+        },
+        {
+          "key": "filingMethod",
+          "question": "Will you eFile through the Iowa Judicial Branch system, or file on paper?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Form 1, signature block",
+          "why": "The participant signs their own application. A digitized signature is permitted under the August 2024 forms."
+        },
+        {
+          "item": "Whether all charges were acquitted or all dismissed",
+          "whereInPacket": "Form 1, item 1",
+          "why": "The review bars auto-completion of this item; it is a legal judgment about the case's disposition."
+        },
+        {
+          "item": "Good-cause waiver narrative",
+          "whereInPacket": "Form 1, item 3.B attached sheet",
+          "why": "Participant-authored. LegalEase does not compose a factual showing of identity theft or mistaken identity."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Confirmation from the clerk that all financial obligations in this case are paid. Ask the clerk for the balance in this case number. Rule 2.83(3) counts only obligations in the case or cases where expungement is sought, and room and board fees sought under a separate civil action under § 356.7 are not counted.",
+          "obtainedFrom": "Clerk of the Iowa District Court for the county of the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you paid all court costs, fees and other financial obligations in this case?\" against Confirmation from the clerk that all financial obligations in this case are paid, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury, election A or B — Form 1, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Whether all charges were acquitted or all dismissed — Form 1, item 1.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Good-cause waiver narrative — Form 1, item 3.B attached sheet.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required, under penalty of perjury. The August 2024 forms permit a digitized signature per the Iowa Judicial Branch instructions, or printing and hand-signing. Election A is self-represented, election B is by attorney.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable while no fee is identified. Unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "eFiling serves the county attorney automatically. Paper filers complete the certification of service and mail or hand deliver a copy to the county attorney of the county where the application is filed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "eFile through the Iowa Judicial Branch eFile System where the case is available there, otherwise file on paper at the county clerk of court office. The application is filed in the case where expungement is sought, so separate cases require separate applications.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Confirmation from the clerk that all financial obligations in this case are paid. Ask the clerk for the balance in this case number. Rule 2.83(3) counts only obligations in the case or cases where expungement is sought, and room and board fees sought under a separate civil action under § 356.7 are not counted.",
+        "Check your answer to \"Have you paid all court costs, fees and other financial obligations in this case?\" against Confirmation from the clerk that all financial obligations in this case are paid, and correct the packet if they disagree.",
+        "Signature under penalty of perjury, election A or B — Form 1, signature block.",
+        "Whether all charges were acquitted or all dismissed — Form 1, item 1.",
+        "Good-cause waiver narrative — Form 1, item 3.B attached sheet.",
+        "Required, under penalty of perjury. The August 2024 forms permit a digitized signature per the Iowa Judicial Branch instructions, or printing and hand-signing. Election A is self-represented, election B is by attorney.",
+        "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+        "Not applicable while no fee is identified. Unresolved."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "IA",
+      "trackId": "ia-901c3",
+      "componentId": "ia-901c3-primary-filing-1",
+      "officialFormId": "Rule 2.86 Form 2",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "countyOfConviction",
+          "question": "In which Iowa county was the conviction entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseCodeSection",
+          "question": "Which exact Iowa Code section were you convicted under?",
+          "requirement": "required"
+        },
+        {
+          "key": "hasUsedLifetimeExpungement",
+          "question": "Have you ever had a misdemeanor expunged under section 901C.3 before?",
+          "requirement": "required"
+        },
+        {
+          "key": "hasOtherEligibleConvictions",
+          "question": "Do you have more than one misdemeanor conviction you would like cleared?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any criminal charges pending anywhere right now?",
+          "requirement": "required"
+        },
+        {
+          "key": "deferredJudgmentCount",
+          "question": "How many times have you been granted a deferred judgment?",
+          "requirement": "required"
+        },
+        {
+          "key": "financialObligationsPaid",
+          "question": "Have you paid all court costs, fees, fines, restitution and other financial obligations in this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "relatedCases",
+          "question": "Are there other case numbers from the same incident you want covered by this application?",
+          "requirement": "required"
+        },
+        {
+          "key": "allNamesEverUsed",
+          "question": "What is your current legal name, and every other name you have ever used?",
+          "requirement": "required"
+        },
+        {
+          "key": "dciCheckDate",
+          "question": "On what date was your DCI criminal history record check issued?",
+          "requirement": "required"
+        },
+        {
+          "key": "filingMethod",
+          "question": "Will you eFile through the Iowa Judicial Branch system, or file on paper?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Form 2, signature block",
+          "why": "The participant signs their own application."
+        },
+        {
+          "item": "Eligibility assertion against the statutory exclusion list",
+          "whereInPacket": "Form 2, item 4",
+          "why": "The review bars auto-completion. Mapping an offence against the twenty-four-paragraph list, including the (w) and (x) comparability categories, is a legal judgment."
+        },
+        {
+          "item": "Related-cases list and the same-transaction determination",
+          "whereInPacket": "Form 2, item 3",
+          "why": "Whether multiple cases truly arose from the same transaction or occurrence is a legal judgment."
+        },
+        {
+          "item": "Deferred-judgment count",
+          "whereInPacket": "Form 2, item 8",
+          "why": "Counted per Rule 2.83(5); all charges deferred at the same time count as one."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Official DCI Iowa criminal history record check, dated within the past 30 days. Submit form DCI-77 with a release authorization signature through the state portal. The Iowa Judicial Branch instructions state a request costs $15. The check must be dated within 30 days of filing, so obtain it and then file promptly.",
+          "obtainedFrom": "Iowa Department of Public Safety, Division of Criminal Investigation",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date was your DCI criminal history record check issued?\" against Official DCI Iowa criminal history record check, dated within the past 30 days, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Confirmation from the clerk that all financial obligations in this case are paid. Ask the clerk for the balance in this case number. Rule 2.83(3) counts only obligations in the case where expungement is sought.",
+          "obtainedFrom": "Clerk of the Iowa District Court for the county of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you paid all court costs, fees, fines, restitution and other financial obligations in this case?\" against Confirmation from the clerk that all financial obligations in this case are paid, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury, election A or B — Form 2, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Eligibility assertion against the statutory exclusion list — Form 2, item 4.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Related-cases list and the same-transaction determination — Form 2, item 3.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Deferred-judgment count — Form 2, item 8.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required, under penalty of perjury. The August 2024 forms permit a digitized signature per the Iowa Judicial Branch instructions, or printing and hand-signing. Election A is self-represented, election B is by attorney.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable while no fee is identified. Unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "eFiling serves the county attorney automatically. Paper filers complete the certification of service and mail or hand deliver a copy to the county attorney of the county where the application is filed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "eFile through the Iowa Judicial Branch eFile System where the case is available there, otherwise file on paper at the county clerk of court office. The application is filed in the case where expungement is sought, so separate cases require separate applications.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Official DCI Iowa criminal history record check, dated within the past 30 days. Submit form DCI-77 with a release authorization signature through the state portal. The Iowa Judicial Branch instructions state a request costs $15. The check must be dated within 30 days of filing, so obtain it and then file promptly.",
+        "Check your answer to \"On what date was your DCI criminal history record check issued?\" against Official DCI Iowa criminal history record check, dated within the past 30 days, and correct the packet if they disagree.",
+        "Obtain Confirmation from the clerk that all financial obligations in this case are paid. Ask the clerk for the balance in this case number. Rule 2.83(3) counts only obligations in the case where expungement is sought.",
+        "Check your answer to \"Have you paid all court costs, fees, fines, restitution and other financial obligations in this case?\" against Confirmation from the clerk that all financial obligations in this case are paid, and correct the packet if they disagree.",
+        "Signature under penalty of perjury, election A or B — Form 2, signature block.",
+        "Eligibility assertion against the statutory exclusion list — Form 2, item 4.",
+        "Related-cases list and the same-transaction determination — Form 2, item 3.",
+        "Deferred-judgment count — Form 2, item 8.",
+        "Required, under penalty of perjury. The August 2024 forms permit a digitized signature per the Iowa Judicial Branch instructions, or printing and hand-signing. Election A is self-represented, election B is by attorney.",
+        "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+        "Not applicable while no fee is identified. Unresolved."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "IA",
+      "trackId": "ia-901c3",
+      "componentId": "ia-901c3-continuation-3",
+      "officialFormId": "Rule 2.86 Form 2 attached sheet",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "countyOfConviction",
+          "question": "In which Iowa county was the conviction entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseCodeSection",
+          "question": "Which exact Iowa Code section were you convicted under?",
+          "requirement": "required"
+        },
+        {
+          "key": "hasUsedLifetimeExpungement",
+          "question": "Have you ever had a misdemeanor expunged under section 901C.3 before?",
+          "requirement": "required"
+        },
+        {
+          "key": "hasOtherEligibleConvictions",
+          "question": "Do you have more than one misdemeanor conviction you would like cleared?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any criminal charges pending anywhere right now?",
+          "requirement": "required"
+        },
+        {
+          "key": "deferredJudgmentCount",
+          "question": "How many times have you been granted a deferred judgment?",
+          "requirement": "required"
+        },
+        {
+          "key": "financialObligationsPaid",
+          "question": "Have you paid all court costs, fees, fines, restitution and other financial obligations in this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "relatedCases",
+          "question": "Are there other case numbers from the same incident you want covered by this application?",
+          "requirement": "required"
+        },
+        {
+          "key": "allNamesEverUsed",
+          "question": "What is your current legal name, and every other name you have ever used?",
+          "requirement": "required"
+        },
+        {
+          "key": "dciCheckDate",
+          "question": "On what date was your DCI criminal history record check issued?",
+          "requirement": "required"
+        },
+        {
+          "key": "filingMethod",
+          "question": "Will you eFile through the Iowa Judicial Branch system, or file on paper?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Form 2, signature block",
+          "why": "The participant signs their own application."
+        },
+        {
+          "item": "Eligibility assertion against the statutory exclusion list",
+          "whereInPacket": "Form 2, item 4",
+          "why": "The review bars auto-completion. Mapping an offence against the twenty-four-paragraph list, including the (w) and (x) comparability categories, is a legal judgment."
+        },
+        {
+          "item": "Related-cases list and the same-transaction determination",
+          "whereInPacket": "Form 2, item 3",
+          "why": "Whether multiple cases truly arose from the same transaction or occurrence is a legal judgment."
+        },
+        {
+          "item": "Deferred-judgment count",
+          "whereInPacket": "Form 2, item 8",
+          "why": "Counted per Rule 2.83(5); all charges deferred at the same time count as one."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Official DCI Iowa criminal history record check, dated within the past 30 days. Submit form DCI-77 with a release authorization signature through the state portal. The Iowa Judicial Branch instructions state a request costs $15. The check must be dated within 30 days of filing, so obtain it and then file promptly.",
+          "obtainedFrom": "Iowa Department of Public Safety, Division of Criminal Investigation",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date was your DCI criminal history record check issued?\" against Official DCI Iowa criminal history record check, dated within the past 30 days, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Confirmation from the clerk that all financial obligations in this case are paid. Ask the clerk for the balance in this case number. Rule 2.83(3) counts only obligations in the case where expungement is sought.",
+          "obtainedFrom": "Clerk of the Iowa District Court for the county of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you paid all court costs, fees, fines, restitution and other financial obligations in this case?\" against Confirmation from the clerk that all financial obligations in this case are paid, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury, election A or B — Form 2, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Eligibility assertion against the statutory exclusion list — Form 2, item 4.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Related-cases list and the same-transaction determination — Form 2, item 3.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Deferred-judgment count — Form 2, item 8.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required, under penalty of perjury. The August 2024 forms permit a digitized signature per the Iowa Judicial Branch instructions, or printing and hand-signing. Election A is self-represented, election B is by attorney.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable while no fee is identified. Unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "eFiling serves the county attorney automatically. Paper filers complete the certification of service and mail or hand deliver a copy to the county attorney of the county where the application is filed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "eFile through the Iowa Judicial Branch eFile System where the case is available there, otherwise file on paper at the county clerk of court office. The application is filed in the case where expungement is sought, so separate cases require separate applications.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Official DCI Iowa criminal history record check, dated within the past 30 days. Submit form DCI-77 with a release authorization signature through the state portal. The Iowa Judicial Branch instructions state a request costs $15. The check must be dated within 30 days of filing, so obtain it and then file promptly.",
+        "Check your answer to \"On what date was your DCI criminal history record check issued?\" against Official DCI Iowa criminal history record check, dated within the past 30 days, and correct the packet if they disagree.",
+        "Obtain Confirmation from the clerk that all financial obligations in this case are paid. Ask the clerk for the balance in this case number. Rule 2.83(3) counts only obligations in the case where expungement is sought.",
+        "Check your answer to \"Have you paid all court costs, fees, fines, restitution and other financial obligations in this case?\" against Confirmation from the clerk that all financial obligations in this case are paid, and correct the packet if they disagree.",
+        "Signature under penalty of perjury, election A or B — Form 2, signature block.",
+        "Eligibility assertion against the statutory exclusion list — Form 2, item 4.",
+        "Related-cases list and the same-transaction determination — Form 2, item 3.",
+        "Deferred-judgment count — Form 2, item 8.",
+        "Required, under penalty of perjury. The August 2024 forms permit a digitized signature per the Iowa Judicial Branch instructions, or printing and hand-signing. Election A is self-represented, election B is by attorney.",
+        "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+        "Not applicable while no fee is identified. Unresolved."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "IA",
+      "trackId": "ia-901c3",
+      "componentId": "ia-901c3-certificate-of-service-4",
+      "officialFormId": "Certification of Service by Mailing or Delivery",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "countyOfConviction",
+          "question": "In which Iowa county was the conviction entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseCodeSection",
+          "question": "Which exact Iowa Code section were you convicted under?",
+          "requirement": "required"
+        },
+        {
+          "key": "hasUsedLifetimeExpungement",
+          "question": "Have you ever had a misdemeanor expunged under section 901C.3 before?",
+          "requirement": "required"
+        },
+        {
+          "key": "hasOtherEligibleConvictions",
+          "question": "Do you have more than one misdemeanor conviction you would like cleared?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any criminal charges pending anywhere right now?",
+          "requirement": "required"
+        },
+        {
+          "key": "deferredJudgmentCount",
+          "question": "How many times have you been granted a deferred judgment?",
+          "requirement": "required"
+        },
+        {
+          "key": "financialObligationsPaid",
+          "question": "Have you paid all court costs, fees, fines, restitution and other financial obligations in this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "relatedCases",
+          "question": "Are there other case numbers from the same incident you want covered by this application?",
+          "requirement": "required"
+        },
+        {
+          "key": "allNamesEverUsed",
+          "question": "What is your current legal name, and every other name you have ever used?",
+          "requirement": "required"
+        },
+        {
+          "key": "dciCheckDate",
+          "question": "On what date was your DCI criminal history record check issued?",
+          "requirement": "required"
+        },
+        {
+          "key": "filingMethod",
+          "question": "Will you eFile through the Iowa Judicial Branch system, or file on paper?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Form 2, signature block",
+          "why": "The participant signs their own application."
+        },
+        {
+          "item": "Eligibility assertion against the statutory exclusion list",
+          "whereInPacket": "Form 2, item 4",
+          "why": "The review bars auto-completion. Mapping an offence against the twenty-four-paragraph list, including the (w) and (x) comparability categories, is a legal judgment."
+        },
+        {
+          "item": "Related-cases list and the same-transaction determination",
+          "whereInPacket": "Form 2, item 3",
+          "why": "Whether multiple cases truly arose from the same transaction or occurrence is a legal judgment."
+        },
+        {
+          "item": "Deferred-judgment count",
+          "whereInPacket": "Form 2, item 8",
+          "why": "Counted per Rule 2.83(5); all charges deferred at the same time count as one."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Official DCI Iowa criminal history record check, dated within the past 30 days. Submit form DCI-77 with a release authorization signature through the state portal. The Iowa Judicial Branch instructions state a request costs $15. The check must be dated within 30 days of filing, so obtain it and then file promptly.",
+          "obtainedFrom": "Iowa Department of Public Safety, Division of Criminal Investigation",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date was your DCI criminal history record check issued?\" against Official DCI Iowa criminal history record check, dated within the past 30 days, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Confirmation from the clerk that all financial obligations in this case are paid. Ask the clerk for the balance in this case number. Rule 2.83(3) counts only obligations in the case where expungement is sought.",
+          "obtainedFrom": "Clerk of the Iowa District Court for the county of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you paid all court costs, fees, fines, restitution and other financial obligations in this case?\" against Confirmation from the clerk that all financial obligations in this case are paid, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury, election A or B — Form 2, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Eligibility assertion against the statutory exclusion list — Form 2, item 4.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Related-cases list and the same-transaction determination — Form 2, item 3.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Deferred-judgment count — Form 2, item 8.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required, under penalty of perjury. The August 2024 forms permit a digitized signature per the Iowa Judicial Branch instructions, or printing and hand-signing. Election A is self-represented, election B is by attorney.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable while no fee is identified. Unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "eFiling serves the county attorney automatically. Paper filers complete the certification of service and mail or hand deliver a copy to the county attorney of the county where the application is filed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "eFile through the Iowa Judicial Branch eFile System where the case is available there, otherwise file on paper at the county clerk of court office. The application is filed in the case where expungement is sought, so separate cases require separate applications.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Official DCI Iowa criminal history record check, dated within the past 30 days. Submit form DCI-77 with a release authorization signature through the state portal. The Iowa Judicial Branch instructions state a request costs $15. The check must be dated within 30 days of filing, so obtain it and then file promptly.",
+        "Check your answer to \"On what date was your DCI criminal history record check issued?\" against Official DCI Iowa criminal history record check, dated within the past 30 days, and correct the packet if they disagree.",
+        "Obtain Confirmation from the clerk that all financial obligations in this case are paid. Ask the clerk for the balance in this case number. Rule 2.83(3) counts only obligations in the case where expungement is sought.",
+        "Check your answer to \"Have you paid all court costs, fees, fines, restitution and other financial obligations in this case?\" against Confirmation from the clerk that all financial obligations in this case are paid, and correct the packet if they disagree.",
+        "Signature under penalty of perjury, election A or B — Form 2, signature block.",
+        "Eligibility assertion against the statutory exclusion list — Form 2, item 4.",
+        "Related-cases list and the same-transaction determination — Form 2, item 3.",
+        "Deferred-judgment count — Form 2, item 8.",
+        "Required, under penalty of perjury. The August 2024 forms permit a digitized signature per the Iowa Judicial Branch instructions, or printing and hand-signing. Election A is self-represented, election B is by attorney.",
+        "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+        "Not applicable while no fee is identified. Unresolved."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "IA",
+      "trackId": "ia-12346",
+      "componentId": "ia-12346-primary-filing-1",
+      "officialFormId": "Rule 2.86 Form 3",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "countyOfCase",
+          "question": "In which Iowa county was the conviction entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "interveningConvictions",
+          "question": "Have you been convicted of anything else in the two years since, other than a local traffic violation or a simple misdemeanour under chapter 321?",
+          "requirement": "required"
+        },
+        {
+          "key": "filingMethod",
+          "question": "Will you eFile, or file on paper?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Signature block",
+          "why": "The participant signs their own application."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury, election A or B — Signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required, under penalty of perjury. A digitized signature is permitted under the August 2024 forms, or print and hand-sign.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable while no fee is identified. Unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "eFiling serves the county attorney automatically. Paper filers complete the certification of service and mail or hand deliver a copy to the county attorney.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "eFile through the Iowa Judicial Branch eFile System where the case is available there, otherwise file on paper at the county clerk of court office. Rule 2.82(5), as amended August 30, 2024, requires the application to be filed in the case where expungement is sought and served on the county attorney.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Signature under penalty of perjury, election A or B — Signature block.",
+        "Required, under penalty of perjury. A digitized signature is permitted under the August 2024 forms, or print and hand-sign.",
+        "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+        "Not applicable while no fee is identified. Unresolved."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "IA",
+      "trackId": "ia-12346",
+      "componentId": "ia-12346-certificate-of-service-2",
+      "officialFormId": "Certification of Service by Mailing or Delivery",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "countyOfCase",
+          "question": "In which Iowa county was the conviction entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "interveningConvictions",
+          "question": "Have you been convicted of anything else in the two years since, other than a local traffic violation or a simple misdemeanour under chapter 321?",
+          "requirement": "required"
+        },
+        {
+          "key": "filingMethod",
+          "question": "Will you eFile, or file on paper?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Signature block",
+          "why": "The participant signs their own application."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury, election A or B — Signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required, under penalty of perjury. A digitized signature is permitted under the August 2024 forms, or print and hand-sign.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable while no fee is identified. Unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "eFiling serves the county attorney automatically. Paper filers complete the certification of service and mail or hand deliver a copy to the county attorney.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "eFile through the Iowa Judicial Branch eFile System where the case is available there, otherwise file on paper at the county clerk of court office. Rule 2.82(5), as amended August 30, 2024, requires the application to be filed in the case where expungement is sought and served on the county attorney.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Signature under penalty of perjury, election A or B — Signature block.",
+        "Required, under penalty of perjury. A digitized signature is permitted under the August 2024 forms, or print and hand-sign.",
+        "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+        "Not applicable while no fee is identified. Unresolved."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "IA",
+      "trackId": "ia-12347",
+      "componentId": "ia-12347-primary-filing-1",
+      "officialFormId": "Rule 2.86 Form 4",
+      "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Iowa/forms/Rule-2.86-Form-4__application-to-expunge-possession-of-alcohol-under-legal-age-records__rev-2024-08.pdf",
+      "generationRequirements": [
+        {
+          "key": "countyOfCase",
+          "question": "In which Iowa county was the conviction entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictedUnderSubsection3",
+          "question": "Was the conviction for possession of alcohol under the legal age under section 123.47(3), rather than another part of section 123.47?",
+          "requirement": "required"
+        },
+        {
+          "key": "interveningConvictions",
+          "question": "Have you been convicted of anything else in the two years since, other than a local traffic violation or a simple misdemeanour under chapter 321?",
+          "requirement": "required"
+        },
+        {
+          "key": "filingMethod",
+          "question": "Will you eFile, or file on paper?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Form 4, signature block",
+          "why": "The participant signs their own application."
+        },
+        {
+          "item": "Confirmation that the conviction is under § 123.47(3)",
+          "whereInPacket": "Form 4, item 1",
+          "why": "The form cites § 123.47 generally where the statutory ground is subsection 3, so the participant confirms the subsection."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury, election A or B — Form 4, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Confirmation that the conviction is under § 123.47(3) — Form 4, item 1.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required, under penalty of perjury. A digitized signature is permitted under the August 2024 forms, or print and hand-sign.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable while no fee is identified. Unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "eFiling serves the county attorney automatically. Paper filers complete the certification of service and mail or hand deliver a copy to the county attorney.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "eFile through the Iowa Judicial Branch eFile System where the case is available there, otherwise file on paper at the county clerk of court office. Rule 2.82(5), as amended August 30, 2024, requires the application to be filed in the case where expungement is sought and served on the county attorney.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Signature under penalty of perjury, election A or B — Form 4, signature block.",
+        "Confirmation that the conviction is under § 123.47(3) — Form 4, item 1.",
+        "Required, under penalty of perjury. A digitized signature is permitted under the August 2024 forms, or print and hand-sign.",
+        "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+        "Not applicable while no fee is identified. Unresolved."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "IA",
+      "trackId": "ia-12347",
+      "componentId": "ia-12347-certificate-of-service-2",
+      "officialFormId": "Certification of Service by Mailing or Delivery",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "countyOfCase",
+          "question": "In which Iowa county was the conviction entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictedUnderSubsection3",
+          "question": "Was the conviction for possession of alcohol under the legal age under section 123.47(3), rather than another part of section 123.47?",
+          "requirement": "required"
+        },
+        {
+          "key": "interveningConvictions",
+          "question": "Have you been convicted of anything else in the two years since, other than a local traffic violation or a simple misdemeanour under chapter 321?",
+          "requirement": "required"
+        },
+        {
+          "key": "filingMethod",
+          "question": "Will you eFile, or file on paper?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Form 4, signature block",
+          "why": "The participant signs their own application."
+        },
+        {
+          "item": "Confirmation that the conviction is under § 123.47(3)",
+          "whereInPacket": "Form 4, item 1",
+          "why": "The form cites § 123.47 generally where the statutory ground is subsection 3, so the participant confirms the subsection."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury, election A or B — Form 4, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Confirmation that the conviction is under § 123.47(3) — Form 4, item 1.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required, under penalty of perjury. A digitized signature is permitted under the August 2024 forms, or print and hand-sign.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable while no fee is identified. Unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "eFiling serves the county attorney automatically. Paper filers complete the certification of service and mail or hand deliver a copy to the county attorney.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "eFile through the Iowa Judicial Branch eFile System where the case is available there, otherwise file on paper at the county clerk of court office. Rule 2.82(5), as amended August 30, 2024, requires the application to be filed in the case where expungement is sought and served on the county attorney.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Signature under penalty of perjury, election A or B — Form 4, signature block.",
+        "Confirmation that the conviction is under § 123.47(3) — Form 4, item 1.",
+        "Required, under penalty of perjury. A digitized signature is permitted under the August 2024 forms, or print and hand-sign.",
+        "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+        "Not applicable while no fee is identified. Unresolved."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "IA",
+      "trackId": "ia-7251",
+      "componentId": "ia-7251-primary-filing-1",
+      "officialFormId": "Rule 2.86 Form 5",
+      "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Iowa/forms/Rule-2.86-Form-5__application-to-expunge-prostitution-court-records__rev-2024-08.pdf",
+      "generationRequirements": [
+        {
+          "key": "countyOfCase",
+          "question": "In which Iowa county was the conviction entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "wasUnder18AtAct",
+          "question": "Were you under 18 at the time of the act the conviction was for?",
+          "requirement": "required"
+        },
+        {
+          "key": "interveningConvictions",
+          "question": "Have you been convicted of anything else in the two years since, other than a local traffic violation or a simple misdemeanour under chapter 321?",
+          "requirement": "required"
+        },
+        {
+          "key": "wantsSurvivorServices",
+          "question": "Would you like information about services and other remedies that may be available?",
+          "requirement": "required"
+        },
+        {
+          "key": "filingMethod",
+          "question": "Will you eFile, or file on paper?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Form 5, signature block",
+          "why": "The participant signs their own application."
+        },
+        {
+          "item": "Age at the time of the act",
+          "whereInPacket": "Form 5, item 2",
+          "why": "The review bars auto-completion of this item."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury, election A or B — Form 5, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Age at the time of the act — Form 5, item 2.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required, under penalty of perjury. A digitized signature is permitted under the August 2024 forms, or print and hand-sign.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable while no fee is identified. Unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "eFiling serves the county attorney automatically. Paper filers complete the certification of service and mail or hand deliver a copy to the county attorney.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "eFile through the Iowa Judicial Branch eFile System where the case is available there, otherwise file on paper at the county clerk of court office. Rule 2.82(5), as amended August 30, 2024, requires the application to be filed in the case where expungement is sought and served on the county attorney.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Signature under penalty of perjury, election A or B — Form 5, signature block.",
+        "Age at the time of the act — Form 5, item 2.",
+        "Required, under penalty of perjury. A digitized signature is permitted under the August 2024 forms, or print and hand-sign.",
+        "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+        "Not applicable while no fee is identified. Unresolved."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
+      "jurisdiction": "IA",
+      "trackId": "ia-7251",
+      "componentId": "ia-7251-certificate-of-service-2",
+      "officialFormId": "Certification of Service by Mailing or Delivery",
+      "officialSourceUrl": null,
+      "generationRequirements": [
+        {
+          "key": "countyOfCase",
+          "question": "In which Iowa county was the conviction entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "wasUnder18AtAct",
+          "question": "Were you under 18 at the time of the act the conviction was for?",
+          "requirement": "required"
+        },
+        {
+          "key": "interveningConvictions",
+          "question": "Have you been convicted of anything else in the two years since, other than a local traffic violation or a simple misdemeanour under chapter 321?",
+          "requirement": "required"
+        },
+        {
+          "key": "wantsSurvivorServices",
+          "question": "Would you like information about services and other remedies that may be available?",
+          "requirement": "required"
+        },
+        {
+          "key": "filingMethod",
+          "question": "Will you eFile, or file on paper?",
+          "requirement": "required"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Form 5, signature block",
+          "why": "The participant signs their own application."
+        },
+        {
+          "item": "Age at the time of the act",
+          "whereInPacket": "Form 5, item 2",
+          "why": "The review bars auto-completion of this item."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Signature under penalty of perjury, election A or B — Form 5, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Age at the time of the act — Form 5, item 2.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required, under penalty of perjury. A digitized signature is permitted under the August 2024 forms, or print and hand-sign.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable while no fee is identified. Unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "eFiling serves the county attorney automatically. Paper filers complete the certification of service and mail or hand deliver a copy to the county attorney.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "eFile through the Iowa Judicial Branch eFile System where the case is available there, otherwise file on paper at the county clerk of court office. Rule 2.82(5), as amended August 30, 2024, requires the application to be filed in the case where expungement is sought and served on the county attorney.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Signature under penalty of perjury, election A or B — Form 5, signature block.",
+        "Age at the time of the act — Form 5, item 2.",
+        "Required, under penalty of perjury. A digitized signature is permitted under the August 2024 forms, or print and hand-sign.",
+        "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+        "Not applicable while no fee is identified. Unresolved."
+      ],
+      "mappingStatus": "not_mapped"
+    },
+    {
       "jurisdiction": "ID",
       "trackId": "id_isp_expungement",
       "componentId": "id_isp_expungement-primary-filing-1",
@@ -33868,6 +35519,245 @@
       "unitAvailable": true
     },
     {
+      "jurisdiction": "IA",
+      "trackId": "ia-9079",
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the Iowa District Court for the county of the case",
+        "detail": "For a post-2013 discharge the participant contacts the clerk where the record still appears on the public docket. For a pre-2013 discharge the mechanism is unresolved."
+      },
+      "rules": {
+        "filing": "For a post-July-2013 discharge there is no participant filing; the expungement is expected to occur on discharge. For a pre-July-2013 discharge an application is required but the vehicle is unresolved.",
+        "fees": "No fee identified. The diagnostic route is free.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review states no participant notice mechanism. Iowa does not notify people that a deferred judgment record was expunged.",
+        "service": "No service on the diagnostic branch. There is no petition to serve.",
+        "participantSignature": "No participant signature on the diagnostic branch.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "countyOfCase",
+          "question": "In which Iowa county was the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "wasDeferredJudgment",
+          "question": "Was the outcome a deferred judgment, rather than a conviction or a dismissal?",
+          "requirement": "required"
+        },
+        {
+          "key": "dischargedFromProbation",
+          "question": "Have you been discharged from probation, and on what date?",
+          "requirement": "required"
+        },
+        {
+          "key": "deferredJudgmentRevoked",
+          "question": "Was the deferred judgment ever revoked?",
+          "requirement": "required"
+        },
+        {
+          "key": "financialObligationsPaid",
+          "question": "Have you paid every financial obligation in the case that contains the deferred judgment?",
+          "requirement": "required"
+        },
+        {
+          "key": "stillOnPublicDocket",
+          "question": "Does the case still appear on the Iowa public online docket?",
+          "requirement": "required"
+        },
+        {
+          "key": "dischargeBeforeJuly2013",
+          "question": "Was your discharge from probation before July 1, 2013?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Never say erased, destroyed or removed from your record. Say the court record becomes confidential and comes off public access under Iowa Code § 22.7. State plainly that Iowa has no felony expungement.",
+        "Do not add a proposed order to any Iowa Rule 2.86 packet. No proposed order is filed.",
+        "Screen for a deferred judgment before Track A or Track B. It is free, needs no form, and often only needs a balance paid.",
+        "Explain that the deferred judgment itself stays on the state court administrator's deferred judgment docket and is not expunged. That docket is how courts and prosecutors know a deferred judgment was used, and it feeds the § 901C.3 two-deferred-judgment limitation.",
+        "Court debt is a precondition on this track: the record is not expunged until restitution, civil penalties, court costs, fees and other obligations in the case containing the deferred judgment are paid."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Confirmation from the clerk of the balance in the case containing the deferred judgment. Ask the clerk for the balance in that case number. An unpaid balance is the usual reason an expected automatic expungement did not happen.",
+          "obtainedFrom": "Clerk of the Iowa District Court for the county of the case",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you paid every financial obligation in the case that contains the deferred judgment?\" against Confirmation from the clerk of the balance in the case containing the deferred judgment, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "No participant signature on the diagnostic branch.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No fee identified. The diagnostic route is free.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service on the diagnostic branch. There is no petition to serve.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "For a post-July-2013 discharge there is no participant filing; the expungement is expected to occur on discharge. For a pre-July-2013 discharge an application is required but the vehicle is unresolved.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Have you paid every financial obligation in the case that contains the deferred judgment?\" against Confirmation from the clerk of the balance in the case containing the deferred judgment, and correct the packet if they disagree.",
+        "No participant signature on the diagnostic branch.",
+        "No fee identified. The diagnostic route is free.",
+        "Not applicable."
+      ],
+      "stopConditions": [
+        "A revoked deferred judgment.",
+        "Disputes about what is owed and in which case.",
+        "Pre-2013 discharges where the clerk declines to act.",
+        "Any indication the disposition was a conviction rather than a deferred judgment.",
+        "A revoked deferred judgment is out of scope for this track and becomes a conviction that may be eligible under § 901C.3."
+      ],
+      "guidanceStatus": "not_drafted",
+      "unitId": "ia-9079-post-2013-verification",
+      "unitLabel": "Verify that the automatic expungement happened, and diagnose it if it did not",
+      "unitDescription": "For a discharge after July 1, 2013 there is no participant filing: the expungement is expected to occur without an application. The product is diagnostic. Confirm the disposition was a deferred judgment rather than a conviction or a dismissal, confirm discharge and its date, confirm every financial obligation in that case is paid, check whether the case still appears on the public online docket, and if it does, contact the clerk of the district court for that county. The usual blocker is an unpaid balance in that case, which is actionable.",
+      "compositionMode": "alternative",
+      "unitAvailable": true,
+      "unavailableReason": null
+    },
+    {
+      "jurisdiction": "IA",
+      "trackId": "ia-dci77",
+      "destination": {
+        "kind": "agency",
+        "name": "Iowa Department of Public Safety, Division of Criminal Investigation",
+        "detail": "The participant submits form DCI-77 with a release authorization signature through the state portal. A DCI account or MasterCard, Visa or Discover is accepted."
+      },
+      "rules": {
+        "filing": "The participant submits form DCI-77 to the Division of Criminal Investigation through the state portal. LegalEase cannot request another person's criminal history.",
+        "fees": "The Iowa Judicial Branch instructions state a request costs $15. Verify the current amount at build time.",
+        "feeWaiver": "None identified.",
+        "notice": "Not applicable. This is an agency record request, not a court filing.",
+        "service": "Not applicable.",
+        "participantSignature": "A release authorization signature is required. Its absence invalidates the check for this purpose.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "needsDciCheck",
+          "question": "Are you preparing a misdemeanour expungement application under section 901C.3?",
+          "requirement": "required"
+        },
+        {
+          "key": "plannedFilingDate",
+          "question": "When do you expect to file the application?",
+          "requirement": "required"
+        },
+        {
+          "key": "allNamesEverUsed",
+          "question": "What is your current legal name, and every other name you have ever used?",
+          "requirement": "required"
+        },
+        {
+          "key": "hasReleaseAuthorizationSigned",
+          "question": "Have you signed the release authorization on the DCI request?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Deliver the timing plan that keeps the 30-day window open, because the check expiring before filing is a known failure mode.",
+        "Never collect, store or inspect the returned criminal history. The participant attaches it to their own application."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Official DCI Iowa criminal history record check on form DCI-77, dated within the past 30 days. Submit form DCI-77 with a release authorization signature through the state portal. The Iowa Judicial Branch instructions state a request costs $15. Obtain it and then file the § 901C.3 application promptly, because it expires after 30 days.",
+          "obtainedFrom": "Iowa Department of Public Safety, Division of Criminal Investigation",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you signed the release authorization on the DCI request?\" against Official DCI Iowa criminal history record check on form DCI-77, dated within the past 30 days, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "A release authorization signature is required. Its absence invalidates the check for this purpose.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The Iowa Judicial Branch instructions state a request costs $15. Verify the current amount at build time.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None identified.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Not applicable.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "The participant submits form DCI-77 to the Division of Criminal Investigation through the state portal. LegalEase cannot request another person's criminal history.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Official DCI Iowa criminal history record check on form DCI-77, dated within the past 30 days. Submit form DCI-77 with a release authorization signature through the state portal. The Iowa Judicial Branch instructions state a request costs $15. Obtain it and then file the § 901C.3 application promptly, because it expires after 30 days.",
+        "Check your answer to \"Have you signed the release authorization on the DCI request?\" against Official DCI Iowa criminal history record check on form DCI-77, dated within the past 30 days, and correct the packet if they disagree.",
+        "A release authorization signature is required. Its absence invalidates the check for this purpose.",
+        "The Iowa Judicial Branch instructions state a request costs $15. Verify the current amount at build time.",
+        "None identified."
+      ],
+      "stopConditions": [
+        "The check returns records the participant did not disclose.",
+        "The check expires before the § 901C.3 application is filed.",
+        "The release authorization signature is missing, which invalidates the check for this purpose."
+      ],
+      "guidanceStatus": "not_drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true
+    },
+    {
       "jurisdiction": "IL",
       "trackId": "il-prb-cert",
       "destination": {
@@ -36339,6 +38229,71 @@
       "requiredBeforeFiling": true,
       "howToObtain": "Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
       "confirms": "convictionDetails",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "IA",
+      "trackId": "ia-901c2",
+      "name": "Confirmation from the clerk that all financial obligations in this case are paid",
+      "obtainedFrom": "Clerk of the Iowa District Court for the county of the case",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Ask the clerk for the balance in this case number. Rule 2.83(3) counts only obligations in the case or cases where expungement is sought, and room and board fees sought under a separate civil action under § 356.7 are not counted.",
+      "confirms": "financialObligationsPaid",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "IA",
+      "trackId": "ia-901c3",
+      "name": "Official DCI Iowa criminal history record check, dated within the past 30 days",
+      "obtainedFrom": "Iowa Department of Public Safety, Division of Criminal Investigation",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Submit form DCI-77 with a release authorization signature through the state portal. The Iowa Judicial Branch instructions state a request costs $15. The check must be dated within 30 days of filing, so obtain it and then file promptly.",
+      "confirms": "dciCheckDate",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "IA",
+      "trackId": "ia-901c3",
+      "name": "Confirmation from the clerk that all financial obligations in this case are paid",
+      "obtainedFrom": "Clerk of the Iowa District Court for the county of conviction",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Ask the clerk for the balance in this case number. Rule 2.83(3) counts only obligations in the case where expungement is sought.",
+      "confirms": "financialObligationsPaid",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "IA",
+      "trackId": "ia-9079",
+      "name": "Confirmation from the clerk of the balance in the case containing the deferred judgment",
+      "obtainedFrom": "Clerk of the Iowa District Court for the county of the case",
+      "requirement": "required",
+      "requiredBeforeFiling": false,
+      "howToObtain": "Ask the clerk for the balance in that case number. An unpaid balance is the usual reason an expected automatic expungement did not happen.",
+      "confirms": "financialObligationsPaid",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "IA",
+      "trackId": "ia-dci77",
+      "name": "Official DCI Iowa criminal history record check on form DCI-77, dated within the past 30 days",
+      "obtainedFrom": "Iowa Department of Public Safety, Division of Criminal Investigation",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Submit form DCI-77 with a release authorization signature through the state portal. The Iowa Judicial Branch instructions state a request costs $15. Obtain it and then file the § 901C.3 application promptly, because it expires after 30 days.",
+      "confirms": "hasReleaseAuthorizationSigned",
       "collectedByLegalEase": false,
       "inspectedByLegalEase": false,
       "blocksGeneration": false

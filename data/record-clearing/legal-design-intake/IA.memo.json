@@ -1,0 +1,1788 @@
+{
+  "schemaVersion": 1,
+  "jurisdiction": "IA",
+  "memoVersion": "1.0.0",
+  "submittedAt": "2026-08-02T00:00:00.000Z",
+  "tracks": [
+    {
+      "nodeType": "relief_track",
+      "outputStrategy": "official_pdf_fill",
+      "effectiveDates": {
+        "effectiveFrom": "2021-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Iowa District Court for the county of the case. Rule 2.80(3) requires the application to be filed in the case where expungement is sought, not the county of residence. Separate cases require separate applications."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the Iowa District Court for the county of the case",
+        "detail": "File in the case where expungement is sought. The county attorney is served and has 20 days to respond."
+      },
+      "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers; no third-party record gates generation.",
+      "_supportingDocumentsNote": "Records the participant obtains. LegalEase never collects, inspects or authenticates them.",
+      "_manualCompletionNote": "Fields the generated packet deliberately leaves blank.",
+      "officialSources": [
+        {
+          "title": "Iowa Code chapter 901C (§§ 901C.1, 901C.2, 901C.3), Iowa Code 2026",
+          "url": "https://www.legis.iowa.gov/law/iowaCode",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Iowa R. Crim. P. 2.80 through 2.86",
+          "url": "https://www.legis.iowa.gov/docs/ACO/CourtRulesChapter/02.pdf",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "In the Matter of Adopting Amendments to the Chapter 2 Iowa Rules of Criminal Procedure, Order of August 30, 2024",
+          "url": "https://www.iowacourts.gov/collections/499/files",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Iowa Judicial Branch expungement forms and instructions",
+          "url": "https://www.iowacourts.gov/for-the-public/representing-yourself/expungement",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "eFile through the Iowa Judicial Branch eFile System where the case is available there, otherwise file on paper at the county clerk of court office. The application is filed in the case where expungement is sought, so separate cases require separate applications.",
+        "fees": "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+        "feeWaiver": "Not applicable while no fee is identified. Unresolved.",
+        "notice": "The county attorney is the notice recipient and may file a confidential response within 20 days after service unless the court orders otherwise. The court may conduct a hearing but none is required.",
+        "service": "eFiling serves the county attorney automatically. Paper filers complete the certification of service and mail or hand deliver a copy to the county attorney of the county where the application is filed.",
+        "participantSignature": "Required, under penalty of perjury. The August 2024 forms permit a digitized signature per the Iowa Judicial Branch instructions, or printing and hand-signing. Election A is self-represented, election B is by attorney.",
+        "notarization": "none"
+      },
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Iowa review.",
+      "trackId": "ia-901c2",
+      "legalName": "Application to Expunge Court Record under Iowa Code section 901C.2",
+      "publicName": "Expunging a case that was dismissed or ended in a not guilty verdict",
+      "controllingAuthority": {
+        "citations": [
+          "Iowa Code § 901C.2",
+          "Iowa R. Crim. P. 2.80",
+          "Iowa R. Crim. P. 2.83",
+          "Iowa R. Crim. P. 2.84(1)",
+          "Iowa Code § 22.7"
+        ],
+        "summary": "Where an acquittal was entered for all criminal charges, or all criminal charges were otherwise dismissed, the court shall enter an order expunging the district court record. Expunge means the record becomes a confidential record exempt from public access under § 22.7; nothing is destroyed."
+      },
+      "eligibleRecordTypes": [
+        "district_court_criminal_case_record"
+      ],
+      "eligibleDispositions": [
+        "acquitted_all_charges",
+        "dismissed_all_charges"
+      ],
+      "exclusions": [
+        "Dismissals related to a deferred judgment under § 907.9, which route to the deferred-judgment track.",
+        "Cases dismissed because the defendant was found not guilty by reason of insanity.",
+        "Cases in which the defendant was found incompetent to stand trial.",
+        "Matters that are not public offenses as defined in § 692.1.",
+        "Appellate records, other than appeals of simple misdemeanors to district court, under Rule 2.84(5).",
+        "Partial dispositions. All charges in the separately numbered case must be acquitted or dismissed."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Entry of the judgment of acquittal, or the order dismissing the case as to all criminal charges",
+          "duration": "Minimum 180 days, waivable by the court on good cause including identity theft or mistaken identity"
+        }
+      ],
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Rule 2.86 Form 1",
+          "notes": "Application to Expunge Court Record under Iowa Code section 901C.2. Rule 2.80(2) requires substantial compliance with the form. Items 1 through 5 checked, with item 1 and item 3 sub-selections made."
+        },
+        {
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionDescription": "Only where item 3.B, the good-cause waiver of the 180 days, is used.",
+          "outputStrategy": "custom_pleading",
+          "notes": "Attached sheet carrying the participant-authored good-cause narrative. LegalEase formats the participant's own facts and does not compose the showing."
+        },
+        {
+          "role": "certificate_of_service",
+          "requirement": "conditional",
+          "conditionDescription": "Only when filing on paper. eFiling serves the county attorney automatically.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Certification of Service by Mailing or Delivery",
+          "notes": "Completed and served on the county attorney of the county where the application is filed."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "countyOfCase",
+          "question": "In which Iowa county was the case filed?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "allChargesResolved",
+          "question": "Were all of the charges in that case number dismissed, or were you found not guilty on all of them?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date was the acquittal entered or the case dismissed?",
+          "requirement": "required"
+        },
+        {
+          "key": "wasDeferredJudgment",
+          "question": "Was this a deferred judgment rather than a dismissal or acquittal?",
+          "requirement": "required"
+        },
+        {
+          "key": "financialObligationsPaid",
+          "question": "Have you paid all court costs, fees and other financial obligations in this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "requestsWaiverOf180Days",
+          "question": "Do you need the court to waive the 180-day wait for good cause, for example identity theft or mistaken identity?",
+          "requirement": "required"
+        },
+        {
+          "key": "goodCauseNarrative",
+          "question": "In your own words, what is the good cause for waiving the 180 days?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where a waiver is requested. The narrative is participant-authored."
+        },
+        {
+          "key": "filingMethod",
+          "question": "Will you eFile through the Iowa Judicial Branch system, or file on paper?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Confirmation from the clerk that all financial obligations in this case are paid",
+          "obtainedFrom": "Clerk of the Iowa District Court for the county of the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for the balance in this case number. Rule 2.83(3) counts only obligations in the case or cases where expungement is sought, and room and board fees sought under a separate civil action under § 356.7 are not counted.",
+          "confirms": "financialObligationsPaid"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Form 1, signature block",
+          "why": "The participant signs their own application. A digitized signature is permitted under the August 2024 forms."
+        },
+        {
+          "item": "Whether all charges were acquitted or all dismissed",
+          "whereInPacket": "Form 1, item 1",
+          "why": "The review bars auto-completion of this item; it is a legal judgment about the case's disposition."
+        },
+        {
+          "item": "Good-cause waiver narrative",
+          "whereInPacket": "Form 1, item 3.B attached sheet",
+          "why": "Participant-authored. LegalEase does not compose a factual showing of identity theft or mistaken identity."
+        }
+      ],
+      "selfHelpStopConditions": [
+        "The county attorney files a response opposing the application.",
+        "The case involves a deferred judgment.",
+        "Only some charges in the case were dismissed or acquitted.",
+        "The participant is asserting identity theft or mistaken identity as the waiver ground, which is a factual showing.",
+        "There is an unresolved dispute about what is owed and in which case.",
+        "Immigration consequences are in play.",
+        "The participant wants relief for an appellate record."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether there is any filing fee for a Rule 2.86 application in any Iowa county. None was identified.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+            "sourceHeading": "OPEN QUESTIONS",
+            "sourceStatement": "Whether there is any filing fee for a Rule 2.86 application in any Iowa county. None identified. Unresolved."
+          }
+        },
+        {
+          "question": "Whether Track A reaches Department of Public Safety criminal history data. Sections 901C.3(5) and 123.47(9) contain express DPS removal provisions; § 901C.2 does not.",
+          "impact": "release_blocker",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+            "sourceHeading": "OPEN QUESTIONS",
+            "sourceStatement": "Whether Track A reaches DPS criminal history data. § 901C.3(5) and § 123.47(9) contain express DPS removal provisions. § 901C.2 does not. Unresolved, and it affects what LegalEase can promise a Track A participant about background checks."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Mandatory relief on a prescribed statewide form. Rule 2.80(2) requires substantial compliance with Form 1, so the instrument is fixed and no drafting is required. The limitations concern routing away from deferred judgments and the unresolved reach into DPS data.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Do not add a proposed order to any Iowa Rule 2.86 packet. No proposed order is filed, which differs from most jurisdictions.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK A / PACKET COMPONENTS",
+              "sourceStatement": "Note that no proposed order is filed. This is a real difference from most jurisdictions and the packet template must not add one."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Never say erased, destroyed or removed from your record. Say the court record becomes confidential and comes off public access under Iowa Code § 22.7. State plainly that Iowa has no felony expungement.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "Required limitations, corrections, and additional research / 6",
+              "sourceStatement": "Iowa-specific copy rules. Never say erased, destroyed, or removed from your record. Say the court record becomes confidential and comes off public access under Iowa Code § 22.7. ... State plainly that Iowa has no felony expungement, because that is the first question most participants will have and a vague answer wastes their money."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Screen every Iowa participant for a deferred judgment before routing to Track A or Track B. A deferred judgment is neither a dismissal nor a conviction and a naive disposition classifier routes it wrong in both directions.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK F",
+              "sourceStatement": "Every Iowa participant screened for Tracks A or B must be screened for this first, because a deferred judgment is neither a dismissal nor a conviction and will route wrong under a naive disposition classifier."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Court debt is a precondition for this track. Rule 2.83(3) counts only obligations in the case where expungement is sought, and excludes room and board fees sought under a separate civil action under § 356.7.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "Required limitations, corrections, and additional research / 5",
+              "sourceStatement": "Court debt is a precondition for Tracks A, B, and F, and is not a precondition for Tracks C, D, and E. Rule 2.83(3) is explicit."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "State that after expungement the clerk shall make the record available on request and without a court order to the defendant, and to an agency or person granted access to the deferred judgment docket under § 907.4(2).",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK A / FILING AND POST-FILING",
+              "sourceStatement": "The clerk shall make the record available upon request and without a court order to the defendant, and to an agency or person granted access to the deferred judgment docket under § 907.4(2)."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The 180-day clock runs from entry of the acquittal or dismissal order, not from sentence completion. Do not share a code path with jurisdictions that measure from discharge.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "Required limitations, corrections, and additional research / 4",
+              "sourceStatement": "§ 901C.2 runs 180 days from entry of the acquittal or dismissal order, waivable. ... None of them runs from sentence completion. Do not share a code path with jurisdictions that measure from discharge."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "nodeType": "relief_track",
+      "outputStrategy": "official_pdf_fill",
+      "effectiveDates": {
+        "effectiveFrom": "2019-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Iowa District Court for the county of the case. Rule 2.80(3) requires the application to be filed in the case where expungement is sought, not the county of residence. Separate cases require separate applications."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the Iowa District Court for the county of the case",
+        "detail": "File in the case where expungement is sought. The county attorney is served and has 20 days to respond."
+      },
+      "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers; no third-party record gates generation.",
+      "_supportingDocumentsNote": "Records the participant obtains. LegalEase never collects, inspects or authenticates them.",
+      "_manualCompletionNote": "Fields the generated packet deliberately leaves blank.",
+      "officialSources": [
+        {
+          "title": "Iowa Code chapter 901C (§§ 901C.1, 901C.2, 901C.3), Iowa Code 2026",
+          "url": "https://www.legis.iowa.gov/law/iowaCode",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Iowa R. Crim. P. 2.80 through 2.86",
+          "url": "https://www.legis.iowa.gov/docs/ACO/CourtRulesChapter/02.pdf",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "In the Matter of Adopting Amendments to the Chapter 2 Iowa Rules of Criminal Procedure, Order of August 30, 2024",
+          "url": "https://www.iowacourts.gov/collections/499/files",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Iowa Judicial Branch expungement forms and instructions",
+          "url": "https://www.iowacourts.gov/for-the-public/representing-yourself/expungement",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "eFile through the Iowa Judicial Branch eFile System where the case is available there, otherwise file on paper at the county clerk of court office. The application is filed in the case where expungement is sought, so separate cases require separate applications.",
+        "fees": "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+        "feeWaiver": "Not applicable while no fee is identified. Unresolved.",
+        "notice": "The county attorney is the notice recipient and may file a confidential response within 20 days after service unless the court orders otherwise. The court may conduct a hearing but none is required.",
+        "service": "eFiling serves the county attorney automatically. Paper filers complete the certification of service and mail or hand deliver a copy to the county attorney of the county where the application is filed.",
+        "participantSignature": "Required, under penalty of perjury. The August 2024 forms permit a digitized signature per the Iowa Judicial Branch instructions, or printing and hand-signing. Election A is self-represented, election B is by attorney.",
+        "notarization": "none"
+      },
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Iowa review.",
+      "trackId": "ia-901c3",
+      "legalName": "Application to Expunge Misdemeanor Court Records under Iowa Code section 901C.3",
+      "publicName": "Expunging one misdemeanor conviction",
+      "controllingAuthority": {
+        "citations": [
+          "Iowa Code § 901C.3",
+          "Iowa R. Crim. P. 2.81",
+          "Iowa R. Crim. P. 2.83",
+          "Iowa R. Crim. P. 2.84(2)",
+          "Iowa R. Crim. P. 2.85"
+        ],
+        "summary": "One misdemeanor conviction may be expunged per lifetime, more than eight years after the date of conviction, where financial obligations are paid, no criminal charges are pending, and the defendant has not previously been granted two deferred judgments. The court shall enter the order as a matter of law on proof; the burden is expressly on the defendant."
+      },
+      "eligibleRecordTypes": [
+        "misdemeanor_conviction_record"
+      ],
+      "eligibleDispositions": [
+        "misdemeanor_conviction"
+      ],
+      "exclusions": [
+        "Section 901C.3(2) excludes twenty-four categories, which must be built from the statute rather than from the form's note: (a) § 123.46; (b) a simple misdemeanor under § 123.47(3) or a similar local ordinance; (c) §§ 321.218, 321A.32, 321J.21; (d) § 321J.2; (e) a sex offense as defined in § 692A.101; (f) involuntary manslaughter under § 707.5; (g) assault under § 708.2(3); (h) § 708.2A; (i) harassment under § 708.7; (j) stalking under § 708.11; (k) removal of an officer's communication or control device under § 708.12; (l) trespass under § 716.8(3) or (4); (m) chapter 717C; (n) chapter 719; (o) chapter 720; (p) § 721.2; (q) § 721.10; (r) § 723.1; (s) chapter 724; (t) chapter 726; (u) chapter 728; (v) chapter 901A; (w) a comparable offense listed in 49 C.F.R. § 383.51(b) table 1 or § 383.51(e) table 4; (x) a conviction under prior law of an offense comparable to an offense enumerated in this subsection.",
+        "Paragraphs (w) and (x) are absent from the official form's note and from both internal references.",
+        "Section 235B.20 appears on the official form's note but is not in the Iowa Code 2026 text; screen it out and refer until resolved.",
+        "One expungement under this section per lifetime.",
+        "Any pending charge of a public offense as defined in § 692.1.",
+        "Two previously granted deferred judgments, counted per Rule 2.83(5)."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Date of the conviction, not sentence completion and not discharge from probation",
+          "duration": "More than eight years"
+        }
+      ],
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Rule 2.86 Form 2",
+          "notes": "Application to Expunge Misdemeanor Court Records under Iowa Code section 901C.3. Rule 2.81(2) requires substantial compliance. Collects current legal name, all other names ever used, date of birth, driver's licence number and Social Security number."
+        },
+        {
+          "role": "attachment",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Official Division of Criminal Investigation Iowa criminal history record check, obtained by the participant on form DCI-77 with a release authorization signature and dated within the past 30 days. Required by Rule 2.81(2) and form item 9. The participant obtains it; LegalEase never requests, collects or inspects it."
+        },
+        {
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant has additional alternate names, or additional related cases arising from the same transaction or occurrence.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Rule 2.86 Form 2 attached sheet",
+          "notes": "Attached sheets for alternate names and related cases. Rule 2.81(4) requires a copy of the application to be filed in each related case."
+        },
+        {
+          "role": "certificate_of_service",
+          "requirement": "conditional",
+          "conditionDescription": "Only when filing on paper. eFiling serves the county attorney automatically.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Certification of Service by Mailing or Delivery",
+          "notes": "Completed and served on the county attorney of the county where the application is filed."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "countyOfConviction",
+          "question": "In which Iowa county was the conviction entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseCodeSection",
+          "question": "Which exact Iowa Code section were you convicted under?",
+          "requirement": "required"
+        },
+        {
+          "key": "hasUsedLifetimeExpungement",
+          "question": "Have you ever had a misdemeanor expunged under section 901C.3 before?",
+          "requirement": "required"
+        },
+        {
+          "key": "hasOtherEligibleConvictions",
+          "question": "Do you have more than one misdemeanor conviction you would like cleared?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any criminal charges pending anywhere right now?",
+          "requirement": "required"
+        },
+        {
+          "key": "deferredJudgmentCount",
+          "question": "How many times have you been granted a deferred judgment?",
+          "requirement": "required"
+        },
+        {
+          "key": "financialObligationsPaid",
+          "question": "Have you paid all court costs, fees, fines, restitution and other financial obligations in this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "relatedCases",
+          "question": "Are there other case numbers from the same incident you want covered by this application?",
+          "requirement": "required"
+        },
+        {
+          "key": "allNamesEverUsed",
+          "question": "What is your current legal name, and every other name you have ever used?",
+          "requirement": "required"
+        },
+        {
+          "key": "dciCheckDate",
+          "question": "On what date was your DCI criminal history record check issued?",
+          "requirement": "required"
+        },
+        {
+          "key": "filingMethod",
+          "question": "Will you eFile through the Iowa Judicial Branch system, or file on paper?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Official DCI Iowa criminal history record check, dated within the past 30 days",
+          "obtainedFrom": "Iowa Department of Public Safety, Division of Criminal Investigation",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Submit form DCI-77 with a release authorization signature through the state portal. The Iowa Judicial Branch instructions state a request costs $15. The check must be dated within 30 days of filing, so obtain it and then file promptly.",
+          "confirms": "dciCheckDate"
+        },
+        {
+          "name": "Confirmation from the clerk that all financial obligations in this case are paid",
+          "obtainedFrom": "Clerk of the Iowa District Court for the county of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for the balance in this case number. Rule 2.83(3) counts only obligations in the case where expungement is sought.",
+          "confirms": "financialObligationsPaid"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Form 2, signature block",
+          "why": "The participant signs their own application."
+        },
+        {
+          "item": "Eligibility assertion against the statutory exclusion list",
+          "whereInPacket": "Form 2, item 4",
+          "why": "The review bars auto-completion. Mapping an offence against the twenty-four-paragraph list, including the (w) and (x) comparability categories, is a legal judgment."
+        },
+        {
+          "item": "Related-cases list and the same-transaction determination",
+          "whereInPacket": "Form 2, item 3",
+          "why": "Whether multiple cases truly arose from the same transaction or occurrence is a legal judgment."
+        },
+        {
+          "item": "Deferred-judgment count",
+          "whereInPacket": "Form 2, item 8",
+          "why": "Counted per Rule 2.83(5); all charges deferred at the same time count as one."
+        }
+      ],
+      "selfHelpStopConditions": [
+        "The participant has more than one potentially eligible conviction, because the choice is strategic and permanent.",
+        "The offence may fall under § 901C.3(2)(w) or (x), the comparability categories.",
+        "The participant is unsure whether a prior disposition was a deferred judgment.",
+        "There are pending charges anywhere.",
+        "A prior § 901C.3 expungement may exist.",
+        "The county attorney responds in opposition.",
+        "Immigration consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether there is any filing fee for a Rule 2.86 application in any Iowa county. None was identified.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+            "sourceHeading": "OPEN QUESTIONS",
+            "sourceStatement": "Whether there is any filing fee for a Rule 2.86 application in any Iowa county. None identified. Unresolved."
+          }
+        },
+        {
+          "question": "Whether § 235B.20 remains an excluded offence under § 901C.3(2). It is on the official form and not in the Iowa Code 2026 text, possibly removed by 2022 Acts, ch 1132, § 16 without a form update.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+            "sourceHeading": "OPEN QUESTIONS",
+            "sourceStatement": "Whether § 235B.20 remains an excluded offense under § 901C.3(2). It is on the official form and not in the Iowa Code 2026 text. Possibly removed by 2022 Acts, ch 1132, § 16 without a corresponding form update. Unresolved. Until resolved, screen it out and refer, which is the conservative direction."
+          }
+        },
+        {
+          "question": "The current DCI record check fee and portal. The Iowa Judicial Branch instructions state $15 through a state portal; verify at build time.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+            "sourceHeading": "OPEN QUESTIONS",
+            "sourceStatement": "The current DCI record check fee and portal. The Iowa Judicial Branch instructions state $15 through a state portal. Verify at build time."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Mandatory on proof, on a prescribed statewide form. The one-per-lifetime rule makes this the only Iowa track where a correct form filed on the wrong case is a permanent loss, so a confirmation gate is required before filing. That gate is a product control, not a generation blocker.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Do not add a proposed order to any Iowa Rule 2.86 packet. No proposed order is filed, which differs from most jurisdictions.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK A / PACKET COMPONENTS",
+              "sourceStatement": "Note that no proposed order is filed. This is a real difference from most jurisdictions and the packet template must not add one."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Never say erased, destroyed or removed from your record. Say the court record becomes confidential and comes off public access under Iowa Code § 22.7. State plainly that Iowa has no felony expungement.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "Required limitations, corrections, and additional research / 6",
+              "sourceStatement": "Iowa-specific copy rules. Never say erased, destroyed, or removed from your record. Say the court record becomes confidential and comes off public access under Iowa Code § 22.7. ... State plainly that Iowa has no felony expungement, because that is the first question most participants will have and a vague answer wastes their money."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Screen every Iowa participant for a deferred judgment before routing to Track A or Track B. A deferred judgment is neither a dismissal nor a conviction and a naive disposition classifier routes it wrong in both directions.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK F",
+              "sourceStatement": "Every Iowa participant screened for Tracks A or B must be screened for this first, because a deferred judgment is neither a dismissal nor a conviction and will route wrong under a naive disposition classifier."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "No fully automated file-and-forget path may exist for this track. The participant must affirmatively confirm they have not used their single lifetime expungement and must be shown, in plain terms, that the choice is permanent and that the judicial branch keeps a confidential registry the court checks under Rule 2.85. Where a participant has more than one eligible conviction, route to counsel. This is a delivery gate, not a generation blocker.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "Required limitations, corrections, and additional research / 3",
+              "sourceStatement": "The one-per-lifetime rule needs a hard product gate. No fully automated path may file a § 901C.3 application."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Build the § 901C.3 exclusion list from the statute, not from the form. All twenty-four paragraphs, including (w) comparable CDL offences under 49 C.F.R. § 383.51 and (x) prior-law comparable offences. Treat § 235B.20 as excluded until the open question resolves.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "Required limitations, corrections, and additional research / 2",
+              "sourceStatement": "Build the § 901C.3 exclusion list from the statute, not the form. All twenty-four paragraphs, including (w) comparable CDL offenses under 49 C.F.R. § 383.51 and (x) prior-law comparable offenses. Treat § 235B.20 as excluded until open question 1 is resolved."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The DCI check must be dated within 30 days of filing. Sequence the packet so the check is obtained and the application filed promptly inside that window.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK B / PACKET COMPONENTS",
+              "sourceStatement": "The 30-day clock on the DCI check is the operational constraint of this track. The packet is only valid inside a 30-day window from the date of the DCI check. Sequencing matters: obtain the DCI check, then file promptly."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Form 2 collects Social Security number, driver's licence number, date of birth and every name ever used. Route this track to the data-protection review before build.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK B / PACKET COMPONENTS",
+              "sourceStatement": "Data handling flag. Form 2 collects Social Security number, driver's license number, date of birth, and all names ever used. That is the most sensitive intake in any jurisdiction reviewed so far. Route to the data-protection review before building."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Build the form-fill against the caption case numbers, not Form 2 item 6's cross-reference, which points at the related-cases item rather than the prior-expungement item.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "PART 2 / 2.1 The Rule 2.86 form suite",
+              "sourceStatement": "Form 2 item 6 refers to \"the misdemeanor convictions identified in section 3,\" but section 3 is the related-cases item. ... Build the form-fill against the caption case numbers, not the cross-reference."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The eight-year clock runs from the date of conviction, not sentence completion or discharge from probation.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "Required limitations, corrections, and additional research / 4",
+              "sourceStatement": "§ 901C.3 runs eight years from the date of conviction."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "nodeType": "relief_track",
+      "outputStrategy": "official_pdf_fill",
+      "effectiveDates": {
+        "effectiveFrom": "2021-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "conviction_record"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Iowa District Court for the county of the case. Rule 2.82(5) requires filing in the case where expungement is sought."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the Iowa District Court for the county of the case",
+        "detail": "File in the case where expungement is sought. The county attorney is served and has 20 days to respond."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Rule 2.86 Form 3",
+          "notes": "Application to Expunge Public Intoxication Court Records. Rule 2.82(2) requires substantial compliance. Two substantive checkbox items plus a conviction date; the simplest packet in any jurisdiction reviewed."
+        },
+        {
+          "role": "certificate_of_service",
+          "requirement": "conditional",
+          "conditionDescription": "Only when filing on paper.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Certification of Service by Mailing or Delivery",
+          "notes": "Served on the county attorney of the county where the application is filed."
+        }
+      ],
+      "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers.",
+      "_supportingDocumentsNote": "Records the participant obtains. LegalEase never collects, inspects or authenticates them.",
+      "supportingDocuments": [],
+      "_manualCompletionNote": "Fields the generated packet deliberately leaves blank.",
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Signature block",
+          "why": "The participant signs their own application."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Iowa Code chapter 901C, §§ 123.46, 123.47, 725.1, 907.4 and 907.9, Iowa Code 2026",
+          "url": "https://www.legis.iowa.gov/law/iowaCode",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Iowa R. Crim. P. 2.80 through 2.86",
+          "url": "https://www.legis.iowa.gov/docs/ACO/CourtRulesChapter/02.pdf",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "In the Matter of Adopting Amendments to the Chapter 2 Iowa Rules of Criminal Procedure, Order of August 30, 2024",
+          "url": "https://www.iowacourts.gov/collections/499/files",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Iowa Judicial Branch expungement forms and instructions",
+          "url": "https://www.iowacourts.gov/for-the-public/representing-yourself/expungement",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "eFile through the Iowa Judicial Branch eFile System where the case is available there, otherwise file on paper at the county clerk of court office. Rule 2.82(5), as amended August 30, 2024, requires the application to be filed in the case where expungement is sought and served on the county attorney.",
+        "fees": "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+        "feeWaiver": "Not applicable while no fee is identified. Unresolved.",
+        "notice": "The county attorney is the notice recipient and may file a confidential response within 20 days after service unless the court orders otherwise. The court may conduct a hearing but none is required.",
+        "service": "eFiling serves the county attorney automatically. Paper filers complete the certification of service and mail or hand deliver a copy to the county attorney.",
+        "participantSignature": "Required, under penalty of perjury. A digitized signature is permitted under the August 2024 forms, or print and hand-sign.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The county attorney opposes the application.",
+        "A disputed intervening conviction inside the two-year window."
+      ],
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "unresolvedQuestions": [
+        {
+          "question": "Whether there is any filing fee for a Rule 2.86 application in any Iowa county. None was identified.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+            "sourceHeading": "OPEN QUESTIONS",
+            "sourceStatement": "Whether there is any filing fee for a Rule 2.86 application in any Iowa county. None identified. Unresolved."
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Iowa review.",
+      "trackId": "ia-12346",
+      "legalName": "Application to Expunge Public Intoxication Court Records under Iowa Code section 123.46",
+      "publicName": "Expunging a public intoxication conviction",
+      "controllingAuthority": {
+        "citations": [
+          "Iowa Code § 123.46(6)",
+          "Iowa R. Crim. P. 2.82(2)",
+          "Iowa R. Crim. P. 2.83",
+          "Iowa R. Crim. P. 2.84(3)"
+        ],
+        "summary": "A conviction for consumption or intoxication in public places under § 123.46, or a similar local ordinance, shall be expunged two years after the conviction where there are no criminal convictions in the intervening two years other than local traffic violations or simple misdemeanour violations under chapter 321. Court debt is expressly not a precondition."
+      },
+      "eligibleDispositions": [
+        "public_intoxication_conviction"
+      ],
+      "exclusions": [
+        "A criminal conviction during the two-year period following the conviction, other than a local traffic violation or a simple misdemeanour violation under chapter 321."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "The conviction",
+          "duration": "Two years, with no disqualifying intervening conviction inside that window"
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "countyOfCase",
+          "question": "In which Iowa county was the conviction entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "interveningConvictions",
+          "question": "Have you been convicted of anything else in the two years since, other than a local traffic violation or a simple misdemeanour under chapter 321?",
+          "requirement": "required"
+        },
+        {
+          "key": "filingMethod",
+          "question": "Will you eFile, or file on paper?",
+          "requirement": "required"
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Mandatory on the showing, on a prescribed statewide form, with no court-debt precondition. This is the only route for a § 123.46 conviction, which is expressly excluded from § 901C.3, and using it does not consume the once-per-lifetime slot.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Do not add a proposed order to any Iowa Rule 2.86 packet. No proposed order is filed.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK A / PACKET COMPONENTS",
+              "sourceStatement": "Note that no proposed order is filed. This is a real difference from most jurisdictions and the packet template must not add one."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Never say erased, destroyed or removed from your record. Say the court record becomes confidential and comes off public access under Iowa Code § 22.7. State plainly that Iowa has no felony expungement.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "Required limitations, corrections, and additional research / 6",
+              "sourceStatement": "Iowa-specific copy rules. Never say erased, destroyed, or removed from your record."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Court debt is not a precondition on this track. Rule 2.83(3) states that payment of court debt or other financial obligations is not required for expungement under this section. Surface it: this is the opposite of Tracks A and B and matters most to participants least able to pay.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "Required limitations, corrections, and additional research / 5",
+              "sourceStatement": "Court debt is a precondition for Tracks A, B, and F, and is not a precondition for Tracks C, D, and E. Rule 2.83(3) is explicit. This is unusual and it is good news for the participants least able to pay. Surface it."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Tell the participant that using this route does not consume their single § 901C.3 lifetime expungement, because a § 123.46 conviction is expressly excluded from that section.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK C",
+              "sourceStatement": "Relationship to Track B: a § 123.46 conviction is expressly excluded from § 901C.3 by § 901C.3(2)(a). This is the only route for it, and using it does not consume the § 901C.3 lifetime slot."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "nodeType": "relief_track",
+      "outputStrategy": "official_pdf_fill",
+      "effectiveDates": {
+        "effectiveFrom": "2021-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "conviction_record"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Iowa District Court for the county of the case. Rule 2.82(5) requires filing in the case where expungement is sought."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the Iowa District Court for the county of the case",
+        "detail": "File in the case where expungement is sought. The county attorney is served and has 20 days to respond."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Rule 2.86 Form 4",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Iowa/forms/Rule-2.86-Form-4__application-to-expunge-possession-of-alcohol-under-legal-age-records__rev-2024-08.pdf",
+          "notes": "Application to Expunge Possession of Alcohol under the Legal Age Court Records, August 2024 revision. The January 2021 revision in the archive is historical_obsolete and never runtime-selectable."
+        },
+        {
+          "role": "certificate_of_service",
+          "requirement": "conditional",
+          "conditionDescription": "Only when filing on paper.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Certification of Service by Mailing or Delivery",
+          "notes": "Served on the county attorney of the county where the application is filed."
+        }
+      ],
+      "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers.",
+      "_supportingDocumentsNote": "Records the participant obtains. LegalEase never collects, inspects or authenticates them.",
+      "supportingDocuments": [],
+      "_manualCompletionNote": "Fields the generated packet deliberately leaves blank.",
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Form 4, signature block",
+          "why": "The participant signs their own application."
+        },
+        {
+          "item": "Confirmation that the conviction is under § 123.47(3)",
+          "whereInPacket": "Form 4, item 1",
+          "why": "The form cites § 123.47 generally where the statutory ground is subsection 3, so the participant confirms the subsection."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Iowa Code chapter 901C, §§ 123.46, 123.47, 725.1, 907.4 and 907.9, Iowa Code 2026",
+          "url": "https://www.legis.iowa.gov/law/iowaCode",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Iowa R. Crim. P. 2.80 through 2.86",
+          "url": "https://www.legis.iowa.gov/docs/ACO/CourtRulesChapter/02.pdf",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "In the Matter of Adopting Amendments to the Chapter 2 Iowa Rules of Criminal Procedure, Order of August 30, 2024",
+          "url": "https://www.iowacourts.gov/collections/499/files",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Iowa Judicial Branch expungement forms and instructions",
+          "url": "https://www.iowacourts.gov/for-the-public/representing-yourself/expungement",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "eFile through the Iowa Judicial Branch eFile System where the case is available there, otherwise file on paper at the county clerk of court office. Rule 2.82(5), as amended August 30, 2024, requires the application to be filed in the case where expungement is sought and served on the county attorney.",
+        "fees": "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+        "feeWaiver": "Not applicable while no fee is identified. Unresolved.",
+        "notice": "The county attorney is the notice recipient and may file a confidential response within 20 days after service unless the court orders otherwise. The court may conduct a hearing but none is required.",
+        "service": "eFiling serves the county attorney automatically. Paper filers complete the certification of service and mail or hand deliver a copy to the county attorney.",
+        "participantSignature": "Required, under penalty of perjury. A digitized signature is permitted under the August 2024 forms, or print and hand-sign.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The county attorney opposes the application.",
+        "A disputed intervening conviction inside the two-year window."
+      ],
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "unresolvedQuestions": [
+        {
+          "question": "Whether there is any filing fee for a Rule 2.86 application in any Iowa county. None was identified.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+            "sourceHeading": "OPEN QUESTIONS",
+            "sourceStatement": "Whether there is any filing fee for a Rule 2.86 application in any Iowa county. None identified. Unresolved."
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Iowa review.",
+      "trackId": "ia-12347",
+      "legalName": "Application to Expunge Possession of Alcohol under the Legal Age Court Records under Iowa Code section 123.47",
+      "publicName": "Expunging a PAULA conviction",
+      "controllingAuthority": {
+        "citations": [
+          "Iowa Code § 123.47(9)",
+          "Iowa Code § 123.47(3)",
+          "Iowa R. Crim. P. 2.82(3)",
+          "Iowa R. Crim. P. 2.84(3)"
+        ],
+        "summary": "A conviction under § 123.47(3), possession of alcohol under the legal age, or a similar local ordinance, shall be expunged as a matter of law two years after conviction with a clean intervening record. Section 123.47(9) additionally requires removal from Department of Public Safety criminal history data files after clerk notice, and provides that an expunged conviction is not a prior offence for enhancement under § 123.47(4) unless the new violation occurred before entry of the expungement order."
+      },
+      "eligibleDispositions": [
+        "paula_conviction_under_123_47_3"
+      ],
+      "exclusions": [
+        "Convictions under § 123.47 generally rather than subsection 3 specifically.",
+        "A criminal conviction during the two-year period other than a local traffic violation or a simple misdemeanour under chapter 321."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "The conviction",
+          "duration": "Two years, with no disqualifying intervening conviction inside that window"
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "countyOfCase",
+          "question": "In which Iowa county was the conviction entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictedUnderSubsection3",
+          "question": "Was the conviction for possession of alcohol under the legal age under section 123.47(3), rather than another part of section 123.47?",
+          "requirement": "required"
+        },
+        {
+          "key": "interveningConvictions",
+          "question": "Have you been convicted of anything else in the two years since, other than a local traffic violation or a simple misdemeanour under chapter 321?",
+          "requirement": "required"
+        },
+        {
+          "key": "filingMethod",
+          "question": "Will you eFile, or file on paper?",
+          "requirement": "required"
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Mandatory as a matter of law on a prescribed statewide form, with no court-debt precondition, and with two concrete additional benefits: removal from DPS criminal history data and loss of enhancement effect. The August 2024 revision is current.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Do not add a proposed order to any Iowa Rule 2.86 packet. No proposed order is filed.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK A / PACKET COMPONENTS",
+              "sourceStatement": "Note that no proposed order is filed. This is a real difference from most jurisdictions and the packet template must not add one."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Never say erased, destroyed or removed from your record. Say the court record becomes confidential and comes off public access under Iowa Code § 22.7. State plainly that Iowa has no felony expungement.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "Required limitations, corrections, and additional research / 6",
+              "sourceStatement": "Iowa-specific copy rules. Never say erased, destroyed, or removed from your record."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Court debt is not a precondition on this track. Rule 2.83(3) states that payment of court debt or other financial obligations is not required for expungement under this section. Surface it: this is the opposite of Tracks A and B and matters most to participants least able to pay.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "Required limitations, corrections, and additional research / 5",
+              "sourceStatement": "Court debt is a precondition for Tracks A, B, and F, and is not a precondition for Tracks C, D, and E. Rule 2.83(3) is explicit. This is unusual and it is good news for the participants least able to pay. Surface it."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Confirm the conviction is under § 123.47(3). Form 4 item 1 cites § 123.47 generally where the statutory ground is subsection 3.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK D",
+              "sourceStatement": "Note the form's imprecision: Form 4 item 1 says \"convicted for a violation of Iowa Code section 123.47, possession of alcohol under the legal age.\" The engine must confirm the conviction is under subsection 3."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Surface the enhancement benefit: an expunged conviction is not a prior offence for enhancement under § 123.47(4) or a local ordinance, unless the new violation occurred before entry of the expungement order.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK D",
+              "sourceStatement": "It also provides that an expunged conviction shall not be considered a prior offense for enhancement under § 123.47(4) or a local ordinance, unless the new violation occurred before entry of the expungement order. That enhancement consequence is a concrete, immediate benefit and should be in the consumer copy."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Use only the August 2024 revision of Form 4. The January 2021 revision held in the archive is historical_obsolete and never runtime-selectable.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "PART 2 / 2.2 The January 29, 2021 Iowa Supreme Court order",
+              "sourceStatement": "the forms attached to it are superseded by the August 2024 revision. ... The uploaded copy is the January 2021 version and the attached Forms 1 through 5 in it must not be used."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "nodeType": "relief_track",
+      "outputStrategy": "official_pdf_fill",
+      "effectiveDates": {
+        "effectiveFrom": "2021-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "conviction_record"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Iowa District Court for the county of the case. Rule 2.82(5) requires filing in the case where expungement is sought."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the Iowa District Court for the county of the case",
+        "detail": "File in the case where expungement is sought. The county attorney is served and has 20 days to respond."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Rule 2.86 Form 5",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Iowa/forms/Rule-2.86-Form-5__application-to-expunge-prostitution-court-records__rev-2024-08.pdf",
+          "notes": "Application to Expunge Prostitution Court Records, August 2024 revision. Elements are objective: the statutory ground and age at the time of the act."
+        },
+        {
+          "role": "certificate_of_service",
+          "requirement": "conditional",
+          "conditionDescription": "Only when filing on paper.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Certification of Service by Mailing or Delivery",
+          "notes": "Served on the county attorney of the county where the application is filed."
+        }
+      ],
+      "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers.",
+      "_supportingDocumentsNote": "Records the participant obtains. LegalEase never collects, inspects or authenticates them.",
+      "supportingDocuments": [],
+      "_manualCompletionNote": "Fields the generated packet deliberately leaves blank.",
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Form 5, signature block",
+          "why": "The participant signs their own application."
+        },
+        {
+          "item": "Age at the time of the act",
+          "whereInPacket": "Form 5, item 2",
+          "why": "The review bars auto-completion of this item."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Iowa Code chapter 901C, §§ 123.46, 123.47, 725.1, 907.4 and 907.9, Iowa Code 2026",
+          "url": "https://www.legis.iowa.gov/law/iowaCode",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Iowa R. Crim. P. 2.80 through 2.86",
+          "url": "https://www.legis.iowa.gov/docs/ACO/CourtRulesChapter/02.pdf",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "In the Matter of Adopting Amendments to the Chapter 2 Iowa Rules of Criminal Procedure, Order of August 30, 2024",
+          "url": "https://www.iowacourts.gov/collections/499/files",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Iowa Judicial Branch expungement forms and instructions",
+          "url": "https://www.iowacourts.gov/for-the-public/representing-yourself/expungement",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "eFile through the Iowa Judicial Branch eFile System where the case is available there, otherwise file on paper at the county clerk of court office. Rule 2.82(5), as amended August 30, 2024, requires the application to be filed in the case where expungement is sought and served on the county attorney.",
+        "fees": "No filing fee for the application itself was identified in the review. Treat the amount as unconfirmed until verified at build time.",
+        "feeWaiver": "Not applicable while no fee is identified. Unresolved.",
+        "notice": "The county attorney is the notice recipient and may file a confidential response within 20 days after service unless the court orders otherwise. The court may conduct a hearing but none is required.",
+        "service": "eFiling serves the county attorney automatically. Paper filers complete the certification of service and mail or hand deliver a copy to the county attorney.",
+        "participantSignature": "Required, under penalty of perjury. A digitized signature is permitted under the August 2024 forms, or print and hand-sign.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "Any indication of trafficking, coercion or exploitation.",
+        "Any uncertainty about age at the time of the act.",
+        "The county attorney opposes the application."
+      ],
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "unresolvedQuestions": [
+        {
+          "question": "Whether there is any filing fee for a Rule 2.86 application in any Iowa county. None was identified.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+            "sourceHeading": "OPEN QUESTIONS",
+            "sourceStatement": "Whether there is any filing fee for a Rule 2.86 application in any Iowa county. None identified. Unresolved."
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Iowa review.",
+      "trackId": "ia-7251",
+      "legalName": "Application to Expunge Prostitution Court Records under Iowa Code section 725.1",
+      "publicName": "Expunging a prostitution conviction for conduct when you were under 18",
+      "controllingAuthority": {
+        "citations": [
+          "Iowa Code § 725.1(1)(c)",
+          "Iowa Code § 725.1(1)(a)",
+          "Iowa R. Crim. P. 2.82(4)",
+          "Iowa R. Crim. P. 2.84(3)"
+        ],
+        "summary": "A conviction under § 725.1(1)(a), or a similar local ordinance, shall be expunged where the person was under the age of eighteen when they engaged in the act found, two years after conviction with a clean intervening record. Court debt is not a precondition."
+      },
+      "eligibleDispositions": [
+        "prostitution_conviction_under_725_1_1_a"
+      ],
+      "exclusions": [
+        "Convictions where the person was eighteen or older at the time of the act.",
+        "A criminal conviction during the two-year period other than a local traffic violation or a simple misdemeanour under chapter 321."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "The conviction",
+          "duration": "Two years, with no disqualifying intervening conviction inside that window"
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "countyOfCase",
+          "question": "In which Iowa county was the conviction entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "wasUnder18AtAct",
+          "question": "Were you under 18 at the time of the act the conviction was for?",
+          "requirement": "required"
+        },
+        {
+          "key": "interveningConvictions",
+          "question": "Have you been convicted of anything else in the two years since, other than a local traffic violation or a simple misdemeanour under chapter 321?",
+          "requirement": "required"
+        },
+        {
+          "key": "wantsSurvivorServices",
+          "question": "Would you like information about services and other remedies that may be available?",
+          "requirement": "required"
+        },
+        {
+          "key": "filingMethod",
+          "question": "Will you eFile, or file on paper?",
+          "requirement": "required"
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Mandatory on an objective two-element showing, on a prescribed statewide form. Every applicant was a minor at the time of a commercial sex offence, so intake must confirm the two elements, offer the form, and route to survivor services without probing the underlying facts.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Do not add a proposed order to any Iowa Rule 2.86 packet. No proposed order is filed.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK A / PACKET COMPONENTS",
+              "sourceStatement": "Note that no proposed order is filed. This is a real difference from most jurisdictions and the packet template must not add one."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Never say erased, destroyed or removed from your record. Say the court record becomes confidential and comes off public access under Iowa Code § 22.7. State plainly that Iowa has no felony expungement.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "Required limitations, corrections, and additional research / 6",
+              "sourceStatement": "Iowa-specific copy rules. Never say erased, destroyed, or removed from your record."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Court debt is not a precondition on this track. Rule 2.83(3) states that payment of court debt or other financial obligations is not required for expungement under this section. Surface it: this is the opposite of Tracks A and B and matters most to participants least able to pay.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "Required limitations, corrections, and additional research / 5",
+              "sourceStatement": "Court debt is a precondition for Tracks A, B, and F, and is not a precondition for Tracks C, D, and E. Rule 2.83(3) is explicit. This is unusual and it is good news for the participants least able to pay. Surface it."
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Confirm the two statutory elements, offer the form, and route to a survivor-services referral without requiring the participant to narrate the underlying facts. Do not probe.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK E",
+              "sourceStatement": "the intake must not require the participant to narrate the underlying facts. Wilma should confirm the two statutory elements, offer the form, and route to a survivor-services referral without probing."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "This population overlaps heavily with trafficking survivors, for whom other and stronger remedies may exist. Offer the referral alongside the packet.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK E",
+              "sourceStatement": "That population overlaps heavily with trafficking survivors, for whom other and stronger remedies may exist."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ia-9079",
+      "nodeType": "relief_track",
+      "legalName": "Expungement of a Deferred Judgment Record on Discharge from Probation",
+      "publicName": "Clearing a deferred judgment after probation",
+      "controllingAuthority": {
+        "citations": [
+          "Iowa Code § 907.9(4)",
+          "Iowa Code § 907.4(2)",
+          "Iowa Code § 907.3",
+          "Iowa Code § 22.7"
+        ],
+        "summary": "On discharge from probation where judgment was deferred under § 907.3, the court's criminal record with reference to the deferred judgment shall be expunged, together with dismissed counts in the same charging instrument and other related dismissed charges arising from the same transaction or occurrence or a common scheme or plan. The record is not expunged until financial obligations in that case are paid. The deferred judgment itself remains on the state court administrator's deferred judgment docket and is not expunged. This mechanism sits outside Rules 2.80 through 2.86 and has no Rule 2.86 form."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2012-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "deferred_judgment_court_record"
+      ],
+      "eligibleDispositions": [
+        "deferred_judgment_discharged_from_probation"
+      ],
+      "exclusions": [
+        "A revoked deferred judgment. Revocation makes the case ineligible under chapter 907; the resulting conviction may then be eligible under § 901C.3 if it is a misdemeanour.",
+        "Cases where financial obligations in the case containing the deferred judgment remain unpaid."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Discharge from probation, with all financial obligations in that case paid",
+          "duration": "None beyond discharge and payment"
+        }
+      ],
+      "outputStrategy": "composed",
+      "compositionMode": "alternative",
+      "units": [
+        {
+          "unitId": "ia-9079-post-2013-verification",
+          "order": 1,
+          "label": "Verify that the automatic expungement happened, and diagnose it if it did not",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "description": "For a discharge after July 1, 2013 there is no participant filing: the expungement is expected to occur without an application. The product is diagnostic. Confirm the disposition was a deferred judgment rather than a conviction or a dismissal, confirm discharge and its date, confirm every financial obligation in that case is paid, check whether the case still appears on the public online docket, and if it does, contact the clerk of the district court for that county. The usual blocker is an unpaid balance in that case, which is actionable.",
+          "available": true
+        },
+        {
+          "unitId": "ia-9079-pre-2013-application",
+          "order": 2,
+          "label": "Application for a discharge predating July 1, 2013",
+          "outputStrategyStatus": "unresolved",
+          "description": "For a discharge before July 1, 2013 an application is required, but no statewide form exists, no rule governs it, and the statutory mechanics are thin. The filing vehicle is legally unresolved, so no packet is generated and no strategy is invented.",
+          "available": false,
+          "unavailableReason": "The correct mechanism for a pre-July-1-2013 deferred judgment expungement request is unresolved: no form, no rule. A custom pleading would be speculative."
+        }
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Iowa District Court for the county of the case containing the deferred judgment."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the Iowa District Court for the county of the case",
+        "detail": "For a post-2013 discharge the participant contacts the clerk where the record still appears on the public docket. For a pre-2013 discharge the mechanism is unresolved."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Diagnostic sequence and clerk-contact instructions for a post-July-2013 discharge, plus the balance check that is the usual blocker."
+        }
+      ],
+      "_participantInputsNote": "Questions LegalEase asks to route between the two branches.",
+      "participantInputs": [
+        {
+          "key": "countyOfCase",
+          "question": "In which Iowa county was the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "wasDeferredJudgment",
+          "question": "Was the outcome a deferred judgment, rather than a conviction or a dismissal?",
+          "requirement": "required"
+        },
+        {
+          "key": "dischargedFromProbation",
+          "question": "Have you been discharged from probation, and on what date?",
+          "requirement": "required"
+        },
+        {
+          "key": "deferredJudgmentRevoked",
+          "question": "Was the deferred judgment ever revoked?",
+          "requirement": "required"
+        },
+        {
+          "key": "financialObligationsPaid",
+          "question": "Have you paid every financial obligation in the case that contains the deferred judgment?",
+          "requirement": "required"
+        },
+        {
+          "key": "stillOnPublicDocket",
+          "question": "Does the case still appear on the Iowa public online docket?",
+          "requirement": "required"
+        },
+        {
+          "key": "dischargeBeforeJuly2013",
+          "question": "Was your discharge from probation before July 1, 2013?",
+          "requirement": "required"
+        }
+      ],
+      "_supportingDocumentsNote": "Records the participant obtains. LegalEase never collects, inspects or authenticates them.",
+      "supportingDocuments": [
+        {
+          "name": "Confirmation from the clerk of the balance in the case containing the deferred judgment",
+          "obtainedFrom": "Clerk of the Iowa District Court for the county of the case",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk for the balance in that case number. An unpaid balance is the usual reason an expected automatic expungement did not happen.",
+          "confirms": "financialObligationsPaid"
+        }
+      ],
+      "_manualCompletionNote": "There is no generated packet on this track.",
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "Iowa Code chapter 901C, §§ 123.46, 123.47, 725.1, 907.4 and 907.9, Iowa Code 2026",
+          "url": "https://www.legis.iowa.gov/law/iowaCode",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Iowa R. Crim. P. 2.80 through 2.86",
+          "url": "https://www.legis.iowa.gov/docs/ACO/CourtRulesChapter/02.pdf",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "In the Matter of Adopting Amendments to the Chapter 2 Iowa Rules of Criminal Procedure, Order of August 30, 2024",
+          "url": "https://www.iowacourts.gov/collections/499/files",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Iowa Judicial Branch expungement forms and instructions",
+          "url": "https://www.iowacourts.gov/for-the-public/representing-yourself/expungement",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "For a post-July-2013 discharge there is no participant filing; the expungement is expected to occur on discharge. For a pre-July-2013 discharge an application is required but the vehicle is unresolved.",
+        "fees": "No fee identified. The diagnostic route is free.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review states no participant notice mechanism. Iowa does not notify people that a deferred judgment record was expunged.",
+        "service": "No service on the diagnostic branch. There is no petition to serve.",
+        "participantSignature": "No participant signature on the diagnostic branch.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "A revoked deferred judgment.",
+        "Disputes about what is owed and in which case.",
+        "Pre-2013 discharges where the clerk declines to act.",
+        "Any indication the disposition was a conviction rather than a deferred judgment."
+      ],
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "unresolvedQuestions": [
+        {
+          "question": "Whether a post-July-1-2013 deferred judgment discharge is genuinely self-executing, and what the participant does when it did not happen. The statute contains no self-executing date; the July 1, 2013 line is practice guidance from Iowa Legal Aid.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+            "sourceHeading": "OPEN QUESTIONS",
+            "sourceStatement": "Whether a post-July-1-2013 deferred judgment discharge is genuinely self-executing, and what the participant does when it did not happen. The statute contains no self-executing date; the July 1, 2013 line is practice guidance from Iowa Legal Aid. Unresolved, and it gates Track F."
+          }
+        },
+        {
+          "question": "The correct mechanism for a pre-July-1-2013 deferred judgment expungement request. No form, no rule.",
+          "impact": "build_blocker",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+            "sourceHeading": "OPEN QUESTIONS",
+            "sourceStatement": "The correct mechanism for a pre-July-1-2013 deferred judgment expungement request. No form, no rule. Unresolved."
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Re-reviewed under the packet-only model and modelled as two alternative branches rather than one guidance route. The post-2013 branch is guidance because there is genuinely nothing to file: the statute expunges on discharge. The pre-2013 branch does contemplate a participant application, but no form, no rule and thin statutory mechanics leave the filing vehicle legally unresolved, so that unit is unavailable and no strategy is invented for it. Neither branch is guidance because an agency or clerk is involved.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Never say erased, destroyed or removed from your record. Say the court record becomes confidential and comes off public access under Iowa Code § 22.7. State plainly that Iowa has no felony expungement.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "Required limitations, corrections, and additional research / 6",
+              "sourceStatement": "Iowa-specific copy rules. Never say erased, destroyed, or removed from your record."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Do not add a proposed order to any Iowa Rule 2.86 packet. No proposed order is filed.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK A / PACKET COMPONENTS",
+              "sourceStatement": "Note that no proposed order is filed. This is a real difference from most jurisdictions and the packet template must not add one."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The pre-July-2013 branch generates no packet. No statewide form exists, no rule governs the application, and a custom pleading would be speculative. Keep the unit unavailable until counsel identifies the vehicle.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK F / OUTPUT STRATEGY",
+              "sourceStatement": "For pre-2013 discharges an application is required but no statewide form exists and the statutory mechanics are thin, so a custom pleading would be speculative."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Screen for a deferred judgment before Track A or Track B. It is free, needs no form, and often only needs a balance paid.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK F",
+              "sourceStatement": "Every Iowa participant screened for Tracks A or B must be screened for this first ... It is also free, needs no form, and often only needs a balance paid."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Explain that the deferred judgment itself stays on the state court administrator's deferred judgment docket and is not expunged. That docket is how courts and prosecutors know a deferred judgment was used, and it feeds the § 901C.3 two-deferred-judgment limitation.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK F",
+              "sourceStatement": "The deferred judgment itself remains on the state court administrator's deferred judgment docket and is not expunged."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Court debt is a precondition on this track: the record is not expunged until restitution, civil penalties, court costs, fees and other obligations in the case containing the deferred judgment are paid.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK F",
+              "sourceStatement": "the court's record is not expunged until the person has paid the restitution, civil penalties, court costs, fees, or other financial obligations ordered by the court or assessed by the clerk in the case that includes the deferred judgment."
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "A revoked deferred judgment is out of scope for this track and becomes a conviction that may be eligible under § 901C.3.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK F",
+              "sourceStatement": "Revocation: if the court revokes the deferred judgment, the case is not eligible under chapter 907."
+            }
+          }
+        ]
+      },
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Iowa review."
+    },
+    {
+      "trackId": "ia-dci77",
+      "nodeType": "supporting_action",
+      "legalName": "Iowa Division of Criminal Investigation Criminal History Record Check on Form DCI-77",
+      "publicName": "Getting the DCI criminal history record check you need to file",
+      "controllingAuthority": {
+        "citations": [
+          "Iowa R. Crim. P. 2.81(2)"
+        ],
+        "summary": "Rule 2.81(2) requires an official Division of Criminal Investigation Iowa criminal history record check, obtained by submitting form DCI-77 with a release authorization signature and dated within the past 30 days, as a component of a § 901C.3 misdemeanour expungement application. It retrieves and verifies records; it does not alter, seal, expunge or correct one."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2021-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "criminal_history_record_check"
+      ],
+      "eligibleDispositions": [
+        "not_applicable_supporting_action"
+      ],
+      "exclusions": [
+        "This is not relief. It alters no record and must not be counted as a paid packet mechanism or a substantive relief mechanism."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Not applicable. The check must be dated within 30 days of filing the § 901C.3 application",
+          "duration": "none"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": [
+        "participant_obtains_record"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Iowa Department of Public Safety, Division of Criminal Investigation, through the state portal."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Iowa Department of Public Safety, Division of Criminal Investigation",
+        "detail": "The participant submits form DCI-77 with a release authorization signature through the state portal. A DCI account or MasterCard, Visa or Discover is accepted."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Instruction sheet, the identifying information the participant will need, and a timing plan that keeps the 30-day window open against the § 901C.3 filing date."
+        }
+      ],
+      "_participantInputsNote": "Questions LegalEase asks so it can sequence the request against the filing.",
+      "participantInputs": [
+        {
+          "key": "needsDciCheck",
+          "question": "Are you preparing a misdemeanour expungement application under section 901C.3?",
+          "requirement": "required"
+        },
+        {
+          "key": "plannedFilingDate",
+          "question": "When do you expect to file the application?",
+          "requirement": "required"
+        },
+        {
+          "key": "allNamesEverUsed",
+          "question": "What is your current legal name, and every other name you have ever used?",
+          "requirement": "required"
+        },
+        {
+          "key": "hasReleaseAuthorizationSigned",
+          "question": "Have you signed the release authorization on the DCI request?",
+          "requirement": "required"
+        }
+      ],
+      "_supportingDocumentsNote": "The check is the record the participant obtains. LegalEase never requests, collects, inspects or authenticates it.",
+      "supportingDocuments": [
+        {
+          "name": "Official DCI Iowa criminal history record check on form DCI-77, dated within the past 30 days",
+          "obtainedFrom": "Iowa Department of Public Safety, Division of Criminal Investigation",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Submit form DCI-77 with a release authorization signature through the state portal. The Iowa Judicial Branch instructions state a request costs $15. Obtain it and then file the § 901C.3 application promptly, because it expires after 30 days.",
+          "confirms": "hasReleaseAuthorizationSigned"
+        }
+      ],
+      "_manualCompletionNote": "No packet is generated for this action while the DCI-77 form remains unsourced.",
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "Iowa Code chapter 901C, §§ 123.46, 123.47, 725.1, 907.4 and 907.9, Iowa Code 2026",
+          "url": "https://www.legis.iowa.gov/law/iowaCode",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Iowa R. Crim. P. 2.80 through 2.86",
+          "url": "https://www.legis.iowa.gov/docs/ACO/CourtRulesChapter/02.pdf",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "In the Matter of Adopting Amendments to the Chapter 2 Iowa Rules of Criminal Procedure, Order of August 30, 2024",
+          "url": "https://www.iowacourts.gov/collections/499/files",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Iowa Judicial Branch expungement forms and instructions",
+          "url": "https://www.iowacourts.gov/for-the-public/representing-yourself/expungement",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "The participant submits form DCI-77 to the Division of Criminal Investigation through the state portal. LegalEase cannot request another person's criminal history.",
+        "fees": "The Iowa Judicial Branch instructions state a request costs $15. Verify the current amount at build time.",
+        "feeWaiver": "None identified.",
+        "notice": "Not applicable. This is an agency record request, not a court filing.",
+        "service": "Not applicable.",
+        "participantSignature": "A release authorization signature is required. Its absence invalidates the check for this purpose.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The check returns records the participant did not disclose.",
+        "The check expires before the § 901C.3 application is filed.",
+        "The release authorization signature is missing, which invalidates the check for this purpose."
+      ],
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "unresolvedQuestions": [
+        {
+          "question": "Whether form DCI-77 is a participant-facing fillable form that LegalEase may prepare. Under the packet-only model this supporting action is expected to be packet-capable, because DCI-77 is a participant-completed request carrying a participant release authorization signature. No copy of DCI-77 has been sourced into the corpus, so the filing vehicle is unverified and no form mapping is asserted.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+            "sourceHeading": "TRACK G",
+            "sourceStatement": "What is required: an official DCI Iowa criminal history record check, obtained by submitting form DCI-77 with a release authorization signature, dated within the past 30 days of the filing of the § 901C.3 application."
+          }
+        },
+        {
+          "question": "The current DCI record check fee and portal. The Iowa Judicial Branch instructions state $15 through a state portal; verify at build time.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+            "sourceHeading": "OPEN QUESTIONS",
+            "sourceStatement": "The current DCI record check fee and portal. The Iowa Judicial Branch instructions state $15 through a state portal. Verify at build time."
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Reclassified as a supporting_action non-relief node per the adopted memorandum: the check retrieves and verifies records and does not alter, seal, expunge or correct one, so it is not a substantive relief mechanism or a paid packet candidate. Re-reviewed under the packet-only model: DCI-77 is a participant-completed request, so this action is expected to be packet-capable, and it is held as guidance only because no copy of DCI-77 has been sourced. LegalEase's inability to submit the request on the participant's behalf is a delivery restriction, not a reason to classify it as guidance.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Reclassified from relief to a supporting_action node. A criminal-history record check retrieves and verifies records; it does not alter, seal, expunge or correct one, and must not be counted as a paid packet mechanism.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK G",
+              "sourceStatement": "Status: prerequisite, not relief."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Held as guidance solely because form DCI-77 has not been sourced into the corpus, so there is no verified form to fill. It is not guidance because an agency is involved or because LegalEase cannot submit the request.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK G",
+              "sourceStatement": "Output strategy: process_guidance. LegalEase cannot request another person's criminal history."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Deliver the timing plan that keeps the 30-day window open, because the check expiring before filing is a known failure mode.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK G",
+              "sourceStatement": "Failure modes to design for: the check comes back showing records the participant did not disclose; the check expires before filing; the release authorization signature is missing, which invalidates it for this purpose."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Never collect, store or inspect the returned criminal history. The participant attaches it to their own application.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK G",
+              "sourceStatement": "What LegalEase can prepare: the instruction sheet, the identifying information the participant will need, and the timing plan that keeps the 30-day window open."
+            }
+          }
+        ]
+      },
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Iowa review."
+    }
+  ]
+}

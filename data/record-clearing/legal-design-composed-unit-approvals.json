@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "note": "Approved composed-unit substance. Read on every batch-delta run and written only by --approve-composed-units. A composed route has no track-level renderer strategy, so this file is where its legal substance is pinned: which vehicle each unit files, which units are unresolved, which are available, and — for a sequential composition — what order the stages run in. Alternative-branch array order is deliberately not pinned; those branches are selected by a predicate, not by position.",
-  "approvedTracks": 11,
+  "approvedTracks": 12,
   "tracks": [
     {
       "jurisdiction": "AR",
@@ -327,6 +327,37 @@
           "outputStrategy": null,
           "outputStrategyStatus": "unresolved",
           "packetIdentity": "unresolved",
+          "available": false,
+          "unresolved": true,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": null
+    },
+    {
+      "jurisdiction": "IA",
+      "trackId": "ia-9079",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "alternative",
+      "orderIsSubstantive": false,
+      "counselAuthoredProvenanceCount": 9,
+      "units": [
+        {
+          "unitId": "ia-9079-post-2013-verification",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": null,
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ia-9079-pre-2013-application",
+          "order": 2,
+          "outputStrategy": null,
+          "outputStrategyStatus": "unresolved",
+          "packetIdentity": null,
           "available": false,
           "unresolved": true,
           "parentUnitId": null

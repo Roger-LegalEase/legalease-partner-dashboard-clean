@@ -1,11 +1,10 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "data/record-clearing/legal-design-intake",
-  "jurisdictionsReceived": 13,
-  "jurisdictionsOutstanding": 38,
+  "jurisdictionsReceived": 14,
+  "jurisdictionsOutstanding": 37,
   "outstandingJurisdictions": [
     "GA",
-    "IA",
     "IN",
     "KS",
     "KY",
@@ -738,7 +737,7 @@
     {
       "batch": "D_composed_or_process_guidance",
       "label": "Composed and process-guidance tracks",
-      "trackCount": 30,
+      "trackCount": 32,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -1814,6 +1813,93 @@
           ]
         },
         {
+          "jurisdiction": "IA",
+          "trackId": "ia-9079",
+          "publicName": "Clearing a deferred judgment after probation",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (output_strategy): The correct mechanism for a pre-July-1-2013 deferred judgment expungement request. No form, no rule."
+          ],
+          "scopeRestrictions": [
+            "The pre-July-2013 branch generates no packet. No statewide form exists, no rule governs the application, and a custom pleading would be speculative. Keep the unit unavailable until counsel identifies the vehicle."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 7,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (output_strategy): The correct mechanism for a pre-July-1-2013 deferred judgment expungement request. No form, no rule."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Whether a post-July-1-2013 deferred judgment discharge is genuinely self-executing, and what the participant does when it did not happen. The statute contains no self-executing date; the July 1, 2013 line is practice guidance from Iowa Legal Aid."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IA",
+          "trackId": "ia-dci77",
+          "publicName": "Getting the DCI criminal history record check you need to file",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Reclassified from relief to a supporting_action node. A criminal-history record check retrieves and verifies records; it does not alter, seal, expunge or correct one, and must not be counted as a paid packet mechanism.",
+            "Held as guidance solely because form DCI-77 has not been sourced into the corpus, so there is no verified form to fill. It is not guidance because an agency is involved or because LegalEase cannot submit the request."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 7,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Whether form DCI-77 is a participant-facing fillable form that LegalEase may prepare. Under the packet-only model this supporting action is expected to be packet-capable, because DCI-77 is a participant-completed request carrying a participant release authorization signature. No copy of DCI-77 has been sourced into the corpus, so the filing vehicle is unverified and no form mapping is asserted."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): The current DCI record check fee and portal. The Iowa Judicial Branch instructions state $15 through a state portal; verify at build time."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
           "jurisdiction": "IL",
           "trackId": "il-auto-seal-2029",
           "publicName": "Automatic sealing starting in 2029, and why you may still want to file now",
@@ -2005,7 +2091,7 @@
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 83,
+      "trackCount": 88,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -5073,6 +5159,209 @@
             {
               "kind": "legal_design_blocker",
               "statement": "Open question blocks the build (eligibility_branch): Full official text of § 291E-64(e) has not been read."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IA",
+          "trackId": "ia-901c2",
+          "publicName": "Expunging a case that was dismissed or ended in a not guilty verdict",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The 180-day clock runs from entry of the acquittal or dismissal order, not from sentence completion. Do not share a code path with jurisdictions that measure from discharge."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether there is any filing fee for a Rule 2.86 application in any Iowa county. None was identified."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Whether Track A reaches Department of Public Safety criminal history data. Sections 901C.3(5) and 123.47(9) contain express DPS removal provisions; § 901C.2 does not."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IA",
+          "trackId": "ia-901c3",
+          "publicName": "Expunging one misdemeanor conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "No fully automated file-and-forget path may exist for this track. The participant must affirmatively confirm they have not used their single lifetime expungement and must be shown, in plain terms, that the choice is permanent and that the judicial branch keeps a confidential registry the court checks under Rule 2.85. Where a participant has more than one eligible conviction, route to counsel. This is a delivery gate, not a generation blocker.",
+            "Build the § 901C.3 exclusion list from the statute, not from the form. All twenty-four paragraphs, including (w) comparable CDL offences under 49 C.F.R. § 383.51 and (x) prior-law comparable offences. Treat § 235B.20 as excluded until the open question resolves.",
+            "Form 2 collects Social Security number, driver's licence number, date of birth and every name ever used. Route this track to the data-protection review before build.",
+            "The eight-year clock runs from the date of conviction, not sentence completion or discharge from probation."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether there is any filing fee for a Rule 2.86 application in any Iowa county. None was identified."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Whether § 235B.20 remains an excluded offence under § 901C.3(2). It is on the official form and not in the Iowa Code 2026 text, possibly removed by 2022 Acts, ch 1132, § 16 without a form update."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): The current DCI record check fee and portal. The Iowa Judicial Branch instructions state $15 through a state portal; verify at build time."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IA",
+          "trackId": "ia-12346",
+          "publicName": "Expunging a public intoxication conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 6,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether there is any filing fee for a Rule 2.86 application in any Iowa county. None was identified."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IA",
+          "trackId": "ia-12347",
+          "publicName": "Expunging a PAULA conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Use only the August 2024 revision of Form 4. The January 2021 revision held in the archive is historical_obsolete and never runtime-selectable."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 7,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether there is any filing fee for a Rule 2.86 application in any Iowa county. None was identified."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "IA",
+          "trackId": "ia-7251",
+          "publicName": "Expunging a prostitution conviction for conduct when you were under 18",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "This population overlaps heavily with trafficking survivors, for whom other and stronger remedies may exist. Offer the referral alongside the packet."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 7,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether there is any filing fee for a Rule 2.86 application in any Iowa county. None was identified."
             },
             {
               "kind": "source_gate",
