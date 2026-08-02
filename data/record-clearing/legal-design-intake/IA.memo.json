@@ -1616,10 +1616,7 @@
           "duration": "none"
         }
       ],
-      "outputStrategy": "process_guidance",
-      "guidanceRationales": [
-        "participant_obtains_record"
-      ],
+      "outputStrategy": "official_pdf_fill",
       "geography": {
         "scope": "statewide",
         "keys": [],
@@ -1632,10 +1629,25 @@
       },
       "components": [
         {
-          "role": "process_guidance",
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DCI-77 Criminal History Record Check Request Form",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Iowa/forms/DCI-76-and-DCI-77__criminal-history-record-check-billing-and-request-forms-fillable__source-2026.pdf",
+          "notes": "Combined fillable packet, 3 pages, 45 fields. The form states DCI-77 is the only approved release authorization form for this purpose."
+        },
+        {
+          "role": "attachment",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DCI-76 Criminal History Record Check Billing Form",
+          "notes": "Billing form in the same official packet. The instructions direct that a billing form be mailed, faxed or emailed with the request form and fee."
+        },
+        {
+          "role": "instructions",
           "requirement": "required",
           "outputStrategy": "process_guidance",
-          "notes": "Instruction sheet, the identifying information the participant will need, and a timing plan that keeps the 30-day window open against the § 901C.3 filing date."
+          "notes": "Submission and timing sheet: $15 per request, one request form and fee per last name, accepted payment methods, submission by mail, fax, email or in person, and the sequencing that keeps the 30-day currency window open for a § 901C.3 filing."
         }
       ],
       "_participantInputsNote": "Questions LegalEase asks so it can sequence the request against the filing.",
@@ -1673,7 +1685,28 @@
         }
       ],
       "_manualCompletionNote": "No packet is generated for this action while the DCI-77 form remains unsourced.",
-      "manualCompletionItems": [],
+      "manualCompletionItems": [
+        {
+          "item": "Release authorization signature",
+          "whereInPacket": "DCI-77, RELEASE AUTHORIZATION SIGNATURE",
+          "why": "The subject of the request signs their own release. Without a signed release a complete criminal history record may not be releasable under Iowa Code chapter 692.2."
+        },
+        {
+          "item": "Payment",
+          "whereInPacket": "DCI-76 billing form",
+          "why": "The participant pays the $15 fee. Cash, cheque, money order and MasterCard, Visa or Discover are accepted, or a pre-paid DCI account number."
+        },
+        {
+          "item": "Criminal history result fields",
+          "whereInPacket": "Returned record",
+          "why": "Agency-completed. The Division returns the record to the participant; LegalEase never receives or inspects it."
+        },
+        {
+          "item": "Notarisation of results",
+          "whereInPacket": "DCI-77, 'I am required to have the results notarized'",
+          "why": "Only where another country's requirements demand it. Left to the participant."
+        }
+      ],
       "officialSources": [
         {
           "title": "Iowa Code chapter 901C, §§ 123.46, 123.47, 725.1, 907.4 and 907.9, Iowa Code 2026",
@@ -1697,12 +1730,12 @@
         }
       ],
       "rules": {
-        "filing": "The participant submits form DCI-77 to the Division of Criminal Investigation through the state portal. LegalEase cannot request another person's criminal history.",
-        "fees": "The Iowa Judicial Branch instructions state a request costs $15. Verify the current amount at build time.",
+        "filing": "Submit the request form and billing form with the fee to the Iowa Division of Criminal Investigation by mail, fax, email or in person. Phone requests are not accepted. Every request must include at minimum a first name, last name and exact date of birth for the subject.",
+        "fees": "$15 per Iowa criminal history record check, charged per last name. Each last name requested requires a separate request form and payment. Cash, cheques, money orders and MasterCard, Visa or Discover are accepted, or a pre-paid DCI account.",
         "feeWaiver": "None identified.",
         "notice": "Not applicable. This is an agency record request, not a court filing.",
         "service": "Not applicable.",
-        "participantSignature": "A release authorization signature is required. Its absence invalidates the check for this purpose.",
+        "participantSignature": "The subject of the request signs the DCI-77 release authorization. Without it a complete record may not be releasable under Iowa Code chapter 692.2.",
         "notarization": "none"
       },
       "selfHelpStopConditions": [
@@ -1713,36 +1746,25 @@
       "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
       "unresolvedQuestions": [
         {
-          "question": "Whether form DCI-77 is a participant-facing fillable form that LegalEase may prepare. Under the packet-only model this supporting action is expected to be packet-capable, because DCI-77 is a participant-completed request carrying a participant release authorization signature. No copy of DCI-77 has been sourced into the corpus, so the filing vehicle is unverified and no form mapping is asserted.",
-          "impact": "release_blocker",
-          "affectedElement": "correct_form",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
-            "sourceHeading": "TRACK G",
-            "sourceStatement": "What is required: an official DCI Iowa criminal history record check, obtained by submitting form DCI-77 with a release authorization signature, dated within the past 30 days of the filing of the § 901C.3 application."
-          }
-        },
-        {
-          "question": "The current DCI record check fee and portal. The Iowa Judicial Branch instructions state $15 through a state portal; verify at build time.",
-          "impact": "release_blocker",
+          "question": "The Iowa DPS page states the fee is $15 per last name with cash, cheque, money order and MasterCard, Visa or Discover accepted, and submission by mail, fax, email or in person. Confirm the amount and accepted methods again at build time, since the agency page carries no revision date.",
+          "impact": "nonblocking_research_note",
           "affectedElement": "filing_process",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
-            "sourceHeading": "OPEN QUESTIONS",
-            "sourceStatement": "The current DCI record check fee and portal. The Iowa Judicial Branch instructions state $15 through a state portal. Verify at build time."
+            "sourceFile": "Iowa Division of Criminal Investigation, Criminal History Billing and Request Forms (fillable), retrieved 2026-08-02",
+            "sourceHeading": "Criminal History Record Check Information",
+            "sourceStatement": "The fee for an Iowa Criminal History Record Check through the DCI is $15 per last name. Each last name requested requires a separate form and payment."
           }
         }
       ],
       "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
       "legalDesignDecision": {
         "status": "legal_design_approved_with_limitations",
-        "rationale": "Reclassified as a supporting_action non-relief node per the adopted memorandum: the check retrieves and verifies records and does not alter, seal, expunge or correct one, so it is not a substantive relief mechanism or a paid packet candidate. Re-reviewed under the packet-only model: DCI-77 is a participant-completed request, so this action is expected to be packet-capable, and it is held as guidance only because no copy of DCI-77 has been sourced. LegalEase's inability to submit the request on the participant's behalf is a delivery restriction, not a reason to classify it as guidance.",
+        "rationale": "Packet-capable on the Division's own fillable form. The combined DCI-76 billing form and DCI-77 request form were retrieved from the Iowa Department of Public Safety's official site: 3 pages, 45 fields, a clean AcroForm carrying the participant's release authorization signature. The node remains a supporting_action rather than relief, because the check retrieves and verifies records and alters none. LegalEase's inability to submit the request or receive the returned record is a delivery restriction, not an absence of a packet.",
         "limitations": [
           {
             "classification": "scope_restriction",
-            "statement": "Reclassified from relief to a supporting_action node. A criminal-history record check retrieves and verifies records; it does not alter, seal, expunge or correct one, and must not be counted as a paid packet mechanism.",
+            "statement": "Remains a supporting_action non-relief node. A criminal-history record check retrieves and verifies records; it does not alter, seal, expunge or correct one, and must not be counted as a paid packet mechanism.",
             "provenance": {
               "classificationBasis": "explicit_state_addendum",
               "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
@@ -1751,38 +1773,60 @@
             }
           },
           {
-            "classification": "scope_restriction",
-            "statement": "Held as guidance solely because form DCI-77 has not been sourced into the corpus, so there is no verified form to fill. It is not guidance because an agency is involved or because LegalEase cannot submit the request.",
+            "classification": "packet_instruction",
+            "statement": "Generate both the DCI-76 billing form and the DCI-77 request form. The official instructions direct that a billing form be sent with the request form and fee.",
             "provenance": {
               "classificationBasis": "explicit_state_addendum",
-              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
-              "sourceHeading": "TRACK G",
-              "sourceStatement": "Output strategy: process_guidance. LegalEase cannot request another person's criminal history."
+              "sourceFile": "Iowa Division of Criminal Investigation, Criminal History Billing and Request Forms (fillable), retrieved 2026-08-02",
+              "sourceHeading": "Payment and Fee Information",
+              "sourceStatement": "PLEASE MAIL, FAX or EMAIL A BILLING FORM WITH THE REQUEST FORM(S) AND FEE(S) TO:"
             }
           },
           {
             "classification": "packet_instruction",
-            "statement": "Deliver the timing plan that keeps the 30-day window open, because the check expiring before filing is a known failure mode.",
+            "statement": "One request form and one fee per last name. Multiple names require separate forms and separate payments.",
             "provenance": {
               "classificationBasis": "explicit_state_addendum",
-              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
-              "sourceHeading": "TRACK G",
-              "sourceStatement": "Failure modes to design for: the check comes back showing records the participant did not disclose; the check expires before filing; the release authorization signature is missing, which invalidates it for this purpose."
+              "sourceFile": "Iowa Division of Criminal Investigation, Criminal History Billing and Request Forms (fillable), retrieved 2026-08-02",
+              "sourceHeading": "Request form",
+              "sourceStatement": "Multiple names require a separate Request Form and fee."
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "The release authorization is signed by the subject of the request. DCI-77 is the only approved release authorization form for this purpose.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Iowa Division of Criminal Investigation, Criminal History Billing and Request Forms (fillable), retrieved 2026-08-02",
+              "sourceHeading": "RELEASE AUTHORIZATION INFORMATION",
+              "sourceStatement": "This form (DCI-77) is the only approved release authorization form for this purpose."
             }
           },
           {
             "classification": "packet_instruction",
-            "statement": "Never collect, store or inspect the returned criminal history. The participant attaches it to their own application.",
+            "statement": "Payment is required before submission and the returned criminal-history report is a later participant-obtained item. LegalEase never collects, stores or inspects it.",
             "provenance": {
               "classificationBasis": "explicit_state_addendum",
               "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
               "sourceHeading": "TRACK G",
               "sourceStatement": "What LegalEase can prepare: the instruction sheet, the identifying information the participant will need, and the timing plan that keeps the 30-day window open."
             }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The 30-day currency window is timing guidance for the downstream § 901C.3 filing, not a packet-generation blocker. Sequence the request so the check is obtained and the application filed inside the window.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+              "sourceHeading": "TRACK B / PACKET COMPONENTS",
+              "sourceStatement": "The 30-day clock on the DCI check is the operational constraint of this track."
+            }
           }
         ]
       },
-      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Iowa review."
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Iowa review.",
+      "packetCapability": "official_pdf_fill",
+      "deliveryRestriction": "LegalEase prepares the participant's DCI-76 billing form and DCI-77 request form. The participant signs the release authorization, pays the fee and submits the packet; LegalEase never submits a request or receives the returned record."
     }
   ]
 }

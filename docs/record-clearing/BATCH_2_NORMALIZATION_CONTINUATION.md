@@ -153,6 +153,32 @@ absent from the corpus**. Sections 2, 3 and 4 inserts are present. That is the
 single Indiana build blocker and the conviction packet for
 `in_conviction_serious_felony` cannot be completed without it.
 
+## Group 1 source-completion correction — 2 August 2026
+
+Ten official artifacts retrieved from the issuing agencies and imported with full
+provenance. Corpus 557 → **567** expected artifacts; `form_candidate` 58 → 63,
+`reference_only` 29 → 34.
+
+| Jurisdiction | Change | Blocker effect |
+|---|---|---|
+| IL `il-prb-cert` | composed `sequential` → **`mixed`**, 2 → 5 units. Sealing and military certificate branches `official_pdf_fill` and available | build 0 → 0; only the non-military § 5.2(e-6) branch held |
+| IA `ia-dci77` | `process_guidance` → **`official_pdf_fill`**, still `supporting_action` | missing-form blocker removed |
+| IN `in_conviction_serious_felony` | `official_pdf_fill` → **`custom_pleading`**, `localFormOverride: true` | **build 1 → 0** |
+
+**Group 1 build blockers: 2 → 1.** The only remaining one is the Iowa
+pre-July-2013 `ia-9079` deferred-judgment application unit.
+
+Two findings worth carrying forward:
+
+- **There is no Indiana Section 5 insert to acquire.** The Coalition publishes
+  inserts for Sections 2, 3 and 4 only. The corpus was already complete; the
+  route needed a statutory custom pleading, not a form hunt.
+- **Do not use the IPDC copy of I.C. 35-38-9.** It is labelled "Indiana Code
+  2016" with amendment history ending at P.L.142-2015. Use the Office of Judicial
+  Administration publication, updated 7/1/2026, now in the corpus.
+- `iga.in.gov` is a JavaScript SPA and returns a 691-byte shell to every path;
+  it cannot be scraped for statutory text.
+
 ## Group 1 complete — totals
 
 | | IL | IA | IN | total |

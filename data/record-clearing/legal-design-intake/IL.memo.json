@@ -3375,26 +3375,55 @@
         }
       ],
       "outputStrategy": "composed",
-      "compositionMode": "sequential",
+      "compositionMode": "mixed",
       "units": [
         {
-          "unitId": "il-prb-cert-stage-1",
+          "unitId": "il-prb-cert-certificate-application",
           "order": 1,
-          "label": "Prisoner Review Board certificate of eligibility application",
-          "outputStrategy": "process_guidance",
-          "description": "Explain the Prisoner Review Board certificate route and prepare the participant's own facts. Under the packet-only model this stage is expected to be packet-capable, because a participant-facing application to the Board is what the statute contemplates. It is held as guidance only because no official PRB application form has been sourced into the corpus, so the filing vehicle is unverified. LegalEase does not compose the rehabilitation showing; participant narratives are participant-authored through structured prompts.",
-          "available": true,
-          "packetCapabilityPending": "official_pdf_fill",
-          "unavailableReason": null
+          "label": "Prisoner Review Board certificate application stage",
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "description": "The participant applies to the Board for a certificate. Which certificate depends on the branch below. Board discretion, the rehabilitation narrative, notarisation, supporting documents and a possible Board hearing are filing instructions and post-generation conditions, not reasons to withhold a packet.",
+          "available": true
         },
         {
-          "unitId": "il-prb-cert-stage-2",
+          "unitId": "il-prb-cert-sealing-branch",
           "order": 2,
-          "label": "Circuit court petition with the certificate attached",
+          "parentUnitId": "il-prb-cert-certificate-application",
+          "label": "Certificate of Sealing application, § 5.2(e-5)",
           "outputStrategy": "official_pdf_fill",
-          "description": "Generate the adult Request suite with the Prisoner Review Board certificate attached under § 5.2(d)(2), filed with the Chief Judge of the circuit of conviction, a designated judge of that circuit, or in counties under 3,000,000 the presiding trial judge.",
+          "outputStrategyStatus": "resolved",
+          "description": "Generate the Board's Certificate of Sealing Acknowledgement and Certificate of Sealing Application from the participant's answers. Both are fillable AcroForms published by the Board, revised 09/18/2024. The acknowledgement must be completed first and included with the petition or the petition is rejected and returned. Rehabilitation, personal-history and reasons narratives are participant-authored through structured prompts, and the perjury declaration is sworn before a notary.",
+          "available": true
+        },
+        {
+          "unitId": "il-prb-cert-military-branch",
+          "order": 3,
+          "parentUnitId": "il-prb-cert-certificate-application",
+          "label": "Certificate of Expungement for Military application",
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "description": "Generate the Board's Certificate of Expungement for Military Eligibility Acknowledgement and application, v9.18.24. This branch is military-specific and is offered only where the participant's eligibility rests on military service. It is not a general certificate-of-expungement application.",
+          "available": true
+        },
+        {
+          "unitId": "il-prb-cert-nonmilitary-expungement-branch",
+          "order": 4,
+          "parentUnitId": "il-prb-cert-certificate-application",
+          "label": "Non-military certificate of eligibility for expungement, § 5.2(e-6)",
+          "outputStrategyStatus": "unresolved",
+          "description": "Section 5.2(e-6) refers to a certificate of eligibility for expungement. The Board publishes a Certificate of Sealing and a military-specific Certificate of Expungement; no general non-military expungement-certificate application was located on the Board's site. The filing vehicle for this branch is unverified, so no packet is generated and no form mapping is asserted.",
           "available": false,
-          "unavailableReason": "The court stage cannot be generated until the Prisoner Review Board has issued the certificate, which is a discretionary agency decision outside LegalEase's control."
+          "unavailableReason": "No official non-military certificate-of-eligibility-for-expungement application has been located on the Prisoner Review Board site. The Certificate of Sealing application does not cover it and the military application is expressly military-specific."
+        },
+        {
+          "unitId": "il-prb-cert-court-petition",
+          "order": 5,
+          "label": "Circuit court petition with the issued certificate attached",
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "description": "Once the Board issues a certificate, generate the statewide adult Request suite with the certificate attached under § 5.2(d)(2), filed with the Chief Judge of the circuit of conviction, a designated judge of that circuit, or in counties under 3,000,000 the presiding trial judge.",
+          "available": true
         }
       ],
       "geography": {
@@ -3409,18 +3438,46 @@
       },
       "components": [
         {
-          "role": "process_guidance",
+          "role": "primary_filing",
           "requirement": "required",
-          "outputStrategy": "process_guidance",
-          "notes": "Stage 1 guidance on the Board's certificate process. Not a generated filing."
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PRB Certificate of Sealing Application",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Application__certificate-of-sealing-application__rev-2024-09-18.pdf",
+          "notes": "5 pages, 55 fields, fillable AcroForm, revised 09/18/2024. Carries the notarised perjury declaration and the typewritten additional-pages narrative area."
+        },
+        {
+          "role": "attachment",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PRB Certificate of Sealing Eligibility Acknowledgement",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+          "notes": "2 pages, 13 fields, fillable. Must be completed before the application and included with the petition or the petition is rejected and returned."
         },
         {
           "role": "primary_filing",
           "requirement": "conditional",
-          "conditionDescription": "Stage 2, generated only once a certificate has been issued.",
+          "conditionDescription": "Military branch only, where eligibility rests on military service.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PRB Certificate of Expungement for Military Application",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Application__military-certificate-of-expungement-application__rev-2024-09-18.pdf",
+          "notes": "5 pages, 55 fields, fillable, v9.18.24. Military-specific."
+        },
+        {
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionDescription": "Military branch only.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PRB Certificate of Expungement for Military Eligibility Acknowledgement",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+          "notes": "2 pages, 11 fields, fillable."
+        },
+        {
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Stage 2, generated once the Board has issued a certificate.",
           "outputStrategy": "official_pdf_fill",
           "officialFormId": "EXP-AD Request",
-          "notes": "Adult Request suite with the certificate attached under § 5.2(d)(2)."
+          "notes": "Statewide adult Request suite with the certificate attached under § 5.2(d)(2)."
         }
       ],
       "_participantInputsNote": "Questions LegalEase asks to route between the two stages.",
@@ -3449,6 +3506,36 @@
         {
           "key": "offenseExcludedFromSealing",
           "question": "Is your offense on the § 5.2(a)(3) exclusion list, so that ordinary sealing is unavailable?",
+          "requirement": "required"
+        },
+        {
+          "key": "eligibilityRestsOnMilitaryService",
+          "question": "Are you seeking the certificate on the basis of military service?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorPrbPetition",
+          "question": "Have you petitioned the Prisoner Review Board for a certificate of sealing before, and if so when?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorClemencyPetition",
+          "question": "Have you ever petitioned for executive clemency, and if so in what month and year was it considered?",
+          "requirement": "required"
+        },
+        {
+          "key": "personalLifeHistory",
+          "question": "In your own words, give your personal life history: date and place of birth, education, employment, marital status, and whether you served in the military.",
+          "requirement": "required"
+        },
+        {
+          "key": "reasonsForSeekingCertificate",
+          "question": "In your own words, why are you seeking this certificate?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseFactsStatement",
+          "question": "In your own words, describe the facts of the offence including dates, places and surrounding circumstances.",
           "requirement": "required"
         }
       ],
@@ -3485,6 +3572,48 @@
           "requiredBeforeFiling": true,
           "howToObtain": "Apply to the Prisoner Review Board for a certificate of eligibility for sealing or for expungement. The Board decides on an individualized rehabilitation showing.",
           "confirms": "hasPrbCertificate"
+        },
+        {
+          "name": "Educational documentation supporting the personal-history statement",
+          "obtainedFrom": "School, college or awarding body",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Obtain a copy of your high school diploma, GED, college diploma or transcripts.",
+          "confirms": "personalLifeHistory"
+        },
+        {
+          "name": "Employment documentation for the last five years",
+          "obtainedFrom": "Employers or tax records",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Provide W-2s, tax returns, paycheck stubs or a letter from your employers covering the last five years.",
+          "confirms": "personalLifeHistory"
+        },
+        {
+          "name": "Proof of completion of any counselling",
+          "obtainedFrom": "Counselling provider",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant attended anger management, marriage, substance-abuse or similar counselling.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the provider for proof of completion.",
+          "confirms": "personalLifeHistory"
+        },
+        {
+          "name": "DD-214 or similar proof of military service",
+          "obtainedFrom": "National Personnel Records Center or the service branch",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant served in the military, and required for the military certificate branch.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request a copy of your DD-214.",
+          "confirms": "eligibilityRestsOnMilitaryService"
+        },
+        {
+          "name": "Fingerprint-based criminal history",
+          "obtainedFrom": "As directed in Guidelines paragraph B-5",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Follow paragraph B-5 of the Board's Guidelines for when and how to obtain fingerprints for criminal history.",
+          "confirms": "priorPrbPetition"
         }
       ],
       "_manualCompletionNote": "Fields the generated stage-2 packet deliberately leaves blank.",
@@ -3503,6 +3632,26 @@
           "item": "Hearing date",
           "whereInPacket": "Any notice issued after an objection",
           "why": "The court sets the hearing only if an objection is filed, with at least 30 days' notice."
+        },
+        {
+          "item": "Notarised perjury declaration",
+          "whereInPacket": "Application, 'Signed and sworn before me' block",
+          "why": "The Guidelines require the declaration to be signed and sworn before a notary public. Perjury is a Class 3 felony."
+        },
+        {
+          "item": "Petitioner's signature",
+          "whereInPacket": "Application, Signature of Petitioner",
+          "why": "The participant signs their own application."
+        },
+        {
+          "item": "Witness or attorney signature on the acknowledgement",
+          "whereInPacket": "Acknowledgement, Signature of Witness/Attorney",
+          "why": "Third-party completed. LegalEase leaves it blank."
+        },
+        {
+          "item": "Proof of delivery to the sentencing judge and State's Attorney",
+          "whereInPacket": "Filing instruction sheet",
+          "why": "The Guidelines require proof, by notarised affidavit or otherwise, that copies were sent to the sentencing or chief judge and the current State's Attorney of the county of conviction."
         }
       ],
       "officialSources": [
@@ -3533,13 +3682,13 @@
         }
       ],
       "rules": {
-        "filing": "File the Request, Case List, any Additional Cases forms and the proposed Order with the circuit clerk in each county where an arrest occurred or a charge was brought. E-file where the county requires it. AOIC requires the PDF to be flattened before e-filing, so LegalEase output is delivered pre-flattened.",
+        "filing": "Mail or deliver the original petition to the Illinois Prisoner Review Board, 1001 North Walnut Street, Springfield, Illinois 62702. Staple or clip the pages so they can be separated; do not bind them or use plastic sleeves. The completed petition must be received at least 75 days before the first date of the hearing schedule to be considered on that docket.",
         "fees": "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
         "feeWaiver": "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived.",
-        "notice": "Notice goes to the State's Attorney, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer. The objection period is 60 days from service under § 5.2(d)(5)(B). Unless an objection is filed the court shall enter an order granting or denying under § 5.2(d)(6)(B).",
+        "notice": "A copy of the petition must be delivered or mailed to the sentencing judge, or the chief judge of the circuit if the sentencing judge is no longer on the bench, of the county of conviction, and to the current State's Attorney of that county. Proof of those deliveries must be demonstrated to the Board.",
         "service": "The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one.",
-        "participantSignature": "The petitioner signs and verifies the Request. A wet signature is expected.",
-        "notarization": "none"
+        "participantSignature": "The petitioner signs the application and swears the perjury declaration before a notary public.",
+        "notarization": "Required. The declaration that all assertions are complete, truthful and accurate must be signed and sworn before a notary public."
       },
       "selfHelpStopConditions": [
         "Stage 1 always: the certificate application is a discretionary rehabilitation case and is not suitable for an automated template.",
@@ -3571,55 +3720,106 @@
           }
         },
         {
-          "question": "Whether the Illinois Prisoner Review Board publishes a participant-facing Certificate of Eligibility for Sealing application under § 5.2(e-5), and separately a Certificate of Eligibility for Expungement application under § 5.2(e-6). Neither form has been sourced into the corpus, so stage 1 has no verified filing vehicle and is held as guidance rather than mapped.",
+          "question": "Whether any official non-military certificate of eligibility for expungement application exists under § 5.2(e-6). The Prisoner Review Board publishes a Certificate of Sealing and a military-specific Certificate of Expungement; no general non-military expungement-certificate application was located on the Board's site. That branch alone is held.",
           "impact": "release_blocker",
           "affectedElement": "correct_form",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
             "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
             "sourceHeading": "TRACK K",
-            "sourceStatement": "Controlling statute: § 5.2(e-5) for a certificate of eligibility for sealing; § 5.2(e-6) for a certificate of eligibility for expungement; attachment requirement at § 5.2(d)(2); certificates issued under 730 ILCS 5/3-3-2(a)(10) and the Certificate provisions of 730 ILCS 5/5-5.5"
+            "sourceStatement": "Controlling statute: § 5.2(e-5) for a certificate of eligibility for sealing; § 5.2(e-6) for a certificate of eligibility for expungement"
+          }
+        },
+        {
+          "question": "Whether the Certificate of Sealing Acknowledgement and the military Eligibility Acknowledgement carry their own revision dates. Both are published undated alongside dated 09/18/2024 application and guideline files.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Illinois Prisoner Review Board, Guidelines for Certificate of Sealing, revised 09/18/2024",
+            "sourceHeading": "A) The petition",
+            "sourceStatement": "The petition must contain the Certificate of Sealing Acknowledgement Form"
           }
         }
       ],
       "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
       "legalDesignDecision": {
         "status": "legal_design_approved_with_limitations",
-        "rationale": "Two stages before two different bodies. Stage 2 is packet-capable on the statewide adult suite with the certificate attached under § 5.2(d)(2). Stage 1 is expected to be packet-capable under the packet-only model, but no official Prisoner Review Board application has been sourced, so it is held as guidance rather than mapped to a form that has not been verified. Discretion, a rehabilitation narrative, notarization or a possible Board hearing would not on their own justify a guidance classification.",
+        "rationale": "Both stages are packet-capable on verified official forms. The Board publishes a fillable Certificate of Sealing Application and Acknowledgement, revised 09/18/2024, and a separate military-specific Certificate of Expungement application and acknowledgement. Board discretion, the rehabilitation narrative, notarisation, supporting documents and a possible Board hearing are filing instructions and post-generation conditions, none of which withholds a packet. Only the non-military § 5.2(e-6) certificate branch remains held, because no such application was located.",
         "limitations": [
           {
             "classification": "scope_restriction",
-            "statement": "Stage 1 re-reviewed under the packet-only model. The Board's discretion and the participant's rehabilitation showing do not make the stage guidance-only. It is held as guidance solely because no participant-facing Prisoner Review Board application form has been sourced into the corpus; the Illinois library holds only the adult, cannabis and juvenile suites.",
+            "statement": "Stage 1 is now packet-capable. The Certificate of Sealing Application and Acknowledgement were retrieved from the Prisoner Review Board's official site, are fillable AcroForms revised 09/18/2024, and are participant-completed. The earlier hold rested only on the forms being absent from the corpus; that gap is closed.",
             "provenance": {
               "classificationBasis": "explicit_state_addendum",
-              "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
-              "sourceHeading": "PART 2: SOURCE FORM AND DOCUMENT REVIEW",
-              "sourceStatement": "All Illinois Supreme Court forms below are published by the Administrative Office of the Illinois Courts and approved by the Supreme Court Commission on Access to Justice."
-            }
-          },
-          {
-            "classification": "participant_question",
-            "statement": "Where stage 1 becomes packet-capable, the rehabilitation and hardship narratives are participant-authored through structured prompts. LegalEase formats the participant's own facts and never composes the showing.",
-            "provenance": {
-              "classificationBasis": "explicit_state_addendum",
-              "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
-              "sourceHeading": "TRACK K",
-              "sourceStatement": "Stage 1, the PRB certificate application: process_guidance. Discretionary agency relief on an individualized rehabilitation showing."
+              "sourceFile": "Illinois Prisoner Review Board, Guidelines for Certificate of Sealing, revised 09/18/2024",
+              "sourceHeading": "A) The petition",
+              "sourceStatement": "Certificate of Sealing is requested by means of a typewritten petition. You must utilize the Certificate of Sealing Application form, also located on the agency website, to request a hearing"
             }
           },
           {
             "classification": "packet_instruction",
-            "statement": "Notarization, supporting documents, acknowledgements and a possible Board hearing are filing instructions and post-generation handoff conditions. None of them is a generation blocker.",
+            "statement": "The Acknowledgement form must be completed before the application and included with the petition, or the petition is rejected and returned.",
             "provenance": {
               "classificationBasis": "explicit_state_addendum",
-              "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
-              "sourceHeading": "TRACK K",
-              "sourceStatement": "Two stages, and they are different bodies:"
+              "sourceFile": "Illinois Prisoner Review Board, Guidelines for Certificate of Sealing, revised 09/18/2024",
+              "sourceHeading": "A) The petition",
+              "sourceStatement": "The petition must contain the Certificate of Sealing Acknowledgement Form along with all of the following or it will be rejected and returned"
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "The facts-of-the-offence statement, the personal life history and the reasons for seeking the certificate are participant-authored through structured prompts. LegalEase formats the participant's own words and never composes the rehabilitation showing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Illinois Prisoner Review Board, Guidelines for Certificate of Sealing, revised 09/18/2024",
+              "sourceHeading": "A) The petition, paragraphs 3, 5 and 7",
+              "sourceStatement": "A detailed statement of the facts of the offenses, including dates, places and all surrounding circumstances. This should include petitioner's version of the offenses."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Notarisation is required before filing: the declaration that all assertions are complete, truthful and accurate must be signed and sworn before a notary public. Perjury is a Class 3 felony punishable by up to 10 years.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Illinois Prisoner Review Board, Guidelines for Certificate of Sealing, revised 09/18/2024",
+              "sourceHeading": "A) The petition, paragraph 10",
+              "sourceStatement": "This statement must be signed and sworn to before a notary public by the petitioner."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Supporting documentation is required before filing and is obtained by the participant: diplomas or transcripts, five years of employment records, proof of completed counselling, a DD-214 where applicable, child-support status where applicable, and any awards, certificates or character letters.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Illinois Prisoner Review Board, Guidelines for Certificate of Sealing, revised 09/18/2024",
+              "sourceHeading": "A) The petition, paragraphs 6 and 8",
+              "sourceStatement": "Required Documentation: Attach material to support the claims in paragraph 5"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "File at least 75 days before the first hearing date on the docket, mail or deliver to the Board at 1001 North Walnut Street, Springfield, Illinois 62702, and send copies to the sentencing or chief judge and the current State's Attorney of the county of conviction with proof of delivery.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Illinois Prisoner Review Board, Guidelines for Certificate of Sealing, revised 09/18/2024",
+              "sourceHeading": "B) Filing of petition",
+              "sourceStatement": "The completed petition, as described in (A) above, must be received at the Board office at least 75 days prior to the first date of the hearing schedule in order to be considered on that docket."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "No petition will be accepted for review within four years of the denial of a prior petition for the same individual, unless the Chairman permits an exception for compelling reasons.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Illinois Prisoner Review Board, Guidelines for Certificate of Sealing, revised 09/18/2024",
+              "sourceHeading": "NOTE # 1",
+              "sourceStatement": "No petition will be accepted for review within four years of the date of the denial of a prior petition on behalf of the same individual."
             }
           },
           {
             "classification": "scope_restriction",
-            "statement": "A Certificate of Sealing application under § 5.2(e-5) and a Certificate of Eligibility for Expungement under § 5.2(e-6) are legally distinct. Do not treat a sourced sealing application as covering the expungement certificate. Neither is sourced today.",
+            "statement": "The military Certificate of Expungement branch is military-specific and must not be presented as a general certificate-of-expungement application. A § 5.2(e-5) sealing certificate and a § 5.2(e-6) expungement certificate remain legally distinct.",
             "provenance": {
               "classificationBasis": "explicit_state_addendum",
               "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
@@ -3628,38 +3828,8 @@
             }
           },
           {
-            "classification": "packet_instruction",
-            "statement": "The circuit clerk serves under § 5.2(d)(4). Participant-facing instructions must not tell anyone to serve the State's Attorney, ISP, the arresting agency or the chief legal officer.",
-            "provenance": {
-              "classificationBasis": "explicit_state_addendum",
-              "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
-              "sourceHeading": "Required limitations, corrections, and additional research / 2",
-              "sourceStatement": "Fix the service model everywhere. The circuit clerk serves under § 5.2(d)(4). Participant-facing instructions must not tell anyone to serve the State's Attorney, ISP, the arresting agency, or the chief legal officer."
-            }
-          },
-          {
-            "classification": "packet_instruction",
-            "statement": "Deliver every generated Illinois form pre-flattened, because AOIC requires the PDF to be flattened before e-filing.",
-            "provenance": {
-              "classificationBasis": "explicit_state_addendum",
-              "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
-              "sourceHeading": "PART 2: SOURCE FORM AND DOCUMENT REVIEW / 2.1 Adult suite",
-              "sourceStatement": "AOIC instructs users to download and save each form in Adobe Acrobat or Reader before filling it, because filling on a webpage loses progress, and to flatten the PDF before e-filing. Any LegalEase output must be delivered pre-flattened."
-            }
-          },
-          {
-            "classification": "packet_instruction",
-            "statement": "Where an offense is on the § 5.2(a)(3) exclusion list, present this route and the certificates under 730 ILCS 5/5-5.5 as the next answer rather than telling the participant there is no remedy.",
-            "provenance": {
-              "classificationBasis": "explicit_state_addendum",
-              "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
-              "sourceHeading": "TRACK K",
-              "sourceStatement": "Why this track matters: it is the route for people whose convictions are otherwise excluded from sealing. When Wilma has to tell someone their offense is on the (a)(3) exclusion list, this and the certificates under 730 ILCS 5/5-5.5 are the honest next answer, not a dead end."
-            }
-          },
-          {
             "classification": "self_help_boundary",
-            "statement": "Stage 1 is a referral in every case.",
+            "statement": "A Board hearing is a post-generation event. Refer where the Board sets a hearing or where the participant needs advocacy before the Board.",
             "provenance": {
               "classificationBasis": "explicit_state_addendum",
               "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
@@ -3671,7 +3841,7 @@
       },
       "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Illinois review.",
       "packetCapability": "composed",
-      "deliveryRestriction": "Stage 1 is held as guidance pending a sourced Prisoner Review Board application form. Stage 2 is packet-capable on the statewide adult suite once a certificate has been issued."
+      "deliveryRestriction": "Stage 1 is packet-capable for the Certificate of Sealing and for the military Certificate of Expungement. The non-military § 5.2(e-6) certificate branch is held pending a verified application form. Stage 2 is packet-capable once a certificate has been issued."
     },
     {
       "nodeType": "relief_track",

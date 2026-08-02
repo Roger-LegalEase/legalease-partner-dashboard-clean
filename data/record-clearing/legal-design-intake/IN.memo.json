@@ -1880,7 +1880,7 @@
     },
     {
       "nodeType": "relief_track",
-      "outputStrategy": "official_pdf_fill",
+      "outputStrategy": "custom_pleading",
       "effectiveDates": {
         "effectiveFrom": "2013-07-01",
         "effectiveTo": null,
@@ -2036,11 +2036,11 @@
         }
       ],
       "rules": {
-        "filing": "File the verified petition, order, appearance, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county of conviction, as case type XP.",
-        "fees": "A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.",
-        "feeWaiver": "Unresolved. Indigency waiver availability has not been confirmed.",
-        "notice": "The petition is served on the prosecuting attorney under the Trial Rules. A victim is entitled to submit an oral or written statement in support or opposition, with no right of cross-examination by the petitioner.",
-        "service": "Service on the prosecuting attorney under the Trial Rules. The CCA appearance form carries a certificate of service to the county prosecutor; follow the form.",
+        "filing": "File the verified petition and proposed order in a circuit or superior court in the county of conviction, as case type XP.",
+        "fees": "The petitioner pays the filing fee for a civil case. The court may reduce or waive it if the petitioner is indigent, under I.C. 35-38-9-8(d).",
+        "feeWaiver": "Available. The court may reduce or waive the civil filing fee for an indigent petitioner under I.C. 35-38-9-8(d).",
+        "notice": "Service is made in accordance with the Indiana Rules of Trial Procedure under I.C. 35-38-9-8(e). The prosecuting attorney must respond no later than 30 days after receipt and waives objection by failing to respond, under I.C. 35-38-9-8(g). The prosecuting attorney must notify the victim of their rights under I.C. 35-38-9-8(f), and the victim may submit an oral or written statement under I.C. 35-38-9-9(d).",
+        "service": "In accordance with the Indiana Rules of Trial Procedure, I.C. 35-38-9-8(e).",
         "participantSignature": "The petition is verified and signed by the petitioner.",
         "notarization": "none"
       },
@@ -2081,10 +2081,15 @@
         "elected_official_offense"
       ],
       "exclusions": [
-        "Filing without the prosecuting attorney's written consent.",
-        "Convictions excluded by the statutory exclusion structure, to be verified against the current text.",
-        "Charges pending anywhere.",
-        "Unpaid fines, fees, court costs or unsatisfied restitution."
+        "Sex or violent offenders as defined in I.C. 11-8-8-5.",
+        "Persons convicted of a felony that resulted in the death of another person.",
+        "Persons convicted of official misconduct under I.C. 35-44.1-1-1, unless the person is not an elected official or an elected or appointed judicial officer.",
+        "Persons convicted of any homicide offence or attempt under I.C. 35-42-1.",
+        "Persons convicted of any human or sexual trafficking offence or attempt under I.C. 35-42-3.5.",
+        "Persons convicted of any sex crimes offence or attempt under I.C. 35-42-4.",
+        "Persons convicted of unlawful possession of a firearm by a serious violent felon.",
+        "Persons convicted of two or more felony offences involving the unlawful use of a deadly weapon not committed as part of the same episode of criminal conduct, as defined in I.C. 35-31.5-2-46.5.",
+        "Filing without the prosecuting attorney's written consent."
       ],
       "waitingPeriods": [
         {
@@ -2096,24 +2101,20 @@
         {
           "role": "primary_filing",
           "requirement": "required",
-          "outputStrategy": "official_pdf_fill",
-          "officialFormId": "CCA conviction expungement petition",
-          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Indiana/ConvictionPetitionOrder0320Fillable.pdf",
-          "notes": "Coalition for Court Access statewide verified conviction petition. Section 35-38-9-8 fixes the petition's contents."
+          "outputStrategy": "custom_pleading",
+          "notes": "Verified petition to expunge under I.C. 35-38-9-5, carrying every item § 35-38-9-8(b) requires: full name and all other legal names or aliases; date of birth; addresses from the date of the offence through the date of the petition; the court case number if available; an affirmation that no criminal investigation or charges are pending; an affirmation of no further crime within the waiting period; a list of all past convictions and collateral actions with case numbers, dates, appeals and appellate decision dates; Social Security number; driver's licence number; dates of arrest if applicable; date of conviction; an affirmation that the waiting period has elapsed or a copy of the prosecutor's written consent to a shorter period; and a description of any other petitions filed under the chapter."
         },
         {
           "role": "proposed_order",
           "requirement": "required",
-          "outputStrategy": "official_pdf_fill",
-          "officialFormId": "CCA conviction expungement order",
-          "notes": "Order from the same Coalition set. Judicial decision and signature fields remain blank."
+          "outputStrategy": "custom_pleading",
+          "notes": "Proposed order marking the conviction records expunged in accordance with § 35-38-9-7. Judicial decision and signature fields remain blank."
         },
         {
           "role": "attachment",
           "requirement": "required",
-          "outputStrategy": "official_pdf_fill",
-          "officialFormId": "CCA Section 5 conviction expungement insert",
-          "notes": "Conviction insert for Section 5. Not present in the corpus; acquisition is a source gate."
+          "outputStrategy": "custom_pleading",
+          "notes": "The prosecuting attorney's written consent, or a clearly labelled placeholder where it has not yet been obtained. The petition must not be filed without it."
         },
         {
           "role": "attachment",
@@ -2136,6 +2137,12 @@
           "outputStrategy": "official_pdf_fill",
           "officialFormId": "Confidential Information Form",
           "notes": "Full Social Security number, filed as a confidential document."
+        },
+        {
+          "role": "instructions",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "Filing and service instructions, the warning that the petition must not be filed without the § 35-38-9-5 written prosecutor consent, and step-by-step guidance for requesting and attaching that consent."
         }
       ],
       "unresolvedQuestions": [
@@ -2151,17 +2158,6 @@
           }
         },
         {
-          "question": "Whether the statewide exclusions the internal reference lists for Sections 2 through 5 — sex or violent offenders, official misconduct, homicide, human trafficking, two or more deadly-weapon felonies, elected officials — are stated in § 35-38-9-2 through 5 or elsewhere. Verify each against the current text before the evaluator uses them.",
-          "impact": "release_blocker",
-          "affectedElement": "eligibility_branch",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
-            "sourceHeading": "Open questions",
-            "sourceStatement": "Whether the statewide exclusions the internal reference lists for Sections 2 through 5, including sex or violent offenders, official misconduct, homicide, human trafficking, two or more deadly weapon felonies, and elected officials, are stated in § 35-38-9-2 through 5 or elsewhere. Verify each against the current text before the evaluator uses them."
-          }
-        },
-        {
           "question": "What P.L.77-2025 changed in § 35-38-9-5, and whether the 2026 session amended the chapter again. The Office of Judicial Administration's own publication says the statutes experience yearly modification.",
           "impact": "release_blocker",
           "affectedElement": "governing_mechanism",
@@ -2173,20 +2169,31 @@
           }
         },
         {
-          "question": "The Coalition for Court Access Section 5 conviction insert has not been sourced into the corpus. Sections 2, 3 and 4 inserts are present; the Section 5 insert is not, so the conviction packet for this track cannot be completed.",
-          "impact": "build_blocker",
-          "affectedElement": "packet_components",
+          "question": "The Coalition for Court Access base conviction petition and order bundle in the corpus is the 03/2020 revision, while the governing chapter has been amended since. Verify the current base petition and order against the current statute before release, or generate wholly from the controlled custom pleading.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
             "sourceFile": "LegalEase-Indiana-Legal-Review.md",
-            "sourceHeading": "Documents to acquire",
-            "sourceStatement": "The Coalition for Court Access Conviction Insert Forms, the facts, findings, and exhibit pages the petition and order both call for."
+            "sourceHeading": "PART 2 - SOURCE FORM AND DOCUMENT REVIEW",
+            "sourceStatement": "ConvictionPetitionOrder0320Fillable.pdf, uploaded"
+          }
+        },
+        {
+          "question": "Counsel should approve the specimen Section 5 petition and proposed order before release, as the review requires for any Indiana custom pleading.",
+          "impact": "release_blocker",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+            "sourceHeading": "OVERALL JURISDICTION DECISION",
+            "sourceStatement": "Lawrence signs off on the section classification logic, on the exclusion list in open question 8, and on the self-help stop conditions."
           }
         }
       ],
       "legalDesignDecision": {
         "status": "legal_design_approved_with_limitations",
-        "rationale": "Packet identity is settled on the statewide Coalition set, but the Section 5 conviction insert has not been sourced, so the packet cannot yet be completed. Advance written prosecutor consent is a threshold requirement to file and is a participant-obtained document, not a generation blocker.",
+        "rationale": "No Section 5 insert exists to acquire: the Coalition for Court Access publishes conviction inserts for Sections 2, 3 and 4 only, which the corpus already holds in full. The route is nonetheless packet-capable, because I.C. 35-38-9-5 and I.C. 35-38-9-8 supply the eligibility elements, the waiting period, the venue, the complete required petition contents, the fee and waiver rule, the service rule, the prosecutor response window and the order effect. It is therefore a controlled statutory custom pleading with a local-form override. Written prosecutor consent is a threshold requirement to file and a participant-obtained document; it is not a reason LegalEase cannot generate the packet.",
         "limitations": [
           {
             "classification": "packet_instruction",
@@ -2250,16 +2257,6 @@
           },
           {
             "classification": "scope_restriction",
-            "statement": "The Section 5 conviction insert is not in the corpus. Acquisition is a source gate; the conviction packet cannot be completed without it.",
-            "provenance": {
-              "classificationBasis": "explicit_state_addendum",
-              "sourceFile": "LegalEase-Indiana-Legal-Review.md",
-              "sourceHeading": "PART 2 - SOURCE FORM AND DOCUMENT REVIEW / Documents to acquire",
-              "sourceStatement": "The conviction insert forms are the hard blocker: without them the conviction packet cannot be completed."
-            }
-          },
-          {
-            "classification": "scope_restriction",
             "statement": "The grant is discretionary. Route to a legal-review gate before offering this track.",
             "provenance": {
               "classificationBasis": "explicit_state_addendum",
@@ -2267,9 +2264,82 @@
               "sourceHeading": "OVERALL JURISDICTION DECISION",
               "sourceStatement": "Tracks 6 and 7, the discretionary felony tracks, behind a legal-review gate."
             }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "There is no Coalition for Court Access Section 5 insert to acquire. The published conviction inserts cover Sections 2, 3 and 4 only. The route uses a controlled statutory custom pleading with a verified local-form override, and yields to a published local form where one exists.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Indiana Coalition for Court Access published expungement forms, indianalegalhelp.org, retrieved 2026-08-02",
+              "sourceHeading": "Expungement forms listing",
+              "sourceStatement": "The published conviction insert set comprises ConvictionInsert2, ConvictionInsert3 and ConvictionInsert4 with their instructions. No Section 5 insert is published."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "LegalEase does not obtain the prosecuting attorney's consent and does not negotiate for it. The packet carries the consent as an attachment or a clearly labelled placeholder, with instructions for requesting it. Where negotiation is needed this is an attorney-handoff point.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Indiana Office of Judicial Administration, Detailed Information on Criminal Case Expungement, updated 7/1/2026",
+              "sourceHeading": "Category 5",
+              "sourceStatement": "The prosecuting attorney must consent in writing to the expungement of the petitioner's criminal records. I.C. 35-38-9-5(c)(5)."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The petition must not be filed without the written prosecutor consent § 35-38-9-5 requires. State this prominently in the filing instructions.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Indiana Office of Judicial Administration, Detailed Information on Criminal Case Expungement, updated 7/1/2026",
+              "sourceHeading": "Category 5",
+              "sourceStatement": "Any remaining eligible felony not resulting in the death of another person, and only if the prosecutor has given written consent to have the criminal record expunged."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The court may reduce or waive the civil filing fee for an indigent petitioner under I.C. 35-38-9-8(d). Surface the waiver.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Indiana Office of Judicial Administration, Detailed Information on Criminal Case Expungement, updated 7/1/2026",
+              "sourceHeading": "Filing Fee",
+              "sourceStatement": "The petitioner is required to pay the filing fee for a civil case, but the court may reduce or waive this fee if the petitioner is indigent. I.C. 35-38-9-8(d)."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The prosecuting attorney must respond within 30 days of receipt and waives any objection by failing to respond, under I.C. 35-38-9-8(g).",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Indiana Office of Judicial Administration, Detailed Information on Criminal Case Expungement, updated 7/1/2026",
+              "sourceHeading": "Prosecutor response",
+              "sourceStatement": "The prosecuting attorney must respond to the petition no later than 30 days after receipt. If the prosecutor fails to respond, they waive any objection to the petition. I.C. 35-38-9-8(g)."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Bodily injury or serious bodily injury must be an element of the offence of conviction for the exclusion to apply, per Allen v. State, 159 N.E.3d 580 (Ind. 2020). The court nonetheless retains discretion and may consider the facts incident to the conviction.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "Indiana Office of Judicial Administration, Detailed Information on Criminal Case Expungement, updated 7/1/2026",
+              "sourceHeading": "Category 5",
+              "sourceStatement": "To be excluded, bodily injury/serious bodily injury must be an element of offense of which the petitioner was convicted. See Allen v. State, 159 N.E.3d 580 (Ind. 2020)."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The Coalition for Court Access base conviction petition and order bundle in the corpus is the 03/2020 revision and predates later amendments to the chapter. Retain it as a reference only; do not silently approve it as the Section 5 instrument.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+              "sourceHeading": "PART 2 - SOURCE FORM AND DOCUMENT REVIEW",
+              "sourceStatement": "ConvictionPetitionOrder0320Fillable.pdf, uploaded"
+            }
           }
         ]
-      }
+      },
+      "localFormOverride": true,
+      "packetCapability": "custom_pleading",
+      "deliveryRestriction": "The Coalition for Court Access publishes conviction inserts for Sections 2, 3 and 4 only. There is no Section 5 insert, so the route uses a controlled statutory custom pleading with a local-form override."
     },
     {
       "trackId": "in_collateral_action",

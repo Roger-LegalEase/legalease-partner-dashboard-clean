@@ -817,7 +817,7 @@
     {
       "batch": "D_composed_or_process_guidance",
       "label": "Composed and process-guidance tracks",
-      "trackCount": 34,
+      "trackCount": 33,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -1937,49 +1937,6 @@
           ]
         },
         {
-          "jurisdiction": "IA",
-          "trackId": "ia-dci77",
-          "publicName": "Getting the DCI criminal history record check you need to file",
-          "outputStrategy": "process_guidance",
-          "geographicScope": "statewide",
-          "legalDesignStatus": "legal_design_approved_with_limitations",
-          "legalStatus": "legal_review_pending",
-          "runtimeStatus": "runtime_disabled",
-          "legalDesignBlockers": [],
-          "scopeRestrictions": [
-            "Reclassified from relief to a supporting_action node. A criminal-history record check retrieves and verifies records; it does not alter, seal, expunge or correct one, and must not be counted as a paid packet mechanism.",
-            "Held as guidance solely because form DCI-77 has not been sourced into the corpus, so there is no verified form to fill. It is not guidance because an agency is involved or because LegalEase cannot submit the request."
-          ],
-          "openLegalQuestions": [],
-          "participantActionCount": 7,
-          "blockers": [
-            {
-              "kind": "output_review_gate",
-              "statement": "Output review pending: counsel approved the design, not the produced document."
-            },
-            {
-              "kind": "visual_review_gate",
-              "statement": "Visual review not started."
-            },
-            {
-              "kind": "technical_proof_gate",
-              "statement": "Technical proof not started."
-            },
-            {
-              "kind": "release_blocker",
-              "statement": "Open question blocks release (correct_form): Whether form DCI-77 is a participant-facing fillable form that LegalEase may prepare. Under the packet-only model this supporting action is expected to be packet-capable, because DCI-77 is a participant-completed request carrying a participant release authorization signature. No copy of DCI-77 has been sourced into the corpus, so the filing vehicle is unverified and no form mapping is asserted."
-            },
-            {
-              "kind": "release_blocker",
-              "statement": "Open question blocks release (filing_process): The current DCI record check fee and portal. The Iowa Judicial Branch instructions state $15 through a state portal; verify at build time."
-            },
-            {
-              "kind": "source_gate",
-              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
-            }
-          ]
-        },
-        {
           "jurisdiction": "IL",
           "trackId": "il-auto-seal-2029",
           "publicName": "Automatic sealing starting in 2029, and why you may still want to file now",
@@ -2247,7 +2204,7 @@
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 94,
+      "trackCount": 95,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -5526,6 +5483,52 @@
           ]
         },
         {
+          "jurisdiction": "IA",
+          "trackId": "ia-dci77",
+          "publicName": "Getting the DCI criminal history record check you need to file",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Remains a supporting_action non-relief node. A criminal-history record check retrieves and verifies records; it does not alter, seal, expunge or correct one, and must not be counted as a paid packet mechanism."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "The Iowa DPS page states the fee is $15 per last name with cash, cheque, money order and MasterCard, Visa or Discover accepted, and submission by mail, fax, email or in person. Confirm the amount and accepted methods again at build time, since the agency page carries no revision date.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "filing_process",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "Iowa Division of Criminal Investigation, Criminal History Billing and Request Forms (fillable), retrieved 2026-08-02",
+                "sourceHeading": "Criminal History Record Check Information",
+                "sourceStatement": "The fee for an Iowa Criminal History Record Check through the DCI is $15 per last name. Each last name requested requires a separate form and payment."
+              }
+            }
+          ],
+          "participantActionCount": 11,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
           "jurisdiction": "ID",
           "trackId": "id_isp_expungement",
           "publicName": "Expungement of a Non-Conviction Record",
@@ -6075,11 +6078,23 @@
           "runtimeStatus": "runtime_disabled",
           "legalDesignBlockers": [],
           "scopeRestrictions": [
-            "Stage 1 re-reviewed under the packet-only model. The Board's discretion and the participant's rehabilitation showing do not make the stage guidance-only. It is held as guidance solely because no participant-facing Prisoner Review Board application form has been sourced into the corpus; the Illinois library holds only the adult, cannabis and juvenile suites.",
-            "A Certificate of Sealing application under § 5.2(e-5) and a Certificate of Eligibility for Expungement under § 5.2(e-6) are legally distinct. Do not treat a sourced sealing application as covering the expungement certificate. Neither is sourced today."
+            "Stage 1 is now packet-capable. The Certificate of Sealing Application and Acknowledgement were retrieved from the Prisoner Review Board's official site, are fillable AcroForms revised 09/18/2024, and are participant-completed. The earlier hold rested only on the forms being absent from the corpus; that gap is closed.",
+            "The military Certificate of Expungement branch is military-specific and must not be presented as a general certificate-of-expungement application. A § 5.2(e-5) sealing certificate and a § 5.2(e-6) expungement certificate remain legally distinct."
           ],
-          "openLegalQuestions": [],
-          "participantActionCount": 15,
+          "openLegalQuestions": [
+            {
+              "question": "Whether the Certificate of Sealing Acknowledgement and the military Eligibility Acknowledgement carry their own revision dates. Both are published undated alongside dated 09/18/2024 application and guideline files.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "correct_form",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "Illinois Prisoner Review Board, Guidelines for Certificate of Sealing, revised 09/18/2024",
+                "sourceHeading": "A) The petition",
+                "sourceStatement": "The petition must contain the Certificate of Sealing Acknowledgement Form"
+              }
+            }
+          ],
+          "participantActionCount": 30,
           "blockers": [
             {
               "kind": "output_review_gate",
@@ -6103,7 +6118,7 @@
             },
             {
               "kind": "release_blocker",
-              "statement": "Open question blocks release (correct_form): Whether the Illinois Prisoner Review Board publishes a participant-facing Certificate of Eligibility for Sealing application under § 5.2(e-5), and separately a Certificate of Eligibility for Expungement application under § 5.2(e-6). Neither form has been sourced into the corpus, so stage 1 has no verified filing vehicle and is held as guidance rather than mapped."
+              "statement": "Open question blocks release (correct_form): Whether any official non-military certificate of eligibility for expungement application exists under § 5.2(e-6). The Prisoner Review Board publishes a Certificate of Sealing and a military-specific Certificate of Expungement; no general non-military expungement-certificate application was located on the Board's site. That branch alone is held."
             },
             {
               "kind": "source_gate",
@@ -6363,20 +6378,21 @@
           "jurisdiction": "IN",
           "trackId": "in_conviction_serious_felony",
           "publicName": "Clearing a serious felony conviction with the prosecutor's written consent",
-          "outputStrategy": "official_pdf_fill",
+          "outputStrategy": "custom_pleading",
           "geographicScope": "statewide",
           "legalDesignStatus": "legal_design_approved_with_limitations",
           "legalStatus": "legal_review_pending",
           "runtimeStatus": "runtime_disabled",
-          "legalDesignBlockers": [
-            "Open question blocks the build (packet_components): The Coalition for Court Access Section 5 conviction insert has not been sourced into the corpus. Sections 2, 3 and 4 inserts are present; the Section 5 insert is not, so the conviction packet for this track cannot be completed."
-          ],
+          "legalDesignBlockers": [],
           "scopeRestrictions": [
             "One petition per lifetime under § 35-38-9-9(i). Petitions filed in separate counties count as one only if they land inside a single 365-day window. Build the eligibility calendar and the 365-day window optimiser before the petition generator; in Indiana the scheduling decision is worth more than the document.",
             "Put a hard gate in front of any conviction filing: where the participant has any conviction not yet eligible, surface Chastain v. State and the consequence of filing early before letting them proceed. Under Chastain a petitioner cannot use the liberal amendment rule to add records that were not yet eligible when the initial petition was filed, so filing now can permanently cost a record that ripens later. This is a delivery gate, not a generation blocker.",
             "The prosecuting attorney's written consent is required to file at all on this track. Silence is not consent. Obtaining it is a participant action and a required-before-filing item, not a reason to withhold generation.",
-            "The Section 5 conviction insert is not in the corpus. Acquisition is a source gate; the conviction packet cannot be completed without it.",
-            "The grant is discretionary. Route to a legal-review gate before offering this track."
+            "The grant is discretionary. Route to a legal-review gate before offering this track.",
+            "There is no Coalition for Court Access Section 5 insert to acquire. The published conviction inserts cover Sections 2, 3 and 4 only. The route uses a controlled statutory custom pleading with a verified local-form override, and yields to a published local form where one exists.",
+            "LegalEase does not obtain the prosecuting attorney's consent and does not negotiate for it. The packet carries the consent as an attachment or a clearly labelled placeholder, with instructions for requesting it. Where negotiation is needed this is an attorney-handoff point.",
+            "Bodily injury or serious bodily injury must be an element of the offence of conviction for the exclusion to apply, per Allen v. State, 159 N.E.3d 580 (Ind. 2020). The court nonetheless retains discretion and may consider the facts incident to the conviction.",
+            "The Coalition for Court Access base conviction petition and order bundle in the corpus is the 03/2020 revision and predates later amendments to the chapter. Retain it as a reference only; do not silently approve it as the Section 5 instrument."
           ],
           "openLegalQuestions": [],
           "participantActionCount": 15,
@@ -6394,20 +6410,20 @@
               "statement": "Technical proof not started."
             },
             {
-              "kind": "legal_design_blocker",
-              "statement": "Open question blocks the build (packet_components): The Coalition for Court Access Section 5 conviction insert has not been sourced into the corpus. Sections 2, 3 and 4 inserts are present; the Section 5 insert is not, so the conviction packet for this track cannot be completed."
-            },
-            {
               "kind": "release_blocker",
               "statement": "Open question blocks release (filing_process): The amount of the civil filing fee for a Sections 2 through 5 petition, whether it is charged per county, and whether an indigency waiver is available."
             },
             {
               "kind": "release_blocker",
-              "statement": "Open question blocks release (eligibility_branch): Whether the statewide exclusions the internal reference lists for Sections 2 through 5 — sex or violent offenders, official misconduct, homicide, human trafficking, two or more deadly-weapon felonies, elected officials — are stated in § 35-38-9-2 through 5 or elsewhere. Verify each against the current text before the evaluator uses them."
+              "statement": "Open question blocks release (governing_mechanism): What P.L.77-2025 changed in § 35-38-9-5, and whether the 2026 session amended the chapter again. The Office of Judicial Administration's own publication says the statutes experience yearly modification."
             },
             {
               "kind": "release_blocker",
-              "statement": "Open question blocks release (governing_mechanism): What P.L.77-2025 changed in § 35-38-9-5, and whether the 2026 session amended the chapter again. The Office of Judicial Administration's own publication says the statutes experience yearly modification."
+              "statement": "Open question blocks release (correct_form): The Coalition for Court Access base conviction petition and order bundle in the corpus is the 03/2020 revision, while the governing chapter has been amended since. Verify the current base petition and order against the current statute before release, or generate wholly from the controlled custom pleading."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (output_strategy): Counsel should approve the specimen Section 5 petition and proposed order before release, as the review requires for any Indiana custom pleading."
             },
             {
               "kind": "source_gate",

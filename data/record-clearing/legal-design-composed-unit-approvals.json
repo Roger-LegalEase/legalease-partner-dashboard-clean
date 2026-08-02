@@ -369,14 +369,14 @@
       "jurisdiction": "IL",
       "trackId": "il-prb-cert",
       "outputStrategyDeclared": "composed",
-      "compositionMode": "sequential",
-      "orderIsSubstantive": true,
-      "counselAuthoredProvenanceCount": 11,
+      "compositionMode": "mixed",
+      "orderIsSubstantive": false,
+      "counselAuthoredProvenanceCount": 13,
       "units": [
         {
-          "unitId": "il-prb-cert-stage-1",
+          "unitId": "il-prb-cert-certificate-application",
           "order": 1,
-          "outputStrategy": "process_guidance",
+          "outputStrategy": "official_pdf_fill",
           "outputStrategyStatus": "resolved",
           "packetIdentity": null,
           "available": true,
@@ -384,20 +384,47 @@
           "parentUnitId": null
         },
         {
-          "unitId": "il-prb-cert-stage-2",
+          "unitId": "il-prb-cert-court-petition",
+          "order": 5,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": null,
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "il-prb-cert-military-branch",
+          "order": 3,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": null,
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": "il-prb-cert-certificate-application"
+        },
+        {
+          "unitId": "il-prb-cert-nonmilitary-expungement-branch",
+          "order": 4,
+          "outputStrategy": null,
+          "outputStrategyStatus": "unresolved",
+          "packetIdentity": null,
+          "available": false,
+          "unresolved": true,
+          "parentUnitId": "il-prb-cert-certificate-application"
+        },
+        {
+          "unitId": "il-prb-cert-sealing-branch",
           "order": 2,
           "outputStrategy": "official_pdf_fill",
           "outputStrategyStatus": "resolved",
           "packetIdentity": null,
-          "available": false,
+          "available": true,
           "unresolved": false,
-          "parentUnitId": null
+          "parentUnitId": "il-prb-cert-certificate-application"
         }
       ],
-      "sequence": [
-        "il-prb-cert-stage-1",
-        "il-prb-cert-stage-2"
-      ]
+      "sequence": null
     },
     {
       "jurisdiction": "IN",

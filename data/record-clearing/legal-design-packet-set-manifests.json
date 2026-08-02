@@ -10476,14 +10476,34 @@
       "version": "1.0.0",
       "components": [
         {
-          "componentId": "ia-dci77-process-guidance-1",
-          "role": "process_guidance",
+          "componentId": "ia-dci77-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DCI-77 Criminal History Record Check Request Form",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Iowa/forms/DCI-76-and-DCI-77__criminal-history-record-check-billing-and-request-forms-fillable__source-2026.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "ia-dci77-attachment-2",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DCI-76 Criminal History Record Check Billing Form",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "ia-dci77-instructions-3",
+          "role": "instructions",
           "requirement": "required",
           "conditionDescription": null,
           "outputStrategy": "process_guidance",
           "officialFormId": null,
           "officialSourceUrl": null,
-          "order": 1
+          "order": 3
         }
       ],
       "participantActionRequired": [
@@ -10501,14 +10521,38 @@
           "requiredBeforeFiling": true
         },
         {
+          "kind": "complete_field",
+          "description": "Release authorization signature — DCI-77, RELEASE AUTHORIZATION SIGNATURE.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Payment — DCI-76 billing form.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Criminal history result fields — Returned record.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Notarisation of results — DCI-77, 'I am required to have the results notarized'.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
           "kind": "sign",
-          "description": "A release authorization signature is required. Its absence invalidates the check for this purpose.",
+          "description": "The subject of the request signs the DCI-77 release authorization. Without it a complete record may not be releasable under Iowa Code chapter 692.2.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "pay_fee",
-          "description": "The Iowa Judicial Branch instructions state a request costs $15. Verify the current amount at build time.",
+          "description": "$15 per Iowa criminal history record check, charged per last name. Each last name requested requires a separate request form and payment. Cash, cheques, money orders and MasterCard, Visa or Discover are accepted, or a pre-paid DCI account.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
@@ -10527,7 +10571,7 @@
         },
         {
           "kind": "file",
-          "description": "The participant submits form DCI-77 to the Division of Criminal Investigation through the state portal. LegalEase cannot request another person's criminal history.",
+          "description": "Submit the request form and billing form with the fee to the Iowa Division of Criminal Investigation by mail, fax, email or in person. Phone requests are not accepted. Every request must include at minimum a first name, last name and exact date of birth for the subject.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
@@ -10535,8 +10579,12 @@
       "requiredBeforeFiling": [
         "Obtain Official DCI Iowa criminal history record check on form DCI-77, dated within the past 30 days. Submit form DCI-77 with a release authorization signature through the state portal. The Iowa Judicial Branch instructions state a request costs $15. Obtain it and then file the § 901C.3 application promptly, because it expires after 30 days.",
         "Check your answer to \"Have you signed the release authorization on the DCI request?\" against Official DCI Iowa criminal history record check on form DCI-77, dated within the past 30 days, and correct the packet if they disagree.",
-        "A release authorization signature is required. Its absence invalidates the check for this purpose.",
-        "The Iowa Judicial Branch instructions state a request costs $15. Verify the current amount at build time.",
+        "Release authorization signature — DCI-77, RELEASE AUTHORIZATION SIGNATURE.",
+        "Payment — DCI-76 billing form.",
+        "Criminal history result fields — Returned record.",
+        "Notarisation of results — DCI-77, 'I am required to have the results notarized'.",
+        "The subject of the request signs the DCI-77 release authorization. Without it a complete record may not be releasable under Iowa Code chapter 692.2.",
+        "$15 per Iowa criminal history record check, charged per last name. Each last name requested requires a separate request form and payment. Cash, cheques, money orders and MasterCard, Visa or Discover are accepted, or a pre-paid DCI account.",
         "None identified."
       ]
     },
@@ -12287,24 +12335,54 @@
       "version": "1.0.0",
       "components": [
         {
-          "componentId": "il-prb-cert-process-guidance-1",
-          "role": "process_guidance",
+          "componentId": "il-prb-cert-primary-filing-1",
+          "role": "primary_filing",
           "requirement": "required",
           "conditionDescription": null,
-          "outputStrategy": "process_guidance",
-          "officialFormId": null,
-          "officialSourceUrl": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PRB Certificate of Sealing Application",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Application__certificate-of-sealing-application__rev-2024-09-18.pdf",
           "order": 1
         },
         {
-          "componentId": "il-prb-cert-primary-filing-2",
+          "componentId": "il-prb-cert-attachment-2",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PRB Certificate of Sealing Eligibility Acknowledgement",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+          "order": 2
+        },
+        {
+          "componentId": "il-prb-cert-primary-filing-3",
           "role": "primary_filing",
           "requirement": "conditional",
-          "conditionDescription": "Stage 2, generated only once a certificate has been issued.",
+          "conditionDescription": "Military branch only, where eligibility rests on military service.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PRB Certificate of Expungement for Military Application",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Application__military-certificate-of-expungement-application__rev-2024-09-18.pdf",
+          "order": 3
+        },
+        {
+          "componentId": "il-prb-cert-attachment-4",
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionDescription": "Military branch only.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PRB Certificate of Expungement for Military Eligibility Acknowledgement",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+          "order": 4
+        },
+        {
+          "componentId": "il-prb-cert-primary-filing-5",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Stage 2, generated once the Board has issued a certificate.",
           "outputStrategy": "official_pdf_fill",
           "officialFormId": "EXP-AD Request",
           "officialSourceUrl": null,
-          "order": 2
+          "order": 5
         }
       ],
       "participantActionRequired": [
@@ -12356,6 +12434,75 @@
           "requiredBeforeFiling": true
         },
         {
+          "kind": "obtain_document",
+          "description": "Obtain Educational documentation supporting the personal-history statement. Obtain a copy of your high school diploma, GED, college diploma or transcripts.",
+          "obtainedFrom": "School, college or awarding body",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"In your own words, give your personal life history: date and place of birth, education, employment, marital status, and whether you served in the military.\" against Educational documentation supporting the personal-history statement, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Employment documentation for the last five years. Provide W-2s, tax returns, paycheck stubs or a letter from your employers covering the last five years.",
+          "obtainedFrom": "Employers or tax records",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"In your own words, give your personal life history: date and place of birth, education, employment, marital status, and whether you served in the military.\" against Employment documentation for the last five years, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof of completion of any counselling. Ask the provider for proof of completion.",
+          "obtainedFrom": "Counselling provider",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant attended anger management, marriage, substance-abuse or similar counselling.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"In your own words, give your personal life history: date and place of birth, education, employment, marital status, and whether you served in the military.\" against Proof of completion of any counselling, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant attended anger management, marriage, substance-abuse or similar counselling.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain DD-214 or similar proof of military service. Request a copy of your DD-214.",
+          "obtainedFrom": "National Personnel Records Center or the service branch",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant served in the military, and required for the military certificate branch.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Are you seeking the certificate on the basis of military service?\" against DD-214 or similar proof of military service, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant served in the military, and required for the military certificate branch.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Fingerprint-based criminal history. Follow paragraph B-5 of the Board's Guidelines for when and how to obtain fingerprints for criminal history.",
+          "obtainedFrom": "As directed in Guidelines paragraph B-5",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you petitioned the Prisoner Review Board for a certificate of sealing before, and if so when?\" against Fingerprint-based criminal history, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
           "kind": "complete_field",
           "description": "Petitioner's signature and verification date — Request, verification block.",
           "requirement": "required",
@@ -12374,8 +12521,38 @@
           "requiredBeforeFiling": true
         },
         {
+          "kind": "complete_field",
+          "description": "Notarised perjury declaration — Application, 'Signed and sworn before me' block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature — Application, Signature of Petitioner.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Witness or attorney signature on the acknowledgement — Acknowledgement, Signature of Witness/Attorney.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Proof of delivery to the sentencing judge and State's Attorney — Filing instruction sheet.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
           "kind": "sign",
-          "description": "The petitioner signs and verifies the Request. A wet signature is expected.",
+          "description": "The petitioner signs the application and swears the perjury declaration before a notary public.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required. The declaration that all assertions are complete, truthful and accurate must be signed and sworn before a notary public.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
@@ -12400,7 +12577,7 @@
         },
         {
           "kind": "file",
-          "description": "File the Request, Case List, any Additional Cases forms and the proposed Order with the circuit clerk in each county where an arrest occurred or a charge was brought. E-file where the county requires it. AOIC requires the PDF to be flattened before e-filing, so LegalEase output is delivered pre-flattened.",
+          "description": "Mail or deliver the original petition to the Illinois Prisoner Review Board, 1001 North Walnut Street, Springfield, Illinois 62702. Staple or clip the pages so they can be separated; do not bind them or use plastic sleeves. The completed petition must be received at least 75 days before the first date of the hearing schedule to be considered on that docket.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
@@ -12412,10 +12589,25 @@
         "Check your answer to \"What is the case number?\" against Certified disposition for each case, and correct the packet if they disagree.",
         "Obtain Prisoner Review Board certificate of eligibility. Apply to the Prisoner Review Board for a certificate of eligibility for sealing or for expungement. The Board decides on an individualized rehabilitation showing.",
         "Check your answer to \"Has the Prisoner Review Board already issued you a certificate of eligibility?\" against Prisoner Review Board certificate of eligibility, and correct the packet if they disagree.",
+        "Obtain Educational documentation supporting the personal-history statement. Obtain a copy of your high school diploma, GED, college diploma or transcripts.",
+        "Check your answer to \"In your own words, give your personal life history: date and place of birth, education, employment, marital status, and whether you served in the military.\" against Educational documentation supporting the personal-history statement, and correct the packet if they disagree.",
+        "Obtain Employment documentation for the last five years. Provide W-2s, tax returns, paycheck stubs or a letter from your employers covering the last five years.",
+        "Check your answer to \"In your own words, give your personal life history: date and place of birth, education, employment, marital status, and whether you served in the military.\" against Employment documentation for the last five years, and correct the packet if they disagree.",
+        "Obtain Proof of completion of any counselling. Ask the provider for proof of completion.",
+        "Check your answer to \"In your own words, give your personal life history: date and place of birth, education, employment, marital status, and whether you served in the military.\" against Proof of completion of any counselling, and correct the packet if they disagree.",
+        "Obtain DD-214 or similar proof of military service. Request a copy of your DD-214.",
+        "Check your answer to \"Are you seeking the certificate on the basis of military service?\" against DD-214 or similar proof of military service, and correct the packet if they disagree.",
+        "Obtain Fingerprint-based criminal history. Follow paragraph B-5 of the Board's Guidelines for when and how to obtain fingerprints for criminal history.",
+        "Check your answer to \"Have you petitioned the Prisoner Review Board for a certificate of sealing before, and if so when?\" against Fingerprint-based criminal history, and correct the packet if they disagree.",
         "Petitioner's signature and verification date — Request, verification block.",
         "Expunge-versus-seal selection for each case — Case List, per-case election column.",
         "Hearing date — Any notice issued after an objection.",
-        "The petitioner signs and verifies the Request. A wet signature is expected.",
+        "Notarised perjury declaration — Application, 'Signed and sworn before me' block.",
+        "Petitioner's signature — Application, Signature of Petitioner.",
+        "Witness or attorney signature on the acknowledgement — Acknowledgement, Signature of Witness/Attorney.",
+        "Proof of delivery to the sentencing judge and State's Attorney — Filing instruction sheet.",
+        "The petitioner signs the application and swears the perjury declaration before a notary public.",
+        "Required. The declaration that all assertions are complete, truthful and accurate must be signed and sworn before a notary public.",
         "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
         "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived."
       ]
@@ -13860,9 +14052,9 @@
           "role": "primary_filing",
           "requirement": "required",
           "conditionDescription": null,
-          "outputStrategy": "official_pdf_fill",
-          "officialFormId": "CCA conviction expungement petition",
-          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Indiana/ConvictionPetitionOrder0320Fillable.pdf",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
           "order": 1
         },
         {
@@ -13870,8 +14062,8 @@
           "role": "proposed_order",
           "requirement": "required",
           "conditionDescription": null,
-          "outputStrategy": "official_pdf_fill",
-          "officialFormId": "CCA conviction expungement order",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
           "officialSourceUrl": null,
           "order": 2
         },
@@ -13880,8 +14072,8 @@
           "role": "attachment",
           "requirement": "required",
           "conditionDescription": null,
-          "outputStrategy": "official_pdf_fill",
-          "officialFormId": "CCA Section 5 conviction expungement insert",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
           "officialSourceUrl": null,
           "order": 3
         },
@@ -13914,6 +14106,16 @@
           "officialFormId": "Confidential Information Form",
           "officialSourceUrl": null,
           "order": 6
+        },
+        {
+          "componentId": "in_conviction_serious_felony-instructions-7",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 7
         }
       ],
       "participantActionRequired": [
@@ -13990,26 +14192,26 @@
         },
         {
           "kind": "pay_fee",
-          "description": "A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.",
+          "description": "The petitioner pays the filing fee for a civil case. The court may reduce or waive it if the petitioner is indigent, under I.C. 35-38-9-8(d).",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "apply_fee_waiver",
-          "description": "Unresolved. Indigency waiver availability has not been confirmed.",
+          "description": "Available. The court may reduce or waive the civil filing fee for an indigent petitioner under I.C. 35-38-9-8(d).",
           "requirement": "conditional",
           "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
           "requiredBeforeFiling": true
         },
         {
           "kind": "serve_party",
-          "description": "Service on the prosecuting attorney under the Trial Rules. The CCA appearance form carries a certificate of service to the county prosecutor; follow the form.",
+          "description": "In accordance with the Indiana Rules of Trial Procedure, I.C. 35-38-9-8(e).",
           "requirement": "required",
           "requiredBeforeFiling": false
         },
         {
           "kind": "file",
-          "description": "File the verified petition, order, appearance, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county of conviction, as case type XP.",
+          "description": "File the verified petition and proposed order in a circuit or superior court in the county of conviction, as case type XP.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
@@ -14026,8 +14228,8 @@
         "Additional-information narrative — Petition, additional information.",
         "Full Social Security number — Confidential Information Form.",
         "The petition is verified and signed by the petitioner.",
-        "A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.",
-        "Unresolved. Indigency waiver availability has not been confirmed."
+        "The petitioner pays the filing fee for a civil case. The court may reduce or waive it if the petitioner is indigent, under I.C. 35-38-9-8(d).",
+        "Available. The court may reduce or waive the civil filing fee for an indigent petitioner under I.C. 35-38-9-8(d)."
       ]
     },
     {

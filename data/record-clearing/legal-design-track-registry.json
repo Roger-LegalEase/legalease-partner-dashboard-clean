@@ -40249,8 +40249,8 @@
           "duration": "none"
         }
       ],
-      "outputStrategy": "process_guidance",
-      "outputStrategyDeclared": "process_guidance",
+      "outputStrategy": "official_pdf_fill",
+      "outputStrategyDeclared": "official_pdf_fill",
       "compositionMode": null,
       "units": [],
       "geographicScope": "statewide",
@@ -40266,14 +40266,34 @@
         "version": "1.0.0",
         "components": [
           {
-            "componentId": "ia-dci77-process-guidance-1",
-            "role": "process_guidance",
+            "componentId": "ia-dci77-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "DCI-77 Criminal History Record Check Request Form",
+            "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Iowa/forms/DCI-76-and-DCI-77__criminal-history-record-check-billing-and-request-forms-fillable__source-2026.pdf",
+            "order": 1
+          },
+          {
+            "componentId": "ia-dci77-attachment-2",
+            "role": "attachment",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "DCI-76 Criminal History Record Check Billing Form",
+            "officialSourceUrl": null,
+            "order": 2
+          },
+          {
+            "componentId": "ia-dci77-instructions-3",
+            "role": "instructions",
             "requirement": "required",
             "conditionDescription": null,
             "outputStrategy": "process_guidance",
             "officialFormId": null,
             "officialSourceUrl": null,
-            "order": 1
+            "order": 3
           }
         ],
         "participantActionRequired": [
@@ -40291,14 +40311,38 @@
             "requiredBeforeFiling": true
           },
           {
+            "kind": "complete_field",
+            "description": "Release authorization signature — DCI-77, RELEASE AUTHORIZATION SIGNATURE.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Payment — DCI-76 billing form.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Criminal history result fields — Returned record.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Notarisation of results — DCI-77, 'I am required to have the results notarized'.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
             "kind": "sign",
-            "description": "A release authorization signature is required. Its absence invalidates the check for this purpose.",
+            "description": "The subject of the request signs the DCI-77 release authorization. Without it a complete record may not be releasable under Iowa Code chapter 692.2.",
             "requirement": "required",
             "requiredBeforeFiling": true
           },
           {
             "kind": "pay_fee",
-            "description": "The Iowa Judicial Branch instructions state a request costs $15. Verify the current amount at build time.",
+            "description": "$15 per Iowa criminal history record check, charged per last name. Each last name requested requires a separate request form and payment. Cash, cheques, money orders and MasterCard, Visa or Discover are accepted, or a pre-paid DCI account.",
             "requirement": "required",
             "requiredBeforeFiling": true
           },
@@ -40317,7 +40361,7 @@
           },
           {
             "kind": "file",
-            "description": "The participant submits form DCI-77 to the Division of Criminal Investigation through the state portal. LegalEase cannot request another person's criminal history.",
+            "description": "Submit the request form and billing form with the fee to the Iowa Division of Criminal Investigation by mail, fax, email or in person. Phone requests are not accepted. Every request must include at minimum a first name, last name and exact date of birth for the subject.",
             "requirement": "required",
             "requiredBeforeFiling": false
           }
@@ -40325,8 +40369,12 @@
         "requiredBeforeFiling": [
           "Obtain Official DCI Iowa criminal history record check on form DCI-77, dated within the past 30 days. Submit form DCI-77 with a release authorization signature through the state portal. The Iowa Judicial Branch instructions state a request costs $15. Obtain it and then file the § 901C.3 application promptly, because it expires after 30 days.",
           "Check your answer to \"Have you signed the release authorization on the DCI request?\" against Official DCI Iowa criminal history record check on form DCI-77, dated within the past 30 days, and correct the packet if they disagree.",
-          "A release authorization signature is required. Its absence invalidates the check for this purpose.",
-          "The Iowa Judicial Branch instructions state a request costs $15. Verify the current amount at build time.",
+          "Release authorization signature — DCI-77, RELEASE AUTHORIZATION SIGNATURE.",
+          "Payment — DCI-76 billing form.",
+          "Criminal history result fields — Returned record.",
+          "Notarisation of results — DCI-77, 'I am required to have the results notarized'.",
+          "The subject of the request signs the DCI-77 release authorization. Without it a complete record may not be releasable under Iowa Code chapter 692.2.",
+          "$15 per Iowa criminal history record check, charged per last name. Each last name requested requires a separate request form and payment. Cash, cheques, money orders and MasterCard, Visa or Discover are accepted, or a pre-paid DCI account.",
           "None identified."
         ]
       },
@@ -40357,12 +40405,12 @@
         }
       ],
       "rules": {
-        "filing": "The participant submits form DCI-77 to the Division of Criminal Investigation through the state portal. LegalEase cannot request another person's criminal history.",
-        "fees": "The Iowa Judicial Branch instructions state a request costs $15. Verify the current amount at build time.",
+        "filing": "Submit the request form and billing form with the fee to the Iowa Division of Criminal Investigation by mail, fax, email or in person. Phone requests are not accepted. Every request must include at minimum a first name, last name and exact date of birth for the subject.",
+        "fees": "$15 per Iowa criminal history record check, charged per last name. Each last name requested requires a separate request form and payment. Cash, cheques, money orders and MasterCard, Visa or Discover are accepted, or a pre-paid DCI account.",
         "feeWaiver": "None identified.",
         "notice": "Not applicable. This is an agency record request, not a court filing.",
         "service": "Not applicable.",
-        "participantSignature": "A release authorization signature is required. Its absence invalidates the check for this purpose.",
+        "participantSignature": "The subject of the request signs the DCI-77 release authorization. Without it a complete record may not be releasable under Iowa Code chapter 692.2.",
         "notarization": "none"
       },
       "generationRequirements": [
@@ -40397,7 +40445,33 @@
           "confirms": "hasReleaseAuthorizationSigned"
         }
       ],
-      "manualCompletionItems": [],
+      "manualCompletionItems": [
+        {
+          "item": "Release authorization signature",
+          "whereInPacket": "DCI-77, RELEASE AUTHORIZATION SIGNATURE",
+          "why": "The subject of the request signs their own release. Without a signed release a complete criminal history record may not be releasable under Iowa Code chapter 692.2."
+        },
+        {
+          "item": "Payment",
+          "whereInPacket": "DCI-76 billing form",
+          "why": "The participant pays the $15 fee. Cash, cheque, money order and MasterCard, Visa or Discover are accepted, or a pre-paid DCI account number."
+        },
+        {
+          "item": "Criminal history result fields",
+          "whereInPacket": "Returned record",
+          "why": "Agency-completed. The Division returns the record to the participant; LegalEase never receives or inspects it."
+        },
+        {
+          "item": "Notarisation of results",
+          "whereInPacket": "DCI-77, 'I am required to have the results notarized'",
+          "why": "Only where another country's requirements demand it. Left to the participant."
+        },
+        {
+          "item": "The release authorization is signed by the subject of the request. DCI-77 is the only approved release authorization form for this purpose.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
       "selfHelpBoundaries": [
         "The check returns records the participant did not disclose.",
         "The check expires before the § 901C.3 application is filed.",
@@ -40405,41 +40479,31 @@
       ],
       "postGenerationHandoffs": [],
       "packetInstructions": [
-        "Deliver the timing plan that keeps the 30-day window open, because the check expiring before filing is a known failure mode.",
-        "Never collect, store or inspect the returned criminal history. The participant attaches it to their own application."
+        "Generate both the DCI-76 billing form and the DCI-77 request form. The official instructions direct that a billing form be sent with the request form and fee.",
+        "One request form and one fee per last name. Multiple names require separate forms and separate payments.",
+        "Payment is required before submission and the returned criminal-history report is a later participant-obtained item. LegalEase never collects, stores or inspects it.",
+        "The 30-day currency window is timing guidance for the downstream § 901C.3 filing, not a packet-generation blocker. Sequence the request so the check is obtained and the application filed inside the window."
       ],
       "participantQuestions": [],
       "scopeRestrictions": [
-        "Reclassified from relief to a supporting_action node. A criminal-history record check retrieves and verifies records; it does not alter, seal, expunge or correct one, and must not be counted as a paid packet mechanism.",
-        "Held as guidance solely because form DCI-77 has not been sourced into the corpus, so there is no verified form to fill. It is not guidance because an agency is involved or because LegalEase cannot submit the request."
+        "Remains a supporting_action non-relief node. A criminal-history record check retrieves and verifies records; it does not alter, seal, expunge or correct one, and must not be counted as a paid packet mechanism."
       ],
       "buildBlockers": [],
-      "releaseBlockers": [
+      "releaseBlockers": [],
+      "awaitingCounselClassification": [],
+      "openLegalQuestions": [
         {
-          "question": "Whether form DCI-77 is a participant-facing fillable form that LegalEase may prepare. Under the packet-only model this supporting action is expected to be packet-capable, because DCI-77 is a participant-completed request carrying a participant release authorization signature. No copy of DCI-77 has been sourced into the corpus, so the filing vehicle is unverified and no form mapping is asserted.",
-          "impact": "release_blocker",
-          "affectedElement": "correct_form",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
-            "sourceHeading": "TRACK G",
-            "sourceStatement": "What is required: an official DCI Iowa criminal history record check, obtained by submitting form DCI-77 with a release authorization signature, dated within the past 30 days of the filing of the § 901C.3 application."
-          }
-        },
-        {
-          "question": "The current DCI record check fee and portal. The Iowa Judicial Branch instructions state $15 through a state portal; verify at build time.",
-          "impact": "release_blocker",
+          "question": "The Iowa DPS page states the fee is $15 per last name with cash, cheque, money order and MasterCard, Visa or Discover accepted, and submission by mail, fax, email or in person. Confirm the amount and accepted methods again at build time, since the agency page carries no revision date.",
+          "impact": "nonblocking_research_note",
           "affectedElement": "filing_process",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
-            "sourceHeading": "OPEN QUESTIONS",
-            "sourceStatement": "The current DCI record check fee and portal. The Iowa Judicial Branch instructions state $15 through a state portal. Verify at build time."
+            "sourceFile": "Iowa Division of Criminal Investigation, Criminal History Billing and Request Forms (fillable), retrieved 2026-08-02",
+            "sourceHeading": "Criminal History Record Check Information",
+            "sourceStatement": "The fee for an Iowa Criminal History Record Check through the DCI is $15 per last name. Each last name requested requires a separate form and payment."
           }
         }
       ],
-      "awaitingCounselClassification": [],
-      "openLegalQuestions": [],
       "counselConfirmationRequired": false,
       "counselQuestions": [],
       "selfHelpStopConditions": [
@@ -40449,37 +40513,24 @@
       ],
       "unresolvedQuestions": [
         {
-          "question": "Whether form DCI-77 is a participant-facing fillable form that LegalEase may prepare. Under the packet-only model this supporting action is expected to be packet-capable, because DCI-77 is a participant-completed request carrying a participant release authorization signature. No copy of DCI-77 has been sourced into the corpus, so the filing vehicle is unverified and no form mapping is asserted.",
-          "impact": "release_blocker",
-          "affectedElement": "correct_form",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
-            "sourceHeading": "TRACK G",
-            "sourceStatement": "What is required: an official DCI Iowa criminal history record check, obtained by submitting form DCI-77 with a release authorization signature, dated within the past 30 days of the filing of the § 901C.3 application."
-          }
-        },
-        {
-          "question": "The current DCI record check fee and portal. The Iowa Judicial Branch instructions state $15 through a state portal; verify at build time.",
-          "impact": "release_blocker",
+          "question": "The Iowa DPS page states the fee is $15 per last name with cash, cheque, money order and MasterCard, Visa or Discover accepted, and submission by mail, fax, email or in person. Confirm the amount and accepted methods again at build time, since the agency page carries no revision date.",
+          "impact": "nonblocking_research_note",
           "affectedElement": "filing_process",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
-            "sourceHeading": "OPEN QUESTIONS",
-            "sourceStatement": "The current DCI record check fee and portal. The Iowa Judicial Branch instructions state $15 through a state portal. Verify at build time."
+            "sourceFile": "Iowa Division of Criminal Investigation, Criminal History Billing and Request Forms (fillable), retrieved 2026-08-02",
+            "sourceHeading": "Criminal History Record Check Information",
+            "sourceStatement": "The fee for an Iowa Criminal History Record Check through the DCI is $15 per last name. Each last name requested requires a separate form and payment."
           }
         }
       ],
-      "guidanceRationales": [
-        "participant_obtains_record"
-      ],
-      "guidanceRereviewCandidate": true,
+      "guidanceRationales": [],
+      "guidanceRereviewCandidate": false,
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "legalDesignLimitations": [
         {
           "classification": "scope_restriction",
-          "statement": "Reclassified from relief to a supporting_action node. A criminal-history record check retrieves and verifies records; it does not alter, seal, expunge or correct one, and must not be counted as a paid packet mechanism.",
+          "statement": "Remains a supporting_action non-relief node. A criminal-history record check retrieves and verifies records; it does not alter, seal, expunge or correct one, and must not be counted as a paid packet mechanism.",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
             "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
@@ -40488,39 +40539,59 @@
           }
         },
         {
-          "classification": "scope_restriction",
-          "statement": "Held as guidance solely because form DCI-77 has not been sourced into the corpus, so there is no verified form to fill. It is not guidance because an agency is involved or because LegalEase cannot submit the request.",
+          "classification": "packet_instruction",
+          "statement": "Generate both the DCI-76 billing form and the DCI-77 request form. The official instructions direct that a billing form be sent with the request form and fee.",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
-            "sourceHeading": "TRACK G",
-            "sourceStatement": "Output strategy: process_guidance. LegalEase cannot request another person's criminal history."
+            "sourceFile": "Iowa Division of Criminal Investigation, Criminal History Billing and Request Forms (fillable), retrieved 2026-08-02",
+            "sourceHeading": "Payment and Fee Information",
+            "sourceStatement": "PLEASE MAIL, FAX or EMAIL A BILLING FORM WITH THE REQUEST FORM(S) AND FEE(S) TO:"
           }
         },
         {
           "classification": "packet_instruction",
-          "statement": "Deliver the timing plan that keeps the 30-day window open, because the check expiring before filing is a known failure mode.",
+          "statement": "One request form and one fee per last name. Multiple names require separate forms and separate payments.",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
-            "sourceHeading": "TRACK G",
-            "sourceStatement": "Failure modes to design for: the check comes back showing records the participant did not disclose; the check expires before filing; the release authorization signature is missing, which invalidates it for this purpose."
+            "sourceFile": "Iowa Division of Criminal Investigation, Criminal History Billing and Request Forms (fillable), retrieved 2026-08-02",
+            "sourceHeading": "Request form",
+            "sourceStatement": "Multiple names require a separate Request Form and fee."
+          }
+        },
+        {
+          "classification": "manual_completion_item",
+          "statement": "The release authorization is signed by the subject of the request. DCI-77 is the only approved release authorization form for this purpose.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Iowa Division of Criminal Investigation, Criminal History Billing and Request Forms (fillable), retrieved 2026-08-02",
+            "sourceHeading": "RELEASE AUTHORIZATION INFORMATION",
+            "sourceStatement": "This form (DCI-77) is the only approved release authorization form for this purpose."
           }
         },
         {
           "classification": "packet_instruction",
-          "statement": "Never collect, store or inspect the returned criminal history. The participant attaches it to their own application.",
+          "statement": "Payment is required before submission and the returned criminal-history report is a later participant-obtained item. LegalEase never collects, stores or inspects it.",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
             "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
             "sourceHeading": "TRACK G",
             "sourceStatement": "What LegalEase can prepare: the instruction sheet, the identifying information the participant will need, and the timing plan that keeps the 30-day window open."
           }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "The 30-day currency window is timing guidance for the downstream § 901C.3 filing, not a packet-generation blocker. Sequence the request so the check is obtained and the application filed inside the window.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+            "sourceHeading": "TRACK B / PACKET COMPONENTS",
+            "sourceStatement": "The 30-day clock on the DCI check is the operational constraint of this track."
+          }
         }
       ],
       "legalStatus": "legal_review_pending",
       "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
-      "implementationQueue": "D_composed_or_process_guidance",
+      "implementationQueue": "F_source_problem",
       "legalDesignBlockers": [],
       "blockers": [
         {
@@ -40534,14 +40605,6 @@
         {
           "kind": "technical_proof_gate",
           "statement": "Technical proof not started."
-        },
-        {
-          "kind": "release_blocker",
-          "statement": "Open question blocks release (correct_form): Whether form DCI-77 is a participant-facing fillable form that LegalEase may prepare. Under the packet-only model this supporting action is expected to be packet-capable, because DCI-77 is a participant-completed request carrying a participant release authorization signature. No copy of DCI-77 has been sourced into the corpus, so the filing vehicle is unverified and no form mapping is asserted."
-        },
-        {
-          "kind": "release_blocker",
-          "statement": "Open question blocks release (filing_process): The current DCI record check fee and portal. The Iowa Judicial Branch instructions state $15 through a state portal; verify at build time."
         },
         {
           "kind": "source_gate",
@@ -47549,26 +47612,55 @@
       ],
       "outputStrategy": null,
       "outputStrategyDeclared": "composed",
-      "compositionMode": "sequential",
+      "compositionMode": "mixed",
       "units": [
         {
-          "unitId": "il-prb-cert-stage-1",
+          "unitId": "il-prb-cert-certificate-application",
           "order": 1,
-          "label": "Prisoner Review Board certificate of eligibility application",
-          "outputStrategy": "process_guidance",
-          "description": "Explain the Prisoner Review Board certificate route and prepare the participant's own facts. Under the packet-only model this stage is expected to be packet-capable, because a participant-facing application to the Board is what the statute contemplates. It is held as guidance only because no official PRB application form has been sourced into the corpus, so the filing vehicle is unverified. LegalEase does not compose the rehabilitation showing; participant narratives are participant-authored through structured prompts.",
-          "available": true,
-          "packetCapabilityPending": "official_pdf_fill",
-          "unavailableReason": null
+          "label": "Prisoner Review Board certificate application stage",
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "description": "The participant applies to the Board for a certificate. Which certificate depends on the branch below. Board discretion, the rehabilitation narrative, notarisation, supporting documents and a possible Board hearing are filing instructions and post-generation conditions, not reasons to withhold a packet.",
+          "available": true
         },
         {
-          "unitId": "il-prb-cert-stage-2",
+          "unitId": "il-prb-cert-sealing-branch",
           "order": 2,
-          "label": "Circuit court petition with the certificate attached",
+          "parentUnitId": "il-prb-cert-certificate-application",
+          "label": "Certificate of Sealing application, § 5.2(e-5)",
           "outputStrategy": "official_pdf_fill",
-          "description": "Generate the adult Request suite with the Prisoner Review Board certificate attached under § 5.2(d)(2), filed with the Chief Judge of the circuit of conviction, a designated judge of that circuit, or in counties under 3,000,000 the presiding trial judge.",
+          "outputStrategyStatus": "resolved",
+          "description": "Generate the Board's Certificate of Sealing Acknowledgement and Certificate of Sealing Application from the participant's answers. Both are fillable AcroForms published by the Board, revised 09/18/2024. The acknowledgement must be completed first and included with the petition or the petition is rejected and returned. Rehabilitation, personal-history and reasons narratives are participant-authored through structured prompts, and the perjury declaration is sworn before a notary.",
+          "available": true
+        },
+        {
+          "unitId": "il-prb-cert-military-branch",
+          "order": 3,
+          "parentUnitId": "il-prb-cert-certificate-application",
+          "label": "Certificate of Expungement for Military application",
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "description": "Generate the Board's Certificate of Expungement for Military Eligibility Acknowledgement and application, v9.18.24. This branch is military-specific and is offered only where the participant's eligibility rests on military service. It is not a general certificate-of-expungement application.",
+          "available": true
+        },
+        {
+          "unitId": "il-prb-cert-nonmilitary-expungement-branch",
+          "order": 4,
+          "parentUnitId": "il-prb-cert-certificate-application",
+          "label": "Non-military certificate of eligibility for expungement, § 5.2(e-6)",
+          "outputStrategyStatus": "unresolved",
+          "description": "Section 5.2(e-6) refers to a certificate of eligibility for expungement. The Board publishes a Certificate of Sealing and a military-specific Certificate of Expungement; no general non-military expungement-certificate application was located on the Board's site. The filing vehicle for this branch is unverified, so no packet is generated and no form mapping is asserted.",
           "available": false,
-          "unavailableReason": "The court stage cannot be generated until the Prisoner Review Board has issued the certificate, which is a discretionary agency decision outside LegalEase's control."
+          "unavailableReason": "No official non-military certificate-of-eligibility-for-expungement application has been located on the Prisoner Review Board site. The Certificate of Sealing application does not cover it and the military application is expressly military-specific."
+        },
+        {
+          "unitId": "il-prb-cert-court-petition",
+          "order": 5,
+          "label": "Circuit court petition with the issued certificate attached",
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "description": "Once the Board issues a certificate, generate the statewide adult Request suite with the certificate attached under § 5.2(d)(2), filed with the Chief Judge of the circuit of conviction, a designated judge of that circuit, or in counties under 3,000,000 the presiding trial judge.",
+          "available": true
         }
       ],
       "geographicScope": "statewide",
@@ -47584,24 +47676,54 @@
         "version": "1.0.0",
         "components": [
           {
-            "componentId": "il-prb-cert-process-guidance-1",
-            "role": "process_guidance",
+            "componentId": "il-prb-cert-primary-filing-1",
+            "role": "primary_filing",
             "requirement": "required",
             "conditionDescription": null,
-            "outputStrategy": "process_guidance",
-            "officialFormId": null,
-            "officialSourceUrl": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "PRB Certificate of Sealing Application",
+            "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Application__certificate-of-sealing-application__rev-2024-09-18.pdf",
             "order": 1
           },
           {
-            "componentId": "il-prb-cert-primary-filing-2",
+            "componentId": "il-prb-cert-attachment-2",
+            "role": "attachment",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "PRB Certificate of Sealing Eligibility Acknowledgement",
+            "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+            "order": 2
+          },
+          {
+            "componentId": "il-prb-cert-primary-filing-3",
             "role": "primary_filing",
             "requirement": "conditional",
-            "conditionDescription": "Stage 2, generated only once a certificate has been issued.",
+            "conditionDescription": "Military branch only, where eligibility rests on military service.",
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "PRB Certificate of Expungement for Military Application",
+            "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Application__military-certificate-of-expungement-application__rev-2024-09-18.pdf",
+            "order": 3
+          },
+          {
+            "componentId": "il-prb-cert-attachment-4",
+            "role": "attachment",
+            "requirement": "conditional",
+            "conditionDescription": "Military branch only.",
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "PRB Certificate of Expungement for Military Eligibility Acknowledgement",
+            "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+            "order": 4
+          },
+          {
+            "componentId": "il-prb-cert-primary-filing-5",
+            "role": "primary_filing",
+            "requirement": "conditional",
+            "conditionDescription": "Stage 2, generated once the Board has issued a certificate.",
             "outputStrategy": "official_pdf_fill",
             "officialFormId": "EXP-AD Request",
             "officialSourceUrl": null,
-            "order": 2
+            "order": 5
           }
         ],
         "participantActionRequired": [
@@ -47653,6 +47775,75 @@
             "requiredBeforeFiling": true
           },
           {
+            "kind": "obtain_document",
+            "description": "Obtain Educational documentation supporting the personal-history statement. Obtain a copy of your high school diploma, GED, college diploma or transcripts.",
+            "obtainedFrom": "School, college or awarding body",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"In your own words, give your personal life history: date and place of birth, education, employment, marital status, and whether you served in the military.\" against Educational documentation supporting the personal-history statement, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Employment documentation for the last five years. Provide W-2s, tax returns, paycheck stubs or a letter from your employers covering the last five years.",
+            "obtainedFrom": "Employers or tax records",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"In your own words, give your personal life history: date and place of birth, education, employment, marital status, and whether you served in the military.\" against Employment documentation for the last five years, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Proof of completion of any counselling. Ask the provider for proof of completion.",
+            "obtainedFrom": "Counselling provider",
+            "requirement": "conditional",
+            "conditionDescription": "Where the participant attended anger management, marriage, substance-abuse or similar counselling.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"In your own words, give your personal life history: date and place of birth, education, employment, marital status, and whether you served in the military.\" against Proof of completion of any counselling, and correct the packet if they disagree.",
+            "requirement": "conditional",
+            "conditionDescription": "Where the participant attended anger management, marriage, substance-abuse or similar counselling.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "obtain_document",
+            "description": "Obtain DD-214 or similar proof of military service. Request a copy of your DD-214.",
+            "obtainedFrom": "National Personnel Records Center or the service branch",
+            "requirement": "conditional",
+            "conditionDescription": "Where the participant served in the military, and required for the military certificate branch.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"Are you seeking the certificate on the basis of military service?\" against DD-214 or similar proof of military service, and correct the packet if they disagree.",
+            "requirement": "conditional",
+            "conditionDescription": "Where the participant served in the military, and required for the military certificate branch.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "obtain_document",
+            "description": "Obtain Fingerprint-based criminal history. Follow paragraph B-5 of the Board's Guidelines for when and how to obtain fingerprints for criminal history.",
+            "obtainedFrom": "As directed in Guidelines paragraph B-5",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "confirm_answer",
+            "description": "Check your answer to \"Have you petitioned the Prisoner Review Board for a certificate of sealing before, and if so when?\" against Fingerprint-based criminal history, and correct the packet if they disagree.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
             "kind": "complete_field",
             "description": "Petitioner's signature and verification date — Request, verification block.",
             "requirement": "required",
@@ -47671,8 +47862,38 @@
             "requiredBeforeFiling": true
           },
           {
+            "kind": "complete_field",
+            "description": "Notarised perjury declaration — Application, 'Signed and sworn before me' block.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Petitioner's signature — Application, Signature of Petitioner.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Witness or attorney signature on the acknowledgement — Acknowledgement, Signature of Witness/Attorney.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Proof of delivery to the sentencing judge and State's Attorney — Filing instruction sheet.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
             "kind": "sign",
-            "description": "The petitioner signs and verifies the Request. A wet signature is expected.",
+            "description": "The petitioner signs the application and swears the perjury declaration before a notary public.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "notarize",
+            "description": "Required. The declaration that all assertions are complete, truthful and accurate must be signed and sworn before a notary public.",
             "requirement": "required",
             "requiredBeforeFiling": true
           },
@@ -47697,7 +47918,7 @@
           },
           {
             "kind": "file",
-            "description": "File the Request, Case List, any Additional Cases forms and the proposed Order with the circuit clerk in each county where an arrest occurred or a charge was brought. E-file where the county requires it. AOIC requires the PDF to be flattened before e-filing, so LegalEase output is delivered pre-flattened.",
+            "description": "Mail or deliver the original petition to the Illinois Prisoner Review Board, 1001 North Walnut Street, Springfield, Illinois 62702. Staple or clip the pages so they can be separated; do not bind them or use plastic sleeves. The completed petition must be received at least 75 days before the first date of the hearing schedule to be considered on that docket.",
             "requirement": "required",
             "requiredBeforeFiling": false
           }
@@ -47709,10 +47930,25 @@
           "Check your answer to \"What is the case number?\" against Certified disposition for each case, and correct the packet if they disagree.",
           "Obtain Prisoner Review Board certificate of eligibility. Apply to the Prisoner Review Board for a certificate of eligibility for sealing or for expungement. The Board decides on an individualized rehabilitation showing.",
           "Check your answer to \"Has the Prisoner Review Board already issued you a certificate of eligibility?\" against Prisoner Review Board certificate of eligibility, and correct the packet if they disagree.",
+          "Obtain Educational documentation supporting the personal-history statement. Obtain a copy of your high school diploma, GED, college diploma or transcripts.",
+          "Check your answer to \"In your own words, give your personal life history: date and place of birth, education, employment, marital status, and whether you served in the military.\" against Educational documentation supporting the personal-history statement, and correct the packet if they disagree.",
+          "Obtain Employment documentation for the last five years. Provide W-2s, tax returns, paycheck stubs or a letter from your employers covering the last five years.",
+          "Check your answer to \"In your own words, give your personal life history: date and place of birth, education, employment, marital status, and whether you served in the military.\" against Employment documentation for the last five years, and correct the packet if they disagree.",
+          "Obtain Proof of completion of any counselling. Ask the provider for proof of completion.",
+          "Check your answer to \"In your own words, give your personal life history: date and place of birth, education, employment, marital status, and whether you served in the military.\" against Proof of completion of any counselling, and correct the packet if they disagree.",
+          "Obtain DD-214 or similar proof of military service. Request a copy of your DD-214.",
+          "Check your answer to \"Are you seeking the certificate on the basis of military service?\" against DD-214 or similar proof of military service, and correct the packet if they disagree.",
+          "Obtain Fingerprint-based criminal history. Follow paragraph B-5 of the Board's Guidelines for when and how to obtain fingerprints for criminal history.",
+          "Check your answer to \"Have you petitioned the Prisoner Review Board for a certificate of sealing before, and if so when?\" against Fingerprint-based criminal history, and correct the packet if they disagree.",
           "Petitioner's signature and verification date — Request, verification block.",
           "Expunge-versus-seal selection for each case — Case List, per-case election column.",
           "Hearing date — Any notice issued after an objection.",
-          "The petitioner signs and verifies the Request. A wet signature is expected.",
+          "Notarised perjury declaration — Application, 'Signed and sworn before me' block.",
+          "Petitioner's signature — Application, Signature of Petitioner.",
+          "Witness or attorney signature on the acknowledgement — Acknowledgement, Signature of Witness/Attorney.",
+          "Proof of delivery to the sentencing judge and State's Attorney — Filing instruction sheet.",
+          "The petitioner signs the application and swears the perjury declaration before a notary public.",
+          "Required. The declaration that all assertions are complete, truthful and accurate must be signed and sworn before a notary public.",
           "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
           "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived."
         ]
@@ -47750,13 +47986,13 @@
         }
       ],
       "rules": {
-        "filing": "File the Request, Case List, any Additional Cases forms and the proposed Order with the circuit clerk in each county where an arrest occurred or a charge was brought. E-file where the county requires it. AOIC requires the PDF to be flattened before e-filing, so LegalEase output is delivered pre-flattened.",
+        "filing": "Mail or deliver the original petition to the Illinois Prisoner Review Board, 1001 North Walnut Street, Springfield, Illinois 62702. Staple or clip the pages so they can be separated; do not bind them or use plastic sleeves. The completed petition must be received at least 75 days before the first date of the hearing schedule to be considered on that docket.",
         "fees": "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
         "feeWaiver": "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived.",
-        "notice": "Notice goes to the State's Attorney, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer. The objection period is 60 days from service under § 5.2(d)(5)(B). Unless an objection is filed the court shall enter an order granting or denying under § 5.2(d)(6)(B).",
+        "notice": "A copy of the petition must be delivered or mailed to the sentencing judge, or the chief judge of the circuit if the sentencing judge is no longer on the bench, of the county of conviction, and to the current State's Attorney of that county. Proof of those deliveries must be demonstrated to the Board.",
         "service": "The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one.",
-        "participantSignature": "The petitioner signs and verifies the Request. A wet signature is expected.",
-        "notarization": "none"
+        "participantSignature": "The petitioner signs the application and swears the perjury declaration before a notary public.",
+        "notarization": "Required. The declaration that all assertions are complete, truthful and accurate must be signed and sworn before a notary public."
       },
       "generationRequirements": [
         {
@@ -47783,6 +48019,36 @@
         {
           "key": "offenseExcludedFromSealing",
           "question": "Is your offense on the § 5.2(a)(3) exclusion list, so that ordinary sealing is unavailable?",
+          "requirement": "required"
+        },
+        {
+          "key": "eligibilityRestsOnMilitaryService",
+          "question": "Are you seeking the certificate on the basis of military service?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorPrbPetition",
+          "question": "Have you petitioned the Prisoner Review Board for a certificate of sealing before, and if so when?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorClemencyPetition",
+          "question": "Have you ever petitioned for executive clemency, and if so in what month and year was it considered?",
+          "requirement": "required"
+        },
+        {
+          "key": "personalLifeHistory",
+          "question": "In your own words, give your personal life history: date and place of birth, education, employment, marital status, and whether you served in the military.",
+          "requirement": "required"
+        },
+        {
+          "key": "reasonsForSeekingCertificate",
+          "question": "In your own words, why are you seeking this certificate?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseFactsStatement",
+          "question": "In your own words, describe the facts of the offence including dates, places and surrounding circumstances.",
           "requirement": "required"
         }
       ],
@@ -47818,6 +48084,48 @@
           "requiredBeforeFiling": true,
           "howToObtain": "Apply to the Prisoner Review Board for a certificate of eligibility for sealing or for expungement. The Board decides on an individualized rehabilitation showing.",
           "confirms": "hasPrbCertificate"
+        },
+        {
+          "name": "Educational documentation supporting the personal-history statement",
+          "obtainedFrom": "School, college or awarding body",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Obtain a copy of your high school diploma, GED, college diploma or transcripts.",
+          "confirms": "personalLifeHistory"
+        },
+        {
+          "name": "Employment documentation for the last five years",
+          "obtainedFrom": "Employers or tax records",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Provide W-2s, tax returns, paycheck stubs or a letter from your employers covering the last five years.",
+          "confirms": "personalLifeHistory"
+        },
+        {
+          "name": "Proof of completion of any counselling",
+          "obtainedFrom": "Counselling provider",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant attended anger management, marriage, substance-abuse or similar counselling.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the provider for proof of completion.",
+          "confirms": "personalLifeHistory"
+        },
+        {
+          "name": "DD-214 or similar proof of military service",
+          "obtainedFrom": "National Personnel Records Center or the service branch",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant served in the military, and required for the military certificate branch.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request a copy of your DD-214.",
+          "confirms": "eligibilityRestsOnMilitaryService"
+        },
+        {
+          "name": "Fingerprint-based criminal history",
+          "obtainedFrom": "As directed in Guidelines paragraph B-5",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Follow paragraph B-5 of the Board's Guidelines for when and how to obtain fingerprints for criminal history.",
+          "confirms": "priorPrbPetition"
         }
       ],
       "manualCompletionItems": [
@@ -47835,27 +48143,48 @@
           "item": "Hearing date",
           "whereInPacket": "Any notice issued after an objection",
           "why": "The court sets the hearing only if an objection is filed, with at least 30 days' notice."
+        },
+        {
+          "item": "Notarised perjury declaration",
+          "whereInPacket": "Application, 'Signed and sworn before me' block",
+          "why": "The Guidelines require the declaration to be signed and sworn before a notary public. Perjury is a Class 3 felony."
+        },
+        {
+          "item": "Petitioner's signature",
+          "whereInPacket": "Application, Signature of Petitioner",
+          "why": "The participant signs their own application."
+        },
+        {
+          "item": "Witness or attorney signature on the acknowledgement",
+          "whereInPacket": "Acknowledgement, Signature of Witness/Attorney",
+          "why": "Third-party completed. LegalEase leaves it blank."
+        },
+        {
+          "item": "Proof of delivery to the sentencing judge and State's Attorney",
+          "whereInPacket": "Filing instruction sheet",
+          "why": "The Guidelines require proof, by notarised affidavit or otherwise, that copies were sent to the sentencing or chief judge and the current State's Attorney of the county of conviction."
         }
       ],
       "selfHelpBoundaries": [
         "Stage 1 always: the certificate application is a discretionary rehabilitation case and is not suitable for an automated template.",
         "Any objection or contested hearing at stage 2.",
         "Office of the State Appellate Defender, Expungement Unit, 866-787-1776, is the statewide referral destination for every stop condition.",
-        "Stage 1 is a referral in every case."
+        "A Board hearing is a post-generation event. Refer where the Board sets a hearing or where the participant needs advocacy before the Board."
       ],
       "postGenerationHandoffs": [],
       "packetInstructions": [
-        "Notarization, supporting documents, acknowledgements and a possible Board hearing are filing instructions and post-generation handoff conditions. None of them is a generation blocker.",
-        "The circuit clerk serves under § 5.2(d)(4). Participant-facing instructions must not tell anyone to serve the State's Attorney, ISP, the arresting agency or the chief legal officer.",
-        "Deliver every generated Illinois form pre-flattened, because AOIC requires the PDF to be flattened before e-filing.",
-        "Where an offense is on the § 5.2(a)(3) exclusion list, present this route and the certificates under 730 ILCS 5/5-5.5 as the next answer rather than telling the participant there is no remedy."
+        "The Acknowledgement form must be completed before the application and included with the petition, or the petition is rejected and returned.",
+        "Notarisation is required before filing: the declaration that all assertions are complete, truthful and accurate must be signed and sworn before a notary public. Perjury is a Class 3 felony punishable by up to 10 years.",
+        "Supporting documentation is required before filing and is obtained by the participant: diplomas or transcripts, five years of employment records, proof of completed counselling, a DD-214 where applicable, child-support status where applicable, and any awards, certificates or character letters.",
+        "File at least 75 days before the first hearing date on the docket, mail or deliver to the Board at 1001 North Walnut Street, Springfield, Illinois 62702, and send copies to the sentencing or chief judge and the current State's Attorney of the county of conviction with proof of delivery.",
+        "No petition will be accepted for review within four years of the denial of a prior petition for the same individual, unless the Chairman permits an exception for compelling reasons."
       ],
       "participantQuestions": [
-        "Where stage 1 becomes packet-capable, the rehabilitation and hardship narratives are participant-authored through structured prompts. LegalEase formats the participant's own facts and never composes the showing."
+        "The facts-of-the-offence statement, the personal life history and the reasons for seeking the certificate are participant-authored through structured prompts. LegalEase formats the participant's own words and never composes the rehabilitation showing."
       ],
       "scopeRestrictions": [
-        "Stage 1 re-reviewed under the packet-only model. The Board's discretion and the participant's rehabilitation showing do not make the stage guidance-only. It is held as guidance solely because no participant-facing Prisoner Review Board application form has been sourced into the corpus; the Illinois library holds only the adult, cannabis and juvenile suites.",
-        "A Certificate of Sealing application under § 5.2(e-5) and a Certificate of Eligibility for Expungement under § 5.2(e-6) are legally distinct. Do not treat a sourced sealing application as covering the expungement certificate. Neither is sourced today."
+        "Stage 1 is now packet-capable. The Certificate of Sealing Application and Acknowledgement were retrieved from the Prisoner Review Board's official site, are fillable AcroForms revised 09/18/2024, and are participant-completed. The earlier hold rested only on the forms being absent from the corpus; that gap is closed.",
+        "The military Certificate of Expungement branch is military-specific and must not be presented as a general certificate-of-expungement application. A § 5.2(e-5) sealing certificate and a § 5.2(e-6) expungement certificate remain legally distinct."
       ],
       "buildBlockers": [],
       "releaseBlockers": [
@@ -47882,19 +48211,31 @@
           }
         },
         {
-          "question": "Whether the Illinois Prisoner Review Board publishes a participant-facing Certificate of Eligibility for Sealing application under § 5.2(e-5), and separately a Certificate of Eligibility for Expungement application under § 5.2(e-6). Neither form has been sourced into the corpus, so stage 1 has no verified filing vehicle and is held as guidance rather than mapped.",
+          "question": "Whether any official non-military certificate of eligibility for expungement application exists under § 5.2(e-6). The Prisoner Review Board publishes a Certificate of Sealing and a military-specific Certificate of Expungement; no general non-military expungement-certificate application was located on the Board's site. That branch alone is held.",
           "impact": "release_blocker",
           "affectedElement": "correct_form",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
             "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
             "sourceHeading": "TRACK K",
-            "sourceStatement": "Controlling statute: § 5.2(e-5) for a certificate of eligibility for sealing; § 5.2(e-6) for a certificate of eligibility for expungement; attachment requirement at § 5.2(d)(2); certificates issued under 730 ILCS 5/3-3-2(a)(10) and the Certificate provisions of 730 ILCS 5/5-5.5"
+            "sourceStatement": "Controlling statute: § 5.2(e-5) for a certificate of eligibility for sealing; § 5.2(e-6) for a certificate of eligibility for expungement"
           }
         }
       ],
       "awaitingCounselClassification": [],
-      "openLegalQuestions": [],
+      "openLegalQuestions": [
+        {
+          "question": "Whether the Certificate of Sealing Acknowledgement and the military Eligibility Acknowledgement carry their own revision dates. Both are published undated alongside dated 09/18/2024 application and guideline files.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Illinois Prisoner Review Board, Guidelines for Certificate of Sealing, revised 09/18/2024",
+            "sourceHeading": "A) The petition",
+            "sourceStatement": "The petition must contain the Certificate of Sealing Acknowledgement Form"
+          }
+        }
+      ],
       "counselConfirmationRequired": false,
       "counselQuestions": [],
       "selfHelpStopConditions": [
@@ -47926,14 +48267,25 @@
           }
         },
         {
-          "question": "Whether the Illinois Prisoner Review Board publishes a participant-facing Certificate of Eligibility for Sealing application under § 5.2(e-5), and separately a Certificate of Eligibility for Expungement application under § 5.2(e-6). Neither form has been sourced into the corpus, so stage 1 has no verified filing vehicle and is held as guidance rather than mapped.",
+          "question": "Whether any official non-military certificate of eligibility for expungement application exists under § 5.2(e-6). The Prisoner Review Board publishes a Certificate of Sealing and a military-specific Certificate of Expungement; no general non-military expungement-certificate application was located on the Board's site. That branch alone is held.",
           "impact": "release_blocker",
           "affectedElement": "correct_form",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
             "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
             "sourceHeading": "TRACK K",
-            "sourceStatement": "Controlling statute: § 5.2(e-5) for a certificate of eligibility for sealing; § 5.2(e-6) for a certificate of eligibility for expungement; attachment requirement at § 5.2(d)(2); certificates issued under 730 ILCS 5/3-3-2(a)(10) and the Certificate provisions of 730 ILCS 5/5-5.5"
+            "sourceStatement": "Controlling statute: § 5.2(e-5) for a certificate of eligibility for sealing; § 5.2(e-6) for a certificate of eligibility for expungement"
+          }
+        },
+        {
+          "question": "Whether the Certificate of Sealing Acknowledgement and the military Eligibility Acknowledgement carry their own revision dates. Both are published undated alongside dated 09/18/2024 application and guideline files.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Illinois Prisoner Review Board, Guidelines for Certificate of Sealing, revised 09/18/2024",
+            "sourceHeading": "A) The petition",
+            "sourceStatement": "The petition must contain the Certificate of Sealing Acknowledgement Form"
           }
         }
       ],
@@ -47943,37 +48295,77 @@
       "legalDesignLimitations": [
         {
           "classification": "scope_restriction",
-          "statement": "Stage 1 re-reviewed under the packet-only model. The Board's discretion and the participant's rehabilitation showing do not make the stage guidance-only. It is held as guidance solely because no participant-facing Prisoner Review Board application form has been sourced into the corpus; the Illinois library holds only the adult, cannabis and juvenile suites.",
+          "statement": "Stage 1 is now packet-capable. The Certificate of Sealing Application and Acknowledgement were retrieved from the Prisoner Review Board's official site, are fillable AcroForms revised 09/18/2024, and are participant-completed. The earlier hold rested only on the forms being absent from the corpus; that gap is closed.",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
-            "sourceHeading": "PART 2: SOURCE FORM AND DOCUMENT REVIEW",
-            "sourceStatement": "All Illinois Supreme Court forms below are published by the Administrative Office of the Illinois Courts and approved by the Supreme Court Commission on Access to Justice."
-          }
-        },
-        {
-          "classification": "participant_question",
-          "statement": "Where stage 1 becomes packet-capable, the rehabilitation and hardship narratives are participant-authored through structured prompts. LegalEase formats the participant's own facts and never composes the showing.",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
-            "sourceHeading": "TRACK K",
-            "sourceStatement": "Stage 1, the PRB certificate application: process_guidance. Discretionary agency relief on an individualized rehabilitation showing."
+            "sourceFile": "Illinois Prisoner Review Board, Guidelines for Certificate of Sealing, revised 09/18/2024",
+            "sourceHeading": "A) The petition",
+            "sourceStatement": "Certificate of Sealing is requested by means of a typewritten petition. You must utilize the Certificate of Sealing Application form, also located on the agency website, to request a hearing"
           }
         },
         {
           "classification": "packet_instruction",
-          "statement": "Notarization, supporting documents, acknowledgements and a possible Board hearing are filing instructions and post-generation handoff conditions. None of them is a generation blocker.",
+          "statement": "The Acknowledgement form must be completed before the application and included with the petition, or the petition is rejected and returned.",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
-            "sourceHeading": "TRACK K",
-            "sourceStatement": "Two stages, and they are different bodies:"
+            "sourceFile": "Illinois Prisoner Review Board, Guidelines for Certificate of Sealing, revised 09/18/2024",
+            "sourceHeading": "A) The petition",
+            "sourceStatement": "The petition must contain the Certificate of Sealing Acknowledgement Form along with all of the following or it will be rejected and returned"
+          }
+        },
+        {
+          "classification": "participant_question",
+          "statement": "The facts-of-the-offence statement, the personal life history and the reasons for seeking the certificate are participant-authored through structured prompts. LegalEase formats the participant's own words and never composes the rehabilitation showing.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Illinois Prisoner Review Board, Guidelines for Certificate of Sealing, revised 09/18/2024",
+            "sourceHeading": "A) The petition, paragraphs 3, 5 and 7",
+            "sourceStatement": "A detailed statement of the facts of the offenses, including dates, places and all surrounding circumstances. This should include petitioner's version of the offenses."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Notarisation is required before filing: the declaration that all assertions are complete, truthful and accurate must be signed and sworn before a notary public. Perjury is a Class 3 felony punishable by up to 10 years.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Illinois Prisoner Review Board, Guidelines for Certificate of Sealing, revised 09/18/2024",
+            "sourceHeading": "A) The petition, paragraph 10",
+            "sourceStatement": "This statement must be signed and sworn to before a notary public by the petitioner."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Supporting documentation is required before filing and is obtained by the participant: diplomas or transcripts, five years of employment records, proof of completed counselling, a DD-214 where applicable, child-support status where applicable, and any awards, certificates or character letters.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Illinois Prisoner Review Board, Guidelines for Certificate of Sealing, revised 09/18/2024",
+            "sourceHeading": "A) The petition, paragraphs 6 and 8",
+            "sourceStatement": "Required Documentation: Attach material to support the claims in paragraph 5"
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "File at least 75 days before the first hearing date on the docket, mail or deliver to the Board at 1001 North Walnut Street, Springfield, Illinois 62702, and send copies to the sentencing or chief judge and the current State's Attorney of the county of conviction with proof of delivery.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Illinois Prisoner Review Board, Guidelines for Certificate of Sealing, revised 09/18/2024",
+            "sourceHeading": "B) Filing of petition",
+            "sourceStatement": "The completed petition, as described in (A) above, must be received at the Board office at least 75 days prior to the first date of the hearing schedule in order to be considered on that docket."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "No petition will be accepted for review within four years of the denial of a prior petition for the same individual, unless the Chairman permits an exception for compelling reasons.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Illinois Prisoner Review Board, Guidelines for Certificate of Sealing, revised 09/18/2024",
+            "sourceHeading": "NOTE # 1",
+            "sourceStatement": "No petition will be accepted for review within four years of the date of the denial of a prior petition on behalf of the same individual."
           }
         },
         {
           "classification": "scope_restriction",
-          "statement": "A Certificate of Sealing application under § 5.2(e-5) and a Certificate of Eligibility for Expungement under § 5.2(e-6) are legally distinct. Do not treat a sourced sealing application as covering the expungement certificate. Neither is sourced today.",
+          "statement": "The military Certificate of Expungement branch is military-specific and must not be presented as a general certificate-of-expungement application. A § 5.2(e-5) sealing certificate and a § 5.2(e-6) expungement certificate remain legally distinct.",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
             "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
@@ -47982,38 +48374,8 @@
           }
         },
         {
-          "classification": "packet_instruction",
-          "statement": "The circuit clerk serves under § 5.2(d)(4). Participant-facing instructions must not tell anyone to serve the State's Attorney, ISP, the arresting agency or the chief legal officer.",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
-            "sourceHeading": "Required limitations, corrections, and additional research / 2",
-            "sourceStatement": "Fix the service model everywhere. The circuit clerk serves under § 5.2(d)(4). Participant-facing instructions must not tell anyone to serve the State's Attorney, ISP, the arresting agency, or the chief legal officer."
-          }
-        },
-        {
-          "classification": "packet_instruction",
-          "statement": "Deliver every generated Illinois form pre-flattened, because AOIC requires the PDF to be flattened before e-filing.",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
-            "sourceHeading": "PART 2: SOURCE FORM AND DOCUMENT REVIEW / 2.1 Adult suite",
-            "sourceStatement": "AOIC instructs users to download and save each form in Adobe Acrobat or Reader before filling it, because filling on a webpage loses progress, and to flatten the PDF before e-filing. Any LegalEase output must be delivered pre-flattened."
-          }
-        },
-        {
-          "classification": "packet_instruction",
-          "statement": "Where an offense is on the § 5.2(a)(3) exclusion list, present this route and the certificates under 730 ILCS 5/5-5.5 as the next answer rather than telling the participant there is no remedy.",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
-            "sourceHeading": "TRACK K",
-            "sourceStatement": "Why this track matters: it is the route for people whose convictions are otherwise excluded from sealing. When Wilma has to tell someone their offense is on the (a)(3) exclusion list, this and the certificates under 730 ILCS 5/5-5.5 are the honest next answer, not a dead end."
-          }
-        },
-        {
           "classification": "self_help_boundary",
-          "statement": "Stage 1 is a referral in every case.",
+          "statement": "A Board hearing is a post-generation event. Refer where the Board sets a hearing or where the participant needs advocacy before the Board.",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
             "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
@@ -48049,7 +48411,7 @@
         },
         {
           "kind": "release_blocker",
-          "statement": "Open question blocks release (correct_form): Whether the Illinois Prisoner Review Board publishes a participant-facing Certificate of Eligibility for Sealing application under § 5.2(e-5), and separately a Certificate of Eligibility for Expungement application under § 5.2(e-6). Neither form has been sourced into the corpus, so stage 1 has no verified filing vehicle and is held as guidance rather than mapped."
+          "statement": "Open question blocks release (correct_form): Whether any official non-military certificate of eligibility for expungement application exists under § 5.2(e-6). The Prisoner Review Board publishes a Certificate of Sealing and a military-specific Certificate of Expungement; no general non-military expungement-certificate application was located on the Board's site. That branch alone is held."
         },
         {
           "kind": "source_gate",
@@ -53233,10 +53595,15 @@
         "elected_official_offense"
       ],
       "exclusions": [
-        "Filing without the prosecuting attorney's written consent.",
-        "Convictions excluded by the statutory exclusion structure, to be verified against the current text.",
-        "Charges pending anywhere.",
-        "Unpaid fines, fees, court costs or unsatisfied restitution."
+        "Sex or violent offenders as defined in I.C. 11-8-8-5.",
+        "Persons convicted of a felony that resulted in the death of another person.",
+        "Persons convicted of official misconduct under I.C. 35-44.1-1-1, unless the person is not an elected official or an elected or appointed judicial officer.",
+        "Persons convicted of any homicide offence or attempt under I.C. 35-42-1.",
+        "Persons convicted of any human or sexual trafficking offence or attempt under I.C. 35-42-3.5.",
+        "Persons convicted of any sex crimes offence or attempt under I.C. 35-42-4.",
+        "Persons convicted of unlawful possession of a firearm by a serious violent felon.",
+        "Persons convicted of two or more felony offences involving the unlawful use of a deadly weapon not committed as part of the same episode of criminal conduct, as defined in I.C. 35-31.5-2-46.5.",
+        "Filing without the prosecuting attorney's written consent."
       ],
       "waitingPeriods": [
         {
@@ -53244,8 +53611,8 @@
           "duration": "10 years from conviction or 5 years from completion of the sentence, whichever is later, shortened by the prosecuting attorney's written consent"
         }
       ],
-      "outputStrategy": "official_pdf_fill",
-      "outputStrategyDeclared": "official_pdf_fill",
+      "outputStrategy": "custom_pleading",
+      "outputStrategyDeclared": "custom_pleading",
       "compositionMode": null,
       "units": [],
       "geographicScope": "statewide",
@@ -53265,9 +53632,9 @@
             "role": "primary_filing",
             "requirement": "required",
             "conditionDescription": null,
-            "outputStrategy": "official_pdf_fill",
-            "officialFormId": "CCA conviction expungement petition",
-            "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Indiana/ConvictionPetitionOrder0320Fillable.pdf",
+            "outputStrategy": "custom_pleading",
+            "officialFormId": null,
+            "officialSourceUrl": null,
             "order": 1
           },
           {
@@ -53275,8 +53642,8 @@
             "role": "proposed_order",
             "requirement": "required",
             "conditionDescription": null,
-            "outputStrategy": "official_pdf_fill",
-            "officialFormId": "CCA conviction expungement order",
+            "outputStrategy": "custom_pleading",
+            "officialFormId": null,
             "officialSourceUrl": null,
             "order": 2
           },
@@ -53285,8 +53652,8 @@
             "role": "attachment",
             "requirement": "required",
             "conditionDescription": null,
-            "outputStrategy": "official_pdf_fill",
-            "officialFormId": "CCA Section 5 conviction expungement insert",
+            "outputStrategy": "custom_pleading",
+            "officialFormId": null,
             "officialSourceUrl": null,
             "order": 3
           },
@@ -53319,6 +53686,16 @@
             "officialFormId": "Confidential Information Form",
             "officialSourceUrl": null,
             "order": 6
+          },
+          {
+            "componentId": "in_conviction_serious_felony-instructions-7",
+            "role": "instructions",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "custom_pleading",
+            "officialFormId": null,
+            "officialSourceUrl": null,
+            "order": 7
           }
         ],
         "participantActionRequired": [
@@ -53395,26 +53772,26 @@
           },
           {
             "kind": "pay_fee",
-            "description": "A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.",
+            "description": "The petitioner pays the filing fee for a civil case. The court may reduce or waive it if the petitioner is indigent, under I.C. 35-38-9-8(d).",
             "requirement": "required",
             "requiredBeforeFiling": true
           },
           {
             "kind": "apply_fee_waiver",
-            "description": "Unresolved. Indigency waiver availability has not been confirmed.",
+            "description": "Available. The court may reduce or waive the civil filing fee for an indigent petitioner under I.C. 35-38-9-8(d).",
             "requirement": "conditional",
             "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
             "requiredBeforeFiling": true
           },
           {
             "kind": "serve_party",
-            "description": "Service on the prosecuting attorney under the Trial Rules. The CCA appearance form carries a certificate of service to the county prosecutor; follow the form.",
+            "description": "In accordance with the Indiana Rules of Trial Procedure, I.C. 35-38-9-8(e).",
             "requirement": "required",
             "requiredBeforeFiling": false
           },
           {
             "kind": "file",
-            "description": "File the verified petition, order, appearance, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county of conviction, as case type XP.",
+            "description": "File the verified petition and proposed order in a circuit or superior court in the county of conviction, as case type XP.",
             "requirement": "required",
             "requiredBeforeFiling": false
           }
@@ -53431,8 +53808,8 @@
           "Additional-information narrative — Petition, additional information.",
           "Full Social Security number — Confidential Information Form.",
           "The petition is verified and signed by the petitioner.",
-          "A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.",
-          "Unresolved. Indigency waiver availability has not been confirmed."
+          "The petitioner pays the filing fee for a civil case. The court may reduce or waive it if the petitioner is indigent, under I.C. 35-38-9-8(d).",
+          "Available. The court may reduce or waive the civil filing fee for an indigent petitioner under I.C. 35-38-9-8(d)."
         ]
       },
       "officialSources": [
@@ -53462,11 +53839,11 @@
         }
       ],
       "rules": {
-        "filing": "File the verified petition, order, appearance, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county of conviction, as case type XP.",
-        "fees": "A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.",
-        "feeWaiver": "Unresolved. Indigency waiver availability has not been confirmed.",
-        "notice": "The petition is served on the prosecuting attorney under the Trial Rules. A victim is entitled to submit an oral or written statement in support or opposition, with no right of cross-examination by the petitioner.",
-        "service": "Service on the prosecuting attorney under the Trial Rules. The CCA appearance form carries a certificate of service to the county prosecutor; follow the form.",
+        "filing": "File the verified petition and proposed order in a circuit or superior court in the county of conviction, as case type XP.",
+        "fees": "The petitioner pays the filing fee for a civil case. The court may reduce or waive it if the petitioner is indigent, under I.C. 35-38-9-8(d).",
+        "feeWaiver": "Available. The court may reduce or waive the civil filing fee for an indigent petitioner under I.C. 35-38-9-8(d).",
+        "notice": "Service is made in accordance with the Indiana Rules of Trial Procedure under I.C. 35-38-9-8(e). The prosecuting attorney must respond no later than 30 days after receipt and waives objection by failing to respond, under I.C. 35-38-9-8(g). The prosecuting attorney must notify the victim of their rights under I.C. 35-38-9-8(f), and the victim may submit an oral or written statement under I.C. 35-38-9-9(d).",
+        "service": "In accordance with the Indiana Rules of Trial Procedure, I.C. 35-38-9-8(e).",
         "participantSignature": "The petition is verified and signed by the petitioner.",
         "notarization": "none"
       },
@@ -53600,29 +53977,23 @@
       "packetInstructions": [
         "Never say records are destroyed. In Indiana expungement means records are sealed or restricted under § 35-38-9-1(k). The Office of Judicial Administration states plainly that court records are not deleted or destroyed under I.C. 35-38-9.",
         "Put only the last four digits of the Social Security number on the petition. The full number goes on the Confidential Information Form, filed as a confidential document, accompanied by the Notice of Exclusion of Confidential Information from Public Access. Do not persist the full number.",
-        "Disclose that the expungement case file is public until the order is granted."
+        "Disclose that the expungement case file is public until the order is granted.",
+        "The petition must not be filed without the written prosecutor consent § 35-38-9-5 requires. State this prominently in the filing instructions.",
+        "The court may reduce or waive the civil filing fee for an indigent petitioner under I.C. 35-38-9-8(d). Surface the waiver.",
+        "The prosecuting attorney must respond within 30 days of receipt and waives any objection by failing to respond, under I.C. 35-38-9-8(g)."
       ],
       "participantQuestions": [],
       "scopeRestrictions": [
         "One petition per lifetime under § 35-38-9-9(i). Petitions filed in separate counties count as one only if they land inside a single 365-day window. Build the eligibility calendar and the 365-day window optimiser before the petition generator; in Indiana the scheduling decision is worth more than the document.",
         "Put a hard gate in front of any conviction filing: where the participant has any conviction not yet eligible, surface Chastain v. State and the consequence of filing early before letting them proceed. Under Chastain a petitioner cannot use the liberal amendment rule to add records that were not yet eligible when the initial petition was filed, so filing now can permanently cost a record that ripens later. This is a delivery gate, not a generation blocker.",
         "The prosecuting attorney's written consent is required to file at all on this track. Silence is not consent. Obtaining it is a participant action and a required-before-filing item, not a reason to withhold generation.",
-        "The Section 5 conviction insert is not in the corpus. Acquisition is a source gate; the conviction packet cannot be completed without it.",
-        "The grant is discretionary. Route to a legal-review gate before offering this track."
+        "The grant is discretionary. Route to a legal-review gate before offering this track.",
+        "There is no Coalition for Court Access Section 5 insert to acquire. The published conviction inserts cover Sections 2, 3 and 4 only. The route uses a controlled statutory custom pleading with a verified local-form override, and yields to a published local form where one exists.",
+        "LegalEase does not obtain the prosecuting attorney's consent and does not negotiate for it. The packet carries the consent as an attachment or a clearly labelled placeholder, with instructions for requesting it. Where negotiation is needed this is an attorney-handoff point.",
+        "Bodily injury or serious bodily injury must be an element of the offence of conviction for the exclusion to apply, per Allen v. State, 159 N.E.3d 580 (Ind. 2020). The court nonetheless retains discretion and may consider the facts incident to the conviction.",
+        "The Coalition for Court Access base conviction petition and order bundle in the corpus is the 03/2020 revision and predates later amendments to the chapter. Retain it as a reference only; do not silently approve it as the Section 5 instrument."
       ],
-      "buildBlockers": [
-        {
-          "question": "The Coalition for Court Access Section 5 conviction insert has not been sourced into the corpus. Sections 2, 3 and 4 inserts are present; the Section 5 insert is not, so the conviction packet for this track cannot be completed.",
-          "impact": "build_blocker",
-          "affectedElement": "packet_components",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
-            "sourceHeading": "Documents to acquire",
-            "sourceStatement": "The Coalition for Court Access Conviction Insert Forms, the facts, findings, and exhibit pages the petition and order both call for."
-          }
-        }
-      ],
+      "buildBlockers": [],
       "releaseBlockers": [
         {
           "question": "The amount of the civil filing fee for a Sections 2 through 5 petition, whether it is charged per county, and whether an indigency waiver is available.",
@@ -53636,17 +54007,6 @@
           }
         },
         {
-          "question": "Whether the statewide exclusions the internal reference lists for Sections 2 through 5 — sex or violent offenders, official misconduct, homicide, human trafficking, two or more deadly-weapon felonies, elected officials — are stated in § 35-38-9-2 through 5 or elsewhere. Verify each against the current text before the evaluator uses them.",
-          "impact": "release_blocker",
-          "affectedElement": "eligibility_branch",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
-            "sourceHeading": "Open questions",
-            "sourceStatement": "Whether the statewide exclusions the internal reference lists for Sections 2 through 5, including sex or violent offenders, official misconduct, homicide, human trafficking, two or more deadly weapon felonies, and elected officials, are stated in § 35-38-9-2 through 5 or elsewhere. Verify each against the current text before the evaluator uses them."
-          }
-        },
-        {
           "question": "What P.L.77-2025 changed in § 35-38-9-5, and whether the 2026 session amended the chapter again. The Office of Judicial Administration's own publication says the statutes experience yearly modification.",
           "impact": "release_blocker",
           "affectedElement": "governing_mechanism",
@@ -53655,6 +54015,28 @@
             "sourceFile": "LegalEase-Indiana-Legal-Review.md",
             "sourceHeading": "Open questions",
             "sourceStatement": "What P.L.77-2025 changed in § 35-38-9-5, and whether the 2026 session amended the chapter again."
+          }
+        },
+        {
+          "question": "The Coalition for Court Access base conviction petition and order bundle in the corpus is the 03/2020 revision, while the governing chapter has been amended since. Verify the current base petition and order against the current statute before release, or generate wholly from the controlled custom pleading.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+            "sourceHeading": "PART 2 - SOURCE FORM AND DOCUMENT REVIEW",
+            "sourceStatement": "ConvictionPetitionOrder0320Fillable.pdf, uploaded"
+          }
+        },
+        {
+          "question": "Counsel should approve the specimen Section 5 petition and proposed order before release, as the review requires for any Indiana custom pleading.",
+          "impact": "release_blocker",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+            "sourceHeading": "OVERALL JURISDICTION DECISION",
+            "sourceStatement": "Lawrence signs off on the section classification logic, on the exclusion list in open question 8, and on the self-help stop conditions."
           }
         }
       ],
@@ -53690,17 +54072,6 @@
           }
         },
         {
-          "question": "Whether the statewide exclusions the internal reference lists for Sections 2 through 5 — sex or violent offenders, official misconduct, homicide, human trafficking, two or more deadly-weapon felonies, elected officials — are stated in § 35-38-9-2 through 5 or elsewhere. Verify each against the current text before the evaluator uses them.",
-          "impact": "release_blocker",
-          "affectedElement": "eligibility_branch",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
-            "sourceHeading": "Open questions",
-            "sourceStatement": "Whether the statewide exclusions the internal reference lists for Sections 2 through 5, including sex or violent offenders, official misconduct, homicide, human trafficking, two or more deadly weapon felonies, and elected officials, are stated in § 35-38-9-2 through 5 or elsewhere. Verify each against the current text before the evaluator uses them."
-          }
-        },
-        {
           "question": "What P.L.77-2025 changed in § 35-38-9-5, and whether the 2026 session amended the chapter again. The Office of Judicial Administration's own publication says the statutes experience yearly modification.",
           "impact": "release_blocker",
           "affectedElement": "governing_mechanism",
@@ -53712,14 +54083,25 @@
           }
         },
         {
-          "question": "The Coalition for Court Access Section 5 conviction insert has not been sourced into the corpus. Sections 2, 3 and 4 inserts are present; the Section 5 insert is not, so the conviction packet for this track cannot be completed.",
-          "impact": "build_blocker",
-          "affectedElement": "packet_components",
+          "question": "The Coalition for Court Access base conviction petition and order bundle in the corpus is the 03/2020 revision, while the governing chapter has been amended since. Verify the current base petition and order against the current statute before release, or generate wholly from the controlled custom pleading.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
             "sourceFile": "LegalEase-Indiana-Legal-Review.md",
-            "sourceHeading": "Documents to acquire",
-            "sourceStatement": "The Coalition for Court Access Conviction Insert Forms, the facts, findings, and exhibit pages the petition and order both call for."
+            "sourceHeading": "PART 2 - SOURCE FORM AND DOCUMENT REVIEW",
+            "sourceStatement": "ConvictionPetitionOrder0320Fillable.pdf, uploaded"
+          }
+        },
+        {
+          "question": "Counsel should approve the specimen Section 5 petition and proposed order before release, as the review requires for any Indiana custom pleading.",
+          "impact": "release_blocker",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+            "sourceHeading": "OVERALL JURISDICTION DECISION",
+            "sourceStatement": "Lawrence signs off on the section classification logic, on the exclusion list in open question 8, and on the self-help stop conditions."
           }
         }
       ],
@@ -53789,16 +54171,6 @@
         },
         {
           "classification": "scope_restriction",
-          "statement": "The Section 5 conviction insert is not in the corpus. Acquisition is a source gate; the conviction packet cannot be completed without it.",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
-            "sourceHeading": "PART 2 - SOURCE FORM AND DOCUMENT REVIEW / Documents to acquire",
-            "sourceStatement": "The conviction insert forms are the hard blocker: without them the conviction packet cannot be completed."
-          }
-        },
-        {
-          "classification": "scope_restriction",
           "statement": "The grant is discretionary. Route to a legal-review gate before offering this track.",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
@@ -53806,14 +54178,82 @@
             "sourceHeading": "OVERALL JURISDICTION DECISION",
             "sourceStatement": "Tracks 6 and 7, the discretionary felony tracks, behind a legal-review gate."
           }
+        },
+        {
+          "classification": "scope_restriction",
+          "statement": "There is no Coalition for Court Access Section 5 insert to acquire. The published conviction inserts cover Sections 2, 3 and 4 only. The route uses a controlled statutory custom pleading with a verified local-form override, and yields to a published local form where one exists.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Indiana Coalition for Court Access published expungement forms, indianalegalhelp.org, retrieved 2026-08-02",
+            "sourceHeading": "Expungement forms listing",
+            "sourceStatement": "The published conviction insert set comprises ConvictionInsert2, ConvictionInsert3 and ConvictionInsert4 with their instructions. No Section 5 insert is published."
+          }
+        },
+        {
+          "classification": "scope_restriction",
+          "statement": "LegalEase does not obtain the prosecuting attorney's consent and does not negotiate for it. The packet carries the consent as an attachment or a clearly labelled placeholder, with instructions for requesting it. Where negotiation is needed this is an attorney-handoff point.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Indiana Office of Judicial Administration, Detailed Information on Criminal Case Expungement, updated 7/1/2026",
+            "sourceHeading": "Category 5",
+            "sourceStatement": "The prosecuting attorney must consent in writing to the expungement of the petitioner's criminal records. I.C. 35-38-9-5(c)(5)."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "The petition must not be filed without the written prosecutor consent § 35-38-9-5 requires. State this prominently in the filing instructions.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Indiana Office of Judicial Administration, Detailed Information on Criminal Case Expungement, updated 7/1/2026",
+            "sourceHeading": "Category 5",
+            "sourceStatement": "Any remaining eligible felony not resulting in the death of another person, and only if the prosecutor has given written consent to have the criminal record expunged."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "The court may reduce or waive the civil filing fee for an indigent petitioner under I.C. 35-38-9-8(d). Surface the waiver.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Indiana Office of Judicial Administration, Detailed Information on Criminal Case Expungement, updated 7/1/2026",
+            "sourceHeading": "Filing Fee",
+            "sourceStatement": "The petitioner is required to pay the filing fee for a civil case, but the court may reduce or waive this fee if the petitioner is indigent. I.C. 35-38-9-8(d)."
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "The prosecuting attorney must respond within 30 days of receipt and waives any objection by failing to respond, under I.C. 35-38-9-8(g).",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Indiana Office of Judicial Administration, Detailed Information on Criminal Case Expungement, updated 7/1/2026",
+            "sourceHeading": "Prosecutor response",
+            "sourceStatement": "The prosecuting attorney must respond to the petition no later than 30 days after receipt. If the prosecutor fails to respond, they waive any objection to the petition. I.C. 35-38-9-8(g)."
+          }
+        },
+        {
+          "classification": "scope_restriction",
+          "statement": "Bodily injury or serious bodily injury must be an element of the offence of conviction for the exclusion to apply, per Allen v. State, 159 N.E.3d 580 (Ind. 2020). The court nonetheless retains discretion and may consider the facts incident to the conviction.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "Indiana Office of Judicial Administration, Detailed Information on Criminal Case Expungement, updated 7/1/2026",
+            "sourceHeading": "Category 5",
+            "sourceStatement": "To be excluded, bodily injury/serious bodily injury must be an element of offense of which the petitioner was convicted. See Allen v. State, 159 N.E.3d 580 (Ind. 2020)."
+          }
+        },
+        {
+          "classification": "scope_restriction",
+          "statement": "The Coalition for Court Access base conviction petition and order bundle in the corpus is the 03/2020 revision and predates later amendments to the chapter. Retain it as a reference only; do not silently approve it as the Section 5 instrument.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+            "sourceHeading": "PART 2 - SOURCE FORM AND DOCUMENT REVIEW",
+            "sourceStatement": "ConvictionPetitionOrder0320Fillable.pdf, uploaded"
+          }
         }
       ],
       "legalStatus": "legal_review_pending",
       "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
       "implementationQueue": "F_source_problem",
-      "legalDesignBlockers": [
-        "Open question blocks the build (packet_components): The Coalition for Court Access Section 5 conviction insert has not been sourced into the corpus. Sections 2, 3 and 4 inserts are present; the Section 5 insert is not, so the conviction packet for this track cannot be completed."
-      ],
+      "legalDesignBlockers": [],
       "blockers": [
         {
           "kind": "output_review_gate",
@@ -53828,20 +54268,20 @@
           "statement": "Technical proof not started."
         },
         {
-          "kind": "legal_design_blocker",
-          "statement": "Open question blocks the build (packet_components): The Coalition for Court Access Section 5 conviction insert has not been sourced into the corpus. Sections 2, 3 and 4 inserts are present; the Section 5 insert is not, so the conviction packet for this track cannot be completed."
-        },
-        {
           "kind": "release_blocker",
           "statement": "Open question blocks release (filing_process): The amount of the civil filing fee for a Sections 2 through 5 petition, whether it is charged per county, and whether an indigency waiver is available."
         },
         {
           "kind": "release_blocker",
-          "statement": "Open question blocks release (eligibility_branch): Whether the statewide exclusions the internal reference lists for Sections 2 through 5 — sex or violent offenders, official misconduct, homicide, human trafficking, two or more deadly-weapon felonies, elected officials — are stated in § 35-38-9-2 through 5 or elsewhere. Verify each against the current text before the evaluator uses them."
+          "statement": "Open question blocks release (governing_mechanism): What P.L.77-2025 changed in § 35-38-9-5, and whether the 2026 session amended the chapter again. The Office of Judicial Administration's own publication says the statutes experience yearly modification."
         },
         {
           "kind": "release_blocker",
-          "statement": "Open question blocks release (governing_mechanism): What P.L.77-2025 changed in § 35-38-9-5, and whether the 2026 session amended the chapter again. The Office of Judicial Administration's own publication says the statutes experience yearly modification."
+          "statement": "Open question blocks release (correct_form): The Coalition for Court Access base conviction petition and order bundle in the corpus is the 03/2020 revision, while the governing chapter has been amended since. Verify the current base petition and order against the current statute before release, or generate wholly from the controlled custom pleading."
+        },
+        {
+          "kind": "release_blocker",
+          "statement": "Open question blocks release (output_strategy): Counsel should approve the specimen Section 5 petition and proposed order before release, as the review requires for any Indiana custom pleading."
         },
         {
           "kind": "source_gate",
