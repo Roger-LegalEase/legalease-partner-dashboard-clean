@@ -12974,6 +12974,1344 @@
         "The source review does not state a fee for this route. Treat county charges as county-specific and confirm with the clerk.",
         "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies."
       ]
+    },
+    {
+      "jurisdiction": "IN",
+      "trackId": "in_auto_expungement",
+      "packetSetId": "in_auto_expungement-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "in_auto_expungement-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified limited criminal history from the Indiana State Police. Request a certified limited criminal history from the Indiana State Police. Confirm the current charge and turnaround at build time.",
+          "obtainedFrom": "Indiana State Police",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant is unsure of the disposition or the cause number.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the matter end — all charges dismissed, acquitted, vacated, a no-true finding, or a year with no disposition?\" against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant is unsure of the disposition or the cause number.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "No participant signature. There is no participant filing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable. There is no filing.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service. There is no petition to serve.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "There is no participant filing on this track. The court orders expungement on its own motion.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"How did the matter end — all charges dismissed, acquitted, vacated, a no-true finding, or a year with no disposition?\" against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.",
+        "No participant signature. There is no participant filing on this track.",
+        "Not applicable. There is no filing."
+      ]
+    },
+    {
+      "jurisdiction": "IN",
+      "trackId": "in_arrest_no_charges",
+      "packetSetId": "in_arrest_no_charges-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "in_arrest_no_charges-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA Section 1 non-conviction expungement petition",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Indiana/forms/CCA__section-1-nonconviction-expungement-petition-and-order-bundle__source-2021.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "in_arrest_no_charges-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA Section 1 expungement order",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "in_arrest_no_charges-attachment-3",
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionDescription": "Required for a self-represented filer.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-GF-0120-3016",
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "in_arrest_no_charges-attachment-4",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-XP-0120-7002 Form ACR",
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "in_arrest_no_charges-attachment-5",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Confidential Information Form",
+          "officialSourceUrl": null,
+          "order": 5
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified limited criminal history from the Indiana State Police. Request a certified limited criminal history from the Indiana State Police. Confirm the current charge and turnaround at build time.",
+          "obtainedFrom": "Indiana State Police",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant is unsure of the disposition or the cause number.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the matter end — all charges dismissed, acquitted, vacated, a no-true finding, or never charged?\" against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant is unsure of the disposition or the cause number.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Verification and signature — Petition, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Full Social Security number — Confidential Information Form.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Disposition characterisation — Petition, disposition item.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petition is verified and signed by the petitioner.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "None. Section 1 petitions carry no filing fee.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable. There is no fee.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The court serves the prosecuting attorney. The CCA appearance form nonetheless carries a certificate of service to the county prosecutor; follow the form.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the verified petition, order, appearance where self-represented, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county where the charges were filed, or where the arrest occurred if none were filed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"How did the matter end — all charges dismissed, acquitted, vacated, a no-true finding, or never charged?\" against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.",
+        "Verification and signature — Petition, verification block.",
+        "Full Social Security number — Confidential Information Form.",
+        "Disposition characterisation — Petition, disposition item.",
+        "The petition is verified and signed by the petitioner.",
+        "None. Section 1 petitions carry no filing fee.",
+        "Not applicable. There is no fee."
+      ]
+    },
+    {
+      "jurisdiction": "IN",
+      "trackId": "in_section1_petition",
+      "packetSetId": "in_section1_petition-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "in_section1_petition-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA Section 1 non-conviction expungement petition",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Indiana/forms/CCA__section-1-nonconviction-expungement-petition-and-order-bundle__source-2021.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "in_section1_petition-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA Section 1 expungement order",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "in_section1_petition-attachment-3",
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionDescription": "Required for a self-represented filer.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-GF-0120-3016",
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "in_section1_petition-attachment-4",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-XP-0120-7002 Form ACR",
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "in_section1_petition-attachment-5",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Confidential Information Form",
+          "officialSourceUrl": null,
+          "order": 5
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified limited criminal history from the Indiana State Police. Request a certified limited criminal history from the Indiana State Police. Confirm the current charge and turnaround at build time.",
+          "obtainedFrom": "Indiana State Police",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant is unsure of the disposition or the cause number.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the matter end — all charges dismissed, acquitted, vacated, a no-true finding, or never charged?\" against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant is unsure of the disposition or the cause number.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Verification and signature — Petition, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Full Social Security number — Confidential Information Form.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Disposition characterisation — Petition, disposition item.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petition is verified and signed by the petitioner.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "None. Section 1 petitions carry no filing fee.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable. There is no fee.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The court serves the prosecuting attorney. The CCA appearance form nonetheless carries a certificate of service to the county prosecutor; follow the form.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the verified petition, order, appearance where self-represented, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county where the charges were filed, or where the arrest occurred if none were filed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"How did the matter end — all charges dismissed, acquitted, vacated, a no-true finding, or never charged?\" against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.",
+        "Verification and signature — Petition, verification block.",
+        "Full Social Security number — Confidential Information Form.",
+        "Disposition characterisation — Petition, disposition item.",
+        "The petition is verified and signed by the petitioner.",
+        "None. Section 1 petitions carry no filing fee.",
+        "Not applicable. There is no fee."
+      ]
+    },
+    {
+      "jurisdiction": "IN",
+      "trackId": "in_conviction_misd",
+      "packetSetId": "in_conviction_misd-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "in_conviction_misd-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA conviction expungement petition",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Indiana/ConvictionPetitionOrder0320Fillable.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "in_conviction_misd-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA conviction expungement order",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "in_conviction_misd-attachment-3",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-XP-0220-7008",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Indiana/forms/CCA-XP-0220-7008__section-2-conviction-expungement-insert__rev-2020-02.pdf",
+          "order": 3
+        },
+        {
+          "componentId": "in_conviction_misd-attachment-4",
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionDescription": "Required for a self-represented filer.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-GF-0120-3016",
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "in_conviction_misd-attachment-5",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-XP-0120-7002 Form ACR",
+          "officialSourceUrl": null,
+          "order": 5
+        },
+        {
+          "componentId": "in_conviction_misd-attachment-6",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Confidential Information Form",
+          "officialSourceUrl": null,
+          "order": 6
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified limited criminal history from the Indiana State Police. Request a certified limited criminal history from the Indiana State Police. Confirm the current charge and turnaround at build time.",
+          "obtainedFrom": "Indiana State Police",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"List every conviction you have in Indiana, in any county, and whether each is eligible yet.\" against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Confirmation that all fines, fees, costs and restitution are satisfied. Ask the clerk for the balance on the cause number, including any restitution.",
+          "obtainedFrom": "Clerk of the court of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you paid all fines, fees and court costs, and satisfied any restitution?\" against Confirmation that all fines, fees, costs and restitution are satisfied, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Written prosecutor consent. Ask the prosecuting attorney for written consent. Silence is not consent.",
+          "obtainedFrom": "Prosecuting attorney of the county of conviction",
+          "requirement": "conditional",
+          "conditionDescription": "Required to file a Section 5 petition, and required to shorten a waiting period on any conviction track.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Has the prosecuting attorney given written consent, either to shorten the waiting period or to allow the filing?\" against Written prosecutor consent, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Required to file a Section 5 petition, and required to shorten a waiting period on any conviction track.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Verification and signature — Petition, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Section classification — Petition, offence classification.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Additional-information narrative — Petition, additional information.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Full Social Security number — Confidential Information Form.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petition is verified and signed by the petitioner.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Unresolved. Indigency waiver availability has not been confirmed.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Service on the prosecuting attorney under the Trial Rules. The CCA appearance form carries a certificate of service to the county prosecutor; follow the form.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the verified petition, order, appearance, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county of conviction, as case type XP.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified limited criminal history from the Indiana State Police. Request a certified limited criminal history from the Indiana State Police. Confirm the current charge and turnaround at build time.",
+        "Check your answer to \"List every conviction you have in Indiana, in any county, and whether each is eligible yet.\" against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.",
+        "Obtain Confirmation that all fines, fees, costs and restitution are satisfied. Ask the clerk for the balance on the cause number, including any restitution.",
+        "Check your answer to \"Have you paid all fines, fees and court costs, and satisfied any restitution?\" against Confirmation that all fines, fees, costs and restitution are satisfied, and correct the packet if they disagree.",
+        "Obtain Written prosecutor consent. Ask the prosecuting attorney for written consent. Silence is not consent.",
+        "Check your answer to \"Has the prosecuting attorney given written consent, either to shorten the waiting period or to allow the filing?\" against Written prosecutor consent, and correct the packet if they disagree.",
+        "Verification and signature — Petition, verification block.",
+        "Section classification — Petition, offence classification.",
+        "Additional-information narrative — Petition, additional information.",
+        "Full Social Security number — Confidential Information Form.",
+        "The petition is verified and signed by the petitioner.",
+        "A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.",
+        "Unresolved. Indigency waiver availability has not been confirmed."
+      ]
+    },
+    {
+      "jurisdiction": "IN",
+      "trackId": "in_conviction_d6",
+      "packetSetId": "in_conviction_d6-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "in_conviction_d6-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA conviction expungement petition",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Indiana/ConvictionPetitionOrder0320Fillable.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "in_conviction_d6-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA conviction expungement order",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "in_conviction_d6-attachment-3",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-XP-0220-7009",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Indiana/forms/CCA-XP-0220-7009__section-3-conviction-expungement-insert__rev-2020-02.pdf",
+          "order": 3
+        },
+        {
+          "componentId": "in_conviction_d6-attachment-4",
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionDescription": "Required for a self-represented filer.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-GF-0120-3016",
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "in_conviction_d6-attachment-5",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-XP-0120-7002 Form ACR",
+          "officialSourceUrl": null,
+          "order": 5
+        },
+        {
+          "componentId": "in_conviction_d6-attachment-6",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Confidential Information Form",
+          "officialSourceUrl": null,
+          "order": 6
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified limited criminal history from the Indiana State Police. Request a certified limited criminal history from the Indiana State Police. Confirm the current charge and turnaround at build time.",
+          "obtainedFrom": "Indiana State Police",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"List every conviction you have in Indiana, in any county, and whether each is eligible yet.\" against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Confirmation that all fines, fees, costs and restitution are satisfied. Ask the clerk for the balance on the cause number, including any restitution.",
+          "obtainedFrom": "Clerk of the court of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you paid all fines, fees and court costs, and satisfied any restitution?\" against Confirmation that all fines, fees, costs and restitution are satisfied, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Written prosecutor consent. Ask the prosecuting attorney for written consent. Silence is not consent.",
+          "obtainedFrom": "Prosecuting attorney of the county of conviction",
+          "requirement": "conditional",
+          "conditionDescription": "Required to file a Section 5 petition, and required to shorten a waiting period on any conviction track.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Has the prosecuting attorney given written consent, either to shorten the waiting period or to allow the filing?\" against Written prosecutor consent, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Required to file a Section 5 petition, and required to shorten a waiting period on any conviction track.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Verification and signature — Petition, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Section classification — Petition, offence classification.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Additional-information narrative — Petition, additional information.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Full Social Security number — Confidential Information Form.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petition is verified and signed by the petitioner.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Unresolved. Indigency waiver availability has not been confirmed.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Service on the prosecuting attorney under the Trial Rules. The CCA appearance form carries a certificate of service to the county prosecutor; follow the form.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the verified petition, order, appearance, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county of conviction, as case type XP.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified limited criminal history from the Indiana State Police. Request a certified limited criminal history from the Indiana State Police. Confirm the current charge and turnaround at build time.",
+        "Check your answer to \"List every conviction you have in Indiana, in any county, and whether each is eligible yet.\" against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.",
+        "Obtain Confirmation that all fines, fees, costs and restitution are satisfied. Ask the clerk for the balance on the cause number, including any restitution.",
+        "Check your answer to \"Have you paid all fines, fees and court costs, and satisfied any restitution?\" against Confirmation that all fines, fees, costs and restitution are satisfied, and correct the packet if they disagree.",
+        "Obtain Written prosecutor consent. Ask the prosecuting attorney for written consent. Silence is not consent.",
+        "Check your answer to \"Has the prosecuting attorney given written consent, either to shorten the waiting period or to allow the filing?\" against Written prosecutor consent, and correct the packet if they disagree.",
+        "Verification and signature — Petition, verification block.",
+        "Section classification — Petition, offence classification.",
+        "Additional-information narrative — Petition, additional information.",
+        "Full Social Security number — Confidential Information Form.",
+        "The petition is verified and signed by the petitioner.",
+        "A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.",
+        "Unresolved. Indigency waiver availability has not been confirmed."
+      ]
+    },
+    {
+      "jurisdiction": "IN",
+      "trackId": "in_conviction_felony",
+      "packetSetId": "in_conviction_felony-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "in_conviction_felony-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA conviction expungement petition",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Indiana/ConvictionPetitionOrder0320Fillable.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "in_conviction_felony-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA conviction expungement order",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "in_conviction_felony-attachment-3",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-XP-0220-7010",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Indiana/forms/CCA-XP-0220-7010__section-4-conviction-expungement-insert__rev-2020-02.pdf",
+          "order": 3
+        },
+        {
+          "componentId": "in_conviction_felony-attachment-4",
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionDescription": "Required for a self-represented filer.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-GF-0120-3016",
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "in_conviction_felony-attachment-5",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-XP-0120-7002 Form ACR",
+          "officialSourceUrl": null,
+          "order": 5
+        },
+        {
+          "componentId": "in_conviction_felony-attachment-6",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Confidential Information Form",
+          "officialSourceUrl": null,
+          "order": 6
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified limited criminal history from the Indiana State Police. Request a certified limited criminal history from the Indiana State Police. Confirm the current charge and turnaround at build time.",
+          "obtainedFrom": "Indiana State Police",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"List every conviction you have in Indiana, in any county, and whether each is eligible yet.\" against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Confirmation that all fines, fees, costs and restitution are satisfied. Ask the clerk for the balance on the cause number, including any restitution.",
+          "obtainedFrom": "Clerk of the court of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you paid all fines, fees and court costs, and satisfied any restitution?\" against Confirmation that all fines, fees, costs and restitution are satisfied, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Written prosecutor consent. Ask the prosecuting attorney for written consent. Silence is not consent.",
+          "obtainedFrom": "Prosecuting attorney of the county of conviction",
+          "requirement": "conditional",
+          "conditionDescription": "Required to file a Section 5 petition, and required to shorten a waiting period on any conviction track.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Has the prosecuting attorney given written consent, either to shorten the waiting period or to allow the filing?\" against Written prosecutor consent, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Required to file a Section 5 petition, and required to shorten a waiting period on any conviction track.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Verification and signature — Petition, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Section classification — Petition, offence classification.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Additional-information narrative — Petition, additional information.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Full Social Security number — Confidential Information Form.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petition is verified and signed by the petitioner.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Unresolved. Indigency waiver availability has not been confirmed.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Service on the prosecuting attorney under the Trial Rules. The CCA appearance form carries a certificate of service to the county prosecutor; follow the form.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the verified petition, order, appearance, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county of conviction, as case type XP.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified limited criminal history from the Indiana State Police. Request a certified limited criminal history from the Indiana State Police. Confirm the current charge and turnaround at build time.",
+        "Check your answer to \"List every conviction you have in Indiana, in any county, and whether each is eligible yet.\" against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.",
+        "Obtain Confirmation that all fines, fees, costs and restitution are satisfied. Ask the clerk for the balance on the cause number, including any restitution.",
+        "Check your answer to \"Have you paid all fines, fees and court costs, and satisfied any restitution?\" against Confirmation that all fines, fees, costs and restitution are satisfied, and correct the packet if they disagree.",
+        "Obtain Written prosecutor consent. Ask the prosecuting attorney for written consent. Silence is not consent.",
+        "Check your answer to \"Has the prosecuting attorney given written consent, either to shorten the waiting period or to allow the filing?\" against Written prosecutor consent, and correct the packet if they disagree.",
+        "Verification and signature — Petition, verification block.",
+        "Section classification — Petition, offence classification.",
+        "Additional-information narrative — Petition, additional information.",
+        "Full Social Security number — Confidential Information Form.",
+        "The petition is verified and signed by the petitioner.",
+        "A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.",
+        "Unresolved. Indigency waiver availability has not been confirmed."
+      ]
+    },
+    {
+      "jurisdiction": "IN",
+      "trackId": "in_conviction_serious_felony",
+      "packetSetId": "in_conviction_serious_felony-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "in_conviction_serious_felony-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA conviction expungement petition",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Indiana/ConvictionPetitionOrder0320Fillable.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "in_conviction_serious_felony-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA conviction expungement order",
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "in_conviction_serious_felony-attachment-3",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA Section 5 conviction expungement insert",
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "in_conviction_serious_felony-attachment-4",
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionDescription": "Required for a self-represented filer.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-GF-0120-3016",
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "in_conviction_serious_felony-attachment-5",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-XP-0120-7002 Form ACR",
+          "officialSourceUrl": null,
+          "order": 5
+        },
+        {
+          "componentId": "in_conviction_serious_felony-attachment-6",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Confidential Information Form",
+          "officialSourceUrl": null,
+          "order": 6
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified limited criminal history from the Indiana State Police. Request a certified limited criminal history from the Indiana State Police. Confirm the current charge and turnaround at build time.",
+          "obtainedFrom": "Indiana State Police",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"List every conviction you have in Indiana, in any county, and whether each is eligible yet.\" against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Confirmation that all fines, fees, costs and restitution are satisfied. Ask the clerk for the balance on the cause number, including any restitution.",
+          "obtainedFrom": "Clerk of the court of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you paid all fines, fees and court costs, and satisfied any restitution?\" against Confirmation that all fines, fees, costs and restitution are satisfied, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Written prosecutor consent. Ask the prosecuting attorney for written consent. Silence is not consent.",
+          "obtainedFrom": "Prosecuting attorney of the county of conviction",
+          "requirement": "conditional",
+          "conditionDescription": "Required to file a Section 5 petition, and required to shorten a waiting period on any conviction track.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Has the prosecuting attorney given written consent, either to shorten the waiting period or to allow the filing?\" against Written prosecutor consent, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Required to file a Section 5 petition, and required to shorten a waiting period on any conviction track.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Verification and signature — Petition, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Section classification — Petition, offence classification.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Additional-information narrative — Petition, additional information.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Full Social Security number — Confidential Information Form.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petition is verified and signed by the petitioner.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Unresolved. Indigency waiver availability has not been confirmed.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Service on the prosecuting attorney under the Trial Rules. The CCA appearance form carries a certificate of service to the county prosecutor; follow the form.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the verified petition, order, appearance, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county of conviction, as case type XP.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified limited criminal history from the Indiana State Police. Request a certified limited criminal history from the Indiana State Police. Confirm the current charge and turnaround at build time.",
+        "Check your answer to \"List every conviction you have in Indiana, in any county, and whether each is eligible yet.\" against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree.",
+        "Obtain Confirmation that all fines, fees, costs and restitution are satisfied. Ask the clerk for the balance on the cause number, including any restitution.",
+        "Check your answer to \"Have you paid all fines, fees and court costs, and satisfied any restitution?\" against Confirmation that all fines, fees, costs and restitution are satisfied, and correct the packet if they disagree.",
+        "Obtain Written prosecutor consent. Ask the prosecuting attorney for written consent. Silence is not consent.",
+        "Check your answer to \"Has the prosecuting attorney given written consent, either to shorten the waiting period or to allow the filing?\" against Written prosecutor consent, and correct the packet if they disagree.",
+        "Verification and signature — Petition, verification block.",
+        "Section classification — Petition, offence classification.",
+        "Additional-information narrative — Petition, additional information.",
+        "Full Social Security number — Confidential Information Form.",
+        "The petition is verified and signed by the petitioner.",
+        "A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved.",
+        "Unresolved. Indigency waiver availability has not been confirmed."
+      ]
+    },
+    {
+      "jurisdiction": "IN",
+      "trackId": "in_collateral_action",
+      "packetSetId": "in_collateral_action-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "in_collateral_action-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "in_collateral_action-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "in_collateral_action-attachment-3",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified copy of the original expungement order. Ask the clerk of the court that granted the expungement for a certified copy of the order.",
+          "obtainedFrom": "Clerk of the court that granted the original expungement",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which county granted your original expungement, and on what date?\" against Certified copy of the original expungement order, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Verification and signature — Request, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Statement of the relationship between the matters — Request, factual allegations.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs the request.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable. There is no fee.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The court notifies the prosecuting attorney. Confirm local practice before assuming the participant need not serve.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File under the collateral action's cause number where possible, in a circuit or superior court in the county where the collateral action occurred.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified copy of the original expungement order. Ask the clerk of the court that granted the expungement for a certified copy of the order.",
+        "Check your answer to \"Which county granted your original expungement, and on what date?\" against Certified copy of the original expungement order, and correct the packet if they disagree.",
+        "Verification and signature — Request, signature block.",
+        "Statement of the relationship between the matters — Request, factual allegations.",
+        "The participant signs the request.",
+        "Not applicable. There is no fee."
+      ]
+    },
+    {
+      "jurisdiction": "IN",
+      "trackId": "in_supplemental_order",
+      "packetSetId": "in_supplemental_order-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "in_supplemental_order-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "in_supplemental_order-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "in_supplemental_order-attachment-3",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified copy of the original expungement order. Ask the clerk of the granting court for a certified copy of the order.",
+          "obtainedFrom": "Clerk of the court that granted the expungement",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which court granted your original expungement, and on what date?\" against Certified copy of the original expungement order, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Verification and signature — Petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Identification of the amendment relied on — Petition, statement of relief sought.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs the petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No fee identified in the review for a supplemental petition. Unresolved.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Follow the ordinary Trial Rules service on the prosecuting attorney. Confirm local practice.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the court that granted the original expungement.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified copy of the original expungement order. Ask the clerk of the granting court for a certified copy of the order.",
+        "Check your answer to \"Which court granted your original expungement, and on what date?\" against Certified copy of the original expungement order, and correct the packet if they disagree.",
+        "Verification and signature — Petition, signature block.",
+        "Identification of the amendment relied on — Petition, statement of relief sought.",
+        "The participant signs the petition.",
+        "No fee identified in the review for a supplemental petition. Unresolved.",
+        "Unresolved."
+      ]
+    },
+    {
+      "jurisdiction": "IN",
+      "trackId": "in_infraction_nondisclosure",
+      "packetSetId": "in_infraction_nondisclosure-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "in_infraction_nondisclosure-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "in_infraction_nondisclosure-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Stage 2, generated only where the court did not act, or after a deferral or satisfied judgment, once the form and MC case-type gates close.",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Confirmation from the clerk of whether a non-disclosure order was entered. Ask the clerk whether the court entered an order under I.C. 34-28-5-15 in the cause.",
+          "obtainedFrom": "Clerk of the court where the infraction was handled",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Has the court already ordered the clerk not to disclose the infraction?\" against Confirmation from the clerk of whether a non-disclosure order was entered, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Verification and signature — Petition, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petition is verified and signed by the petitioner.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable. There is no fee.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Service on the prosecuting attorney. Confirm local practice on the MC case-type assignment.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage 1 has no filing. Stage 2 is filed under the original cause number, or as an MC case type where none was assigned, in the court where the charges were brought or the trial was held.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Has the court already ordered the clerk not to disclose the infraction?\" against Confirmation from the clerk of whether a non-disclosure order was entered, and correct the packet if they disagree.",
+        "Verification and signature — Petition, verification block.",
+        "The petition is verified and signed by the petitioner.",
+        "Not applicable. There is no fee."
+      ]
     }
   ]
 }

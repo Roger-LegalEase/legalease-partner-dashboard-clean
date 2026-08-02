@@ -127,17 +127,54 @@ carries the single Iowa build blocker.
 Iowa's August 2024 Rule 2.86 Form 4 is mapped; the January 2021 revision stays
 `historical_obsolete` and never runtime-selectable.
 
+## Indiana — done
+
+`data/record-clearing/legal-design-intake/IN.memo.json`
+
+10 source slots → **10 normalized nodes**, all `relief_track`, 0 deferred.
+Strategies: `official_pdf_fill` 6, `custom_pleading` 2, `process_guidance` 1,
+`composed` 1. 1 build blocker, 17 release blockers across 10 tracks.
+
+Combined headings in the review (Tracks 1–3 and 4–7) were expanded to
+individual slots; lower-case cross-references in the pleading and guidance
+specification sections were not counted.
+
+`in_collateral_action` takes `custom_pleading` from the adopted memorandum,
+which is controlling: the official-form label is not carried forward until the
+actual statewide form is verified. `in_supplemental_order` is `custom_pleading`
+because § 35-38-9-9(l) describes a petition on its face. `in_auto_expungement`
+is the only standalone guidance route — § 35-38-9-1(b) expressly requires no
+petition. `in_infraction_nondisclosure` is composed sequential: check whether
+the court already acted, then a verified petition held unavailable pending the
+form and MC case-type questions.
+
+**Source gate:** the Coalition for Court Access **Section 5 conviction insert is
+absent from the corpus**. Sections 2, 3 and 4 inserts are present. That is the
+single Indiana build blocker and the conviction packet for
+`in_conviction_serious_felony` cannot be completed without it.
+
+## Group 1 complete — totals
+
+| | IL | IA | IN | total |
+|---|---|---|---|---|
+| Source slots | 16 | 7 | 10 | **33** |
+| Normalized nodes | 17 | 7 | 10 | **34** |
+| `relief_track` | 17 | 6 | 10 | **33** |
+| `supporting_action` | 0 | 1 | 0 | **1** |
+| Deferred | 0 | 0 | 0 | **0** |
+| Build blockers | 0 | 1 | 1 | **2** |
+
 ## Not started
 
-**B4–B9 legal-design normalization of the remaining twelve jurisdictions.**
+**B4–B9 legal-design normalization of the remaining eleven jurisdictions.**
 
-`GA IN KS LA ME MD MA MI MN MS MO MT` — **2 of 14 normalized** (IL, IA).
+`GA KS LA ME MD MA MI MN MS MO MT` — **3 of 14 normalized** (IL, IA, IN).
 
 Committed bounded groups (operational only; does not change legal precedence):
 
 | # | Group | Slots | Status |
 |---|---|---|---|
-| 1 | **Illinois done**, **Iowa done**, Indiana | 16 + 7 + 10 = 33 | **2 of 3** |
+| 1 | **Illinois, Iowa and Indiana all done** | 16 + 7 + 10 = 33 | **complete** |
 | 2 | Maryland, Massachusetts, Michigan, Minnesota | 11 + 8 + 11 + 12 = 42 | not started |
 | 3 | Georgia, Kansas, Louisiana, Maine | 13 + 7 + 10 + 6 = 36 | not started |
 | 4 | Mississippi, Missouri, Montana | 9 + 10 + 6 = 25 | not started |
