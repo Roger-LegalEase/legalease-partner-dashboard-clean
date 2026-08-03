@@ -1,13 +1,12 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "data/record-clearing/legal-design-intake",
-  "jurisdictionsReceived": 23,
-  "jurisdictionsOutstanding": 28,
+  "jurisdictionsReceived": 24,
+  "jurisdictionsOutstanding": 27,
   "outstandingJurisdictions": [
     "KY",
     "MO",
     "MS",
-    "MT",
     "NC",
     "ND",
     "NE",
@@ -1427,7 +1426,7 @@
     {
       "batch": "D_composed_or_process_guidance",
       "label": "Composed and process-guidance tracks",
-      "trackCount": 62,
+      "trackCount": 63,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -3956,6 +3955,68 @@
               "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
             }
           ]
+        },
+        {
+          "jurisdiction": "MT",
+          "trackId": "mt_auto_nonconviction",
+          "publicName": "Automatic non-conviction removal",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "agency_specific",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "No participant-facing statement that the participant may deny the conviction after expungement, after a deferred dismissal, or after a non-conviction removal. No Montana perjury shield or restoration-to-prior-status provision was located in any of the three statutes, and whether a cleared record may lawfully be denied is a hard self-help stop."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "The DOJ Records Removal Flowchart states that convictions are 'not eligible for Expungement or sealing unless by order of the MT Supreme Court'. That does not match Part 11, which vests misdemeanour expungement in the DISTRICT courts, or § 16-12-113, which vests marijuana relief in the sentencing court. It reads as a drafting error for 'district court'. It matters because the flowchart is the first document many participants will see, and the packet must correct the impression rather than repeat it.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "MT__LEGAL-REVIEW__STATEWIDE__montana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "OPEN QUESTIONS",
+                "sourceStatement": "The DOJ Records Removal Flowchart states that convictions are \"not eligible for Expungement or sealing unless by order of the MT Supreme Court.\" That does not match Part 11, which vests misdemeanor expungement in the district courts, or § 16-12-113, which vests marijuana relief in the sentencing court. This reads as a drafting error for \"district court.\" Unresolved."
+              }
+            },
+            {
+              "question": "Whether DOJ's automatic removal practice is applied consistently, and what proportion of post-1-July-2017 non-convictions remain on the record because the court did not report the disposition within the fourteen business days § 44-5-213(2) allows. This is the entire practical question on the route and it is a records problem rather than a legal one; no published figure or audit was located.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "legal_effect_or_warning",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "MT__LEGAL-REVIEW__STATEWIDE__montana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "TRACK 6 - AUTOMATIC NON-CONVICTION REMOVAL FOR POST-JULY-2017 DISPOSITIONS",
+                "sourceStatement": "Questions requiring individualized legal judgment: Whether a record that has not been removed is ineligible, or is simply the product of a court that failed to report the disposition. That is the entire practical question in this track, and it is a records problem, not a legal one.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Whether an expunged Montana misdemeanour, a dismissed deferred imposition, or a removed non-conviction may lawfully be denied in response to a general inquiry. No Montana perjury shield or restoration provision was located in Title 46 chapter 18 part 11, § 46-18-204 or § 44-5-202. Until answered the packet says nothing about denial and treats the question as a hard self-help stop."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
         }
       ]
     },
@@ -4091,7 +4152,7 @@
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 131,
+      "trackCount": 136,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -10051,6 +10112,412 @@
             {
               "kind": "technical_proof_gate",
               "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MT",
+          "trackId": "mt_misdemeanor_expungement",
+          "publicName": "Misdemeanor expungement",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Montana has no general felony expungement and no automatic conviction sealing. Part 11 reaches misdemeanours only. The only felony relief is marijuana-specific under § 16-12-113 and trafficking-survivor vacatur under § 46-18-608. There is no Clean Slate analogue, and eligibility copy must say this plainly rather than implying a felony pathway exists.",
+            "The Misdemeanor Expungement in Montana packet (ER-100, ER-200 and the Statement of Inability to Pay Court Costs and Fees) and the Dismissal After Completing a Deferred Sentence packet (DS-100 and DS-200) are stamped '© 2025 Montana Legal Services Association and Montana Supreme Court Access to Justice Commission. This form may be used for non-commercial purposes only.' Expungement.ai is a paid product, so reproducing or distributing them inside a packet is a commercial use. They are drafting references only: never generated, never relabelled, never converted, never lightly rewritten, never runtime-selectable and never generation_allowed. The restriction changes source use, not the existence of the mechanism.",
+            "No participant-facing statement that the participant may deny the conviction after expungement, after a deferred dismissal, or after a non-conviction removal. No Montana perjury shield or restoration-to-prior-status provision was located in any of the three statutes, and whether a cleared record may lawfully be denied is a hard self-help stop."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Whether Montana Legal Services Association and the Access to Justice Commission would license ER-100, ER-200, DS-100, DS-200 and the fee-waiver forms for commercial use. A written licence would change the strategy for the misdemeanour and deferred tracks from custom_pleading to official_pdf_fill and would materially reduce build cost. Until such a licence is obtained and adopted, those forms remain reference-only and are never generated.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "output_strategy",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "MT__LEGAL-REVIEW__STATEWIDE__montana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "OPEN QUESTIONS",
+                "sourceStatement": "Whether MLSA and the Access to Justice Commission would license ER-100, ER-200, DS-100, DS-200, and the fee-waiver forms for commercial use. Unresolved. A written license would change the strategy for Tracks 1 and 4 from custom_pleading to official_pdf_fill and would materially reduce build cost. Worth asking directly."
+              }
+            },
+            {
+              "question": "The DOJ Records Removal Flowchart states that convictions are 'not eligible for Expungement or sealing unless by order of the MT Supreme Court'. That does not match Part 11, which vests misdemeanour expungement in the DISTRICT courts, or § 16-12-113, which vests marijuana relief in the sentencing court. It reads as a drafting error for 'district court'. It matters because the flowchart is the first document many participants will see, and the packet must correct the impression rather than repeat it.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "MT__LEGAL-REVIEW__STATEWIDE__montana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "OPEN QUESTIONS",
+                "sourceStatement": "The DOJ Records Removal Flowchart states that convictions are \"not eligible for Expungement or sealing unless by order of the MT Supreme Court.\" That does not match Part 11, which vests misdemeanor expungement in the district courts, or § 16-12-113, which vests marijuana relief in the sentencing court. This reads as a drafting error for \"district court.\" Unresolved."
+              }
+            },
+            {
+              "question": "Whether self-represented e-filing is available for a Part 11 petition in any Montana district court. Unresolved; the packet assumes paper filing and tells the participant to confirm with the clerk.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "filing_process",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "MT__LEGAL-REVIEW__STATEWIDE__montana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "OPEN QUESTIONS",
+                "sourceStatement": "Whether self-represented e-filing is available for any of these tracks in any Montana court. Unresolved."
+              }
+            }
+          ],
+          "participantActionCount": 22,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Which CRISS Expungement/Removal Request Form version the Department of Justice enforces in practice, and what the current required attachment set is. The 2023 PDF and the 29 April 2024 DOCX disagree: the 2023 version requires valid photo identification for the Non-Conviction Removal and Deferred Imposition request types and requires the 'Original Court Order' for misdemeanour expungement, while the 2024 version drops the photo-ID requirement, requires the 'Original Court Judgement' instead, and adds 'Deferred Prosecution' to the fourth request type. Master Library Edition 1.1 retains the 2024 version as the supporting-process asset and does not retain the 2023 PDF. The 2024 version is used for legal design and the 2023 version is preserved as history only; the packet includes photo identification by default, which is the fail-closed reading, and asks for a certified copy of the judgment."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Whether the CRISS misdemeanour expungement request type requires the original court judgment in addition to the district court expungement order, and whether a certified copy suffices in place of an original. The 2024 form says the judgment is required. The packet asks the participant to obtain certified copies of both the judgment and the order, which is the safer reading, and tells them to confirm with CRISS before mailing anything they cannot replace."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether any Montana district, justice, municipal or city court imposes a local form, local cover sheet or local addendum for any of these routes. Both the OCA MMRTA instructions and the deferred-dismissal guidance expressly warn of local variation, and the OCA instructions direct the participant to the Court Locator for local rules. Unresolved and material: it is why every court-filing track carries a clerk-contact step and why the deferred track carries a local-form override."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Whether an expunged Montana misdemeanour, a dismissed deferred imposition, or a removed non-conviction may lawfully be denied in response to a general inquiry. No Montana perjury shield or restoration provision was located in Title 46 chapter 18 part 11, § 46-18-204 or § 44-5-202. Until answered the packet says nothing about denial and treats the question as a hard self-help stop."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Whether the Montana Supreme Court has adopted a court-approved statewide fee-waiver form, or whether the MLSA Statement of Inability to Pay Court Costs and Fees is the only published option. It determines whether LegalEase can ship a fee-waiver component at all. Until resolved the packet links the participant to the published form rather than reproducing it, because the MLSA form carries the same non-commercial restriction as ER-100, ER-200, DS-100 and DS-200."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Master Library Edition 1.1 retains the CRISS Expungement/Removal Request Form as a SUPPORTING_PROCESS asset with document role SUPPORTING_FORM, not as a packet form. The authority gate treats a supporting-process asset as one that cannot back an official_pdf_fill component, so every Montana component that maps to it is recorded as an authority role mismatch. The classification is the issue, not the mechanism: the form is a genuine Department of Justice agency form, it carries no use restriction, § 46-18-1110(2)(b) and § 46-18-204(2) both refer to a form prepared by the department of justice, and it is the required and only vehicle for the DOJ stage of four Montana tracks and for the whole of the non-conviction removal track. The mapping is retained rather than dropped, because pointing at the retained asset is truthful and preserves traceability, and the asset-class question is carried here as an explicit release blocker and a proposed Edition 1.2 reclassification. Edition 1.1 is not modified."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (waiting_period): Whether a prior deferred imposition that was later revoked counts as a conviction for the five-year lookback in § 46-18-1107(1)(a). The DOJ flowchart treats a revoked deferred sentence as a conviction for its own purposes, but Part 11 does not address it. The packet treats it as a self-help stop."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MT",
+          "trackId": "mt_mmrta_completed",
+          "publicName": "Marijuana conviction expungement or redesignation",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The Misdemeanor Expungement in Montana packet (ER-100, ER-200 and the Statement of Inability to Pay Court Costs and Fees) and the Dismissal After Completing a Deferred Sentence packet (DS-100 and DS-200) are stamped '© 2025 Montana Legal Services Association and Montana Supreme Court Access to Justice Commission. This form may be used for non-commercial purposes only.' Expungement.ai is a paid product, so reproducing or distributing them inside a packet is a commercial use. They are drafting references only: never generated, never relabelled, never converted, never lightly rewritten, never runtime-selectable and never generation_allowed. The restriction changes source use, not the existence of the mechanism.",
+            "No participant-facing statement that the participant may deny the conviction after expungement, after a deferred dismissal, or after a non-conviction removal. No Montana perjury shield or restoration-to-prior-status provision was located in any of the three statutes, and whether a cleared record may lawfully be denied is a hard self-help stop."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Whether Montana Legal Services Association and the Access to Justice Commission would license ER-100, ER-200, DS-100, DS-200 and the fee-waiver forms for commercial use. A written licence would change the strategy for the misdemeanour and deferred tracks from custom_pleading to official_pdf_fill and would materially reduce build cost. Until such a licence is obtained and adopted, those forms remain reference-only and are never generated.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "output_strategy",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "MT__LEGAL-REVIEW__STATEWIDE__montana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "OPEN QUESTIONS",
+                "sourceStatement": "Whether MLSA and the Access to Justice Commission would license ER-100, ER-200, DS-100, DS-200, and the fee-waiver forms for commercial use. Unresolved. A written license would change the strategy for Tracks 1 and 4 from custom_pleading to official_pdf_fill and would materially reduce build cost. Worth asking directly."
+              }
+            }
+          ],
+          "participantActionCount": 17,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): The text of the Temporary Rules adopted by Montana Supreme Court order AF 22-0129, filed 15 March 2022. The order was retrieved; the attached rules were not. They govern procedure for both MMRTA tracks and may contain filing, service or hearing requirements not reflected on the OCA forms. Relatedly, whether the 21-day county attorney response window is stated in the Temporary Rules or is OCA guidance only — it is currently sourced to the OCA instructions."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Which CRISS Expungement/Removal Request Form version the Department of Justice enforces in practice, and what the current required attachment set is. The 2023 PDF and the 29 April 2024 DOCX disagree: the 2023 version requires valid photo identification for the Non-Conviction Removal and Deferred Imposition request types and requires the 'Original Court Order' for misdemeanour expungement, while the 2024 version drops the photo-ID requirement, requires the 'Original Court Judgement' instead, and adds 'Deferred Prosecution' to the fourth request type. Master Library Edition 1.1 retains the 2024 version as the supporting-process asset and does not retain the 2023 PDF. The 2024 version is used for legal design and the 2023 version is preserved as history only; the packet includes photo identification by default, which is the fail-closed reading, and asks for a certified copy of the judgment."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether any Montana district, justice, municipal or city court imposes a local form, local cover sheet or local addendum for any of these routes. Both the OCA MMRTA instructions and the deferred-dismissal guidance expressly warn of local variation, and the OCA instructions direct the participant to the Court Locator for local rules. Unresolved and material: it is why every court-filing track carries a clerk-contact step and why the deferred track carries a local-form override."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Whether the Montana Supreme Court has adopted a court-approved statewide fee-waiver form, or whether the MLSA Statement of Inability to Pay Court Costs and Fees is the only published option. It determines whether LegalEase can ship a fee-waiver component at all. Until resolved the packet links the participant to the published form rather than reproducing it, because the MLSA form carries the same non-commercial restriction as ER-100, ER-200, DS-100 and DS-200."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Whether an expunged Montana misdemeanour, a dismissed deferred imposition, or a removed non-conviction may lawfully be denied in response to a general inquiry. No Montana perjury shield or restoration provision was located in Title 46 chapter 18 part 11, § 46-18-204 or § 44-5-202. Until answered the packet says nothing about denial and treats the question as a hard self-help stop."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Master Library Edition 1.1 retains the CRISS Expungement/Removal Request Form as a SUPPORTING_PROCESS asset with document role SUPPORTING_FORM, not as a packet form. The authority gate treats a supporting-process asset as one that cannot back an official_pdf_fill component, so every Montana component that maps to it is recorded as an authority role mismatch. The classification is the issue, not the mechanism: the form is a genuine Department of Justice agency form, it carries no use restriction, § 46-18-1110(2)(b) and § 46-18-204(2) both refer to a form prepared by the department of justice, and it is the required and only vehicle for the DOJ stage of four Montana tracks and for the whole of the non-conviction removal track. The mapping is retained rather than dropped, because pointing at the retained asset is truthful and preserves traceability, and the asset-class question is carried here as an explicit release blocker and a proposed Edition 1.2 reclassification. Edition 1.1 is not modified."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Master Library Edition 1.1 gives the OCA MMRTA Proposed Order and the OCA MMRTA Certificate of Service the SAME document ID, MT-OCA-MMRTA, distinguished only by document role, ORDER against SERVICE. They are two different binaries with two different SHA-256 values, so a component that names MT-OCA-MMRTA matches two retained assets carrying conflicting hashes and the authority gate records an authority hash conflict. This is an Edition 1.1 source-identity problem rather than a defect in the Montana legal design: both forms exist, both are published by the Office of the Court Administrator, both are retained, and both are correctly placed in the packet. Each needs its own document ID in a successor edition before either component can be resolver-selectable. The mappings are retained and the tracks stay authority-gated."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Filing fees in Justice, Municipal and City Courts for an MMRTA petition. The District Court schedule does not govern those courts and no published figure was located. The packet branches on court level and instructs the participant to confirm with the clerk rather than quoting the District Court number."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Whether the MMRTA Form A and Form B copies retained in the corpus, paginated as three pages, differ substantively from the 2022 compiled versions paginated as two pages. Both carry Rev. 12/21 and the difference is likely a pagination artefact of the DOCX, but a diff has not been run and Edition 1.1 records the revision as unknown for both."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Whether a redesignation outcome carries any Department of Justice implementation step at all. § 16-12-113(8) makes a redesignated conviction count as a misdemeanour or civil infraction for all purposes, which implies the DOJ record should reflect the new designation, but the CRISS Expungement/Removal Request Form provides request types for expungement and removal rather than for redesignation. The packet applies the conditional unit only on an expungement outcome and tells the participant that a redesignation does not produce a DOJ deletion."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MT",
+          "trackId": "mt_mmrta_serving",
+          "publicName": "Marijuana conviction expungement or resentencing while serving a sentence",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Approve ordinary route; current-sentence posture is a scope restriction; obtain companion OCA forms.",
+            "The public-safety override in § 16-12-113(2) is unique to this track and does not appear in the completed-sentence pathway. Any case where it is plausibly in play is a handoff.",
+            "The Misdemeanor Expungement in Montana packet (ER-100, ER-200 and the Statement of Inability to Pay Court Costs and Fees) and the Dismissal After Completing a Deferred Sentence packet (DS-100 and DS-200) are stamped '© 2025 Montana Legal Services Association and Montana Supreme Court Access to Justice Commission. This form may be used for non-commercial purposes only.' Expungement.ai is a paid product, so reproducing or distributing them inside a packet is a commercial use. They are drafting references only: never generated, never relabelled, never converted, never lightly rewritten, never runtime-selectable and never generation_allowed. The restriction changes source use, not the existence of the mechanism.",
+            "No participant-facing statement that the participant may deny the conviction after expungement, after a deferred dismissal, or after a non-conviction removal. No Montana perjury shield or restoration-to-prior-status provision was located in any of the three statutes, and whether a cleared record may lawfully be denied is a hard self-help stop."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 18,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): The text of the Temporary Rules adopted by Montana Supreme Court order AF 22-0129, filed 15 March 2022. The order was retrieved; the attached rules were not. They govern procedure for both MMRTA tracks and may contain filing, service or hearing requirements not reflected on the OCA forms. Relatedly, whether the 21-day county attorney response window is stated in the Temporary Rules or is OCA guidance only — it is currently sourced to the OCA instructions."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Which CRISS Expungement/Removal Request Form version the Department of Justice enforces in practice, and what the current required attachment set is. The 2023 PDF and the 29 April 2024 DOCX disagree: the 2023 version requires valid photo identification for the Non-Conviction Removal and Deferred Imposition request types and requires the 'Original Court Order' for misdemeanour expungement, while the 2024 version drops the photo-ID requirement, requires the 'Original Court Judgement' instead, and adds 'Deferred Prosecution' to the fourth request type. Master Library Edition 1.1 retains the 2024 version as the supporting-process asset and does not retain the 2023 PDF. The 2024 version is used for legal design and the 2023 version is preserved as history only; the packet includes photo identification by default, which is the fail-closed reading, and asks for a certified copy of the judgment."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether any Montana district, justice, municipal or city court imposes a local form, local cover sheet or local addendum for any of these routes. Both the OCA MMRTA instructions and the deferred-dismissal guidance expressly warn of local variation, and the OCA instructions direct the participant to the Court Locator for local rules. Unresolved and material: it is why every court-filing track carries a clerk-contact step and why the deferred track carries a local-form override."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Whether an expunged Montana misdemeanour, a dismissed deferred imposition, or a removed non-conviction may lawfully be denied in response to a general inquiry. No Montana perjury shield or restoration provision was located in Title 46 chapter 18 part 11, § 46-18-204 or § 44-5-202. Until answered the packet says nothing about denial and treats the question as a hard self-help stop."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Master Library Edition 1.1 retains the CRISS Expungement/Removal Request Form as a SUPPORTING_PROCESS asset with document role SUPPORTING_FORM, not as a packet form. The authority gate treats a supporting-process asset as one that cannot back an official_pdf_fill component, so every Montana component that maps to it is recorded as an authority role mismatch. The classification is the issue, not the mechanism: the form is a genuine Department of Justice agency form, it carries no use restriction, § 46-18-1110(2)(b) and § 46-18-204(2) both refer to a form prepared by the department of justice, and it is the required and only vehicle for the DOJ stage of four Montana tracks and for the whole of the non-conviction removal track. The mapping is retained rather than dropped, because pointing at the retained asset is truthful and preserves traceability, and the asset-class question is carried here as an explicit release blocker and a proposed Edition 1.2 reclassification. Edition 1.1 is not modified."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Master Library Edition 1.1 gives the OCA MMRTA Proposed Order and the OCA MMRTA Certificate of Service the SAME document ID, MT-OCA-MMRTA, distinguished only by document role, ORDER against SERVICE. They are two different binaries with two different SHA-256 values, so a component that names MT-OCA-MMRTA matches two retained assets carrying conflicting hashes and the authority gate records an authority hash conflict. This is an Edition 1.1 source-identity problem rather than a defect in the Montana legal design: both forms exist, both are published by the Office of the Court Administrator, both are retained, and both are correctly placed in the packet. Each needs its own document ID in a successor edition before either component can be resolver-selectable. The mappings are retained and the tracks stay authority-gated."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether the § 16-12-113(7) no-hearing default applies to a petition under subsection (1). By its terms subsection (7) addresses applications under subsection (5), which is the completed-sentence pathway. Form A nonetheless includes the same hearing election. The packet presents the election as the form does and does not assert that no hearing will be held."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (venue): Whether any decriminalized marijuana conviction expungement judge has been appointed under § 16-12-115, and if so whether that changes the practical filing destination in any county. Sections 16-12-114 through 16-12-116 create the structure; whether it has been used is unresolved."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): The practical filing and service obstacles facing an incarcerated participant were not resolved by the review: how a person in custody obtains the required DOJ criminal record and court documents, files in the sentencing court and serves the county attorney. These are delivery-scope questions rather than packet-identity questions, and they are why custody status alone is a handoff trigger."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MT",
+          "trackId": "mt_deferred_dismissal",
+          "publicName": "Dismissal and sealing after a completed deferred sentence",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The Misdemeanor Expungement in Montana packet (ER-100, ER-200 and the Statement of Inability to Pay Court Costs and Fees) and the Dismissal After Completing a Deferred Sentence packet (DS-100 and DS-200) are stamped '© 2025 Montana Legal Services Association and Montana Supreme Court Access to Justice Commission. This form may be used for non-commercial purposes only.' Expungement.ai is a paid product, so reproducing or distributing them inside a packet is a commercial use. They are drafting references only: never generated, never relabelled, never converted, never lightly rewritten, never runtime-selectable and never generation_allowed. The restriction changes source use, not the existence of the mechanism.",
+            "No participant-facing statement that the participant may deny the conviction after expungement, after a deferred dismissal, or after a non-conviction removal. No Montana perjury shield or restoration-to-prior-status provision was located in any of the three statutes, and whether a cleared record may lawfully be denied is a hard self-help stop.",
+            "Immigration warning before generation. A dismissal after deferred imposition may still be a conviction for federal immigration purposes, and a noncitizen participant is a hard stop.",
+            "The qualifying felony deferred-imposition limb is mandatory where no revocation petition was filed; the misdemeanour limb remains discretionary with no statutory factors. The distinction must be preserved in the pleading and in participant expectations.",
+            "Local court procedures and forms remain release gates. localFormOverride is set and a court's current local form takes precedence over the drafted motion."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Whether Montana Legal Services Association and the Access to Justice Commission would license ER-100, ER-200, DS-100, DS-200 and the fee-waiver forms for commercial use. A written licence would change the strategy for the misdemeanour and deferred tracks from custom_pleading to official_pdf_fill and would materially reduce build cost. Until such a licence is obtained and adopted, those forms remain reference-only and are never generated.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "output_strategy",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "MT__LEGAL-REVIEW__STATEWIDE__montana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "OPEN QUESTIONS",
+                "sourceStatement": "Whether MLSA and the Access to Justice Commission would license ER-100, ER-200, DS-100, DS-200, and the fee-waiver forms for commercial use. Unresolved. A written license would change the strategy for Tracks 1 and 4 from custom_pleading to official_pdf_fill and would materially reduce build cost. Worth asking directly."
+              }
+            },
+            {
+              "question": "Whether Montana courts set hearings in practice on a § 46-18-204 motion, and whether prosecutors respond. The statute prescribes no hearing, no response period and no objection procedure. Unresolved.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "filing_process",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "MT__LEGAL-REVIEW__STATEWIDE__montana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "OPEN QUESTIONS",
+                "sourceStatement": "Whether courts set hearings in practice on Track 4 motions, and whether prosecutors respond. Unresolved."
+              }
+            }
+          ],
+          "participantActionCount": 19,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Which CRISS Expungement/Removal Request Form version the Department of Justice enforces in practice, and what the current required attachment set is. The 2023 PDF and the 29 April 2024 DOCX disagree: the 2023 version requires valid photo identification for the Non-Conviction Removal and Deferred Imposition request types and requires the 'Original Court Order' for misdemeanour expungement, while the 2024 version drops the photo-ID requirement, requires the 'Original Court Judgement' instead, and adds 'Deferred Prosecution' to the fourth request type. Master Library Edition 1.1 retains the 2024 version as the supporting-process asset and does not retain the 2023 PDF. The 2024 version is used for legal design and the 2023 version is preserved as history only; the packet includes photo identification by default, which is the fail-closed reading, and asks for a certified copy of the judgment."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether any Montana district, justice, municipal or city court imposes a local form, local cover sheet or local addendum for any of these routes. Both the OCA MMRTA instructions and the deferred-dismissal guidance expressly warn of local variation, and the OCA instructions direct the participant to the Court Locator for local rules. Unresolved and material: it is why every court-filing track carries a clerk-contact step and why the deferred track carries a local-form override."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Whether an expunged Montana misdemeanour, a dismissed deferred imposition, or a removed non-conviction may lawfully be denied in response to a general inquiry. No Montana perjury shield or restoration provision was located in Title 46 chapter 18 part 11, § 46-18-204 or § 44-5-202. Until answered the packet says nothing about denial and treats the question as a hard self-help stop."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Master Library Edition 1.1 retains the CRISS Expungement/Removal Request Form as a SUPPORTING_PROCESS asset with document role SUPPORTING_FORM, not as a packet form. The authority gate treats a supporting-process asset as one that cannot back an official_pdf_fill component, so every Montana component that maps to it is recorded as an authority role mismatch. The classification is the issue, not the mechanism: the form is a genuine Department of Justice agency form, it carries no use restriction, § 46-18-1110(2)(b) and § 46-18-204(2) both refer to a form prepared by the department of justice, and it is the required and only vehicle for the DOJ stage of four Montana tracks and for the whole of the non-conviction removal track. The mapping is retained rather than dropped, because pointing at the retained asset is truthful and preserves traceability, and the asset-class question is carried here as an explicit release blocker and a proposed Edition 1.2 reclassification. Edition 1.1 is not modified."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether any Montana court charges a motion fee for a § 46-18-204 motion. The motion is filed in an existing criminal case rather than commencing a civil action, so no fee is expected, but no published schedule confirms the point for Justice, Municipal and City Courts. The packet tells the participant to ask the clerk rather than quoting a figure."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MT",
+          "trackId": "mt_nonconviction_removal",
+          "publicName": "Non-conviction record removal",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "agency_specific",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "No participant-facing statement that the participant may deny the conviction after expungement, after a deferred dismissal, or after a non-conviction removal. No Montana perjury shield or restoration-to-prior-status provision was located in any of the three statutes, and whether a cleared record may lawfully be denied is a hard self-help stop.",
+            "A deferred imposition not yet dismissed routes to the deferred-dismissal track first, and a revoked deferred sentence is treated by DOJ as a conviction and is outside this route."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "The DOJ Records Removal Flowchart states that convictions are 'not eligible for Expungement or sealing unless by order of the MT Supreme Court'. That does not match Part 11, which vests misdemeanour expungement in the DISTRICT courts, or § 16-12-113, which vests marijuana relief in the sentencing court. It reads as a drafting error for 'district court'. It matters because the flowchart is the first document many participants will see, and the packet must correct the impression rather than repeat it.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "MT__LEGAL-REVIEW__STATEWIDE__montana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "OPEN QUESTIONS",
+                "sourceStatement": "The DOJ Records Removal Flowchart states that convictions are \"not eligible for Expungement or sealing unless by order of the MT Supreme Court.\" That does not match Part 11, which vests misdemeanor expungement in the district courts, or § 16-12-113, which vests marijuana relief in the sentencing court. This reads as a drafting error for \"district court.\" Unresolved."
+              }
+            }
+          ],
+          "participantActionCount": 15,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Which CRISS Expungement/Removal Request Form version the Department of Justice enforces in practice, and what the current required attachment set is. The 2023 PDF and the 29 April 2024 DOCX disagree: the 2023 version requires valid photo identification for the Non-Conviction Removal and Deferred Imposition request types and requires the 'Original Court Order' for misdemeanour expungement, while the 2024 version drops the photo-ID requirement, requires the 'Original Court Judgement' instead, and adds 'Deferred Prosecution' to the fourth request type. Master Library Edition 1.1 retains the 2024 version as the supporting-process asset and does not retain the 2023 PDF. The 2024 version is used for legal design and the 2023 version is preserved as history only; the packet includes photo identification by default, which is the fail-closed reading, and asks for a certified copy of the judgment."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Whether an expunged Montana misdemeanour, a dismissed deferred imposition, or a removed non-conviction may lawfully be denied in response to a general inquiry. No Montana perjury shield or restoration provision was located in Title 46 chapter 18 part 11, § 46-18-204 or § 44-5-202. Until answered the packet says nothing about denial and treats the question as a hard self-help stop."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Master Library Edition 1.1 retains the CRISS Expungement/Removal Request Form as a SUPPORTING_PROCESS asset with document role SUPPORTING_FORM, not as a packet form. The authority gate treats a supporting-process asset as one that cannot back an official_pdf_fill component, so every Montana component that maps to it is recorded as an authority role mismatch. The classification is the issue, not the mechanism: the form is a genuine Department of Justice agency form, it carries no use restriction, § 46-18-1110(2)(b) and § 46-18-204(2) both refer to a form prepared by the department of justice, and it is the required and only vehicle for the DOJ stage of four Montana tracks and for the whole of the non-conviction removal track. The mapping is retained rather than dropped, because pointing at the retained asset is truthful and preserves traceability, and the asset-class question is carried here as an explicit release blocker and a proposed Edition 1.2 reclassification. Edition 1.1 is not modified."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Whether § 44-5-212, which limits expunging, purging or destroying criminal justice information, constrains DOJ's non-conviction removal practice. Section 44-5-202 is titled Photographs and fingerprints and subsection (8) by its terms compels expungement of photographs and fingerprints rather than deletion of the criminal history record entry, yet DOJ publishes the practice and instructs participants to quote § 44-5-202(8). The packet follows the published practice and does not represent the outcome as legally guaranteed beyond the photographs and fingerprints."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Whether CRISS enforces the 2023 form's photo-identification requirement for a Non-Conviction Removal request. The 2024 version drops it and lists only the court judgment. The packet includes photo identification by default, which is the fail-closed reading, pending confirmation."
             },
             {
               "kind": "source_gate",

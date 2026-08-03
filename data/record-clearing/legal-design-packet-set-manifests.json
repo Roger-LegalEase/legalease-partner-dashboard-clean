@@ -23838,6 +23838,1064 @@
         "A district court filing fee applies plus a county law library fee, and it is not waived by statute on this route.",
         "No statutory fee waiver on this route. A FEE102 waiver request may still be made."
       ]
+    },
+    {
+      "jurisdiction": "MT",
+      "trackId": "mt_misdemeanor_expungement",
+      "packetSetId": "mt_misdemeanor_expungement-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "mt_misdemeanor_expungement-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "mt_misdemeanor_expungement-certificate-of-service-2",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "mt_misdemeanor_expungement-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "mt_misdemeanor_expungement-continuation-4",
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where there are more than five convictions or more than two prosecuting offices.",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "mt_misdemeanor_expungement-primary-filing-5",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "officialSourceUrl": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
+          "order": 5
+        },
+        {
+          "componentId": "mt_misdemeanor_expungement-instructions-6",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 6
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain DOJ CRISS criminal background check. Order your Montana criminal background check from DOJ CRISS, available online, by mail or in person. The judiciary packet estimates roughly $10 to $30. You need it to build a complete conviction list, and the petition is once in a lifetime.",
+          "obtainedFrom": "Montana Department of Justice, Criminal Records Information Services Section",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"List EVERY Montana misdemeanour conviction you want expunged: the crime, the case number, the conviction date and the court for each. This petition can only be filed once in your lifetime, so anything left off cannot be added later.\" against DOJ CRISS criminal background check, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Montana Public Access Portal searches — District Courts AND Courts of Limited Jurisdiction. Run TWO separate searches, one on the District Courts portal and one on the Courts of Limited Jurisdiction portal, under SEARCHES, then Case Searches, then By Party. This is not optional: the judiciary packet warns that some misdemeanour convictions do not appear on the CRISS background check, and Montana has no centralised court records system.",
+          "obtainedFrom": "Montana Judicial Branch public access portals",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"You have listed the convictions above. Do you confirm this is your complete Montana misdemeanour record, having checked the CRISS background check and BOTH Montana Public Access Portals?\" against Montana Public Access Portal searches — District Courts AND Courts of Limited Jurisdiction, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Copy of the final judgment from each convicting court. Ask the clerk of each court that entered a conviction for a copy of the final judgment. A per-document fee may apply. Obtain certified copies for the DOJ stage.",
+          "obtainedFrom": "Clerk of each convicting court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"List EVERY Montana misdemeanour conviction you want expunged: the crime, the case number, the conviction date and the court for each. This petition can only be filed once in your lifetime, so anything left off cannot be added later.\" against Copy of the final judgment from each convicting court, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain FD-258 blue applicant fingerprint card, with prints taken. Request the free FD-258 blue applicant fingerprint card from DOJ CRISS and have your prints taken by local law enforcement or a private company, expecting a fee for the printing. Section 46-18-1104(3) requires fingerprinting to validate identity and the CRISS form requires the card. Start this early: it is a physical-world dependency that people discover too late. It is needed before you mail the CRISS request, NOT before your court packet is prepared.",
+          "obtainedFrom": "Card free from Montana DOJ CRISS; prints taken by local law enforcement or a private vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified copy of the district court expungement order. After the court grants the petition, ask the clerk for a certified copy of the expungement order. You need it for the CRISS submission and for the copies you send to the arresting agency, the prosecutor and the clerk of each convicting court.",
+          "obtainedFrom": "Clerk of the district court that granted the petition",
+          "requirement": "conditional",
+          "conditionDescription": "Obtained after the court order issues, for the DOJ stage.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Filing fee, or a statement of inability to pay court costs and fees. The Montana Clerks of District Courts civil fee schedule, updated May 2024, sets $120 for civil commencement of an action by a petitioner. If you cannot pay, the judiciary and MLSA route you to the interactive Statement of Inability to Pay Court Costs and Fees on montanalawhelp.org, with a proposed order. LegalEase links you to that published form and does not reproduce it, because it carries a non-commercial-use restriction.",
+          "obtainedFrom": "Clerk of the district court; the fee-waiver form is published by Montana Legal Services Association",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any § 46-18-1108(2) rehabilitation or public-safety argument — Not present in the packet at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion that public safety will not be impacted — Not present in the packet at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The judge's findings, date and signature on the proposed order — Proposed order, findings and signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number on the petition caption — Petition, certificate of service and proposed order captions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The petitioner's signature, the date, and the city and state where signed — Petition, declaration under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The participant's signature and date on the CRISS Expungement/Removal Request Form — CRISS form, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any statement that the petitioner may deny the conviction after expungement — Not present in the packet at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs the petition under a declaration under penalty of perjury under the laws of the State of Montana, giving the city and state where signed, and separately signs the CRISS form. LegalEase leaves both blank.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "none. A declaration under penalty of perjury is used instead.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$120 for civil commencement of an action by a petitioner, per the Montana Clerks of District Courts civil fee schedule updated May 2024 and issued under §§ 25-1-201, 25-1-202, 3-1-317, 50-15-301 and 25-9-506. The base statutory figure in § 25-1-201(1)(a) is $90; use the published schedule total for the participant-facing number. No fee is charged for the CRISS request. The participant pays for the background check, court document copies and the fingerprinting.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "By statement of inability to pay court costs and fees. The judiciary and Montana Legal Services Association route participants to the MLSA interactive Statement of Inability to Pay Court Costs and Fees plus a proposed order. That form carries the same non-commercial-use restriction as ER-100 and ER-200, so LegalEase links the participant to the published form and does not reproduce it. Whether a court-approved statewide fee-waiver form exists is unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Mail, hand delivery or email of a file-stamped copy of the petition to each prosecuting office, after filing. Montana files first and then serves; do not reverse it. Victims are notified by the prosecution office, not by the participant.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Unit 1 is a civil petition filed on paper with the clerk of a district court in a judicial district where at least one conviction occurred (§ 46-18-1105). Local district court filing rules apply and the Office of the Court Administrator Court Locator is the published route to local rules and contact information; confirm with the clerk before filing. Unit 2 is a mailed submission to DOJ CRISS after the order issues. Whether any district permits or requires self-represented e-filing for this petition type is unresolved.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain DOJ CRISS criminal background check. Order your Montana criminal background check from DOJ CRISS, available online, by mail or in person. The judiciary packet estimates roughly $10 to $30. You need it to build a complete conviction list, and the petition is once in a lifetime.",
+        "Check your answer to \"List EVERY Montana misdemeanour conviction you want expunged: the crime, the case number, the conviction date and the court for each. This petition can only be filed once in your lifetime, so anything left off cannot be added later.\" against DOJ CRISS criminal background check, and correct the packet if they disagree.",
+        "Obtain Montana Public Access Portal searches — District Courts AND Courts of Limited Jurisdiction. Run TWO separate searches, one on the District Courts portal and one on the Courts of Limited Jurisdiction portal, under SEARCHES, then Case Searches, then By Party. This is not optional: the judiciary packet warns that some misdemeanour convictions do not appear on the CRISS background check, and Montana has no centralised court records system.",
+        "Check your answer to \"You have listed the convictions above. Do you confirm this is your complete Montana misdemeanour record, having checked the CRISS background check and BOTH Montana Public Access Portals?\" against Montana Public Access Portal searches — District Courts AND Courts of Limited Jurisdiction, and correct the packet if they disagree.",
+        "Obtain Copy of the final judgment from each convicting court. Ask the clerk of each court that entered a conviction for a copy of the final judgment. A per-document fee may apply. Obtain certified copies for the DOJ stage.",
+        "Check your answer to \"List EVERY Montana misdemeanour conviction you want expunged: the crime, the case number, the conviction date and the court for each. This petition can only be filed once in your lifetime, so anything left off cannot be added later.\" against Copy of the final judgment from each convicting court, and correct the packet if they disagree.",
+        "Obtain Filing fee, or a statement of inability to pay court costs and fees. The Montana Clerks of District Courts civil fee schedule, updated May 2024, sets $120 for civil commencement of an action by a petitioner. If you cannot pay, the judiciary and MLSA route you to the interactive Statement of Inability to Pay Court Costs and Fees on montanalawhelp.org, with a proposed order. LegalEase links you to that published form and does not reproduce it, because it carries a non-commercial-use restriction.",
+        "Any § 46-18-1108(2) rehabilitation or public-safety argument — Not present in the packet at all.",
+        "Any assertion that public safety will not be impacted — Not present in the packet at all.",
+        "The judge's findings, date and signature on the proposed order — Proposed order, findings and signature block.",
+        "The case number on the petition caption — Petition, certificate of service and proposed order captions.",
+        "The petitioner's signature, the date, and the city and state where signed — Petition, declaration under penalty of perjury.",
+        "The participant's signature and date on the CRISS Expungement/Removal Request Form — CRISS form, signature block.",
+        "Any statement that the petitioner may deny the conviction after expungement — Not present in the packet at all.",
+        "The petitioner signs the petition under a declaration under penalty of perjury under the laws of the State of Montana, giving the city and state where signed, and separately signs the CRISS form. LegalEase leaves both blank.",
+        "none. A declaration under penalty of perjury is used instead.",
+        "$120 for civil commencement of an action by a petitioner, per the Montana Clerks of District Courts civil fee schedule updated May 2024 and issued under §§ 25-1-201, 25-1-202, 3-1-317, 50-15-301 and 25-9-506. The base statutory figure in § 25-1-201(1)(a) is $90; use the published schedule total for the participant-facing number. No fee is charged for the CRISS request. The participant pays for the background check, court document copies and the fingerprinting.",
+        "By statement of inability to pay court costs and fees. The judiciary and Montana Legal Services Association route participants to the MLSA interactive Statement of Inability to Pay Court Costs and Fees plus a proposed order. That form carries the same non-commercial-use restriction as ER-100 and ER-200, so LegalEase links the participant to the published form and does not reproduce it. Whether a court-approved statewide fee-waiver form exists is unresolved."
+      ]
+    },
+    {
+      "jurisdiction": "MT",
+      "trackId": "mt_mmrta_completed",
+      "packetSetId": "mt_mmrta_completed-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "mt_mmrta_completed-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "MT-FORM-B",
+          "officialSourceUrl": "https://courts.mt.gov/Forms/mmrta",
+          "order": 1
+        },
+        {
+          "componentId": "mt_mmrta_completed-certificate-of-service-2",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "MT-OCA-MMRTA",
+          "officialSourceUrl": "https://courts.mt.gov/Forms/mmrta",
+          "order": 2
+        },
+        {
+          "componentId": "mt_mmrta_completed-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "MT-OCA-MMRTA",
+          "officialSourceUrl": "https://courts.mt.gov/Forms/mmrta",
+          "order": 3
+        },
+        {
+          "componentId": "mt_mmrta_completed-attachment-4",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "mt_mmrta_completed-primary-filing-5",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Unit 2. Generated only where the court grants EXPUNGEMENT; a redesignation outcome has no DOJ deletion stage.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "officialSourceUrl": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
+          "order": 5
+        },
+        {
+          "componentId": "mt_mmrta_completed-instructions-6",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 6
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Copy of your criminal record from the Montana Department of Justice. Order your Montana criminal record from DOJ. Form B marks it as a required attachment to the petition. Roughly $10 to $30.",
+          "obtainedFrom": "Montana Department of Justice, Criminal Records Information Services Section",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the case number for the conviction?\" against Copy of your criminal record from the Montana Department of Justice, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Copy of the judgment or sentencing order for the conviction. Ask the clerk of the sentencing court for a copy. The OCA form marks it recommended rather than required, and you will need the original or a certified copy later for the DOJ stage if expungement is granted.",
+          "obtainedFrom": "Clerk of the sentencing court",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended by OCA for the petition and needed for the DOJ stage after an expungement order.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified copy of the court order of expungement. After the court grants expungement, ask the clerk for a certified copy of the order. It is enclosed with the CRISS request.",
+          "obtainedFrom": "Clerk of the sentencing court",
+          "requirement": "conditional",
+          "conditionDescription": "Obtained after an expungement order, for the DOJ stage. Not applicable on a redesignation outcome.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Filing fee for the sentencing court's level, or a statement of inability to pay court costs and fees. The fee depends on the court level. In District Court the civil commencement fee is $120 per the Clerks of District Courts schedule; Justice, Municipal and City Court fees differ and are not resolved, so ask the clerk. If you cannot pay, the OCA instructions route you to the Statement of Inability to Pay Court Costs and Fees on montanalawhelp.org. LegalEase links you to that published form and does not reproduce it.",
+          "obtainedFrom": "Clerk of the sentencing court; the fee-waiver form is published by Montana Legal Services Association",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The outcome election among expungement, misdemeanour redesignation and civil-infraction redesignation — MMRTA Form B, the relief-requested section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The narrative explaining why the conviction is eligible — MMRTA Form B, the free-text because field.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The free-text specify-offence line where the offence is not on the enumerated list — MMRTA Form B, offence section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Every judicial finding, the date and the judge's signature on the OCA Proposed Order — OCA Proposed Order, findings and signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number where the court assigns a new one — Form B, Certificate of Service and Proposed Order captions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The participant's signature and date — MMRTA Form B and the CRISS form, signature blocks.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs Form B and separately signs the CRISS form. LegalEase leaves both blank.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "None identified on the face of Form B.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The participant is responsible for filing fees and other costs. In District Court the civil commencement fee is $120 per the Montana Clerks of District Courts civil fee schedule updated May 2024. Justice, Municipal and City Court fees are different and were not resolved, so the packet branches on court level and tells the participant to confirm with the clerk. No fee is charged for the CRISS request.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The OCA instructions route participants to the Statement of Inability to Pay Court Costs and Fees on montanalawhelp.org. That form carries a non-commercial-use restriction, so LegalEase links to it and does not reproduce it.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "As stated on the OCA Certificate of Service, with or before filing. Note that the statute keys service to the county of filing rather than the county of prosecution.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File one complete set per conviction in the court that sentenced the participant, under that court's rules including local filing rules. The OCA instructions expressly require the participant to follow all applicable filing rules and route them to the Court Locator. The court will not consider an unsigned petition. Unit 2 is a separate mailed submission to DOJ CRISS after an expungement order.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Copy of your criminal record from the Montana Department of Justice. Order your Montana criminal record from DOJ. Form B marks it as a required attachment to the petition. Roughly $10 to $30.",
+        "Check your answer to \"What is the case number for the conviction?\" against Copy of your criminal record from the Montana Department of Justice, and correct the packet if they disagree.",
+        "Obtain Copy of the judgment or sentencing order for the conviction. Ask the clerk of the sentencing court for a copy. The OCA form marks it recommended rather than required, and you will need the original or a certified copy later for the DOJ stage if expungement is granted.",
+        "Obtain Filing fee for the sentencing court's level, or a statement of inability to pay court costs and fees. The fee depends on the court level. In District Court the civil commencement fee is $120 per the Clerks of District Courts schedule; Justice, Municipal and City Court fees differ and are not resolved, so ask the clerk. If you cannot pay, the OCA instructions route you to the Statement of Inability to Pay Court Costs and Fees on montanalawhelp.org. LegalEase links you to that published form and does not reproduce it.",
+        "The outcome election among expungement, misdemeanour redesignation and civil-infraction redesignation — MMRTA Form B, the relief-requested section.",
+        "The narrative explaining why the conviction is eligible — MMRTA Form B, the free-text because field.",
+        "The free-text specify-offence line where the offence is not on the enumerated list — MMRTA Form B, offence section.",
+        "Every judicial finding, the date and the judge's signature on the OCA Proposed Order — OCA Proposed Order, findings and signature block.",
+        "The case number where the court assigns a new one — Form B, Certificate of Service and Proposed Order captions.",
+        "The participant's signature and date — MMRTA Form B and the CRISS form, signature blocks.",
+        "The participant signs Form B and separately signs the CRISS form. LegalEase leaves both blank.",
+        "None identified on the face of Form B.",
+        "The participant is responsible for filing fees and other costs. In District Court the civil commencement fee is $120 per the Montana Clerks of District Courts civil fee schedule updated May 2024. Justice, Municipal and City Court fees are different and were not resolved, so the packet branches on court level and tells the participant to confirm with the clerk. No fee is charged for the CRISS request.",
+        "The OCA instructions route participants to the Statement of Inability to Pay Court Costs and Fees on montanalawhelp.org. That form carries a non-commercial-use restriction, so LegalEase links to it and does not reproduce it."
+      ]
+    },
+    {
+      "jurisdiction": "MT",
+      "trackId": "mt_mmrta_serving",
+      "packetSetId": "mt_mmrta_serving-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "mt_mmrta_serving-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "MT-FORM-A",
+          "officialSourceUrl": "https://courts.mt.gov/Forms/mmrta",
+          "order": 1
+        },
+        {
+          "componentId": "mt_mmrta_serving-certificate-of-service-2",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "MT-OCA-MMRTA",
+          "officialSourceUrl": "https://courts.mt.gov/Forms/mmrta",
+          "order": 2
+        },
+        {
+          "componentId": "mt_mmrta_serving-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "MT-OCA-MMRTA",
+          "officialSourceUrl": "https://courts.mt.gov/Forms/mmrta",
+          "order": 3
+        },
+        {
+          "componentId": "mt_mmrta_serving-attachment-4",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "mt_mmrta_serving-primary-filing-5",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Unit 2. Applies only where the court grants EXPUNGEMENT. Not applicable where the outcome is resentencing.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "officialSourceUrl": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
+          "order": 5
+        },
+        {
+          "componentId": "mt_mmrta_serving-instructions-6",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 6
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Copy of your criminal record from the Montana Department of Justice. Form A marks the DOJ criminal record as a required attachment. If you are in custody, ask your attorney, a family member or the facility's law library about how to request it.",
+          "obtainedFrom": "Montana Department of Justice, Criminal Records Information Services Section",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the case number for the conviction?\" against Copy of your criminal record from the Montana Department of Justice, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court documents for the conviction and the current sentence. Ask the clerk of the sentencing court for the judgment and the sentencing order. If you are in custody, your attorney or a family member may need to obtain them for you.",
+          "obtainedFrom": "Clerk of the sentencing court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date were you convicted, or approximately when?\" against Court documents for the conviction and the current sentence, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified copy of the court order of expungement. After an expungement order, ask the clerk for a certified copy. It is enclosed with the CRISS request.",
+          "obtainedFrom": "Clerk of the sentencing court",
+          "requirement": "conditional",
+          "conditionDescription": "Obtained after an expungement order only. Not applicable on a resentencing outcome.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Filing fee for the sentencing court's level, or a statement of inability to pay court costs and fees. The fee depends on the court level; ask the clerk. If you cannot pay, the OCA instructions route you to the Statement of Inability to Pay Court Costs and Fees on montanalawhelp.org, which LegalEase links to and does not reproduce.",
+          "obtainedFrom": "Clerk of the sentencing court; the fee-waiver form is published by Montana Legal Services Association",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The outcome election between expungement and resentencing — MMRTA Form A, the relief-requested section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any resentencing computation — Not present in the packet at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any public-safety argument or any assertion that relief would not pose an unreasonable risk of danger to public safety — Not present in the packet at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The narrative explaining why the conviction is eligible — MMRTA Form A, the free-text because field.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Every judicial finding, the date and the judge's signature on the OCA Proposed Order — OCA Proposed Order, findings and signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The participant's signature and date — MMRTA Form A and the CRISS form, signature blocks.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs Form A and separately signs the CRISS form. LegalEase leaves both blank.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "None identified on the face of Form A.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The participant is responsible for filing fees and costs, and the fee depends on the court level. No fee is charged for the CRISS request.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The OCA instructions route participants to the MLSA Statement of Inability to Pay Court Costs and Fees, which LegalEase links to and does not reproduce.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "As stated on the OCA Certificate of Service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File Form A with the Certificate of Service and Proposed Order in the court that sentenced the participant, under that court's rules including local filing rules. One set per conviction. Unit 2, where it applies, is a separate mailed submission to DOJ CRISS.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Copy of your criminal record from the Montana Department of Justice. Form A marks the DOJ criminal record as a required attachment. If you are in custody, ask your attorney, a family member or the facility's law library about how to request it.",
+        "Check your answer to \"What is the case number for the conviction?\" against Copy of your criminal record from the Montana Department of Justice, and correct the packet if they disagree.",
+        "Obtain Court documents for the conviction and the current sentence. Ask the clerk of the sentencing court for the judgment and the sentencing order. If you are in custody, your attorney or a family member may need to obtain them for you.",
+        "Check your answer to \"On what date were you convicted, or approximately when?\" against Court documents for the conviction and the current sentence, and correct the packet if they disagree.",
+        "Obtain Filing fee for the sentencing court's level, or a statement of inability to pay court costs and fees. The fee depends on the court level; ask the clerk. If you cannot pay, the OCA instructions route you to the Statement of Inability to Pay Court Costs and Fees on montanalawhelp.org, which LegalEase links to and does not reproduce.",
+        "The outcome election between expungement and resentencing — MMRTA Form A, the relief-requested section.",
+        "Any resentencing computation — Not present in the packet at all.",
+        "Any public-safety argument or any assertion that relief would not pose an unreasonable risk of danger to public safety — Not present in the packet at all.",
+        "The narrative explaining why the conviction is eligible — MMRTA Form A, the free-text because field.",
+        "Every judicial finding, the date and the judge's signature on the OCA Proposed Order — OCA Proposed Order, findings and signature block.",
+        "The participant's signature and date — MMRTA Form A and the CRISS form, signature blocks.",
+        "The participant signs Form A and separately signs the CRISS form. LegalEase leaves both blank.",
+        "None identified on the face of Form A.",
+        "The participant is responsible for filing fees and costs, and the fee depends on the court level. No fee is charged for the CRISS request.",
+        "The OCA instructions route participants to the MLSA Statement of Inability to Pay Court Costs and Fees, which LegalEase links to and does not reproduce."
+      ]
+    },
+    {
+      "jurisdiction": "MT",
+      "trackId": "mt_deferred_dismissal",
+      "packetSetId": "mt_deferred_dismissal-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "mt_deferred_dismissal-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "mt_deferred_dismissal-certificate-of-service-2",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "mt_deferred_dismissal-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "mt_deferred_dismissal-primary-filing-4",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "officialSourceUrl": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
+          "order": 4
+        },
+        {
+          "componentId": "mt_deferred_dismissal-instructions-5",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 5
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Copy of the deferred sentence order. Ask the clerk of the sentencing court for a copy of the deferred sentence order. It gives you the case number and the deferral period, and you will need it again at the DOJ stage.",
+          "obtainedFrom": "Clerk of the sentencing court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Was your sentence DEFERRED, rather than suspended? These are different and this route only works for a deferred imposition. Your sentencing order should say which.\" against Copy of the deferred sentence order, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Confirmation from the court record that no petition to revoke was filed. Ask the clerk to confirm from the case file whether a petition to revoke was ever filed during the deferral period. On a felony this is dispositive: § 46-18-204(1)(a) makes dismissal mandatory only where no revocation petition was filed. LegalEase will not assert this for you.",
+          "obtainedFrom": "Clerk of the sentencing court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Did the prosecuting agency ever file a petition to revoke your deferred sentence? If you are not sure, the clerk of court can tell you, and on a felony this is the fact that decides whether the court must grant your motion.\" against Confirmation from the court record that no petition to revoke was filed, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Copy of the dismissal order once granted. After the court signs the order, ask the clerk for a copy. It is enclosed with the CRISS request together with the deferred sentence order.",
+          "obtainedFrom": "Clerk of the sentencing court",
+          "requirement": "conditional",
+          "conditionDescription": "Obtained after the order issues, for the DOJ stage.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Documentation of compliance with the deferral conditions. Where the court asks for proof that you completed the conditions, obtain the discharge or payment records that show it.",
+          "obtainedFrom": "The supervising probation office, the treatment provider, or the clerk's payment records",
+          "requirement": "conditional",
+          "conditionDescription": "Obtain only where the court or the prosecuting office questions completion.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion that no revocation petition was filed, where the participant has not confirmed it with the clerk — Motion, the no-revocation-petition allegation.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion that a suspended sentence qualifies — Not present in the packet at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any characterization of the outcome as expungement, destruction or erasure — Not present in the packet at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any statement that the participant may deny the charge — Not present in the packet at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any statement about immigration consequences — Not present in the packet at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The judge's finding, date and signature on the proposed order — Proposed order, findings and signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The participant's signature, the date, and the city and state where signed — Motion, declaration under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The defendant signs the motion under a declaration under penalty of perjury under the laws of the State of Montana, giving the city and state where signed, and separately signs the CRISS form. LegalEase leaves both blank.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "none. A declaration under penalty of perjury is used instead.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "None identified for the motion, because it is filed in an existing criminal case rather than commencing a civil action. Whether any court charges a motion fee is unresolved, and the packet tells the participant to ask the clerk. No fee is charged for the CRISS request.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable, since no filing fee is expected.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Mail or hand delivery of the file-stamped motion to the county attorney's or city attorney's office that prosecuted the case, after filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the motion, certificate of service and proposed order with the clerk of the court that issued the deferred sentence, in the EXISTING criminal case and under the same case number. This is a motion, not a new civil action. Contacting the clerk first is a required step in this track, not optional, because the published guidance acknowledges that some courts have their own procedures or provide different forms and that the case may already have been dismissed and sealed. Unit 2 is a separate mailed submission to DOJ CRISS.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Copy of the deferred sentence order. Ask the clerk of the sentencing court for a copy of the deferred sentence order. It gives you the case number and the deferral period, and you will need it again at the DOJ stage.",
+        "Check your answer to \"Was your sentence DEFERRED, rather than suspended? These are different and this route only works for a deferred imposition. Your sentencing order should say which.\" against Copy of the deferred sentence order, and correct the packet if they disagree.",
+        "Obtain Confirmation from the court record that no petition to revoke was filed. Ask the clerk to confirm from the case file whether a petition to revoke was ever filed during the deferral period. On a felony this is dispositive: § 46-18-204(1)(a) makes dismissal mandatory only where no revocation petition was filed. LegalEase will not assert this for you.",
+        "Check your answer to \"Did the prosecuting agency ever file a petition to revoke your deferred sentence? If you are not sure, the clerk of court can tell you, and on a felony this is the fact that decides whether the court must grant your motion.\" against Confirmation from the court record that no petition to revoke was filed, and correct the packet if they disagree.",
+        "Any assertion that no revocation petition was filed, where the participant has not confirmed it with the clerk — Motion, the no-revocation-petition allegation.",
+        "Any assertion that a suspended sentence qualifies — Not present in the packet at all.",
+        "Any characterization of the outcome as expungement, destruction or erasure — Not present in the packet at all.",
+        "Any statement that the participant may deny the charge — Not present in the packet at all.",
+        "Any statement about immigration consequences — Not present in the packet at all.",
+        "The judge's finding, date and signature on the proposed order — Proposed order, findings and signature block.",
+        "The participant's signature, the date, and the city and state where signed — Motion, declaration under penalty of perjury.",
+        "The defendant signs the motion under a declaration under penalty of perjury under the laws of the State of Montana, giving the city and state where signed, and separately signs the CRISS form. LegalEase leaves both blank.",
+        "none. A declaration under penalty of perjury is used instead.",
+        "None identified for the motion, because it is filed in an existing criminal case rather than commencing a civil action. Whether any court charges a motion fee is unresolved, and the packet tells the participant to ask the clerk. No fee is charged for the CRISS request.",
+        "Not applicable, since no filing fee is expected."
+      ]
+    },
+    {
+      "jurisdiction": "MT",
+      "trackId": "mt_nonconviction_removal",
+      "packetSetId": "mt_nonconviction_removal-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "mt_nonconviction_removal-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "officialSourceUrl": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
+          "order": 1
+        },
+        {
+          "componentId": "mt_nonconviction_removal-attachment-2",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "mt_nonconviction_removal-instructions-3",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Montana public criminal history record check via CHOPRS or by mail. DOJ instructs you to run this BEFORE submitting the request, so you know what the record actually shows. Allow for a hold of up to seventy-two hours on a CHOPRS request. A fee applies, roughly $10 to $30.",
+          "obtainedFrom": "Montana Department of Justice, Criminal Records Information Services Section",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you run a Montana public criminal history record check through CHOPRS or by mail to see what the DOJ record currently shows?\" against Montana public criminal history record check via CHOPRS or by mail, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court judgment or disposition document. The 2024 form lists the court judgment for this request type. Ask the clerk for the judgment or the disposition order showing how each charge ended.",
+          "obtainedFrom": "Clerk of the court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did it end — charges dismissed, deferred prosecution dismissed, acquitted, charges dropped, or charges never filed?\" against Court judgment or disposition document, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Legible photocopy of valid photo identification. The 2023 version of the form required photo identification for a Non-Conviction Removal request and the 2024 version does not list it. Because the two disagree, include it by default; it costs nothing and avoids a refused request.",
+          "obtainedFrom": "The participant's own state-issued identification card, driver's licence or passport",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court documentation of the outcome, where the DOJ record is incomplete. Where the DOJ record is incomplete rather than wrong, CRISS will attempt to obtain the outcome from the court. If it cannot, you will need to contact the court and ask it to send the final outcome to the Montana Department of Justice.",
+          "obtainedFrom": "The court of jurisdiction",
+          "requirement": "conditional",
+          "conditionDescription": "Applies where the DOJ record is incomplete because the court did not report the disposition.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "The participant's signature and date on the CRISS form — CRISS Expungement/Removal Request Form, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any characterization of a disposition as a non-conviction where the record is ambiguous — CRISS form, disposition section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any statement that the outcome is legally guaranteed beyond the photographs and fingerprints — Not present in the packet at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any statement that this route reaches the county court record — Not present in the packet at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs and dates the CRISS form. LegalEase leaves both blank.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "None identified for the removal request itself. The prerequisite CHOPRS or mail-in background check carries a fee of roughly $10 to $30, and the clerk may charge for a copy of the judgment.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable; no fee is charged for the request.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Not applicable. The participant mails the request to DOJ and serves no one.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Nothing is filed with any court. Mail the completed CRISS Expungement/Removal Request Form, Non-Conviction Removal box checked, with the court judgment and a photocopy of valid photo identification, to the Department of Justice. Run a CHOPRS or mail-in criminal history check first, as DOJ instructs.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Montana public criminal history record check via CHOPRS or by mail. DOJ instructs you to run this BEFORE submitting the request, so you know what the record actually shows. Allow for a hold of up to seventy-two hours on a CHOPRS request. A fee applies, roughly $10 to $30.",
+        "Check your answer to \"Have you run a Montana public criminal history record check through CHOPRS or by mail to see what the DOJ record currently shows?\" against Montana public criminal history record check via CHOPRS or by mail, and correct the packet if they disagree.",
+        "Obtain Court judgment or disposition document. The 2024 form lists the court judgment for this request type. Ask the clerk for the judgment or the disposition order showing how each charge ended.",
+        "Check your answer to \"How did it end — charges dismissed, deferred prosecution dismissed, acquitted, charges dropped, or charges never filed?\" against Court judgment or disposition document, and correct the packet if they disagree.",
+        "Obtain Legible photocopy of valid photo identification. The 2023 version of the form required photo identification for a Non-Conviction Removal request and the 2024 version does not list it. Because the two disagree, include it by default; it costs nothing and avoids a refused request.",
+        "The participant's signature and date on the CRISS form — CRISS Expungement/Removal Request Form, signature block.",
+        "Any characterization of a disposition as a non-conviction where the record is ambiguous — CRISS form, disposition section.",
+        "Any statement that the outcome is legally guaranteed beyond the photographs and fingerprints — Not present in the packet at all.",
+        "Any statement that this route reaches the county court record — Not present in the packet at all.",
+        "The participant signs and dates the CRISS form. LegalEase leaves both blank.",
+        "None identified for the removal request itself. The prerequisite CHOPRS or mail-in background check carries a fee of roughly $10 to $30, and the clerk may charge for a copy of the judgment.",
+        "Not applicable; no fee is charged for the request."
+      ]
+    },
+    {
+      "jurisdiction": "MT",
+      "trackId": "mt_auto_nonconviction",
+      "packetSetId": "mt_auto_nonconviction-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "mt_auto_nonconviction-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Montana public criminal history record check via CHOPRS or by mail. Run the check to see whether the automatic removal has already happened. Allow for a hold of up to seventy-two hours on a CHOPRS request. A fee of roughly $10 to $30 applies.",
+          "obtainedFrom": "Montana Department of Justice, Criminal Records Information Services Section",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"After running a CHOPRS check, does the non-conviction still appear on your Montana criminal history record?\" against Montana public criminal history record check via CHOPRS or by mail, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Montana Public Access Portal search results — District Courts AND Courts of Limited Jurisdiction. Search both portals under SEARCHES, then Case Searches, then By Party. Montana has no centralised court records system, and the court record is a separate question from the DOJ record.",
+          "obtainedFrom": "Montana Judicial Branch public access portals",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court documentation of the final outcome. Where the non-conviction still appears on the DOJ record, contact the court of jurisdiction and ask it to send the final outcome to the Montana Department of Justice. The court's failure to report is the usual reason the automatic removal did not happen.",
+          "obtainedFrom": "The court of jurisdiction",
+          "requirement": "conditional",
+          "conditionDescription": "Needed only where the automatic removal did not occur.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any form for the automatic mechanism — Not generated at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "none — no participant document is generated on this route.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "None, other than the background-check fee for verification.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Not applicable.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "None. DOJ states that after 1 July 2017 CRISS will automatically remove all non-conviction arrest data and that no Record Removal Form is required. There is no petition, application, motion or form for the participant to submit on this route.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"After running a CHOPRS check, does the non-conviction still appear on your Montana criminal history record?\" against Montana public criminal history record check via CHOPRS or by mail, and correct the packet if they disagree.",
+        "Any form for the automatic mechanism — Not generated at all.",
+        "none — no participant document is generated on this route.",
+        "None, other than the background-check fee for verification."
+      ]
     }
   ]
 }
