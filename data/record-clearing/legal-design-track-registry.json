@@ -7,6 +7,23 @@
   "jurisdictionsOutstanding": 30,
   "trackCount": 209,
   "packetReadyCount": 0,
+  "readinessCeiling": {
+    "note": "A ceiling is what a track could become if every platform gate passed — never what it is. Every imported track is runtime_disabled, no route is enabled, and nothing here promotes anything. The two rows show what the Master Library authority gate removes from the hypothetical.",
+    "packetReadyBeforeAuthorityGate": 17,
+    "packetReadyAfterAuthorityGate": 0,
+    "guidanceReadyBeforeAuthorityGate": 20,
+    "guidanceReadyAfterAuthorityGate": 17,
+    "removedByAuthorityGate": 20
+  },
+  "masterLibraryAuthority": {
+    "adoptedEdition": "1.0",
+    "auditPath": "data/record-clearing/master-library/track-source-audit.json",
+    "auditPresent": true,
+    "tracksAuthorityCleared": 47,
+    "tracksAuthorityBlocked": 162,
+    "note": "Track-level authority results live in the audit file, not in this registry: the Master Library is the source authority and this registry is a derived implementation of it. Authority clearance is a provenance result only — it never makes a track ready, and every gate in readinessCeilingFor still applies.",
+    "failClosed": "A track with no audit entry is treated as blocked. Absence of a check is not a pass."
+  },
   "tracks": [
     {
       "jurisdiction": "AK",

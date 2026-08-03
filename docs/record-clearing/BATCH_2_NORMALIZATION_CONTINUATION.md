@@ -1,6 +1,6 @@
 # Batch 2 normalization — continuation state
 
-Last updated: 2 August 2026
+Last updated: 3 August 2026
 Branch: `feat/record-clearing-batch-2-legal-design`
 Base: `e3f034b9c499fc6b6ec906dd82ef8e6599f8951f` (PR #87 platform base)
 Last clean checkpoint: `2d787e7` — Batch 2 source-package import
@@ -527,6 +527,107 @@ non-commercial use terms, are release blockers on every official-form track.
 the Council's revision footers: the arrest petition and its KBI order cover
 sheet, and the registration-relief petition and its KBI order cover sheet.
 Corpus 568 → **572**.
+
+## Master Library Edition 1 adopted — 3 August 2026
+
+**State normalization is paused after Kansas. Louisiana is not begun.** This pass
+adopted a source authority; it did not normalize a jurisdiction, and it changed
+no legal-design conclusion.
+
+`docs/record-clearing/MASTER_LIBRARY_AUTHORITY.md` is the controlling document.
+
+**Expungement.ai + RCAP Master Forms and Legal-Review Library, Edition 1.0**,
+cutoff 2 August 2026, is now the canonical nationwide source authority. This
+repository is a derived implementation of it. The edition is retained as an
+immutable ZIP outside the repository at
+`/workspaces/legalease-attorney-review-packages/Expungement_AI_RCAP_Master_Library_Edition_1.zip`,
+SHA-256 `c0937fa7…bffbc53f8`, adopted in place and pinned rather than copied in —
+this repository ignores `*.zip` and keeps source corpora out of version control.
+All 498 checksums verify; every retained file is covered and manifested; manifest,
+state coverage, legal-review coverage, gap, exclusion and duplicate ledgers all
+reconcile with the edition summary.
+
+**Edition 1 holds** 378 retained assets — 174 packet forms, 50 instruction assets,
+36 supporting-process assets, 79 source-gated assets, 39 legal reviews — with
+`generation_allowed = no` on every one of them.
+
+### Reconciliation findings
+
+- **196 of 572** repository source assets match a retained asset exactly by
+  SHA-256: 98 packet forms, 68 source-gated, 23 instructions, 7 supporting
+  process. 22 are exact duplicates, 25 are excluded or retired sources still
+  present in the corpus (present, but not mapped as a current source anywhere),
+  82 are HTML/ASPX captures the edition does not treat as workflow documents,
+  19 are inventory rows whose binary the repository does not hold, and **228 are
+  unmanifested repository assets**.
+- **180** of those unmanifested assets carry a binary and are recorded in
+  `pending-edition-amendments.json`. **88** of them are depended on by a
+  normalized official-form component. None is discarded; none is authoritative;
+  all are `library_authority_pending` and runtime disabled.
+- **182 retained library assets** have no counterpart in the repository
+  inventory, including all **39 legal reviews** and 76 packet forms.
+- **0 hash mismatches and 0 revision mismatches** — and that is an evidence
+  limit, not a clean bill. The repository artifact registry carries no document
+  ID and an official title for only a small minority of unmatched assets, so no
+  same-identity/different-bytes pair is currently decidable. Closing that is a
+  mapping-blocker item.
+
+### Track-source audit — all 21 normalized jurisdictions
+
+209 tracks, 503 components. **47 tracks authority-cleared, 162 blocked.**
+
+- **314 official-PDF components**: 95 mapped to a retained packet-form candidate,
+  4 mapped only to a source-gated asset, 4 role mismatches, **211 unmanifested**.
+  Only **31** carry a pinned SHA-256, so most mapped components do not yet meet
+  the edition's matching-hash requirement.
+- **103 custom-pleading** and **86 process-guidance** components correctly require
+  no packet binary and are not failed for lacking one.
+- **17 composed tracks / 39 units** audited unit by unit.
+- **110 tracks — every Batch 1 track — lack a retained legal review.** Edition 1's
+  twelve missing reviews are exactly the twelve Batch 1 jurisdictions: AL, AK, AZ,
+  AR, CA, CO, CT, DC, DE, FL, HI, ID. Edition 1 records each as a release blocker.
+- Minnesota is the sharpest single finding: the adopted memorandum expressly makes
+  Track 11 an `official_pdf_fill` packet on EXP102/104/105, and Edition 1 retains
+  only EXP101 in ES/HMN/SO plus FEE102/FEE103. The English EXP forms are not in
+  the edition. Georgia and Kansas hold a legal review and no packet forms at all.
+
+### Blockers — separate metrics, not one number
+
+| Scope | Count |
+|---|---|
+| Master Library source gap | **38** (44 ledger rows, 6 reclassified as jurisdiction input) |
+| Legal-design blocker | **88** |
+| Source/currentness blocker | **281** |
+| Mapping blocker | **314** |
+| Technical blocker | **209** |
+| Visual/legal-output blocker | **418** |
+| Jurisdiction-input requirement | **6** |
+| **Joined unique** | **1354** |
+
+The previously reported **130 Batch 2 release blockers** are intact and unchanged:
+they are the Batch 2 subset of the 281 source/currentness rows (IL 34, IA 9, IN 18,
+MD 7, MA 4, MI 10, MN 7, GA 21, KS 20), with the remaining 151 belonging to
+Batch 1. **130 and Edition 1's 44 gap rows are different metrics** — one counts
+open counsel questions in normalized tracks, the other counts sources the edition
+could not retain — and neither is a restatement of the other.
+
+### Enforcement
+
+- Loader `scripts/lib/master-library.mjs`; reconciler
+  `npm run rcap:reconcile-master-library`; verifier
+  `npm run rcap:verify-master-library-authority` (passing).
+- Gate `src/lib/rcap/legal-design/master-library-authority.ts`, applied in the
+  legal-design registry build. **Fails closed**: no audit entry means blocked.
+- The gate removed **20 readiness ceilings** — 17 tracks that could otherwise have
+  reached `packet_ready` and 3 guidance ceilings. `packetReadyCount` is now
+  **derived** rather than hard-coded, and is **0**.
+- **No route was promoted.** Enabled jurisdictions 0, launch gate red.
+
+### Next action
+
+Publish and adopt **Edition 1.1** from the pending-amendment ledger, then resume
+**Kansas-successor normalization (Louisiana)** against that adopted authority.
+Do not remap sources ad hoc in this repository in the meantime.
 
 ## Not started
 

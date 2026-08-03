@@ -26,6 +26,7 @@ const { normalizeMemo, sourceRelationships, readinessCeilingFor } = await import
   "@/lib/rcap/legal-design/normalize"
 );
 const { GUIDANCE_REREVIEW_QUESTION } = await import("@/lib/rcap/legal-design/types");
+const { gateRuntimeStatus } = await import("@/lib/rcap/legal-design/master-library-authority");
 const { ALL_JURISDICTION_CODES } = await import("@/lib/rcap/jurisdictions/packet-capability");
 
 const root = process.cwd();
@@ -93,6 +94,43 @@ const received = new Set(validated.map((entry) => entry.code));
 const outstanding = ALL_JURISDICTION_CODES.filter((code) => !received.has(code));
 
 // ---------------------------------------------------------------------------
+// Master Library authority
+// ---------------------------------------------------------------------------
+
+// Readiness is now two questions, not one. `readinessCeilingFor` answers what a
+// track would be if every platform gate passed; the Master Library authority
+// gate answers whether the source it proposes to render is one the adopted
+// edition authorises for that use. Both must pass.
+//
+// The gate fails closed. A missing or stale audit is not a pass — it means no
+// track has been checked, and an unchecked track cannot be ready. The audit is
+// written by `npm run rcap:reconcile-master-library`, which reads this
+// registry, so the regeneration order is intake first, reconcile second.
+const authorityAuditPath = "data/record-clearing/master-library/track-source-audit.json";
+const authorityAudit = readAuthorityAudit();
+
+function readAuthorityAudit() {
+  const file = path.join(root, authorityAuditPath);
+  if (!fs.existsSync(file)) return null;
+  const parsed = JSON.parse(fs.readFileSync(file, "utf8"));
+  return {
+    edition: parsed.authorityEdition,
+    byTrackId: new Map(parsed.tracks.map((track) => [track.trackId, track]))
+  };
+}
+
+function gatedRuntimeStatusFor(track) {
+  return gateRuntimeStatus(readinessCeilingFor(track), authorityAudit?.byTrackId.get(track.trackId));
+}
+
+const ungatedCeilings = allTracks.map((track) => readinessCeilingFor(track));
+const gatedStatuses = allTracks.map((track) => gatedRuntimeStatusFor(track));
+const countOf = (list, status) => list.filter((entry) => entry === status).length;
+const authorityClearedTracks = allTracks.filter((track) =>
+  Boolean(authorityAudit?.byTrackId.get(track.trackId)?.cleared)
+).length;
+
+// ---------------------------------------------------------------------------
 // Artifacts
 // ---------------------------------------------------------------------------
 
@@ -106,7 +144,34 @@ const registryRecords = {
   jurisdictionsReceived: validated.length,
   jurisdictionsOutstanding: outstanding.length,
   trackCount: allTracks.length,
-  packetReadyCount: 0,
+  // Derived, not asserted, so that a change anywhere in the readiness or
+  // authority chain shows up here instead of being contradicted by a
+  // hard-coded zero.
+  packetReadyCount: countOf(gatedStatuses, "packet_ready"),
+  readinessCeiling: {
+    note:
+      "A ceiling is what a track could become if every platform gate passed — never what it is. Every imported track is runtime_disabled, no route is enabled, and nothing here promotes anything. The two rows show what the Master Library authority gate removes from the hypothetical.",
+    packetReadyBeforeAuthorityGate: countOf(ungatedCeilings, "packet_ready"),
+    packetReadyAfterAuthorityGate: countOf(gatedStatuses, "packet_ready"),
+    guidanceReadyBeforeAuthorityGate: countOf(ungatedCeilings, "guidance_ready"),
+    guidanceReadyAfterAuthorityGate: countOf(gatedStatuses, "guidance_ready"),
+    removedByAuthorityGate:
+      countOf(ungatedCeilings, "packet_ready") +
+      countOf(ungatedCeilings, "guidance_ready") -
+      countOf(gatedStatuses, "packet_ready") -
+      countOf(gatedStatuses, "guidance_ready")
+  },
+  masterLibraryAuthority: {
+    adoptedEdition: authorityAudit?.edition ?? null,
+    auditPath: authorityAuditPath,
+    auditPresent: authorityAudit !== null,
+    tracksAuthorityCleared: authorityClearedTracks,
+    tracksAuthorityBlocked: allTracks.length - authorityClearedTracks,
+    note:
+      "Track-level authority results live in the audit file, not in this registry: the Master Library is the source authority and this registry is a derived implementation of it. Authority clearance is a provenance result only — it never makes a track ready, and every gate in readinessCeilingFor still applies.",
+    failClosed:
+      "A track with no audit entry is treated as blocked. Absence of a check is not a pass."
+  },
   tracks: allTracks
 };
 
@@ -355,7 +420,10 @@ console.log("   None of those participant actions gates generation. LegalEase na
 console.log(
   `7. Deferred under legal_research_required: ${allDeferred.length}. Absent from runtime resolution and unreachable.`
 );
-console.log("8. Tracks packet_ready: 0. Importing a memo enables nothing.");
+console.log(`8. Tracks packet_ready: ${registryRecords.packetReadyCount}. Importing a memo enables nothing.`);
+console.log(
+  `9. Master Library authority: ${authorityAudit ? `Edition ${authorityAudit.edition}` : "audit absent — every track fails closed"}. Authority-cleared: ${authorityClearedTracks} of ${allTracks.length}. Readiness ceilings removed by the gate: ${registryRecords.readinessCeiling.removedByAuthorityGate}.`
+);
 
 if (rejected.length > 0) {
   console.error("");
