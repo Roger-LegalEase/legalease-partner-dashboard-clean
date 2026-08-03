@@ -1,18 +1,21 @@
 # Master Library authority
 
 **Adopted:** 3 August 2026
-**Authority:** Expungement.ai + RCAP Master Forms and Legal-Review Library, **Edition 1.1**
-**Parent edition:** 1.0 (immutable, independently verifiable)
+**Authority:** Expungement.ai + RCAP Master Forms and Legal-Review Library, **Edition 1.2**
+**Parent edition:** 1.1 (immutable, independently verifiable); grandparent 1.0
 **Cutoff:** 3 August 2026
 **Legal-review coverage:** 51 of 51 jurisdictions
+**Edition 1.2 controlling addenda:** 14 jurisdictions
 **Runtime posture:** `runtime_disabled` by default, nationwide
 
 ## 1. The decision
 
-Master Library **Edition 1.1** is the canonical internal source authority for the
-nationwide Expungement.ai and RCAP record-clearing build. It inherits all 378
-Edition 1.0 canonical assets unchanged and adds the controlling Batch 1 amended
-legal-review authority.
+Master Library **Edition 1.2** is the canonical internal source authority for the
+nationwide Expungement.ai and RCAP record-clearing build. It inherits all 394
+Edition 1.1 canonical assets unchanged and consolidates the accepted Batch 1 and
+Batch 2 normalization results into the source authority: fourteen controlling
+legal-review addenda, a Batch 2 authority area, ten sources acquired from their
+issuing authorities, and twenty-five previously-held candidates retained.
 
 This repository is a **derived implementation** of that library. It may not treat
 a source as authoritative merely because a binary exists somewhere inside it.
@@ -26,18 +29,28 @@ normalized track mappings are derived.
 
 ## 2. Where the editions live
 
-Both editions are retained. A published edition is never replaced.
+All three editions are retained. A published edition is never replaced.
 
-| | Edition 1.1 (adopted) | Edition 1.0 (parent) |
+| | Edition 1.2 (adopted) | Edition 1.1 (parent) | Edition 1.0 |
+|---|---|---|---|
+| Path | `…/Expungement_AI_RCAP_Master_Library_Edition_1_2.zip` | `…/Expungement_AI_RCAP_Master_Library_Edition_1_1.zip` | `…/Expungement_AI_RCAP_Master_Library_Edition_1.zip` |
+| SHA-256 | `7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd` | `c66ea58a96618e7c8b07406e4e6e6eb14185785e7e00cea48ab038e120d28a99` | `c0937fa7fa0ff6e97c9e6f736dc17390496987d4d404e71b6960147bffbc53f8` |
+| Bytes | 156,172,093 | 144,123,507 | 143,154,181 |
+| Retained files | 591 | 539 | 499 |
+| Canonical assets | 443 | 394 | 378 |
+| Legal reviews | 51 | 51 | 39 |
+| Legal-review addenda | 14 | 0 | 0 |
+
+All three live under `/workspaces/legalease-attorney-review-packages/`.
+
+### Source inputs behind Edition 1.2
+
+| Role | Input | Result |
 |---|---|---|
-| Path | `…/Expungement_AI_RCAP_Master_Library_Edition_1_1.zip` | `…/Expungement_AI_RCAP_Master_Library_Edition_1.zip` |
-| SHA-256 | `c66ea58a96618e7c8b07406e4e6e6eb14185785e7e00cea48ab038e120d28a99` | `c0937fa7fa0ff6e97c9e6f736dc17390496987d4d404e71b6960147bffbc53f8` |
-| Bytes | 144,123,507 | 143,154,181 |
-| Retained files | 539 | 499 |
-| Canonical assets | 394 | 378 |
-| Legal reviews | 51 | 39 |
-
-Both live under `/workspaces/legalease-attorney-review-packages/`.
+| Parent edition | `Expungement_AI_RCAP_Master_Library_Edition_1_1.zip` (`c66ea58a…20d28a99`) | all 394 canonical assets inherited unchanged |
+| Legal-review addenda | `data/record-clearing/master-library/edition-1-2/legal-review-addenda/` | 14 controlling addenda, one per Batch 2 jurisdiction |
+| Acquired sources | `data/record-clearing/master-library/edition-1-2/acquired-sources.json` | 10 sources acquired from issuing authorities on 3 August 2026 |
+| Candidate dispositions | `data/record-clearing/master-library/edition-1-2/candidate-dispositions.json` | 176 candidates dispositioned; 25 retained, 47 logged reference-only, 2 superseded |
 
 ### Source archives behind Edition 1.1
 
@@ -441,16 +454,90 @@ follow instead:
    becomes resolver-selectable. This is the acquisition task for the Louisiana
    Art. 986 set, and it belongs to a future edition, not to a repository fix.
 
-No Edition 1.2 was published for this. Louisiana acquired no new source binaries
-and the ledger total is unchanged at 176.
+**Resolved by Edition 1.2, 3 August 2026.** The Louisiana Art. 986 set was
+acquired article by article from the Legislature's current-text publication and
+is retained as six individually identified packet-form candidates. The general
+rule the case exposed is now enforced structurally rather than by memory: see
+section 12b.
+
+## 12b. The source-acquisition queue closes the blind spot
+
+`data/record-clearing/master-library/source-acquisition-queue.json` is generated
+by the reconciler from the **normalized tracks and the authority manifest**, not
+from the corpus. A row exists because a track requires the source, so a required
+document with no repository binary — or one held only as a generic capture — is
+visible for the first time.
+
+Read the two ledgers together. They answer opposite questions:
+
+| Ledger | Question it answers |
+|---|---|
+| `pending-edition-amendments.json` | what valid binaries do we hold that the edition does not retain |
+| `source-acquisition-queue.json` | what does the edition fail to retain that a track actually needs |
+
+Neither is complete alone, and **neither may be hand-edited to change a source's
+status**. Each queue row carries jurisdiction, track, composed unit where the
+schema records one, expected document ID and role, official title, issuing
+authority, known official URL, legal basis, current edition status, repository
+status, required acquisition, currentness question, commercial-use question,
+identity confidence, runtime effect, blocker dedupe key and a final Edition 1.2
+disposition. Facts that cannot be derived — currentness, commercial use, identity
+confidence, final result — come from one authored overlay keyed by the generated
+acquisition key; a row with no overlay entry still receives a deterministic,
+fail-closed default.
+
+The queue deduplicates to the blocker ledger by **document identity**, so one
+unacquired form is one blocker however many components depend on it.
+
+## 12c. Legal-review addendum precedence
+
+Edition 1.2 publishes controlling addenda beside retained state reviews under
+`asset_class: legal_review_addendum` and document role `LEGAL_REVIEW_ADDENDUM`.
+Resolution order inside a jurisdiction is:
+
+1. the Edition 1.2 addendum, **for the statements it lists and for nothing else**;
+2. the retained controlling legal review;
+3. the adopted Batch 1 or Batch 2 resolution authority for what the review does
+   not settle.
+
+An addendum records only supported differences. Each names the retained statement
+amended, the accepted normalized treatment, the controlling official source and
+its date, the normalization commit, the authority effect and the runtime effect.
+**No original review was overwritten and no settled portion of a review was
+rewritten.**
+
+An addendum is **not** a second jurisdictional legal review. Coverage counts
+`legal_review` rows only, so publishing corrections cannot inflate it, and it
+remains 51 of 51. The publisher fails if a jurisdiction carries an addendum with
+no controlling review to amend, or two addenda.
+
+## 12d. Where a new source contradicts a live track
+
+`data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json`.
+
+When a source acquired or read during a publication pass contradicts an accepted
+normalized track, the memo is **not** silently changed. The row records the
+accepted treatment, the conflicting evidence, the controlling authority, the
+required resolution and the interim treatment; the track stays failed closed; the
+source is published; and the substantive correction is left to a bounded
+follow-up pass. Recording a conflict is not resolving it.
 
 ## 13. Commands
 
 ```bash
-npm run rcap:publish-master-library-edition  # publish a new immutable edition
-npm run rcap:reconcile-master-library        # regenerate the derived records
-npm run rcap:verify-master-library-authority # fail-closed structural verification
+npm run rcap:publish-master-library-edition      # Edition 1.1 publisher (historical)
+npm run rcap:publish-master-library-edition-1-2  # Edition 1.2 publisher
+npm run rcap:reconcile-master-library            # regenerate the derived records
+npm run rcap:verify-master-library-authority     # fail-closed structural verification
 ```
+
+The Edition 1.2 publisher refuses to overwrite an existing archive without
+`--force`, verifies the parent by hash against the edition specification, and
+runs the full integrity condition set — manifest-to-file, checksum coverage and
+match, duplicate path, conflicting workflow key, active-versus-excluded, state
+manifest reconciliation, legal-review coverage, addendum precedence and provenance,
+and edition-summary reconciliation — **before** the archive is created. `--dry-run`
+builds and verifies the tree without writing one.
 
 Publication refuses to overwrite an existing edition archive without `--force`,
 verifies the parent edition and every source archive by hash, verifies the
@@ -482,8 +569,114 @@ blocks every track rather than passing it.
 | `reconciliation.json` | edition integrity, checksum result, coverage reconciliation, runtime posture |
 | `repository-asset-audit.json` | one reconciliation status for every repository source asset |
 | `track-source-audit.json` | one authority result for every packet component, unit by unit |
-| `pending-edition-amendments.json` | post-cutoff and unretained repository sources |
+| `pending-edition-amendments.json` | post-cutoff and unretained repository sources, each carrying its Edition 1.2 disposition and its preserved Edition 1.1 disposition |
+| `source-acquisition-queue.json` | required normalized-track sources the edition does not manifest, with one Edition 1.2 result each |
+| `edition-1-2-legal-design-reconciliation-queue.json` | conflicts between a published source and an accepted normalized track |
 | `authoritative-blocker-ledger.json` | blockers joined across scopes and deduplicated |
 
 The Master Library is **not** copied into this directory. These are derived
 application records that point at the adopted edition.
+
+## 15. Edition 1.2 — what it settled, 3 August 2026
+
+**No route was promoted, no jurisdiction was normalized and no normalized track
+object was changed.** This was an authority-publication pass.
+
+### Inventory
+
+| | Edition 1.1 | Edition 1.2 |
+|---|---|---|
+| Canonical assets | 394 | **443** |
+| Packet-form candidates | 174 | **202** |
+| Instruction assets | 50 | **52** |
+| Supporting-process assets | 36 | **37** |
+| Source-gated assets | 83 | **97** |
+| Legal reviews | 51 | **51** |
+| Legal-review addenda | 0 | **14** |
+| Exclusion / reference / provenance rows | 196 | **245** |
+| Source-gap rows | 32 | **34** |
+
+Added: 14 addenda, 10 acquired sources, 25 retained candidates. Logged: 47
+reference-only adoptions, 2 superseded. Corrected: 2 Edition 1.1 exclusion-log
+statuses.
+
+### Batch 2 authority
+
+`00_GOVERNANCE/BATCH_2_AUTHORITY/` holds the concise 14-jurisdiction result:
+`BATCH_2_AUTHORITY_MATRIX.csv` — one row per normalized node giving final track
+ID, node type, output strategy, composition mode, composed units, controlling
+authority, normalization commit and any remaining legal-design blocker — and
+`BATCH_2_SOURCE_SLOT_RECONCILIATION.csv` for the 136-slot to 140-node
+reconciliation. **Derived registries are not copied in as legal source
+documents**; a copy inside the archive would be a second source of truth.
+
+### Statutory forms
+
+Where a jurisdiction's mandatory forms are the text of its code, the controlling
+source is the **official publication of the individual article**, captured one
+article per source. La. C.Cr.P. arts. 987, 988, 989, 991, 992 and 994 are
+retained that way, each with its own document ID, role, last-amending Act and
+SHA-256. A generic multi-article capture carries none of those, can never be
+manifested, and is never promoted — the seven pre-existing Louisiana browser
+prints stay non-workflow captures. **No PDF was reconstructed from an official
+HTML statutory source.**
+
+A statutory form changes by amendment, not by revision stamp, so its revision is
+recorded as its last amending Act.
+
+### Source-gated treatment
+
+A source-gated asset establishes **packet identity, document role and packet
+composition** and is never resolver-selectable. Edition 1.2 uses it where
+identity is established but the printed revision could not be re-confirmed
+against the publisher — Minnesota's EXP suite, Maryland's CC-DC-CR-072 set,
+Missouri FI-05 and CR301, and the Massachusetts petitions. Where the repository
+copy proved **byte-identical to the copy the issuer publishes today**, the asset
+is retained as a packet-form candidate instead: Georgia's GBI request, the four
+Illinois Prisoner Review Board documents, the Illinois CXP motion and EXP-AD case
+list, Iowa's DCI packet and Rule 2.86 Form 2, Maine CR-218 and Michigan MC 227.
+
+`generation_allowed` is `no` on all 443 retained assets either way.
+
+### Commercial use
+
+Commercial-use is a scope of its own: a form can be confirmed current and still
+be unusable. The Kansas Judicial Council publishes, verbatim, that its forms
+*"are for non-commercial use only"*, cannot be *"sold, republished, or otherwise
+transferred from one person to another for compensation or other value"* without
+its express permission, and directs anyone who *"paid a company for these forms"*
+to the Attorney General's consumer complaint hotline. Every Kansas Judicial
+Council document therefore carries a `commercial_use` hold, and **the gate is not
+evaded by relabelling a Judicial Council route as a custom pleading.** The
+Montana Legal Services Association ER/DS materials are held on the same ground;
+their licence text is behind a bot challenge, and an unquoted restriction is not
+an absent restriction.
+
+### Normalized-track authority result
+
+All **250** normalized tracks across **26** jurisdictions carry one Edition 1.2
+authority result, and all **55** composed units are audited independently.
+
+| Official-form component result | 1.1 | 1.2 |
+|---|---|---|
+| mapped to a packet candidate | 102 | **146** |
+| mapped to a source-gated asset | 25 | **51** |
+| unmanifested | 245 | **175** |
+| role mismatch | 9 | 9 |
+| hash conflict | 4 | 4 |
+
+Authority-cleared tracks are **82** before and after: publication established
+source identity, and what still blocks those tracks is unpinned SHA-256 on the
+track-source relationships, which is a mapping scope and a separate gate.
+
+### Remaining gaps
+
+229 open source-acquisition rows over 118 distinct documents; 102 candidates held
+forward with their exact gate; 7 legal-design reconciliation rows; 34 edition gap
+rows. `packet_ready` 0, enabled jurisdictions 0, launch gate red.
+
+### Next phase
+
+Select the first authority-cleared packet implementation tranche, build its field
+maps and custom-pleading specifications, generate representative completed
+packets, and run legal-output and visual review.

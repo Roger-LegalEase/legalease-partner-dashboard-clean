@@ -1,26 +1,26 @@
 {
   "authoritySchemaVersion": 1,
   "libraryName": "Expungement.ai + RCAP Master Forms and Legal-Review Library",
-  "edition": "1.1",
-  "editionLabel": "Edition 1.1",
+  "edition": "1.2",
+  "editionLabel": "Edition 1.2",
   "cutoffDate": "2026-08-03",
   "adoptionStatus": "adopted",
   "adoptionDate": "2026-08-03",
-  "adoptedAgainstCommit": "da4a8e40a84deed6df5663efe28c869a4b70c304",
+  "adoptedAgainstCommit": "dfbae78102e6bc9c4202b34a60a547bd7bdb0837",
   "adoptedAgainstBranch": "feat/record-clearing-batch-2-legal-design",
   "retention": {
     "form": "archive",
-    "canonicalPath": "/workspaces/legalease-attorney-review-packages/Expungement_AI_RCAP_Master_Library_Edition_1_1.zip",
+    "canonicalPath": "/workspaces/legalease-attorney-review-packages/Expungement_AI_RCAP_Master_Library_Edition_1_2.zip",
     "canonicalPathIsRepositoryRelative": false,
-    "archiveSha256": "c66ea58a96618e7c8b07406e4e6e6eb14185785e7e00cea48ab038e120d28a99",
-    "archiveBytes": 144123507,
-    "archiveRoot": "Expungement_AI_RCAP_Master_Library_Edition_1_1",
-    "retainedFileCount": 539,
+    "archiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+    "archiveBytes": 156172093,
+    "archiveRoot": "Expungement_AI_RCAP_Master_Library_Edition_1_2",
+    "retainedFileCount": 591,
     "publishedAt": "2026-08-03",
-    "publishedBy": "npm run rcap:publish-master-library-edition",
-    "note": "The user retained the Batch 1 authority archives outside this repository, and Edition 1.1 is published alongside them. This repository ignores *.zip and keeps record-clearing source corpora out of version control, so the edition is adopted in place and pinned by SHA-256 rather than copied in. The ZIP itself is the immutable authority artifact; it is read by temporary extraction or entry streaming and is never re-committed, re-packed or relocated. An extracted tree at the same path is read in place instead, with no second copy created."
+    "publishedBy": "npm run rcap:publish-master-library-edition-1-2",
+    "note": "The user retained the Batch 1 authority archives outside this repository, and Edition 1.2 is published alongside them. This repository ignores *.zip and keeps record-clearing source corpora out of version control, so the edition is adopted in place and pinned by SHA-256 rather than copied in. The ZIP itself is the immutable authority artifact; it is read by temporary extraction or entry streaming and is never re-committed, re-packed or relocated. An extracted tree at the same path is read in place instead, with no second copy created."
   },
-  "canonicalPath": "/workspaces/legalease-attorney-review-packages/Expungement_AI_RCAP_Master_Library_Edition_1_1.zip",
+  "canonicalPath": "/workspaces/legalease-attorney-review-packages/Expungement_AI_RCAP_Master_Library_Edition_1_2.zip",
   "governanceFiles": {
     "readme": "00_GOVERNANCE/README_MASTER_LIBRARY.md",
     "workflowIntegration": "00_GOVERNANCE/WORKFLOW_INTEGRATION.md",
@@ -29,7 +29,10 @@
     "masterListByState": "00_GOVERNANCE/MASTER_LIST_BY_STATE.md",
     "adoptedMemorandum": "00_GOVERNANCE/ADOPTED_BATCH_2_LEGAL_RESEARCH_RESOLUTION.md",
     "batch1AbsentFormScopeDecision": "00_GOVERNANCE/BATCH_1_ABSENT_FORM_SCOPE_DECISION.md",
-    "batch3SourceLinkIndex": "00_GOVERNANCE/BATCH_3_OFFICIAL_SOURCE_LINK_INDEX.md"
+    "batch3SourceLinkIndex": "00_GOVERNANCE/BATCH_3_OFFICIAL_SOURCE_LINK_INDEX.md",
+    "batch2AuthorityReadme": "00_GOVERNANCE/BATCH_2_AUTHORITY/README.md",
+    "batch2AuthorityMatrix": "00_GOVERNANCE/BATCH_2_AUTHORITY/BATCH_2_AUTHORITY_MATRIX.csv",
+    "batch2SourceSlotReconciliation": "00_GOVERNANCE/BATCH_2_AUTHORITY/BATCH_2_SOURCE_SLOT_RECONCILIATION.csv"
   },
   "masterManifestPath": "00_GOVERNANCE/MASTER_ASSET_MANIFEST.csv",
   "masterManifestJsonlPath": "00_GOVERNANCE/MASTER_ASSET_MANIFEST.jsonl",
@@ -42,12 +45,12 @@
   "stateDirectoryPattern": "STATES/<CODE>/",
   "stateManifestPattern": "STATES/<CODE>/STATE_MANIFEST.csv",
   "stateReadmePattern": "STATES/<CODE>/STATE_README.md",
-  "immutableEditionRule": "Every published edition is immutable. No file inside an adopted edition is edited, moved, renamed, re-hashed or supplemented by this repository, and a published archive is never rebuilt in place — a changed archive is a different edition, not a correction. A newer law, official revision, post-cutoff acquisition or correction enters through: current edition -> pending amendment -> reviewed and adopted new edition -> repository remapping. Edition 1.0 and Edition 1.1 are both retained and independently verifiable.",
+  "immutableEditionRule": "Every published edition is immutable. No file inside an adopted edition is edited, moved, renamed, re-hashed or supplemented by this repository, and a published archive is never rebuilt in place — a changed archive is a different edition, not a correction. A newer law, official revision, post-cutoff acquisition or correction enters through: current edition -> pending amendment -> reviewed and adopted new edition -> repository remapping. Editions 1.0, 1.1 and 1.2 are all retained and independently verifiable. Edition 1.2 corrected two Edition 1.1 exclusion-log statuses by republishing them in a new edition, never by editing the parent archive.",
   "authorityPrecedence": [
-    "1. The current adopted Master Library edition.",
-    "2. The adopted legal-resolution memorandum retained inside that edition, where it changes legal structure, output strategy, packet capability, product scope, blocker treatment or node classification.",
-    "3. The jurisdiction legal review retained inside that edition, for conclusions the adopted memorandum does not change.",
-    "4. The Master Asset Manifest, state manifests, missing/source-gap ledger, exclusion log, duplicate log and checksums, for source identity and asset treatment.",
+    "1. The jurisdiction-specific Edition 1.2 legal-review addendum, where one exists, for the statements it lists.",
+    "2. The Edition 1.2 adopted normalization and legal-resolution authority: the Batch 2 authority area and the adopted Batch 1 and Batch 2 resolution memoranda, where they change legal structure, output strategy, packet capability, product scope, blocker treatment or node classification.",
+    "3. The controlling state legal review retained inside the edition, for everything the addendum and the adopted memoranda do not change.",
+    "4. The Master Asset Manifest, state manifests, missing/source-gap ledger, source-acquisition queue, exclusion log, duplicate log and checksums, for source identity, currentness, role, revision, checksum and release treatment.",
     "5. Normalized legal-design records and application registries, as derived implementation outputs."
   ],
   "sourceIdentityFields": [
@@ -60,7 +63,7 @@
     "sha256"
   ],
   "defaultRuntimePosture": "runtime_disabled",
-  "resolverSelectionRule": "A packet resolver may select an asset only through an explicit approved mapping from a normalized legal-design component to one retained Master Library asset, matched by workflow key or document ID with a matching SHA-256, correct document role, correct language and an approved revision. Selection by filename, folder scan, directory listing, title similarity or file presence is prohibited. A source_gated, excluded, retired, superseded or unmanifested asset is never resolver-selectable. Edition 1.1 sets generation_allowed = no on all 394 retained assets, so no asset is resolver-selectable under Edition 1.1 alone.",
+  "resolverSelectionRule": "A packet resolver may select an asset only through an explicit approved mapping from a normalized legal-design component to one retained Master Library asset, matched by workflow key or document ID with a matching SHA-256, correct document role, correct language and an approved revision. Selection by filename, folder scan, directory listing, title similarity or file presence is prohibited. A source_gated, excluded, retired, superseded or unmanifested asset is never resolver-selectable. Edition 1.2 sets generation_allowed = no on all 443 retained assets, so no asset is resolver-selectable under Edition 1.2 alone.",
   "filePresenceRule": "A binary existing in the Master Library, this repository, a prior source folder, a legal-review package or an imported archive is not source approval and does not make an asset runtime-ready.",
   "sharedAssetRule": "A form used by several tracks is one canonical source asset with several explicit track mappings. The binary is not duplicated per track, and a track ID never appears in a canonical filename.",
   "thirdPartyFieldRule": "Judge, clerk, prosecutor, law-enforcement, agency, notary and process-server fields remain blank unless the governing form expressly assigns the field to the participant.",
@@ -71,40 +74,41 @@
     "authoritativeBlockerLedger": "data/record-clearing/master-library/authoritative-blocker-ledger.json",
     "pendingEditionAmendments": "data/record-clearing/master-library/pending-edition-amendments.json",
     "batch1AuthorityCrosswalk": "data/record-clearing/master-library/batch-1-authority-crosswalk.json",
-    "batch1AmendedNormalizationQueue": "data/record-clearing/master-library/batch-1-amended-normalization-queue.json"
+    "batch1AmendedNormalizationQueue": "data/record-clearing/master-library/batch-1-amended-normalization-queue.json",
+    "sourceAcquisitionQueue": "data/record-clearing/master-library/source-acquisition-queue.json",
+    "legalDesignReconciliationQueue": "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json"
   },
   "derivedRecordRule": "The files above are derived application records that point at the adopted edition. They are regenerated by `npm run rcap:reconcile-master-library` and are never hand-edited to change a source's status. The Master Library is not copied into this directory.",
   "parentEdition": {
-    "edition": "1.0",
-    "canonicalPath": "/workspaces/legalease-attorney-review-packages/Expungement_AI_RCAP_Master_Library_Edition_1.zip",
-    "archiveSha256": "c0937fa7fa0ff6e97c9e6f736dc17390496987d4d404e71b6960147bffbc53f8",
-    "archiveBytes": 143154181,
+    "edition": "1.1",
+    "canonicalPath": "/workspaces/legalease-attorney-review-packages/Expungement_AI_RCAP_Master_Library_Edition_1_1.zip",
+    "archiveSha256": "c66ea58a96618e7c8b07406e4e6e6eb14185785e7e00cea48ab038e120d28a99",
+    "archiveBytes": 144123507,
     "status": "immutable_and_independently_verifiable",
-    "note": "Edition 1.0 remains unmodified and separately hashable. Edition 1.1 inherits all 378 of its canonical assets unchanged; it does not replace or edit it."
+    "note": "Edition 1.1 remains unmodified and separately hashable. Edition 1.2 inherits all 394 of its canonical assets unchanged; it does not replace or edit it. Edition 1.0 (c0937fa7fa0ff6e97c9e6f736dc17390496987d4d404e71b6960147bffbc53f8) also remains retained and independently verifiable."
   },
   "sourceArchives": [
     {
       "role": "parent_edition",
-      "fileName": "Expungement_AI_RCAP_Master_Library_Edition_1.zip",
-      "sha256": "c0937fa7fa0ff6e97c9e6f736dc17390496987d4d404e71b6960147bffbc53f8",
-      "bytes": 143154181,
+      "fileName": "Expungement_AI_RCAP_Master_Library_Edition_1_1.zip",
+      "sha256": "c66ea58a96618e7c8b07406e4e6e6eb14185785e7e00cea48ab038e120d28a99",
+      "bytes": 144123507,
       "treatment": "Every canonical asset inherited unchanged."
     },
     {
-      "role": "batch_1_amended_controlling_source",
-      "fileName": "LegalEase_Batch_1_Amended_Import_Bundle(1).zip",
-      "sha256": "99cf3f4c59b5e59b0b3aa1b5d1f5158bd27f219b5cef48fa5052bb197e529ddc",
-      "bytes": 615363,
-      "internalChecksumFile": "SHA256SUMS.txt",
-      "internalChecksumResult": "51/51 verified",
-      "treatment": "Controlling Batch 1 authority. Its twelve amended state reviews become the active canonical legal-review assets; its packet-only amendment, decision matrix and 117-track crosswalk become governance authority under 00_GOVERNANCE/BATCH_1_AUTHORITY/."
+      "role": "edition_1_2_legal_review_addenda",
+      "fileName": "data/record-clearing/master-library/edition-1-2/legal-review-addenda/",
+      "treatment": "Fourteen controlling addenda, one per Batch 2 jurisdiction, authored against the accepted normalization record. Each amends only the statements it lists in the retained review it names. No original review was overwritten and no settled portion of a review was rewritten."
     },
     {
-      "role": "batch_1_original_review_provenance",
-      "fileName": "LegalEase Nationwide Legal Review(3).zip",
-      "sha256": "b1f7eccb0f6d2d638361d814c86fb24bfec79f18fc5a2219181530f656c8e74f",
-      "bytes": 191944,
-      "treatment": "Provenance baseline only. Its twelve original reviews are recorded in the exclusion/reference log with their hashes and are NOT published as a second set of active controlling reviews and NOT counted as legal-review authorities. All twelve were confirmed preserved verbatim beneath their state addendum in the amended review."
+      "role": "edition_1_2_source_acquisition",
+      "fileName": "data/record-clearing/master-library/edition-1-2/acquired-sources.json",
+      "treatment": "Ten sources acquired from their issuing authorities on 2026-08-03 and retained individually identified: the six La. C.Cr.P. art. 986 mandatory statutory forms, Iowa R. Crim. P. 2.86 Forms 1 and 3, Maine Form CR-308 and Indiana Form ACR."
+    },
+    {
+      "role": "edition_1_2_repository_import",
+      "fileName": "data/record-clearing/master-library/edition-1-2/candidate-dispositions.json",
+      "treatment": "All 176 open Edition 1.1 candidates re-evaluated. 25 retained (11 packet-form candidates, 13 source-gated, 1 instruction asset), 47 logged reference-only, 2 logged superseded, 102 held forward with their exact Edition 1.1 gate. Every Edition 1.1 disposition is preserved on its row."
     }
   ],
   "batch1ControllingPrecedence": [
@@ -163,5 +167,10 @@
       "ID": true
     }
   },
-  "batch1AmendedNormalizationRule": "Edition 1.1 adopted twelve amended Batch 1 reviews as controlling authority after those jurisdictions were normalized. The bounded amended-normalization pass has now read the 117-track authority crosswalk against the live registry jurisdiction by jurisdiction, so the twelve jurisdiction-level reconciliation gates are cleared. Clearing a jurisdiction gate is not clearance of its tracks: the seven deferred source IDs remain deferred true blockers, and any track whose controlling review retains an open legal-design blocker still fails closed on that blocker."
+  "batch1AmendedNormalizationRule": "Edition 1.1 adopted twelve amended Batch 1 reviews as controlling authority after those jurisdictions were normalized. The bounded amended-normalization pass has now read the 117-track authority crosswalk against the live registry jurisdiction by jurisdiction, so the twelve jurisdiction-level reconciliation gates are cleared. Clearing a jurisdiction gate is not clearance of its tracks: the seven deferred source IDs remain deferred true blockers, and any track whose controlling review retains an open legal-design blocker still fails closed on that blocker.",
+  "normalizationBaselineCommit": "dfbae78102e6bc9c4202b34a60a547bd7bdb0837",
+  "legalReviewAddendumRule": "An Edition 1.2 legal-review addendum is manifested under asset_class `legal_review_addendum` and document role `LEGAL_REVIEW_ADDENDUM`. It amends the one active controlling review for its jurisdiction and is NOT a second jurisdictional legal review: legal-review coverage counts `legal_review` rows only and remains 51 of 51. An addendum records only supported differences, each naming the retained statement amended, the accepted normalized treatment, the controlling official source, the normalization commit, the authority effect and the runtime effect. Publication of an addendum changes no runtime status.",
+  "sourceAcquisitionRule": "The pending-amendment ledger is built by scanning the repository source corpus, so a required source the corpus holds only as a generic capture — or does not hold at all — can never become a candidate there. `source-acquisition-queue.json` is generated from the normalized tracks and this manifest and answers the opposite question: what does the edition fail to retain that a track actually needs. Read the two together; neither is complete alone, and neither may be hand-edited to change a source status.",
+  "parentEditionAuditCommit": "dfbae78102e6bc9c4202b34a60a547bd7bdb0837",
+  "parentEditionAuditCommitNote": "The commit holding the parent edition's final committed derived records. The edition delta is measured against this, so \"before\" is the last published Edition 1.1 state rather than its state at first adoption."
 }

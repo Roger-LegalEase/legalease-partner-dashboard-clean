@@ -1,0 +1,447 @@
+{
+  "schemaVersion": 1,
+  "edition": "1.2",
+  "note": "Researched answers for source-acquisition queue rows, keyed by the generated acquisition key. The queue itself is generated from the authority manifest and the track-source audit and is never hand-maintained; this overlay supplies only the facts that cannot be derived — currentness, commercial use, identity confidence and the final Edition 1.2 result. A row with no entry here still receives a deterministic, fail-closed default.",
+  "decisions": [
+    {
+      "acquisitionKey": "acquire:KS:ks-criminal-cover-sheet-10-14-2025",
+      "issuingAuthority": "Kansas Judicial Council",
+      "knownOfficialUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "kjc.ks.gov returns HTTP 403 to automated retrieval, so byte-level confirmation against the publisher could not be made.",
+      "commercialUseQuestion": "Resolved against reuse. The Kansas Judicial Council publishes, verbatim: \"These forms are for non-commercial use only. These forms are copyrighted by the Kansas Judicial Council and are provided free of charge. These forms cannot be sold, republished, or otherwise transferred from one person to another for compensation or other value without the Kansas Judicial Council's express permission. If you paid a company for these forms, please contact the Attorney General's consumer complaint hotline and the Kansas Judicial Council.\"",
+      "edition12Disposition": "commercial_use_hold",
+      "rationale": "Commercial generation is prohibited on the publisher's own terms. Acquiring the binary would not move the component forward, so this is not an acquisition target: the gate is licensing, not availability. The gate must not be evaded by relabelling the route as a custom pleading.",
+      "evidence": "Kansas Judicial Council terms of use, Legal Forms and Expungement (Adult) pages, retrieved 2026-08-03 from an archived capture."
+    },
+    {
+      "acquisitionKey": "acquire:KS:ksjc-notice-of-hearing-12-2016",
+      "issuingAuthority": "Kansas Judicial Council",
+      "knownOfficialUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult/conviction-or-diversion",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "kjc.ks.gov returns HTTP 403 to automated retrieval.",
+      "commercialUseQuestion": "Prohibited by the Kansas Judicial Council's published non-commercial terms.",
+      "edition12Disposition": "commercial_use_hold",
+      "rationale": "Licensing, not availability, is the gate.",
+      "evidence": "Kansas Judicial Council terms of use, retrieved 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:KS:ksjc-order-denying-expungement-12-2016",
+      "issuingAuthority": "Kansas Judicial Council",
+      "knownOfficialUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult/conviction-or-diversion",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "kjc.ks.gov returns HTTP 403 to automated retrieval.",
+      "commercialUseQuestion": "Prohibited by the Kansas Judicial Council's published non-commercial terms.",
+      "edition12Disposition": "commercial_use_hold",
+      "rationale": "Licensing, not availability, is the gate. A court-completed denial order is in any event never a participant generation target.",
+      "evidence": "Kansas Judicial Council terms of use, retrieved 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:KS:ksjc-order-expungement-cover-sheet-12-2016",
+      "issuingAuthority": "Kansas Judicial Council",
+      "knownOfficialUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult/conviction-or-diversion",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "kjc.ks.gov returns HTTP 403 to automated retrieval.",
+      "commercialUseQuestion": "Prohibited by the Kansas Judicial Council's published non-commercial terms.",
+      "edition12Disposition": "commercial_use_hold",
+      "rationale": "Licensing, not availability, is the gate.",
+      "evidence": "Kansas Judicial Council terms of use, retrieved 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:KS:ksjc-order-for-expungement-conviction-or-diversion-08-2022",
+      "issuingAuthority": "Kansas Judicial Council",
+      "knownOfficialUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult/conviction-or-diversion",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "The corpus copy carries the Council's own Rev. 08/2022 footer; kjc.ks.gov returns HTTP 403 to automated retrieval.",
+      "commercialUseQuestion": "Prohibited by the Kansas Judicial Council's published non-commercial terms.",
+      "edition12Disposition": "commercial_use_hold",
+      "rationale": "The order the review recorded as missing is already in the corpus. Licensing, not availability, is the gate.",
+      "evidence": "Kansas Judicial Council terms of use, retrieved 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:KS:ksjc-petition-expungement-conviction-or-diversion-08-2022",
+      "issuingAuthority": "Kansas Judicial Council",
+      "knownOfficialUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult/conviction-or-diversion",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "The corpus copy carries the Council's own Rev. 08/2022 footer; kjc.ks.gov returns HTTP 403 to automated retrieval.",
+      "commercialUseQuestion": "Prohibited by the Kansas Judicial Council's published non-commercial terms.",
+      "edition12Disposition": "commercial_use_hold",
+      "rationale": "Licensing, not availability, is the gate.",
+      "evidence": "Kansas Judicial Council terms of use, retrieved 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:KS:ksjc-order-expungement-arrest-record-cover-sheet-12-2016",
+      "issuingAuthority": "Kansas Judicial Council",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "commercialUseQuestion": "Prohibited by the Kansas Judicial Council's published non-commercial terms.",
+      "edition12Disposition": "commercial_use_hold",
+      "rationale": "Retained source-gated by Edition 1.1. The remaining gate is the Council's licensing terms, which prohibit commercial generation.",
+      "evidence": "Kansas Judicial Council terms of use, retrieved 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:KS:ksjc-order-relief-from-offender-registration-cover-sheet-06-2022",
+      "issuingAuthority": "Kansas Judicial Council",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "commercialUseQuestion": "Prohibited by the Kansas Judicial Council's published non-commercial terms.",
+      "edition12Disposition": "commercial_use_hold",
+      "rationale": "Retained source-gated by Edition 1.1; the licensing gate stands.",
+      "evidence": "Kansas Judicial Council terms of use, retrieved 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:KS:ksjc-petition-expungement-arrest-record-02-2013",
+      "issuingAuthority": "Kansas Judicial Council",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "commercialUseQuestion": "Prohibited by the Kansas Judicial Council's published non-commercial terms.",
+      "edition12Disposition": "commercial_use_hold",
+      "rationale": "Retained source-gated by Edition 1.1; the licensing gate stands.",
+      "evidence": "Kansas Judicial Council terms of use, retrieved 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:KS:ksjc-petition-relief-from-offender-registration-06-2022",
+      "issuingAuthority": "Kansas Judicial Council",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "commercialUseQuestion": "Prohibited by the Kansas Judicial Council's published non-commercial terms.",
+      "edition12Disposition": "commercial_use_hold",
+      "rationale": "Retained source-gated by Edition 1.1; the licensing gate stands. K.S.A. 22-4908(d)(3) directs the Council to develop this form and it has, at Rev. 06/2022.",
+      "evidence": "Kansas Judicial Council terms of use, retrieved 2026-08-03."
+    },
+
+    {
+      "acquisitionKey": "acquire:MT:expungementremovalrequestform-docx",
+      "issuingAuthority": "Montana Department of Justice, Division of Criminal Investigation, Criminal Records and Identification Services Section (CRISS)",
+      "knownOfficialUrl": "https://dojmt.gov/dci-home/conviction-expungement-process/",
+      "sourceIdentityConfidence": "issuer_confirmed_document_class_incorrect_in_the_edition",
+      "currentnessQuestion": "dojmt.gov is behind a bot challenge; the 2024-04-29 revision could not be re-retrieved. The 2023 PDF is superseded and is logged as such.",
+      "commercialUseQuestion": "None identified. The CRISS form is a state agency form, not licensed third-party material.",
+      "edition12Disposition": "provenance_unresolved",
+      "rationale": "The issuer is confirmed as Montana DOJ / DCI CRISS. The defect is in the edition, not the source: the CRISS form is classed `supporting_process`, which the authority gate treats as unable to back an official-form component, producing five role mismatches. Correcting it means republishing the asset under the correct class in a successor edition, not remapping in this repository.",
+      "evidence": "Montana DOJ conviction-expungement process publication, retrieved 2026-08-03 from an archived capture."
+    },
+    {
+      "acquisitionKey": "acquire:MT:mt-oca-mmrta",
+      "issuingAuthority": "Montana Office of the Court Administrator, under Montana Supreme Court order AF 22-0129",
+      "knownOfficialUrl": "https://courts.mt.gov/Forms/mmrta",
+      "sourceIdentityConfidence": "issuer_confirmed_two_documents_share_one_document_id",
+      "currentnessQuestion": "courts.mt.gov was network-unreachable on 2026-08-03 and archived replays of the form binaries 404'd.",
+      "commercialUseQuestion": "None identified for the Office of the Court Administrator MMRTA forms.",
+      "edition12Disposition": "provenance_unresolved",
+      "rationale": "The Office of the Court Administrator proposed order and certificate of service share the single document ID MT-OCA-MMRTA at different hashes, producing four hash conflicts. The only reachable copy of the certificate of service was an expressly unofficial county courtesy mirror, which was rejected rather than published. Correcting this means republishing the two documents under distinct document IDs in a successor edition.",
+      "evidence": "Montana Office of the Court Administrator MMRTA forms page, retrieved 2026-08-03 from an archived capture; Montana Supreme Court order AF 22-0129 confirmed as the adopting order."
+    },
+    {
+      "acquisitionKey": "acquire:MT:mt-form-a",
+      "issuingAuthority": "Montana Office of the Court Administrator, under Montana Supreme Court order AF 22-0129",
+      "knownOfficialUrl": "https://courts.mt.gov/Forms/mmrta",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "courts.mt.gov was network-unreachable on 2026-08-03; the current revision could not be confirmed.",
+      "commercialUseQuestion": "None identified for the Office of the Court Administrator MMRTA forms; the non-commercial restriction attaches to the Montana Legal Services Association ER/DS materials, which are never generated.",
+      "edition12Disposition": "currentness_unresolved",
+      "rationale": "Identity and issuer are confirmed from the Office of the Court Administrator's own forms page. Only currentness is open.",
+      "evidence": "Montana Office of the Court Administrator MMRTA forms page, retrieved 2026-08-03 from an archived capture."
+    },
+    {
+      "acquisitionKey": "acquire:MT:mt-form-b",
+      "issuingAuthority": "Montana Office of the Court Administrator, under Montana Supreme Court order AF 22-0129",
+      "knownOfficialUrl": "https://courts.mt.gov/Forms/mmrta",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "courts.mt.gov was network-unreachable on 2026-08-03; the current revision could not be confirmed.",
+      "commercialUseQuestion": "None identified for the Office of the Court Administrator MMRTA forms.",
+      "edition12Disposition": "currentness_unresolved",
+      "rationale": "Identity and issuer are confirmed; only currentness is open.",
+      "evidence": "Montana Office of the Court Administrator MMRTA forms page, retrieved 2026-08-03 from an archived capture."
+    },
+
+    {
+      "acquisitionKey": "acquire:MN:exp101",
+      "issuingAuthority": "Minnesota Judicial Branch",
+      "knownOfficialUrl": "https://www.mncourts.gov/GetForms.aspx?c=8&f=222",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "mncourts.gov returns HTTP 403 to automated retrieval on every URL pattern tried, so the printed revision could not be re-confirmed. The form number is still indexed live and no renumbering or supersession was found.",
+      "commercialUseQuestion": "None identified. Minnesota Judicial Branch forms carry no published non-commercial restriction.",
+      "edition12Disposition": "acquired_and_source_gated",
+      "rationale": "Edition 1.2 retains the English EXP101 the parent edition lacked, source-gated. Packet identity is established; runtime selection is not, and currentness stays open on a stated access result rather than on any finding that the form is stale.",
+      "evidence": "Minnesota Judicial Branch expungement forms index; retrieval attempted 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:MN:exp102",
+      "issuingAuthority": "Minnesota Judicial Branch",
+      "knownOfficialUrl": "https://www.mncourts.gov/GetForms.aspx?c=8&f=222",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "mncourts.gov returns HTTP 403 to automated retrieval.",
+      "commercialUseQuestion": "None identified.",
+      "edition12Disposition": "acquired_and_source_gated",
+      "rationale": "The statewide petition vehicle, retained by Edition 1.2 source-gated. This closes the sharpest Edition 1.0 finding — that the adopted memorandum makes Track 11 an official-form packet on EXP102/104/105 while the edition retained none of them in English.",
+      "evidence": "Minnesota Judicial Branch expungement forms index; retrieval attempted 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:MN:exp104",
+      "issuingAuthority": "Minnesota Judicial Branch",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "mncourts.gov returns HTTP 403 to automated retrieval.",
+      "commercialUseQuestion": "None identified.",
+      "edition12Disposition": "acquired_and_source_gated",
+      "rationale": "Proof of service, retained by Edition 1.2 source-gated.",
+      "evidence": "Minnesota Judicial Branch expungement forms index; retrieval attempted 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:MN:exp105",
+      "issuingAuthority": "Minnesota Judicial Branch",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "mncourts.gov returns HTTP 403 to automated retrieval.",
+      "commercialUseQuestion": "None identified.",
+      "edition12Disposition": "acquired_and_source_gated",
+      "rationale": "Proposed order for the § 609A.02 subd. 3 route, retained by Edition 1.2 source-gated.",
+      "evidence": "Minnesota Judicial Branch expungement forms index; retrieval attempted 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:MN:exp106",
+      "issuingAuthority": "Minnesota Judicial Branch",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "mncourts.gov returns HTTP 403 to automated retrieval.",
+      "commercialUseQuestion": "None identified.",
+      "edition12Disposition": "acquired_and_source_gated",
+      "rationale": "Proposed order for the § 152.18 route, retained by Edition 1.2 source-gated.",
+      "evidence": "Minnesota Judicial Branch expungement forms index; retrieval attempted 2026-08-03."
+    },
+
+    {
+      "acquisitionKey": "acquire:MO:fi-05",
+      "issuingAuthority": "Missouri Office of the State Courts Administrator",
+      "knownOfficialUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "courts.mo.gov returns HTTP 403 with an explicit anti-automation challenge and www2.courts.mo.gov was decommissioned on 1 November 2025, so SJRC (04-23) could not be re-confirmed.",
+      "commercialUseQuestion": "None identified for Missouri court forms.",
+      "edition12Disposition": "acquired_and_source_gated",
+      "rationale": "Retained by Edition 1.2 source-gated from the repository corpus on established identity. The full social security number belongs here under Operating Rule 4.07.",
+      "evidence": "Missouri Courts expungement forms index; retrieval blocked 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:MO:cr301",
+      "issuingAuthority": "Missouri Office of the State Courts Administrator",
+      "knownOfficialUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "The forms index reports the CR300/CR301/CR375 set as Updated 01/01/25, which points to a reissue for CR301 at OSCA (07-17); the HTTP 403 means it could not be confirmed either way.",
+      "commercialUseQuestion": "None identified.",
+      "edition12Disposition": "acquired_and_source_gated",
+      "rationale": "Retained by Edition 1.2 source-gated. § 610.145.1(1) makes this a petition on a form approved by the Office of the State Courts Administrator, so a custom pleading is not lawfully available on that section.",
+      "evidence": "Missouri Courts expungement forms index; retrieval blocked 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:MO:cr300",
+      "issuingAuthority": "Missouri Office of the State Courts Administrator",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "The forms index reports the set as Updated 01/01/25; the corpus copy is OSCA (04-10). The evidence points to a reissue and the HTTP 403 means it could not be confirmed either way.",
+      "commercialUseQuestion": "None identified.",
+      "edition12Disposition": "currentness_unresolved",
+      "rationale": "Edition 1.1's source-gated treatment stands untouched and the 2010 original is preserved. Its statutory basis is § 575.120.4, not § 610.145.",
+      "evidence": "Missouri Courts expungement forms index; retrieval blocked 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:MO:gn10",
+      "issuingAuthority": "Missouri Office of the State Courts Administrator",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "The only reachable copy is a circuit-court mirror stamped OSCA (10-06), which is likely superseded and is not evidence about the current revision.",
+      "commercialUseQuestion": "None identified.",
+      "edition12Disposition": "currentness_unresolved",
+      "rationale": "Retained source-gated by Edition 1.1. No secondary mirror was imported: a superseded third-party copy does not override an available official source. The Jackson-County-captioned variant is never generated.",
+      "evidence": "16th Judicial Circuit mirror inspected and rejected 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:MO:cr370",
+      "issuingAuthority": "Missouri Office of the State Courts Administrator",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "Identified by number and title in the Missouri Courts index and in circuit clerk form indexes; no revision published in a reachable source.",
+      "commercialUseQuestion": "None identified.",
+      "edition12Disposition": "identity_established_binary_unavailable",
+      "rationale": "The companion order to CR360 for the § 610.140 route. The review recorded it as not obtained; it exists. courts.mo.gov returns HTTP 403 and no official binary could be acquired. A blocked retrieval is recorded as a blocked retrieval, never as a finding that the form does not exist.",
+      "evidence": "Missouri Courts expungement forms index; circuit clerk form indexes; retrieval blocked 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:MO:cr143",
+      "issuingAuthority": "Missouri Office of the State Courts Administrator",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "Identified by number and title; no revision published in a reachable source.",
+      "commercialUseQuestion": "None identified.",
+      "edition12Disposition": "identity_established_binary_unavailable",
+      "rationale": "The companion order to CR145 for the § 610.122 route. The review did not identify it. courts.mo.gov returns HTTP 403.",
+      "evidence": "Missouri Courts expungement forms index; retrieval blocked 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:MO:cr310",
+      "issuingAuthority": "Missouri Office of the State Courts Administrator",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "Identified by number and title; no revision published in a reachable source.",
+      "commercialUseQuestion": "None identified.",
+      "edition12Disposition": "identity_established_binary_unavailable",
+      "rationale": "The companion order to CR300 for the § 575.120.4 identity-theft route. Its existence confirms that CR300 is a correction-and-expungement route rather than a case expungement. courts.mo.gov returns HTTP 403.",
+      "evidence": "Missouri Courts expungement forms index; retrieval blocked 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:MO:cr311",
+      "issuingAuthority": "Missouri Office of the State Courts Administrator",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "Identified by number and title; no revision published in a reachable source.",
+      "commercialUseQuestion": "None identified.",
+      "edition12Disposition": "identity_established_binary_unavailable",
+      "rationale": "The companion order to CR301 for the § 610.145 mistaken-identity route. courts.mo.gov returns HTTP 403.",
+      "evidence": "Missouri Courts expungement forms index; retrieval blocked 2026-08-03."
+    },
+
+    {
+      "acquisitionKey": "acquire:MD:cc-dc-cr-072a",
+      "issuingAuthority": "Maryland Judiciary, District Court",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "The form face carries Rev. 09/2025; not re-confirmed against the publisher in this pass.",
+      "commercialUseQuestion": "None identified for Maryland Judiciary forms.",
+      "edition12Disposition": "acquired_and_source_gated",
+      "rationale": "Retained by Edition 1.2 source-gated. Maryland is source-complete: the Batch 2 import supplied all five forms the review flagged as missing.",
+      "evidence": "Maryland Judiciary District Court form CC-DC-CR-072A, as held in the repository source corpus."
+    },
+    {
+      "acquisitionKey": "acquire:MD:cc-dc-cr-072b",
+      "issuingAuthority": "Maryland Judiciary, District Court",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "The form face carries Rev. 10/01/2025-2; not re-confirmed against the publisher in this pass.",
+      "commercialUseQuestion": "None identified.",
+      "edition12Disposition": "acquired_and_source_gated",
+      "rationale": "Retained source-gated. Not a pure § 10-110 form: its checkbox list also covers the § 10-105 act-no-longer-a-crime, § 10-105(a-1), nuisance-crime and gubernatorial-pardon routes.",
+      "evidence": "Maryland Judiciary District Court form CC-DC-CR-072B."
+    },
+    {
+      "acquisitionKey": "acquire:MD:cc-dc-cr-072c",
+      "issuingAuthority": "Maryland Judiciary, District Court",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "The form face carries Rev. 01/2025; not re-confirmed against the publisher in this pass.",
+      "commercialUseQuestion": "None identified.",
+      "edition12Disposition": "acquired_and_source_gated",
+      "rationale": "Retained source-gated. Prints Rules Form 4-503.2 on its face.",
+      "evidence": "Maryland Judiciary District Court form CC-DC-CR-072C."
+    },
+    {
+      "acquisitionKey": "acquire:MD:cc-dc-cr-072d",
+      "issuingAuthority": "Maryland Judiciary, District Court",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "The form face carries Rev. 10/2025; not re-confirmed against the publisher in this pass.",
+      "commercialUseQuestion": "None identified.",
+      "edition12Disposition": "acquired_and_source_gated",
+      "rationale": "Retained source-gated. Its fourth 'other offences in the same incident' checkbox is the unit-rule trigger.",
+      "evidence": "Maryland Judiciary District Court form CC-DC-CR-072D."
+    },
+
+    {
+      "acquisitionKey": "acquire:MA:petition-for-expungement-g-l-c-276-100k",
+      "issuingAuthority": "Trial Court of Massachusetts",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "The form face carries Rev. 12.20.18; not re-confirmed against the publisher in this pass.",
+      "commercialUseQuestion": "None identified for Massachusetts Trial Court forms.",
+      "edition12Disposition": "acquired_and_source_gated",
+      "rationale": "Retained by Edition 1.2 source-gated. Eight ground checkboxes, instructions on the reverse.",
+      "evidence": "Trial Court of Massachusetts § 100K petition, as held in the repository source corpus."
+    },
+    {
+      "acquisitionKey": "acquire:MA:tc0057",
+      "issuingAuthority": "Trial Court of Massachusetts",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "No printed revision on the form face; not re-confirmed against the publisher in this pass.",
+      "commercialUseQuestion": "None identified.",
+      "edition12Disposition": "acquired_and_source_gated",
+      "rationale": "Retained source-gated. Standardised across four court departments; page 2's nine narrative questions map onto the six Pon factors.",
+      "evidence": "Trial Court of Massachusetts form TC0057, as held in the repository source corpus."
+    },
+
+    {
+      "acquisitionKey": "acquire:IA:dci-76-criminal-history-record-check-billing-form",
+      "issuingAuthority": "Iowa Department of Public Safety, Division of Criminal Investigation",
+      "knownOfficialUrl": "https://dps.iowa.gov/media/152/download?inline",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "Resolved. The Department publishes DCI-76 and DCI-77 as one combined fillable packet at revision 9/22/21, and the copy held is byte-identical to the copy published today.",
+      "commercialUseQuestion": "None identified for Iowa Department of Public Safety forms.",
+      "edition12Disposition": "acquired_and_adopted",
+      "rationale": "DCI-76 is published inside the same official packet Edition 1.2 retains as a packet-form candidate under DCI-77. There is no separate DCI-76 binary to acquire; the component resolves to the retained packet. What remains is a component-to-document mapping question, which is a different scope.",
+      "evidence": "Iowa Department of Public Safety combined billing and request forms packet, retrieved 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:IA:rule-2-86-form-2-attached-sheet",
+      "issuingAuthority": "Iowa Judicial Branch",
+      "sourceIdentityConfidence": "document_identity_known",
+      "currentnessQuestion": "Rule 2.86 Form 2 itself is confirmed current at the August 2024 revision and is retained by Edition 1.2. Whether the attached sheet is a separate published document or a continuation page of Form 2 is unresolved.",
+      "commercialUseQuestion": "None identified.",
+      "edition12Disposition": "identity_established_binary_unavailable",
+      "rationale": "No separate published binary for an attached sheet was found on the Iowa Judicial Branch forms collection.",
+      "evidence": "Iowa Judicial Branch Rule 2.86 forms collection, retrieved 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:IA:certification-of-service-by-mailing-or-delivery",
+      "issuingAuthority": "Iowa Judicial Branch",
+      "sourceIdentityConfidence": "document_identity_known",
+      "currentnessQuestion": "No separately published certification-of-service form was located in the Iowa Judicial Branch forms collection; the certification appears within the Rule 2.86 application forms.",
+      "commercialUseQuestion": "None identified.",
+      "edition12Disposition": "identity_established_binary_unavailable",
+      "rationale": "Five components depend on it. It may be a section of the Rule 2.86 forms rather than a standalone document, which is a component-identity question for a bounded legal-design pass.",
+      "evidence": "Iowa Judicial Branch Rule 2.86 forms collection, retrieved 2026-08-03."
+    },
+
+    {
+      "acquisitionKey": "acquire:IN:cca-xp-0120-7002-form-acr",
+      "issuingAuthority": "Coalition for Court Access and Indiana Office of Judicial Administration",
+      "sourceIdentityConfidence": "two_distinct_documents_conflated_in_one_component_identity",
+      "currentnessQuestion": "Both documents are confirmed current. CCA-XP-0120-7002 is the Coalition's Confidential Information Form, published inside its expungement packets; Form ACR is the Office of Judicial Administration's generic statewide Notice of Exclusion of Confidential Information from Public Access.",
+      "commercialUseQuestion": "None identified.",
+      "edition12Disposition": "provenance_unresolved",
+      "rationale": "The component identity conflates two real and distinct documents. Edition 1.2 publishes Form ACR under its own document identity; the conflated component stays unmanifested and the conflict is recorded in the legal-design reconciliation queue as e12-in-form-acr-identity rather than resolved by remapping here.",
+      "evidence": "Indiana Office of Judicial Administration Form ACR and Coalition for Court Access packets, retrieved 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:IN:cca-gf-0120-3016",
+      "issuingAuthority": "Coalition for Court Access",
+      "sourceIdentityConfidence": "document_identity_confirmed_role_label_incorrect",
+      "currentnessQuestion": "The document is confirmed current and is published inside the Coalition's expungement packets.",
+      "commercialUseQuestion": "None identified.",
+      "edition12Disposition": "identity_established_binary_unavailable",
+      "rationale": "CCA-GF-0120-3016 is the Coalition's Appearance by Unrepresented Person in Expungement Matter, not a fee-waiver form as the component label implies. It is published inside the packet binaries rather than as a standalone document. The role-label correction is recorded in the legal-design reconciliation queue.",
+      "evidence": "Coalition for Court Access expungement packets, retrieved 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:IN:confidential-information-form",
+      "issuingAuthority": "Coalition for Court Access",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "Confirmed current; published inside the Coalition's expungement packet binaries rather than as a standalone document.",
+      "commercialUseQuestion": "None identified.",
+      "edition12Disposition": "identity_established_binary_unavailable",
+      "rationale": "CCA-XP-0120-7002. Edition 1.1 already retains the Coalition packets that contain it, so what remains is a component-to-document mapping question rather than an acquisition.",
+      "evidence": "Coalition for Court Access expungement packets, retrieved 2026-08-03."
+    },
+
+    {
+      "acquisitionKey": "acquire:IL:ill-s-ct-r-298-application-for-waiver-of-court-fees",
+      "issuingAuthority": "Illinois Supreme Court, Office of Illinois Courts",
+      "sourceIdentityConfidence": "document_identity_confirmed_component_names_the_rule_not_the_form",
+      "currentnessQuestion": "Resolved. The circuit-court Rule 298 form is FW-CIV, ATJ 601.9 (08/25), and the copy Edition 1.1 already retains as IL:FW-CIV-APPLICATION:APPLICATION:EN is byte-identical to the copy published today. The appellate FW-SC form is a distinct document and is not this one.",
+      "commercialUseQuestion": "None identified for Illinois statewide approved forms.",
+      "edition12Disposition": "acquired_and_adopted",
+      "rationale": "The source is acquired and already retained. Nine components name the rule rather than the form number, so what remains is a component-to-document mapping question, which is a mapping blocker and a different scope from acquisition.",
+      "evidence": "Illinois Supreme Court approved forms, FW-CIV Application for Waiver of Court Fees, retrieved 2026-08-03."
+    },
+
+    {
+      "acquisitionKey": "acquire:ME:cr-307",
+      "issuingAuthority": "Maine Judicial Branch",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "Confirmed at Rev. 06/26.",
+      "commercialUseQuestion": "None identified for Maine Judicial Branch forms.",
+      "edition12Disposition": "acquired_and_source_gated",
+      "rationale": "Retained source-gated by Edition 1.1. Its existence closes the review's largest Maine build blocker.",
+      "evidence": "Maine Judicial Branch criminal forms list, retrieved 2026-08-03."
+    },
+    {
+      "acquisitionKey": "acquire:ME:cr-289",
+      "issuingAuthority": "Maine Judicial Branch",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "currentnessQuestion": "The current binary was retrieved from the Judicial Branch forms portal on 2026-08-03 and is byte-identical to the copy Edition 1.1 retains, so the retained asset is confirmed current.",
+      "commercialUseQuestion": "None identified.",
+      "edition12Disposition": "acquired_and_source_gated",
+      "rationale": "Retained source-gated by Edition 1.1 and now confirmed current against the publisher. The Edition 1.1 gap row asking whether a post-PL 2025 c. 513 revision had issued is answered: the retained bytes are the published bytes.",
+      "evidence": "Maine Judicial Branch form CR-289, retrieved 2026-08-03."
+    }
+  ]
+}

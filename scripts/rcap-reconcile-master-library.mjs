@@ -1,12 +1,23 @@
 // Reconcile this repository against the adopted Master Library edition.
 //
-// Writes five derived records under `data/record-clearing/master-library/`:
+// Writes seven derived records under `data/record-clearing/master-library/`:
 //
 //   reconciliation.json              edition integrity and coverage reconciliation
 //   repository-asset-audit.json      one status for every repository source asset
 //   track-source-audit.json          one authority result for every packet component
-//   pending-edition-amendments.json  valid repository sources Edition 1 does not retain
+//   pending-edition-amendments.json  valid repository sources this edition does not retain
+//   source-acquisition-queue.json    required track sources the edition does not manifest
+//   edition-1-2-legal-design-reconciliation-queue.json
+//                                    resolved conflicts between a new source and a live track
 //   authoritative-blocker-ledger.json  blockers joined across scopes, deduped, not summed
+//
+// The pending-amendment ledger and the source-acquisition queue answer opposite
+// questions and are both required. The first is built by scanning the repository
+// corpus and answers "what valid binaries do we hold that the edition does not
+// retain". The second is built from the normalized tracks and answers "what does
+// the edition fail to retain that a track actually needs" — which is the only way
+// a required source with no individually identified workflow asset, such as the
+// Louisiana Art. 986 statutory form set, becomes visible at all.
 //
 // Nothing here edits the adopted edition, and nothing here changes a legal-design
 // conclusion. Reconciliation moves provenance, not law: a track's mechanism,
@@ -735,7 +746,21 @@ function remainingGateFor(disposition) {
 // the source group the publisher stamps on an added asset — `library_edition`
 // is rewritten on every inherited row and so cannot distinguish new from
 // inherited.
-const ADDED_SOURCE_GROUPS = new Set(["batch1_amended_import_bundle", "batch2_repository_import"]);
+const ADDED_SOURCE_GROUPS = new Set([
+  "batch1_amended_import_bundle",
+  "batch2_repository_import",
+  "edition_1_2_legal_review_addendum",
+  "edition_1_2_source_acquisition",
+  "edition_1_2_repository_import"
+]);
+
+// Researched Edition 1.2 dispositions for the open candidate set. Keyed by
+// SHA-256, so a decision follows the bytes rather than a path or a file name.
+const candidateDecisions = new Map(
+  (readJsonIfPresent("data/record-clearing/master-library/edition-1-2/candidate-dispositions.json")?.decisions ?? [])
+    .map((entry) => [entry.sha256, entry])
+);
+const candidateDecisionFor = (asset) => candidateDecisions.get(asset.sha256) ?? null;
 const resolvedByEdition = governance.manifest.filter((row) => ADDED_SOURCE_GROUPS.has(row.source_group));
 
 const pendingAmendments = {
@@ -760,7 +785,16 @@ const pendingAmendments = {
     candidates: unmanifested.length,
     byJurisdiction: tally(unmanifested, (asset) => asset.jurisdiction),
     byProposedAssetClass: tally(unmanifested, (asset) => proposedAssetClass(registryByArtifactId.get(asset.artifactId))),
-    byDisposition: tally(unmanifested, (asset) => dispositionFor(asset, registryByArtifactId.get(asset.artifactId))[0]),
+    byDisposition: tally(
+      unmanifested,
+      (asset) =>
+        candidateDecisionFor(asset)?.edition12Disposition ??
+        dispositionFor(asset, registryByArtifactId.get(asset.artifactId))[0]
+    ),
+    byPriorEditionDisposition: tally(
+      unmanifested,
+      (asset) => candidateDecisionFor(asset)?.edition11Disposition ?? "not_recorded"
+    ),
     referencedByANormalizedTrack: 0
   },
   candidates: unmanifested.map((asset) => {
@@ -806,15 +840,209 @@ const pendingAmendments = {
       libraryAuthorityStatus: "library_authority_pending",
       runtimeStatus: "runtime_disabled",
       runtimeEffect: "not_resolver_selectable",
-      disposition: dispositionFor(asset, artifact)[0],
-      dispositionRationale: dispositionFor(asset, artifact)[1],
-      remainingGate: remainingGateFor(dispositionFor(asset, artifact)[0])
+      // A researched disposition overrides the deterministic one, and the
+      // deterministic one is kept beside it. A commercial-use hold in particular
+      // is never derivable from the corpus: it comes from the publisher's terms.
+      disposition: candidateDecisionFor(asset)?.edition12Disposition ?? dispositionFor(asset, artifact)[0],
+      derivedDisposition: dispositionFor(asset, artifact)[0],
+      priorEditionDisposition: candidateDecisionFor(asset)?.edition11Disposition ?? null,
+      dispositionRationale: candidateDecisionFor(asset)?.rationale ?? dispositionFor(asset, artifact)[1],
+      remainingGate:
+        candidateDecisionFor(asset)?.remainingGate ?? remainingGateFor(dispositionFor(asset, artifact)[0])
     };
   })
 };
 pendingAmendments.totals.referencedByANormalizedTrack = pendingAmendments.candidates.filter(
   (candidate) => candidate.proposedTrackMappings.length > 0
 ).length;
+
+// ---------------------------------------------------------------------------
+// 4b. Source-acquisition queue
+// ---------------------------------------------------------------------------
+//
+// Edition 1.1 exposed a structural blind spot: a required source with no
+// individually identified workflow asset can appear in the blocker ledger and
+// remain invisible to the pending-amendment ledger, because that ledger is built
+// by scanning the corpus and the corpus holds nothing to propose.
+//
+// This queue is built from the other direction — from the normalized tracks and
+// the adopted edition — so a row exists because a track requires the source, not
+// because a binary happens to be on disk. It is generated, never hand-maintained:
+// the researched answers that cannot be derived (currentness, commercial use,
+// identity confidence, final disposition) come from one authored overlay keyed by
+// the generated acquisition key, and every row without an overlay entry still
+// receives a deterministic, fail-closed default.
+
+const ACQUISITION_RESULTS = new Set([
+  "authority_unmanifested_source",
+  "authority_mapped_source_gated",
+  "authority_role_mismatch",
+  "authority_hash_conflict"
+]);
+
+const acquisitionOverlay = readJsonIfPresent(
+  "data/record-clearing/master-library/edition-1-2/source-acquisition-dispositions.json"
+);
+const acquisitionDecisions = new Map(
+  (acquisitionOverlay?.decisions ?? []).map((entry) => [entry.acquisitionKey, entry])
+);
+
+const trackById = new Map(trackRegistry.tracks.map((track) => [track.trackId, track]));
+const artifactByDocumentId = new Map();
+for (const artifact of artifactRegistry.artifacts) {
+  for (const candidate of [artifact.artifactId, artifact.fileName, artifact.officialTitle]) {
+    const key = documentIdKey(candidate);
+    if (key.length >= 4 && !artifactByDocumentId.has(`${artifact.jurisdiction}:${key}`)) {
+      artifactByDocumentId.set(`${artifact.jurisdiction}:${key}`, artifact);
+    }
+  }
+}
+
+const acquisitionRows = [];
+for (const audit of trackAudits) {
+  const track = trackById.get(audit.trackId);
+  for (const component of audit.components) {
+    if (component.outputStrategy !== "official_pdf_fill") continue;
+    if (!ACQUISITION_RESULTS.has(component.result)) continue;
+
+    const documentId = component.officialFormId ?? null;
+    const acquisitionKey = `acquire:${audit.jurisdiction}:${slug(documentId ?? component.componentId)}`;
+    const decision = acquisitionDecisions.get(acquisitionKey) ?? null;
+
+    // The intake schema records components on the track and composed units as
+    // legal stages; it carries no component-to-unit edge. A unit is named only
+    // where exactly one unit requires a packet binary, so the association is
+    // unambiguous. Otherwise it is reported as unrecorded rather than guessed.
+    const binaryUnits = (audit.units ?? []).filter((unit) => unit.requiresPacketBinary);
+    const composedUnitId = binaryUnits.length === 1 ? binaryUnits[0].unitId : null;
+
+    const officialSource = (track?.officialSources ?? []).find(
+      (source) => component.officialSourceUrl && source.url === component.officialSourceUrl
+    );
+    const artifact =
+      artifactByDocumentId.get(`${audit.jurisdiction}:${documentIdKey(documentId)}`) ?? null;
+
+    acquisitionRows.push({
+      jurisdiction: audit.jurisdiction,
+      trackId: audit.trackId,
+      componentId: component.componentId,
+      composedUnitId,
+      composedUnitAssociation:
+        (audit.units ?? []).length === 0
+          ? "not_a_composed_track"
+          : composedUnitId
+            ? "single_packet_binary_unit"
+            : "not_recorded_in_intake_schema",
+      expectedDocumentId: documentId,
+      expectedDocumentRole: component.role,
+      officialTitle: component.asset?.officialTitle ?? officialSource?.title ?? artifact?.officialTitle ?? null,
+      issuingAuthority: artifact?.issuingAuthority && artifact.issuingAuthority !== "unknown"
+        ? artifact.issuingAuthority
+        : (decision?.issuingAuthority ?? null),
+      knownOfficialUrl: component.officialSourceUrl?.startsWith("http")
+        ? component.officialSourceUrl
+        : (officialSource?.url ?? decision?.knownOfficialUrl ?? null),
+      legalBasis: (track?.authority ?? []).slice(0, 6),
+      currentEditionStatus: component.result,
+      repositoryStatus: repositoryStatusFor(component, artifact),
+      requiredAcquisition: requiredAcquisitionFor(component, artifact),
+      currentnessQuestion:
+        decision?.currentnessQuestion ??
+        (component.asset?.revision
+          ? `Confirm ${component.asset.revision} is still the issuer's current revision.`
+          : "The issuer's current revision for this document is unconfirmed."),
+      commercialUseQuestion:
+        decision?.commercialUseQuestion ??
+        "The publisher's licensing and commercial-use terms for this document are unresolved.",
+      sourceIdentityConfidence:
+        decision?.sourceIdentityConfidence ?? (documentId ? "document_identity_known" : "identity_unestablished"),
+      runtimeEffect: "runtime_disabled",
+      blockerDedupeKey: `mapping:${audit.jurisdiction}:${audit.trackId}:${component.componentId}`,
+      acquisitionKey,
+      edition12Disposition: decision?.edition12Disposition ?? defaultAcquisitionDisposition(component, documentId),
+      edition12DispositionRationale:
+        decision?.rationale ??
+        "No acquisition was completed for this document in the Edition 1.2 pass; the deterministic fail-closed result stands.",
+      edition12Evidence: decision?.evidence ?? null
+    });
+  }
+}
+
+const acquisitionKeys = [...new Set(acquisitionRows.map((row) => row.acquisitionKey))];
+const overlayKeysWithNoRow = [...acquisitionDecisions.keys()].filter(
+  (key) => !acquisitionRows.some((row) => row.acquisitionKey === key)
+);
+
+const sourceAcquisitionQueue = {
+  schemaVersion: 1,
+  authorityEdition: governance.edition.edition,
+  authorityCutoff: governance.edition.cutoff_date,
+  generatedBy: "npm run rcap:reconcile-master-library",
+  note:
+    "Required normalized-track sources the adopted edition does not manifest as a usable workflow asset. Generated from the authority manifest and the track-source audit, never hand-maintained. A row here is not a defect in the ledger — it is the ledger working: the source is required, the edition does not carry it in a usable form, and every affected track fails closed until it does. Publication of an acquired source establishes identity, not readiness.",
+  dispositionMeanings: {
+    acquired_and_adopted: "The official source was acquired and is retained by Edition 1.2 as an active asset.",
+    acquired_and_source_gated:
+      "The official source was acquired and is retained source-gated: packet identity is established, runtime selection is not.",
+    identity_established_binary_unavailable:
+      "The document is identified by form or statutory identity, but no acceptable binary could be obtained.",
+    currentness_unresolved: "Identity is established; the issuer's current revision could not be confirmed.",
+    provenance_unresolved: "The issuing authority, retrieval provenance or statewide-versus-local status is unestablished.",
+    commercial_use_hold: "The publisher's terms do not permit, or do not clearly permit, commercial generation.",
+    legally_not_required: "The controlling authority does not require this document for the component.",
+    superseded: "A later official revision or successor document controls.",
+    excluded: "Retired, mislabelled, unofficial or otherwise outside the authority set."
+  },
+  totals: {
+    rows: acquisitionRows.length,
+    distinctDocuments: acquisitionKeys.length,
+    byJurisdiction: tally(acquisitionRows, (row) => row.jurisdiction),
+    byCurrentEditionStatus: tally(acquisitionRows, (row) => row.currentEditionStatus),
+    byRequiredAcquisition: tally(acquisitionRows, (row) => row.requiredAcquisition),
+    byEdition12Disposition: tally(acquisitionRows, (row) => row.edition12Disposition),
+    byIdentityConfidence: tally(acquisitionRows, (row) => row.sourceIdentityConfidence),
+    closed: acquisitionRows.filter((row) => isClosedAcquisition(row.edition12Disposition)).length,
+    open: acquisitionRows.filter((row) => !isClosedAcquisition(row.edition12Disposition)).length,
+    rowsWithAuthoredDisposition: acquisitionRows.filter((row) => acquisitionDecisions.has(row.acquisitionKey)).length,
+    overlayKeysWithNoCurrentRow: overlayKeysWithNoRow
+  },
+  rows: acquisitionRows
+};
+
+// ---------------------------------------------------------------------------
+// 4c. Legal-design reconciliation queue
+// ---------------------------------------------------------------------------
+//
+// Where a source acquired in a publication pass contradicts an accepted live
+// track, the memo is not silently changed. The conflict is recorded here, the
+// track stays failed closed, the source is published, and the substantive
+// correction is left to a bounded follow-up pass.
+
+const legalDesignReconciliationQueue = (() => {
+  const authored = readJsonIfPresent(
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json"
+  );
+  const rows = authored?.rows ?? [];
+  const liveTrackIds = new Set(trackRegistry.tracks.map((track) => track.trackId));
+  return {
+    schemaVersion: 1,
+    authorityEdition: governance.edition.edition,
+    generatedBy: "npm run rcap:reconcile-master-library",
+    note:
+      authored?.note ??
+      "Conflicts between a source published by the current edition and an accepted normalized track. Each row keeps its track failed closed and defers the substantive legal-design correction to a bounded follow-up pass. Recording a conflict is not resolving it.",
+    totals: {
+      rows: rows.length,
+      byJurisdiction: tally(rows, (row) => row.jurisdiction),
+      byStatus: tally(rows, (row) => row.status),
+      byConflictType: tally(rows, (row) => row.conflictType),
+      rowsNamingATrackThatNoLongerExists: rows.filter(
+        (row) => row.trackId && !liveTrackIds.has(row.trackId)
+      ).length
+    },
+    rows
+  };
+})();
 
 // ---------------------------------------------------------------------------
 // 5. Authoritative blocker ledger
@@ -1009,12 +1237,28 @@ for (const gap of governance.sourceGaps) {
   if (existing) existing.blockerScope = "jurisdiction_input_requirement";
 }
 
-const dedupedLedger = [];
-const seenKeys = new Set();
-for (const row of ledgerRows) {
-  if (seenKeys.has(row.dedupeKey)) continue;
-  seenKeys.add(row.dedupeKey);
-  dedupedLedger.push(row);
+// Scope 4d — legal-design reconciliation queue. A source published by the
+// current edition contradicts an accepted live track. Separate from the Batch 1
+// crosswalk rows above: that scope asks whether a normalization was ever read
+// against its controlling review, this one asks whether newly published evidence
+// disagrees with a normalization that was.
+for (const entry of legalDesignReconciliationQueue.rows) {
+  if (entry.status === "closed_no_conflict") continue;
+  ledgerRows.push({
+    authorityEdition: governance.edition.edition,
+    jurisdiction: entry.jurisdiction,
+    trackId: entry.trackId ?? null,
+    documentId: entry.documentId ?? null,
+    blockerScope: "legal_design_reconciliation_blocker",
+    blockerType: entry.conflictType,
+    impact: entry.impact ?? "release_blocker",
+    controllingLibraryRow: entry.controllingAuthority ?? legalReviewRowFor(entry.jurisdiction),
+    currentRepositoryTreatment:
+      "normalized track preserved unchanged and failed closed; the substantive correction is deferred to a bounded follow-up pass",
+    requiredResolution: entry.requiredResolution,
+    runtimeEffect: "runtime_disabled",
+    dedupeKey: `legal-design-reconciliation:${entry.queueId}`
+  });
 }
 
 // A commercial-use blocker is recorded where the edition's own notes flag the
@@ -1057,6 +1301,50 @@ ledgerRows.push({
   dedupeKey: "runtime-promotion:edition-wide"
 });
 
+// Scope 8 — source acquisition. A required source the edition does not manifest
+// in a usable form. Deduplicated by document identity rather than by component,
+// so one unacquired form is one blocker however many tracks depend on it.
+for (const key of acquisitionKeys) {
+  const rows = acquisitionRows.filter((row) => row.acquisitionKey === key);
+  const first = rows[0];
+  if (isClosedAcquisition(first.edition12Disposition)) continue;
+  ledgerRows.push({
+    authorityEdition: governance.edition.edition,
+    jurisdiction: first.jurisdiction,
+    trackId: null,
+    documentId: first.expectedDocumentId,
+    blockerScope:
+      first.edition12Disposition === "commercial_use_hold"
+        ? "commercial_use_blocker"
+        : first.edition12Disposition === "currentness_unresolved"
+          ? "source_currentness_blocker"
+          : first.edition12Disposition === "provenance_unresolved"
+            ? "source_provenance_blocker"
+            : "source_acquisition_blocker",
+    blockerType: first.requiredAcquisition,
+    impact: "release_blocker",
+    controllingLibraryRow: first.currentEditionStatus,
+    currentRepositoryTreatment: `${rows.length} normalized components depend on this document; all runtime_disabled`,
+    requiredResolution: `${first.requiredAcquisition}. ${first.edition12DispositionRationale}`,
+    runtimeEffect: "runtime_disabled",
+    dedupeKey: key
+  });
+}
+
+// Dedupe runs once, after every scope has contributed. Deduplicating earlier
+// silently discarded the commercial-use and runtime-promotion rows: they were
+// appended to `ledgerRows` after the deduped list had already been built, so they
+// were counted in `rowsBeforeDedupe` and then dropped from both `byScope` and
+// `rows`. Those are exactly the scopes this edition has to report on, so the
+// ordering is fixed rather than worked around.
+const dedupedLedger = [];
+const seenKeys = new Set();
+for (const row of ledgerRows) {
+  if (seenKeys.has(row.dedupeKey)) continue;
+  seenKeys.add(row.dedupeKey);
+  dedupedLedger.push(row);
+}
+
 const blockerLedger = {
   schemaVersion: 2,
   authorityEdition: governance.edition.edition,
@@ -1076,6 +1364,12 @@ const blockerLedger = {
     mapping_blocker:
       "The source exists but is not mapped to the correct normalized track or packet unit under the adopted edition.",
     commercial_use_blocker: "The publisher's licensing or commercial-use terms are unresolved.",
+    source_acquisition_blocker:
+      "A required normalized-track source the edition does not manifest in a usable form. Counted once per document identity, not once per dependent component.",
+    source_currentness_blocker:
+      "The document is identified, but the issuer's current revision could not be confirmed.",
+    source_provenance_blocker:
+      "The issuing authority, retrieval provenance or statewide-versus-local status of a required source is unestablished.",
     technical_blocker: "Field mapping, rendering, storage, access or completed-output proof is incomplete.",
     visual_or_legal_output_blocker: "A rendered output has not passed legal and visual review.",
     jurisdiction_input_requirement:
@@ -1105,6 +1399,8 @@ writeJson("reconciliation.json", reconciliation);
 writeJson("repository-asset-audit.json", repositoryAssetAudit);
 writeJson("track-source-audit.json", trackSourceAudit);
 writeJson("pending-edition-amendments.json", pendingAmendments);
+writeJson("source-acquisition-queue.json", sourceAcquisitionQueue);
+writeJson("edition-1-2-legal-design-reconciliation-queue.json", legalDesignReconciliationQueue);
 writeJson("authoritative-blocker-ledger.json", blockerLedger);
 if (batch1) {
   writeJson("batch-1-authority-crosswalk.json", batch1.crosswalk);
@@ -1117,6 +1413,10 @@ console.log(`2. Repository assets: ${repositoryAssets.length} audited — ${JSON
 console.log(`3. Tracks: ${trackSourceAudit.totals.tracksAudited} audited across ${trackSourceAudit.totals.jurisdictionsAudited} jurisdictions; ${trackSourceAudit.totals.tracksCleared} authority-cleared.`);
 console.log(`4. Official-form components: ${JSON.stringify(trackSourceAudit.totals.officialPdfComponentsByResult)}`);
 console.log(`5. Pending edition amendments: ${pendingAmendments.totals.candidates}.`);
+console.log(
+  `5b. Source-acquisition queue: ${sourceAcquisitionQueue.totals.rows} rows across ${sourceAcquisitionQueue.totals.distinctDocuments} distinct documents — ${sourceAcquisitionQueue.totals.closed} closed, ${sourceAcquisitionQueue.totals.open} open.`
+);
+console.log(`5c. Legal-design reconciliation queue: ${legalDesignReconciliationQueue.totals.rows} rows.`);
 console.log(`6. Blocker ledger: ${blockerLedger.totals.joinedUniqueRows} unique rows across ${Object.keys(blockerLedger.totals.byScope).length} scopes.`);
 if (batch1) {
   console.log(
@@ -1469,7 +1769,12 @@ function parentEditionDelta() {
   // Pinned to the commit that adopted the parent edition, not to HEAD. Reading
   // HEAD would make this file depend on whether it had been committed yet, so
   // the delta would collapse to zeros the moment it was.
-  const ref = authority.adoptedAgainstCommit;
+  //
+  // Edition 1.1 was adopted in the same commit its parent's audit lived in, so
+  // one field carried both meanings. Edition 1.2 is adopted against a later
+  // normalization commit than the one that adopted Edition 1.1, so the two are
+  // now recorded separately and the delta reads the parent's adoption commit.
+  const ref = authority.parentEditionAuditCommit ?? authority.adoptedAgainstCommit;
   const before = gitJson(ref, "data/record-clearing/master-library/track-source-audit.json");
   const beforeAssets = gitJson(ref, "data/record-clearing/master-library/repository-asset-audit.json");
   const beforeLedger = gitJson(ref, "data/record-clearing/master-library/authoritative-blocker-ledger.json");
@@ -1544,6 +1849,65 @@ function gitJson(ref, relativePath) {
 
 function readJson(relativePath) {
   return JSON.parse(fs.readFileSync(path.join(root, relativePath), "utf8"));
+}
+
+function readJsonIfPresent(relativePath) {
+  const file = path.join(root, relativePath);
+  return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf8")) : null;
+}
+
+/** What this repository actually holds for a required source, in one phrase. */
+function repositoryStatusFor(component, artifact) {
+  if (!artifact) {
+    return component.officialSourceUrl && !component.officialSourceUrl.startsWith("http")
+      ? "repository_path_recorded_but_no_registry_row"
+      : "no_repository_binary";
+  }
+  if (artifact.presence !== "present") return "inventory_row_without_binary";
+  if (isNonWorkflowAsset(artifact)) return "generic_web_capture_only";
+  if (artifact.sourceTreatment === "historical_obsolete") return "historical_obsolete_copy_only";
+  if (artifact.sourceTreatment === "reference_only") return "reference_only_copy";
+  if (artifact.sourceTreatment === "source_gated") return "source_gated_copy";
+  return "unmanifested_repository_binary";
+}
+
+/** The narrowest acquisition that would move the component forward. */
+function requiredAcquisitionFor(component, artifact) {
+  switch (component.result) {
+    case "authority_hash_conflict":
+      return "Separate the conflicting document identities and re-manifest each at its own document ID and SHA-256.";
+    case "authority_role_mismatch":
+      return "Re-manifest the source under the document role the component requires, or map the component to the asset that carries that role.";
+    case "authority_mapped_source_gated":
+      return "Clear the edition's source gate — currentness, provenance or commercial use — or keep packet identity without runtime selection.";
+    default:
+      break;
+  }
+  if (!artifact) return "Acquire the current official binary from the issuing authority and manifest it.";
+  if (isNonWorkflowAsset(artifact)) {
+    return "Acquire an individually identified official source for this document; a generic multi-document web capture can carry no document ID, role or revision and can never be manifested.";
+  }
+  if (artifact.presence !== "present") return "Obtain the binary the inventory records but the repository does not hold.";
+  return "Establish official title, revision and provenance for the held binary, then manifest it in an adopted edition.";
+}
+
+/** Fail-closed default where no researched disposition was authored. */
+function defaultAcquisitionDisposition(component, documentId) {
+  if (component.result === "authority_mapped_source_gated") return "acquired_and_source_gated";
+  if (component.result === "authority_hash_conflict" || component.result === "authority_role_mismatch") {
+    return "provenance_unresolved";
+  }
+  return documentId ? "identity_established_binary_unavailable" : "provenance_unresolved";
+}
+
+/**
+ * A closed acquisition row is one the edition has finished with, either by
+ * retaining the source or by deciding it is not an acquisition target. A
+ * source-gated adoption is closed for acquisition and still blocked for release;
+ * the two are different questions and are counted separately.
+ */
+function isClosedAcquisition(disposition) {
+  return ["acquired_and_adopted", "legally_not_required", "superseded", "excluded"].includes(disposition);
 }
 
 function writeJson(name, value) {

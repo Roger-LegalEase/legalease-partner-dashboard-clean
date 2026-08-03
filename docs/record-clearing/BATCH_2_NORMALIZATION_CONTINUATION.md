@@ -1,6 +1,6 @@
 # Batch 2 normalization — continuation state
 
-Last updated: 3 August 2026 (Missouri normalization — Batch 2 complete at 14 of 14)
+Last updated: 3 August 2026 (Master Library Edition 1.2 published and adopted)
 Branch: `feat/record-clearing-batch-2-legal-design`
 Base: `e3f034b9c499fc6b6ec906dd82ef8e6599f8951f` (PR #87 platform base)
 Last clean checkpoint: `2d787e7` — Batch 2 source-package import
@@ -1421,6 +1421,134 @@ Unchanged by this pass and not repaired here.
 Publish and adopt the consolidated **Master Library Edition 1.2**
 source-authority update, then begin **packet implementation and completed-output
 review**. No Edition 1.2 work was performed during the Missouri pass.
+
+## Master Library Edition 1.2 published and adopted — 3 August 2026
+
+**Batch 2 remains complete at 14 of 14. No jurisdiction was normalized, no
+normalized track substance changed, and no memo was edited.** This was an
+authority-publication pass, not a release pass.
+
+**Edition 1.2** — `/workspaces/legalease-attorney-review-packages/Expungement_AI_RCAP_Master_Library_Edition_1_2.zip`,
+SHA-256 `7edd0a0e…75ef43bd`, 156,172,093 bytes, 591 files, cutoff 3 August 2026,
+normalization baseline `dfbae78`. Parent Edition 1.1 (`c66ea58a…20d28a99`) and
+Edition 1.0 (`c0937fa7…bffbc53f8`) are untouched and still verify against their
+original hashes. 590/590 checksums verify.
+
+- **443 canonical assets**: 394 inherited unchanged + 14 legal-review addenda +
+  10 acquired sources + 25 retained candidates.
+- **Legal-review coverage stays 51/51.** An addendum is manifested under its own
+  asset class and is never counted as a second review.
+- 47 candidates logged reference-only, 2 logged superseded, 102 held forward with
+  their exact remaining gate.
+
+### The fourteen addenda
+
+One per Batch 2 jurisdiction, each recording only supported differences between
+the retained review and the accepted normalization — corrected mechanism,
+statute, output strategy, node type, form identity, revision, waiting period,
+operating status, source-gap treatment, composition treatment or commercial-use
+restriction — with the retained statement amended, the controlling source, the
+normalization commit and the authority and runtime effects. **No original review
+was overwritten.**
+
+### Source acquisition
+
+Ten sources acquired from their issuing authorities on 3 August 2026: the six
+**La. C.Cr.P. art. 986 mandatory statutory forms**, retrieved article by article
+and retained as individually identified packet-form candidates; **Iowa R. Crim.
+P. 2.86 Forms 1 and 3**; **Maine CR-308**; and **Indiana Form ACR**. Corpus
+572 → **582**.
+
+Louisiana is the headline: Edition 1.1 retained Arts. 990, 993, 995, 998 and
+999.1 but none of the six forms every motion track depends on, and they were
+invisible to the pending-amendment ledger because the corpus held them only as
+generic browser prints. All 22 Louisiana official-form components are now mapped.
+
+Eleven further repository candidates proved **byte-identical to the copy their
+issuer publishes today** and are retained as packet-form candidates rather than
+source-gated — Georgia's GBI request, the four Illinois PRB documents, the
+Illinois CXP motion and EXP-AD case list, Iowa's DCI packet and Rule 2.86 Form 2,
+Maine CR-218 and Michigan MC 227.
+
+`courts.mo.gov`, `mncourts.gov`, `kjc.ks.gov`, `courts.mt.gov` and `dojmt.gov`
+all block automated retrieval. **A blocked retrieval is recorded as a blocked
+retrieval, never as a finding that a form does not exist.** No third-party mirror
+was substituted: the only reachable Montana MMRTA certificate of service was an
+expressly unofficial county courtesy copy and was rejected, and the only
+reachable Missouri CR360 and GN10 copies were superseded circuit mirrors.
+
+### One authority-pipeline correction, one edition defect corrected
+
+`source-acquisition-queue.json` is now generated from the normalized tracks and
+the authority manifest rather than from the corpus, which is the only way a
+required source with no workflow asset becomes visible. **239 rows over 118
+distinct documents, every one carrying a final Edition 1.2 result.**
+
+The blocker ledger's deduplication ran before the commercial-use and
+runtime-promotion scopes were appended, so those rows were counted in
+`rowsBeforeDedupe` and then silently dropped from both `byScope` and `rows`.
+Fixed; those scopes now appear.
+
+Edition 1.1 retained two Utah assets as active while logging the identical bytes
+as obsolete. Identical bytes are the same document, so Edition 1.2 reclassifies
+both log rows as duplicate paths — republished in a new edition, never by editing
+the parent.
+
+### Blockers — Edition 1.1 → 1.2
+
+| Scope | 1.1 | 1.2 |
+|---|---|---|
+| Legal-design blocker | 88 | 88 |
+| Legal-design reconciliation | 7 | **14** |
+| Master Library source gap | 26 | 28 |
+| Source/currentness | 446 | 446 |
+| Source acquisition | — | **97** |
+| Source currentness (queue) | — | **4** |
+| Source provenance (queue) | — | **5** |
+| Commercial use | 0 (dropped) | **14** |
+| Mapping | 378 | 377 |
+| Technical | 250 | 250 |
+| Visual/legal-output | 500 | 500 |
+| Jurisdiction input | 6 | 6 |
+| Runtime promotion | 0 (dropped) | **1** |
+| **Joined unique** | 1701 | **1830** |
+
+The rise is disclosure, not regression: 97 acquisition rows, 14 commercial-use
+rows and 1 runtime-promotion row were previously invisible or silently dropped,
+and 7 new legal-design reconciliation rows record conflicts this pass found.
+
+Official-form components: `authority_unmanifested_source` 245 → **175**,
+`authority_mapped_packet_candidate` 102 → **146**, `authority_mapped_source_gated`
+25 → **51**. Authority-cleared tracks **82** before and after — publication
+established identity, and what still blocks those tracks is unpinned SHA-256 on
+the track-source relationships, a separate mapping gate.
+
+### Legal-design reconciliation queue — 7 rows
+
+Iowa `ia-9079` (the statutory text shows deferred-judgment expungement was
+self-executing well before 2013, which is evidence against the accepted premise
+that the pre-2013 branch contemplates a participant application — the build
+blocker is preserved exactly); Maine CR-308 (narrower than the normalization
+assumes — it is the § 2262-B sex-trafficking order, not a general ch. 310-A
+proposed order); Indiana Form ACR (two distinct documents conflated in one
+component identity, and CCA-GF-0120-3016 is an Appearance form, not a fee
+waiver); Minnesota § 609A.025 county scope and the uncarried 2025 c 3 art 16 s 18
+amendment; Missouri's blocked publisher; Montana's unofficial-mirror-only
+certificate of service. **Every affected track stays failed closed and every memo
+is unchanged.**
+
+### Current state
+
+`packet_ready` **0** · enabled jurisdictions **0** · launch gate **red** ·
+Batch 2 **14 of 14** · Batch 1 delta **117/110/7** · composed approvals
+**25 tracks / 55 units, substantively unchanged** · Iowa `ia-9079` build blocker
+**still open**.
+
+### Next action
+
+Select the first authority-cleared packet implementation tranche, build its field
+maps and custom-pleading specifications, generate representative completed
+packets, and run legal-output and visual review.
 
 ### Measured size of Group 1, for the next session's planning
 
