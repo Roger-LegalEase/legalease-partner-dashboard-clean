@@ -34,6 +34,37 @@ const root = process.cwd();
 const failures = [];
 const findings = [];
 
+/** Every disposition an expected Batch 1 source track ID may receive. */
+const DISPOSITIONS = new Set([
+  "exact_current_track",
+  "renamed_to_current_track",
+  "merged_into_current_track",
+  "split_into_current_tracks",
+  "reclassified_non_relief",
+  "replaced_by_amended_track",
+  "removed_by_express_amendment",
+  "missing_from_current_normalization",
+  "unresolved_crosswalk"
+]);
+
+/** Every final disposition a pending edition-amendment candidate may receive. */
+const CANDIDATE_DISPOSITIONS = new Set([
+  "adopt_packet_form",
+  "adopt_instruction",
+  "adopt_supporting_process",
+  "adopt_source_gated",
+  "adopt_legal_review",
+  "adopt_reference_only",
+  "exact_duplicate_existing_canonical",
+  "superseded_by_existing_canonical",
+  "excluded_retired_or_out_of_scope",
+  "hold_currentness",
+  "hold_provenance",
+  "hold_legal_identity",
+  "hold_commercial_use",
+  "not_a_workflow_asset"
+]);
+
 const authority = readAuthorityRecord(root);
 const library = openLibrary(root, authority);
 const governance = loadGovernance(library);
@@ -63,6 +94,34 @@ if (library.mode === "archive" && library.archiveSha256 !== authority.retention.
 }
 if (!governance.hasAdoptedMemorandum) {
   failures.push("The adopted legal-resolution memorandum is not retained inside the adopted edition.");
+}
+
+// A published parent edition stays immutable and independently verifiable. If
+// it has drifted, the inheritance claim in this edition is no longer checkable.
+if (authority.parentEdition) {
+  const parentPath = authority.parentEdition.canonicalPath;
+  if (!fs.existsSync(parentPath)) {
+    failures.push(`Parent edition ${authority.parentEdition.edition} is not retained at ${parentPath}.`);
+  } else {
+    if (sha256File(parentPath) !== authority.parentEdition.archiveSha256) {
+      failures.push(`Parent edition ${authority.parentEdition.edition} no longer matches its recorded SHA-256. A published edition is immutable.`);
+    }
+    if (governance.edition.parent_sha256 && governance.edition.parent_sha256 !== authority.parentEdition.archiveSha256) {
+      failures.push("The adopted edition records a different parent SHA-256 than the authority record.");
+    }
+  }
+}
+
+// The resolution order is part of the contract: an explicit path, then the
+// environment override, then the recorded path, then failure. There is no
+// fallback to the repository source corpus.
+for (const expected of ["explicit", "RCAP_MASTER_LIBRARY_PATH", "canonicalPath", "Fail closed"]) {
+  if (!(authority.resolutionOrder ?? []).some((entry) => entry.includes(expected))) {
+    failures.push(`Authority record does not document the "${expected}" step of the resolution order.`);
+  }
+}
+if (library.resolvedFrom !== "authority_record" && !process.env.RCAP_MASTER_LIBRARY_PATH) {
+  failures.push(`Library resolved from ${library.resolvedFrom} with no override set.`);
 }
 
 // ---------------------------------------------------------------------------
@@ -165,6 +224,31 @@ for (const row of governance.manifest) {
   }
 }
 
+// One jurisdiction, one active controlling review. An addendum, a preserved
+// original and a provenance copy are parts of or evidence for that one asset —
+// never a second authority competing for the same legal conclusion.
+const reviewsByJurisdiction = new Map();
+for (const row of governance.manifest) {
+  if (row.asset_class !== "legal_review") continue;
+  const list = reviewsByJurisdiction.get(row.jurisdiction_code) ?? [];
+  list.push(row);
+  reviewsByJurisdiction.set(row.jurisdiction_code, list);
+}
+for (const [code, rows] of reviewsByJurisdiction) {
+  if (rows.length > 1) {
+    failures.push(`${code} carries ${rows.length} active controlling legal reviews: ${rows.map((row) => row.workflow_key).join(", ")}.`);
+  }
+}
+for (const row of governance.legalReviewCoverage) {
+  const retained = reviewsByJurisdiction.get(row.jurisdiction_code)?.length ?? 0;
+  if (row.status === "present" && retained !== 1) {
+    failures.push(`${row.jurisdiction_code} is recorded as having a legal review but the manifest retains ${retained}.`);
+  }
+  if (row.status !== "present" && retained > 0) {
+    failures.push(`${row.jurisdiction_code} retains a legal review the coverage file does not record.`);
+  }
+}
+
 for (const row of governance.manifest) {
   if (row.asset_class === "source_gated" && row.packet_candidate === "yes") {
     failures.push(`${row.workflow_key} is source-gated and simultaneously marked a packet candidate.`);
@@ -191,26 +275,22 @@ for (const [name, relativePath] of Object.entries(authority.derivedRecords)) {
 }
 
 if (Object.keys(derived).length === Object.keys(authority.derivedRecords).length) {
-  const rerun = spawnSync("node", ["scripts/rcap-reconcile-master-library.mjs"], {
-    cwd: root,
-    encoding: "utf8"
-  });
+  // Reproducibility is checked by re-running and comparing bytes, not by
+  // diffing against HEAD: an uncommitted working tree is a normal state, and
+  // treating it as staleness would fail every run before a commit.
+  const paths = Object.values(authority.derivedRecords).filter(
+    (relativePath) => !relativePath.endsWith("authority.json")
+  );
+  const before = new Map(paths.map((relativePath) => [relativePath, sha256File(path.join(root, relativePath))]));
+
+  const rerun = spawnSync("node", ["scripts/rcap-reconcile-master-library.mjs"], { cwd: root, encoding: "utf8" });
   if (rerun.status !== 0) {
     failures.push(`Reconciliation could not be reproduced: ${rerun.stderr?.slice(0, 400)}`);
   } else {
-    const changed = spawnSync("git", ["status", "--porcelain", "data/record-clearing/master-library"], {
-      cwd: root,
-      encoding: "utf8"
-    });
-    const dirty = (changed.stdout || "")
-      .split("\n")
-      .filter(Boolean)
-      .filter((line) => !line.includes("authority.json"))
-      .filter((line) => !line.startsWith("??"));
-    if (dirty.length > 0) {
-      failures.push(
-        `Derived records are stale — regenerating changed ${dirty.length} file(s). Commit the reconciliation output.`
-      );
+    for (const relativePath of paths) {
+      if (sha256File(path.join(root, relativePath)) !== before.get(relativePath)) {
+        failures.push(`${relativePath} is stale — regenerating it changed the file. Run npm run rcap:reconcile-master-library.`);
+      }
     }
   }
 }
@@ -328,6 +408,65 @@ if (repositoryAudit) {
 }
 
 // ---------------------------------------------------------------------------
+// 6b. Batch 1 authority crosswalk
+// ---------------------------------------------------------------------------
+
+const crosswalk = derived.batch1AuthorityCrosswalk;
+const queue = derived.batch1AmendedNormalizationQueue;
+
+if (crosswalk) {
+  const BATCH_1_DIR = "00_GOVERNANCE/BATCH_1_AUTHORITY";
+  const expectedIds = JSON.parse(library.readText(`${BATCH_1_DIR}/expected/expected-track-ids.json`));
+  const expectedCounts = JSON.parse(library.readText(`${BATCH_1_DIR}/expected/expected-track-counts.json`));
+  const flat = Object.values(expectedIds.expected_track_ids_by_jurisdiction).flat();
+
+  // Every expected ID gets exactly one disposition. Not "most"; not "the ones
+  // that matched". A silently omitted ID is the failure this check exists for.
+  expectEqual(crosswalk.rows.length, flat.length, "crosswalk rows");
+  expectEqual(crosswalk.rows.length, expectedCounts.expected_track_count, "crosswalk rows against the expected-count file");
+  const seen = new Map();
+  for (const row of crosswalk.rows) {
+    if (seen.has(row.expectedSourceId)) failures.push(`Expected source ID ${row.expectedSourceId} has two dispositions.`);
+    seen.set(row.expectedSourceId, row);
+    if (!DISPOSITIONS.has(row.crosswalkDisposition)) {
+      failures.push(`Expected source ID ${row.expectedSourceId} has unknown disposition ${row.crosswalkDisposition}.`);
+    }
+    if (!row.controllingAmendedSource) {
+      failures.push(`Expected source ID ${row.expectedSourceId} names no controlling amended source.`);
+    }
+  }
+  for (const id of flat) {
+    if (!seen.has(id)) failures.push(`Expected source ID ${id} received no disposition.`);
+  }
+  for (const [code, count] of Object.entries(expectedCounts.counts_by_jurisdiction)) {
+    const actual = crosswalk.rows.filter((row) => row.jurisdiction === code).length;
+    if (actual !== count) failures.push(`Crosswalk holds ${actual} rows for ${code}; the expected-count file declares ${count}.`);
+  }
+
+  // Every unresolved mismatch must be queued rather than absorbed.
+  const queued = new Set((queue?.rows ?? []).map((entry) => `${entry.jurisdiction}:${entry.sourceTrackId}`));
+  for (const row of crosswalk.rows) {
+    if (row.crosswalkDisposition === "exact_current_track") continue;
+    if (!queued.has(`${row.jurisdiction}:${row.expectedSourceId}`)) {
+      failures.push(`${row.expectedSourceId} is not an exact match and is not in the Batch 1 follow-up queue.`);
+    }
+    if (row.runtimeEffect === "runtime_enabled") {
+      failures.push(`${row.expectedSourceId} is unreconciled and runtime enabled.`);
+    }
+  }
+  if (queue && queue.status !== "not_started") {
+    failures.push("The Batch 1 amended-normalization queue is not marked not_started; this pass must not apply it.");
+  }
+}
+
+// Every pending candidate carries one final disposition.
+for (const candidate of derived.pendingEditionAmendments?.candidates ?? []) {
+  if (!CANDIDATE_DISPOSITIONS.has(candidate.disposition)) {
+    failures.push(`Pending candidate ${candidate.documentId} has unknown disposition ${candidate.disposition}.`);
+  }
+}
+
+// ---------------------------------------------------------------------------
 // 7. The edition is not duplicated into version control
 // ---------------------------------------------------------------------------
 
@@ -382,7 +521,15 @@ console.log("4. Manifest, state coverage, legal-review coverage, gap, exclusion 
 console.log("5. No excluded, retired or source-gated asset is presented as active, generation-allowed or resolver-selectable.");
 console.log("6. Derived records reproduce exactly; every normalized track carries one authority result.");
 console.log(`7. packet_ready = ${trackRegistry.packetReadyCount}. The gate fails closed on an unaudited track.`);
-console.log("8. The adopted edition is not duplicated or extracted into version control.");
+console.log(
+  `8. Legal-review coverage ${governance.edition.jurisdictions_with_legal_review}/51; no jurisdiction carries two active controlling reviews.`
+);
+if (crosswalk) {
+  console.log(
+    `9. Batch 1 crosswalk: all ${crosswalk.rows.length} expected source IDs dispositioned — ${JSON.stringify(crosswalk.totals.byDisposition)}; ${queue?.rows.length ?? 0} queued, queue ${queue?.status}.`
+  );
+}
+console.log("10. The adopted edition is not duplicated or extracted into version control.");
 for (const finding of findings) console.log(`   finding: ${finding}`);
 
 function expectEqual(actual, expected, label) {

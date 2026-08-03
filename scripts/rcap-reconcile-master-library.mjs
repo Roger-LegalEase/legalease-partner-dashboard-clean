@@ -20,6 +20,7 @@
 import { register } from "node:module";
 import fs from "node:fs";
 import path from "node:path";
+import { spawnSync } from "node:child_process";
 
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
@@ -343,6 +344,7 @@ const trackAudits = trackRegistry.tracks.map((track) => {
     trackId: track.trackId,
     outputStrategy: track.outputStrategy,
     legalReviewRetained,
+    pendingAuthorityReconciliation: pendingReconciliationFor(track.jurisdiction),
     components
   });
 
@@ -405,6 +407,246 @@ const trackSourceAudit = {
 };
 
 // ---------------------------------------------------------------------------
+// 3b. Batch 1 authority crosswalk — 117 expected source IDs
+// ---------------------------------------------------------------------------
+//
+// The amended bundle defines 117 pre-amendment source track IDs. Every one of
+// them gets exactly one express disposition here. A count difference is not an
+// error by itself; an ID that quietly disappears is.
+//
+// The crosswalk is a *completeness* instrument. It never decides legal
+// substance: the amended state addendum does that, and this pass does not
+// rewrite a single normalized memo to make the arithmetic come out.
+
+const BATCH_1_DIR = "00_GOVERNANCE/BATCH_1_AUTHORITY";
+const batch1 = library.exists(`${BATCH_1_DIR}/expected/expected-track-ids.json`)
+  ? buildBatch1Crosswalk()
+  : null;
+
+function buildBatch1Crosswalk() {
+  const expectedIds = JSON.parse(library.readText(`${BATCH_1_DIR}/expected/expected-track-ids.json`));
+  const expectedCounts = JSON.parse(library.readText(`${BATCH_1_DIR}/expected/expected-track-counts.json`));
+  const byJurisdiction = expectedIds.expected_track_ids_by_jurisdiction;
+
+  // The pre-amendment normalization supplies each expected ID's source slot.
+  const preAmendment = new Map();
+  for (const code of Object.keys(byJurisdiction)) {
+    const file = `${BATCH_1_DIR}/pre-amendment-crosswalk/jurisdictions/${code}.normalized-tracks.json`;
+    if (!library.exists(file)) continue;
+    for (const track of JSON.parse(library.readText(file)).tracks ?? []) {
+      preAmendment.set(track.track_id, track);
+    }
+  }
+
+  const currentByTrackId = new Map(trackRegistry.tracks.map((track) => [track.trackId, track]));
+  const deferredByTrackId = new Map(
+    (readJson("data/record-clearing/legal-design-batch-delta-report.json").deferredTracks ?? []).map((track) => [
+      track.trackId,
+      track
+    ])
+  );
+  const auditByTrackId = new Map(trackAudits.map((audit) => [audit.trackId, audit]));
+
+  const rows = [];
+  const queue = [];
+
+  for (const [code, ids] of Object.entries(byJurisdiction)) {
+    const reviewRow = governance.manifest.find(
+      (row) => row.jurisdiction_code === code && row.asset_class === "legal_review"
+    );
+    const controllingSource = reviewRow?.canonical_relative_path ?? null;
+
+    for (const expectedId of ids) {
+      const pre = preAmendment.get(expectedId);
+      const current = currentByTrackId.get(expectedId);
+      const deferred = deferredByTrackId.get(expectedId);
+      const audit = auditByTrackId.get(expectedId);
+
+      let disposition;
+      let amendmentEffect;
+      let authorityStatus;
+      let runtimeEffect;
+      let requiredNextAction;
+
+      if (current) {
+        disposition = "exact_current_track";
+        amendmentEffect =
+          "The amended state addendum governs this track's operational classification; the current normalization carries the same source track ID.";
+        authorityStatus = audit?.legalReviewRetained
+          ? "legal_review_authority_retained"
+          : "legal_review_authority_missing";
+        runtimeEffect = "runtime_disabled";
+        requiredNextAction = audit?.cleared
+          ? "No crosswalk action. Track-source mapping and the remaining release gates still apply."
+          : `Authority-blocked: ${(audit?.blockingReasons ?? ["not audited"])[0]}`;
+      } else if (deferred) {
+        // Deferred is an express, source-supported outcome, not an omission:
+        // the amended matrix keeps these as true blockers, and a deferred track
+        // is unregistered and unreachable rather than quietly dropped.
+        disposition = "missing_from_current_normalization";
+        amendmentEffect =
+          "Retained as a true blocker by the amended state addendum. The track was deferred under legal_research_required rather than imported, so no strategy was asserted on counsel's behalf.";
+        authorityStatus = "deferred_pending_legal_research";
+        runtimeEffect = "absent_from_runtime_resolution_and_unreachable";
+        requiredNextAction =
+          (deferred.deferralReasons ?? [])
+            .map((reason) => (typeof reason === "string" ? reason : reason.statement))
+            .filter(Boolean)[0] ?? "Resolve the deferred legal question before normalizing this track.";
+        queue.push({
+          jurisdiction: code,
+          sourceTrackId: expectedId,
+          currentTrackId: null,
+          issueType: "deferred_track_not_normalized",
+          controllingAddendumSection: sectionsOf(deferred).join(" | ") || `${code} operational amendments`,
+          currentStrategy: null,
+          requiredStrategy: "undetermined — counsel has not settled the output strategy",
+          currentLimitationClassification: "legal_design_blocker",
+          requiredClassification: "legal_design_blocker",
+          sourceOrFormImpact: (deferred.deferralReasons ?? [])
+            .map((reason) => (typeof reason === "string" ? reason : reason.affectedElement))
+            .filter(Boolean)
+            .join(", "),
+          buildOrReleaseImpact: "build_blocker",
+          requiredRepositoryChange:
+            "No repository change until counsel resolves the deferred question. The track stays unregistered and unreachable; it must not be given an invented strategy to close the crosswalk."
+        });
+      } else {
+        disposition = "unresolved_crosswalk";
+        amendmentEffect = "No express amendment accounts for this ID's absence from the current normalization.";
+        authorityStatus = "authority_reconciliation_required";
+        runtimeEffect = "runtime_disabled";
+        requiredNextAction =
+          "Locate the controlling amendment or record an express disposition. Fail closed until resolved.";
+        queue.push({
+          jurisdiction: code,
+          sourceTrackId: expectedId,
+          currentTrackId: null,
+          issueType: "unresolved_crosswalk",
+          controllingAddendumSection: `${code} operational amendments`,
+          currentStrategy: null,
+          requiredStrategy: null,
+          currentLimitationClassification: null,
+          requiredClassification: null,
+          sourceOrFormImpact: "unknown",
+          buildOrReleaseImpact: "build_blocker",
+          requiredRepositoryChange:
+            "Reconcile this expected source ID against the current normalization before any Batch 1 track in this jurisdiction is promoted."
+        });
+      }
+
+      rows.push({
+        jurisdiction: code,
+        expectedSourceId: expectedId,
+        expectedSourceSlot: pre
+          ? { trackNumber: pre.track_number ?? null, sourceHeading: pre.source_heading ?? null, sourceTrackTitle: pre.source_track_title ?? null }
+          : null,
+        preAmendmentOutputStrategy: pre?.output_strategy?.mode ?? pre?.output_strategy?.raw ?? null,
+        currentNormalizedIds: current ? [current.trackId] : [],
+        currentNodeType: current ? "relief_track" : "not_normalized",
+        currentOutputStrategy: current ? current.outputStrategy : null,
+        controllingAmendedSource: controllingSource,
+        amendmentEffect,
+        crosswalkDisposition: disposition,
+        authorityStatus,
+        runtimeEffect,
+        requiredNextAction
+      });
+    }
+  }
+
+  // Current tracks with no expected source ID would be an unexplained addition.
+  const expectedSet = new Set(Object.values(byJurisdiction).flat());
+  const batch1Codes = new Set(Object.keys(byJurisdiction));
+  const currentOnly = trackRegistry.tracks
+    .filter((track) => batch1Codes.has(track.jurisdiction) && !expectedSet.has(track.trackId))
+    .map((track) => ({ jurisdiction: track.jurisdiction, trackId: track.trackId, outputStrategy: track.outputStrategy }));
+
+  const countsByJurisdiction = {};
+  for (const [code, ids] of Object.entries(byJurisdiction)) {
+    const current = trackRegistry.tracks.filter((track) => track.jurisdiction === code).length;
+    countsByJurisdiction[code] = {
+      expected: ids.length,
+      declaredExpected: expectedCounts.counts_by_jurisdiction[code],
+      currentNormalized: current,
+      exact: rows.filter((row) => row.jurisdiction === code && row.crosswalkDisposition === "exact_current_track").length,
+      missing: rows.filter((row) => row.jurisdiction === code && row.crosswalkDisposition === "missing_from_current_normalization").length,
+      unresolved: rows.filter((row) => row.jurisdiction === code && row.crosswalkDisposition === "unresolved_crosswalk").length
+    };
+  }
+
+  return {
+    crosswalk: {
+      schemaVersion: 1,
+      authorityEdition: governance.edition.edition,
+      note:
+        "Every expected Batch 1 source track ID receives exactly one disposition. A count difference is not an error where each ID has an express, source-supported outcome; a silently dropped ID is. This file reconciles completeness only — the amended state addendum, not this crosswalk, decides legal substance, and no normalized memo was rewritten to make the counts agree.",
+      expectedSourceIds: expectedSet.size,
+      declaredExpectedTotal: expectedCounts.expected_track_count,
+      currentNormalizedBatch1Tracks: trackRegistry.tracks.filter((track) => batch1Codes.has(track.jurisdiction)).length,
+      totals: {
+        byDisposition: tally(rows, (row) => row.crosswalkDisposition),
+        countsReconcileWithExpectedFile:
+          expectedSet.size === expectedCounts.expected_track_count &&
+          Object.entries(countsByJurisdiction).every(([, entry]) => entry.expected === entry.declaredExpected),
+        currentTracksWithNoExpectedSourceId: currentOnly.length,
+        jurisdictionsRequiringFollowUp: [...new Set(queue.map((entry) => entry.jurisdiction))].sort()
+      },
+      countsByJurisdiction,
+      currentTracksWithNoExpectedSourceId: currentOnly,
+      rows
+    },
+    delta: {
+      schemaVersion: 1,
+      authorityEdition: governance.edition.edition,
+      note:
+        "The difference between the 117 expected Batch 1 source IDs and the current normalized inventory, measured directly rather than assumed. A difference is acceptable only where every ID carries an express, source-supported disposition — which is what the crosswalk records and what this file summarises.",
+      expectedSourceIds: expectedSet.size,
+      currentNormalizedBatch1Tracks: trackRegistry.tracks.filter((track) => batch1Codes.has(track.jurisdiction)).length,
+      difference:
+        expectedSet.size - trackRegistry.tracks.filter((track) => batch1Codes.has(track.jurisdiction)).length,
+      allDifferencesExpresslyDispositioned: rows.every((row) => row.crosswalkDisposition !== "unresolved_crosswalk"),
+      byJurisdiction: Object.fromEntries(
+        Object.entries(countsByJurisdiction).map(([code, entry]) => [
+          code,
+          { ...entry, difference: entry.expected - entry.currentNormalized }
+        ])
+      ),
+      expectedIdsWithNoCurrentTrack: rows
+        .filter((row) => row.currentNormalizedIds.length === 0)
+        .map((row) => ({
+          jurisdiction: row.jurisdiction,
+          expectedSourceId: row.expectedSourceId,
+          expectedSourceSlot: row.expectedSourceSlot?.sourceHeading ?? null,
+          disposition: row.crosswalkDisposition,
+          authorityStatus: row.authorityStatus,
+          runtimeEffect: row.runtimeEffect,
+          requiredNextAction: row.requiredNextAction
+        })),
+      currentTracksWithNoExpectedSourceId: currentOnly
+    },
+    queue: {
+      schemaVersion: 1,
+      authorityEdition: governance.edition.edition,
+      status: "not_started",
+      note:
+        "The bounded Batch 1 amended-normalization follow-up. Each row names one discrepancy between the controlling amended source and the current normalization, with the repository change it would require. Nothing here is applied in the publication pass: the current legal-design data is preserved until the dedicated Batch 1 amended-normalization task runs.",
+      totals: { rows: queue.length, byIssueType: tally(queue, (entry) => entry.issueType) },
+      rows: queue
+    }
+  };
+}
+
+function sectionsOf(deferred) {
+  return [
+    ...new Set(
+      (deferred.unresolvedQuestions ?? [])
+        .map((question) => question.provenance?.sourceHeading)
+        .filter(Boolean)
+    )
+  ];
+}
+
+// ---------------------------------------------------------------------------
 // 4. Pending edition amendments
 // ---------------------------------------------------------------------------
 
@@ -415,17 +657,86 @@ const unmanifested = repositoryAssets.filter(
 );
 const registryByArtifactId = new Map(artifactRegistry.artifacts.map((a) => [a.artifactId, a]));
 
+/**
+ * The final disposition for a candidate the adopted edition does not retain.
+ *
+ * Every rule below reads evidence the repository already holds. None of them
+ * infers currentness, licensing or official status, because establishing those
+ * is research and research is what a hold is for. Adopting a form as canonical
+ * asserts an identity nobody has confirmed, so the honest outcome for an
+ * unprovenanced binary is a hold, not an adoption.
+ */
+function dispositionFor(asset, artifact) {
+  if (!artifact) return ["hold_legal_identity", "No repository registry record for this asset."];
+  if (artifact.sourceTreatment === "historical_obsolete") {
+    return ["excluded_retired_or_out_of_scope", "The repository already classifies this source as historical and obsolete."];
+  }
+  if (artifact.fileType === "html" || artifact.fileType === "aspx") {
+    return ["not_a_workflow_asset", "Web capture rather than a workflow document."];
+  }
+  if (artifact.currency === "reference_only") {
+    return ["adopt_reference_only", "Recorded as a reference source; logged with its hash rather than retained as an active asset."];
+  }
+  if (artifact.currency === "local_only") {
+    return ["hold_provenance", "Local-only source. Its controlling statewide identity and issuing authority are unestablished."];
+  }
+  if (!artifact.officialTitle && !artifact.revision) {
+    return ["hold_legal_identity", "No official title and no printed revision are recorded, so the document's legal identity is unestablished."];
+  }
+  return ["hold_currentness", "Identity recorded but currentness unconfirmed against the issuing authority."];
+}
+
+/** The single gate that has to close before a held candidate can be adopted. */
+function remainingGateFor(disposition) {
+  switch (disposition) {
+    case "hold_currentness":
+      return "Confirm the printed revision and current publication status with the issuing authority.";
+    case "hold_provenance":
+      return "Establish the issuing authority, retrieval provenance and whether the source is statewide or local.";
+    case "hold_legal_identity":
+      return "Establish the official title, document number and printed revision.";
+    case "hold_commercial_use":
+      return "Resolve the publisher's licensing and commercial-use terms.";
+    case "adopt_reference_only":
+      return "None. Logged as a reference source; it is not a workflow asset and is not retained.";
+    case "excluded_retired_or_out_of_scope":
+    case "not_a_workflow_asset":
+      return "None. Excluded from the authority set.";
+    default:
+      return "None.";
+  }
+}
+
+// Candidates this edition newly retains are resolved, not pending. Identified by
+// the source group the publisher stamps on an added asset — `library_edition`
+// is rewritten on every inherited row and so cannot distinguish new from
+// inherited.
+const ADDED_SOURCE_GROUPS = new Set(["batch1_amended_import_bundle", "batch2_repository_import"]);
+const resolvedByEdition = governance.manifest.filter((row) => ADDED_SOURCE_GROUPS.has(row.source_group));
+
 const pendingAmendments = {
-  schemaVersion: 1,
+  schemaVersion: 2,
   authorityEdition: governance.edition.edition,
   authorityCutoff: governance.edition.cutoff_date,
   status: "pending_review",
   note:
-    "Valid repository sources the adopted edition does not retain. They are neither discarded nor treated as authoritative: each is library_authority_pending and runtime disabled until an explicitly published and adopted successor edition retains it. This file is the input to that publication task. It is not Edition 1.1 and does not amend Edition 1.",
+    "Valid repository sources the adopted edition does not retain. They are neither discarded nor treated as authoritative: each is library_authority_pending and runtime disabled until an explicitly published and adopted successor edition retains it. Every candidate carries one final disposition. An `adopt_*` disposition is only reachable where identity is already established; where it is not, the honest answer is a hold, because adopting a form as canonical would assert exactly the identity nobody has confirmed.",
+  resolvedByCurrentEdition: {
+    assetsRetained: resolvedByEdition.length,
+    byAssetClass: tally(resolvedByEdition, (row) => row.asset_class),
+    dispositions: resolvedByEdition.map((row) => ({
+      jurisdiction: row.jurisdiction_code,
+      workflowKey: row.workflow_key,
+      sha256: row.sha256,
+      disposition: row.asset_class === "legal_review" ? "adopt_legal_review" : `adopt_${row.asset_class}`,
+      canonicalRelativePath: row.canonical_relative_path
+    }))
+  },
   totals: {
     candidates: unmanifested.length,
     byJurisdiction: tally(unmanifested, (asset) => asset.jurisdiction),
     byProposedAssetClass: tally(unmanifested, (asset) => proposedAssetClass(registryByArtifactId.get(asset.artifactId))),
+    byDisposition: tally(unmanifested, (asset) => dispositionFor(asset, registryByArtifactId.get(asset.artifactId))[0]),
     referencedByANormalizedTrack: 0
   },
   candidates: unmanifested.map((asset) => {
@@ -437,13 +748,20 @@ const pendingAmendments = {
       jurisdiction: asset.jurisdiction,
       documentId: artifact?.artifactId ?? asset.artifactId,
       title: artifact?.officialTitle ?? null,
+      role: artifact?.role ?? null,
+      language: "EN",
       revision: artifact?.revision ?? artifact?.revisionDate ?? null,
       sourceUrl: null,
       retrievalDate: artifact?.retrievalDate ?? null,
       structuralClass: artifact?.technicalClass ?? null,
+      pages: artifact?.pages ?? null,
       fieldCount: artifact?.fieldCount ?? null,
       sha256: asset.sha256,
       repositoryPath: asset.sourcePath,
+      // Held candidates have no canonical path: a canonical path is what
+      // adoption grants, and naming one for an unadopted asset would imply a
+      // retention that has not happened.
+      canonicalRelativePath: null,
       proposedAssetClass: proposedAssetClass(artifact),
       proposedTrackMappings: referencingComponents.map((component) => ({
         trackId: component.trackId,
@@ -462,7 +780,11 @@ const pendingAmendments = {
           ? "release_blocker: a normalized official-form component in this jurisdiction has no retained Edition 1 asset."
           : "none_yet: no normalized component currently depends on this asset.",
       libraryAuthorityStatus: "library_authority_pending",
-      runtimeStatus: "runtime_disabled"
+      runtimeStatus: "runtime_disabled",
+      runtimeEffect: "not_resolver_selectable",
+      disposition: dispositionFor(asset, artifact)[0],
+      dispositionRationale: dispositionFor(asset, artifact)[1],
+      remainingGate: remainingGateFor(dispositionFor(asset, artifact)[0])
     };
   })
 };
@@ -582,6 +904,78 @@ for (const track of trackRegistry.tracks) {
   }
 }
 
+// Scope 4b — legal-review coverage. A jurisdiction with no retained controlling
+// review cannot have any track mapped to a form. Recorded once per jurisdiction,
+// not once per track, so one authority problem stays one blocker.
+for (const row of governance.legalReviewCoverage) {
+  if (row.status === "present") continue;
+  const normalized = trackRegistry.tracks.filter((track) => track.jurisdiction === row.jurisdiction_code).length;
+  ledgerRows.push({
+    authorityEdition: governance.edition.edition,
+    jurisdiction: row.jurisdiction_code,
+    trackId: null,
+    documentId: null,
+    blockerScope: "legal_review_coverage_blocker",
+    blockerType: "no_retained_controlling_review",
+    impact: "release_blocker",
+    controllingLibraryRow: `LEGAL_REVIEW_COVERAGE.csv:${row.jurisdiction_code}:${row.status}`,
+    currentRepositoryTreatment:
+      normalized > 0 ? `${normalized} normalized tracks, all runtime_disabled` : "not yet normalized",
+    requiredResolution: row.required_action,
+    runtimeEffect: "runtime_disabled",
+    dedupeKey: `legal-review-coverage:${row.jurisdiction_code}`
+  });
+}
+
+// Scope 4c — legal-design reconciliation. One row per jurisdiction whose
+// controlling review was adopted after its normalization was written, plus one
+// row per expected source ID with no current track. Those are two different
+// facts — "the live tracks have not been read against the amended source" and
+// "this ID was never normalized" — so they are separate rows rather than the
+// same authority problem counted twice.
+for (const jurisdiction of [...new Set(trackRegistry.tracks.map((track) => track.jurisdiction))].sort()) {
+  const pending = pendingReconciliationFor(jurisdiction);
+  if (!pending) continue;
+  const affected = trackAudits.filter((audit) => audit.jurisdiction === jurisdiction).length;
+  ledgerRows.push({
+    authorityEdition: governance.edition.edition,
+    jurisdiction,
+    trackId: null,
+    documentId: null,
+    blockerScope: "legal_design_reconciliation_blocker",
+    blockerType: "normalization_predates_adopted_controlling_review",
+    impact: "release_blocker",
+    controllingLibraryRow:
+      governance.manifest.find((row) => row.jurisdiction_code === jurisdiction && row.asset_class === "legal_review")
+        ?.canonical_relative_path ?? "LEGAL_REVIEW_COVERAGE.csv",
+    currentRepositoryTreatment: `${affected} normalized tracks preserved unchanged and failed closed in this publication pass`,
+    requiredResolution:
+      "Run the bounded Batch 1 amended-normalization pass: read the controlling addendum and the 117-track authority crosswalk against every live track, then set batch1AmendedNormalizationApplied.",
+    runtimeEffect: "runtime_disabled",
+    dedupeKey: `batch1-reconciliation-jurisdiction:${jurisdiction}`
+  });
+}
+
+for (const entry of batch1?.queue.rows ?? []) {
+  ledgerRows.push({
+    authorityEdition: governance.edition.edition,
+    jurisdiction: entry.jurisdiction,
+    trackId: entry.currentTrackId ?? entry.sourceTrackId,
+    documentId: null,
+    blockerScope: "legal_design_reconciliation_blocker",
+    blockerType: entry.issueType,
+    impact: entry.buildOrReleaseImpact,
+    controllingLibraryRow: entry.controllingAddendumSection,
+    currentRepositoryTreatment:
+      entry.currentTrackId === null
+        ? "expected source ID has no current normalized track; unregistered and unreachable"
+        : "current normalized track preserved unchanged in this publication pass",
+    requiredResolution: entry.requiredRepositoryChange,
+    runtimeEffect: "runtime_disabled",
+    dedupeKey: `batch1-reconciliation:${entry.jurisdiction}:${entry.sourceTrackId}`
+  });
+}
+
 // Scope 5 — jurisdiction input required. A local implementation has not been supplied.
 for (const gap of governance.sourceGaps) {
   if (gap.impact !== "jurisdiction_input_required") continue;
@@ -599,25 +993,73 @@ for (const row of ledgerRows) {
   dedupedLedger.push(row);
 }
 
+// A commercial-use blocker is recorded where the edition's own notes flag the
+// publisher's licensing terms. It is a distinct scope from currentness: a form
+// can be confirmed current and still be unusable commercially.
+for (const row of governance.manifest) {
+  if (!/non-commercial|commercial-use|commercial use/i.test(`${row.notes} ${row.required_follow_up}`)) continue;
+  ledgerRows.push({
+    authorityEdition: governance.edition.edition,
+    jurisdiction: row.jurisdiction_code,
+    trackId: null,
+    documentId: row.document_id,
+    blockerScope: "commercial_use_blocker",
+    blockerType: "publisher_licensing_terms_unresolved",
+    impact: "release_blocker",
+    controllingLibraryRow: row.workflow_key,
+    currentRepositoryTreatment: "asset retained source-gated and never resolver-selectable",
+    requiredResolution: row.required_follow_up,
+    runtimeEffect: "runtime_disabled",
+    dedupeKey: `commercial-use:${row.jurisdiction_code}:${row.document_id}`
+  });
+}
+
+// Runtime promotion. Every retained asset in the edition is generation-disabled,
+// so no route can be promoted from the library alone. Recorded once, as an
+// edition-level fact, rather than repeated per asset.
+ledgerRows.push({
+  authorityEdition: governance.edition.edition,
+  jurisdiction: null,
+  trackId: null,
+  documentId: null,
+  blockerScope: "runtime_promotion_blocker",
+  blockerType: "generation_disabled_edition_wide",
+  impact: "release_blocker",
+  controllingLibraryRow: "WORKFLOW_INTEGRATION.md:release-gates",
+  currentRepositoryTreatment: `all ${governance.manifest.length} retained assets carry generation_allowed = no`,
+  requiredResolution:
+    "Promotion happens in this repository through an auditable legal-design and renderer change, per track, never by moving a file inside the archive.",
+  runtimeEffect: "runtime_disabled",
+  dedupeKey: "runtime-promotion:edition-wide"
+});
+
 const blockerLedger = {
-  schemaVersion: 1,
+  schemaVersion: 2,
   authorityEdition: governance.edition.edition,
   note:
     "Blocker scopes are joined, not summed. A Master Library source gap, a legal-design blocker and a mapping blocker are different questions about the same build and are counted separately; the joined unique count deduplicates by dedupeKey so one issue appearing in a state review and in the edition's gap ledger is counted once. No total here is hard-coded in application logic.",
   scopes: {
     master_library_source_gap:
       "Derived from MISSING_FILES_AND_SOURCE_GAPS.csv. The edition records the source as missing, unposted, unconfirmed or local-only.",
+    legal_review_coverage_blocker:
+      "The adopted edition retains no controlling legal review for the jurisdiction. Counted once per jurisdiction.",
+    legal_design_reconciliation_blocker:
+      "The controlling amended source and the current normalization disagree, or an expected source track ID has no express disposition. Failed closed rather than reconciled by rewriting the normalization.",
     legal_design_blocker:
       "Derived from normalized track data. LegalEase cannot determine what to generate.",
     source_or_currentness_blocker:
       "The source exists, but revision, currentness, provenance, licensing or official status remains open.",
     mapping_blocker:
       "The source exists but is not mapped to the correct normalized track or packet unit under the adopted edition.",
+    commercial_use_blocker: "The publisher's licensing or commercial-use terms are unresolved.",
     technical_blocker: "Field mapping, rendering, storage, access or completed-output proof is incomplete.",
     visual_or_legal_output_blocker: "A rendered output has not passed legal and visual review.",
     jurisdiction_input_requirement:
-      "A priority county, court, district, circuit or local implementation has not been supplied."
+      "A priority county, court, district, circuit or local implementation has not been supplied.",
+    runtime_promotion_blocker:
+      "Edition-wide: every retained asset is generation-disabled, so nothing can be promoted from the library alone."
   },
+  editionDelta: parentEditionDelta(),
   totals: {
     masterLibrarySourceGapRows: governance.sourceGaps.length,
     masterLibrarySourceGapsByImpact: tally(governance.sourceGaps, (gap) => gap.impact),
@@ -640,6 +1082,11 @@ writeJson("repository-asset-audit.json", repositoryAssetAudit);
 writeJson("track-source-audit.json", trackSourceAudit);
 writeJson("pending-edition-amendments.json", pendingAmendments);
 writeJson("authoritative-blocker-ledger.json", blockerLedger);
+if (batch1) {
+  writeJson("batch-1-authority-crosswalk.json", batch1.crosswalk);
+  writeJson("batch-1-authority-delta.json", batch1.delta);
+  writeJson("batch-1-amended-normalization-queue.json", batch1.queue);
+}
 
 console.log(`1. Edition integrity: ${checksumResult.verified}/${checksumResult.checksumLines} checksums verified, ${checksumResult.mismatches.length} mismatched, ${checksumResult.missing.length} missing.`);
 console.log(`2. Repository assets: ${repositoryAssets.length} audited — ${JSON.stringify(repositoryAssetAudit.totals.byStatus)}`);
@@ -647,11 +1094,40 @@ console.log(`3. Tracks: ${trackSourceAudit.totals.tracksAudited} audited across 
 console.log(`4. Official-form components: ${JSON.stringify(trackSourceAudit.totals.officialPdfComponentsByResult)}`);
 console.log(`5. Pending edition amendments: ${pendingAmendments.totals.candidates}.`);
 console.log(`6. Blocker ledger: ${blockerLedger.totals.joinedUniqueRows} unique rows across ${Object.keys(blockerLedger.totals.byScope).length} scopes.`);
-console.log("7. Nothing was promoted. Every audited track remains runtime_disabled.");
+if (batch1) {
+  console.log(
+    `7. Batch 1 crosswalk: ${batch1.crosswalk.expectedSourceIds} expected source IDs — ${JSON.stringify(batch1.crosswalk.totals.byDisposition)}; ${batch1.queue.totals.rows} follow-up rows queued.`
+  );
+}
+console.log("8. Nothing was promoted. Every audited track remains runtime_disabled.");
 
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
+
+/**
+ * Whether a jurisdiction's tracks are still awaiting reconciliation against a
+ * newly retained controlling source.
+ *
+ * Edition 1.1 retained twelve amended Batch 1 reviews. The tracks in those
+ * jurisdictions were normalized before this edition adopted those reviews as
+ * authority, and the 117-track crosswalk has not yet been read against the live
+ * registry track by track. Until the bounded amended-normalization pass runs,
+ * every affected track fails closed: a retained review answers "is there an
+ * authority?", not "does the existing normalization agree with it?".
+ */
+function pendingReconciliationFor(jurisdiction) {
+  if (authority.batch1AmendedNormalizationApplied === true) return null;
+  const review = governance.manifest.find(
+    (row) => row.jurisdiction_code === jurisdiction && row.asset_class === "legal_review"
+  );
+  if (review?.source_group !== "batch1_amended_import_bundle") return null;
+  return {
+    required: true,
+    reason:
+      "legal_design_reconciliation_required: the controlling review was adopted as authority after this jurisdiction was normalized, and the 117-track authority crosswalk has not yet been reconciled against the live registry. Queued in batch-1-amended-normalization-queue.json.",
+  };
+}
 
 function auditComponent(track, component, legalReviewRetained) {
   const relationship = relationshipByComponent.get(`${track.trackId}::${component.componentId}`);
@@ -709,7 +1185,25 @@ function auditComponent(track, component, legalReviewRetained) {
     return { ...base, result: "authority_unmanifested_source", requiresPacketBinary: true, reasons: ["Official-form component carries no official form ID."] };
   }
 
-  const candidates = index.byJurisdictionDocumentId.get(`${track.jurisdiction}:${documentIdKey(formId)}`) ?? [];
+  let candidates = index.byJurisdictionDocumentId.get(`${track.jurisdiction}:${documentIdKey(formId)}`) ?? [];
+  let revisionSuffixJoin = null;
+
+  // Some repository form IDs append the revision to the document ID
+  // (`KSJC-PETITION-...-02-2013`), which the naming standard keeps in a separate
+  // field. Stripping that suffix is a structural normalization, not a fuzzy
+  // name match — and it is only accepted when the stripped revision *agrees*
+  // with the retained asset's revision. A disagreement is a revision question,
+  // never a silent match between two revisions of one form.
+  if (candidates.length === 0) {
+    const stripped = stripRevisionSuffix(formId);
+    if (stripped) {
+      const byBase = index.byJurisdictionDocumentId.get(`${track.jurisdiction}:${documentIdKey(stripped.documentId)}`) ?? [];
+      if (byBase.length > 0) {
+        candidates = byBase;
+        revisionSuffixJoin = stripped;
+      }
+    }
+  }
 
   if (candidates.length === 0) {
     return {
@@ -745,6 +1239,20 @@ function auditComponent(track, component, legalReviewRetained) {
     reasons.push(
       `Mapped to a retained ${row.asset_class} asset, which cannot fill a ${component.role} component. Instructions and supporting-process assets are assembled around a packet; they do not replace one.`
     );
+  }
+
+  if (revisionSuffixJoin) {
+    const editionRevision = normalizeRevision(row.revision);
+    if (editionRevision && editionRevision !== revisionSuffixJoin.revision) {
+      result = "authority_mapped_revision_pending";
+      reasons.push(
+        `The component names revision ${revisionSuffixJoin.revision}; the edition retains ${editionRevision}. Two revisions of one form are not interchangeable.`
+      );
+    } else {
+      reasons.push(
+        `Joined by document ID after removing the revision suffix the repository appends to the form ID, with revision ${revisionSuffixJoin.revision} confirmed against the retained asset.`
+      );
+    }
   }
 
   if (candidates.length > 1) {
@@ -801,6 +1309,25 @@ function secondaryEvidence(jurisdiction, formId) {
       sha256: row.sha256,
       evidenceOnly: true
     }));
+}
+
+/** Splits a `<DOCUMENT-ID>-MM-YYYY` or `<DOCUMENT-ID>-YYYY-MM` form ID. */
+function stripRevisionSuffix(formId) {
+  const monthFirst = /^(.*?)[-_](0[1-9]|1[0-2])[-_](19|20)(\d{2})$/.exec(formId);
+  if (monthFirst) {
+    return { documentId: monthFirst[1], revision: `${monthFirst[3]}${monthFirst[4]}-${monthFirst[2]}` };
+  }
+  const yearFirst = /^(.*?)[-_]((?:19|20)\d{2})[-_](0[1-9]|1[0-2])$/.exec(formId);
+  if (yearFirst) {
+    return { documentId: yearFirst[1], revision: `${yearFirst[2]}-${yearFirst[3]}` };
+  }
+  return null;
+}
+
+/** `REV-2013-02` and `REV-2013-02-14` both normalize to `2013-02`. */
+function normalizeRevision(revision) {
+  const match = /(?:REV|SOURCE|ASOF)-((?:19|20)\d{2})-(\d{2})/.exec(String(revision ?? ""));
+  return match ? `${match[1]}-${match[2]}` : null;
 }
 
 function statusForManifestedAsset(row) {
@@ -899,6 +1426,90 @@ function shallowEqual(a, b) {
 
 function slug(value) {
   return String(value).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 90);
+}
+
+/**
+ * Compares this run against the audit committed under the parent edition.
+ *
+ * Read from git rather than recomputed, so the "before" column is the number
+ * that was actually published rather than a reconstruction of it. Absent
+ * history is reported as unavailable rather than filled in with a guess.
+ */
+function parentEditionDelta() {
+  // Pinned to the commit that adopted the parent edition, not to HEAD. Reading
+  // HEAD would make this file depend on whether it had been committed yet, so
+  // the delta would collapse to zeros the moment it was.
+  const ref = authority.adoptedAgainstCommit;
+  const before = gitJson(ref, "data/record-clearing/master-library/track-source-audit.json");
+  const beforeAssets = gitJson(ref, "data/record-clearing/master-library/repository-asset-audit.json");
+  const beforeLedger = gitJson(ref, "data/record-clearing/master-library/authoritative-blocker-ledger.json");
+  const beforeReconciliation = gitJson(ref, "data/record-clearing/master-library/reconciliation.json");
+  if (!before || !beforeAssets || !beforeLedger) {
+    return { available: false, note: "No committed parent-edition audit to compare against." };
+  }
+
+  const beforeResults = before.totals.officialPdfComponentsByResult ?? {};
+  const afterResults = trackSourceAudit.totals.officialPdfComponentsByResult ?? {};
+  const resultKeys = [...new Set([...Object.keys(beforeResults), ...Object.keys(afterResults)])].sort();
+
+  return {
+    available: true,
+    parentEdition: before.authorityEdition,
+    comparedAgainstCommit: ref,
+    currentEdition: governance.edition.edition,
+    note:
+      "Manifested is not release-ready. A component moving out of `authority_unmanifested_source` has gained an identity in the adopted edition; it has not gained a release.",
+    officialPdfComponents: Object.fromEntries(
+      resultKeys.map((key) => [key, { before: beforeResults[key] ?? 0, after: afterResults[key] ?? 0 }])
+    ),
+    legalReviewCoverage: {
+      before: beforeReconciliation?.coverage?.legalReviewsPresent ?? null,
+      after: governance.edition.jurisdictions_with_legal_review,
+      missingBefore: beforeReconciliation?.coverage?.legalReviewsMissing ?? null,
+      missingAfter: governance.edition.jurisdictions_missing_legal_review,
+      note:
+        "The twelve reviews Edition 1.0 lacked were exactly the twelve Batch 1 jurisdictions, and closing them is why the source-gap ledger drops by twelve rows."
+    },
+    tracksAuthorityCleared: { before: before.totals.tracksCleared, after: trackSourceAudit.totals.tracksCleared },
+    tracksWithoutRetainedLegalReview: {
+      before: before.totals.tracksWithoutRetainedLegalReview,
+      after: trackSourceAudit.totals.tracksWithoutRetainedLegalReview
+    },
+    repositoryAssetsByStatus: Object.fromEntries(
+      [...new Set([...Object.keys(beforeAssets.totals.byStatus), ...Object.keys(repositoryAssetAudit.totals.byStatus)])]
+        .sort()
+        .map((key) => [
+          key,
+          { before: beforeAssets.totals.byStatus[key] ?? 0, after: repositoryAssetAudit.totals.byStatus[key] ?? 0 }
+        ])
+    ),
+    blockersByScope: Object.fromEntries(
+      [...new Set([...Object.keys(beforeLedger.totals.byScope), ...Object.keys(tally(dedupedLedger, (row) => row.blockerScope))])]
+        .sort()
+        .map((key) => [
+          key,
+          {
+            before: beforeLedger.totals.byScope[key] ?? 0,
+            after: tally(dedupedLedger, (row) => row.blockerScope)[key] ?? 0
+          }
+        ])
+    ),
+    joinedUniqueRows: { before: beforeLedger.totals.joinedUniqueRows, after: dedupedLedger.length }
+  };
+}
+
+function gitJson(ref, relativePath) {
+  const result = spawnSync("git", ["show", `${ref}:${relativePath}`], {
+    cwd: root,
+    encoding: "utf8",
+    maxBuffer: 256 * 1024 * 1024
+  });
+  if (result.status !== 0) return null;
+  try {
+    return JSON.parse(result.stdout);
+  } catch {
+    return null;
+  }
 }
 
 function readJson(relativePath) {

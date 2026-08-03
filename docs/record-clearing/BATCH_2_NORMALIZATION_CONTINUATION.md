@@ -1,6 +1,6 @@
 # Batch 2 normalization — continuation state
 
-Last updated: 3 August 2026
+Last updated: 3 August 2026 (Edition 1.1)
 Branch: `feat/record-clearing-batch-2-legal-design`
 Base: `e3f034b9c499fc6b6ec906dd82ef8e6599f8951f` (PR #87 platform base)
 Last clean checkpoint: `2d787e7` — Batch 2 source-package import
@@ -628,6 +628,89 @@ could not retain — and neither is a restatement of the other.
 Publish and adopt **Edition 1.1** from the pending-amendment ledger, then resume
 **Kansas-successor normalization (Louisiana)** against that adopted authority.
 Do not remap sources ad hoc in this repository in the meantime.
+
+## Master Library Edition 1.1 published and adopted — 3 August 2026
+
+**No state was normalized in this pass.** Kansas was already normalized (`4aa3450`);
+**Louisiana remains unstarted** and stays paused until the Batch 1 amended-normalization
+reconciliation runs. No live Batch 1 memo was rewritten.
+
+`docs/record-clearing/MASTER_LIBRARY_AUTHORITY.md` is the controlling document.
+
+**Edition 1.1** — `/workspaces/legalease-attorney-review-packages/Expungement_AI_RCAP_Master_Library_Edition_1_1.zip`,
+SHA-256 `c66ea58a…20d28a99`, 144,123,507 bytes, 539 files, cutoff 3 August 2026.
+Parent Edition 1.0 (`c0937fa7…bffbc53f8`) is untouched and still verifies against
+its original hash. 538/538 checksums verify.
+
+- **394 canonical assets**: 378 inherited unchanged + 12 amended Batch 1 legal
+  reviews + 4 Kansas source-gated forms.
+- **Legal-review coverage 39/51 → 51/51.** The twelve reviews Edition 1.0 lacked
+  were exactly the twelve Batch 1 jurisdictions.
+- **Source-gap ledger 44 → 32 rows**; the 12 closed rows are the missing reviews,
+  closed only after each canonical asset was retained and checksummed.
+- Batch 1 governance — packet-only amendment, decision matrix, README-IMPORT,
+  expected counts/IDs, pre-amendment crosswalk — retained under
+  `00_GOVERNANCE/BATCH_1_AUTHORITY/`. 79 `__MACOSX`/AppleDouble entries excluded;
+  13 audit duplicates logged rather than published.
+- The original-review archive (`b1f7eccb…656c8e74f`) is **provenance only**. All
+  twelve originals were confirmed preserved verbatim beneath their addendum.
+
+### The 117-ID Batch 1 crosswalk
+
+117 expected source IDs; **110 live Batch 1 tracks, measured not assumed**.
+
+| Disposition | Count |
+|---|---|
+| `exact_current_track` | 110 |
+| `missing_from_current_normalization` | 7 |
+| `unresolved_crosswalk` | **0** |
+
+Zero current tracks lack an expected source ID. The seven — `ak-set-aside`,
+`ak-cannabis-seal`, `ak-correct-record`, `al-olr`, `al-uncharged-arrest`,
+`ca-1203-4b`, `co_mistaken_identity_expungement` — are exactly the seven tracks
+deferred under `legal_research_required` at intake, and each traces to a row the
+amended decision matrix keeps as a true blocker (AK-4, AK-7, AK-9, AL-9, AL-11,
+CA-12, CO-11). All seven are queued in
+`batch-1-amended-normalization-queue.json` (`not_started`). Four jurisdictions
+need follow-up: **AK, AL, CA, CO**.
+
+### A retained review is not readiness
+
+Adopting the twelve reviews moved two Batch 1 tracks to `packet_ready` mid-build,
+purely because a review now existed. That is wrong, and the gate that fixes it is
+now explicit: every track in the twelve jurisdictions fails closed with
+`legal_design_reconciliation_required` until the bounded amended-normalization
+pass runs. `packet_ready` is back to **0**.
+
+### Blockers — Edition 1.0 → 1.1
+
+| Scope | 1.0 | 1.1 |
+|---|---|---|
+| Missing legal reviews | 12 | **0** |
+| Legal-design reconciliation | 0 | **19** (12 jurisdiction + 7 ID) |
+| Master Library source gap | 38 | 26 |
+| Source/currentness | 281 | 281 |
+| Mapping | 314 | 314 |
+| Technical | 209 | 209 |
+| Visual/legal-output | 418 | 418 |
+| Jurisdiction input | 6 | 6 |
+| **Joined unique** | 1354 | **1361** |
+
+Official-PDF components: `authority_unmanifested_source` 211 → **207**,
+`authority_mapped_source_gated` 4 → **8** (the four Kansas forms). Manifested is
+not release-ready — those four gained an identity, not a release.
+
+### Pending amendments
+
+All 180 Edition 1.0 candidates carry a final disposition: 4 `adopt_source_gated`
+(retained in 1.1), 37 `adopt_reference_only`, 103 `hold_legal_identity`, 28
+`hold_provenance`, 8 `hold_currentness`. 176 remain open, none adopted without
+established identity.
+
+### Next action
+
+Execute the bounded **Batch 1 amended-normalization reconciliation** for all 117
+source IDs, then resume **Louisiana** against Edition 1.1.
 
 ## Not started
 

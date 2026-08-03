@@ -123,23 +123,45 @@ export function readAuthorityRecord(rootDir) {
   return JSON.parse(fs.readFileSync(file, "utf8"));
 }
 
+/** Environment override for a relocated authority archive or tree. */
+export const LIBRARY_PATH_ENV = "RCAP_MASTER_LIBRARY_PATH";
+
 /**
- * Resolves the adopted edition's location.
+ * Resolves the adopted edition's location, in a fixed order.
  *
- * `canonicalPath` is repository-relative when the user retained the edition
- * inside the repository and absolute when they retained it outside — which is
- * the case here, because this repository ignores `*.zip` and keeps its source
- * corpora out of version control.
+ *   1. an explicit path passed by the caller (CLI `--library=`);
+ *   2. `RCAP_MASTER_LIBRARY_PATH`;
+ *   3. the path recorded in the repository's authority metadata;
+ *   4. fail closed.
+ *
+ * There is no fifth step. In particular the repository's own source corpus is
+ * never a fallback: reading forms out of `private/` when the authority archive
+ * is missing would silently reinstate the "a binary exists, so it must be fine"
+ * rule the authority layer exists to prevent.
+ *
+ * `canonicalPath` is repository-relative when the edition is retained inside
+ * the repository and absolute when it is retained outside — which is the case
+ * here, because this repository ignores `*.zip` and keeps its source corpora
+ * out of version control.
  */
-export function resolveLibraryLocation(rootDir, authority) {
-  const declared = authority.canonicalPath;
-  const resolved = path.isAbsolute(declared) ? declared : path.join(rootDir, declared);
-  if (!fs.existsSync(resolved)) {
-    throw new Error(
-      `Adopted Master Library edition not found at ${declared}. The edition is immutable and read in place; it is not reconstructed.`
-    );
+export function resolveLibraryLocation(rootDir, authority, options = {}) {
+  const candidates = [
+    { source: "explicit_path", value: options.libraryPath ?? null },
+    { source: LIBRARY_PATH_ENV, value: process.env[LIBRARY_PATH_ENV] || null },
+    { source: "authority_record", value: authority.canonicalPath ?? null }
+  ].filter((candidate) => candidate.value);
+
+  const tried = [];
+  for (const candidate of candidates) {
+    const resolved = path.isAbsolute(candidate.value) ? candidate.value : path.join(rootDir, candidate.value);
+    if (fs.existsSync(resolved)) return { path: resolved, source: candidate.source };
+    tried.push(`${candidate.source}=${candidate.value}`);
   }
-  return resolved;
+
+  throw new Error(
+    `Adopted Master Library edition ${authority.edition} not found. Tried ${tried.join(", ") || "no candidates"}. ` +
+      `The edition is immutable and read in place; it is never reconstructed, and the repository source corpus is not a fallback.`
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -168,15 +190,29 @@ function unzipEntryText(archivePath, entry) {
  * needed (checksum verification), extracts to an OS temporary directory that is
  * removed again. No extraction is ever written into the repository.
  */
-export function openLibrary(rootDir, authority = readAuthorityRecord(rootDir)) {
-  const location = resolveLibraryLocation(rootDir, authority);
+export function openLibrary(rootDir, authority = readAuthorityRecord(rootDir), options = {}) {
+  const resolution = resolveLibraryLocation(rootDir, authority, options);
+  const location = resolution.path;
   const isArchive = fs.statSync(location).isFile();
+
+  // A resolved path is not an accepted authority. The archive must be the bytes
+  // the adoption record pins, and a size mismatch is caught before the hash so
+  // the failure names the cheaper discrepancy first.
+  if (isArchive && authority.retention?.archiveBytes) {
+    const bytes = fs.statSync(location).size;
+    if (bytes !== authority.retention.archiveBytes) {
+      throw new Error(
+        `Master Library at ${location} is ${bytes} bytes; the adoption record pins ${authority.retention.archiveBytes}. A changed archive is a different edition.`
+      );
+    }
+  }
 
   if (!isArchive) {
     const root = location;
     return {
       mode: "tree",
       location,
+      resolvedFrom: resolution.source,
       archiveSha256: null,
       readText(relativePath) {
         return fs.readFileSync(path.join(root, relativePath), "utf8");
@@ -213,6 +249,7 @@ export function openLibrary(rootDir, authority = readAuthorityRecord(rootDir)) {
   return {
     mode: "archive",
     location,
+    resolvedFrom: resolution.source,
     archiveRoot,
     archiveSha256: sha256File(location),
     readText(relativePath) {

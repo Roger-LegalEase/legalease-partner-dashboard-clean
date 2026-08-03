@@ -108,11 +108,27 @@ export type ComponentAudit = {
   readonly reasons: readonly string[];
 };
 
+/**
+ * An outstanding reconciliation between a newly retained controlling source and
+ * the normalization that predates it.
+ *
+ * A retained legal review removes a missing-authority problem. It does not show
+ * that the tracks normalized before it agree with it — that is a separate
+ * reading of the amended source against the live registry, and until it runs
+ * the tracks are unreconciled rather than approved. Treating "a review now
+ * exists" as clearance would convert an unanswered question into a pass.
+ */
+export type AuthorityReconciliation = {
+  readonly required: boolean;
+  readonly reason: string;
+};
+
 export type TrackAuthorityAudit = {
   readonly jurisdiction: string;
   readonly trackId: string;
   readonly outputStrategy: OutputStrategy | null;
   readonly legalReviewRetained: boolean;
+  readonly pendingAuthorityReconciliation: AuthorityReconciliation | null;
   readonly components: readonly ComponentAudit[];
   readonly cleared: boolean;
   readonly blockingReasons: readonly string[];
@@ -132,6 +148,7 @@ export function decideTrackAuthority(input: {
   trackId: string;
   outputStrategy: OutputStrategy | null;
   legalReviewRetained: boolean;
+  pendingAuthorityReconciliation?: AuthorityReconciliation | null;
   components: readonly ComponentAudit[];
 }): TrackAuthorityAudit {
   const blocking: string[] = [];
@@ -140,6 +157,10 @@ export function decideTrackAuthority(input: {
     blocking.push(
       `${input.jurisdiction}: the adopted edition retains no controlling legal review for this jurisdiction.`
     );
+  }
+
+  if (input.pendingAuthorityReconciliation?.required) {
+    blocking.push(`${input.jurisdiction}: ${input.pendingAuthorityReconciliation.reason}`);
   }
 
   for (const component of input.components) {
@@ -175,6 +196,7 @@ export function decideTrackAuthority(input: {
     trackId: input.trackId,
     outputStrategy: input.outputStrategy,
     legalReviewRetained: input.legalReviewRetained,
+    pendingAuthorityReconciliation: input.pendingAuthorityReconciliation ?? null,
     components: input.components,
     cleared: blocking.length === 0,
     blockingReasons: blocking
