@@ -144,6 +144,24 @@
     "3. The canonicalPath recorded here.",
     "4. Fail closed. The repository source corpus is never a fallback."
   ],
-  "batch1AmendedNormalizationApplied": false,
-  "batch1AmendedNormalizationRule": "Edition 1.1 adopted twelve amended Batch 1 reviews as controlling authority after those jurisdictions were normalized. Until the bounded Batch 1 amended-normalization pass reads the 117-track authority crosswalk against the live registry track by track, every track in those twelve jurisdictions fails closed with legal_design_reconciliation_required. A retained review answers whether an authority exists; it does not show that a normalization written before its adoption agrees with it. This flag flips to true only in that dedicated pass, never as a side effect of publishing an edition."
+  "batch1AmendedNormalizationApplied": {
+    "appliedAt": "2026-08-03",
+    "appliedAgainstEdition": "1.1",
+    "note": "Per jurisdiction, not global. A jurisdiction is marked applied only when all of its authoritative source IDs are accounted exactly once, its live tracks are confirmed against the controlling amended addendum, and its deferred true blockers are represented as deferred source slots. Marking a jurisdiction applied closes the broad jurisdiction-level reconciliation gate only; every track-level blocker the controlling review retains stays open and continues to fail closed.",
+    "byJurisdiction": {
+      "AK": true,
+      "AL": true,
+      "AR": true,
+      "AZ": true,
+      "CA": true,
+      "CO": true,
+      "CT": true,
+      "DC": true,
+      "DE": true,
+      "FL": true,
+      "HI": true,
+      "ID": true
+    }
+  },
+  "batch1AmendedNormalizationRule": "Edition 1.1 adopted twelve amended Batch 1 reviews as controlling authority after those jurisdictions were normalized. The bounded amended-normalization pass has now read the 117-track authority crosswalk against the live registry jurisdiction by jurisdiction, so the twelve jurisdiction-level reconciliation gates are cleared. Clearing a jurisdiction gate is not clearance of its tracks: the seven deferred source IDs remain deferred true blockers, and any track whose controlling review retains an open legal-design blocker still fails closed on that blocker."
 }

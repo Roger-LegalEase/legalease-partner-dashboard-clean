@@ -1,6 +1,6 @@
 # Batch 2 normalization — continuation state
 
-Last updated: 3 August 2026 (Edition 1.1)
+Last updated: 3 August 2026 (Batch 1 amended-normalization reconciliation)
 Branch: `feat/record-clearing-batch-2-legal-design`
 Base: `e3f034b9c499fc6b6ec906dd82ef8e6599f8951f` (PR #87 platform base)
 Last clean checkpoint: `2d787e7` — Batch 2 source-package import
@@ -711,6 +711,96 @@ established identity.
 
 Execute the bounded **Batch 1 amended-normalization reconciliation** for all 117
 source IDs, then resume **Louisiana** against Edition 1.1.
+
+## Batch 1 amended-normalization reconciliation — done, 3 August 2026
+
+**No jurisdiction was normalized in this pass and no live memo was edited.**
+Louisiana remains unstarted. Kansas was already normalized (`4aa3450`).
+
+The bounded pass read the 117-track authority crosswalk against the live registry
+jurisdiction by jurisdiction and found the normalization already agreed with the
+controlling amended authority.
+
+```text
+Source IDs expected:                          117
+Source IDs accounted:                         117
+Imported live tracks:                         110
+Deferred true blockers:                         7
+Unaccounted:                                    0
+Unexpected live tracks:                         0
+Unresolved crosswalks:                          0
+Jurisdictions reconciled:                 12 of 12
+Jurisdiction-level amended-authority gates:     0
+Track-level true blockers remaining:            7
+```
+
+### What was verified, not assumed
+
+- All 117 source IDs appear exactly once across the twelve memos — 110 imported,
+  7 deferred — with per-jurisdiction counts matching the authority exactly
+  (AK 11, AL 11, AR 12, AZ 9, CA 13, CO 11, CT 14, DC 8, DE 6, FL 9, HI 9, ID 4).
+- All 117 tracks cite their controlling amended review file and carry
+  `classificationBasis: explicit_state_addendum`.
+- Every route the decision matrix leaves as process guidance is process guidance
+  today (CA-8/9, CO-1/3, DC-1/2, DE-1, FL-4, HI-9, AK-5, AR-9, DE-6, AK-10,
+  CT-11/12), and every confirmed reclassification is reflected (AL-8, AL-10,
+  AK-2/3/6, AZ-9, AR-7/8/10/11/12, CO-5, DC-3, DE-2, FL-5/6/7/8/9). **Zero
+  conflicts.**
+- The regenerated Batch 1 delta is byte-identical to the committed one.
+
+### The seven deferred IDs
+
+`ak-set-aside` (AK-4), `ak-cannabis-seal` (AK-7), `ak-correct-record` (AK-9),
+`al-olr` (AL-9), `al-uncharged-arrest` (AL-11), `ca-1203-4b` (CA-12),
+`co_mistaken_identity_expungement` (CO-11).
+
+All seven were already representable and represented in the existing intake
+schema: `legal_research_required`, `outputStrategy: null`, zero components, exact
+`affectedElement` values, and provenance naming the addendum's true-blocker
+section. No schema change and no new representation was needed. They remain
+absent from the live registry and the paid-mechanism count, and are accounted in
+source accounting, the crosswalk, the delta and the blocker ledger.
+
+Their queue rows moved `not_started` → **`reconciled_deferred_blocker`**: source
+ID accounted, live track intentionally absent, blocker still open, route runtime
+disabled. Not `resolved` — accounting for a blocker is not answering it.
+
+### One gate added
+
+Lifting the twelve jurisdiction gates exposed that the platform readiness ceiling
+reads release blockers but **not** legal-design blockers, so `ct-decriminalized`
+(CT-9) and `dc_yra_set_aside` (DC-8) — both in the amended matrix's true-blocker
+table — would have reached a `packet_ready` ceiling. The memos were correct;
+both already carried those blockers with addendum provenance. The authority gate
+now blocks on an open legal-design blocker, because a review that keeps a true
+blocker open has not authorised the track. `packet_ready` is **0**.
+
+### Authority marker
+
+`batch1AmendedNormalizationApplied` is recorded **per jurisdiction** in
+`authority.json` — all twelve `true`. The verifier fails if a gate is cleared for
+a jurisdiction whose reconciliation is incomplete, and rejects a global boolean.
+
+### Blockers after this pass
+
+| Scope | Before | After |
+|---|---|---|
+| Legal-design reconciliation | 19 | **7** (12 jurisdiction gates closed) |
+| Legal-design blocker | 88 | 88 |
+| Source gap | 26 | 26 |
+| Source/currentness | 281 | 281 |
+| Mapping | 314 | 314 |
+| Technical | 209 | 209 |
+| Visual/legal-output | 418 | 418 |
+| Jurisdiction input | 6 | 6 |
+| **Joined unique** | 1361 | **1349** |
+
+Authority-cleared tracks 47 → **73**; blocked 162 → 136. `packet_ready` 0,
+enabled jurisdictions 0, launch gate red.
+
+### Next action
+
+Resume **Louisiana** normalization against Edition 1.1.
 
 ## Not started
 

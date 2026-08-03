@@ -241,17 +241,36 @@ own it establishes nothing else. It does not satisfy track-source mapping, clear
 a form, establish source currentness, resolve licensing, or show that a
 normalization written *before* the review was adopted agrees with it.
 
-That last point has teeth. Edition 1.1 adopted the twelve Batch 1 reviews as
-authority after those jurisdictions were normalized, so every track in them now
-fails closed with `legal_design_reconciliation_required` until the bounded Batch 1
-amended-normalization pass reads the crosswalk against the live registry track by
-track. The flag that lifts it is `batch1AmendedNormalizationApplied` in
-`authority.json`, and it flips only in that dedicated pass — never as a side
-effect of publishing an edition.
+That last point had teeth. Edition 1.1 adopted the twelve Batch 1 reviews as
+authority after those jurisdictions were normalized, so every track in them failed
+closed with `legal_design_reconciliation_required` until the bounded
+amended-normalization pass read the crosswalk against the live registry.
 
-Without that gate, publishing Edition 1.1 would have moved two Batch 1 tracks to
-`packet_ready` purely because a review now existed. It did, mid-build; the gate is
-why `packet_ready` is back to 0.
+**That pass has now run.** `batch1AmendedNormalizationApplied` in `authority.json`
+is recorded **per jurisdiction**, not as a global switch, and all twelve are
+`true`. A jurisdiction is marked applied only when every one of its authoritative
+source IDs is dispositioned and every non-exact ID is queued; the verifier fails
+if a gate is cleared for a jurisdiction whose reconciliation is incomplete.
+
+Clearing a jurisdiction gate is **not** clearance of its tracks. The seven
+deferred source IDs stay deferred, and any track whose controlling review retains
+an open legal-design blocker still fails closed on that blocker — see below.
+
+### An open legal-design blocker is an authority block
+
+The platform readiness ceiling reads release blockers and not legal-design
+blockers, so a track counsel had expressly left undetermined could still compute
+a `packet_ready` ceiling. Lifting the twelve jurisdiction gates exposed exactly
+that: Connecticut `ct-decriminalized` (CT-9) and D.C. `dc_yra_set_aside` (DC-8),
+both named in the amended matrix's *True blockers after amendment* table, would
+have gone ready.
+
+The live memos were right — both already carried those blockers with exact
+addendum provenance. The gate was what was missing. A retained review that itself
+keeps a true blocker open has not authorised the track; it has said the design is
+undetermined, and that is the controlling source withholding the answer rather
+than a platform gate being slow. The authority gate now blocks on it, and
+`packet_ready` is 0 for the right reason.
 
 ## 9b. The 117-track Batch 1 crosswalk
 
@@ -270,7 +289,15 @@ one of the 117 exactly one disposition, and
 | `unresolved_crosswalk` | 0 |
 
 Zero current Batch 1 tracks lack an expected source ID, so there are no
-unexplained additions in either direction.
+unexplained additions in either direction. The regenerated Batch 1 delta agrees
+exactly — 117 expected, 110 imported, 7 deferred, 117 accounted, 0 unaccounted —
+and is byte-identical to the delta committed before this pass.
+
+All 110 were confirmed against their controlling amendment rather than assumed:
+every one cites its amended review file with `classificationBasis:
+explicit_state_addendum`, every route the matrix leaves as process guidance is
+process guidance today, and every reclassification the matrix confirmed is
+reflected. **No live memo needed editing**, so none was edited.
 
 The seven are `ak-set-aside`, `ak-cannabis-seal`, `ak-correct-record`, `al-olr`,
 `al-uncharged-arrest`, `ca-1203-4b` and `co_mistaken_identity_expungement`. Each
@@ -280,9 +307,15 @@ unreachable, and each traces to a row the amended decision matrix keeps in its
 CO-11 respectively. **A count difference is not an error where every ID carries an
 express, source-supported disposition. A silently dropped ID would be.**
 
-Each is also queued in `batch-1-amended-normalization-queue.json` (status
-`not_started`). The verifier fails if any non-exact ID is missing from that queue,
-so an unreconciled ID cannot be absorbed by being ignored.
+Each is queued in `batch-1-amended-normalization-queue.json`, now at status
+`reconciled_deferred_blocker`: the source ID is accounted for, the absence of a
+live track is intentional and source-supported, and normalization reconciliation
+is complete — while the legal question the controlling review left open is still
+open and the route stays runtime disabled. It is deliberately **not** `resolved`.
+Accounting for a blocker is not answering it.
+
+The verifier fails if any non-exact ID is missing from that queue, if a queued row
+stops recording its blocker as open, or if a row claims a live track.
 
 ## 10. Release gate
 

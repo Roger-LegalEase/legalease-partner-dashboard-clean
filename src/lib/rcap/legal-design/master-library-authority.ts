@@ -129,6 +129,8 @@ export type TrackAuthorityAudit = {
   readonly outputStrategy: OutputStrategy | null;
   readonly legalReviewRetained: boolean;
   readonly pendingAuthorityReconciliation: AuthorityReconciliation | null;
+  /** Blockers the controlling review itself leaves open for this track. */
+  readonly openLegalDesignBlockers: readonly string[];
   readonly components: readonly ComponentAudit[];
   readonly cleared: boolean;
   readonly blockingReasons: readonly string[];
@@ -149,6 +151,7 @@ export function decideTrackAuthority(input: {
   outputStrategy: OutputStrategy | null;
   legalReviewRetained: boolean;
   pendingAuthorityReconciliation?: AuthorityReconciliation | null;
+  openLegalDesignBlockers?: readonly string[];
   components: readonly ComponentAudit[];
 }): TrackAuthorityAudit {
   const blocking: string[] = [];
@@ -161,6 +164,16 @@ export function decideTrackAuthority(input: {
 
   if (input.pendingAuthorityReconciliation?.required) {
     blocking.push(`${input.jurisdiction}: ${input.pendingAuthorityReconciliation.reason}`);
+  }
+
+  // A retained review that itself keeps a true blocker open has not authorised
+  // the track — it has said the design is undetermined. This is an authority
+  // block, not a platform one: the controlling source is the thing withholding
+  // the answer. Without it a track whose governing mechanism, form or venue
+  // counsel expressly left unresolved would still compute a ready ceiling,
+  // because the platform ceiling reads release blockers and not these.
+  for (const statement of input.openLegalDesignBlockers ?? []) {
+    blocking.push(`${input.trackId}: the controlling review retains an open legal-design blocker — ${statement}`);
   }
 
   for (const component of input.components) {
@@ -197,6 +210,7 @@ export function decideTrackAuthority(input: {
     outputStrategy: input.outputStrategy,
     legalReviewRetained: input.legalReviewRetained,
     pendingAuthorityReconciliation: input.pendingAuthorityReconciliation ?? null,
+    openLegalDesignBlockers: input.openLegalDesignBlockers ?? [],
     components: input.components,
     cleared: blocking.length === 0,
     blockingReasons: blocking

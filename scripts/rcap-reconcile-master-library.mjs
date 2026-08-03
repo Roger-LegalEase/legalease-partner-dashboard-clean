@@ -345,6 +345,7 @@ const trackAudits = trackRegistry.tracks.map((track) => {
     outputStrategy: track.outputStrategy,
     legalReviewRetained,
     pendingAuthorityReconciliation: pendingReconciliationFor(track.jurisdiction),
+    openLegalDesignBlockers: track.legalDesignBlockers ?? [],
     components
   });
 
@@ -486,7 +487,12 @@ function buildBatch1Crosswalk() {
         disposition = "missing_from_current_normalization";
         amendmentEffect =
           "Retained as a true blocker by the amended state addendum. The track was deferred under legal_research_required rather than imported, so no strategy was asserted on counsel's behalf.";
-        authorityStatus = "deferred_pending_legal_research";
+        // Reconciled, not resolved. The source ID is accounted for and the
+        // absence of a live track is intentional and source-supported; the
+        // legal question the controlling review left open is still open.
+        authorityStatus = reconciliationApplied(code)
+          ? "reconciled_deferred_blocker"
+          : "deferred_pending_legal_research";
         runtimeEffect = "absent_from_runtime_resolution_and_unreachable";
         requiredNextAction =
           (deferred.deferralReasons ?? [])
@@ -496,6 +502,13 @@ function buildBatch1Crosswalk() {
           jurisdiction: code,
           sourceTrackId: expectedId,
           currentTrackId: null,
+          status: reconciliationApplied(code) ? "reconciled_deferred_blocker" : "not_started",
+          sourceIdAccounted: true,
+          liveTrackIntentionallyAbsent: true,
+          blockerRemainsOpen: true,
+          normalizationReconciliationComplete: reconciliationApplied(code),
+          legalDesignResolved: false,
+          runtimeStatus: "runtime_disabled",
           issueType: "deferred_track_not_normalized",
           controllingAddendumSection: sectionsOf(deferred).join(" | ") || `${code} operational amendments`,
           currentStrategy: null,
@@ -625,15 +638,26 @@ function buildBatch1Crosswalk() {
       currentTracksWithNoExpectedSourceId: currentOnly
     },
     queue: {
-      schemaVersion: 1,
+      schemaVersion: 2,
       authorityEdition: governance.edition.edition,
-      status: "not_started",
+      status: queue.every((entry) => entry.status === "reconciled_deferred_blocker")
+        ? "reconciled_deferred_blockers"
+        : "not_started",
       note:
-        "The bounded Batch 1 amended-normalization follow-up. Each row names one discrepancy between the controlling amended source and the current normalization, with the repository change it would require. Nothing here is applied in the publication pass: the current legal-design data is preserved until the dedicated Batch 1 amended-normalization task runs.",
-      totals: { rows: queue.length, byIssueType: tally(queue, (entry) => entry.issueType) },
+        "The bounded Batch 1 amended-normalization follow-up. `reconciled_deferred_blocker` means the source ID is accounted for, the absence of a live track is intentional and source-supported, and normalization reconciliation is complete — while the legal question the controlling review left open is still open and the route stays runtime disabled. It is not `resolved`, and nothing here was closed by inventing a strategy.",
+      totals: {
+        rows: queue.length,
+        byIssueType: tally(queue, (entry) => entry.issueType),
+        byStatus: tally(queue, (entry) => entry.status)
+      },
       rows: queue
     }
   };
+}
+
+/** Whether the bounded amended-normalization pass has run for a jurisdiction. */
+function reconciliationApplied(jurisdiction) {
+  return authority.batch1AmendedNormalizationApplied?.byJurisdiction?.[jurisdiction] === true;
 }
 
 function sectionsOf(deferred) {
@@ -1117,15 +1141,21 @@ console.log("8. Nothing was promoted. Every audited track remains runtime_disabl
  * authority?", not "does the existing normalization agree with it?".
  */
 function pendingReconciliationFor(jurisdiction) {
-  if (authority.batch1AmendedNormalizationApplied === true) return null;
   const review = governance.manifest.find(
     (row) => row.jurisdiction_code === jurisdiction && row.asset_class === "legal_review"
   );
   if (review?.source_group !== "batch1_amended_import_bundle") return null;
+
+  // Jurisdiction-specific by design. A jurisdiction whose reconciliation has run
+  // is cleared; one that has not stays blocked, and there is no global switch
+  // that could clear an unreconciled jurisdiction along with the rest.
+  const applied = authority.batch1AmendedNormalizationApplied?.byJurisdiction ?? {};
+  if (applied[jurisdiction] === true) return null;
+
   return {
     required: true,
     reason:
-      "legal_design_reconciliation_required: the controlling review was adopted as authority after this jurisdiction was normalized, and the 117-track authority crosswalk has not yet been reconciled against the live registry. Queued in batch-1-amended-normalization-queue.json.",
+      "legal_design_reconciliation_required: the controlling review was adopted as authority after this jurisdiction was normalized, and the 117-track authority crosswalk has not yet been reconciled against the live registry. Queued in batch-1-amended-normalization-queue.json."
   };
 }
 

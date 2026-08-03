@@ -454,8 +454,50 @@ if (crosswalk) {
       failures.push(`${row.expectedSourceId} is unreconciled and runtime enabled.`);
     }
   }
-  if (queue && queue.status !== "not_started") {
-    failures.push("The Batch 1 amended-normalization queue is not marked not_started; this pass must not apply it.");
+  // A queued row may be `not_started` or `reconciled_deferred_blocker`. It may
+  // never be `resolved`: reconciling an ID accounts for it, and accounting for
+  // a blocker is not answering it.
+  const QUEUE_STATUSES = new Set(["not_started", "reconciled_deferred_blocker"]);
+  for (const entry of queue?.rows ?? []) {
+    if (!QUEUE_STATUSES.has(entry.status)) {
+      failures.push(`Batch 1 queue row ${entry.sourceTrackId} has status ${entry.status}.`);
+    }
+    if (entry.status === "reconciled_deferred_blocker") {
+      if (entry.blockerRemainsOpen !== true || entry.legalDesignResolved !== false) {
+        failures.push(`Batch 1 queue row ${entry.sourceTrackId} is reconciled but no longer records its blocker as open.`);
+      }
+      if (entry.runtimeStatus !== "runtime_disabled" || entry.currentTrackId !== null) {
+        failures.push(`Batch 1 queue row ${entry.sourceTrackId} is reconciled but is no longer absent and disabled.`);
+      }
+    }
+  }
+
+  // A jurisdiction gate may only be cleared where every one of its expected IDs
+  // is dispositioned and every non-exact ID is queued. Clearing a gate for an
+  // unreconciled jurisdiction is the failure this check exists for.
+  const applied = authority.batch1AmendedNormalizationApplied?.byJurisdiction ?? {};
+  if (authority.batch1AmendedNormalizationApplied === true) {
+    failures.push("batch1AmendedNormalizationApplied is a global boolean; it must be recorded per jurisdiction.");
+  }
+  for (const [code, isApplied] of Object.entries(applied)) {
+    if (isApplied !== true) continue;
+    const rows = crosswalk.rows.filter((row) => row.jurisdiction === code);
+    if (rows.length === 0) {
+      failures.push(`${code} is marked amended-normalization applied but has no crosswalk rows.`);
+      continue;
+    }
+    const undispositioned = rows.filter((row) => !DISPOSITIONS.has(row.crosswalkDisposition));
+    const unqueued = rows.filter(
+      (row) =>
+        row.crosswalkDisposition !== "exact_current_track" &&
+        !queued.has(`${row.jurisdiction}:${row.expectedSourceId}`)
+    );
+    if (undispositioned.length > 0 || unqueued.length > 0) {
+      failures.push(`${code} is marked amended-normalization applied while its reconciliation is incomplete.`);
+    }
+    if (rows.some((row) => row.crosswalkDisposition === "unresolved_crosswalk")) {
+      failures.push(`${code} is marked amended-normalization applied with an unresolved crosswalk entry.`);
+    }
   }
 }
 
