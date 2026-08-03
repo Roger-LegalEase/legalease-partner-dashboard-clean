@@ -59,6 +59,44 @@ function authoredComponentGuidance() {
 
 const COMPONENT_GUIDANCE = authoredComponentGuidance();
 
+/**
+ * SHA-256 pins for official-form components an implementation tranche has
+ * resolved to exactly one retained Master Library asset.
+ *
+ * A normalized memo names a component's form ID and source URL but carries no
+ * hash, so every official-form component is generated unpinned and the edition's
+ * matching-hash requirement can never be met from the memo alone. A tranche that
+ * has actually resolved a component to one retained asset records the hash in
+ * its authority pins; this reads those pins back so the generated relationship
+ * carries them and regeneration stays stable.
+ *
+ * It is deliberately narrow. A pin is applied only where the tranche names the
+ * same track, the same component and the same source URL the memo names — a pin
+ * that disagrees with the memo about which document this is would be a source
+ * substitution, and is ignored rather than allowed to win.
+ */
+function authoredSourcePins() {
+  if (!fs.existsSync(TRANCHE_DIR)) return new Map();
+  const pins = new Map();
+  for (const name of fs.readdirSync(TRANCHE_DIR).filter((entry) => entry.endsWith("-authority-pins.json"))) {
+    const file = JSON.parse(fs.readFileSync(path.join(TRANCHE_DIR, name), "utf8"));
+    for (const pin of file.sourceRelationshipPinsWritten ?? []) {
+      pins.set(`${pin.trackId}::${pin.componentId}`, { ...pin, trancheId: file.trancheId });
+    }
+  }
+  return pins;
+}
+
+const SOURCE_PINS = authoredSourcePins();
+
+function applySourcePin(relationship) {
+  const pin = SOURCE_PINS.get(`${relationship.trackId}::${relationship.componentId}`);
+  if (!pin) return relationship;
+  if (pin.officialSourceUrl !== relationship.officialSourceUrl) return relationship;
+  if (pin.officialFormId && pin.officialFormId !== relationship.officialFormId) return relationship;
+  return { ...relationship, sha256: pin.sha256, corpusState: pin.corpusState ?? relationship.corpusState };
+}
+
 const strict = !process.argv.includes("--report-only");
 
 fs.mkdirSync(INTAKE_DIR, { recursive: true });
@@ -114,7 +152,7 @@ for (const fileName of memoFiles) {
 // Normalize only what validated cleanly.
 const normalizedMemos = validated.map(({ memo }) => normalizeMemo(memo));
 const allTracks = normalizedMemos.flatMap((memo) => memo.tracks);
-const allRelationships = normalizedMemos.flatMap((memo) => sourceRelationships(memo));
+const allRelationships = normalizedMemos.flatMap((memo) => sourceRelationships(memo)).map(applySourcePin);
 
 const received = new Set(validated.map((entry) => entry.code));
 const outstanding = ALL_JURISDICTION_CODES.filter((code) => !received.has(code));

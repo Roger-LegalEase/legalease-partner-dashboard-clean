@@ -1,0 +1,197 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-2-maryland-official-forms",
+  "jurisdiction": "MD",
+  "jurisdictionName": "Maryland",
+  "selectedOn": "2026-08-03",
+  "commitBaseline": "8df94fbaa66c06bf0ba677ee4f5fb417ad08cdc8",
+  "authorityEdition": "1.2",
+  "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+
+  "commercialRationale": "Tranche 2 is the first official_pdf_fill implementation on the platform. Tranche 1 proved the custom-pleading lane end to end; nothing had yet proved that LegalEase can take a current official state form, fill only the participant's own fields, leave every third-party field blank, and hand the participant one assembled PDF. Maryland is the right jurisdiction for that proof: it is a large statewide market on MDEC e-filing, its Judiciary publishes Rules-approved forms the clerks are built around, and its normalized legal design expressly forbids substituting a custom pleading for those forms. The selected route also carries the highest per-participant value in the Maryland set — Second Chance Act shielding is once per lifetime, so a defective packet is unrecoverable, which is exactly the kind of output that must be proved before it is sold.",
+
+  "technicalRationale": "The selected route exercises the whole official-form lane in one packet: two distinct current official AcroForm layouts, a required companion form the primary form's own text demands, a court-level branch that changes both forms, twelve mutually independent offence branches, a dropdown constrained to the court's own option list, participant case-number packing with a hard overflow stop, and a set of third-party blocks — attorney appearance, petitioner signature, signature dates, court-order date — that must come out of the renderer blank.",
+
+  "selectionMethod": "Deterministic. The candidate set is the six normalized Maryland relief tracks whose output strategy is official_pdf_fill. Each candidate's packet components were resolved against the Edition 1.2 master asset manifest through the authority loader. A candidate survives only where every one of its required participant-facing components maps to a retained asset whose asset_class is packet_form — that is, an approved packet candidate that is not source-gated, reference-only, retired, excluded, superseded or commercially restricted. Five of the six fail that test on their primary filing. One survives.",
+
+  "candidatesConsidered": [
+    {
+      "trackId": "md_second_chance_shielding",
+      "outcome": "selected",
+      "primaryFilingForm": "CC-DC-CR-148",
+      "primaryFilingAssetClass": "packet_form",
+      "reason": "Both components — CC-DC-CR-148 as primary filing and MDJ-008 as the required companion notice — are retained Edition 1.2 packet_form assets with packetCandidate true, correct document role and correct language. Its only mechanical authority defect was that neither track source relationship pinned a SHA-256. That is closed by this tranche."
+    },
+    {
+      "trackId": "md_10105_favorable",
+      "outcome": "excluded",
+      "primaryFilingForm": "CC-DC-CR-072A",
+      "primaryFilingAssetClass": "source_gated",
+      "reason": "The required participant-facing primary filing maps to MD:CC-DC-CR-072A:PRIMARY_FILING:EN, retained under STATES/MD/05_SOURCE_GATED/ with assetClass source_gated and packetCandidate false. Edition 1.2's resolverSelectionRule states a source-gated asset is never resolver-selectable. The Maryland Edition 1.2 controlling addendum records why: the printed revisions of the CC-DC-CR-072 family could not be re-confirmed against the Maryland Judiciary in that pass, which is what makes them source-gated rather than packet-form candidates. The gate is not mechanically resolvable inside this repository — it is closed by re-acquiring and re-confirming the form with the publisher and publishing a new edition, and this task may not publish Edition 1.3."
+    },
+    {
+      "trackId": "md_10105_early",
+      "outcome": "excluded",
+      "primaryFilingForm": "CC-DC-CR-072C",
+      "primaryFilingAssetClass": "source_gated",
+      "reason": "Same source gate on the primary filing, MD:CC-DC-CR-072C:PRIMARY_FILING:EN. Its conditional attachment CC-DC-CR-078 is a clean packet_form candidate, but a General Waiver and Release is not a petition and cannot be delivered as a packet without the petition it attaches to."
+    },
+    {
+      "trackId": "md_10110_conviction",
+      "outcome": "excluded",
+      "primaryFilingForm": "CC-DC-CR-072B",
+      "primaryFilingAssetClass": "source_gated",
+      "reason": "Same source gate on the primary filing, MD:CC-DC-CR-072B:PRIMARY_FILING:EN. Its conditional fee-waiver component CC-DC-089 is a clean packet_form candidate. Excluding this track is what costs the tranche its conditional fee-waiver coverage; a fee waiver alone is not a relief route."
+    },
+    {
+      "trackId": "md_cannabis_petition",
+      "outcome": "excluded",
+      "primaryFilingForm": "CC-DC-CR-072D",
+      "primaryFilingAssetClass": "source_gated",
+      "reason": "Same source gate on the primary filing, MD:CC-DC-CR-072D:PRIMARY_FILING:EN. Independently carries an open release blocker on the filing fee: the Judiciary self-help page states $30 while the form covers dispositions the internal reference treats as free."
+    },
+    {
+      "trackId": "md_pardon_expungement",
+      "outcome": "excluded",
+      "primaryFilingForm": "CC-DC-CR-072B",
+      "primaryFilingAssetClass": "source_gated",
+      "reason": "Same source gate on the primary filing, MD:CC-DC-CR-072B:PRIMARY_FILING:EN. Independently carries an open release blocker on whether the June 2024 mass cannabis pardon satisfies § 10-105(a)(8), and it would have reused a layout already covered by md_10110_conviction."
+    }
+  ],
+
+  "excludedProcessGuidanceTracks": [
+    {
+      "trackId": "md_10105_1_automatic",
+      "reason": "process_guidance. Automatic expungement under § 10-105.1 — the court and the Central Repository act; there is no participant filing to generate."
+    },
+    {
+      "trackId": "md_10103_1_automatic",
+      "reason": "process_guidance. Automatic police-record expungement under § 10-103.1 — the arresting unit acts on its own; there is no participant filing."
+    },
+    {
+      "trackId": "md_10112_dpscs_cannabis",
+      "reason": "process_guidance. A completed one-time DPSCS sweep under § 10-112. The node exists to let a participant check whether their case was already covered; it is a verification node, not relief the participant petitions for."
+    },
+    {
+      "trackId": "md_10103_legacy_police",
+      "reason": "process_guidance on a closed window. Per the Maryland Edition 1.2 controlling addendum, § 10-103 requires the request within eight years of an incident that must predate 1 October 2007, so the entry window closed no later than October 2015 and neither stage is reachable. DC-CR-071 is retained source_gated and is not used."
+    },
+    {
+      "trackId": "md_10104_pre_service",
+      "reason": "process_guidance. § 10-104 empowers the District Court to order expungement on the State's nolle prosequi before service. The court acts; no participant filing exists."
+    }
+  ],
+
+  "trackCountDeviation": {
+    "requested": "four or five official_pdf_fill relief tracks",
+    "delivered": 1,
+    "statement": "Maryland cannot supply four viable packet tracks under Master Library Edition 1.2. Five of its six official_pdf_fill tracks depend on a CC-DC-CR-072-family primary filing, and Edition 1.2 retains all four members of that family as source_gated assets that are never resolver-selectable. No eligible Maryland official-form route remains to substitute. Maryland's whole Edition 1.2 footprint is eleven assets, of which four are packet_form: CC-DC-CR-148, MDJ-008, CC-DC-CR-078 and CC-DC-089. Only CC-DC-CR-148 commences a relief proceeding — MDJ-008 is a companion e-filing notice, CC-DC-CR-078 is the General Waiver and Release that attaches to CC-DC-CR-072C, and CC-DC-089 is a Request for Waiver of Prepaid Costs. CC-DC-089 does carry document_role PETITION in the manifest, which is a mis-role for a fee-waiver request: any filter written as packet_form AND role PETITION returns two Maryland rows, and the second is not a relief petition. The tranche was not padded: no process-guidance route was converted, no closed-window route was reopened, and no source-gated asset was reclassified to reach a count.",
+    "whatWouldUnblockTheRest": "Re-acquire CC-DC-CR-072A, CC-DC-CR-072B, CC-DC-CR-072C and CC-DC-CR-072D from the Maryland Judiciary, confirm each printed revision with the publisher, and retain them as packet_form assets in a future Master Library edition. That would make four further Maryland routes selectable in one pass and is the single highest-value source acquisition in the Maryland backlog."
+  },
+
+  "selectedTracks": [
+    {
+      "trackId": "md_second_chance_shielding",
+      "legalName": "Petition for Shielding Under the Maryland Second Chance Act",
+      "publicName": "Shielding a conviction from public view",
+      "businessLabel": "Second Chance Act shielding",
+      "outputStrategy": "official_pdf_fill",
+      "nodeType": "relief_track",
+      "authority": [
+        "Md. Code, Crim. Proc. §§ 10-301 through 10-306",
+        "Md. Rule 16-934",
+        "Md. Rule 16-941",
+        "Md. Rule 20-201.1"
+      ],
+      "officialForms": ["CC-DC-CR-148", "MDJ-008"],
+      "branchVariants": [
+        {
+          "variantId": "district_court",
+          "label": "District Court of Maryland",
+          "basis": "Md. Code, Crim. Proc. § 10-303. The petition is filed in the court that entered the convictions.",
+          "changesOutput": "Checks the District Court box on both official forms and constrains the City/County election to the form's own District Court locations."
+        },
+        {
+          "variantId": "circuit_court",
+          "label": "Circuit Court",
+          "basis": "Md. Code, Crim. Proc. § 10-303.",
+          "changesOutput": "Checks the Circuit Court box on both official forms and constrains the City/County election to the form's own Circuit Court locations."
+        }
+      ],
+      "offenceBranches": "Twelve independent statutory offence branches, each a separate checkbox and case-number block on CC-DC-CR-148. Only the offences the participant selects are checked, and only their case-number fields carry a value.",
+      "rationale": "The adopted Batch 2 memorandum expressly directs this treatment, and the Maryland Edition 1.2 controlling addendum amends the retained review to match: md_second_chance_shielding is official_pdf_fill on CC-DC-CR-148 with MDJ-008, and the once-per-lifetime, one-court and one-county rules are scope and routing fields rather than a bar to generating a packet."
+    }
+  ],
+
+  "coverageGoals": [
+    { "goal": "a standard petition", "met": true, "how": "CC-DC-CR-148 is the statewide participant petition." },
+    { "goal": "a multi-form official packet", "met": true, "how": "CC-DC-CR-148 plus the required companion MDJ-008, which the petition's own printed text demands be filed with it." },
+    { "goal": "branch-specific allegations", "met": true, "how": "A court-level branch that changes both forms, and twelve independent statutory offence branches on the petition." },
+    { "goal": "more than one official PDF layout", "met": true, "how": "Two distinct current Maryland Judiciary AcroForm layouts, 56 and 57 fields." },
+    {
+      "goal": "a conditional fee-waiver component",
+      "met": false,
+      "how": "Not met, and not faked. CC-DC-089 is a clean Edition 1.2 packet-form candidate, but it is a conditional component of md_10110_conviction, md_cannabis_petition and md_pardon_expungement — all excluded on the CC-DC-CR-072 source gate. The selected track's adopted legal design records no fee and no applicable waiver, so attaching CC-DC-089 to it would invent a component the Maryland design does not call for."
+    }
+  ],
+
+  "authorityStatus": {
+    "controllingAuthority": "Master Library Edition 1.2; the Maryland Edition 1.2 controlling legal-review addendum; the Edition 1.2 Batch 2 authority matrix; the retained Maryland legal review as-of 2026-07-30; the adopted Batch 2 research-resolution memorandum.",
+    "legalDesignChanged": "No Maryland legal-design conclusion was altered by this pass. Two generated legal-design files did change content, and neither carries a conclusion: the track source relationships gained the two SHA-256 pins, and the specification set gained one authored process-guidance specification for the packet's instructions component — the same mechanism Tranche 1 used, and the reason it exists is that the generator emits no specification for a guidance component sitting inside an official-form track. No normalized track object, no eligibility rule, no venue, no scope restriction and no output strategy was edited.",
+    "selectedTrackAuthorityClearedBefore": 0,
+    "selectedTrackAuthorityClearedAfter": 0,
+    "authorityClearedNote": "Pinning both SHA-256 values closes the tranche's mechanically resolvable mapping defect and removes 'no SHA-256 pinned for the mapped asset' from the track's blocking reasons. The track still does not become authority-cleared, and that is correct: Edition 1.2 sets generation_allowed = no on all 443 retained assets, so no official-form component can clear under Edition 1.2 alone. The remaining blocking reason changes from a repository defect to the edition's own release posture."
+  },
+
+  "sourceMappingsClosed": [
+    "md_second_chance_shielding-primary-filing-1 → MD:CC-DC-CR-148:PETITION:EN, revision REV-2026-07, SHA-256 abcafbc298d56937ad41ba44675147942b1ab540325898917efafed3f5b43e3f, pinned.",
+    "md_second_chance_shielding-attachment-2 → MD:MDJ-008:NOTICE:EN, revision REV-2026-07, SHA-256 42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369, pinned."
+  ],
+
+  "sourceGatesRemaining": [
+    "Edition 1.2 sets generation_allowed = no on every retained asset, including both selected forms. No Maryland asset is resolver-selectable under Edition 1.2 alone. Clearing this is an edition decision, not an implementation one.",
+    "The CC-DC-CR-072 family and DC-CR-071 remain source_gated on unconfirmed printed revisions. Untouched by this tranche.",
+    "The filing fee for a shielding petition is an open release blocker. The Judiciary shielding page and CC-DC-CR-148A state $0, unverified at build time. No dollar amount is printed on any Tranche 2 packet.",
+    "The retained Maryland legal review records no SHA-256 for its three cited official sources, so staleness on the statute, the Rules and the Judiciary self-help page cannot be detected automatically."
+  ],
+
+  "rendererStrategy": "OfficialPdfRenderer → AcroFormFillStrategy for both official components. Both sources are clean single-page AcroForms with no XFA and no encryption, so no overlay is needed and none is used. VerticalOverlayStrategy / CoordinateOverlayStrategy is not exercised by this tranche. ProcessGuidanceRenderer produces the LegalEase participant guide that closes the assembled packet.",
+
+  "packetComponents": [
+    "primary_filing — Petition for Shielding Under the Maryland Second Chance Act, CC-DC-CR-148 (official_pdf_fill, acroform_fill)",
+    "attachment — Notice Regarding Restricted Information Pursuant to Rule 20-201.1, MDJ-008 (official_pdf_fill, acroform_fill)",
+    "instructions — LegalEase participant guide: execution instructions, required-before-filing checklist, filing destination and method, fee verification, service explanation, supporting-document checklist, post-filing timeline, and self-help stop and attorney-handoff conditions (process_guidance)"
+  ],
+
+  "coverPage": "none. The established Maryland packet design includes no cover or packet-identification page, and one is not invented here. The participant's first page is the completed official petition.",
+
+  "finalParticipantDeliverable": "one_assembled_pdf",
+
+  "deliveryModel": {
+    "participantAction": "Download my complete packet PDF",
+    "assembledFileNamePattern": "LegalEase_Maryland_<packet-name>_<fictional-case-id>.pdf",
+    "componentPdfsRetained": "internally only, for debugging and future optional UI use",
+    "zipDelivered": false,
+    "note": "No ZIP is produced for the participant and none is produced for review. Tranche 1 built a review ZIP; Tranche 2 does not, because the tracked review manifest plus a reproducible generation command answer the same question without an untracked archive."
+  },
+
+  "reviewGenerationCommand": "npm run rcap:generate-tranche-2-review",
+  "reviewOutputDirectory": "tmp/packet-output-review/tranche-2/",
+
+  "implementationStatus": "implemented_and_internally_proved",
+  "legalRecommendationStatus": "recommended_for_counsel_adoption",
+  "humanLegalReviewStatus": "awaiting_counsel_adoption",
+  "runtimeStatus": "runtime_disabled",
+  "packetReady": false,
+  "generationAllowed": false,
+  "jurisdictionEnabled": false,
+
+  "notOwnedByThisTranche": [
+    "No Maryland legal-design conclusion was changed.",
+    "No normalized track object was edited.",
+    "No Master Library edition was created, amended or republished.",
+    "No source-gated asset was reclassified.",
+    "No track was promoted, no jurisdiction was enabled, and packet_ready remains 0.",
+    "Tranche 1 legal text, templates and packet specifications are unchanged."
+  ]
+}

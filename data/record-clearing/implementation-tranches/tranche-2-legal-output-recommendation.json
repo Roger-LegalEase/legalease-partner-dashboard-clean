@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-2-maryland-official-forms",
+  "jurisdiction": "MD",
+  "jurisdictionName": "Maryland",
+  "preparedOn": "2026-08-03",
+  "preparer": "engineering implementation pass (not counsel, and not a legal approval)",
+  "authorityEdition": "1.2",
+  "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+
+  "whatThisDocumentIs": "The engineering pass's recommendation to reviewing counsel, one entry per implemented route. It records what was built, on what authority, what it deliberately does not do, and the questions counsel must answer before this route may be adopted. It is a recommendation only. Nothing in it advances any status by itself.",
+
+  "humanLegalReviewStatus": "awaiting_counsel_adoption",
+
+  "recommendations": [
+    {
+      "trackId": "md_second_chance_shielding",
+      "businessLabel": "Second Chance Act shielding",
+      "publicName": "Shielding a conviction from public view",
+      "status": "recommended_for_counsel_adoption",
+      "outputStrategy": "official_pdf_fill",
+      "officialForms": ["CC-DC-CR-148", "MDJ-008"],
+
+      "recommendation": "Adopt the packet as built, subject to the questions below. The two official Maryland Judiciary forms are filled from the participant's own answers and from three values that follow from what the packet is; every block belonging to the court, the clerk, a judge, the State's Attorney, an agency or an attorney comes out blank, as do both signature lines and every signature and order date. The packet is one assembled PDF: the completed petition, the companion notice the petition's own printed text requires, and a LegalEase guide that is plainly marked as not part of the filing.",
+
+      "basis": [
+        "The adopted Batch 2 research-resolution memorandum directs official_pdf_fill on CC-DC-CR-148 with MDJ-008 for this route.",
+        "The Maryland Edition 1.2 controlling legal-review addendum amends the retained review to match, and records that the once-per-lifetime, one-court and one-county rules are scope and routing conditions rather than a bar to generating a packet.",
+        "Both components resolve to retained Edition 1.2 packet_form assets, MD:CC-DC-CR-148:PETITION:EN and MD:MDJ-008:NOTICE:EN, each pinned by SHA-256 and hash-matched against the binary the renderer actually reads.",
+        "Md. Code, Crim. Proc. §§ 10-301 through 10-306; Md. Rule 16-934; Md. Rule 16-941; Md. Rule 20-201.1."
+      ],
+
+      "whatCounselIsBeingAskedToAdopt": [
+        "That CC-DC-CR-148 revision REV-2026-07 and MDJ-008 revision REV-2026-07 are the correct current forms for this route.",
+        "That the twelve offence branches on the petition are the correct statutory list, and that each is presented as its own independent election.",
+        "That filling the participant's own blanks on a Rules-approved form, and leaving every other blank empty, is the correct output for this route.",
+        "That the participant guide states the law of the route correctly — in particular that shielding is not expungement, that the petition is granted once in a lifetime, and that the court rather than the participant serves the State's Attorney.",
+        "That the scope conditions the packet refuses to generate against are the right ones, and that refusing is preferable to generating with a caveat."
+      ],
+
+      "scopeRestrictionsCarried": [
+        "Hard-block every multi-court and multi-county record. Generate only where the participant has eligible convictions in exactly one court in exactly one county.",
+        "One shielding petition will be granted per lifetime. A participant who has already filed one is out of scope.",
+        "Never call this sealing or expungement. Say shielding."
+      ],
+
+      "questionsForCounsel": [
+        {
+          "id": "filing-fee",
+          "question": "Is there a filing fee for a Second Chance Act shielding petition, and if so how much?",
+          "whyItIsOpen": "The Maryland Judiciary shielding page and CC-DC-CR-148A both indicate no fee. Neither was confirmed against the current fee schedule at build time, and CC-DC-CR-148A is not itself a held asset — the $0 rests on a document the repository does not have.",
+          "whatWasDoneInstead": "No amount is printed anywhere in the packet. The guide tells the participant to ask the clerk before filing, and explains where to ask for a waiver if the clerk names a fee."
+        },
+        {
+          "id": "unit-of-prosecution",
+          "question": "Is it right to refuse to generate whenever the participant answers that an ineligible charge may have arisen from the same incident, rather than generating with a warning?",
+          "whyItIsOpen": "CC-DC-CR-148 paragraph 2 is a statement the petitioner adopts by signing. Whether two charges form one unit is a legal judgment the accepted design bars from automation.",
+          "whatWasDoneInstead": "The packet refuses to generate and routes the participant to a lawyer. Silence is treated the same as yes — an unanswered scope question also stops generation."
+        },
+        {
+          "id": "one-petition-election",
+          "question": "Is the packet's court-and-county election safe to leave to the participant, given that the choice is unrecoverable?",
+          "whyItIsOpen": "Shielding is granted once in a lifetime, in one court, in one county. A participant with eligible convictions in two courts spends their one petition on whichever they choose, and LegalEase must not choose for them.",
+          "whatWasDoneInstead": "Any participant reporting eligible convictions in more than one court or county is refused and referred out. Those who report one court are told, in the guide's first checklist item and again in the stop conditions, that the election is final."
+        },
+        {
+          "id": "system-derived-notice-fields",
+          "question": "Are the three MDJ-008 values LegalEase derives rather than asks for correct — the restricted-document box, the sealing-or-shielding-motion box, and the title of the confidential submission?",
+          "whyItIsOpen": "These are answers about the document rather than about the participant. The reasoning is that the confidential submission this notice accompanies is always the shielding petition, so no participant answer can change them and asking would invite a wrong answer.",
+          "whatWasDoneInstead": "They are filled as system-derived values and recorded as such in the field-ownership map. Every other box on MDJ-008 is left unchecked."
+        },
+        {
+          "id": "case-list-overflow",
+          "question": "Is stopping the packet the right response to a case list too long for the blank the Judiciary provided?",
+          "whyItIsOpen": "The alternative is shrinking the text until it fits, which produces microtype at a filing counter, or printing it clipped, which loses case numbers silently.",
+          "whatWasDoneInstead": "Where the form provides a continuation line the list is split onto it at a case-number boundary. Where it does not, generation stops and the participant is referred out."
+        },
+        {
+          "id": "guide-inside-the-packet",
+          "question": "Is binding the LegalEase guide into the same PDF as the two court forms acceptable, given the participant must not hand it to the clerk?",
+          "whyItIsOpen": "One file is easier to keep and harder to lose than three, but it puts non-filing pages behind filing pages.",
+          "whatWasDoneInstead": "The guide opens with the sentence 'This document is not a court filing', names the two forms that are, says to keep these pages, and numbers its own pages separately. The official pages carry no LegalEase marking at all."
+        },
+        {
+          "id": "draft-banner-placement",
+          "question": "Should the draft banner appear on every page of the guide rather than only its first?",
+          "whyItIsOpen": "Raised by the engineering visual review. A separated page of the guide carries no draft marking.",
+          "whatWasDoneInstead": "Left as built. Banner placement is a product and template decision this pass was not authorized to change."
+        }
+      ],
+
+      "openReleaseBlockers": [
+        "Edition 1.2 sets generation_allowed = no on every one of its 443 retained assets, including both forms in this packet. No Maryland asset is resolver-selectable under Edition 1.2 alone. Clearing this is an edition decision, not an implementation one.",
+        "The filing fee is unresolved, as above.",
+        "The retained Maryland legal review records no SHA-256 for its three cited official sources, so staleness on the statute, the Rules and the Judiciary self-help page cannot be detected automatically."
+      ],
+
+      "whatThisDoesNotAssert": [
+        "That the participant is eligible for shielding. The packet asks, refuses where the answers put the participant out of scope, and otherwise prepares what the participant said.",
+        "That the court will grant the petition.",
+        "That a shielded conviction may be denied. The guide says the opposite.",
+        "That any charge is or is not part of the same incident as another.",
+        "That the participant has chosen the right court to spend their one petition on."
+      ],
+
+      "coverageNotMet": [
+        "No conditional fee-waiver component. CC-DC-089 is a clean Edition 1.2 packet-form candidate but is a component of three routes excluded on the CC-DC-CR-072 source gate, and this route's adopted design records no fee and no applicable waiver. Attaching it here would invent a component the Maryland design does not call for."
+      ]
+    }
+  ],
+
+  "engineeringFollowUpsForTheNextTranche": [
+    {
+      "id": "declared-fail-unreachable-on-auto-sizing-fields",
+      "finding": "A component mapping may declare overflow: \"fail\", but the renderer downgrades that to a warning whenever the field declares a font size of zero — an auto-sizing field — because such a field shrinks rather than clips. Both Court Address fields are auto-sizing, so the \"fail\" they declare can never fire. A 119-character court address renders at about 4pt with only a warning.",
+      "impactOnThisTranche": "None observed. Every court address in the packet comes from a real Maryland courthouse and renders at full size. No fixture warns and no rendered page is affected.",
+      "recommendation": "Either honour the declared policy against a legibility floor for auto-sizing fields, or stop letting a mapping declare a policy the renderer cannot apply."
+    },
+    {
+      "id": "dropdown-width-not-measured",
+      "finding": "The renderer's width measurement covers text fields only. The City/County combo box is never measured, so its auto-shrink is silent.",
+      "impactOnThisTranche": "Legibility only, recorded in the visual review: 8 of the form's 57 locations render below 7pt on CC-DC-CR-148.",
+      "recommendation": "Measure dropdowns too, and report the shrink rather than leaving it silent."
+    },
+    {
+      "id": "assembly-drops-the-acroform",
+      "finding": "Components are deliberately left unflattened so a participant can correct a value before signing, but assembly copies pages into a fresh document without the form dictionary, so the assembled deliverable has no AcroForm.",
+      "impactOnThisTranche": "Safety-neutral. Values remain visible and correctly placed; third-party blanks remain blank and become non-editable. It contradicts the recorded rationale for not flattening.",
+      "recommendation": "Carry the AcroForm through assembly, or flatten deliberately and record that as the decision."
+    },
+    {
+      "id": "caption-capacity-is-case-sensitive",
+      "finding": "Capacity on the caption blanks is measured in points, not characters, so an all-capitals name occupies roughly twice the width of the same name in mixed case. Petitioner's Name holds about 43 mixed-case characters but only about 21 in capitals, and an 18-character circuit case number leaves 0.34pt of headroom.",
+      "impactOnThisTranche": "None observed across the four fixtures. The failure is loud — the component is refused rather than printed clipped — which is the correct direction.",
+      "recommendation": "Normalize obviously all-capitals participant input to mixed case before measuring, or tell the participant why the name was refused rather than failing the whole component."
+    }
+  ],
+
+  "routesNotRecommendedBecauseTheyWereNotBuilt": [
+    {
+      "trackIds": ["md_10105_favorable", "md_10105_early", "md_10110_conviction", "md_cannabis_petition", "md_pardon_expungement"],
+      "reason": "Each depends on a CC-DC-CR-072-family primary filing, and Edition 1.2 retains all four members of that family as source_gated assets that are never resolver-selectable. No packet was built and none is recommended.",
+      "whatWouldUnblockThem": "Re-acquire CC-DC-CR-072A, CC-DC-CR-072B, CC-DC-CR-072C and CC-DC-CR-072D from the Maryland Judiciary, confirm each printed revision with the publisher, and retain them as packet_form assets in a future Master Library edition. That would make four further Maryland routes selectable in one pass."
+    }
+  ],
+
+  "note": "This recommendation is an engineering work product. It is not counsel's sign-off, it does not constitute legal review, and it moves nothing. md_second_chance_shielding remains runtime_disabled, no jurisdiction is enabled, and the launch gate stays red until reviewing counsel adopts this route in a separate, recorded decision."
+}

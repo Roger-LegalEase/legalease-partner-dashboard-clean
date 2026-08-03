@@ -1,0 +1,208 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-2-maryland-official-forms",
+  "note": "Who owns every field on every official form in the Tranche 2 packet — all 56 fields of CC-DC-CR-148 and all 57 of MDJ-008, mapped or not. Tranche 1 filled documents LegalEase drafted, so a field existed only because someone chose to draw it. An official form is the opposite: the court decided what fields exist, and most of them belong to somebody other than the participant. This file is the record of that decision for each one, and the verifier reads it back against the source documents so a field cannot be added, renamed or silently mapped without the classification moving with it.",
+
+  "ownershipVocabulary": [
+    "participant — the participant's own answer; LegalEase prints it",
+    "participant_manual — the participant's, but completed by hand after printing. LegalEase leaves a usable blank and never generates it",
+    "court — the court's",
+    "clerk — the clerk's",
+    "judge — the judge's",
+    "prosecutor — the State's Attorney's",
+    "agency — an executive agency's",
+    "notary — a notary's",
+    "process_server — a process server's",
+    "system_derived — determined by the packet's own identity rather than by any actor's answer, and approved for generation",
+    "prohibited_from_generation — LegalEase must never write here, whatever it knows"
+  ],
+
+  "applicabilityVocabulary": [
+    "in_scope — the field belongs to this packet",
+    "not_applicable — the field exists on the form for other filings and has no application to a Second Chance Act shielding petition. Unmapped for that reason, not because its owner is unknown"
+  ],
+
+  "rules": [
+    "Only `participant` and `system_derived` fields carry a mapping. Nothing else is writable by the renderer, because `acroMappingsFor` returns only the registered mappings and there is no mapping to write.",
+    "A `participant_manual` field is left blank on purpose and the packet's instructions name it. A blank signature line is the output, not a gap.",
+    "No signature image is generated for either form. Both signature lines and both signature dates come out of the renderer blank.",
+    "A field is never filled because the participant happens to know the answer. The attorney block is the clearest case: the participant knows their own lawyer's bar number, and it still stays blank, because entering an appearance is the lawyer's act.",
+    "`system_derived` is used only where the value follows from what the packet is. On MDJ-008 that is the two restricted-information boxes and the title of the submission: the confidential document this notice accompanies is always the shielding petition, so no participant answer can change it and asking would invite a wrong answer."
+  ],
+
+  "forms": [
+    {
+      "documentId": "CC-DC-CR-148",
+      "workflowKey": "MD:CC-DC-CR-148:PETITION:EN",
+      "sha256": "abcafbc298d56937ad41ba44675147942b1ab540325898917efafed3f5b43e3f",
+      "pages": 1,
+      "fieldCount": 56,
+      "fields": [
+        { "pdfFieldName": "Reset Form", "type": "button", "owner": "prohibited_from_generation", "applicability": "not_applicable", "mapped": false, "note": "The form's own reset control. Not a data field and never written to." },
+
+        { "pdfFieldName": "Circuit Court", "type": "checkbox", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148CircuitCourt", "note": "Court-level election. Md. Code, Crim. Proc. § 10-303 puts venue in the court that entered the convictions; which court that is, is the participant's answer." },
+        { "pdfFieldName": "District Court", "type": "checkbox", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148DistrictCourt" },
+        { "pdfFieldName": "City/County", "type": "dropdown", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148CityCounty", "note": "Constrained to the form's own option list for the elected court level. An out-of-list election is refused before rendering." },
+        { "pdfFieldName": "Court Address", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148CourtAddress" },
+        { "pdfFieldName": "Court Telephone Number", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148CourtTelephone" },
+        { "pdfFieldName": "Case Number", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148CaptionCaseNumber", "note": "Captioned \"1st Case Listed\". Derived from the participant's own list, in the form's own offence order." },
+        { "pdfFieldName": "Petitioner's Name", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148CaptionPetitionerName" },
+
+        { "pdfFieldName": "Name", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148PetitionerName" },
+        { "pdfFieldName": "Date of Birth", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148DateOfBirth" },
+
+        { "pdfFieldName": "Disorderly conduct under 10-201(c)(2) of the Criminal Law Article", "type": "checkbox", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Offence_disorderly_conduct" },
+        { "pdfFieldName": "Case Number(s) for Disorderly conduct under 10-201(c)(2) of the Criminal Law Article", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Cases_disorderly_conduct" },
+        { "pdfFieldName": "Case Number(s) for Disorderly conduct under 10-201(c)(2) of the Criminal Law Article continued", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148CasesContinued_disorderly_conduct", "note": "The form's own second line. Used only when the first is full." },
+
+        { "pdfFieldName": "Disturbing the peace under 10-201(c)(4) of the Criminal Law Article", "type": "checkbox", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Offence_disturbing_the_peace" },
+        { "pdfFieldName": "Case Number(s) for Disturbing the peace under 10-201(c)(4) of the Criminal Law Article", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Cases_disturbing_the_peace" },
+        { "pdfFieldName": "Case Number(s) for Disturbing the peace under 10-201(c)(4) of the Criminal Law Article continued", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148CasesContinued_disturbing_the_peace" },
+
+        { "pdfFieldName": "Failure to obey a reasonable and lawful order under 10-201(c)(3) of the Criminal Law Article", "type": "checkbox", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Offence_failure_to_obey_a_lawful_order" },
+        { "pdfFieldName": "Case Number(s) for Failure to obey a reasonable and lawful order under 10-201(c)(3) of the Criminal Law Article", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Cases_failure_to_obey_a_lawful_order", "note": "Full-width single line. The Judiciary gave this offence no continuation, so an over-long list is refused rather than shrunk." },
+
+        { "pdfFieldName": "Malicious destruction of property in the lesser degree under 6-301 of the Criminal Law Article", "type": "checkbox", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Offence_malicious_destruction_lesser_degree" },
+        { "pdfFieldName": "Case Number(s) for Malicious destruction of property in the lesser degree under 6-301 of the Criminal Law Article", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Cases_malicious_destruction_lesser_degree" },
+
+        { "pdfFieldName": "Trespass on posted property under 6-402 of the Criminal Law Article", "type": "checkbox", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Offence_trespass_on_posted_property" },
+        { "pdfFieldName": "Case Number(s) for Trespass on posted property under 6-402 of the Criminal Law Article", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Cases_trespass_on_posted_property" },
+        { "pdfFieldName": "Case Number(s) for Trespass on posted property under 6-402 of the Criminal Law Article continued", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148CasesContinued_trespass_on_posted_property" },
+
+        { "pdfFieldName": "Possessing or administering a controlled dangerous substance under 5-601 of the Criminal Law Article", "type": "checkbox", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Offence_possession_or_administering_cds" },
+        { "pdfFieldName": "Case Number(s) for Possessing or administering a controlled dangerous substance under 5-601 of the Criminal Law Article", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Cases_possession_or_administering_cds" },
+
+        { "pdfFieldName": "Possessing or Administering a noncontrolled substance under 5-618(a) of the Criminal Law Article", "type": "checkbox", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Offence_possession_or_administering_non_cds" },
+        { "pdfFieldName": "Case Number(s) for Possessing or Administering a noncontrolled substance under 5-618(a) of the Criminal Law Article", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Cases_possession_or_administering_non_cds" },
+
+        { "pdfFieldName": "Use of or possession with intent to use drug paraphernalia under 5-619(c)(1) of the Criminal Law Article", "type": "checkbox", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Offence_drug_paraphernalia" },
+        { "pdfFieldName": "Case Number(s) for Use of or possession with intent to use drug paraphernalia under 5-619(c)(1) of the Criminal Law Article", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Cases_drug_paraphernalia" },
+
+        { "pdfFieldName": "Driving without a license under 16-101 of the Transportation Article", "type": "checkbox", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Offence_driving_without_a_licence" },
+        { "pdfFieldName": "Case Number(s) for Driving without a license under 16-101 of the Transportation Article", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Cases_driving_without_a_licence" },
+        { "pdfFieldName": "Case Number(s) for Driving without a license under 16-101 of the Transportation Article continued", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148CasesContinued_driving_without_a_licence" },
+
+        { "pdfFieldName": "Driving while privilege is canceled, suspended, refused, or revoked under 16-303 of the Transportation Article", "type": "checkbox", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Offence_driving_while_privilege_withdrawn" },
+        { "pdfFieldName": "Case Number(s) for Driving while privilege is canceled, suspended, refused, or revoked under 16-303 of the Transportation Article", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Cases_driving_while_privilege_withdrawn" },
+
+        { "pdfFieldName": "Driving while uninsured under 17-107 of the Transportation Article", "type": "checkbox", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Offence_driving_while_uninsured" },
+        { "pdfFieldName": "Case Number(s) for Driving while uninsured under 17-107 of the Transportation Article", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Cases_driving_while_uninsured" },
+        { "pdfFieldName": "Case Number(s) for Driving while uninsured under 17-107 of the Transportation Article continued", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148CasesContinued_driving_while_uninsured" },
+
+        { "pdfFieldName": "Prostitution (not assignation) under 11-303 (formerly 11-306(a)(1)) of the Criminal Law Article", "type": "checkbox", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Offence_prostitution" },
+        { "pdfFieldName": "Case Number(s) for Prostitution (not assignation) under 11-303 (formerly 11-306(a)(1)) of the Criminal Law Article", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148Cases_prostitution" },
+
+        { "pdfFieldName": "Signature of Petitioner", "type": "text", "owner": "participant_manual", "applicability": "in_scope", "mapped": false, "note": "Signed by hand under penalties of perjury. LegalEase generates no signature and no signature image; the blank rule is the output. The guide names this line explicitly." },
+        { "pdfFieldName": "date", "type": "text", "owner": "participant_manual", "applicability": "in_scope", "mapped": false, "note": "The date beside the petitioner's signature. Dating a document nobody has signed yet would misdate a sworn filing." },
+
+        { "pdfFieldName": "Signature of Attorney", "type": "text", "owner": "prohibited_from_generation", "applicability": "not_applicable", "mapped": false, "note": "Entering an appearance is a lawyer's own act. LegalEase does not appear for a self-represented participant." },
+        { "pdfFieldName": "Attorney Number", "type": "text", "owner": "prohibited_from_generation", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Date", "type": "text", "owner": "prohibited_from_generation", "applicability": "not_applicable", "mapped": false, "note": "The date beside the attorney's signature, distinct from the lower-case `date` beside the petitioner's." },
+        { "pdfFieldName": "Attorney Printed Name", "type": "text", "owner": "prohibited_from_generation", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Attorney Street Address", "type": "text", "owner": "prohibited_from_generation", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Attorney City, State, Zip", "type": "text", "owner": "prohibited_from_generation", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Attorney Telephone Number", "type": "text", "owner": "prohibited_from_generation", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Attorney E-mail", "type": "text", "owner": "prohibited_from_generation", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Attorney Cell Phone Number", "type": "text", "owner": "prohibited_from_generation", "applicability": "not_applicable", "mapped": false },
+
+        { "pdfFieldName": "Petitioner Printed Name", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148PetitionerPrintedName" },
+        { "pdfFieldName": "Petitioner Street Address", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148PetitionerStreetAddress" },
+        { "pdfFieldName": "Petitioner City, State, Zip", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148PetitionerCityStateZip" },
+        { "pdfFieldName": "Petitioner Telephone Number", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148PetitionerTelephone", "optional": true },
+        { "pdfFieldName": "Petitioner Cell Phone Number", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148PetitionerCellPhone", "optional": true },
+        { "pdfFieldName": "Petitioner E-mail", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "md148PetitionerEmail", "optional": true, "note": "A narrow blank. A half-printed address is worse than none, because the court would write to it, so this one is omitted rather than truncated." }
+      ]
+    },
+    {
+      "documentId": "MDJ-008",
+      "workflowKey": "MD:MDJ-008:NOTICE:EN",
+      "sha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+      "pages": 1,
+      "fieldCount": 57,
+      "fields": [
+        { "pdfFieldName": "Reset Form", "type": "button", "owner": "prohibited_from_generation", "applicability": "not_applicable", "mapped": false, "note": "The form's own reset control." },
+
+        { "pdfFieldName": "Supreme Court", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false, "note": "MDJ-008 serves every Maryland court. A shielding petition is filed in the trial court that entered the convictions, so the two appellate boxes have no application and carry no mapping." },
+        { "pdfFieldName": "Appellate Court", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Circuit Court", "type": "checkbox", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "mdj008CircuitCourt" },
+        { "pdfFieldName": "District Court", "type": "checkbox", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "mdj008DistrictCourt" },
+        { "pdfFieldName": "City/County", "type": "dropdown", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "mdj008CityCounty", "note": "The identical option list to CC-DC-CR-148, verified against both sources." },
+        { "pdfFieldName": "Court Address", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "mdj008CourtAddress" },
+        { "pdfFieldName": "Court Telephone Number", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "mdj008CourtTelephone" },
+        { "pdfFieldName": "Case Number", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "mdj008CaseNumber" },
+
+        { "pdfFieldName": "Plaintiff/Petitioner's Name", "type": "text", "owner": "participant", "applicability": "not_applicable", "mapped": false, "note": "The form preprints STATE OF MARYLAND above this rule for exactly this case type. Writing the State's name into the blank would print it twice." },
+        { "pdfFieldName": "Defendant/Respondent's Name", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "mdj008DefendantName", "note": "A criminal caption puts the participant on this side, which is why the participant's name goes here and not opposite." },
+
+        { "pdfFieldName": "Title of Confidential Submission", "type": "text", "owner": "system_derived", "applicability": "in_scope", "mapped": true, "factKey": "mdj008Title", "note": "The confidential submission this notice accompanies is always the shielding petition. No participant answer can change it." },
+
+        { "pdfFieldName": "Restricted Document - The entire document is not subject to inspection", "type": "checkbox", "owner": "system_derived", "applicability": "in_scope", "mapped": true, "factKey": "mdj008RestrictedDocument", "note": "Follows from what the packet is: CC-DC-CR-148 paragraph 6 states the petition itself is to be shielded by the clerk." },
+        { "pdfFieldName": "Sealing or Shielding Motion", "type": "checkbox", "owner": "system_derived", "applicability": "in_scope", "mapped": true, "factKey": "mdj008SealingOrShieldingMotion", "note": "Rule 16-941 and Rule 16-914(k)(2) — restricted while pending. The petition is the motion." },
+        { "pdfFieldName": "Sealed or Shielded", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false, "note": "Rule 16-914(k)(1) describes a document already restricted by court order. There is no order yet, so checking this would assert a court act that has not happened." },
+
+        { "pdfFieldName": "Child Abuse/Neglect", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Disability", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Failure to Pay Rent Actions", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Financial Information", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Financial Statement", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Hearing Closed to the Public", "type": "checkbox", "owner": "court", "applicability": "not_applicable", "mapped": false, "note": "Closing a hearing is a court act." },
+        { "pdfFieldName": "Marital Property", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Marriage License Application", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Medical Report", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Parenting Plan/Joint Statement", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Peace Order Denied/Dismissed/Consented - Shielded", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Pregnancy - Marriage License Application", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Presentence Investigation Report", "type": "checkbox", "owner": "agency", "applicability": "not_applicable", "mapped": false, "note": "Prepared by the supervising agency for the court." },
+        { "pdfFieldName": "Protective Order Denied/Dismissed/Consented - Shielded", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Record of an Administrative Agency Proceeding", "type": "checkbox", "owner": "agency", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Refusal to Testify", "type": "checkbox", "owner": "court", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Tax Returns", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Other", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "List other restricted document", "type": "text", "owner": "participant", "applicability": "not_applicable", "mapped": false, "note": "Belongs to the unchecked `Other` category." },
+        { "pdfFieldName": "Rule or Statute", "type": "text", "owner": "participant", "applicability": "not_applicable", "mapped": false, "note": "Belongs to the unchecked `Other` category." },
+
+        { "pdfFieldName": "Document from a confidential case type filed into a non-confidential case type", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Child Adoption", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Emergency Evaluation", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "ERPO", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Guardianship of a Child", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Juvenile Court case record", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Gender declaration", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Other Case Type", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "List other case type", "type": "text", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+
+        { "pdfFieldName": "Confidential Information - The document itself is subject to public inspection but contains confidential information that is not open to public inspection", "type": "checkbox", "owner": "participant", "applicability": "not_applicable", "mapped": false, "note": "Item 2 is the alternative to item 1. This packet restricts the whole document, so item 2 and its three fields stay blank." },
+        { "pdfFieldName": "Description of the information", "type": "text", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Rule(s)", "type": "text", "owner": "participant", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Date of Court Order", "type": "text", "owner": "court", "applicability": "not_applicable", "mapped": false, "note": "A court order date. There is no order, and inventing one would assert a judicial act." },
+
+        { "pdfFieldName": "Signature", "type": "text", "owner": "participant_manual", "applicability": "in_scope", "mapped": false, "note": "MDJ-008 has its own signature line. Signed by hand, and the guide says so." },
+        { "pdfFieldName": "Date", "type": "text", "owner": "participant_manual", "applicability": "in_scope", "mapped": false, "note": "The date beside that signature." },
+        { "pdfFieldName": "Attorney Number", "type": "text", "owner": "prohibited_from_generation", "applicability": "not_applicable", "mapped": false },
+        { "pdfFieldName": "Printed Name", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "mdj008PrintedName" },
+        { "pdfFieldName": "Street Address", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "mdj008StreetAddress" },
+        { "pdfFieldName": "City, State, Zip", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "mdj008CityStateZip" },
+        { "pdfFieldName": "Telephone Number", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "mdj008Telephone", "optional": true },
+        { "pdfFieldName": "E-mail", "type": "text", "owner": "participant", "applicability": "in_scope", "mapped": true, "factKey": "mdj008Email", "optional": true },
+        { "pdfFieldName": "Fax", "type": "text", "owner": "participant", "applicability": "not_applicable", "mapped": false, "note": "LegalEase collects no fax number, and a blank fax line costs the participant nothing." }
+      ]
+    }
+  ],
+
+  "summary": {
+    "totalFields": 113,
+    "totalFieldsCC_DC_CR_148": 56,
+    "totalFieldsMDJ_008": 57,
+    "mapped": 59,
+    "participantOwnedAndMapped": 56,
+    "systemDerivedAndMapped": 3,
+    "participantManualLeftBlank": 4,
+    "prohibitedFromGeneration": 12,
+    "otherActorOwned": 5,
+    "otherActorBreakdown": { "court": 3, "agency": 2 },
+    "unmappedBecauseNotApplicable": 50,
+    "signatureImagesGenerated": 0,
+    "judgeClerkProsecutorOrNotaryFieldsFilled": 0,
+    "note": "Every field on both source documents is listed exactly once, and every mapped field is `participant` or `system_derived`. The verifier re-derives all four of those statements from the source PDFs and the registry rather than reading them here."
+  }
+}

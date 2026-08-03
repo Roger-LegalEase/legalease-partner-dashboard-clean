@@ -21,13 +21,17 @@ import {
   type RenderInput,
   type RenderResult
 } from "@/lib/rcap/packets/engines/types";
+import { MARYLAND_GUIDANCE_TEMPLATES } from "@/lib/rcap/packets/engines/guidance-templates-maryland";
 import { MISSISSIPPI_GUIDANCE_TEMPLATES } from "@/lib/rcap/packets/engines/guidance-templates-mississippi";
 
 const VERSION = "process-guidance/1.0.0";
 
+/** The sentence every guidance artifact must open its notice with. */
+export const NOT_A_COURT_FILING_SENTENCE = "This document is not a court filing.";
+
 /** Asserted verbatim by the acceptance gate. */
 export const NOT_A_COURT_FILING_NOTICE =
-  "This document is not a court filing. It is step-by-step guidance for a process that is completed outside a court petition.";
+  `${NOT_A_COURT_FILING_SENTENCE} It is step-by-step guidance for a process that is completed outside a court petition.`;
 
 export type GuidanceTemplate = {
   templateId: string;
@@ -36,6 +40,26 @@ export type GuidanceTemplate = {
   mechanismName: string;
   /** Why this route is not a court filing. */
   whyNotAFiling: string;
+  /**
+   * Replaces the default notice, for guidance that sits inside a filing packet.
+   *
+   * The default explains a route completed outside a court petition, which is
+   * what this engine was built for. Instructions bound into a petition packet
+   * are a different thing: they are not filed, but the pages in front of them
+   * are, and a participant who reads "completed outside a court petition" on
+   * page three of a packet they must take to a clerk has been told the opposite
+   * of the truth. An override must still open with the same sentence, which the
+   * renderer asserts, so no template can quietly drop the notice.
+   */
+  notFilingNotice?: string;
+  /**
+   * Numbers this guidance's own pages in a footer.
+   *
+   * Off by default. On, where the guidance is appended to official court pages
+   * that carry their own footers and the reader needs to know which pages are
+   * LegalEase's and how many of them there are.
+   */
+  paginate?: boolean;
   processType: "agency" | "prosecutor" | "certificate" | "portal" | "automatic" | "court_adjacent";
   /** Printed at the top of page one. Defaults to the non-production fixture banner. */
   banner?: string;
@@ -105,7 +129,8 @@ const BASE_GUIDANCE_TEMPLATES: Readonly<Record<string, GuidanceTemplate>> = {
 
 export const GUIDANCE_TEMPLATES: Readonly<Record<string, GuidanceTemplate>> = {
   ...BASE_GUIDANCE_TEMPLATES,
-  ...MISSISSIPPI_GUIDANCE_TEMPLATES
+  ...MISSISSIPPI_GUIDANCE_TEMPLATES,
+  ...MARYLAND_GUIDANCE_TEMPLATES
 };
 
 export const ProcessGuidanceRenderer: PacketRenderer = {
@@ -156,7 +181,15 @@ export const ProcessGuidanceRenderer: PacketRenderer = {
 
     // The notice appears near the top, before any instruction, so it cannot be
     // missed by someone skimming.
-    writer.write(NOT_A_COURT_FILING_NOTICE, { font: "bold", size: 11 });
+    const notice = resolved.notFilingNotice ?? NOT_A_COURT_FILING_NOTICE;
+    if (!notice.startsWith(NOT_A_COURT_FILING_SENTENCE)) {
+      throw new PacketRenderError(
+        "template_missing",
+        "A guidance notice override must still open with the not-a-court-filing sentence.",
+        { componentId: input.component.componentId, templateId: resolved.templateId }
+      );
+    }
+    writer.write(notice, { font: "bold", size: 11 });
     writer.gap(LINE_HEIGHT / 2);
     writer.write(fill(resolved.whyNotAFiling), { size: 11 });
     writer.gap();
@@ -195,6 +228,21 @@ export const ProcessGuidanceRenderer: PacketRenderer = {
     section(writer, "WHAT LEGALEASE CANNOT DO", resolved.legalEaseCannotPerform.map(fill));
     section(writer, "WHEN TO GET LEGAL HELP", resolved.escalationTriggers.map(fill));
     section(writer, "OFFICIAL SOURCES", resolved.officialSourceReferences.map(fill));
+
+    // Footers last, once the flow has decided how many pages there are.
+    if (resolved.paginate) {
+      const pages = doc.getPages();
+      pages.forEach((page, index) => {
+        const label = `LegalEase instructions — page ${index + 1} of ${pages.length}`;
+        const width = fonts.italic.widthOfTextAtSize(label, 8);
+        page.drawText(label, {
+          x: (page.getWidth() - width) / 2,
+          y: 36,
+          size: 8,
+          font: fonts.italic
+        });
+      });
+    }
 
     const bytes = await doc.save();
 

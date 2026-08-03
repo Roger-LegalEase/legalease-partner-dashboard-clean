@@ -1,0 +1,473 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-2-maryland-official-forms",
+  "jurisdiction": "MD",
+  "authorityEdition": "1.2",
+  "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+  "regenerateWith": "npm run rcap:generate-tranche-2-review",
+  "reviewOutput": {
+    "directory": "tmp/packet-output-review/tranche-2/",
+    "tracked": false,
+    "zipDelivered": false,
+    "note": "The assembled packets, the component PDFs and the page images are deliberately untracked. This manifest records their hashes and page counts, so a file handed to counsel can be verified against the commit without an archive in version control. No wall-clock timestamp is recorded here: the manifest's value is that a rerun reproduces it exactly."
+  },
+  "participantDeliverable": {
+    "form": "one_assembled_pdf",
+    "perRoute": 1,
+    "zipDelivered": false,
+    "componentPdfsRetained": "internally only",
+    "downloadRoute": "GET /api/rcap/packets/{fulfillmentId}/packet",
+    "participantAction": "Download my complete packet PDF"
+  },
+  "selectedTracks": [
+    {
+      "trackId": "md_second_chance_shielding",
+      "businessLabel": "Second Chance Act shielding",
+      "outputStrategy": "official_pdf_fill",
+      "officialForms": [
+        "CC-DC-CR-148",
+        "MDJ-008"
+      ],
+      "branchVariants": [
+        "district_court",
+        "circuit_court"
+      ]
+    }
+  ],
+  "officialSources": [
+    {
+      "componentId": "md_second_chance_shielding-primary-filing-1",
+      "documentId": "CC-DC-CR-148",
+      "documentRole": "PETITION",
+      "revision": "REV-2026-07",
+      "sha256": "abcafbc298d56937ad41ba44675147942b1ab540325898917efafed3f5b43e3f",
+      "canonicalRelativePath": "STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-CR-148__petition-for-shielding-under-the-maryland-second-chance-act__REV-2026-07__EN.pdf",
+      "rendererStrategy": "acroform_fill"
+    },
+    {
+      "componentId": "md_second_chance_shielding-attachment-2",
+      "documentId": "MDJ-008",
+      "documentRole": "NOTICE",
+      "revision": "REV-2026-07",
+      "sha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+      "canonicalRelativePath": "STATES/MD/02_PACKET_FORMS/MD__FORM__MDJ-008__notice-regarding-restricted-information-pursuant-to-rule-20-201-1__REV-2026-07__EN.pdf",
+      "rendererStrategy": "acroform_fill"
+    }
+  ],
+  "samplePackets": [
+    {
+      "fixtureId": "md-shielding-positive-district",
+      "trackId": "md_second_chance_shielding",
+      "branchVariantId": "district_court",
+      "assembledFileName": "LegalEase_Maryland_Second-Chance-Shielding_SYN-1B02SYN0041.pdf",
+      "assembledSha256": "52481ba715e9edba96d9196e01b5cc18578b0d713829b13b174f102e902b49c0",
+      "assembledBytes": 512681,
+      "assembledPageCount": 6,
+      "pageImages": 6,
+      "componentCount": 3,
+      "componentRanges": [
+        {
+          "componentId": "md_second_chance_shielding-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "startPage": 1,
+          "endPage": 1,
+          "pageCount": 1
+        },
+        {
+          "componentId": "md_second_chance_shielding-attachment-2",
+          "role": "attachment",
+          "order": 2,
+          "startPage": 2,
+          "endPage": 2,
+          "pageCount": 1
+        },
+        {
+          "componentId": "md_second_chance_shielding-instructions-3",
+          "role": "instructions",
+          "order": 3,
+          "startPage": 3,
+          "endPage": 6,
+          "pageCount": 4
+        }
+      ],
+      "components": [
+        {
+          "componentId": "md_second_chance_shielding-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "pageCount": 1,
+          "sha256": "339979a51ee1222c45b54a9158761af9a5606035a6741ae1dd6246af6930a8cd",
+          "byteSize": 267480,
+          "rendererStrategy": "acroform_fill",
+          "officialSourceSha256": "abcafbc298d56937ad41ba44675147942b1ab540325898917efafed3f5b43e3f",
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "md_second_chance_shielding-attachment-2",
+          "role": "attachment",
+          "order": 2,
+          "pageCount": 1,
+          "sha256": "7f287426ac8f10239f6925232f9e7b6b2ad86a7f0cc462276f3fc8a02751bbbb",
+          "byteSize": 289580,
+          "rendererStrategy": "acroform_fill",
+          "officialSourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "md_second_chance_shielding-instructions-3",
+          "role": "instructions",
+          "order": 3,
+          "pageCount": 4,
+          "sha256": "58d993bfb8f700ec317783d83cc2554765d5881429471697a9d0e4ef0ce0fac5",
+          "byteSize": 10240,
+          "rendererStrategy": "process_guidance",
+          "officialSourceSha256": null,
+          "deterministic": true,
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "fixtureId": "md-shielding-positive-circuit",
+      "trackId": "md_second_chance_shielding",
+      "branchVariantId": "circuit_court",
+      "assembledFileName": "LegalEase_Maryland_Second-Chance-Shielding_SYN-C-15-CR-SYN-000418.pdf",
+      "assembledSha256": "46e87678153f74c26559deca00b6f3af776996539d8200f291533ad1113b5c81",
+      "assembledBytes": 512575,
+      "assembledPageCount": 6,
+      "pageImages": 6,
+      "componentCount": 3,
+      "componentRanges": [
+        {
+          "componentId": "md_second_chance_shielding-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "startPage": 1,
+          "endPage": 1,
+          "pageCount": 1
+        },
+        {
+          "componentId": "md_second_chance_shielding-attachment-2",
+          "role": "attachment",
+          "order": 2,
+          "startPage": 2,
+          "endPage": 2,
+          "pageCount": 1
+        },
+        {
+          "componentId": "md_second_chance_shielding-instructions-3",
+          "role": "instructions",
+          "order": 3,
+          "startPage": 3,
+          "endPage": 6,
+          "pageCount": 4
+        }
+      ],
+      "components": [
+        {
+          "componentId": "md_second_chance_shielding-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "pageCount": 1,
+          "sha256": "b64877e1d22b47dff31c3d074699dcf20528bd839e1807e0cec4717c4bacc135",
+          "byteSize": 267295,
+          "rendererStrategy": "acroform_fill",
+          "officialSourceSha256": "abcafbc298d56937ad41ba44675147942b1ab540325898917efafed3f5b43e3f",
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "md_second_chance_shielding-attachment-2",
+          "role": "attachment",
+          "order": 2,
+          "pageCount": 1,
+          "sha256": "dca867c8e23197991065c74017701dd5abf6a743d36e7679ca5e8f6ca133bd0e",
+          "byteSize": 289582,
+          "rendererStrategy": "acroform_fill",
+          "officialSourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "md_second_chance_shielding-instructions-3",
+          "role": "instructions",
+          "order": 3,
+          "pageCount": 4,
+          "sha256": "a5047448ed4f79542206d63abdc863cd2a82e5a8beeed3e73c60a3ee430e30ef",
+          "byteSize": 10162,
+          "rendererStrategy": "process_guidance",
+          "officialSourceSha256": null,
+          "deterministic": true,
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "fixtureId": "md-shielding-positive-continuation",
+      "trackId": "md_second_chance_shielding",
+      "branchVariantId": "district_court",
+      "assembledFileName": "LegalEase_Maryland_Second-Chance-Shielding_SYN-1B02SYN0203.pdf",
+      "assembledSha256": "0c926ced39bafb23cf8062d72bf3088ff75a9dc213707ca9e1f7f7970a08b853",
+      "assembledBytes": 512772,
+      "assembledPageCount": 6,
+      "pageImages": 6,
+      "componentCount": 3,
+      "componentRanges": [
+        {
+          "componentId": "md_second_chance_shielding-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "startPage": 1,
+          "endPage": 1,
+          "pageCount": 1
+        },
+        {
+          "componentId": "md_second_chance_shielding-attachment-2",
+          "role": "attachment",
+          "order": 2,
+          "startPage": 2,
+          "endPage": 2,
+          "pageCount": 1
+        },
+        {
+          "componentId": "md_second_chance_shielding-instructions-3",
+          "role": "instructions",
+          "order": 3,
+          "startPage": 3,
+          "endPage": 6,
+          "pageCount": 4
+        }
+      ],
+      "components": [
+        {
+          "componentId": "md_second_chance_shielding-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "pageCount": 1,
+          "sha256": "8a5a3f18455dd9b2d1f569b65e70e24674dca52a1de440c35f825a9a783cc83a",
+          "byteSize": 267562,
+          "rendererStrategy": "acroform_fill",
+          "officialSourceSha256": "abcafbc298d56937ad41ba44675147942b1ab540325898917efafed3f5b43e3f",
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "md_second_chance_shielding-attachment-2",
+          "role": "attachment",
+          "order": 2,
+          "pageCount": 1,
+          "sha256": "89ff790ae456f8bbb8bb919303e7b962f7a0f496475897d6a158a2572533cb63",
+          "byteSize": 289613,
+          "rendererStrategy": "acroform_fill",
+          "officialSourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "md_second_chance_shielding-instructions-3",
+          "role": "instructions",
+          "order": 3,
+          "pageCount": 4,
+          "sha256": "91d0aa7b46089208b3ed4185778eb06dc3904fa21c946449c998318d3c8a5575",
+          "byteSize": 10186,
+          "rendererStrategy": "process_guidance",
+          "officialSourceSha256": null,
+          "deterministic": true,
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "fixtureId": "md-shielding-positive-all-twelve",
+      "trackId": "md_second_chance_shielding",
+      "branchVariantId": "district_court",
+      "assembledFileName": "LegalEase_Maryland_Second-Chance-Shielding_SYN-1B02SYN0501.pdf",
+      "assembledSha256": "37095031a18fc4c1cb6b15581c5767ac178327ef36455ee5b06a0e16258f6914",
+      "assembledBytes": 510507,
+      "assembledPageCount": 6,
+      "pageImages": 6,
+      "componentCount": 3,
+      "componentRanges": [
+        {
+          "componentId": "md_second_chance_shielding-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "startPage": 1,
+          "endPage": 1,
+          "pageCount": 1
+        },
+        {
+          "componentId": "md_second_chance_shielding-attachment-2",
+          "role": "attachment",
+          "order": 2,
+          "startPage": 2,
+          "endPage": 2,
+          "pageCount": 1
+        },
+        {
+          "componentId": "md_second_chance_shielding-instructions-3",
+          "role": "instructions",
+          "order": 3,
+          "startPage": 3,
+          "endPage": 6,
+          "pageCount": 4
+        }
+      ],
+      "components": [
+        {
+          "componentId": "md_second_chance_shielding-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "pageCount": 1,
+          "sha256": "1dbae798a0594681834cd6fc00c7f3e979f8ca0f64028cf859b9a8b6d5f05f37",
+          "byteSize": 257640,
+          "rendererStrategy": "acroform_fill",
+          "officialSourceSha256": "abcafbc298d56937ad41ba44675147942b1ab540325898917efafed3f5b43e3f",
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "md_second_chance_shielding-attachment-2",
+          "role": "attachment",
+          "order": 2,
+          "pageCount": 1,
+          "sha256": "93121fe7534df5aa50e63e8ccd6c255d377839f8a444f8e6881ba1797e92f48d",
+          "byteSize": 289620,
+          "rendererStrategy": "acroform_fill",
+          "officialSourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "md_second_chance_shielding-instructions-3",
+          "role": "instructions",
+          "order": 3,
+          "pageCount": 4,
+          "sha256": "37c21418c76fb47f07888dcc5ecf8830642e975a687077d85de9476d27e7dcd1",
+          "byteSize": 10789,
+          "rendererStrategy": "process_guidance",
+          "officialSourceSha256": null,
+          "deterministic": true,
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "thirdPartyOwnershipFixture": {
+    "fixtureId": "md-shielding-thirdparty-ownership",
+    "injectedFactKeys": 22,
+    "valuesThatReachedThePacket": 0,
+    "passed": true
+  },
+  "boundaryFixtures": [
+    {
+      "fixtureId": "md-shielding-boundary-missing-sentence-date",
+      "trackId": "md_second_chance_shielding",
+      "kind": "missing_required_input",
+      "expected": "resolution_missing_required_input",
+      "expectedDetail": "sentenceSatisfiedDate",
+      "outcome": "resolution_missing_required_input",
+      "detail": "sentenceSatisfiedDate",
+      "passed": true
+    },
+    {
+      "fixtureId": "md-shielding-boundary-missing-court-address",
+      "trackId": "md_second_chance_shielding",
+      "kind": "missing_required_input",
+      "expected": "resolution_missing_required_input",
+      "expectedDetail": "md148CourtAddress",
+      "outcome": "resolution_missing_required_input",
+      "detail": "md148CourtAddress",
+      "passed": true
+    },
+    {
+      "fixtureId": "md-shielding-boundary-court-level-mismatch",
+      "trackId": "md_second_chance_shielding",
+      "kind": "invalid_branch",
+      "expected": "branch_error",
+      "expectedDetail": "courtCityCounty",
+      "outcome": "branch_error",
+      "detail": "courtCityCounty",
+      "passed": true
+    },
+    {
+      "fixtureId": "md-shielding-boundary-unknown-offence",
+      "trackId": "md_second_chance_shielding",
+      "kind": "invalid_branch",
+      "expected": "branch_error",
+      "expectedDetail": "convictions",
+      "outcome": "branch_error",
+      "detail": "convictions",
+      "passed": true
+    },
+    {
+      "fixtureId": "md-shielding-boundary-prior-petition",
+      "trackId": "md_second_chance_shielding",
+      "kind": "scope_boundary",
+      "expected": "branch_error",
+      "expectedDetail": "priorShieldingPetition",
+      "outcome": "branch_error",
+      "detail": "priorShieldingPetition",
+      "passed": true
+    },
+    {
+      "fixtureId": "md-shielding-boundary-multi-court",
+      "trackId": "md_second_chance_shielding",
+      "kind": "scope_boundary",
+      "expected": "branch_error",
+      "expectedDetail": "convictionsInOtherCourtsOrCounties",
+      "outcome": "branch_error",
+      "detail": "convictionsInOtherCourtsOrCounties",
+      "passed": true
+    },
+    {
+      "fixtureId": "md-shielding-boundary-same-incident-unit",
+      "trackId": "md_second_chance_shielding",
+      "kind": "scope_boundary",
+      "expected": "branch_error",
+      "expectedDetail": "sameIncidentIneligibleOffence",
+      "outcome": "branch_error",
+      "detail": "sameIncidentIneligibleOffence",
+      "passed": true
+    },
+    {
+      "fixtureId": "md-shielding-boundary-unanswered-scope-question",
+      "trackId": "md_second_chance_shielding",
+      "kind": "scope_boundary",
+      "expected": "branch_error",
+      "expectedDetail": "domesticallyRelated",
+      "outcome": "branch_error",
+      "detail": "domesticallyRelated",
+      "passed": true
+    },
+    {
+      "fixtureId": "md-shielding-boundary-case-list-overflow",
+      "trackId": "md_second_chance_shielding",
+      "kind": "scope_boundary",
+      "expected": "branch_error",
+      "expectedDetail": "case_numbers_overflow",
+      "outcome": "branch_error",
+      "detail": "case_numbers_overflow",
+      "passed": true
+    }
+  ],
+  "technicalResult": "passed",
+  "technicalDetail": {
+    "assembledPacketsGenerated": 4,
+    "boundaryFixturesStopped": 9,
+    "thirdPartyFieldsWritten": 0,
+    "deterministic": true,
+    "unresolvedIssues": 0
+  },
+  "visualReviewRecord": "data/record-clearing/implementation-tranches/tranche-2-visual-review.json",
+  "legalOutputRecommendation": "data/record-clearing/implementation-tranches/tranche-2-legal-output-recommendation.json",
+  "humanLegalReviewStatus": "awaiting_counsel_adoption",
+  "runtimeStatus": "runtime_disabled",
+  "packetReady": 0,
+  "enabledJurisdictions": 0,
+  "launchGate": "red",
+  "note": "The technical review in this file is an engineering proof, not a legal approval. Nothing here may be read as counsel's sign-off, and no status in this file grants generation, promotion or release."
+}

@@ -109127,6 +109127,172 @@
     },
     {
       "jurisdiction": "MD",
+      "trackId": "md_second_chance_shielding",
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the District Court or circuit court that heard the case",
+        "detail": "In person, by mail, or MDEC e-filing. The court serves the State's Attorney and, on conviction routes, notifies each listed victim."
+      },
+      "rules": {
+        "filing": "File in the single chosen court, circuit or District, in a single county, including every eligible conviction from that court.",
+        "fees": "$0 per the Judiciary shielding page and CC-DC-CR-148A. Verify at build time.",
+        "feeWaiver": "Not applicable while no fee is identified.",
+        "notice": "Per §§ 10-301 through 10-306 and Md. Rule 16-934.",
+        "service": "Per the statute and Rule 16-934.",
+        "participantSignature": "Required.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "courtAndCounty",
+          "question": "Which court heard the case, and in which county or Baltimore City?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargesInIncident",
+          "question": "List every charge in the incident, not only the one you want cleared.",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did each charge end?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Are you a defendant in any pending criminal proceeding?",
+          "requirement": "required"
+        },
+        {
+          "key": "allEligibleConvictionsAllCourts",
+          "question": "List every conviction you have that may be shieldable, in every Maryland court and county.",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceSatisfiedDate",
+          "question": "On what date did you satisfy the sentence, including any parole, probation or mandatory supervision, for all convictions you want shielded?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorShieldingPetition",
+          "question": "Have you ever filed a shielding petition before?",
+          "requirement": "required"
+        },
+        {
+          "key": "chosenCourtAndCounty",
+          "question": "Which single court, in which single county, do you want to file in?",
+          "requirement": "required"
+        },
+        {
+          "key": "domesticallyRelated",
+          "question": "Was any conviction domestically related?",
+          "requirement": "required"
+        },
+        {
+          "key": "understandsShieldingNotExpungement",
+          "question": "Do you understand that shielding removes the record from public view but generally does not let you deny the conviction happened?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Tell the participant a person may still be required to disclose expunged cases in situations Maryland law does not govern.",
+        "Never call this sealing or expungement. Say shielding. State plainly that the participant generally cannot deny the conviction occurred, and that law enforcement, courts and certain agencies retain access.",
+        "Present the one-court, one-county trade-off explicitly, with a comparison of what each option forfeits, before the participant elects."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Case record from Maryland Judiciary Case Search. Look up the case on Maryland Judiciary Case Search to confirm the court, case number, charges and disposition. Free.",
+          "obtainedFrom": "Maryland Judiciary Case Search",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the case number?\" against Case record from Maryland Judiciary Case Search, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner signature and affirmation — Petition, signature and affirmation block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Election of court and county, and which convictions to include — Petition, court and conviction blocks.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Required.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$0 per the Judiciary shielding page and CC-DC-CR-148A. Verify at build time.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable while no fee is identified.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Per the statute and Rule 16-934.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the single chosen court, circuit or District, in a single county, including every eligible conviction from that court.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"What is the case number?\" against Case record from Maryland Judiciary Case Search, and correct the packet if they disagree.",
+        "Petitioner signature and affirmation — Petition, signature and affirmation block.",
+        "Election of court and county, and which convictions to include — Petition, court and conviction blocks.",
+        "Required.",
+        "$0 per the Judiciary shielding page and CC-DC-CR-148A. Verify at build time.",
+        "Not applicable while no fee is identified."
+      ],
+      "stopConditions": [
+        "The participant has eligible convictions in more than one court or more than one county.",
+        "The participant has already used their single shielding petition.",
+        "Any conviction may be domestically related.",
+        "The participant does not understand the difference between shielding and expungement.",
+        "Where the participant has eligible convictions across courts or counties, route to MVLS, Maryland Legal Aid or a Court Help Center for the election itself."
+      ],
+      "guidanceStatus": "drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true,
+      "componentIds": [
+        "md_second_chance_shielding-instructions-3"
+      ],
+      "templateIds": [
+        "md-second-chance-shielding-participant-guide"
+      ],
+      "scope": "How to execute, assemble and file the two completed official Maryland forms in this packet: what the participant must sign and date by hand, what to confirm against Maryland Judiciary Case Search before filing, where and how to file in the single elected court and county, how to verify the filing fee at the counter rather than relying on a printed amount, who serves the State's Attorney and the victims, which supporting records to bring, what happens in the thirty days after filing, and the conditions under which the participant should stop and get a lawyer.",
+      "notAFiling": "The guide is not a court filing and is not part of the normalized Maryland packet set. Only CC-DC-CR-148 and MDJ-008 are filed. The guide is bound into the same assembled PDF so the participant has one document, and it says so on its face.",
+      "trancheId": "tranche-2-maryland-official-forms"
+    },
+    {
+      "jurisdiction": "MD",
       "trackId": "md_10105_1_automatic",
       "destination": {
         "kind": "automatic",

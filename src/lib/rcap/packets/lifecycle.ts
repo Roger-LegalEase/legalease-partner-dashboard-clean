@@ -9,8 +9,11 @@
 // Briefcase item, or a second usage count.
 
 import crypto from "node:crypto";
+import { assemblePacketPdf, type AssembledPacket } from "@/lib/rcap/packets/assemble";
 import { renderPacketComponent } from "@/lib/rcap/packets/engines/index";
 import { PacketRenderError } from "@/lib/rcap/packets/engines/types";
+import { getPacketCapability } from "@/lib/rcap/jurisdictions/packet-capability";
+import { RELIEF_TRACKS } from "@/lib/rcap/packets/registry";
 import { resolvePacket, type PacketResolutionRequest, type ResolvedPacket } from "@/lib/rcap/packets/resolve";
 import {
   resolvePacketStore,
@@ -249,6 +252,56 @@ export async function readStoredComponent(input: {
   if (!record) return null;
   const bytes = await store.storage.get(record.objectPath);
   return { record, bytes };
+}
+
+/**
+ * 14. The participant's actual deliverable: one assembled PDF.
+ *
+ * Reads only what was durably stored and binds it in packet order. It never
+ * renders, so an assembled packet can never contain a component the fulfilment
+ * did not produce and store, and it never invents a component that failed.
+ *
+ * `caseReference` names the file. The review harness passes the synthetic case
+ * number so a reviewer can tell two samples apart on disk. Runtime has no case
+ * number to pass — participant facts are not persisted — so it falls back to a
+ * short slice of the fulfilment id, which identifies the packet without
+ * carrying anything about the person.
+ */
+export async function readAssembledPacket(input: {
+  fulfillmentId: string;
+  caseReference?: string;
+  store?: PacketStoreContext;
+}): Promise<AssembledPacket | null> {
+  const store = input.store ?? resolvePacketStore();
+  const record = await store.repository.findById(input.fulfillmentId);
+  if (!record || record.status !== "ready") return null;
+
+  const artifacts = await store.repository.listArtifacts(input.fulfillmentId);
+  if (artifacts.length === 0) return null;
+
+  const components = [];
+  for (const artifact of [...artifacts].sort((a, b) => a.order - b.order)) {
+    components.push({
+      componentId: artifact.componentId,
+      role: artifact.role,
+      order: artifact.order,
+      bytes: await store.storage.get(artifact.objectPath)
+    });
+  }
+
+  const track = RELIEF_TRACKS.find(
+    (entry) => entry.jurisdiction === record.jurisdiction && entry.trackId === record.trackId
+  );
+  const capability = getPacketCapability(record.jurisdiction);
+
+  return assemblePacketPdf({
+    jurisdiction: record.jurisdiction,
+    jurisdictionName: capability?.name ?? record.jurisdiction,
+    packetName: track?.assembledPacketName ?? record.packetSetId,
+    caseReference: input.caseReference?.trim() || record.fulfillmentId.slice(0, 8),
+    title: track?.assembledPacketTitle ?? `${record.jurisdiction} record-clearing packet`,
+    components
+  });
 }
 
 export async function getFulfillment(

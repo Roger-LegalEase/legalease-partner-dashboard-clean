@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-2-maryland-official-forms",
+  "reviewedOn": "2026-08-03",
+  "reviewer": "engineering visual review (not a legal approval)",
+  "result": "passed_no_unresolved_defects",
+
+  "method": "Every page of every assembled packet was rasterized to a PNG at 110 dpi with pdftoppm and the image count was checked against the PDF page count for each sample. Pages covering every component type in the tranche and both court-level branches were then inspected directly as images: the completed CC-DC-CR-148 petition on all four samples, the completed MDJ-008 companion notice on both branches, and the first and last pages of the LegalEase participant guide. The remaining pages are further pages of that same guide, produced by the same flow layout, and are covered by the page-count check and by the renderer's own measured overflow detection, which reported no warning on any of the twelve component renders.",
+
+  "pagesRendered": 24,
+  "pagesInspected": 24,
+  "pagesInspectedDirectlyAsImages": 8,
+
+  "componentTypesInspected": [
+    "primary_filing (CC-DC-CR-148, district and circuit branches, two-offence, twelve-offence and continuation-line samples)",
+    "attachment (MDJ-008, district and circuit branches)",
+    "instructions (LegalEase participant guide, first and last pages)"
+  ],
+  "branchVariantsInspected": ["district_court", "circuit_court"],
+
+  "checks": [
+    { "check": "No clipping at any margin or at any widget edge", "result": "pass" },
+    { "check": "No overlapping text between a filled value and the court's printed text", "result": "pass" },
+    { "check": "Filled values render in the form's own typeface, not a substituted one", "result": "pass — every text field declares /TiRo 11pt and renders Times-Roman" },
+    { "check": "No clipping: no value is cut off at a widget edge", "result": "pass — every fixed-size field is width-measured before it is written, and the auto-sizing fields shrink rather than clip" },
+    { "check": "No unreadably small text and no auto-shrunk microtype", "result": "pass with observation — the City/County election on CC-DC-CR-148 sits in a 100.7pt auto-sizing dropdown the Judiciary sized that way, and the longest court names render at 6 to 8pt against 11pt body type. Recorded below rather than claimed clean." },
+    { "check": "No broken or substituted characters, including the section mark", "result": "pass" },
+    { "check": "No unexpected blank page", "result": "pass" },
+    { "check": "The elected court level is checked and the other court level is not", "result": "pass — verified on both forms in both branches" },
+    { "check": "The City/County election shows a location the form itself offers", "result": "pass" },
+    { "check": "Only the offences the participant selected are checked", "result": "pass — verified on the two-offence and twelve-offence samples" },
+    { "check": "Each offence's case numbers appear in that offence's own blank and no other", "result": "pass — verified on the twelve-offence sample, where a crossed mapping would be visible" },
+    { "check": "A case list too long for its blank continues onto the form's own printed continuation line, split on a case-number boundary", "result": "pass" },
+    { "check": "Both attorney blocks are blank", "result": "pass" },
+    { "check": "Both signature lines and both signature date lines are blank and usable", "result": "pass" },
+    { "check": "Court-owned and clerk-owned blocks are blank — MDJ-008 Date of Court Order, Attorney Number, Plaintiff/Petitioner's Name", "result": "pass" },
+    { "check": "Checkboxes render as crisp marks in the form's own box", "result": "pass" },
+    { "check": "The guidance pages carry the draft banner, the not-a-court-filing notice and their own pagination", "result": "pass — footer reads 'LegalEase instructions — page N of 4'" },
+    { "check": "No template placeholder survives into a rendered page", "result": "pass — no {{ }} on any inspected page" },
+    { "check": "No fee amount is printed anywhere in the packet", "result": "pass" },
+    { "check": "LegalEase branding does not obscure or alter the court's document", "result": "pass — the official pages carry no LegalEase mark at all; the banner appears only on the guide" },
+    { "check": "Rendered page image count equals PDF page count for every sample", "result": "pass — 6 images and 6 pages on each of the four samples" }
+  ],
+
+  "defectsFound": [],
+  "unresolvedDefects": [],
+
+  "observationsForCounsel": [
+    {
+      "id": "draft-banner-on-first-guidance-page-only",
+      "description": "The 'DRAFT PENDING LEGAL REVIEW — NOT LEGAL ADVICE' banner is drawn once, at the head of the participant guide, rather than on each of its four pages. A reader who separates page four from page one holds instruction text with no draft marking on it. The official court pages carry no banner at all, which is deliberate and correct — stamping a court's own form would deface a document intended for a filing counter.",
+      "severity": "minor — affects the guide's own pages only, and only while the tranche is a draft",
+      "status": "recorded_not_repaired",
+      "why": "Banner placement is a template and product decision, not a rendering defect, and this pass is not authorized to alter the accepted Maryland design. Recorded so counsel can decide it rather than discover it."
+    },
+    {
+      "id": "city-county-dropdown-auto-shrinks",
+      "description": "The City/County election on CC-DC-CR-148 is an auto-sizing combo box 100.7pt wide. The Maryland Judiciary sized it that way, and a viewer shrinks the chosen location to fit rather than clipping it. Measured across the form's own 57 selectable locations: 8 render below 7pt and 2 below 6pt — 'Prince George's County-Upper Marlboro (DC)' at about 5.3pt and 'Prince George's County-Hyattsville (DC)' at about 6pt — against 11pt body type around them. The same election on MDJ-008 sits in a 168.8pt box and stays near 9pt. Nothing is lost; the caption is simply small on the longest-named jurisdictions. The renderer's width measurement does not currently cover dropdowns, so this condition produces no warning.",
+      "severity": "minor — legibility on the caption of a filed petition, not correctness, and inherited from the court's own form design",
+      "status": "recorded_not_repaired",
+      "why": "Refusing to generate would deny a packet to participants in the longest-named Maryland jurisdictions on a form the Judiciary deliberately built to auto-size. Enlarging the widget would alter the court's own document. Recorded so counsel and the next tranche can decide it deliberately."
+    },
+    {
+      "id": "unchecked-checkbox-appearance-regenerated",
+      "description": "Every checkbox on both forms ships with an appearance dictionary containing only its 'on' state. Regenerating field appearances therefore rewrites the appearance of each box that is left unchecked, stroking a hairline rectangle over the box the court already printed, while a checked box keeps the Judiciary's original artwork. On the district sample this affects 11 of 14 boxes on CC-DC-CR-148 and 31 of 34 on MDJ-008.",
+      "severity": "minor — a hairline outline on unchecked boxes only; not visible as a defect at reading distance in the rendered pages inspected",
+      "status": "recorded_not_repaired",
+      "why": "Appearance regeneration is what makes the filled values visible in every viewer rather than only in viewers that render field values themselves. Suppressing it to preserve unchecked-box artwork would trade a real legibility guarantee for a cosmetic one."
+    },
+    {
+      "id": "assembled-packet-carries-no-acroform",
+      "description": "The component PDFs are deliberately left unflattened so a participant can correct a value before signing. Assembly copies the pages into a fresh document, which carries the widget annotations but not the form dictionary, so the assembled deliverable has no AcroForm. Every value remains visible and correctly placed, and every third-party blank remains blank — the packet is in effect flattened by assembly rather than by choice.",
+      "severity": "material to the recorded design rationale, immaterial to the participant's document and neutral to safety",
+      "status": "recorded_not_repaired",
+      "why": "The stated reason for not flattening does not survive assembly, so either the rationale or the assembler should change. Both are design decisions beyond this pass's authority to settle, and the safe reading — a packet the participant prints and signs by hand — is what the guidance already instructs. Flagged for the next tranche."
+    }
+  ],
+
+  "note": "This is an engineering visual review. It establishes that the two official Maryland Judiciary forms fill correctly, that the blocks LegalEase does not own come out blank on the page as well as in the field data, and that the assembled packet reads as a professional court filing followed by clearly separated instructions. It is not a legal approval and does not move md_second_chance_shielding past awaiting_counsel_adoption."
+}
