@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "note": "Approved composed-unit substance. Read on every batch-delta run and written only by --approve-composed-units. A composed route has no track-level renderer strategy, so this file is where its legal substance is pinned: which vehicle each unit files, which units are unresolved, which are available, and — for a sequential composition — what order the stages run in. Alternative-branch array order is deliberately not pinned; those branches are selected by a predicate, not by position.",
-  "approvedTracks": 23,
+  "approvedTracks": 25,
   "tracks": [
     {
       "jurisdiction": "AR",
@@ -640,6 +640,68 @@
           "available": true,
           "unresolved": false,
           "parentUnitId": "mn_prosecutor_agreed-request-stage"
+        }
+      ],
+      "sequence": null
+    },
+    {
+      "jurisdiction": "MO",
+      "trackId": "mo-610-145-mistaken-identity",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "alternative",
+      "orderIsSubstantive": false,
+      "counselAuthoredProvenanceCount": 10,
+      "units": [
+        {
+          "unitId": "mo-610-145-automatic-on-notice",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "unresolved",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "mo-610-145-cr301-petition",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": null
+    },
+    {
+      "jurisdiction": "MO",
+      "trackId": "mo-art-xiv-marijuana",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "alternative",
+      "orderIsSubstantive": false,
+      "counselAuthoredProvenanceCount": 12,
+      "units": [
+        {
+          "unitId": "mo-art-xiv-court-ordered-relief",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "unresolved",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "mo-art-xiv-cr375-petition",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
         }
       ],
       "sequence": null

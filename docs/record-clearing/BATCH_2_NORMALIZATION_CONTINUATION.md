@@ -1,6 +1,6 @@
 # Batch 2 normalization — continuation state
 
-Last updated: 3 August 2026 (Batch 1 amended-normalization reconciliation)
+Last updated: 3 August 2026 (Missouri normalization — Batch 2 complete at 14 of 14)
 Branch: `feat/record-clearing-batch-2-legal-design`
 Base: `e3f034b9c499fc6b6ec906dd82ef8e6599f8951f` (PR #87 platform base)
 Last clean checkpoint: `2d787e7` — Batch 2 source-package import
@@ -1077,41 +1077,350 @@ unchanged at 176. Edition 1.1 retains only the Mississippi legal review — zero
 forms — which is a state-specific gap rather than a general authority-rule
 issue, so `MASTER_LIBRARY_AUTHORITY.md` is untouched.
 
-## Not started
+## Missouri — done
 
-**B9 legal-design normalization of the one remaining jurisdiction.**
+`data/record-clearing/legal-design-intake/MO.memo.json`
 
-`MO` — **13 of 14 normalized** (IL, IA, IN, MD, MA, MI, MN, GA, KS, LA, ME, MT,
-MS). Groups 1, 2 and 3 are complete. **Missouri is the sole remaining unstarted
-Batch 2 jurisdiction.**
+10 source slots → **10 normalized nodes**, all `relief_track`. 0 deferred, 0
+splits, no speculative eleventh node. Strategies: `official_pdf_fill` 4,
+`custom_pleading` 2, `process_guidance` 2, `composed` 2 (4 units, both
+`alternative`). **0 build blockers**, 41 release blockers across 10 tracks.
+Both track-level guidance routes carry `no_participant_filing_exists`, so the
+guidance re-review queue gains **0 candidates** and stays at 5; preserved rises
+51 → 53.
 
-Committed bounded groups (operational only; does not change legal precedence):
+### SB 1421 became law, and the enrolled text settles every question about it
 
-| # | Group | Slots | Status |
-|---|---|---|---|
-| 1 | **Illinois, Iowa and Indiana all done** | 16 + 7 + 10 = 33 | **complete** |
-| 2 | **Maryland, Massachusetts, Michigan and Minnesota all done** | 11 + 8 + 11 + 12 = 42 | **complete** |
-| 3 | **Georgia, Kansas, Louisiana and Maine all done** | 13 + 7 + 10 + 6 = 36 | **complete** |
-| 4 | Mississippi and Montana done; Missouri outstanding | 9 + 10 + 6 = 25 | Missouri outstanding |
+**Conference Committee Substitute for Senate Substitute for SB 1421**, 103rd
+General Assembly, Second Regular Session, file `5940S.07T`, was truly agreed to
+and finally passed on 15 May 2026 and **approved by Governor Kehoe on 9 July
+2026**. It repeals 54 sections and enacts 68, three of them new: **§§ 610.141,
+610.143 and 610.144**. **§ 610.140 is not in the repeal list and was not
+amended.** The act carries no general effective-date clause — Section B's
+emergency clause reaches only §§ 589.900, 589.902 and 577.800 — so the
+enactment takes effect on the ordinary constitutional date, **28 August 2026**,
+while **§ 610.141.10** separately makes the section's provisions effective
+*when technically feasible for both OSCA and the central repository, but no
+later than 1 January 2027*. Enactment, effectiveness and operation are three
+different dates and participant copy must use the right one.
 
-### Batch 2 running totals after Mississippi
+The scope is far narrower than the coverage suggested. **Four qualifying
+offences only**: possession of a controlled substance under § 195.202 as it
+existed before 1 January 2017, unlawful use of drug paraphernalia under
+§ 195.233 as it existed before that date, possession or control of a controlled
+substance under § 579.015, and unlawful possession of drug paraphernalia under
+§ 579.074. Not a nonviolent-felony category. Eligibility additionally requires a
+final conviction, that it be the only charge of conviction in a case or part of
+a case containing only qualifying convictions, one year past final disposition
+for a misdemeanour and three for a felony, no intervening conviction in that
+period excluding chapter 301–307 traffic regulation violations, no outstanding
+arrest or pending charge at the time of analysis, and no class A felony.
+**"Expungement" is defined as closure of the record pursuant to § 610.120** —
+closure, not destruction.
 
-13 of 14 jurisdictions. 130 source slots → **130 normalized nodes**: 124
-`relief_track`, 2 `supporting_action`, 2 `routing_node`, 1
-`completed_or_verification`, 1 `local_variant`. 0 deferred. Strategies:
-`official_pdf_fill` 56, `process_guidance` 33, `custom_pleading` 28,
-`composed` 13 (31 units). **1 build blocker**
-(Iowa `ia-9079`, pre-2013 deferred judgments — unchanged and untouched).
-**254 release blockers**, measured as unresolved questions of impact
-`release_blocker` summed over the per-jurisdiction deltas: IL 34, IA 9, IN 18,
-MD 7, MA 4, MI 10, MN 7, GA 21, KS 20, LA 20, ME 24, MT 37, MS 43. Every
-pre-Mississippi figure was re-run and is unchanged. Guidance re-review
-candidates across Batch 2 remain 5; Georgia, Kansas, Louisiana, Maine, Montana
-and Mississippi added none.
+MSHP's central repository screens the statewide criminal history database on a
+rolling basis not less than weekly, expunges of its own motion, reflects the
+change through MULES and reports weekly to the Supreme Court; OSCA then expunges
+the corresponding case records. **The participant submits nothing, and there is
+no application, opt-out or acceleration.** § 610.141.8 makes a § 610.140
+petition the **sole remedy** for a failure to expunge.
 
-Across all 25 normalized jurisdictions: 240 tracks, **80 authority-cleared**,
-160 authority-blocked. Blocker ledger 1609 unique rows. Composed approvals 23
-tracks / 51 units. `packet_ready` 0, enabled jurisdictions 0, launch gate red.
+**The review's cap-coordination build blocker is closed and the answer is yes.**
+§ 610.141.6 limits an offender to three misdemeanour and two felony
+expungements **under §§ 610.140 and 610.141 combined**, counting only the
+highest-level offence in a case. An automatic expungement spends the same
+lifetime slot a petition would, and that now appears as a packet instruction on
+the § 610.140 conviction track as well as here.
+
+**Not operational.** Neither MSHP's Criminal Records and Identification Division
+nor OSCA publishes an implementation notice, eligibility instructions, a form, a
+portal or a schedule. The adopted memorandum makes an administering-agency
+implementation notice a release condition, so the track stays runtime-disabled
+on a precisely stated operational gate — not on any doubt that the law exists.
+The review's instruction is honoured in both directions: the packet does not
+tell a participant their drug offence will clear itself, and does not tell them
+it will not.
+
+**One trap worth carrying forward.** SB 1494, the broader vehicle, did *not*
+become law, but its text — including a bulk-processing deadline of 28 August
+2031 and a different definition of automatic expungement — is widely conflated
+with the enacted provisions in secondary sources and in search results. Only the
+enrolled CCS SS SB 1421 text governs. Do not use secondary summaries of Missouri
+clean slate.
+
+### CR300's statutory basis is § 575.120.4, not § 610.145
+
+The review made "the statutory basis and scope of CR300" its Track 8 build
+blocker. **The form answers it on its own face**: *Pursuant to sections
+575.120.4 and 610.123, RSMo* … *to expunge the following arrest and court
+records that falsely identify me and to correct the arrest and court records to
+accurately reflect the identity of the defendant*, with the same two citations
+in the footer.
+
+§ 575.120.4 gives the victim of a false impersonation whose identity has been
+falsely reported in **arrest or conviction records** the right to move for
+expungement and correction **under the § 610.123 procedures**, and directs that
+on a showing that a substantial number of the victim's identifying factors was
+falsely ascribed to the person actually arrested or convicted the court **shall**
+amend the record to identify the defendant correctly and **shall** expunge the
+incorrect factors. Everything the review could not answer follows: correction
+plus targeted expungement rather than expungement of the case; mandatory relief;
+the **civil division of the circuit court in the county of arrest**; the
+fingerprint card and the eleven mandatory contents; the thirty-day hearing; and
+the companion order **CR310**.
+
+It also settles the separation the adopted memorandum required, more firmly than
+the memorandum did. **The memorandum's primary-authority line cites § 610.145
+for both forms; that citation is wrong for CR300**, and following it would have
+sent the packet to the wrong court and omitted the fingerprint card. The
+memorandum's *resolution* — `official_pdf_fill`, CR300, separate from CR301, use
+the form matching the factual mechanism — is unaffected and is followed. The two
+routes differ in statute, court, division, proof and remedy, and only the
+§ 575.120.4 route is available where a conviction was entered, because the
+conviction was somebody else's.
+
+### The order forms exist, and the review recorded them as missing
+
+The review listed the § 610.140 *Judgment and Order of Expungement* as "not
+obtained" and identified no companion order for any other Missouri route. OSCA
+in fact publishes **a matched order form for every petition form**, and Missouri
+circuit clerks list them by number and title:
+
+| Petition | Companion order |
+|---|---|
+| CR360 § 610.140 | **CR370** Judgment and Order of Expungement — Section 610.140 RSMo |
+| CR145 § 610.122 | **CR143** Judgment and Order of Expungement of Arrest Record |
+| CR300 § 575.120.4 | **CR310** Judgment and Order of Correction of Arrest/Court Records — Identity Theft |
+| CR301 § 610.145 | **CR311** Judgment and Order of Expungement — Mistaken Identity |
+
+None is held by the repository or retained by Edition 1.1, so all four are
+`authority_unmanifested_source` proposed-order components and none can be
+field-mapped yet. **`courts.mo.gov` returns HTTP 403 to automated retrieval from
+this environment and `www2.courts.mo.gov` was decommissioned on 1 November 2025**,
+so no Missouri Courts binary could be acquired on this pass. This is the same
+publisher-blocking pattern already recorded for `mncourts.gov` and `kjc.ks.gov`.
+
+### §§ 610.130 and 311.326 have no form, confirmed twice
+
+The review left both output strategies unresolved pending a form hunt. Two
+independent Missouri sources close it. The **16th Judicial Circuit's own
+informational sheet** says of the § 610.130 route that *there are no forms
+provided, you or your attorney must draft and file all pleadings*. The
+**ArchCity Defenders June 2024 pro se guide** lists § 610.130, § 311.326 and
+§ 568.040 together under *Unfortunately, there are no Missouri Court Forms
+prepared to help you expunge these matters*. Both tracks are therefore
+`custom_pleading` with `localFormOverride: true`, and the review's caution
+against drafting before confirming is honoured — the confirmation is now on the
+record.
+
+### Resolved from primary text
+
+- **§ 610.140.7: eighteen months**, not three years, in the **county of arrest**.
+  The internal LegalEase reference was right and the secondary source was
+  quoting a superseded version. Track 2's only build blocker is closed.
+- **§ 610.123.4 makes § 610.122 relief mandatory** — *it shall enter an order
+  directing expungement* — closing the review's open question.
+- **Alcohol-related enforcement contact is defined**, at § 302.525.3: any
+  suspension or revocation under §§ 302.500–302.540, any suspension or
+  revocation in any state for refusing chemical testing under an implied consent
+  law, and any conviction in any state for DWI, DUID or an unlawful alcohol
+  concentration. It governs both § 610.130 and § 311.326, and it disqualifies on
+  an administrative licence action that never became a conviction — which no
+  participant would guess from the words *alcohol-related offense*. The review
+  did not carry it onto § 311.326 at all.
+- **§ 311.326 relief is mandatory**, and the section says *upon review* rather
+  than *after hearing*, which would make it the only Missouri petition route
+  without one. The waiting period runs from the participant's **twenty-first
+  birthday**, so the earliest application is at twenty-two however old the case.
+- **§ 610.105 has exactly one exception**, which the review left unenumerated:
+  § 610.105.2's victim-access provision for an SIS on a chapter 566 offence or
+  one of the offences in §§ 568.045, 568.050, 568.060, 568.065, 568.175, 573.200
+  or 573.205. It is a limit on closure, not a category that fails to close.
+- **Missouri Supreme Court Rule 155** governs expungement actions — 155.01
+  commencement, 155.02 filing fees and costs, 155.03 service, 155.04 notice and
+  hearing, 155.05 judgment — adopted 24 December 2019, effective 1 July 2020.
+  The review does not mention it anywhere.
+- **§ 610.145 contains two mechanisms**, and § 610.145.3 calls the second one
+  *automatic expungement* in terms. It also carries ancillary relief the review
+  did not: Department of Revenue expungement, reversal of licence points,
+  suspensions and revocations, a certified corrected driver history at no cost,
+  free reinstatement, and a three-year insurance-premium refund.
+
+### The two composed tracks, and why only these two
+
+**MO-ART-XIV** and **MO-610-145-MI** are `composed` / `alternative`, two units
+each. Both are the participant-filing-versus-automatic-relief pair the
+composition rule exists for, and in both the automatic branch is a mechanism the
+controlling authority creates, not a record check.
+
+Article XIV § 2 creates three legally different situations: courts were
+*directed* to order expungement for completed sentences on 90/180/270-day
+constitutional deadlines; a person on probation or parole has the sentence
+**automatically vacated with no petition**; and a person currently incarcerated
+**may petition** the sentencing court for vacatur, release and expungement.
+**CR375 corroborates it from the form side** — its two selectable postures are
+*currently incarcerated* and *not currently incarcerated or on probation*, so a
+participant presently on supervision fits neither box, because the constitution
+does not ask them to petition. That population having a constitutional right and
+no form to enforce it is recorded as a release blocker, not papered over.
+
+§ 610.145.1(1) is a petition **on a form approved by OSCA and supplied by the
+clerk** — which is why CR301 is `official_pdf_fill` and a custom pleading is not
+lawfully available on that section — while § 610.145.1(2) directs the prosecutor
+or judicial officer who ordered a dismissal to notify the court, which **shall**
+order expungement. Generating CR301 for someone whose charge was dismissed on
+identity grounds asks a court for relief the law already told it to enter.
+
+Track 8 is deliberately **not** composed. § 610.145's automatic branch is one
+statutory mechanism and is represented once, on Track 7, and cross-referenced
+from Track 8 rather than duplicated — and Track 8 runs on a different statute
+anyway. No unit was created for screening, record gathering, FI-05 completion,
+fingerprint-card acquisition, filing, clerk notice, objection periods or hearing
+attendance.
+
+### FI-05, and two corrections to the review
+
+The official Case Types List, SJRC (07-23), publishes **three** expungement
+codes and all three sit in the **circuit** column: **XG** Expungement of
+Crim/Arrest Record, **X5** Expungement of Records (610.140 RSMo), **X#** Expunge
+Marijuana Criminal/Arrest Records. So:
+
+| Route | Code |
+|---|---|
+| § 610.140 conviction and § 610.140.7 arrest-only | **X5** |
+| § 610.122 | **XG** |
+| Article XIV marijuana | **X#** |
+| § 610.145 mistaken identity, § 575.120.4 identity theft, § 610.130, § 311.326 | **no published code** |
+
+Two corrections. The review says XG appears in the Associate column; it does
+not, it is a circuit code. And the review assigns **XG to Tracks 7 and 8**,
+which the list does not support — XG's published caption is the § 610.122
+description. The ArchCity guide reports practitioners using **X1**, the circuit
+*Other Miscellaneous Action* code, for § 610.145 filings; that is secondary, so
+the four uncoded routes leave the field **blank as a manual completion item**
+with X1 offered as observed practice and the participant directed to the clerk.
+No code is inferred from a track name.
+
+Privacy: the full SSN belongs on FI-05 under Operating Rule 4.07 and is not
+repeated on CR360 or CR375, neither of which asks for it — CR375 asks only for
+**year** of birth. **Two routes are the exception**: § 610.123.1(1)(f) makes the
+full SSN a mandatory content of the petition itself on CR145 and CR300, and
+directs dismissal where it is not given. CR300 may additionally carry the
+*impersonator's* SSN, so filing confidentiality matters most there.
+
+### Forms: used, excluded, gated
+
+**Used**: CR360 SJRC (10-24), CR145 SJRC (04-24), CR375 SJRC (10-24) — all three
+Edition 1.1 packet-form candidates; CR301 OSCA (07-17) and FI-05 SJRC (04-23)
+with the Case Types List SJRC (07-23), both corpus-only and unmanifested;
+CR300 OSCA (04-10) and GN10 SJRC (07-15), both Edition 1.1 source-gated;
+CR370, CR143, CR310, CR311 identified but not held.
+
+**Never generated**: the obsolete OSCA (11-17) CR360 with its superseded
+seven-year and three-year periods; the superseded OSCA (10-16) CR145; the
+unofficial modified MSPD marijuana petition; and the Jackson-County-captioned
+GN10 variant.
+
+**Source-currentness stays open on three forms.** The Missouri Courts
+expungement forms index reports its CR300, CR301 and CR375 set as *Updated
+01/01/25*. For CR375 that is consistent with a form stamped 10-24 published
+effective 1 January 2025. For **CR300 at 04-10 and CR301 at 07-17** the evidence
+points to a reissue, and the 403 means it could not be confirmed either way.
+Both keep their packet identity and neither is runtime-cleared; Edition 1.1's
+source-gated treatment of CR300 stands and the 2010 original is untouched.
+
+**Missouri acquired no new source binaries.** The enrolled SB 1421 text and the
+statutory text were read from the publishers and are recorded in the memo's
+`officialSources` with the bill PDF's SHA-256; nothing was written into
+`private/`. `pending-edition-amendments` is unchanged at **176**, with
+Missouri's four rows now carrying 14 proposed track mappings each and
+`referencedByANormalizedTrack` rising 88 → 92. Edition 1.1 is untouched and no
+Edition 1.2 work was done.
+
+`MASTER_LIBRARY_AUTHORITY.md` is untouched: the courts.mo.gov 403 is the same
+publisher-blocking pattern already documented for Minnesota and Kansas, and
+Missouri revealed no new general authority-system rule.
+
+## Batch 2 normalization complete — 14 of 14
+
+Missouri commit: see the `feat(legal-design): normalize Missouri` commit on
+`feat/record-clearing-batch-2-legal-design`.
+
+| Jurisdiction | Slots | Nodes | Node types | Strategies | Composed | Build | Release |
+|---|---|---|---|---|---|---|---|
+| Illinois | 16 | 17 | relief 17 | pdf 10, guid 4, custom 2, comp 1 | 1 / 5 | 0 | 34 |
+| Iowa | 7 | 7 | relief 6, supporting 1 | pdf 6, comp 1 | 1 / 2 | **1** | 9 |
+| Indiana | 10 | 10 | relief 10 | pdf 5, custom 3, guid 1, comp 1 | 1 / 2 | 0 | 18 |
+| Maryland | 11 | 11 | relief 10, completed 1 | pdf 6, guid 5 | 0 | 0 | 7 |
+| Massachusetts | 8 | 8 | relief 7, local 1 | pdf 5, guid 1, custom 1, comp 1 | 1 / 2 | 0 | 4 |
+| Michigan | 11 | 11 | relief 10, routing 1 | pdf 4, guid 7 | 0 | 0 | 10 |
+| Minnesota | 12 | 12 | relief 12 | guid 7, pdf 3, custom 1, comp 1 | 1 / 4 | 0 | 7 |
+| Georgia | 13 | 15 | relief 15 | custom 10, guid 3, pdf 1, comp 1 | 1 / 2 | 0 | 21 |
+| Kansas | 7 | 8 | relief 8 | pdf 5, custom 2, comp 1 | 1 / 2 | 0 | 20 |
+| Louisiana | 10 | 10 | relief 10 | pdf 7, guid 3 | 0 | 0 | 20 |
+| Maine | 6 | 6 | relief 4, routing 1, supporting 1 | pdf 3, comp 1, guid 1, custom 1 | 1 / 2 | 0 | 24 |
+| Montana | 6 | 6 | relief 6 | comp 4, pdf 1, guid 1 | 4 / 8 | 0 | 37 |
+| Mississippi | 9 | 9 | relief 9 | custom 8, comp 1 | 1 / 2 | 0 | 43 |
+| **Missouri** | 10 | 10 | relief 10 | pdf 4, guid 2, custom 2, comp 2 | 2 / 4 | 0 | 41 |
+
+**Final Batch 2 totals, generated from the completed registries:**
+
+| | |
+|---|---|
+| Jurisdictions | **14 of 14** |
+| Source slots | **136** |
+| Normalized nodes | **140** |
+| `relief_track` | 134 |
+| `supporting_action` | 2 |
+| `routing_node` | 2 |
+| `completed_or_verification` | 1 |
+| `local_variant` | 1 |
+| `official_pdf_fill` | 60 |
+| `process_guidance` | 35 |
+| `custom_pleading` | 30 |
+| `composed` | 15 tracks / 35 units |
+| Deferred | 0 |
+| Build blockers | **1** (Iowa `ia-9079`) |
+| Release blockers | **295** |
+| Authority-cleared | 55 of 140 |
+| Authority-blocked | 85 |
+| `packet_ready` | **0** |
+| Enabled jurisdictions | **0** |
+| Launch gate | **red** |
+
+136 → 140 is exactly the reconciliation baseline's projection, reached by the
+three counsel-approved splits (IL +1, GA +2, KS +1) and nothing else.
+
+**A correction to the running total carried after Mississippi.** That entry read
+"130 source slots → 130 normalized nodes" for thirteen jurisdictions. 130 was
+the node count; the slot count was **126**. Nodes were right, slots were the
+node figure repeated. Missouri adds 10 and 10, giving 136 and 140.
+
+Across all **26** normalized jurisdictions: **250 tracks**, **82
+authority-cleared**, 168 blocked. Blocker ledger **1701** unique rows. Composed
+approvals **25 tracks / 55 units**, with all 23 pre-existing entries
+byte-identical and only the two Missouri entries added. Pending-edition
+candidates 176. `packet_ready` 0, enabled jurisdictions 0, launch gate red.
+
+**Normalization complete does not mean launch-ready.** It means the mechanisms
+are accounted for, the legal design is represented, the blockers are classified
+and the source authority is audited. It does not mean sources are promoted,
+field maps are complete, completed outputs are approved, routes are enabled or
+packets are commercially released.
+
+### Inherited, not introduced
+
+`rcap:verify-state-promotion` and `rcap:verify-state-promotion-routes` still
+fail on exactly the same three PR #87 API routes —
+`documents/[packetId]/pdf/[pdfType]`,
+`packets/[fulfillmentId]/components/[componentId]` and `packets/generate`.
+Unchanged by this pass and not repaired here.
+
+### Next action
+
+Publish and adopt the consolidated **Master Library Edition 1.2**
+source-authority update, then begin **packet implementation and completed-output
+review**. No Edition 1.2 work was performed during the Missouri pass.
 
 ### Measured size of Group 1, for the next session's planning
 

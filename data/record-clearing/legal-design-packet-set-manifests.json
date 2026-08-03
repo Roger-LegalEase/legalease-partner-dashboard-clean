@@ -23840,6 +23840,2116 @@
       ]
     },
     {
+      "jurisdiction": "MO",
+      "trackId": "mo-610-140-conviction",
+      "packetSetId": "mo-610-140-conviction-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "mo-610-140-conviction-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR360",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 1
+        },
+        {
+          "componentId": "mo-610-140-conviction-cover-sheet-2",
+          "role": "cover_sheet",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FI-05",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 2
+        },
+        {
+          "componentId": "mo-610-140-conviction-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where the participant's court expects the petitioner to tender a proposed judgment. Missouri circuits differ: some clerks and judges prepare the judgment themselves under Rule 155.05, others expect it with the petition.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR370",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 3
+        },
+        {
+          "componentId": "mo-610-140-conviction-continuation-4",
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where the agency defendant list or the offense table exceeds the space on the form. CR360 twice directs the petitioner to attach additional sheets as necessary.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR360",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 4
+        },
+        {
+          "componentId": "mo-610-140-conviction-fee-waiver-5",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Generated only where the participant answers that they cannot pay the filing fee and court costs.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "GN10",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 5
+        },
+        {
+          "componentId": "mo-610-140-conviction-instructions-6",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 6
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Case.net printout for each case. Search Case.net by your name, and by every name variant and spelling you have used, for every county you have lived in or been charged in. Print the case summary and the docket for each matter. Case.net does not show every municipal division, so it is a starting point rather than a complete record.",
+          "obtainedFrom": "Case.net, the Missouri Judiciary's public case management system",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"List every Missouri case you want expunged: the case number, the court name, the approximate date of the charge, the county or municipality where it was charged, and a description of the charge. Every crime you want expunged has to be in this one petition.\" against Case.net printout for each case, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified docket sheet and judgment for each case. Ask the clerk of each court for a certified copy of the docket sheet and the judgment or final disposition. A per-page or per-document fee usually applies. This is the document that proves the case number, the court, the offense description and the disposition date.",
+          "obtainedFrom": "Clerk of the court where each case was charged or the finding of guilt entered",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"For each case, on what date did you finish everything the court ordered — the end of any jail or prison term, the end of probation or parole, and the last payment of any fine, cost or restitution? This is the date the waiting period runs from, not the arrest date and not the conviction date.\" against Certified docket sheet and judgment for each case, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Probation or parole discharge document. Ask your former probation or parole officer, or the Division of Probation and Parole, for the discharge document showing the date supervision ended. The waiting period runs from the day you completed the authorized disposition, and for a supervised case that is usually this date.",
+          "obtainedFrom": "Missouri Department of Corrections, Division of Probation and Parole, or the supervising court",
+          "requirement": "conditional",
+          "conditionDescription": "Where the disposition included probation or parole.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"For each case, on what date did you finish everything the court ordered — the end of any jail or prison term, the end of probation or parole, and the last payment of any fine, cost or restitution? This is the date the waiting period runs from, not the arrest date and not the conviction date.\" against Probation or parole discharge document, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the disposition included probation or parole.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Receipts or a clerk's payment history for fines, costs and restitution. Ask the clerk for the payment history on each case, showing a zero balance. Paragraph 3 of CR360 has you swear that all obligations relating to the disposition are satisfied, including fines and restitution, and an unpaid balance is a common and avoidable reason a petition is dismissed.",
+          "obtainedFrom": "Clerk of the sentencing court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you paid every fine, court cost and restitution order in full on each of those cases?\" against Receipts or a clerk's payment history for fines, costs and restitution, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Missouri State Highway Patrol criminal record. Request your own criminal record through MACHS. A name-based search shows open records; a fingerprint-based search is the only way to see records that are already closed, including anything already closed by law under § 610.105. Confirm the current fees with the Patrol before ordering, and note that fingerprint capture carries a separate vendor service fee.",
+          "obtainedFrom": "Missouri State Highway Patrol, Criminal Justice Information Services Division, through the Missouri Automated Criminal History Site",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you ever been granted a Missouri expungement before? If so, list the court and case number, and say whether each was a felony, a misdemeanor or an ordinance violation with a possible jail term, or an infraction.\" against Missouri State Highway Patrol criminal record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Missouri Department of Revenue driver record. Order your Missouri driver record from the Department of Revenue. It shows administrative actions the court file will not, and it is the record that tells you whether a commercial driver licence issue is in play — which is an outright exclusion under § 610.140.3(10).",
+          "obtainedFrom": "Missouri Department of Revenue",
+          "requirement": "conditional",
+          "conditionDescription": "Where any case involves a traffic offense, an alcohol-related matter, or a commercial driver licence question.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Is any case on your list a class A felony, a dangerous felony, an offense that required sex-offender registration, a felony where death was an element, a felony assault, any domestic assault, a felony kidnapping, a chapter 566 sex offense, a drink- or drug-driving or boating offense, an aircraft intoxication offense, an ordinance violation equivalent to any of those, a motor-vehicle offense while you held or were required to hold a commercial driver licence, or an unlawful use of weapons offense under § 571.030?\" against Missouri Department of Revenue driver record, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where any case involves a traffic offense, an alcohol-related matter, or a commercial driver licence question.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Sworn paragraph 5 — that the petitioner's habits and conduct demonstrate they are not a threat to the public safety of the state — CR360 page 2, numbered paragraph 5.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Sworn paragraph 7 — that the expungement is consistent with the public welfare and the interests of justice warrant it — CR360 page 2, numbered paragraph 7.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Paragraph 6's prior-expungement selection and the court and case number of any prior expungement — CR360 page 2, numbered paragraph 6.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Final verification of the defendant agency list — CR360 page 1, defendant selections and the Other lines.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number in the caption — CR360, FI-05, CR370 and GN10 captions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The petitioner's signature and the date — CR360 page 2, below the declaration under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The judge's findings, granting language, date and signature — CR370, Judgment and Order of Expungement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The hearing date, time, division and courtroom — Participant instructions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any statement that a particular offense is or is not on the § 610.140.3 exclusion list — Not present in the packet at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs CR360 beneath the declaration required by § 610.140.14: I declare under penalty of perjury that the statements made herein are true and correct to the best of my knowledge, information, and belief. LegalEase leaves the signature and date blank. The GN10 affidavit is separately sworn by the participant.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "none. CR360 uses a declaration under penalty of perjury rather than a notarial acknowledgment. This is the opposite of CR145 on the § 610.122 track, which must be subscribed and sworn before a notary, judge or clerk, and the two must not be conflated in participant copy.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Standard circuit court filing fees and costs apply, and they vary by county. Rule 155.02 governs filing fees and costs for an expungement action. The former $250 expungement surcharge under § 488.650 was repealed effective 28 August 2023 and must never be quoted. The exact current amount is county-variable and is confirmed with the clerk; costs may also include service, copying, certification and record-retrieval charges. The participant separately pays for the Highway Patrol record and for certified copies.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Motion and Affidavit in Support of Request to Proceed As a Poor Person, SJRC (07-15) GN10, under Rule 77.03 and § 514.040. The statewide revision is used, never the Jackson County variant in the corpus. The order granting leave to proceed as a poor person is on page two of the form and is the court's to sign.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "None performed by the participant. Notice is the clerk's function under § 610.140.6, and CR360 carries no certificate of service for the petitioner to complete. Rule 155.03 governs service in an expungement action.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "A petition filed with the clerk of the Missouri municipal, associate circuit or circuit court in which the petitioner was charged or found guilty (§ 610.140.2(1)). Rule 155.01 commences the action by filing a petition in the circuit court of the county in which the petitioner was charged or found guilty. Every crime sought to be expunged must be in the one petition (§ 610.140.2(2)). FI-05 is filed with it. Whether any circuit rejects the statewide CR360 in favour of a local form is unresolved, which is why the track carries a local-form override and a clerk-contact step.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Case.net printout for each case. Search Case.net by your name, and by every name variant and spelling you have used, for every county you have lived in or been charged in. Print the case summary and the docket for each matter. Case.net does not show every municipal division, so it is a starting point rather than a complete record.",
+        "Check your answer to \"List every Missouri case you want expunged: the case number, the court name, the approximate date of the charge, the county or municipality where it was charged, and a description of the charge. Every crime you want expunged has to be in this one petition.\" against Case.net printout for each case, and correct the packet if they disagree.",
+        "Obtain Certified docket sheet and judgment for each case. Ask the clerk of each court for a certified copy of the docket sheet and the judgment or final disposition. A per-page or per-document fee usually applies. This is the document that proves the case number, the court, the offense description and the disposition date.",
+        "Check your answer to \"For each case, on what date did you finish everything the court ordered — the end of any jail or prison term, the end of probation or parole, and the last payment of any fine, cost or restitution? This is the date the waiting period runs from, not the arrest date and not the conviction date.\" against Certified docket sheet and judgment for each case, and correct the packet if they disagree.",
+        "Obtain Probation or parole discharge document. Ask your former probation or parole officer, or the Division of Probation and Parole, for the discharge document showing the date supervision ended. The waiting period runs from the day you completed the authorized disposition, and for a supervised case that is usually this date.",
+        "Check your answer to \"For each case, on what date did you finish everything the court ordered — the end of any jail or prison term, the end of probation or parole, and the last payment of any fine, cost or restitution? This is the date the waiting period runs from, not the arrest date and not the conviction date.\" against Probation or parole discharge document, and correct the packet if they disagree.",
+        "Obtain Receipts or a clerk's payment history for fines, costs and restitution. Ask the clerk for the payment history on each case, showing a zero balance. Paragraph 3 of CR360 has you swear that all obligations relating to the disposition are satisfied, including fines and restitution, and an unpaid balance is a common and avoidable reason a petition is dismissed.",
+        "Check your answer to \"Have you paid every fine, court cost and restitution order in full on each of those cases?\" against Receipts or a clerk's payment history for fines, costs and restitution, and correct the packet if they disagree.",
+        "Obtain Missouri State Highway Patrol criminal record. Request your own criminal record through MACHS. A name-based search shows open records; a fingerprint-based search is the only way to see records that are already closed, including anything already closed by law under § 610.105. Confirm the current fees with the Patrol before ordering, and note that fingerprint capture carries a separate vendor service fee.",
+        "Check your answer to \"Have you ever been granted a Missouri expungement before? If so, list the court and case number, and say whether each was a felony, a misdemeanor or an ordinance violation with a possible jail term, or an infraction.\" against Missouri State Highway Patrol criminal record, and correct the packet if they disagree.",
+        "Check your answer to \"Is any case on your list a class A felony, a dangerous felony, an offense that required sex-offender registration, a felony where death was an element, a felony assault, any domestic assault, a felony kidnapping, a chapter 566 sex offense, a drink- or drug-driving or boating offense, an aircraft intoxication offense, an ordinance violation equivalent to any of those, a motor-vehicle offense while you held or were required to hold a commercial driver licence, or an unlawful use of weapons offense under § 571.030?\" against Missouri Department of Revenue driver record, and correct the packet if they disagree.",
+        "Sworn paragraph 5 — that the petitioner's habits and conduct demonstrate they are not a threat to the public safety of the state — CR360 page 2, numbered paragraph 5.",
+        "Sworn paragraph 7 — that the expungement is consistent with the public welfare and the interests of justice warrant it — CR360 page 2, numbered paragraph 7.",
+        "Paragraph 6's prior-expungement selection and the court and case number of any prior expungement — CR360 page 2, numbered paragraph 6.",
+        "Final verification of the defendant agency list — CR360 page 1, defendant selections and the Other lines.",
+        "The case number in the caption — CR360, FI-05, CR370 and GN10 captions.",
+        "The petitioner's signature and the date — CR360 page 2, below the declaration under penalty of perjury.",
+        "The judge's findings, granting language, date and signature — CR370, Judgment and Order of Expungement.",
+        "The hearing date, time, division and courtroom — Participant instructions.",
+        "Any statement that a particular offense is or is not on the § 610.140.3 exclusion list — Not present in the packet at all.",
+        "The petitioner signs CR360 beneath the declaration required by § 610.140.14: I declare under penalty of perjury that the statements made herein are true and correct to the best of my knowledge, information, and belief. LegalEase leaves the signature and date blank. The GN10 affidavit is separately sworn by the participant.",
+        "none. CR360 uses a declaration under penalty of perjury rather than a notarial acknowledgment. This is the opposite of CR145 on the § 610.122 track, which must be subscribed and sworn before a notary, judge or clerk, and the two must not be conflated in participant copy.",
+        "Standard circuit court filing fees and costs apply, and they vary by county. Rule 155.02 governs filing fees and costs for an expungement action. The former $250 expungement surcharge under § 488.650 was repealed effective 28 August 2023 and must never be quoted. The exact current amount is county-variable and is confirmed with the clerk; costs may also include service, copying, certification and record-retrieval charges. The participant separately pays for the Highway Patrol record and for certified copies.",
+        "Motion and Affidavit in Support of Request to Proceed As a Poor Person, SJRC (07-15) GN10, under Rule 77.03 and § 514.040. The statewide revision is used, never the Jackson County variant in the corpus. The order granting leave to proceed as a poor person is on page two of the form and is the court's to sign."
+      ]
+    },
+    {
+      "jurisdiction": "MO",
+      "trackId": "mo-610-140-arrest",
+      "packetSetId": "mo-610-140-arrest-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "mo-610-140-arrest-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR360",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 1
+        },
+        {
+          "componentId": "mo-610-140-arrest-continuation-2",
+          "role": "continuation",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR360",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 2
+        },
+        {
+          "componentId": "mo-610-140-arrest-cover-sheet-3",
+          "role": "cover_sheet",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FI-05",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 3
+        },
+        {
+          "componentId": "mo-610-140-arrest-proposed-order-4",
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where the participant's court expects the petitioner to tender a proposed judgment rather than preparing it under Rule 155.05.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR370",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 4
+        },
+        {
+          "componentId": "mo-610-140-arrest-fee-waiver-5",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Generated only where the participant answers that they cannot pay the filing fee and court costs.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "GN10",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 5
+        },
+        {
+          "componentId": "mo-610-140-arrest-instructions-6",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 6
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Missouri State Highway Patrol criminal record, fingerprint-based. Order a fingerprint-based search of your own record through MACHS. On an arrest that never became a charge this is usually the only document that proves the arrest date, the arresting agency and the offense of arrest, and it is the only search that shows records already closed. Confirm current fees with the Patrol; fingerprint capture carries a separate vendor service fee.",
+          "obtainedFrom": "Missouri State Highway Patrol, Criminal Justice Information Services Division, through the Missouri Automated Criminal History Site",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date were you arrested? The eighteen-month waiting period runs from this date.\" against Missouri State Highway Patrol criminal record, fingerprint-based, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Arrest report or booking record from the arresting agency. Make an open-records request to the arresting agency for the arrest or booking record. Under § 610.100 an incident report is generally open; an investigative report may not be. Fees vary by agency.",
+          "obtainedFrom": "The city police department, county sheriff's department or Highway Patrol troop that made the arrest",
+          "requirement": "conditional",
+          "conditionDescription": "Where the Highway Patrol record is incomplete or the participant cannot confirm the arrest date or arresting agency from it.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which agency arrested you?\" against Arrest report or booking record from the arresting agency, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the Highway Patrol record is incomplete or the participant cannot confirm the arrest date or arresting agency from it.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Case.net search confirming no case was opened. Search Case.net by your name and name variants in the arrest county and any county where a charge might have been filed. What you are looking for is the absence of a case. If a case exists, this is the wrong route and you belong on the conviction route or on the § 610.122 route.",
+          "obtainedFrom": "Case.net, the Missouri Judiciary's public case management system",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Were you ever formally charged in court for this arrest — an information, an indictment, a complaint, a summons or a ticket that opened a court case? If a case was opened, this is not the right route.\" against Case.net search confirming no case was opened, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Sworn paragraphs 5 and 7 of CR360 — CR360 page 2, numbered paragraphs 5 and 7.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Paragraph 6's prior-expungement selection and any prior court and case number — CR360 page 2, numbered paragraph 6.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Final verification of the defendant agency list — CR360 page 1, defendant selections and the Other lines.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number in the caption — CR360, the continuation, FI-05, CR370 and GN10 captions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The petitioner's signature and the date — CR360 page 2, below the declaration under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The judge's findings, granting language, date and signature — CR370.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any statement that no charge was ever filed — Recited on the continuation only as the participant's own sworn allegation.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs CR360 beneath the § 610.140.14 declaration under penalty of perjury, and separately signs the continuation carrying the § 610.140.7 allegations. LegalEase leaves both blank.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "none. A declaration under penalty of perjury is used, not a notarial acknowledgment.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Standard circuit court filing fees and costs, county-variable, confirmed with the clerk. The repealed § 488.650 surcharge is never quoted.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "GN10 under Rule 77.03 and § 514.040, statewide revision, generated only on request.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "None performed by the participant. Notice is the clerk's function.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "A petition filed with the clerk of a court of competent jurisdiction in the county where the petitioner was arrested (§ 610.140.7), no earlier than eighteen months from the date of arrest. FI-05 is filed with it. Rules 155.01 to 155.05 govern commencement, fees, service, notice and hearing, and judgment.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Missouri State Highway Patrol criminal record, fingerprint-based. Order a fingerprint-based search of your own record through MACHS. On an arrest that never became a charge this is usually the only document that proves the arrest date, the arresting agency and the offense of arrest, and it is the only search that shows records already closed. Confirm current fees with the Patrol; fingerprint capture carries a separate vendor service fee.",
+        "Check your answer to \"On what date were you arrested? The eighteen-month waiting period runs from this date.\" against Missouri State Highway Patrol criminal record, fingerprint-based, and correct the packet if they disagree.",
+        "Check your answer to \"Which agency arrested you?\" against Arrest report or booking record from the arresting agency, and correct the packet if they disagree.",
+        "Obtain Case.net search confirming no case was opened. Search Case.net by your name and name variants in the arrest county and any county where a charge might have been filed. What you are looking for is the absence of a case. If a case exists, this is the wrong route and you belong on the conviction route or on the § 610.122 route.",
+        "Check your answer to \"Were you ever formally charged in court for this arrest — an information, an indictment, a complaint, a summons or a ticket that opened a court case? If a case was opened, this is not the right route.\" against Case.net search confirming no case was opened, and correct the packet if they disagree.",
+        "Sworn paragraphs 5 and 7 of CR360 — CR360 page 2, numbered paragraphs 5 and 7.",
+        "Paragraph 6's prior-expungement selection and any prior court and case number — CR360 page 2, numbered paragraph 6.",
+        "Final verification of the defendant agency list — CR360 page 1, defendant selections and the Other lines.",
+        "The case number in the caption — CR360, the continuation, FI-05, CR370 and GN10 captions.",
+        "The petitioner's signature and the date — CR360 page 2, below the declaration under penalty of perjury.",
+        "The judge's findings, granting language, date and signature — CR370.",
+        "Any statement that no charge was ever filed — Recited on the continuation only as the participant's own sworn allegation.",
+        "The petitioner signs CR360 beneath the § 610.140.14 declaration under penalty of perjury, and separately signs the continuation carrying the § 610.140.7 allegations. LegalEase leaves both blank.",
+        "none. A declaration under penalty of perjury is used, not a notarial acknowledgment.",
+        "Standard circuit court filing fees and costs, county-variable, confirmed with the clerk. The repealed § 488.650 surcharge is never quoted.",
+        "GN10 under Rule 77.03 and § 514.040, statewide revision, generated only on request."
+      ]
+    },
+    {
+      "jurisdiction": "MO",
+      "trackId": "mo-610-105-automatic-closure",
+      "packetSetId": "mo-610-105-automatic-closure-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "mo-610-105-automatic-closure-instructions-1",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "mo-610-105-automatic-closure-instructions-2",
+          "role": "instructions",
+          "requirement": "conditional",
+          "conditionDescription": "Included where the participant reports that a case appearing to qualify under § 610.105 is still showing publicly on Case.net, on a background check, or on their Highway Patrol record.",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified docket sheet and the judgment or order of dismissal. Ask the clerk of the originating court for a certified copy of the docket and of the judgment or order. § 610.105.1 keeps the judgment or order a public record even after the rest of the file closes, so the clerk can supply it. This is the document that tells you which of the four dispositions you actually have.",
+          "obtainedFrom": "Clerk of the court in which the case originated",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the case end? Was it dismissed, was it nolle prossed by the prosecutor, were you found not guilty, or did the judge suspend the imposition of sentence and put you on probation?\" against Certified docket sheet and the judgment or order of dismissal, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Case.net printout. Search Case.net for your name and name variants in the county where the case was filed, and print or screenshot what you find, including the date you looked.",
+          "obtainedFrom": "Case.net, the Missouri Judiciary's public case management system",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"When you search Case.net for your name, does this case still come up?\" against Case.net printout, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Missouri State Highway Patrol criminal record, fingerprint-based. Order a fingerprint-based search of your own record. A name-based search shows only open records, so it cannot tell you whether a case closed — it can only fail to show it. A fingerprint-based search returns closed and complete records for the requesting individual and is the only way to confirm that closure actually happened at the central repository. Confirm current fees with the Patrol before ordering.",
+          "obtainedFrom": "Missouri State Highway Patrol, Criminal Justice Information Services Division, through the Missouri Automated Criminal History Site",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Does this case appear on the criminal record you obtained from the Missouri State Highway Patrol?\" against Missouri State Highway Patrol criminal record, fingerprint-based, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Probation discharge document. Ask the Division of Probation and Parole or the supervising court for the discharge document. Final termination for a suspended imposition of sentence means probation has ended, and this is the document that proves the date.",
+          "obtainedFrom": "Missouri Department of Corrections, Division of Probation and Parole, or the supervising court",
+          "requirement": "conditional",
+          "conditionDescription": "Where the disposition was a suspended imposition of sentence.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"If the judge suspended imposition of sentence, has your probation ended?\" against Probation discharge document, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the disposition was a suspended imposition of sentence.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "No packet is produced on this track and no field is left blank — Not applicable — the output is guidance and verification only.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any determination that closure failed — Not present in the guidance at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "none. The participant signs nothing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none for the closure itself, which costs nothing because nothing is filed. The participant pays only for the records they choose to obtain: the Highway Patrol criminal record and any certified copies from the clerk. Confirm current Patrol fees before publishing an amount.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none. There is no fee to waive.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "none. Nothing is served.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "none. § 610.105 requires no petition, motion, application or request from the person whose records close, and creates no filing of any kind.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"How did the case end? Was it dismissed, was it nolle prossed by the prosecutor, were you found not guilty, or did the judge suspend the imposition of sentence and put you on probation?\" against Certified docket sheet and the judgment or order of dismissal, and correct the packet if they disagree.",
+        "Check your answer to \"When you search Case.net for your name, does this case still come up?\" against Case.net printout, and correct the packet if they disagree.",
+        "Check your answer to \"Does this case appear on the criminal record you obtained from the Missouri State Highway Patrol?\" against Missouri State Highway Patrol criminal record, fingerprint-based, and correct the packet if they disagree.",
+        "Check your answer to \"If the judge suspended imposition of sentence, has your probation ended?\" against Probation discharge document, and correct the packet if they disagree.",
+        "No packet is produced on this track and no field is left blank — Not applicable — the output is guidance and verification only.",
+        "Any determination that closure failed — Not present in the guidance at all.",
+        "none. The participant signs nothing on this track.",
+        "none for the closure itself, which costs nothing because nothing is filed. The participant pays only for the records they choose to obtain: the Highway Patrol criminal record and any certified copies from the clerk. Confirm current Patrol fees before publishing an amount.",
+        "none. There is no fee to waive."
+      ]
+    },
+    {
+      "jurisdiction": "MO",
+      "trackId": "mo-610-122-arrest-expungement",
+      "packetSetId": "mo-610-122-arrest-expungement-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "mo-610-122-arrest-expungement-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR145",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 1
+        },
+        {
+          "componentId": "mo-610-122-arrest-expungement-cover-sheet-2",
+          "role": "cover_sheet",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FI-05",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 2
+        },
+        {
+          "componentId": "mo-610-122-arrest-expungement-attachment-3",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "mo-610-122-arrest-expungement-proposed-order-4",
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where the participant's circuit expects the petitioner to tender a proposed judgment rather than the court preparing it.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR143",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 4
+        },
+        {
+          "componentId": "mo-610-122-arrest-expungement-fee-waiver-5",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Generated only where the participant answers that they cannot pay the filing fee and court costs.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "GN10",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 5
+        },
+        {
+          "componentId": "mo-610-122-arrest-expungement-instructions-6",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 6
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Three standard fingerprint cards. Ring a local police department or sheriff's office and ask whether they take fingerprint impressions on standard cards for a court expungement, whether they can do three cards in one visit, what each costs, whether payment must be in cash, and what identification to bring. These are not the same as the fingerprints taken for a Highway Patrol criminal-history search and you do not need to buy a criminal record to get them. One card is filed with the court, one is sent by the clerk to the Missouri Criminal Record Repository with the summons, and one is yours to keep. Start this early: it is a physical dependency people discover too late.",
+          "obtainedFrom": "A local law enforcement agency — a municipal police department or county sheriff's department that takes applicant prints",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you arranged to get three standard fingerprint cards from a local law enforcement agency? You need them before you file.\" against Three standard fingerprint cards, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Arrest report or booking record. Make an open-records request to the arresting agency for the arrest or booking record. It supplies the date of arrest, the citation number, the offense charged and the agency name, all of which § 610.123 makes mandatory contents of the petition.",
+          "obtainedFrom": "The arresting law enforcement agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date were you arrested?\" against Arrest report or booking record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified record of the dismissal, nolle prosequi or not-guilty finding. Ask the clerk for a certified copy of the entry disposing of each offense related to the arrest. The ground requires that every related offense or violation was nolle prossed, dismissed or acquitted, so the participant needs the disposition for each one, not just the lead charge.",
+          "obtainedFrom": "Clerk of the court where the charge was filed",
+          "requirement": "conditional",
+          "conditionDescription": "Where a charge was filed and the participant is relying on the chapter 303 or moving-violation ground.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"If you are relying on the moving-violation ground: was every offense or violation connected to that arrest nolle prossed, dismissed, or did you get a not-guilty finding on each? If even one is outstanding or resulted in a conviction, this ground does not apply.\" against Certified record of the dismissal, nolle prosequi or not-guilty finding, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where a charge was filed and the participant is relying on the chapter 303 or moving-violation ground.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Missouri State Highway Patrol criminal record, fingerprint-based. Order a fingerprint-based search of your own record. It is how the participant builds the agency list and confirms the prior-and-subsequent-conviction condition. Confirm current fees with the Patrol before ordering.",
+          "obtainedFrom": "Missouri State Highway Patrol, Criminal Justice Information Services Division, through the Missouri Automated Criminal History Site",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you been convicted of any misdemeanor or felony, before or after this arrest?\" against Missouri State Highway Patrol criminal record, fingerprint-based, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Missouri Department of Revenue driver record. Order your Missouri driver record. It shows the offense classification and whether a commercial driver licence was ever issued, and commercial licence status at the time of arrest is an outright bar on the moving-violation ground.",
+          "obtainedFrom": "Missouri Department of Revenue",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant is relying on the chapter 303 or moving-violation ground, or where commercial driver licence status is in any doubt.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"At the time of the arrest, did you hold a commercial driver licence, or were you driving a commercial motor vehicle? Answer for the time of the arrest, not for now.\" against Missouri Department of Revenue driver record, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant is relying on the chapter 303 or moving-violation ground, or where commercial driver licence status is in any doubt.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The selection between the two sworn grounds — CR145 page 1, the two checkbox paragraphs.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion that the arrest was based on false information — CR145 page 1, first ground — recited only from the participant's own words.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion that there is no probable cause to believe the petitioner committed the offense — CR145 page 1, first ground.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion that the participant is not a commercial driver licence holder — CR145 page 1, second ground.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The notarial block — the date, the notary's commission expiry and the signature of the notary, judge or clerk — CR145 page 2, subscribed-and-sworn block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The petitioner's signature and address line — CR145 page 2, above the notarial block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number and the Court ORI number — CR145 page 1 caption.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The hearing date, time and courtroom — Participant instructions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The judge's findings, the destruction directive, the date and signature — CR143, Judgment and Order of Expungement of Arrest Record.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The clerk's distribution steps — Reproduced in the participant instructions as information, never completed.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs the sworn statement on CR145 page 2 — I swear the facts stated in the above petition are true according to my best knowledge and belief — in the presence of the officer administering the oath. LegalEase leaves the signature, the address line and the entire notarial block blank.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required. CR145 must be subscribed and sworn before a notary public, a judge or a clerk. This is the opposite of CR360 on the § 610.140 routes, which uses a declaration under penalty of perjury and needs no notary, and the difference must be stated plainly in participant copy.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Ordinary circuit court civil filing fees and costs, county-variable, confirmed with the clerk before filing. The participant additionally pays for the fingerprint cards, for the arrest and disposition records and for the Highway Patrol search. No statewide fee figure is published on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "GN10 under Rule 77.03 and § 514.040, statewide revision, generated only on request.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "None performed by the participant. The clerk issues the petition to the prosecuting attorney, sends the petition and fingerprint card to the Missouri Criminal Record Repository, and notices the hearing to every named entity. CR145 carries no certificate of service for the petitioner.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "A verified petition filed in the civil division of the circuit court in the county of the arrest (§ 610.123.1), with FI-05 at case type XG and the standard fingerprint card. § 610.123.1 makes eleven items mandatory contents and directs that the petition shall be dismissed if the information is not given, so the packet completes every one of them from the participant's answers. § 610.123.5 directs the Supreme Court to promulgate procedures similar to the chapter 482 small-claims procedures for cases filed under §§ 610.122 and 610.123.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Three standard fingerprint cards. Ring a local police department or sheriff's office and ask whether they take fingerprint impressions on standard cards for a court expungement, whether they can do three cards in one visit, what each costs, whether payment must be in cash, and what identification to bring. These are not the same as the fingerprints taken for a Highway Patrol criminal-history search and you do not need to buy a criminal record to get them. One card is filed with the court, one is sent by the clerk to the Missouri Criminal Record Repository with the summons, and one is yours to keep. Start this early: it is a physical dependency people discover too late.",
+        "Check your answer to \"Have you arranged to get three standard fingerprint cards from a local law enforcement agency? You need them before you file.\" against Three standard fingerprint cards, and correct the packet if they disagree.",
+        "Obtain Arrest report or booking record. Make an open-records request to the arresting agency for the arrest or booking record. It supplies the date of arrest, the citation number, the offense charged and the agency name, all of which § 610.123 makes mandatory contents of the petition.",
+        "Check your answer to \"On what date were you arrested?\" against Arrest report or booking record, and correct the packet if they disagree.",
+        "Obtain Certified record of the dismissal, nolle prosequi or not-guilty finding. Ask the clerk for a certified copy of the entry disposing of each offense related to the arrest. The ground requires that every related offense or violation was nolle prossed, dismissed or acquitted, so the participant needs the disposition for each one, not just the lead charge.",
+        "Check your answer to \"If you are relying on the moving-violation ground: was every offense or violation connected to that arrest nolle prossed, dismissed, or did you get a not-guilty finding on each? If even one is outstanding or resulted in a conviction, this ground does not apply.\" against Certified record of the dismissal, nolle prosequi or not-guilty finding, and correct the packet if they disagree.",
+        "Obtain Missouri State Highway Patrol criminal record, fingerprint-based. Order a fingerprint-based search of your own record. It is how the participant builds the agency list and confirms the prior-and-subsequent-conviction condition. Confirm current fees with the Patrol before ordering.",
+        "Check your answer to \"Have you been convicted of any misdemeanor or felony, before or after this arrest?\" against Missouri State Highway Patrol criminal record, fingerprint-based, and correct the packet if they disagree.",
+        "Obtain Missouri Department of Revenue driver record. Order your Missouri driver record. It shows the offense classification and whether a commercial driver licence was ever issued, and commercial licence status at the time of arrest is an outright bar on the moving-violation ground.",
+        "Check your answer to \"At the time of the arrest, did you hold a commercial driver licence, or were you driving a commercial motor vehicle? Answer for the time of the arrest, not for now.\" against Missouri Department of Revenue driver record, and correct the packet if they disagree.",
+        "The selection between the two sworn grounds — CR145 page 1, the two checkbox paragraphs.",
+        "Any assertion that the arrest was based on false information — CR145 page 1, first ground — recited only from the participant's own words.",
+        "Any assertion that there is no probable cause to believe the petitioner committed the offense — CR145 page 1, first ground.",
+        "Any assertion that the participant is not a commercial driver licence holder — CR145 page 1, second ground.",
+        "The notarial block — the date, the notary's commission expiry and the signature of the notary, judge or clerk — CR145 page 2, subscribed-and-sworn block.",
+        "The petitioner's signature and address line — CR145 page 2, above the notarial block.",
+        "The case number and the Court ORI number — CR145 page 1 caption.",
+        "The hearing date, time and courtroom — Participant instructions.",
+        "The judge's findings, the destruction directive, the date and signature — CR143, Judgment and Order of Expungement of Arrest Record.",
+        "The clerk's distribution steps — Reproduced in the participant instructions as information, never completed.",
+        "The petitioner signs the sworn statement on CR145 page 2 — I swear the facts stated in the above petition are true according to my best knowledge and belief — in the presence of the officer administering the oath. LegalEase leaves the signature, the address line and the entire notarial block blank.",
+        "Required. CR145 must be subscribed and sworn before a notary public, a judge or a clerk. This is the opposite of CR360 on the § 610.140 routes, which uses a declaration under penalty of perjury and needs no notary, and the difference must be stated plainly in participant copy.",
+        "Ordinary circuit court civil filing fees and costs, county-variable, confirmed with the clerk before filing. The participant additionally pays for the fingerprint cards, for the arrest and disposition records and for the Highway Patrol search. No statewide fee figure is published on this track.",
+        "GN10 under Rule 77.03 and § 514.040, statewide revision, generated only on request."
+      ]
+    },
+    {
+      "jurisdiction": "MO",
+      "trackId": "mo-610-130-first-intoxication",
+      "packetSetId": "mo-610-130-first-intoxication-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "mo-610-130-first-intoxication-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "mo-610-130-first-intoxication-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "mo-610-130-first-intoxication-cover-sheet-3",
+          "role": "cover_sheet",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where the application opens a new case in a circuit or associate circuit division rather than being filed under the original case number, and where the participant's court requires the sheet.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FI-05",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 3
+        },
+        {
+          "componentId": "mo-610-130-first-intoxication-fee-waiver-4",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Generated only where the participant answers that they cannot pay the filing fee and court costs, and where the filing court accepts the statewide form.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "GN10",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 4
+        },
+        {
+          "componentId": "mo-610-130-first-intoxication-instructions-5",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 5
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Missouri Department of Revenue driver record. Order your Missouri driver record from the Department of Revenue. It is the document that shows administrative suspensions and revocations under §§ 302.500 to 302.540 and chemical-test refusals, which are alcohol-related enforcement contacts under § 302.525.3 even where no conviction followed. A participant who answers the enforcement-contact question from memory will very often be wrong.",
+          "obtainedFrom": "Missouri Department of Revenue",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Since then, has your driving licence been suspended or revoked for anything alcohol-related, in Missouri or any other state — including for refusing a breath, blood or urine test? This counts even if you were never convicted of anything, and it is the question people most often answer wrongly.\" against Missouri Department of Revenue driver record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Out-of-state driver records. Request your driver record from each state where you have been licensed. § 302.525.3 counts a suspension, revocation or conviction in any other state, and § 610.130.4 bars anyone issued or required to hold a commercial driver's licence in any state.",
+          "obtainedFrom": "The licensing authority of each other state where the participant has held a licence",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant has held a driving licence in any state other than Missouri.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you ever been issued a commercial driver's licence, in Missouri or in any other state, or are you required to hold one for your work? This bars the whole section, whether or not it had anything to do with the offense.\" against Out-of-state driver records, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant has held a driving licence in any state other than Missouri.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified docket sheet and judgment from the court of plea or sentence. Ask the clerk for a certified copy of the docket and the judgment. It establishes the plea or sentencing date the ten-year period runs from, the offense level, and the case number.",
+          "obtainedFrom": "Clerk of the municipal, associate circuit or circuit court that took the plea or imposed the sentence",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did you plead guilty or were you sentenced? The ten-year period runs from then.\" against Certified docket sheet and judgment from the court of plea or sentence, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Missouri State Highway Patrol criminal record. Order your own criminal record. It supports the agency list and the no-subsequent-conviction condition. Confirm current fees with the Patrol.",
+          "obtainedFrom": "Missouri State Highway Patrol, Criminal Justice Information Services Division, through the Missouri Automated Criminal History Site",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Since that plea or conviction, have you been convicted of any other drink- or drug-driving offense or intoxication-related boating offense, in Missouri or any other state?\" against Missouri State Highway Patrol criminal record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The FI-05 case type code, where a cover sheet is required — FI-05, case type code and description.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number in the caption — Application, proposed order and cover-sheet captions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The applicant's signature and date — Application, below the declaration under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The judge's findings, granting language, date and signature — Proposed Order of Expungement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The hearing date, time and courtroom — Participant instructions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion that a particular licence suspension was or was not an alcohol-related enforcement contact — Not present in the packet at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion that the offense was the participant's first intoxication-related traffic or boating offense — Recited on the application only as the participant's own sworn allegation.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs the application beneath a declaration under penalty of perjury. LegalEase leaves the signature and date blank.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "none prescribed by § 610.130. A declaration under penalty of perjury is used. Where a local court requires an acknowledgment before a notary the participant is told to ask the clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Not fixed by the section and county-variable. The participant confirms the filing fee and costs with the clerk of the court of plea before filing. No fee figure is published on this track. The participant separately pays for the driver record, the certified docket and the Highway Patrol search.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "GN10 under Rule 77.03 and § 514.040 where the filing court accepts the statewide form. Municipal divisions vary, and the participant confirms with the clerk.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Not prescribed by the section. The packet includes a certificate of service the participant may complete if the clerk directs that the applicant serve the named respondents, and leaves it blank otherwise.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "An application filed with the clerk of the court in which the participant pled guilty or was sentenced (§ 610.130.1). Whether that court opens a new case or accepts the application under the original case number is local practice and is confirmed with the clerk. No Office of the State Courts Administrator form exists for this section, so the application and proposed order are LegalEase-drafted against the statutory contents and the track carries a local-form override for any circuit or municipal division that publishes its own.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Missouri Department of Revenue driver record. Order your Missouri driver record from the Department of Revenue. It is the document that shows administrative suspensions and revocations under §§ 302.500 to 302.540 and chemical-test refusals, which are alcohol-related enforcement contacts under § 302.525.3 even where no conviction followed. A participant who answers the enforcement-contact question from memory will very often be wrong.",
+        "Check your answer to \"Since then, has your driving licence been suspended or revoked for anything alcohol-related, in Missouri or any other state — including for refusing a breath, blood or urine test? This counts even if you were never convicted of anything, and it is the question people most often answer wrongly.\" against Missouri Department of Revenue driver record, and correct the packet if they disagree.",
+        "Obtain Out-of-state driver records. Request your driver record from each state where you have been licensed. § 302.525.3 counts a suspension, revocation or conviction in any other state, and § 610.130.4 bars anyone issued or required to hold a commercial driver's licence in any state.",
+        "Check your answer to \"Have you ever been issued a commercial driver's licence, in Missouri or in any other state, or are you required to hold one for your work? This bars the whole section, whether or not it had anything to do with the offense.\" against Out-of-state driver records, and correct the packet if they disagree.",
+        "Obtain Certified docket sheet and judgment from the court of plea or sentence. Ask the clerk for a certified copy of the docket and the judgment. It establishes the plea or sentencing date the ten-year period runs from, the offense level, and the case number.",
+        "Check your answer to \"On what date did you plead guilty or were you sentenced? The ten-year period runs from then.\" against Certified docket sheet and judgment from the court of plea or sentence, and correct the packet if they disagree.",
+        "Obtain Missouri State Highway Patrol criminal record. Order your own criminal record. It supports the agency list and the no-subsequent-conviction condition. Confirm current fees with the Patrol.",
+        "Check your answer to \"Since that plea or conviction, have you been convicted of any other drink- or drug-driving offense or intoxication-related boating offense, in Missouri or any other state?\" against Missouri State Highway Patrol criminal record, and correct the packet if they disagree.",
+        "The FI-05 case type code, where a cover sheet is required — FI-05, case type code and description.",
+        "The case number in the caption — Application, proposed order and cover-sheet captions.",
+        "The applicant's signature and date — Application, below the declaration under penalty of perjury.",
+        "The judge's findings, granting language, date and signature — Proposed Order of Expungement.",
+        "The hearing date, time and courtroom — Participant instructions.",
+        "Any assertion that a particular licence suspension was or was not an alcohol-related enforcement contact — Not present in the packet at all.",
+        "Any assertion that the offense was the participant's first intoxication-related traffic or boating offense — Recited on the application only as the participant's own sworn allegation.",
+        "The applicant signs the application beneath a declaration under penalty of perjury. LegalEase leaves the signature and date blank.",
+        "none prescribed by § 610.130. A declaration under penalty of perjury is used. Where a local court requires an acknowledgment before a notary the participant is told to ask the clerk.",
+        "Not fixed by the section and county-variable. The participant confirms the filing fee and costs with the clerk of the court of plea before filing. No fee figure is published on this track. The participant separately pays for the driver record, the certified docket and the Highway Patrol search.",
+        "GN10 under Rule 77.03 and § 514.040 where the filing court accepts the statewide form. Municipal divisions vary, and the participant confirms with the clerk."
+      ]
+    },
+    {
+      "jurisdiction": "MO",
+      "trackId": "mo-art-xiv-marijuana",
+      "packetSetId": "mo-art-xiv-marijuana-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "mo-art-xiv-marijuana-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR375",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 1
+        },
+        {
+          "componentId": "mo-art-xiv-marijuana-cover-sheet-2",
+          "role": "cover_sheet",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FI-05",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 2
+        },
+        {
+          "componentId": "mo-art-xiv-marijuana-continuation-3",
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where the agency list or the case table exceeds the space on the form. CR375 twice directs the petitioner to attach additional sheets as necessary.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR375",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 3
+        },
+        {
+          "componentId": "mo-art-xiv-marijuana-instructions-4",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "mo-art-xiv-marijuana-attachment-5",
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionDescription": "Included where verification shows expungement was already ordered and the participant needs the certificate the constitution requires.",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 5
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Case.net printout for each marijuana case. Search Case.net for your name and name variants in the county where each case was charged, and print what you find with the date you looked. A case that has been expunged will usually have disappeared from public view, so an absence is evidence — but not proof, because Case.net does not cover every municipal division.",
+          "obtainedFrom": "Case.net, the Missouri Judiciary's public case management system",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you checked Case.net and your Highway Patrol record to see whether this case has already been expunged? Missouri courts were directed by the constitution to clear many of these cases without anyone asking, and filing for something you already have wastes your money.\" against Case.net printout for each marijuana case, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Missouri State Highway Patrol criminal record, fingerprint-based. Order a fingerprint-based search of your own record. It is the only search that shows records already closed, so it is the one that can tell you whether Article XIV relief was already entered. Confirm current fees with the Patrol before ordering.",
+          "obtainedFrom": "Missouri State Highway Patrol, Criminal Justice Information Services Division, through the Missouri Automated Criminal History Site",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you checked Case.net and your Highway Patrol record to see whether this case has already been expunged? Missouri courts were directed by the constitution to clear many of these cases without anyone asking, and filing for something you already have wastes your money.\" against Missouri State Highway Patrol criminal record, fingerprint-based, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified docket sheet and judgment for each case. Ask the clerk for a certified copy of the docket and the judgment. It supplies the case number, the court, the offense grade and the charge description, and on a marijuana case it is often the only place the quantity appears.",
+          "obtainedFrom": "Clerk of the court where the case was charged or the finding of guilt entered",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"For each case, was the offense a misdemeanor, a class E felony, a class D felony, a class A, B or C felony, or a city or county ordinance violation?\" against Certified docket sheet and judgment for each case, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certificate of expungement. Ask the clerk of the court that entered the order for the certificate of expungement. Article XIV, section 2 requires the court to issue a certificate stating that the offense has been expunged. Ask what the fee is and how long it takes. This is the document to keep.",
+          "obtainedFrom": "Clerk of the court that entered the expungement order",
+          "requirement": "conditional",
+          "conditionDescription": "Where expungement has already been ordered, or after an order is entered on the participant's own petition.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"If the case was already expunged, would you like help asking the court for the certificate of expungement? The constitution requires the court to issue one and it is the document you can show an employer.\" against Certificate of expungement, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where expungement has already been ordered, or after an order is entered on the participant's own petition.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The posture selection between currently incarcerated and not currently incarcerated or on probation — CR375 page 1, the two checkbox paragraphs.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion that the participant's conduct would no longer be an offense, or would be a lesser offense, under Article XIV — Recited only as the participant's own sworn allegation.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number in the caption — CR375 and FI-05 captions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The petitioner's signature and date — CR375 page 2, below the declaration under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The full date of birth on CR375 — CR375 page 1, year of birth field.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any statement that Article XIV relief has already been granted on a particular case — Not present in the packet at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The court's vacatur, release and expungement order and the certificate of expungement — Not generated.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs CR375 beneath the declaration under penalty of perjury. LegalEase leaves the signature and date blank.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "none. CR375 uses a declaration under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Not fixed by Article XIV and county-variable. The participant confirms the filing fee with the clerk. Where relief has already been entered there is no filing and no fee, and the only cost is whatever the clerk charges for the certificate of expungement. No fee figure is published on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "GN10 under Rule 77.03 and § 514.040 where the participant cannot pay and the filing court accepts the statewide form. Not generated by default on this route, because a large share of Article XIV participants have no filing to pay for.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "None performed by the participant. CR375 carries no certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Unit 2 is a petition filed with the clerk of the Missouri court where the marijuana conviction was charged or the finding of guilt entered, on SJRC (10-24) CR375 with FI-05 at case type X#. Unit 1 involves no filing of any kind: the constitution puts the expungement of a completed sentence on the court and vacates a supervised sentence automatically.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Have you checked Case.net and your Highway Patrol record to see whether this case has already been expunged? Missouri courts were directed by the constitution to clear many of these cases without anyone asking, and filing for something you already have wastes your money.\" against Case.net printout for each marijuana case, and correct the packet if they disagree.",
+        "Check your answer to \"Have you checked Case.net and your Highway Patrol record to see whether this case has already been expunged? Missouri courts were directed by the constitution to clear many of these cases without anyone asking, and filing for something you already have wastes your money.\" against Missouri State Highway Patrol criminal record, fingerprint-based, and correct the packet if they disagree.",
+        "Obtain Certified docket sheet and judgment for each case. Ask the clerk for a certified copy of the docket and the judgment. It supplies the case number, the court, the offense grade and the charge description, and on a marijuana case it is often the only place the quantity appears.",
+        "Check your answer to \"For each case, was the offense a misdemeanor, a class E felony, a class D felony, a class A, B or C felony, or a city or county ordinance violation?\" against Certified docket sheet and judgment for each case, and correct the packet if they disagree.",
+        "Check your answer to \"If the case was already expunged, would you like help asking the court for the certificate of expungement? The constitution requires the court to issue one and it is the document you can show an employer.\" against Certificate of expungement, and correct the packet if they disagree.",
+        "The posture selection between currently incarcerated and not currently incarcerated or on probation — CR375 page 1, the two checkbox paragraphs.",
+        "Any assertion that the participant's conduct would no longer be an offense, or would be a lesser offense, under Article XIV — Recited only as the participant's own sworn allegation.",
+        "The case number in the caption — CR375 and FI-05 captions.",
+        "The petitioner's signature and date — CR375 page 2, below the declaration under penalty of perjury.",
+        "The full date of birth on CR375 — CR375 page 1, year of birth field.",
+        "Any statement that Article XIV relief has already been granted on a particular case — Not present in the packet at all.",
+        "The court's vacatur, release and expungement order and the certificate of expungement — Not generated.",
+        "The petitioner signs CR375 beneath the declaration under penalty of perjury. LegalEase leaves the signature and date blank.",
+        "none. CR375 uses a declaration under penalty of perjury.",
+        "Not fixed by Article XIV and county-variable. The participant confirms the filing fee with the clerk. Where relief has already been entered there is no filing and no fee, and the only cost is whatever the clerk charges for the certificate of expungement. No fee figure is published on this track.",
+        "GN10 under Rule 77.03 and § 514.040 where the participant cannot pay and the filing court accepts the statewide form. Not generated by default on this route, because a large share of Article XIV participants have no filing to pay for."
+      ]
+    },
+    {
+      "jurisdiction": "MO",
+      "trackId": "mo-610-145-mistaken-identity",
+      "packetSetId": "mo-610-145-mistaken-identity-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "mo-610-145-mistaken-identity-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR301",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 1
+        },
+        {
+          "componentId": "mo-610-145-mistaken-identity-cover-sheet-2",
+          "role": "cover_sheet",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where filing the petition opens a new case rather than proceeding under the original case number in the court where the charge was last pending.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FI-05",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 2
+        },
+        {
+          "componentId": "mo-610-145-mistaken-identity-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where the participant's court expects the petitioner to tender a proposed judgment rather than preparing it itself.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR311",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 3
+        },
+        {
+          "componentId": "mo-610-145-mistaken-identity-instructions-4",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified docket sheet and the entry dismissing the charge or the not-guilty judgment. Ask the clerk for a certified copy of the docket and of the entry disposing of the charge. It establishes which of the two routes applies, and if an expungement order was already entered under § 610.145.1(2) the docket is where you will see it.",
+          "obtainedFrom": "Clerk of the court where the charge was last pending",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the charge against you end — was it dismissed, or were you found not guilty at trial? If it was dismissed because of the identity problem, Missouri law says the prosecutor or judge should have told the court and the court should have expunged it without you filing anything.\" against Certified docket sheet and the entry dismissing the charge or the not-guilty judgment, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that the identity was used without permission, or that a misidentification occurred. Gather whatever shows the case was not yours: a police report naming another person, an identity-theft report you filed, correspondence from the prosecutor, a court entry recording the mistake, employment or travel records placing you elsewhere. LegalEase never sees, holds or assesses this; the court decides whether it is enough.",
+          "obtainedFrom": "The participant's own records, the arresting agency, the prosecuting attorney, or a police identity-theft report",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What proof do you have that this was not you — a police report naming someone else, an identity-theft report, a letter from the prosecutor, a court entry, an alibi record? You do not need it to prepare the petition, but the court will want to see it.\" against Proof that the identity was used without permission, or that a misidentification occurred, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Missouri Department of Revenue driver record. Order your Missouri driver record. It shows the points, suspension or revocation the order will require the Department to reverse, and it is what you will check afterwards to confirm they did.",
+          "obtainedFrom": "Missouri Department of Revenue",
+          "requirement": "conditional",
+          "conditionDescription": "Where the matter affected the participant's driving licence.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Did this matter affect your driving licence — points, a suspension or a revocation? If so the order requires the Department of Revenue to reverse it and to give you a corrected driving history and a reinstatement at no cost.\" against Missouri Department of Revenue driver record, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the matter affected the participant's driving licence.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Missouri State Highway Patrol criminal record, fingerprint-based. Order a fingerprint-based search of your own record. On an identity case this does double duty: it shows what is recorded against you, and because the search is by fingerprint rather than by name it is the record least likely to be carrying someone else's conduct under your name.",
+          "obtainedFrom": "Missouri State Highway Patrol, Criminal Justice Information Services Division, through the Missouri Automated Criminal History Site",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you asked the clerk of that court whether an expungement order was already entered when the charge was dismissed?\" against Missouri State Highway Patrol criminal record, fingerprint-based, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion that the participant's identity was used without permission — CR301, recited only from the participant's own account.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion that a witness or law-enforcement officer misidentified the participant, was confused, was misinformed or made some other mistake — CR301, recited only from the participant's own account.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The FI-05 case type code, where a cover sheet is required — FI-05, case type code and description.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The participant's signature and date — CR301, sworn statement block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number in the caption — CR301 and FI-05 captions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The clerk's notice of hearing to the prosecuting attorney — Reproduced in the instructions as information, never completed.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The judge's findings, order, date and signature — CR311, Judgment and Order of Expungement — Mistaken Identity.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner swears or affirms under penalty of perjury that the facts are true according to their best knowledge and belief, and signs. LegalEase leaves the signature and date blank.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "none prescribed by § 610.145 or by CR301, which uses a sworn or affirmed statement rather than a notarial acknowledgment.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The costs of expunging the records, as provided in chapter 610, shall not be taxed against the person eligible for expungement under this section (§ 610.145.3). Any reinstatement fee for a licence or privilege is waived (§ 610.145.5). Whether a court nonetheless collects an opening filing fee where the petition commences a new case is not addressed by the section and is confirmed with the clerk. No fee figure is published on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Ordinarily unnecessary, because § 610.145.3 provides that costs are not taxed against the eligible person. GN10 under Rule 77.03 and § 514.040 is available where a court nevertheless requires an opening fee the participant cannot pay.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "None performed by the participant. CR301 carries no certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Unit 2 is a petition or written motion filed in the court where the charge was last pending, on a form approved by the office of state courts administrator and supplied by the clerk (§ 610.145.1(1)). That statutory requirement is why the strategy is official_pdf_fill and not a custom pleading: the form is prescribed, not merely available. Unit 1 involves no filing at all. Whether the petition opens a new case or proceeds under the original number is local practice confirmed with the clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified docket sheet and the entry dismissing the charge or the not-guilty judgment. Ask the clerk for a certified copy of the docket and of the entry disposing of the charge. It establishes which of the two routes applies, and if an expungement order was already entered under § 610.145.1(2) the docket is where you will see it.",
+        "Check your answer to \"How did the charge against you end — was it dismissed, or were you found not guilty at trial? If it was dismissed because of the identity problem, Missouri law says the prosecutor or judge should have told the court and the court should have expunged it without you filing anything.\" against Certified docket sheet and the entry dismissing the charge or the not-guilty judgment, and correct the packet if they disagree.",
+        "Obtain Proof that the identity was used without permission, or that a misidentification occurred. Gather whatever shows the case was not yours: a police report naming another person, an identity-theft report you filed, correspondence from the prosecutor, a court entry recording the mistake, employment or travel records placing you elsewhere. LegalEase never sees, holds or assesses this; the court decides whether it is enough.",
+        "Check your answer to \"What proof do you have that this was not you — a police report naming someone else, an identity-theft report, a letter from the prosecutor, a court entry, an alibi record? You do not need it to prepare the petition, but the court will want to see it.\" against Proof that the identity was used without permission, or that a misidentification occurred, and correct the packet if they disagree.",
+        "Check your answer to \"Did this matter affect your driving licence — points, a suspension or a revocation? If so the order requires the Department of Revenue to reverse it and to give you a corrected driving history and a reinstatement at no cost.\" against Missouri Department of Revenue driver record, and correct the packet if they disagree.",
+        "Check your answer to \"Have you asked the clerk of that court whether an expungement order was already entered when the charge was dismissed?\" against Missouri State Highway Patrol criminal record, fingerprint-based, and correct the packet if they disagree.",
+        "Any assertion that the participant's identity was used without permission — CR301, recited only from the participant's own account.",
+        "Any assertion that a witness or law-enforcement officer misidentified the participant, was confused, was misinformed or made some other mistake — CR301, recited only from the participant's own account.",
+        "The FI-05 case type code, where a cover sheet is required — FI-05, case type code and description.",
+        "The participant's signature and date — CR301, sworn statement block.",
+        "The case number in the caption — CR301 and FI-05 captions.",
+        "The clerk's notice of hearing to the prosecuting attorney — Reproduced in the instructions as information, never completed.",
+        "The judge's findings, order, date and signature — CR311, Judgment and Order of Expungement — Mistaken Identity.",
+        "The petitioner swears or affirms under penalty of perjury that the facts are true according to their best knowledge and belief, and signs. LegalEase leaves the signature and date blank.",
+        "none prescribed by § 610.145 or by CR301, which uses a sworn or affirmed statement rather than a notarial acknowledgment.",
+        "The costs of expunging the records, as provided in chapter 610, shall not be taxed against the person eligible for expungement under this section (§ 610.145.3). Any reinstatement fee for a licence or privilege is waived (§ 610.145.5). Whether a court nonetheless collects an opening filing fee where the petition commences a new case is not addressed by the section and is confirmed with the clerk. No fee figure is published on this track.",
+        "Ordinarily unnecessary, because § 610.145.3 provides that costs are not taxed against the eligible person. GN10 under Rule 77.03 and § 514.040 is available where a court nevertheless requires an opening fee the participant cannot pay."
+      ]
+    },
+    {
+      "jurisdiction": "MO",
+      "trackId": "mo-575-120-identity-theft-correction",
+      "packetSetId": "mo-575-120-identity-theft-correction-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "mo-575-120-identity-theft-correction-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR300",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 1
+        },
+        {
+          "componentId": "mo-575-120-identity-theft-correction-cover-sheet-2",
+          "role": "cover_sheet",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where filing the petition opens a new civil case, which it ordinarily does since the participant was never a party to the underlying criminal matter.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FI-05",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 2
+        },
+        {
+          "componentId": "mo-575-120-identity-theft-correction-attachment-3",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "mo-575-120-identity-theft-correction-proposed-order-4",
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where the participant's circuit expects the petitioner to tender a proposed judgment.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR310",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 4
+        },
+        {
+          "componentId": "mo-575-120-identity-theft-correction-fee-waiver-5",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Generated only where the participant answers that they cannot pay the filing fee and court costs.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "GN10",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 5
+        },
+        {
+          "componentId": "mo-575-120-identity-theft-correction-instructions-6",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 6
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Three standard fingerprint cards. Ring a local police department or sheriff's office and ask whether they take fingerprint impressions on standard cards for a court filing, whether they can do three in one visit, the cost, the payment method and what identification to bring. § 610.123.1(7) makes the card a content of the petition, and CR300 recites that you are providing them for verification of your identity. One card goes to the court, one is sent by the clerk to the Missouri Criminal Record Repository, one is yours.",
+          "obtainedFrom": "A local law enforcement agency — a municipal police department or county sheriff's department that takes applicant prints",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you arranged to get three standard fingerprint cards from a local law enforcement agency? You need them before you file, and on this route they are the strongest evidence you have.\" against Three standard fingerprint cards, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Missouri State Highway Patrol criminal record, fingerprint-based. Order a fingerprint-based search of your own record. This is the single most important document on this route: a name-based search will return the impersonator's conduct under your name, and a fingerprint-based search will not, so the difference between the two is itself evidence of what happened. Confirm current fees with the Patrol before ordering.",
+          "obtainedFrom": "Missouri State Highway Patrol, Criminal Justice Information Services Division, through the Missouri Automated Criminal History Site",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which of your identifying details appear on the record that is not yours — your name, date of birth, Social Security number, driver's licence number, address, or others? List every one, because the court has to find that a substantial number of your identifying factors were falsely ascribed to the person actually arrested or convicted.\" against Missouri State Highway Patrol criminal record, fingerprint-based, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain The arrest report or court file showing the record that falsely identifies the participant. Request the arrest record from the arresting agency and the docket from the clerk. You need to see exactly which of your identifying details were recorded, because the court's finding is about how many of your identifying factors were falsely ascribed to the person actually arrested or convicted.",
+          "obtainedFrom": "The arresting agency, or the clerk of the court where the case was filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which of your identifying details appear on the record that is not yours — your name, date of birth, Social Security number, driver's licence number, address, or others? List every one, because the court has to find that a substantial number of your identifying factors were falsely ascribed to the person actually arrested or convicted.\" against The arrest report or court file showing the record that falsely identifies the participant, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Police report or Federal Trade Commission identity-theft report. File a report with local police and, separately, an identity-theft report with the Federal Trade Commission at identitytheft.gov. Neither is required by § 575.120.4, but both are ordinary corroboration and the Federal Trade Commission report is what you will need for the credit bureaus, which a Missouri court order does not reach.",
+          "obtainedFrom": "Local law enforcement, or identitytheft.gov",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant has reported the identity theft, or is advised to.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you reported the identity theft to the police, or filed a Federal Trade Commission identity-theft report?\" against Police report or Federal Trade Commission identity-theft report, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant has reported the identity theft, or is advised to.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The recital that the participant is the victim of false impersonation and their identity has been falsely reported in arrest and court records — CR300, first printed recital.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion that a substantial number of the participant's identifying factors were falsely ascribed to the person actually arrested or convicted — Not present in the packet at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The impersonator's identifying details where the participant does not know them — CR300, defendant block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The sworn-or-affirmed statement, the signature and the address line — CR300, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number, the Court ORI number and the Offense Cycle Number — CR300 caption.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The FI-05 case type code, where a cover sheet is required — FI-05, case type code and description.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The hearing date, time and courtroom — Participant instructions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The judge's findings, the amendment and expungement directives, the date and signature — CR310, Judgment and Order of Correction of Arrest/Court Records — Identity Theft.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The clerk's distribution steps — Reproduced in the instructions as information, never completed.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner swears or affirms under penalty of perjury that the facts are true according to their best knowledge and belief, and signs with their address. LegalEase leaves the signature and address line blank.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "none prescribed on CR300, which uses a sworn-or-affirmed statement rather than a notarial acknowledgment. This differs from CR145 on the § 610.122 route, which shares the same § 610.123 procedure but is subscribed and sworn before a notary, judge or clerk, and the difference is on the forms themselves rather than in the statute.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Ordinary circuit court civil filing fees and costs, county-variable, confirmed with the clerk. Neither § 575.120.4 nor § 610.123 exempts the petitioner from costs, which is a real difference from the § 610.145 route where § 610.145.3 provides that costs are not taxed against the eligible person. The participant additionally pays for the fingerprint cards and for the Highway Patrol search. No fee figure is published on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "GN10 under Rule 77.03 and § 514.040, offered as an option rather than only on request, because no statutory fee exemption applies to this route.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "None performed by the participant. The clerk issues the petition copies, sends the repository copy with the fingerprint card, and notices the hearing. CR300 carries no certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "A verified petition filed in the civil division of the circuit court in the county of the arrest, under the procedures set forth in § 610.123 as § 575.120.4 directs, on OSCA CR300, with the standard fingerprint card. § 610.123.1 makes eleven items mandatory contents whose absence requires dismissal, and the packet completes all of them from the participant's answers. § 610.123.5 directs the Supreme Court to promulgate procedures for cases filed under §§ 610.122 and 610.123 similar to the chapter 482 small-claims procedures.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Three standard fingerprint cards. Ring a local police department or sheriff's office and ask whether they take fingerprint impressions on standard cards for a court filing, whether they can do three in one visit, the cost, the payment method and what identification to bring. § 610.123.1(7) makes the card a content of the petition, and CR300 recites that you are providing them for verification of your identity. One card goes to the court, one is sent by the clerk to the Missouri Criminal Record Repository, one is yours.",
+        "Check your answer to \"Have you arranged to get three standard fingerprint cards from a local law enforcement agency? You need them before you file, and on this route they are the strongest evidence you have.\" against Three standard fingerprint cards, and correct the packet if they disagree.",
+        "Obtain Missouri State Highway Patrol criminal record, fingerprint-based. Order a fingerprint-based search of your own record. This is the single most important document on this route: a name-based search will return the impersonator's conduct under your name, and a fingerprint-based search will not, so the difference between the two is itself evidence of what happened. Confirm current fees with the Patrol before ordering.",
+        "Check your answer to \"Which of your identifying details appear on the record that is not yours — your name, date of birth, Social Security number, driver's licence number, address, or others? List every one, because the court has to find that a substantial number of your identifying factors were falsely ascribed to the person actually arrested or convicted.\" against Missouri State Highway Patrol criminal record, fingerprint-based, and correct the packet if they disagree.",
+        "Obtain The arrest report or court file showing the record that falsely identifies the participant. Request the arrest record from the arresting agency and the docket from the clerk. You need to see exactly which of your identifying details were recorded, because the court's finding is about how many of your identifying factors were falsely ascribed to the person actually arrested or convicted.",
+        "Check your answer to \"Which of your identifying details appear on the record that is not yours — your name, date of birth, Social Security number, driver's licence number, address, or others? List every one, because the court has to find that a substantial number of your identifying factors were falsely ascribed to the person actually arrested or convicted.\" against The arrest report or court file showing the record that falsely identifies the participant, and correct the packet if they disagree.",
+        "Check your answer to \"Have you reported the identity theft to the police, or filed a Federal Trade Commission identity-theft report?\" against Police report or Federal Trade Commission identity-theft report, and correct the packet if they disagree.",
+        "The recital that the participant is the victim of false impersonation and their identity has been falsely reported in arrest and court records — CR300, first printed recital.",
+        "Any assertion that a substantial number of the participant's identifying factors were falsely ascribed to the person actually arrested or convicted — Not present in the packet at all.",
+        "The impersonator's identifying details where the participant does not know them — CR300, defendant block.",
+        "The sworn-or-affirmed statement, the signature and the address line — CR300, signature block.",
+        "The case number, the Court ORI number and the Offense Cycle Number — CR300 caption.",
+        "The FI-05 case type code, where a cover sheet is required — FI-05, case type code and description.",
+        "The hearing date, time and courtroom — Participant instructions.",
+        "The judge's findings, the amendment and expungement directives, the date and signature — CR310, Judgment and Order of Correction of Arrest/Court Records — Identity Theft.",
+        "The clerk's distribution steps — Reproduced in the instructions as information, never completed.",
+        "The petitioner swears or affirms under penalty of perjury that the facts are true according to their best knowledge and belief, and signs with their address. LegalEase leaves the signature and address line blank.",
+        "none prescribed on CR300, which uses a sworn-or-affirmed statement rather than a notarial acknowledgment. This differs from CR145 on the § 610.122 route, which shares the same § 610.123 procedure but is subscribed and sworn before a notary, judge or clerk, and the difference is on the forms themselves rather than in the statute.",
+        "Ordinary circuit court civil filing fees and costs, county-variable, confirmed with the clerk. Neither § 575.120.4 nor § 610.123 exempts the petitioner from costs, which is a real difference from the § 610.145 route where § 610.145.3 provides that costs are not taxed against the eligible person. The participant additionally pays for the fingerprint cards and for the Highway Patrol search. No fee figure is published on this track.",
+        "GN10 under Rule 77.03 and § 514.040, offered as an option rather than only on request, because no statutory fee exemption applies to this route."
+      ]
+    },
+    {
+      "jurisdiction": "MO",
+      "trackId": "mo-311-326-minor-in-possession",
+      "packetSetId": "mo-311-326-minor-in-possession-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "mo-311-326-minor-in-possession-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "mo-311-326-minor-in-possession-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "mo-311-326-minor-in-possession-cover-sheet-3",
+          "role": "cover_sheet",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where the application opens a new case rather than proceeding under the original case number, and where the sentencing court requires the sheet.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FI-05",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 3
+        },
+        {
+          "componentId": "mo-311-326-minor-in-possession-fee-waiver-4",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Generated only where the participant answers that they cannot pay the filing fee and court costs, and the sentencing court accepts the statewide form.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "GN10",
+          "officialSourceUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+          "order": 4
+        },
+        {
+          "componentId": "mo-311-326-minor-in-possession-instructions-5",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 5
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified docket sheet and judgment from the sentencing court. Ask the clerk for a certified copy of the docket and the judgment. It establishes the statute of conviction — which must be § 311.325 rather than a local ordinance — the sentencing date and the case number.",
+          "obtainedFrom": "Clerk of the court that imposed the sentence",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Was the charge a violation of Missouri's minor-in-possession law, § 311.325? If you were charged under a city or county ordinance instead of the state statute, this route may not apply.\" against Certified docket sheet and judgment from the sentencing court, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Missouri Department of Revenue driver record. Order your Missouri driver record. It is where an administrative alcohol-related suspension or revocation appears, and § 302.525.3 makes any such action an enforcement contact that disqualifies you under § 311.326 even though it was never a criminal conviction. A participant answering this question from memory of court cases will very often be wrong.",
+          "obtainedFrom": "Missouri Department of Revenue",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Has your driving licence ever been suspended or revoked for anything alcohol-related, in Missouri or any other state — including for refusing a breath, blood or urine test? This counts even if you were never convicted of anything, and it disqualifies you from this expungement.\" against Missouri Department of Revenue driver record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Out-of-state driver records. Request your driver record from each state where you have been licensed. § 302.525.3 counts a suspension, revocation or conviction in any other state.",
+          "obtainedFrom": "The licensing authority of each other state where the participant has held a licence",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant has held a driving licence outside Missouri.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Has your driving licence ever been suspended or revoked for anything alcohol-related, in Missouri or any other state — including for refusing a breath, blood or urine test? This counts even if you were never convicted of anything, and it disqualifies you from this expungement.\" against Out-of-state driver records, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant has held a driving licence outside Missouri.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Missouri State Highway Patrol criminal record. Order your own criminal record. It supports the agency list and the no-other-alcohol-related-offense condition. Confirm current fees with the Patrol.",
+          "obtainedFrom": "Missouri State Highway Patrol, Criminal Justice Information Services Division, through the Missouri Automated Criminal History Site",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Since that conviction, have you been convicted of any other alcohol-related offense, anywhere?\" against Missouri State Highway Patrol criminal record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The FI-05 case type code, where a cover sheet is required — FI-05, case type code and description.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number in the caption — Application, proposed order and cover-sheet captions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The applicant's signature and date — Application, below the declaration under penalty of perjury.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The judge's determination, granting language, date and signature — Proposed Order of Expungement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion that a particular licence action was or was not an alcohol-related enforcement contact — Not present in the packet at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion that the violation was the participant's first — Recited on the application only as the participant's own sworn allegation.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs the application beneath a declaration under penalty of perjury. LegalEase leaves the signature and date blank.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "none prescribed by § 311.326. A declaration under penalty of perjury is used. Where a local court requires an acknowledgment before a notary the participant asks the clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Not fixed by the section and county-variable. The participant confirms the filing fee and costs with the clerk of the sentencing court. No fee figure is published on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "GN10 under Rule 77.03 and § 514.040 where the sentencing court accepts the statewide form.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Not prescribed by the section. A certificate of service is included for the participant to complete only if the clerk directs that the named respondents be served, and is left blank otherwise.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "An application filed with the clerk of the court in which the participant was sentenced (§ 311.326). No Office of the State Courts Administrator form exists for this section, so the application and proposed order are LegalEase-drafted against the statutory contents, and the track carries a local-form override for any court that publishes its own. Whether the application opens a new case or proceeds under the original case number is local practice confirmed with the clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified docket sheet and judgment from the sentencing court. Ask the clerk for a certified copy of the docket and the judgment. It establishes the statute of conviction — which must be § 311.325 rather than a local ordinance — the sentencing date and the case number.",
+        "Check your answer to \"Was the charge a violation of Missouri's minor-in-possession law, § 311.325? If you were charged under a city or county ordinance instead of the state statute, this route may not apply.\" against Certified docket sheet and judgment from the sentencing court, and correct the packet if they disagree.",
+        "Obtain Missouri Department of Revenue driver record. Order your Missouri driver record. It is where an administrative alcohol-related suspension or revocation appears, and § 302.525.3 makes any such action an enforcement contact that disqualifies you under § 311.326 even though it was never a criminal conviction. A participant answering this question from memory of court cases will very often be wrong.",
+        "Check your answer to \"Has your driving licence ever been suspended or revoked for anything alcohol-related, in Missouri or any other state — including for refusing a breath, blood or urine test? This counts even if you were never convicted of anything, and it disqualifies you from this expungement.\" against Missouri Department of Revenue driver record, and correct the packet if they disagree.",
+        "Obtain Out-of-state driver records. Request your driver record from each state where you have been licensed. § 302.525.3 counts a suspension, revocation or conviction in any other state.",
+        "Check your answer to \"Has your driving licence ever been suspended or revoked for anything alcohol-related, in Missouri or any other state — including for refusing a breath, blood or urine test? This counts even if you were never convicted of anything, and it disqualifies you from this expungement.\" against Out-of-state driver records, and correct the packet if they disagree.",
+        "Obtain Missouri State Highway Patrol criminal record. Order your own criminal record. It supports the agency list and the no-other-alcohol-related-offense condition. Confirm current fees with the Patrol.",
+        "Check your answer to \"Since that conviction, have you been convicted of any other alcohol-related offense, anywhere?\" against Missouri State Highway Patrol criminal record, and correct the packet if they disagree.",
+        "The FI-05 case type code, where a cover sheet is required — FI-05, case type code and description.",
+        "The case number in the caption — Application, proposed order and cover-sheet captions.",
+        "The applicant's signature and date — Application, below the declaration under penalty of perjury.",
+        "The judge's determination, granting language, date and signature — Proposed Order of Expungement.",
+        "Any assertion that a particular licence action was or was not an alcohol-related enforcement contact — Not present in the packet at all.",
+        "Any assertion that the violation was the participant's first — Recited on the application only as the participant's own sworn allegation.",
+        "The applicant signs the application beneath a declaration under penalty of perjury. LegalEase leaves the signature and date blank.",
+        "none prescribed by § 311.326. A declaration under penalty of perjury is used. Where a local court requires an acknowledgment before a notary the participant asks the clerk.",
+        "Not fixed by the section and county-variable. The participant confirms the filing fee and costs with the clerk of the sentencing court. No fee figure is published on this track.",
+        "GN10 under Rule 77.03 and § 514.040 where the sentencing court accepts the statewide form."
+      ]
+    },
+    {
+      "jurisdiction": "MO",
+      "trackId": "mo-610-141-automatic-drug",
+      "packetSetId": "mo-610-141-automatic-drug-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "mo-610-141-automatic-drug-instructions-1",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "mo-610-141-automatic-drug-instructions-2",
+          "role": "instructions",
+          "requirement": "conditional",
+          "conditionDescription": "Included where the participant reports a possession or paraphernalia conviction that appears to meet the § 610.141 criteria and is weighing whether to petition now under § 610.140.",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "mo-610-141-automatic-drug-instructions-3",
+          "role": "instructions",
+          "requirement": "conditional",
+          "conditionDescription": "Included where the participant reports that a record they believe qualifies has not been expunged after the section becomes operative.",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Missouri State Highway Patrol criminal record, fingerprint-based. Order a fingerprint-based search of your own record. It is the record the central repository's own analysis runs on, and a fingerprint-based search is the only one that shows records already closed — so after the section becomes operative it is the only way to see whether your offense was expunged. Confirm current fees with the Patrol before ordering.",
+          "obtainedFrom": "Missouri State Highway Patrol, Criminal Justice Information Services Division, through the Missouri Automated Criminal History Site",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Is the conviction for possessing a controlled substance, or for drug paraphernalia? Missouri's automatic expungement law reaches only those four offenses — it does not reach trafficking, distribution, delivery or manufacture.\" against Missouri State Highway Patrol criminal record, fingerprint-based, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified docket sheet and judgment for the drug case. Ask the clerk for a certified copy of the docket and the judgment. It shows the statute of conviction, which decides whether the offense is one of the four the law reaches, and whether the case contained any other conviction — which takes the whole case out if it did.",
+          "obtainedFrom": "Clerk of the sentencing court",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Was this the only conviction in that case? If the same case included a conviction for something that is not one of the four covered offenses, the automatic law does not reach any of it.\" against Certified docket sheet and judgment for the drug case, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Probation or parole discharge document. Ask for the discharge document. Final disposition under § 610.141 means completion of all court-imposed terms and conditions and unconditional release from custody, so this is the document that fixes the date the clock runs from.",
+          "obtainedFrom": "Missouri Department of Corrections, Division of Probation and Parole, or the supervising court",
+          "requirement": "conditional",
+          "conditionDescription": "Where the sentence included probation or parole.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did you finish everything the court ordered and were released from any custody or supervision? The law calls that final disposition, and the one-year or three-year clock runs from it.\" against Probation or parole discharge document, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the sentence included probation or parole.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Case.net printout for the drug case. Search Case.net for the case. Once the section is operating, the Office of the State Courts Administrator expunges the corresponding case records in the statewide court automation system, so a case that has disappeared from Case.net may have been reached — though the Highway Patrol record is the better check.",
+          "obtainedFrom": "Case.net, the Missouri Judiciary's public case management system",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Was it a misdemeanor or a felony? And if a felony, was it a class A felony? A class A felony is excluded.\" against Case.net printout for the drug case, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "No packet is produced on this track and no field is left blank — Not applicable — the output is guidance, monitoring and a timing decision.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any statement that a particular record will be expunged automatically — Not present in the guidance at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any statement that a particular record will not be expunged automatically — Not present in the guidance at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any advice to wait rather than petition, or to petition rather than wait — Not present in the guidance at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "none. The participant signs nothing on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none. The mechanism costs the participant nothing because nothing is filed. § 610.144 creates the Missouri Expungement Fund to pay for the technology from appropriations, gifts, donations, grants and bequests. The participant pays only for any record they choose to obtain to check the outcome.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none. There is no fee to waive.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "none. Nothing is served.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "none. § 610.141 creates no petition, application, request or submission of any kind for the participant. The central repository screens and expunges of its own motion and the Office of the State Courts Administrator expunges the corresponding case records on the repository's designations. Where an eligible offense is not expunged, § 610.141.8 makes the filing of a § 610.140 petition the sole remedy.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Is the conviction for possessing a controlled substance, or for drug paraphernalia? Missouri's automatic expungement law reaches only those four offenses — it does not reach trafficking, distribution, delivery or manufacture.\" against Missouri State Highway Patrol criminal record, fingerprint-based, and correct the packet if they disagree.",
+        "Check your answer to \"Was this the only conviction in that case? If the same case included a conviction for something that is not one of the four covered offenses, the automatic law does not reach any of it.\" against Certified docket sheet and judgment for the drug case, and correct the packet if they disagree.",
+        "Check your answer to \"On what date did you finish everything the court ordered and were released from any custody or supervision? The law calls that final disposition, and the one-year or three-year clock runs from it.\" against Probation or parole discharge document, and correct the packet if they disagree.",
+        "Check your answer to \"Was it a misdemeanor or a felony? And if a felony, was it a class A felony? A class A felony is excluded.\" against Case.net printout for the drug case, and correct the packet if they disagree.",
+        "No packet is produced on this track and no field is left blank — Not applicable — the output is guidance, monitoring and a timing decision.",
+        "Any statement that a particular record will be expunged automatically — Not present in the guidance at all.",
+        "Any statement that a particular record will not be expunged automatically — Not present in the guidance at all.",
+        "Any advice to wait rather than petition, or to petition rather than wait — Not present in the guidance at all.",
+        "none. The participant signs nothing on this track.",
+        "none. The mechanism costs the participant nothing because nothing is filed. § 610.144 creates the Missouri Expungement Fund to pay for the technology from appropriations, gifts, donations, grants and bequests. The participant pays only for any record they choose to obtain to check the outcome.",
+        "none. There is no fee to waive."
+      ]
+    },
+    {
       "jurisdiction": "MS",
       "trackId": "ms-nonconv",
       "packetSetId": "ms-nonconv-set",
