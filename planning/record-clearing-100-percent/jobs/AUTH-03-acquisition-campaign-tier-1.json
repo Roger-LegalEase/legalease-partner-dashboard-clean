@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "jobId": "AUTH-03-acquisition-campaign-tier-1",
+  "wave": 1,
+  "lane": "authority",
+  "model": "claude-opus-5",
+  "effort": "max",
+  "title": "Acquire the five highest-yield issuer families",
+  "jurisdictions": [
+    "AR",
+    "AL",
+    "HI",
+    "MO",
+    "FL"
+  ],
+  "tracks": [],
+  "trackCount": 44,
+  "dependencies": [],
+  "ownedPaths": [
+    "data/record-clearing/master-library/edition-1-3/acquired-sources.json",
+    "docs/record-clearing/BATCH_3_SOURCE_IMPORT_RECORD.md"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**",
+    "supabase/**"
+  ],
+  "outputs": [
+    "AR ACIC uniform petition/order set — 20 documents, 11 tracks, the highest track yield of any single issuer",
+    "AL CR-65 plus ABPP-3 — 2 documents, 9 tracks",
+    "HI HCJDC-159 / 159B — 2 documents, 8 tracks",
+    "MO OSCA set including FI-05 and GN10 — 8 documents, 8 tracks, requires a non-blocked retrieval channel (courts.mo.gov returns HTTP 403 to automation)",
+    "FL FDLE application set plus the Rule 3.989 triad — 9 documents, 8 tracks",
+    "each acquisition recorded with issuer, retrieval date, revision, provenance and SHA-256"
+  ],
+  "gates": [
+    "every acquired binary carries issuer, revision, retrieval date and hash",
+    "no binary enters version control",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "chore(record-clearing): record the tier-1 source acquisition campaign",
+  "completionCondition": "Forty-one documents are acquired from their issuers with provenance recorded, ready to be manifested in a successor edition. Acquisition alone enables nothing.",
+  "blockerResolved": "133 of 239 acquisition rows are identity_established_binary_unavailable. These five issuer families are the highest tracks-per-contact ratio in the backlog.",
+  "commercialPriority": 68,
+  "reuseScore": 25
+}

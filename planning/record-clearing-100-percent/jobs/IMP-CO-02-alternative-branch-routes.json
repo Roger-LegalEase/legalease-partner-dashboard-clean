@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "jobId": "IMP-CO-02-alternative-branch-routes",
+  "wave": 3,
+  "lane": "implementation-composed",
+  "model": "claude-opus-5",
+  "effort": "max",
+  "title": "Implement the alternative-branch composed routes",
+  "jurisdictions": [
+    "CT",
+    "GA",
+    "IN",
+    "ME",
+    "MN"
+  ],
+  "tracks": [
+    "ct-nolle-auto",
+    "ct-under18-misdemeanor",
+    "ct-pardon-erasure",
+    "ct-missed-erasure",
+    "ga-nonconv-post2013",
+    "in_infraction_nondisclosure",
+    "me-nonconv",
+    "mn_prosecutor_agreed"
+  ],
+  "trackCount": 8,
+  "dependencies": [
+    "PLAT-02-composed-route-unit-model"
+  ],
+  "ownedPaths": [
+    "src/lib/rcap/packets/registry-composed.ts",
+    "data/record-clearing/implementation-tranches/IMP-CO-02*.json",
+    "scripts/rcap-generate-IMP-CO-02-review.mjs",
+    "scripts/verify-rcap-IMP-CO-02-packets.mjs",
+    "package.json"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**",
+    "supabase/**"
+  ],
+  "outputs": [
+    "alternative-mode routes rendering exactly one unit",
+    "mn_prosecutor_agreed as the four-unit mixed-mode hard case",
+    "one assembled participant PDF per route"
+  ],
+  "gates": [
+    "alternative mode renders exactly one unit",
+    "an unapproved selector value fails closed with a typed error",
+    "npm run rcap:verify-packet-capability-registry",
+    "npm run rcap:verify-tranche-1-packets (Tranche 1 must stay green)",
+    "the job's own rcap:verify-<job>-packets verifier",
+    "review manifest carries humanLegalReviewStatus=awaiting_counsel_review and none of legal_output_approved / counsel_approved / packet_ready / generation_allowed / enabled",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "feat(record-clearing): implement alternative-branch composed routes",
+  "completionCondition": "Each route selects exactly one unit from the participant's facts and fails closed on any unapproved value.",
+  "blockerResolved": "Five of these eight are already authority-cleared and blocked purely on the missing unit model, which makes this the highest-value composed job once the model lands.",
+  "commercialPriority": 58,
+  "reuseScore": 65
+}

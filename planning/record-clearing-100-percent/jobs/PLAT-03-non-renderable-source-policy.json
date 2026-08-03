@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "jobId": "PLAT-03-non-renderable-source-policy",
+  "wave": 2,
+  "lane": "platform",
+  "model": "claude-opus-5",
+  "effort": "max",
+  "title": "Decide the approved handling for docx, html, encrypted and scanned sources",
+  "jurisdictions": [],
+  "tracks": [],
+  "trackCount": 19,
+  "dependencies": [],
+  "ownedPaths": [
+    "src/lib/rcap/packets/types.ts",
+    "src/lib/rcap/packets/resolve.ts",
+    "src/lib/rcap/packets/engines/official-pdf.ts",
+    "src/lib/rcap/packets/registry-types.ts",
+    "scripts/verify-rcap-packet-http-acceptance.mjs"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**",
+    "supabase/**"
+  ],
+  "outputs": [
+    "a shared platform capability every downstream implementation job inherits",
+    "negative fixtures proving the new path fails closed"
+  ],
+  "gates": [
+    "npm run rcap:verify-packet-http-acceptance",
+    "npm run rcap:verify-tranche-1-packets",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "feat(record-clearing): decide the approved handling for docx, html, encrypted and scanned sources",
+  "completionCondition": "The capability exists, is exercised by a negative fixture, and Tranche 1 remains green.",
+  "blockerResolved": "42 components resolve to sources the renderer cannot fill: docx 18, html 22, encrypted_pdf 1, scanned_pdf 1. The sharpest question is Louisiana: art. 986 forms exist only as statutory text, and an HTML reconstruction is never an official source.",
+  "commercialPriority": 55,
+  "reuseScore": 25
+}

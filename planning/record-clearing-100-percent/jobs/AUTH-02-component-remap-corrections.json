@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "jobId": "AUTH-02-component-remap-corrections",
+  "wave": 1,
+  "lane": "authority",
+  "model": "claude-opus-5",
+  "effort": "xhigh",
+  "title": "Correct 16 components that name a document the edition retains under a different identity",
+  "jurisdictions": [
+    "IL",
+    "IA",
+    "IN"
+  ],
+  "tracks": [],
+  "trackCount": 16,
+  "dependencies": [],
+  "ownedPaths": [
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/implementation-tranches/authority-remap-corrections.json"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**",
+    "supabase/**"
+  ],
+  "outputs": [
+    "nine Illinois components remapped from 'Ill. S. Ct. R. 298 Application for Waiver of Court Fees' to the retained IL:FW-CIV-APPLICATION:APPLICATION:EN",
+    "one Iowa component remapped from DCI-76 to the DPS packet retained under DCI-77",
+    "six Indiana components remapped to the Confidential Information Form retained inside the Coalition packets"
+  ],
+  "gates": [
+    "each remap names one retained asset by workflow key with a matching hash, correct role and correct language",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "fix(record-clearing): remap components to the assets the edition actually retains",
+  "completionCondition": "Sixteen components resolve to retained assets with no acquisition performed, because none was ever needed.",
+  "blockerResolved": "Sixteen components are recorded as needing acquisition when the document is already retained under a different identity. The Illinois Rule 298 remap alone touches nine tracks and is the highest-leverage single correction in the backlog at zero external cost.",
+  "commercialPriority": 72,
+  "reuseScore": 55
+}

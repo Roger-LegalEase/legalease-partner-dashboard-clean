@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "jobId": "F-05-staging-environment-definition",
+  "wave": 0,
+  "lane": "release",
+  "model": "claude-opus-5",
+  "effort": "high",
+  "title": "Define the staging promotion the repository does not model",
+  "jurisdictions": [],
+  "tracks": [],
+  "trackCount": 0,
+  "dependencies": [
+    "F-04-packet-persistence-infrastructure"
+  ],
+  "ownedPaths": [
+    "docs/rcap-promotion/STAGING_PROMOTION_CONTRACT.md",
+    "scripts/verify-rcap-staging-promotion.mjs",
+    ".github/workflows/rcap-packet-staging.yml",
+    "package.json"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**",
+    "supabase/**"
+  ],
+  "outputs": [
+    "a staging contract built on NODE_ENV, RCAP_TECHNICAL_FIXTURES_ENABLED, RCAP_PACKET_STORE_DRIVER, PACKET_DELIVERY_BASE_URL",
+    "a staging verifier asserting a real HTTP packet download against a staging deployment",
+    "an explicit statement of what staging proves that the local proof does not"
+  ],
+  "gates": [
+    "npm run rcap:verify-staging-promotion",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "feat(record-clearing): define the packet staging promotion contract",
+  "completionCondition": "Staging exists as a named, verifiable step distinct from production enablement, with its own verifier.",
+  "blockerResolved": "No staging environment is modelled anywhere: PromotionStatus has no staged value, there is no staging CI job, and none of the packet environment variables appears in .env.example. Staging must be created, not queued against an existing artifact.",
+  "commercialPriority": 60,
+  "reuseScore": 10
+}

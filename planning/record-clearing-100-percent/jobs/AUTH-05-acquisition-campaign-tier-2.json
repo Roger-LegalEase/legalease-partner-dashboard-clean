@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "jobId": "AUTH-05-acquisition-campaign-tier-2",
+  "wave": 2,
+  "lane": "authority",
+  "model": "claude-opus-5",
+  "effort": "max",
+  "title": "Acquire the second-tier issuer families",
+  "jurisdictions": [
+    "AZ",
+    "IA",
+    "IN",
+    "DE",
+    "MA",
+    "MN",
+    "LA"
+  ],
+  "tracks": [],
+  "trackCount": 40,
+  "dependencies": [
+    "AUTH-03-acquisition-campaign-tier-1"
+  ],
+  "ownedPaths": [
+    "data/record-clearing/master-library/edition-1-3/acquired-sources.json",
+    "docs/record-clearing/BATCH_3_SOURCE_IMPORT_RECORD.md"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**",
+    "supabase/**"
+  ],
+  "outputs": [
+    "AZ AOC statewide set (9 docs, 6 tracks)",
+    "IA DPS-DCI and Rule 2.86 set (3 docs, 6 tracks)",
+    "IN Coalition for Court Access and OJA set (7 docs, 6 tracks)",
+    "DE JP/CCP/SBI set (6 docs, 4 tracks)",
+    "MA Probation and Trial Court petition set (6 docs, 6 tracks)",
+    "MN EXP series",
+    "LA art. 986 statutory set"
+  ],
+  "gates": [
+    "every acquired binary carries issuer, revision, retrieval date and hash",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "chore(record-clearing): record the tier-2 source acquisition campaign",
+  "completionCondition": "The second tier of issuer families is acquired with provenance recorded and queued for the next edition.",
+  "blockerResolved": "A further 40 tracks depend on documents Edition 1.2 does not retain.",
+  "commercialPriority": 60,
+  "reuseScore": 25
+}

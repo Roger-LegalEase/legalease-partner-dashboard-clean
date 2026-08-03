@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "jobId": "PROD-01-apply-packet-persistence",
+  "wave": 7,
+  "lane": "release",
+  "model": "claude-opus-5",
+  "effort": "max",
+  "title": "Apply the packet persistence migrations to production",
+  "jurisdictions": [],
+  "tracks": [],
+  "trackCount": null,
+  "dependencies": [
+    "F-04-packet-persistence-infrastructure",
+    "STG-01-staging-promotion-partner-priority"
+  ],
+  "ownedPaths": [
+    "docs/rcap-promotion/production-migration-log.md"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**"
+  ],
+  "outputs": [
+    "the two packet tables, the private bucket and their RLS applied through the production DB process",
+    "a DB-persisted generation smoke passing with service-role env"
+  ],
+  "gates": [
+    "npm run rcap:verify-packet-generation-dry-run reports ready rather than BLOCKED",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "chore(record-clearing): record the production packet-persistence migration",
+  "completionCondition": "Production can persist a fulfillment and its artifacts, and the dry-run verifier no longer reports BLOCKED.",
+  "blockerResolved": "verify-rcap-packet-generation-dry-run reports BLOCKED without NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY, and prints that production packet delivery remains blocked until service-role env is provided and a DB smoke passes.",
+  "commercialPriority": 100,
+  "reuseScore": 10
+}

@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "jobId": "EXC-01-ks-commercial-use-determination",
+  "wave": 3,
+  "lane": "authority",
+  "model": "claude-opus-5",
+  "effort": "max",
+  "title": "Decide Kansas: licence, withdraw, or record terminal",
+  "jurisdictions": [
+    "KS"
+  ],
+  "tracks": [
+    "ks-21-6614-conviction",
+    "ks-21-6614-diversion",
+    "ks-21-6614-prostitution-coercion",
+    "ks-21-6614-specialty-court",
+    "ks-22-2410-arrest",
+    "ks-22-4908-registration-relief"
+  ],
+  "trackCount": 6,
+  "dependencies": [],
+  "ownedPaths": [
+    "data/record-clearing/implementation-tranches/EXC-01-ks-commercial-use-determination.json"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**",
+    "supabase/**",
+    "src/lib/rcap/packets/**"
+  ],
+  "outputs": [
+    "a licensing determination from the Kansas Judicial Council, or",
+    "a recorded terminal-C withdrawal with the controlling commercial reason, or",
+    "a recorded terminal-D with the licence as the exact unresolved external dependency"
+  ],
+  "gates": [
+    "the gate is not evaded by relabelling the route as a custom pleading",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "docs(record-clearing): record the Kansas commercial-use determination",
+  "completionCondition": "Kansas has a recorded terminal state. It is the one jurisdiction that cannot be unblocked by acquisition at any price.",
+  "blockerResolved": "All 30 Kansas acquisition rows are commercial_use_hold: the Kansas Judicial Council publishes its forms for non-commercial use only. The blocker ledger warns explicitly that the gate must not be evaded by relabelling the route as a custom pleading.",
+  "commercialPriority": 30,
+  "reuseScore": 0
+}

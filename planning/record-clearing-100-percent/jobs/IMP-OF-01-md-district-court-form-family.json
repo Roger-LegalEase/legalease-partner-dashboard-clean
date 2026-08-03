@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "jobId": "IMP-OF-01-md-district-court-form-family",
+  "wave": 2,
+  "lane": "implementation-acroform",
+  "model": "claude-opus-5",
+  "effort": "max",
+  "title": "The first real AcroForm field-map family",
+  "jurisdictions": [
+    "MD"
+  ],
+  "tracks": [
+    "md_second_chance_shielding",
+    "md_10105_favorable",
+    "md_10105_early",
+    "md_10110_conviction",
+    "md_cannabis_petition",
+    "md_pardon_expungement"
+  ],
+  "trackCount": 6,
+  "dependencies": [
+    "AUTH-04-edition-1-3-publication",
+    "PLAT-01-official-source-binding"
+  ],
+  "ownedPaths": [
+    "src/lib/rcap/packets/registry-md.ts",
+    "src/lib/rcap/packets/IMP-OF-01-md-district-court-form-family-facts.ts",
+    "data/record-clearing/implementation-tranches/IMP-OF-01-md-district-court-form-family*.json",
+    "scripts/rcap-generate-IMP-OF-01-md-district-court-form-family-review.mjs",
+    "scripts/verify-rcap-IMP-OF-01-md-district-court-form-family-packets.mjs",
+    "package.json"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**",
+    "supabase/**",
+    "src/lib/rcap/packets/registry-mississippi.ts"
+  ],
+  "outputs": [
+    "a validated AcroForm field map per official form, every mapped field verified present in the source",
+    "a field-ownership record classifying every field on every form, mapped or not",
+    "tranche record, authority pins with officialFormBinaryRequired, fixtures, review manifest, visual review",
+    "one assembled participant PDF per route, no ZIP"
+  ],
+  "gates": [
+    "assertProcessable passes — no XFA, no encryption",
+    "every mapped pdfFieldName exists in the source; a mapping naming an absent field throws field_not_found",
+    "third-party field rule: judge, clerk, prosecutor, agency, notary and process-server fields remain blank",
+    "no signature image generated; signature and date lines left usable",
+    "deterministic bytes from identical input",
+    "npm run rcap:verify-packet-capability-registry",
+    "npm run rcap:verify-tranche-1-packets (Tranche 1 must stay green)",
+    "the job's own rcap:verify-<job>-packets verifier",
+    "review manifest carries humanLegalReviewStatus=awaiting_counsel_review and none of legal_output_approved / counsel_approved / packet_ready / generation_allowed / enabled",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "feat(record-clearing): implement MD official-form routes",
+  "completionCondition": "Every positive fixture generates one assembled PDF through the real fulfilment and assembly path, every third-party field is blank, technical and visual review pass, and every track remains runtime_disabled at awaiting_counsel_review.",
+  "blockerResolved": "Maryland's five acquisition rows are all acquired_and_source_gated — no acquisition is needed, only the Edition 1.3 gate decision on the CC-DC-CR-072 family.",
+  "commercialPriority": 90,
+  "reuseScore": 60
+}

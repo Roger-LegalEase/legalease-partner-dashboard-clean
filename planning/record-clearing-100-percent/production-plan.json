@@ -1,0 +1,333 @@
+{
+  "schemaVersion": 1,
+  "planId": "record-clearing-100-percent",
+  "title": "LegalEase nationwide record-clearing — execution plan to 100 percent",
+  "authoredOn": "2026-08-03",
+  "baseCommit": "8df94fbaa66c06bf0ba677ee4f5fb417ad08cdc8",
+  "branch": "plan/record-clearing-100-percent",
+  "authorityEdition": "1.2",
+  "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+
+  "planScope": "This is a plan only. It implements no packet, changes no legal-design memo, alters no Master Library authority, regenerates no shared registry and promotes no route. It writes only planning/record-clearing-100-percent/** and docs/record-clearing/100_PERCENT_PRODUCTION_PLAN.md.",
+
+  "baselineVerification": {
+    "method": "Every figure below was recomputed from the repository at the base commit rather than accepted from the brief.",
+    "confirmed": {
+      "jurisdictions": 51,
+      "normalizedJurisdictions": 26,
+      "outstandingJurisdictions": 25,
+      "normalizedTracks": 250,
+      "masterLibraryEdition": "1.2",
+      "mississippiTranche1Implemented": true,
+      "packetReady": 0,
+      "enabledJurisdictions": 0
+    },
+    "corrected": {
+      "field": "authority-cleared / authority-blocked tracks",
+      "briefStated": "82 cleared / 168 blocked",
+      "repositoryRecords": "87 cleared / 163 blocked",
+      "evidence": "data/record-clearing/master-library/track-source-audit.json totals at 8df94fb: tracksCleared 87, tracksBlocked 163",
+      "explanation": "82/168 was the pre-Tranche-1 figure. Tranche 1 closed the guidance-specification gate on five Mississippi tracks and moved the count 82 to 87, which docs/record-clearing/PACKET_IMPLEMENTATION_TRANCHE_1.md records verbatim. The plan is built on 87/163."
+    }
+  },
+
+  "corpus": {
+    "tracksByOutputStrategy": {
+      "official_pdf_fill": 121,
+      "process_guidance": 58,
+      "custom_pleading": 46,
+      "composed": 25,
+      "total": 250
+    },
+    "composedNote": "The 25 composed tracks carry outputStrategy null and outputStrategyDeclared composed, resolving to 55 units: official_pdf_fill 21, process_guidance 20, custom_pleading 9, and 5 units with no resolved strategy. The runtime ReliefTrack type has no unit or composition concept, so all 25 are blocked on a schema that does not exist.",
+    "componentsAudited": 682,
+    "officialPdfComponents": 385,
+    "officialPdfComponentsWithPinnedSha": 72,
+    "authorityClearedTracks": 87,
+    "authorityBlockedTracks": 163,
+    "clearedTracksContainingAnOfficialPdfComponent": 0,
+    "outstandingJurisdictions": ["KY","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VA","VT","WA","WI","WV","WY"],
+    "expectedNewTracksFromRemaining25": 243,
+    "expectedNewTracksBand": "231-253",
+    "expectedNewTracksMethod": "246 PART-1 relief-track source slots counted from the 25 retained Edition 1.2 reviews, times the 0.988 slots-to-tracks ratio measured across Batch 1 (117 slots to 110 tracks) and Batch 2 (136 slots to 140 nodes).",
+    "projectedNationwideTracks": 493
+  },
+
+  "theCeiling": {
+    "statement": "All 443 retained Edition 1.2 assets carry generation_allowed = no. Verified directly against 00_GOVERNANCE/MASTER_ASSET_MANIFEST.jsonl: 443 of 443 rows, zero exceptions, across all six asset classes.",
+    "consequence": "No official-form component in any of the 250 tracks can become resolver-selectable under Edition 1.2, regardless of how much of the backlog is cleared. Pinning a hash converts a blocker into a perfectly-mapped component that is still refused.",
+    "proof": "8 components across 5 tracks are already in that state today — GA ga-nonconv-pre2013, MO mo-610-140-conviction, mo-610-140-arrest, mo-610-122-arrest-expungement and mo-art-xiv-marijuana are fully matched with pinned hashes, correct roles and correct language, and are blocked by the flag alone.",
+    "tracksGated": 144,
+    "shareOfBlocked": "88.3%",
+    "shareOfCorpus": "57.6%",
+    "requiredAction": "Publish a successor edition that flips generation_allowed to yes on the specific assets cleared for release, per asset and never globally, with all four release gates recorded — freshness, legal-output, technical, visual — and then perform a per-track auditable legal-design and renderer promotion in this repository. The immutableEditionRule forecloses editing Edition 1.2.",
+    "planJob": "AUTH-04-edition-1-3-publication"
+  },
+
+  "blockerPartition": {
+    "note": "Every one of the 163 blocked tracks is assigned to its hardest remaining dependency. Mutually exclusive; sums to 163.",
+    "resolvableInRepo": { "tracks": 41, "components": 221, "meaning": "SHA pinning, guidance-specification authoring, component remapping to an already-retained asset, or a bounded legal-design identity split. No external party involved." },
+    "needsExternalAcquisitionOrLicensing": { "tracks": 96, "components": 198, "distinctDocuments": 109, "meaning": "Acquire the binary from the issuer, clear a currentness or provenance gate with the publisher, or resolve a licensing prohibition." },
+    "needsNewMasterLibraryEdition": { "tracks": 14, "components": 21, "meaning": "Reclassify a retained asset's class, role or document identity. Cannot be corrected in this repository by rule." },
+    "legalDesignBlockerOnly": { "tracks": 12, "meaning": "The controlling review retains an undetermined eligibility branch. Not a source question." },
+    "criticalCaveat": "Closing all 221 in-repo components produces zero shippable tracks. It moves 138 more components into the fully-matched-but-generation-blocked state, a 17-fold increase in that population. The in-repo work is cheap, safe and parallelizable preparation that only yields product value when paired with the edition promotion."
+  },
+
+  "sourceAcquisition": {
+    "queueRows": 239,
+    "distinctDocuments": 118,
+    "documentsRequiringExternalAction": 113,
+    "documentsAlreadyRetainedUnderAnotherIdentity": 5,
+    "highestLeverageSingleCorrection": {
+      "document": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
+      "tracksTouched": 9,
+      "finding": "The document is already retained as IL:FW-CIV-APPLICATION:APPLICATION:EN, byte-identical to the published copy. Nine Illinois components name the rule number rather than the form number. Zero external cost.",
+      "planJob": "AUTH-02-component-remap-corrections"
+    },
+    "highestYieldIssuerFamilies": [
+      { "jurisdiction": "AR", "family": "ACIC uniform petition and order set", "documents": 20, "tracks": 11 },
+      { "jurisdiction": "IL", "family": "statewide-approved / CXP set", "documents": 7, "tracks": 10, "note": "9 of the 10 close via the Rule 298 remap" },
+      { "jurisdiction": "AL", "family": "CR-65 and ABPP-3", "documents": 2, "tracks": 9 },
+      { "jurisdiction": "MO", "family": "OSCA set", "documents": 8, "tracks": 8, "note": "courts.mo.gov returns HTTP 403 to automation; needs a non-blocked channel" },
+      { "jurisdiction": "HI", "family": "HCJDC-159 / 159B", "documents": 2, "tracks": 8 },
+      { "jurisdiction": "MD", "family": "CC-DC-CR-072 A/B/C/D", "documents": 4, "tracks": 5, "note": "Retained already; needs currentness re-confirmation and an edition re-class, not acquisition" }
+    ],
+    "hardStop": {
+      "jurisdiction": "KS",
+      "tracks": 6,
+      "documents": 10,
+      "queueRows": 30,
+      "finding": "The Kansas Judicial Council publishes its forms for non-commercial use only. This is a licensing prohibition, not an availability gap; Kansas cannot be unblocked by acquisition at any price. The blocker ledger warns that the gate must not be evaded by relabelling the route as a custom pleading.",
+      "planJob": "EXC-01-ks-commercial-use-determination"
+    }
+  },
+
+  "rendererArchetypes": {
+    "method": "Joined every official component to its retained asset by workflow key and read structural_class, pages and field_count from the edition manifest.",
+    "formLikeAssets": 327,
+    "byStructuralClass": { "acroform_pdf": 175, "flat_pdf": 117, "clean_acroform": 16, "docx": 8, "html": 6, "legacy_doc": 3, "encrypted_pdf": 1, "scanned_pdf": 1 },
+    "packetFormCandidatesOnly": { "total": 194, "acroform_pdf": 126, "flat_pdf": 54, "clean_acroform": 6, "html": 6, "docx": 1, "encrypted_pdf": 1 },
+    "xfaExposure": "One live XFA asset in the normalized 26 — MA TC0021, affecting one track (ma-expunge-mj). assertProcessable already refuses XFA and encrypted byte-signatures.",
+    "unresolvedContradiction": "docs/record-clearing/official-pdf-implementation-gate.md reports CA CR-180/CR-181 as encrypted XFA against the local private corpus, while Edition 1.2 retains them as acroform_pdf with 81 and 58 fields. These are different binaries and the conflict must be settled before IMP-OF-02 starts."
+  },
+
+  "waves": [
+    { "wave": 0, "name": "Foundations", "jobs": 5, "concurrentLanes": 3, "summary": "The five things that do not exist and that everything downstream needs: a Batch 3 expected-track-ID set, template-family hashing, a per-track promotion contract, packet persistence, and a staging contract." },
+    { "wave": 1, "name": "Unblocked implementation, authority campaign, normalization opens", "jobs": 15, "concurrentLanes": 4, "summary": "92 tracks implementable today with zero platform work, run in parallel with the in-repo authority pass, the tier-1 acquisition campaign, Edition 1.3, and the first two normalization pods." },
+    { "wave": 2, "name": "Platform foundations and the source-clean official families", "jobs": 13, "concurrentLanes": 4, "summary": "The four platform capabilities, then the first real AcroForm field-map family (Maryland) and the four families that inherit it directly." },
+    { "wave": 3, "name": "Post-acquisition official, overlay, composed and conversion", "jobs": 16, "concurrentLanes": 5, "summary": "Everything that needed an acquisition, an overlay confirmation loop, the composed unit model or a conversion policy. Includes the serialized registry integration and the Kansas determination." },
+    { "wave": 4, "name": "The 25 newly normalized jurisdictions", "jobs": 7, "concurrentLanes": 5, "summary": "About 243 new tracks routed into the same archetype job shapes proved in waves 1 to 3. Exact track IDs are instantiated from the registry after integration." },
+    { "wave": 5, "name": "Template-family review and counsel adoption", "jobs": 10, "concurrentLanes": 2, "summary": "Five family review packages, five counsel adoptions. The adoptions are the only jobs in the plan a machine may not perform." },
+    { "wave": 6, "name": "Staging promotion", "jobs": 2, "concurrentLanes": 1, "summary": "Partner-priority jurisdictions first, then the remainder, each proven by a real HTTP packet download against staging." },
+    { "wave": 7, "name": "Production promotion", "jobs": 4, "concurrentLanes": 1, "summary": "Apply persistence, enable the first jurisdictions, enable the remainder, then prove the completion partition." }
+  ],
+
+  "lanes": [
+    { "lane": "normalization", "jobs": 6, "writes": "data/record-clearing/legal-design-intake/<CODE>.memo.json, and — in exactly one integration job — the seven shared registries" },
+    { "lane": "authority", "jobs": 10, "writes": "track-source relationships, Edition 1.3 records, acquisition and gate dispositions" },
+    { "lane": "platform", "jobs": 6, "writes": "src/lib/rcap/packets/** shared model and renderer code" },
+    { "lane": "implementation-pleading", "jobs": 6, "writes": "per-jurisdiction pleading registries, templates and tranche records" },
+    { "lane": "implementation-acroform", "jobs": 13, "writes": "per-jurisdiction official-form registries, field maps and tranche records" },
+    { "lane": "implementation-overlay", "jobs": 2, "writes": "overlay placements and tranche records" },
+    { "lane": "implementation-composed", "jobs": 5, "writes": "composed registries and tranche records" },
+    { "lane": "implementation-guidance", "jobs": 6, "writes": "guidance templates, specifications and tranche records" },
+    { "lane": "proof", "jobs": 5, "writes": "data/record-clearing/template-families/**" },
+    { "lane": "counsel", "jobs": 5, "writes": "adoption records only. Human-performed." },
+    { "lane": "release", "jobs": 8, "writes": "supabase migrations, capability registry, staging and production batches" }
+  ],
+
+  "jobCounts": {
+    "total": 72,
+    "byCategory": {
+      "foundations": 5,
+      "normalization": 6,
+      "authority": 6,
+      "platform": 4,
+      "implementation": 27,
+      "newJurisdictions": 7,
+      "exclusionDetermination": 1,
+      "familyReview": 5,
+      "counselAdoption": 5,
+      "staging": 2,
+      "production": 4
+    },
+    "byWave": { "0": 5, "1": 15, "2": 13, "3": 16, "4": 7, "5": 10, "6": 2, "7": 4 },
+    "humanOnlyJobs": 5
+  },
+
+  "sharedWriteHazards": [
+    {
+      "hazard": "The legal-design intake rebuilds seven whole-corpus files from whatever memos are in the intake directory at run time.",
+      "files": [
+        "data/record-clearing/legal-design-track-registry.json",
+        "data/record-clearing/legal-design-packet-set-manifests.json",
+        "data/record-clearing/legal-design-track-source-relationships.json",
+        "data/record-clearing/legal-design-specifications.json",
+        "data/record-clearing/legal-design-implementation-queue.json",
+        "data/record-clearing/legal-design-legal-research-queue.json",
+        "data/record-clearing/legal-design-guidance-rereview-queue.json"
+      ],
+      "consequence": "A pod branch holding only its own memos would regenerate all seven with its jurisdictions plus the existing 26 and silently delete every other pod's tracks. Two pods in parallel each produce a registry correct for itself and destructive to the other.",
+      "rule": "Normalization pods commit memos only. Exactly one integration job, NORM-06, runs the intake and the reconciler, with all 51 memos present."
+    },
+    {
+      "hazard": "The Master Library reconciler rebuilds nine derived records repository-wide.",
+      "rule": "One writer. Regeneration order is intake, then reconcile, then intake — the reconciler reads the track registry and the registry build reads the audit."
+    },
+    {
+      "hazard": "--approve-composed-units replaces the approvals file with that run's batch only.",
+      "rule": "Every approval run must pass every batch whose approvals must survive, and the diff must show pre-existing entries byte-identical before commit."
+    },
+    {
+      "hazard": "supabase/ is a restricted prefix under the restricted-change guard.",
+      "rule": "Every new migration needs an acknowledgement in docs/rcap-promotion/inherited-restricted-changes.json with a blob hash matching git rev-parse HEAD:<path>, a reason of at least 40 characters, a reviewedUnder and a non-empty introducedBy."
+    }
+  ],
+
+  "criticalPath": {
+    "statement": "The binding constraint is not renderer work. It is edition release posture, then external source acquisition, then counsel adoption.",
+    "chain": [
+      "F-01-batch-3-expected-track-ids and F-02-template-family-hash-infrastructure",
+      "AUTH-01-in-repo-authority-pinning, AUTH-02-component-remap-corrections, AUTH-03-acquisition-campaign-tier-1",
+      "AUTH-04-edition-1-3-publication",
+      "PLAT-01-official-source-binding",
+      "IMP-OF-01-md-district-court-form-family",
+      "REV-02-official-acroform-family-review",
+      "ADOPT-02-official-acroform-family-adoption",
+      "F-04-packet-persistence-infrastructure and F-05-staging-environment-definition",
+      "STG-01-staging-promotion-partner-priority",
+      "PROD-01-apply-packet-persistence",
+      "PROD-02-production-promotion-wave-1",
+      "PROD-03-production-promotion-remainder",
+      "PROD-04-hundred-percent-partition-audit"
+    ],
+    "longestUncompressibleSegment": "AUTH-03 and AUTH-05: 109 distinct documents must be obtained from or re-confirmed with their issuing authorities. No engineering job compresses that, and the repository records no owner, channel or expected date for any of them.",
+    "offCriticalPath": {
+      "tracks": 92,
+      "jobs": ["IMP-CP-01-ga-superior-court-pleading-family","IMP-CP-02-guidance-spec-unblock-family","IMP-CP-03-dc-superior-court-motion-family","IMP-CP-04-single-petition-pleading-states","IMP-GU-01-automatic-relief-guidance-clean-slate","IMP-GU-02-automatic-relief-guidance-cannabis-diversion-pardon","IMP-GU-03-agency-destination-guidance","IMP-GU-04-portal-clerk-prosecutor-guidance","IMP-GU-05-court-adjacent-guidance"],
+      "statement": "37 percent of the corpus is implementable today using only assets Tranche 1 already built. None of it waits on an edition, an acquisition or a platform change."
+    }
+  },
+
+  "commercialPriority": {
+    "evidenceQuality": "Weak and explicitly flagged. The only partner-demand signal in the repository is three seed fixtures with example.org addresses in src/lib/partners/seed-partners.ts, one of them literally named Demo Justice Access Partner. There is no per-state consumer volume data anywhere in the repository, and the high-volume state list in docs/RCAP_STATE_PROMOTION_BATCH_PLAN.md is quoted from an internal dashboard whose numbers are not in the repository.",
+    "ranking": [
+      { "rank": 1, "jurisdiction": "MS", "basis": "The only paid, provisioned, strategic partner; live legacy generator; named first by commercial priority in the Tranche 1 record; already implemented" },
+      { "rank": 2, "jurisdiction": "GA", "basis": "Two partner records, 1250 combined estimated users, first-named launch-priority state, and 13 of 15 tracks already authority-cleared — the best-cleared jurisdiction in the corpus" },
+      { "rank": 3, "jurisdiction": "MD", "basis": "Launch-priority list; five acquisition rows all already acquired and merely source-gated; a Tranche 2 proof already exists" },
+      { "rank": 4, "jurisdiction": "CA", "basis": "Launch-priority list; 30 of 31 official components are retained packet candidates" },
+      { "rank": 5, "jurisdiction": "DC", "basis": "legacy_live_preserved with a dedicated agent reference" },
+      { "rank": 6, "jurisdiction": "IL", "basis": "legacy_live_preserved; largest normalized jurisdiction; best field-map amortisation in the corpus" },
+      { "rank": 7, "jurisdiction": "TX", "basis": "Launch-priority list and legacy_live_preserved for Harris County, but not yet normalized" }
+    ],
+    "governanceConflict": "state-promotion-rules.ts sets partialStateRolloutAllowed false and requires all 51 to launch together, while the packet lane reports packetReadyCount 0. That all-51 rule governs the legacy screening lane. Someone must decide whether it binds the packet lane before the first jurisdiction is enabled; commercial sequencing of packet tranches must not be read as authorising partial promotion in the legacy lane."
+  },
+
+  "twoPromotionMachines": {
+    "note": "The repository contains two structurally separate promotion machines that share vocabulary but nothing else. Confusing them is the single easiest way to misread progress.",
+    "machineA": { "name": "screening and eligibility promotion", "gate": "canApproveForLive in src/lib/rcap/state-promotion-rules.ts", "state": "51 of 51 live, liveEnabled true, all four gates passed" },
+    "machineB": { "name": "packet delivery readiness", "gate": "computeRuntimeStatus in src/lib/rcap/packets/types.ts", "state": "0 of 51 packet_ready; every ReliefTrack is runtimeDisabled and technicalFixture" },
+    "rule": "51 states live means screening routes. It does not mean any jurisdiction can deliver a packet."
+  },
+
+  "statusVocabulary": {
+    "enforcedPreAdoptionStatus": "awaiting_counsel_review",
+    "note": "The strings recommended_for_counsel_adoption and awaiting_counsel_adoption do not exist anywhere in this repository. verify-rcap-tranche-1-packets.mjs asserts humanLegalReviewStatus === 'awaiting_counsel_review' and that the serialized review manifest contains none of legal_output_approved, counsel_approved, packet_ready, generation_allowed or enabled. Every job in this plan uses the enforced vocabulary.",
+    "machineMaySet": ["research (transcribed from an adopted memo)", "technical", "runtime (derived)", "sourceCurrent"],
+    "humanOnly": ["legal = legal_approved", "visual = visual_review_passed", "runtimeDisabled = false"]
+  },
+
+  "hundredPercentDefinition": {
+    "rule": "A jurisdiction is not complete because it is normalized, and a track is not complete because it is implemented. Every track must land in exactly one of four terminal states, and the partition must be provable by count.",
+    "terminalStates": {
+      "A_production_enabled": {
+        "conditions": [
+          "computeRuntimeStatus returns packet_ready",
+          "runtimeDisabled false and technicalFixture false",
+          "legal = legal_approved traceable to a counsel adoption record, not to a design status",
+          "visual = visual_review_passed traceable to a human sign-off, not to an engineering visual record",
+          "openReleaseBlockers zero",
+          "the Master Library audit clears the track; a missing audit entry is a fail",
+          "the jurisdiction's capability status is packet_ready with at least one mappingApproved binding whose mapping hash matches the adopted family",
+          "the proof-required delivery verifier exits 0 having proven HTTP 200, application/pdf, non-zero bytes, a parseable PDF with pages, its own form identity present and no other jurisdiction's present"
+        ],
+        "provingArtifact": "artifacts/packet-delivery/all51-capability-matrix.json plus a green rcap:verify-packet-delivery-proof-required naming the jurisdiction",
+        "todayCount": 0
+      },
+      "B_implemented_guidance_with_final_authority": {
+        "conditions": [
+          "outputStrategy is process_guidance and computeRuntimeStatus returns guidance_ready",
+          "guidance is not a lower bar: legal_approved and visual_review_passed are still required",
+          "every guidance component carries a governing specification",
+          "counsel answered the guidance question with one of the four settled reasons — needs negotiation, needs individualized advocacy, needs a contested evidentiary showing, or there is no participant filing at all",
+          "the track is absent from the guidance re-review queue, or present with an answered no"
+        ],
+        "provingArtifact": "data/record-clearing/legal-design-guidance-rereview-queue.json plus the specification entry plus the counsel adoption record",
+        "todayCount": 0
+      },
+      "C_deliberately_excluded": {
+        "conditions": [
+          "counsel's decision is do not offer, or the track carries an excluded-priority entry with an explicit reason and authority status",
+          "the reason is a controlling legal or commercial ground, not an unfinished internal task",
+          "no ReliefTrack exists for it and no asset binding names it"
+        ],
+        "provingArtifact": "the memo track with a legal_rejected decision, or a deferredTracks entry, plus the blocker ledger",
+        "warning": "The repository has no dedicated permanently-excluded status. Tranche 1's own record shows the distinction that matters: ms-diversion is excluded to keep a tranche bounded and is terminal-C, while ms-dui, ms-drug-cd and ms-mip are blocked only by their own undrafted guidance specifications and are terminal-D — in fact internal work, not exclusion.",
+        "todayCount": 7
+      },
+      "D_fail_closed_on_an_external_dependency": {
+        "conditions": [
+          "computeRuntimeStatus returns runtime_disabled or stale_blocked and every request fails closed with a typed reason",
+          "errors carry identifiers only, never participant data",
+          "exactly one named external dependency from the closed set: an unanswered legal-design blocker, a counsel release blocker, an awaiting-classification item, a missing official source, a source hash mismatch, or an unclearable audit entry",
+          "no internal work left: technical proof passed, deterministic rendering, every boundary fixture stopping, no prohibited content"
+        ],
+        "provingArtifact": "the blocker ledger, the acquisition queue, and a green track verifier proving technical completeness",
+        "warning": "An unwritten guidance specification, an undrafted field map or an unapplied migration is internal work and must never be filed as terminal-D."
+      }
+    },
+    "partitionGate": "PROD-04-hundred-percent-partition-audit adds a verifier asserting that the four terminal sets sum to the track count, that their pairwise intersections are empty, that every terminal-D track names exactly one external dependency from the closed set, and that no terminal-D track holds an open internal work item.",
+    "todayPartition": "A = 0, B = 0, C = 7 deferred, D = the remaining 243 — and a large part of that D is internal work misfiled as blocked. Forcing the distinction is the point of the audit."
+  },
+
+  "reviewModel": {
+    "problem": "Counsel review is the scarcest resource and is per-track today. The registry holds 250 tracks rising to about 493.",
+    "unit": "A template family: the closure of a set of template IDs, the component role and order shape that consumes them, the branch-variant space, the official binaries any official component fills, and the controlling authority the templates were drafted against.",
+    "counselReceives": [
+      "representative packets and every branch variant, with their exact rendered SHA-256",
+      "the family's template hashes, official source hashes and mapping hashes",
+      "the authority archive, controlling review and addendum hashes",
+      "a legal-output recommendation per track: approve as implemented, approve subject to listed correction, or hold",
+      "the unchanged-template hash list",
+      "the exception list, classified on the repository's six-value limitation scale"
+    ],
+    "coverageRule": "A later track claims coverage by an adopted family only when every template hash, official source hash and mapping hash matches the adopted set, its branch variants are a subset of the adopted set, the authority archive and controlling review hashes match, its exceptions are covered or classify as one of the five non-withholding kinds, and it carries no open release blocker. Any single mismatch produces a delta review job naming exactly which hash moved.",
+    "mustBeBuilt": [
+      "canonicalTemplateHash(templateId): a stable hash of the template object, so an unrelated edit to a shared source file does not invalidate every family in it",
+      "mappingSha256 on PacketAssetBinding, so mappingApproved is pinned to the mapping it was approved for rather than being a naked boolean",
+      "verify-rcap-template-family-coverage.mjs in npm test, recomputing every claim and failing on drift"
+    ],
+    "precedent": "The pattern already exists twice: the restricted-change guard pins an acknowledgement to git rev-parse HEAD:<path>, and the Tranche 1 verifier re-hashes a pinned statute against disk and fails on mismatch."
+  },
+
+  "infrastructureGaps": [
+    "rcap_packet_fulfillments — read and written by SupabasePacketRepository, no migration anywhere in supabase/",
+    "rcap_packet_artifacts — same, and saveArtifact upserts, so a composite unique key on (fulfillment_id, component_id) is required",
+    "storage bucket rcap-document-packets-private — referenced, not defined",
+    "RLS policies for both tables — every other RCAP table has them; these two would be the exception",
+    "eight packet environment variables absent from .env.example",
+    "no staging environment: PromotionStatus has no staged value, there is no staging CI job, and deployment is out-of-repo and unmodelled",
+    "no per-track promotion contract: promotion is per jurisdiction and per channel only, with no trackId anywhere in the batch schema"
+  ],
+
+  "jobsDirectory": "planning/record-clearing-100-percent/jobs/",
+  "jobFields": ["jobId","wave","lane","model","effort","jurisdictions","tracks","dependencies","ownedPaths","forbiddenPaths","outputs","gates","commitSubject","completionCondition","blockerResolved","commercialPriority","reuseScore"],
+
+  "notOwnedByThisPlan": [
+    "No packet was implemented.",
+    "No legal-design memo was changed.",
+    "No Master Library authority was altered and no edition was published.",
+    "No shared registry was regenerated.",
+    "No route was promoted; packet_ready remains 0 and enabled jurisdictions remain 0."
+  ]
+}

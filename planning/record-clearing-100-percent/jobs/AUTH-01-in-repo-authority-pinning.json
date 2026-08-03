@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "jobId": "AUTH-01-in-repo-authority-pinning",
+  "wave": 1,
+  "lane": "authority",
+  "model": "claude-sonnet-5",
+  "effort": "high",
+  "title": "Pin the SHA-256 of every uniquely resolved retained packet candidate",
+  "jurisdictions": [
+    "AK",
+    "AZ",
+    "CA",
+    "CO",
+    "CT",
+    "GA",
+    "IL",
+    "IN",
+    "KS",
+    "LA",
+    "MD",
+    "ME",
+    "MI",
+    "MS"
+  ],
+  "tracks": [],
+  "trackCount": 69,
+  "dependencies": [],
+  "ownedPaths": [
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/implementation-tranches/authority-pins-in-repo.json"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**",
+    "supabase/**",
+    "/workspaces/legalease-attorney-review-packages/**"
+  ],
+  "outputs": [
+    "SHA-256 pinned on 138 components resolving to 62 distinct retained Edition 1.2 workflow keys",
+    "a record of every pin naming workflow key, document role, revision, language, canonical path and hash"
+  ],
+  "gates": [
+    "npm run rcap:reconcile-master-library then confirm the audit's officialPdfComponentsWithPinnedSha rises by 138",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "chore(record-clearing): pin retained Edition 1.2 assets on resolved components",
+  "completionCondition": "Every component that resolves to exactly one retained packet-form candidate carries its hash, and no component resolving to a source-gated, excluded, retired or superseded asset is pinned.",
+  "blockerResolved": "138 components across 69 tracks resolve to exactly one retained Edition 1.2 packet-form candidate but pin sha256:null, so the resolverSelectionRule matching-hash requirement can never be met. Purely mechanical and in-repo.",
+  "commercialPriority": 50,
+  "reuseScore": 60
+}
