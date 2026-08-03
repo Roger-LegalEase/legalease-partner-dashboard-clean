@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "note": "Approved composed-unit substance. Read on every batch-delta run and written only by --approve-composed-units. A composed route has no track-level renderer strategy, so this file is where its legal substance is pinned: which vehicle each unit files, which units are unresolved, which are available, and — for a sequential composition — what order the stages run in. Alternative-branch array order is deliberately not pinned; those branches are selected by a predicate, not by position.",
-  "approvedTracks": 22,
+  "approvedTracks": 23,
   "tracks": [
     {
       "jurisdiction": "AR",
@@ -640,6 +640,37 @@
           "available": true,
           "unresolved": false,
           "parentUnitId": "mn_prosecutor_agreed-request-stage"
+        }
+      ],
+      "sequence": null
+    },
+    {
+      "jurisdiction": "MS",
+      "trackId": "ms-diversion",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "alternative",
+      "orderIsSubstantive": false,
+      "counselAuthoredProvenanceCount": 14,
+      "units": [
+        {
+          "unitId": "ms-diversion-intervention-court-verification",
+          "order": 2,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "unresolved",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ms-diversion-pti-expungement-petition",
+          "order": 1,
+          "outputStrategy": "custom_pleading",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
         }
       ],
       "sequence": null

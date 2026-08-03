@@ -1,12 +1,11 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "data/record-clearing/legal-design-intake",
-  "jurisdictionsReceived": 24,
-  "jurisdictionsOutstanding": 27,
+  "jurisdictionsReceived": 25,
+  "jurisdictionsOutstanding": 26,
   "outstandingJurisdictions": [
     "KY",
     "MO",
-    "MS",
     "NC",
     "ND",
     "NE",
@@ -79,7 +78,7 @@
     {
       "batch": "C_custom_pleading",
       "label": "Custom pleading",
-      "trackCount": 29,
+      "trackCount": 37,
       "tracks": [
         {
           "jurisdiction": "AZ",
@@ -1420,13 +1419,487 @@
               "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
             }
           ]
+        },
+        {
+          "jurisdiction": "MS",
+          "trackId": "ms-nonconv",
+          "publicName": "Clearing a case that did not end in a conviction",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Do not inherit the Fourth District models' defects. Do not reuse the conviction petition's certificate of service, which is captioned for the dismissal petition. Do not plead a grand jury indictment as a mandatory allegation, because most misdemeanours are never indicted and many dismissed cases are dismissed before indictment. Do not cite § 99-15-26 and § 99-19-71 together unless both genuinely apply. Do not carry the hardcoded five-year recital, the hardcoded 2020 dates, the three-county field, or the Greenville address. Do not inherit the race field, and treat the full Social Security number as a deliberate decision rather than an inheritance.",
+            "Mississippi has no automatic record clearance. HB 1344 of the 2026 session, which would have created Department of Public Safety automatic expungement at seven years for misdemeanours and ten for felonies, died in committee on 3 February 2026, and substantially identical bills failed in 2024 and 2025. Nothing in the product may suggest automatic clearance exists or is coming.",
+            "Screen gently for trafficking-survivor relief under § 97-3-54.6(6) on every Mississippi intake, because it reaches any misdemeanour or non-violent felony at any time with no waiting period and no first-offender limit, and is therefore broader and faster than this track. Use trauma-sensitive screening, require a legal-aid, attorney or qualified survivor-services handoff, do not elicit unnecessary graphic detail, and never write the survivor narrative or the causal legal argument."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Whether any Mississippi district requires verification or notarization of an expungement petition. Neither archived Fourth District petition is verified or notarized. Unresolved; the petition carries a simple truth statement.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "packet_components",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "MS__LEGAL-REVIEW__STATEWIDE__mississippi-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "OPEN QUESTIONS",
+                "sourceStatement": "Whether any district requires verification or notarization. Unresolved."
+              }
+            }
+          ],
+          "participantActionCount": 18,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether the Miss. Code Ann. § 99-19-72 fee reaches a given petition. The section reads: 'A filing fee of One Hundred Fifty Dollars ($150.00) is hereby levied on each petition to expunge an offense under Section 99-19-71 to be collected by the circuit clerk', distributed $100 to the Judicial System Operation Fund, $40 to the District Attorneys Operation Fund and $10 retained by the circuit clerk. Last amended by Laws, 1st Ex. Sess. 2017, ch. 7, § 12; no enacted amendment through 2026. Two things remain unresolved on its face and are NOT resolved by construction here. First, the trigger is 'each petition to expunge AN OFFENSE under Section 99-19-71': a § 99-19-71(4) non-conviction petition is a petition under § 99-19-71 but is not a petition to expunge an offence, because there is no conviction, and the statute does not settle it either way. Second, the collection mechanism names the CIRCUIT CLERK, which does not map onto § 99-19-71(1) or (4) petitions filed in justice or municipal court. Sections 9-11-15(3), 21-23-7(6), 99-15-26, 63-11-30, 41-29-150 and 67-3-70 sit outside § 99-19-71 and the fee does not reach them by its terms; none of those sections specifies a fee of its own. The packet therefore publishes NO fee amount on any track and instructs the participant to confirm the filing fee, and any pauper's-affidavit route, with the clerk of the court before filing."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Local practice in the twenty-one circuit court districts other than the Fourth, and in every municipal and justice court, was not surveyed. Both the review and the Fourth District materials establish that districts maintain their own petition and order preferences and that some expect the district attorney to sign the order as approved as to form before the judge will sign. This is a scaling constraint rather than a legal one: the statutory mechanism is the same statewide, but the accepted document and the practical gate vary. Every Mississippi track therefore carries localFormOverride and a mandatory clerk-contact instruction."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Trafficking-survivor relief under Miss. Code Ann. § 97-3-54.6, as amended by 2026 HB 1546 effective 1 July 2026, is recorded here as a separately-listed matter and NOT as a tenth normalized source node, because neither the adopted Batch 2 memorandum nor the authoritative source crosswalk lists it among Mississippi's nine core adult slots. The enrolled text was read: new § 97-3-54.6(6) lets the sentencing court, at any time after a conviction or adjudication of delinquency of a misdemeanour or a felony not classified as a crime of violence under § 97-3-2, expunge on appropriate motion where it finds by a preponderance that participation in the offence occurred during the period the person was being trafficked and was the direct result of that trafficking; official documentation from a federal, state or local government agency creates a presumption but is not required; and new § 97-3-54.6(7)(b) provides that neither failing to raise the trafficking affirmative defence nor the court's finding on it affects the ability to file under subsection (6). This relief is broader and faster than ordinary § 99-19-71 conviction expungement, so screening for it belongs on every intake. Whether it becomes a normalized node requires an express crosswalk or memorandum instruction."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Whether a case 'passed to the file' or 'retired to the file' counts as a case in which there was 'no disposition' under § 99-19-71(4). Mississippi practice uses that phrasing and the statute does not address it. The packet fails closed: the participant is asked to copy the docket wording, and an ambiguous entry routes to advice rather than to a pleaded allegation."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (notice_or_service): Whether the ten days' written notice to the district attorney required by § 99-19-71(2)(b) applies outside the felony conviction subsection. On the enrolled text the requirement sits inside subsection (2), which governs felony conviction expungement, and subsection (4) contains no notice provision. The packet does not import the felony notice rule, and instead serves the prosecuting authority contemporaneously and tells the participant that local practice may expect more."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MS",
+          "trackId": "ms-misd-1st",
+          "publicName": "Clearing a first misdemeanor conviction",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Do not inherit the Fourth District models' defects. Do not reuse the conviction petition's certificate of service, which is captioned for the dismissal petition. Do not plead a grand jury indictment as a mandatory allegation, because most misdemeanours are never indicted and many dismissed cases are dismissed before indictment. Do not cite § 99-15-26 and § 99-19-71 together unless both genuinely apply. Do not carry the hardcoded five-year recital, the hardcoded 2020 dates, the three-county field, or the Greenville address. Do not inherit the race field, and treat the full Social Security number as a deliberate decision rather than an inheritance.",
+            "Mississippi has no automatic record clearance. HB 1344 of the 2026 session, which would have created Department of Public Safety automatic expungement at seven years for misdemeanours and ten for felonies, died in committee on 3 February 2026, and substantially identical bills failed in 2024 and 2025. Nothing in the product may suggest automatic clearance exists or is coming.",
+            "Screen gently for trafficking-survivor relief under § 97-3-54.6(6) on every Mississippi intake, because it reaches any misdemeanour or non-violent felony at any time with no waiting period and no first-offender limit, and is therefore broader and faster than this track. Use trauma-sensitive screening, require a legal-aid, attorney or qualified survivor-services handoff, do not elicit unnecessary graphic detail, and never write the survivor narrative or the causal legal argument.",
+            "A previously expunged conviction remains available under § 99-19-71(3) to determine first-offender status in subsequent proceedings, so an earlier expungement does not restore first-offender status. Encode that rule precisely and tell the participant.",
+            "The driving record maintained under Title 63 is expressly unaffected by the parallel lower-court provision, which is a strong signal that traffic-adjacent expectations must be managed carefully."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 19,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether the Miss. Code Ann. § 99-19-72 fee reaches a given petition. The section reads: 'A filing fee of One Hundred Fifty Dollars ($150.00) is hereby levied on each petition to expunge an offense under Section 99-19-71 to be collected by the circuit clerk', distributed $100 to the Judicial System Operation Fund, $40 to the District Attorneys Operation Fund and $10 retained by the circuit clerk. Last amended by Laws, 1st Ex. Sess. 2017, ch. 7, § 12; no enacted amendment through 2026. Two things remain unresolved on its face and are NOT resolved by construction here. First, the trigger is 'each petition to expunge AN OFFENSE under Section 99-19-71': a § 99-19-71(4) non-conviction petition is a petition under § 99-19-71 but is not a petition to expunge an offence, because there is no conviction, and the statute does not settle it either way. Second, the collection mechanism names the CIRCUIT CLERK, which does not map onto § 99-19-71(1) or (4) petitions filed in justice or municipal court. Sections 9-11-15(3), 21-23-7(6), 99-15-26, 63-11-30, 41-29-150 and 67-3-70 sit outside § 99-19-71 and the fee does not reach them by its terms; none of those sections specifies a fee of its own. The packet therefore publishes NO fee amount on any track and instructs the participant to confirm the filing fee, and any pauper's-affidavit route, with the clerk of the court before filing."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Local practice in the twenty-one circuit court districts other than the Fourth, and in every municipal and justice court, was not surveyed. Both the review and the Fourth District materials establish that districts maintain their own petition and order preferences and that some expect the district attorney to sign the order as approved as to form before the judge will sign. This is a scaling constraint rather than a legal one: the statutory mechanism is the same statewide, but the accepted document and the practical gate vary. Every Mississippi track therefore carries localFormOverride and a mandatory clerk-contact instruction."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Trafficking-survivor relief under Miss. Code Ann. § 97-3-54.6, as amended by 2026 HB 1546 effective 1 July 2026, is recorded here as a separately-listed matter and NOT as a tenth normalized source node, because neither the adopted Batch 2 memorandum nor the authoritative source crosswalk lists it among Mississippi's nine core adult slots. The enrolled text was read: new § 97-3-54.6(6) lets the sentencing court, at any time after a conviction or adjudication of delinquency of a misdemeanour or a felony not classified as a crime of violence under § 97-3-2, expunge on appropriate motion where it finds by a preponderance that participation in the offence occurred during the period the person was being trafficked and was the direct result of that trafficking; official documentation from a federal, state or local government agency creates a presumption but is not required; and new § 97-3-54.6(7)(b) provides that neither failing to raise the trafficking affirmative defence nor the court's finding on it affects the ability to file under subsection (6). This relief is broader and faster than ordinary § 99-19-71 conviction expungement, so screening for it belongs on every intake. Whether it becomes a normalized node requires an express crosswalk or memorandum instruction."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Whether 'first offender' in § 99-19-71(1) is measured statewide, by court, or by offence type. The statute does not define it in the subsection. Section 99-19-71(3)'s retention of a nonpublic record by the Mississippi Criminal Information Center 'solely for the purpose of determining whether, in subsequent proceedings, the person is a first offender' points strongly to a statewide, record-based test rather than a court-specific one, and the packet is built on that reading, but the point is not settled by express text. The packet fails closed by asking the participant to obtain their Mississippi criminal history and by routing any prior conviction or prior expungement to advice."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Whether Mississippi courts require proof of payment of fines and costs on a subsection (1) petition where the subsection does not impose it. The payment condition appears in subsection (2)(a), which governs the felony track. Practice reportedly requires a zero balance anyway. The packet asks for the balance sheet as an advisable attachment rather than pleading payment as a statutory element."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): How a traffic violation is distinguished from an ordinary misdemeanour for § 99-19-71(1) purposes. The statute excludes 'a traffic violation' without defining it, and many Mississippi misdemeanours sit near the line. LegalEase does not auto-classify; the participant states the offence and an uncertain classification routes to advice."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MS",
+          "trackId": "ms-fel",
+          "publicName": "Clearing one felony conviction",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Do not inherit the Fourth District models' defects. Do not reuse the conviction petition's certificate of service, which is captioned for the dismissal petition. Do not plead a grand jury indictment as a mandatory allegation, because most misdemeanours are never indicted and many dismissed cases are dismissed before indictment. Do not cite § 99-15-26 and § 99-19-71 together unless both genuinely apply. Do not carry the hardcoded five-year recital, the hardcoded 2020 dates, the three-county field, or the Greenville address. Do not inherit the race field, and treat the full Social Security number as a deliberate decision rather than an inheritance.",
+            "Mississippi has no automatic record clearance. HB 1344 of the 2026 session, which would have created Department of Public Safety automatic expungement at seven years for misdemeanours and ten for felonies, died in committee on 3 February 2026, and substantially identical bills failed in 2024 and 2025. Nothing in the product may suggest automatic clearance exists or is coming.",
+            "Screen gently for trafficking-survivor relief under § 97-3-54.6(6) on every Mississippi intake, because it reaches any misdemeanour or non-violent felony at any time with no waiting period and no first-offender limit, and is therefore broader and faster than this track. Use trauma-sensitive screening, require a legal-aid, attorney or qualified survivor-services handoff, do not elicit unnecessary graphic detail, and never write the survivor narrative or the causal legal argument.",
+            "The waiting period is three years from 1 July 2026, and felony procuring prostitution and promoting prostitution under § 97-29-51 are newly excluded. Both changes come from the enrolled text of 2026 HB 1546 and neither may be taken from a bill summary.",
+            "No public official is eligible for expunction under § 99-19-71 for any conviction related to his official duties (§ 99-19-71(5))."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 23,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether the Miss. Code Ann. § 99-19-72 fee reaches a given petition. The section reads: 'A filing fee of One Hundred Fifty Dollars ($150.00) is hereby levied on each petition to expunge an offense under Section 99-19-71 to be collected by the circuit clerk', distributed $100 to the Judicial System Operation Fund, $40 to the District Attorneys Operation Fund and $10 retained by the circuit clerk. Last amended by Laws, 1st Ex. Sess. 2017, ch. 7, § 12; no enacted amendment through 2026. Two things remain unresolved on its face and are NOT resolved by construction here. First, the trigger is 'each petition to expunge AN OFFENSE under Section 99-19-71': a § 99-19-71(4) non-conviction petition is a petition under § 99-19-71 but is not a petition to expunge an offence, because there is no conviction, and the statute does not settle it either way. Second, the collection mechanism names the CIRCUIT CLERK, which does not map onto § 99-19-71(1) or (4) petitions filed in justice or municipal court. Sections 9-11-15(3), 21-23-7(6), 99-15-26, 63-11-30, 41-29-150 and 67-3-70 sit outside § 99-19-71 and the fee does not reach them by its terms; none of those sections specifies a fee of its own. The packet therefore publishes NO fee amount on any track and instructs the participant to confirm the filing fee, and any pauper's-affidavit route, with the clerk of the court before filing."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Local practice in the twenty-one circuit court districts other than the Fourth, and in every municipal and justice court, was not surveyed. Both the review and the Fourth District materials establish that districts maintain their own petition and order preferences and that some expect the district attorney to sign the order as approved as to form before the judge will sign. This is a scaling constraint rather than a legal one: the statutory mechanism is the same statewide, but the accepted document and the practical gate vary. Every Mississippi track therefore carries localFormOverride and a mandatory clerk-contact instruction."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Trafficking-survivor relief under Miss. Code Ann. § 97-3-54.6, as amended by 2026 HB 1546 effective 1 July 2026, is recorded here as a separately-listed matter and NOT as a tenth normalized source node, because neither the adopted Batch 2 memorandum nor the authoritative source crosswalk lists it among Mississippi's nine core adult slots. The enrolled text was read: new § 97-3-54.6(6) lets the sentencing court, at any time after a conviction or adjudication of delinquency of a misdemeanour or a felony not classified as a crime of violence under § 97-3-2, expunge on appropriate motion where it finds by a preponderance that participation in the offence occurred during the period the person was being trafficked and was the direct result of that trafficking; official documentation from a federal, state or local government agency creates a presumption but is not required; and new § 97-3-54.6(7)(b) provides that neither failing to raise the trafficking affirmative defence nor the court's finding on it affects the ability to file under subsection (6). This relief is broader and faster than ordinary § 99-19-71 conviction expungement, so screening for it belongs on every intake. Whether it becomes a normalized node requires an express crosswalk or memorandum instruction."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (waiting_period): Whether a Mississippi court will apply the three-year period in 2026 HB 1546 to a petition filed on or after 1 July 2026 that concerns a conviction completed before that date. The enrolled act carries NO applicability clause: SECTION 4 provides only that the act takes effect from and after 1 July 2026, and nothing limits it to convictions entered or sentences completed after that date. The ordinary reading is that the amended waiting period governs any petition filed on or after the effective date, which is how the product applies it, but no Mississippi appellate authority construing the amendment exists yet."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Whether an expungement obtained on the non-conviction track or the first-offender misdemeanour track counts against the one-felony-expunction allowance in § 99-19-71(2)(a). The enrolled text limits the allowance to 'one (1) felony expunction under this paragraph (a)', which on its face reaches only paragraph (a) felony expunctions, and the review reaches the same conclusion. The packet encodes that reading and tells participants their non-conviction expungement does not spend the felony allowance."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether any circuit district requires the district attorney's 'approved as to form' signature as a practical precondition to the judge signing the order. Both archived Fourth District orders carry that block. It may be dispositive of whether the product can serve a district at all, and it is a negotiation LegalEase does not conduct."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MS",
+          "trackId": "ms-misd-addl",
+          "publicName": "Clearing additional misdemeanors in city or justice court",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Do not inherit the Fourth District models' defects. Do not reuse the conviction petition's certificate of service, which is captioned for the dismissal petition. Do not plead a grand jury indictment as a mandatory allegation, because most misdemeanours are never indicted and many dismissed cases are dismissed before indictment. Do not cite § 99-15-26 and § 99-19-71 together unless both genuinely apply. Do not carry the hardcoded five-year recital, the hardcoded 2020 dates, the three-county field, or the Greenville address. Do not inherit the race field, and treat the full Social Security number as a deliberate decision rather than an inheritance.",
+            "Mississippi has no automatic record clearance. HB 1344 of the 2026 session, which would have created Department of Public Safety automatic expungement at seven years for misdemeanours and ten for felonies, died in committee on 3 February 2026, and substantially identical bills failed in 2024 and 2025. Nothing in the product may suggest automatic clearance exists or is coming.",
+            "Screen gently for trafficking-survivor relief under § 97-3-54.6(6) on every Mississippi intake, because it reaches any misdemeanour or non-violent felony at any time with no waiting period and no first-offender limit, and is therefore broader and faster than this track. Use trauma-sensitive screening, require a legal-aid, attorney or qualified survivor-services handoff, do not elicit unnecessary graphic detail, and never write the survivor narrative or the causal legal argument.",
+            "Each court expunges only its own misdemeanours. A participant with convictions in two courts needs two petitions."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "The complete current text of both provisions was obtained on this pass and CONFIRMS the single-node treatment. Miss. Code Ann. § 9-11-15(3), last amended by Laws 2016 ch. 406 § 1, and § 21-23-7(6), last amended by Laws 2021 ch. 356, are word-for-word identical on every operative element: prior notice to the prosecutor, a showing in open court of rehabilitation, good conduct for a period of two years since the last conviction IN ANY COURT and that the best interest of society would be served, discretionary relief, 'the record of conviction of a person of any or all misdemeanors in that court', the restoration-of-status and lawful-denial language, the carve-out for the confidential records of law-enforcement agencies, and the identical Title 63 driving-record limitation. They differ only in the court petitioned and in whether the county prosecutor or the municipal prosecuting attorney is noticed. Neither section specifies a fee. What remains open is local practice, not the statutory text.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "eligibility_branch",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "MS__LEGAL-REVIEW__STATEWIDE__mississippi-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "TRACK 4 - Additional justice court and municipal court misdemeanors",
+                "sourceStatement": "Full current text of both sections, which was not retrieved on this pass. Build blocker for this track.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 16,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Local practice in the twenty-one circuit court districts other than the Fourth, and in every municipal and justice court, was not surveyed. Both the review and the Fourth District materials establish that districts maintain their own petition and order preferences and that some expect the district attorney to sign the order as approved as to form before the judge will sign. This is a scaling constraint rather than a legal one: the statutory mechanism is the same statewide, but the accepted document and the practical gate vary. Every Mississippi track therefore carries localFormOverride and a mandatory clerk-contact instruction."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether the Miss. Code Ann. § 99-19-72 fee reaches a given petition. The section reads: 'A filing fee of One Hundred Fifty Dollars ($150.00) is hereby levied on each petition to expunge an offense under Section 99-19-71 to be collected by the circuit clerk', distributed $100 to the Judicial System Operation Fund, $40 to the District Attorneys Operation Fund and $10 retained by the circuit clerk. Last amended by Laws, 1st Ex. Sess. 2017, ch. 7, § 12; no enacted amendment through 2026. Two things remain unresolved on its face and are NOT resolved by construction here. First, the trigger is 'each petition to expunge AN OFFENSE under Section 99-19-71': a § 99-19-71(4) non-conviction petition is a petition under § 99-19-71 but is not a petition to expunge an offence, because there is no conviction, and the statute does not settle it either way. Second, the collection mechanism names the CIRCUIT CLERK, which does not map onto § 99-19-71(1) or (4) petitions filed in justice or municipal court. Sections 9-11-15(3), 21-23-7(6), 99-15-26, 63-11-30, 41-29-150 and 67-3-70 sit outside § 99-19-71 and the fee does not reach them by its terms; none of those sections specifies a fee of its own. The packet therefore publishes NO fee amount on any track and instructs the participant to confirm the filing fee, and any pauper's-affidavit route, with the clerk of the court before filing."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Trafficking-survivor relief under Miss. Code Ann. § 97-3-54.6, as amended by 2026 HB 1546 effective 1 July 2026, is recorded here as a separately-listed matter and NOT as a tenth normalized source node, because neither the adopted Batch 2 memorandum nor the authoritative source crosswalk lists it among Mississippi's nine core adult slots. The enrolled text was read: new § 97-3-54.6(6) lets the sentencing court, at any time after a conviction or adjudication of delinquency of a misdemeanour or a felony not classified as a crime of violence under § 97-3-2, expunge on appropriate motion where it finds by a preponderance that participation in the offence occurred during the period the person was being trafficked and was the direct result of that trafficking; official documentation from a federal, state or local government agency creates a presumption but is not required; and new § 97-3-54.6(7)(b) provides that neither failing to raise the trafficking affirmative defence nor the court's finding on it affects the ability to file under subsection (6). This relief is broader and faster than ordinary § 99-19-71 conviction expungement, so screening for it belongs on every intake. Whether it becomes a normalized node requires an express crosswalk or memorandum instruction."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (venue): Whether a single petition can reach convictions in more than one court. The text of both provisions speaks of misdemeanours in 'that court', which suggests it cannot, and the packet is built on the narrower reading: a participant with convictions in two courts is told they need two petitions."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MS",
+          "trackId": "ms-nonadj",
+          "publicName": "Cases where the court withheld your guilty plea",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Do not inherit the Fourth District models' defects. Do not reuse the conviction petition's certificate of service, which is captioned for the dismissal petition. Do not plead a grand jury indictment as a mandatory allegation, because most misdemeanours are never indicted and many dismissed cases are dismissed before indictment. Do not cite § 99-15-26 and § 99-19-71 together unless both genuinely apply. Do not carry the hardcoded five-year recital, the hardcoded 2020 dates, the three-county field, or the Greenville address. Do not inherit the race field, and treat the full Social Security number as a deliberate decision rather than an inheritance.",
+            "Mississippi has no automatic record clearance. HB 1344 of the 2026 session, which would have created Department of Public Safety automatic expungement at seven years for misdemeanours and ten for felonies, died in committee on 3 February 2026, and substantially identical bills failed in 2024 and 2025. Nothing in the product may suggest automatic clearance exists or is coming.",
+            "Screen gently for trafficking-survivor relief under § 97-3-54.6(6) on every Mississippi intake, because it reaches any misdemeanour or non-violent felony at any time with no waiting period and no first-offender limit, and is therefore broader and faster than this track. Use trauma-sensitive screening, require a legal-aid, attorney or qualified survivor-services handoff, do not elicit unnecessary graphic detail, and never write the survivor narrative or the causal legal argument."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 19,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): The complete current text of Miss. Code Ann. § 99-15-26 was obtained on this pass and resolves most of what the review left open. The section is the integration of two 2019 acts under § 1-1-109 — Laws 2019 ch. 362 § 4 and Laws 2019 ch. 466 § 41, the Criminal Justice Reform Act — with no enacted amendment since. Subsection (1)(a) covers felony and misdemeanour cases in circuit or county court on a guilty plea entered on or after 1 July 2014, OTHER THAN crimes against the person, a crime of violence as defined in § 97-3-2, a violation of § 97-11-31, or crimes in which a person unlawfully takes, obtains or misappropriates funds received by or entrusted to the person by virtue of public office or employment; (1)(b) covers misdemeanours in justice or municipal court; (1)(c) covers misdemeanour domestic violence in any of the four courts. Subsection (1)(d) makes the benefit ONCE-ONLY — 'No person having previously qualified under the provisions of this section shall be eligible to qualify for release in accordance with this section for a repeat offense' — and excludes trafficking under § 41-29-139(f) and any offence under the Implied Consent Law, which can only be nonadjudicated under § 63-11-30. Subsection (2) sets the conditions the court may impose, with good behaviour up to five years in circuit or county court and two years in justice or municipal court. Subsection (4) makes the DISMISSAL automatic: on successful completion the court 'shall direct that the cause be dismissed and the case be closed'. The expungement subsection is (5) as the review recorded, and it requires a petition. One textual gap survives and is preserved rather than resolved: § 99-15-26(5) and § 99-19-71(4) are near-verbatim twins, and BOTH are keyed to 'a case in which an arrest was made, the person arrested was released and the case was dismissed', which describes a pre-adjudication arrest-and-release posture rather than a post-guilty-plea nonadjudication dismissal under (4). Neither section says in terms that a subsection (4) dismissal is expungeable on petition."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Whether a successful nonadjudication dismissal requires its own petition under § 99-15-26, qualifies independently under § 99-19-71(4) as a case that was dismissed, or permits either route. This is the routing question and it is unresolved. The packet fails closed by pleading § 99-15-26 alone on this track, never merging the two statutes, and never reproducing the archived Fourth District dual citation."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether the Miss. Code Ann. § 99-19-72 fee reaches a given petition. The section reads: 'A filing fee of One Hundred Fifty Dollars ($150.00) is hereby levied on each petition to expunge an offense under Section 99-19-71 to be collected by the circuit clerk', distributed $100 to the Judicial System Operation Fund, $40 to the District Attorneys Operation Fund and $10 retained by the circuit clerk. Last amended by Laws, 1st Ex. Sess. 2017, ch. 7, § 12; no enacted amendment through 2026. Two things remain unresolved on its face and are NOT resolved by construction here. First, the trigger is 'each petition to expunge AN OFFENSE under Section 99-19-71': a § 99-19-71(4) non-conviction petition is a petition under § 99-19-71 but is not a petition to expunge an offence, because there is no conviction, and the statute does not settle it either way. Second, the collection mechanism names the CIRCUIT CLERK, which does not map onto § 99-19-71(1) or (4) petitions filed in justice or municipal court. Sections 9-11-15(3), 21-23-7(6), 99-15-26, 63-11-30, 41-29-150 and 67-3-70 sit outside § 99-19-71 and the fee does not reach them by its terms; none of those sections specifies a fee of its own. The packet therefore publishes NO fee amount on any track and instructs the participant to confirm the filing fee, and any pauper's-affidavit route, with the clerk of the court before filing."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Local practice in the twenty-one circuit court districts other than the Fourth, and in every municipal and justice court, was not surveyed. Both the review and the Fourth District materials establish that districts maintain their own petition and order preferences and that some expect the district attorney to sign the order as approved as to form before the judge will sign. This is a scaling constraint rather than a legal one: the statutory mechanism is the same statewide, but the accepted document and the practical gate vary. Every Mississippi track therefore carries localFormOverride and a mandatory clerk-contact instruction."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Trafficking-survivor relief under Miss. Code Ann. § 97-3-54.6, as amended by 2026 HB 1546 effective 1 July 2026, is recorded here as a separately-listed matter and NOT as a tenth normalized source node, because neither the adopted Batch 2 memorandum nor the authoritative source crosswalk lists it among Mississippi's nine core adult slots. The enrolled text was read: new § 97-3-54.6(6) lets the sentencing court, at any time after a conviction or adjudication of delinquency of a misdemeanour or a felony not classified as a crime of violence under § 97-3-2, expunge on appropriate motion where it finds by a preponderance that participation in the offence occurred during the period the person was being trafficked and was the direct result of that trafficking; official documentation from a federal, state or local government agency creates a presumption but is not required; and new § 97-3-54.6(7)(b) provides that neither failing to raise the trafficking affirmative defence nor the court's finding on it affects the ability to file under subsection (6). This relief is broader and faster than ordinary § 99-19-71 conviction expungement, so screening for it belongs on every intake. Whether it becomes a normalized node requires an express crosswalk or memorandum instruction."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MS",
+          "trackId": "ms-dui",
+          "publicName": "Clearing a first DUI",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Do not inherit the Fourth District models' defects. Do not reuse the conviction petition's certificate of service, which is captioned for the dismissal petition. Do not plead a grand jury indictment as a mandatory allegation, because most misdemeanours are never indicted and many dismissed cases are dismissed before indictment. Do not cite § 99-15-26 and § 99-19-71 together unless both genuinely apply. Do not carry the hardcoded five-year recital, the hardcoded 2020 dates, the three-county field, or the Greenville address. Do not inherit the race field, and treat the full Social Security number as a deliberate decision rather than an inheritance.",
+            "Mississippi has no automatic record clearance. HB 1344 of the 2026 session, which would have created Department of Public Safety automatic expungement at seven years for misdemeanours and ten for felonies, died in committee on 3 February 2026, and substantially identical bills failed in 2024 and 2025. Nothing in the product may suggest automatic clearance exists or is coming.",
+            "Screen gently for trafficking-survivor relief under § 97-3-54.6(6) on every Mississippi intake, because it reaches any misdemeanour or non-violent felony at any time with no waiting period and no first-offender limit, and is therefore broader and faster than this track. Use trauma-sensitive screening, require a legal-aid, attorney or qualified survivor-services handoff, do not elicit unnecessary graphic detail, and never write the survivor narrative or the causal legal argument.",
+            "Do not route DUI through the ordinary misdemeanour track. The internal reference's rule that DUI must never be routed through ordinary misdemeanour expungement is correct and is a hard gate.",
+            "Venue is the circuit court of the county of conviction. A municipal court judge is not authorized to expunge a DUI conviction. This is a venue trap and the most likely way a Mississippi DUI petition gets filed in the wrong court."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 19,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The complete current text was obtained on this pass and resolves the review's open questions on this track. The expungement provision is Miss. Code Ann. § 63-11-30(13), from enrolled SB 2095 (Laws 2022 ch. 303), which is the last enacted amendment — no 2023 to 2026 amendment touched it, and 2026 HB 1546 changed only § 99-19-71(2). The waiting period is confirmed as at least FIVE years after successful completion of all terms and conditions of the sentence, and it was NOT affected by HB 1546's reduction of the general felony period to three years. Venue is confirmed as the circuit court of the county in which the conviction was had. One practical caution survives: the provision is widely cited as § 63-11-30(14), and per the enrolled act (13) is Expunction while (14) is Nonadjudication, so the subsection letter should be confirmed against the current print before filing."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Local practice in the twenty-one circuit court districts other than the Fourth, and in every municipal and justice court, was not surveyed. Both the review and the Fourth District materials establish that districts maintain their own petition and order preferences and that some expect the district attorney to sign the order as approved as to form before the judge will sign. This is a scaling constraint rather than a legal one: the statutory mechanism is the same statewide, but the accepted document and the practical gate vary. Every Mississippi track therefore carries localFormOverride and a mandatory clerk-contact instruction."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether the Miss. Code Ann. § 99-19-72 fee reaches a given petition. The section reads: 'A filing fee of One Hundred Fifty Dollars ($150.00) is hereby levied on each petition to expunge an offense under Section 99-19-71 to be collected by the circuit clerk', distributed $100 to the Judicial System Operation Fund, $40 to the District Attorneys Operation Fund and $10 retained by the circuit clerk. Last amended by Laws, 1st Ex. Sess. 2017, ch. 7, § 12; no enacted amendment through 2026. Two things remain unresolved on its face and are NOT resolved by construction here. First, the trigger is 'each petition to expunge AN OFFENSE under Section 99-19-71': a § 99-19-71(4) non-conviction petition is a petition under § 99-19-71 but is not a petition to expunge an offence, because there is no conviction, and the statute does not settle it either way. Second, the collection mechanism names the CIRCUIT CLERK, which does not map onto § 99-19-71(1) or (4) petitions filed in justice or municipal court. Sections 9-11-15(3), 21-23-7(6), 99-15-26, 63-11-30, 41-29-150 and 67-3-70 sit outside § 99-19-71 and the fee does not reach them by its terms; none of those sections specifies a fee of its own. The packet therefore publishes NO fee amount on any track and instructs the participant to confirm the filing fee, and any pauper's-affidavit route, with the clerk of the court before filing."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Trafficking-survivor relief under Miss. Code Ann. § 97-3-54.6, as amended by 2026 HB 1546 effective 1 July 2026, is recorded here as a separately-listed matter and NOT as a tenth normalized source node, because neither the adopted Batch 2 memorandum nor the authoritative source crosswalk lists it among Mississippi's nine core adult slots. The enrolled text was read: new § 97-3-54.6(6) lets the sentencing court, at any time after a conviction or adjudication of delinquency of a misdemeanour or a felony not classified as a crime of violence under § 97-3-2, expunge on appropriate motion where it finds by a preponderance that participation in the offence occurred during the period the person was being trafficked and was the direct result of that trafficking; official documentation from a federal, state or local government agency creates a presumption but is not required; and new § 97-3-54.6(7)(b) provides that neither failing to raise the trafficking affirmative defence nor the court's finding on it affects the ability to file under subsection (6). This relief is broader and faster than ordinary § 99-19-71 conviction expungement, so screening for it belongs on every intake. Whether it becomes a normalized node requires an express crosswalk or memorandum instruction."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MS",
+          "trackId": "ms-drug-cd",
+          "publicName": "First-time drug possession cases",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Do not inherit the Fourth District models' defects. Do not reuse the conviction petition's certificate of service, which is captioned for the dismissal petition. Do not plead a grand jury indictment as a mandatory allegation, because most misdemeanours are never indicted and many dismissed cases are dismissed before indictment. Do not cite § 99-15-26 and § 99-19-71 together unless both genuinely apply. Do not carry the hardcoded five-year recital, the hardcoded 2020 dates, the three-county field, or the Greenville address. Do not inherit the race field, and treat the full Social Security number as a deliberate decision rather than an inheritance.",
+            "Mississippi has no automatic record clearance. HB 1344 of the 2026 session, which would have created Department of Public Safety automatic expungement at seven years for misdemeanours and ten for felonies, died in committee on 3 February 2026, and substantially identical bills failed in 2024 and 2025. Nothing in the product may suggest automatic clearance exists or is coming.",
+            "Screen gently for trafficking-survivor relief under § 97-3-54.6(6) on every Mississippi intake, because it reaches any misdemeanour or non-violent felony at any time with no waiting period and no first-offender limit, and is therefore broader and faster than this track. Use trauma-sensitive screening, require a legal-aid, attorney or qualified survivor-services handoff, do not elicit unnecessary graphic detail, and never write the survivor narrative or the causal legal argument.",
+            "Do not include trafficking or distribution cases. This route reaches possession and paraphernalia offences only, and trafficking under § 41-29-139 is separately excluded from felony expungement as well.",
+            "The conditional discharge is a once-only benefit and a nonpublic record is retained for future eligibility checks."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 19,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): The complete current text was obtained on this pass and closes the review's open question. The conditional discharge sits at Miss. Code Ann. § 41-29-150(d)(1) and the expungement remedy at § 41-29-150(d)(2); the last enacted amendment is Laws 2010 ch. 460 § 2 and there has been none since. Eligible offences are violations of § 41-29-139(c), simple possession, and § 41-29-139(d), paraphernalia; sale, distribution and manufacture under § 41-29-139(a) are outside the route, and the relief is unavailable where the court accepted the plea and adjudicated guilt. The prior-record restriction, the once-only limitation, the Bureau of Narcotics nonpublic record, the application procedure and the mandatory hearing are as summarised in the controlling authority. The section specifies no fee and § 99-19-72's fee does not reach it."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether the Miss. Code Ann. § 99-19-72 fee reaches a given petition. The section reads: 'A filing fee of One Hundred Fifty Dollars ($150.00) is hereby levied on each petition to expunge an offense under Section 99-19-71 to be collected by the circuit clerk', distributed $100 to the Judicial System Operation Fund, $40 to the District Attorneys Operation Fund and $10 retained by the circuit clerk. Last amended by Laws, 1st Ex. Sess. 2017, ch. 7, § 12; no enacted amendment through 2026. Two things remain unresolved on its face and are NOT resolved by construction here. First, the trigger is 'each petition to expunge AN OFFENSE under Section 99-19-71': a § 99-19-71(4) non-conviction petition is a petition under § 99-19-71 but is not a petition to expunge an offence, because there is no conviction, and the statute does not settle it either way. Second, the collection mechanism names the CIRCUIT CLERK, which does not map onto § 99-19-71(1) or (4) petitions filed in justice or municipal court. Sections 9-11-15(3), 21-23-7(6), 99-15-26, 63-11-30, 41-29-150 and 67-3-70 sit outside § 99-19-71 and the fee does not reach them by its terms; none of those sections specifies a fee of its own. The packet therefore publishes NO fee amount on any track and instructs the participant to confirm the filing fee, and any pauper's-affidavit route, with the clerk of the court before filing."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Local practice in the twenty-one circuit court districts other than the Fourth, and in every municipal and justice court, was not surveyed. Both the review and the Fourth District materials establish that districts maintain their own petition and order preferences and that some expect the district attorney to sign the order as approved as to form before the judge will sign. This is a scaling constraint rather than a legal one: the statutory mechanism is the same statewide, but the accepted document and the practical gate vary. Every Mississippi track therefore carries localFormOverride and a mandatory clerk-contact instruction."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Trafficking-survivor relief under Miss. Code Ann. § 97-3-54.6, as amended by 2026 HB 1546 effective 1 July 2026, is recorded here as a separately-listed matter and NOT as a tenth normalized source node, because neither the adopted Batch 2 memorandum nor the authoritative source crosswalk lists it among Mississippi's nine core adult slots. The enrolled text was read: new § 97-3-54.6(6) lets the sentencing court, at any time after a conviction or adjudication of delinquency of a misdemeanour or a felony not classified as a crime of violence under § 97-3-2, expunge on appropriate motion where it finds by a preponderance that participation in the offence occurred during the period the person was being trafficked and was the direct result of that trafficking; official documentation from a federal, state or local government agency creates a presumption but is not required; and new § 97-3-54.6(7)(b) provides that neither failing to raise the trafficking affirmative defence nor the court's finding on it affects the ability to file under subsection (6). This relief is broader and faster than ordinary § 99-19-71 conviction expungement, so screening for it belongs on every intake. Whether it becomes a normalized node requires an express crosswalk or memorandum instruction."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MS",
+          "trackId": "ms-mip",
+          "publicName": "Underage drinking charges",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Do not inherit the Fourth District models' defects. Do not reuse the conviction petition's certificate of service, which is captioned for the dismissal petition. Do not plead a grand jury indictment as a mandatory allegation, because most misdemeanours are never indicted and many dismissed cases are dismissed before indictment. Do not cite § 99-15-26 and § 99-19-71 together unless both genuinely apply. Do not carry the hardcoded five-year recital, the hardcoded 2020 dates, the three-county field, or the Greenville address. Do not inherit the race field, and treat the full Social Security number as a deliberate decision rather than an inheritance.",
+            "Mississippi has no automatic record clearance. HB 1344 of the 2026 session, which would have created Department of Public Safety automatic expungement at seven years for misdemeanours and ten for felonies, died in committee on 3 February 2026, and substantially identical bills failed in 2024 and 2025. Nothing in the product may suggest automatic clearance exists or is coming.",
+            "Screen gently for trafficking-survivor relief under § 97-3-54.6(6) on every Mississippi intake, because it reaches any misdemeanour or non-violent felony at any time with no waiting period and no first-offender limit, and is therefore broader and faster than this track. Use trauma-sensitive screening, require a legal-aid, attorney or qualified survivor-services handoff, do not elicit unnecessary graphic detail, and never write the survivor narrative or the causal legal argument."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 17,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (waiting_period): The complete current text of Miss. Code Ann. § 67-3-70 was obtained on this pass from enrolled HB 917 § 34 (Laws 2020 ch. 314), the last enacted amendment, with no enacted amendment 2021 to 2026. This CLOSES the review's open question: the one-year waiting period is now supported by primary authority rather than by a secondary clearinghouse source, the covered offences are subsections (1) and (2), the trigger is the later of dismissal and discharge or completion of any sentence and payment of any fine, venue is simply 'the court', and relief is mandatory on the findings. What the section does not supply is petition contents, prosecutor notice, hearing procedure or a fee, none of which it prescribes; the packet therefore drafts to the statutory findings and instructs the participant to confirm any filing fee with the clerk."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether the Miss. Code Ann. § 99-19-72 fee reaches a given petition. The section reads: 'A filing fee of One Hundred Fifty Dollars ($150.00) is hereby levied on each petition to expunge an offense under Section 99-19-71 to be collected by the circuit clerk', distributed $100 to the Judicial System Operation Fund, $40 to the District Attorneys Operation Fund and $10 retained by the circuit clerk. Last amended by Laws, 1st Ex. Sess. 2017, ch. 7, § 12; no enacted amendment through 2026. Two things remain unresolved on its face and are NOT resolved by construction here. First, the trigger is 'each petition to expunge AN OFFENSE under Section 99-19-71': a § 99-19-71(4) non-conviction petition is a petition under § 99-19-71 but is not a petition to expunge an offence, because there is no conviction, and the statute does not settle it either way. Second, the collection mechanism names the CIRCUIT CLERK, which does not map onto § 99-19-71(1) or (4) petitions filed in justice or municipal court. Sections 9-11-15(3), 21-23-7(6), 99-15-26, 63-11-30, 41-29-150 and 67-3-70 sit outside § 99-19-71 and the fee does not reach them by its terms; none of those sections specifies a fee of its own. The packet therefore publishes NO fee amount on any track and instructs the participant to confirm the filing fee, and any pauper's-affidavit route, with the clerk of the court before filing."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Local practice in the twenty-one circuit court districts other than the Fourth, and in every municipal and justice court, was not surveyed. Both the review and the Fourth District materials establish that districts maintain their own petition and order preferences and that some expect the district attorney to sign the order as approved as to form before the judge will sign. This is a scaling constraint rather than a legal one: the statutory mechanism is the same statewide, but the accepted document and the practical gate vary. Every Mississippi track therefore carries localFormOverride and a mandatory clerk-contact instruction."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Trafficking-survivor relief under Miss. Code Ann. § 97-3-54.6, as amended by 2026 HB 1546 effective 1 July 2026, is recorded here as a separately-listed matter and NOT as a tenth normalized source node, because neither the adopted Batch 2 memorandum nor the authoritative source crosswalk lists it among Mississippi's nine core adult slots. The enrolled text was read: new § 97-3-54.6(6) lets the sentencing court, at any time after a conviction or adjudication of delinquency of a misdemeanour or a felony not classified as a crime of violence under § 97-3-2, expunge on appropriate motion where it finds by a preponderance that participation in the offence occurred during the period the person was being trafficked and was the direct result of that trafficking; official documentation from a federal, state or local government agency creates a presumption but is not required; and new § 97-3-54.6(7)(b) provides that neither failing to raise the trafficking affirmative defence nor the court's finding on it affects the ability to file under subsection (6). This relief is broader and faster than ordinary § 99-19-71 conviction expungement, so screening for it belongs on every intake. Whether it becomes a normalized node requires an express crosswalk or memorandum instruction."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
         }
       ]
     },
     {
       "batch": "D_composed_or_process_guidance",
       "label": "Composed and process-guidance tracks",
-      "trackCount": 63,
+      "trackCount": 64,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -3949,6 +4422,76 @@
             {
               "kind": "release_blocker",
               "statement": "Open question blocks release (eligibility_branch): Whether § 609A.02, subd. 4 formally binds an inherent-authority order. The review treats the registration bar as excluded as a matter of policy."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "MS",
+          "trackId": "ms-diversion",
+          "publicName": "Cases you resolved through a program",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Mississippi has no automatic record clearance. HB 1344 of the 2026 session, which would have created Department of Public Safety automatic expungement at seven years for misdemeanours and ten for felonies, died in committee on 3 February 2026, and substantially identical bills failed in 2024 and 2025. Nothing in the product may suggest automatic clearance exists or is coming.",
+            "Screen gently for trafficking-survivor relief under § 97-3-54.6(6) on every Mississippi intake, because it reaches any misdemeanour or non-violent felony at any time with no waiting period and no first-offender limit, and is therefore broader and faster than this track. Use trauma-sensitive screening, require a legal-aid, attorney or qualified survivor-services handoff, do not elicit unnecessary graphic detail, and never write the survivor narrative or the causal legal argument.",
+            "Do not count the programme itself as paid record-clearance relief merely because it affects the final disposition. Diversion produces a disposition; the § 99-15-123(3) petition or the § 9-23-23 result is what clears a record.",
+            "No expunction of any implied consent violation is allowed in intervention court under § 9-23-23. Those route to the DUI track under § 63-11-30."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Section 99-15-123(3) omits the 'found not guilty at trial' limb that § 99-19-71(4) contains, so the two are not interchangeable in every case. Where a participant's record would be reached by § 99-19-71(4) but not by § 99-15-123(3), the ordinary non-conviction track is the correct route. The packet does not merge the two provisions.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "eligibility_branch",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "MS__LEGAL-REVIEW__STATEWIDE__mississippi-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "TRACK 7 - Pretrial intervention and intervention court",
+                "sourceStatement": "Pretrial intervention: successful completion results in a noncriminal disposition of the pending charge or charges.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 18,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Whether the § 9-23-23 expungement of a conviction, where the person was sentenced at the time of the guilty plea, issues without the participant asking. The section's operative language is automatic in FORM — completion 'will result in the record of the criminal conviction or adjudication being expunged' — and it is the only expungement provision in the Mississippi scheme with no petition, application, fee, hearing, notice or waiting period. But it also does not direct any officer to enter or transmit an order, and does not say the record shall be expunged without further action. Whether an order in fact issues sua sponte is therefore local practice and is NOT ESTABLISHED. The packet fails closed by verifying with the clerk what was actually entered before concluding anything, and in practice a movant should expect to submit a proposed order."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Whether a pretrial intervention noncriminal disposition satisfies the predicate in § 99-15-123(3), which reaches 'any case in which an arrest was made, the person arrested was released and the case was dismissed or the charges were dropped or there was no disposition of such case'. A § 99-15-103 noncriminal disposition IS a dismissal, but the subsection's arrest-and-release phrasing describes a pre-intervention posture and neither section says in terms that a noncriminal disposition under subsection (1) is expungeable under subsection (3). The same textual gap affects the near-identical § 99-15-26(5) and § 99-19-71(4). The packet pleads the statutory category that matches the participant's actual record and routes an ambiguous docket to advice."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether the Miss. Code Ann. § 99-19-72 fee reaches a given petition. The section reads: 'A filing fee of One Hundred Fifty Dollars ($150.00) is hereby levied on each petition to expunge an offense under Section 99-19-71 to be collected by the circuit clerk', distributed $100 to the Judicial System Operation Fund, $40 to the District Attorneys Operation Fund and $10 retained by the circuit clerk. Last amended by Laws, 1st Ex. Sess. 2017, ch. 7, § 12; no enacted amendment through 2026. Two things remain unresolved on its face and are NOT resolved by construction here. First, the trigger is 'each petition to expunge AN OFFENSE under Section 99-19-71': a § 99-19-71(4) non-conviction petition is a petition under § 99-19-71 but is not a petition to expunge an offence, because there is no conviction, and the statute does not settle it either way. Second, the collection mechanism names the CIRCUIT CLERK, which does not map onto § 99-19-71(1) or (4) petitions filed in justice or municipal court. Sections 9-11-15(3), 21-23-7(6), 99-15-26, 63-11-30, 41-29-150 and 67-3-70 sit outside § 99-19-71 and the fee does not reach them by its terms; none of those sections specifies a fee of its own. The packet therefore publishes NO fee amount on any track and instructs the participant to confirm the filing fee, and any pauper's-affidavit route, with the clerk of the court before filing."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Local practice in the twenty-one circuit court districts other than the Fourth, and in every municipal and justice court, was not surveyed. Both the review and the Fourth District materials establish that districts maintain their own petition and order preferences and that some expect the district attorney to sign the order as approved as to form before the judge will sign. This is a scaling constraint rather than a legal one: the statutory mechanism is the same statewide, but the accepted document and the practical gate vary. Every Mississippi track therefore carries localFormOverride and a mandatory clerk-contact instruction."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Trafficking-survivor relief under Miss. Code Ann. § 97-3-54.6, as amended by 2026 HB 1546 effective 1 July 2026, is recorded here as a separately-listed matter and NOT as a tenth normalized source node, because neither the adopted Batch 2 memorandum nor the authoritative source crosswalk lists it among Mississippi's nine core adult slots. The enrolled text was read: new § 97-3-54.6(6) lets the sentencing court, at any time after a conviction or adjudication of delinquency of a misdemeanour or a felony not classified as a crime of violence under § 97-3-2, expunge on appropriate motion where it finds by a preponderance that participation in the offence occurred during the period the person was being trafficked and was the direct result of that trafficking; official documentation from a federal, state or local government agency creates a presumption but is not required; and new § 97-3-54.6(7)(b) provides that neither failing to raise the trafficking affirmative defence nor the court's finding on it affects the ability to file under subsection (6). This relief is broader and faster than ordinary § 99-19-71 conviction expungement, so screening for it belongs on every intake. Whether it becomes a normalized node requires an express crosswalk or memorandum instruction."
             },
             {
               "kind": "source_gate",

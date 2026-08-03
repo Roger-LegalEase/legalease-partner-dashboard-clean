@@ -939,13 +939,151 @@ reverting the amended-normalization queue to `not_started` and flipping
 delta immediately before the reconciler.** Doing so restored all three Batch 1
 authority records byte-identical.
 
+## Maine and Montana — done (`5da9634`, `8fec9fc`)
+
+Committed in the preceding pass, one commit per state. Both re-verified by a
+bounded acceptance preflight at the start of the Mississippi pass: every gate
+green, worktree clean afterwards, **no corrective commit required**.
+
+**Maine** — 6 slots → 6 nodes. `relief_track` 4, `routing_node` 1,
+`supporting_action` 1. `official_pdf_fill` 3, `composed` 1 (2 units,
+alternative), `custom_pleading` 1, `process_guidance` 1. 0 build blockers, 24
+release blockers.
+
+The review's largest Maine build blocker is closed: **CR-307 exists**, retained
+by Edition 1.1 at Rev. 06/26. Two corrections to the retained review: **PL 2025
+c. 513 took effect 29 July 2026, not 11 January 2026** — the January date is
+enactment without the Governor's signature — and **CR-308 exists** (Order on
+Motion to Seal, Rev. 06/26) where the review recorded no proposed order for any
+ch. 310-A route. CR-218 and CR-308 are unmanifested against Edition 1.1 and
+authority-gated. ME-DEFERRED is a `routing_node` per the adopted memorandum;
+ME-SCREENING moved from guidance to `custom_pleading` as a `supporting_action`;
+ME-NONCONV is composed (confidentiality by operation of law + the § 709
+correction request). Deferred-disposition confidentiality under 16 M.R.S.
+§ 703(2) is **NOT ESTABLISHED** and fails closed.
+
+**Montana** — 6 slots → 6 nodes, all `relief_track`. `composed` 4 (8 units, all
+sequential), `official_pdf_fill` 1, `process_guidance` 1. 0 build blockers, 37
+release blockers.
+
+The composed structure is statutory, not workflow convenience: §§ 46-18-1110(2)(b)
+and 46-18-204(2) and the OCA MMRTA instructions all put the DOJ CRISS submission
+on the *participant*. ER-100/200 and DS-100/200 are never generated — the
+non-commercial-use stamp is real and travels in the page footer even on
+courts.mt.gov. Track 3 follows the adopted memorandum and stays packet-capable.
+**Two Edition 1.1 source-identity findings**, mappings retained and
+authority-gated: the CRISS form is classed `supporting_process`, which the gate
+treats as unable to back an `official_pdf_fill` component (5 role mismatches);
+and the OCA Proposed Order and Certificate of Service **share one document ID**,
+`MT-OCA-MMRTA`, with different hashes (4 hash conflicts). Both are proposed
+Edition 1.2 corrections.
+
+## Mississippi — done
+
+`data/record-clearing/legal-design-intake/MS.memo.json`
+
+9 source slots → **9 normalized nodes**, all `relief_track`. 0 deferred, 0
+splits, no speculative tenth node. Strategies: `custom_pleading` 8, `composed` 1
+(2 units, alternative). **0 build blockers**, 43 release blockers across 9
+tracks. The guidance re-review queue is unchanged — Mississippi has no
+track-level `process_guidance` node.
+
+### HB 1546 — resolved from enrolled text, and the review's alarm was a false alarm
+
+The review's headline finding was that a **3-year felony waiting period had been
+live in the product for four weeks** on an unverified basis, and that the
+surrounding evidence pointed the other way. The enrolled text settles it.
+
+**2026 HB 1546 = Chapter 430, Laws of 2026**, approved by the Governor
+30 March 2026, effective 1 July 2026. Its long title begins: *"AN ACT TO AMEND
+SECTION 99-19-71 … TO REVISE EXPUNCTION OF CRIMINAL RECORD BY REDUCING THE
+WAITING PERIOD FOR ELIGIBILITY; TO PROHIBIT THE EXPUNGEMENT OF THE FELONY CRIMES
+OF PROMOTING OR PROCURING PROSTITUTION …"*. The amendment markup is
+unambiguous — `<s>five (5)</s> <u>three (3)</u> years` — five struck, three
+inserted. New exclusions `<u>(xi) Felony procuring prostitution</u>` and
+`<u>(xii) Promoting prostitution</u>`, both § 97-29-51, are underlined as
+insertions. **SECTION 4 is the only temporal provision and carries NO
+applicability clause.**
+
+So HB 1546 amends **§ 99-19-71, § 97-3-54.1 and § 97-3-54.6 together** — not
+§ 97-3-54.6 alone as the review suspected. **The live 3-year rule in
+`src/lib/rcap-engine/compiled/profiles/MS-mississippi.json` is CORRECT and no
+product-rule correction was required.** No re-screening obligation arises. The
+one observation worth carrying: the profile cites LegiScan for the rule; the
+enrolled text is now in the memo's `officialSources` and should replace that
+citation whenever the profile is next regenerated.
+
+The enrolled text also closed two further review questions: **"one (1)
+conviction" and "one (1) felony expunction" are defined** to include all
+convictions arising from a common nucleus of operative facts as determined in
+the court's discretion; and the 10-day DA notice now sits at **§ 99-19-71(2)(b)**.
+And § 99-19-71(3) resolved the Track 2 blocker: the Criminal Information Center
+keeps a nonpublic record *"solely for the purpose of determining whether, in
+subsequent proceedings, the person is a first offender"*, and the perjury
+protection is expressly disapplied for that determination — **a prior expunged
+conviction does defeat first-offender status.**
+
+### Track 7 changed node type on the retrieved text
+
+The mission required re-review, and the answer moved **twice**. On the review
+alone it looked like a `completed_or_verification` guidance node. The retrieved
+text of **§ 99-15-123(3)** shows expungement after pretrial intervention is
+*"Upon petition therefor"* — a genuine participant request for relief — while
+**§ 9-23-23** states its result with **no petition, application, fee, hearing,
+notice or waiting period anywhere in the section**, which is unique in the
+Mississippi scheme. Final treatment: **`relief_track`, `composed`,
+`alternative`, 2 units** — a `custom_pleading` § 99-15-123(3) petition branch,
+and a `process_guidance` verification branch for intervention court. The
+programme itself is still not counted as paid relief.
+
+### Everything is custom_pleading, and why
+
+Mississippi has **no statewide expungement form** — confirmed against the
+Judiciary and AOC sites, which publish none. The four archived PDFs are **Fourth
+Circuit Court District models** for Leflore, Sunflower and Washington counties:
+hardcoded three-county fields, the Greenville DA address, 2020 dates, a
+certificate of service captioned for the wrong document, a mandatory grand-jury
+allegation, and a § 99-15-26/§ 99-19-71 dual citation that conflates two
+different tracks. They are drafting references only. Every petition track is
+`custom_pleading` with `localFormOverride: true`, and court, county and
+prosecuting authority are participant data.
+
+### Sections retrieved this pass
+
+`billstatus.ls.state.ms.us` served the enrolled bills directly (its TLS
+intermediate is broken, so `curl -k` with redirect-following is needed). Justia,
+FindLaw and Casetext all return 403 from this environment, and LexisNexis — the
+official publisher the Secretary of State links to — is JS-gated. Enrolled acts
+supplied §§ 99-19-71 and 97-3-54.6 (HB 1546), 21-23-7(6) (HB 354, 2021),
+63-11-30(13) (SB 2095, 2022), 67-3-70(6) (HB 917, 2020) and 99-15-26/9-23-23
+(HB 1352, 2019).
+
+Three results worth recording. **§ 63-11-30's expungement provision is
+subsection (13), not (14)** as commonly cited — (14) is Nonadjudication.
+**§ 67-3-70(6)'s one-year period is now primary-authority supported** and is
+retained on that basis, not on the secondary clearinghouse source the review
+relied on. And **§ 9-11-15(3) and § 21-23-7(6) are word-for-word identical** on
+every operative element, which confirms the single-node-with-venue-branches
+treatment rather than a split.
+
+The fee question stays open by design: § 99-19-72 levies $150 on *"each petition
+to expunge an offense under Section 99-19-71"* **collected by the circuit
+clerk** — which neither plainly reaches a subsection (4) non-conviction petition
+nor maps onto a justice or municipal court filing. **No fee amount is published
+on any Mississippi track**; the participant confirms with the clerk.
+
+Mississippi acquired **no new source binaries**, so the pending-edition ledger is
+unchanged at 176. Edition 1.1 retains only the Mississippi legal review — zero
+forms — which is a state-specific gap rather than a general authority-rule
+issue, so `MASTER_LIBRARY_AUTHORITY.md` is untouched.
+
 ## Not started
 
-**B4–B9 legal-design normalization of the remaining four jurisdictions.**
+**B9 legal-design normalization of the one remaining jurisdiction.**
 
-`ME MS MO MT` — **10 of 14 normalized** (IL, IA, IN, MD, MA, MI, MN, GA, KS,
-LA). Groups 1 and 2 are complete; Georgia, Kansas and Louisiana are done.
-**Maine is the last of Group 3 and the next unstarted jurisdiction.**
+`MO` — **13 of 14 normalized** (IL, IA, IN, MD, MA, MI, MN, GA, KS, LA, ME, MT,
+MS). Groups 1, 2 and 3 are complete. **Missouri is the sole remaining unstarted
+Batch 2 jurisdiction.**
 
 Committed bounded groups (operational only; does not change legal precedence):
 
@@ -953,26 +1091,27 @@ Committed bounded groups (operational only; does not change legal precedence):
 |---|---|---|---|
 | 1 | **Illinois, Iowa and Indiana all done** | 16 + 7 + 10 = 33 | **complete** |
 | 2 | **Maryland, Massachusetts, Michigan and Minnesota all done** | 11 + 8 + 11 + 12 = 42 | **complete** |
-| 3 | Georgia, Kansas and Louisiana done; Maine outstanding | 13 + 7 + 10 + 6 = 36 | Maine outstanding |
-| 4 | Mississippi, Missouri, Montana | 9 + 10 + 6 = 25 | not started |
+| 3 | **Georgia, Kansas, Louisiana and Maine all done** | 13 + 7 + 10 + 6 = 36 | **complete** |
+| 4 | Mississippi and Montana done; Missouri outstanding | 9 + 10 + 6 = 25 | Missouri outstanding |
 
-### Batch 2 running totals after Louisiana
+### Batch 2 running totals after Mississippi
 
-10 of 14 jurisdictions. 105 source slots → **109 normalized nodes**: 105
-`relief_track`, 1 `supporting_action`, 1 `completed_or_verification`, 1
-`local_variant`, 1 `routing_node`. 0 deferred. Strategies: `official_pdf_fill`
-52, `process_guidance` 31, `custom_pleading` 19, `composed` 7. **1 build blocker**
+13 of 14 jurisdictions. 130 source slots → **130 normalized nodes**: 124
+`relief_track`, 2 `supporting_action`, 2 `routing_node`, 1
+`completed_or_verification`, 1 `local_variant`. 0 deferred. Strategies:
+`official_pdf_fill` 56, `process_guidance` 33, `custom_pleading` 28,
+`composed` 13 (31 units). **1 build blocker**
 (Iowa `ia-9079`, pre-2013 deferred judgments — unchanged and untouched).
-**150 release blockers**, measured as unresolved questions of impact
+**254 release blockers**, measured as unresolved questions of impact
 `release_blocker` summed over the per-jurisdiction deltas: IL 34, IA 9, IN 18,
-MD 7, MA 4, MI 10, MN 7, GA 21, KS 20, LA 20. Every pre-Louisiana figure was
-re-run and is unchanged. Guidance re-review candidates across Batch 2 remain 5;
-Georgia, Kansas and Louisiana added none.
+MD 7, MA 4, MI 10, MN 7, GA 21, KS 20, LA 20, ME 24, MT 37, MS 43. Every
+pre-Mississippi figure was re-run and is unchanged. Guidance re-review
+candidates across Batch 2 remain 5; Georgia, Kansas, Louisiana, Maine, Montana
+and Mississippi added none.
 
-Across all 22 normalized jurisdictions: 219 tracks, **76 authority-cleared**
-(73 → 76; Louisiana's three guidance tracks have no official-form component to
-map), 143 authority-blocked. Blocker ledger 1427 unique rows. `packet_ready` 0,
-enabled jurisdictions 0, launch gate red.
+Across all 25 normalized jurisdictions: 240 tracks, **80 authority-cleared**,
+160 authority-blocked. Blocker ledger 1609 unique rows. Composed approvals 23
+tracks / 51 units. `packet_ready` 0, enabled jurisdictions 0, launch gate red.
 
 ### Measured size of Group 1, for the next session's planning
 
