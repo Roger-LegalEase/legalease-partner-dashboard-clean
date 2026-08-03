@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "jobId": "IMP-OF-04-co-jdf-family",
+  "wave": 2,
+  "lane": "implementation-acroform",
+  "model": "claude-opus-5",
+  "effort": "max",
+  "title": "One issuer, uniform JDF numbering, motion-and-order pairs, 12 of 15 components already packet candidates, and nineteen Colorado field-map drafts already exist with recorded overlay-accuracy approval",
+  "jurisdictions": [
+    "CO"
+  ],
+  "tracks": [
+    "co_petition_seal_arrest",
+    "co_motion_seal_nonconviction",
+    "co_clean_slate",
+    "co_motion_seal_conviction",
+    "co_municipal_conviction_seal",
+    "co_multiple_conviction_seal",
+    "co_decriminalized_conduct_seal",
+    "co_pardoned_conviction_seal"
+  ],
+  "trackCount": 8,
+  "dependencies": [
+    "IMP-OF-01-md-district-court-form-family"
+  ],
+  "ownedPaths": [
+    "src/lib/rcap/packets/registry-co.ts",
+    "src/lib/rcap/packets/IMP-OF-04-co-jdf-family-facts.ts",
+    "data/record-clearing/implementation-tranches/IMP-OF-04-co-jdf-family*.json",
+    "scripts/rcap-generate-IMP-OF-04-co-jdf-family-review.mjs",
+    "scripts/verify-rcap-IMP-OF-04-co-jdf-family-packets.mjs",
+    "package.json"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**",
+    "supabase/**",
+    "src/lib/rcap/packets/registry-mississippi.ts"
+  ],
+  "outputs": [
+    "a validated AcroForm field map per official form, every mapped field verified present in the source",
+    "a field-ownership record classifying every field on every form, mapped or not",
+    "tranche record, authority pins with officialFormBinaryRequired, fixtures, review manifest, visual review",
+    "one assembled participant PDF per route, no ZIP"
+  ],
+  "gates": [
+    "assertProcessable passes — no XFA, no encryption",
+    "every mapped pdfFieldName exists in the source; a mapping naming an absent field throws field_not_found",
+    "third-party field rule: judge, clerk, prosecutor, agency, notary and process-server fields remain blank",
+    "no signature image generated; signature and date lines left usable",
+    "deterministic bytes from identical input",
+    "npm run rcap:verify-packet-capability-registry",
+    "npm run rcap:verify-tranche-1-packets (Tranche 1 must stay green)",
+    "the job's own rcap:verify-<job>-packets verifier",
+    "review manifest carries humanLegalReviewStatus=awaiting_counsel_review and none of legal_output_approved / counsel_approved / packet_ready / generation_allowed / enabled",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "feat(record-clearing): implement CO official-form routes",
+  "completionCondition": "Every positive fixture generates one assembled PDF through the real fulfilment and assembly path, every third-party field is blank, technical and visual review pass, and every track remains runtime_disabled at awaiting_counsel_review.",
+  "blockerResolved": "co_decriminalized_conduct_seal carries a role mismatch: its primary filing names JDF-2370, which is a participant guide, not a petition. That is a normalization defect this job must correct.",
+  "commercialPriority": 65,
+  "reuseScore": 80
+}

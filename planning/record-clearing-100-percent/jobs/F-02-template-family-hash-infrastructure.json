@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "jobId": "F-02-template-family-hash-infrastructure",
+  "wave": 0,
+  "lane": "platform",
+  "model": "claude-opus-5",
+  "effort": "max",
+  "title": "Make a template family hashable so counsel review can be inherited",
+  "jurisdictions": [],
+  "tracks": [],
+  "trackCount": 0,
+  "dependencies": [],
+  "ownedPaths": [
+    "src/lib/rcap/packets/template-hash.ts",
+    "src/lib/rcap/jurisdictions/packet-capability.ts",
+    "scripts/verify-rcap-template-family-coverage.mjs",
+    "package.json"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**"
+  ],
+  "outputs": [
+    "canonicalTemplateHash(templateId): a stable SHA-256 of the template OBJECT, so an unrelated edit to a shared source file does not invalidate every family in it",
+    "mappingSha256 on PacketAssetBinding, so mappingApproved:true is pinned to the mapping it was approved for",
+    "verify-rcap-template-family-coverage.mjs, added to npm test, recomputing every coverage claim and failing on drift"
+  ],
+  "gates": [
+    "npm run rcap:verify-template-family-coverage",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "feat(record-clearing): hash template families for inherited counsel review",
+  "completionCondition": "A track can claim coverage by an adopted family only when every template hash, source hash and mapping hash matches, and the claim is machine-verified in npm test.",
+  "blockerResolved": "The repository hashes outputs (rendered PDFs) and authorities (statutes, reviews, archive) but never the templates or field maps that produce them, so counsel review cannot be inherited and every track needs full re-review. mappingApproved is a naked boolean today.",
+  "commercialPriority": 70,
+  "reuseScore": 20
+}

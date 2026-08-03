@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "jobId": "NORM-06-registry-integration",
+  "wave": 3,
+  "lane": "normalization",
+  "model": "claude-opus-5",
+  "effort": "max",
+  "title": "Run the single serialized intake and reconcile pass over all 51 memos",
+  "jurisdictions": [
+    "ALL"
+  ],
+  "tracks": [],
+  "trackCount": null,
+  "dependencies": [
+    "NORM-01-pod-5-form-rich",
+    "NORM-02-pod-1-northeast",
+    "NORM-03-pod-2-mid-atlantic",
+    "NORM-04-pod-4-west",
+    "NORM-05-pod-3-texas-and-south"
+  ],
+  "ownedPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "data/record-clearing/legal-design-batch-delta-report.json",
+    "data/record-clearing/legal-design-composed-unit-approvals.json"
+  ],
+  "forbiddenPaths": [
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**",
+    "supabase/**",
+    "src/lib/rcap/packets/**"
+  ],
+  "outputs": [
+    "the seven shared registries regenerated once, from all 51 memos present in the intake directory",
+    "the nine Master Library derived records regenerated once",
+    "composed-unit approvals run with every prior batch passed so no existing approval is deleted",
+    "a second intake pass so the new tracks' authority counters are refreshed against the new audit"
+  ],
+  "gates": [
+    "regeneration order is intake, then reconcile, then intake",
+    "Batch 1 delta remains 117 expected / 110 imported / 7 deferred / 117 accounted",
+    "all fourteen Batch 2 deltas unchanged",
+    "composed-unit approvals diff shows every pre-existing entry byte-identical",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "feat(record-clearing): integrate all 51 normalized jurisdictions",
+  "completionCondition": "The registry holds every jurisdiction's tracks, the partition sums, and no prior batch's records were deleted.",
+  "blockerResolved": "The intake rebuilds seven whole-corpus files from whatever memos are present, and the reconciler rebuilds nine more. Two pods integrating in parallel would each produce a registry correct for itself and destructive to the other. Exactly one writer, exactly once.",
+  "commercialPriority": 90,
+  "reuseScore": 60
+}

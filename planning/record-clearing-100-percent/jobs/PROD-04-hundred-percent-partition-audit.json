@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "jobId": "PROD-04-hundred-percent-partition-audit",
+  "wave": 7,
+  "lane": "release",
+  "model": "claude-opus-5",
+  "effort": "max",
+  "title": "Prove the 100-percent partition",
+  "jurisdictions": [
+    "ALL"
+  ],
+  "tracks": [],
+  "trackCount": null,
+  "dependencies": [
+    "PROD-03-production-promotion-remainder",
+    "EXC-01-ks-commercial-use-determination"
+  ],
+  "ownedPaths": [
+    "scripts/verify-rcap-hundred-percent-partition.mjs",
+    "docs/record-clearing/HUNDRED_PERCENT_COMPLETION_RECORD.md",
+    "package.json"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**"
+  ],
+  "outputs": [
+    "a verifier asserting |A| + |B| + |C| + |D| equals the track count with empty pairwise intersections",
+    "every terminal-D track naming exactly one external dependency from the closed set",
+    "no terminal-D track holding an open internal work item"
+  ],
+  "gates": [
+    "npm run rcap:verify-hundred-percent-partition",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "feat(record-clearing): prove the nationwide completion partition",
+  "completionCondition": "Every track in all 51 jurisdictions is in exactly one terminal state, the partition sums, and the claim is machine-verified in npm test.",
+  "blockerResolved": "A jurisdiction is not complete because it is normalized, and a track is not complete because it is implemented. Without a partition audit, 'done' is an assertion rather than a measurement.",
+  "commercialPriority": 100,
+  "reuseScore": 40
+}

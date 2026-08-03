@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "jobId": "IMP-CP-01-ga-superior-court-pleading-family",
+  "wave": 1,
+  "lane": "implementation-pleading",
+  "model": "claude-opus-5",
+  "effort": "xhigh",
+  "title": "Georgia carries two partner records and is the best-cleared jurisdiction in the corpus (13 of 15 tracks authority-cleared)",
+  "jurisdictions": [
+    "GA"
+  ],
+  "tracks": [
+    "ga-misd-j4",
+    "ga-seal-m",
+    "ga-pardon-j7",
+    "ga-felony-j1",
+    "ga-deaddocket-j3",
+    "ga-vacated-j2",
+    "ga-fugitive-j5",
+    "ga-jail-k2",
+    "ga-fo-active-pre2026",
+    "ga-fo-discharged-pre2026"
+  ],
+  "trackCount": 10,
+  "dependencies": [],
+  "ownedPaths": [
+    "src/lib/rcap/packets/registry-ga-superior-court-pleading-family.ts",
+    "src/lib/rcap/packets/engines/pleading-templates-ga.ts",
+    "src/lib/rcap/packets/engines/guidance-templates-ga.ts",
+    "data/record-clearing/implementation-tranches/IMP-CP-01-ga-superior-court-pleading-family*.json",
+    "scripts/rcap-generate-IMP-CP-01-ga-superior-court-pleading-family-review.mjs",
+    "scripts/verify-rcap-IMP-CP-01-ga-superior-court-pleading-family-packets.mjs",
+    "package.json"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**",
+    "supabase/**",
+    "src/lib/rcap/packets/registry-mississippi.ts"
+  ],
+  "outputs": [
+    "a per-jurisdiction relief-track registry module, runtimeDisabled and technicalFixture true",
+    "pleading and guidance templates for the family",
+    "tranche record, authority pins, component guidance, field ownership, fixtures, review manifest, visual review",
+    "a reproducible review-generation command and a focused verifier added to npm test",
+    "one assembled participant PDF per route, no ZIP"
+  ],
+  "gates": [
+    "npm run rcap:verify-packet-capability-registry",
+    "npm run rcap:verify-tranche-1-packets (Tranche 1 must stay green)",
+    "the job's own rcap:verify-<job>-packets verifier",
+    "review manifest carries humanLegalReviewStatus=awaiting_counsel_review and none of legal_output_approved / counsel_approved / packet_ready / generation_allowed / enabled",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "feat(record-clearing): implement GA pleading routes",
+  "completionCondition": "Every positive fixture generates one assembled PDF through the real fulfilment and assembly path, every boundary fixture stops with its expected typed failure, technical and visual review pass, a legal-output recommendation is recorded, and every track remains runtime_disabled at awaiting_counsel_review.",
+  "blockerResolved": "Nine of the ten are authority-cleared; ga-jail-k2 is blocked only by its own undrafted guidance specification.",
+  "commercialPriority": 92,
+  "reuseScore": 95
+}

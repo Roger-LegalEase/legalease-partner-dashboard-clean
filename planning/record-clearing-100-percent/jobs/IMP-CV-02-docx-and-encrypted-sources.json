@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "jobId": "IMP-CV-02-docx-and-encrypted-sources",
+  "wave": 3,
+  "lane": "implementation-composed",
+  "model": "claude-opus-5",
+  "effort": "max",
+  "title": "Resolve the Montana docx and Maine encrypted sources",
+  "jurisdictions": [
+    "MT",
+    "ME"
+  ],
+  "tracks": [
+    "mt_nonconviction_removal",
+    "mt_misdemeanor_expungement",
+    "mt_mmrta_completed",
+    "mt_mmrta_serving",
+    "mt_deferred_dismissal",
+    "me-seal-gen"
+  ],
+  "trackCount": 6,
+  "dependencies": [
+    "PLAT-03-non-renderable-source-policy",
+    "AUTH-04-edition-1-3-publication",
+    "AUTH-06-source-gate-clearance"
+  ],
+  "ownedPaths": [
+    "src/lib/rcap/packets/registry-mt.ts",
+    "data/record-clearing/implementation-tranches/IMP-CV-02*.json",
+    "scripts/verify-rcap-IMP-CV-02-packets.mjs",
+    "package.json"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**",
+    "supabase/**"
+  ],
+  "outputs": [
+    "the MT CRISS re-class consumed from Edition 1.3",
+    "the MT-OCA-MMRTA document-ID separation consumed",
+    "me-seal-gen either converted with a new source identity or recorded terminal-D"
+  ],
+  "gates": [
+    "a converted binary carries its own document ID, hash, revision and provenance and never inherits the original's manifest row",
+    "npm run rcap:verify-packet-capability-registry",
+    "npm run rcap:verify-tranche-1-packets (Tranche 1 must stay green)",
+    "the job's own rcap:verify-<job>-packets verifier",
+    "review manifest carries humanLegalReviewStatus=awaiting_counsel_review and none of legal_output_approved / counsel_approved / packet_ready / generation_allowed / enabled",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "feat(record-clearing): implement the Montana and Maine conversion routes",
+  "completionCondition": "Each route renders under an approved conversion policy or is recorded terminal-D with its exact external dependency.",
+  "blockerResolved": "All five Montana tracks resolve to docx sources, and five components carry authority_role_mismatch because CRISS is classed supporting_process — an edition defect, not a mapping defect. me-seal-gen is the corpus's only encrypted_pdf.",
+  "commercialPriority": 35,
+  "reuseScore": 25
+}
