@@ -1,11 +1,10 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "data/record-clearing/legal-design-intake",
-  "jurisdictionsReceived": 22,
-  "jurisdictionsOutstanding": 29,
+  "jurisdictionsReceived": 23,
+  "jurisdictionsOutstanding": 28,
   "outstandingJurisdictions": [
     "KY",
-    "ME",
     "MO",
     "MS",
     "MT",
@@ -81,7 +80,7 @@
     {
       "batch": "C_custom_pleading",
       "label": "Custom pleading",
-      "trackCount": 28,
+      "trackCount": 29,
       "tracks": [
         {
           "jurisdiction": "AZ",
@@ -1338,6 +1337,53 @@
           ]
         },
         {
+          "jurisdiction": "ME",
+          "trackId": "me-screening",
+          "publicName": "Getting a sealed record off a background check",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Do not count this supporting action as substantive court record relief. It binds screening services only and reaches neither the State Bureau of Identification record nor the court record.",
+            "Do not generate or pursue the $1,000 statutory penalty, actual damages, costs, attorney's fees, or FCRA litigation. Whether to pursue the statutory remedy is litigation and outside self-help."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 11,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Whether a participant must first obtain the official State Bureau of Identification record before a business screening service is obliged to investigate. § 1500-CC(1) directs the service to compare its record against the official record, which suggests not, but the frivolousness provision in § 1500-CC(3) — which lets the service terminate where the subject fails to provide sufficient information — cuts the other way. The packet fails closed by advising the participant to enclose the Bureau record wherever the dispute is about accuracy rather than sealing status."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): Whether any implementing guidance, Attorney General position, or reported decision exists under 10 M.R.S. c. 239, and whether services are honouring the thirty-day timeline in practice. The chapter took effect on 29 July 2026, five days before this normalization, so there is no practice history at all. Do not promise deletion timelines."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): The Revisor has not yet published 10 M.R.S. c. 239 in the online codified statutes; the section URLs do not resolve and the controlling text is the chaptered law PDF of PL 2025, c. 513. Re-verify every § 1500 citation against the codified text once the Revisor publishes."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
           "jurisdiction": "MN",
           "trackId": "mn_299c11_arrest_demand",
           "publicName": "Arrest record destruction request (no court case)",
@@ -1381,7 +1427,7 @@
     {
       "batch": "D_composed_or_process_guidance",
       "label": "Composed and process-guidance tracks",
-      "trackCount": 60,
+      "trackCount": 62,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -3284,6 +3330,124 @@
           ]
         },
         {
+          "jurisdiction": "ME",
+          "trackId": "me-nonconv",
+          "publicName": "Cases that did not end in a conviction",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "16 M.R.S. § 709(6) provides that the section does not apply to court records, and § 708(3)(A) puts records of public judicial proceedings outside the Act. The correction request reaches the agency record only.",
+            "Automatic sealing did not happen. LD 1911 passed both chambers on April 14, 2026, Governor Mills vetoed it on April 24, and the Senate override failed 20-11 on April 29. Four narrower sealing bills also failed in the same session. Maine has no clean-slate mechanism. If any Maine copy anywhere in the product hints at automatic adult sealing, it is wrong."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "The full text of 16 M.R.S. § 703(2) paragraphs K and L was not read line by line in the retained review. The paragraph list was confirmed to run A through L against current official text on this pass, and none of the twelve mentions a deferred disposition, but the substantive content of K and L has not been mapped to participant-facing categories.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "eligibility_branch",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "ME__LEGAL-REVIEW__STATEWIDE__maine-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "OPEN QUESTIONS",
+                "sourceStatement": "The full text of § 703(2) paragraphs K and L was not read line by line. Unresolved, nonblocking."
+              }
+            },
+            {
+              "question": "effectiveFrom on each Maine track records the effective date of the current controlling text. For every provision enacted or amended by PL 2025, c. 513 that date is 29 July 2026, the general effective date for the 132nd Legislature's Second Regular Session, corroborated by the Judicial Branch forms list tagging CR-307 and CR-308 '*Effective 07/29/2026*'. The precise historical commencement dates of the older provisions — chapter 310-A as created by PL 2021, c. 674, and 16 M.R.S. ch. 7 as recodified by PL 2013, c. 267 and amended by PL 2013, c. 507 and PL 2017, c. 432 — were not established from official sources on this pass and are approximated. Nothing in the legal design turns on them.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "ME__LEGAL-REVIEW__STATEWIDE__maine-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "PART 1 - RELIEF TRACKS",
+                "sourceStatement": "Current effective date: In force. Chapter 7 recodified by PL 2013, c. 267.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Whether a charge dismissed after successful completion of a deferred disposition under 17-A M.R.S. ch. 67 subch. 4 is confidential criminal history record information under 16 M.R.S. § 703(2). This was checked against current official text and is NOT ESTABLISHED. Section 703(2) lists paragraphs A through L and none mentions a deferred disposition. The closest is paragraph G, which reaches a charge 'dismissed with prejudice by the court or dismissed with finality by a prosecutor outside a plea agreement'. Under 17-A M.R.S. § 1903 the State dismisses the charging instrument WITH PREJUDICE on compliance, which fits the first clause, but a deferred disposition arises from a written agreement between the defendant and the State, which arguably falls inside paragraph G's outside-a-plea-agreement carve-out. Section 1903 says nothing about confidentiality or sealing. No statute, State Bureau of Identification guidance, Judicial Branch page or Law Court decision resolves it. The packet therefore fails closed: it does not promise confidentiality on the strength of the deferred-disposition label, it tells the participant to verify what the Bureau record actually shows, and it routes the correction request only where the record is demonstrably inaccurate."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Whether court docket entries for confidential dispositions are publicly accessible in practice, and what if anything a participant can do about that. 16 M.R.S. § 708(3)(A) puts records of public judicial proceedings outside the Criminal History Record Information Act and leaves public access to Supreme Judicial Court rule or administrative order, and § 709(6) says § 709 does not reach court records. The packet says so plainly rather than implying the docket is cured."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "ME",
+          "trackId": "me-deferred",
+          "publicName": "Cases resolved through a deferred disposition",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Do not model successful deferred disposition as a standalone sealing remedy. It is a disposition-status/routing node. If the case ends in a reduced conviction, evaluate that conviction under Maine's sealing statutes. If it ends in dismissal, do not promise confidentiality merely from the label \"deferred disposition\"; verify the final docket and the 16 M.R.S. § 703 classification.",
+            "Reclassify as disposition-status/routing node (non-relief)."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "The full text of 17-A M.R.S. ch. 67 subch. 4 was not read section by section in the retained review. Sections 1901 and 1903 were read against current official text on this pass and confirm that a deferred disposition arises from a written agreement and ends, on compliance, in a dismissal with prejudice on the State's motion. The remaining sections of the subchapter have not been mapped and are nonblocking for routing.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "ME__LEGAL-REVIEW__STATEWIDE__maine-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "OPEN QUESTIONS",
+                "sourceStatement": "Full text of Title 17-A, chapter 67, subchapter 4 not read. Unresolved, nonblocking for routing."
+              }
+            }
+          ],
+          "participantActionCount": 4,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Whether a charge dismissed after successful completion of a deferred disposition under 17-A M.R.S. ch. 67 subch. 4 is confidential criminal history record information under 16 M.R.S. § 703(2). This was checked against current official text and is NOT ESTABLISHED. Section 703(2) lists paragraphs A through L and none mentions a deferred disposition. The closest is paragraph G, which reaches a charge 'dismissed with prejudice by the court or dismissed with finality by a prosecutor outside a plea agreement'. Under 17-A M.R.S. § 1903 the State dismisses the charging instrument WITH PREJUDICE on compliance, which fits the first clause, but a deferred disposition arises from a written agreement between the defendant and the State, which arguably falls inside paragraph G's outside-a-plea-agreement carve-out. Section 1903 says nothing about confidentiality or sealing. No statute, State Bureau of Identification guidance, Judicial Branch page or Law Court decision resolves it. The packet therefore fails closed: it does not promise confidentiality on the strength of the deferred-disposition label, it tells the participant to verify what the Bureau record actually shows, and it routes the correction request only where the record is demonstrably inaccurate."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
           "jurisdiction": "MI",
           "trackId": "mi_setaside_csc4_pre2015",
           "publicName": "Clearing a fourth-degree criminal sexual conduct conviction from before 2015",
@@ -3927,7 +4091,7 @@
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 128,
+      "trackCount": 131,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -9377,6 +9541,228 @@
             {
               "kind": "release_blocker",
               "statement": "Open question blocks release (filing_process): The filing fee for a shielding petition. The Judiciary shielding page and CC-DC-CR-148A state $0; verify at build time."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "ME",
+          "trackId": "me-seal-gen",
+          "publicName": "Sealing a Maine criminal conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Automatic sealing did not happen. LD 1911 passed both chambers on April 14, 2026, Governor Mills vetoed it on April 24, and the Senate override failed 20-11 on April 29. Four narrower sealing bills also failed in the same session. Maine has no clean-slate mechanism. If any Maine copy anywhere in the product hints at automatic adult sealing, it is wrong.",
+            "Eligible convictions are Class E only, excluding Title 17-A chapter 11, plus five listed pre-2017 marijuana offenses."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "eFiling availability by county during the Maine eCourts rollout. Hancock and Washington County courts were noted as upcoming as of July 2026, and the filing channel varies by county. Unresolved and moving.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "filing_process",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "ME__LEGAL-REVIEW__STATEWIDE__maine-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "OPEN QUESTIONS",
+                "sourceStatement": "eFiling availability by county during the Maine eCourts rollout. Unresolved and moving."
+              }
+            },
+            {
+              "question": "Whether any Maine court publishes a proposed-order form for a chapter 310-A motion that is not published publicly. None was located, and § 2264(5) requires the court to issue its own written order with findings of fact, so the packet contains no proposed order.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "packet_components",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "ME__LEGAL-REVIEW__STATEWIDE__maine-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "OPEN QUESTIONS",
+                "sourceStatement": "Whether a proposed order form exists that is not published publicly. Unresolved."
+              }
+            }
+          ],
+          "participantActionCount": 16,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (notice_or_service): Whether the movant must serve the prosecutorial office, or whether the court performs all notice. 15 M.R.S. § 2264(3) directs notice to the prosecutorial office that represented the State but does not assign the act to the movant, and none of CR-218, CR-289 or CR-307 carries a certificate-of-service block — unlike the juvenile form JV-043, which states on its face that the petitioner must provide a copy to the prosecuting attorney. The packet fails closed: it tells the participant that the court is understood to give notice, and that they should confirm with the clerk at filing and deliver a courtesy copy if the clerk asks."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether any clerk assesses a fee for a chapter 310-A motion in practice. Administrative Order JB-05-26 (A. 3-26) lists no fee for a criminal post-judgment motion; the $60 post-judgment figure is tied by its own terms to M.R. Civ. P. 55(b)(2), 59, 60(b), 62 and 66, which are civil rules, and the schedule separately provides 'Filing a Criminal Action, Traffic Infraction, or Civil Violation: No fee'. The packet therefore states that no fee is expected, tells the participant to confirm with the clerk, and promises no refund."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Whether a chapter 310-A sealing order removes the case from Maine's public court record search. 15 M.R.S. § 2265 makes the conviction confidential criminal history record information and restricts dissemination by a criminal justice agency, and § 2264(6) makes the State Bureau of Identification amend its records. But 16 M.R.S. § 708(3)(A) provides that the Criminal History Record Information Act does not apply to criminal history record information contained in the records of public judicial proceedings retained by the District Court, Superior Court or Supreme Judicial Court, and that public access to those records is as provided by rule or administrative order of the Supreme Judicial Court. § 2265 opens 'Notwithstanding Title 16, section 704' and does not mention section 708. Participant-facing copy must therefore say that sealing restricts what criminal justice agencies may disseminate and what appears on a State Bureau of Identification check, and must not say or imply that the court case disappears from a public docket search."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Whether CR-218 paragraph 3's broader wording is enforced as written or read against the narrower statutory window in § 2262(3). This is outcome-determinative for a participant with an old prior conviction that predates the completion date, and it is why the packet leaves that paragraph blank rather than answering it."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (waiting_period): Whether the § 2262(3) reference to the 'most recent eligible criminal conviction' means a participant with two eligible convictions must measure the clean-record window from the later one. Unresolved on the face of the statute."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Form CR-218 is not retained by Master Library Edition 1.1. Edition 1.1's Maine directory holds only CR-289 and CR-307. The repository corpus holds CR-218 as an encrypted PDF that required a rescue pass, and Edition 1.1 does not manifest it, so the source relationship for the primary filing on this track is authority-gated. Confirm the current revision and adopt the form in a successor edition before release."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "ME",
+          "trackId": "me-seal-prost",
+          "publicName": "Sealing a conviction for engaging in prostitution",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Do not impose the general-track clean-record restrictions here. § 2262 opens \"Except as provided in sections 2262-A and 2262-B\", so § 2262(3), (4) and (5) do not apply to this route."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 14,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Whether the Maine Judicial Branch has issued a CR-289 revision after PL 2025, c. 513. Master Library Edition 1.1 retains Rev. 10/24 and records this as the single Maine source gap, classified current_revision_unconfirmed with release-blocker impact. Until a post-amendment revision is confirmed or the retained copy reapproved, the stale paragraph 1 recital is left blank rather than completed."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Whether the §§ 852, 853, 853-B and 855 disqualifier reaches convictions predating the § 853-A conviction as well as later ones. The statute is not time-bounded, so the packet screens for any such conviction at any time, which is the narrower and fail-closed reading."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (notice_or_service): Whether the movant must serve the prosecutorial office, or whether the court performs all notice. 15 M.R.S. § 2264(3) directs notice to the prosecutorial office that represented the State but does not assign the act to the movant, and none of CR-218, CR-289 or CR-307 carries a certificate-of-service block — unlike the juvenile form JV-043, which states on its face that the petitioner must provide a copy to the prosecuting attorney. The packet fails closed: it tells the participant that the court is understood to give notice, and that they should confirm with the clerk at filing and deliver a courtesy copy if the clerk asks."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether any clerk assesses a fee for a chapter 310-A motion in practice. Administrative Order JB-05-26 (A. 3-26) lists no fee for a criminal post-judgment motion; the $60 post-judgment figure is tied by its own terms to M.R. Civ. P. 55(b)(2), 59, 60(b), 62 and 66, which are civil rules, and the schedule separately provides 'Filing a Criminal Action, Traffic Infraction, or Civil Violation: No fee'. The packet therefore states that no fee is expected, tells the participant to confirm with the clerk, and promises no refund."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Whether a chapter 310-A sealing order removes the case from Maine's public court record search. 15 M.R.S. § 2265 makes the conviction confidential criminal history record information and restricts dissemination by a criminal justice agency, and § 2264(6) makes the State Bureau of Identification amend its records. But 16 M.R.S. § 708(3)(A) provides that the Criminal History Record Information Act does not apply to criminal history record information contained in the records of public judicial proceedings retained by the District Court, Superior Court or Supreme Judicial Court, and that public access to those records is as provided by rule or administrative order of the Supreme Judicial Court. § 2265 opens 'Notwithstanding Title 16, section 704' and does not mention section 708. Participant-facing copy must therefore say that sealing restricts what criminal justice agencies may disseminate and what appears on a State Bureau of Identification check, and must not say or imply that the court case disappears from a public docket search."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "ME",
+          "trackId": "me-seal-survivor",
+          "publicName": "Sealing a conviction connected to trafficking or exploitation",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Do not open this track without a named legal-aid or victim-services referral partner in place. This is the highest-value new relief in Maine and also the one where a bad automated experience does the most harm.",
+            "Route immigration-adjacent cases carefully. The statute contemplates federal immigration certifications as supporting documentation, which means many participants on this track have live immigration matters. Sealing does not bind federal authorities."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Whether courts are in fact granting § 2262-B motions on State consent without a hearing. The section took effect on 29 July 2026, five days before this normalization, so there is no practice history.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "filing_process",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "ME__LEGAL-REVIEW__STATEWIDE__maine-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "OPEN QUESTIONS",
+                "sourceStatement": "Whether courts are in fact granting on State consent without a hearing. No practice history. Unresolved."
+              }
+            },
+            {
+              "question": "Whether a person may file under § 2262-B for a conviction they previously failed to seal under § 2262. Nothing in the statute bars it and the two sections have different elements, but the point is untested.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "eligibility_branch",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "ME__LEGAL-REVIEW__STATEWIDE__maine-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "OPEN QUESTIONS",
+                "sourceStatement": "Whether a person may file under § 2262-B for a conviction they previously failed to seal under § 2262. Nothing in the statute bars it. Unresolved."
+              }
+            }
+          ],
+          "participantActionCount": 16,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Form CR-308 page 2 carries a warning box stating that if at any time after the date of the order the defendant is convicted of a new crime in Maine or in any other jurisdiction, the new conviction extinguishes the order. That is inconsistent with 15 M.R.S. § 2264(7) as amended by PL 2025, c. 513, which now provides in terms that the subsection does not apply to records sealed pursuant to section 2262-A or 2262-B. Both the form and the amendment take effect 29 July 2026, so this is a live conflict on the face of two current official sources rather than a stale-form problem. LegalEase does not resolve it: the packet states the statutory rule, does not repeat the form's warning as advice, and carries the conflict as a release blocker."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Form CR-308 is not retained by Master Library Edition 1.1, whose Maine directory holds only CR-289 and CR-307. It is a current official Maine Judicial Branch form, Rev. 06/26, effective 29 July 2026, located after the edition cutoff. It is recorded as a pending Edition 1.2 amendment, the source relationship stays authority-gated, and the track remains runtime disabled."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Master Library Edition 1.1 records the retained CR-307 PDF as AES-256 encrypted against modification, so runtime mapping requires an approved alternate handling strategy and completed-output review. Packet identity is not in doubt — the form, its revision and its two paragraphs are established — but the technical route to producing a filled copy is a release gate."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): The Revisor's codified chapter 310-A text is generated 5 January 2026 and current only through 1 January 2026, so it predates PL 2025, c. 513 and does not yet show § 2262-B or the § 2264 amendments. Every conclusion on this track rests on the chaptered law. Re-verify against the codified text once the Revisor publishes."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (notice_or_service): Whether the movant must serve the prosecutorial office, or whether the court performs all notice. 15 M.R.S. § 2264(3) directs notice to the prosecutorial office that represented the State but does not assign the act to the movant, and none of CR-218, CR-289 or CR-307 carries a certificate-of-service block — unlike the juvenile form JV-043, which states on its face that the petitioner must provide a copy to the prosecuting attorney. The packet fails closed: it tells the participant that the court is understood to give notice, and that they should confirm with the clerk at filing and deliver a courtesy copy if the clerk asks."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether any clerk assesses a fee for a chapter 310-A motion in practice. Administrative Order JB-05-26 (A. 3-26) lists no fee for a criminal post-judgment motion; the $60 post-judgment figure is tied by its own terms to M.R. Civ. P. 55(b)(2), 59, 60(b), 62 and 66, which are civil rules, and the schedule separately provides 'Filing a Criminal Action, Traffic Infraction, or Civil Violation: No fee'. The packet therefore states that no fee is expected, tells the participant to confirm with the clerk, and promises no refund."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Whether a chapter 310-A sealing order removes the case from Maine's public court record search. 15 M.R.S. § 2265 makes the conviction confidential criminal history record information and restricts dissemination by a criminal justice agency, and § 2264(6) makes the State Bureau of Identification amend its records. But 16 M.R.S. § 708(3)(A) provides that the Criminal History Record Information Act does not apply to criminal history record information contained in the records of public judicial proceedings retained by the District Court, Superior Court or Supreme Judicial Court, and that public access to those records is as provided by rule or administrative order of the Supreme Judicial Court. § 2265 opens 'Notwithstanding Title 16, section 704' and does not mention section 708. Participant-facing copy must therefore say that sealing restricts what criminal justice agencies may disseminate and what appears on a State Bureau of Identification check, and must not say or imply that the court case disappears from a public docket search."
             },
             {
               "kind": "source_gate",

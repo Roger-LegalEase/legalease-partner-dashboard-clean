@@ -3,24 +3,24 @@
   "authorityEdition": "1.1",
   "note": "One authority result per packet component. An official-form component must reach one retained asset by workflow key or document ID with a matching SHA-256, correct role and correct language. A custom-pleading component is not failed for lacking an official binary, and a process-guidance component is not failed for lacking a packet form: the adopted memorandum makes both legitimate by design. No legal-design conclusion is changed here.",
   "totals": {
-    "jurisdictionsAudited": 22,
-    "tracksAudited": 219,
-    "tracksCleared": 76,
-    "tracksBlocked": 143,
+    "jurisdictionsAudited": 23,
+    "tracksAudited": 225,
+    "tracksCleared": 78,
+    "tracksBlocked": 147,
     "tracksWithoutRetainedLegalReview": 0,
-    "componentsAudited": 545,
-    "officialPdfComponents": 342,
+    "componentsAudited": 560,
+    "officialPdfComponents": 346,
     "officialPdfComponentsByResult": {
       "authority_mapped_packet_candidate": 95,
-      "authority_mapped_source_gated": 14,
+      "authority_mapped_source_gated": 16,
       "authority_role_mismatch": 4,
-      "authority_unmanifested_source": 229
+      "authority_unmanifested_source": 231
     },
-    "officialPdfComponentsWithPinnedSha": 37,
-    "customPleadingComponents": 103,
-    "processGuidanceComponents": 100,
-    "composedTracks": 17,
-    "composedUnits": 39
+    "officialPdfComponentsWithPinnedSha": 39,
+    "customPleadingComponents": 105,
+    "processGuidanceComponents": 109,
+    "composedTracks": 18,
+    "composedUnits": 41
   },
   "tracks": [
     {
@@ -17535,6 +17535,445 @@
       "declaredOutputStrategy": "process_guidance",
       "compositionMode": null,
       "legalReviewAsset": "STATES/MD/01_LEGAL_REVIEW/MD__LEGAL-REVIEW__STATEWIDE__maryland-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "ME",
+      "trackId": "me-seal-gen",
+      "outputStrategy": "official_pdf_fill",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "ME",
+          "trackId": "me-seal-gen",
+          "componentId": "me-seal-gen-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-218",
+          "officialSourceUrl": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CR-218",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": null,
+          "result": "authority_unmanifested_source",
+          "reasons": [
+            "No retained Edition 1.1 asset for ME document ID CR-218. Any candidate rows recorded here are secondary evidence for a future edition, not a mapping."
+          ],
+          "requiresPacketBinary": true,
+          "candidateLibraryEvidence": []
+        },
+        {
+          "jurisdiction": "ME",
+          "trackId": "me-seal-gen",
+          "componentId": "me-seal-gen-instructions-2",
+          "role": "instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process-guidance component has no guidance specification in this repository."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": false
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "me-seal-gen-primary-filing-1: authority_unmanifested_source.",
+        "me-seal-gen-instructions-2: process_guidance component has no governing specification in this repository."
+      ],
+      "declaredOutputStrategy": "official_pdf_fill",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/ME/01_LEGAL_REVIEW/ME__LEGAL-REVIEW__STATEWIDE__maine-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "ME",
+      "trackId": "me-seal-prost",
+      "outputStrategy": "official_pdf_fill",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "ME",
+          "trackId": "me-seal-prost",
+          "componentId": "me-seal-prost-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-289",
+          "officialSourceUrl": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CR-289",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": true,
+          "asset": {
+            "libraryEdition": "1.1",
+            "jurisdictionCode": "ME",
+            "workflowKey": "ME:CR-289:MOTION:EN",
+            "documentId": "CR-289",
+            "documentRole": "MOTION",
+            "officialTitle": "ADA Notice: The Maine Judicial Branch complies with the Americans with Disabilities Act (ADA). If you need a reasonable",
+            "revision": "REV-2024-10",
+            "language": "EN",
+            "assetClass": "source_gated",
+            "canonicalRelativePath": "STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-289__ada-notice-the-maine-judicial-branch-complies-with-the-americans-with-disabilities-act-ada__REV-2024-10__EN.pdf",
+            "sha256": "bbf89387690d1ab17984c5b799366a26196e8d71b5172bc2768f593b819a7423",
+            "packetCandidate": false,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_source_gated",
+          "reasons": [
+            "Mapped to a source-gated asset. This establishes form identity, packet identity, document role and packet composition, and remains release-disabled and never resolver-selectable."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "ME",
+          "trackId": "me-seal-prost",
+          "componentId": "me-seal-prost-instructions-2",
+          "role": "instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process-guidance component has no guidance specification in this repository."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": false
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "me-seal-prost-primary-filing-1: authority_mapped_source_gated.",
+        "me-seal-prost-instructions-2: process_guidance component has no governing specification in this repository."
+      ],
+      "declaredOutputStrategy": "official_pdf_fill",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/ME/01_LEGAL_REVIEW/ME__LEGAL-REVIEW__STATEWIDE__maine-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "ME",
+      "trackId": "me-nonconv",
+      "outputStrategy": null,
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "ME",
+          "trackId": "me-nonconv",
+          "componentId": "me-nonconv-process-guidance-1",
+          "role": "process_guidance",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "ME",
+          "trackId": "me-nonconv",
+          "componentId": "me-nonconv-primary-filing-2",
+          "role": "primary_filing",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "ME",
+          "trackId": "me-nonconv",
+          "componentId": "me-nonconv-attachment-3",
+          "role": "attachment",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "ME",
+          "trackId": "me-nonconv",
+          "componentId": "me-nonconv-instructions-4",
+          "role": "instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": true,
+      "blockingReasons": [],
+      "declaredOutputStrategy": "composed",
+      "compositionMode": "alternative",
+      "legalReviewAsset": "STATES/ME/01_LEGAL_REVIEW/ME__LEGAL-REVIEW__STATEWIDE__maine-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+      "units": [
+        {
+          "unitId": "me-nonconv-confidential-by-operation-of-law",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": false
+        },
+        {
+          "unitId": "me-nonconv-709-correction-request",
+          "order": 2,
+          "outputStrategy": "custom_pleading",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": false
+        }
+      ]
+    },
+    {
+      "jurisdiction": "ME",
+      "trackId": "me-deferred",
+      "outputStrategy": "process_guidance",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "ME",
+          "trackId": "me-deferred",
+          "componentId": "me-deferred-process-guidance-1",
+          "role": "process_guidance",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": true,
+      "blockingReasons": [],
+      "declaredOutputStrategy": "process_guidance",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/ME/01_LEGAL_REVIEW/ME__LEGAL-REVIEW__STATEWIDE__maine-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "ME",
+      "trackId": "me-screening",
+      "outputStrategy": "custom_pleading",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "ME",
+          "trackId": "me-screening",
+          "componentId": "me-screening-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "ME",
+          "trackId": "me-screening",
+          "componentId": "me-screening-attachment-2",
+          "role": "attachment",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process-guidance component has no guidance specification in this repository."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": false
+        },
+        {
+          "jurisdiction": "ME",
+          "trackId": "me-screening",
+          "componentId": "me-screening-instructions-3",
+          "role": "instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process-guidance component has no guidance specification in this repository."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": false
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "me-screening-attachment-2: process_guidance component has no governing specification in this repository.",
+        "me-screening-instructions-3: process_guidance component has no governing specification in this repository."
+      ],
+      "declaredOutputStrategy": "custom_pleading",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/ME/01_LEGAL_REVIEW/ME__LEGAL-REVIEW__STATEWIDE__maine-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "ME",
+      "trackId": "me-seal-survivor",
+      "outputStrategy": "official_pdf_fill",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "ME",
+          "trackId": "me-seal-survivor",
+          "componentId": "me-seal-survivor-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-307",
+          "officialSourceUrl": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CR-307",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": true,
+          "asset": {
+            "libraryEdition": "1.1",
+            "jurisdictionCode": "ME",
+            "workflowKey": "ME:CR-307:MOTION:EN",
+            "documentId": "CR-307",
+            "documentRole": "MOTION",
+            "officialTitle": "Motion to Seal Conviction for Victims of Sex Trafficking or Sexual Exploitation",
+            "revision": "REV-2026-06",
+            "language": "EN",
+            "assetClass": "source_gated",
+            "canonicalRelativePath": "STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__REV-2026-06__EN.pdf",
+            "sha256": "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+            "packetCandidate": false,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_source_gated",
+          "reasons": [
+            "Mapped to a source-gated asset. This establishes form identity, packet identity, document role and packet composition, and remains release-disabled and never resolver-selectable."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "ME",
+          "trackId": "me-seal-survivor",
+          "componentId": "me-seal-survivor-proposed-order-2",
+          "role": "proposed_order",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-308",
+          "officialSourceUrl": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CR-308",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": null,
+          "result": "authority_unmanifested_source",
+          "reasons": [
+            "No retained Edition 1.1 asset for ME document ID CR-308. Any candidate rows recorded here are secondary evidence for a future edition, not a mapping."
+          ],
+          "requiresPacketBinary": true,
+          "candidateLibraryEvidence": []
+        },
+        {
+          "jurisdiction": "ME",
+          "trackId": "me-seal-survivor",
+          "componentId": "me-seal-survivor-instructions-3",
+          "role": "instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process-guidance component has no guidance specification in this repository."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": false
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "me-seal-survivor-primary-filing-1: authority_mapped_source_gated.",
+        "me-seal-survivor-proposed-order-2: authority_unmanifested_source.",
+        "me-seal-survivor-instructions-3: process_guidance component has no governing specification in this repository."
+      ],
+      "declaredOutputStrategy": "official_pdf_fill",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/ME/01_LEGAL_REVIEW/ME__LEGAL-REVIEW__STATEWIDE__maine-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
       "units": []
     },
     {

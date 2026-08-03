@@ -21099,6 +21099,756 @@
       ]
     },
     {
+      "jurisdiction": "ME",
+      "trackId": "me-seal-gen",
+      "packetSetId": "me-seal-gen-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "me-seal-gen-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-218",
+          "officialSourceUrl": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CR-218",
+          "order": 1
+        },
+        {
+          "componentId": "me-seal-gen-instructions-2",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified copy of the judgment and docket record for the conviction. Ask the clerk of the court of conviction for a certified copy of the judgment and the docket record. You carry the burden of proving the conviction, its class, and the date you finished the sentence, so bring the paperwork to the hearing. Copy fees apply under the Judicial Branch fee schedule.",
+          "obtainedFrom": "Clerk of the court in which the conviction was entered",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended wherever the offence class or the completion date could be questioned.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What crime were you convicted of, as it is named on the judgment?\" against Certified copy of the judgment and docket record for the conviction, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended wherever the offence class or the completion date could be questioned.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Maine criminal history record from the State Bureau of Identification. Request your own Maine criminal history record so you can see every case the State has on you before you file. It is the reliable way to check the clean-record conditions and to catch a case you had forgotten. A fee applies; confirm the current amount with the Bureau rather than relying on a figure quoted elsewhere.",
+          "obtainedFrom": "Maine State Police, State Bureau of Identification",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended wherever the participant is unsure of their full record. Not required by statute or by the form.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that every fine and restitution obligation was paid in full. Ask the clerk or the collections office for a payment history or a zero-balance statement. The four-year clock does not start until the last dollar is paid, so this is the document that most often decides the case.",
+          "obtainedFrom": "Clerk of the court of conviction, or the collections office that received payment",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended wherever a fine or restitution balance was part of the sentence.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did you finish the LAST of those, including paying every fine and every dollar of restitution in full? If any balance is still owed, say so.\" against Proof that every fine and restitution obligation was paid in full, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended wherever a fine or restitution balance was part of the sentence.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Paragraph 3 of CR-218 — the assertion of no other adult criminal convictions in Maine — CR-218, numbered paragraph 3.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Paragraph 1's assertion that the crime is eligible for sealing under 15 M.R.S. § 2261(6) — CR-218, numbered paragraph 1.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The participant's signature and the date of signing — The motion, signature block for the defendant.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The hearing date, time and courtroom — Participant instructions, filing and hearing section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Every finding, ruling, date and signature of the court — Not printed in the participant packet; the court issues its own written order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Notice to the prosecutorial office — Not printed in the participant packet; described in the filing instructions only.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The defendant signs CR-218. There is an optional attorney line; having an attorney is not required. LegalEase leaves the signature and date blank.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No fee is expected. Administrative Order JB-05-26 (A. 3-26), effective 9 March 2026, lists no fee for a criminal post-judgment motion and provides 'Filing a Criminal Action, Traffic Infraction, or Civil Violation: No fee' in both Superior and District Court. The $60 post-judgment motion fee on that schedule is tied by its own terms to M.R. Civ. P. 55(b)(2), 59, 60(b), 62 and 66, which are civil rules, and does not reach a criminal post-judgment motion. Confirm with the clerk and do not promise a refund.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none expected, because no fee is expected. If a clerk does assess one, in-forma-pauperis status under M.R. Civ. P. 91 exempts a litigant from schedule fees during the pendency of the action, but that is a civil rule and its application to a criminal motion is unresolved. Do not route the participant to CV-067 or CV-191.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service obligation is imposed on the movant by the statute or by CR-218, and the form carries no certificate-of-service block. The packet tells the participant that notice is understood to be the court's, to confirm that with the clerk at filing, and to hand the clerk a courtesy copy for the prosecutorial office if asked. See the unresolved question on service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the completed and signed CR-218 with the clerk of the court in which the conviction was entered, in the underlying criminal proceeding (§ 2264(1)). One motion per conviction. Filing is in person or by mail; eFiling availability depends on where the county sits in the Maine eCourts rollout. Nothing else is required by statute or by the form.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"What crime were you convicted of, as it is named on the judgment?\" against Certified copy of the judgment and docket record for the conviction, and correct the packet if they disagree.",
+        "Check your answer to \"On what date did you finish the LAST of those, including paying every fine and every dollar of restitution in full? If any balance is still owed, say so.\" against Proof that every fine and restitution obligation was paid in full, and correct the packet if they disagree.",
+        "Paragraph 3 of CR-218 — the assertion of no other adult criminal convictions in Maine — CR-218, numbered paragraph 3.",
+        "Paragraph 1's assertion that the crime is eligible for sealing under 15 M.R.S. § 2261(6) — CR-218, numbered paragraph 1.",
+        "The participant's signature and the date of signing — The motion, signature block for the defendant.",
+        "The hearing date, time and courtroom — Participant instructions, filing and hearing section.",
+        "Every finding, ruling, date and signature of the court — Not printed in the participant packet; the court issues its own written order.",
+        "Notice to the prosecutorial office — Not printed in the participant packet; described in the filing instructions only.",
+        "The defendant signs CR-218. There is an optional attorney line; having an attorney is not required. LegalEase leaves the signature and date blank.",
+        "No fee is expected. Administrative Order JB-05-26 (A. 3-26), effective 9 March 2026, lists no fee for a criminal post-judgment motion and provides 'Filing a Criminal Action, Traffic Infraction, or Civil Violation: No fee' in both Superior and District Court. The $60 post-judgment motion fee on that schedule is tied by its own terms to M.R. Civ. P. 55(b)(2), 59, 60(b), 62 and 66, which are civil rules, and does not reach a criminal post-judgment motion. Confirm with the clerk and do not promise a refund.",
+        "none expected, because no fee is expected. If a clerk does assess one, in-forma-pauperis status under M.R. Civ. P. 91 exempts a litigant from schedule fees during the pendency of the action, but that is a civil rule and its application to a criminal motion is unresolved. Do not route the participant to CV-067 or CV-191."
+      ]
+    },
+    {
+      "jurisdiction": "ME",
+      "trackId": "me-seal-prost",
+      "packetSetId": "me-seal-prost-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "me-seal-prost-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-289",
+          "officialSourceUrl": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CR-289",
+          "order": 1
+        },
+        {
+          "componentId": "me-seal-prost-instructions-2",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified copy of the judgment and docket record for the conviction. Ask the clerk for a certified copy. On this track the identity of the offence matters more than its class, so the judgment naming Title 17-A former § 853-A is the document to have.",
+          "obtainedFrom": "Clerk of the court in which the conviction was entered",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended wherever the offence identity could be questioned.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Was the conviction specifically for engaging in prostitution under Title 17-A, former section 853-A?\" against Certified copy of the judgment and docket record for the conviction, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended wherever the offence identity could be questioned.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Maine criminal history record from the State Bureau of Identification. Request your own Maine criminal history record so you can see every case the State has on you before you file. It is the reliable way to check the clean-record conditions and to catch a case you had forgotten. A fee applies; confirm the current amount with the Bureau rather than relying on a figure quoted elsewhere.",
+          "obtainedFrom": "Maine State Police, State Bureau of Identification",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended wherever the participant is unsure of their full record. Not required by statute or by the form.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "CR-289 paragraph 1's recital that the crime is eligible for sealing under 15 M.R.S.A. § 2261(6) and § 2262-A — CR-289, numbered paragraph 1.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "CR-289 paragraph 3's certification about disqualifying convictions — CR-289, numbered paragraph 3.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The participant's signature and the date of signing — The motion, signature block for the defendant.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The hearing date, time and courtroom — Participant instructions, filing and hearing section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Every finding, ruling, date and signature of the court — Not printed in the participant packet; the court issues its own written order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Notice to the prosecutorial office — Not printed in the participant packet; described in the filing instructions only.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The defendant signs CR-289. LegalEase leaves the signature and date blank.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No fee is expected, on the same analysis as the general sealing track. Confirm with the clerk and do not promise a refund.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none expected, because no fee is expected.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service obligation is imposed on the movant by the statute or by CR-289, and the form carries no certificate-of-service block. Same unresolved question as the general track.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the completed and signed CR-289 with the clerk of the court in which the conviction was entered, in the underlying criminal proceeding (§ 2264(1)). Nothing else is required by statute or by the form.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Was the conviction specifically for engaging in prostitution under Title 17-A, former section 853-A?\" against Certified copy of the judgment and docket record for the conviction, and correct the packet if they disagree.",
+        "CR-289 paragraph 1's recital that the crime is eligible for sealing under 15 M.R.S.A. § 2261(6) and § 2262-A — CR-289, numbered paragraph 1.",
+        "CR-289 paragraph 3's certification about disqualifying convictions — CR-289, numbered paragraph 3.",
+        "The participant's signature and the date of signing — The motion, signature block for the defendant.",
+        "The hearing date, time and courtroom — Participant instructions, filing and hearing section.",
+        "Every finding, ruling, date and signature of the court — Not printed in the participant packet; the court issues its own written order.",
+        "Notice to the prosecutorial office — Not printed in the participant packet; described in the filing instructions only.",
+        "The defendant signs CR-289. LegalEase leaves the signature and date blank.",
+        "No fee is expected, on the same analysis as the general sealing track. Confirm with the clerk and do not promise a refund.",
+        "none expected, because no fee is expected."
+      ]
+    },
+    {
+      "jurisdiction": "ME",
+      "trackId": "me-nonconv",
+      "packetSetId": "me-nonconv-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "me-nonconv-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "me-nonconv-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Generated only where the agency record is demonstrably inaccurate, which is unit 2 of the composition.",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "me-nonconv-attachment-3",
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionDescription": "Accompanies the § 709 request wherever the participant holds a disposition order.",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "me-nonconv-instructions-4",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Maine criminal history record from the State Bureau of Identification. Request your own Maine criminal history record. On this track it is the whole point: it is the only way to see whether the State is actually carrying the case and whether it is being treated as confidential. Order online through the Bureau's public criminal history request service or by mail to State House Station #42, Augusta, ME 04333-0042. The Bureau charges a fee for the standard record search and a higher fee for a notarised background check; confirm the current amounts with the Bureau before quoting them.",
+          "obtainedFrom": "Maine State Police, State Bureau of Identification",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Where is the record actually causing you a problem — on a State Bureau of Identification background check, on a court docket search, or on a private background-check company's report?\" against Maine criminal history record from the State Bureau of Identification, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court order or docket entry showing the disposition. Ask the clerk for the order or docket entry showing how each charge ended, and specifically whether a dismissal was with or without prejudice. That single word decides the § 703(2) classification.",
+          "obtainedFrom": "Clerk of the court that handled the case",
+          "requirement": "conditional",
+          "conditionDescription": "Required in practice before the § 709 correction request, because the request has to say what the record should show.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"If it was dismissed, does your paperwork say the dismissal was with prejudice or without prejudice?\" against Court order or docket entry showing the disposition, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Required in practice before the § 709 correction request, because the request has to say what the record should show.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The participant's signature and the date of signing — § 709 inspection and correction request, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion about whether a dismissal was with prejudice or was part of a plea agreement, where the participant's documents do not say — § 709 inspection and correction request, the paragraph identifying the disposition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The administrative appeal to the agency head and any Superior Court filing — Not generated; described in the instructions only.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs the § 709 request. LegalEase leaves the signature and date blank.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "none for the § 709 request. A notarised Bureau background check is a separate, optional record product.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "None for the confidentiality itself and none for a § 709 request. The Bureau charges a fee for the participant's own criminal history record search and a higher fee for a notarised background check; confirm current amounts with the Bureau rather than publishing a figure.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none identified for a Bureau record request.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Not applicable. The participant sends the request directly to the agency and serves no one else.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Nothing is filed on the base branch: § 703(2) confidentiality is automatic and no court has any role. On the correction branch the participant sends the § 709 request in writing to the criminal justice agency that holds the record, principally the State Bureau of Identification, in person or by mail. There is no official form and the statute prescribes none.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Where is the record actually causing you a problem — on a State Bureau of Identification background check, on a court docket search, or on a private background-check company's report?\" against Maine criminal history record from the State Bureau of Identification, and correct the packet if they disagree.",
+        "Check your answer to \"If it was dismissed, does your paperwork say the dismissal was with prejudice or without prejudice?\" against Court order or docket entry showing the disposition, and correct the packet if they disagree.",
+        "The participant's signature and the date of signing — § 709 inspection and correction request, signature block.",
+        "Any assertion about whether a dismissal was with prejudice or was part of a plea agreement, where the participant's documents do not say — § 709 inspection and correction request, the paragraph identifying the disposition.",
+        "The administrative appeal to the agency head and any Superior Court filing — Not generated; described in the instructions only.",
+        "The participant signs the § 709 request. LegalEase leaves the signature and date blank.",
+        "none for the § 709 request. A notarised Bureau background check is a separate, optional record product.",
+        "None for the confidentiality itself and none for a § 709 request. The Bureau charges a fee for the participant's own criminal history record search and a higher fee for a notarised background check; confirm current amounts with the Bureau rather than publishing a figure.",
+        "none identified for a Bureau record request."
+      ]
+    },
+    {
+      "jurisdiction": "ME",
+      "trackId": "me-deferred",
+      "packetSetId": "me-deferred-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "me-deferred-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court docket entry or order showing how the deferred disposition ended. Ask the clerk for the docket entry or order showing whether the charge was dismissed under 17-A M.R.S. § 1903 or whether you were convicted of a reduced offence. Participants routinely describe both outcomes as 'it got dismissed', and the two route to completely different places.",
+          "obtainedFrom": "Clerk of the court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"When the deferral ended, was the charge dismissed, or were you convicted of a lesser offence instead?\" against Court docket entry or order showing how the deferred disposition ended, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "none — no participant document is generated on this node.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "Nothing is filed on this node. It classifies an outcome and routes to another track.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"When the deferral ended, was the charge dismissed, or were you convicted of a lesser offence instead?\" against Court docket entry or order showing how the deferred disposition ended, and correct the packet if they disagree.",
+        "none — no participant document is generated on this node."
+      ]
+    },
+    {
+      "jurisdiction": "ME",
+      "trackId": "me-screening",
+      "packetSetId": "me-screening-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "me-screening-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "me-screening-attachment-2",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "me-screening-instructions-3",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Copy of the court's written sealing order, or of the pardon. Ask the clerk for a copy of the signed sealing order, or obtain a copy of the pardon. § 1500-CC(2) makes prompt deletion mandatory where the disputed record is found to be sealed or the subject of a pardon, so this is the document the whole letter turns on. Enclose a copy, never the original.",
+          "obtainedFrom": "Clerk of the court that signed the sealing order, or the Department of Corrections and the Governor's office for a pardon",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the correct status — is the record sealed by a Maine court order, or is it the subject of a pardon?\" against Copy of the court's written sealing order, or of the pardon, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Copy of the official Maine criminal history record from the State Bureau of Identification. Order your own Bureau record and enclose a copy. § 1500-CC(1) directs the service to compare its record against the official record maintained by the Bureau, so the Bureau record is the benchmark the statute names. It is strongly advisable wherever the vendor's entry is wrong on facts other than sealing status.",
+          "obtainedFrom": "Maine State Police, State Bureau of Identification",
+          "requirement": "conditional",
+          "conditionDescription": "Advisable in every case and effectively necessary where the dispute is about accuracy rather than sealing status.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "The participant's signature and the date of signing — Dispute letter, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The vendor's dispute address where the participant cannot locate one — Dispute letter, addressee block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any demand for the statutory penalty, actual damages, costs or attorney's fees — Not present in the packet at all.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs the dispute letter. LegalEase leaves the signature and date blank.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "None. § 1500-CC requires the business screening service to investigate the disputed record without charge. The participant may pay a Bureau fee for their own criminal history record and a clerk's copy fee for the sealing order; neither is a fee for this route.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none — there is no fee to waive.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Not applicable. There is no opposing party to serve. The participant sends the letter to the vendor and to no one else.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Nothing is filed with any court. The participant sends the signed dispute letter, with its enclosures, to the business screening service's published dispute address, in a way that lets receipt be evidenced. Send copies of enclosures and keep the originals.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Copy of the court's written sealing order, or of the pardon. Ask the clerk for a copy of the signed sealing order, or obtain a copy of the pardon. § 1500-CC(2) makes prompt deletion mandatory where the disputed record is found to be sealed or the subject of a pardon, so this is the document the whole letter turns on. Enclose a copy, never the original.",
+        "Check your answer to \"What is the correct status — is the record sealed by a Maine court order, or is it the subject of a pardon?\" against Copy of the court's written sealing order, or of the pardon, and correct the packet if they disagree.",
+        "The participant's signature and the date of signing — Dispute letter, signature block.",
+        "The vendor's dispute address where the participant cannot locate one — Dispute letter, addressee block.",
+        "Any demand for the statutory penalty, actual damages, costs or attorney's fees — Not present in the packet at all.",
+        "The participant signs the dispute letter. LegalEase leaves the signature and date blank.",
+        "None. § 1500-CC requires the business screening service to investigate the disputed record without charge. The participant may pay a Bureau fee for their own criminal history record and a clerk's copy fee for the sealing order; neither is a fee for this route.",
+        "none — there is no fee to waive."
+      ]
+    },
+    {
+      "jurisdiction": "ME",
+      "trackId": "me-seal-survivor",
+      "packetSetId": "me-seal-survivor-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "me-seal-survivor-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-307",
+          "officialSourceUrl": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CR-307",
+          "order": 1
+        },
+        {
+          "componentId": "me-seal-survivor-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-308",
+          "officialSourceUrl": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CR-308",
+          "order": 2
+        },
+        {
+          "componentId": "me-seal-survivor-instructions-3",
+          "role": "instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Official documentation of victim status, if the participant already holds any. § 2264(4-A)(B) is explicit that official documentation is NOT required. If it is presented it creates a presumption that participation in the offence was a substantial result of the trafficking or exploitation. Qualifying documentation includes an official record, certification or eligibility letter from a federal, state, tribal or local proceeding, including an approval notice or certification generated in a federal immigration proceeding. Your lawyer or advocate decides whether to present anything; LegalEase never asks you to produce proof and never assesses what you have.",
+          "obtainedFrom": "The federal, state, tribal or local proceeding that issued it, including a federal immigration proceeding",
+          "requirement": "conditional",
+          "conditionDescription": "Entirely optional. Whether to obtain or present documentation is a strategy decision for the participant's attorney or advocate.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Affidavit or sworn testimony from clergy, a medical professional, victim services staff, or another professional from whom the person sought counsel or assistance. § 2264(4-A)(C)(2) names this as qualifying documentation. It is prepared by the professional, not by LegalEase and not by the participant, and whether to seek one is a decision for the attorney or advocate.",
+          "obtainedFrom": "The professional concerned",
+          "requirement": "conditional",
+          "conditionDescription": "Optional and strategically significant. Not obtained or drafted by LegalEase.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified copy of the judgment and docket record for each conviction. Ask the clerk for a certified copy so the motion identifies each conviction correctly. There is no offence restriction on this route, so the judgment is needed for identification rather than for eligibility.",
+          "obtainedFrom": "Clerk of the court in which the conviction was entered",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended so the crime name, date and docket number on the motion match the court record.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What crime were you convicted of, as it is named on the judgment?\" against Certified copy of the judgment and docket record for each conviction, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended so the crime name, date and docket number on the motion match the court record.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The substance behind CR-307 paragraph 2 — the survivor's account and the causal connection between the trafficking or exploitation and the offence — CR-307, numbered paragraph 2, and any supporting material.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Paragraph 1's recital that the crimes are eligible for sealing under 15 M.R.S.A. § 2261(6)(C) and § 2262-B — CR-307, numbered paragraph 1.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Every checkbox, finding of fact, date and the judge or justice signature on CR-308 — CR-308, the outcome checkboxes, findings lines and signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The hearing date, time and courtroom, where a hearing is set — Participant instructions, filing and hearing section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The participant's signature and the date of signing — CR-307, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Notice to the prosecutorial office — Not printed in the participant packet; described in the filing instructions only.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The person filing signs CR-307. LegalEase leaves the signature and date blank.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "none. An affidavit from a professional under § 2264(4-A)(C)(2) is sworn by that professional, not by the participant, and is not prepared by LegalEase.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No fee is expected, on the same analysis as the general sealing track: Administrative Order JB-05-26 (A. 3-26) lists no fee for a criminal post-judgment motion. Confirm with the clerk and do not promise a refund.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none expected, because no fee is expected.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service obligation is imposed on the movant by the statute or by CR-307, and the form carries no certificate-of-service block. Same unresolved question as the general track.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the completed and signed CR-307, with the proposed CR-308 order, with the clerk of the court in which the conviction was entered, in the underlying criminal proceeding (§ 2264(1)). The motion may be filed at any time after the conviction is entered. Where several motions are filed the court consolidates them to one location.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"What crime were you convicted of, as it is named on the judgment?\" against Certified copy of the judgment and docket record for each conviction, and correct the packet if they disagree.",
+        "The substance behind CR-307 paragraph 2 — the survivor's account and the causal connection between the trafficking or exploitation and the offence — CR-307, numbered paragraph 2, and any supporting material.",
+        "Paragraph 1's recital that the crimes are eligible for sealing under 15 M.R.S.A. § 2261(6)(C) and § 2262-B — CR-307, numbered paragraph 1.",
+        "Every checkbox, finding of fact, date and the judge or justice signature on CR-308 — CR-308, the outcome checkboxes, findings lines and signature block.",
+        "The hearing date, time and courtroom, where a hearing is set — Participant instructions, filing and hearing section.",
+        "The participant's signature and the date of signing — CR-307, signature block.",
+        "Notice to the prosecutorial office — Not printed in the participant packet; described in the filing instructions only.",
+        "The person filing signs CR-307. LegalEase leaves the signature and date blank.",
+        "none. An affidavit from a professional under § 2264(4-A)(C)(2) is sworn by that professional, not by the participant, and is not prepared by LegalEase.",
+        "No fee is expected, on the same analysis as the general sealing track: Administrative Order JB-05-26 (A. 3-26) lists no fee for a criminal post-judgment motion. Confirm with the clerk and do not promise a refund.",
+        "none expected, because no fee is expected."
+      ]
+    },
+    {
       "jurisdiction": "MI",
       "trackId": "mi_setaside_application",
       "packetSetId": "mi_setaside_application-set",
