@@ -1,11 +1,10 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "data/record-clearing/legal-design-intake",
-  "jurisdictionsReceived": 21,
-  "jurisdictionsOutstanding": 30,
+  "jurisdictionsReceived": 22,
+  "jurisdictionsOutstanding": 29,
   "outstandingJurisdictions": [
     "KY",
-    "LA",
     "ME",
     "MO",
     "MS",
@@ -1382,7 +1381,7 @@
     {
       "batch": "D_composed_or_process_guidance",
       "label": "Composed and process-guidance tracks",
-      "trackCount": 57,
+      "trackCount": 60,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -2882,6 +2881,191 @@
           ]
         },
         {
+          "jurisdiction": "LA",
+          "trackId": "la-999-expedited-expungement",
+          "publicName": "Free expedited clearing of an arrest from when you were seventeen",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Art. 999's eligibility trigger is age at arrest, and it is narrow. The person must be seventeen years of age when arrested or charged. This is a legacy of Louisiana's raise-the-age transition and it is not a general youthful-offender provision.",
+            "Apply Art. 999(A) as written, requiring all three conditions, because it is the narrower reading. Do not widen eligibility by construing (2) and (3) as alternatives until counsel resolves the question.",
+            "Art. 975 hard-labor custody filing bar — Scope restriction."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Whether Article 999.1 should be added to the Article 986 mandatory-form list. Article 986's list still runs 987 through 995 and 998, with source notes through Acts 2023, No. 342, and was not amended by Acts 2024, No. 270 even though that Act added the Article 999.1 order form. The form is therefore self-prescribing by its own heading rather than mandatory under Article 986.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "correct_form",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "LA__LEGAL-REVIEW__STATEWIDE__louisiana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "PART 2: SOURCE FORM AND DOCUMENT REVIEW",
+                "sourceStatement": "Art. 986 provides that the forms in Arts. 987 through 995 and 998 are the forms to be used.",
+                "normalizerInferred": true
+              }
+            },
+            {
+              "question": "Title XXXIV was amended three times in the 2024 Regular Session — Acts 270 (Articles 972 and 983(G); enacting 999 and 999.1), 560 (enacting 985.3) and 580 (Article 978) — after the reviewed source notes, which ran through 2023. No 2025 or 2026 session amendment to Title XXXIV was located. Louisiana needs the scheduled annual re-verification the review recommended, on the same footing as Kansas.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LA__LEGAL-REVIEW__STATEWIDE__louisiana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "READ THIS FIRST: ASSESSMENT OF THE INTERNAL REFERENCE",
+                "sourceStatement": "That article was amended by Acts 2014 No. 145, 2015 No. 200, 2016 No. 125, 2018 No. 711, 2020 No. 71, and 2020 No. 73. Title XXXIV has been amended in most sessions since. Louisiana needs the same scheduled annual re-verification recommended for Kansas."
+              }
+            }
+          ],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Article 999(A) says the person must meet 'all of the following' and then lists (2) a declination to prosecute all offences arising out of the arrest and (3) an instituted prosecution finally disposed of by dismissal, quashal or acquittal. Read literally the two are mutually exclusive, because a declination means no prosecution was instituted, and almost nobody could qualify. The Acts 2024, No. 270 résumé digest repeats 'all of the following', and the Article 999.1 order form recites the same three conditions under the heading 'wherein all of the following applies', so both the statute and the prescribed order carry the cumulative formulation. Whether (2) and (3) are cumulative as written or alternative as they must sensibly be is unresolved, and it materially decides who the eligibility engine returns."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (output_strategy): How an Article 999 expedited expungement order is actually presented to a judge, given that Article 972(1) provides for it to be signed without the individual filing a motion with the clerk. Specifically: whether the participant, the district attorney, the clerk or the court initiates it; whether the participant completes or submits any form, application or written request; and whether Article 999.1 is a participant-prepared proposed order or is generated entirely by the court. No Article, no form instruction, no Article 986 form assignment and no Louisiana State Police material answers this. The track is guidance because the law prescribes no participant filing, not merely because no conventional motion is filed; if the answer is that the participant prepares and presents the Article 999.1 order, the track becomes official_pdf_fill on that form."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "LA",
+          "trackId": "la-985-2-automated-expungement",
+          "publicName": "Louisiana's automated expungement process",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Louisiana automated relief and any proposed Missouri automatic-drug route remain disabled until official operational authority is in the source bundle.",
+            "Do not describe this route as true automatic relief. Art. 985.2(B) requires the defendant to submit a request."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Title XXXIV was amended three times in the 2024 Regular Session — Acts 270 (Articles 972 and 983(G); enacting 999 and 999.1), 560 (enacting 985.3) and 580 (Article 978) — after the reviewed source notes, which ran through 2023. No 2025 or 2026 session amendment to Title XXXIV was located. Louisiana needs the scheduled annual re-verification the review recommended, on the same footing as Kansas.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LA__LEGAL-REVIEW__STATEWIDE__louisiana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "READ THIS FIRST: ASSESSMENT OF THE INTERNAL REFERENCE",
+                "sourceStatement": "That article was amended by Acts 2014 No. 145, 2015 No. 200, 2016 No. 125, 2018 No. 711, 2020 No. 71, and 2020 No. 73. Title XXXIV has been amended in most sessions since. Louisiana needs the same scheduled annual re-verification recommended for Kansas."
+              }
+            }
+          ],
+          "participantActionCount": 4,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): Whether the Legislature made the appropriation that Section 4 of Acts 2023, No. 454 requires — an Act or Acts originating in the 2023 Regular Session containing specific appropriations for the office of state police, the Louisiana Supreme Court and the Louisiana Clerks' Remote Access Authority for implementation — and whether the Article 985.2(G) Fiscal Year 2025-2026 executive-budget funding was provided. As of 3 August 2026 the Legislature's own current publication of Article 985.2 still carries the note 'Article 985.2 eff. upon appropriation of monies by the Legislature. See Acts 2023, No. 454', which is the note removed once the condition is satisfied. No official source establishes that the condition has been met."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether the Louisiana Bureau of Criminal Identification and Information currently accepts automated-expungement requests, and by what submission method — official form, portal, mail, email or otherwise. The Bureau's current expungements page describes only the ordinary court-motion process, links the Right to Review background check, states the two-hundred-fifty-dollar money order and the Article 983(F) fee exemption, and does not mention automated expungement or Article 985.2 anywhere. No official request form, eligibility notice, timeline or implementation notice has been published by the Bureau, the Louisiana Supreme Court or the Louisiana Clerks' Remote Access Authority. This must be settled by direct official confirmation before any Louisiana automated route is described as available."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (output_strategy): If the route is later confirmed to operate, whether the participant's request is a completed official form, a portal submission or a free-form written request determines whether this track becomes official_pdf_fill, process_guidance or composed. It is request-based rather than a passive sweep, so a participant-facing action exists in principle even though no channel for it has been published."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "LA",
+          "trackId": "la-985-3-immediate-expungement",
+          "publicName": "Immediate clearing by the court after you finish probation or a program",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Art. 985.3 reaches only a person who is 'otherwise eligible for an expungement'. Every Art. 977(C) and Art. 978(B) exclusion continues to govern; the Article shortens the path, not the eligibility test."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Title XXXIV was amended three times in the 2024 Regular Session — Acts 270 (Articles 972 and 983(G); enacting 999 and 999.1), 560 (enacting 985.3) and 580 (Article 978) — after the reviewed source notes, which ran through 2023. No 2025 or 2026 session amendment to Title XXXIV was located. Louisiana needs the scheduled annual re-verification the review recommended, on the same footing as Kansas.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LA__LEGAL-REVIEW__STATEWIDE__louisiana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "READ THIS FIRST: ASSESSMENT OF THE INTERNAL REFERENCE",
+                "sourceStatement": "That article was amended by Acts 2014 No. 145, 2015 No. 200, 2016 No. 125, 2018 No. 711, 2020 No. 71, and 2020 No. 73. Title XXXIV has been amended in most sessions since. Louisiana needs the same scheduled annual re-verification recommended for Kansas."
+              }
+            }
+          ],
+          "participantActionCount": 12,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (output_strategy): Whether a defendant may move for Article 985.3 relief, and if so by what vehicle. Article 985.3(A) says the court 'may order' the immediate expungement and prescribes no motion, application or request; Article 985.3(B) names only the Article 992 order form; Article 986's mandatory-form list assigns no motion form to the Article; and the Acts 2024, No. 560 digest describes it as a court-ordered automatic expungement. Whether in practice the court acts on its own at the completion or discharge proceeding, or whether the defendant presents an ordinary Article 989 motion and asks the court to exercise Article 985.3 discretion, is not answered by any official source. If the latter, the participant-facing packet is the Article 989 and 992 pair already modelled on the Article 977 and 978 tracks, and this track would become a routing node into them rather than an independent packet."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (waiting_period): Whether Article 985.3 displaces the Article 977(A)(2) five-year and Article 978(A)(2) ten-year waiting periods for a person who is otherwise eligible and has successfully completed a court-ordered probation or alternative sentencing programme. The word 'immediate' and the completion trigger suggest it does, but unlike Article 985.1(D) — which disapplies those time limitations in terms — Article 985.3 says nothing about them, and 'otherwise eligible for an expungement' can be read either as eligible but for the waiting period or as eligible including the waiting period. The difference decides who the eligibility engine returns."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether the Article 983 fee schedule applies to an expungement ordered under Article 985.3, given that the Article prescribes no fee and no exemption and that Article 983 is drafted around obtaining a court order on a motion."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
           "jurisdiction": "MA",
           "trackId": "ma-autoseal",
           "publicName": "Records that seal on their own",
@@ -3743,7 +3927,7 @@
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 121,
+      "trackCount": 128,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -8317,6 +8501,443 @@
             {
               "kind": "release_blocker",
               "statement": "Open question blocks release (filing_process): Whether Kansas district courts expect the K.S.A. 22-4908 registration-relief petition and the combined K.S.A. 21-6614 expungement petition to be filed as one document, as two documents in one filing, or sequentially with expungement following the grant of relief. Subsection (i) permits combining them and the Judicial Council publishes the two petitions separately, but the mechanics of the combined filing, including whether one or two docket fees are charged, are not stated."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "LA",
+          "trackId": "la-976-arrest-no-conviction",
+          "publicName": "Clear an arrest that did not end in a conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Art. 975 hard-labor custody filing bar — Scope restriction."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Whether the Article 989 ex parte route through an Affidavit of No Opposition is practically obtainable, and what the district attorney, the Bureau and the arresting agency each require before executing one. This determines whether a Louisiana packet ordinarily avoids a hearing.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "participant_instructions",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LA__LEGAL-REVIEW__STATEWIDE__louisiana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "OPEN QUESTIONS",
+                "sourceStatement": "Whether the Art. 989 ex parte route via Affidavit of No Opposition is practically obtainable, and what agencies require before executing one. This determines whether Louisiana packets typically avoid a hearing."
+              }
+            },
+            {
+              "question": "Title XXXIV was amended three times in the 2024 Regular Session — Acts 270 (Articles 972 and 983(G); enacting 999 and 999.1), 560 (enacting 985.3) and 580 (Article 978) — after the reviewed source notes, which ran through 2023. No 2025 or 2026 session amendment to Title XXXIV was located. Louisiana needs the scheduled annual re-verification the review recommended, on the same footing as Kansas.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LA__LEGAL-REVIEW__STATEWIDE__louisiana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "READ THIS FIRST: ASSESSMENT OF THE INTERNAL REFERENCE",
+                "sourceStatement": "That article was amended by Acts 2014 No. 145, 2015 No. 200, 2016 No. 125, 2018 No. 711, 2020 No. 71, and 2020 No. 73. Title XXXIV has been amended in most sessions since. Louisiana needs the same scheduled annual re-verification recommended for Kansas."
+              }
+            }
+          ],
+          "participantActionCount": 21,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Articles 987, 988, 989, 991, 992 and 994 — the Article 986 mandatory forms on which every Louisiana motion track depends — are retained by no Master Library Edition 1.1 asset. Edition 1.1 holds the Louisiana statutory text only for Articles 990, 993, 995, 998 and 999.1, and the repository holds Articles 987 through 994 solely as generic legis.la.gov browser-print HTML captures, which the edition does not treat as workflow documents. Confirm the canonical source form for each and adopt them in a successor edition before any Louisiana packet is released."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "LA",
+          "trackId": "la-977-misdemeanor-conviction",
+          "publicName": "Clear a misdemeanor conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Sex offense, domestic abuse battery, stalking — Scope restriction, with Track E preserved.",
+            "Art. 975 hard-labor custody filing bar — Scope restriction."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Whether the Article 989 ex parte route through an Affidavit of No Opposition is practically obtainable, and what the district attorney, the Bureau and the arresting agency each require before executing one. This determines whether a Louisiana packet ordinarily avoids a hearing.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "participant_instructions",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LA__LEGAL-REVIEW__STATEWIDE__louisiana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "OPEN QUESTIONS",
+                "sourceStatement": "Whether the Art. 989 ex parte route via Affidavit of No Opposition is practically obtainable, and what agencies require before executing one. This determines whether Louisiana packets typically avoid a hearing."
+              }
+            },
+            {
+              "question": "Title XXXIV was amended three times in the 2024 Regular Session — Acts 270 (Articles 972 and 983(G); enacting 999 and 999.1), 560 (enacting 985.3) and 580 (Article 978) — after the reviewed source notes, which ran through 2023. No 2025 or 2026 session amendment to Title XXXIV was located. Louisiana needs the scheduled annual re-verification the review recommended, on the same footing as Kansas.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LA__LEGAL-REVIEW__STATEWIDE__louisiana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "READ THIS FIRST: ASSESSMENT OF THE INTERNAL REFERENCE",
+                "sourceStatement": "That article was amended by Acts 2014 No. 145, 2015 No. 200, 2016 No. 125, 2018 No. 711, 2020 No. 71, and 2020 No. 73. Title XXXIV has been amended in most sessions since. Louisiana needs the same scheduled annual re-verification recommended for Kansas."
+              }
+            },
+            {
+              "question": "Whether an Article 894(B) set-aside obtained on the separate Article 987 track requires any further certification from the district attorney before the Article 977(A)(1) motion is filed, given that the Article 989 attachment checklist lists certification letters without distinguishing the two Article 977 routes.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "packet_components",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "LA__LEGAL-REVIEW__STATEWIDE__louisiana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "TRACK B: Misdemeanor conviction",
+                "sourceStatement": "The DA certification is the gate. Two of the required attachments listed on the Art. 989 form are certification letters from the district attorney: one verifying no convictions or pending applicable criminal charges in the requisite time periods, and one verifying the applicant did not participate in a pretrial diversion program. LegalEase cannot produce these. It can prepare the request and tell the participant exactly what to ask for.",
+                "counselQuestion": "Where a misdemeanour conviction has already been set aside and the prosecution dismissed under Article 894(B), must the Article 977(A)(1) motion still be accompanied by a district attorney certification, or do the Article 989 checklist certification letters attach only to the Article 977(A)(2) five-year route?"
+              }
+            }
+          ],
+          "participantActionCount": 22,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Articles 987, 988, 989, 991, 992 and 994 — the Article 986 mandatory forms on which every Louisiana motion track depends — are retained by no Master Library Edition 1.1 asset. Edition 1.1 holds the Louisiana statutory text only for Articles 990, 993, 995, 998 and 999.1, and the repository holds Articles 987 through 994 solely as generic legis.la.gov browser-print HTML captures, which the edition does not treat as workflow documents. Confirm the canonical source form for each and adopt them in a successor edition before any Louisiana packet is released."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "LA",
+          "trackId": "la-977d-marijuana-first-offense",
+          "publicName": "Clear a first-offense misdemeanor marijuana possession conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Art. 975 hard-labor custody filing bar — Scope restriction."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Title XXXIV was amended three times in the 2024 Regular Session — Acts 270 (Articles 972 and 983(G); enacting 999 and 999.1), 560 (enacting 985.3) and 580 (Article 978) — after the reviewed source notes, which ran through 2023. No 2025 or 2026 session amendment to Title XXXIV was located. Louisiana needs the scheduled annual re-verification the review recommended, on the same footing as Kansas.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LA__LEGAL-REVIEW__STATEWIDE__louisiana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "READ THIS FIRST: ASSESSMENT OF THE INTERNAL REFERENCE",
+                "sourceStatement": "That article was amended by Acts 2014 No. 145, 2015 No. 200, 2016 No. 125, 2018 No. 711, 2020 No. 71, and 2020 No. 73. Title XXXIV has been amended in most sessions since. Louisiana needs the same scheduled annual re-verification recommended for Kansas."
+              }
+            }
+          ],
+          "participantActionCount": 17,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether any clerk of court continues to apply the terminated Article 983(M) three-hundred-dollar schedule to motions filed after 1 August 2026, and whether any parish publishes a different collection practice for Article 977(D) motions."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Article 998 is retained by Edition 1.1 only as a legis.la.gov browser-print PDF with no form fields, recorded in the state manifest as requiring a faithful court-ready renderer and field map. Confirm the canonical court-ready rendering before release."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "LA",
+          "trackId": "la-978-felony-conviction",
+          "publicName": "Clear a felony conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Controlled dangerous substance classification uncertainty is a scope restriction: where the offence of conviction does not plainly fall inside one of the five Art. 978(B)(3) exceptions, do not offer the track and hand off.",
+            "Art. 975 hard-labor custody filing bar — Scope restriction."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Whether the Article 989 ex parte route through an Affidavit of No Opposition is practically obtainable, and what the district attorney, the Bureau and the arresting agency each require before executing one. This determines whether a Louisiana packet ordinarily avoids a hearing.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "participant_instructions",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LA__LEGAL-REVIEW__STATEWIDE__louisiana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "OPEN QUESTIONS",
+                "sourceStatement": "Whether the Art. 989 ex parte route via Affidavit of No Opposition is practically obtainable, and what agencies require before executing one. This determines whether Louisiana packets typically avoid a hearing."
+              }
+            },
+            {
+              "question": "Title XXXIV was amended three times in the 2024 Regular Session — Acts 270 (Articles 972 and 983(G); enacting 999 and 999.1), 560 (enacting 985.3) and 580 (Article 978) — after the reviewed source notes, which ran through 2023. No 2025 or 2026 session amendment to Title XXXIV was located. Louisiana needs the scheduled annual re-verification the review recommended, on the same footing as Kansas.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LA__LEGAL-REVIEW__STATEWIDE__louisiana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "READ THIS FIRST: ASSESSMENT OF THE INTERNAL REFERENCE",
+                "sourceStatement": "That article was amended by Acts 2014 No. 145, 2015 No. 200, 2016 No. 125, 2018 No. 711, 2020 No. 71, and 2020 No. 73. Title XXXIV has been amended in most sessions since. Louisiana needs the same scheduled annual re-verification recommended for Kansas."
+              }
+            }
+          ],
+          "participantActionCount": 23,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Articles 987, 988, 989, 991, 992 and 994 — the Article 986 mandatory forms on which every Louisiana motion track depends — are retained by no Master Library Edition 1.1 asset. Edition 1.1 holds the Louisiana statutory text only for Articles 990, 993, 995, 998 and 999.1, and the repository holds Articles 987 through 994 solely as generic legis.la.gov browser-print HTML captures, which the edition does not treat as workflow documents. Confirm the canonical source form for each and adopt them in a successor edition before any Louisiana packet is released."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Acts 2024, No. 580 amended Article 978 after the reviewed source notes, which ran through Acts 2020, No. 78. The current official text of Article 978(B) has been read in full and the five controlled-substance exceptions, the carnal-knowledge exception and the Article 978(E) lane are as recorded here. Confirm which Paragraph Acts 2024, No. 580 changed and whether it altered any eligibility boundary this track relies on."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Whether more than one felony conviction may be expunged within a single ten-year period, and on what showing each must independently qualify. The review states it is permitted where each is independently eligible under Article 978, and the current text does not address the point expressly."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "LA",
+          "trackId": "la-985-1-interim-expungement",
+          "publicName": "Clear a felony arrest that ended in a misdemeanor conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Art. 975 hard-labor custody filing bar — Scope restriction."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Whether the Article 989 ex parte route through an Affidavit of No Opposition is practically obtainable, and what the district attorney, the Bureau and the arresting agency each require before executing one. This determines whether a Louisiana packet ordinarily avoids a hearing.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "participant_instructions",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LA__LEGAL-REVIEW__STATEWIDE__louisiana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "OPEN QUESTIONS",
+                "sourceStatement": "Whether the Art. 989 ex parte route via Affidavit of No Opposition is practically obtainable, and what agencies require before executing one. This determines whether Louisiana packets typically avoid a hearing."
+              }
+            },
+            {
+              "question": "Title XXXIV was amended three times in the 2024 Regular Session — Acts 270 (Articles 972 and 983(G); enacting 999 and 999.1), 560 (enacting 985.3) and 580 (Article 978) — after the reviewed source notes, which ran through 2023. No 2025 or 2026 session amendment to Title XXXIV was located. Louisiana needs the scheduled annual re-verification the review recommended, on the same footing as Kansas.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LA__LEGAL-REVIEW__STATEWIDE__louisiana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "READ THIS FIRST: ASSESSMENT OF THE INTERNAL REFERENCE",
+                "sourceStatement": "That article was amended by Acts 2014 No. 145, 2015 No. 200, 2016 No. 125, 2018 No. 711, 2020 No. 71, and 2020 No. 73. Title XXXIV has been amended in most sessions since. Louisiana needs the same scheduled annual re-verification recommended for Kansas."
+              }
+            }
+          ],
+          "participantActionCount": 17,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Articles 987, 988, 989, 991, 992 and 994 — the Article 986 mandatory forms on which every Louisiana motion track depends — are retained by no Master Library Edition 1.1 asset. Edition 1.1 holds the Louisiana statutory text only for Articles 990, 993, 995, 998 and 999.1, and the repository holds Articles 987 through 994 solely as generic legis.la.gov browser-print HTML captures, which the edition does not treat as workflow documents. Confirm the canonical source form for each and adopt them in a successor edition before any Louisiana packet is released."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "LA",
+          "trackId": "la-985-expungement-by-redaction",
+          "publicName": "Remove your name from a record you share with someone else",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Art. 975 hard-labor custody filing bar — Scope restriction."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Whether the Article 989 ex parte route through an Affidavit of No Opposition is practically obtainable, and what the district attorney, the Bureau and the arresting agency each require before executing one. This determines whether a Louisiana packet ordinarily avoids a hearing.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "participant_instructions",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LA__LEGAL-REVIEW__STATEWIDE__louisiana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "OPEN QUESTIONS",
+                "sourceStatement": "Whether the Art. 989 ex parte route via Affidavit of No Opposition is practically obtainable, and what agencies require before executing one. This determines whether Louisiana packets typically avoid a hearing."
+              }
+            },
+            {
+              "question": "Title XXXIV was amended three times in the 2024 Regular Session — Acts 270 (Articles 972 and 983(G); enacting 999 and 999.1), 560 (enacting 985.3) and 580 (Article 978) — after the reviewed source notes, which ran through 2023. No 2025 or 2026 session amendment to Title XXXIV was located. Louisiana needs the scheduled annual re-verification the review recommended, on the same footing as Kansas.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LA__LEGAL-REVIEW__STATEWIDE__louisiana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "READ THIS FIRST: ASSESSMENT OF THE INTERNAL REFERENCE",
+                "sourceStatement": "That article was amended by Acts 2014 No. 145, 2015 No. 200, 2016 No. 125, 2018 No. 711, 2020 No. 71, and 2020 No. 73. Title XXXIV has been amended in most sessions since. Louisiana needs the same scheduled annual re-verification recommended for Kansas."
+              }
+            }
+          ],
+          "participantActionCount": 20,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Articles 987, 988, 989, 991, 992 and 994 — the Article 986 mandatory forms on which every Louisiana motion track depends — are retained by no Master Library Edition 1.1 asset. Edition 1.1 holds the Louisiana statutory text only for Articles 990, 993, 995, 998 and 999.1, and the repository holds Articles 987 through 994 solely as generic legis.la.gov browser-print HTML captures, which the edition does not treat as workflow documents. Confirm the canonical source form for each and adopt them in a successor edition before any Louisiana packet is released."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Whether the Article 989 motion requires any distinct pleading or election to request redaction relief under Article 985 rather than full expungement, given that the redaction paragraph appears in the Article 992 order rather than in the motion, and that Article 985(A) speaks of petitioning the court."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "LA",
+          "trackId": "la-987-set-aside-and-dismiss",
+          "publicName": "Set aside a conviction and dismiss the prosecution after a deferred sentence",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [
+            {
+              "question": "Title XXXIV was amended three times in the 2024 Regular Session — Acts 270 (Articles 972 and 983(G); enacting 999 and 999.1), 560 (enacting 985.3) and 580 (Article 978) — after the reviewed source notes, which ran through 2023. No 2025 or 2026 session amendment to Title XXXIV was located. Louisiana needs the scheduled annual re-verification the review recommended, on the same footing as Kansas.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "LA__LEGAL-REVIEW__STATEWIDE__louisiana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+                "sourceHeading": "READ THIS FIRST: ASSESSMENT OF THE INTERNAL REFERENCE",
+                "sourceStatement": "That article was amended by Acts 2014 No. 145, 2015 No. 200, 2016 No. 125, 2018 No. 711, 2020 No. 71, and 2020 No. 73. Title XXXIV has been amended in most sessions since. Louisiana needs the same scheduled annual re-verification recommended for Kansas."
+              }
+            }
+          ],
+          "participantActionCount": 15,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Articles 987, 988, 989, 991, 992 and 994 — the Article 986 mandatory forms on which every Louisiana motion track depends — are retained by no Master Library Edition 1.1 asset. Edition 1.1 holds the Louisiana statutory text only for Articles 990, 993, 995, 998 and 999.1, and the repository holds Articles 987 through 994 solely as generic legis.la.gov browser-print HTML captures, which the edition does not treat as workflow documents. Confirm the canonical source form for each and adopt them in a successor edition before any Louisiana packet is released."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): What ordinary court costs, if any, a parish clerk charges to file an Article 987 motion, rule and order. Article 983 fixes the cost of an expungement and does not reach this filing, and the Code sets no figure for it."
             },
             {
               "kind": "source_gate",

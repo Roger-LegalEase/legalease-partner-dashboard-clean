@@ -802,13 +802,150 @@ enabled jurisdictions 0, launch gate red.
 
 Resume **Louisiana** normalization against Edition 1.1.
 
+## Louisiana — done
+
+`data/record-clearing/legal-design-intake/LA.memo.json`
+
+10 source slots → **10 normalized nodes**, all `relief_track`. 0 deferred, 0
+splits. Strategies: `official_pdf_fill` 7, `process_guidance` 3. No composed
+track and no custom pleading — Art. 986 makes the form set statutory, so a
+custom pleading would be contrary to the Code. **0 build blockers**, 20 release
+blockers across 10 tracks. All three guidance tracks carry a preserved
+rationale, so the guidance re-review queue gains **0 candidates** and stays at 5
+for Batch 2.
+
+**The review returned Tracks G, H and I as "additional research required" and
+all three of its build blockers are closed.** Every article was read from
+`legis.la.gov` current text rather than from the 2023-era source notes.
+
+### The missing-form finding is inverted
+
+The review's headline build blocker was that **six statutory forms were missing
+from the archive**. All six are **retained by Edition 1.1** — Arts. 990, 993,
+995, 998 and 999.1 as source-gated assets and Art. 984 as an instruction asset.
+This is the Kansas lesson repeating: check the corpus before recording a
+missing-form blocker.
+
+What is actually unmanifested is the opposite set. **Arts. 987, 988, 989, 991,
+992 and 994 — the Art. 986 mandatory forms every motion track depends on — are
+retained by no Edition 1.1 asset.** The repository holds them only as seven
+generic `Louisiana Laws - Louisiana State Legislature.html` browser-print
+captures, which the edition classifies `not_a_workflow_asset`. They therefore
+cannot reach the pending-amendment ledger through the corpus scan, and appear
+only as `authority_unmanifested_source` component results and 28 mapping rows in
+the blocker ledger. **This is a general authority-rule issue, not a Louisiana
+quirk** — see `MASTER_LIBRARY_AUTHORITY.md`.
+
+Louisiana acquired **no new source binaries**. Nothing needed acquiring: the six
+"missing" forms were already retained, and the current-law questions were
+answered by reading the Legislature's live text. `pending-edition-amendments`
+totals stay at **176**; Louisiana's single row is unchanged and now carries 22
+proposed track mappings.
+
+### Tracks G, H and I
+
+**Track G (`la-999-expedited-expungement`) is `process_guidance`, resolved on the
+initiating act rather than on the absence of a motion.** Art. 972(1)
+affirmatively defines expedited expungement as an order a judge may sign
+*without the individual filing a motion to expunge with the clerk of court*;
+Art. 986's mandatory-form list does not include Art. 999.1; and no article, form
+instruction or LSP material names who prepares or presents the order. There is
+no participant filing to generate, which is a substantive statutory conclusion.
+Arts. 999 and 999.1 are **new — Acts 2024, No. 270, effective 1 August 2024** —
+and the route is free, Art. 983(G) having been amended by the same Act.
+
+**Art. 999(A)'s drafting defect is real and survives in current law.** It says
+"all of the following" and then lists a declination to prosecute *and* an
+instituted prosecution finally disposed of — mutually exclusive on their face.
+The Acts 2024 No. 270 digest repeats "all of the following", and the Art. 999.1
+order recites them under "wherein all of the following applies". Applied **as
+written** (the narrower, fail-closed reading); the contradiction is preserved as
+a release blocker, not cured by construction.
+
+**Track H (`la-985-2-automated-expungement`) is not established as effective or
+operational, and is retained as a disabled guidance/verification treatment.**
+The Legislature's own current publication of Art. 985.2 still carries the note
+*"Article 985.2 eff. upon appropriation of monies by the Legislature. See Acts
+2023, No. 454."* Section 4 of that Act conditions effectiveness on 2023 Regular
+Session appropriations for **three** named bodies — the office of state police,
+the Louisiana Supreme Court and the Louisiana Clerks' Remote Access Authority —
+and Art. 985.2(G) further conditions it on FY 2025-2026 executive-budget
+funding. **LSP BCII publishes nothing about it**: its current expungements page
+describes only the ordinary court-motion process and does not mention automated
+expungement or Art. 985.2 anywhere. No request form, portal, timeline or
+implementation notice exists. Not called automatic relief — Art. 985.2(B)
+requires the defendant to submit a request.
+
+**Track I (`la-985-3-immediate-expungement`) is `process_guidance`, read from the
+full text rather than inferred from the title.** Art. 985.3 was enacted by **Acts
+2024, No. 560** (2024 H.B. 416), whose digest calls it a *court-ordered* automatic
+expungement. (A) the court **may order** immediate expungement of the record of
+the violation that necessitated the probation or programme, for a person
+**otherwise eligible**, on successful completion; (B) **only the Art. 992 form**
+shall be used — the judge's order; (C) service under Art. 982 with the bill of
+information, sentencing minutes and arrest/plea documents. It prescribes no
+motion, and Art. 986 assigns it no motion form. Whether a defendant may move for
+it, and whether it displaces the five- and ten-year waits (Art. 985.1(D)
+disapplies them in terms; Art. 985.3 is silent), are release blockers.
+
+### Art. 977(D) survives; only the fee sunset fell
+
+**The 90-day marijuana route is intact.** The sunset in Art. 983(M)(5) nullified
+**Paragraph M**, the fee provision, which terminated 1 August 2026 — two days
+ago. Art. 977(D) contains no sunset, is present in the current Code with source
+notes through Acts 2023, No. 342, and Art. 986 still lists Art. 998 among the
+mandatory forms. So Track C keeps `official_pdf_fill` on Art. 998, the current
+fee is the ordinary **Art. 983(A) $550 cap**, and the $300 rule is recorded as
+historical. **The "file by July 31" warning is dead and must not be repeated.**
+
+### Title XXXIV currentness
+
+The review's source notes ran through 2023. **Title XXXIV was amended three
+times in the 2024 Regular Session**: Acts 270 (Arts. 972 and 983(G); adding 999
+and 999.1), Acts 560 (adding 985.3) and Acts 580 (Art. 978). **No 2025 or 2026
+session amendment was located.** Art. 978(B) was read in full from current text —
+four exclusion heads, five controlled-substance exceptions, and the pre-15-August-2001
+carnal-knowledge exception with the R.S. 15:542(F) waiver order sufficing to meet
+the mover's burden. Arts. 976 (2020), 985, 985.1 and 987 (2014) are unchanged.
+
+Two corrections to the review: Art. 988's official heading is **"Motion for fee
+exemption"**, not "Certification of Fee Waiver"; and Art. 990 cites **Art. 980**,
+the contradictory-hearing article, not Art. 990 itself. Art. 980(C) also allows
+the court one extension of up to thirty days beyond the sixty-day objection
+window, which the review did not carry.
+
+### No splits, and why
+
+Every slot is one mechanism. Tracks A, B, D and F share the Art. 989/991/992 set
+without merging — different eligibility articles, exclusions and clean-period
+tests. Within a slot the statutory pathways are **branches, not mechanisms**:
+Track B's Art. 894(B) and five-year routes, and Track D's Art. 893(E), ten-year,
+first-offender-pardon and Art. 978(E) lanes, each run one form, one court, one
+filing, one legal effect. **Art. 988 is a conditional supporting unit, not a
+separate relief mechanism**, so no track is composed. Track J stays separate and
+is referenced, never duplicated, by Tracks B and D.
+
+The felony and misdemeanour clean periods are kept distinct: **five years /
+felony convictions only** for misdemeanours, **ten years / any criminal offence**
+for felonies.
+
+### One ordering dependency, worth remembering
+
+`rcap:reconcile-master-library` reads `deferredTracks` from whatever
+`legal-design-batch-delta-report.json` currently holds. Run a jurisdiction-only
+delta last and the reconciler cannot see Batch 1's seven deferred IDs, silently
+reverting the amended-normalization queue to `not_started` and flipping
+`allDifferencesExpresslyDispositioned` to false. **Always re-run the Batch 1
+delta immediately before the reconciler.** Doing so restored all three Batch 1
+authority records byte-identical.
+
 ## Not started
 
-**B4–B9 legal-design normalization of the remaining five jurisdictions.**
+**B4–B9 legal-design normalization of the remaining four jurisdictions.**
 
-`LA ME MS MO MT` — **9 of 14 normalized** (IL, IA, IN, MD, MA, MI, MN, GA, KS).
-Groups 1 and 2 are complete; Georgia and Kansas are done. **Louisiana and Maine
-are the rest of Group 3.**
+`ME MS MO MT` — **10 of 14 normalized** (IL, IA, IN, MD, MA, MI, MN, GA, KS,
+LA). Groups 1 and 2 are complete; Georgia, Kansas and Louisiana are done.
+**Maine is the last of Group 3 and the next unstarted jurisdiction.**
 
 Committed bounded groups (operational only; does not change legal precedence):
 
@@ -816,20 +953,26 @@ Committed bounded groups (operational only; does not change legal precedence):
 |---|---|---|---|
 | 1 | **Illinois, Iowa and Indiana all done** | 16 + 7 + 10 = 33 | **complete** |
 | 2 | **Maryland, Massachusetts, Michigan and Minnesota all done** | 11 + 8 + 11 + 12 = 42 | **complete** |
-| 3 | Georgia and Kansas done; Louisiana, Maine outstanding | 13 + 7 + 10 + 6 = 36 | Georgia and Kansas complete |
+| 3 | Georgia, Kansas and Louisiana done; Maine outstanding | 13 + 7 + 10 + 6 = 36 | Maine outstanding |
 | 4 | Mississippi, Missouri, Montana | 9 + 10 + 6 = 25 | not started |
 
-### Batch 2 running totals after Kansas
+### Batch 2 running totals after Louisiana
 
-9 of 14 jurisdictions. 95 source slots → **99 normalized nodes**: 95
+10 of 14 jurisdictions. 105 source slots → **109 normalized nodes**: 105
 `relief_track`, 1 `supporting_action`, 1 `completed_or_verification`, 1
 `local_variant`, 1 `routing_node`. 0 deferred. Strategies: `official_pdf_fill`
-45, `process_guidance` 28, `custom_pleading` 19, `composed` 7. **1 build blocker**
+52, `process_guidance` 31, `custom_pleading` 19, `composed` 7. **1 build blocker**
 (Iowa `ia-9079`, pre-2013 deferred judgments — unchanged and untouched).
-**130 release blockers**, measured as unresolved questions of impact
+**150 release blockers**, measured as unresolved questions of impact
 `release_blocker` summed over the per-jurisdiction deltas: IL 34, IA 9, IN 18,
-MD 7, MA 4, MI 10, MN 7, GA 21, KS 20. Guidance re-review candidates across
-Batch 2 remain 5; Georgia and Kansas added none.
+MD 7, MA 4, MI 10, MN 7, GA 21, KS 20, LA 20. Every pre-Louisiana figure was
+re-run and is unchanged. Guidance re-review candidates across Batch 2 remain 5;
+Georgia, Kansas and Louisiana added none.
+
+Across all 22 normalized jurisdictions: 219 tracks, **76 authority-cleared**
+(73 → 76; Louisiana's three guidance tracks have no official-form component to
+map), 143 authority-blocked. Blocker ledger 1427 unique rows. `packet_ready` 0,
+enabled jurisdictions 0, launch gate red.
 
 ### Measured size of Group 1, for the next session's planning
 

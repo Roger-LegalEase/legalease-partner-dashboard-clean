@@ -398,6 +398,52 @@ Each held candidate is:
 This ledger is the **input** to a later explicit Edition 1.1 publication task. It
 does not amend Edition 1 and is not itself an edition.
 
+### 12a. A statutory form set can be unmanifested and invisible to this ledger
+
+**Found during Louisiana normalization, 3 August 2026. It is a general rule
+issue, not a Louisiana quirk.**
+
+The ledger is built by scanning the repository source corpus. A source the corpus
+does not hold **as a workflow asset** therefore cannot become a candidate, no
+matter how central it is.
+
+Louisiana is the sharp case. La. C.Cr.P. art. 986 provides that *only* the forms
+in Arts. 987–995 and 998 shall be used, so the forms are the text of the Code
+itself rather than judiciary-issued binaries. Edition 1.1 retains five of them
+plus the Art. 984 instruction asset. The other six — **Arts. 987, 988, 989, 991,
+992 and 994**, on which every Louisiana motion track depends — exist in the
+repository only as seven identically-named
+`Louisiana Laws - Louisiana State Legislature.html` browser-print captures, which
+the edition classifies `not_a_workflow_asset`.
+
+The consequence:
+
+- the six forms are **not** in `pending-edition-amendments.json`, because the
+  corpus scan sees no workflow asset to propose;
+- they **are** correctly recorded as `authority_unmanifested_source` component
+  results and as mapping rows in the blocker ledger, so nothing is silently
+  cleared and every affected track is authority-blocked;
+- but a reader consulting only the pending-amendment ledger would conclude
+  Louisiana has one outstanding source, when it has seven.
+
+**Do not hand-edit the ledger to fix this.** It is a derived record and the
+`derivedRecordRule` forbids editing it to change a source's status. Two rules
+follow instead:
+
+1. **The blocker ledger, not the pending-amendment ledger, is the complete
+   account of unmanifested sources.** Read the two together. The pending ledger
+   answers "what valid binaries do we hold that the edition does not retain"; it
+   does not answer "what does the edition fail to retain".
+2. **A jurisdiction whose mandatory forms are statutory text needs its forms
+   acquired as individually-identified per-article documents** before an edition
+   can manifest them. A generic multi-article HTML capture cannot carry a
+   document ID, a role or a revision, so it can never be manifested and never
+   becomes resolver-selectable. This is the acquisition task for the Louisiana
+   Art. 986 set, and it belongs to a future edition, not to a repository fix.
+
+No Edition 1.2 was published for this. Louisiana acquired no new source binaries
+and the ledger total is unchanged at 176.
+
 ## 13. Commands
 
 ```bash
