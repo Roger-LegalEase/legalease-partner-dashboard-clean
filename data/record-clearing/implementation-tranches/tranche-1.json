@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-1-mississippi-petitions",
+  "jurisdiction": "MS",
+  "jurisdictionName": "Mississippi",
+  "selectedOn": "2026-08-03",
+  "commitBaseline": "3e0f8d6e960d7d07b973c437ef5e42ef3c2b2381",
+  "authorityEdition": "1.2",
+  "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+
+  "commercialRationale": "Mississippi supports the live RCAP and We Must Vote Mississippi partner pathway, so it is the first tranche by commercial priority. It is also the cleanest first implementation on the merits: all nine normalized Mississippi tracks are custom_pleading with localFormOverride true, so no track depends on an official form binary, no track carries a commercial-use restriction, and no track needs a source acquisition to produce a participant packet. Mississippi publishes no statewide expungement form, which the accepted normalization establishes and the Edition 1.2 addendum confirms, so the statewide neutral pleading is the controlling output rather than a fallback.",
+
+  "jurisdictionPriorityConsidered": [
+    { "jurisdiction": "MS", "outcome": "selected", "reason": "Five participant petition routes clear on the merits once the tranche's own guidance specifications are authored. No official-form dependency, no commercial-use gate, no unresolved filing vehicle." },
+    { "jurisdiction": "DC", "outcome": "not_reached", "reason": "Mississippi supplied a coherent tranche, so the priority order stopped at the first eligible jurisdiction." },
+    { "jurisdiction": "GA", "outcome": "not_reached", "reason": "Not reached." },
+    { "jurisdiction": "MD", "outcome": "not_reached", "reason": "Not reached." },
+    { "jurisdiction": "CA", "outcome": "not_reached", "reason": "Not reached." }
+  ],
+
+  "selectionMethod": "Deterministic. Candidates are the normalized Mississippi relief_track nodes whose output strategy is custom_pleading, which carry no open legal-design blocker, whose packet identity is established, and whose only authority-audit blocking reason is the absence of a governing specification for their own process-guidance components. Ordered by the business-facing output list, capped at five.",
+
+  "selectedTracks": [
+    {
+      "trackId": "ms-fel",
+      "legalName": "Petition to Expunge One Felony Conviction (Miss. Code Ann. § 99-19-71(2), as amended by 2026 HB 1546)",
+      "publicName": "Clearing one felony conviction",
+      "businessLabel": "felony-conviction relief",
+      "outputStrategy": "custom_pleading",
+      "localFormOverride": true,
+      "nodeType": "relief_track",
+      "branchVariants": [],
+      "rationale": "Highest-value Mississippi relief and the route the 2026 amendment changed. The three-year waiting period is the post-HB 1546 rule and is carried from the enrolled act."
+    },
+    {
+      "trackId": "ms-misd-1st",
+      "legalName": "First-Offender Misdemeanor Conviction Expungement (Miss. Code Ann. § 99-19-71(1))",
+      "publicName": "Clearing a first misdemeanor conviction",
+      "businessLabel": "first-offender misdemeanor relief",
+      "outputStrategy": "custom_pleading",
+      "localFormOverride": true,
+      "nodeType": "relief_track",
+      "branchVariants": [],
+      "rationale": "The highest-volume Mississippi route and the simplest participant fact pattern."
+    },
+    {
+      "trackId": "ms-misd-addl",
+      "legalName": "Discretionary Expungement of Additional Justice Court or Municipal Court Misdemeanors (Miss. Code Ann. §§ 9-11-15(3), 21-23-7(6))",
+      "publicName": "Clearing additional misdemeanors in city or justice court",
+      "businessLabel": "additional justice-court or municipal-court misdemeanor relief",
+      "outputStrategy": "custom_pleading",
+      "localFormOverride": true,
+      "nodeType": "relief_track",
+      "branchVariants": [
+        { "variantId": "justice_court", "label": "Justice court", "basis": "Miss. Code Ann. § 9-11-15(3)" },
+        { "variantId": "municipal_court", "label": "Municipal court", "basis": "Miss. Code Ann. § 21-23-7(6)" }
+      ],
+      "rationale": "One statutory mechanism with two venues. §§ 9-11-15(3) and 21-23-7(6) are word-for-word identical on every operative element, which is why the normalization keeps one track with venue branches. The implementation generates venue-specific variants and creates no second track."
+    },
+    {
+      "trackId": "ms-nonconv",
+      "legalName": "Petition to Expunge the Record of a Case That Did Not End in Conviction (Miss. Code Ann. § 99-19-71(4))",
+      "publicName": "Clearing a case that did not end in a conviction",
+      "businessLabel": "non-conviction relief for dismissal, nolle prosequi or acquittal",
+      "outputStrategy": "custom_pleading",
+      "localFormOverride": true,
+      "nodeType": "relief_track",
+      "branchVariants": [
+        { "variantId": "dismissed", "label": "Charge dismissed", "basis": "Miss. Code Ann. § 99-19-71(4)" },
+        { "variantId": "nolle_prosequi", "label": "Charge passed to the file or nolle prosequi entered", "basis": "Miss. Code Ann. § 99-19-71(4)" },
+        { "variantId": "acquitted", "label": "Found not guilty at trial", "basis": "Miss. Code Ann. § 99-19-71(4)" },
+        { "variantId": "no_charge_filed", "label": "Arrested but never formally charged", "basis": "Miss. Code Ann. § 99-19-71(4)" }
+      ],
+      "rationale": "One legal mechanism with four dispositional branches. The normalization keeps a single track; the implementation generates branch-specific allegation paragraphs and creates no duplicate track ID."
+    },
+    {
+      "trackId": "ms-nonadj",
+      "legalName": "Expungement After Nonadjudication (Miss. Code Ann. § 99-15-26)",
+      "publicName": "Cases where the court withheld your guilty plea",
+      "businessLabel": "nonadjudication relief",
+      "outputStrategy": "custom_pleading",
+      "localFormOverride": true,
+      "nodeType": "relief_track",
+      "branchVariants": [],
+      "rationale": "Completes the business-facing set. § 99-15-26(5) supplies the expungement on successful completion of nonadjudication."
+    }
+  ],
+
+  "excludedPriorityTracks": [
+    {
+      "trackId": "ms-diversion",
+      "reason": "Composed / alternative with two units — a § 99-15-123(3) petition branch and a § 9-23-23 verification branch. A composed route needs unit-level selection proof that the first tranche should not carry, and it is outside the five business-facing outputs. Excluded to keep the tranche bounded, not on any authority defect.",
+      "authorityStatus": "authority_cleared_under_edition_1_2"
+    },
+    {
+      "trackId": "ms-dui",
+      "reason": "Outside the five business-facing outputs. § 63-11-30(13) carries a once-in-a-lifetime rule and a prosecutor-consent posture that the first tranche should not model before counsel reviews the simpler routes.",
+      "authorityStatus": "blocked_only_by_its_own_guidance_specification"
+    },
+    {
+      "trackId": "ms-drug-cd",
+      "reason": "Outside the five business-facing outputs. § 41-29-150(d) conditional discharge requires the court's prior conditional-discharge posture, which is a court-record fact the participant frequently misreports.",
+      "authorityStatus": "blocked_only_by_its_own_guidance_specification"
+    },
+    {
+      "trackId": "ms-mip",
+      "reason": "Outside the five business-facing outputs and the lowest-volume Mississippi route.",
+      "authorityStatus": "blocked_only_by_its_own_guidance_specification"
+    }
+  ],
+
+  "sourceAuthorityStatus": {
+    "officialFormDependency": "none. Mississippi publishes no statewide expungement form; every selected track is custom_pleading with localFormOverride true.",
+    "commerciallyRestrictedSources": "none in the selected set.",
+    "referenceOnlySources": "The four Fourth Circuit Court District local models are reference-only in Edition 1.2 and are not reproduced. No Fourth District county list, Greenville district-attorney address, 2020 date, defective certificate caption, mandatory grand-jury allegation, race field, full social security number field or § 99-15-26 / § 99-19-71 dual citation appears in any Tranche 1 output.",
+    "primaryEnactedLaw": "2026 HB 1546, enrolled (Chapter 430, Laws of 2026), imported reference-only and pinned by SHA-256 on all five tracks."
+  },
+
+  "mappingGatesClosed": [
+    "Every selected track's custom-pleading components already carried a custom-pleading specification; each is now pinned to its Edition 1.2 controlling authority by SHA-256.",
+    "Each selected track's attachment and instructions components were blocked solely because no governing process-guidance specification existed for a guidance component inside a custom-pleading track. The specification generator emitted guidance specs only for guidance tracks and for guidance units of composed routes, so this shape produced none. Authored component guidance now closes the gate for the five selected tracks only."
+  ],
+
+  "mappingGatesRemaining": [
+    "The filing fee is unresolved by design. § 99-19-72 levies $150 on each petition to expunge an offence under § 99-19-71 collected by the circuit clerk, which neither plainly reaches a subsection (4) non-conviction petition nor maps onto a justice or municipal court filing. No fee amount is printed on any Tranche 1 packet; the participant confirms with the clerk.",
+    "Whether any district requires verification or notarization is unresolved. The petitions carry a simple truth statement rather than a notarized verification.",
+    "Whether a district expects prosecutor notice or approval as local practice on the non-conviction route is unresolved. The packet says so; it does not assert a requirement.",
+    "The four other Mississippi tracks remain authority-blocked on their own guidance specifications and are untouched by this tranche."
+  ],
+
+  "rendererType": "custom_pleading (CustomPleadingRenderer) for filing components; process_guidance (ProcessGuidanceRenderer) for the records checklist and filing instructions.",
+
+  "packetComponents": [
+    "primary_filing — petition (custom_pleading)",
+    "proposed_order — proposed order (custom_pleading)",
+    "certificate_of_service — certificate of service (custom_pleading)",
+    "notice — ten days' written notice to the district attorney, ms-fel only (custom_pleading, § 99-19-71(2)(b))",
+    "attachment — records and attachment checklist (process_guidance)",
+    "instructions — filing instructions (process_guidance)"
+  ],
+
+  "implementationStatus": "implemented_and_internally_proved",
+  "humanLegalReviewStatus": "awaiting_counsel_review",
+  "runtimeStatus": "runtime_disabled",
+  "packetReady": false,
+  "generationAllowed": false,
+  "jurisdictionEnabled": false,
+
+  "notOwnedByThisTranche": [
+    "No legal-design conclusion was changed.",
+    "No normalized track object was edited.",
+    "No Master Library edition was created.",
+    "No track was promoted, no jurisdiction was enabled, and packet_ready remains 0."
+  ]
+}

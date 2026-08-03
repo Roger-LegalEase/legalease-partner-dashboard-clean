@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-1-mississippi-petitions",
+  "note": "Who owns every field in a Tranche 1 packet. A field owned by the court, the clerk, the prosecuting authority or a notary is left blank on the generated document — LegalEase never completes another actor's block. A field owned by the participant is either filled from their answer or printed as a rule for them to complete by hand.",
+
+  "common": [
+    { "key": "petitionerName", "owner": "participant", "required": true, "appearsIn": "caption, allegations, prayer, signature block, certificate", "ifAbsent": "generation stops" },
+    { "key": "dateOfBirth", "owner": "participant", "required": true, "appearsIn": "identification allegation", "ifAbsent": "generation stops" },
+    { "key": "mailingAddress", "owner": "participant", "required": true, "appearsIn": "identification allegation, signature block", "ifAbsent": "generation stops" },
+    { "key": "countyOfResidence", "owner": "participant", "required": true, "appearsIn": "identification allegation", "ifAbsent": "generation stops" },
+    { "key": "courtName", "owner": "participant", "required": true, "appearsIn": "caption court line, identification allegation", "ifAbsent": "generation stops" },
+    { "key": "courtCounty", "owner": "participant", "required": true, "appearsIn": "caption court line, identification allegation", "ifAbsent": "generation stops" },
+    { "key": "causeNumber", "owner": "participant", "required": true, "appearsIn": "caption, allegations, prayer, order, certificate", "ifAbsent": "generation stops" },
+    { "key": "chargeName", "owner": "participant", "required": true, "appearsIn": "charge allegation", "ifAbsent": "generation stops" },
+    { "key": "chargeStatute", "owner": "participant", "required": false, "appearsIn": "charge allegation", "ifAbsent": "the clause is omitted; no blank rule is printed" },
+    { "key": "offenceDate", "owner": "participant", "required": true, "appearsIn": "charge allegation", "ifAbsent": "generation stops" },
+    { "key": "arrestingAgencyName", "owner": "participant", "required": true, "appearsIn": "prayer, proposed order", "ifAbsent": "generation stops" },
+    { "key": "prosecutingAuthorityName", "owner": "participant", "required": true, "appearsIn": "certificate, proposed order distribution", "ifAbsent": "generation stops" },
+    { "key": "prosecutingAuthorityAddress", "owner": "participant", "required": true, "appearsIn": "certificate", "ifAbsent": "generation stops" },
+    { "key": "serviceMethod", "owner": "participant", "required": true, "appearsIn": "certificate", "ifAbsent": "generation stops" },
+    { "key": "petitionerStatement", "owner": "participant (authored)", "required": true, "appearsIn": "petitioner's statement section, reproduced verbatim and labelled as theirs", "ifAbsent": "generation stops" },
+    { "key": "contactPhone", "owner": "participant", "required": false, "appearsIn": "signature block", "ifAbsent": "a blank rule is printed" },
+    { "key": "contactEmail", "owner": "participant", "required": false, "appearsIn": "signature block", "ifAbsent": "a blank rule is printed" }
+  ],
+
+  "tracks": {
+    "ms-fel": [
+      { "key": "convictionDate", "owner": "participant", "required": true, "appearsIn": "identification allegation", "ifAbsent": "generation stops" },
+      { "key": "sentenceCompletionDate", "owner": "participant", "required": true, "appearsIn": "three-year period allegation", "ifAbsent": "generation stops" }
+    ],
+    "ms-misd-1st": [
+      { "key": "convictionDate", "owner": "participant", "required": true, "appearsIn": "identification allegation", "ifAbsent": "generation stops" }
+    ],
+    "ms-misd-addl": [
+      { "key": "convictionDate", "owner": "participant", "required": true, "appearsIn": "identification allegation", "ifAbsent": "generation stops" },
+      { "key": "sentenceCompletionDate", "owner": "participant", "required": true, "appearsIn": "two-year period allegation", "ifAbsent": "generation stops" },
+      { "key": "courtVenue", "owner": "participant (closed list)", "required": true, "appearsIn": "selects the statutory citation and sentence", "ifAbsent": "generation stops; an unapproved value fails closed" }
+    ],
+    "ms-nonconv": [
+      { "key": "arrestDate", "owner": "participant", "required": true, "appearsIn": "arrest allegation", "ifAbsent": "generation stops" },
+      { "key": "disposition", "owner": "participant (closed list)", "required": true, "appearsIn": "selects the approved disposition allegation", "ifAbsent": "generation stops; an unapproved value fails closed" },
+      { "key": "dispositionDate", "owner": "participant", "required": false, "appearsIn": "disposition allegation", "ifAbsent": "a blank rule is printed; the no-charge-filed branch does not use it" }
+    ],
+    "ms-nonadj": [
+      { "key": "nonadjudicationOrderDate", "owner": "participant", "required": true, "appearsIn": "nonadjudication allegation", "ifAbsent": "generation stops" },
+      { "key": "completionDate", "owner": "participant", "required": true, "appearsIn": "completion allegation", "ifAbsent": "generation stops" }
+    ]
+  },
+
+  "leftBlank": [
+    { "field": "Petitioner signature", "owner": "participant", "why": "Signed by hand after the participant has read and checked the petition. LegalEase never signs for anyone." },
+    { "field": "Petition date", "owner": "participant", "why": "Dated when signed, not when generated." },
+    { "field": "Judge signature and date on the proposed order", "owner": "court", "why": "The court signs its own order. No signature rule is even drawn for the participant on an order." },
+    { "field": "Grant and deny checkboxes on the proposed order", "owner": "court", "why": "The outcome is the court's decision. Both boxes render blank." },
+    { "field": "Certificate of service delivery date", "owner": "participant", "why": "Completed when the copy is actually delivered." },
+    { "field": "Certificate of service signature", "owner": "participant", "why": "Signed by hand at delivery." },
+    { "field": "Date on the § 99-19-71(2)(b) district attorney notice", "owner": "participant", "why": "Completed when the notice is delivered, because the ten days run from receipt." },
+    { "field": "Hearing date", "owner": "clerk", "why": "Supplied by the clerk after filing. It is a manual-completion item, not a generation input." },
+    { "field": "Filing fee amount", "owner": "clerk", "why": "Unresolved for these routes. No amount is printed and the participant is told to ask." },
+    { "field": "Prosecuting authority response or consent", "owner": "prosecuting authority", "why": "Never asserted. The packet does not represent that the prosecutor agrees." },
+    { "field": "Notary block", "owner": "notary", "why": "The petitions carry a truth statement rather than a notarized verification. Whether any district requires one is an open question for counsel." }
+  ],
+
+  "manualCompletion": [
+    "Sign and date the petition.",
+    "Write the delivery date and method on the certificate of service, then sign it.",
+    "Write the date on the district attorney notice when it is delivered (felony route only).",
+    "Write in the hearing date once the clerk supplies it.",
+    "Attach the records listed in the checklist."
+  ]
+}

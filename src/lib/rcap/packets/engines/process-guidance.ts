@@ -21,6 +21,7 @@ import {
   type RenderInput,
   type RenderResult
 } from "@/lib/rcap/packets/engines/types";
+import { MISSISSIPPI_GUIDANCE_TEMPLATES } from "@/lib/rcap/packets/engines/guidance-templates-mississippi";
 
 const VERSION = "process-guidance/1.0.0";
 
@@ -36,6 +37,8 @@ export type GuidanceTemplate = {
   /** Why this route is not a court filing. */
   whyNotAFiling: string;
   processType: "agency" | "prosecutor" | "certificate" | "portal" | "automatic" | "court_adjacent";
+  /** Printed at the top of page one. Defaults to the non-production fixture banner. */
+  banner?: string;
   prerequisites: readonly string[];
   documentsToObtain: readonly string[];
   participantDataToGather: readonly string[];
@@ -52,7 +55,7 @@ export type GuidanceTemplate = {
   officialSourceReferences: readonly string[];
 };
 
-export const GUIDANCE_TEMPLATES: Readonly<Record<string, GuidanceTemplate>> = {
+const BASE_GUIDANCE_TEMPLATES: Readonly<Record<string, GuidanceTemplate>> = {
   "technical-fixture-guidance": {
     templateId: "technical-fixture-guidance",
     version: "1.0.0",
@@ -100,6 +103,11 @@ export const GUIDANCE_TEMPLATES: Readonly<Record<string, GuidanceTemplate>> = {
   }
 };
 
+export const GUIDANCE_TEMPLATES: Readonly<Record<string, GuidanceTemplate>> = {
+  ...BASE_GUIDANCE_TEMPLATES,
+  ...MISSISSIPPI_GUIDANCE_TEMPLATES
+};
+
 export const ProcessGuidanceRenderer: PacketRenderer = {
   strategy: "process_guidance",
   version: VERSION,
@@ -134,7 +142,7 @@ export const ProcessGuidanceRenderer: PacketRenderer = {
     const writer = new FlowWriter(doc, fonts);
 
     if (resolved.technicalFixture) {
-      writer.write("NON-PRODUCTION TECHNICAL FIXTURE — NOT LEGAL ADVICE", {
+      writer.write(resolved.banner ?? "NON-PRODUCTION TECHNICAL FIXTURE — NOT LEGAL ADVICE", {
         font: "bold",
         size: 9,
         align: "center"

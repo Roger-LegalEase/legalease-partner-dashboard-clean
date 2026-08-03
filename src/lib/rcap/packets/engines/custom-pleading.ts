@@ -62,11 +62,7 @@ export const CustomPleadingRenderer: PacketRenderer = {
     const rightLines = template.caption.partyBlockRight.map(fill);
     const rows = Math.max(leftLines.length, rightLines.length);
     for (let i = 0; i < rows; i += 1) {
-      const left = leftLines[i] ?? "";
-      const right = rightLines[i] ?? "";
-      // Two-column caption rendered as one padded line keeps the block intact
-      // through pagination without a table abstraction.
-      writer.write(left.padEnd(46).slice(0, 46) + right, { size: 10 });
+      writer.captionRow(leftLines[i] ?? "", rightLines[i] ?? "");
     }
     writer.gap();
 
@@ -113,7 +109,11 @@ export const CustomPleadingRenderer: PacketRenderer = {
     }
 
     writer.gap();
-    writer.signatureLine("Signature");
+    // A proposed order is signed by the court, not the petitioner. Emitting a
+    // participant signature rule on one would invite the wrong person to sign.
+    if (template.signatureLabel !== null) {
+      writer.signatureLine(template.signatureLabel ?? "Signature");
+    }
     for (const line of template.signatureBlock) {
       writer.write(fill(line), { size: 10 });
     }

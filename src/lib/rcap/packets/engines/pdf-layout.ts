@@ -16,8 +16,26 @@ export const LINE_HEIGHT = 14;
 
 export type Fonts = { regular: PDFFont; bold: PDFFont; italic: PDFFont };
 
+/**
+ * Fixed document metadata timestamp.
+ *
+ * pdf-lib stamps CreationDate and ModDate with the wall clock, so two renders of
+ * identical input that straddle a second boundary produce different bytes. That
+ * makes a packet's checksum a function of when it ran rather than of what went
+ * into it, which breaks reproducibility, makes a recorded review hash
+ * unverifiable and makes any determinism test intermittently fail.
+ *
+ * The document's real date is the one the participant writes on the signature
+ * line, which is deliberately left blank. Nothing downstream reads this field.
+ */
+const DETERMINISTIC_TIMESTAMP = new Date(Date.UTC(2000, 0, 1, 0, 0, 0));
+
 export async function createDocument(): Promise<{ doc: PDFDocument; fonts: Fonts }> {
   const doc = await PDFDocument.create();
+  doc.setCreationDate(DETERMINISTIC_TIMESTAMP);
+  doc.setModificationDate(DETERMINISTIC_TIMESTAMP);
+  doc.setProducer("LegalEase");
+  doc.setCreator("LegalEase");
   const fonts: Fonts = {
     regular: await doc.embedFont(StandardFonts.TimesRoman),
     bold: await doc.embedFont(StandardFonts.TimesRomanBold),
@@ -117,6 +135,40 @@ export class FlowWriter {
           : MARGIN_X + indent;
       this.page.drawText(line, { x, y: this.y - size, size, font, color: rgb(0, 0, 0) });
       this.y -= lineHeight;
+    }
+  }
+
+  /**
+   * One row of a two-column pleading caption.
+   *
+   * Court captions are two columns separated by a gutter, not one padded line.
+   * Padding a proportional font by character count collapses the gutter and
+   * runs the party name into the cause number, which is what a reader sees as
+   * "STATE OF MISSISSIPPI Cause No. 12345" on one line. Both columns are drawn
+   * at fixed x positions instead, and each wraps inside its own width.
+   */
+  captionRow(left: string, right: string): void {
+    const size = 10;
+    const font = this.fonts.regular;
+    const leftWidth = 250;
+    const rightX = MARGIN_X + 300;
+    const rightWidth = PAGE_WIDTH - MARGIN_X - rightX;
+    const leftLines = left ? wrapText(left, font, size, leftWidth) : [];
+    const rightLines = right ? wrapText(right, font, size, rightWidth) : [];
+    const rows = Math.max(leftLines.length, rightLines.length, 1);
+
+    for (let i = 0; i < rows; i += 1) {
+      this.ensureRoom(LINE_HEIGHT);
+      if (leftLines[i]) {
+        this.page.drawText(leftLines[i], { x: MARGIN_X, y: this.y - size, size, font, color: rgb(0, 0, 0) });
+      }
+      // The section mark is the conventional Mississippi caption divider and
+      // makes the two columns unmistakably separate.
+      this.page.drawText("§", { x: MARGIN_X + 272, y: this.y - size, size, font, color: rgb(0, 0, 0) });
+      if (rightLines[i]) {
+        this.page.drawText(rightLines[i], { x: rightX, y: this.y - size, size, font, color: rgb(0, 0, 0) });
+      }
+      this.y -= LINE_HEIGHT;
     }
   }
 

@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-1-mississippi-petitions",
+  "authorityEdition": "1.2",
+  "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+  "note": "Exact Edition 1.2 authority pins for every Tranche 1 component. A custom pleading needs no official form binary, so no official-form mapping is invented for one: what is pinned instead is the controlling legal review, the controlling Edition 1.2 addendum, the primary enacted-law source, the accepted strategy, and the venue and destination authority. Reference-only sources are pinned as reference-only and are never a generation target.",
+
+  "controllingAuthority": {
+    "legalReview": {
+      "workflowKey": "MS:STATEWIDE:LEGAL_REVIEW:EN",
+      "assetClass": "legal_review",
+      "documentRole": "LEGAL_REVIEW",
+      "revision": "ASOF-2026-07-30",
+      "language": "EN",
+      "sha256": "ebd77b12a0050264fa291ccc636e605423878c4b98fb598286e57eb025c7951e",
+      "canonicalRelativePath": "STATES/MS/01_LEGAL_REVIEW/MS__LEGAL-REVIEW__STATEWIDE__mississippi-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+      "generationAllowed": false,
+      "runtimeStatus": "runtime_disabled"
+    },
+    "legalReviewAddendum": {
+      "workflowKey": "MS:STATEWIDE-ADDENDUM:LEGAL_REVIEW_ADDENDUM:EN",
+      "assetClass": "legal_review_addendum",
+      "documentRole": "LEGAL_REVIEW_ADDENDUM",
+      "revision": "ASOF-2026-08-03",
+      "language": "EN",
+      "sha256": "ec518ca079330edfc220d01cab693395449a862e7b3c32ef95752670b6630da9",
+      "canonicalRelativePath": "STATES/MS/01_LEGAL_REVIEW/MS__LEGAL-REVIEW-ADDENDUM__STATEWIDE__mississippi-record-clearing-legal-review-addendum-edition-1-2__ASOF-2026-08-03__EN.md",
+      "precedence": "Controls the statements it lists and nothing else. Read before the retained review.",
+      "generationAllowed": false,
+      "runtimeStatus": "runtime_disabled"
+    },
+    "adoptedMemorandum": {
+      "canonicalRelativePath": "00_GOVERNANCE/ADOPTED_BATCH_2_LEGAL_RESEARCH_RESOLUTION.md",
+      "precedence": "Controls where it expressly changes track structure, output strategy, packet capability, blocker treatment, product scope, geography or supporting-document treatment."
+    },
+    "batch2AuthorityMatrix": {
+      "canonicalRelativePath": "00_GOVERNANCE/BATCH_2_AUTHORITY/BATCH_2_AUTHORITY_MATRIX.csv",
+      "normalizationCommit": "9083e29"
+    }
+  },
+
+  "primaryEnactedLaw": [
+    {
+      "citation": "2026 Mississippi House Bill 1546, enrolled — Chapter 430, Laws of 2026",
+      "effect": "Amends Miss. Code Ann. §§ 99-19-71, 97-3-54.1 and 97-3-54.6. Reduces the felony expunction waiting period from five years to three and adds felony procuring prostitution and promoting prostitution as exclusions.",
+      "approvedByGovernor": "2026-03-30",
+      "effectiveDate": "2026-07-01",
+      "sha256": "d5d7169a9553f5c6126602e34165f9ac290773c05800c27e1536bcf86c7a02e4",
+      "bytes": 101784,
+      "repositoryPath": "private/Nationwide Record Clearing/LegalEase Mississippi/reference-only/MS-HB-1546-2026__enrolled-act-chapter-430-laws-of-2026-expunction-waiting-period__source-2026-08.pdf",
+      "officialUrl": "https://billstatus.ls.state.ms.us/documents/2026/pdf/HB/1500-1599/HB1546SG.pdf",
+      "retrievedOn": "2026-08-03",
+      "assetTreatment": "reference_only",
+      "generationTarget": false
+    }
+  ],
+
+  "referenceOnlySources": [
+    {
+      "documentId": "petition-for-expungement-of-criminal-record-of-criminal-conviction",
+      "sha256": "7cc8ebba3a77b5542e546043171179a17b7176990c05996e0c4c2701f96487ff",
+      "editionStatus": "reference_only_source",
+      "treatment": "Mississippi Fourth Circuit Court District local model. Drafting reference only, never generated, never reproduced."
+    },
+    {
+      "documentId": "petition-for-expungement-of-criminal-record-on-dismissed-case",
+      "sha256": "8c9a450a6eed56c0ae12b2f42120835ece0d47c52136b36567ff97e1aad64b6e",
+      "editionStatus": "reference_only_source",
+      "treatment": "Fourth Circuit Court District local model. Drafting reference only."
+    },
+    {
+      "documentId": "order-of-expungement-for-conviction",
+      "sha256": "53fb893efcbf682aa9fc4b3e44240cae77195edd4869ccba4a4553cedcb279a4",
+      "editionStatus": "reference_only_source",
+      "treatment": "Fourth Circuit Court District local model. Drafting reference only."
+    },
+    {
+      "documentId": "order-of-expungement-for-dismissed-case",
+      "sha256": "eaa201740129a88b460874b422240125f14a14bbb4bc66d8045caa7f0c6b73c6",
+      "editionStatus": "reference_only_source",
+      "treatment": "Fourth Circuit Court District local model. Drafting reference only."
+    }
+  ],
+
+  "tracks": [
+    {
+      "trackId": "ms-fel",
+      "outputStrategy": "custom_pleading",
+      "localFormOverride": true,
+      "acceptedStrategyBasis": "Adopted Batch 2 memorandum and the Mississippi normalization: no statewide Mississippi expungement form exists, so every petition track is a statewide neutral custom pleading.",
+      "statutoryAuthority": [
+        "Miss. Code Ann. § 99-19-71(2)(a)",
+        "Miss. Code Ann. § 99-19-71(2)(b)",
+        "Miss. Code Ann. § 99-19-71(3)",
+        "Miss. Code Ann. § 99-19-71(5)",
+        "Miss. Code Ann. § 99-19-72",
+        "2026 Miss. HB 1546 (Chapter 430, Laws of 2026)"
+      ],
+      "venueAuthority": "The circuit court of the county of conviction. Miss. Code Ann. § 99-19-71(2)(a).",
+      "destination": { "kind": "court", "name": "Circuit court of the county of conviction" },
+      "components": [
+        { "componentId": "ms-fel-primary-filing-1", "role": "primary_filing", "outputStrategy": "custom_pleading", "templateId": "ms-fel-petition", "officialFormBinaryRequired": false },
+        { "componentId": "ms-fel-proposed-order-2", "role": "proposed_order", "outputStrategy": "custom_pleading", "templateId": "ms-fel-proposed-order", "officialFormBinaryRequired": false },
+        { "componentId": "ms-fel-certificate-of-service-3", "role": "certificate_of_service", "outputStrategy": "custom_pleading", "templateId": "ms-fel-certificate-of-service", "officialFormBinaryRequired": false },
+        { "componentId": "ms-fel-notice-6", "role": "notice", "outputStrategy": "custom_pleading", "templateId": "ms-fel-da-notice", "officialFormBinaryRequired": false, "basis": "Miss. Code Ann. § 99-19-71(2)(b) — ten days' written notice to the district attorney." },
+        { "componentId": "ms-fel-attachment-4", "role": "attachment", "outputStrategy": "process_guidance", "templateId": "ms-fel-records-checklist", "officialFormBinaryRequired": false },
+        { "componentId": "ms-fel-instructions-5", "role": "instructions", "outputStrategy": "process_guidance", "templateId": "ms-fel-filing-instructions", "officialFormBinaryRequired": false }
+      ]
+    },
+    {
+      "trackId": "ms-misd-1st",
+      "outputStrategy": "custom_pleading",
+      "localFormOverride": true,
+      "acceptedStrategyBasis": "Adopted Batch 2 memorandum and the Mississippi normalization.",
+      "statutoryAuthority": [
+        "Miss. Code Ann. § 99-19-71(1)",
+        "Miss. Code Ann. § 99-19-71(3)",
+        "Miss. Code Ann. § 99-19-72",
+        "2026 Miss. HB 1546 (Chapter 430, Laws of 2026)"
+      ],
+      "venueAuthority": "The justice, county, circuit or municipal court in which the misdemeanour conviction was entered. Miss. Code Ann. § 99-19-71(1).",
+      "destination": { "kind": "court", "name": "The convicting court" },
+      "components": [
+        { "componentId": "ms-misd-1st-primary-filing-1", "role": "primary_filing", "outputStrategy": "custom_pleading", "templateId": "ms-misd-1st-petition", "officialFormBinaryRequired": false },
+        { "componentId": "ms-misd-1st-proposed-order-2", "role": "proposed_order", "outputStrategy": "custom_pleading", "templateId": "ms-misd-1st-proposed-order", "officialFormBinaryRequired": false },
+        { "componentId": "ms-misd-1st-certificate-of-service-3", "role": "certificate_of_service", "outputStrategy": "custom_pleading", "templateId": "ms-misd-1st-certificate-of-service", "officialFormBinaryRequired": false },
+        { "componentId": "ms-misd-1st-attachment-4", "role": "attachment", "outputStrategy": "process_guidance", "templateId": "ms-misd-1st-records-checklist", "officialFormBinaryRequired": false },
+        { "componentId": "ms-misd-1st-instructions-5", "role": "instructions", "outputStrategy": "process_guidance", "templateId": "ms-misd-1st-filing-instructions", "officialFormBinaryRequired": false }
+      ]
+    },
+    {
+      "trackId": "ms-misd-addl",
+      "outputStrategy": "custom_pleading",
+      "localFormOverride": true,
+      "acceptedStrategyBasis": "Adopted Batch 2 memorandum and the Mississippi normalization. One mechanism with two venue branches; §§ 9-11-15(3) and 21-23-7(6) are word-for-word identical on every operative element.",
+      "statutoryAuthority": [
+        "Miss. Code Ann. § 9-11-15(3)",
+        "Miss. Code Ann. § 21-23-7(6)",
+        "Miss. Code Ann. tit. 63"
+      ],
+      "venueAuthority": "The justice court of the county of conviction, or the municipal court of the city of conviction.",
+      "destination": { "kind": "court", "name": "The convicting justice or municipal court" },
+      "components": [
+        { "componentId": "ms-misd-addl-primary-filing-1", "role": "primary_filing", "outputStrategy": "custom_pleading", "templateId": "ms-misd-addl-petition", "officialFormBinaryRequired": false },
+        { "componentId": "ms-misd-addl-proposed-order-2", "role": "proposed_order", "outputStrategy": "custom_pleading", "templateId": "ms-misd-addl-proposed-order", "officialFormBinaryRequired": false },
+        { "componentId": "ms-misd-addl-certificate-of-service-3", "role": "certificate_of_service", "outputStrategy": "custom_pleading", "templateId": "ms-misd-addl-certificate-of-service", "officialFormBinaryRequired": false },
+        { "componentId": "ms-misd-addl-attachment-4", "role": "attachment", "outputStrategy": "process_guidance", "templateId": "ms-misd-addl-records-checklist", "officialFormBinaryRequired": false },
+        { "componentId": "ms-misd-addl-instructions-5", "role": "instructions", "outputStrategy": "process_guidance", "templateId": "ms-misd-addl-filing-instructions", "officialFormBinaryRequired": false }
+      ]
+    },
+    {
+      "trackId": "ms-nonconv",
+      "outputStrategy": "custom_pleading",
+      "localFormOverride": true,
+      "acceptedStrategyBasis": "Adopted Batch 2 memorandum and the Mississippi normalization. One mechanism with four dispositional branches.",
+      "statutoryAuthority": [
+        "Miss. Code Ann. § 99-19-71(4)",
+        "Miss. Code Ann. § 99-19-71(3)",
+        "Miss. Code Ann. § 99-19-72",
+        "2026 Miss. HB 1546 (Chapter 430, Laws of 2026)",
+        "2019 Miss. HB 1352, § 34"
+      ],
+      "venueAuthority": "The justice, county, circuit or municipal court in which the case was pending or in which the arrest record originated.",
+      "destination": { "kind": "court", "name": "The court in which the case was pending" },
+      "components": [
+        { "componentId": "ms-nonconv-primary-filing-1", "role": "primary_filing", "outputStrategy": "custom_pleading", "templateId": "ms-nonconv-petition", "officialFormBinaryRequired": false },
+        { "componentId": "ms-nonconv-proposed-order-2", "role": "proposed_order", "outputStrategy": "custom_pleading", "templateId": "ms-nonconv-proposed-order", "officialFormBinaryRequired": false },
+        { "componentId": "ms-nonconv-certificate-of-service-3", "role": "certificate_of_service", "outputStrategy": "custom_pleading", "templateId": "ms-nonconv-certificate-of-service", "officialFormBinaryRequired": false },
+        { "componentId": "ms-nonconv-attachment-4", "role": "attachment", "outputStrategy": "process_guidance", "templateId": "ms-nonconv-records-checklist", "officialFormBinaryRequired": false },
+        { "componentId": "ms-nonconv-instructions-5", "role": "instructions", "outputStrategy": "process_guidance", "templateId": "ms-nonconv-filing-instructions", "officialFormBinaryRequired": false }
+      ]
+    },
+    {
+      "trackId": "ms-nonadj",
+      "outputStrategy": "custom_pleading",
+      "localFormOverride": true,
+      "acceptedStrategyBasis": "Adopted Batch 2 memorandum and the Mississippi normalization.",
+      "statutoryAuthority": [
+        "Miss. Code Ann. § 99-15-26",
+        "Miss. Code Ann. § 99-15-26(5)",
+        "Miss. Code Ann. § 99-19-71(4)"
+      ],
+      "venueAuthority": "The court that entered the nonadjudication order. Miss. Code Ann. § 99-15-26(5).",
+      "destination": { "kind": "court", "name": "The court that entered the nonadjudication order" },
+      "components": [
+        { "componentId": "ms-nonadj-primary-filing-1", "role": "primary_filing", "outputStrategy": "custom_pleading", "templateId": "ms-nonadj-petition", "officialFormBinaryRequired": false },
+        { "componentId": "ms-nonadj-proposed-order-2", "role": "proposed_order", "outputStrategy": "custom_pleading", "templateId": "ms-nonadj-proposed-order", "officialFormBinaryRequired": false },
+        { "componentId": "ms-nonadj-certificate-of-service-3", "role": "certificate_of_service", "outputStrategy": "custom_pleading", "templateId": "ms-nonadj-certificate-of-service", "officialFormBinaryRequired": false },
+        { "componentId": "ms-nonadj-attachment-4", "role": "attachment", "outputStrategy": "process_guidance", "templateId": "ms-nonadj-records-checklist", "officialFormBinaryRequired": false },
+        { "componentId": "ms-nonadj-instructions-5", "role": "instructions", "outputStrategy": "process_guidance", "templateId": "ms-nonadj-filing-instructions", "officialFormBinaryRequired": false }
+      ]
+    }
+  ],
+
+  "roleMismatchesClosed": 0,
+  "hashConflictsClosed": 0,
+  "officialFormMappingsCreated": 0,
+  "officialFormMappingsCreatedNote": "None, and none is permitted: a custom pleading requires no official form binary, and inventing a mapping for one would assert a source identity that does not exist."
+}

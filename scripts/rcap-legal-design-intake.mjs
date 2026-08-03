@@ -32,6 +32,32 @@ const { ALL_JURISDICTION_CODES } = await import("@/lib/rcap/jurisdictions/packet
 const root = process.cwd();
 const INTAKE_DIR = path.join(root, "data/record-clearing/legal-design-intake");
 const OUT_DIR = path.join(root, "data/record-clearing");
+const TRANCHE_DIR = path.join(root, "data/record-clearing/implementation-tranches");
+
+/**
+ * Authored guidance specifications for process-guidance COMPONENTS of a
+ * custom-pleading track.
+ *
+ * Guidance is otherwise specified per guidance track and per guidance unit of a
+ * composed route. A custom-pleading track can also carry guidance components —
+ * a records checklist and filing instructions — and that shape matched neither
+ * rule, so every such component reported no governing specification and blocked
+ * its whole track. The gate is closed by drafting the specification, never by
+ * emitting an empty one: a track whose checklist and instructions nobody has
+ * written stays blocked, which is the honest answer.
+ */
+function authoredComponentGuidance() {
+  if (!fs.existsSync(TRANCHE_DIR)) return [];
+  return fs
+    .readdirSync(TRANCHE_DIR)
+    .filter((name) => name.endsWith("-component-guidance.json"))
+    .flatMap((name) => {
+      const file = JSON.parse(fs.readFileSync(path.join(TRANCHE_DIR, name), "utf8"));
+      return (file.specifications ?? []).map((entry) => ({ ...entry, trancheId: file.trancheId }));
+    });
+}
+
+const COMPONENT_GUIDANCE = authoredComponentGuidance();
 
 const strict = !process.argv.includes("--report-only");
 
@@ -246,7 +272,24 @@ const specifications = {
     if (track.outputStrategy === "process_guidance") {
       return [{ ...base, unitId: null, compositionMode: null, unitAvailable: true }];
     }
-    return track.units
+
+    // A custom-pleading or official-form track whose guidance components have an
+    // authored specification contributes one spec naming those components.
+    const authored = COMPONENT_GUIDANCE.filter((entry) => entry.trackId === track.trackId);
+    const componentGuidance = authored.map((entry) => ({
+      ...base,
+      unitId: null,
+      compositionMode: track.compositionMode ?? null,
+      unitAvailable: true,
+      componentIds: entry.componentIds,
+      templateIds: entry.templateIds ?? [],
+      scope: entry.scope ?? null,
+      notAFiling: entry.notAFiling ?? null,
+      trancheId: entry.trancheId ?? null,
+      guidanceStatus: entry.guidanceStatus ?? "drafted"
+    }));
+
+    return componentGuidance.concat(track.units
       .filter((unit) => unit.outputStrategy === "process_guidance")
       .map((unit) => ({
         ...base,
@@ -258,7 +301,7 @@ const specifications = {
         // rather than the work simply being absent.
         unitAvailable: unit.available,
         unavailableReason: unit.unavailableReason ?? null
-      }));
+      })));
   }),
   // Named here so nobody has to infer it from the shape of the specs above: a
   // document the participant obtains is listed, never demanded up front.

@@ -139,6 +139,15 @@ export type PacketComponentRole =
   | "continuation"
   | "instructions"
   | "local_addendum"
+  /**
+   * A notice a statute requires the participant to give a third party, filed or
+   * delivered alongside the petition. Added for Miss. Code Ann. § 99-19-71(2)(b),
+   * which requires the district attorney to have ten days' written notice before
+   * a hearing on a felony expungement petition: that notice is a distinct
+   * document with its own addressee, and folding it into the certificate of
+   * service would misdescribe both.
+   */
+  | "notice"
   | "process_guidance";
 
 export type ComponentRequirement = "required" | "conditional";

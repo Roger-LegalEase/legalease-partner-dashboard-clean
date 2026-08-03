@@ -9,9 +9,11 @@
 // compose legal argument and makes no discretionary legal judgment beyond the
 // template and the eligibility rules that selected it.
 //
-// Everything here is a NON-PRODUCTION TECHNICAL FIXTURE. No template below has
-// been legally reviewed, and each says so on its face so a stray rendering
-// cannot be mistaken for a filing.
+// No template in this registry has been approved by reviewing counsel. Each
+// says so on its face, so a stray rendering cannot be mistaken for a filing.
+// The `technical-fixture-*` entries are non-production fixtures that prove the
+// renderer; the Mississippi entries are implementation Tranche 1 drafts awaiting
+// counsel review.
 
 export type PleadingSection = {
   heading?: string;
@@ -35,14 +37,24 @@ export type PleadingTemplate = {
   sections: readonly PleadingSection[];
   prayer: readonly string[];
   verification?: string;
+  /**
+   * Label for the participant signature rule. `null` suppresses the rule
+   * entirely, which is correct for a proposed order: the court signs it.
+   */
+  signatureLabel?: string | null;
   signatureBlock: readonly string[];
   certificateOfService?: readonly string[];
 };
 
+// Jurisdiction template packs are registered here. Importing after the type
+// declarations keeps the pack files free of a circular value dependency: they
+// import the type only.
+import { MISSISSIPPI_PLEADING_TEMPLATES } from "@/lib/rcap/packets/engines/pleading-templates-mississippi";
+
 const FIXTURE_BANNER =
   "NON-PRODUCTION TECHNICAL FIXTURE — NOT A COURT FILING, NOT LEGAL ADVICE, NOT FOR SUBMISSION";
 
-export const PLEADING_TEMPLATES: Readonly<Record<string, PleadingTemplate>> = {
+const BASE_TEMPLATES: Readonly<Record<string, PleadingTemplate>> = {
   "technical-fixture-petition": {
     templateId: "technical-fixture-petition",
     version: "1.0.0",
@@ -152,6 +164,11 @@ export const PLEADING_TEMPLATES: Readonly<Record<string, PleadingTemplate>> = {
     prayer: [],
     signatureBlock: ["{{petitionerName}}"]
   }
+};
+
+export const PLEADING_TEMPLATES: Readonly<Record<string, PleadingTemplate>> = {
+  ...BASE_TEMPLATES,
+  ...MISSISSIPPI_PLEADING_TEMPLATES
 };
 
 export function pleadingTemplate(templateId: string | null): PleadingTemplate | null {

@@ -1,18 +1,21 @@
 // Relief-track registry.
 //
-// Contains only non-production technical fixtures: four that prove the happy
-// path for each renderer strategy, and six that prove specific failures. Every
-// one carries `technicalFixture: true` and `runtimeDisabled: true`, so
+// Contains the non-production technical fixtures — four that prove the happy
+// path for each renderer strategy and six that prove specific failures — plus
+// implementation Tranche 1 (Mississippi). Every track in this file carries
+// `technicalFixture: true` and `runtimeDisabled: true`, so
 // `computeRuntimeStatus` never returns a ready status for any of them and none
 // can fulfil a real participant request.
 //
-// No real relief track is defined yet. Decomposing the locked state-level
-// strategy assignments into tracks requires current official authority and
-// counsel review, which is the next lane. Until that happens every real
-// jurisdiction resolves to nothing and the resolver fails closed.
+// Tranche 1 is the first real relief-track implementation: five Mississippi
+// petition routes normalized from the accepted memo and pinned to Master
+// Library Edition 1.2. They are runtime-disabled and awaiting counsel review.
+// Every other jurisdiction still resolves to nothing and the resolver fails
+// closed.
 //
 // Plan of record: docs/record-clearing/PLAN_OF_RECORD_RELIEF_TRACK_STRATEGY.md
 
+import { MISSISSIPPI_TRANCHE_1_TRACKS } from "@/lib/rcap/packets/registry-mississippi";
 import type { PacketSet, ReliefTrack } from "@/lib/rcap/packets/types";
 import { computeRuntimeStatus } from "@/lib/rcap/packets/types";
 
@@ -593,10 +596,19 @@ const UNCONFIRMED_OVERLAY_PLACEMENTS: readonly OverlayPlacement[] = [
   }
 ];
 
-/** Every track known to the runtime. No real relief track exists yet. */
+/**
+ * Every track known to the runtime.
+ *
+ * The Mississippi entries are implementation Tranche 1: real relief tracks with
+ * real pleadings, still carrying `technicalFixture: true` and
+ * `runtimeDisabled: true` because reviewing counsel has not approved them. They
+ * are generated for review through an explicit `allowTechnicalFixtures` opt-in
+ * and can never fulfil a participant request.
+ */
 export const RELIEF_TRACKS: readonly ReliefTrack[] = [
   ...TECHNICAL_FIXTURE_TRACKS,
-  ...NEGATIVE_FIXTURE_TRACKS
+  ...NEGATIVE_FIXTURE_TRACKS,
+  ...MISSISSIPPI_TRANCHE_1_TRACKS
 ];
 
 const ALL_OVERLAY_PLACEMENTS: readonly OverlayPlacement[] = [

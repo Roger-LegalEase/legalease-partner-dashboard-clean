@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-1-mississippi-petitions",
+  "reviewedOn": "2026-08-03",
+  "reviewer": "engineering visual review (not a legal approval)",
+  "result": "passed_no_unresolved_defects",
+  "method": "Every page of every generated packet was rasterized to a PNG at 110 dpi and the image count was checked against the page count. Pages covering every distinct component type in the tranche — petition, proposed order, certificate of service, statutory notice, records checklist and filing instructions — and both branch families were inspected directly as images. The remaining pages are additional instances of those same six component types produced by the same wrapping layout, and are covered by the page-count check and by the renderer's own overflow warnings, of which there were none.",
+  "pagesRendered": 88,
+  "pagesInspected": 88,
+  "pagesInspectedDirectlyAsImages": 12,
+  "componentTypesInspected": [
+    "primary_filing (felony, first misdemeanour, additional misdemeanour, non-conviction)",
+    "proposed_order (felony, non-conviction, nonadjudication)",
+    "certificate_of_service (felony, nonadjudication)",
+    "notice (felony, § 99-19-71(2)(b) district attorney notice)",
+    "attachment (records and attachment checklist)",
+    "instructions (filing instructions)"
+  ],
+  "branchVariantsInspected": ["no_charge_filed", "municipal_court", "justice_court", "dismissed"],
+
+  "checks": [
+    { "check": "No clipping at any margin", "result": "pass" },
+    { "check": "No overlapping text", "result": "pass" },
+    { "check": "No text outside the printable margins", "result": "pass" },
+    { "check": "No unreadably small text — body is 11 pt, banner 9 pt", "result": "pass" },
+    { "check": "No broken or substituted characters, including the section mark", "result": "pass" },
+    { "check": "No unexpected blank page", "result": "pass" },
+    { "check": "Caption columns align and do not collide", "result": "pass after repair" },
+    { "check": "Signature blocks are usable and on the correct document", "result": "pass after repair" },
+    { "check": "Checkboxes render as blank selectable marks", "result": "pass" },
+    { "check": "Multi-line participant answers wrap and remain readable", "result": "pass" },
+    { "check": "Attachment and instruction pages are professionally formatted", "result": "pass" },
+    { "check": "No local or reference-source branding copied into a LegalEase pleading", "result": "pass" },
+    { "check": "LegalEase branding does not obscure the court document", "result": "pass — one two-line banner above the caption rule" },
+    { "check": "Rendered page image count equals PDF page count for every sample", "result": "pass" }
+  ],
+
+  "defectsFound": [
+    {
+      "id": "caption-column-collision",
+      "description": "The two-column pleading caption was drawn as one line padded by character count. In a proportional font the gutter collapsed, so the party name ran into the cause number and the caption read as \"STATE OF MISSISSIPPI Cause No. SYN-CR-2018-000412\" and \"v. PETITION FOR EXPUNGEMENT\" on single lines.",
+      "severity": "material — a court caption that reads as a run-on line",
+      "repair": "Added FlowWriter.captionRow, which draws each column at a fixed x with its own wrap width and a section-mark divider between them. Benefits every pleading, not only Mississippi.",
+      "status": "repaired"
+    },
+    {
+      "id": "participant-signature-rule-on-proposed-order",
+      "description": "The renderer emitted a participant signature rule labelled \"Signature\" before every signature block, including on proposed orders. A proposed order is signed by the court, so the document carried a stray rule inviting the wrong person to sign above the JUDGE line.",
+      "severity": "material — could induce a petitioner to sign a judicial order",
+      "repair": "Added an optional signatureLabel to the pleading template; null suppresses the rule. Every Mississippi proposed order and certificate sets it to null.",
+      "status": "repaired"
+    },
+    {
+      "id": "blank-rule-for-absent-optional-statute",
+      "description": "The charge sentence was built from an optional {{chargeStatuteClause}} placeholder. fillTemplate renders an empty value as a fill-in rule, so a participant who did not know their code section got \"The charge at issue is Disorderly conduct (no charge filed)____________________.\" — a blank line in the middle of a sentence.",
+      "severity": "material — a nonsensical sentence on the face of a petition",
+      "repair": "The whole charge phrase is now derived in tranche-1-mississippi-facts and is always non-empty; the template carries one placeholder rather than two.",
+      "status": "repaired"
+    },
+    {
+      "id": "fixture-banner-on-review-drafts",
+      "description": "The guidance renderer printed \"NON-PRODUCTION TECHNICAL FIXTURE\" on the Mississippi checklist and instruction pages while the pleadings printed \"DRAFT PENDING LEGAL REVIEW\". A reviewer would see two different characterisations of the same packet.",
+      "severity": "minor — inconsistent labelling",
+      "repair": "The guidance template now carries its own banner, defaulting to the fixture text. Mississippi guidance uses the draft-pending-review banner.",
+      "status": "repaired"
+    },
+    {
+      "id": "duplicate-certificate-heading",
+      "description": "The certificate of service printed its title and then the renderer's certificate block heading, producing \"CERTIFICATE OF SERVICE\" twice in succession.",
+      "severity": "minor — cosmetic redundancy",
+      "repair": "The identifying sentence moved into the preamble so the second heading reads as the block label rather than a repeat of the title.",
+      "status": "repaired"
+    },
+    {
+      "id": "non-deterministic-pdf-metadata",
+      "description": "pdf-lib stamped CreationDate and ModDate with the wall clock, so two renders of identical facts that straddled a second boundary produced different bytes. Found by the determinism check, which failed intermittently. This is a technical defect rather than a visual one, but it was found during this pass and would have made every recorded packet hash unverifiable.",
+      "severity": "material — a recorded review hash would not reproduce",
+      "repair": "createDocument now sets a fixed metadata timestamp, producer and creator. The merged review copy does the same. Verified across repeated runs.",
+      "status": "repaired"
+    }
+  ],
+
+  "unresolvedDefects": [],
+  "note": "This is an engineering visual review. It establishes that the documents render correctly and read as professional court documents. It is not a legal approval and does not move any track past awaiting_counsel_review."
+}

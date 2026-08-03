@@ -112543,6 +112543,1455 @@
     },
     {
       "jurisdiction": "MS",
+      "trackId": "ms-nonconv",
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the court in which the case was pending",
+        "detail": "Paper filing with the clerk of the originating court, with the proposed order tendered alongside. The prosecuting authority is served with a copy."
+      },
+      "rules": {
+        "filing": "File the petition with the proposed order and certificate of service with the clerk of the justice, county, circuit or municipal court in which the case was pending. Mississippi has no statewide form; the petition is drafted to the statute and the court, county and prosecuting authority are participant data. Call the clerk before filing to ask whether that court has its own preferred form or additional requirements.",
+        "fees": "No amount is published here. Section 99-19-72 sets a fee for a petition to expunge an offence under § 99-19-71, and subsection (4) sits inside § 99-19-71, but charging a person whose case was dismissed is a contested result and county practice differs. The participant is instructed to confirm the filing fee with the clerk before filing. See the unresolved fee question.",
+        "feeWaiver": "A pauper's affidavit under general Mississippi practice. Not verified for expungement specifically; the participant asks the clerk.",
+        "notice": "The prosecuting authority receives a copy. The ten days' written notice to the district attorney is imposed by § 99-19-71(2)(b), which sits inside the felony conviction subsection, and it is NOT imported into this subsection without textual support; the packet nonetheless tells the participant that some districts expect notice and prosecutor approval as a matter of local practice. No response or objection period is stated for this track and no hearing is required by subsection (4).",
+        "service": "United States mail or hand delivery by the petitioner to the prosecuting authority, contemporaneous with filing, evidenced by the certificate of service.",
+        "participantSignature": "The petitioner signs the petition. LegalEase leaves the signature and date blank and does not use the archived models' 'by and through his attorney' recital.",
+        "notarization": "None on the archived models. Whether any district requires verification or notarization is unresolved; the petition carries a simple truth statement rather than a notarized verification."
+      },
+      "generationRequirements": [
+        {
+          "key": "fullName",
+          "question": "What is your full legal name, and any other name the case is under?",
+          "requirement": "required"
+        },
+        {
+          "key": "dateOfBirth",
+          "question": "What is your date of birth?",
+          "requirement": "required"
+        },
+        {
+          "key": "mailingAddress",
+          "question": "What is your current address, phone number and email?",
+          "requirement": "required"
+        },
+        {
+          "key": "countyOfResidence",
+          "question": "Which Mississippi county and city do you live in?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtLevel",
+          "question": "Which court handled the case — justice court, county court, circuit court, or municipal court? Mississippi has four trial court levels that all handle expungements and people routinely misidentify which one heard their case.",
+          "requirement": "required"
+        },
+        {
+          "key": "courtCounty",
+          "question": "Which county was that court in? For a municipal court, which city?",
+          "requirement": "required"
+        },
+        {
+          "key": "causeNumber",
+          "question": "What is the cause or case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargeName",
+          "question": "What were you charged with, and under which Mississippi Code section if you know it?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseDate",
+          "question": "On what date did the offence happen?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested or cited?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestingAgency",
+          "question": "Which agency arrested or cited you, and what is their case number if you have it?",
+          "requirement": "required"
+        },
+        {
+          "key": "prosecutingAuthority",
+          "question": "Which prosecuting authority handled the case — the district attorney for the circuit district, or a county or municipal prosecuting attorney?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionCategory",
+          "question": "How did the case end? Choose the one that matches: you were arrested and released and the case was dismissed; the charges were dropped; there was never any disposition; or you were found not guilty at trial.",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did that happen?",
+          "requirement": "required"
+        },
+        {
+          "key": "wasIndicted",
+          "question": "Was the case ever presented to a grand jury and indicted? Many cases are not, and the petition only pleads an indictment where one exists.",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionWording",
+          "question": "What exactly does your paperwork say about how the case ended? Copy the wording. Phrases like 'passed to the file' or 'retired to the file' need a closer look before we go further.",
+          "requirement": "required"
+        },
+        {
+          "key": "nonadjudicationOrDiversion",
+          "question": "Was this a nonadjudication, a pretrial intervention programme, or an intervention or drug court? Those end differently and route differently.",
+          "requirement": "required"
+        },
+        {
+          "key": "coDefendantOpen",
+          "question": "Was anyone charged with you whose case is still open?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Mississippi has no statewide expungement form and § 99-19-71 prescribes none. The four archived petition and order PDFs are Fourth Circuit Court District models covering Leflore, Sunflower and Washington counties only: every county field reads '(Washington, Sunflower, or Leflore)', the certificate of service hardcodes the Fourth District DA at Greenville, the signature blocks are dated 2020, and the orders carry an APPROVED AS TO FORM block. They are drafting references only. Court, county and prosecuting authority are participant-data fields and are never hardcoded.",
+        "Build the district-variable fields — court, court level, county, cause number, and the prosecuting authority's name and address — as participant data, never hardcoded. Never default to the Greenville address, the three Fourth District counties, or the year 2020.",
+        "Tell the participant that Mississippi has no statewide expungement form, that practice varies by county and by circuit district, that some districts expect the district attorney to approve the order as to form before the judge will sign, and that they should call the clerk of the court where the case was heard before filing to ask whether that court has its own preferred form or additional requirements.",
+        "The order directs every person and agency keeping official records to expunge them EXCEPT fingerprint records, and the Mississippi Criminal Information Center retains a nonpublic record solely to determine first-offender status in subsequent proceedings. Participant-facing copy must not say the record is erased everywhere.",
+        "Section 99-19-71(3) expressly provides that the existence of an order of expunction does not preclude an employer from asking a prospective employee whether an order of expunction has been entered on their behalf. This is a real and unusual limitation and participants must be told about it. A person called as a prospective juror must also, on request, advise the court in camera of the previous conviction and expunction.",
+        "A participant who uses this track has not spent their one felony expungement. The one-felony-per-lifetime cap sits in § 99-19-71(2)(a) and applies to conviction expungement, not to subsection (4). That is an important thing to tell people and to encode.",
+        "Relief is mandatory. The statute says the court \"shall expunge\", which is one of very few mandatory record-clearing provisions in the country and should be the headline of the Mississippi product.",
+        "The disposition order is obtained by the participant from the clerk and attached as an exhibit. It never delays generation of the petition."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified copy of the disposition or sentencing order from the clerk. Ask the clerk of the court that heard your case for a certified copy of the order showing how the case ended. Mississippi has no central portal and each clerk holds their own file, so identify the right court first.",
+          "obtainedFrom": "Clerk of the court where the case was heard",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the cause or case number?\" against Certified copy of the disposition or sentencing order from the clerk, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Copy of the indictment. Ask the circuit clerk for a copy of the indictment. Attach it only if the case was actually indicted.",
+          "obtainedFrom": "Circuit clerk of the county",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only where a grand jury returned an indictment.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Was the case ever presented to a grand jury and indicted? Many cases are not, and the petition only pleads an indictment where one exists.\" against Copy of the indictment, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only where a grand jury returned an indictment.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Mississippi criminal history record. Obtain your own Mississippi criminal history so you can see every case on your record before you file. It is the only reliable way to check first-offender status or good conduct across all courts, and self-report is not enough.",
+          "obtainedFrom": "Mississippi Criminal Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "Advisable on every track and effectively necessary wherever first-offender status or a multi-court good-conduct period is in issue.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Docket sheet for the case. Ask the clerk for the docket sheet. It shows every court-imposed term and whether each was satisfied.",
+          "obtainedFrom": "Clerk of the court where the case was heard",
+          "requirement": "conditional",
+          "conditionDescription": "Required in practice on conviction tracks; advisable on every track.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The finding that the petitioner meets the criteria for expungement — Proposed order, findings paragraph.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The judge's signature, the date, and the order's entry — Proposed order, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The APPROVED AS TO FORM signature for the prosecuting authority — Proposed order, approval block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The petitioner's signature and the date of signing — Petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The cause number where the court assigns a new one — Petition, proposed order and certificate of service captions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any characterization that a dismissal was 'with prejudice' — Petition, the disposition allegation.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs the petition. LegalEase leaves the signature and date blank and does not use the archived models' 'by and through his attorney' recital.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "None on the archived models. Whether any district requires verification or notarization is unresolved; the petition carries a simple truth statement rather than a notarized verification.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No amount is published here. Section 99-19-72 sets a fee for a petition to expunge an offence under § 99-19-71, and subsection (4) sits inside § 99-19-71, but charging a person whose case was dismissed is a contested result and county practice differs. The participant is instructed to confirm the filing fee with the clerk before filing. See the unresolved fee question.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "A pauper's affidavit under general Mississippi practice. Not verified for expungement specifically; the participant asks the clerk.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "United States mail or hand delivery by the petitioner to the prosecuting authority, contemporaneous with filing, evidenced by the certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the petition with the proposed order and certificate of service with the clerk of the justice, county, circuit or municipal court in which the case was pending. Mississippi has no statewide form; the petition is drafted to the statute and the court, county and prosecuting authority are participant data. Call the clerk before filing to ask whether that court has its own preferred form or additional requirements.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified copy of the disposition or sentencing order from the clerk. Ask the clerk of the court that heard your case for a certified copy of the order showing how the case ended. Mississippi has no central portal and each clerk holds their own file, so identify the right court first.",
+        "Check your answer to \"What is the cause or case number?\" against Certified copy of the disposition or sentencing order from the clerk, and correct the packet if they disagree.",
+        "Obtain Copy of the indictment. Ask the circuit clerk for a copy of the indictment. Attach it only if the case was actually indicted.",
+        "Check your answer to \"Was the case ever presented to a grand jury and indicted? Many cases are not, and the petition only pleads an indictment where one exists.\" against Copy of the indictment, and correct the packet if they disagree.",
+        "Obtain Docket sheet for the case. Ask the clerk for the docket sheet. It shows every court-imposed term and whether each was satisfied.",
+        "The finding that the petitioner meets the criteria for expungement — Proposed order, findings paragraph.",
+        "The judge's signature, the date, and the order's entry — Proposed order, signature block.",
+        "The APPROVED AS TO FORM signature for the prosecuting authority — Proposed order, approval block.",
+        "The petitioner's signature and the date of signing — Petition, signature block.",
+        "The cause number where the court assigns a new one — Petition, proposed order and certificate of service captions.",
+        "Any characterization that a dismissal was 'with prejudice' — Petition, the disposition allegation.",
+        "The petitioner signs the petition. LegalEase leaves the signature and date blank and does not use the archived models' 'by and through his attorney' recital.",
+        "None on the archived models. Whether any district requires verification or notarization is unresolved; the petition carries a simple truth statement rather than a notarized verification.",
+        "No amount is published here. Section 99-19-72 sets a fee for a petition to expunge an offence under § 99-19-71, and subsection (4) sits inside § 99-19-71, but charging a person whose case was dismissed is a contested result and county practice differs. The participant is instructed to confirm the filing fee with the clerk before filing. See the unresolved fee question.",
+        "A pauper's affidavit under general Mississippi practice. Not verified for expungement specifically; the participant asks the clerk."
+      ],
+      "stopConditions": [
+        "The disposition is ambiguous on the docket, particularly 'passed to the file', 'retired to the file', or a remand.",
+        "The case moved between courts and venue is unclear.",
+        "The participant is not a US citizen. Mississippi expungement does not resolve immigration consequences.",
+        "There is a pending charge arising from the same events.",
+        "The district attorney declines to approve the order as to form.",
+        "The record involves a co-defendant whose case remains open.",
+        "Obtaining the district attorney's approval as to form is the practical gate on the entire Mississippi product and it is a negotiation, not a filing. LegalEase prepares the certificate of service, the cover letter and the notice calendar; it does not seek, obtain or negotiate the prosecutor's approval, and a declining or silent prosecutor is an attorney handoff."
+      ],
+      "guidanceStatus": "drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true,
+      "componentIds": [
+        "ms-nonconv-attachment-4",
+        "ms-nonconv-instructions-5"
+      ],
+      "templateIds": [
+        "ms-nonconv-records-checklist",
+        "ms-nonconv-filing-instructions"
+      ],
+      "scope": "The disposition record the participant obtains for the branch that applies, and the steps to file and serve.",
+      "notAFiling": "Neither component is a court filing.",
+      "trancheId": "tranche-1-mississippi-petitions"
+    },
+    {
+      "jurisdiction": "MS",
+      "trackId": "ms-misd-1st",
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the court of conviction",
+        "detail": "File with the clerk of the court that entered the conviction. In municipal court the prosecuting authority is the city prosecutor, not the district attorney."
+      },
+      "rules": {
+        "filing": "File with the clerk of the justice, county, circuit or municipal court in which the conviction was had. Call the clerk first: municipal and justice courts are the least standardized courts in the state.",
+        "fees": "No amount is published here. Section 99-19-72 sets a fee for a petition to expunge an offence under § 99-19-71 and this track is such a petition on the face of the statute, but the section's current text could not be retrieved on this pass, so the participant confirms the amount with the clerk.",
+        "feeWaiver": "A pauper's affidavit under general Mississippi practice. The participant asks the clerk.",
+        "notice": "The prosecuting authority for the court receives a copy. In municipal court that is the city prosecutor, not the district attorney. No response or objection period is stated for this subsection and the ten-day notice in subsection (2)(b) governs the felony track.",
+        "service": "United States mail or hand delivery to the prosecuting authority, evidenced by the certificate of service.",
+        "participantSignature": "The petitioner signs. LegalEase leaves the signature and date blank.",
+        "notarization": "None on the archived models. Unresolved statewide; a simple truth statement is used."
+      },
+      "generationRequirements": [
+        {
+          "key": "fullName",
+          "question": "What is your full legal name, and any other name the case is under?",
+          "requirement": "required"
+        },
+        {
+          "key": "dateOfBirth",
+          "question": "What is your date of birth?",
+          "requirement": "required"
+        },
+        {
+          "key": "mailingAddress",
+          "question": "What is your current address, phone number and email?",
+          "requirement": "required"
+        },
+        {
+          "key": "countyOfResidence",
+          "question": "Which Mississippi county and city do you live in?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtLevel",
+          "question": "Which court handled the case — justice court, county court, circuit court, or municipal court? Mississippi has four trial court levels that all handle expungements and people routinely misidentify which one heard their case.",
+          "requirement": "required"
+        },
+        {
+          "key": "courtCounty",
+          "question": "Which county was that court in? For a municipal court, which city?",
+          "requirement": "required"
+        },
+        {
+          "key": "causeNumber",
+          "question": "What is the cause or case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargeName",
+          "question": "What were you charged with, and under which Mississippi Code section if you know it?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseDate",
+          "question": "On what date did the offence happen?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested or cited?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestingAgency",
+          "question": "Which agency arrested or cited you, and what is their case number if you have it?",
+          "requirement": "required"
+        },
+        {
+          "key": "prosecutingAuthority",
+          "question": "Which prosecuting authority handled the case — the district attorney for the circuit district, or a county or municipal prosecuting attorney?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseLevel",
+          "question": "Was the offence a misdemeanour?",
+          "requirement": "required"
+        },
+        {
+          "key": "isTrafficViolation",
+          "question": "Was the offence a traffic violation? Traffic violations cannot be expunged on this route, and some Mississippi misdemeanours sit close to that line.",
+          "requirement": "required"
+        },
+        {
+          "key": "isDui",
+          "question": "Was the offence a DUI? DUI has its own separate route and is never handled here.",
+          "requirement": "required"
+        },
+        {
+          "key": "anyPriorConvictions",
+          "question": "Have you ever been convicted of any other offence, in any Mississippi court or anywhere else?",
+          "requirement": "required"
+        },
+        {
+          "key": "anyPriorExpungement",
+          "question": "Have you ever had any conviction expunged before? An earlier expungement does not give you first-offender status back: the Criminal Information Center keeps a nonpublic record specifically so a court can tell whether you are a first offender.",
+          "requirement": "required"
+        },
+        {
+          "key": "finesPaid",
+          "question": "Are all fines, costs and restitution on this case paid in full?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Mississippi has no statewide expungement form and § 99-19-71 prescribes none. The four archived petition and order PDFs are Fourth Circuit Court District models covering Leflore, Sunflower and Washington counties only: every county field reads '(Washington, Sunflower, or Leflore)', the certificate of service hardcodes the Fourth District DA at Greenville, the signature blocks are dated 2020, and the orders carry an APPROVED AS TO FORM block. They are drafting references only. Court, county and prosecuting authority are participant-data fields and are never hardcoded.",
+        "Build the district-variable fields — court, court level, county, cause number, and the prosecuting authority's name and address — as participant data, never hardcoded. Never default to the Greenville address, the three Fourth District counties, or the year 2020.",
+        "Tell the participant that Mississippi has no statewide expungement form, that practice varies by county and by circuit district, that some districts expect the district attorney to approve the order as to form before the judge will sign, and that they should call the clerk of the court where the case was heard before filing to ask whether that court has its own preferred form or additional requirements.",
+        "The order directs every person and agency keeping official records to expunge them EXCEPT fingerprint records, and the Mississippi Criminal Information Center retains a nonpublic record solely to determine first-offender status in subsequent proceedings. Participant-facing copy must not say the record is erased everywhere.",
+        "Section 99-19-71(3) expressly provides that the existence of an order of expunction does not preclude an employer from asking a prospective employee whether an order of expunction has been entered on their behalf. This is a real and unusual limitation and participants must be told about it. A person called as a prospective juror must also, on request, advise the court in camera of the previous conviction and expunction.",
+        "Subsection (1) states no waiting period. Do not invent one."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified copy of the judgment of conviction. Ask the clerk of the convicting court for a certified copy of the judgment. It establishes the court, the offence and the conviction date.",
+          "obtainedFrom": "Clerk of the court of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date were you convicted?\" against Certified copy of the judgment of conviction, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Mississippi criminal history record. Obtain your own Mississippi criminal history so you can see every case on your record before you file. It is the only reliable way to check first-offender status or good conduct across all courts, and self-report is not enough.",
+          "obtainedFrom": "Mississippi Criminal Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "Advisable on every track and effectively necessary wherever first-offender status or a multi-court good-conduct period is in issue.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Account balance sheet from the clerk showing a zero balance. Ask the clerk for an account balance sheet. Subsection (1) does not require payment, but courts commonly require a zero balance in practice.",
+          "obtainedFrom": "Clerk of the court of conviction",
+          "requirement": "conditional",
+          "conditionDescription": "Advisable everywhere; required in practice in many courts even though subsection (1) does not say so.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Are all fines, costs and restitution on this case paid in full?\" against Account balance sheet from the clerk showing a zero balance, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Advisable everywhere; required in practice in many courts even though subsection (1) does not say so.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Docket sheet for the case. Ask the clerk for the docket sheet. It shows every court-imposed term and whether each was satisfied.",
+          "obtainedFrom": "Clerk of the court where the case was heard",
+          "requirement": "conditional",
+          "conditionDescription": "Required in practice on conviction tracks; advisable on every track.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The finding that the petitioner meets the criteria for expungement — Proposed order, findings paragraph.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The judge's signature, the date, and the order's entry — Proposed order, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The APPROVED AS TO FORM signature for the prosecuting authority — Proposed order, approval block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The petitioner's signature and the date of signing — Petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The cause number where the court assigns a new one — Petition, proposed order and certificate of service captions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The assertion that the petitioner is a first offender — Petition, the first-offender allegation.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The classification of the offence as not a traffic violation — Petition, the offence allegation.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs. LegalEase leaves the signature and date blank.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "None on the archived models. Unresolved statewide; a simple truth statement is used.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No amount is published here. Section 99-19-72 sets a fee for a petition to expunge an offence under § 99-19-71 and this track is such a petition on the face of the statute, but the section's current text could not be retrieved on this pass, so the participant confirms the amount with the clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "A pauper's affidavit under general Mississippi practice. The participant asks the clerk.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "United States mail or hand delivery to the prosecuting authority, evidenced by the certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File with the clerk of the justice, county, circuit or municipal court in which the conviction was had. Call the clerk first: municipal and justice courts are the least standardized courts in the state.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified copy of the judgment of conviction. Ask the clerk of the convicting court for a certified copy of the judgment. It establishes the court, the offence and the conviction date.",
+        "Check your answer to \"On what date were you convicted?\" against Certified copy of the judgment of conviction, and correct the packet if they disagree.",
+        "Obtain Account balance sheet from the clerk showing a zero balance. Ask the clerk for an account balance sheet. Subsection (1) does not require payment, but courts commonly require a zero balance in practice.",
+        "Check your answer to \"Are all fines, costs and restitution on this case paid in full?\" against Account balance sheet from the clerk showing a zero balance, and correct the packet if they disagree.",
+        "Obtain Docket sheet for the case. Ask the clerk for the docket sheet. It shows every court-imposed term and whether each was satisfied.",
+        "The finding that the petitioner meets the criteria for expungement — Proposed order, findings paragraph.",
+        "The judge's signature, the date, and the order's entry — Proposed order, signature block.",
+        "The APPROVED AS TO FORM signature for the prosecuting authority — Proposed order, approval block.",
+        "The petitioner's signature and the date of signing — Petition, signature block.",
+        "The cause number where the court assigns a new one — Petition, proposed order and certificate of service captions.",
+        "The assertion that the petitioner is a first offender — Petition, the first-offender allegation.",
+        "The classification of the offence as not a traffic violation — Petition, the offence allegation.",
+        "The petitioner signs. LegalEase leaves the signature and date blank.",
+        "None on the archived models. Unresolved statewide; a simple truth statement is used.",
+        "No amount is published here. Section 99-19-72 sets a fee for a petition to expunge an offence under § 99-19-71 and this track is such a petition on the face of the statute, but the section's current text could not be retrieved on this pass, so the participant confirms the amount with the clerk.",
+        "A pauper's affidavit under general Mississippi practice. The participant asks the clerk."
+      ],
+      "stopConditions": [
+        "First-offender status is uncertain, or the participant has any prior conviction anywhere.",
+        "The participant has any prior expunged case, which does not restore first-offender status.",
+        "The offence may be a traffic violation.",
+        "The offence is a DUI, which routes to the DUI track.",
+        "The conviction is in municipal court and the participant also has justice court convictions, which may be better handled on the additional-misdemeanours track.",
+        "The participant is not a US citizen.",
+        "Obtaining the district attorney's approval as to form is the practical gate on the entire Mississippi product and it is a negotiation, not a filing. LegalEase prepares the certificate of service, the cover letter and the notice calendar; it does not seek, obtain or negotiate the prosecutor's approval, and a declining or silent prosecutor is an attorney handoff."
+      ],
+      "guidanceStatus": "drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true,
+      "componentIds": [
+        "ms-misd-1st-attachment-4",
+        "ms-misd-1st-instructions-5"
+      ],
+      "templateIds": [
+        "ms-misd-1st-records-checklist",
+        "ms-misd-1st-filing-instructions"
+      ],
+      "scope": "The records the participant obtains and attaches, and the steps to file in the convicting court and serve the prosecuting authority.",
+      "notAFiling": "Neither component is a court filing.",
+      "trancheId": "tranche-1-mississippi-petitions"
+    },
+    {
+      "jurisdiction": "MS",
+      "trackId": "ms-fel",
+      "destination": {
+        "kind": "clerk",
+        "name": "Circuit clerk of the county of conviction",
+        "detail": "File the petition, proposed order and certificate of service with the circuit clerk. Ten days' written notice to the district attorney is required before any hearing."
+      },
+      "rules": {
+        "filing": "File the petition, proposed order and certificate of service with the circuit clerk of the county of conviction. Mississippi has no statewide form; the petition is drafted to the statute. Call the clerk before filing to ask about that district's requirements.",
+        "fees": "No amount is published here. Section 99-19-72 sets a fee for a petition to expunge an offence under § 99-19-71 and this is such a petition, but the section's current text could not be retrieved on this pass, so the participant confirms the amount with the circuit clerk before filing.",
+        "feeWaiver": "Not established for expungement specifically. The participant asks the clerk about a pauper's affidavit.",
+        "notice": "Ten (10) days' written notice to the district attorney before any hearing on the petition, under § 99-19-71(2)(b). This is statutory and it is the one hard timing rule on this track. No response or objection period is fixed; the district attorney may appear. A hearing is held as determined in the discretion of the court, and the court may grant if it determines on the record or in writing that the applicant is rehabilitated. A denial must identify the court's findings specifically and not generally.",
+        "service": "United States mail or hand delivery to the district attorney, evidenced by the certificate of service, with at least ten days before any hearing.",
+        "participantSignature": "The petitioner signs. LegalEase leaves the signature and date blank and removes the archived model's 'by and through his attorney' recital.",
+        "notarization": "Not on the archived model. Unresolved; a simple truth statement is used."
+      },
+      "generationRequirements": [
+        {
+          "key": "fullName",
+          "question": "What is your full legal name, and any other name the case is under?",
+          "requirement": "required"
+        },
+        {
+          "key": "dateOfBirth",
+          "question": "What is your date of birth?",
+          "requirement": "required"
+        },
+        {
+          "key": "mailingAddress",
+          "question": "What is your current address, phone number and email?",
+          "requirement": "required"
+        },
+        {
+          "key": "countyOfResidence",
+          "question": "Which Mississippi county and city do you live in?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtLevel",
+          "question": "Which court handled the case — justice court, county court, circuit court, or municipal court? Mississippi has four trial court levels that all handle expungements and people routinely misidentify which one heard their case.",
+          "requirement": "required"
+        },
+        {
+          "key": "courtCounty",
+          "question": "Which county was that court in? For a municipal court, which city?",
+          "requirement": "required"
+        },
+        {
+          "key": "causeNumber",
+          "question": "What is the cause or case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargeName",
+          "question": "What were you charged with, and under which Mississippi Code section if you know it?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseDate",
+          "question": "On what date did the offence happen?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested or cited?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestingAgency",
+          "question": "Which agency arrested or cited you, and what is their case number if you have it?",
+          "requirement": "required"
+        },
+        {
+          "key": "prosecutingAuthority",
+          "question": "Which prosecuting authority handled the case — the district attorney for the circuit district, or a county or municipal prosecuting attorney?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted of the felony?",
+          "requirement": "required"
+        },
+        {
+          "key": "felonyOffense",
+          "question": "What felony were you convicted of, and under which Mississippi Code section?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceTerms",
+          "question": "What did your sentence include — incarceration, probation, supervised release, fines, costs, restitution, treatment, or a combination?",
+          "requirement": "required"
+        },
+        {
+          "key": "completionDate",
+          "question": "On what date did you successfully complete the LAST of all those terms and conditions? Not the conviction date and not your release date.",
+          "requirement": "required"
+        },
+        {
+          "key": "finesAndCostsPaid",
+          "question": "Are all criminal fines and costs of court imposed in the sentence paid in full? This is a separate statutory condition.",
+          "requirement": "required"
+        },
+        {
+          "key": "excludedCategory",
+          "question": "Is your conviction any of these: a crime of violence under § 97-3-2; first-degree arson; trafficking in controlled substances; a third or subsequent DUI; felon in possession of a firearm; failure to register as a sex offender; voyeurism; witness intimidation; abuse, neglect or exploitation of a vulnerable person; embezzlement; felony procuring prostitution; or promoting prostitution?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorFelonyExpunction",
+          "question": "Have you ever had a felony conviction expunged in Mississippi before? You are eligible for only one felony expunction in your lifetime.",
+          "requirement": "required"
+        },
+        {
+          "key": "relatedConvictions",
+          "question": "Were you convicted of more than one felony out of the same set of events? Mississippi counts all convictions arising from a common nucleus of operative facts as ONE conviction and ONE expunction, and the court decides that in its discretion.",
+          "requirement": "required"
+        },
+        {
+          "key": "publicOfficial",
+          "question": "Were you a public official, and was the conviction related to your official duties?",
+          "requirement": "required"
+        },
+        {
+          "key": "rehabilitationAccount",
+          "question": "In your own words, what have you done since the offence? The court has to decide whether you are rehabilitated, and this is your statement, not ours. A lawyer should review it before you file.",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Mississippi has no statewide expungement form and § 99-19-71 prescribes none. The four archived petition and order PDFs are Fourth Circuit Court District models covering Leflore, Sunflower and Washington counties only: every county field reads '(Washington, Sunflower, or Leflore)', the certificate of service hardcodes the Fourth District DA at Greenville, the signature blocks are dated 2020, and the orders carry an APPROVED AS TO FORM block. They are drafting references only. Court, county and prosecuting authority are participant-data fields and are never hardcoded.",
+        "Build the district-variable fields — court, court level, county, cause number, and the prosecuting authority's name and address — as participant data, never hardcoded. Never default to the Greenville address, the three Fourth District counties, or the year 2020.",
+        "Tell the participant that Mississippi has no statewide expungement form, that practice varies by county and by circuit district, that some districts expect the district attorney to approve the order as to form before the judge will sign, and that they should call the clerk of the court where the case was heard before filing to ask whether that court has its own preferred form or additional requirements.",
+        "The order directs every person and agency keeping official records to expunge them EXCEPT fingerprint records, and the Mississippi Criminal Information Center retains a nonpublic record solely to determine first-offender status in subsequent proceedings. Participant-facing copy must not say the record is erased everywhere.",
+        "Section 99-19-71(3) expressly provides that the existence of an order of expunction does not preclude an employer from asking a prospective employee whether an order of expunction has been entered on their behalf. This is a real and unusual limitation and participants must be told about it. A person called as a prospective juror must also, on request, advise the court in camera of the previous conviction and expunction.",
+        "APPROVE THE CURRENT STATUTORY ROUTES; REPLACE THE PRE-HB 1546 LOGIC. HB 1546 amended Miss. Code § 99-19-71 effective July 1, 2026, so filings after that date must be screened against the amended text.",
+        "Ten days' written notice to the district attorney before any hearing, under § 99-19-71(2)(b). This is the one hard timing rule on the track."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified copy of the sentencing order. Ask the circuit clerk for a certified copy of the sentencing order. It establishes the conviction, the sentence and the terms that had to be completed.",
+          "obtainedFrom": "Circuit clerk of the county of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date were you convicted of the felony?\" against Certified copy of the sentencing order, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Copy of the indictment. Ask the circuit clerk for a copy of the indictment. It is Exhibit 1 in the Fourth District model and is expected in practice on a felony petition.",
+          "obtainedFrom": "Circuit clerk of the county of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What felony were you convicted of, and under which Mississippi Code section?\" against Copy of the indictment, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Docket sheet for the case. Ask the clerk for the docket sheet. It shows every court-imposed term and whether each was satisfied.",
+          "obtainedFrom": "Clerk of the court where the case was heard",
+          "requirement": "conditional",
+          "conditionDescription": "Required in practice on conviction tracks; advisable on every track.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Account balance sheet from the clerk showing a zero balance. Ask the clerk for an account balance sheet showing that all fines, costs and restitution are paid in full. Mississippi courts commonly require a zero balance in practice even where the subsection does not say so, and on the felony track payment of all criminal fines and costs of court is a statutory condition.",
+          "obtainedFrom": "Clerk of the court where the case was heard",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Mississippi criminal history record. Obtain your own Mississippi criminal history so you can see every case on your record before you file. It is the only reliable way to check first-offender status or good conduct across all courts, and self-report is not enough.",
+          "obtainedFrom": "Mississippi Criminal Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "Advisable on every track and effectively necessary wherever first-offender status or a multi-court good-conduct period is in issue.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof of completion of probation, supervised release or treatment. Where your sentence included probation, supervised release or a treatment condition, obtain the discharge or completion document. The three-year clock runs from successful completion of the LAST term.",
+          "obtainedFrom": "The supervising authority or programme",
+          "requirement": "conditional",
+          "conditionDescription": "Applies wherever the sentence included a supervised or programme term.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did you successfully complete the LAST of all those terms and conditions? Not the conviction date and not your release date.\" against Proof of completion of probation, supervised release or treatment, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies wherever the sentence included a supervised or programme term.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The finding that the petitioner meets the criteria for expungement — Proposed order, findings paragraph.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The judge's signature, the date, and the order's entry — Proposed order, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The APPROVED AS TO FORM signature for the prosecuting authority — Proposed order, approval block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The petitioner's signature and the date of signing — Petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The cause number where the court assigns a new one — Petition, proposed order and certificate of service captions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The rehabilitation showing — Petition, the rehabilitation allegation and any supporting exhibits.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The determination that the conviction is not in an excluded category — Petition, the exclusion allegation.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Whether multiple convictions arose from a common nucleus of operative facts — Petition, the one-conviction allegation.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs. LegalEase leaves the signature and date blank and removes the archived model's 'by and through his attorney' recital.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Not on the archived model. Unresolved; a simple truth statement is used.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No amount is published here. Section 99-19-72 sets a fee for a petition to expunge an offence under § 99-19-71 and this is such a petition, but the section's current text could not be retrieved on this pass, so the participant confirms the amount with the circuit clerk before filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not established for expungement specifically. The participant asks the clerk about a pauper's affidavit.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "United States mail or hand delivery to the district attorney, evidenced by the certificate of service, with at least ten days before any hearing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the petition, proposed order and certificate of service with the circuit clerk of the county of conviction. Mississippi has no statewide form; the petition is drafted to the statute. Call the clerk before filing to ask about that district's requirements.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified copy of the sentencing order. Ask the circuit clerk for a certified copy of the sentencing order. It establishes the conviction, the sentence and the terms that had to be completed.",
+        "Check your answer to \"On what date were you convicted of the felony?\" against Certified copy of the sentencing order, and correct the packet if they disagree.",
+        "Obtain Copy of the indictment. Ask the circuit clerk for a copy of the indictment. It is Exhibit 1 in the Fourth District model and is expected in practice on a felony petition.",
+        "Check your answer to \"What felony were you convicted of, and under which Mississippi Code section?\" against Copy of the indictment, and correct the packet if they disagree.",
+        "Obtain Docket sheet for the case. Ask the clerk for the docket sheet. It shows every court-imposed term and whether each was satisfied.",
+        "Obtain Account balance sheet from the clerk showing a zero balance. Ask the clerk for an account balance sheet showing that all fines, costs and restitution are paid in full. Mississippi courts commonly require a zero balance in practice even where the subsection does not say so, and on the felony track payment of all criminal fines and costs of court is a statutory condition.",
+        "Obtain Proof of completion of probation, supervised release or treatment. Where your sentence included probation, supervised release or a treatment condition, obtain the discharge or completion document. The three-year clock runs from successful completion of the LAST term.",
+        "Check your answer to \"On what date did you successfully complete the LAST of all those terms and conditions? Not the conviction date and not your release date.\" against Proof of completion of probation, supervised release or treatment, and correct the packet if they disagree.",
+        "The finding that the petitioner meets the criteria for expungement — Proposed order, findings paragraph.",
+        "The judge's signature, the date, and the order's entry — Proposed order, signature block.",
+        "The APPROVED AS TO FORM signature for the prosecuting authority — Proposed order, approval block.",
+        "The petitioner's signature and the date of signing — Petition, signature block.",
+        "The cause number where the court assigns a new one — Petition, proposed order and certificate of service captions.",
+        "The rehabilitation showing — Petition, the rehabilitation allegation and any supporting exhibits.",
+        "The determination that the conviction is not in an excluded category — Petition, the exclusion allegation.",
+        "Whether multiple convictions arose from a common nucleus of operative facts — Petition, the one-conviction allegation.",
+        "The petitioner signs. LegalEase leaves the signature and date blank and removes the archived model's 'by and through his attorney' recital.",
+        "Not on the archived model. Unresolved; a simple truth statement is used.",
+        "No amount is published here. Section 99-19-72 sets a fee for a petition to expunge an offence under § 99-19-71 and this is such a petition, but the section's current text could not be retrieved on this pass, so the participant confirms the amount with the circuit clerk before filing.",
+        "Not established for expungement specifically. The participant asks the clerk about a pauper's affidavit."
+      ],
+      "stopConditions": [
+        "Always. Every felony conviction carries mandatory attorney review before filing. The exclusion list, the discretionary rehabilitation finding and the once-per-lifetime consequence make this unsuitable for unassisted self-help.",
+        "Any offence near the exclusion list, especially crime of violence, embezzlement, firearm offences and the newly added prostitution offences.",
+        "Any prior expungement of any kind, and in particular any prior felony expunction.",
+        "More than one felony conviction, where whether they arose from a common nucleus of operative facts will decide whether the participant spends one allowance or is ineligible.",
+        "Any unpaid balance of fines, costs or restitution.",
+        "Any public-official question.",
+        "Any non-citizen participant.",
+        "The district attorney objects, declines to approve the order as to form, or the court sets a contested hearing.",
+        "Every felony conviction goes to attorney review before filing. The exclusion list, the rehabilitation finding and the one-per-lifetime consequence make this unsuitable for unassisted self-help.",
+        "Obtaining the district attorney's approval as to form is the practical gate on the entire Mississippi product and it is a negotiation, not a filing. LegalEase prepares the certificate of service, the cover letter and the notice calendar; it does not seek, obtain or negotiate the prosecutor's approval, and a declining or silent prosecutor is an attorney handoff.",
+        "The rehabilitation showing is participant-authored and is a post-generation and attorney handoff. It is not a reason to withhold the petition packet."
+      ],
+      "guidanceStatus": "drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true,
+      "componentIds": [
+        "ms-fel-attachment-4",
+        "ms-fel-instructions-5"
+      ],
+      "templateIds": [
+        "ms-fel-records-checklist",
+        "ms-fel-filing-instructions"
+      ],
+      "scope": "The records the participant obtains and attaches, and the steps to file the petition, serve the district attorney and give the ten days' written notice § 99-19-71(2)(b) requires.",
+      "notAFiling": "Neither component is a court filing. Both are participant-facing guidance printed inside the packet.",
+      "trancheId": "tranche-1-mississippi-petitions"
+    },
+    {
+      "jurisdiction": "MS",
+      "trackId": "ms-misd-addl",
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the justice court or municipal court of conviction",
+        "detail": "File with the clerk of the court that entered the convictions. Notice goes to the municipal prosecuting attorney for the § 21-23-7(6) branch and to the equivalent prosecutor for justice court."
+      },
+      "rules": {
+        "filing": "File with the clerk of the justice court or municipal court in which the convictions were had. A participant with convictions in two courts needs two petitions. Municipal and justice courts are the least standardized courts in Mississippi; call the clerk before filing.",
+        "fees": "No amount is published here. Section 99-19-72's fee applies by its terms to petitions to expunge an offence under § 99-19-71 and does not reach §§ 9-11-15(3) or 21-23-7(6). Whether these courts charge any fee is unresolved and the participant confirms with the clerk.",
+        "feeWaiver": "Not established for these sections. The participant asks the clerk.",
+        "notice": "The municipal prosecuting attorney receives prior notice on the § 21-23-7(6) branch, and the equivalent prosecutor on the justice court branch. A showing in open court is required, so a hearing always occurs on this track.",
+        "service": "United States mail or hand delivery to the prosecuting authority, evidenced by the certificate of service.",
+        "participantSignature": "The petitioner signs. LegalEase leaves the signature and date blank.",
+        "notarization": "Not established. A simple truth statement is used."
+      },
+      "generationRequirements": [
+        {
+          "key": "fullName",
+          "question": "What is your full legal name, and any other name the case is under?",
+          "requirement": "required"
+        },
+        {
+          "key": "dateOfBirth",
+          "question": "What is your date of birth?",
+          "requirement": "required"
+        },
+        {
+          "key": "mailingAddress",
+          "question": "What is your current address, phone number and email?",
+          "requirement": "required"
+        },
+        {
+          "key": "countyOfResidence",
+          "question": "Which Mississippi county and city do you live in?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtLevel",
+          "question": "Which court handled the case — justice court, county court, circuit court, or municipal court? Mississippi has four trial court levels that all handle expungements and people routinely misidentify which one heard their case.",
+          "requirement": "required"
+        },
+        {
+          "key": "courtCounty",
+          "question": "Which county was that court in? For a municipal court, which city?",
+          "requirement": "required"
+        },
+        {
+          "key": "causeNumber",
+          "question": "What is the cause or case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargeName",
+          "question": "What were you charged with, and under which Mississippi Code section if you know it?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseDate",
+          "question": "On what date did the offence happen?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested or cited?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestingAgency",
+          "question": "Which agency arrested or cited you, and what is their case number if you have it?",
+          "requirement": "required"
+        },
+        {
+          "key": "prosecutingAuthority",
+          "question": "Which prosecuting authority handled the case — the district attorney for the circuit district, or a county or municipal prosecuting attorney?",
+          "requirement": "required"
+        },
+        {
+          "key": "venueBranch",
+          "question": "Were these convictions in a justice court or a municipal court? That decides which statute the petition is brought under.",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionList",
+          "question": "List every misdemeanour conviction in THAT court that you want expunged: the charge, the cause number and the conviction date. This route reaches any or all misdemeanours in that one court.",
+          "requirement": "required"
+        },
+        {
+          "key": "lastConvictionAnyCourt",
+          "question": "When were you last convicted of anything, in ANY court anywhere? The two-year good-conduct period runs from that date, not from the convictions you are trying to clear.",
+          "requirement": "required"
+        },
+        {
+          "key": "otherCourtConvictions",
+          "question": "Do you have misdemeanour convictions in any OTHER justice or municipal court? Each court only clears its own, so those need their own separate petitions.",
+          "requirement": "required"
+        },
+        {
+          "key": "rehabilitationAccount",
+          "question": "In your own words, what have you done since these convictions? You will have to make this showing in open court, and a lawyer or advocate should help you prepare it.",
+          "requirement": "required"
+        },
+        {
+          "key": "drivingRecordExpectation",
+          "question": "Are you hoping this will clear your driving record? It will not — the order has no effect on the driving record kept under Title 63.",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Mississippi has no statewide expungement form and § 99-19-71 prescribes none. The four archived petition and order PDFs are Fourth Circuit Court District models covering Leflore, Sunflower and Washington counties only: every county field reads '(Washington, Sunflower, or Leflore)', the certificate of service hardcodes the Fourth District DA at Greenville, the signature blocks are dated 2020, and the orders carry an APPROVED AS TO FORM block. They are drafting references only. Court, county and prosecuting authority are participant-data fields and are never hardcoded.",
+        "Build the district-variable fields — court, court level, county, cause number, and the prosecuting authority's name and address — as participant data, never hardcoded. Never default to the Greenville address, the three Fourth District counties, or the year 2020.",
+        "Tell the participant that Mississippi has no statewide expungement form, that practice varies by county and by circuit district, that some districts expect the district attorney to approve the order as to form before the judge will sign, and that they should call the clerk of the court where the case was heard before filing to ask whether that court has its own preferred form or additional requirements.",
+        "The order does not apply to the confidential records of law enforcement agencies and has no effect on the driving record maintained under Title 63."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Mississippi criminal history record. Obtain your own Mississippi criminal history so you can see every case on your record before you file. It is the only reliable way to check first-offender status or good conduct across all courts, and self-report is not enough.",
+          "obtainedFrom": "Mississippi Criminal Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "Advisable on every track and effectively necessary wherever first-offender status or a multi-court good-conduct period is in issue.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified copies of each judgment of conviction in that court. Ask the clerk of that court for a certified copy of each conviction you want expunged.",
+          "obtainedFrom": "Clerk of the justice court or municipal court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"List every misdemeanour conviction in THAT court that you want expunged: the charge, the cause number and the conviction date. This route reaches any or all misdemeanours in that one court.\" against Certified copies of each judgment of conviction in that court, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Docket sheet for the case. Ask the clerk for the docket sheet. It shows every court-imposed term and whether each was satisfied.",
+          "obtainedFrom": "Clerk of the court where the case was heard",
+          "requirement": "conditional",
+          "conditionDescription": "Required in practice on conviction tracks; advisable on every track.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The finding that the petitioner meets the criteria for expungement — Proposed order, findings paragraph.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The judge's signature, the date, and the order's entry — Proposed order, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The APPROVED AS TO FORM signature for the prosecuting authority — Proposed order, approval block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The petitioner's signature and the date of signing — Petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The cause number where the court assigns a new one — Petition, proposed order and certificate of service captions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The open-court showing on rehabilitation, good conduct and the best interest of society — Not generated; the participant makes it in open court.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs. LegalEase leaves the signature and date blank.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Not established. A simple truth statement is used.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No amount is published here. Section 99-19-72's fee applies by its terms to petitions to expunge an offence under § 99-19-71 and does not reach §§ 9-11-15(3) or 21-23-7(6). Whether these courts charge any fee is unresolved and the participant confirms with the clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not established for these sections. The participant asks the clerk.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "United States mail or hand delivery to the prosecuting authority, evidenced by the certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File with the clerk of the justice court or municipal court in which the convictions were had. A participant with convictions in two courts needs two petitions. Municipal and justice courts are the least standardized courts in Mississippi; call the clerk before filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified copies of each judgment of conviction in that court. Ask the clerk of that court for a certified copy of each conviction you want expunged.",
+        "Check your answer to \"List every misdemeanour conviction in THAT court that you want expunged: the charge, the cause number and the conviction date. This route reaches any or all misdemeanours in that one court.\" against Certified copies of each judgment of conviction in that court, and correct the packet if they disagree.",
+        "Obtain Docket sheet for the case. Ask the clerk for the docket sheet. It shows every court-imposed term and whether each was satisfied.",
+        "The finding that the petitioner meets the criteria for expungement — Proposed order, findings paragraph.",
+        "The judge's signature, the date, and the order's entry — Proposed order, signature block.",
+        "The APPROVED AS TO FORM signature for the prosecuting authority — Proposed order, approval block.",
+        "The petitioner's signature and the date of signing — Petition, signature block.",
+        "The cause number where the court assigns a new one — Petition, proposed order and certificate of service captions.",
+        "The open-court showing on rehabilitation, good conduct and the best interest of society — Not generated; the participant makes it in open court.",
+        "The petitioner signs. LegalEase leaves the signature and date blank.",
+        "Not established. A simple truth statement is used.",
+        "No amount is published here. Section 99-19-72's fee applies by its terms to petitions to expunge an offence under § 99-19-71 and does not reach §§ 9-11-15(3) or 21-23-7(6). Whether these courts charge any fee is unresolved and the participant confirms with the clerk.",
+        "Not established for these sections. The participant asks the clerk."
+      ],
+      "stopConditions": [
+        "Whenever this track is in play. The three-element open-court showing is discretionary advocacy and is an attorney or advocate handoff.",
+        "The participant has convictions in more than one justice or municipal court.",
+        "Any conviction in any court within the last two years.",
+        "The participant expects the driving record to be cleared.",
+        "The participant is not a US citizen.",
+        "The open-court showing on rehabilitation, two years' good conduct and the best interest of society is an attorney or advocate handoff, not a generation blocker.",
+        "Obtaining the district attorney's approval as to form is the practical gate on the entire Mississippi product and it is a negotiation, not a filing. LegalEase prepares the certificate of service, the cover letter and the notice calendar; it does not seek, obtain or negotiate the prosecutor's approval, and a declining or silent prosecutor is an attorney handoff."
+      ],
+      "guidanceStatus": "drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true,
+      "componentIds": [
+        "ms-misd-addl-attachment-4",
+        "ms-misd-addl-instructions-5"
+      ],
+      "templateIds": [
+        "ms-misd-addl-records-checklist",
+        "ms-misd-addl-filing-instructions"
+      ],
+      "scope": "The records to obtain and the venue-specific filing steps for a justice court or a municipal court.",
+      "notAFiling": "Neither component is a court filing.",
+      "trancheId": "tranche-1-mississippi-petitions"
+    },
+    {
+      "jurisdiction": "MS",
+      "trackId": "ms-nonadj",
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the court that ordered nonadjudication",
+        "detail": "File with the clerk of the court that entered the nonadjudication order and later the dismissal."
+      },
+      "rules": {
+        "filing": "File with the clerk of the court that ordered the nonadjudication, pleading § 99-15-26 alone unless the participant separately qualifies under § 99-19-71(4).",
+        "fees": "No amount is published here. Section 99-19-72's fee applies by its terms to petitions under § 99-19-71 and does not reach § 99-15-26. The participant confirms with the clerk.",
+        "feeWaiver": "Not established. The participant asks the clerk.",
+        "notice": "The prosecuting authority for the court receives a copy. No response or objection period is established for this section.",
+        "service": "United States mail or hand delivery, evidenced by the certificate of service.",
+        "participantSignature": "The petitioner signs. LegalEase leaves the signature and date blank.",
+        "notarization": "Not established. A simple truth statement is used."
+      },
+      "generationRequirements": [
+        {
+          "key": "fullName",
+          "question": "What is your full legal name, and any other name the case is under?",
+          "requirement": "required"
+        },
+        {
+          "key": "dateOfBirth",
+          "question": "What is your date of birth?",
+          "requirement": "required"
+        },
+        {
+          "key": "mailingAddress",
+          "question": "What is your current address, phone number and email?",
+          "requirement": "required"
+        },
+        {
+          "key": "countyOfResidence",
+          "question": "Which Mississippi county and city do you live in?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtLevel",
+          "question": "Which court handled the case — justice court, county court, circuit court, or municipal court? Mississippi has four trial court levels that all handle expungements and people routinely misidentify which one heard their case.",
+          "requirement": "required"
+        },
+        {
+          "key": "courtCounty",
+          "question": "Which county was that court in? For a municipal court, which city?",
+          "requirement": "required"
+        },
+        {
+          "key": "causeNumber",
+          "question": "What is the cause or case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargeName",
+          "question": "What were you charged with, and under which Mississippi Code section if you know it?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseDate",
+          "question": "On what date did the offence happen?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested or cited?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestingAgency",
+          "question": "Which agency arrested or cited you, and what is their case number if you have it?",
+          "requirement": "required"
+        },
+        {
+          "key": "prosecutingAuthority",
+          "question": "Which prosecuting authority handled the case — the district attorney for the circuit district, or a county or municipal prosecuting attorney?",
+          "requirement": "required"
+        },
+        {
+          "key": "nonadjudicationDate",
+          "question": "On what date did the court order nonadjudication and withhold acceptance of your guilty plea?",
+          "requirement": "required"
+        },
+        {
+          "key": "conditionsImposed",
+          "question": "What conditions did the court impose?",
+          "requirement": "required"
+        },
+        {
+          "key": "conditionsCompleted",
+          "question": "Did you successfully complete every one of those conditions, and on what date?",
+          "requirement": "required"
+        },
+        {
+          "key": "dismissalEntered",
+          "question": "Has the court entered an order dismissing the cause and closing the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorNonadjudication",
+          "question": "Have you ever had a nonadjudication before? It is generally a once-only benefit.",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseCategory",
+          "question": "What was the charge? Some offences, particularly crimes against the person, crimes of violence and certain public-corruption offences, cannot be nonadjudicated at all.",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Mississippi has no statewide expungement form and § 99-19-71 prescribes none. The four archived petition and order PDFs are Fourth Circuit Court District models covering Leflore, Sunflower and Washington counties only: every county field reads '(Washington, Sunflower, or Leflore)', the certificate of service hardcodes the Fourth District DA at Greenville, the signature blocks are dated 2020, and the orders carry an APPROVED AS TO FORM block. They are drafting references only. Court, county and prosecuting authority are participant-data fields and are never hardcoded.",
+        "Build the district-variable fields — court, court level, county, cause number, and the prosecuting authority's name and address — as participant data, never hardcoded. Never default to the Greenville address, the three Fourth District counties, or the year 2020.",
+        "Tell the participant that Mississippi has no statewide expungement form, that practice varies by county and by circuit district, that some districts expect the district attorney to approve the order as to form before the judge will sign, and that they should call the clerk of the court where the case was heard before filing to ask whether that court has its own preferred form or additional requirements.",
+        "Do not conflate § 99-15-26 and § 99-19-71. They are separate tracks with different eligibility, different completion requirements and different proof, and a petition that pleads both invites a denial on whichever one does not fit. Do not copy the Fourth District form's dual citation.",
+        "The nonadjudication order, the dismissal order and proof of completion of all conditions are obtained by the participant and attached. None delays generation."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified copy of the nonadjudication order. Ask the clerk for a certified copy of the order placing you on nonadjudication and setting the conditions.",
+          "obtainedFrom": "Clerk of the court that ordered nonadjudication",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did the court order nonadjudication and withhold acceptance of your guilty plea?\" against Certified copy of the nonadjudication order, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified copy of the order dismissing the cause. Ask the clerk for a certified copy of the dismissal order entered after you completed the conditions.",
+          "obtainedFrom": "Clerk of the court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Has the court entered an order dismissing the cause and closing the case?\" against Certified copy of the order dismissing the cause, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof of completion of all court-imposed conditions. Obtain the documentation showing you completed every condition — payment records, programme discharge, or the supervising officer's confirmation.",
+          "obtainedFrom": "The supervising authority, programme or clerk",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Did you successfully complete every one of those conditions, and on what date?\" against Proof of completion of all court-imposed conditions, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Mississippi criminal history record. Obtain your own Mississippi criminal history so you can see every case on your record before you file. It is the only reliable way to check first-offender status or good conduct across all courts, and self-report is not enough.",
+          "obtainedFrom": "Mississippi Criminal Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "Advisable on every track and effectively necessary wherever first-offender status or a multi-court good-conduct period is in issue.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "The finding that the petitioner meets the criteria for expungement — Proposed order, findings paragraph.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The judge's signature, the date, and the order's entry — Proposed order, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The APPROVED AS TO FORM signature for the prosecuting authority — Proposed order, approval block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The petitioner's signature and the date of signing — Petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The cause number where the court assigns a new one — Petition, proposed order and certificate of service captions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any citation of § 99-19-71 alongside § 99-15-26 — Petition, the authority paragraph.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs. LegalEase leaves the signature and date blank.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Not established. A simple truth statement is used.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No amount is published here. Section 99-19-72's fee applies by its terms to petitions under § 99-19-71 and does not reach § 99-15-26. The participant confirms with the clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not established. The participant asks the clerk.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "United States mail or hand delivery, evidenced by the certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File with the clerk of the court that ordered the nonadjudication, pleading § 99-15-26 alone unless the participant separately qualifies under § 99-19-71(4).",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified copy of the nonadjudication order. Ask the clerk for a certified copy of the order placing you on nonadjudication and setting the conditions.",
+        "Check your answer to \"On what date did the court order nonadjudication and withhold acceptance of your guilty plea?\" against Certified copy of the nonadjudication order, and correct the packet if they disagree.",
+        "Obtain Certified copy of the order dismissing the cause. Ask the clerk for a certified copy of the dismissal order entered after you completed the conditions.",
+        "Check your answer to \"Has the court entered an order dismissing the cause and closing the case?\" against Certified copy of the order dismissing the cause, and correct the packet if they disagree.",
+        "Obtain Proof of completion of all court-imposed conditions. Obtain the documentation showing you completed every condition — payment records, programme discharge, or the supervising officer's confirmation.",
+        "Check your answer to \"Did you successfully complete every one of those conditions, and on what date?\" against Proof of completion of all court-imposed conditions, and correct the packet if they disagree.",
+        "The finding that the petitioner meets the criteria for expungement — Proposed order, findings paragraph.",
+        "The judge's signature, the date, and the order's entry — Proposed order, signature block.",
+        "The APPROVED AS TO FORM signature for the prosecuting authority — Proposed order, approval block.",
+        "The petitioner's signature and the date of signing — Petition, signature block.",
+        "The cause number where the court assigns a new one — Petition, proposed order and certificate of service captions.",
+        "Any citation of § 99-19-71 alongside § 99-15-26 — Petition, the authority paragraph.",
+        "The petitioner signs. LegalEase leaves the signature and date blank.",
+        "Not established. A simple truth statement is used.",
+        "No amount is published here. Section 99-19-72's fee applies by its terms to petitions under § 99-19-71 and does not reach § 99-15-26. The participant confirms with the clerk.",
+        "Not established. The participant asks the clerk."
+      ],
+      "stopConditions": [
+        "The nonadjudication order or the completion documentation is missing.",
+        "The offence may have been excluded from nonadjudication in the first place.",
+        "The nonadjudication was revoked or the conditions were not completed.",
+        "It is unclear whether the case should be routed under § 99-15-26 or § 99-19-71(4).",
+        "The participant is not a US citizen.",
+        "Obtaining the district attorney's approval as to form is the practical gate on the entire Mississippi product and it is a negotiation, not a filing. LegalEase prepares the certificate of service, the cover letter and the notice calendar; it does not seek, obtain or negotiate the prosecutor's approval, and a declining or silent prosecutor is an attorney handoff."
+      ],
+      "guidanceStatus": "drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true,
+      "componentIds": [
+        "ms-nonadj-attachment-4",
+        "ms-nonadj-instructions-5"
+      ],
+      "templateIds": [
+        "ms-nonadj-records-checklist",
+        "ms-nonadj-filing-instructions"
+      ],
+      "scope": "The nonadjudication order and completion proof to obtain, and the steps to file in the court that entered the order.",
+      "notAFiling": "Neither component is a court filing.",
+      "trancheId": "tranche-1-mississippi-petitions"
+    },
+    {
+      "jurisdiction": "MS",
       "trackId": "ms-diversion",
       "destination": {
         "kind": "clerk",
