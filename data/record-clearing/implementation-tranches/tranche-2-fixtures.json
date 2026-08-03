@@ -1,0 +1,330 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-2-maryland-official-forms",
+  "note": "Synthetic fixtures only. Every person is invented, every address is on an invented street, every case number carries SYN so a rendered sample can never be mistaken for a Maryland Judiciary record, and every email address is on a domain that cannot exist. No real participant data and no real Maryland case appears anywhere in this file.",
+  "syntheticDataRule": "Invented surnames, invented street names inside real Maryland cities (the city must be real because the court location is a real courthouse), SYN case numbers, 555 telephone exchanges, and `.invalid` email domains. Dates of birth are invented and belong to no one.",
+
+  "caseNumberNote": "Maryland District Court case numbers are of the form 1B02SYN0041 and circuit court numbers of the form C-15-CR-SYN-000418. Both shapes are used, because the case-number blanks on CC-DC-CR-148 are narrow and the two shapes consume the blank differently.",
+
+  "positiveFixtures": [
+    {
+      "fixtureId": "md-shielding-positive-district",
+      "trackId": "md_second_chance_shielding",
+      "branchVariantId": "district_court",
+      "caseReference": "SYN-1B02SYN0041",
+      "description": "The ordinary case. Two shieldable convictions in one District Court location, both case lists comfortably inside their blanks.",
+      "coversOfficialFormContent": "District Court box checked on both forms, a District Court location elected from the form's own list, two of the twelve offence blocks checked, the other ten unchecked with empty case blanks.",
+      "facts": {
+        "petitionerName": "Marisol Trelane Okonkwo-Bay",
+        "dateOfBirth": "03/14/1991",
+        "petitionerStreetAddress": "418 Kestrel Row, Apt 2C",
+        "petitionerCityStateZip": "Baltimore, MD 21215",
+        "petitionerTelephone": "410-555-0148",
+        "petitionerCellPhone": "410-555-0177",
+        "petitionerEmail": "m.okonkwo@example.invalid",
+        "courtLevel": "district",
+        "courtCityCounty": "Baltimore City-Wabash (DC)",
+        "courtAddress": "5800 Wabash Avenue, Baltimore, MD 21215",
+        "courtTelephone": "410-555-0100",
+        "convictions": [
+          { "offenceKey": "disorderly_conduct", "caseNumbers": ["1B02SYN0041"] },
+          { "offenceKey": "driving_while_privilege_withdrawn", "caseNumbers": ["1B02SYN0087", "1B02SYN0092"] }
+        ],
+        "sentenceSatisfiedDate": "09/02/2021",
+        "threeYearsElapsed": "yes",
+        "priorShieldingPetition": "no",
+        "pendingCriminalCharges": "no",
+        "domesticallyRelated": "no",
+        "sameIncidentIneligibleOffence": "no",
+        "convictionsInOtherCourtsOrCounties": "no",
+        "understandsShieldingNotExpungement": "yes"
+      }
+    },
+    {
+      "fixtureId": "md-shielding-positive-circuit",
+      "trackId": "md_second_chance_shielding",
+      "branchVariantId": "circuit_court",
+      "caseReference": "SYN-C-15-CR-SYN-000418",
+      "description": "The circuit-court branch. The same mechanism filed in a circuit court, which changes the checked box and the permitted location list on both official forms.",
+      "coversOfficialFormContent": "Circuit Court box checked on both forms, a circuit-court location elected, longer circuit-style case numbers in a wide full-width blank.",
+      "facts": {
+        "petitionerName": "Everard Nikolai Vashcheslav-Poole",
+        "dateOfBirth": "11/26/1984",
+        "petitionerStreetAddress": "77 Windmere Chase",
+        "petitionerCityStateZip": "Rockville, MD 20850",
+        "petitionerTelephone": "301-555-0163",
+        "petitionerCellPhone": "",
+        "petitionerEmail": "e.vpoole@example.invalid",
+        "courtLevel": "circuit",
+        "courtCityCounty": "Montgomery County (CC)",
+        "courtAddress": "50 Maryland Avenue, Rockville, MD 20850",
+        "courtTelephone": "240-555-0111",
+        "convictions": [
+          { "offenceKey": "malicious_destruction_lesser_degree", "caseNumbers": ["C-15-CR-SYN-000418", "C-15-CR-SYN-000419"] },
+          { "offenceKey": "trespass_on_posted_property", "caseNumbers": ["C-15-CR-SYN-000602"] }
+        ],
+        "sentenceSatisfiedDate": "04/18/2020",
+        "threeYearsElapsed": "yes",
+        "priorShieldingPetition": "no",
+        "pendingCriminalCharges": "no",
+        "domesticallyRelated": "no",
+        "sameIncidentIneligibleOffence": "no",
+        "convictionsInOtherCourtsOrCounties": "no",
+        "understandsShieldingNotExpungement": "yes"
+      }
+    },
+    {
+      "fixtureId": "md-shielding-positive-continuation",
+      "trackId": "md_second_chance_shielding",
+      "branchVariantId": "district_court",
+      "caseReference": "SYN-1B02SYN0203",
+      "description": "A case list that does not fit the first blank and uses the second line the Maryland Judiciary printed underneath it. The continuation line is the form's own; no continuation sheet is invented.",
+      "coversOfficialFormContent": "One offence whose case list is packed across the form's primary blank and its printed continuation line, with the split falling on a case-number boundary rather than mid-number.",
+      "facts": {
+        "petitionerName": "Ottoline Fairweather-Duschene",
+        "dateOfBirth": "07/09/1979",
+        "petitionerStreetAddress": "2210 Ferngully Terrace, Unit 14",
+        "petitionerCityStateZip": "Towson, MD 21204",
+        "petitionerTelephone": "410-555-0192",
+        "petitionerCellPhone": "443-555-0128",
+        "petitionerEmail": "o.fduschene@example.invalid",
+        "courtLevel": "district",
+        "courtCityCounty": "Baltimore County-Towson (DC)",
+        "courtAddress": "120 East Chesapeake Avenue, Towson, MD 21286",
+        "courtTelephone": "410-555-0120",
+        "convictions": [
+          {
+            "offenceKey": "disorderly_conduct",
+            "caseNumbers": ["1B02SYN0203", "1B02SYN0204", "1B02SYN0205", "1B02SYN0206"]
+          },
+          { "offenceKey": "driving_while_uninsured", "caseNumbers": ["1B02SYN0311"] }
+        ],
+        "sentenceSatisfiedDate": "01/31/2022",
+        "threeYearsElapsed": "yes",
+        "priorShieldingPetition": "no",
+        "pendingCriminalCharges": "no",
+        "domesticallyRelated": "no",
+        "sameIncidentIneligibleOffence": "no",
+        "convictionsInOtherCourtsOrCounties": "no",
+        "understandsShieldingNotExpungement": "yes"
+      }
+    },
+    {
+      "fixtureId": "md-shielding-positive-all-twelve",
+      "trackId": "md_second_chance_shielding",
+      "branchVariantId": "district_court",
+      "caseReference": "SYN-1B02SYN0501",
+      "description": "Every one of the twelve statutory offence branches selected at once. Improbable as a real record, and the only fixture that proves all twelve checkboxes and all twelve case blanks are wired to the right rows of the form.",
+      "coversOfficialFormContent": "All twelve offence checkboxes checked and all twelve case blanks populated, each with the case number belonging to that offence, so a crossed mapping would show as a case number under the wrong statute.",
+      "facts": {
+        "petitionerName": "Casimir Adeyinka Thornquist",
+        "dateOfBirth": "05/02/1988",
+        "petitionerStreetAddress": "9 Larkspur Hollow",
+        "petitionerCityStateZip": "Hyattsville, MD 20781",
+        "petitionerTelephone": "240-555-0139",
+        "petitionerCellPhone": "301-555-0186",
+        "petitionerEmail": "c.thornquist@example.invalid",
+        "courtLevel": "district",
+        "courtCityCounty": "Prince George's County-Hyattsville (DC)",
+        "courtAddress": "4990 Rhode Island Ave, Hyattsville, MD 20781",
+        "courtTelephone": "301-555-0140",
+        "convictions": [
+          { "offenceKey": "disorderly_conduct", "caseNumbers": ["1B02SYN0501"] },
+          { "offenceKey": "disturbing_the_peace", "caseNumbers": ["1B02SYN0502"] },
+          { "offenceKey": "failure_to_obey_a_lawful_order", "caseNumbers": ["1B02SYN0503"] },
+          { "offenceKey": "malicious_destruction_lesser_degree", "caseNumbers": ["1B02SYN0504"] },
+          { "offenceKey": "trespass_on_posted_property", "caseNumbers": ["1B02SYN0505"] },
+          { "offenceKey": "possession_or_administering_cds", "caseNumbers": ["1B02SYN0506"] },
+          { "offenceKey": "possession_or_administering_non_cds", "caseNumbers": ["1B02SYN0507"] },
+          { "offenceKey": "drug_paraphernalia", "caseNumbers": ["1B02SYN0508"] },
+          { "offenceKey": "driving_without_a_licence", "caseNumbers": ["1B02SYN0509"] },
+          { "offenceKey": "driving_while_privilege_withdrawn", "caseNumbers": ["1B02SYN0510"] },
+          { "offenceKey": "driving_while_uninsured", "caseNumbers": ["1B02SYN0511"] },
+          { "offenceKey": "prostitution", "caseNumbers": ["1B02SYN0512"] }
+        ],
+        "sentenceSatisfiedDate": "06/15/2019",
+        "threeYearsElapsed": "yes",
+        "priorShieldingPetition": "no",
+        "pendingCriminalCharges": "no",
+        "domesticallyRelated": "no",
+        "sameIncidentIneligibleOffence": "no",
+        "convictionsInOtherCourtsOrCounties": "no",
+        "understandsShieldingNotExpungement": "yes"
+      }
+    }
+  ],
+
+  "thirdPartyOwnershipFixture": {
+    "fixtureId": "md-shielding-thirdparty-ownership",
+    "trackId": "md_second_chance_shielding",
+    "basedOn": "md-shielding-positive-district",
+    "caseReference": "SYN-1B02SYN0041-TPO",
+    "description": "One fixture across the tranche for third-party field ownership. Values for every block LegalEase must never complete are injected directly into the derived facts, past the derivation that would normally drop them, so the assertion is about the renderer rather than about the fact builder. The packet must generate, and none of the injected values may appear anywhere in it.",
+    "why": "Dropping an unknown key in the fact builder proves the fact builder. It does not prove that the renderer would refuse the key if something else supplied it. Injecting past the builder is the only version of this test that exercises the rule that actually protects a filed document: a field with no registered mapping cannot be written, whatever the caller knows.",
+    "injectedThirdPartyFacts": {
+      "md148AttorneySignature": "Corbenic Aldwyn Marchetti-Sloane",
+      "md148AttorneyNumber": "ATTYSYN8814490",
+      "md148AttorneyPrintedName": "Corbenic Aldwyn Marchetti-Sloane",
+      "md148AttorneyStreetAddress": "1400 Quillstone Arcade",
+      "md148AttorneyDate": "11/09/2026",
+      "md148PetitionerSignature": "Marisol Trelane Okonkwo-Bay",
+      "md148PetitionerSignatureDate": "11/09/2026",
+      "md148JudgeSignature": "Hon. Bartholomew Quenby Fenwright-Sable",
+      "md148ClerkCertification": "Filed and entered by Delphine Ravenscroft-Mull, Clerk",
+      "md148FilingStamp": "FILED 11/09/2026 CIRCUIT COURT SYNTHETIC",
+      "md148HearingDate": "12/21/2026",
+      "md148OrderDate": "01/15/2027",
+      "md148ProsecutorResponse": "The State does not object.",
+      "mdj008Signature": "Marisol Trelane Okonkwo-Bay",
+      "mdj008Date": "11/09/2026",
+      "mdj008AttorneyNumber": "ATTYSYN8814490",
+      "mdj008DateOfCourtOrder": "01/15/2027",
+      "mdj008SealedOrShielded": true,
+      "mdj008ConfidentialInformation": true,
+      "mdj008HearingClosedToThePublic": true,
+      "mdj008PresentenceInvestigationReport": true,
+      "mdj008TaxReturns": true
+    },
+    "mustNotAppearInOutput": [
+      "Corbenic",
+      "Marchetti-Sloane",
+      "ATTYSYN8814490",
+      "Quillstone",
+      "Bartholomew",
+      "Fenwright-Sable",
+      "Delphine",
+      "Ravenscroft-Mull",
+      "FILED 11/09/2026",
+      "11/09/2026",
+      "12/21/2026",
+      "01/15/2027",
+      "The State does not object"
+    ],
+    "checkboxesThatMustRemainUnchecked": [
+      { "form": "MDJ-008", "pdfFieldName": "Sealed or Shielded" },
+      { "form": "MDJ-008", "pdfFieldName": "Confidential Information - The document itself is subject to public inspection but contains confidential information that is not open to public inspection" },
+      { "form": "MDJ-008", "pdfFieldName": "Hearing Closed to the Public" },
+      { "form": "MDJ-008", "pdfFieldName": "Presentence Investigation Report" },
+      { "form": "MDJ-008", "pdfFieldName": "Tax Returns" }
+    ],
+    "fieldsThatMustRemainEmpty": [
+      { "form": "CC-DC-CR-148", "pdfFieldName": "Signature of Petitioner" },
+      { "form": "CC-DC-CR-148", "pdfFieldName": "date" },
+      { "form": "CC-DC-CR-148", "pdfFieldName": "Signature of Attorney" },
+      { "form": "CC-DC-CR-148", "pdfFieldName": "Attorney Number" },
+      { "form": "CC-DC-CR-148", "pdfFieldName": "Date" },
+      { "form": "CC-DC-CR-148", "pdfFieldName": "Attorney Printed Name" },
+      { "form": "CC-DC-CR-148", "pdfFieldName": "Attorney Street Address" },
+      { "form": "CC-DC-CR-148", "pdfFieldName": "Attorney City, State, Zip" },
+      { "form": "CC-DC-CR-148", "pdfFieldName": "Attorney Telephone Number" },
+      { "form": "CC-DC-CR-148", "pdfFieldName": "Attorney E-mail" },
+      { "form": "CC-DC-CR-148", "pdfFieldName": "Attorney Cell Phone Number" },
+      { "form": "MDJ-008", "pdfFieldName": "Signature" },
+      { "form": "MDJ-008", "pdfFieldName": "Date" },
+      { "form": "MDJ-008", "pdfFieldName": "Attorney Number" },
+      { "form": "MDJ-008", "pdfFieldName": "Date of Court Order" },
+      { "form": "MDJ-008", "pdfFieldName": "Plaintiff/Petitioner's Name" }
+    ]
+  },
+
+  "boundaryFixtures": [
+    {
+      "fixtureId": "md-shielding-boundary-missing-sentence-date",
+      "trackId": "md_second_chance_shielding",
+      "basedOn": "md-shielding-positive-district",
+      "expect": "resolution_missing_required_input",
+      "expectDetail": "sentenceSatisfiedDate",
+      "kind": "missing_required_input",
+      "description": "CC-DC-CR-148 paragraph 3 is a sworn statement that three years have run from the date the sentence was satisfied. The date appears on neither official form, and a packet that cannot say what that sworn statement rests on must not generate.",
+      "omitKeys": ["sentenceSatisfiedDate"]
+    },
+    {
+      "fixtureId": "md-shielding-boundary-missing-court-address",
+      "trackId": "md_second_chance_shielding",
+      "basedOn": "md-shielding-positive-circuit",
+      "expect": "resolution_missing_required_input",
+      "expectDetail": "md148CourtAddress",
+      "kind": "missing_required_input",
+      "description": "The caption's court address is a required participant value on both forms. A petition captioned to a courthouse with no address is not filable.",
+      "omitKeys": ["courtAddress"]
+    },
+    {
+      "fixtureId": "md-shielding-boundary-court-level-mismatch",
+      "trackId": "md_second_chance_shielding",
+      "basedOn": "md-shielding-positive-district",
+      "expect": "branch_error",
+      "expectDetail": "courtCityCounty",
+      "kind": "invalid_branch",
+      "description": "A District Court election with a circuit-court location. The dropdown could not hold it, so the court line would come out blank on a filed petition. It must fail closed instead.",
+      "overrideFacts": { "courtCityCounty": "Montgomery County (CC)" }
+    },
+    {
+      "fixtureId": "md-shielding-boundary-unknown-offence",
+      "trackId": "md_second_chance_shielding",
+      "basedOn": "md-shielding-positive-district",
+      "expect": "branch_error",
+      "expectDetail": "convictions",
+      "kind": "invalid_branch",
+      "description": "An offence outside the twelve in Md. Code, Crim. Proc. § 10-301(h). There is no box for it, and shielding it is not available.",
+      "overrideConvictions": [{ "offenceKey": "second_degree_assault", "caseNumbers": ["1B02SYN0041"] }]
+    },
+    {
+      "fixtureId": "md-shielding-boundary-prior-petition",
+      "trackId": "md_second_chance_shielding",
+      "basedOn": "md-shielding-positive-district",
+      "expect": "branch_error",
+      "expectDetail": "priorShieldingPetition",
+      "kind": "scope_boundary",
+      "description": "One shielding petition is granted in a lifetime, § 10-303. A participant who has already used theirs is outside self-help, and generating a second petition would spend nothing but their time and their filing fee.",
+      "overrideFacts": { "priorShieldingPetition": "yes" }
+    },
+    {
+      "fixtureId": "md-shielding-boundary-multi-court",
+      "trackId": "md_second_chance_shielding",
+      "basedOn": "md-shielding-positive-circuit",
+      "expect": "branch_error",
+      "expectDetail": "convictionsInOtherCourtsOrCounties",
+      "kind": "scope_boundary",
+      "description": "The one-court, one-county routing rule. A participant with eligible convictions elsewhere must choose which court to spend their one petition in, and that choice is a legal judgment about their whole record.",
+      "overrideFacts": { "convictionsInOtherCourtsOrCounties": "yes" }
+    },
+    {
+      "fixtureId": "md-shielding-boundary-same-incident-unit",
+      "trackId": "md_second_chance_shielding",
+      "basedOn": "md-shielding-positive-district",
+      "expect": "branch_error",
+      "expectDetail": "sameIncidentIneligibleOffence",
+      "kind": "scope_boundary",
+      "description": "CC-DC-CR-148 paragraph 2. Whether charges arose from one incident is a legal judgment the accepted Maryland design bars from automation, and it can defeat the whole petition.",
+      "overrideFacts": { "sameIncidentIneligibleOffence": "yes" }
+    },
+    {
+      "fixtureId": "md-shielding-boundary-unanswered-scope-question",
+      "trackId": "md_second_chance_shielding",
+      "basedOn": "md-shielding-positive-district",
+      "expect": "branch_error",
+      "expectDetail": "domesticallyRelated",
+      "kind": "scope_boundary",
+      "description": "Silence is not a no. An unanswered scope question stops the packet rather than being read in the participant's favour.",
+      "overrideFacts": { "domesticallyRelated": "" }
+    },
+    {
+      "fixtureId": "md-shielding-boundary-case-list-overflow",
+      "trackId": "md_second_chance_shielding",
+      "basedOn": "md-shielding-positive-district",
+      "expect": "branch_error",
+      "expectDetail": "case_numbers_overflow",
+      "kind": "scope_boundary",
+      "description": "A case list too long for the blanks the Maryland Judiciary provided, on an offence the form gives no continuation line. Shrinking the text until it fits produces microtype nobody can read at a filing counter, so the packet stops.",
+      "overrideConvictions": [
+        {
+          "offenceKey": "failure_to_obey_a_lawful_order",
+          "caseNumbers": [
+            "1B02SYN0601", "1B02SYN0602", "1B02SYN0603", "1B02SYN0604",
+            "1B02SYN0605", "1B02SYN0606", "1B02SYN0607", "1B02SYN0608"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -247,6 +247,16 @@ export type ReliefTrack = {
   /** Hard off switch, independent of the computed runtime status. */
   runtimeDisabled: boolean;
   customerDeliverableDescription: string;
+  /**
+   * Short packet name used in the assembled PDF's filename.
+   *
+   * The participant downloads one file, so it needs a name that says what it is
+   * in a downloads folder six weeks later. Absent, assembly falls back to the
+   * packet set id, which is correct but unfriendly.
+   */
+  assembledPacketName?: string;
+  /** Title written into the assembled PDF's metadata, shown in a viewer's title bar. */
+  assembledPacketTitle?: string;
   notes?: string;
 };
 

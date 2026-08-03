@@ -15,37 +15,13 @@
 //
 // Plan of record: docs/record-clearing/PLAN_OF_RECORD_RELIEF_TRACK_STRATEGY.md
 
+import { MARYLAND_ACROFORM_MAPPINGS, MARYLAND_TRANCHE_2_TRACKS } from "@/lib/rcap/packets/registry-maryland";
 import { MISSISSIPPI_TRANCHE_1_TRACKS } from "@/lib/rcap/packets/registry-mississippi";
+import type { AcroFieldMapping, OverlayPlacement } from "@/lib/rcap/packets/registry-types";
 import type { PacketSet, ReliefTrack } from "@/lib/rcap/packets/types";
 import { computeRuntimeStatus } from "@/lib/rcap/packets/types";
 
-/** Overlay placement on an official form. Rejected unless explicitly confirmed. */
-export type OverlayPlacement = {
-  componentId: string;
-  fieldKey: string;
-  page: number;
-  x: number;
-  y: number;
-  size: number;
-  maxWidth?: number;
-  kind?: "text" | "checkbox";
-  /**
-   * True only when a human has looked at the rendered page and confirmed this
-   * position sits in a blank. The placeholder anchors in the nationwide draft
-   * corpus are all unconfirmed and must never be promoted by editing this flag
-   * without doing the looking.
-   */
-  confirmed: boolean;
-};
-
-/** Named AcroForm field mapping. Rejected unless the field exists in the source. */
-export type AcroFieldMapping = {
-  componentId: string;
-  fieldKey: string;
-  pdfFieldName: string;
-  kind: "text" | "checkbox";
-  multiline?: boolean;
-};
+export type { AcroFieldMapping, OverlayPlacement };
 
 const IOWA_SOURCE =
   "private/Nationwide Record Clearing/LegalEase Iowa/2_86_4_123_PAULA_Expungement_18A04436D4107.pdf";
@@ -608,7 +584,8 @@ const UNCONFIRMED_OVERLAY_PLACEMENTS: readonly OverlayPlacement[] = [
 export const RELIEF_TRACKS: readonly ReliefTrack[] = [
   ...TECHNICAL_FIXTURE_TRACKS,
   ...NEGATIVE_FIXTURE_TRACKS,
-  ...MISSISSIPPI_TRANCHE_1_TRACKS
+  ...MISSISSIPPI_TRANCHE_1_TRACKS,
+  ...MARYLAND_TRANCHE_2_TRACKS
 ];
 
 const ALL_OVERLAY_PLACEMENTS: readonly OverlayPlacement[] = [
@@ -620,6 +597,11 @@ export function overlayPlacementsFor(componentId: string): readonly OverlayPlace
   return ALL_OVERLAY_PLACEMENTS.filter((p) => p.componentId === componentId);
 }
 
+const ALL_ACROFORM_MAPPINGS: readonly AcroFieldMapping[] = [
+  ...IOWA_ACROFORM_MAPPINGS,
+  ...MARYLAND_ACROFORM_MAPPINGS
+];
+
 export function acroMappingsFor(componentId: string): readonly AcroFieldMapping[] {
-  return IOWA_ACROFORM_MAPPINGS.filter((m) => m.componentId === componentId);
+  return ALL_ACROFORM_MAPPINGS.filter((m) => m.componentId === componentId);
 }
