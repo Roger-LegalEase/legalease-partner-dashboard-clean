@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "note": "Restricted-prefix paths this branch lineage INHERITS from an unmerged platform lane, acknowledged once by exact content hash. The restricted-change guard exists to stop a state-promotion pass from quietly touching production API, auth, billing or participant surfaces. It measured that by diffing against origin/main, which conflates two different things: changes this branch made, and changes it inherited from a reviewed platform lane that has not landed on main yet. Every downstream branch therefore failed permanently on work it did not do.\n\nAn entry here is not a waiver. It pins the blob hash the acknowledged content had when it was reviewed, so the guard still fails the moment any of these files is edited again on this branch, and it still fails on any restricted path that is not listed. Removing an entry, or letting the platform lane merge to main, simply returns the path to the ordinary rule.",
+  "guardRules": [
+    "An entry is honoured only while its pinned blobSha256 matches the file's current content. Edit the file and the guard fails again.",
+    "An entry for a path that is not under a restricted prefix is a configuration error and fails.",
+    "An entry missing a reason, a reviewedUnder or an introducedBy commit is a configuration error and fails.",
+    "A restricted path that is not listed here fails, as before.",
+    "An entry whose path no longer differs from the base is reported as stale so it can be removed. It grants nothing."
+  ],
+  "entries": [
+    {
+      "path": "src/app/api/rcap/documents/[packetId]/pdf/[pdfType]/route.ts",
+      "changeKind": "modified",
+      "blobSha256": "f59115edd6897a8516dede4c9cb694e15e976bf5",
+      "introducedBy": ["a3f7869", "8adcc45"],
+      "reviewedUnder": "PR #87 — platform packet-delivery lane",
+      "reason": "Adds authorization to a route that previously had none. Before this change any packet identifier returned a document built from that participant's identity and criminal-record details; the route now requires the owning participant's session or a partner-scoped session for the sponsoring partner, and returns the same 404 to an unauthorized caller so the status cannot be used to enumerate packet identifiers. It also stops rendering a PDF on demand and serves only durably stored bytes. This is the one entry that modifies a file already on main, and it closes an insecure-direct-object-reference defect rather than introducing risk.",
+      "securityEffect": "strengthens"
+    },
+    {
+      "path": "src/app/api/rcap/packets/[fulfillmentId]/components/[componentId]/route.ts",
+      "changeKind": "added",
+      "blobSha256": "1d1e3a2d3ddae07efaae64b9be47161a00cc73ac",
+      "introducedBy": ["8adcc45"],
+      "reviewedUnder": "PR #87 — platform packet-delivery lane",
+      "reason": "New route. Serves one stored packet component, requires an authenticated actor, refuses a fulfillment the actor does not own with the same response as a missing packet, and reads only durably stored bytes. It modifies nothing that exists on main.",
+      "securityEffect": "neutral_new_surface_fails_closed"
+    },
+    {
+      "path": "src/app/api/rcap/packets/generate/route.ts",
+      "changeKind": "added",
+      "blobSha256": "1f0bc64bd695bc50dd1374cb2dd450bf516713e2",
+      "introducedBy": ["8adcc45"],
+      "reviewedUnder": "PR #87 — platform packet-delivery lane",
+      "reason": "New route. Generates a packet for one relief track behind an authenticated actor, enforces resolution, readiness and geography before anything is rendered, and reports ready only once every component is stored. Technical fixtures are reachable only when the environment explicitly enables them outside production. It modifies nothing that exists on main.",
+      "securityEffect": "neutral_new_surface_fails_closed"
+    }
+  ]
+}

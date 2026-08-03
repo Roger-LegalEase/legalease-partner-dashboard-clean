@@ -1410,11 +1410,17 @@ packets are commercially released.
 
 ### Inherited, not introduced
 
-`rcap:verify-state-promotion` and `rcap:verify-state-promotion-routes` still
-fail on exactly the same three PR #87 API routes —
+`rcap:verify-state-promotion` and `rcap:verify-state-promotion-routes` failed on
+exactly the same three PR #87 API routes —
 `documents/[packetId]/pdf/[pdfType]`,
 `packets/[fulfillmentId]/components/[componentId]` and `packets/generate`.
-Unchanged by this pass and not repaired here.
+**Resolved on 3 August 2026, and the cause was not the routes.** Both verifiers
+ran one restricted-change guard that asked "does this differ from `origin/main`"
+rather than "did this branch change a restricted file", so every branch cut from
+the unmerged PR #87 platform base inherited three violations it did not cause.
+The guard now acknowledges an inherited path once, pinned to its reviewed content
+hash, and still fails on any unlisted restricted path or any further edit to an
+acknowledged one.
 
 ### Next action
 

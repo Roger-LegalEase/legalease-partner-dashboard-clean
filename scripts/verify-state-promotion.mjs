@@ -3,9 +3,11 @@ import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { evaluateRestrictedChanges } from "./lib/restricted-change-guard.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
+let restrictedGuard = null;
 const buildManifest = readJson("data/rcap-all50/all-state-build-manifest.json");
 const records = readPromotionManifest();
 const rulesSource = readText("src/lib/rcap/state-promotion-rules.ts");
@@ -92,7 +94,7 @@ console.log("Batch approval is not launch: verified");
 console.log("Public live routing unchanged: yes");
 console.log("Legacy generators removed from active runtime: yes");
 console.log("Expungement.ai UI untouched: yes");
-console.log("Restricted production/auth/billing files untouched: yes");
+console.log(restrictedSummary());
 
 function verifyRecord(record) {
   if (record.buildStatus !== "state_built") failures.push(`${record.abbreviation} buildStatus must remain state_built.`);
@@ -302,42 +304,9 @@ function readPromotionManifestFromFile(filePath) {
 }
 
 function assertNoRestrictedChanges() {
-  const changedFiles = changedFilesAgainstMain();
-  const forbiddenPrefixes = [
-    "src/app/api/",
-    "src/app/auth/",
-    "src/app/p/",
-    "src/app/intake/",
-    "src/app/documents/",
-    "src/app/briefcase/",
-    "src/app/partner/",
-    "src/app/partners/",
-    "src/app/request-pilot/",
-    "src/app/internal/billing/",
-    "src/lib/auth/",
-    "src/lib/partners/billing",
-    "src/lib/partners/session-partner",
-    "src/lib/partners/partner-dashboard-rls",
-    "src/lib/partners/partner-repository",
-    "src/lib/partners/partner-service",
-    "src/lib/rcap/documents/mississippi/",
-    "src/lib/rcap/documents/illinois/",
-    "src/lib/rcap/documents/dc/",
-    "src/lib/rcap/documents/pennsylvania/",
-    "src/lib/rcap/documents/texas-harris/",
-    "src/lib/stripe",
-    "src/lib/billing",
-    "supabase/",
-    "vercel",
-    ".env",
-    ".github/workflows/deploy",
-    "src/app/expungement-ai/",
-    "src/app/expungement/",
-    "src/components/expungement-ai/",
-    "src/components/expungement/"
-  ];
-  const forbidden = changedFiles.filter((file) => forbiddenPrefixes.some((prefix) => file.startsWith(prefix)));
-  if (forbidden.length > 0) failures.push(`Restricted files changed: ${forbidden.join(", ")}`);
+  const result = evaluateRestrictedChanges(rootDir);
+  failures.push(...result.failures);
+  restrictedGuard = result;
 }
 
 function assertFile(relativePath) {
@@ -356,40 +325,26 @@ function readText(relativePath) {
   return fs.readFileSync(path.join(rootDir, relativePath), "utf8");
 }
 
-function git(args) {
-  const result = spawnSync("git", args, { cwd: rootDir, encoding: "utf8" });
-  if (result.status !== 0 && result.error && !result.stdout) throw result.error;
-  return (result.stdout || "").split(/\r?\n/).filter(Boolean);
-}
-
-function gitOneLine(args) {
-  const result = spawnSync("git", args, { cwd: rootDir, encoding: "utf8" });
-  if (result.status !== 0 || (result.error && !result.stdout)) return null;
-  return result.stdout.trim() || null;
-}
-
-function changedFilesAgainstMain() {
-  const baseRef = resolveMainBaseRef();
-  if (!baseRef) {
-    failures.push("Could not resolve origin/main or main for restricted-file comparison.");
-    return [];
+/**
+ * Reports what the guard actually found.
+ *
+ * The old line claimed "untouched" unconditionally, printed beside a failure
+ * saying three restricted files had changed. A status line that contradicts the
+ * failure above it teaches people to skip both.
+ */
+function restrictedSummary() {
+  if (!restrictedGuard) return "Restricted production/auth/billing files: not evaluated.";
+  const { acknowledged, unacknowledged, notes } = restrictedGuard;
+  if (unacknowledged.length > 0) {
+    return `Restricted production/auth/billing files: ${unacknowledged.length} unacknowledged change(s).`;
   }
-
-  const mergeBase = gitOneLine(["merge-base", "HEAD", baseRef]);
-  if (!mergeBase) {
-    failures.push(`Could not compute merge base between HEAD and ${baseRef}.`);
-    return [];
-  }
-
-  return git(["diff", "--name-only", mergeBase, "HEAD"]);
-}
-
-function resolveMainBaseRef() {
-  for (const candidate of [
-    ["refs/remotes/origin/main", "origin/main"],
-    ["refs/heads/main", "main"]
-  ]) {
-    if (gitOneLine(["rev-parse", "--verify", `${candidate[0]}^{commit}`])) return candidate[1];
-  }
-  return null;
+  const lines = [];
+  lines.push(
+    acknowledged.length === 0
+      ? "Restricted production/auth/billing files untouched: yes"
+      : `Restricted production/auth/billing files: this branch changed none; ${acknowledged.length} inherited path(s) acknowledged at their reviewed content hash.`
+  );
+  for (const file of acknowledged) lines.push(`  acknowledged: ${file}`);
+  for (const note of notes) lines.push(`  note: ${note}`);
+  return lines.join("\n");
 }

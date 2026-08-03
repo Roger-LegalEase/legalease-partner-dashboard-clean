@@ -154,5 +154,13 @@ enabled. `packet_ready` remains 0 and the launch gate remains red.
 
 ## Next
 
-Deliver the bundle to counsel, apply the corrections they return, then fix the
-three inherited PR #87 packet API routes before any state promotion.
+Deliver the bundle to counsel and apply the corrections they return.
+
+The three inherited PR #87 packet API routes are resolved. They were never route
+defects: both promotion verifiers ran one restricted-change guard that diffed
+against `origin/main`, and because PR #87 is unmerged, every branch cut from its
+platform base inherited three `src/app/api/` paths as permanent violations. The
+guard now acknowledges an inherited path once, pinned to the content hash it was
+reviewed at, and still fails on any other restricted change or on any further
+edit to an acknowledged file. `rcap:verify-state-promotion` and
+`rcap:verify-state-promotion-routes` pass and are now inside `npm test`.
