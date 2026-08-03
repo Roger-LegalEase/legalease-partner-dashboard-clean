@@ -377,6 +377,161 @@ moves the Track C consumer warning off county prosecutor materials and onto the
 agency's own document, and downgrades open question 7 to a nonblocking note.
 Corpus 567 → **568**; `reference_only` 34 → 35.
 
+## Kansas under the packet-only model, 2 August 2026
+
+7 source slots → **8 normalized nodes**, all `relief_track`, 0 deferred. Source
+Track A splits into a conviction node and a fulfilled-diversion node. Strategies:
+`official_pdf_fill` 5, `custom_pleading` 2, `composed` 1. **0 build blockers**,
+20 release blockers across 8 tracks. No Kansas track is `process_guidance`, so
+the guidance re-review queue is unchanged.
+
+### Both of the review's build blockers are closed
+
+The review returned Kansas as **"additional research required"** on five open
+questions, of which questions 1–5 were build blockers. All five are now closed:
+
+- **K.S.A. 22-2410, 12-4516 and 12-4516a were read in full** from current
+  official text — 22-2410 from 2025 House Bill 2393 § 5, which amends it, and
+  the two municipal sections from the Revisor's 2026 Kansas Statutes.
+- **The Judicial Council does publish an arrest-record form set** — question 4 —
+  and it publishes no municipal form set.
+- **The missing granting order was already in the corpus.** The Batch 2 source
+  import supplied `Order for Expungement of Conviction or Diversion`,
+  Rev. KSJC 08/2022, source-gated. The review's "do not ship a scaffolded
+  granting order" build blocker is resolved by the official original, not by a
+  reconstruction.
+
+**Kansas has no build blockers.**
+
+### K.S.A. 21-6614 reconciled from the enrolled Act
+
+Review question 7 is closed. The Revisor's published page carried history only
+through L. 2023, ch. 91. **2026 Senate Bill 430, § 2** reproduces the whole
+section as reconciled across 2025 HB 2393 and 2025 HB 2323, and it confirms the
+review on every operative point: the four (h) findings, the (e) exclusion list
+including paragraph (19)'s reach to pre-2011 comparable offences, the (f)
+registration freeze, the $176 docket fee, and the (a)(3) specialty-court fee
+waiver. Two things the review could not state: the non-judicial personnel
+charge authority now runs **July 1, 2026 through June 30, 2030**, and the
+disclosure carve-outs have grown to **twelve** contexts in (i)(2) and
+**eighteen** requestor categories in (l), the additions being the insurance
+producer and public adjuster provisions from HB 2323.
+
+### Track A split — what actually differs
+
+| | A-1 `ks-21-6614-conviction` | A-2 `ks-21-6614-diversion` |
+|---|---|---|
+| Trigger | satisfying the sentence, or discharge from supervision | fulfilment of the diversion terms |
+| Venue in the statute | the **convicting court**, (a)(1) | the **district court**, (a)(2) |
+| DUI lanes | 5-year first violation, 10-year second or subsequent, 7-year for the 2014–15 window | 5-year first violation only; (d)(2) speaks only of a sentence or supervision, so it cannot carry a diversion |
+
+The split is not arithmetic. The two nodes share the Judicial Council packet and
+encode different triggering events, venue formulations, waiting-period branches
+and questions. Neither node is split further: waiting-period tiers and offence
+tiers are calculation branches, not mechanisms.
+
+### Track A is a single packet, not a staged hybrid
+
+The review modelled Track A as three stages because a hearing date must be
+obtained from the clerk between filing and the Notice of Hearing. Under the
+controlling rules that is not a separate legal mechanism. The route is one
+`official_pdf_fill` packet — Criminal Cover Sheet, petition, Notice of Hearing,
+order cover sheet, granting order, denying order, instructions and
+hearing-preparation material — and the hearing date, time, courthouse, division,
+room, copy count and clerk-supplied case information are **manual-completion
+items**. The Notice of Hearing's Certificate of Service and Mailing is left
+blank and labelled for the clerk: it reads in the first person but its signature
+line is the clerk's, and K.S.A. 21-6614(g)(1) puts notice on the court. A
+required live hearing is not a generation blocker; actual opposition or contested
+testimony is a `post_generation_handoff`.
+
+### Track D — official form found, memorandum default overridden
+
+The adopted memorandum set `custom_pleading` for K.S.A. 22-2410 "where no
+current local form exists," yielding to a court's current form when one is
+published. One is published: the **Kansas Judicial Council Petition for
+Expungement of Arrest Record, KSJC 02/2013**, whose four choose-one grounds track
+K.S.A. 22-2410(c) exactly, with an **Order of Expungement of Arrest Record Cover
+Sheet, KSJC 12/2016** for the KBI. Track D is therefore `official_pdf_fill` with
+`localFormOverride`. Two findings worth carrying:
+
+- **The (a)(2) mandatory expungement category is not a participant filing.**
+  Where an arrest resulted from mistaken identity or identity theft and the
+  charge is dismissed or not prosecuted, the *prosecuting attorney or the
+  judicial officer who ordered the dismissal* petitions and the court shall
+  order expungement. It is recorded as a scope restriction so a participant can
+  ask about it; LegalEase does not represent that it files it.
+- **The fee exemption is much broader than identity theft.** K.S.A.
+  22-2410(b)(3)(B) imposes no surcharge or fee on an (a)(1) petitioner who was an
+  identity-theft victim, *or* whose charges were dismissed for want of probable
+  cause, *or* who was found not guilty, *or* whose charges have been dismissed.
+  That reaches most arrest-only petitioners. The review recorded only the
+  identity-theft limb.
+
+The form's 02/2013 revision predates the 2025 amendments, which is a release
+gate, not a design gap.
+
+### Track G — reclassified from guidance to a composed packet
+
+The review held stage 1 to `process_guidance` because relief from registration is
+discretionary and contested. The packet-only amendment rejects that reasoning,
+and current law is decisive the other way: **K.S.A. 22-4908(d)(3) directs the
+Judicial Council to develop the petition form**, and it has — *Petition for
+Relief from Offender Registration*, 06/2022, with an order cover sheet for the
+KBI. Nine of the form's ten numbered items are the participant's own identity,
+conviction, registration, compliance and treatment-provider facts. Only item 10
+is a rehabilitation and public-safety narrative, which is prompted and formatted,
+never written.
+
+The route is `composed` / `sequential` over two units because relief and
+expungement are genuinely distinct filings — different statutes, venue
+formulations, notice sets, standards of proof and fees, joined only by the
+permission in (i) to combine them. Unit 2 **references** `ks-21-6614-conviction`
+rather than duplicating it. Delivery may stay scope-restricted with attorney
+handoff; packet identity is recorded separately.
+
+### Tracks E and F — municipal local practice confirmed
+
+Both stay `custom_pleading` with `localFormOverride`, as the memorandum directs.
+A bounded sample of large municipal courts shows why: **Wichita** proceeds under
+**Charter Ordinance No. 224, §§ 12 and 13** and publishes a *Motion and Order*
+rather than a petition, and **Topeka** cites K.S.A. 12-4516 and publishes its own
+four forms. The statewide controlled pleading is the fallback only where the
+local court publishes nothing. Track E is not split for conviction and diversion:
+the statute is one municipal mechanism with one destination, one six-item
+petition structure and one set of three findings — and there are three findings,
+not four, because an ordinance conviction carries no firearms finding. The review
+also omitted the fifth ground in K.S.A. 12-4516a(c), best interests of justice,
+which is included here.
+
+### Two smaller corrections
+
+- **The review attributed K.S.A. 12-4516a's prohibited-ordinance ground to
+  K.S.A. 22-2410.** The district-court grounds are mistaken identity, no probable
+  cause, not guilty, and best interests of justice; the ordinance ground belongs
+  to the municipal section.
+- **No general poverty-based fee waiver exists.** Review question 8 is answered:
+  2026 HB 2724, which would have authorised judges to waive the expungement
+  docket fee on a poverty affidavit, **died**, as did 2026 HB 2655, which would
+  have created a municipal specialty-court expungement. Some district courts
+  nonetheless publish a poverty affidavit alongside the expungement forms, which
+  is recorded as local practice rather than a statewide waiver.
+
+### Source currency and new artifacts
+
+The corpus copy of the 08/2022 petition is **textually identical** to the copy a
+Kansas district court clerk publishes today. `kjc.ks.gov` returns HTTP 403 to
+automated retrieval, so byte-level confirmation against the publisher could not
+be made and is carried as a release blocker on every official-form track, along
+with the Judicial Council's non-commercial use terms.
+
+**Four new official artifacts**, all `source_gated` on those terms and all
+unmodified originals carrying the Council's own revision footers, taken from the
+Douglas County District Court clerk's publication of the same set: the arrest
+petition (02/2013, 3pp), the arrest order cover sheet (12/2016, 1p), the
+registration-relief petition (06/2022, 4pp) and the registration order cover
+sheet (06/2022, 1p). Corpus 568 → **572**; `source_gated` 45 → 49.
+
 ## Runtime effect
 
 None. Every route remains disabled until source, completed-output legal review, technical proof, and visual approval pass.

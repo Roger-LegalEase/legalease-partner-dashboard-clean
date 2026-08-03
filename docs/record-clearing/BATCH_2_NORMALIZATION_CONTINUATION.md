@@ -450,12 +450,90 @@ artifact** — GBI/GCIC *Georgia Law Regarding Time Expired Restrictions*, impor
 `reference_only`, which supplies the Track C consumer warning from the issuing
 agency's own document. Corpus 567 → **568**.
 
+## Kansas — done
+
+`data/record-clearing/legal-design-intake/KS.memo.json`
+
+7 source slots → **8 normalized nodes**, all `relief_track`. 0 deferred.
+Strategies: `official_pdf_fill` 5, `custom_pleading` 2, `composed` 1 (2 units,
+sequential). **0 build blockers**, 20 release blockers across 8 tracks. No Kansas
+track is `process_guidance`, so the guidance re-review queue is unchanged.
+
+Source Track A splits into `ks-21-6614-conviction` and `ks-21-6614-diversion`.
+Every source slot is counted once, and the one slot mapping to two approved nodes
+is counted once in source reconciliation.
+
+**The review returned Kansas as "additional research required" and all five of
+its build blockers are closed.** K.S.A. 22-2410 was read in full from 2025 HB
+2393 § 5, and K.S.A. 12-4516 and 12-4516a from the Revisor's 2026 Kansas
+Statutes. The Judicial Council does publish an arrest-record form set and does
+not publish a municipal set. **The "missing" granting order was already in the
+corpus** — `Order for Expungement of Conviction or Diversion`, Rev. KSJC 08/2022,
+source-gated, supplied by the Batch 2 import.
+
+**K.S.A. 21-6614 is reconciled from 2026 Senate Bill 430 § 2**, which reproduces
+the whole section across the 2025 amendments. It confirms the review throughout
+and adds two current facts: the non-judicial personnel charge authority runs
+1 July 2026 to 30 June 2030, and the disclosure carve-outs are now twelve
+contexts in (i)(2) and eighteen requestor categories in (l).
+
+**The Track A split is substantive, not arithmetic.** The conviction node runs
+from satisfying the sentence or discharge from supervision, is directed to the
+convicting court by (a)(1), and carries the 3, 5, 7 and 10 year lanes. The
+diversion node runs from fulfilment of the diversion terms, is directed to the
+district court by (a)(2), and cannot reach the 10-year or 7-year DUI lanes
+because (d)(2) speaks only of a sentence or supervision. Neither is split
+further — waiting-period and offence tiers are calculation branches.
+
+**Track A is one packet, not a staged hybrid.** Obtaining a hearing date is not a
+separate legal mechanism. Hearing date, time, courthouse, division, room, copy
+count and clerk-supplied case information are manual-completion items, and the
+Notice of Hearing's certificate of service is left blank and labelled for the
+clerk, whose signature line it carries.
+
+**Track D is `official_pdf_fill`, overriding the memorandum's default**, because
+the Judicial Council publishes a statewide *Petition for Expungement of Arrest
+Record* (KSJC 02/2013) whose four grounds track K.S.A. 22-2410(c) exactly, plus a
+KBI order cover sheet. Two findings: the (a)(2) mandatory category is a
+prosecutor filing, not a participant one; and the (b)(3)(B) fee exemption reaches
+identity-theft victims **and** anyone whose charges were dismissed for want of
+probable cause, who was found not guilty, or whose charges were dismissed — most
+arrest-only petitioners pay nothing.
+
+**Track G is reclassified from guidance to a composed packet.** K.S.A.
+22-4908(d)(3) directs the Judicial Council to develop the petition form and it
+has, at revision 06/2022. Nine of its ten items are participant facts; only item
+10 is a rehabilitation narrative, which is prompted and formatted. The route is
+composed and sequential because relief and expungement are distinct filings with
+different statutes, venues, notice sets, standards and fees; unit 2 references
+`ks-21-6614-conviction` rather than duplicating it.
+
+**Tracks E and F stay `custom_pleading` with `localFormOverride`.** Wichita
+proceeds under Charter Ordinance No. 224 and publishes a Motion and Order;
+Topeka publishes its own four forms under K.S.A. 12-4516. Track E is not split:
+one municipal mechanism, one destination, one six-item petition, three findings
+rather than four because an ordinance conviction carries no firearms finding.
+
+Corrections: the review attributed K.S.A. 12-4516a's prohibited-ordinance ground
+to K.S.A. 22-2410, and omitted 12-4516a(c)(5). No general poverty-based fee
+waiver exists — 2026 HB 2724 and HB 2655 both died — though some district courts
+publish a poverty affidavit as local practice.
+
+`kjc.ks.gov` returns HTTP 403 to automated retrieval, so byte-level confirmation
+against the publisher could not be made; the corpus 08/2022 petition is textually
+identical to a Kansas clerk's current copy. That, and the Judicial Council's
+non-commercial use terms, are release blockers on every official-form track.
+**Four new official artifacts**, all source-gated, all unmodified originals with
+the Council's revision footers: the arrest petition and its KBI order cover
+sheet, and the registration-relief petition and its KBI order cover sheet.
+Corpus 568 → **572**.
+
 ## Not started
 
-**B4–B9 legal-design normalization of the remaining six jurisdictions.**
+**B4–B9 legal-design normalization of the remaining five jurisdictions.**
 
-`KS LA ME MS MO MT` — **8 of 14 normalized** (IL, IA, IN, MD, MA, MI, MN, GA).
-Groups 1 and 2 are complete and Georgia is done. **Kansas, Louisiana and Maine
+`LA ME MS MO MT` — **9 of 14 normalized** (IL, IA, IN, MD, MA, MI, MN, GA, KS).
+Groups 1 and 2 are complete; Georgia and Kansas are done. **Louisiana and Maine
 are the rest of Group 3.**
 
 Committed bounded groups (operational only; does not change legal precedence):
@@ -464,20 +542,20 @@ Committed bounded groups (operational only; does not change legal precedence):
 |---|---|---|---|
 | 1 | **Illinois, Iowa and Indiana all done** | 16 + 7 + 10 = 33 | **complete** |
 | 2 | **Maryland, Massachusetts, Michigan and Minnesota all done** | 11 + 8 + 11 + 12 = 42 | **complete** |
-| 3 | Georgia done; Kansas, Louisiana, Maine outstanding | 13 + 7 + 10 + 6 = 36 | Georgia complete |
+| 3 | Georgia and Kansas done; Louisiana, Maine outstanding | 13 + 7 + 10 + 6 = 36 | Georgia and Kansas complete |
 | 4 | Mississippi, Missouri, Montana | 9 + 10 + 6 = 25 | not started |
 
-### Batch 2 running totals after Georgia
+### Batch 2 running totals after Kansas
 
-8 of 14 jurisdictions. 88 source slots → **91 normalized nodes**: 87
+9 of 14 jurisdictions. 95 source slots → **99 normalized nodes**: 95
 `relief_track`, 1 `supporting_action`, 1 `completed_or_verification`, 1
 `local_variant`, 1 `routing_node`. 0 deferred. Strategies: `official_pdf_fill`
-40, `process_guidance` 28, `custom_pleading` 17, `composed` 6. **1 build blocker**
+45, `process_guidance` 28, `custom_pleading` 19, `composed` 7. **1 build blocker**
 (Iowa `ia-9079`, pre-2013 deferred judgments — unchanged and untouched).
-**110 release blockers**, measured as unresolved questions of impact
+**130 release blockers**, measured as unresolved questions of impact
 `release_blocker` summed over the per-jurisdiction deltas: IL 34, IA 9, IN 18,
-MD 7, MA 4, MI 10, MN 7, GA 21. Guidance re-review candidates across Batch 2
-remain 5; Georgia added none.
+MD 7, MA 4, MI 10, MN 7, GA 21, KS 20. Guidance re-review candidates across
+Batch 2 remain 5; Georgia and Kansas added none.
 
 ### Measured size of Group 1, for the next session's planning
 
@@ -550,6 +628,11 @@ clean commit and push.
   there was that only one mandatory official form exists — the GBI Request to
   Restrict Arrest Record, already in the corpus and confirmed current — while
   every court petition is a statutory custom pleading with a local-form override.
+  Kansas is the counter-example worth remembering: a form the review recorded as
+  missing was already in the corpus under its normalized source-gated name, and
+  two more official form sets existed that the review had not looked for. **Check
+  the corpus and the issuing authority's current form index before recording a
+  missing-form blocker.**
 
 ## Invariants that must still hold at every checkpoint
 

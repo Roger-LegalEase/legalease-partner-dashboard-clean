@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "note": "Approved composed-unit substance. Read on every batch-delta run and written only by --approve-composed-units. A composed route has no track-level renderer strategy, so this file is where its legal substance is pinned: which vehicle each unit files, which units are unresolved, which are available, and — for a sequential composition — what order the stages run in. Alternative-branch array order is deliberately not pinned; those branches are selected by a predicate, not by position.",
-  "approvedTracks": 16,
+  "approvedTracks": 17,
   "tracks": [
     {
       "jurisdiction": "AR",
@@ -492,6 +492,40 @@
       "sequence": [
         "in_infraction_nondisclosure-stage-1",
         "in_infraction_nondisclosure-stage-2"
+      ]
+    },
+    {
+      "jurisdiction": "KS",
+      "trackId": "ks-22-4908-registration-relief",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "sequential",
+      "orderIsSubstantive": true,
+      "counselAuthoredProvenanceCount": 4,
+      "units": [
+        {
+          "unitId": "ks-22-4908-combined-expungement",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ks-22-4908-registration-relief-petition",
+          "order": 1,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": [
+        "ks-22-4908-registration-relief-petition",
+        "ks-22-4908-combined-expungement"
       ]
     },
     {
