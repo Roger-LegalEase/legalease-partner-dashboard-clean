@@ -1,0 +1,165 @@
+{
+  "schemaVersion": "rcap-official-pdf-fixture-scaffold/v1",
+  "familyId": "rcap-mn-official-pdf-family",
+  "jurisdiction": "MN",
+  "schemaPath": "data/record-clearing/production-factory/official-pdf-families/schemas/fixture-scaffold.schema.json",
+  "syntheticDataOnly": true,
+  "fixtureState": "pending_field_map_and_fact_type_binding",
+  "tracks": [
+    {
+      "trackId": "mn_petition_15218",
+      "fixtureId": "mn_petition_15218-synthetic-layout",
+      "caseReference": "SYN-MN-mn_petition_15218",
+      "requiredFactKeys": [
+        "county",
+        "caseNumber",
+        "charges",
+        "disposition",
+        "dispositionDate",
+        "sentenceDischargeDate",
+        "newConvictions",
+        "restitutionOutstanding",
+        "registrationRequired",
+        "agenciesHoldingRecords",
+        "requestsFeeWaiver"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature",
+          "whereInPacket": "EXP102 signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Hearing date, time, courtroom and Zoom credentials",
+          "whereInPacket": "EXP102 and EXP104 hearing blocks",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Agency service addresses",
+          "whereInPacket": "EXP104 service list",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Proof-of-service dates",
+          "whereInPacket": "EXP104",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The hearing date, hearing time, Zoom credentials and courtroom information are not known when the packet is generated. They are left as clear blanks with instructions explaining that the court supplies them after filing. They are not packet gaps.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "mn_petition_609a02_subd3",
+      "fixtureId": "mn_petition_609a02_subd3-synthetic-layout",
+      "caseReference": "SYN-MN-mn_petition_609a02_subd3",
+      "requiredFactKeys": [
+        "county",
+        "caseNumber",
+        "charges",
+        "disposition",
+        "dispositionDate",
+        "sentenceDischargeDate",
+        "newConvictions",
+        "restitutionOutstanding",
+        "registrationRequired",
+        "agenciesHoldingRecords",
+        "requestsFeeWaiver",
+        "statutoryClause",
+        "rehabilitationFacts",
+        "hardshipFacts",
+        "crimeVictimNexus",
+        "firearmsOrViolence",
+        "immigrationConsequences"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature",
+          "whereInPacket": "EXP102 signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Hearing date, time, courtroom and Zoom credentials",
+          "whereInPacket": "EXP102 and EXP104 hearing blocks",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Agency service addresses",
+          "whereInPacket": "EXP104 service list",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Proof-of-service dates",
+          "whereInPacket": "EXP104",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The hearing date, hearing time, Zoom credentials and courtroom information are not known when the packet is generated. They are left as clear blanks with instructions explaining that the court supplies them after filing. They are not packet gaps.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "mn_petition_juvenile_as_adult",
+      "fixtureId": "mn_petition_juvenile_as_adult-synthetic-layout",
+      "caseReference": "SYN-MN-mn_petition_juvenile_as_adult",
+      "requiredFactKeys": [
+        "county",
+        "caseNumber",
+        "charges",
+        "disposition",
+        "dispositionDate",
+        "sentenceDischargeDate",
+        "newConvictions",
+        "restitutionOutstanding",
+        "registrationRequired",
+        "agenciesHoldingRecords",
+        "requestsFeeWaiver"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature",
+          "whereInPacket": "EXP102 signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Hearing date, time, courtroom and Zoom credentials",
+          "whereInPacket": "EXP102 and EXP104 hearing blocks",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Agency service addresses",
+          "whereInPacket": "EXP104 service list",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Proof-of-service dates",
+          "whereInPacket": "EXP104",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The hearing date, hearing time, Zoom credentials and courtroom information are not known when the packet is generated. They are left as clear blanks with instructions explaining that the court supplies them after filing. They are not packet gaps.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    }
+  ],
+  "requiredBoundaryFixtures": [
+    "missing_required_input",
+    "authority_identity_unresolved",
+    "captain_projection_missing",
+    "source_hash_mismatch",
+    "source_size_mismatch",
+    "source_mime_mismatch",
+    "third_party_field_ownership",
+    "mapping_unconfirmed",
+    "deterministic_repeat"
+  ]
+}

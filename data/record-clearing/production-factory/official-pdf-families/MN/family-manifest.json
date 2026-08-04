@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "rcap-official-pdf-family/v1",
+  "familyId": "rcap-mn-official-pdf-family",
+  "jurisdiction": "MN",
+  "jurisdictionName": "Minnesota",
+  "authorityFamily": "Minnesota Judicial Branch EXP101/102/104/105/106 and FEE102 forms",
+  "implementationJobId": "rcap-mn-official-pdf-production",
+  "productionQueuePriority": 21,
+  "outputStrategies": [
+    "official_pdf_fill"
+  ],
+  "scope": {
+    "trackIds": [
+      "mn_petition_15218",
+      "mn_petition_609a02_subd3",
+      "mn_petition_juvenile_as_adult"
+    ],
+    "trackCount": 3,
+    "officialPdfComponentCount": 13,
+    "documentIds": [
+      "EXP101",
+      "EXP102",
+      "EXP104",
+      "EXP105",
+      "EXP106",
+      "FEE102"
+    ],
+    "documentCount": 6,
+    "exactIdentityCount": 6,
+    "unresolvedIdentityCount": 0
+  },
+  "sourceMaterialization": {
+    "dependencyJobId": "rcap-nationwide-source-materialization-contract",
+    "contractPath": "docs/record-clearing/RCAP_SOURCE_MATERIALIZATION_CONTRACT.md",
+    "requirementManifest": "data/record-clearing/production-factory/official-pdf-families/MN/source-requirements.json",
+    "contractKind": "dependency_scaffold_not_worker_assignment",
+    "assignmentAnchor": null,
+    "portableProjection": null,
+    "portableProjectionAvailable": false,
+    "captainAssignmentRequired": true,
+    "portableProjectionRequired": true,
+    "workerReady": false,
+    "workerMaterializationAuthorized": false,
+    "workerReadAuthorized": false,
+    "workerMayAcquireOrDownloadSources": false,
+    "repositorySourcePathTreatment": "identity_evidence_only_never_worker_source",
+    "registryPresenceConfersReadiness": false
+  },
+  "artifacts": {
+    "scaffoldSpec": "data/record-clearing/production-factory/official-pdf-families/MN/scaffold-spec.json",
+    "dependencies": "data/record-clearing/production-factory/official-pdf-families/MN/dependencies.json",
+    "sourceRequirements": "data/record-clearing/production-factory/official-pdf-families/MN/source-requirements.json",
+    "rendererScaffold": "data/record-clearing/production-factory/official-pdf-families/MN/renderer-scaffold.json",
+    "fieldMapScaffold": "data/record-clearing/production-factory/official-pdf-families/MN/field-map-scaffold.json",
+    "fieldOwnershipSchema": "data/record-clearing/production-factory/official-pdf-families/schemas/field-ownership.schema.json",
+    "fieldOwnership": "data/record-clearing/production-factory/official-pdf-families/MN/field-ownership.json",
+    "fixtureSchema": "data/record-clearing/production-factory/official-pdf-families/schemas/fixture-scaffold.schema.json",
+    "fixtures": "data/record-clearing/production-factory/official-pdf-families/MN/fixtures.json",
+    "packetAssembly": "data/record-clearing/production-factory/official-pdf-families/MN/packet-assembly.json",
+    "reviewManifest": "data/record-clearing/production-factory/official-pdf-families/MN/review-manifest.json"
+  },
+  "implementationModule": "src/lib/rcap/packets/jurisdictions/minnesota/official-pdf/family.ts",
+  "dedicatedVerifier": "scripts/verify-rcap-minnesota-official-pdf-families.mjs",
+  "status": {
+    "sourceRequirements": "scaffolded_pending_authority_and_assignment",
+    "localSourceVerification": "pending_captain_projection",
+    "pdfStructureInspection": "pending_authorized_source_bytes",
+    "fieldMapping": "scaffolded_zero_active_mappings",
+    "packetRendering": "blocked",
+    "sourceBackedSampleCount": 0,
+    "visualReview": "pending_source_backed_samples",
+    "counselReview": "not_submitted",
+    "legalDesignChanged": false,
+    "packetReady": false,
+    "generationAllowed": false,
+    "enabled": false
+  },
+  "blockers": [
+    "Captain-owned assignment anchor and portable source projection are absent.",
+    "Exact retained identities require read-only materialization and fresh byte verification.",
+    "Authority-unmanifested identities require successor-edition manifestation before assignment.",
+    "PDF structure, field names, overlay coordinates, ownership, fixtures, and samples remain unconfirmed.",
+    "All six retained identities are flat or scanned PDFs and require authorized page-geometry inspection plus visually confirmed overlay coordinates.",
+    "EXP101 is an instructions component; implementation must confirm it is assembled as an unchanged pass-through document rather than treating its pages as participant-write targets.",
+    "EXP104 service completion dates and service addresses are post-generation participant fields.",
+    "EXP105 and EXP106 proposed-order judicial fields must remain blank.",
+    "FEE102 is conditional and must not be included unless the adopted packet condition is satisfied."
+  ],
+  "invariants": [
+    "Do not alter official fixed language, adopted component ordering, or Minnesota track selection.",
+    "Participant signatures, hearing details, service attestations, court fields, judge fields, clerk fields, agency fields, and notary fields remain blank unless a confirmed ownership map expressly permits a non-signature value.",
+    "Every shared physical form is rendered once per participant packet.",
+    "Repository-private paths are identity evidence only and are never opened by packet code or the dedicated verifier.",
+    "No source download, URL fallback, fuzzy identity match, live-route change, or runtime enablement is permitted."
+  ]
+}
