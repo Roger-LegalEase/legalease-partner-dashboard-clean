@@ -41,12 +41,29 @@ assert.equal(family.schemaVersion, "rcap-official-pdf-family/v1");
 assert.equal(family.familyId, "pa-rules-490-790-791");
 assert.equal(family.jurisdiction, "PA");
 assert.equal(family.sourceMaterialization.workerReady, false);
+assert.equal(
+  family.sourceMaterialization.contractState,
+  "pending_captain_owned_assignment"
+);
+assert.equal(family.sourceMaterialization.assignmentManifest, null);
+assert.equal(family.sourceMaterialization.portableProjectionAvailable, false);
 assert.equal(family.sourceMaterialization.registryPresenceConfersReadiness, false);
 assert.equal(family.sourceMaterialization.workerMayAcquireSources, false);
 assert.equal(family.status.packetReady, false);
 assert.equal(family.status.enabled, false);
 assert.equal(dependencies.workerReady, false);
 assert.equal(dependencies.failurePolicy.fallbackAllowed, false);
+assert.equal(
+  requirements.schemaVersion,
+  "rcap-source-materialization-requirement-scaffold-set/v1"
+);
+assert.equal(
+  requirements.normativeRequirementSchema,
+  "rcap-source-materialization-requirement/v1"
+);
+assert.equal(requirements.contractState, "pending_captain_owned_assignment");
+assert.equal(requirements.assignmentManifest, null);
+assert.equal(requirements.portableProjectionAvailable, false);
 assert.equal(requirements.requirements.length, 6);
 assert.equal(fieldMap.forms.length, 6);
 assert.equal(ownership.forms.length, 6);
@@ -71,14 +88,44 @@ assert.equal(
   "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd"
 );
 for (const requirement of requirements.requirements) {
-  assert.equal(requirement.authorityEdition, authority.edition);
+  assert.equal(
+    requirement.schemaVersion,
+    "rcap-source-materialization-requirement-scaffold/v1"
+  );
+  assert.equal(
+    requirement.normativeRequirementSchema,
+    "rcap-source-materialization-requirement/v1"
+  );
+  assert.equal(requirement.contractState, "pending_captain_owned_assignment");
+  assert.equal(
+    requirement.authorityEdition,
+    `master-library/${authority.edition}`
+  );
   assert.equal(requirement.authorityArchiveSha256, authority.retention.archiveSha256);
   assert.equal(requirement.expectedMediaType, "application/pdf");
   assert.equal(requirement.identityBindingStatus, "exact_pinned_identity");
   assert.equal(requirement.provenance.registryPresenceConfersReadiness, false);
   assert.ok(
-    requirement.portableLocator.endsWith(requirement.canonicalAuthorityPath),
+    requirement.portableLocatorCandidate.endsWith(
+      requirement.canonicalAuthorityPath
+    ),
     `${requirement.documentId} portable locator must carry the exact canonical authority path`
+  );
+  assert.equal(requirement.repositorySourcePathTreatment, "identity_evidence_only");
+  assert.equal(requirement.workerMaterializationAuthorized, false);
+  assert.deepEqual(requirement.assignmentBinding, {
+    assignmentJobId: null,
+    assignmentBaseCommit: null,
+    assignmentManifestSha256: null,
+    state: "captain_owned_assignment_required"
+  });
+  assert.equal(
+    requirement.proposedMaterializationDestination,
+    `official-pdf-sources/PA/${requirement.documentId}.pdf`
+  );
+  assert.equal(
+    requirement.verificationCommandCandidate,
+    `node scripts/verify-rcap-materialized-source.mjs --document-id ${requirement.documentId} --sha256 ${requirement.expectedSha256} --bytes ${requirement.expectedBytes}`
   );
 
   const registryEntry = sourceRegistry.artifacts.find(
@@ -124,12 +171,7 @@ assert.deepEqual(
 assert.equal(expectedMissing.length, 5);
 
 for (const requirement of expectedMissing) {
-  const absolutePath = path.resolve(rootDir, requirement.materializationDestination);
-  assert.equal(
-    fs.existsSync(absolutePath),
-    false,
-    `${requirement.documentId} is now present; update the PA family from pending state before use`
-  );
+  assert.equal(requirement.materializationStateBasis, "no_local_source");
   await expectPennsylvaniaError(
     () =>
       implementation.verifyPennsylvaniaOfficialPdfSource(
@@ -144,6 +186,10 @@ const retainedSource = requirements.requirements.find(
   (requirement) => requirement.documentId === "PA-RCRIM-P-790-PETITION"
 );
 assert.ok(retainedSource);
+assert.equal(
+  retainedSource.materializationStateBasis,
+  "tracked_review_source_not_worker_projection"
+);
 assert.equal(
   retainedSource.resolvedReadOnlySourcePath,
   "reference/pennsylvania/222612-petitionforexpungement790030912-000077.pdf"
@@ -281,7 +327,7 @@ verifyLegacyIsolation();
 
 if (requireAllSources) {
   throw new Error(
-    `Exact Pennsylvania source materialization incomplete: ${expectedMissing
+    `Exact Pennsylvania source materialization incomplete because no captain-owned assignment or portable projection exists for: ${expectedMissing
       .map((requirement) => requirement.documentId)
       .join(", ")}`
   );

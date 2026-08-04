@@ -6,6 +6,10 @@
   "additionalProperties": false,
   "required": [
     "schemaVersion",
+    "normativeRequirementSchema",
+    "contractState",
+    "assignmentManifest",
+    "portableProjectionAvailable",
     "familyId",
     "jurisdiction",
     "asOf",
@@ -18,10 +22,16 @@
   ],
   "properties": {
     "schemaVersion": { "const": 1 },
+    "normativeRequirementSchema": {
+      "const": "rcap-source-materialization-requirement/v1"
+    },
+    "contractState": { "const": "pending_captain_owned_assignment" },
+    "assignmentManifest": { "type": "null" },
+    "portableProjectionAvailable": { "const": false },
     "familyId": { "const": "ma-trial-court-official-pdf-families" },
     "jurisdiction": { "const": "MA" },
     "asOf": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
-    "runtimePosture": { "const": "fail_closed_pending_source_materialization" },
+    "runtimePosture": { "const": "fail_closed_pending_captain_assignment" },
     "physicalSourceCount": { "const": 5 },
     "routeCount": { "const": 6 },
     "authorityPins": {
@@ -168,8 +178,13 @@
         "revision",
         "routeIds",
         "componentIds",
+        "contractState",
         "repositorySourcePath",
-        "portableLocator",
+        "repositorySourcePathTreatment",
+        "portableLocatorCandidate",
+        "proposedMaterializationDestination",
+        "verificationCommandCandidate",
+        "assignmentBinding",
         "officialIndexUrl",
         "directOfficialUrl",
         "canonicalAuthorityAsset",
@@ -177,6 +192,7 @@
         "fingerprintDisposition",
         "materializationState",
         "workerMayRead",
+        "workerMaterializationAuthorized",
         "workerMayModify",
         "technicalExpectation",
         "materializationDependencies",
@@ -208,11 +224,39 @@
           "uniqueItems": true,
           "items": { "type": "string", "pattern": "^ma-" }
         },
+        "contractState": { "const": "pending_captain_owned_assignment" },
         "repositorySourcePath": {
           "type": "string",
           "pattern": "^private/Nationwide Record Clearing/LegalEase massachusetts/"
         },
-        "portableLocator": { "type": "string", "minLength": 1 },
+        "repositorySourcePathTreatment": {
+          "const": "identity_evidence_only"
+        },
+        "portableLocatorCandidate": { "type": "string", "minLength": 1 },
+        "proposedMaterializationDestination": {
+          "type": "string",
+          "pattern": "^official-pdf-sources/MA/[A-Za-z0-9._-]+\\.pdf$"
+        },
+        "verificationCommandCandidate": {
+          "type": "string",
+          "pattern": "^node scripts/verify-rcap-materialized-source\\.mjs --document-id "
+        },
+        "assignmentBinding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "assignmentJobId",
+            "assignmentBaseCommit",
+            "assignmentManifestSha256",
+            "state"
+          ],
+          "properties": {
+            "assignmentJobId": { "type": "null" },
+            "assignmentBaseCommit": { "type": "null" },
+            "assignmentManifestSha256": { "type": "null" },
+            "state": { "const": "captain_owned_assignment_required" }
+          }
+        },
         "officialIndexUrl": { "type": "string", "pattern": "^https://www\\.mass\\.gov/" },
         "directOfficialUrl": { "type": "string", "pattern": "^https://" },
         "canonicalAuthorityAsset": {
@@ -239,7 +283,8 @@
           ]
         },
         "materializationState": { "const": "binary_materialization_required" },
-        "workerMayRead": { "const": true },
+        "workerMayRead": { "const": false },
+        "workerMaterializationAuthorized": { "const": false },
         "workerMayModify": { "const": false },
         "technicalExpectation": { "$ref": "#/$defs/technicalExpectation" },
         "materializationDependencies": {

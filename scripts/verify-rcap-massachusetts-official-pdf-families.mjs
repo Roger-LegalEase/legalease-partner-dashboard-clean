@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
-import crypto from "node:crypto";
 import fs from "node:fs";
-import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -92,34 +90,16 @@ async function verify() {
   );
   verifyNotRegistered();
 
-  const sourceResults = [];
-  for (const requirement of sourceRequirements.documents) {
-    const result = await inspectMaterializedSource(requirement, rootDir);
-    sourceResults.push(result);
-    if (
-      result.code !== "source_missing" &&
-      result.code !== "verified_candidate_bytes" &&
-      result.code !== "legacy_candidate_rejected"
-    ) {
-      throw new Error(
-        `${requirement.sourceId}: ${result.code} (${result.detail})`
-      );
-    }
-  }
+  const sourceResults = sourceRequirements.documents.map((requirement) => ({
+    sourceId: requirement.sourceId,
+    code: "captain_assignment_required"
+  }));
 
   if (requireMaterialized) {
-    const unresolved = sourceResults.filter(
-      (result) => result.code !== "verified_candidate_bytes"
-    );
-    assert(
-      unresolved.length === 0,
-      `--require-materialized failed: ${unresolved
-        .map((result) => `${result.sourceId}:${result.code}`)
-        .join(", ")}`
+    throw new Error(
+      "--require-materialized failed: no captain-owned assignment or portable projection is present; use the normative source verifier after integration issues both"
     );
   }
-
-  await verifyFailClosedSelfTests(sourceRequirements.documents[0]);
 
   const counts = sourceResults.reduce(
     (summary, result) => {
@@ -140,7 +120,7 @@ async function verify() {
         .sort(([left], [right]) => left.localeCompare(right))
         .map(([code, count]) => `${code}=${count}`)
         .join(", ")}`,
-      "  fail-closed self-tests: missing source, same-size hash mismatch, and exact synthetic fingerprint all behaved as declared",
+      "  source boundary: legacy repository paths are identity evidence only; packet workers have no read or materialization authority",
       "  live registry integration: absent"
     ].join("\n") + "\n"
   );
@@ -169,12 +149,23 @@ function verifySourceRequirements(
 ) {
   assert(manifest.schemaVersion === 1, "source requirements schemaVersion drift");
   assert(
+    manifest.normativeRequirementSchema ===
+      "rcap-source-materialization-requirement/v1",
+    "normative source requirement schema drift"
+  );
+  assert(
+    manifest.contractState === "pending_captain_owned_assignment" &&
+      manifest.assignmentManifest === null &&
+      manifest.portableProjectionAvailable === false,
+    "source requirements fabricate a captain assignment or portable projection"
+  );
+  assert(
     manifest.familyId === "ma-trial-court-official-pdf-families",
     "source requirements familyId drift"
   );
   assert(manifest.jurisdiction === "MA", "source requirements jurisdiction drift");
   assert(
-    manifest.runtimePosture === "fail_closed_pending_source_materialization",
+    manifest.runtimePosture === "fail_closed_pending_captain_assignment",
     "source requirements must remain fail closed"
   );
   assert(manifest.physicalSourceCount === 5, "physical source count must remain 5");
@@ -256,9 +247,36 @@ function verifySourceRequirements(
       `${requirement.sourceId}: source must remain materialization-required`
     );
     assert(
-      requirement.workerMayRead === true &&
-        requirement.workerMayModify === false,
-      `${requirement.sourceId}: sources must be read-only to this lane`
+      requirement.workerMayRead === false &&
+        requirement.workerMayModify === false &&
+        requirement.workerMaterializationAuthorized === false,
+      `${requirement.sourceId}: packet worker source authority was widened`
+    );
+    assert(
+      requirement.contractState === "pending_captain_owned_assignment" &&
+        requirement.repositorySourcePathTreatment ===
+          "identity_evidence_only" &&
+        requirement.assignmentBinding.assignmentJobId === null &&
+        requirement.assignmentBinding.assignmentBaseCommit === null &&
+        requirement.assignmentBinding.assignmentManifestSha256 === null &&
+        requirement.assignmentBinding.state ===
+          "captain_owned_assignment_required",
+      `${requirement.sourceId}: incomplete fail-closed assignment scaffold`
+    );
+    assert(
+      requirement.proposedMaterializationDestination ===
+        `official-pdf-sources/MA/${requirement.artifactId}.pdf`,
+      `${requirement.sourceId}: proposed portable destination drift`
+    );
+    assert(
+      !requirement.proposedMaterializationDestination.startsWith("private/") &&
+        !requirement.portableLocatorCandidate.includes("://private/"),
+      `${requirement.sourceId}: portable candidate encodes a legacy private path`
+    );
+    assert(
+      requirement.verificationCommandCandidate ===
+        `node scripts/verify-rcap-materialized-source.mjs --document-id ${requirement.artifactId} --sha256 ${requirement.expected.sha256} --bytes ${requirement.expected.bytes}`,
+      `${requirement.sourceId}: contract verifier candidate drift`
     );
     assert(
       requirement.generationAllowed === false &&
@@ -825,215 +843,6 @@ function verifyNotRegistered() {
       !registry.includes("ma-trial-court-official-pdf-families"),
     "preflight family must not be imported by the live packet registry"
   );
-}
-
-async function inspectMaterializedSource(requirement, baseDir) {
-  const absolutePath = resolveWithin(baseDir, requirement.repositorySourcePath);
-  if (!fs.existsSync(absolutePath)) {
-    return {
-      sourceId: requirement.sourceId,
-      code: "source_missing",
-      detail: requirement.repositorySourcePath
-    };
-  }
-  const stat = fs.statSync(absolutePath);
-  if (!stat.isFile()) {
-    return {
-      sourceId: requirement.sourceId,
-      code: "source_not_file",
-      detail: requirement.repositorySourcePath
-    };
-  }
-  const bytes = fs.readFileSync(absolutePath);
-  if (bytes.byteLength !== requirement.expected.bytes) {
-    return {
-      sourceId: requirement.sourceId,
-      code: "source_byte_length_mismatch",
-      detail: `expected ${requirement.expected.bytes}, got ${bytes.byteLength}`
-    };
-  }
-  const sha256 = crypto.createHash("sha256").update(bytes).digest("hex");
-  if (sha256 !== requirement.expected.sha256) {
-    return {
-      sourceId: requirement.sourceId,
-      code: "source_hash_mismatch",
-      detail: `expected ${requirement.expected.sha256}, got ${sha256}`
-    };
-  }
-  if (bytes.subarray(0, 4).toString("hex") !== requirement.expected.pdfMagicHex) {
-    return {
-      sourceId: requirement.sourceId,
-      code: "source_mime_mismatch",
-      detail: "exact bytes do not start with %PDF"
-    };
-  }
-
-  const structural = await inspectPdfStructure(bytes);
-  if (structural.parseError) {
-    return {
-      sourceId: requirement.sourceId,
-      code: "source_structure_mismatch",
-      detail: `the fingerprint-matched candidate is not a parseable PDF: ${structural.parseError}`
-    };
-  }
-  if (
-    requirement.technicalExpectation.encrypted === false &&
-    structural.encrypted
-  ) {
-    return {
-      sourceId: requirement.sourceId,
-      code: "source_structure_mismatch",
-      detail: "the exact candidate unexpectedly contains an encryption dictionary"
-    };
-  }
-  if (
-    requirement.technicalExpectation.xfa === false &&
-    structural.xfa
-  ) {
-    return {
-      sourceId: requirement.sourceId,
-      code: "source_structure_mismatch",
-      detail: "the exact candidate unexpectedly contains XFA"
-    };
-  }
-  if (
-    requirement.technicalExpectation.evidenceState ===
-      "historical_registry_measurement_requires_reinspection" &&
-    (structural.pageCount !== requirement.technicalExpectation.pageCount ||
-      structural.fieldCount !== requirement.technicalExpectation.fieldCount)
-  ) {
-    return {
-      sourceId: requirement.sourceId,
-      code: "source_structure_mismatch",
-      detail: `expected ${requirement.technicalExpectation.pageCount} pages/${requirement.technicalExpectation.fieldCount} fields, got ${structural.pageCount} pages/${structural.fieldCount} fields`
-    };
-  }
-
-  if (
-    requirement.fingerprintDisposition ===
-    "legacy_candidate_requires_replacement"
-  ) {
-    return {
-      sourceId: requirement.sourceId,
-      code: "legacy_candidate_rejected",
-      detail: "fingerprint matched, but acquisition intelligence rejects this legacy candidate for current rendering",
-      structural
-    };
-  }
-  return {
-    sourceId: requirement.sourceId,
-    code: "verified_candidate_bytes",
-    detail: `${structural.pageCount} pages, ${structural.fieldCount} AcroForm fields, xfa=${structural.xfa}`,
-    structural
-  };
-}
-
-async function inspectPdfStructure(bytes) {
-  const latin = bytes.toString("latin1");
-  const xfa = /\/XFA\b/.test(latin);
-  const encrypted = /\/Encrypt\b/.test(latin);
-  if (encrypted) {
-    return { xfa, encrypted, pageCount: null, fieldCount: null };
-  }
-  try {
-    const { PDFDocument } = await import("pdf-lib");
-    const document = await PDFDocument.load(bytes, { updateMetadata: false });
-    return {
-      xfa,
-      encrypted,
-      pageCount: document.getPageCount(),
-      fieldCount: document.getForm().getFields().length
-    };
-  } catch (error) {
-    return {
-      xfa,
-      encrypted,
-      pageCount: null,
-      fieldCount: null,
-      parseError: String(error instanceof Error ? error.message : error).slice(
-        0,
-        160
-      )
-    };
-  }
-}
-
-async function verifyFailClosedSelfTests(realRequirement) {
-  const tempRoot = fs.mkdtempSync(
-    path.join(os.tmpdir(), "rcap-ma-official-pdf-gate-")
-  );
-  try {
-    const missing = await inspectMaterializedSource(realRequirement, tempRoot);
-    assert(
-      missing.code === "source_missing",
-      "self-test: missing source did not fail closed"
-    );
-
-    const tamperedPath = resolveWithin(
-      tempRoot,
-      realRequirement.repositorySourcePath
-    );
-    fs.mkdirSync(path.dirname(tamperedPath), { recursive: true });
-    const tampered = Buffer.alloc(realRequirement.expected.bytes, 0x41);
-    tampered.set(Buffer.from("%PDF"), 0);
-    fs.writeFileSync(tamperedPath, tampered);
-    const mismatch = await inspectMaterializedSource(realRequirement, tempRoot);
-    assert(
-      mismatch.code === "source_hash_mismatch",
-      `self-test: same-size tampered source returned ${mismatch.code}`
-    );
-
-    const { PDFDocument } = await import("pdf-lib");
-    const exactDocument = await PDFDocument.create();
-    exactDocument.addPage([612, 792]);
-    const exactBytes = Buffer.from(
-      await exactDocument.save({
-        addDefaultPage: false,
-        updateFieldAppearances: false,
-        useObjectStreams: false
-      })
-    );
-    const syntheticRequirement = {
-      ...realRequirement,
-      sourceId: "ma-self-test-exact-fingerprint",
-      repositorySourcePath: "private/ma-self-test/exact.pdf",
-      expected: {
-        sha256: crypto
-          .createHash("sha256")
-          .update(exactBytes)
-          .digest("hex"),
-        bytes: exactBytes.byteLength,
-        mimeType: "application/pdf",
-        pdfMagicHex: "25504446"
-      },
-      fingerprintDisposition:
-        "historical_candidate_pending_manual_official_diff",
-      technicalExpectation: {
-        ...realRequirement.technicalExpectation,
-        pageCount: 1,
-        fieldCount: 0,
-        xfa: null,
-        encrypted: false,
-        evidenceState: "historical_registry_conflict_requires_reinspection"
-      }
-    };
-    const exactPath = resolveWithin(
-      tempRoot,
-      syntheticRequirement.repositorySourcePath
-    );
-    fs.mkdirSync(path.dirname(exactPath), { recursive: true });
-    fs.writeFileSync(exactPath, exactBytes);
-    const exact = await inspectMaterializedSource(
-      syntheticRequirement,
-      tempRoot
-    );
-    assert(
-      exact.code === "verified_candidate_bytes",
-      `self-test: exact fingerprint returned ${exact.code}`
-    );
-  } finally {
-    fs.rmSync(tempRoot, { recursive: true, force: true });
-  }
 }
 
 function assertAuthorityPin(pin, auditRow) {

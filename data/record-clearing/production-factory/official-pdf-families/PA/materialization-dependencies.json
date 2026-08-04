@@ -17,7 +17,7 @@
     {
       "dependencyId": "rcap-nationwide-source-materialization-contract",
       "kind": "source_materialization_contract",
-      "state": "required",
+      "state": "integrated_pending_captain_assignment",
       "allExactSourcesRequired": true,
       "workerMayAcquireSources": false,
       "registryPresenceConfersReadiness": false
@@ -31,7 +31,8 @@
       "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
       "bytes": 87647,
       "mediaType": "application/pdf",
-      "treatment": "read_only_use_in_place_no_copy"
+      "treatment": "read_only_use_in_place_no_copy",
+      "scope": "technical_review_only_not_worker_projection"
     },
     {
       "dependencyId": "pa-five-unavailable-rule-family-sources",
@@ -44,7 +45,7 @@
         "PA-RCRIM-P-791-PETITION",
         "PA-RCRIM-P-791-ORDER"
       ],
-      "resolution": "Materialize only exact bytes at their declared destinations through the source-materialization owner, then rerun the dedicated verifier.",
+      "resolution": "The integration captain must issue an immutable assignment and portable projection, materialize only exact pinned bytes, and run the contract verifier before this family can consume them.",
       "downloadOrImprovisationAllowed": false
     },
     {

@@ -1,5 +1,4 @@
 import assert from "node:assert/strict";
-import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -12,11 +11,16 @@ const REPOSITORY_AUDIT_PATH =
   "data/record-clearing/master-library/repository-asset-audit.json";
 const SOURCE_DEPENDENCY =
   "rcap-nationwide-source-materialization-contract";
+const SOURCE_REQUIREMENT_SCHEMA =
+  "rcap-source-materialization-requirement/v1";
+const SOURCE_REQUIREMENT_SCAFFOLD_SCHEMA =
+  "rcap-source-materialization-requirement-scaffold/v1";
+const SOURCE_REQUIREMENT_SCAFFOLD_SET_SCHEMA =
+  "rcap-source-materialization-requirement-scaffold-set/v1";
 const FIELD_OWNERSHIP_SCHEMA =
   "data/record-clearing/production-factory/official-pdf-families/schemas/field-ownership.schema.json";
 const FIXTURE_SCHEMA =
   "data/record-clearing/production-factory/official-pdf-families/schemas/fixture-scaffold.schema.json";
-const WRITE_MASK = 0o222;
 
 export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
   const spec = readJson(root, specPath);
@@ -117,21 +121,25 @@ export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
       artifact.role ??
       "OFFICIAL_FORM";
     return {
-      schemaVersion: "rcap-source-materialization-requirement/v1",
-      authorityEdition: authority.edition,
+      schemaVersion: SOURCE_REQUIREMENT_SCAFFOLD_SCHEMA,
+      normativeRequirementSchema: SOURCE_REQUIREMENT_SCHEMA,
+      contractState: "pending_captain_owned_assignment",
+      authorityEdition: `master-library/${authority.edition}`,
       authorityArchiveSha256: authority.retention.archiveSha256,
       jurisdiction: spec.jurisdiction,
       documentId,
       documentRole: role,
       canonicalAuthorityPath: audit.libraryRow.canonicalRelativePath,
       repositorySourcePath: audit.sourcePath,
-      portableLocator: `rcap-master-library-edition-${authority.edition.replaceAll(".", "-")}://${audit.libraryRow.canonicalRelativePath}`,
-      materializationDestination: audit.sourcePath,
+      repositorySourcePathTreatment: "identity_evidence_only",
+      portableLocatorCandidate: `rcap-master-library-edition-${authority.edition.replaceAll(".", "-")}://${audit.libraryRow.canonicalRelativePath}`,
+      proposedMaterializationDestination:
+        `official-pdf-sources/${spec.jurisdiction}/${documentId}.pdf`,
       expectedSha256: audit.sha256,
       expectedBytes: artifact.sizeBytes,
       expectedMediaType: "application/pdf",
       readOnlyTreatment: "worker_read_only_no_modify",
-      verificationCommand: [
+      verificationCommandCandidate: [
         "node scripts/verify-rcap-materialized-source.mjs",
         `--document-id ${documentId}`,
         `--sha256 ${audit.sha256}`,
@@ -144,6 +152,13 @@ export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
       authorityAssetState: "authority_asset_known",
       registryState: "registry_metadata_present",
       materializationState: "binary_materialization_required",
+      assignmentBinding: {
+        assignmentJobId: null,
+        assignmentBaseCommit: null,
+        assignmentManifestSha256: null,
+        state: "captain_owned_assignment_required"
+      },
+      workerMaterializationAuthorized: false,
       usageBindings,
       provenance: {
         registryPath: SOURCE_REGISTRY_PATH,
@@ -155,10 +170,14 @@ export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
   });
 
   const sourceRequirements = {
-    schemaVersion: "rcap-source-materialization-requirement-set/v1",
+    schemaVersion: SOURCE_REQUIREMENT_SCAFFOLD_SET_SCHEMA,
+    normativeRequirementSchema: SOURCE_REQUIREMENT_SCHEMA,
     familyId: spec.familyId,
     jurisdiction: spec.jurisdiction,
     dependencyJobId: SOURCE_DEPENDENCY,
+    contractState: "pending_captain_owned_assignment",
+    assignmentManifest: null,
+    portableProjectionAvailable: false,
     allSourcesRequired: true,
     aggregateState: "binary_materialization_required",
     workerReady: false,
@@ -367,6 +386,9 @@ export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
       requirementManifest: artifactPaths.sourceRequirements,
       allSourcesRequired: true,
       state: "binary_materialization_required",
+      contractState: "pending_captain_owned_assignment",
+      assignmentManifest: null,
+      portableProjectionAvailable: false,
       workerReady: false,
       registryPresenceConfersReadiness: false,
       workerMayAcquireSources: false
@@ -383,7 +405,7 @@ export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
     artifacts: artifactPaths,
     dedicatedVerifier: spec.dedicatedVerifier,
     status: {
-      sourceRequirements: "exact_pinned_identity",
+      sourceRequirements: "exact_identity_scaffold_pending_assignment",
       localSourceVerification: "pending_materialization",
       pdfStructureInspection: "pending_materialization",
       fieldMapping: "scaffolded_pending_materialization",
@@ -411,7 +433,7 @@ export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
     samplePackets: [],
     visualInspectionArtifacts: [],
     unresolvedDependencies: [
-      "The source-materialization contract must be published and integrated.",
+      "The source-materialization contract is integrated; a captain-owned immutable assignment and portable projection must still be issued.",
       "Every exact source must be materialized as read-only local bytes and independently verified.",
       "Fresh PDF structure inspection must replace carried-forward measurements.",
       "Every field must receive one ownership classification and every mapping must be visually confirmed.",
@@ -475,26 +497,38 @@ export function verifyOfficialPdfFamilyScaffold({
 
   const ready = [];
   const pending = [];
-  for (const { documentId, audit, artifact } of built.documents) {
-    const absolutePath = path.join(root, audit.sourcePath);
-    if (!fs.existsSync(absolutePath)) {
-      pending.push(documentId);
-      continue;
-    }
-    const stat = fs.lstatSync(absolutePath);
-    assert.equal(stat.isSymbolicLink(), false, absolutePath);
-    assert.equal(stat.isFile(), true, absolutePath);
-    assert.equal(stat.nlink, 1, absolutePath);
-    assert.equal(stat.mode & WRITE_MASK, 0, `${absolutePath} must be read-only`);
-    assert.equal(stat.size, artifact.sizeBytes, absolutePath);
-    const bytes = fs.readFileSync(absolutePath);
-    assert.equal(bytes.subarray(0, 5).toString("ascii"), "%PDF-", absolutePath);
-    assert.equal(sha256(bytes), audit.sha256, absolutePath);
-    ready.push(documentId);
+  for (const requirement of built.artifacts["source-requirements.json"]
+    .requirements) {
+    assert.equal(
+      requirement.schemaVersion,
+      SOURCE_REQUIREMENT_SCAFFOLD_SCHEMA
+    );
+    assert.equal(requirement.normativeRequirementSchema, SOURCE_REQUIREMENT_SCHEMA);
+    assert.equal(requirement.contractState, "pending_captain_owned_assignment");
+    assert.equal(requirement.repositorySourcePathTreatment, "identity_evidence_only");
+    assert.equal(requirement.workerMaterializationAuthorized, false);
+    assert.deepEqual(requirement.assignmentBinding, {
+      assignmentJobId: null,
+      assignmentBaseCommit: null,
+      assignmentManifestSha256: null,
+      state: "captain_owned_assignment_required"
+    });
+    assertPortablePath(requirement.canonicalAuthorityPath);
+    assertPortablePath(requirement.repositorySourcePath);
+    assertPortablePath(requirement.proposedMaterializationDestination);
+    assert.equal(
+      requirement.proposedMaterializationDestination.startsWith("private/"),
+      false
+    );
+    assert.equal(
+      requirement.portableLocatorCandidate.includes("://private/"),
+      false
+    );
+    pending.push(requirement.documentId);
   }
   if (requireMaterialized && pending.length > 0) {
     throw new Error(
-      `${built.spec.familyId} source materialization required: ${pending.join(", ")}`
+      `${built.spec.familyId} source materialization unavailable: a captain-owned assignment and portable projection are required for ${pending.join(", ")}`
     );
   }
   return {
@@ -529,10 +563,6 @@ function rendererCandidate(artifact) {
 
 function readJson(root, relativePath) {
   return JSON.parse(fs.readFileSync(path.join(root, relativePath), "utf8"));
-}
-
-function sha256(bytes) {
-  return crypto.createHash("sha256").update(bytes).digest("hex");
 }
 
 function unique(values) {

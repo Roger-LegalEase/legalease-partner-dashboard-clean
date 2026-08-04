@@ -16,10 +16,8 @@
 // artifacts. Generated samples elsewhere in tmp/ are never source inputs.
 
 import { register } from "node:module";
-import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { PDFDocument } from "pdf-lib";
 
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
@@ -168,8 +166,16 @@ note("1. Boundary: Maryland-only family artifacts exist; shielding remains exter
 
 ok(
   sourceRequirements.schemaVersion ===
-    "rcap-source-materialization-requirement-set/v1",
+    "rcap-source-materialization-requirement-scaffold-set/v1",
   "Source requirement set has the wrong schemaVersion."
+);
+ok(
+  sourceRequirements.normativeRequirementSchema ===
+      "rcap-source-materialization-requirement/v1" &&
+    sourceRequirements.contractState === "pending_captain_owned_assignment" &&
+    sourceRequirements.assignmentManifest === null &&
+    sourceRequirements.portableProjectionAvailable === false,
+  "Source requirement scaffold claims a captain assignment or portable projection."
 );
 ok(
   sourceRequirements.familyId === FAMILY_ID &&
@@ -219,11 +225,17 @@ for (const requirement of requirements) {
   const prefix = requirement.documentId;
   ok(
     requirement.schemaVersion ===
-      "rcap-source-materialization-requirement/v1",
+      "rcap-source-materialization-requirement-scaffold/v1",
     `${prefix}: wrong requirement schemaVersion.`
   );
   ok(
-    requirement.authorityEdition === authority.edition,
+    requirement.normativeRequirementSchema ===
+        "rcap-source-materialization-requirement/v1" &&
+      requirement.contractState === "pending_captain_owned_assignment",
+    `${prefix}: source scaffold contract state is wrong.`
+  );
+  ok(
+    requirement.authorityEdition === `master-library/${authority.edition}`,
     `${prefix}: authority edition does not match the adopted edition.`
   );
   ok(
@@ -241,14 +253,14 @@ for (const requirement of requirements) {
     `${prefix}: media type is not application/pdf.`
   );
   ok(
-    requirement.repositorySourcePath === requirement.materializationDestination,
-    `${prefix}: repository path and materialization destination differ.`
+    requirement.repositorySourcePathTreatment === "identity_evidence_only",
+    `${prefix}: repository path is not marked as identity evidence only.`
   );
   ok(
-    requirement.materializationDestination.startsWith(
-      "private/Nationwide Record Clearing/LegalEase Maryland/"
-    ) && !requirement.materializationDestination.split("/").includes(".."),
-    `${prefix}: materialization destination is outside the Maryland Nationwide folder.`
+    requirement.proposedMaterializationDestination ===
+        `official-pdf-sources/MD/${prefix}.pdf` &&
+      !requirement.proposedMaterializationDestination.startsWith("private/"),
+    `${prefix}: proposed portable destination is invalid.`
   );
   ok(
     requirement.readOnlyTreatment === "worker_read_only_no_modify",
@@ -263,9 +275,18 @@ for (const requirement of requirements) {
     `${prefix}: source requirement claims generation is allowed.`
   );
   ok(
-    requirement.verificationCommand ===
-      `node scripts/verify-rcap-maryland-official-pdf-families.mjs --document-id ${prefix} --require-materialized`,
-    `${prefix}: verification command is not exact and self-contained.`
+    requirement.verificationCommandCandidate ===
+      `node scripts/verify-rcap-materialized-source.mjs --document-id ${prefix} --sha256 ${requirement.expectedSha256} --bytes ${requirement.expectedBytes}`,
+    `${prefix}: contract verifier candidate is not exact and self-contained.`
+  );
+  ok(
+    requirement.workerMaterializationAuthorized === false &&
+      requirement.assignmentBinding?.assignmentJobId === null &&
+      requirement.assignmentBinding?.assignmentBaseCommit === null &&
+      requirement.assignmentBinding?.assignmentManifestSha256 === null &&
+      requirement.assignmentBinding?.state ===
+        "captain_owned_assignment_required",
+    `${prefix}: source scaffold fabricates or widens assignment authority.`
   );
 
   if (SOURCE_GATED_IDS.has(prefix)) {
@@ -735,8 +756,8 @@ for (const requirement of requirements) {
       codeSource.mediaType === requirement.expectedMediaType &&
       codeSource.packetRole === requirement.packetRole &&
       codeSource.assetClass === requirement.assetClass &&
-      codeSource.materializationDestination ===
-        requirement.materializationDestination,
+      codeSource.repositorySourcePathEvidence ===
+        requirement.repositorySourcePath,
     `${requirement.documentId}: TypeScript and JSON source identities differ.`
   );
 }
@@ -840,90 +861,11 @@ if (args.documentId) {
 }
 
 const materialized = [];
-const absent = [];
-for (const requirement of selectedRequirements) {
-  const absolutePath = path.join(root, requirement.materializationDestination);
-  if (!fs.existsSync(absolutePath)) {
-    absent.push(requirement.documentId);
-    if (args.requireMaterialized) {
-      ok(false, `${requirement.documentId}: exact source is not materialized.`);
-    }
-    continue;
-  }
-
-  materialized.push(requirement.documentId);
-  const stat = fs.statSync(absolutePath);
-  ok(stat.isFile(), `${requirement.documentId}: source destination is not a file.`);
-  const realPath = fs.realpathSync(absolutePath);
-  const relativeRealPath = path.relative(root, realPath);
+const absent = selectedRequirements.map((requirement) => requirement.documentId);
+if (args.requireMaterialized) {
   ok(
-    relativeRealPath !== "" &&
-      !relativeRealPath.startsWith("../") &&
-      !path.isAbsolute(relativeRealPath),
-    `${requirement.documentId}: source resolves outside this checkout.`
-  );
-
-  const bytes = fs.readFileSync(absolutePath);
-  const sha256 = crypto.createHash("sha256").update(bytes).digest("hex");
-  ok(
-    bytes.byteLength === requirement.expectedBytes,
-    `${requirement.documentId}: byte count mismatch (${bytes.byteLength}, expected ${requirement.expectedBytes}).`
-  );
-  ok(
-    sha256 === requirement.expectedSha256,
-    `${requirement.documentId}: SHA-256 mismatch (${sha256}).`
-  );
-  ok(
-    bytes.subarray(0, 5).toString("ascii") === "%PDF-",
-    `${requirement.documentId}: bytes do not have a PDF signature.`
-  );
-
-  const latin = bytes.toString("latin1");
-  const expected = fieldMapByDocument.get(requirement.documentId)?.expectedStructure;
-  ok(
-    /\/XFA\b/.test(latin) === expected?.xfa,
-    `${requirement.documentId}: XFA state differs from the carried requirement.`
-  );
-  ok(
-    /\/Encrypt\b/.test(latin) === expected?.encrypted,
-    `${requirement.documentId}: encryption state differs from the carried requirement.`
-  );
-  if (!expected?.encrypted && !expected?.xfa) {
-    try {
-      const document = await PDFDocument.load(bytes, { updateMetadata: false });
-      ok(
-        document.getPageCount() === expected.pageCount,
-        `${requirement.documentId}: page count differs from the requirement.`
-      );
-      ok(
-        document.getForm().getFields().length === expected.fieldCount,
-        `${requirement.documentId}: field count differs from the requirement.`
-      );
-    } catch (error) {
-      ok(
-        false,
-        `${requirement.documentId}: exact bytes could not be parsed (${String(
-          error?.message ?? error
-        ).slice(0, 120)}).`
-      );
-    }
-  }
-
-  // A source custodian may verify one binary before implementation. A normal
-  // family run must not remain green once source bytes appear while mapping and
-  // ownership are still empty.
-  if (!args.sourceOnly) {
-    ok(
-      false,
-      `${requirement.documentId}: exact source is now materialized; continue through fresh inspection, full ownership classification, field mapping, deterministic sample rendering, and visual artifacts before this verifier may pass.`
-    );
-  }
-}
-
-if (!args.requireMaterialized) {
-  ok(
-    absent.length + materialized.length === selectedRequirements.length,
-    "Source-state accounting is incomplete."
+    false,
+    "No captain-owned assignment or portable projection is present; use the normative source verifier only after integration issues both."
   );
 }
 note(
