@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-4-illinois-custom-pleadings",
+  "jobId": "rcap-il-custom-pleading",
+  "jurisdiction": "IL",
+  "jurisdictionName": "Illinois",
+  "preparedOn": "2026-08-04",
+  "preparer": "engineering implementation pass (not counsel, and not a legal approval)",
+  "authorityEdition": "1.2",
+  "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+
+  "whatThisDocumentIs": "The engineering pass's recommendation to reviewing counsel for the two assigned Illinois custom-pleading routes. It records what was built, on what authority, what it deliberately does not do, and the questions counsel must answer before either route may be adopted. It is a recommendation only. Nothing in it advances any status by itself.",
+
+  "humanLegalReviewStatus": "awaiting_counsel_adoption",
+  "counselAdopted": false,
+
+  "recommendations": [
+    {
+      "trackId": "il-immediate-seal",
+      "publicName": "Asking for immediate sealing on the day your case is dismissed or you are acquitted",
+      "status": "recommended_for_counsel_adoption",
+      "outputStrategy": "custom_pleading",
+      "localFormOverride": true,
+      "deliveryModel": "attorney_filed",
+      "components": [
+        "primary_filing — Petition for Immediate Sealing",
+        "proposed_order — Order for Immediate Sealing",
+        "instructions — Filing instruction sheet, marked NOT A COURT FILING"
+      ],
+
+      "recommendation": "Adopt the packet as built, as an attorney-handoff packet. The petition pleads the four things § 5.2(g) turns on — an acquittal or a dismissal with prejudice, an arrest or charge on or after 1 January 2018, an offence that is not a minor traffic offence under § 5.2(a)(3)(B), and filing with the circuit clerk on the same day and during the same hearing at which the case is disposed — and asks for nothing else. The participant verifies it. Counsel's block is drawn, labelled, and left entirely blank, because § 5.2(g)(5)(A) frames the petition as filed by the defendant's attorney on the defendant's behalf and LegalEase can neither appear nor file.",
+
+      "basis": [
+        "20 ILCS 2630/5.2(g), (g)(5)(A), (a)(3)(B) and (c)(3)(A).",
+        "The packet-only re-review that reclassified this route from process_guidance to custom_pleading: a participant-facing petition and proposed order exist under § 5.2(g), and the prior classification conflated LegalEase's inability to appear in court with the absence of a packet.",
+        "A drafted custom-pleading specification for all three components, none authored by this tranche."
+      ],
+
+      "whatCounselIsBeingAskedToAdopt": [
+        "That an attorney-handoff packet is the right delivery model for this route. This is the second recorded release blocker on the track and the single most important question in this tranche.",
+        "That the instruction sheet says the right things: give the packet to your lawyer or public defender before the hearing; you cannot file this petition yourself after you leave court; LegalEase cannot appear or file; and missing the window costs nothing permanent because ordinary sealing under § 5.2(c)(3)(A) remains available at any time.",
+        "That drawing a blank attorney block, rather than omitting one, is right on a petition counsel signs.",
+        "That refusing to generate for an unrepresented participant is right, rather than generating with a warning. The packet is one only counsel can file, so handing it to someone with no counsel would be handing them a dead end at the moment they can least afford one."
+      ],
+
+      "stopsCarried": [
+        "No upcoming disposition hearing — the § 5.2(g) window does not exist, and the participant is routed to ordinary sealing.",
+        "No lawyer or public defender on the case.",
+        "Arrest or charge before 1 January 2018.",
+        "A minor traffic offence under § 5.2(a)(3)(B).",
+        "A dismissal without prejudice.",
+        "Every stop routes to the Office of the State Appellate Defender, Expungement Unit, 866-787-1776."
+      ]
+    },
+    {
+      "trackId": "il-prostitution-j-vacate",
+      "publicName": "Vacating and expunging a Class 4 felony prostitution conviction",
+      "status": "recommended_for_counsel_adoption",
+      "outputStrategy": "custom_pleading",
+      "localFormOverride": true,
+      "deliveryModel": "participant_filed_attorney_review_recommended",
+      "components": [
+        "primary_filing — Motion to Vacate and Expunge a Conviction for Class 4 Felony Prostitution",
+        "proposed_order — Order Vacating and Expunging Conviction"
+      ],
+
+      "recommendation": "Adopt the packet as built. The motion cites 20 ILCS 2630/5.2(j)(3), the expungement mechanics at (d)(9)(A) and the effect provision at (j)(8), and nothing else. It pleads what the participant says their record states rather than asserting a Class 4 felony, carries the participant's own adverse-consequences statement verbatim and attributed, asks the Court to exercise its discretion without suggesting how, and carries no verification because the subsection requires none.",
+
+      "basis": [
+        "20 ILCS 2630/5.2(j)(3), with the mechanics at (d)(9)(A) and the effect at (j)(8). Section 5.2(a)(3)(C)(i) is pinned as track authority and deliberately not cited in the pleading.",
+        "A drafted custom-pleading specification for both components.",
+        "The adopted design's instruction that the statewide cannabis form suite belongs only to the cannabis conviction motion and is not mapped here."
+      ],
+
+      "whatCounselIsBeingAskedToAdopt": [
+        "That pleading the record answer — 'The record of conviction states that the offence was a Class 4 felony prostitution offence' — rather than asserting the classification, is the right way to satisfy the subsection without LegalEase characterising a record it has not seen.",
+        "That refusing to generate where the participant is unsure what the record says is right, rather than generating with a caveat.",
+        "That the trafficking screen should run before any other questioning on this route and should stop generation outright, routing the participant to § 5.2(h), rather than proceeding with a note.",
+        "That the motion correctly asserts nothing about the circumstances of the offence and asks nothing about them.",
+        "That omitting verification is right, given that the subsection requires none."
+      ],
+
+      "stopsCarried": [
+        "The participant asks about relief for people whose involvement resulted from trafficking — routed to § 5.2(h), which the design records as the stronger route, and this motion is not prepared.",
+        "The record does not clearly show a Class 4 felony prostitution conviction.",
+        "The sentence or any condition imposed remains incomplete.",
+        "Attorney review is recommended by default, and State's Attorney objection within the 60-day window, a contested or evidentiary hearing, and individualized argument all remain self-help stops.",
+        "Every stop routes to the Office of the State Appellate Defender, Expungement Unit, 866-787-1776."
+      ]
+    }
+  ],
+
+  "questionsForCounsel": [
+    {
+      "id": "attorney-handoff-delivery-model",
+      "appliesTo": "il-immediate-seal",
+      "question": "Is an attorney-handoff packet the accepted delivery model for this route, given that § 5.2(g)(5)(A) frames the petition as filed by the defendant's attorney?",
+      "whyItIsOpen": "Recorded as a release blocker on the track. The design also carries an older statement, from before the packet-only re-review, that LegalEase does not generate a filing for this route at all. The two cannot both be current.",
+      "whatWasDoneInstead": "The packet is built and framed as an attorney handoff throughout: the petition is styled as filed by counsel, the attorney block is blank, and the instruction sheet tells the participant to give the packet to their lawyer and says in terms that they cannot file it themselves. If counsel prefers the older guidance-only posture, the templates are removed and the track reverts to guidance; nothing else in the tranche depends on it."
+    },
+    {
+      "id": "local-form-override-unverified",
+      "appliesTo": "il-immediate-seal",
+      "question": "Does any Illinois court publish a local form for the § 5.2(g) same-day immediate-sealing petition?",
+      "whyItIsOpen": "No statewide form covers the mechanism, and no survey of local forms has been done, so the local-form override is recorded as unverified.",
+      "whatWasDoneInstead": "The route carries localFormOverride true with the basis recorded as unverified in the authority pins. Where a local form is found, it controls and the generated petition becomes the covering filing."
+    },
+    {
+      "id": "service-model",
+      "appliesTo": "il-prostitution-j-vacate",
+      "question": "Does the clerk serve the State's Attorney as under § 5.2(d)(4), or does the movant serve as in the cannabis suite?",
+      "whyItIsOpen": "The subsection does not say, and the two suites do it differently.",
+      "whatWasDoneInstead": "The motion asserts neither. It says the filing method and whether the clerk or the movant serves are confirmed with the circuit clerk before filing, and no certificate of service is generated for a service model that has not been established."
+    },
+    {
+      "id": "county-filing-fees",
+      "appliesTo": "both routes",
+      "question": "What does each county charge, and does a county fee table need to exist before a figure is shown to a participant?",
+      "whyItIsOpen": "Published examples run from roughly sixty to two hundred and thirty-five dollars with no statewide schedule.",
+      "whatWasDoneInstead": "No fee figure is printed anywhere in this tranche, and the technical gate fails the tranche if a currency figure ever appears. The immediate-sealing instruction sheet names the Supreme Court Rule 298 waiver route where a county charges a fee and tells the participant to confirm with the clerk."
+    },
+    {
+      "id": "e-filing-availability",
+      "appliesTo": "both routes",
+      "question": "Is e-filing available for expungement and sealing petitions in every county, and how do counties handle self-represented e-filing exemptions?",
+      "whyItIsOpen": "Recorded as a release blocker and not surveyed.",
+      "whatWasDoneInstead": "Neither packet asserts an e-filing route. Both say the filing method is confirmed with the clerk."
+    },
+    {
+      "id": "missing-instructions-component",
+      "appliesTo": "il-prostitution-j-vacate",
+      "question": "Should this packet gain an instructions component?",
+      "whyItIsOpen": "The component specification places a manual completion item on a 'Filing instruction sheet', but the adopted packet set for this track contains only the motion and the proposed order. The design refers to a component it does not define.",
+      "whatWasDoneInstead": "No third component was invented. The filing-method confirmation is recorded in the field-ownership map as an item the participant completes, and the motion itself says the filing method and the service model are confirmed with the clerk. Adding the component is a packet-set change and belongs to counsel."
+    },
+    {
+      "id": "record-answer-as-the-pleaded-fact",
+      "appliesTo": "il-prostitution-j-vacate",
+      "question": "Is pleading the participant's answer about what the record states a sufficient way to satisfy the Class 4 felony element?",
+      "whyItIsOpen": "LegalEase is barred from asserting the conviction was a Class 4 felony where the record does not say so, and it never sees the record.",
+      "whatWasDoneInstead": "The motion pleads that the record of conviction states the offence was a Class 4 felony prostitution offence, which is the participant's own answer, and the route refuses to generate where the participant answers that the record does not say so or that they are unsure."
+    }
+  ],
+
+  "whatThisDoesNotAssert": [
+    "That either motion will be granted. Both standards are discretionary and neither packet suggests an outcome.",
+    "That the participant is eligible. Each packet asks, fails closed where an answer puts the participant outside the subsection, and otherwise prepares what the participant said.",
+    "That the conviction was a Class 4 felony prostitution offence. The motion pleads what the participant says the record states.",
+    "Anything about the circumstances of an offence. No question in this tranche asks, and no template describes.",
+    "That a participant may file the immediate-sealing petition themselves. They may not, and the packet says so."
+  ],
+
+  "engineeringFollowUpsForTheNextTranche": [
+    {
+      "id": "renderer-always-draws-a-pleading-caption",
+      "finding": "CustomPleadingRenderer always draws a caption, so a non-filing component rendered by it — an instruction sheet, a checklist — arrives headed like a pleading. This tranche hit it on the il-immediate-seal instruction sheet, which was the one page in the packet that must not be handed to a clerk.",
+      "impactOnThisTranche": "One material visual defect, repaired inside the template by replacing the pleading caption with a plain heading block. The repair works but relies on every future author remembering to do it.",
+      "recommendation": "Give the pleading template an explicit non-filing mode that suppresses the party block, or route non-filing components through the guidance engine, which already carries the not-a-court-filing contract. Both live outside this job's owned paths.",
+      "ownedByThisJob": false
+    },
+    {
+      "id": "court-name-and-county-overlap",
+      "finding": "Where a jurisdiction's caption is copied wholesale from the participant's case papers, a separately-collected county field will duplicate part of it. Illinois needs the copied caption because Cook County and the numbered judicial circuits are styled differently.",
+      "impactOnThisTranche": "One minor defect, repaired by not appending the county to a court name that already carries it.",
+      "recommendation": "Where a caption is copied from the record, treat every other place-name field as data rather than as caption material.",
+      "ownedByThisJob": false
+    }
+  ],
+
+  "note": "This recommendation is an engineering work product. It is not counsel's sign-off, it does not constitute legal review, and it moves nothing. Both Illinois tracks remain runtime_disabled at awaiting_counsel_adoption, no jurisdiction is enabled, and packet readiness remains 0."
+}

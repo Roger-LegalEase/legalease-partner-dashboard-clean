@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-4-illinois-custom-pleadings",
+  "jurisdiction": "IL",
+  "reviewedOn": "2026-08-04",
+  "reviewer": "engineering visual review (not a legal approval)",
+  "result": "passed_no_unresolved_defects",
+  "method": "Every page of every assembled packet was rasterized to a PNG at 110 dpi, the image count was checked against the page count of the assembled deliverable, and every page was inspected directly as an image. Thirteen pages across three assembled packets: both branch variants of il-immediate-seal and the il-prostitution-j-vacate motion.",
+
+  "pagesRendered": 13,
+  "pagesInspected": 13,
+  "pagesInspectedDirectlyAsImages": 13,
+  "assembledPackets": 3,
+
+  "componentTypesInspected": [
+    "primary_filing — petition (il-immediate-seal, dismissed with prejudice and acquitted variants)",
+    "primary_filing — motion (il-prostitution-j-vacate)",
+    "proposed_order (both tracks)",
+    "instructions — filing instruction sheet (il-immediate-seal)"
+  ],
+  "branchVariantsInspected": ["dismissed_with_prejudice", "acquitted"],
+
+  "checks": [
+    { "check": "No clipping at any margin", "result": "pass" },
+    { "check": "No overlapping text", "result": "pass" },
+    { "check": "No text outside the printable margins", "result": "pass" },
+    { "check": "No unreadably small text — body is 11 pt, banner 9 pt", "result": "pass" },
+    { "check": "No broken or substituted characters, including the section mark", "result": "pass" },
+    { "check": "No unexpected blank or orphan page", "result": "pass" },
+    { "check": "Caption columns align and do not collide", "result": "pass" },
+    { "check": "Grant and denial elections render as blank marks", "result": "pass" },
+    { "check": "Judicial signature block is blank and lands whole on one page", "result": "pass" },
+    { "check": "The attorney block on the immediate-sealing petition is drawn, labelled and entirely blank", "result": "pass" },
+    { "check": "The verification signature and the attorney signature are visually distinct and separately labelled", "result": "pass" },
+    { "check": "The instruction sheet cannot be mistaken for a filing", "result": "pass after repair" },
+    { "check": "Participant narrative wraps and remains readable, and is attributed on the page", "result": "pass" },
+    { "check": "No statewide form-suite branding or layout copied into either pleading", "result": "pass" },
+    { "check": "Rendered page image count equals assembled PDF page count for every sample", "result": "pass — 13 of 13" }
+  ],
+
+  "defectsFound": [
+    {
+      "id": "instruction-sheet-styled-as-a-pleading",
+      "description": "The il-immediate-seal filing instruction sheet was rendered with the ordinary pleading caption — PEOPLE OF THE STATE OF ILLINOIS v. Defendant over a case number — because the custom-pleading renderer always draws a caption. Titled NOT A COURT FILING but headed like a filing, and bound in the same packet as two documents that are filings, it was a page a participant or a clerk could reasonably take for part of the filing.",
+      "severity": "material — the one page in this packet that must not be handed to the clerk was the page most likely to be handed to the clerk",
+      "repair": "The instruction sheet now carries its own heading block instead of the pleading caption: the court line reads FILING INSTRUCTIONS — NOT A COURT FILING, the left column says who the page was prepared for and which packet it belongs to, and the right column says to give the packet to the lawyer or public defender and not to hand this page to the clerk. The shared renderer was not changed.",
+      "status": "repaired"
+    },
+    {
+      "id": "duplicated-county-in-the-case-sentence",
+      "description": "Both petitions rendered the case sentence as \"in the Circuit Court of Cook County, Illinois, Cook County, Illinois\". The court name is copied by the participant from their own case papers and already contains the county and the state, so appending them again duplicated both.",
+      "severity": "minor — a visibly wrong sentence on the face of a filing",
+      "repair": "The body sentence now reads \"in the {{courtName}}\" on both tracks. The county remains a separate participant fact and is recorded in the field-ownership map; it is simply no longer appended to a court name that already carries it.",
+      "status": "repaired"
+    }
+  ],
+
+  "unresolvedDefects": [],
+
+  "deliveryModelObservations": [
+    "The immediate-sealing petition carries two signature areas — the participant's verification and counsel's block. Unlike a single-role document with two places to sign, these belong to different people and are separately labelled: 'Signature of Defendant (verification)' and an attorney block introduced by 'Presented and filed by counsel for Defendant. 20 ILCS 2630/5.2(g)(5)(A). Counsel completes and signs the block below. LegalEase leaves it blank.' Inspected directly and read unambiguously.",
+    "The prostitution motion carries one signature area, a pro se designation, and no verification block, which is correct: the subsection requires no verification and adding one would invent a requirement."
+  ],
+
+  "note": "This is an engineering visual review. It establishes that the documents render correctly and read as professional Illinois court documents. It is not a legal approval and does not move either track past awaiting_counsel_adoption."
+}
