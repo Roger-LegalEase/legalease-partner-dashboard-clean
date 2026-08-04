@@ -1,0 +1,285 @@
+{
+  "schemaVersion": 1,
+  "familyId": "co-statewide-jdf-official-form-family",
+  "jurisdiction": "CO",
+  "coverageScope": "normalized_generation_keys_only_pending_exact_source_inventory",
+  "sourceFieldCoverageState": "pending_exact_source_inventory",
+  "unclassifiedSourceFieldPolicy": "reject",
+  "writableOwners": ["participant", "system_derived"],
+  "actorDefaults": [
+    {
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "owner": "system_derived",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "owner": "participant_manual",
+      "automationPolicy": "leave_blank"
+    },
+    {
+      "owner": "court",
+      "automationPolicy": "leave_blank"
+    },
+    {
+      "owner": "clerk",
+      "automationPolicy": "leave_blank"
+    },
+    {
+      "owner": "judge",
+      "automationPolicy": "leave_blank"
+    },
+    {
+      "owner": "prosecutor",
+      "automationPolicy": "leave_blank"
+    },
+    {
+      "owner": "law_enforcement",
+      "automationPolicy": "leave_blank"
+    },
+    {
+      "owner": "agency",
+      "automationPolicy": "leave_blank"
+    },
+    {
+      "owner": "notary",
+      "automationPolicy": "leave_blank"
+    },
+    {
+      "owner": "process_server",
+      "automationPolicy": "leave_blank"
+    },
+    {
+      "owner": "prohibited_from_generation",
+      "automationPolicy": "reject"
+    }
+  ],
+  "routes": [
+    {
+      "routeId": "co_petition_seal_arrest",
+      "fieldKeys": [
+        "arrestDetails",
+        "chargesFiled",
+        "districtOfArrest",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    },
+    {
+      "routeId": "co_motion_seal_nonconviction",
+      "fieldKeys": [
+        "disposition",
+        "caseNumberAndCourt",
+        "recordStillVisible",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    },
+    {
+      "routeId": "co_clean_slate",
+      "fieldKeys": [
+        "convictionDetails",
+        "objectionReceived",
+        "recordStillVisible",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    },
+    {
+      "routeId": "co_motion_seal_conviction",
+      "fieldKeys": [
+        "convictionDetails",
+        "sentenceComplete",
+        "restitutionOutstanding",
+        "laterConviction",
+        "onExclusionList",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    },
+    {
+      "routeId": "co_municipal_conviction_seal",
+      "fieldKeys": [
+        "municipalCourt",
+        "convictionDetails",
+        "sentenceComplete",
+        "laterConviction",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    },
+    {
+      "routeId": "co_multiple_conviction_seal",
+      "fieldKeys": [
+        "casesToSeal",
+        "sameDistrict",
+        "sentencesComplete",
+        "laterConviction",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    },
+    {
+      "routeId": "co_decriminalized_conduct_seal",
+      "fieldKeys": [
+        "convictionDetails",
+        "conductNoLongerCrime",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    },
+    {
+      "routeId": "co_pardoned_conviction_seal",
+      "fieldKeys": [
+        "pardonGranted",
+        "convictionDetails",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    }
+  ],
+  "fields": [
+    {
+      "fieldKey": "arrestDetails",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Required normalized generation input for co_petition_seal_arrest; exact PDF binding is unconfirmed."
+    },
+    {
+      "fieldKey": "chargesFiled",
+      "owner": "participant",
+      "automationPolicy": "screening_only",
+      "documentUse": "routing_or_screening_only",
+      "evidence": "Required normalized route input; it remains a participant answer rather than an automated legal conclusion."
+    },
+    {
+      "fieldKey": "districtOfArrest",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Required normalized generation input for the JDF 417 track."
+    },
+    {
+      "fieldKey": "disposition",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Required normalized generation input for co_motion_seal_nonconviction."
+    },
+    {
+      "fieldKey": "caseNumberAndCourt",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Required normalized generation input; the participant confirms it against court records."
+    },
+    {
+      "fieldKey": "recordStillVisible",
+      "owner": "participant",
+      "automationPolicy": "screening_only",
+      "documentUse": "routing_or_screening_only",
+      "evidence": "Required normalized intake answer used for route and staged-process handling."
+    },
+    {
+      "fieldKey": "convictionDetails",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Required normalized generation input shared by several Colorado tracks."
+    },
+    {
+      "fieldKey": "objectionReceived",
+      "owner": "participant",
+      "automationPolicy": "screening_only",
+      "documentUse": "routing_or_screening_only",
+      "evidence": "Required normalized clean-slate staging input."
+    },
+    {
+      "fieldKey": "sentenceComplete",
+      "owner": "participant",
+      "automationPolicy": "screening_only",
+      "documentUse": "routing_or_screening_only",
+      "evidence": "Required normalized eligibility input; the system does not independently verify completion."
+    },
+    {
+      "fieldKey": "restitutionOutstanding",
+      "owner": "participant",
+      "automationPolicy": "screening_only",
+      "documentUse": "routing_or_screening_only",
+      "evidence": "Required normalized eligibility input; LegalEase does not verify restitution records."
+    },
+    {
+      "fieldKey": "laterConviction",
+      "owner": "participant",
+      "automationPolicy": "screening_only",
+      "documentUse": "routing_or_screening_only",
+      "evidence": "Required normalized eligibility input used by several conviction-sealing tracks."
+    },
+    {
+      "fieldKey": "onExclusionList",
+      "owner": "participant",
+      "automationPolicy": "screening_only",
+      "documentUse": "routing_or_screening_only",
+      "evidence": "Required normalized hard-gate input for co_motion_seal_conviction."
+    },
+    {
+      "fieldKey": "municipalCourt",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Required normalized generation input for the municipal route; local procedure remains blocked."
+    },
+    {
+      "fieldKey": "casesToSeal",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Required normalized generation input for the multiple-conviction route."
+    },
+    {
+      "fieldKey": "sameDistrict",
+      "owner": "participant",
+      "automationPolicy": "screening_only",
+      "documentUse": "routing_or_screening_only",
+      "evidence": "Required normalized scope input enforcing the same-district restriction."
+    },
+    {
+      "fieldKey": "sentencesComplete",
+      "owner": "participant",
+      "automationPolicy": "screening_only",
+      "documentUse": "routing_or_screening_only",
+      "evidence": "Required normalized eligibility input for multiple cases."
+    },
+    {
+      "fieldKey": "conductNoLongerCrime",
+      "owner": "participant",
+      "automationPolicy": "screening_only",
+      "documentUse": "routing_or_screening_only",
+      "evidence": "Required normalized input; this scaffold does not decide whether conduct legally qualifies."
+    },
+    {
+      "fieldKey": "pardonGranted",
+      "owner": "participant",
+      "automationPolicy": "screening_only",
+      "documentUse": "routing_or_screening_only",
+      "evidence": "Required normalized input; pardon documentation remains participant-supplied."
+    },
+    {
+      "fieldKey": "participantSignature",
+      "owner": "participant_manual",
+      "automationPolicy": "leave_blank",
+      "documentUse": "manual_completion",
+      "evidence": "Each normalized Colorado form track assigns execution to the participant; no signature image may be generated."
+    },
+    {
+      "fieldKey": "participantSignatureDate",
+      "owner": "participant_manual",
+      "automationPolicy": "leave_blank",
+      "documentUse": "manual_completion",
+      "evidence": "The participant completes the signature date when executing the form."
+    }
+  ]
+}

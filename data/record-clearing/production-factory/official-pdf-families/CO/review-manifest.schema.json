@@ -1,0 +1,343 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/rcap/co-jdf-review-manifest.schema.json",
+  "title": "Colorado JDF official-form review manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "reviewState",
+    "sourceBackedSampleCount",
+    "visualArtifactCount",
+    "fieldMapReviewArtifactCount",
+    "humanLegalReviewStatus",
+    "externalIdentityReconciliationEvidence",
+    "priorApprovalClaimDisposition",
+    "componentReviews",
+    "trackReviews",
+    "excludedHistoricalArtifacts",
+    "familyReview",
+    "promotionRule"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "familyId": {
+      "const": "co-statewide-jdf-official-form-family"
+    },
+    "jurisdiction": {
+      "const": "CO"
+    },
+    "reviewState": {
+      "const": "blocked_before_source_backed_sample_generation"
+    },
+    "sourceBackedSampleCount": {
+      "const": 0
+    },
+    "visualArtifactCount": {
+      "const": 0
+    },
+    "fieldMapReviewArtifactCount": {
+      "const": 0
+    },
+    "humanLegalReviewStatus": {
+      "const": "not_submitted"
+    },
+    "externalIdentityReconciliationEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "remoteBranch",
+        "commit",
+        "finding",
+        "portableProjectionState",
+        "sourceEffect"
+      ],
+      "properties": {
+        "remoteBranch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{7,40}$"
+        },
+        "finding": {
+          "type": "string",
+          "minLength": 1
+        },
+        "portableProjectionState": {
+          "const": "absent_in_this_checkout"
+        },
+        "sourceEffect": {
+          "const": "none_keep_fail_closed"
+        }
+      }
+    },
+    "priorApprovalClaimDisposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claimOrigin",
+        "claim",
+        "reproducibleApprovalArtifactPresent",
+        "exactSourceBytesPresent",
+        "disposition",
+        "reason"
+      ],
+      "properties": {
+        "claimOrigin": {
+          "const": "planning/record-clearing-100-percent/jobs/IMP-OF-04-co-jdf-family.json"
+        },
+        "claim": {
+          "const": "nineteen Colorado field-map drafts already exist with recorded overlay-accuracy approval"
+        },
+        "reproducibleApprovalArtifactPresent": {
+          "const": false
+        },
+        "exactSourceBytesPresent": {
+          "const": false
+        },
+        "disposition": {
+          "const": "not_adopted"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "componentReviews": {
+      "type": "array",
+      "minItems": 15,
+      "maxItems": 15,
+      "items": {
+        "$ref": "#/$defs/componentReview"
+      }
+    },
+    "trackReviews": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {
+        "$ref": "#/$defs/trackReview"
+      }
+    },
+    "excludedHistoricalArtifacts": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["pathPattern", "reason"],
+        "properties": {
+          "pathPattern": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "familyReview": {
+      "$ref": "#/$defs/approvalState"
+    },
+    "promotionRule": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "$defs": {
+    "approvalState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identityApproved",
+        "sourceCurrent",
+        "ownershipApproved",
+        "mappingApproved",
+        "technicalReviewPassed",
+        "visualReviewPassed",
+        "legalOutputApproved",
+        "counselApproved",
+        "packetReady",
+        "generationAllowed",
+        "enabled"
+      ],
+      "properties": {
+        "identityApproved": {
+          "const": false
+        },
+        "sourceCurrent": {
+          "const": false
+        },
+        "ownershipApproved": {
+          "const": false
+        },
+        "mappingApproved": {
+          "const": false
+        },
+        "technicalReviewPassed": {
+          "const": false
+        },
+        "visualReviewPassed": {
+          "const": false
+        },
+        "legalOutputApproved": {
+          "const": false
+        },
+        "counselApproved": {
+          "const": false
+        },
+        "packetReady": {
+          "const": false
+        },
+        "generationAllowed": {
+          "const": false
+        },
+        "enabled": {
+          "const": false
+        }
+      }
+    },
+    "componentReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reviewId",
+        "documentId",
+        "trackId",
+        "componentId",
+        "fieldMapId",
+        "sourceRequirementId",
+        "resolutionId",
+        "identityState",
+        "materializationState",
+        "technicalReview",
+        "fieldOwnershipReview",
+        "mappingReview",
+        "coordinateReview",
+        "sourceFreshnessReview",
+        "visualReview",
+        "legalOutputReview",
+        "sampleStatus",
+        "approvals"
+      ],
+      "properties": {
+        "reviewId": {
+          "type": "string",
+          "pattern": "^co-review-"
+        },
+        "documentId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "trackId": {
+          "type": "string",
+          "pattern": "^co_"
+        },
+        "componentId": {
+          "type": "string",
+          "pattern": "^co_"
+        },
+        "fieldMapId": {
+          "type": "string",
+          "pattern": "^co-field-map-"
+        },
+        "sourceRequirementId": {
+          "type": ["string", "null"]
+        },
+        "resolutionId": {
+          "type": ["string", "null"]
+        },
+        "identityState": {
+          "enum": [
+            "authority_candidate_pinned_not_approved",
+            "authority_role_mismatch",
+            "unresolved_identity"
+          ]
+        },
+        "materializationState": {
+          "enum": ["source_missing", "not_applicable_unresolved_identity"]
+        },
+        "technicalReview": {
+          "enum": ["not_run_source_absent", "blocked_identity_or_role"]
+        },
+        "fieldOwnershipReview": {
+          "enum": ["pending_exact_source_inventory", "blocked_identity_or_role"]
+        },
+        "mappingReview": {
+          "enum": [
+            "pending_exact_source_inventory",
+            "prohibited_pending_identity_or_role_resolution"
+          ]
+        },
+        "coordinateReview": {
+          "enum": [
+            "unconfirmed_source_absent",
+            "not_applicable_until_strategy_confirmation",
+            "blocked_identity_or_role"
+          ]
+        },
+        "sourceFreshnessReview": {
+          "const": "pending"
+        },
+        "visualReview": {
+          "const": "pending"
+        },
+        "legalOutputReview": {
+          "const": "pending"
+        },
+        "sampleStatus": {
+          "const": "not_generated"
+        },
+        "approvals": {
+          "$ref": "#/$defs/approvalState"
+        }
+      }
+    },
+    "trackReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trackId",
+        "sampleStatus",
+        "assemblyStatus",
+        "reviewStatus",
+        "packetReady",
+        "generationAllowed",
+        "runtimeStatus"
+      ],
+      "properties": {
+        "trackId": {
+          "type": "string",
+          "pattern": "^co_"
+        },
+        "sampleStatus": {
+          "const": "not_generated"
+        },
+        "assemblyStatus": {
+          "const": "blocked_preflight_only"
+        },
+        "reviewStatus": {
+          "const": "blocked"
+        },
+        "packetReady": {
+          "const": false
+        },
+        "generationAllowed": {
+          "const": false
+        },
+        "runtimeStatus": {
+          "const": "runtime_disabled"
+        }
+      }
+    }
+  }
+}

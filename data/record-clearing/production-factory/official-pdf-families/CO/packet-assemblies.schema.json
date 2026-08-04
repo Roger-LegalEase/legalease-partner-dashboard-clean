@@ -1,0 +1,184 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/co-jdf-packet-assemblies-v1.json",
+  "title": "Colorado JDF packet assembly preflight catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "definitionStatus",
+    "sourceSelectionPolicy",
+    "packetAssemblies"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "familyId": { "const": "co-statewide-jdf-official-form-family" },
+    "jurisdiction": { "const": "CO" },
+    "definitionStatus": { "const": "preflight_only_not_registered" },
+    "sourceSelectionPolicy": {
+      "const": "explicit_source_requirement_or_unresolved_identity_only"
+    },
+    "packetAssemblies": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": { "$ref": "#/$defs/assembly" }
+    }
+  },
+  "$defs": {
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identityApproved",
+        "mappingApproved",
+        "technical",
+        "visual",
+        "legalOutput"
+      ],
+      "properties": {
+        "identityApproved": { "const": false },
+        "mappingApproved": { "const": false },
+        "technical": {
+          "enum": [
+            "not_run_source_absent",
+            "blocked_identity_or_role",
+            "outside_lane"
+          ]
+        },
+        "visual": { "const": "visual_review_pending" },
+        "legalOutput": { "const": "legal_output_review_pending" }
+      }
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "componentId",
+        "order",
+        "role",
+        "requirement",
+        "conditionDescription",
+        "outputStrategy",
+        "officialFormId",
+        "officialSourceUrl",
+        "kind",
+        "fieldMapId",
+        "sourceRequirementId",
+        "resolutionId",
+        "rendererPosture",
+        "componentStatus",
+        "approval",
+        "runtimeStatus",
+        "generationAllowed"
+      ],
+      "properties": {
+        "componentId": { "type": "string", "pattern": "^co_" },
+        "order": { "type": "integer", "minimum": 1 },
+        "role": {
+          "enum": ["primary_filing", "proposed_order", "process_guidance"]
+        },
+        "requirement": { "enum": ["required", "conditional"] },
+        "conditionDescription": { "type": ["string", "null"] },
+        "outputStrategy": {
+          "enum": ["official_pdf_fill", "process_guidance"]
+        },
+        "officialFormId": {
+          "type": ["string", "null"],
+          "pattern": "^JDF-"
+        },
+        "officialSourceUrl": { "type": "null" },
+        "kind": { "enum": ["official_pdf", "process_guidance"] },
+        "fieldMapId": {
+          "type": ["string", "null"],
+          "pattern": "^co-field-map-"
+        },
+        "sourceRequirementId": {
+          "type": ["string", "null"],
+          "pattern": "^co-source-jdf-"
+        },
+        "resolutionId": {
+          "type": ["string", "null"],
+          "pattern": "^co-unresolved-"
+        },
+        "rendererPosture": {
+          "enum": [
+            "acroform_candidate_source_absent",
+            "overlay_candidate_source_and_coordinates_absent",
+            "blocked_unresolved_identity",
+            "blocked_authority_role_mismatch",
+            "process_guidance_outside_this_lane"
+          ]
+        },
+        "componentStatus": {
+          "enum": [
+            "blocked_pending_source_materialization_and_reviews",
+            "blocked_unresolved_identity",
+            "blocked_authority_role_mismatch",
+            "existing_normalized_definition_outside_official_form_lane"
+          ]
+        },
+        "approval": { "$ref": "#/$defs/approval" },
+        "runtimeStatus": { "const": "runtime_disabled" },
+        "generationAllowed": { "const": false }
+      }
+    },
+    "assembly": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trackId",
+        "packetSetId",
+        "packetSetVersion",
+        "outputStrategy",
+        "compositionMode",
+        "fixtureId",
+        "requiredFactKeys",
+        "legalDesignBlocked",
+        "legalDesignBlockerCount",
+        "components",
+        "assemblyStatus",
+        "expectedPreflightError",
+        "sourceCurrent",
+        "runtimeDisabled",
+        "runtimeStatus",
+        "packetReady",
+        "generationAllowed"
+      ],
+      "properties": {
+        "trackId": { "type": "string", "pattern": "^co_" },
+        "packetSetId": { "type": "string", "pattern": "^co_" },
+        "packetSetVersion": { "const": "1.0.0" },
+        "outputStrategy": { "const": "official_pdf_fill" },
+        "compositionMode": { "type": "null" },
+        "fixtureId": { "type": "string", "pattern": "^co-fixture-" },
+        "requiredFactKeys": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9]*$"
+          }
+        },
+        "legalDesignBlocked": { "type": "boolean" },
+        "legalDesignBlockerCount": { "type": "integer", "minimum": 0 },
+        "components": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": { "$ref": "#/$defs/component" }
+        },
+        "assemblyStatus": { "const": "blocked_preflight_only" },
+        "expectedPreflightError": { "const": "family_not_ready" },
+        "sourceCurrent": { "const": false },
+        "runtimeDisabled": { "const": true },
+        "runtimeStatus": { "const": "runtime_disabled" },
+        "packetReady": { "const": false },
+        "generationAllowed": { "const": false }
+      }
+    }
+  }
+}

@@ -1,0 +1,252 @@
+{
+  "schemaVersion": 1,
+  "familyId": "co-statewide-jdf-official-form-family",
+  "jurisdiction": "CO",
+  "thirdPartyOwnersAlwaysBlank": [
+    "court",
+    "clerk",
+    "judge",
+    "prosecutor",
+    "law_enforcement",
+    "agency",
+    "notary",
+    "process_server"
+  ],
+  "fixtures": [
+    {
+      "fixtureId": "co-fixture-petition-seal-arrest",
+      "routeId": "co_petition_seal_arrest",
+      "packetSetId": "co_petition_seal_arrest-set",
+      "synthetic": true,
+      "facts": {
+        "arrestDetails": "Synthetic arrest by Example Agency on 2020-01-15; no real person or case.",
+        "chargesFiled": false,
+        "districtOfArrest": "Synthetic First Judicial District"
+      },
+      "requiredFactKeys": ["arrestDetails", "chargesFiled", "districtOfArrest"],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "primaryBlockers": [
+        "source_missing:JDF-417",
+        "unresolved_identity:JDF-417-ORDER"
+      ],
+      "expectedGateResult": {
+        "currentWorkspace": "blocked_fail_closed",
+        "wrongBytes": "source_fingerprint_mismatch",
+        "exactCandidateBytes": "blocked_pending_identity_mapping_technical_visual_and_legal_gates",
+        "runtime": "runtime_disabled"
+      }
+    },
+    {
+      "fixtureId": "co-fixture-motion-seal-nonconviction",
+      "routeId": "co_motion_seal_nonconviction",
+      "packetSetId": "co_motion_seal_nonconviction-set",
+      "synthetic": true,
+      "facts": {
+        "disposition": "Synthetic dismissed case",
+        "caseNumberAndCourt": "0000CR000000, Synthetic District Court",
+        "recordStillVisible": true
+      },
+      "requiredFactKeys": [
+        "disposition",
+        "caseNumberAndCourt",
+        "recordStillVisible"
+      ],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "primaryBlockers": ["source_missing:JDF-477", "source_missing:JDF-478"],
+      "expectedGateResult": {
+        "currentWorkspace": "blocked_fail_closed",
+        "wrongBytes": "source_fingerprint_mismatch",
+        "exactCandidateBytes": "blocked_pending_identity_mapping_technical_visual_and_legal_gates",
+        "runtime": "runtime_disabled"
+      }
+    },
+    {
+      "fixtureId": "co-fixture-clean-slate",
+      "routeId": "co_clean_slate",
+      "packetSetId": "co_clean_slate-set",
+      "synthetic": true,
+      "facts": {
+        "convictionDetails": "Synthetic conviction record for staged hearing-request testing.",
+        "objectionReceived": true,
+        "recordStillVisible": true
+      },
+      "requiredFactKeys": [
+        "convictionDetails",
+        "objectionReceived",
+        "recordStillVisible"
+      ],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "primaryBlockers": [
+        "source_missing:JDF-2363",
+        "process_guidance_component_outside_this_official_form_lane"
+      ],
+      "expectedGateResult": {
+        "currentWorkspace": "blocked_fail_closed",
+        "wrongBytes": "source_fingerprint_mismatch",
+        "exactCandidateBytes": "blocked_pending_identity_mapping_technical_visual_and_legal_gates",
+        "runtime": "runtime_disabled"
+      }
+    },
+    {
+      "fixtureId": "co-fixture-motion-seal-conviction",
+      "routeId": "co_motion_seal_conviction",
+      "packetSetId": "co_motion_seal_conviction-set",
+      "synthetic": true,
+      "facts": {
+        "convictionDetails": "Synthetic eligible-class conviction record.",
+        "sentenceComplete": true,
+        "restitutionOutstanding": false,
+        "laterConviction": false,
+        "onExclusionList": false
+      },
+      "requiredFactKeys": [
+        "convictionDetails",
+        "sentenceComplete",
+        "restitutionOutstanding",
+        "laterConviction",
+        "onExclusionList"
+      ],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "primaryBlockers": ["source_missing:JDF-612", "source_missing:JDF-615"],
+      "expectedGateResult": {
+        "currentWorkspace": "blocked_fail_closed",
+        "wrongBytes": "source_fingerprint_mismatch",
+        "exactCandidateBytes": "blocked_pending_identity_mapping_technical_visual_and_legal_gates",
+        "runtime": "runtime_disabled"
+      }
+    },
+    {
+      "fixtureId": "co-fixture-municipal-conviction-seal",
+      "routeId": "co_municipal_conviction_seal",
+      "packetSetId": "co_municipal_conviction_seal-set",
+      "synthetic": true,
+      "facts": {
+        "municipalCourt": "Synthetic Municipal Court",
+        "convictionDetails": "Synthetic municipal conviction record.",
+        "sentenceComplete": true,
+        "laterConviction": false
+      },
+      "requiredFactKeys": [
+        "municipalCourt",
+        "convictionDetails",
+        "sentenceComplete",
+        "laterConviction"
+      ],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "primaryBlockers": [
+        "legal_design_blocker",
+        "source_missing:JDF-683",
+        "unresolved_identity_and_role:JDF-684"
+      ],
+      "expectedGateResult": {
+        "currentWorkspace": "blocked_fail_closed",
+        "wrongBytes": "source_fingerprint_mismatch",
+        "exactCandidateBytes": "blocked_pending_identity_mapping_technical_visual_and_legal_gates",
+        "runtime": "runtime_disabled"
+      }
+    },
+    {
+      "fixtureId": "co-fixture-multiple-conviction-seal",
+      "routeId": "co_multiple_conviction_seal",
+      "packetSetId": "co_multiple_conviction_seal-set",
+      "synthetic": true,
+      "facts": {
+        "casesToSeal": [
+          "0000CR000001 synthetic case",
+          "0000CR000002 synthetic case"
+        ],
+        "sameDistrict": true,
+        "sentencesComplete": true,
+        "laterConviction": false
+      },
+      "requiredFactKeys": [
+        "casesToSeal",
+        "sameDistrict",
+        "sentencesComplete",
+        "laterConviction"
+      ],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "primaryBlockers": [
+        "legal_design_blocker",
+        "source_missing:JDF-641",
+        "source_missing:JDF-642"
+      ],
+      "expectedGateResult": {
+        "currentWorkspace": "blocked_fail_closed",
+        "wrongBytes": "source_fingerprint_mismatch",
+        "exactCandidateBytes": "blocked_pending_identity_mapping_technical_visual_and_legal_gates",
+        "runtime": "runtime_disabled"
+      }
+    },
+    {
+      "fixtureId": "co-fixture-decriminalized-conduct-seal",
+      "routeId": "co_decriminalized_conduct_seal",
+      "packetSetId": "co_decriminalized_conduct_seal-set",
+      "synthetic": true,
+      "facts": {
+        "convictionDetails": "Synthetic conviction record for identity-gate testing.",
+        "conductNoLongerCrime": true
+      },
+      "requiredFactKeys": ["convictionDetails", "conductNoLongerCrime"],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "primaryBlockers": [
+        "legal_design_blocker",
+        "authority_role_mismatch:JDF-2370",
+        "source_missing:JDF-2374"
+      ],
+      "expectedGateResult": {
+        "currentWorkspace": "blocked_fail_closed",
+        "wrongBytes": "source_fingerprint_mismatch",
+        "exactCandidateBytes": "blocked_pending_identity_mapping_technical_visual_and_legal_gates",
+        "runtime": "runtime_disabled"
+      }
+    },
+    {
+      "fixtureId": "co-fixture-pardoned-conviction-seal",
+      "routeId": "co_pardoned_conviction_seal",
+      "packetSetId": "co_pardoned_conviction_seal-set",
+      "synthetic": true,
+      "facts": {
+        "pardonGranted": true,
+        "convictionDetails": "Synthetic pardoned conviction record."
+      },
+      "requiredFactKeys": ["pardonGranted", "convictionDetails"],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "primaryBlockers": [
+        "legal_design_blocker",
+        "source_missing:JDF-680",
+        "source_missing:JDF-681"
+      ],
+      "expectedGateResult": {
+        "currentWorkspace": "blocked_fail_closed",
+        "wrongBytes": "source_fingerprint_mismatch",
+        "exactCandidateBytes": "blocked_pending_identity_mapping_technical_visual_and_legal_gates",
+        "runtime": "runtime_disabled"
+      }
+    }
+  ]
+}
