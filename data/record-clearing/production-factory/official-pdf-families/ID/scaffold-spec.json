@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "rcap-queued-official-pdf-family-scaffold-spec/v1",
+  "familyId": "rcap-id-official-pdf-family",
+  "jurisdiction": "ID",
+  "jurisdictionName": "Idaho",
+  "authorityFamily": "Idaho Supreme Court Clean Slate petition and Idaho State Police BCI expungement application",
+  "implementationJobId": "rcap-id-official-pdf-production",
+  "outputDirectory": "data/record-clearing/production-factory/official-pdf-families/ID",
+  "modulePath": "src/lib/rcap/packets/jurisdictions/idaho/official-pdf/family.ts",
+  "dedicatedVerifier": "scripts/verify-rcap-idaho-official-pdf-families.mjs",
+  "blockers": [
+    "The tracked Idaho official-download reconciliation proves exact live hashes for both component forms under different retained document IDs, but alias evidence does not amend Edition 1.2 or create captain source authority.",
+    "ISC-PETITION-TO-SHIELD-67-3004-11 must be authority-bound to the retained PETITION-TO-SHIELD-RECORDS-FROM-PUBLIC-DISCLOSURE identity before assignment; the retained revision label also requires correction from REV-2001-01 to the printed REV-2024-01-01.",
+    "ISP-BCI-EXPUNGEMENT-APPLICATION must be authority-bound to retained ISP-BCI, whose source_gated asset class remains an independent packet-approval blocker.",
+    "The ordinary-DUI eligibility classification remains a legal-design build blocker for the clean-slate route.",
+    "The possible separate court-file sealing request and the current ISP submission/fee instructions remain unresolved release gates."
+  ],
+  "invariants": [
+    "Do not alter official fixed language, adopted component ordering, or Idaho legal-design decisions.",
+    "Participant signatures, dates, election checkboxes, disposition characterizations, court fields, judge fields, clerk fields, agency fields, and notary fields remain blank unless a confirmed ownership map expressly permits a non-signature value.",
+    "Fresh acquisition hashes and retained aliases remain evidence only until a successor authority edition binds the component document IDs.",
+    "Repository-private paths and acquisition URLs are never opened by packet code or the dedicated verifier.",
+    "No source download, URL fallback, fuzzy alias selection, live-route change, or runtime enablement is permitted."
+  ]
+}

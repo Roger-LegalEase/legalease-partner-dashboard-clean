@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-official-pdf-fixture-scaffold/v1",
+  "familyId": "rcap-id-official-pdf-family",
+  "jurisdiction": "ID",
+  "schemaPath": "data/record-clearing/production-factory/official-pdf-families/schemas/fixture-scaffold.schema.json",
+  "syntheticDataOnly": true,
+  "fixtureState": "pending_field_map_and_fact_type_binding",
+  "tracks": [
+    {
+      "trackId": "id_clean_slate_shield",
+      "fixtureId": "id_clean_slate_shield-synthetic-layout",
+      "caseReference": "SYN-ID-id_clean_slate_shield",
+      "requiredFactKeys": [
+        "priorShieldingPetition",
+        "offenceAndStatute",
+        "sentenceCompletionDate",
+        "laterConvictions",
+        "pendingCasesOrSupervision",
+        "accountabilityFacts",
+        "caseNumberAndCounty"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Checkbox election matching the person's situation",
+          "whereInPacket": "Petition to Shield Records from Public Disclosure, election section",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Signature and date",
+          "whereInPacket": "Petition to Shield Records from Public Disclosure, signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "id_isp_expungement",
+      "fixtureId": "id_isp_expungement-synthetic-layout",
+      "caseReference": "SYN-ID-id_isp_expungement",
+      "requiredFactKeys": [
+        "caseEndedHow",
+        "dismissalUnder192604",
+        "allChargesResolvedFavourably"
+      ],
+      "conditionalFactKeys": [
+        "chargedWithinOneYear"
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature of requestor and date",
+          "whereInPacket": "ISP BCI Expungement Application, signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    }
+  ],
+  "requiredBoundaryFixtures": [
+    "missing_required_input",
+    "authority_identity_unresolved",
+    "captain_projection_missing",
+    "source_hash_mismatch",
+    "source_size_mismatch",
+    "source_mime_mismatch",
+    "third_party_field_ownership",
+    "mapping_unconfirmed",
+    "deterministic_repeat"
+  ]
+}
