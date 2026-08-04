@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "rcap-queued-official-pdf-family-scaffold-spec/v1",
+  "familyId": "rcap-mt-official-pdf-family",
+  "jurisdiction": "MT",
+  "jurisdictionName": "Montana",
+  "authorityFamily": "Montana Judicial Branch petition forms and DOJ CRISS Expungement/Removal Request Form",
+  "implementationJobId": "rcap-mt-official-pdf-production",
+  "outputDirectory": "data/record-clearing/production-factory/official-pdf-families/MT",
+  "modulePath": "src/lib/rcap/packets/jurisdictions/montana/official-pdf/family.ts",
+  "dedicatedVerifier": "scripts/verify-rcap-montana-official-pdf-families.mjs",
+  "blockers": [
+    "All four component document identities are non-selectable: the CRISS request form has an authority-role mismatch, MT-FORM-A and MT-FORM-B remain source-gated without unique registry measurements, and MT-OCA-MMRTA has an authority hash conflict.",
+    "The 2023 PDF and 2024 DOCX CRISS forms disagree on required attachments; neither may be substituted or converted in packet code before authority resolves the adopted identity and document role.",
+    "MT-OCA-MMRTA cannot enter an overlay lane until its conflicting hash identity is resolved and exact bytes are captain-projected.",
+    "The agency request and court petition stages must retain their adopted order and must not be collapsed into one inferred form.",
+    "Legal-effect, public-docket, denial, and photo-identification questions recorded by legal design remain release blockers."
+  ],
+  "invariants": [
+    "Do not alter official fixed language, adopted component ordering, or Montana legal-design decisions.",
+    "Participant signatures, disposition characterizations, legal assertions, court findings, judge fields, clerk fields, agency fields, and notary fields remain blank unless a confirmed ownership map expressly permits a non-signature value.",
+    "No DOCX-to-PDF conversion, historical-form substitution, hash-conflict selection, fuzzy identity match, or role reclassification occurs in packet implementation code.",
+    "Repository-private paths and official URLs are identity evidence only and are never opened by packet code or the dedicated verifier.",
+    "No source download, URL fallback, live-route change, or runtime enablement is permitted."
+  ]
+}

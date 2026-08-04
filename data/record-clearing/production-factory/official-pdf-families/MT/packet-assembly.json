@@ -1,0 +1,227 @@
+{
+  "schemaVersion": "rcap-official-pdf-packet-assembly/v1",
+  "familyId": "rcap-mt-official-pdf-family",
+  "jurisdiction": "MT",
+  "assemblyPolicy": {
+    "participantDeliverable": "one_pdf",
+    "zipAllowed": false,
+    "deterministic": true,
+    "deterministicTimestamp": "2000-01-01T00:00:00.000Z",
+    "producer": "LegalEase",
+    "preserveOfficialFixedLanguage": true,
+    "sourceLookupMode": "captain_projection_exact_identity_only",
+    "downloadOrSourceFallbackAllowed": false,
+    "duplicatePhysicalDocumentAllowed": false,
+    "signatureImagesGenerated": false
+  },
+  "packets": [
+    {
+      "trackId": "mt_deferred_dismissal",
+      "outputFileName": "mt_deferred_dismissal-participant-packet.pdf",
+      "assembledParticipantPdf": true,
+      "deterministic": true,
+      "packetReady": false,
+      "documents": [
+        {
+          "componentDocumentId": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "order": 4,
+          "rendererLaneCandidate": "pending_fresh_local_source_inspection",
+          "renderState": "blocked",
+          "renderOnce": true,
+          "componentIds": [
+            "mt_deferred_dismissal-primary-filing-4"
+          ],
+          "roles": [
+            "primary_filing"
+          ],
+          "requirements": [
+            "required"
+          ],
+          "conditionDescriptions": []
+        }
+      ]
+    },
+    {
+      "trackId": "mt_misdemeanor_expungement",
+      "outputFileName": "mt_misdemeanor_expungement-participant-packet.pdf",
+      "assembledParticipantPdf": true,
+      "deterministic": true,
+      "packetReady": false,
+      "documents": [
+        {
+          "componentDocumentId": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "order": 5,
+          "rendererLaneCandidate": "pending_fresh_local_source_inspection",
+          "renderState": "blocked",
+          "renderOnce": true,
+          "componentIds": [
+            "mt_misdemeanor_expungement-primary-filing-5"
+          ],
+          "roles": [
+            "primary_filing"
+          ],
+          "requirements": [
+            "required"
+          ],
+          "conditionDescriptions": []
+        }
+      ]
+    },
+    {
+      "trackId": "mt_mmrta_completed",
+      "outputFileName": "mt_mmrta_completed-participant-packet.pdf",
+      "assembledParticipantPdf": true,
+      "deterministic": true,
+      "packetReady": false,
+      "documents": [
+        {
+          "componentDocumentId": "MT-FORM-B",
+          "order": 1,
+          "rendererLaneCandidate": "pending_fresh_local_source_inspection",
+          "renderState": "blocked",
+          "renderOnce": true,
+          "componentIds": [
+            "mt_mmrta_completed-primary-filing-1"
+          ],
+          "roles": [
+            "primary_filing"
+          ],
+          "requirements": [
+            "required"
+          ],
+          "conditionDescriptions": []
+        },
+        {
+          "componentDocumentId": "MT-OCA-MMRTA",
+          "order": 2,
+          "rendererLaneCandidate": "pending_fresh_local_source_inspection",
+          "renderState": "blocked",
+          "renderOnce": true,
+          "componentIds": [
+            "mt_mmrta_completed-certificate-of-service-2",
+            "mt_mmrta_completed-proposed-order-3"
+          ],
+          "roles": [
+            "certificate_of_service",
+            "proposed_order"
+          ],
+          "requirements": [
+            "required",
+            "required"
+          ],
+          "conditionDescriptions": []
+        },
+        {
+          "componentDocumentId": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "order": 5,
+          "rendererLaneCandidate": "pending_fresh_local_source_inspection",
+          "renderState": "blocked",
+          "renderOnce": true,
+          "componentIds": [
+            "mt_mmrta_completed-primary-filing-5"
+          ],
+          "roles": [
+            "primary_filing"
+          ],
+          "requirements": [
+            "conditional"
+          ],
+          "conditionDescriptions": [
+            "Unit 2. Generated only where the court grants EXPUNGEMENT; a redesignation outcome has no DOJ deletion stage."
+          ]
+        }
+      ]
+    },
+    {
+      "trackId": "mt_mmrta_serving",
+      "outputFileName": "mt_mmrta_serving-participant-packet.pdf",
+      "assembledParticipantPdf": true,
+      "deterministic": true,
+      "packetReady": false,
+      "documents": [
+        {
+          "componentDocumentId": "MT-FORM-A",
+          "order": 1,
+          "rendererLaneCandidate": "pending_fresh_local_source_inspection",
+          "renderState": "blocked",
+          "renderOnce": true,
+          "componentIds": [
+            "mt_mmrta_serving-primary-filing-1"
+          ],
+          "roles": [
+            "primary_filing"
+          ],
+          "requirements": [
+            "required"
+          ],
+          "conditionDescriptions": []
+        },
+        {
+          "componentDocumentId": "MT-OCA-MMRTA",
+          "order": 2,
+          "rendererLaneCandidate": "pending_fresh_local_source_inspection",
+          "renderState": "blocked",
+          "renderOnce": true,
+          "componentIds": [
+            "mt_mmrta_serving-certificate-of-service-2",
+            "mt_mmrta_serving-proposed-order-3"
+          ],
+          "roles": [
+            "certificate_of_service",
+            "proposed_order"
+          ],
+          "requirements": [
+            "required",
+            "required"
+          ],
+          "conditionDescriptions": []
+        },
+        {
+          "componentDocumentId": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "order": 5,
+          "rendererLaneCandidate": "pending_fresh_local_source_inspection",
+          "renderState": "blocked",
+          "renderOnce": true,
+          "componentIds": [
+            "mt_mmrta_serving-primary-filing-5"
+          ],
+          "roles": [
+            "primary_filing"
+          ],
+          "requirements": [
+            "conditional"
+          ],
+          "conditionDescriptions": [
+            "Unit 2. Applies only where the court grants EXPUNGEMENT. Not applicable where the outcome is resentencing."
+          ]
+        }
+      ]
+    },
+    {
+      "trackId": "mt_nonconviction_removal",
+      "outputFileName": "mt_nonconviction_removal-participant-packet.pdf",
+      "assembledParticipantPdf": true,
+      "deterministic": true,
+      "packetReady": false,
+      "documents": [
+        {
+          "componentDocumentId": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+          "order": 1,
+          "rendererLaneCandidate": "pending_fresh_local_source_inspection",
+          "renderState": "blocked",
+          "renderOnce": true,
+          "componentIds": [
+            "mt_nonconviction_removal-primary-filing-1"
+          ],
+          "roles": [
+            "primary_filing"
+          ],
+          "requirements": [
+            "required"
+          ],
+          "conditionDescriptions": []
+        }
+      ]
+    }
+  ]
+}
