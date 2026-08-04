@@ -1,0 +1,305 @@
+{
+  "schemaVersion": 1,
+  "familyId": "rcap-in-official-pdf-family",
+  "jurisdiction": "IN",
+  "manualFieldsExpectedBlank": [
+    "participantSignature",
+    "participantSignatureDate",
+    "participantVerification",
+    "fullSocialSecurityNumber"
+  ],
+  "routeFixtures": [
+    {
+      "fixtureId": "in-fixture-arrest-no-charges",
+      "routeId": "in_arrest_no_charges",
+      "packetSetId": "in_arrest_no_charges-set",
+      "synthetic": true,
+      "facts": {
+        "countyOfCase": "Example County",
+        "caseNumber": "00D00-0000-MC-000001",
+        "arrestDate": "2020-01-02",
+        "disposition": "Synthetic dismissal",
+        "dispositionDate": "2020-03-04",
+        "pendingCharges": false,
+        "inPretrialDiversion": false,
+        "ssnLastFour": "0000",
+        "isSelfRepresented": true
+      },
+      "requiredFactKeys": [
+        "countyOfCase",
+        "caseNumber",
+        "arrestDate",
+        "disposition",
+        "dispositionDate",
+        "pendingCharges",
+        "inPretrialDiversion",
+        "ssnLastFour",
+        "isSelfRepresented"
+      ],
+      "logicalOfficialPdfComponentCount": 5,
+      "plannedAssemblyInstanceCount": 4,
+      "expectedTerminalCode": "unknown_source_identity",
+      "expectedOutputPdfCount": 0,
+      "targetOutputPdfCountWhenReady": 1,
+      "runtimeStatus": "runtime_disabled"
+    },
+    {
+      "fixtureId": "in-fixture-section1-petition",
+      "routeId": "in_section1_petition",
+      "packetSetId": "in_section1_petition-set",
+      "synthetic": true,
+      "facts": {
+        "countyOfCase": "Example County",
+        "caseNumber": "00D00-0000-MC-000002",
+        "arrestDate": "2019-02-03",
+        "disposition": "Synthetic acquittal",
+        "dispositionDate": "2019-04-05",
+        "pendingCharges": false,
+        "inPretrialDiversion": false,
+        "ssnLastFour": "0000",
+        "isSelfRepresented": true,
+        "prosecutorWrittenAgreementEarlyFiling": false
+      },
+      "requiredFactKeys": [
+        "countyOfCase",
+        "caseNumber",
+        "arrestDate",
+        "disposition",
+        "dispositionDate",
+        "pendingCharges",
+        "inPretrialDiversion",
+        "ssnLastFour",
+        "isSelfRepresented",
+        "prosecutorWrittenAgreementEarlyFiling"
+      ],
+      "logicalOfficialPdfComponentCount": 5,
+      "plannedAssemblyInstanceCount": 4,
+      "expectedTerminalCode": "unknown_source_identity",
+      "expectedOutputPdfCount": 0,
+      "targetOutputPdfCountWhenReady": 1,
+      "runtimeStatus": "runtime_disabled"
+    },
+    {
+      "fixtureId": "in-fixture-conviction-misd",
+      "routeId": "in_conviction_misd",
+      "packetSetId": "in_conviction_misd-set",
+      "synthetic": true,
+      "facts": {
+        "countyOfConviction": "Example County",
+        "caseNumber": "00D00-0000-CM-000003",
+        "convictionDate": "2015-03-04",
+        "offenseLevel": "Synthetic misdemeanor",
+        "sentenceCompletionDate": "2016-04-05",
+        "allConvictionsAnyCounty": "Synthetic single conviction",
+        "priorExpungementPetition": false,
+        "financialObligationsPaid": true,
+        "pendingCharges": false,
+        "convictedWithinPeriod": false,
+        "prosecutorConsent": false,
+        "additionalInformation": "Synthetic participant facts only."
+      },
+      "requiredFactKeys": [
+        "countyOfConviction",
+        "caseNumber",
+        "convictionDate",
+        "offenseLevel",
+        "sentenceCompletionDate",
+        "allConvictionsAnyCounty",
+        "priorExpungementPetition",
+        "financialObligationsPaid",
+        "pendingCharges",
+        "convictedWithinPeriod",
+        "prosecutorConsent",
+        "additionalInformation"
+      ],
+      "logicalOfficialPdfComponentCount": 6,
+      "plannedAssemblyInstanceCount": 5,
+      "expectedTerminalCode": "unknown_source_identity",
+      "expectedOutputPdfCount": 0,
+      "targetOutputPdfCountWhenReady": 1,
+      "runtimeStatus": "runtime_disabled"
+    },
+    {
+      "fixtureId": "in-fixture-conviction-d6",
+      "routeId": "in_conviction_d6",
+      "packetSetId": "in_conviction_d6-set",
+      "synthetic": true,
+      "facts": {
+        "countyOfConviction": "Example County",
+        "caseNumber": "00D00-0000-F6-000004",
+        "convictionDate": "2014-04-05",
+        "offenseLevel": "Synthetic Level 6 felony",
+        "sentenceCompletionDate": "2016-05-06",
+        "allConvictionsAnyCounty": "Synthetic single conviction",
+        "priorExpungementPetition": false,
+        "financialObligationsPaid": true,
+        "pendingCharges": false,
+        "convictedWithinPeriod": false,
+        "prosecutorConsent": false,
+        "additionalInformation": "Synthetic participant facts only."
+      },
+      "requiredFactKeys": [
+        "countyOfConviction",
+        "caseNumber",
+        "convictionDate",
+        "offenseLevel",
+        "sentenceCompletionDate",
+        "allConvictionsAnyCounty",
+        "priorExpungementPetition",
+        "financialObligationsPaid",
+        "pendingCharges",
+        "convictedWithinPeriod",
+        "prosecutorConsent",
+        "additionalInformation"
+      ],
+      "logicalOfficialPdfComponentCount": 6,
+      "plannedAssemblyInstanceCount": 5,
+      "expectedTerminalCode": "unknown_source_identity",
+      "expectedOutputPdfCount": 0,
+      "targetOutputPdfCountWhenReady": 1,
+      "runtimeStatus": "runtime_disabled"
+    },
+    {
+      "fixtureId": "in-fixture-conviction-felony",
+      "routeId": "in_conviction_felony",
+      "packetSetId": "in_conviction_felony-set",
+      "synthetic": true,
+      "facts": {
+        "countyOfConviction": "Example County",
+        "caseNumber": "00D00-0000-F5-000005",
+        "convictionDate": "2013-05-06",
+        "offenseLevel": "Synthetic qualifying felony",
+        "sentenceCompletionDate": "2016-06-07",
+        "allConvictionsAnyCounty": "Synthetic single conviction",
+        "priorExpungementPetition": false,
+        "financialObligationsPaid": true,
+        "pendingCharges": false,
+        "convictedWithinPeriod": false,
+        "prosecutorConsent": true,
+        "additionalInformation": "Synthetic participant facts only."
+      },
+      "requiredFactKeys": [
+        "countyOfConviction",
+        "caseNumber",
+        "convictionDate",
+        "offenseLevel",
+        "sentenceCompletionDate",
+        "allConvictionsAnyCounty",
+        "priorExpungementPetition",
+        "financialObligationsPaid",
+        "pendingCharges",
+        "convictedWithinPeriod",
+        "prosecutorConsent",
+        "additionalInformation"
+      ],
+      "logicalOfficialPdfComponentCount": 6,
+      "plannedAssemblyInstanceCount": 5,
+      "expectedTerminalCode": "unknown_source_identity",
+      "expectedOutputPdfCount": 0,
+      "targetOutputPdfCountWhenReady": 1,
+      "runtimeStatus": "runtime_disabled"
+    },
+    {
+      "fixtureId": "in-fixture-conviction-serious-felony",
+      "routeId": "in_conviction_serious_felony",
+      "packetSetId": "in_conviction_serious_felony-set",
+      "synthetic": true,
+      "facts": {
+        "countyOfConviction": "Example County",
+        "caseNumber": "00D00-0000-F3-000006",
+        "convictionDate": "2012-06-07",
+        "offenseLevel": "Synthetic serious felony",
+        "sentenceCompletionDate": "2016-07-08",
+        "allConvictionsAnyCounty": "Synthetic single conviction",
+        "priorExpungementPetition": false,
+        "financialObligationsPaid": true,
+        "pendingCharges": false,
+        "convictedWithinPeriod": false,
+        "prosecutorConsent": true,
+        "additionalInformation": "Synthetic participant facts only."
+      },
+      "requiredFactKeys": [
+        "countyOfConviction",
+        "caseNumber",
+        "convictionDate",
+        "offenseLevel",
+        "sentenceCompletionDate",
+        "allConvictionsAnyCounty",
+        "priorExpungementPetition",
+        "financialObligationsPaid",
+        "pendingCharges",
+        "convictedWithinPeriod",
+        "prosecutorConsent",
+        "additionalInformation"
+      ],
+      "logicalOfficialPdfComponentCount": 3,
+      "plannedAssemblyInstanceCount": 3,
+      "expectedTerminalCode": "unknown_source_identity",
+      "expectedOutputPdfCount": 0,
+      "targetOutputPdfCountWhenReady": 1,
+      "runtimeStatus": "runtime_disabled"
+    }
+  ],
+  "documentGateFixtures": [
+    {
+      "fixtureId": "in-source-gate-conviction-order",
+      "componentDocumentId": "CCA conviction expungement order",
+      "identityBindingStatus": "unknown_source_identity",
+      "expectedTerminalCode": "unknown_source_identity"
+    },
+    {
+      "fixtureId": "in-source-gate-conviction-petition",
+      "componentDocumentId": "CCA conviction expungement petition",
+      "identityBindingStatus": "unknown_source_identity",
+      "expectedTerminalCode": "unknown_source_identity"
+    },
+    {
+      "fixtureId": "in-source-gate-section-1-order",
+      "componentDocumentId": "CCA Section 1 expungement order",
+      "identityBindingStatus": "unknown_source_identity",
+      "expectedTerminalCode": "unknown_source_identity"
+    },
+    {
+      "fixtureId": "in-source-gate-section-1-petition",
+      "componentDocumentId": "CCA Section 1 non-conviction expungement petition",
+      "identityBindingStatus": "unknown_source_identity",
+      "expectedTerminalCode": "unknown_source_identity"
+    },
+    {
+      "fixtureId": "in-source-gate-cca-gf-0120-3016",
+      "componentDocumentId": "CCA-GF-0120-3016",
+      "identityBindingStatus": "unknown_source_identity",
+      "expectedTerminalCode": "unknown_source_identity"
+    },
+    {
+      "fixtureId": "in-source-gate-form-acr",
+      "componentDocumentId": "CCA-XP-0120-7002 Form ACR",
+      "identityBindingStatus": "unknown_source_identity",
+      "expectedTerminalCode": "unknown_source_identity"
+    },
+    {
+      "fixtureId": "in-source-gate-7008",
+      "componentDocumentId": "CCA-XP-0220-7008",
+      "identityBindingStatus": "exact_pinned_identity",
+      "expectedTerminalCode": "source_materialization_required"
+    },
+    {
+      "fixtureId": "in-source-gate-7009",
+      "componentDocumentId": "CCA-XP-0220-7009",
+      "identityBindingStatus": "exact_pinned_identity",
+      "expectedTerminalCode": "source_materialization_required"
+    },
+    {
+      "fixtureId": "in-source-gate-7010",
+      "componentDocumentId": "CCA-XP-0220-7010",
+      "identityBindingStatus": "exact_pinned_identity",
+      "expectedTerminalCode": "source_materialization_required"
+    },
+    {
+      "fixtureId": "in-source-gate-confidential-information-form",
+      "componentDocumentId": "Confidential Information Form",
+      "identityBindingStatus": "unknown_source_identity",
+      "expectedTerminalCode": "unknown_source_identity"
+    }
+  ]
+}

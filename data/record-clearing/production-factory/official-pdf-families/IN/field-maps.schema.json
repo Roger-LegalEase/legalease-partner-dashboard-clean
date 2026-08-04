@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/in-official-pdf-field-maps-v1.json",
+  "title": "Indiana official-PDF field-map scaffold",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "mappingPolicy",
+    "fieldMaps"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "familyId": { "const": "rcap-in-official-pdf-family" },
+    "jurisdiction": { "const": "IN" },
+    "mappingPolicy": {
+      "const": "no_source_field_binding_without_exact_identity_captain_projection_and_fresh_inspection"
+    },
+    "fieldMaps": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "fieldMapId",
+          "componentDocumentId",
+          "requirementId",
+          "plannedPhysicalSourceSlotId",
+          "identityBindingStatus",
+          "strategyCandidate",
+          "activeRendererStrategy",
+          "mappingStatus",
+          "usageBindingCount",
+          "normalizedInputKeys",
+          "sourceFieldInventory",
+          "sourceFieldBindings",
+          "overlayPlacements",
+          "unclassifiedSourceFieldPolicy",
+          "reviewStatus",
+          "runtimeStatus",
+          "generationAllowed"
+        ],
+        "properties": {
+          "fieldMapId": { "type": "string", "pattern": "^in-field-map-" },
+          "componentDocumentId": { "type": "string", "minLength": 1 },
+          "requirementId": { "type": "string", "pattern": "^in-" },
+          "plannedPhysicalSourceSlotId": {
+            "type": "string",
+            "pattern": "^in-source-slot-"
+          },
+          "identityBindingStatus": {
+            "enum": ["exact_pinned_identity", "unknown_source_identity"]
+          },
+          "strategyCandidate": {
+            "enum": ["acroform_or_hybrid_fill", null]
+          },
+          "activeRendererStrategy": { "type": "null" },
+          "mappingStatus": {
+            "enum": [
+              "blocked_captain_projection_and_fresh_source_inspection",
+              "blocked_unknown_source_identity"
+            ]
+          },
+          "usageBindingCount": { "type": "integer", "minimum": 1 },
+          "normalizedInputKeys": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9]*$"
+            }
+          },
+          "sourceFieldInventory": { "type": "array", "maxItems": 0 },
+          "sourceFieldBindings": { "type": "array", "maxItems": 0 },
+          "overlayPlacements": { "type": "array", "maxItems": 0 },
+          "unclassifiedSourceFieldPolicy": { "const": "reject" },
+          "reviewStatus": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "identityApproved",
+              "ownershipApproved",
+              "mappingApproved",
+              "technical",
+              "visual",
+              "legalOutput"
+            ],
+            "properties": {
+              "identityApproved": { "const": false },
+              "ownershipApproved": { "const": false },
+              "mappingApproved": { "const": false },
+              "technical": {
+                "enum": [
+                  "not_run_source_not_projected",
+                  "blocked_unknown_source_identity"
+                ]
+              },
+              "visual": { "const": "pending" },
+              "legalOutput": { "const": "pending" }
+            }
+          },
+          "runtimeStatus": { "const": "runtime_disabled" },
+          "generationAllowed": { "const": false }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/in-official-pdf-field-ownership-v1.json",
+  "title": "Indiana official-PDF field ownership",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "coverageScope",
+    "sourceFieldCoverageState",
+    "unclassifiedSourceFieldPolicy",
+    "writableOwners",
+    "protectedOwnerClasses",
+    "actorDefaults",
+    "fields",
+    "routes"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "familyId": { "const": "rcap-in-official-pdf-family" },
+    "jurisdiction": { "const": "IN" },
+    "coverageScope": {
+      "const": "normalized_generation_keys_plus_explicit_manual_fields"
+    },
+    "sourceFieldCoverageState": {
+      "const": "not_started_source_projection_or_identity_required"
+    },
+    "unclassifiedSourceFieldPolicy": { "const": "reject" },
+    "writableOwners": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": { "enum": ["participant", "system_derived"] }
+    },
+    "protectedOwnerClasses": {
+      "type": "array",
+      "minItems": 10,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "actorDefaults": {
+      "type": "array",
+      "minItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["owner", "automationPolicy"],
+        "properties": {
+          "owner": { "type": "string", "minLength": 1 },
+          "automationPolicy": {
+            "enum": ["auto_fill_candidate", "leave_blank", "reject"]
+          }
+        }
+      }
+    },
+    "fields": {
+      "type": "array",
+      "minItems": 25,
+      "maxItems": 25,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["fieldKey", "owner", "automationPolicy"],
+        "properties": {
+          "fieldKey": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9]*$"
+          },
+          "owner": {
+            "enum": ["participant", "participant_manual"]
+          },
+          "automationPolicy": {
+            "enum": [
+              "auto_fill_candidate",
+              "screening_only",
+              "manual_review_before_filing",
+              "participant_text_format_only",
+              "leave_blank"
+            ]
+          }
+        }
+      }
+    },
+    "routes": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["routeId", "fieldKeys"],
+        "properties": {
+          "routeId": { "type": "string", "pattern": "^in_" },
+          "fieldKeys": {
+            "type": "array",
+            "minItems": 14,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9]*$"
+            }
+          }
+        }
+      }
+    }
+  }
+}

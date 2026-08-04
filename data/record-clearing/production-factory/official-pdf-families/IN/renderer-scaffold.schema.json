@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/in-official-pdf-renderer-scaffold-v1.json",
+  "title": "Indiana official-PDF renderer lane scaffold",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "enabled",
+    "activeRendererCount",
+    "laneCounts",
+    "rendererAdapters",
+    "documents",
+    "invariants"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "rcap-official-pdf-renderer-scaffold/v1"
+    },
+    "familyId": { "const": "rcap-in-official-pdf-family" },
+    "jurisdiction": { "const": "IN" },
+    "enabled": { "const": false },
+    "activeRendererCount": { "const": 0 },
+    "laneCounts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["acroformOrHybrid", "coordinateOverlay", "unknown"],
+      "properties": {
+        "acroformOrHybrid": { "const": 3 },
+        "coordinateOverlay": { "const": 0 },
+        "unknown": { "const": 7 }
+      }
+    },
+    "rendererAdapters": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "rendererId",
+          "kind",
+          "candidateCount",
+          "enabled",
+          "activationRequirements"
+        ],
+        "properties": {
+          "rendererId": { "type": "string", "pattern": "^in-" },
+          "kind": {
+            "enum": [
+              "acroform_or_hybrid_fill",
+              "coordinate_overlay",
+              "non_renderer_identity_and_inspection_stop"
+            ]
+          },
+          "candidateCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 7
+          },
+          "enabled": { "const": false },
+          "activationRequirements": {
+            "type": "array",
+            "minItems": 2,
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "documents": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "componentDocumentId",
+          "identityBindingStatus",
+          "carriedTechnicalClass",
+          "candidateRendererLane",
+          "rendererSelectionState",
+          "activeRenderer",
+          "activeMappingCount",
+          "activeOverlayPlacementCount"
+        ],
+        "properties": {
+          "componentDocumentId": { "type": "string", "minLength": 1 },
+          "identityBindingStatus": {
+            "enum": ["exact_pinned_identity", "unknown_source_identity"]
+          },
+          "carriedTechnicalClass": {
+            "enum": ["clean_acroform", null]
+          },
+          "candidateRendererLane": {
+            "enum": ["acroform_or_hybrid_fill", "coordinate_overlay", null]
+          },
+          "rendererSelectionState": {
+            "enum": [
+              "pending_captain_projection_and_fresh_inspection",
+              "prohibited_unknown_source_identity"
+            ]
+          },
+          "activeRenderer": { "type": "null" },
+          "activeMappingCount": { "const": 0 },
+          "activeOverlayPlacementCount": { "const": 0 }
+        }
+      }
+    },
+    "invariants": {
+      "type": "array",
+      "minItems": 4,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}
