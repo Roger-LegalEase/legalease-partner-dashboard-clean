@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rcap-az-official-pdf-packet-assembly.schema.json",
+  "title": "Arizona official-PDF deterministic packet assemblies",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "runtimeRegistered",
+    "routeReadyCount",
+    "deduplication",
+    "physicalSourceCatalog",
+    "assemblies"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "rcap-official-pdf-packet-assembly/v1"
+    },
+    "familyId": {
+      "const": "rcap-az-official-pdf-family"
+    },
+    "jurisdiction": {
+      "const": "AZ"
+    },
+    "runtimeRegistered": {
+      "const": false
+    },
+    "routeReadyCount": {
+      "const": 0
+    },
+    "deduplication": {
+      "type": "object"
+    },
+    "physicalSourceCatalog": {
+      "type": "array",
+      "minItems": 11,
+      "maxItems": 11,
+      "items": {
+        "type": "object",
+        "required": [
+          "componentDocumentId",
+          "sourceIdentityKey",
+          "identityBindingStatus",
+          "usageBindings",
+          "runtimeSelectable"
+        ],
+        "properties": {
+          "runtimeSelectable": {
+            "const": false
+          }
+        }
+      }
+    },
+    "assemblies": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "required": [
+          "trackId",
+          "packetSetId",
+          "packetSetVersion",
+          "logicalComponents",
+          "physicalDocumentInstances",
+          "assemblyState"
+        ],
+        "properties": {
+          "assemblyState": {
+            "const": "blocked"
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

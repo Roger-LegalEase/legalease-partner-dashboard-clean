@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rcap-az-official-pdf-fixtures.schema.json",
+  "title": "Arizona official-PDF pre-materialization fixtures",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "fixtureDataPolicy",
+    "fixtures"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "rcap-official-pdf-fixtures/v1"
+    },
+    "familyId": {
+      "const": "rcap-az-official-pdf-family"
+    },
+    "jurisdiction": {
+      "const": "AZ"
+    },
+    "fixtureDataPolicy": {
+      "const": "synthetic_only_no_source_bytes_no_participant_data"
+    },
+    "fixtures": {
+      "type": "array",
+      "minItems": 16,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "required": [
+          "fixtureId",
+          "trackId",
+          "componentId",
+          "componentDocumentId",
+          "identityBindingStatus",
+          "synthetic",
+          "facts",
+          "expectedBoundaryCode",
+          "generationAttempted",
+          "manualSignaturesBlank",
+          "thirdPartyFieldsBlank"
+        ],
+        "properties": {
+          "fixtureId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "trackId": {
+            "enum": [
+              "az_certificate_second_chance",
+              "az_marijuana_expungement_arrest_no_charges",
+              "az_marijuana_expungement_limited_jurisdiction",
+              "az_marijuana_expungement_superior_court",
+              "az_record_sealing_arrest_no_charges",
+              "az_record_sealing_conviction",
+              "az_record_sealing_dismissal_not_guilty",
+              "az_set_aside"
+            ]
+          },
+          "componentId": {
+            "type": "string"
+          },
+          "componentDocumentId": {
+            "type": "string"
+          },
+          "identityBindingStatus": {
+            "enum": [
+              "exact_pinned_identity",
+              "unknown_source_identity"
+            ]
+          },
+          "synthetic": {
+            "const": true
+          },
+          "facts": {
+            "type": "object"
+          },
+          "expectedBoundaryCode": {
+            "enum": [
+              "source_materialization_required",
+              "unknown_source_identity"
+            ]
+          },
+          "generationAttempted": {
+            "const": false
+          },
+          "manualSignaturesBlank": {
+            "const": true
+          },
+          "thirdPartyFieldsBlank": {
+            "const": true
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rcap-az-official-pdf-source-requirements.schema.json",
+  "title": "Arizona official-PDF pre-materialization source requirements",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "authorityEdition",
+    "authorityArchiveSha256",
+    "contractKind",
+    "assignmentAnchor",
+    "portableProjection",
+    "workerReadAuthorized",
+    "workerMaterializationAuthorized",
+    "workerReady",
+    "counts",
+    "requirements"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "rcap-source-materialization-scaffold/v1"
+    },
+    "familyId": {
+      "const": "rcap-az-official-pdf-family"
+    },
+    "jurisdiction": {
+      "const": "AZ"
+    },
+    "authorityEdition": {
+      "const": "1.2"
+    },
+    "authorityArchiveSha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "contractKind": {
+      "const": "pre_materialization_dependency_scaffold_not_worker_assignment"
+    },
+    "assignmentAnchor": {
+      "type": "null"
+    },
+    "portableProjection": {
+      "type": "null"
+    },
+    "workerReadAuthorized": {
+      "const": false
+    },
+    "workerMaterializationAuthorized": {
+      "const": false
+    },
+    "workerReady": {
+      "const": false
+    },
+    "counts": {
+      "type": "object"
+    },
+    "requirements": {
+      "type": "array",
+      "minItems": 11,
+      "maxItems": 11,
+      "items": {
+        "type": "object",
+        "required": [
+          "componentDocumentId",
+          "authorityState",
+          "identityBindingStatus",
+          "workflowKey",
+          "authorityDocumentId",
+          "authorityDocumentRole",
+          "canonicalAuthorityPath",
+          "repositorySourcePathEvidence",
+          "expectedSha256",
+          "expectedBytes",
+          "expectedMediaType",
+          "assignmentFields",
+          "workerReadAuthorized",
+          "workerMaterializationAuthorized",
+          "workerReady",
+          "generationAllowed",
+          "usageBindings"
+        ],
+        "properties": {
+          "componentDocumentId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authorityState": {
+            "enum": [
+              "authority_asset_known",
+              "authority_identity_unresolved"
+            ]
+          },
+          "identityBindingStatus": {
+            "enum": [
+              "exact_pinned_identity",
+              "unknown_source_identity"
+            ]
+          },
+          "workflowKey": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "authorityDocumentId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "authorityDocumentRole": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "canonicalAuthorityPath": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "repositorySourcePathEvidence": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "expectedSha256": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "expectedBytes": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "expectedMediaType": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "assignmentFields": {
+            "type": "object",
+            "required": [
+              "assignedJobSha256",
+              "portableLocator",
+              "materializationDestination"
+            ]
+          },
+          "workerReady": {
+            "const": false
+          },
+          "workerReadAuthorized": {
+            "const": false
+          },
+          "workerMaterializationAuthorized": {
+            "const": false
+          },
+          "generationAllowed": {
+            "const": false
+          },
+          "usageBindings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "trackId",
+                "componentId",
+                "role"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}
