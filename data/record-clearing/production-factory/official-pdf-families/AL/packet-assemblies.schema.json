@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/al-official-pdf-packet-assemblies-v1.json",
+  "title": "Alabama official-PDF packet assembly preflight catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "definitionStatus",
+    "sourceSelectionPolicy",
+    "packetAssemblies"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "familyId": { "const": "al-statewide-official-form-family" },
+    "jurisdiction": { "const": "AL" },
+    "definitionStatus": { "const": "preflight_only_not_registered" },
+    "sourceSelectionPolicy": {
+      "const": "captain_assignment_and_exact_manifested_source_required"
+    },
+    "packetAssemblies": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": { "$ref": "#/$defs/assembly" }
+    }
+  },
+  "$defs": {
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identityApproved",
+        "mappingApproved",
+        "technical",
+        "visual",
+        "legalOutput"
+      ],
+      "properties": {
+        "identityApproved": { "const": false },
+        "mappingApproved": { "const": false },
+        "technical": {
+          "enum": [
+            "not_run_worker_read_prohibited",
+            "blocked_unmanifested_source"
+          ]
+        },
+        "visual": { "const": "visual_review_pending" },
+        "legalOutput": { "const": "legal_output_review_pending" }
+      }
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "componentId",
+        "order",
+        "role",
+        "requirement",
+        "conditionDescription",
+        "outputStrategy",
+        "officialFormId",
+        "officialSourceUrl",
+        "kind",
+        "fieldMapId",
+        "sourceRequirementId",
+        "sourceGapId",
+        "rendererPosture",
+        "componentStatus",
+        "approval",
+        "runtimeStatus",
+        "generationAllowed"
+      ],
+      "properties": {
+        "componentId": { "type": "string", "pattern": "^al-" },
+        "order": { "type": "integer", "minimum": 1, "maximum": 4 },
+        "role": {
+          "enum": [
+            "primary_filing",
+            "certificate_of_service",
+            "fee_waiver",
+            "continuation"
+          ]
+        },
+        "requirement": { "enum": ["required", "conditional"] },
+        "conditionDescription": { "type": ["string", "null"] },
+        "outputStrategy": { "const": "official_pdf_fill" },
+        "officialFormId": { "enum": ["CR-65", "C-10-CRIMINAL", "ABPP-3"] },
+        "officialSourceUrl": { "type": ["string", "null"], "format": "uri" },
+        "kind": { "const": "official_pdf" },
+        "fieldMapId": {
+          "enum": [
+            "al-field-map-cr-65",
+            "al-field-map-c-10-criminal",
+            "al-field-map-abpp-3"
+          ]
+        },
+        "sourceRequirementId": {
+          "type": ["string", "null"],
+          "pattern": "^al-source-"
+        },
+        "sourceGapId": {
+          "type": ["string", "null"],
+          "pattern": "^al-source-gap-"
+        },
+        "rendererPosture": {
+          "enum": [
+            "acroform_candidate_worker_read_prohibited",
+            "blocked_unmanifested_source"
+          ]
+        },
+        "componentStatus": {
+          "enum": [
+            "blocked_captain_assignment_and_mapping_reviews",
+            "blocked_captain_assignment_edition_projection_and_mapping_reviews",
+            "blocked_unmanifested_source_and_missing_companion_dependency"
+          ]
+        },
+        "approval": { "$ref": "#/$defs/approval" },
+        "runtimeStatus": { "const": "runtime_disabled" },
+        "generationAllowed": { "const": false }
+      }
+    },
+    "assembly": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trackId",
+        "packetSetId",
+        "packetSetVersion",
+        "outputStrategy",
+        "compositionMode",
+        "fixtureId",
+        "requiredFactKeys",
+        "legalDesignBlocked",
+        "legalDesignBlockerCount",
+        "components",
+        "assemblyStatus",
+        "expectedPreflightError",
+        "sourceCurrent",
+        "runtimeDisabled",
+        "runtimeStatus",
+        "packetReady",
+        "generationAllowed"
+      ],
+      "properties": {
+        "trackId": { "type": "string", "pattern": "^al-" },
+        "packetSetId": { "type": "string", "pattern": "^al-" },
+        "packetSetVersion": { "const": "1.0.0" },
+        "outputStrategy": { "const": "official_pdf_fill" },
+        "compositionMode": { "type": "null" },
+        "fixtureId": { "type": "string", "pattern": "^al-fixture-" },
+        "requiredFactKeys": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9]*$"
+          }
+        },
+        "legalDesignBlocked": { "type": "boolean" },
+        "legalDesignBlockerCount": { "type": "integer", "minimum": 0 },
+        "components": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "items": { "$ref": "#/$defs/component" }
+        },
+        "assemblyStatus": { "const": "blocked_preflight_only" },
+        "expectedPreflightError": { "const": "family_not_ready" },
+        "sourceCurrent": { "const": false },
+        "runtimeDisabled": { "const": true },
+        "runtimeStatus": { "const": "runtime_disabled" },
+        "packetReady": { "const": false },
+        "generationAllowed": { "const": false }
+      }
+    }
+  }
+}

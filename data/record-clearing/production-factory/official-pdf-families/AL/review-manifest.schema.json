@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/al-official-pdf-review-manifest-v1.json",
+  "title": "Alabama official-PDF review manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "reviewState",
+    "sourceBackedSampleCount",
+    "visualArtifactCount",
+    "fieldMapReviewArtifactCount",
+    "humanLegalReviewStatus",
+    "sourceReconciliationEvidence",
+    "documentReviews",
+    "routeReviews",
+    "familyReview",
+    "promotionRule"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "familyId": { "const": "al-statewide-official-form-family" },
+    "jurisdiction": { "const": "AL" },
+    "reviewState": {
+      "const": "blocked_before_source_backed_sample_generation"
+    },
+    "sourceBackedSampleCount": { "const": 0 },
+    "visualArtifactCount": { "const": 0 },
+    "fieldMapReviewArtifactCount": { "const": 0 },
+    "humanLegalReviewStatus": { "const": "not_submitted" },
+    "sourceReconciliationEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "finding",
+        "editionProjectionState",
+        "workerReadEffect"
+      ],
+      "properties": {
+        "path": {
+          "const": "data/record-clearing/production-factory/source-acquisition/rcap-al-in-repo-identity-reconciliation-cr-65.json"
+        },
+        "sha256": {
+          "const": "61bee535989b9d645f54a52059647e40abeac4f1608bd577965af45fed53564c"
+        },
+        "finding": { "type": "string", "minLength": 1 },
+        "editionProjectionState": {
+          "const": "cr65_projection_pending"
+        },
+        "workerReadEffect": { "const": "none_keep_fail_closed" }
+      }
+    },
+    "documentReviews": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": { "$ref": "#/$defs/documentReview" }
+    },
+    "routeReviews": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": { "$ref": "#/$defs/routeReview" }
+    },
+    "familyReview": { "$ref": "#/$defs/approvalState" },
+    "promotionRule": { "type": "string", "minLength": 1 }
+  },
+  "$defs": {
+    "approvalState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identityApproved",
+        "sourceCurrent",
+        "ownershipApproved",
+        "mappingApproved",
+        "technicalReviewPassed",
+        "visualReviewPassed",
+        "legalOutputApproved",
+        "counselApproved",
+        "packetReady",
+        "generationAllowed",
+        "enabled"
+      ],
+      "properties": {
+        "identityApproved": { "const": false },
+        "sourceCurrent": { "const": false },
+        "ownershipApproved": { "const": false },
+        "mappingApproved": { "const": false },
+        "technicalReviewPassed": { "const": false },
+        "visualReviewPassed": { "const": false },
+        "legalOutputApproved": { "const": false },
+        "counselApproved": { "const": false },
+        "packetReady": { "const": false },
+        "generationAllowed": { "const": false },
+        "enabled": { "const": false }
+      }
+    },
+    "documentReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reviewId",
+        "documentId",
+        "fieldMapId",
+        "sourceRequirementId",
+        "sourceGapId",
+        "identityState",
+        "materializationState",
+        "technicalReview",
+        "fieldOwnershipReview",
+        "mappingReview",
+        "sourceFreshnessReview",
+        "visualReview",
+        "legalOutputReview",
+        "sampleStatus",
+        "approvals"
+      ],
+      "properties": {
+        "reviewId": { "type": "string", "pattern": "^al-review-document-" },
+        "documentId": { "enum": ["CR-65", "C-10-CRIMINAL", "ABPP-3"] },
+        "fieldMapId": { "type": "string", "pattern": "^al-field-map-" },
+        "sourceRequirementId": {
+          "type": ["string", "null"],
+          "pattern": "^al-source-"
+        },
+        "sourceGapId": {
+          "type": ["string", "null"],
+          "pattern": "^al-source-gap-"
+        },
+        "identityState": {
+          "enum": [
+            "reconciled_retained_identity_pending_edition_projection",
+            "edition_1_2_authority_identity",
+            "official_identity_confirmed_source_unmanifested"
+          ]
+        },
+        "materializationState": {
+          "enum": ["blocked_captain_assignment", "blocked_unmanifested_source"]
+        },
+        "technicalReview": {
+          "enum": [
+            "not_run_worker_read_prohibited",
+            "blocked_unmanifested_source"
+          ]
+        },
+        "fieldOwnershipReview": { "const": "not_submitted" },
+        "mappingReview": { "const": "not_submitted" },
+        "sourceFreshnessReview": { "const": "not_submitted" },
+        "visualReview": { "const": "not_submitted" },
+        "legalOutputReview": { "const": "not_submitted" },
+        "sampleStatus": { "const": "not_generated" },
+        "approvals": { "$ref": "#/$defs/approvalState" }
+      }
+    },
+    "routeReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reviewId",
+        "trackId",
+        "componentCount",
+        "legalDesignBlockerCount",
+        "sourceState",
+        "technicalReview",
+        "visualReview",
+        "legalOutputReview",
+        "sampleStatus",
+        "approvals"
+      ],
+      "properties": {
+        "reviewId": { "type": "string", "pattern": "^al-review-route-" },
+        "trackId": { "type": "string", "pattern": "^al-" },
+        "componentCount": { "type": "integer", "minimum": 1, "maximum": 4 },
+        "legalDesignBlockerCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "sourceState": {
+          "enum": [
+            "retained_sources_worker_read_prohibited",
+            "unmanifested_source_and_missing_companion"
+          ]
+        },
+        "technicalReview": { "const": "not_submitted" },
+        "visualReview": { "const": "not_submitted" },
+        "legalOutputReview": { "const": "not_submitted" },
+        "sampleStatus": { "const": "not_generated" },
+        "approvals": { "$ref": "#/$defs/approvalState" }
+      }
+    }
+  }
+}

@@ -1,0 +1,311 @@
+{
+  "schemaVersion": 1,
+  "familyId": "al-statewide-official-form-family",
+  "jurisdiction": "AL",
+  "coverageScope": "normalized_generation_keys_only_source_inventory_prohibited_until_assignment",
+  "sourceFieldCoverageState": "not_started_worker_read_prohibited",
+  "unclassifiedSourceFieldPolicy": "reject",
+  "writableOwners": ["participant", "system_derived"],
+  "actorDefaults": [
+    { "owner": "participant", "automationPolicy": "auto_fill_candidate" },
+    { "owner": "system_derived", "automationPolicy": "auto_fill_candidate" },
+    { "owner": "participant_manual", "automationPolicy": "leave_blank" },
+    { "owner": "court", "automationPolicy": "leave_blank" },
+    { "owner": "clerk", "automationPolicy": "leave_blank" },
+    { "owner": "judge", "automationPolicy": "leave_blank" },
+    { "owner": "prosecutor", "automationPolicy": "leave_blank" },
+    { "owner": "law_enforcement", "automationPolicy": "leave_blank" },
+    { "owner": "agency", "automationPolicy": "leave_blank" },
+    { "owner": "notary", "automationPolicy": "leave_blank" },
+    { "owner": "process_server", "automationPolicy": "leave_blank" },
+    { "owner": "prohibited_from_generation", "automationPolicy": "reject" }
+  ],
+  "fields": [
+    {
+      "fieldKey": "howMatterEnded",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "fieldKey": "dismissalWithPrejudice",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "nolleWithoutConditions",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "dispositionDate",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "fieldKey": "refiled",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "countyOfFiling",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "fieldKey": "offenceLevel",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "courtOrderedAmounts",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "dismissedWithoutPrejudice",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "dismissalDate",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "fieldKey": "interveningConvictions",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "programEndedInDismissal",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "withheldAdjudication",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "programType",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "fieldKey": "priorProgramExpungements",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "convictionDate",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "fieldKey": "youthfulOffender",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "allAmountsPaid",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "violentOffence",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "sexOffence",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "moralTurpitude",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "seriousTrafficOffence",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "cdlStatus",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "act2015185Reclassification",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "priorCappedExpungements",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "pardonDate",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "fieldKey": "restorationLanguage",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "fieldKey": "firearmRightsExcluded",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "traffickingFacts",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "fieldKey": "chargesToExpunge",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "fieldKey": "convictionDetails",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "fieldKey": "sentenceCompletion",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "fieldKey": "localProbationOffice",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "fieldKey": "participantSignature",
+      "owner": "participant_manual",
+      "automationPolicy": "leave_blank"
+    },
+    {
+      "fieldKey": "participantSignatureDate",
+      "owner": "participant_manual",
+      "automationPolicy": "leave_blank"
+    }
+  ],
+  "routes": [
+    {
+      "routeId": "al-misd-nonconviction-90",
+      "fieldKeys": [
+        "howMatterEnded",
+        "dismissalWithPrejudice",
+        "nolleWithoutConditions",
+        "dispositionDate",
+        "refiled",
+        "countyOfFiling",
+        "offenceLevel",
+        "courtOrderedAmounts",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    },
+    {
+      "routeId": "al-felony-nonconviction-90",
+      "fieldKeys": [
+        "howMatterEnded",
+        "dismissalWithPrejudice",
+        "dispositionDate",
+        "refiled",
+        "countyOfFiling",
+        "courtOrderedAmounts",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    },
+    {
+      "routeId": "al-misd-dwop",
+      "fieldKeys": [
+        "dismissedWithoutPrejudice",
+        "dismissalDate",
+        "interveningConvictions",
+        "countyOfFiling",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    },
+    {
+      "routeId": "al-felony-dwop",
+      "fieldKeys": [
+        "dismissedWithoutPrejudice",
+        "dismissalDate",
+        "interveningConvictions",
+        "countyOfFiling",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    },
+    {
+      "routeId": "al-diversion",
+      "fieldKeys": [
+        "programEndedInDismissal",
+        "withheldAdjudication",
+        "programType",
+        "priorProgramExpungements",
+        "countyOfFiling",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    },
+    {
+      "routeId": "al-misd-conviction",
+      "fieldKeys": [
+        "convictionDate",
+        "youthfulOffender",
+        "allAmountsPaid",
+        "violentOffence",
+        "sexOffence",
+        "moralTurpitude",
+        "seriousTrafficOffence",
+        "cdlStatus",
+        "act2015185Reclassification",
+        "priorCappedExpungements",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    },
+    {
+      "routeId": "al-pardoned-felony",
+      "fieldKeys": [
+        "pardonDate",
+        "restorationLanguage",
+        "firearmRightsExcluded",
+        "countyOfFiling",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    },
+    {
+      "routeId": "al-trafficking",
+      "fieldKeys": [
+        "traffickingFacts",
+        "chargesToExpunge",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    },
+    {
+      "routeId": "al-pardon",
+      "fieldKeys": [
+        "convictionDetails",
+        "sentenceCompletion",
+        "localProbationOffice",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    }
+  ]
+}

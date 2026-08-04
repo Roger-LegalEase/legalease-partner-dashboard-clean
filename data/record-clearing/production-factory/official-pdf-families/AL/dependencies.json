@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "familyId": "al-statewide-official-form-family",
+  "jurisdiction": "AL",
+  "dependencyCount": 9,
+  "resolvedDependencyCount": 0,
+  "dependencies": [
+    {
+      "dependencyId": "al-dependency-captain-assignment",
+      "appliesTo": ["CR-65", "C-10-CRIMINAL"],
+      "category": "captain_assignment",
+      "state": "assignment_anchor_and_portable_projection_absent",
+      "blocking": true,
+      "evidence": [
+        "contractState=pending_captain_assignment",
+        "assignmentAnchor=null",
+        "portableProjection=null"
+      ],
+      "requiredAction": "A captain must publish the assignment anchor and portable source projection before any worker source read or materialization.",
+      "preservesNormalizedDesign": true,
+      "resolved": false,
+      "runtimeStatus": "runtime_disabled",
+      "generationAllowed": false
+    },
+    {
+      "dependencyId": "al-dependency-cr-65-edition-projection",
+      "appliesTo": ["CR-65"],
+      "category": "edition_projection",
+      "state": "retained_identity_reconciled_but_not_projected_into_edition_1_2",
+      "blocking": true,
+      "evidence": [
+        "reconciliation artifact identifies CR-65 REV-2024-10 exactly",
+        "workflowKey=null",
+        "canonicalAuthorityPath=null"
+      ],
+      "requiredAction": "Project the reconciled CR-65 identity into an authorized Edition 1.2 workflow and canonical path.",
+      "preservesNormalizedDesign": true,
+      "resolved": false,
+      "runtimeStatus": "runtime_disabled",
+      "generationAllowed": false
+    },
+    {
+      "dependencyId": "al-dependency-abpp-3-acquisition",
+      "appliesTo": ["ABPP-3", "al-pardon"],
+      "category": "source_acquisition",
+      "state": "official_identity_confirmed_source_unmanifested",
+      "blocking": true,
+      "evidence": [
+        "acquisitionId=acquire:AL:abpp-3",
+        "revision=REV-2025-06",
+        "artifactId=null",
+        "repositorySourcePath=null"
+      ],
+      "requiredAction": "A captain-authorized acquisition must retain and manifest the exact June 2025 ABPP-3 source.",
+      "preservesNormalizedDesign": true,
+      "resolved": false,
+      "runtimeStatus": "runtime_disabled",
+      "generationAllowed": false
+    },
+    {
+      "dependencyId": "al-dependency-abpp-3-waiver-of-liability",
+      "appliesTo": ["ABPP-3", "al-pardon"],
+      "category": "packet_component_design",
+      "state": "mandatory_companion_reported_but_absent_from_normalized_packet",
+      "blocking": true,
+      "evidence": [
+        "acquisition intelligence reports a mandatory Waiver of Liability",
+        "normalized al-pardon packet contains only ABPP-3"
+      ],
+      "requiredAction": "Counsel and legal design must resolve the missing Waiver of Liability dependency before changing the normalized packet.",
+      "preservesNormalizedDesign": true,
+      "resolved": false,
+      "runtimeStatus": "runtime_disabled",
+      "generationAllowed": false
+    },
+    {
+      "dependencyId": "al-dependency-exact-source-inspection",
+      "appliesTo": ["CR-65", "C-10-CRIMINAL", "ABPP-3"],
+      "category": "source_inspection",
+      "state": "worker_read_prohibited_or_source_unmanifested",
+      "blocking": true,
+      "evidence": [
+        "retained private-path strings are identity evidence only",
+        "workerReadAuthorized=false",
+        "ABPP-3 exact retained bytes absent"
+      ],
+      "requiredAction": "Inspect exact authorized source bytes only after captain assignment and source manifestation.",
+      "preservesNormalizedDesign": true,
+      "resolved": false,
+      "runtimeStatus": "runtime_disabled",
+      "generationAllowed": false
+    },
+    {
+      "dependencyId": "al-dependency-source-field-mapping",
+      "appliesTo": ["CR-65", "C-10-CRIMINAL", "ABPP-3"],
+      "category": "field_mapping",
+      "state": "zero_of_three_maps_bound",
+      "blocking": true,
+      "evidence": [
+        "sourceFieldInventory count=0",
+        "sourceFieldBindings count=0",
+        "overlayPlacements count=0"
+      ],
+      "requiredAction": "Inventory and classify exact source fields, then complete and approve participant-safe bindings.",
+      "preservesNormalizedDesign": true,
+      "resolved": false,
+      "runtimeStatus": "runtime_disabled",
+      "generationAllowed": false
+    },
+    {
+      "dependencyId": "al-dependency-source-backed-reviews",
+      "appliesTo": ["al-statewide-official-form-family"],
+      "category": "review",
+      "state": "technical_visual_mapping_and_legal_output_reviews_pending",
+      "blocking": true,
+      "evidence": [
+        "sourceBackedSampleCount=0",
+        "visualArtifactCount=0",
+        "fieldMapReviewArtifactCount=0"
+      ],
+      "requiredAction": "Generate source-backed samples and complete technical, visual, mapping, and legal-output reviews.",
+      "preservesNormalizedDesign": true,
+      "resolved": false,
+      "runtimeStatus": "runtime_disabled",
+      "generationAllowed": false
+    },
+    {
+      "dependencyId": "al-dependency-legal-design-blockers",
+      "appliesTo": [
+        "al-felony-nonconviction-90",
+        "al-misd-dwop",
+        "al-felony-dwop",
+        "al-pardoned-felony"
+      ],
+      "category": "legal_design",
+      "state": "four_tracks_have_eight_legal_design_blockers",
+      "blocking": true,
+      "evidence": [
+        "al-felony-nonconviction-90=2",
+        "al-misd-dwop=2",
+        "al-felony-dwop=2",
+        "al-pardoned-felony=2"
+      ],
+      "requiredAction": "Resolve the eight tracked legal-design blockers before live approval for the four affected tracks.",
+      "preservesNormalizedDesign": true,
+      "resolved": false,
+      "runtimeStatus": "runtime_disabled",
+      "generationAllowed": false
+    },
+    {
+      "dependencyId": "al-dependency-pardon-product-scope",
+      "appliesTo": ["al-pardon"],
+      "category": "product_scope",
+      "state": "counsel_confirmation_required",
+      "blocking": true,
+      "evidence": [
+        "normalized track asks whether the pardon application is included as a separate product"
+      ],
+      "requiredAction": "Counsel must confirm whether the separate Alabama pardon product is in scope.",
+      "preservesNormalizedDesign": true,
+      "resolved": false,
+      "runtimeStatus": "runtime_disabled",
+      "generationAllowed": false
+    }
+  ],
+  "runtimeStatus": "runtime_disabled",
+  "generationAllowed": false
+}

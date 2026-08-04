@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/al-official-pdf-field-ownership.schema.json",
+  "title": "Alabama official-PDF field ownership",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "coverageScope",
+    "sourceFieldCoverageState",
+    "unclassifiedSourceFieldPolicy",
+    "writableOwners",
+    "actorDefaults",
+    "fields",
+    "routes"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "familyId": {
+      "const": "al-statewide-official-form-family"
+    },
+    "jurisdiction": {
+      "const": "AL"
+    },
+    "coverageScope": {
+      "const": "normalized_generation_keys_only_source_inventory_prohibited_until_assignment"
+    },
+    "sourceFieldCoverageState": {
+      "const": "not_started_worker_read_prohibited"
+    },
+    "unclassifiedSourceFieldPolicy": {
+      "const": "reject"
+    },
+    "writableOwners": {
+      "type": "array"
+    },
+    "actorDefaults": {
+      "type": "array"
+    },
+    "fields": {
+      "type": "array",
+      "minItems": 35,
+      "maxItems": 35,
+      "items": {
+        "type": "object"
+      }
+    },
+    "routes": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}

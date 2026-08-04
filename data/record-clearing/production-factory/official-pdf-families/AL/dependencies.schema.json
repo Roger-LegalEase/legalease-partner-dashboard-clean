@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/al-official-pdf-dependencies-v1.json",
+  "title": "Alabama official-PDF blocking dependencies",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "dependencyCount",
+    "resolvedDependencyCount",
+    "dependencies",
+    "runtimeStatus",
+    "generationAllowed"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "familyId": { "const": "al-statewide-official-form-family" },
+    "jurisdiction": { "const": "AL" },
+    "dependencyCount": { "const": 9 },
+    "resolvedDependencyCount": { "const": 0 },
+    "dependencies": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": { "$ref": "#/$defs/dependency" }
+    },
+    "runtimeStatus": { "const": "runtime_disabled" },
+    "generationAllowed": { "const": false }
+  },
+  "$defs": {
+    "dependency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dependencyId",
+        "appliesTo",
+        "category",
+        "state",
+        "blocking",
+        "evidence",
+        "requiredAction",
+        "preservesNormalizedDesign",
+        "resolved",
+        "runtimeStatus",
+        "generationAllowed"
+      ],
+      "properties": {
+        "dependencyId": { "type": "string", "pattern": "^al-dependency-" },
+        "appliesTo": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "category": {
+          "enum": [
+            "captain_assignment",
+            "edition_projection",
+            "source_acquisition",
+            "packet_component_design",
+            "source_inspection",
+            "field_mapping",
+            "review",
+            "legal_design",
+            "product_scope"
+          ]
+        },
+        "state": { "type": "string", "minLength": 1 },
+        "blocking": { "const": true },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "requiredAction": { "type": "string", "minLength": 1 },
+        "preservesNormalizedDesign": { "const": true },
+        "resolved": { "const": false },
+        "runtimeStatus": { "const": "runtime_disabled" },
+        "generationAllowed": { "const": false }
+      }
+    }
+  }
+}
