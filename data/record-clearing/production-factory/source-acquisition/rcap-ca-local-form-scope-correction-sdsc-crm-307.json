@@ -1,0 +1,170 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-ca-local-form-scope-correction-sdsc-crm-307",
+  "parentJobId": "AUTH-01-in-repo-authority-pinning",
+  "jurisdiction": "CA",
+  "lane": "source_acquisition",
+  "strategyFamily": "local_form_scope_correction",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "203b8931391d5636fda3a3fcfc35c0423c2bf9e3",
+  "generatedOn": "2026-08-04",
+  "acquisitionIds": [
+    "acquire:CA:sdsc-crm-307"
+  ],
+  "downloadedSourceCount": 0,
+  "legalDesignReconciliationRequired": true,
+  "statewidePromotionAllowed": false,
+  "generatedFrom": [
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/legal-design-intake/CA.memo.json"
+  ],
+  "method": {
+    "description": "Scope correction only. The document's geographic reach was established from the adopted California legal design and the queue's own recorded identity, and the recorded automated-retrieval status was re-tested by HEAD request without transferring any body. No binary was downloaded and no legal mechanism was altered.",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "binariesDownloaded": 0,
+    "binariesDownloadedNote": "This job is pinned to zero downloads and its purpose is scope, not acquisition. The binary was deliberately not retrieved even though a HEAD probe shows it is currently reachable. Acquiring it and reading its printed revision is a separate operations step.",
+    "legalConclusionsAltered": false,
+    "californiaLegalMechanismAltered": false,
+    "editionMutated": false,
+    "byteVerificationMethod": "none_performed_job_is_scope_correction_not_acquisition"
+  },
+  "scopeCorrection": {
+    "documentId": "SDSC-CRM-307",
+    "officialTitle": "Petition for Sealing of Arrest Records After Successful Completion of Pen. Code § 851.90 Diversion or Deferred Entry of Judgment",
+    "scope": "local_court_form",
+    "isCaliforniaStatewidePrimaryFiling": false,
+    "statewideApplicabilityVerdict": "affirmatively_disproved",
+    "evidence": [
+      "The adopted California legal design states of this route: 'There is no statewide Judicial Council form; counties publish their own.'",
+      "The track's geography is recorded as scope=county with keys san-diego and kern, and the venue note reads 'Local practice and local forms govern; there is no statewide form.'",
+      "The queue's own recorded title for the document is 'Superior Court of California, County of San Diego, local form SDSC CRM-307' — the issuer is a single superior court, not the Judicial Council.",
+      "The document is served from sdcourt.ca.gov, the San Diego court's own host, not from courts.ca.gov."
+    ]
+  },
+  "exactLocalCourt": {
+    "court": "Superior Court of California, County of San Diego",
+    "office": "SDSC Criminal Business Office",
+    "countyKey": "san-diego",
+    "formNumber": "SDSC CRM-307",
+    "authorityToPublish": "A California superior court's own local form, adopted under local rules because no Judicial Council form exists for Penal Code § 851.90 sealing.",
+    "bindingOnOtherCounties": false,
+    "bindingNote": "SDSC CRM-307 has no force in any other California county. Kern County's own local petition is recorded as the second confirmed example of a county publishing its own set."
+  },
+  "exactRouteRelationship": {
+    "trackId": "ca-diversion-seal",
+    "trackOutputStrategy": "composed",
+    "compositionMode": "sequential",
+    "componentId": "ca-diversion-seal-primary-filing-2",
+    "componentRole": "primary_filing",
+    "composedUnitId": "ca-diversion-seal-stage-2",
+    "composedUnitAssociation": "single_packet_binary_unit",
+    "stage": {
+      "order": 2,
+      "label": "County petition and order set",
+      "outputStrategy": "official_pdf_fill",
+      "available": false,
+      "unavailableReason": "No approved local petition and order set has been sourced for any county. County-specific form and filing coverage is a retained blocker, and it is a scope restriction on which counties are supported rather than a reason to suppress the guidance unit."
+    },
+    "meaning": "CRM-307 is not the track's filing. It is one county's instance of stage 2 of a two-stage sequential composed track, and stage 2 is currently unavailable for every county."
+  },
+  "statewideFallback": {
+    "exists": true,
+    "isAForm": false,
+    "unitId": "ca-diversion-seal-stage-1",
+    "order": 1,
+    "label": "Explain the route and identify the local form",
+    "outputStrategy": "process_guidance",
+    "available": true,
+    "behaviour": "Statewide guidance explains the disposition and the automatic portions, then directs the participant to ask their county clerk or self-help centre which local form applies. LegalEase does not select the local form.",
+    "whyNoStatewideForm": "Penal Code § 851.90 sealing has no Judicial Council form. The statewide position is guidance, not a filing, and that is the correct fallback rather than a gap to be filled by promoting a county form.",
+    "criticalRule": "Stage 1 must not be suppressed because stage 2 is unavailable. The unavailability of county forms is a scope restriction on which counties are supported, not a reason to withhold the statewide guidance."
+  },
+  "affected": {
+    "tracks": ["ca-diversion-seal"],
+    "trackCount": 1,
+    "components": ["ca-diversion-seal-primary-filing-2"],
+    "componentCount": 1,
+    "composedUnits": ["ca-diversion-seal-stage-2"],
+    "countiesNamedInDesign": ["san-diego", "kern"]
+  },
+  "runtimeEffect": {
+    "trackRuntimeStatus": "runtime_disabled",
+    "stage1Available": true,
+    "stage2Available": false,
+    "packetReadyImpact": "none",
+    "statewidePromotionAllowed": false,
+    "statewidePromotionRationale": "Promoting a San Diego local form statewide would generate a filing that 57 other counties have no obligation to accept and that misstates which court's form the participant is filing. The correct statewide behaviour is stage-1 guidance.",
+    "countyScopedPromotionPossible": "Only if counsel decides ca-diversion-seal stage 2 becomes a county-scoped track, and only for counties whose local set has been sourced and approved. No county qualifies today."
+  },
+  "counselDecisionRequired": {
+    "question": "Does ca-diversion-seal stage 2 become a county-scoped track, or does it stay failed closed?",
+    "decidedByThisJob": false,
+    "constraint": "Do not manifest SDSC CRM-307 before that decision. Manifesting it first would create a retained asset for a route whose scope is undecided.",
+    "referTo": "counsel"
+  },
+  "automationBlockRetest": {
+    "recordedStatus": "blocked_http_403_host_level_waf",
+    "retestedOn": "2026-08-04",
+    "method": "HEAD requests only, full Chrome user-agent, no body transfer",
+    "results": [
+      {
+        "url": "https://www.sdcourt.ca.gov/sites/default/files/sdcourt/generalinformation/forms/criminalforms/crm307.pdf",
+        "httpStatus": 200,
+        "reading": "The recorded 403 did not reproduce for the binary."
+      },
+      {
+        "url": "https://www.sdcourt.ca.gov/general-information/forms/criminal-forms",
+        "httpStatus": 404,
+        "reading": "The recorded official index URL is dead."
+      }
+    ],
+    "conclusion": "The block did not reproduce, but the recorded index page has moved or been retired. The document was still not retrieved, because this job is a scope correction pinned to zero downloads.",
+    "cautionAgainstOvergeneralising": "A single HEAD 200 does not establish that the host never blocks automation. It establishes only that this URL answered a header request today."
+  },
+  "correctionsRaised": [
+    {
+      "kind": "dead_official_index_url",
+      "field": "officialIndexUrl",
+      "recordedValue": "https://www.sdcourt.ca.gov/general-information/forms/criminal-forms",
+      "observed": "HTTP 404 on 2026-08-04",
+      "recommendation": "Re-locate the San Diego criminal forms index before any operations retrieval, and pin the document by hash rather than by path once acquired.",
+      "appliedByThisJob": false,
+      "notAppliedRationale": "The acquisition intelligence is a forbidden path for this job."
+    },
+    {
+      "kind": "unverified_revision_retained",
+      "field": "currentRevision",
+      "recordedValue": "New 5/19 (unverified against the live binary)",
+      "assessment": "Left unverified. Verifying it requires reading the printed revision off the binary, which this job is pinned not to download.",
+      "appliedByThisJob": false
+    }
+  ],
+  "unresolved": [
+    {
+      "question": "What revision does the live CRM-307 binary print?",
+      "status": "unresolved_by_design",
+      "why": "This job does not download. The recorded 'New 5/19' remains unverified against the publisher."
+    },
+    {
+      "question": "What are San Diego Superior Court's commercial-use terms for its local forms?",
+      "status": "unresolved",
+      "why": "Recorded as unresolved in the intelligence and not researched here. Redistribution is recorded as none_published, which is not the same as permitted."
+    },
+    {
+      "question": "How many California counties publish their own § 851.90 set, and which?",
+      "status": "unresolved",
+      "why": "Only San Diego and Kern are named in the design as confirmed examples. The full county picture is unknown, and it bounds how far a county-scoped track could ever reach."
+    }
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0
+  }
+}
