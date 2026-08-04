@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "rcap-official-pdf-family/v1",
+  "familyId": "ct-judicial-branch-jd-cr-202",
+  "jurisdiction": "CT",
+  "authorityFamily": "Connecticut Judicial Branch",
+  "implementationJobId": "IMP-OF-05-small-statewide-acroform-states",
+  "outputStrategies": [
+    "official_pdf_fill"
+  ],
+  "legalDesignSource": "data/record-clearing/legal-design-track-registry.json",
+  "sourceMaterialization": {
+    "dependencyJobId": "rcap-nationwide-source-materialization-contract",
+    "requirementManifest": "data/record-clearing/production-factory/official-pdf-families/CT/source-requirements.json",
+    "allSourcesRequired": true,
+    "state": "binary_materialization_required",
+    "workerReady": false,
+    "registryPresenceConfersReadiness": false,
+    "workerMayAcquireSources": false
+  },
+  "tracks": [
+    {
+      "trackId": "ct-cleanslate-petition",
+      "sourceDocumentIds": [
+        "JD-CR-202"
+      ]
+    }
+  ],
+  "documents": [
+    "JD-CR-202"
+  ],
+  "artifacts": {
+    "scaffoldSpec": "data/record-clearing/production-factory/official-pdf-families/CT/scaffold-spec.json",
+    "sourceRequirements": "data/record-clearing/production-factory/official-pdf-families/CT/source-requirements.json",
+    "fieldMapScaffold": "data/record-clearing/production-factory/official-pdf-families/CT/field-map-scaffold.json",
+    "fieldOwnershipSchema": "data/record-clearing/production-factory/official-pdf-families/schemas/field-ownership.schema.json",
+    "fieldOwnershipMap": "data/record-clearing/production-factory/official-pdf-families/CT/field-ownership.json",
+    "fixtureSchema": "data/record-clearing/production-factory/official-pdf-families/schemas/fixture-scaffold.schema.json",
+    "fixtureScaffold": "data/record-clearing/production-factory/official-pdf-families/CT/fixture-scaffold.json",
+    "packetAssembly": "data/record-clearing/production-factory/official-pdf-families/CT/packet-assembly.json",
+    "reviewManifest": "data/record-clearing/production-factory/official-pdf-families/CT/review-manifest.json"
+  },
+  "dedicatedVerifier": "scripts/verify-rcap-ct-judicial-branch-official-pdf-family.mjs",
+  "status": {
+    "sourceRequirements": "exact_pinned_identity",
+    "localSourceVerification": "pending_materialization",
+    "pdfStructureInspection": "pending_materialization",
+    "fieldMapping": "scaffolded_pending_materialization",
+    "packetRendering": "pending_materialization",
+    "visualReview": "pending_materialization",
+    "counselReview": "not_submitted",
+    "packetReady": false,
+    "enabled": false
+  },
+  "blockers": [
+    "The exact retained JD-CR-202 bytes are not materialized in this worker checkout.",
+    "The carried-forward clean-AcroForm classification and candidate field inventory are evidence only; renderer selection and field binding require fresh inspection of the exact read-only source.",
+    "The sworn eligibility allegations and crimes block identified by the adopted legal design remain participant-manual fields and cannot be generated from an eligibility inference."
+  ],
+  "invariants": [
+    "Connecticut legal design, the one-docket-per-petition rule, and closed-court venue redirects remain unchanged.",
+    "The petitioner signature, signature date, sworn eligibility allegations, crimes block, and notary or other proper-officer fields remain usable and blank.",
+    "Court order, clerk, judge, prosecutor, agency, attorney, notary, and process-server fields remain blank.",
+    "No source is downloaded, reconstructed, modified, or replaced by packet implementation code.",
+    "No live route or existing generator is changed by this family."
+  ]
+}

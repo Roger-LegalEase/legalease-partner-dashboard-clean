@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "rcap-official-pdf-packet-assembly/v1",
+  "familyId": "ct-judicial-branch-jd-cr-202",
+  "jurisdiction": "CT",
+  "assemblyPolicy": {
+    "participantDeliverable": "one_pdf",
+    "zipAllowed": false,
+    "deterministic": true,
+    "deterministicTimestamp": "2000-01-01T00:00:00.000Z",
+    "producer": "LegalEase",
+    "preserveOfficialFixedLanguage": true,
+    "sourceLookupMode": "exact_requirement_only",
+    "downloadOrSourceFallbackAllowed": false,
+    "signatureImagesGenerated": false
+  },
+  "packets": [
+    {
+      "trackId": "ct-cleanslate-petition",
+      "outputFileName": "ct-cleanslate-petition-participant-packet.pdf",
+      "assembledParticipantPdf": true,
+      "documents": [
+        {
+          "documentId": "JD-CR-202",
+          "order": 1,
+          "rendererStrategy": "pending_materialized_source_inspection",
+          "componentIds": [
+            "ct-cleanslate-petition-primary-filing-1"
+          ],
+          "requirement": "required",
+          "renderOnce": true
+        }
+      ]
+    }
+  ]
+}

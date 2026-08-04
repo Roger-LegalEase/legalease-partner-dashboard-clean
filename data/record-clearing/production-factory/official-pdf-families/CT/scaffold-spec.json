@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "rcap-official-pdf-family-scaffold-spec/v1",
+  "familyId": "ct-judicial-branch-jd-cr-202",
+  "jurisdiction": "CT",
+  "authorityFamily": "Connecticut Judicial Branch",
+  "implementationJobId": "IMP-OF-05-small-statewide-acroform-states",
+  "sourceMaterializationDependency": "rcap-nationwide-source-materialization-contract",
+  "outputDirectory": "data/record-clearing/production-factory/official-pdf-families/CT",
+  "dedicatedVerifier": "scripts/verify-rcap-ct-judicial-branch-official-pdf-family.mjs",
+  "trackIds": [
+    "ct-cleanslate-petition"
+  ],
+  "documentOrder": [
+    "JD-CR-202"
+  ],
+  "candidateInventories": {
+    "JD-CR-202": "docs/record-clearing/field-map-drafts/connecticut-cr202.field-map-review.json"
+  },
+  "blockers": [
+    "The exact retained JD-CR-202 bytes are not materialized in this worker checkout.",
+    "The carried-forward clean-AcroForm classification and candidate field inventory are evidence only; renderer selection and field binding require fresh inspection of the exact read-only source.",
+    "The sworn eligibility allegations and crimes block identified by the adopted legal design remain participant-manual fields and cannot be generated from an eligibility inference."
+  ],
+  "invariants": [
+    "Connecticut legal design, the one-docket-per-petition rule, and closed-court venue redirects remain unchanged.",
+    "The petitioner signature, signature date, sworn eligibility allegations, crimes block, and notary or other proper-officer fields remain usable and blank.",
+    "Court order, clerk, judge, prosecutor, agency, attorney, notary, and process-server fields remain blank.",
+    "No source is downloaded, reconstructed, modified, or replaced by packet implementation code.",
+    "No live route or existing generator is changed by this family."
+  ]
+}

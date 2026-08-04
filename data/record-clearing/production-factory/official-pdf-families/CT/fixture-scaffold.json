@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "rcap-official-pdf-fixture-scaffold/v1",
+  "familyId": "ct-judicial-branch-jd-cr-202",
+  "jurisdiction": "CT",
+  "schemaPath": "data/record-clearing/production-factory/official-pdf-families/schemas/fixture-scaffold.schema.json",
+  "syntheticDataOnly": true,
+  "fixtureState": "pending_field_map_and_fact_type_binding",
+  "tracks": [
+    {
+      "trackId": "ct-cleanslate-petition",
+      "fixtureId": "ct-cleanslate-petition-synthetic-layout",
+      "caseReference": "SYN-CT-ct-cleanslate-petition",
+      "requiredFactKeys": [
+        "offenseDate",
+        "docketNumber",
+        "sentencingLocation",
+        "offenseSections",
+        "offenseClassThenCurrent",
+        "mostRecentConvictionDate",
+        "countsOnDocket",
+        "supervisionComplete",
+        "pendingCharges"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Signature, sworn before a Notary Public, Commissioner of the Superior Court, Clerk or other proper officer",
+          "whereInPacket": "JD-CR-202, verification block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The crimes the defendant asks the court to erase",
+          "whereInPacket": "JD-CR-202, crimes block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Item 1b eligibility class and item 1c not-blocked certification",
+          "whereInPacket": "JD-CR-202, item 1",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Item 2 waiting period and item 3 sentence completion",
+          "whereInPacket": "JD-CR-202, items 2 and 3",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    }
+  ],
+  "requiredBoundaryFixtures": [
+    "missing_required_input",
+    "source_missing",
+    "source_hash_mismatch",
+    "third_party_field_ownership",
+    "deterministic_repeat"
+  ]
+}
