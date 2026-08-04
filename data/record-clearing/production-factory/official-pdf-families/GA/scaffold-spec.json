@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "rcap-official-pdf-family-scaffold-spec/v1",
+  "familyId": "ga-gbi-gcic-pre-2013-restriction-overlay",
+  "jurisdiction": "GA",
+  "authorityFamily": "Georgia Bureau of Investigation and Georgia Crime Information Center",
+  "implementationJobId": "IMP-OV-01-flat-pdf-overlay-family",
+  "sourceMaterializationDependency": "rcap-nationwide-source-materialization-contract",
+  "outputDirectory": "data/record-clearing/production-factory/official-pdf-families/GA",
+  "dedicatedVerifier": "scripts/verify-rcap-ga-gbi-gcic-overlay-family.mjs",
+  "trackIds": [
+    "ga-nonconv-pre2013"
+  ],
+  "documentOrder": [
+    "GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013"
+  ],
+  "blockers": [
+    "The exact retained GBI/GCIC request bytes are not materialized in this worker checkout.",
+    "The retained source is carried forward as a flat PDF, so every coordinate placement must be derived from exact verified bytes, confirmed against a rendered page, and recorded through the overlay-confirmation workflow.",
+    "Section Two is completed by the arresting agency and Section Three by the prosecuting attorney; both sections must remain usable and blank.",
+    "The adopted legal design retains release blockers for fee-waiver availability, denial-review instructions, the GCIC department line, and Social Security number handling."
+  ],
+  "invariants": [
+    "Georgia legal design, the one-request-per-arrest-date rule, and agency handoff sequence remain unchanged.",
+    "The applicant signature and date, all of Section Two, and all of Section Three remain usable and blank.",
+    "Court, judge, clerk, prosecutor, agency, attorney, notary, witness, and process-server fields remain blank.",
+    "No overlay coordinate is active until it carries exact-source visual confirmation evidence.",
+    "No source is downloaded, reconstructed, modified, or replaced by packet implementation code.",
+    "No live route or existing Georgia custom-pleading family is changed by this overlay family."
+  ]
+}

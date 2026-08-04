@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "rcap-official-pdf-packet-assembly/v1",
+  "familyId": "ga-gbi-gcic-pre-2013-restriction-overlay",
+  "jurisdiction": "GA",
+  "assemblyPolicy": {
+    "participantDeliverable": "one_pdf",
+    "zipAllowed": false,
+    "deterministic": true,
+    "deterministicTimestamp": "2000-01-01T00:00:00.000Z",
+    "producer": "LegalEase",
+    "preserveOfficialFixedLanguage": true,
+    "sourceLookupMode": "exact_requirement_only",
+    "downloadOrSourceFallbackAllowed": false,
+    "signatureImagesGenerated": false
+  },
+  "packets": [
+    {
+      "trackId": "ga-nonconv-pre2013",
+      "outputFileName": "ga-nonconv-pre2013-participant-packet.pdf",
+      "assembledParticipantPdf": true,
+      "documents": [
+        {
+          "documentId": "GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013",
+          "order": 1,
+          "rendererStrategy": "pending_materialized_source_inspection",
+          "componentIds": [
+            "ga-nonconv-pre2013-primary-filing-1"
+          ],
+          "requirement": "required",
+          "renderOnce": true
+        }
+      ]
+    }
+  ]
+}
