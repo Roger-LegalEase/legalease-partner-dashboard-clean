@@ -51,7 +51,14 @@ export function buildQueuedOfficialPdfFamilyScaffold({ root, specPath }) {
     );
     assert.equal(matches.length, 1, `${spec.jurisdiction}:${trackId}`);
     const track = matches[0];
-    assert.equal(track.outputStrategy, "official_pdf_fill", trackId);
+    assert.ok(
+      track.outputStrategy === "official_pdf_fill" ||
+        track.packetSet.components.some(
+          (component) =>
+            component.outputStrategy === "official_pdf_fill"
+        ),
+      `${trackId}: queue track has no official-PDF component`
+    );
     return track;
   });
   assert.equal(tracks.length, queueFamily.counts.trackCount);
