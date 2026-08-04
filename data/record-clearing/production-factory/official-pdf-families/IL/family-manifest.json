@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "rcap-official-pdf-family/v1",
+  "familyId": "il-statewide-official-form-families",
+  "jurisdiction": "IL",
+  "authorityFamily": "Illinois statewide approved forms and Illinois Prisoner Review Board certificate forms",
+  "implementationJobsReferenced": [
+    "IMP-OF-03-il-exp-ad-shared-map-family",
+    "IMP-OV-01-flat-pdf-overlay-family",
+    "IMP-CO-01-sequential-guidance-then-official"
+  ],
+  "scope": {
+    "adultExpAdTracks": [
+      "il-exp-nonconv",
+      "il-exp-supervision",
+      "il-exp-qualprob",
+      "il-exp-precompletion",
+      "il-seal-nonconv",
+      "il-seal-2yr",
+      "il-seal-3yr",
+      "il-seal-edu",
+      "il-exp-pardon"
+    ],
+    "cannabisTracks": [
+      "il-cannabis-vacate"
+    ],
+    "composedTracks": [
+      "il-prb-cert"
+    ],
+    "componentDocumentCount": 15,
+    "routeCount": 11
+  },
+  "immutableInputs": {
+    "legalDesignTrackRegistry": "data/record-clearing/legal-design-track-registry.json",
+    "packetSetManifests": "data/record-clearing/legal-design-packet-set-manifests.json",
+    "trackSourceRelationships": "data/record-clearing/legal-design-track-source-relationships.json",
+    "legalDesignSpecifications": "data/record-clearing/legal-design-specifications.json",
+    "masterLibraryAuthority": "data/record-clearing/master-library/authority.json",
+    "edition12TrackSourceAudit": "data/record-clearing/master-library/track-source-audit.json",
+    "edition12RepositoryAssetAudit": "data/record-clearing/master-library/repository-asset-audit.json",
+    "edition12CandidateDispositions": "data/record-clearing/master-library/edition-1-2/candidate-dispositions.json",
+    "edition12SourceAcquisitionDispositions": "data/record-clearing/master-library/edition-1-2/source-acquisition-dispositions.json",
+    "edition12IllinoisAddendum": "data/record-clearing/master-library/edition-1-2/legal-review-addenda/IL.md",
+    "sourceArtifactRegistry": "data/record-clearing/source-artifact-registry.json"
+  },
+  "authorityPosture": {
+    "directlyMappedPacketAssets": 8,
+    "retainedAssetWithComponentMappingPending": 1,
+    "authorityUnmanifestedRequiredComponents": 6,
+    "captainProjectedExactSourcesInCurrentCheckout": 0,
+    "routeReadyCount": 0,
+    "directlyMappedComponentDocumentIds": [
+      "EXP-AD Request",
+      "EXP-AD Case List",
+      "EXP-AD Order Granting",
+      "CXP Motion to Vacate and Expunge",
+      "PRB Certificate of Sealing Application",
+      "PRB Certificate of Sealing Eligibility Acknowledgement",
+      "PRB Certificate of Expungement for Military Application",
+      "PRB Certificate of Expungement for Military Eligibility Acknowledgement"
+    ],
+    "mappingPendingComponentDocumentIds": [
+      "Ill. S. Ct. R. 298 Application for Waiver of Court Fees"
+    ],
+    "unmanifestedComponentDocumentIds": [
+      "EXP-AD Additional Cases Expungement",
+      "CXP Additional Cannabis Convictions",
+      "CXP Getting Started Motion to Vacate and Expunge",
+      "CXP Notice of Court Date for Motion",
+      "CXP Additional Notice of Court Date",
+      "CXP Order Granting or Denying Motion"
+    ]
+  },
+  "sourceMaterialization": {
+    "requirementManifest": "data/record-clearing/production-factory/official-pdf-families/IL/source-requirements.json",
+    "contractKind": "dependency_scaffold_not_worker_assignment",
+    "assignmentAnchor": null,
+    "portableProjection": null,
+    "captainAssignmentRequired": true,
+    "portableProjectionRequired": true,
+    "state": "captain_assignment_and_portable_projection_required",
+    "workerReady": false,
+    "workerMaterializationAuthorized": false,
+    "workerMayAcquireOrDownloadSources": false,
+    "repositorySourcePathTreatment": "identity_evidence_only_never_worker_source",
+    "historicalRepositoryPathTreatment": "identity_evidence_only_never_worker_source",
+    "generatedOrHistoricalSampleMaySubstituteForSource": false,
+    "unmanifestedCandidateMaySubstituteForAuthorityAsset": false
+  },
+  "artifacts": {
+    "dependencies": "data/record-clearing/production-factory/official-pdf-families/IL/dependencies.json",
+    "rendererScaffold": "data/record-clearing/production-factory/official-pdf-families/IL/renderer-scaffold.json",
+    "fieldMapScaffold": "data/record-clearing/production-factory/official-pdf-families/IL/field-map-scaffold.json",
+    "fieldOwnershipSchema": "data/record-clearing/production-factory/official-pdf-families/IL/field-ownership.schema.json",
+    "fieldOwnership": "data/record-clearing/production-factory/official-pdf-families/IL/field-ownership.json",
+    "fixtureSchema": "data/record-clearing/production-factory/official-pdf-families/IL/fixtures.schema.json",
+    "fixtures": "data/record-clearing/production-factory/official-pdf-families/IL/fixtures.json",
+    "packetAssembly": "data/record-clearing/production-factory/official-pdf-families/IL/packet-assembly.json",
+    "reviewManifest": "data/record-clearing/production-factory/official-pdf-families/IL/review-manifest.json"
+  },
+  "implementationModule": "src/lib/rcap/packets/jurisdictions/illinois/official-pdf/family.ts",
+  "dedicatedVerifier": "scripts/verify-rcap-illinois-official-pdf-families.mjs",
+  "preservedLegacySurfaces": [
+    "src/app/api/rcap/documents/illinois/create/route.ts",
+    "src/app/documents/[partnerSlug]/form/IllinoisPetitionInformationForm.tsx",
+    "src/components/rcap/documents/illinois/IllinoisDocumentPacketPreview.tsx",
+    "src/lib/rcap/documents/packet-pdf.ts",
+    "scripts/verify-illinois-document-generator.mjs"
+  ],
+  "preservedAdjacentIllinoisImplementation": [
+    "src/lib/rcap/packets/jurisdictions/illinois/custom-pleading.ts",
+    "src/lib/rcap/packets/registry-il-custom-pleading.ts"
+  ],
+  "status": {
+    "sourceRequirements": "exact_where_authority_retained_and_explicitly_unmanifested_elsewhere",
+    "localSourceVerification": "blocked_pending_captain_assignment_and_portable_projection",
+    "rendererSelection": "scaffolded_no_active_renderer",
+    "fieldMapping": "scaffolded_no_active_mapping",
+    "packetAssembly": "contracted_runtime_blocked",
+    "visualReview": "blocked_pending_captain_assignment_and_portable_projection",
+    "counselReview": "not_submitted",
+    "packetReady": false,
+    "generationAllowed": false,
+    "enabled": false
+  },
+  "invariants": [
+    "The existing live Illinois legacy generator, routes, previews, registry wiring, and verifier remain unchanged.",
+    "No new Illinois official-form module is imported by a live or shared registry.",
+    "Edition 1.2 assets remain generationAllowed=false and runtime_disabled.",
+    "An authority_unmanifested_source is never treated as a packet asset merely because historical metadata, a field-map draft, or a generated sample exists.",
+    "The retained FW-CIV asset does not satisfy the normalized Rule 298 component until an approved component-to-document mapping is published.",
+    "The PRB non-military certificate-of-expungement branch stays unavailable and is never replaced by the sealing or military form.",
+    "Rule 298 appears as a packet component only where the adopted packet-set manifest includes it; participant-action prose does not create a new packet component.",
+    "Participant signature and date fields remain blank and usable.",
+    "Judge, clerk, prosecutor, agency, attorney, notary, witness, and process-server fields remain blank unless an adopted source expressly assigns the field to the participant.",
+    "No source is downloaded, reconstructed, modified, or replaced with an historical shadow rendering.",
+    "No active AcroForm mapping or coordinate placement exists until exact local bytes pass identity and structural verification."
+  ]
+}

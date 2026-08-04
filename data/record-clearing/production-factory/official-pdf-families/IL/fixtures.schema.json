@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rcap://official-pdf-families/IL/fixtures.schema.json",
+  "title": "Illinois official-PDF family fixture contracts",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "syntheticDataOnly",
+    "dataSets",
+    "fixtures"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "rcap-official-pdf-fixtures/v1"
+    },
+    "familyId": {
+      "const": "il-statewide-official-form-families"
+    },
+    "jurisdiction": {
+      "const": "IL"
+    },
+    "syntheticDataOnly": {
+      "const": true
+    },
+    "dataSets": {
+      "type": "object",
+      "minProperties": 3
+    },
+    "fixtures": {
+      "type": "array",
+      "minItems": 15,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "fixtureId",
+          "trackId",
+          "dataSetId",
+          "branch",
+          "expectedOutcome",
+          "expectedErrorCode"
+        ],
+        "properties": {
+          "fixtureId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "trackId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "dataSetId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "branch": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "overrides": {
+            "type": "object"
+          },
+          "expectedOutcome": {
+            "enum": [
+              "blocked"
+            ]
+          },
+          "expectedErrorCode": {
+            "enum": [
+              "source_missing",
+              "authority_unmanifested",
+              "component_mapping_unapproved",
+              "renderer_classification_unresolved",
+              "branch_unavailable",
+              "generation_disabled"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
