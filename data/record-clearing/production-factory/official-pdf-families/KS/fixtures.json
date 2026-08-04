@@ -1,0 +1,399 @@
+{
+  "schemaVersion": "rcap-official-pdf-fixture-scaffold/v1",
+  "familyId": "rcap-ks-official-pdf-family",
+  "jurisdiction": "KS",
+  "schemaPath": "data/record-clearing/production-factory/official-pdf-families/schemas/fixture-scaffold.schema.json",
+  "syntheticDataOnly": true,
+  "fixtureState": "pending_field_map_and_fact_type_binding",
+  "tracks": [
+    {
+      "trackId": "ks-21-6614-conviction",
+      "fixtureId": "ks-21-6614-conviction-synthetic-layout",
+      "caseReference": "SYN-KS-ks-21-6614-conviction",
+      "requiredFactKeys": [
+        "fullLegalName",
+        "nameAtTimeOfCase",
+        "sexRaceDateOfBirth",
+        "countyAndCourt",
+        "arrestingAgency",
+        "offenseOfConviction",
+        "offenseCommittedDate",
+        "convictionDate",
+        "severityClassification",
+        "isDui",
+        "sentenceSatisfiedDate",
+        "supervisionDischargeDate",
+        "felonyLastTwoYears",
+        "registrationRequired",
+        "excludedOffenseAssertion",
+        "participantAccount",
+        "supportingMaterials"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner's signature and date",
+          "whereInPacket": "Petition, signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Hearing date, time, courthouse, division and room",
+          "whereInPacket": "Notice of Hearing, first block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Certificate of Service and Mailing",
+          "whereInPacket": "Notice of Hearing, foot of the page",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Case number where a new one is assigned",
+          "whereInPacket": "Caption of every document",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Findings language, judge's signature, and paragraph 8 of the denial order",
+          "whereInPacket": "Both proposed orders",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Race, ethnicity and Social Security number",
+          "whereInPacket": "Criminal Cover Sheet and Order of Expungement Cover Sheet",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The Certificate of Service and Mailing on the Notice of Hearing is left blank and visibly labelled for clerk completion. It reads in the first person but its signature line is \"(Clerk of the Court) (Deputy Clerk)\", K.S.A. 21-6614(g)(1) puts notice on the court, and the Judicial Council instructions have the participant file the original plus copies and the clerk send them. LegalEase must never prefill it or have the participant sign it.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The hearing date, time, courthouse, division and room are left blank on the Notice of Hearing. The participant obtains them from the clerk or the assigned judge's administrative assistant after filing, and writes them in. The packet generates before the court supplies them.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Judge, clerk, prosecutor and court blocks are left blank. LegalEase completes paragraphs 1 through 4 of the granting and denying orders, which recite the participant's own identity and case facts, and never drafts the findings language or paragraph 8 of the denial order, which is the court's reason.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Race, ethnicity and Social Security number on the Criminal Cover Sheet and the order cover sheet are left for the participant to complete by hand, pending the data-protection review. The Criminal Cover Sheet states the Social Security number is not mandatory, is not a public record, is stored separately and is destroyed within a reasonable time.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "ks-21-6614-diversion",
+      "fixtureId": "ks-21-6614-diversion-synthetic-layout",
+      "caseReference": "SYN-KS-ks-21-6614-diversion",
+      "requiredFactKeys": [
+        "fullLegalName",
+        "nameAtTimeOfCase",
+        "sexRaceDateOfBirth",
+        "countyAndCourt",
+        "arrestingAgency",
+        "divertedOffense",
+        "offenseCommittedDate",
+        "diversionAgreementDate",
+        "diversionFulfilledDate",
+        "divertingAuthority",
+        "severityClassification",
+        "isDuiDiversion",
+        "felonyLastTwoYears",
+        "registrationRequired",
+        "excludedOffenseAssertion",
+        "participantAccount",
+        "supportingMaterials"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner's signature and date",
+          "whereInPacket": "Petition, signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Hearing date, time, courthouse, division and room",
+          "whereInPacket": "Notice of Hearing, first block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Certificate of Service and Mailing",
+          "whereInPacket": "Notice of Hearing, foot of the page",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Findings language, judge's signature, and paragraph 8 of the denial order",
+          "whereInPacket": "Both proposed orders",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Race, ethnicity and Social Security number",
+          "whereInPacket": "Criminal Cover Sheet and Order of Expungement Cover Sheet",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The Certificate of Service and Mailing on the Notice of Hearing is left blank and visibly labelled for clerk completion. It reads in the first person but its signature line is \"(Clerk of the Court) (Deputy Clerk)\", K.S.A. 21-6614(g)(1) puts notice on the court, and the Judicial Council instructions have the participant file the original plus copies and the clerk send them. LegalEase must never prefill it or have the participant sign it.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The hearing date, time, courthouse, division and room are left blank on the Notice of Hearing. The participant obtains them from the clerk or the assigned judge's administrative assistant after filing, and writes them in. The packet generates before the court supplies them.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Judge, clerk, prosecutor and court blocks are left blank. LegalEase completes paragraphs 1 through 4 of the granting and denying orders, which recite the participant's own identity and case facts, and never drafts the findings language or paragraph 8 of the denial order, which is the court's reason.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Race, ethnicity and Social Security number on the Criminal Cover Sheet and the order cover sheet are left for the participant to complete by hand, pending the data-protection review. The Criminal Cover Sheet states the Social Security number is not mandatory, is not a public record, is stored separately and is destroyed within a reasonable time.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "ks-21-6614-prostitution-coercion",
+      "fixtureId": "ks-21-6614-prostitution-coercion-synthetic-layout",
+      "caseReference": "SYN-KS-ks-21-6614-prostitution-coercion",
+      "requiredFactKeys": [
+        "fullLegalName",
+        "nameAtTimeOfCase",
+        "sexRaceDateOfBirth",
+        "countyAndCourt",
+        "arrestingAgency",
+        "prostitutionCaseType",
+        "offenseCommittedDate",
+        "statuteOfCase",
+        "sentenceOrDiversionCompletionDate",
+        "coercionAssertion",
+        "advocateReferral",
+        "felonyLastTwoYears",
+        "registrationRequired",
+        "participantAccount"
+      ],
+      "conditionalFactKeys": [
+        "coercionStatement"
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner's signature and date",
+          "whereInPacket": "Petition, signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Hearing date, time, courthouse, division and room",
+          "whereInPacket": "Notice of Hearing, first block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Certificate of Service and Mailing",
+          "whereInPacket": "Notice of Hearing, foot of the page",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Findings language and the judge's signature",
+          "whereInPacket": "Both proposed orders",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The Certificate of Service and Mailing on the Notice of Hearing is left blank and visibly labelled for clerk completion. It reads in the first person but its signature line is \"(Clerk of the Court) (Deputy Clerk)\", K.S.A. 21-6614(g)(1) puts notice on the court, and the Judicial Council instructions have the participant file the original plus copies and the clerk send them. LegalEase must never prefill it or have the participant sign it.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The hearing date, time, courthouse, division and room are left blank on the Notice of Hearing. The participant obtains them from the clerk or the assigned judge's administrative assistant after filing, and writes them in. The packet generates before the court supplies them.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Judge, clerk, prosecutor and court blocks are left blank. LegalEase completes paragraphs 1 through 4 of the granting and denying orders, which recite the participant's own identity and case facts, and never drafts the findings language or paragraph 8 of the denial order, which is the court's reason.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "ks-21-6614-specialty-court",
+      "fixtureId": "ks-21-6614-specialty-court-synthetic-layout",
+      "caseReference": "SYN-KS-ks-21-6614-specialty-court",
+      "requiredFactKeys": [
+        "fullLegalName",
+        "nameAtTimeOfCase",
+        "sexRaceDateOfBirth",
+        "countyAndCourt",
+        "arrestingAgency",
+        "specialtyCourtName",
+        "specialtyCourtUnder20173",
+        "completionDate",
+        "offenseOfConviction",
+        "offenseCommittedDate",
+        "severityClassification",
+        "felonyProceedingPending",
+        "registrationRequired",
+        "requestFeeWaiver",
+        "participantAccount"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner's signature and date",
+          "whereInPacket": "Petition and fee-waiver request",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Hearing date, time, courthouse, division and room",
+          "whereInPacket": "Notice of Hearing, first block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Certificate of Service and Mailing",
+          "whereInPacket": "Notice of Hearing, foot of the page",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The court's ruling on the fee-waiver request",
+          "whereInPacket": "Not generated",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Findings language and the judge's signature",
+          "whereInPacket": "Both proposed orders",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The Certificate of Service and Mailing on the Notice of Hearing is left blank and visibly labelled for clerk completion. It reads in the first person but its signature line is \"(Clerk of the Court) (Deputy Clerk)\", K.S.A. 21-6614(g)(1) puts notice on the court, and the Judicial Council instructions have the participant file the original plus copies and the clerk send them. LegalEase must never prefill it or have the participant sign it.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The hearing date, time, courthouse, division and room are left blank on the Notice of Hearing. The participant obtains them from the clerk or the assigned judge's administrative assistant after filing, and writes them in. The packet generates before the court supplies them.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Judge, clerk, prosecutor and court blocks are left blank. LegalEase completes paragraphs 1 through 4 of the granting and denying orders, which recite the participant's own identity and case facts, and never drafts the findings language or paragraph 8 of the denial order, which is the court's reason.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "ks-22-2410-arrest",
+      "fixtureId": "ks-22-2410-arrest-synthetic-layout",
+      "caseReference": "SYN-KS-ks-22-2410-arrest",
+      "requiredFactKeys": [
+        "fullLegalName",
+        "nameAtTimeOfArrest",
+        "sexRaceYearOfBirth",
+        "countyOfArrest",
+        "arrestDate",
+        "arrestingAgency",
+        "arrestOffense",
+        "statutoryGround",
+        "convictedOrDiverted",
+        "identityTheftVictim",
+        "cityOrdinanceArrest"
+      ],
+      "conditionalFactKeys": [
+        "caseNumber",
+        "participantAccount"
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner's signature and date",
+          "whereInPacket": "Petition, signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Hearing date, time and courtroom",
+          "whereInPacket": "Any notice the local court requires",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Case number where the clerk assigns one",
+          "whereInPacket": "Caption",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Findings language and the judge's signature",
+          "whereInPacket": "Any proposed order",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Race, ethnicity and Social Security number",
+          "whereInPacket": "Criminal Cover Sheet and Order of Expungement of Arrest Record Cover Sheet",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Race, ethnicity and Social Security number on the Criminal Cover Sheet and the order cover sheet are left for the participant to complete by hand, pending the data-protection review. The Criminal Cover Sheet states the Social Security number is not mandatory, is not a public record, is stored separately and is destroyed within a reasonable time.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Where a district court expects a proposed order at the hearing, the findings language and the judge's signature are left blank; the Judicial Council publishes no arrest-record granting order.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "ks-22-4908-registration-relief",
+      "fixtureId": "ks-22-4908-registration-relief-synthetic-layout",
+      "caseReference": "SYN-KS-ks-22-4908-registration-relief",
+      "requiredFactKeys": [
+        "fullLegalName",
+        "nameAtConviction",
+        "raceSexYearOfBirth",
+        "registrableOffense",
+        "offenderType",
+        "paroleDischargeReleaseDate",
+        "registrationCounties",
+        "substantialCompliance",
+        "crimesDuringRegistration",
+        "treatmentProviders",
+        "rehabilitationAccount",
+        "outOfStateRegistration",
+        "priorReliefDenial",
+        "combineWithExpungement"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner's signature and date",
+          "whereInPacket": "Petition for Relief from Offender Registration, signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Hearing date, time and courtroom",
+          "whereInPacket": "Any notice the district court requires",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Findings language and the judge's signature",
+          "whereInPacket": "Any proposed order",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Race and year of birth on the order cover sheet",
+          "whereInPacket": "Order of Relief from Offender Registration Cover Sheet",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    }
+  ],
+  "requiredBoundaryFixtures": [
+    "missing_required_input",
+    "authority_identity_unresolved",
+    "captain_projection_missing",
+    "source_hash_mismatch",
+    "source_size_mismatch",
+    "source_mime_mismatch",
+    "third_party_field_ownership",
+    "mapping_unconfirmed",
+    "deterministic_repeat"
+  ]
+}

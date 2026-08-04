@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "rcap-official-pdf-family/v1",
+  "familyId": "rcap-ks-official-pdf-family",
+  "jurisdiction": "KS",
+  "jurisdictionName": "Kansas",
+  "authorityFamily": "Kansas Judicial Council expungement and offender-registration-relief forms",
+  "implementationJobId": "rcap-ks-official-pdf-production",
+  "productionQueuePriority": 22,
+  "outputStrategies": [
+    "official_pdf_fill"
+  ],
+  "scope": {
+    "trackIds": [
+      "ks-21-6614-conviction",
+      "ks-21-6614-diversion",
+      "ks-21-6614-prostitution-coercion",
+      "ks-21-6614-specialty-court",
+      "ks-22-2410-arrest",
+      "ks-22-4908-registration-relief"
+    ],
+    "trackCount": 6,
+    "officialPdfComponentCount": 30,
+    "documentIds": [
+      "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+      "KSJC-NOTICE-OF-HEARING-12-2016",
+      "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
+      "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+      "KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016",
+      "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+      "KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022",
+      "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+      "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+      "KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022"
+    ],
+    "documentCount": 10,
+    "exactIdentityCount": 4,
+    "unresolvedIdentityCount": 6
+  },
+  "sourceMaterialization": {
+    "dependencyJobId": "rcap-nationwide-source-materialization-contract",
+    "contractPath": "docs/record-clearing/RCAP_SOURCE_MATERIALIZATION_CONTRACT.md",
+    "requirementManifest": "data/record-clearing/production-factory/official-pdf-families/KS/source-requirements.json",
+    "contractKind": "dependency_scaffold_not_worker_assignment",
+    "assignmentAnchor": null,
+    "portableProjection": null,
+    "portableProjectionAvailable": false,
+    "captainAssignmentRequired": true,
+    "portableProjectionRequired": true,
+    "workerReady": false,
+    "workerMaterializationAuthorized": false,
+    "workerReadAuthorized": false,
+    "workerMayAcquireOrDownloadSources": false,
+    "repositorySourcePathTreatment": "identity_evidence_only_never_worker_source",
+    "registryPresenceConfersReadiness": false
+  },
+  "artifacts": {
+    "scaffoldSpec": "data/record-clearing/production-factory/official-pdf-families/KS/scaffold-spec.json",
+    "dependencies": "data/record-clearing/production-factory/official-pdf-families/KS/dependencies.json",
+    "sourceRequirements": "data/record-clearing/production-factory/official-pdf-families/KS/source-requirements.json",
+    "rendererScaffold": "data/record-clearing/production-factory/official-pdf-families/KS/renderer-scaffold.json",
+    "fieldMapScaffold": "data/record-clearing/production-factory/official-pdf-families/KS/field-map-scaffold.json",
+    "fieldOwnershipSchema": "data/record-clearing/production-factory/official-pdf-families/schemas/field-ownership.schema.json",
+    "fieldOwnership": "data/record-clearing/production-factory/official-pdf-families/KS/field-ownership.json",
+    "fixtureSchema": "data/record-clearing/production-factory/official-pdf-families/schemas/fixture-scaffold.schema.json",
+    "fixtures": "data/record-clearing/production-factory/official-pdf-families/KS/fixtures.json",
+    "packetAssembly": "data/record-clearing/production-factory/official-pdf-families/KS/packet-assembly.json",
+    "reviewManifest": "data/record-clearing/production-factory/official-pdf-families/KS/review-manifest.json"
+  },
+  "implementationModule": "src/lib/rcap/packets/jurisdictions/kansas/official-pdf/family.ts",
+  "dedicatedVerifier": "scripts/verify-rcap-kansas-official-pdf-families.mjs",
+  "status": {
+    "sourceRequirements": "scaffolded_pending_authority_and_assignment",
+    "localSourceVerification": "pending_captain_projection",
+    "pdfStructureInspection": "pending_authorized_source_bytes",
+    "fieldMapping": "scaffolded_zero_active_mappings",
+    "packetRendering": "blocked",
+    "sourceBackedSampleCount": 0,
+    "visualReview": "pending_source_backed_samples",
+    "counselReview": "not_submitted",
+    "legalDesignChanged": false,
+    "packetReady": false,
+    "generationAllowed": false,
+    "enabled": false
+  },
+  "blockers": [
+    "Captain-owned assignment anchor and portable source projection are absent.",
+    "Exact retained identities require read-only materialization and fresh byte verification.",
+    "Authority-unmanifested identities require successor-edition manifestation before assignment.",
+    "PDF structure, field names, overlay coordinates, ownership, fixtures, and samples remain unconfirmed.",
+    "Kansas Judicial Council source-gated forms require captain-owned materialization and an affirmative commercial packet-use determination before any paid-packet delivery.",
+    "The 2025 Criminal Cover Sheet, Notice of Hearing, Order Denying Expungement, conviction-or-diversion order cover sheet, conviction-or-diversion granting order, and conviction-or-diversion petition have no adopted exact authority identity.",
+    "The retained arrest-record petition and related cover-sheet revision predate the 2025 statutory amendments, and no exact proposed arrest-record granting order is adopted.",
+    "The retained conviction-or-diversion forms expose a seven-year DUI option whose relationship to the current authority must be resolved without changing fixed legal language.",
+    "Venue, docketing, filing-fee, and registration-relief combined-filing mechanics remain authority-review dependencies.",
+    "The exact source-gated AcroForm candidates and flat-PDF candidates still require captain projection, byte verification, structure inspection, and visual confirmation before a renderer can be selected."
+  ],
+  "invariants": [
+    "Do not alter official fixed language, Kansas legal design, track selection, or component ordering.",
+    "Participant signatures, hearing date and time, courtroom, judge fields, clerk fields, prosecutor fields, court fields, and proposed-order findings remain blank.",
+    "The Notice of Hearing certificate of service belongs to the clerk and is never populated as a participant-owned field.",
+    "The denial-order paragraph 8 and all judicial findings remain blank pending court completion.",
+    "Race, ethnicity, and Social Security number fields on cover sheets remain participant-manual pending an adopted data-protection policy; Social Security number is never treated as mandatory.",
+    "Every shared physical form is rendered once per participant packet after its exact identity and ownership are resolved.",
+    "Repository-private paths are identity evidence only and are never opened by packet code or the dedicated verifier.",
+    "No source download, URL fallback, fuzzy identity match, live-route change, or runtime enablement is permitted."
+  ]
+}
