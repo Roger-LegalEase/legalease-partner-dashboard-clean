@@ -1,0 +1,895 @@
+{
+  "schemaVersion": "rcap-official-pdf-packet-assembly/v1",
+  "familyId": "rcap-in-official-pdf-family",
+  "jurisdiction": "IN",
+  "runtimeRegistered": false,
+  "routeReadyCount": 0,
+  "deduplication": {
+    "logicalDocumentIdentityCount": 10,
+    "plannedAssemblySourceSlotCount": 8,
+    "logicalComponentUseCount": 31,
+    "plannedPacketInstanceCount": 26,
+    "deduplicatedPacketInstanceCount": 5,
+    "rule": "Exact sources deduplicate only by immutable identity. The two petition/order bundle groups merge per-packet instances only as nonselectable plans until authority adoption confirms one physical PDF for both logical roles."
+  },
+  "determinism": {
+    "trackOrder": "assemblies array order",
+    "componentOrder": "adopted packet-set component order ascending",
+    "instanceOrder": "minimum logical component order ascending",
+    "conditionalRule": "include the Appearance instance only when isSelfRepresented is true",
+    "duplicateRule": "one instance per exact source identity or explicitly planned unresolved bundle slot; preserve every logical document and component binding",
+    "outputRule": "concatenate selected instances in deterministic order into exactly one PDF only after every identity, materialization, mapping, and review gate passes"
+  },
+  "sourceSlots": [
+    {
+      "sourceSlotId": "in-source-slot-section-1-petition-order-bundle",
+      "slotKind": "planned_licensed_bundle",
+      "logicalDocumentIds": [
+        "CCA Section 1 non-conviction expungement petition",
+        "CCA Section 1 expungement order"
+      ],
+      "identityBindingStatus": "unknown_source_identity",
+      "bundleSharingState": "planned_shared_bundle_pending_exact_authority_binding",
+      "runtimeSelectable": false
+    },
+    {
+      "sourceSlotId": "in-source-slot-conviction-petition-order-bundle",
+      "slotKind": "planned_licensed_bundle",
+      "logicalDocumentIds": [
+        "CCA conviction expungement petition",
+        "CCA conviction expungement order"
+      ],
+      "identityBindingStatus": "unknown_source_identity",
+      "bundleSharingState": "planned_shared_bundle_pending_exact_authority_binding",
+      "runtimeSelectable": false
+    },
+    {
+      "sourceSlotId": "in-source-slot-cca-gf-0120-3016",
+      "slotKind": "unresolved_pdf_identity",
+      "logicalDocumentIds": ["CCA-GF-0120-3016"],
+      "identityBindingStatus": "unknown_source_identity",
+      "bundleSharingState": "not_applicable_unresolved_identity",
+      "runtimeSelectable": false
+    },
+    {
+      "sourceSlotId": "in-source-slot-cca-xp-0120-7002-form-acr",
+      "slotKind": "identity_split_placeholder",
+      "logicalDocumentIds": ["CCA-XP-0120-7002 Form ACR"],
+      "identityBindingStatus": "unknown_source_identity",
+      "bundleSharingState": "identity_split_required_not_a_source",
+      "runtimeSelectable": false
+    },
+    {
+      "sourceSlotId": "in-source-slot-cca-xp-0220-7008",
+      "slotKind": "exact_source",
+      "logicalDocumentIds": ["CCA-XP-0220-7008"],
+      "identityBindingStatus": "exact_pinned_identity",
+      "bundleSharingState": "not_shared_exact_identity",
+      "runtimeSelectable": false
+    },
+    {
+      "sourceSlotId": "in-source-slot-cca-xp-0220-7009",
+      "slotKind": "exact_source",
+      "logicalDocumentIds": ["CCA-XP-0220-7009"],
+      "identityBindingStatus": "exact_pinned_identity",
+      "bundleSharingState": "not_shared_exact_identity",
+      "runtimeSelectable": false
+    },
+    {
+      "sourceSlotId": "in-source-slot-cca-xp-0220-7010",
+      "slotKind": "exact_source",
+      "logicalDocumentIds": ["CCA-XP-0220-7010"],
+      "identityBindingStatus": "exact_pinned_identity",
+      "bundleSharingState": "not_shared_exact_identity",
+      "runtimeSelectable": false
+    },
+    {
+      "sourceSlotId": "in-source-slot-confidential-information-form",
+      "slotKind": "unresolved_pdf_identity",
+      "logicalDocumentIds": ["Confidential Information Form"],
+      "identityBindingStatus": "unknown_source_identity",
+      "bundleSharingState": "not_applicable_unresolved_identity",
+      "runtimeSelectable": false
+    }
+  ],
+  "assemblies": [
+    {
+      "trackId": "in_arrest_no_charges",
+      "packetSetId": "in_arrest_no_charges-set",
+      "packetSetVersion": "1.0.0",
+      "routeOutputStrategy": "official_pdf_fill",
+      "officialPdfSubassemblyOnly": false,
+      "requiredFactKeys": [
+        "countyOfCase",
+        "caseNumber",
+        "arrestDate",
+        "disposition",
+        "dispositionDate",
+        "pendingCharges",
+        "inPretrialDiversion",
+        "ssnLastFour",
+        "isSelfRepresented"
+      ],
+      "legalDesignBlockerCount": 0,
+      "logicalComponents": [
+        {
+          "componentId": "in_arrest_no_charges-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA Section 1 non-conviction expungement petition",
+          "order": 1,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_arrest_no_charges-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA Section 1 expungement order",
+          "order": 2,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_arrest_no_charges-attachment-3",
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionDescription": "Required for a self-represented filer.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-GF-0120-3016",
+          "order": 3,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_arrest_no_charges-attachment-4",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-XP-0120-7002 Form ACR",
+          "order": 4,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_arrest_no_charges-attachment-5",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Confidential Information Form",
+          "order": 5,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        }
+      ],
+      "plannedDocumentInstances": [
+        {
+          "instanceId": "in-arrest-no-charges-section-1-bundle",
+          "sourceSlotId": "in-source-slot-section-1-petition-order-bundle",
+          "logicalDocumentIds": [
+            "CCA Section 1 non-conviction expungement petition",
+            "CCA Section 1 expungement order"
+          ],
+          "logicalComponentIds": [
+            "in_arrest_no_charges-primary-filing-1",
+            "in_arrest_no_charges-proposed-order-2"
+          ],
+          "minimumComponentOrder": 1,
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_unknown_source_identity"
+        },
+        {
+          "instanceId": "in-arrest-no-charges-appearance",
+          "sourceSlotId": "in-source-slot-cca-gf-0120-3016",
+          "logicalDocumentIds": ["CCA-GF-0120-3016"],
+          "logicalComponentIds": ["in_arrest_no_charges-attachment-3"],
+          "minimumComponentOrder": 3,
+          "physicalCopyCount": 1,
+          "includeWhen": "isSelfRepresented === true",
+          "renderState": "blocked_unknown_source_identity"
+        },
+        {
+          "instanceId": "in-arrest-no-charges-form-acr-identity-placeholder",
+          "sourceSlotId": "in-source-slot-cca-xp-0120-7002-form-acr",
+          "logicalDocumentIds": ["CCA-XP-0120-7002 Form ACR"],
+          "logicalComponentIds": ["in_arrest_no_charges-attachment-4"],
+          "minimumComponentOrder": 4,
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_identity_split"
+        },
+        {
+          "instanceId": "in-arrest-no-charges-confidential-information",
+          "sourceSlotId": "in-source-slot-confidential-information-form",
+          "logicalDocumentIds": ["Confidential Information Form"],
+          "logicalComponentIds": ["in_arrest_no_charges-attachment-5"],
+          "minimumComponentOrder": 5,
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_unknown_source_identity"
+        }
+      ],
+      "externalLaneComponentIds": [],
+      "targetOutputPdfCountWhenReady": 1,
+      "currentOutputPdfCount": 0,
+      "assemblyState": "blocked_preflight_only",
+      "expectedTerminalCode": "unknown_source_identity",
+      "runtimeStatus": "runtime_disabled",
+      "generationAllowed": false
+    },
+    {
+      "trackId": "in_section1_petition",
+      "packetSetId": "in_section1_petition-set",
+      "packetSetVersion": "1.0.0",
+      "routeOutputStrategy": "official_pdf_fill",
+      "officialPdfSubassemblyOnly": false,
+      "requiredFactKeys": [
+        "countyOfCase",
+        "caseNumber",
+        "arrestDate",
+        "disposition",
+        "dispositionDate",
+        "pendingCharges",
+        "inPretrialDiversion",
+        "ssnLastFour",
+        "isSelfRepresented",
+        "prosecutorWrittenAgreementEarlyFiling"
+      ],
+      "legalDesignBlockerCount": 0,
+      "logicalComponents": [
+        {
+          "componentId": "in_section1_petition-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA Section 1 non-conviction expungement petition",
+          "order": 1,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_section1_petition-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA Section 1 expungement order",
+          "order": 2,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_section1_petition-attachment-3",
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionDescription": "Required for a self-represented filer.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-GF-0120-3016",
+          "order": 3,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_section1_petition-attachment-4",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-XP-0120-7002 Form ACR",
+          "order": 4,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_section1_petition-attachment-5",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Confidential Information Form",
+          "order": 5,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        }
+      ],
+      "plannedDocumentInstances": [
+        {
+          "instanceId": "in-section1-petition-section-1-bundle",
+          "sourceSlotId": "in-source-slot-section-1-petition-order-bundle",
+          "logicalDocumentIds": [
+            "CCA Section 1 non-conviction expungement petition",
+            "CCA Section 1 expungement order"
+          ],
+          "logicalComponentIds": [
+            "in_section1_petition-primary-filing-1",
+            "in_section1_petition-proposed-order-2"
+          ],
+          "minimumComponentOrder": 1,
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_unknown_source_identity"
+        },
+        {
+          "instanceId": "in-section1-petition-appearance",
+          "sourceSlotId": "in-source-slot-cca-gf-0120-3016",
+          "logicalDocumentIds": ["CCA-GF-0120-3016"],
+          "logicalComponentIds": ["in_section1_petition-attachment-3"],
+          "minimumComponentOrder": 3,
+          "physicalCopyCount": 1,
+          "includeWhen": "isSelfRepresented === true",
+          "renderState": "blocked_unknown_source_identity"
+        },
+        {
+          "instanceId": "in-section1-petition-form-acr-identity-placeholder",
+          "sourceSlotId": "in-source-slot-cca-xp-0120-7002-form-acr",
+          "logicalDocumentIds": ["CCA-XP-0120-7002 Form ACR"],
+          "logicalComponentIds": ["in_section1_petition-attachment-4"],
+          "minimumComponentOrder": 4,
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_identity_split"
+        },
+        {
+          "instanceId": "in-section1-petition-confidential-information",
+          "sourceSlotId": "in-source-slot-confidential-information-form",
+          "logicalDocumentIds": ["Confidential Information Form"],
+          "logicalComponentIds": ["in_section1_petition-attachment-5"],
+          "minimumComponentOrder": 5,
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_unknown_source_identity"
+        }
+      ],
+      "externalLaneComponentIds": [],
+      "targetOutputPdfCountWhenReady": 1,
+      "currentOutputPdfCount": 0,
+      "assemblyState": "blocked_preflight_only",
+      "expectedTerminalCode": "unknown_source_identity",
+      "runtimeStatus": "runtime_disabled",
+      "generationAllowed": false
+    },
+    {
+      "trackId": "in_conviction_misd",
+      "packetSetId": "in_conviction_misd-set",
+      "packetSetVersion": "1.0.0",
+      "routeOutputStrategy": "official_pdf_fill",
+      "officialPdfSubassemblyOnly": false,
+      "requiredFactKeys": [
+        "countyOfConviction",
+        "caseNumber",
+        "convictionDate",
+        "offenseLevel",
+        "sentenceCompletionDate",
+        "allConvictionsAnyCounty",
+        "priorExpungementPetition",
+        "financialObligationsPaid",
+        "pendingCharges",
+        "convictedWithinPeriod",
+        "prosecutorConsent",
+        "additionalInformation"
+      ],
+      "legalDesignBlockerCount": 0,
+      "logicalComponents": [
+        {
+          "componentId": "in_conviction_misd-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA conviction expungement petition",
+          "order": 1,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_conviction_misd-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA conviction expungement order",
+          "order": 2,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_conviction_misd-attachment-3",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-XP-0220-7008",
+          "order": 3,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_conviction_misd-attachment-4",
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionDescription": "Required for a self-represented filer.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-GF-0120-3016",
+          "order": 4,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_conviction_misd-attachment-5",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-XP-0120-7002 Form ACR",
+          "order": 5,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_conviction_misd-attachment-6",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Confidential Information Form",
+          "order": 6,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        }
+      ],
+      "plannedDocumentInstances": [
+        {
+          "instanceId": "in-conviction-misd-conviction-bundle",
+          "sourceSlotId": "in-source-slot-conviction-petition-order-bundle",
+          "logicalDocumentIds": [
+            "CCA conviction expungement petition",
+            "CCA conviction expungement order"
+          ],
+          "logicalComponentIds": [
+            "in_conviction_misd-primary-filing-1",
+            "in_conviction_misd-proposed-order-2"
+          ],
+          "minimumComponentOrder": 1,
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_unknown_source_identity"
+        },
+        {
+          "instanceId": "in-conviction-misd-7008",
+          "sourceSlotId": "in-source-slot-cca-xp-0220-7008",
+          "logicalDocumentIds": ["CCA-XP-0220-7008"],
+          "logicalComponentIds": ["in_conviction_misd-attachment-3"],
+          "minimumComponentOrder": 3,
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_source_materialization"
+        },
+        {
+          "instanceId": "in-conviction-misd-appearance",
+          "sourceSlotId": "in-source-slot-cca-gf-0120-3016",
+          "logicalDocumentIds": ["CCA-GF-0120-3016"],
+          "logicalComponentIds": ["in_conviction_misd-attachment-4"],
+          "minimumComponentOrder": 4,
+          "physicalCopyCount": 1,
+          "includeWhen": "isSelfRepresented === true",
+          "renderState": "blocked_unknown_source_identity"
+        },
+        {
+          "instanceId": "in-conviction-misd-form-acr-identity-placeholder",
+          "sourceSlotId": "in-source-slot-cca-xp-0120-7002-form-acr",
+          "logicalDocumentIds": ["CCA-XP-0120-7002 Form ACR"],
+          "logicalComponentIds": ["in_conviction_misd-attachment-5"],
+          "minimumComponentOrder": 5,
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_identity_split"
+        },
+        {
+          "instanceId": "in-conviction-misd-confidential-information",
+          "sourceSlotId": "in-source-slot-confidential-information-form",
+          "logicalDocumentIds": ["Confidential Information Form"],
+          "logicalComponentIds": ["in_conviction_misd-attachment-6"],
+          "minimumComponentOrder": 6,
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_unknown_source_identity"
+        }
+      ],
+      "externalLaneComponentIds": [],
+      "targetOutputPdfCountWhenReady": 1,
+      "currentOutputPdfCount": 0,
+      "assemblyState": "blocked_preflight_only",
+      "expectedTerminalCode": "unknown_source_identity",
+      "runtimeStatus": "runtime_disabled",
+      "generationAllowed": false
+    },
+    {
+      "trackId": "in_conviction_d6",
+      "packetSetId": "in_conviction_d6-set",
+      "packetSetVersion": "1.0.0",
+      "routeOutputStrategy": "official_pdf_fill",
+      "officialPdfSubassemblyOnly": false,
+      "requiredFactKeys": [
+        "countyOfConviction",
+        "caseNumber",
+        "convictionDate",
+        "offenseLevel",
+        "sentenceCompletionDate",
+        "allConvictionsAnyCounty",
+        "priorExpungementPetition",
+        "financialObligationsPaid",
+        "pendingCharges",
+        "convictedWithinPeriod",
+        "prosecutorConsent",
+        "additionalInformation"
+      ],
+      "legalDesignBlockerCount": 0,
+      "logicalComponents": [
+        {
+          "componentId": "in_conviction_d6-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA conviction expungement petition",
+          "order": 1,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_conviction_d6-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA conviction expungement order",
+          "order": 2,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_conviction_d6-attachment-3",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-XP-0220-7009",
+          "order": 3,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_conviction_d6-attachment-4",
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionDescription": "Required for a self-represented filer.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-GF-0120-3016",
+          "order": 4,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_conviction_d6-attachment-5",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-XP-0120-7002 Form ACR",
+          "order": 5,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_conviction_d6-attachment-6",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Confidential Information Form",
+          "order": 6,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        }
+      ],
+      "plannedDocumentInstances": [
+        {
+          "instanceId": "in-conviction-d6-conviction-bundle",
+          "sourceSlotId": "in-source-slot-conviction-petition-order-bundle",
+          "logicalDocumentIds": [
+            "CCA conviction expungement petition",
+            "CCA conviction expungement order"
+          ],
+          "logicalComponentIds": [
+            "in_conviction_d6-primary-filing-1",
+            "in_conviction_d6-proposed-order-2"
+          ],
+          "minimumComponentOrder": 1,
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_unknown_source_identity"
+        },
+        {
+          "instanceId": "in-conviction-d6-7009",
+          "sourceSlotId": "in-source-slot-cca-xp-0220-7009",
+          "logicalDocumentIds": ["CCA-XP-0220-7009"],
+          "logicalComponentIds": ["in_conviction_d6-attachment-3"],
+          "minimumComponentOrder": 3,
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_source_materialization"
+        },
+        {
+          "instanceId": "in-conviction-d6-appearance",
+          "sourceSlotId": "in-source-slot-cca-gf-0120-3016",
+          "logicalDocumentIds": ["CCA-GF-0120-3016"],
+          "logicalComponentIds": ["in_conviction_d6-attachment-4"],
+          "minimumComponentOrder": 4,
+          "physicalCopyCount": 1,
+          "includeWhen": "isSelfRepresented === true",
+          "renderState": "blocked_unknown_source_identity"
+        },
+        {
+          "instanceId": "in-conviction-d6-form-acr-identity-placeholder",
+          "sourceSlotId": "in-source-slot-cca-xp-0120-7002-form-acr",
+          "logicalDocumentIds": ["CCA-XP-0120-7002 Form ACR"],
+          "logicalComponentIds": ["in_conviction_d6-attachment-5"],
+          "minimumComponentOrder": 5,
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_identity_split"
+        },
+        {
+          "instanceId": "in-conviction-d6-confidential-information",
+          "sourceSlotId": "in-source-slot-confidential-information-form",
+          "logicalDocumentIds": ["Confidential Information Form"],
+          "logicalComponentIds": ["in_conviction_d6-attachment-6"],
+          "minimumComponentOrder": 6,
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_unknown_source_identity"
+        }
+      ],
+      "externalLaneComponentIds": [],
+      "targetOutputPdfCountWhenReady": 1,
+      "currentOutputPdfCount": 0,
+      "assemblyState": "blocked_preflight_only",
+      "expectedTerminalCode": "unknown_source_identity",
+      "runtimeStatus": "runtime_disabled",
+      "generationAllowed": false
+    },
+    {
+      "trackId": "in_conviction_felony",
+      "packetSetId": "in_conviction_felony-set",
+      "packetSetVersion": "1.0.0",
+      "routeOutputStrategy": "official_pdf_fill",
+      "officialPdfSubassemblyOnly": false,
+      "requiredFactKeys": [
+        "countyOfConviction",
+        "caseNumber",
+        "convictionDate",
+        "offenseLevel",
+        "sentenceCompletionDate",
+        "allConvictionsAnyCounty",
+        "priorExpungementPetition",
+        "financialObligationsPaid",
+        "pendingCharges",
+        "convictedWithinPeriod",
+        "prosecutorConsent",
+        "additionalInformation"
+      ],
+      "legalDesignBlockerCount": 0,
+      "logicalComponents": [
+        {
+          "componentId": "in_conviction_felony-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA conviction expungement petition",
+          "order": 1,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_conviction_felony-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA conviction expungement order",
+          "order": 2,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_conviction_felony-attachment-3",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-XP-0220-7010",
+          "order": 3,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_conviction_felony-attachment-4",
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionDescription": "Required for a self-represented filer.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-GF-0120-3016",
+          "order": 4,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_conviction_felony-attachment-5",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-XP-0120-7002 Form ACR",
+          "order": 5,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_conviction_felony-attachment-6",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Confidential Information Form",
+          "order": 6,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        }
+      ],
+      "plannedDocumentInstances": [
+        {
+          "instanceId": "in-conviction-felony-conviction-bundle",
+          "sourceSlotId": "in-source-slot-conviction-petition-order-bundle",
+          "logicalDocumentIds": [
+            "CCA conviction expungement petition",
+            "CCA conviction expungement order"
+          ],
+          "logicalComponentIds": [
+            "in_conviction_felony-primary-filing-1",
+            "in_conviction_felony-proposed-order-2"
+          ],
+          "minimumComponentOrder": 1,
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_unknown_source_identity"
+        },
+        {
+          "instanceId": "in-conviction-felony-7010",
+          "sourceSlotId": "in-source-slot-cca-xp-0220-7010",
+          "logicalDocumentIds": ["CCA-XP-0220-7010"],
+          "logicalComponentIds": ["in_conviction_felony-attachment-3"],
+          "minimumComponentOrder": 3,
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_source_materialization"
+        },
+        {
+          "instanceId": "in-conviction-felony-appearance",
+          "sourceSlotId": "in-source-slot-cca-gf-0120-3016",
+          "logicalDocumentIds": ["CCA-GF-0120-3016"],
+          "logicalComponentIds": ["in_conviction_felony-attachment-4"],
+          "minimumComponentOrder": 4,
+          "physicalCopyCount": 1,
+          "includeWhen": "isSelfRepresented === true",
+          "renderState": "blocked_unknown_source_identity"
+        },
+        {
+          "instanceId": "in-conviction-felony-form-acr-identity-placeholder",
+          "sourceSlotId": "in-source-slot-cca-xp-0120-7002-form-acr",
+          "logicalDocumentIds": ["CCA-XP-0120-7002 Form ACR"],
+          "logicalComponentIds": ["in_conviction_felony-attachment-5"],
+          "minimumComponentOrder": 5,
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_identity_split"
+        },
+        {
+          "instanceId": "in-conviction-felony-confidential-information",
+          "sourceSlotId": "in-source-slot-confidential-information-form",
+          "logicalDocumentIds": ["Confidential Information Form"],
+          "logicalComponentIds": ["in_conviction_felony-attachment-6"],
+          "minimumComponentOrder": 6,
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_unknown_source_identity"
+        }
+      ],
+      "externalLaneComponentIds": [],
+      "targetOutputPdfCountWhenReady": 1,
+      "currentOutputPdfCount": 0,
+      "assemblyState": "blocked_preflight_only",
+      "expectedTerminalCode": "unknown_source_identity",
+      "runtimeStatus": "runtime_disabled",
+      "generationAllowed": false
+    },
+    {
+      "trackId": "in_conviction_serious_felony",
+      "packetSetId": "in_conviction_serious_felony-set",
+      "packetSetVersion": "1.0.0",
+      "routeOutputStrategy": "custom_pleading",
+      "officialPdfSubassemblyOnly": true,
+      "requiredFactKeys": [
+        "countyOfConviction",
+        "caseNumber",
+        "convictionDate",
+        "offenseLevel",
+        "sentenceCompletionDate",
+        "allConvictionsAnyCounty",
+        "priorExpungementPetition",
+        "financialObligationsPaid",
+        "pendingCharges",
+        "convictedWithinPeriod",
+        "prosecutorConsent",
+        "additionalInformation"
+      ],
+      "legalDesignBlockerCount": 0,
+      "logicalComponents": [
+        {
+          "componentId": "in_conviction_serious_felony-attachment-4",
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionDescription": "Required for a self-represented filer.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-GF-0120-3016",
+          "order": 4,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_conviction_serious_felony-attachment-5",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CCA-XP-0120-7002 Form ACR",
+          "order": 5,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        },
+        {
+          "componentId": "in_conviction_serious_felony-attachment-6",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Confidential Information Form",
+          "order": 6,
+          "sourceUrlDisposition": "normalized_value_is_not_a_worker_locator"
+        }
+      ],
+      "plannedDocumentInstances": [
+        {
+          "instanceId": "in-conviction-serious-felony-appearance",
+          "sourceSlotId": "in-source-slot-cca-gf-0120-3016",
+          "logicalDocumentIds": ["CCA-GF-0120-3016"],
+          "logicalComponentIds": ["in_conviction_serious_felony-attachment-4"],
+          "minimumComponentOrder": 4,
+          "physicalCopyCount": 1,
+          "includeWhen": "isSelfRepresented === true",
+          "renderState": "blocked_unknown_source_identity"
+        },
+        {
+          "instanceId": "in-conviction-serious-felony-form-acr-identity-placeholder",
+          "sourceSlotId": "in-source-slot-cca-xp-0120-7002-form-acr",
+          "logicalDocumentIds": ["CCA-XP-0120-7002 Form ACR"],
+          "logicalComponentIds": ["in_conviction_serious_felony-attachment-5"],
+          "minimumComponentOrder": 5,
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_identity_split"
+        },
+        {
+          "instanceId": "in-conviction-serious-felony-confidential-information",
+          "sourceSlotId": "in-source-slot-confidential-information-form",
+          "logicalDocumentIds": ["Confidential Information Form"],
+          "logicalComponentIds": ["in_conviction_serious_felony-attachment-6"],
+          "minimumComponentOrder": 6,
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_unknown_source_identity"
+        }
+      ],
+      "externalLaneComponentIds": [
+        "in_conviction_serious_felony-primary-filing-1",
+        "in_conviction_serious_felony-proposed-order-2",
+        "in_conviction_serious_felony-attachment-3",
+        "in_conviction_serious_felony-instructions-7"
+      ],
+      "targetOutputPdfCountWhenReady": 1,
+      "currentOutputPdfCount": 0,
+      "assemblyState": "blocked_preflight_only",
+      "expectedTerminalCode": "unknown_source_identity",
+      "runtimeStatus": "runtime_disabled",
+      "generationAllowed": false
+    }
+  ]
+}

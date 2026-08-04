@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "rcap-official-pdf-family/v1",
+  "familyId": "rcap-in-official-pdf-family",
+  "jurisdiction": "IN",
+  "priority": 15,
+  "authorityEdition": "1.2",
+  "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+  "authorityPins": {
+    "legalReviewWorkflowKey": "IN:STATEWIDE:LEGAL_REVIEW:EN",
+    "legalReviewSha256": "bb95a5e31824b64d6a73539e4a322498ded1f7bd9baf97e08569e0f2cbad5544",
+    "legalReviewAddendumWorkflowKey": "IN:STATEWIDE-ADDENDUM:LEGAL_REVIEW_ADDENDUM:EN",
+    "legalReviewAddendumSha256": "1d864c7fea5512042830826ddd799f5bc7b9d42e3aecde1a24470cd2d38495b9",
+    "implementationJobId": "IMP-OF-09-in-cca-expungement-family",
+    "productionQueueFamilyId": "rcap-in-official-pdf-family"
+  },
+  "scope": {
+    "trackIds": [
+      "in_arrest_no_charges",
+      "in_conviction_d6",
+      "in_conviction_felony",
+      "in_conviction_misd",
+      "in_conviction_serious_felony",
+      "in_section1_petition"
+    ],
+    "documentIds": [
+      "CCA conviction expungement order",
+      "CCA conviction expungement petition",
+      "CCA Section 1 expungement order",
+      "CCA Section 1 non-conviction expungement petition",
+      "CCA-GF-0120-3016",
+      "CCA-XP-0120-7002 Form ACR",
+      "CCA-XP-0220-7008",
+      "CCA-XP-0220-7009",
+      "CCA-XP-0220-7010",
+      "Confidential Information Form"
+    ],
+    "trackCount": 6,
+    "topLevelOfficialPdfTrackCount": 5,
+    "officialPdfComponentCount": 31,
+    "documentIdentityCount": 10,
+    "exactRetainedRequirementCount": 3,
+    "authorityUnresolvedIdentityCount": 7,
+    "exactIdentityUsageCount": 3,
+    "unresolvedIdentityUsageCount": 28
+  },
+  "deduplication": {
+    "logicalDocumentIdentityCount": 10,
+    "plannedAssemblySourceSlotCount": 8,
+    "familyDuplicateUsageCount": 21,
+    "packetLogicalComponentUseCount": 31,
+    "packetPhysicalDocumentInstanceCount": 26,
+    "packetDuplicateInstanceCount": 5,
+    "licensedBundleGroups": 2,
+    "rule": "Exact identities deduplicate only by immutable identity. The two unresolved petition/order bundle groups remain nonselectable plans until authority adoption confirms the shared physical source."
+  },
+  "sourceContract": {
+    "contractState": "pending_captain_assignment",
+    "contractKind": "dependency_scaffold_not_worker_assignment",
+    "materializationDependency": "rcap-nationwide-source-materialization-contract",
+    "assignmentAnchor": null,
+    "portableProjection": null,
+    "captainAssignmentRequired": true,
+    "portableProjectionRequired": true,
+    "workerReady": false,
+    "workerReadAuthorized": false,
+    "workerMaterializationAuthorized": false,
+    "workerMayAcquireOrDownloadSources": false,
+    "repositorySourcePathTreatment": "identity_evidence_only_never_worker_source"
+  },
+  "rendererPosture": {
+    "acroformOrHybridCandidates": 3,
+    "coordinateOverlayCandidates": 0,
+    "unknownLaneUntilIdentityAndInspection": 7,
+    "activeRendererCount": 0,
+    "activeFieldMappingCount": 0,
+    "activeOverlayPlacementCount": 0,
+    "sourceBackedSampleCount": 0,
+    "routeReadyCount": 0
+  },
+  "immutableInputs": {
+    "sourceMaterializationContract": "docs/record-clearing/RCAP_SOURCE_MATERIALIZATION_CONTRACT.md",
+    "legalDesignTrackRegistry": "data/record-clearing/legal-design-track-registry.json",
+    "trackSourceAudit": "data/record-clearing/master-library/track-source-audit.json",
+    "repositoryAssetAudit": "data/record-clearing/master-library/repository-asset-audit.json",
+    "sourceArtifactRegistry": "data/record-clearing/source-artifact-registry.json",
+    "productionQueue": "data/record-clearing/production-factory/official-pdf-production-queue.json",
+    "implementationJob": "planning/record-clearing-100-percent/jobs/IMP-OF-09-in-cca-expungement-family.json"
+  },
+  "status": {
+    "sourceIdentity": "three_exact_seven_unresolved",
+    "captainProjection": "required_not_present",
+    "rendererSelection": "candidate_lanes_only_none_active",
+    "fieldMapping": "zero_source_bindings",
+    "packetAssembly": "deterministic_one_pdf_definitions_runtime_blocked",
+    "review": "not_started",
+    "packetReady": false,
+    "generationAllowed": false,
+    "enabled": false
+  },
+  "invariants": [
+    "No Indiana repository evidence path is resolved, statted, opened, hashed, copied, or treated as a worker source.",
+    "No public or licensed source is downloaded or reconstructed by this family.",
+    "The three exact requirements carry adopted registry measurements only and require captain projection plus fresh local verification.",
+    "The seven unresolved identities carry no invented hash, size, canonical path, locator, destination, renderer, or mapping.",
+    "All 31 adopted component uses remain explicit and ordered.",
+    "Within each packet, a confirmed or planned physical bundle appears at most once while all logical document and component bindings remain preserved.",
+    "Participant signatures, dates, verification, and full Social Security numbers remain manual.",
+    "Court, judge, clerk, prosecutor, agency, attorney, notary, witness, process-server, and unknown-owner fields remain protected.",
+    "The serious-felony track remains custom pleading with three official-PDF attachment uses; this scaffold does not change its legal design.",
+    "No shared registry, queue, factory plan, package manifest, live route, or legal-design artifact is changed."
+  ]
+}

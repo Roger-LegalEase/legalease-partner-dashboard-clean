@@ -1,0 +1,285 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/in-official-pdf-source-requirements-v1.json",
+  "title": "Indiana official-PDF pre-materialization source requirements",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "authorityEdition",
+    "authorityArchiveSha256",
+    "contractState",
+    "contractKind",
+    "materializationDependency",
+    "assignmentAnchor",
+    "portableProjection",
+    "captainAssignmentRequired",
+    "workerReady",
+    "workerReadAuthorized",
+    "workerMaterializationAuthorized",
+    "networkAcquisitionAuthorized",
+    "repositorySourcePathTreatment",
+    "counts",
+    "requirements",
+    "generationAllowed"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "rcap-source-materialization-scaffold/v1"
+    },
+    "familyId": { "const": "rcap-in-official-pdf-family" },
+    "jurisdiction": { "const": "IN" },
+    "authorityEdition": { "const": "1.2" },
+    "authorityArchiveSha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "contractState": { "const": "pending_captain_assignment" },
+    "contractKind": {
+      "const": "dependency_scaffold_not_worker_assignment"
+    },
+    "materializationDependency": {
+      "const": "rcap-nationwide-source-materialization-contract"
+    },
+    "assignmentAnchor": { "type": "null" },
+    "portableProjection": { "type": "null" },
+    "captainAssignmentRequired": { "const": true },
+    "workerReady": { "const": false },
+    "workerReadAuthorized": { "const": false },
+    "workerMaterializationAuthorized": { "const": false },
+    "networkAcquisitionAuthorized": { "const": false },
+    "repositorySourcePathTreatment": {
+      "const": "identity_evidence_only_never_worker_source"
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "documents",
+        "exactRetainedRequirements",
+        "authorityUnresolvedIdentities",
+        "exactUsageBindings",
+        "unresolvedUsageBindings",
+        "captainProjectedExactSources"
+      ],
+      "properties": {
+        "documents": { "const": 10 },
+        "exactRetainedRequirements": { "const": 3 },
+        "authorityUnresolvedIdentities": { "const": 7 },
+        "exactUsageBindings": { "const": 3 },
+        "unresolvedUsageBindings": { "const": 28 },
+        "captainProjectedExactSources": { "const": 0 }
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": { "$ref": "#/$defs/requirement" }
+    },
+    "generationAllowed": { "const": false }
+  },
+  "$defs": {
+    "usageBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["trackId", "componentId", "role"],
+      "properties": {
+        "trackId": { "type": "string", "pattern": "^in_" },
+        "componentId": { "type": "string", "pattern": "^in_" },
+        "role": {
+          "enum": ["primary_filing", "proposed_order", "attachment"]
+        }
+      }
+    },
+    "assignmentFields": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assignedJobSha256",
+        "portableLocator",
+        "materializationDestination"
+      ],
+      "properties": {
+        "assignedJobSha256": { "type": "null" },
+        "portableLocator": { "type": "null" },
+        "materializationDestination": { "type": "null" }
+      }
+    },
+    "technicalExpectation": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": [
+        "technicalClass",
+        "pageCount",
+        "fieldCount",
+        "encrypted",
+        "xfa"
+      ],
+      "properties": {
+        "technicalClass": { "const": "clean_acroform" },
+        "pageCount": { "const": 3 },
+        "fieldCount": { "type": "integer", "minimum": 1 },
+        "encrypted": { "const": false },
+        "xfa": { "const": false }
+      }
+    },
+    "requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requirementId",
+        "componentDocumentId",
+        "authorityState",
+        "queueRelationshipState",
+        "identityBindingStatus",
+        "requirementDescriptorSchemaVersion",
+        "workflowKey",
+        "authorityDocumentId",
+        "authorityDocumentRole",
+        "officialTitle",
+        "revision",
+        "assetClass",
+        "canonicalAuthorityPath",
+        "repositorySourcePathEvidence",
+        "repositorySourcePathTreatment",
+        "expectedSha256",
+        "expectedBytes",
+        "expectedMediaType",
+        "technicalExpectation",
+        "expectedMeasurementBasis",
+        "freshLocalVerification",
+        "registryPresenceConfersReadiness",
+        "sourceMaterializationState",
+        "readOnlyTreatment",
+        "retentionPolicy",
+        "assignmentFields",
+        "verificationCommand",
+        "captainAssignmentEligibility",
+        "resolutionClass",
+        "acquisitionId",
+        "plannedPhysicalSourceSlotId",
+        "plannedBundleSharingState",
+        "workerReadAuthorized",
+        "workerMaterializationAuthorized",
+        "workerReady",
+        "generationAllowed",
+        "usageBindings"
+      ],
+      "properties": {
+        "requirementId": { "type": "string", "pattern": "^in-" },
+        "componentDocumentId": { "type": "string", "minLength": 1 },
+        "authorityState": {
+          "enum": ["authority_asset_known", "authority_identity_unresolved"]
+        },
+        "queueRelationshipState": {
+          "enum": [
+            "authority_mapped_packet_candidate",
+            "authority_unmanifested_source"
+          ]
+        },
+        "identityBindingStatus": {
+          "enum": ["exact_pinned_identity", "unknown_source_identity"]
+        },
+        "requirementDescriptorSchemaVersion": {
+          "type": ["string", "null"]
+        },
+        "workflowKey": { "type": ["string", "null"] },
+        "authorityDocumentId": { "type": ["string", "null"] },
+        "authorityDocumentRole": { "type": ["string", "null"] },
+        "officialTitle": { "type": ["string", "null"] },
+        "revision": { "type": ["string", "null"] },
+        "assetClass": { "type": ["string", "null"] },
+        "canonicalAuthorityPath": { "type": ["string", "null"] },
+        "repositorySourcePathEvidence": { "type": ["string", "null"] },
+        "repositorySourcePathTreatment": {
+          "const": "identity_evidence_only_never_worker_source"
+        },
+        "expectedSha256": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "expectedBytes": {
+          "type": ["integer", "null"],
+          "minimum": 1
+        },
+        "expectedMediaType": {
+          "enum": ["application/pdf", null]
+        },
+        "technicalExpectation": {
+          "$ref": "#/$defs/technicalExpectation"
+        },
+        "expectedMeasurementBasis": {
+          "enum": ["carried_forward_registry_measurement", null]
+        },
+        "freshLocalVerification": { "const": false },
+        "registryPresenceConfersReadiness": { "const": false },
+        "sourceMaterializationState": {
+          "enum": ["binary_materialization_required", "unknown_source_identity"]
+        },
+        "readOnlyTreatment": {
+          "enum": ["worker_read_only_no_modify", null]
+        },
+        "retentionPolicy": {
+          "enum": [
+            "retain_until_worker_integration_then_captain_managed_cleanup",
+            null
+          ]
+        },
+        "assignmentFields": { "$ref": "#/$defs/assignmentFields" },
+        "verificationCommand": { "type": ["string", "null"] },
+        "captainAssignmentEligibility": {
+          "enum": [
+            "requires_assignment_anchor_and_portable_projection",
+            "ineligible_until_exact_authority_identity_is_adopted"
+          ]
+        },
+        "resolutionClass": {
+          "enum": [
+            "exact_retained_requirement",
+            "commercial_license_and_authority_manifest",
+            "in_repo_identity_reconciliation_and_authority_remap",
+            "legal_design_identity_split_required"
+          ]
+        },
+        "acquisitionId": { "type": ["string", "null"] },
+        "retainedNonSubstitutableEvidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["evidenceClass", "sha256", "treatment"],
+          "properties": {
+            "evidenceClass": { "const": "supporting_process_docx" },
+            "sha256": {
+              "const": "21001a1265eb8ff2872f0771ef6e7e75b6b0ad664b2d43aaed912f4e0f4c76c3"
+            },
+            "treatment": {
+              "const": "identity_evidence_only_not_pdf_source_and_not_materialization_candidate"
+            }
+          }
+        },
+        "plannedPhysicalSourceSlotId": {
+          "type": "string",
+          "pattern": "^in-source-slot-"
+        },
+        "plannedBundleSharingState": {
+          "enum": [
+            "not_shared_exact_identity",
+            "planned_shared_bundle_pending_exact_authority_binding",
+            "identity_split_placeholder_not_source"
+          ]
+        },
+        "workerReadAuthorized": { "const": false },
+        "workerMaterializationAuthorized": { "const": false },
+        "workerReady": { "const": false },
+        "generationAllowed": { "const": false },
+        "usageBindings": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/usageBinding" }
+        }
+      }
+    }
+  }
+}

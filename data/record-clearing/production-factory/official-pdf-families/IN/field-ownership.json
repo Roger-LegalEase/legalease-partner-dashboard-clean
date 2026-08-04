@@ -1,0 +1,299 @@
+{
+  "schemaVersion": 1,
+  "familyId": "rcap-in-official-pdf-family",
+  "jurisdiction": "IN",
+  "coverageScope": "normalized_generation_keys_plus_explicit_manual_fields",
+  "sourceFieldCoverageState": "not_started_source_projection_or_identity_required",
+  "unclassifiedSourceFieldPolicy": "reject",
+  "writableOwners": ["participant", "system_derived"],
+  "protectedOwnerClasses": [
+    "court",
+    "judge",
+    "clerk",
+    "prosecutor",
+    "agency",
+    "law_enforcement",
+    "attorney",
+    "notary",
+    "witness",
+    "process_server",
+    "unknown"
+  ],
+  "actorDefaults": [
+    {
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "owner": "system_derived",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "owner": "participant_manual",
+      "automationPolicy": "leave_blank"
+    },
+    { "owner": "court", "automationPolicy": "leave_blank" },
+    { "owner": "judge", "automationPolicy": "leave_blank" },
+    { "owner": "clerk", "automationPolicy": "leave_blank" },
+    { "owner": "prosecutor", "automationPolicy": "leave_blank" },
+    { "owner": "agency", "automationPolicy": "leave_blank" },
+    { "owner": "law_enforcement", "automationPolicy": "leave_blank" },
+    { "owner": "attorney", "automationPolicy": "leave_blank" },
+    { "owner": "notary", "automationPolicy": "leave_blank" },
+    { "owner": "witness", "automationPolicy": "leave_blank" },
+    { "owner": "process_server", "automationPolicy": "leave_blank" },
+    { "owner": "unknown", "automationPolicy": "reject" }
+  ],
+  "fields": [
+    {
+      "fieldKey": "countyOfCase",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "fieldKey": "caseNumber",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "fieldKey": "arrestDate",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "fieldKey": "disposition",
+      "owner": "participant",
+      "automationPolicy": "manual_review_before_filing"
+    },
+    {
+      "fieldKey": "dispositionDate",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "fieldKey": "pendingCharges",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "inPretrialDiversion",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "prosecutorAuthorization",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "ssnLastFour",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "fieldKey": "isSelfRepresented",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "prosecutorWrittenAgreementEarlyFiling",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "countyOfConviction",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "fieldKey": "convictionDate",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "fieldKey": "offenseLevel",
+      "owner": "participant",
+      "automationPolicy": "manual_review_before_filing"
+    },
+    {
+      "fieldKey": "sentenceCompletionDate",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "fieldKey": "allConvictionsAnyCounty",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "priorExpungementPetition",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "financialObligationsPaid",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "convictedWithinPeriod",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "prosecutorConsent",
+      "owner": "participant",
+      "automationPolicy": "screening_only"
+    },
+    {
+      "fieldKey": "additionalInformation",
+      "owner": "participant",
+      "automationPolicy": "participant_text_format_only"
+    },
+    {
+      "fieldKey": "participantSignature",
+      "owner": "participant_manual",
+      "automationPolicy": "leave_blank"
+    },
+    {
+      "fieldKey": "participantSignatureDate",
+      "owner": "participant_manual",
+      "automationPolicy": "leave_blank"
+    },
+    {
+      "fieldKey": "participantVerification",
+      "owner": "participant_manual",
+      "automationPolicy": "leave_blank"
+    },
+    {
+      "fieldKey": "fullSocialSecurityNumber",
+      "owner": "participant_manual",
+      "automationPolicy": "leave_blank"
+    }
+  ],
+  "routes": [
+    {
+      "routeId": "in_arrest_no_charges",
+      "fieldKeys": [
+        "countyOfCase",
+        "caseNumber",
+        "arrestDate",
+        "disposition",
+        "dispositionDate",
+        "pendingCharges",
+        "inPretrialDiversion",
+        "prosecutorAuthorization",
+        "ssnLastFour",
+        "isSelfRepresented",
+        "participantSignature",
+        "participantSignatureDate",
+        "participantVerification",
+        "fullSocialSecurityNumber"
+      ]
+    },
+    {
+      "routeId": "in_section1_petition",
+      "fieldKeys": [
+        "countyOfCase",
+        "caseNumber",
+        "arrestDate",
+        "disposition",
+        "dispositionDate",
+        "pendingCharges",
+        "inPretrialDiversion",
+        "prosecutorAuthorization",
+        "ssnLastFour",
+        "isSelfRepresented",
+        "prosecutorWrittenAgreementEarlyFiling",
+        "participantSignature",
+        "participantSignatureDate",
+        "participantVerification",
+        "fullSocialSecurityNumber"
+      ]
+    },
+    {
+      "routeId": "in_conviction_misd",
+      "fieldKeys": [
+        "countyOfConviction",
+        "caseNumber",
+        "convictionDate",
+        "offenseLevel",
+        "sentenceCompletionDate",
+        "allConvictionsAnyCounty",
+        "priorExpungementPetition",
+        "financialObligationsPaid",
+        "pendingCharges",
+        "convictedWithinPeriod",
+        "prosecutorConsent",
+        "additionalInformation",
+        "participantSignature",
+        "participantSignatureDate",
+        "participantVerification",
+        "fullSocialSecurityNumber"
+      ]
+    },
+    {
+      "routeId": "in_conviction_d6",
+      "fieldKeys": [
+        "countyOfConviction",
+        "caseNumber",
+        "convictionDate",
+        "offenseLevel",
+        "sentenceCompletionDate",
+        "allConvictionsAnyCounty",
+        "priorExpungementPetition",
+        "financialObligationsPaid",
+        "pendingCharges",
+        "convictedWithinPeriod",
+        "prosecutorConsent",
+        "additionalInformation",
+        "participantSignature",
+        "participantSignatureDate",
+        "participantVerification",
+        "fullSocialSecurityNumber"
+      ]
+    },
+    {
+      "routeId": "in_conviction_felony",
+      "fieldKeys": [
+        "countyOfConviction",
+        "caseNumber",
+        "convictionDate",
+        "offenseLevel",
+        "sentenceCompletionDate",
+        "allConvictionsAnyCounty",
+        "priorExpungementPetition",
+        "financialObligationsPaid",
+        "pendingCharges",
+        "convictedWithinPeriod",
+        "prosecutorConsent",
+        "additionalInformation",
+        "participantSignature",
+        "participantSignatureDate",
+        "participantVerification",
+        "fullSocialSecurityNumber"
+      ]
+    },
+    {
+      "routeId": "in_conviction_serious_felony",
+      "fieldKeys": [
+        "countyOfConviction",
+        "caseNumber",
+        "convictionDate",
+        "offenseLevel",
+        "sentenceCompletionDate",
+        "allConvictionsAnyCounty",
+        "priorExpungementPetition",
+        "financialObligationsPaid",
+        "pendingCharges",
+        "convictedWithinPeriod",
+        "prosecutorConsent",
+        "additionalInformation",
+        "participantSignature",
+        "participantSignatureDate",
+        "participantVerification",
+        "fullSocialSecurityNumber"
+      ]
+    }
+  ]
+}

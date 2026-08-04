@@ -1,0 +1,157 @@
+{
+  "schemaVersion": "rcap-official-pdf-renderer-scaffold/v1",
+  "familyId": "rcap-in-official-pdf-family",
+  "jurisdiction": "IN",
+  "enabled": false,
+  "activeRendererCount": 0,
+  "laneCounts": {
+    "acroformOrHybrid": 3,
+    "coordinateOverlay": 0,
+    "unknown": 7
+  },
+  "rendererAdapters": [
+    {
+      "rendererId": "in-acroform-or-hybrid-fill",
+      "kind": "acroform_or_hybrid_fill",
+      "candidateCount": 3,
+      "enabled": false,
+      "activationRequirements": [
+        "captain assignment anchor and portable projection exist",
+        "exact projected bytes pass size, SHA-256, media-type, and read-only verification",
+        "AcroForm fields and widgets are freshly inspected and classified",
+        "ownership, mapping, technical, visual, and legal-output reviews pass"
+      ]
+    },
+    {
+      "rendererId": "in-coordinate-overlay",
+      "kind": "coordinate_overlay",
+      "candidateCount": 0,
+      "enabled": false,
+      "activationRequirements": [
+        "an exact adopted identity is freshly inspected as a flat PDF",
+        "captain-projected bytes pass local verification",
+        "every placement is source-derived and visually approved"
+      ]
+    },
+    {
+      "rendererId": "in-unknown-source-sentinel",
+      "kind": "non_renderer_identity_and_inspection_stop",
+      "candidateCount": 7,
+      "enabled": false,
+      "activationRequirements": [
+        "authority adopts one exact identity with role and currentness",
+        "captain assignment and portable projection are published",
+        "fresh local inspection selects AcroForm, overlay, or another reviewed implementation"
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "componentDocumentId": "CCA conviction expungement order",
+      "identityBindingStatus": "unknown_source_identity",
+      "carriedTechnicalClass": null,
+      "candidateRendererLane": null,
+      "rendererSelectionState": "prohibited_unknown_source_identity",
+      "activeRenderer": null,
+      "activeMappingCount": 0,
+      "activeOverlayPlacementCount": 0
+    },
+    {
+      "componentDocumentId": "CCA conviction expungement petition",
+      "identityBindingStatus": "unknown_source_identity",
+      "carriedTechnicalClass": null,
+      "candidateRendererLane": null,
+      "rendererSelectionState": "prohibited_unknown_source_identity",
+      "activeRenderer": null,
+      "activeMappingCount": 0,
+      "activeOverlayPlacementCount": 0
+    },
+    {
+      "componentDocumentId": "CCA Section 1 expungement order",
+      "identityBindingStatus": "unknown_source_identity",
+      "carriedTechnicalClass": null,
+      "candidateRendererLane": null,
+      "rendererSelectionState": "prohibited_unknown_source_identity",
+      "activeRenderer": null,
+      "activeMappingCount": 0,
+      "activeOverlayPlacementCount": 0
+    },
+    {
+      "componentDocumentId": "CCA Section 1 non-conviction expungement petition",
+      "identityBindingStatus": "unknown_source_identity",
+      "carriedTechnicalClass": null,
+      "candidateRendererLane": null,
+      "rendererSelectionState": "prohibited_unknown_source_identity",
+      "activeRenderer": null,
+      "activeMappingCount": 0,
+      "activeOverlayPlacementCount": 0
+    },
+    {
+      "componentDocumentId": "CCA-GF-0120-3016",
+      "identityBindingStatus": "unknown_source_identity",
+      "carriedTechnicalClass": null,
+      "candidateRendererLane": null,
+      "rendererSelectionState": "prohibited_unknown_source_identity",
+      "activeRenderer": null,
+      "activeMappingCount": 0,
+      "activeOverlayPlacementCount": 0
+    },
+    {
+      "componentDocumentId": "CCA-XP-0120-7002 Form ACR",
+      "identityBindingStatus": "unknown_source_identity",
+      "carriedTechnicalClass": null,
+      "candidateRendererLane": null,
+      "rendererSelectionState": "prohibited_unknown_source_identity",
+      "activeRenderer": null,
+      "activeMappingCount": 0,
+      "activeOverlayPlacementCount": 0
+    },
+    {
+      "componentDocumentId": "CCA-XP-0220-7008",
+      "identityBindingStatus": "exact_pinned_identity",
+      "carriedTechnicalClass": "clean_acroform",
+      "candidateRendererLane": "acroform_or_hybrid_fill",
+      "rendererSelectionState": "pending_captain_projection_and_fresh_inspection",
+      "activeRenderer": null,
+      "activeMappingCount": 0,
+      "activeOverlayPlacementCount": 0
+    },
+    {
+      "componentDocumentId": "CCA-XP-0220-7009",
+      "identityBindingStatus": "exact_pinned_identity",
+      "carriedTechnicalClass": "clean_acroform",
+      "candidateRendererLane": "acroform_or_hybrid_fill",
+      "rendererSelectionState": "pending_captain_projection_and_fresh_inspection",
+      "activeRenderer": null,
+      "activeMappingCount": 0,
+      "activeOverlayPlacementCount": 0
+    },
+    {
+      "componentDocumentId": "CCA-XP-0220-7010",
+      "identityBindingStatus": "exact_pinned_identity",
+      "carriedTechnicalClass": "clean_acroform",
+      "candidateRendererLane": "acroform_or_hybrid_fill",
+      "rendererSelectionState": "pending_captain_projection_and_fresh_inspection",
+      "activeRenderer": null,
+      "activeMappingCount": 0,
+      "activeOverlayPlacementCount": 0
+    },
+    {
+      "componentDocumentId": "Confidential Information Form",
+      "identityBindingStatus": "unknown_source_identity",
+      "carriedTechnicalClass": null,
+      "candidateRendererLane": null,
+      "rendererSelectionState": "prohibited_unknown_source_identity",
+      "activeRenderer": null,
+      "activeMappingCount": 0,
+      "activeOverlayPlacementCount": 0
+    }
+  ],
+  "invariants": [
+    "Carried technical classes are expectations only, never fresh source inspection.",
+    "Unknown identities remain behind a non-renderer identity-and-inspection sentinel and cannot receive a renderer candidate.",
+    "The coordinate-overlay adapter is present but has zero Indiana candidates.",
+    "No renderer reads a repository evidence path or downloads a source.",
+    "No renderer activates before identity, projection, mapping, ownership, sample, technical, visual, and legal-output gates pass."
+  ]
+}

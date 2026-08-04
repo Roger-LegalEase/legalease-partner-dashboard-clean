@@ -1,0 +1,261 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/in-official-pdf-packet-assembly-v1.json",
+  "title": "Indiana deterministic official-PDF packet assembly definitions",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "runtimeRegistered",
+    "routeReadyCount",
+    "deduplication",
+    "determinism",
+    "sourceSlots",
+    "assemblies"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "rcap-official-pdf-packet-assembly/v1"
+    },
+    "familyId": { "const": "rcap-in-official-pdf-family" },
+    "jurisdiction": { "const": "IN" },
+    "runtimeRegistered": { "const": false },
+    "routeReadyCount": { "const": 0 },
+    "deduplication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "logicalDocumentIdentityCount",
+        "plannedAssemblySourceSlotCount",
+        "logicalComponentUseCount",
+        "plannedPacketInstanceCount",
+        "deduplicatedPacketInstanceCount",
+        "rule"
+      ],
+      "properties": {
+        "logicalDocumentIdentityCount": { "const": 10 },
+        "plannedAssemblySourceSlotCount": { "const": 8 },
+        "logicalComponentUseCount": { "const": 31 },
+        "plannedPacketInstanceCount": { "const": 26 },
+        "deduplicatedPacketInstanceCount": { "const": 5 },
+        "rule": { "type": "string", "minLength": 1 }
+      }
+    },
+    "determinism": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trackOrder",
+        "componentOrder",
+        "instanceOrder",
+        "conditionalRule",
+        "duplicateRule",
+        "outputRule"
+      ],
+      "properties": {
+        "trackOrder": { "type": "string", "minLength": 1 },
+        "componentOrder": { "type": "string", "minLength": 1 },
+        "instanceOrder": { "type": "string", "minLength": 1 },
+        "conditionalRule": { "type": "string", "minLength": 1 },
+        "duplicateRule": { "type": "string", "minLength": 1 },
+        "outputRule": { "type": "string", "minLength": 1 }
+      }
+    },
+    "sourceSlots": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": { "$ref": "#/$defs/sourceSlot" }
+    },
+    "assemblies": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": { "$ref": "#/$defs/assembly" }
+    }
+  },
+  "$defs": {
+    "sourceSlot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sourceSlotId",
+        "slotKind",
+        "logicalDocumentIds",
+        "identityBindingStatus",
+        "bundleSharingState",
+        "runtimeSelectable"
+      ],
+      "properties": {
+        "sourceSlotId": { "type": "string", "pattern": "^in-source-slot-" },
+        "slotKind": {
+          "enum": [
+            "exact_source",
+            "planned_licensed_bundle",
+            "unresolved_pdf_identity",
+            "identity_split_placeholder"
+          ]
+        },
+        "logicalDocumentIds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "identityBindingStatus": {
+          "enum": ["exact_pinned_identity", "unknown_source_identity"]
+        },
+        "bundleSharingState": {
+          "enum": [
+            "not_shared_exact_identity",
+            "planned_shared_bundle_pending_exact_authority_binding",
+            "not_applicable_unresolved_identity",
+            "identity_split_required_not_a_source"
+          ]
+        },
+        "runtimeSelectable": { "const": false }
+      }
+    },
+    "logicalComponent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "componentId",
+        "role",
+        "requirement",
+        "conditionDescription",
+        "outputStrategy",
+        "officialFormId",
+        "order",
+        "sourceUrlDisposition"
+      ],
+      "properties": {
+        "componentId": { "type": "string", "pattern": "^in_" },
+        "role": {
+          "enum": ["primary_filing", "proposed_order", "attachment"]
+        },
+        "requirement": { "enum": ["required", "conditional"] },
+        "conditionDescription": { "type": ["string", "null"] },
+        "outputStrategy": { "const": "official_pdf_fill" },
+        "officialFormId": { "type": "string", "minLength": 1 },
+        "order": { "type": "integer", "minimum": 1, "maximum": 6 },
+        "sourceUrlDisposition": {
+          "const": "normalized_value_is_not_a_worker_locator"
+        }
+      }
+    },
+    "instance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "instanceId",
+        "sourceSlotId",
+        "logicalDocumentIds",
+        "logicalComponentIds",
+        "minimumComponentOrder",
+        "physicalCopyCount",
+        "includeWhen",
+        "renderState"
+      ],
+      "properties": {
+        "instanceId": { "type": "string", "pattern": "^in-" },
+        "sourceSlotId": { "type": "string", "pattern": "^in-source-slot-" },
+        "logicalDocumentIds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "logicalComponentIds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^in_" }
+        },
+        "minimumComponentOrder": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6
+        },
+        "physicalCopyCount": { "const": 1 },
+        "includeWhen": { "type": "string", "minLength": 1 },
+        "renderState": {
+          "enum": [
+            "blocked_source_materialization",
+            "blocked_unknown_source_identity",
+            "blocked_identity_split"
+          ]
+        }
+      }
+    },
+    "assembly": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trackId",
+        "packetSetId",
+        "packetSetVersion",
+        "routeOutputStrategy",
+        "officialPdfSubassemblyOnly",
+        "requiredFactKeys",
+        "legalDesignBlockerCount",
+        "logicalComponents",
+        "plannedDocumentInstances",
+        "externalLaneComponentIds",
+        "targetOutputPdfCountWhenReady",
+        "currentOutputPdfCount",
+        "assemblyState",
+        "expectedTerminalCode",
+        "runtimeStatus",
+        "generationAllowed"
+      ],
+      "properties": {
+        "trackId": { "type": "string", "pattern": "^in_" },
+        "packetSetId": { "type": "string", "pattern": "^in_" },
+        "packetSetVersion": { "const": "1.0.0" },
+        "routeOutputStrategy": {
+          "enum": ["official_pdf_fill", "custom_pleading"]
+        },
+        "officialPdfSubassemblyOnly": { "type": "boolean" },
+        "requiredFactKeys": {
+          "type": "array",
+          "minItems": 9,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9]*$"
+          }
+        },
+        "legalDesignBlockerCount": { "const": 0 },
+        "logicalComponents": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 6,
+          "items": { "$ref": "#/$defs/logicalComponent" }
+        },
+        "plannedDocumentInstances": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 5,
+          "items": { "$ref": "#/$defs/instance" }
+        },
+        "externalLaneComponentIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^in_" }
+        },
+        "targetOutputPdfCountWhenReady": { "const": 1 },
+        "currentOutputPdfCount": { "const": 0 },
+        "assemblyState": { "const": "blocked_preflight_only" },
+        "expectedTerminalCode": { "const": "unknown_source_identity" },
+        "runtimeStatus": { "const": "runtime_disabled" },
+        "generationAllowed": { "const": false }
+      }
+    }
+  }
+}

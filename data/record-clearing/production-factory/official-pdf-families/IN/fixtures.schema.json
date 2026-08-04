@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/in-official-pdf-fixtures-v1.json",
+  "title": "Indiana official-PDF synthetic fixtures",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "manualFieldsExpectedBlank",
+    "routeFixtures",
+    "documentGateFixtures"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "familyId": { "const": "rcap-in-official-pdf-family" },
+    "jurisdiction": { "const": "IN" },
+    "manualFieldsExpectedBlank": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": { "type": "string" }
+    },
+    "routeFixtures": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": { "$ref": "#/$defs/routeFixture" }
+    },
+    "documentGateFixtures": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": { "$ref": "#/$defs/documentFixture" }
+    }
+  },
+  "$defs": {
+    "routeFixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fixtureId",
+        "routeId",
+        "packetSetId",
+        "synthetic",
+        "facts",
+        "requiredFactKeys",
+        "logicalOfficialPdfComponentCount",
+        "plannedAssemblyInstanceCount",
+        "expectedTerminalCode",
+        "expectedOutputPdfCount",
+        "targetOutputPdfCountWhenReady",
+        "runtimeStatus"
+      ],
+      "properties": {
+        "fixtureId": { "type": "string", "pattern": "^in-fixture-" },
+        "routeId": { "type": "string", "pattern": "^in_" },
+        "packetSetId": { "type": "string", "pattern": "^in_" },
+        "synthetic": { "const": true },
+        "facts": { "type": "object", "minProperties": 9 },
+        "requiredFactKeys": {
+          "type": "array",
+          "minItems": 9,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9]*$"
+          }
+        },
+        "logicalOfficialPdfComponentCount": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 6
+        },
+        "plannedAssemblyInstanceCount": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 5
+        },
+        "expectedTerminalCode": { "const": "unknown_source_identity" },
+        "expectedOutputPdfCount": { "const": 0 },
+        "targetOutputPdfCountWhenReady": { "const": 1 },
+        "runtimeStatus": { "const": "runtime_disabled" }
+      }
+    },
+    "documentFixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fixtureId",
+        "componentDocumentId",
+        "identityBindingStatus",
+        "expectedTerminalCode"
+      ],
+      "properties": {
+        "fixtureId": { "type": "string", "pattern": "^in-source-gate-" },
+        "componentDocumentId": { "type": "string", "minLength": 1 },
+        "identityBindingStatus": {
+          "enum": ["exact_pinned_identity", "unknown_source_identity"]
+        },
+        "expectedTerminalCode": {
+          "enum": ["source_materialization_required", "unknown_source_identity"]
+        }
+      }
+    }
+  }
+}
