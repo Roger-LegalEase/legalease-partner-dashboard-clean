@@ -1,0 +1,156 @@
+{
+  "schemaVersion": "rcap-track-promotion-batch-template/v1",
+  "batchSchemaVersion": "rcap-track-promotion-batch/v1",
+  "purpose": "Create an auditable, hash-bound decision for explicit normalized tracks without changing a shared registry, runtime posture, public routing, or deployment.",
+  "operations": [
+    "bind_adopted_tracks",
+    "select_staging_tracks",
+    "validate_staging_acceptance",
+    "validate_production_promotion_eligibility"
+  ],
+  "contract": {
+    "selectionMode": "exact_tracks_only",
+    "atomicBatch": true,
+    "jurisdictionApprovalInferred": false,
+    "currentStateMustBeAuthoredAndRecomputed": true,
+    "materialHashDriftRequiresNewReview": true,
+    "authorityEditionMustMatchCounselScope": true,
+    "sharedRuntimeRegistrationMustBeCurrent": true,
+    "nonCounselReleaseBlockersMustBeClosed": true,
+    "stageEvidenceMustFormExactChain": true,
+    "commercialLicenseExclusionsRemainBlocking": true,
+    "externalDependenciesRequireExactEvidence": true,
+    "nonReliefRoutesRemainDistinct": true,
+    "operatorRoleAssertionGrantsAuthority": false,
+    "applyCreatesReceiptOnly": true
+  },
+  "batchEnvelope": {
+    "schemaVersion": "rcap-track-promotion-batch/v1",
+    "batchName": "<stable-batch-name>",
+    "appliedByRole": "<integration_captain|staging_release_operator|release_manager>",
+    "appliedOn": "<ISO-8601 timestamp supplied by the approver>",
+    "operation": "<one operation listed above>",
+    "promotionLane": "packet_delivery",
+    "targetEnvironment": "<staging|production>",
+    "contract": {
+      "selectionMode": "exact_tracks_only",
+      "atomicBatch": true,
+      "jurisdictionApprovalInferred": false,
+      "currentStateMustBeAuthoredAndRecomputed": true,
+      "materialHashDriftRequiresNewReview": true,
+      "authorityEditionMustMatchCounselScope": true,
+      "sharedRuntimeRegistrationMustBeCurrent": true,
+      "nonCounselReleaseBlockersMustBeClosed": true,
+      "stageEvidenceMustFormExactChain": true,
+      "commercialLicenseExclusionsRemainBlocking": true,
+      "externalDependenciesRequireExactEvidence": true,
+      "nonReliefRoutesRemainDistinct": true,
+      "operatorRoleAssertionGrantsAuthority": false,
+      "applyCreatesReceiptOnly": true
+    },
+    "tracks": [
+      {
+        "jurisdiction": "<two-letter-code>",
+        "trackId": "<exact-normalized-track-id>",
+        "adoptionBinding": {
+          "recordPath": "<tracked-counsel-adoption-record-path>",
+          "recordSha256": "<lowercase-sha256>",
+          "familyId": "<exact-adopted-family-id>",
+          "templateFamilySha256": "<lowercase-sha256>",
+          "integratedImplementationCommit": "<40-character-commit>"
+        },
+        "trackScopeSha256": "<canonical-sha256-of-the-complete-current-route-projection>",
+        "expectedState": {
+          "authorityClearance": "<cleared|blocked>",
+          "sourcePinning": "<pinned|unpinned>",
+          "implementationProof": "<proven|unproven>",
+          "technicalProof": "<passed|pending>",
+          "visualProof": "<passed|pending>",
+          "counselAdoption": "<adopted|not_adopted>",
+          "packetPersistence": "<proven|not_proven>",
+          "stagingContract": "<satisfied|not_satisfied>",
+          "stagingAcceptance": "<accepted|not_accepted>",
+          "productionPromotion": "<promoted|not_promoted>"
+        },
+        "evidence": {
+          "packetPersistence": null,
+          "stagingContract": null,
+          "stagingAcceptance": null
+        },
+        "notes": []
+      }
+    ],
+    "safety": {
+      "runtimeDisableSwitchMustRemainOn": true,
+      "generationPermissionMustRemainOff": true,
+      "deliveryReadinessMustRemainOff": true,
+      "jurisdictionActivationMustRemainOff": true,
+      "productionActivationMustRemainOff": true,
+      "publicRoutingMustRemainUnchanged": true
+    }
+  },
+  "evidenceReference": {
+    "path": "<repository-relative-json-path>",
+    "sha256": "<lowercase-sha256>"
+  },
+  "evidenceTrust": {
+    "stageProofMustBeCommittedAtHead": true,
+    "artifactPinsMustBeCommittedAtHead": true,
+    "worktreeBytesMustMatchHead": true,
+    "allowedArtifactDirectory": "data/record-clearing/production-factory/promotion-evidence/artifacts/",
+    "allowedProofDirectories": [
+      "data/record-clearing/production-factory/promotion-evidence/packet-persistence/",
+      "data/record-clearing/production-factory/promotion-evidence/staging-contract/",
+      "data/record-clearing/production-factory/promotion-evidence/staging-acceptance/"
+    ]
+  },
+  "evidenceDocument": {
+    "schemaVersion": "rcap-track-stage-proof/v1",
+    "proofType": "<packet_persistence|staging_contract|staging_acceptance>",
+    "status": "passed",
+    "jurisdiction": "<two-letter-code>",
+    "trackId": "<exact-normalized-track-id>",
+    "trackScopeSha256": "<same-track-scope-sha256-as-the-batch>",
+    "producerContract": "<rcap-packet-persistence/v1|rcap-staging-contract/v1|rcap-staging-acceptance/v1>",
+    "environment": "<artifact_store|staging>",
+    "predecessorEvidence": {
+      "packetPersistenceSha256": "<lowercase-sha256-or-null>",
+      "stagingContractSha256": "<lowercase-sha256-or-null>"
+    },
+    "artifactPins": [
+      {
+        "path": "<tracked-repository-relative-proof-or-receipt-path>",
+        "sha256": "<lowercase-sha256>"
+      }
+    ],
+    "safety": {
+      "runtimePosture": "disabled",
+      "jurisdictionActivation": "inactive",
+      "productionPromotion": "not_promoted",
+      "deployment": "<not_applicable|contract_only|staging_applied_and_verified>"
+    }
+  },
+  "stageArtifactReceipt": {
+    "schemaVersion": "rcap-track-stage-artifact/v1",
+    "artifactType": "<packet_persistence|staging_contract|staging_acceptance>",
+    "jurisdiction": "<two-letter-code>",
+    "trackId": "<exact-normalized-track-id>",
+    "trackScopeSha256": "<same-track-scope-sha256-as-the-batch>",
+    "status": "passed",
+    "contentHashes": [
+      "<lowercase-sha256>"
+    ]
+  },
+  "receipt": {
+    "schemaVersion": "rcap-track-promotion-application/v1",
+    "selectionMode": "exact_routes_only",
+    "containsCompleteTrackProjection": true,
+    "includesTypedBlockers": true,
+    "includesJurisdictionSubsetAggregation": true,
+    "eligibilityOnly": true,
+    "authorizesPromotion": false,
+    "mutatesSharedRegistries": false,
+    "changesRuntimePosture": false,
+    "changesPublicRouting": false
+  }
+}
