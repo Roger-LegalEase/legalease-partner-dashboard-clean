@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "rcap-official-pdf-fixtures/v1",
+  "familyId": "mi-scao-set-aside-applications",
+  "syntheticDataOnly": true,
+  "syntheticDataRule": "All names, addresses, case references, charges, dates, and narratives are invented for deterministic layout testing. SYN marks every case reference and example.invalid prevents delivery.",
+  "positiveFixtures": [
+    {
+      "fixtureId": "mi-mc227-ordinary-positive",
+      "trackId": "mi_setaside_application",
+      "caseReference": "SYN-MI-227-0001",
+      "facts": {
+        "convictingCourt": "Synthetic 99th District Court, Ingham County",
+        "caseNumber": "SYN-MI-227-0001",
+        "convictionDateAndCharge": "01/15/2019 — synthetic misdemeanor conviction",
+        "convictionsInOtherCourts": "no",
+        "sentenceMilestones": "Synthetic sentence imposed 02/20/2019; completed 02/20/2022",
+        "pendingCharges": "no",
+        "convictionsDuringPeriod": "no",
+        "completedDeferrals": "no",
+        "priorSetAsideApplications": "no",
+        "assaultiveOrSeriousMisdemeanour": "participant answer: no",
+        "sameTransaction24Hours": "no"
+      },
+      "manualFieldsExpectedBlank": [
+        "participant signature",
+        "signature date",
+        "notary or deputy clerk jurat",
+        "notice of hearing",
+        "proof-of-service signature and date"
+      ]
+    },
+    {
+      "fixtureId": "mi-mc227a-marihuana-positive",
+      "trackId": "mi_setaside_marihuana",
+      "caseReference": "SYN-MI-227A-0001",
+      "facts": {
+        "convictingCourt": "Synthetic 30th Circuit Court, Ingham County",
+        "caseNumber": "SYN-MI-227A-0001",
+        "convictionDateAndCharge": "03/04/2017 — synthetic misdemeanor marihuana conviction",
+        "marihuanaStatuteSection": "participant selected MCL 333.7403(2)(d)",
+        "currentAddress": "100 Example Avenue, Lansing, MI 48933",
+        "prosecutingAgency": "Synthetic Ingham County Prosecuting Agency"
+      },
+      "manualFieldsExpectedBlank": [
+        "participant signature",
+        "signature date",
+        "clerk filing fields",
+        "judge fields"
+      ]
+    },
+    {
+      "fixtureId": "mi-mc227-first-owi-positive",
+      "trackId": "mi_setaside_first_owi",
+      "caseReference": "SYN-MI-OWI-0001",
+      "facts": {
+        "convictingCourt": "Synthetic 54-A District Court, Ingham County",
+        "caseNumber": "SYN-MI-OWI-0001",
+        "convictionDateAndCharge": "06/10/2018 — synthetic first-violation OWI conviction",
+        "convictionsInOtherCourts": "no",
+        "sentenceMilestones": "Synthetic sentence imposed 07/18/2018; completed 07/18/2020",
+        "pendingCharges": "no",
+        "convictionsDuringPeriod": "no",
+        "completedDeferrals": "no",
+        "priorSetAsideApplications": "no",
+        "assaultiveOrSeriousMisdemeanour": "participant answer: no",
+        "sameTransaction24Hours": "no",
+        "priorOwiAtTimeOfViolation": "no",
+        "priorFirstOwiSetAside": "no"
+      },
+      "manualFieldsExpectedBlank": [
+        "participant signature",
+        "signature date",
+        "notary or deputy clerk jurat",
+        "notice of hearing",
+        "proof-of-service signature and date"
+      ]
+    },
+    {
+      "fixtureId": "mi-mc227b-trafficking-positive",
+      "trackId": "mi_setaside_trafficking",
+      "caseReference": "SYN-MI-227B-0001",
+      "facts": {
+        "convictingCourt": "Synthetic 3rd Circuit Court, Wayne County",
+        "caseNumber": "SYN-MI-227B-0001",
+        "convictionDateAndCharge": "09/09/2016 — synthetic conviction",
+        "traffickingStatuteSection": "participant selected MCL 750.448",
+        "traffickingFactsStatement": "Synthetic participant-authored narrative used only to test multiline layout. It makes no legal conclusion.",
+        "wantsAdvocateReview": "yes"
+      },
+      "manualFieldsExpectedBlank": [
+        "participant signature",
+        "signature date",
+        "notary or deputy clerk jurat",
+        "notice of hearing",
+        "proof-of-service signature and date"
+      ]
+    }
+  ],
+  "boundaryFixtures": [
+    {
+      "fixtureId": "mi-mc227-missing-case-number",
+      "trackId": "mi_setaside_application",
+      "basedOn": "mi-mc227-ordinary-positive",
+      "kind": "missing_required_input",
+      "omitKeys": [
+        "caseNumber"
+      ],
+      "expect": "missing_required_input"
+    },
+    {
+      "fixtureId": "mi-mc227a-source-not-materialized",
+      "trackId": "mi_setaside_marihuana",
+      "basedOn": "mi-mc227a-marihuana-positive",
+      "kind": "materialization_required",
+      "omitKeys": [],
+      "expect": "source_missing"
+    },
+    {
+      "fixtureId": "mi-mc227-third-party-fields",
+      "trackId": "mi_setaside_application",
+      "basedOn": "mi-mc227-ordinary-positive",
+      "kind": "third_party_field_ownership",
+      "omitKeys": [],
+      "expect": "all_prohibited_fields_blank"
+    }
+  ]
+}
