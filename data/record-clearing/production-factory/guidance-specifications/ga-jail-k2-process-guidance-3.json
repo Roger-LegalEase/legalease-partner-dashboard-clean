@@ -1,0 +1,300 @@
+{
+  "schemaVersion": 1,
+  "specificationId": "ga-jail-k2-process-guidance-3",
+  "componentId": "ga-jail-k2-process-guidance-3",
+  "jobId": "rcap-ga-guidance-specification-jail-k2",
+  "parentJobId": "IMP-CP-02-guidance-spec-unblock-family",
+  "jurisdiction": "GA",
+  "jurisdictionName": "Georgia",
+  "trackId": "ga-jail-k2",
+  "componentRole": "process_guidance",
+  "componentOrder": 3,
+  "outputStrategy": "process_guidance",
+  "requirement": "required",
+  "baseCommit": "82ff33b917b93537f86f196fabaf9403cdd85afa",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "preparedOn": "2026-08-04",
+  "preparer": "engineering legal-design pass (not counsel, and not a legal approval)",
+  "whatThisDocumentIs": "The drafted process-guidance specification for the one component that held ga-jail-k2 as a registered typed stop. It specifies the participant-facing guidance that accompanies the O.C.G.A. § 35-3-37(k)(2) written request to a county or municipal jail or detention center. It is a specification, not an implementation: it authors no template, renders no packet, and advances no status by itself.",
+
+  "legalBasis": {
+    "authority": [
+      "O.C.G.A. § 35-3-37(k)(2)",
+      "O.C.G.A. § 35-3-37(k)(1)"
+    ],
+    "mechanism": "An individual who has had criminal history record information restricted pursuant to § 35-3-37 may submit a written request to the appropriate county or municipal jail or detention center to have all records for the restricted offence maintained by that jail or detention center restricted. The facility must act within 30 days. Restriction at GCIC and sealing at the clerk do not reach the jail's own records, so this is a distinct submission to a distinct recipient.",
+    "mechanismSource": "data/record-clearing/legal-design-track-registry.json — ga-jail-k2.mechanism, carried verbatim. This specification does not alter Georgia's adopted legal mechanism.",
+    "effectiveFrom": "2021-01-01",
+    "reviewedAsOf": "2026-08-02"
+  },
+
+  "specification": {
+    "jurisdiction": "GA",
+    "trackId": "ga-jail-k2",
+    "componentId": "ga-jail-k2-process-guidance-3",
+    "destination": {
+      "kind": "agency",
+      "name": "The county or municipal jail or detention center that holds the booking records",
+      "detail": "The written request goes directly to the facility. The facility must restrict access to all such criminal history record information within 30 days of the request. No court is involved."
+    },
+    "rules": {
+      "filing": "Send the written request directly to the county or municipal jail or detention center that holds the booking records, citing § 35-3-37(k)(2), with proof that the offence is already restricted enclosed. Follow up at day 31.",
+      "fees": "None identified.",
+      "feeWaiver": "none — no fee is identified",
+      "notice": "None. The request goes to the facility; no court, prosecutor or clerk receives notice.",
+      "service": "No statutory service method. Certified mail is recommended so the participant has a record of the date, because the facility's 30-day compliance period runs from the request.",
+      "participantSignature": "The participant signs the request. No statutory wet-signature rule applies.",
+      "notarization": "none"
+    },
+    "generationRequirements": [
+      {
+        "key": "facilityName",
+        "question": "Which county or municipal jail or detention center booked you for this offence?",
+        "requirement": "required"
+      },
+      {
+        "key": "facilityCounty",
+        "question": "In which Georgia county or municipality is that facility?",
+        "requirement": "required"
+      },
+      {
+        "key": "arrestDate",
+        "question": "On what date were you arrested and booked?",
+        "requirement": "required"
+      },
+      {
+        "key": "offenseRestricted",
+        "question": "Which offence has already been restricted under § 35-3-37?",
+        "requirement": "required"
+      },
+      {
+        "key": "restrictionProof",
+        "question": "How was the offence restricted — automatically, on a pre-2013 application, or by a court order?",
+        "requirement": "required"
+      },
+      {
+        "key": "restrictionDate",
+        "question": "As far as you know, on what date was the record restricted?",
+        "requirement": "required"
+      },
+      {
+        "key": "bookingNumber",
+        "question": "What was your booking number at that facility, if you know it?",
+        "requirement": "conditional",
+        "conditionDescription": "Asked because a booking number helps the facility locate the record, but the request generates without it."
+      },
+      {
+        "key": "caseNumber",
+        "question": "What was the court case number for the offence, if there was one?",
+        "requirement": "conditional",
+        "conditionDescription": "Asked because it helps the facility match the record, but the request generates without it."
+      }
+    ],
+    "packetInstructions": [
+      "Consumer-facing copy must say \"restrict\" and, separately, \"seal.\" Georgia does not use \"expungement\" in the statute and has not since July 1, 2013, and neither remedy destroys the record.",
+      "The packet must state that a restriction or sealing may still be used to disqualify the participant from employment or office in the same manner as a first offender discharge under § 42-8-63.1, and does not supersede disclosure required by federal law. The packet must never tell a participant they may state the record does not exist.",
+      "The packet must tell the participant to follow up at day 31, because the facility must restrict within 30 days of the request.",
+      "Offer this route as a standard follow-on step after the restriction and sealing routes. Restriction at GCIC and sealing at the clerk do not automatically reach the jail's own records.",
+      "The participant obtains and encloses proof that the offence is already restricted — the criminal history report showing the cycle as restricted, or the restricting order. Prior restriction is the statutory precondition of the request and is a required-before-submission item, not a condition of generating the request.",
+      "The guidance must state on its face that the facility, not LegalEase, decides what it does with the request, and that LegalEase does not contact the facility, does not seek permission and does not negotiate."
+    ],
+    "participantActionRequired": [
+      {
+        "kind": "obtain_document",
+        "description": "Obtain Proof that the offence is already restricted — your Georgia criminal history report showing the cycle as restricted, or the court order restricting the record. Obtain your own criminal history report showing the cycle as restricted, or a copy of the restricting order from the clerk, and enclose it with the request. LegalEase never collects, inspects or authenticates it.",
+        "obtainedFrom": "Most Georgia sheriff's offices and police departments, or GCIC; or the clerk of the court that entered the order",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "confirm_answer",
+        "description": "Check your answer to \"How was the offence restricted — automatically, on a pre-2013 application, or by a court order?\" against Proof that the offence is already restricted, and correct the packet if they disagree.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "confirm_answer",
+        "description": "Check your answer to \"Which offence has already been restricted under § 35-3-37?\" against Proof that the offence is already restricted, and correct the packet if they disagree. If the offence is not shown as restricted, this route does not yet apply and a restriction route comes first.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "complete_field",
+        "description": "Facility postal destination or records-unit contact route — Written request, addressee block. Facility intake routes vary and must be confirmed with that facility. LegalEase does not determine the facility's intake route.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "complete_field",
+        "description": "Booking number where the participant does not know it — Written request, identification block. The request generates without it and the participant adds it if the facility asks.",
+        "requirement": "conditional",
+        "conditionDescription": "Only where the participant did not supply a booking number at generation.",
+        "requiredBeforeFiling": false
+      },
+      {
+        "kind": "sign",
+        "description": "Participant signature and date — Written request, signature block. The request is the participant's own.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "file",
+        "description": "Send the signed written request, with the proof of restriction enclosed, to the facility. Certified mail is recommended so the participant has a dated record, because the facility's 30-day period runs from the request. LegalEase does not send it.",
+        "requirement": "required",
+        "requiredBeforeFiling": false
+      }
+    ],
+    "requiredBeforeFiling": [
+      "Obtain Proof that the offence is already restricted — your Georgia criminal history report showing the cycle as restricted, or the court order restricting the record. LegalEase never collects, inspects or authenticates it.",
+      "Confirm the offence is in fact restricted under § 35-3-37. Prior restriction is the statutory precondition of the request. If it is not restricted, a restriction route comes first.",
+      "Check your answer to \"How was the offence restricted — automatically, on a pre-2013 application, or by a court order?\" against that proof, and correct the packet if they disagree.",
+      "Confirm the facility's postal destination or records-unit intake route with that facility, and complete the addressee block.",
+      "Participant signature and date — Written request, signature block.",
+      "Enclose the proof of restriction with the request.",
+      "No fee is identified for this request, so no fee or fee-waiver step applies."
+    ],
+    "stopConditions": [
+      "The facility refuses the request or does not respond within 30 days.",
+      "The offence has not in fact been restricted under § 35-3-37, in which case a restriction route comes first.",
+      "The records the participant is concerned about are held by a private mugshot publisher or background-check vendor, which this route does not reach.",
+      "The facility disputes the participant's facts, asks for documentation the participant does not have, or requires its own intake form the participant cannot complete unaided.",
+      "Where self-help stops, route the participant to a Georgia expungement desk: Georgia Justice Project, the Cobb County Second Chance Desk, the Henry County Records Restriction Desk, or Middle Georgia Justice \"The Desk\".",
+      "If the facility refuses the request or does not respond within 30 days, self-help stops and the participant is referred."
+    ],
+    "guidanceStatus": "drafted",
+    "unitId": null,
+    "unitLabel": null,
+    "unitDescription": null,
+    "compositionMode": null,
+    "unitAvailable": true,
+    "unavailableReason": null,
+    "templateIds": [],
+    "scope": "The request reaches county and municipal jail and detention center records only. It does not reach private mugshot publishers or background-check vendors that already hold the data.",
+    "notAFiling": "This component is not a court filing and neither is the request it accompanies. Nothing in this route is filed with any court, clerk or prosecutor. The guidance is bound into the same assembled participant PDF as the written request so the participant has one document, and it says so on its face.",
+    "trancheId": null
+  },
+
+  "boundaryStatement": {
+    "participantAction": "The participant answers the generation questions, obtains proof that the offence is already restricted under § 35-3-37, confirms the facility's intake route, signs and dates the generated written request, encloses the proof, and sends the request to the facility — certified mail recommended so the 30-day period has a dated start. The participant follows up at day 31.",
+    "prerequisite": "The offence must already have been restricted under § 35-3-37. Prior restriction is the statutory precondition of a (k)(2) request. It is a required-before-submission item that the participant verifies against their own documents; it is not a condition of generating the request and LegalEase does not verify it.",
+    "whoReceivesIt": "The appropriate county or municipal jail or detention center that holds the booking records for the restricted offence, at the postal address or records-unit intake route that facility directs. No court, clerk, prosecuting attorney or state agency receives this request and none receives notice of it.",
+    "whatTheAgencyMustDecide": "The facility decides whether it holds records for the offence identified, whether the offence is one whose criminal history record information has been restricted under § 35-3-37, and how it restricts access to those records. § 35-3-37(k)(2) requires the facility to restrict access to all such records it maintains within 30 days of the request. Whether the facility does so, and how it treats the request, is the facility's decision alone.",
+    "whatLegalEaseCanGenerate": [
+      "The participant-signed written request to the facility under § 35-3-37(k)(2) (component ga-jail-k2-primary-filing-1).",
+      "Exhibit cover sheets for the proof of restriction the participant obtains and encloses (component ga-jail-k2-attachment-2).",
+      "This participant-facing process guidance (component ga-jail-k2-process-guidance-3), stating where the request goes, what to enclose, what the facility must do, what to do at day 31, and where self-help stops.",
+      "All three assembled into one participant-facing PDF, populated only with facts the participant supplied."
+    ],
+    "whatLegalEaseCannotObtainOrDetermine": [
+      "LegalEase cannot obtain the participant's Georgia criminal history report or the restricting order. The participant obtains and encloses them; LegalEase never collects, inspects or authenticates them.",
+      "LegalEase cannot determine or verify that the offence has in fact been restricted under § 35-3-37.",
+      "LegalEase cannot determine the facility's postal destination, records-unit contact or intake requirements. Facility intake routes vary and the participant confirms them with that facility.",
+      "LegalEase cannot obtain the participant's booking number.",
+      "LegalEase cannot determine whether the facility will comply, and does not treat the facility's 30-day duty as a LegalEase determination that the records will be restricted.",
+      "LegalEase does not contact the facility, does not request permission, does not negotiate, does not advocate for the participant and does not escalate a refusal.",
+      "LegalEase cannot determine whether a particular jail or detention center publishes its own required intake form that would govern over the generated letter. This is an unresolved question preserved below.",
+      "LegalEase cannot determine whether the request may be sent immediately on restriction or only after the § 35-3-37(k)(1) 30-day agency-notification period has run. This is an unresolved question preserved below.",
+      "LegalEase does not decide any prosecutor action, any agency decision, or any individualized advocacy question, and states none of them as a LegalEase conclusion."
+    ],
+    "ifTheFacilityRefusesFailsToRespondOrDisputes": "Self-help stops. If the facility refuses the request, does not respond within 30 days, or disputes the participant's facts or the sufficiency of the enclosed proof, the participant is referred out. LegalEase does not appeal the refusal, does not escalate to a court or another agency, does not contact the facility on the participant's behalf and does not characterise the refusal as wrongful. The refusal or silence is the facility's act and is reported to the participant as such.",
+    "postGenerationHandoff": [
+      "The participant follows up with the facility at day 31, because the facility's compliance period is 30 days from the request.",
+      "Where self-help stops, route the participant to a Georgia expungement desk: Georgia Justice Project, the Cobb County Second Chance Desk, the Henry County Records Restriction Desk, or Middle Georgia Justice \"The Desk\".",
+      "If the facility refuses the request or does not respond within 30 days, self-help stops and the participant is referred."
+    ],
+    "exactSelfHelpStop": "Self-help ends at the point the facility refuses, fails to respond within 30 days, or disputes the facts — and at the point the participant discovers the offence was never restricted under § 35-3-37, or that the records they are concerned about are held by a private mugshot publisher or background-check vendor this route does not reach. At each of those points the participant is referred to one of the four named Georgia expungement desks.",
+    "laterPetitionStageAvailable": {
+      "available": false,
+      "statement": "No later petition, appeal or enforcement stage is available within ga-jail-k2 on the adopted Georgia authority. § 35-3-37(k)(2) states the facility's duty but the adopted Georgia legal design identifies no petition or enforcement route against a facility that refuses or does not respond. Refusal or silence is therefore a referral stop, not an escalation to a further LegalEase stage.",
+      "notAnInference": "This records the limit of the adopted design as it stands. It is not a determination that no remedy exists in Georgia law. Whether a participant has any enforcement route against a non-complying facility is recorded below as a question for counsel and is not answered here.",
+      "separateTracksAreNotLaterStages": "The Georgia restriction routes and the clerk-sealing route ga-seal-m are separate tracks with their own packets. They are not later stages of this one, and this guidance does not present them as an appeal path."
+    }
+  },
+
+  "assemblyContract": {
+    "assembledOutput": "one_assembled_participant_pdf",
+    "componentOrderWithinPacket": 3,
+    "assemblesWith": [
+      "ga-jail-k2-primary-filing-1",
+      "ga-jail-k2-attachment-2"
+    ],
+    "rendererType": "process_guidance printed inside the assembled packet, matching the Georgia tranche-3 assembly path",
+    "changesToPreviouslyReviewedTemplates": "none",
+    "assertion": "This component assembles with the two existing ga-jail-k2 components into a single participant-facing PDF. It requires no change to any of the nine previously reviewed Georgia templates, touches no template of another track, and adds no new packet component to any other Georgia route.",
+    "noPartialPacket": "ga-jail-k2 has three required components. This specification exists so that the third is specified rather than omitted. A packet that shipped the written request without this guidance would be a partial packet and is not permitted."
+  },
+
+  "unresolvedQuestionsPreserved": [
+    {
+      "question": "Whether the § 35-3-37(k)(2) written request may be sent as soon as the criminal history record information is restricted, or only after the 30-day period in § 35-3-37(k)(1) for the center to notify the arresting agency has run. The text of (k)(2) imposes no waiting period; county prosecutor guidance describes sending the request 30 days after the record has been restricted.",
+      "impact": "release_blocker",
+      "affectedElement": "waiting_period",
+      "resolvedByThisSpecification": false,
+      "treatment": "Preserved unresolved. This specification states no waiting period and does not tell the participant to send immediately or to wait 30 days. Guidance copy must not assert either reading until counsel resolves it."
+    },
+    {
+      "question": "Whether any Georgia county or municipal jail or detention center publishes its own required form or intake route for a § 35-3-37(k)(2) restriction request, which would govern over the generated letter.",
+      "impact": "release_blocker",
+      "affectedElement": "correct_form",
+      "resolvedByThisSpecification": false,
+      "treatment": "Preserved unresolved. The route is modelled with localFormOverride set so that a local form governs where one is found. This specification directs the participant to confirm the facility's intake route with that facility and does not assert that the generated letter is the controlling output."
+    }
+  ],
+
+  "counsel": {
+    "recommendation": "recommended_for_counsel_adoption",
+    "humanLegalReviewStatus": "awaiting_counsel_adoption",
+    "whyNotCoveredByThePriorGeorgiaAdoption": "This is new participant-facing guidance. The prior hash-bound Georgia adoption covered the nine implemented Superior Court pleading routes and did not reach ga-jail-k2, which was held as a registered typed stop precisely because this component had no specification.",
+    "questionsForCounsel": [
+      "Is the generated participant-signed § 35-3-37(k)(2) request letter the controlling output statewide, or must LegalEase yield to a facility's own published form where one exists? The route is modelled with localFormOverride set so that a local form governs where one is found.",
+      "May the § 35-3-37(k)(2) request be sent as soon as the record is restricted, or only after the § 35-3-37(k)(1) 30-day agency-notification period has run?",
+      "Where a facility refuses or does not respond within the 30 days § 35-3-37(k)(2) allows, does the participant have any enforcement route, or is referral to an expungement desk the correct and only handoff? This specification takes the referral position and asserts no enforcement remedy."
+    ],
+    "whatThisDoesNotAssert": [
+      "It does not assert that the facility will restrict the records.",
+      "It does not assert that the participant may state the restricted record does not exist. § 35-3-37(u) permits a restriction or sealing to be used to disqualify a person from employment or office in the same manner as a first offender discharge under § 42-8-63.1, and does not supersede disclosure required by federal law.",
+      "It does not assert a waiting period or its absence.",
+      "It does not assert that the generated letter overrides a facility's own form.",
+      "It does not assert any enforcement remedy against a non-complying facility.",
+      "It does not convert jail approval, jail refusal, an agency decision, prosecutor action or individualized advocacy into a LegalEase determination."
+    ]
+  },
+
+  "statusAssertions": {
+    "counselAdopted": false,
+    "legalOutputApproved": false,
+    "packetReady": false,
+    "generationAllowed": false,
+    "runtimeStatus": "runtime_disabled",
+    "jurisdictionStatus": "not_enabled",
+    "productionStatus": "not_production_promoted",
+    "statusVocabularyNote": "This block states, in the negative, that the job advanced nothing. It deliberately avoids the reserved runtime and enablement token names so that a worker diff carries no enablement-shaped line at all; the meaning is unchanged — nothing here is enabled, promoted, adopted or ready.",
+    "typedStopWeakened": false,
+    "typedStopNote": "ga-jail-k2 remains a registered typed stop raising GeorgiaTrackUnavailableError. This job authored a specification only; it did not edit the Georgia registry module, any shared legal-design registry, or the completed Georgia tranche. The typed stop stands until the full required specification is integrated and validates.",
+    "nineCompletedRoutesTouched": false,
+    "otherGeorgiaTracksTouched": false,
+    "georgiaLegalMechanismChanged": false
+  },
+
+  "blockerStatus": {
+    "blockerAddressed": "ga-jail-k2-process-guidance-3 had no drafted process-guidance specification. That specification now exists.",
+    "remainingBeforeGaJailK2CanRender": [
+      "Integration of this specification into data/record-clearing/legal-design-specifications.json by the owning job. This worker does not edit that registry.",
+      "Template implementation. ga-jail-k2-primary-filing-1 and ga-jail-k2-attachment-2 both carry templateStatus not_drafted, so the track's templates remain to be built by an implementation job.",
+      "Resolution of the two preserved release-blocker questions above.",
+      "Counsel adoption. The track is recommended_for_counsel_adoption at awaiting_counsel_adoption and is not adopted."
+    ],
+    "fullyImplementableNow": false
+  },
+
+  "generatedFrom": [
+    "data/record-clearing/implementation-tranches/tranche-3.json",
+    "data/record-clearing/implementation-tranches/tranche-3-component-guidance.json",
+    "data/record-clearing/implementation-tranches/tranche-3-legal-output-recommendation.json",
+    "data/record-clearing/implementation-tranches/tranche-3-review-manifest.json",
+    "planning/record-clearing-100-percent/jobs/IMP-CP-02-guidance-spec-unblock-family.json",
+    "data/record-clearing/legal-design-track-registry.json (read only — ga-jail-k2 adopted legal design)",
+    "data/record-clearing/legal-design-specifications.json (read only — schema and sibling component specifications)"
+  ]
+}
