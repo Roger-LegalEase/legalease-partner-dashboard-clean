@@ -1,0 +1,179 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-me-public-official-download",
+  "parentJobId": "AUTH-01-in-repo-authority-pinning",
+  "jurisdiction": "ME",
+  "lane": "source_acquisition",
+  "strategyFamily": "public_official_download",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "4eee199a1f0d6d381d0bcc763ee559250b26078e",
+  "generatedOn": "2026-08-04",
+  "acquisitionIds": [
+    "acquire:ME:cr-289",
+    "acquire:ME:cr-307"
+  ],
+  "downloadedSourceCount": 2,
+  "generatedFrom": [
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json"
+  ],
+  "method": {
+    "description": "Public official download of both assigned Maine Judicial Branch forms from the court forms portal. Each binary was fetched by direct HTTPS GET, hashed with SHA-256, and its title block, printed revision footer and encryption posture read from the retrieved bytes.",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "authenticationUsed": false,
+    "binariesDownloaded": 2,
+    "binaryDeposition": "Neither retrieved binary is committed by this job. ownedPaths are limited to this single production-factory JSON file.",
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "byteVerificationMethod": "fresh_https_get_then_sha256_compared_to_recorded_digest",
+    "byteVerificationNote": "Both digests match their recorded values exactly. Because the bytes are identical to those previously inspected, byte-level properties already recorded for these files — including the AcroForm field counts of 14 and 15 — continue to describe these exact files and are carried forward rather than re-enumerated."
+  },
+  "totals": {
+    "assignedAcquisitions": 2,
+    "binariesRetrieved": 2,
+    "revisionsConfirmed": 2,
+    "revisionsUnconfirmed": 0,
+    "titleCorrectionsRaised": 2,
+    "recordedNextActionsContradicted": 1
+  },
+  "acquisitions": [
+    {
+      "acquisitionId": "acquire:ME:cr-289",
+      "documentId": "CR-289",
+      "documentRole": "primary_filing",
+      "trackIds": [
+        "me-seal-prost"
+      ],
+      "disposition": "acquired_public_official_download",
+      "officialTitleAsPublished": "Motion to Seal Conviction for Engaging in Prostitution",
+      "officialTitleSource": "form_face_heading",
+      "statutoryCitationOnFace": "15 M.R.S.A. § 2262-A",
+      "issuingBody": "Maine Judicial Branch",
+      "retrievedFromUrl": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CR-289",
+      "retrievalDate": "2026-08-04",
+      "httpStatus": 200,
+      "resolvedRevision": "REV-2024-10",
+      "revisionStatus": "confirmed_printed_footer",
+      "revisionEvidence": "Footer line reads 'CR-289, Rev. 10/24    Page 1 of 1    www.courts.maine.gov', read from the retrieved bytes.",
+      "sha256": "bbf89387690d1ab17984c5b799366a26196e8d71b5172bc2768f593b819a7423",
+      "sizeBytes": 166837,
+      "pageCount": 1,
+      "encrypted": false,
+      "acroFormPresent": true,
+      "formFieldCount": 14,
+      "formFieldCountBasis": "carried_forward_by_exact_hash_match",
+      "hashAgreementWithRecordedDigest": "exact_match",
+      "redistributionRestriction": "none_published",
+      "commercialUseRestriction": "none_published"
+    },
+    {
+      "acquisitionId": "acquire:ME:cr-307",
+      "documentId": "CR-307",
+      "documentRole": "primary_filing",
+      "trackIds": [
+        "me-seal-survivor"
+      ],
+      "disposition": "acquired_public_official_download",
+      "officialTitleAsPublished": "Motion to Seal Conviction for Victims of Sex Trafficking or Sexual Exploitation",
+      "officialTitleSource": "form_face_heading",
+      "statutoryCitationOnFace": "15 M.R.S.A. § 2262-B",
+      "issuingBody": "Maine Judicial Branch",
+      "retrievedFromUrl": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/DownloadForm?strFormNumber=CR-307",
+      "retrievalDate": "2026-08-04",
+      "httpStatus": 200,
+      "resolvedRevision": "REV-2026-06",
+      "revisionStatus": "confirmed_printed_footer",
+      "revisionEvidence": "Footer line reads 'CR-307, Rev. 06/26    Page 1 of 1    www.courts.maine.gov', read from the retrieved bytes.",
+      "sha256": "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+      "sizeBytes": 175213,
+      "pageCount": 1,
+      "encrypted": true,
+      "acroFormPresent": true,
+      "formFieldCount": 15,
+      "formFieldCountBasis": "carried_forward_by_exact_hash_match",
+      "hashAgreementWithRecordedDigest": "exact_match",
+      "encryptionPosture": {
+        "publisherApplied": true,
+        "publisherAppliedEvidence": "The binary retrieved fresh from the Maine Judicial Branch portal is byte-identical to the retained copy, so the encryption is the publisher's own and not a corpus artefact.",
+        "algorithm": "AES-256",
+        "userPasswordRequired": false,
+        "permissionsValue": "/P -1036",
+        "permissions": {
+          "print": "allowed",
+          "printHighResolution": "allowed",
+          "copyExtractText": "allowed",
+          "modifyContents": "denied",
+          "annotateAndFillFormFields": "allowed",
+          "extractForAccessibility": "allowed",
+          "assembleDocument": "denied"
+        },
+        "permissionsBasis": "Decoded directly from the /P value -1036 in the retrieved bytes and cross-checked against the reader's own permission summary (print:yes copy:yes change:no addNotes:yes, AES-256).",
+        "fillAndPrintAssessment": "Filling the AcroForm fields and printing are both within the permitted set. Only content modification and page assembly are denied. This does not by itself decide the question; counsel still rules on whether the intended generation path is fill-and-print or something broader."
+      },
+      "redistributionRestriction": "none_published",
+      "commercialUseRestriction": "none_published"
+    }
+  ],
+  "correctionsRaised": [
+    {
+      "kind": "official_title_extraction_bug",
+      "severity": "high",
+      "observation": "Both Maine forms carry a two-line footer. Line 1 is the form number and revision; line 2 is a longer descriptive string that begins 'Motion to Seal Criminal Conviction for …'. The form's actual heading, set above the statutory citation, contains no word 'Criminal': CR-289 reads 'MOTION TO SEAL CONVICTION FOR ENGAGING IN PROSTITUTION' and CR-307 reads 'MOTION TO SEAL CONVICTION FOR / VICTIMS OF SEX TRAFFICKING OR SEXUAL EXPLOITATION'.",
+      "contradictsRecordedNextAction": true,
+      "contradictionDetail": "The acquisition intelligence records a nextAction directing that the CR-289 title be corrected to 'Motion to Seal Criminal Conviction for Engaging in Prostitution'. That proposed value is itself the footer's second line — the same text block the original extraction heuristic misread. Applying the recorded nextAction as written would replace one footer-derived title with another footer-derived title and leave the extraction bug in place.",
+      "correctValues": {
+        "CR-289": "Motion to Seal Conviction for Engaging in Prostitution",
+        "CR-307": "Motion to Seal Conviction for Victims of Sex Trafficking or Sexual Exploitation"
+      },
+      "corroboration": "For CR-307 the queue's own recorded title is already 'Motion to Seal Conviction for Victims of Sex Trafficking or Sexual Exploitation', without 'Criminal', which agrees with the form face and disagrees with the officialTitle carried in the acquisition intelligence. The two layers already disagree, and the form face resolves them.",
+      "recommendation": "Take the title from the form-face heading above the statutory citation, not from either footer line. Regenerate the canonical path and workflow key from the corrected title, as the recorded nextAction rightly notes they inherit it.",
+      "appliedByThisJob": false,
+      "notAppliedRationale": "The acquisition intelligence and the adopted edition are both forbidden paths for this job. Recorded for the owning job."
+    },
+    {
+      "kind": "permission_metadata_correction",
+      "field": "commercialUseRestriction",
+      "recordedValue": "none published, but the binary technically enforces change:no and copy:no",
+      "observed": "The retrieved bytes permit copying. /P -1036 sets the copy/extract bit, and the reader reports copy:yes. Only modifyContents and assembleDocument are denied.",
+      "recommendation": "Correct the parenthetical to 'change:no and assemble:no'. Copying and printing, including high-resolution printing, are permitted.",
+      "appliedByThisJob": false,
+      "notAppliedRationale": "Forbidden path for this job."
+    },
+    {
+      "kind": "companion_form_not_in_corpus",
+      "observation": "The Maine forms index lists CR-308, an order form created in the same batch as CR-307 and carrying revision 6/1/2026, whose official index title does contain 'Criminal History'.",
+      "recommendation": "Determine whether the me-seal-survivor track needs a proposed-order component bound to CR-308. Raised as a scope question only.",
+      "appliedByThisJob": false,
+      "notAppliedRationale": "Adding a component is legal-design and registry work, outside this job's scope. Flagged, not acted on.",
+      "confidence": "reported_from_index_listing_not_independently_downloaded"
+    }
+  ],
+  "unresolved": [
+    {
+      "question": "Is any filing fee charged for a motion to seal under 15 M.R.S.A. § 2262-A or § 2262-B?",
+      "status": "no_fee_stated_not_affirmatively_waived",
+      "why": "Neither form nor the Judicial Branch sealing help pages state a fee, and both PDFs download free and unauthenticated. No Judicial Branch fee schedule entry affirmatively stating that motions to seal are free was located, so a positive 'no fee' finding is not recorded."
+    },
+    {
+      "question": "Does the CR-307 encryption permit the intended generation path?",
+      "status": "referred_to_counsel",
+      "why": "The permitted set is established from the bytes: fill and print are allowed, modification and assembly are not. Whether the product's generation path stays inside that set is a counsel determination, and this job does not make it. Only if counsel rules it does not should operations open an AOC request for an unencrypted master."
+    },
+    {
+      "question": "Why does CR-307 carry a July 2026 CreationDate while printing revision 06/26, and an index effective date of 07/29/2026?",
+      "status": "recorded_not_resolved",
+      "why": "The file was re-issued in July 2026 while retaining the printed 06/26 revision, and the statutory effective date postdates both. The printed revision is taken as the revision of record; the discrepancy is preserved rather than reconciled."
+    }
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0
+  }
+}
