@@ -469,6 +469,9 @@ function buildSourceRequirements({ authority, documents, queueFamily, spec }) {
     },
     requirements: documents.map((document) => {
       const exact = document.exactSourceRequirement;
+      const unresolvedAuthorityConflict =
+        exact === null &&
+        document.sourceIdentityState !== "authority_identity_unresolved";
       const repositoryCandidate =
         exact === null
           ? null
@@ -490,7 +493,9 @@ function buildSourceRequirements({ authority, documents, queueFamily, spec }) {
         componentDocumentId: document.officialFormId,
         authorityState:
           exact === null
-            ? "authority_unmanifested_source"
+            ? unresolvedAuthorityConflict
+              ? document.relationshipResults.join("+")
+              : "authority_unmanifested_source"
             : document.relationshipResults.includes(
                   "authority_mapped_packet_candidate"
                 )
@@ -498,9 +503,19 @@ function buildSourceRequirements({ authority, documents, queueFamily, spec }) {
               : "authority_mapped_source_gated",
         identityBindingStatus:
           exact?.identityBindingStatus ??
-          "authority_identity_unresolved",
-        authorityDocumentId: exact?.documentId ?? null,
-        authorityDocumentRole: exact?.documentRole ?? null,
+          document.sourceIdentityState,
+        authorityDocumentId:
+          exact?.documentId ??
+          (unresolvedAuthorityConflict
+            ? document.authorityAssets[0]?.documentId
+            : null) ??
+          null,
+        authorityDocumentRole:
+          exact?.documentRole ??
+          (unresolvedAuthorityConflict
+            ? document.authorityAssets[0]?.documentRole
+            : null) ??
+          null,
         workflowKey:
           document.authorityAssets[0]?.workflowKey ?? null,
         officialTitle:
@@ -508,7 +523,11 @@ function buildSourceRequirements({ authority, documents, queueFamily, spec }) {
         revision: document.authorityAssets[0]?.revision ?? null,
         assetClass: document.authorityAssets[0]?.assetClass ?? null,
         canonicalAuthorityPath:
-          exact?.canonicalAuthorityPath ?? null,
+          exact?.canonicalAuthorityPath ??
+          (unresolvedAuthorityConflict
+            ? document.authorityAssets[0]?.canonicalRelativePath
+            : null) ??
+          null,
         repositorySourcePath:
           exact?.repositorySourcePath ?? null,
         repositorySourcePathTreatment:
@@ -540,7 +559,9 @@ function buildSourceRequirements({ authority, documents, queueFamily, spec }) {
         workerReadAuthorized: false,
         captainAssignmentEligibility:
           exact === null
-            ? "ineligible_until_successor_authority_edition_manifests_exact_asset"
+            ? unresolvedAuthorityConflict
+              ? "ineligible_until_authority_identity_conflict_is_resolved"
+              : "ineligible_until_successor_authority_edition_manifests_exact_asset"
             : "requires_assignment_anchor_and_portable_projection",
         usageBindings: document.usageBindings.map((binding) => ({
           trackId: binding.trackId,
@@ -584,7 +605,10 @@ function buildRendererScaffold({ documents, queueFamily, spec }) {
       overlayCoordinatesReady: false,
       implementationBlocker:
         document.exactSourceRequirement === null
-          ? "authority_asset_unmanifested"
+          ? document.sourceIdentityState ===
+            "authority_identity_unresolved"
+            ? "authority_asset_unmanifested"
+            : "authority_identity_not_uniquely_selectable"
           : "captain_projection_and_fresh_structure_inspection_required"
     }))
   };
