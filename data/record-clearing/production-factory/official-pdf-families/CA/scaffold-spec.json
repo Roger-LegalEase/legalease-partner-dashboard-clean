@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "rcap-official-pdf-family-scaffold-spec/v1",
+  "familyId": "ca-judicial-council-cr-record-clearing",
+  "jurisdiction": "CA",
+  "authorityFamily": "California Judicial Council",
+  "implementationJobId": "IMP-OF-02-ca-judicial-council-cr-family",
+  "sourceMaterializationDependency": "rcap-nationwide-source-materialization-contract",
+  "outputDirectory": "data/record-clearing/production-factory/official-pdf-families/CA",
+  "dedicatedVerifier": "scripts/verify-rcap-ca-judicial-council-official-pdf-family.mjs",
+  "trackIds": [
+    "ca-1203-4",
+    "ca-1203-4a",
+    "ca-1203-41",
+    "ca-1203-42",
+    "ca-1203-43",
+    "ca-17b-reduction",
+    "ca-851-91",
+    "ca-prop64"
+  ],
+  "documentOrder": [
+    "CR-180",
+    "CR-181",
+    "CR-106",
+    "MC-025",
+    "MC-031",
+    "CR-409",
+    "CR-410",
+    "CR-400",
+    "CR-401",
+    "CR-403"
+  ],
+  "candidateInventories": {
+    "CR-180": "docs/record-clearing/field-map-drafts/california-cr-180.field-map-review.json",
+    "CR-181": "docs/record-clearing/field-map-drafts/california-cr-181.field-map-review.json"
+  },
+  "blockers": [
+    "The retained Edition 1.2 identities and the old local private-corpus implementation-gate observations disagree about CR-180 and CR-181 structure; exact materialized authority bytes must settle the contradiction.",
+    "Carried-forward repository inspection classifies all ten sources as encrypted PDFs with no usable field inventory; renderer selection is prohibited until fresh local inspection and the non-renderable-source policy are available.",
+    "No encrypted or XFA source may be decrypted, reconstructed, substituted, or silently routed to a different form by packet implementation code."
+  ],
+  "invariants": [
+    "California legal design and component ordering remain unchanged.",
+    "Every participant, service, attachment, declaration, and proposed-order component stays bound to its exact Judicial Council form identity.",
+    "Judge, clerk, prosecutor, agency, notary, process-server, attorney, participant-signature, and signature-date fields remain usable and blank unless the controlling ownership map expressly permits a participant value.",
+    "No source is downloaded, reconstructed, modified, decrypted, or replaced by packet implementation code.",
+    "No live route or existing legacy generator is changed by this family."
+  ]
+}
