@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "rcap-queued-official-pdf-family-scaffold-spec/v1",
+  "familyId": "rcap-me-official-pdf-family",
+  "jurisdiction": "ME",
+  "jurisdictionName": "Maine",
+  "authorityFamily": "Maine Judicial Branch CR-218, CR-289, CR-307, and CR-308 forms",
+  "implementationJobId": "rcap-me-official-pdf-production",
+  "outputDirectory": "data/record-clearing/production-factory/official-pdf-families/ME",
+  "modulePath": "src/lib/rcap/packets/jurisdictions/maine/official-pdf/family.ts",
+  "dedicatedVerifier": "scripts/verify-rcap-maine-official-pdf-families.mjs",
+  "blockers": [
+    "The tracked rcap-me-public-official-download acquisition record confirms current CR-289 and CR-307 hashes, sizes, revisions, and form-field evidence, but it is dependency evidence and does not substitute for a captain portable projection.",
+    "CR-218, CR-307, and CR-308 carry encrypted-source policy gates; CR-307 permits form fill and printing but denies document assembly, so the intended one-PDF participant delivery path requires explicit technical and permission review.",
+    "CR-289 paragraph 1 and CR-218 paragraph 3 remain participant-manual because the adopted legal design records live statutory/form wording conflicts.",
+    "CR-307 survivor narrative and causal assertions remain wholly participant-owned and must not be generated.",
+    "CR-308 outcome checkboxes, findings, dates, and judicial signature remain blank, and its later-conviction warning conflict remains a counsel release blocker."
+  ],
+  "invariants": [
+    "Do not alter official fixed language, adopted component ordering, or Maine legal-design decisions.",
+    "Participant signatures, legal assertions reserved to the participant, court findings, outcome selections, dates, judge fields, clerk fields, agency fields, and notary fields remain blank unless a confirmed ownership map expressly permits a non-signature value.",
+    "No survivor narrative, characterization, graphic detail, or causal argument is generated.",
+    "Repository-private paths and acquisition URLs are identity evidence only and are never opened by packet code or the dedicated verifier.",
+    "No source download, URL fallback, fuzzy identity match, live-route change, or runtime enablement is permitted."
+  ]
+}

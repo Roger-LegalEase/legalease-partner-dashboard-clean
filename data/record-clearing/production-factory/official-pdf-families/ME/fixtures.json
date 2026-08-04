@@ -1,0 +1,200 @@
+{
+  "schemaVersion": "rcap-official-pdf-fixture-scaffold/v1",
+  "familyId": "rcap-me-official-pdf-family",
+  "jurisdiction": "ME",
+  "schemaPath": "data/record-clearing/production-factory/official-pdf-families/schemas/fixture-scaffold.schema.json",
+  "syntheticDataOnly": true,
+  "fixtureState": "pending_field_map_and_fact_type_binding",
+  "tracks": [
+    {
+      "trackId": "me-seal-gen",
+      "fixtureId": "me-seal-gen-synthetic-layout",
+      "caseReference": "SYN-ME-me-seal-gen",
+      "requiredFactKeys": [
+        "fullName",
+        "dateOfBirth",
+        "courtLevel",
+        "courtLocation",
+        "docketNumber",
+        "offenseName",
+        "convictionDate",
+        "offenseClass",
+        "chapter11Offense",
+        "sentencingAlternatives",
+        "fullSatisfactionDate",
+        "laterMaineConviction",
+        "laterDeferredDismissal",
+        "laterOtherJurisdictionConviction",
+        "pendingCharges",
+        "olderPriorConviction",
+        "priorSealingDenial"
+      ],
+      "conditionalFactKeys": [
+        "marijuanaPre2017"
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Paragraph 3 of CR-218 — the assertion of no other adult criminal convictions in Maine",
+          "whereInPacket": "CR-218, numbered paragraph 3",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Paragraph 1's assertion that the crime is eligible for sealing under 15 M.R.S. § 2261(6)",
+          "whereInPacket": "CR-218, numbered paragraph 1",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The participant's signature and the date of signing",
+          "whereInPacket": "The motion, signature block for the defendant",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The hearing date, time and courtroom",
+          "whereInPacket": "Participant instructions, filing and hearing section",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Every finding, ruling, date and signature of the court",
+          "whereInPacket": "Not printed in the participant packet; the court issues its own written order",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Notice to the prosecutorial office",
+          "whereInPacket": "Not printed in the participant packet; described in the filing instructions only",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "CR-218 paragraph 3 is broader than the statute. Do not automate a 'no' answer here. Leave it blank, explain the difference, and route the participant to advice where an older prior exists.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "me-seal-prost",
+      "fixtureId": "me-seal-prost-synthetic-layout",
+      "caseReference": "SYN-ME-me-seal-prost",
+      "requiredFactKeys": [
+        "fullName",
+        "dateOfBirth",
+        "courtLevel",
+        "courtLocation",
+        "docketNumber",
+        "offenseName",
+        "convictionDate",
+        "offenseIs853A",
+        "fullSatisfactionDate",
+        "disqualifyingConviction",
+        "survivorRouteScreen"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "CR-289 paragraph 1's recital that the crime is eligible for sealing under 15 M.R.S.A. § 2261(6) and § 2262-A",
+          "whereInPacket": "CR-289, numbered paragraph 1",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "CR-289 paragraph 3's certification about disqualifying convictions",
+          "whereInPacket": "CR-289, numbered paragraph 3",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The participant's signature and the date of signing",
+          "whereInPacket": "The motion, signature block for the defendant",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The hearing date, time and courtroom",
+          "whereInPacket": "Participant instructions, filing and hearing section",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Every finding, ruling, date and signature of the court",
+          "whereInPacket": "Not printed in the participant packet; the court issues its own written order",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Notice to the prosecutorial office",
+          "whereInPacket": "Not printed in the participant packet; described in the filing instructions only",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "CR-289 predates PL 2025, c. 513 and recites a repealed prerequisite.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "me-seal-survivor",
+      "fixtureId": "me-seal-survivor-synthetic-layout",
+      "caseReference": "SYN-ME-me-seal-survivor",
+      "requiredFactKeys": [
+        "fullName",
+        "dateOfBirth",
+        "courtLevel",
+        "courtLocation",
+        "docketNumber",
+        "offenseName",
+        "convictionDate",
+        "multipleConvictions",
+        "survivorScreen",
+        "advocateEngaged"
+      ],
+      "conditionalFactKeys": [
+        "hasOfficialDocumentation",
+        "stateConsentSought",
+        "remoteParticipation"
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "The substance behind CR-307 paragraph 2 — the survivor's account and the causal connection between the trafficking or exploitation and the offence",
+          "whereInPacket": "CR-307, numbered paragraph 2, and any supporting material",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Paragraph 1's recital that the crimes are eligible for sealing under 15 M.R.S.A. § 2261(6)(C) and § 2262-B",
+          "whereInPacket": "CR-307, numbered paragraph 1",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Every checkbox, finding of fact, date and the judge or justice signature on CR-308",
+          "whereInPacket": "CR-308, the outcome checkboxes, findings lines and signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The hearing date, time and courtroom, where a hearing is set",
+          "whereInPacket": "Participant instructions, filing and hearing section",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The participant's signature and the date of signing",
+          "whereInPacket": "CR-307, signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Notice to the prosecutorial office",
+          "whereInPacket": "Not printed in the participant packet; described in the filing instructions only",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Never elicit graphic detail. A single gentle screening question is the limit. Do not generate the participant's factual narrative, characterize their victimization, or draft the causal argument.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    }
+  ],
+  "requiredBoundaryFixtures": [
+    "missing_required_input",
+    "authority_identity_unresolved",
+    "captain_projection_missing",
+    "source_hash_mismatch",
+    "source_size_mismatch",
+    "source_mime_mismatch",
+    "third_party_field_ownership",
+    "mapping_unconfirmed",
+    "deterministic_repeat"
+  ]
+}

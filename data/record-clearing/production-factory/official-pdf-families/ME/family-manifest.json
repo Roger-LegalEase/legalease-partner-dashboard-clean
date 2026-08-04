@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "rcap-official-pdf-family/v1",
+  "familyId": "rcap-me-official-pdf-family",
+  "jurisdiction": "ME",
+  "jurisdictionName": "Maine",
+  "authorityFamily": "Maine Judicial Branch CR-218, CR-289, CR-307, and CR-308 forms",
+  "implementationJobId": "rcap-me-official-pdf-production",
+  "productionQueuePriority": 24,
+  "outputStrategies": [
+    "official_pdf_fill"
+  ],
+  "scope": {
+    "trackIds": [
+      "me-seal-gen",
+      "me-seal-prost",
+      "me-seal-survivor"
+    ],
+    "trackCount": 3,
+    "officialPdfComponentCount": 4,
+    "documentIds": [
+      "CR-218",
+      "CR-289",
+      "CR-307",
+      "CR-308"
+    ],
+    "documentCount": 4,
+    "exactIdentityCount": 4,
+    "unresolvedIdentityCount": 0
+  },
+  "sourceMaterialization": {
+    "dependencyJobId": "rcap-nationwide-source-materialization-contract",
+    "contractPath": "docs/record-clearing/RCAP_SOURCE_MATERIALIZATION_CONTRACT.md",
+    "requirementManifest": "data/record-clearing/production-factory/official-pdf-families/ME/source-requirements.json",
+    "contractKind": "dependency_scaffold_not_worker_assignment",
+    "assignmentAnchor": null,
+    "portableProjection": null,
+    "portableProjectionAvailable": false,
+    "captainAssignmentRequired": true,
+    "portableProjectionRequired": true,
+    "workerReady": false,
+    "workerMaterializationAuthorized": false,
+    "workerReadAuthorized": false,
+    "workerMayAcquireOrDownloadSources": false,
+    "repositorySourcePathTreatment": "identity_evidence_only_never_worker_source",
+    "registryPresenceConfersReadiness": false
+  },
+  "artifacts": {
+    "scaffoldSpec": "data/record-clearing/production-factory/official-pdf-families/ME/scaffold-spec.json",
+    "dependencies": "data/record-clearing/production-factory/official-pdf-families/ME/dependencies.json",
+    "sourceRequirements": "data/record-clearing/production-factory/official-pdf-families/ME/source-requirements.json",
+    "rendererScaffold": "data/record-clearing/production-factory/official-pdf-families/ME/renderer-scaffold.json",
+    "fieldMapScaffold": "data/record-clearing/production-factory/official-pdf-families/ME/field-map-scaffold.json",
+    "fieldOwnershipSchema": "data/record-clearing/production-factory/official-pdf-families/schemas/field-ownership.schema.json",
+    "fieldOwnership": "data/record-clearing/production-factory/official-pdf-families/ME/field-ownership.json",
+    "fixtureSchema": "data/record-clearing/production-factory/official-pdf-families/schemas/fixture-scaffold.schema.json",
+    "fixtures": "data/record-clearing/production-factory/official-pdf-families/ME/fixtures.json",
+    "packetAssembly": "data/record-clearing/production-factory/official-pdf-families/ME/packet-assembly.json",
+    "reviewManifest": "data/record-clearing/production-factory/official-pdf-families/ME/review-manifest.json"
+  },
+  "implementationModule": "src/lib/rcap/packets/jurisdictions/maine/official-pdf/family.ts",
+  "dedicatedVerifier": "scripts/verify-rcap-maine-official-pdf-families.mjs",
+  "status": {
+    "sourceRequirements": "scaffolded_pending_authority_and_assignment",
+    "localSourceVerification": "pending_captain_projection",
+    "pdfStructureInspection": "pending_authorized_source_bytes",
+    "fieldMapping": "scaffolded_zero_active_mappings",
+    "packetRendering": "blocked",
+    "sourceBackedSampleCount": 0,
+    "visualReview": "pending_source_backed_samples",
+    "counselReview": "not_submitted",
+    "legalDesignChanged": false,
+    "packetReady": false,
+    "generationAllowed": false,
+    "enabled": false
+  },
+  "blockers": [
+    "Captain-owned assignment anchor and portable source projection are absent.",
+    "Exact retained identities require read-only materialization and fresh byte verification.",
+    "Authority-unmanifested identities require successor-edition manifestation before assignment.",
+    "PDF structure, field names, overlay coordinates, ownership, fixtures, and samples remain unconfirmed.",
+    "The tracked rcap-me-public-official-download acquisition record confirms current CR-289 and CR-307 hashes, sizes, revisions, and form-field evidence, but it is dependency evidence and does not substitute for a captain portable projection.",
+    "CR-218, CR-307, and CR-308 carry encrypted-source policy gates; CR-307 permits form fill and printing but denies document assembly, so the intended one-PDF participant delivery path requires explicit technical and permission review.",
+    "CR-289 paragraph 1 and CR-218 paragraph 3 remain participant-manual because the adopted legal design records live statutory/form wording conflicts.",
+    "CR-307 survivor narrative and causal assertions remain wholly participant-owned and must not be generated.",
+    "CR-308 outcome checkboxes, findings, dates, and judicial signature remain blank, and its later-conviction warning conflict remains a counsel release blocker."
+  ],
+  "invariants": [
+    "Do not alter official fixed language, adopted component ordering, or Maine legal-design decisions.",
+    "Participant signatures, legal assertions reserved to the participant, court findings, outcome selections, dates, judge fields, clerk fields, agency fields, and notary fields remain blank unless a confirmed ownership map expressly permits a non-signature value.",
+    "No survivor narrative, characterization, graphic detail, or causal argument is generated.",
+    "Repository-private paths and acquisition URLs are identity evidence only and are never opened by packet code or the dedicated verifier.",
+    "No source download, URL fallback, fuzzy identity match, live-route change, or runtime enablement is permitted."
+  ]
+}
