@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/ma-official-pdf-field-ownership-v1.json",
+  "title": "Massachusetts official-PDF canonical field ownership",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "coverageScope",
+    "sourceFieldCoverageState",
+    "unclassifiedSourceFieldPolicy",
+    "writableOwners",
+    "actorDefaults",
+    "fields",
+    "routes"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "familyId": { "const": "ma-trial-court-official-pdf-families" },
+    "jurisdiction": { "const": "MA" },
+    "coverageScope": { "const": "canonical_fields_only_pending_exact_source_inventory" },
+    "sourceFieldCoverageState": { "const": "pending_exact_source_inventory" },
+    "unclassifiedSourceFieldPolicy": { "const": "reject" },
+    "writableOwners": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "enum": ["participant", "system_derived"] }
+    },
+    "actorDefaults": {
+      "type": "array",
+      "minItems": 7,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["owner", "automationPolicy"],
+        "properties": {
+          "owner": { "$ref": "#/$defs/owner" },
+          "automationPolicy": {
+            "enum": ["leave_blank", "reject", "auto_fill_candidate"]
+          }
+        }
+      }
+    },
+    "fields": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/field" }
+    },
+    "routes": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["routeId", "sourceId", "fieldKeys"],
+        "properties": {
+          "routeId": { "type": "string", "pattern": "^ma-" },
+          "sourceId": { "type": "string", "pattern": "^ma-" },
+          "fieldKeys": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9]*$" }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "owner": {
+      "enum": [
+        "participant",
+        "participant_manual",
+        "system_derived",
+        "agency",
+        "court",
+        "clerk",
+        "judge",
+        "prosecutor",
+        "notary",
+        "process_server",
+        "prohibited_from_generation"
+      ]
+    },
+    "field": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fieldKey",
+        "owner",
+        "automationPolicy",
+        "documentUse",
+        "evidence"
+      ],
+      "properties": {
+        "fieldKey": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9]*$" },
+        "owner": { "$ref": "#/$defs/owner" },
+        "automationPolicy": {
+          "enum": [
+            "auto_fill_candidate",
+            "screening_only",
+            "leave_blank",
+            "reject"
+          ]
+        },
+        "documentUse": {
+          "enum": [
+            "source_binding_candidate",
+            "routing_or_screening_only",
+            "manual_completion",
+            "third_party_completion"
+          ]
+        },
+        "evidence": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

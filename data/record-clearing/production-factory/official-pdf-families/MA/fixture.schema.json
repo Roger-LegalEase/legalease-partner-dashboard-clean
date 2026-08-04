@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/ma-official-pdf-fixtures-v1.json",
+  "title": "Massachusetts official-PDF pre-materialization fixtures",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "fixtures"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "familyId": { "const": "ma-trial-court-official-pdf-families" },
+    "jurisdiction": { "const": "MA" },
+    "fixtures": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": { "$ref": "#/$defs/fixture" }
+    }
+  },
+  "$defs": {
+    "factValue": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "boolean" },
+        { "type": "integer" },
+        {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "boolean" },
+              { "type": "integer" }
+            ]
+          }
+        }
+      ]
+    },
+    "fixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fixtureId",
+        "routeId",
+        "packetSetId",
+        "sourceId",
+        "expectedSourceSha256",
+        "synthetic",
+        "facts",
+        "requiredFactKeys",
+        "manualFieldsExpectedBlank",
+        "thirdPartyFieldsExpectedBlank",
+        "expectedGateResult"
+      ],
+      "properties": {
+        "fixtureId": { "type": "string", "pattern": "^ma-fixture-" },
+        "routeId": { "type": "string", "pattern": "^ma-" },
+        "packetSetId": { "type": "string", "pattern": "^ma-" },
+        "sourceId": { "type": "string", "pattern": "^ma-" },
+        "expectedSourceSha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "synthetic": { "const": true },
+        "facts": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "$ref": "#/$defs/factValue" }
+        },
+        "requiredFactKeys": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9]*$" }
+        },
+        "manualFieldsExpectedBlank": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9]*$" }
+        },
+        "thirdPartyFieldsExpectedBlank": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9]*$" }
+        },
+        "expectedGateResult": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "currentWorkspace",
+            "wrongBytes",
+            "exactCandidateBytes",
+            "runtime"
+          ],
+          "properties": {
+            "currentWorkspace": { "const": "source_missing" },
+            "wrongBytes": { "const": "source_hash_mismatch" },
+            "exactCandidateBytes": {
+              "enum": [
+                "blocked_pending_mapping_and_authority",
+                "blocked_legacy_candidate_rejected",
+                "blocked_pending_format_resolution"
+              ]
+            },
+            "runtime": { "const": "runtime_disabled" }
+          }
+        }
+      }
+    }
+  }
+}

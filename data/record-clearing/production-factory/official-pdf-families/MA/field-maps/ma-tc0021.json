@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "fieldMapId": "ma-field-map-tc0021",
+  "jurisdiction": "MA",
+  "sourceId": "ma-tc0021-rev-2022-11",
+  "sourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/source-gated/TC0021__petition-for-expungement-of-marijuana-offenses__rev-2022-11.pdf",
+  "exactSourceSha256": "a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c",
+  "routeIds": [
+    "ma-expunge-mj"
+  ],
+  "mappingStatus": "blocked_pending_exact_source_inspection",
+  "rendererCandidate": "unsupported_pending_format_resolution",
+  "activeRendererStrategy": null,
+  "expectedStructure": {
+    "pageCount": 2,
+    "fieldCount": 29,
+    "xfa": null,
+    "encrypted": false,
+    "evidenceState": "Repository evidence conflicts: the measured registry says clean AcroForm with 29 fields and xfa=false, while other source-gated notes call TC0021 XFA. No renderer may be selected before direct inspection."
+  },
+  "sourceInspection": {
+    "state": "not_run_source_absent",
+    "inspectedSha256": null,
+    "requiredChecks": [
+      "sha256_and_byte_length",
+      "pdf_magic_and_mime",
+      "acroform_field_names_types_and_widget_rectangles",
+      "xfa_dictionary_and_packets",
+      "encryption_dictionary",
+      "page_count",
+      "duplicate_field_names",
+      "default_appearance_and_need_appearances"
+    ],
+    "historicalCandidateEvidence": null
+  },
+  "canonicalFieldRequirements": [
+    "petitionerFullLegalName",
+    "dateOfBirth",
+    "mailingAddress",
+    "telephone",
+    "email",
+    "courtDepartment",
+    "courtDivision",
+    "caseNumber",
+    "charges",
+    "disposition",
+    "dispositionDate",
+    "marijuanaOffenceCategory",
+    "chargedAmount",
+    "nonMarijuanaCharges",
+    "participantSignature",
+    "participantSignatureDate"
+  ],
+  "sourceFieldBindings": [],
+  "overlayPlacements": [],
+  "activationBlockers": [
+    "exact source bytes absent",
+    "source remains Edition 1.2 source-gated",
+    "AcroForm-versus-XFA conflict is unresolved",
+    "all 29 historical fields lack exact actor ownership",
+    "semantic source-field bindings are unconfirmed",
+    "filled-data visual review has not run",
+    "legal output approval has not been granted"
+  ],
+  "reviewStatus": {
+    "mappingApproved": false,
+    "technical": "not_implemented",
+    "visual": "visual_review_pending",
+    "legal": "legal_review_pending",
+    "sourceFreshness": "pending"
+  }
+}

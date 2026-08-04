@@ -1,0 +1,304 @@
+{
+  "schemaVersion": 1,
+  "familyId": "ma-trial-court-official-pdf-families",
+  "jurisdiction": "MA",
+  "definitionStatus": "preflight_only_not_registered",
+  "sourceSelectionPolicy": "explicit_source_id_only_no_filename_scan_or_fallback",
+  "packetAssemblies": [
+    {
+      "trackId": "ma-seal-admin",
+      "packetSetId": "ma-seal-admin-set",
+      "packetSetVersion": "1.0.0",
+      "trackOutputStrategy": "official_pdf_fill",
+      "compositionMode": null,
+      "fixtureId": "ma-fixture-seal-admin",
+      "requiredFactKeys": [
+        "allDispositions",
+        "mostRecentDispositionDate",
+        "offenceLevels",
+        "excludedOffenceCategories",
+        "sexOffenceOrRegistration",
+        "everClassifiedLevel2Or3",
+        "outOfStateConvictions"
+      ],
+      "components": [
+        {
+          "componentId": "ma-seal-admin-primary-filing-1",
+          "order": 1,
+          "role": "primary_filing",
+          "kind": "official_pdf",
+          "outputStrategy": "official_pdf_fill",
+          "rendererStrategy": "unresolved_pending_exact_source_inspection",
+          "sourceId": "ma-mps-petition-to-seal-rev-2012-04",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+          "fieldMapId": "ma-field-map-mps-petition-to-seal",
+          "implementationStatus": "blocked_pending_source_materialization",
+          "generationAllowed": false,
+          "approval": {
+            "mappingApproved": false,
+            "visual": "visual_review_pending",
+            "legal": "legal_review_pending"
+          }
+        }
+      ],
+      "assemblyStatus": "blocked_pending_source_materialization",
+      "expectedPreMaterializationError": "source_missing",
+      "sourceCurrent": false,
+      "runtimeDisabled": true,
+      "runtimeStatus": "runtime_disabled",
+      "packetReady": false,
+      "generationAllowed": false
+    },
+    {
+      "trackId": "ma-seal-decrim",
+      "packetSetId": "ma-seal-decrim-set",
+      "packetSetVersion": "1.0.0",
+      "trackOutputStrategy": "official_pdf_fill",
+      "compositionMode": null,
+      "fixtureId": "ma-fixture-seal-decrim",
+      "requiredFactKeys": [
+        "offenceCharged",
+        "offenceDate",
+        "believesNoLongerCrime",
+        "marijuanaOffence"
+      ],
+      "components": [
+        {
+          "componentId": "ma-seal-decrim-primary-filing-1",
+          "order": 1,
+          "role": "primary_filing",
+          "kind": "official_pdf",
+          "outputStrategy": "official_pdf_fill",
+          "rendererStrategy": "unresolved_pending_exact_source_inspection",
+          "sourceId": "ma-mps-petition-to-seal-rev-2012-04",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+          "fieldMapId": "ma-field-map-mps-petition-to-seal",
+          "implementationStatus": "blocked_pending_source_materialization",
+          "generationAllowed": false,
+          "approval": {
+            "mappingApproved": false,
+            "visual": "visual_review_pending",
+            "legal": "legal_review_pending"
+          }
+        }
+      ],
+      "assemblyStatus": "blocked_pending_source_materialization",
+      "expectedPreMaterializationError": "source_missing",
+      "sourceCurrent": false,
+      "runtimeDisabled": true,
+      "runtimeStatus": "runtime_disabled",
+      "packetReady": false,
+      "generationAllowed": false
+    },
+    {
+      "trackId": "ma-seal-court",
+      "packetSetId": "ma-seal-court-set",
+      "packetSetVersion": "1.0.0",
+      "trackOutputStrategy": "official_pdf_fill",
+      "compositionMode": null,
+      "fixtureId": "ma-fixture-seal-court",
+      "requiredFactKeys": [
+        "courtDepartment",
+        "courtDivision",
+        "caseNumber",
+        "charges",
+        "disposition",
+        "dispositionDate",
+        "disadvantagesFromRecord",
+        "rehabilitationEvidence",
+        "circumstancesAtOffence",
+        "reasonsForDisposition",
+        "nearlyEligibleForAdminSealing"
+      ],
+      "components": [
+        {
+          "componentId": "ma-seal-court-primary-filing-1",
+          "order": 1,
+          "role": "primary_filing",
+          "kind": "official_pdf",
+          "outputStrategy": "official_pdf_fill",
+          "rendererStrategy": "unresolved_pending_exact_source_inspection",
+          "sourceId": "ma-tc0057-rev-unknown-held",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+          "fieldMapId": "ma-field-map-tc0057",
+          "implementationStatus": "blocked_pending_source_materialization",
+          "generationAllowed": false,
+          "approval": {
+            "mappingApproved": false,
+            "visual": "visual_review_pending",
+            "legal": "legal_review_pending"
+          }
+        }
+      ],
+      "assemblyStatus": "blocked_pending_source_materialization",
+      "expectedPreMaterializationError": "source_missing",
+      "sourceCurrent": false,
+      "runtimeDisabled": true,
+      "runtimeStatus": "runtime_disabled",
+      "packetReady": false,
+      "generationAllowed": false
+    },
+    {
+      "trackId": "ma-expunge-time",
+      "packetSetId": "ma-expunge-time-set",
+      "packetSetVersion": "1.0.0",
+      "trackOutputStrategy": "composed",
+      "compositionMode": "sequential",
+      "fixtureId": "ma-fixture-expunge-time",
+      "requiredFactKeys": [
+        "courtDepartment",
+        "courtDivision",
+        "caseNumber",
+        "charges",
+        "disposition",
+        "dispositionDate",
+        "allOffencesBefore21",
+        "totalRecordCount",
+        "anyFelony",
+        "custodyCompletionDate",
+        "section100JCategories",
+        "activeInvestigation",
+        "otherJurisdictionRecords",
+        "bestInterestsFacts"
+      ],
+      "components": [
+        {
+          "componentId": "ma-expunge-time-primary-filing-1",
+          "order": 1,
+          "role": "primary_filing",
+          "kind": "official_pdf",
+          "outputStrategy": "official_pdf_fill",
+          "rendererStrategy": "unsupported_pending_format_resolution",
+          "sourceId": "ma-mps-petition-to-expunge-rev-2018-10-11-legacy",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/source-gated/MA-Probation-Service__petition-to-expunge-under-GL-c-276-sections-100F-100G-100H__rev-2018-10-11.pdf",
+          "fieldMapId": "ma-field-map-mps-petition-to-expunge",
+          "implementationStatus": "blocked_pending_source_materialization",
+          "generationAllowed": false,
+          "approval": {
+            "mappingApproved": false,
+            "visual": "visual_review_pending",
+            "legal": "legal_review_pending"
+          }
+        },
+        {
+          "componentId": "ma-expunge-time-process-guidance-2",
+          "order": 2,
+          "role": "process_guidance",
+          "kind": "process_guidance",
+          "outputStrategy": "process_guidance",
+          "rendererStrategy": "process_guidance",
+          "sourceId": null,
+          "sourcePath": null,
+          "fieldMapId": null,
+          "implementationStatus": "existing_normalized_definition_outside_official_pdf_lane",
+          "generationAllowed": false,
+          "approval": {
+            "mappingApproved": false,
+            "visual": "visual_review_pending",
+            "legal": "legal_review_pending"
+          }
+        }
+      ],
+      "assemblyStatus": "blocked_pending_source_materialization",
+      "expectedPreMaterializationError": "source_missing",
+      "sourceCurrent": false,
+      "runtimeDisabled": true,
+      "runtimeStatus": "runtime_disabled",
+      "packetReady": false,
+      "generationAllowed": false
+    },
+    {
+      "trackId": "ma-expunge-k",
+      "packetSetId": "ma-expunge-k-set",
+      "packetSetVersion": "1.0.0",
+      "trackOutputStrategy": "official_pdf_fill",
+      "compositionMode": null,
+      "fixtureId": "ma-fixture-expunge-k",
+      "requiredFactKeys": [
+        "courtDepartment",
+        "courtDivision",
+        "caseNumber",
+        "charges",
+        "disposition",
+        "dispositionDate",
+        "groundSelected",
+        "howRecordCameToExist",
+        "requestsHearing",
+        "marijuanaOffence"
+      ],
+      "components": [
+        {
+          "componentId": "ma-expunge-k-primary-filing-1",
+          "order": 1,
+          "role": "primary_filing",
+          "kind": "official_pdf",
+          "outputStrategy": "official_pdf_fill",
+          "rendererStrategy": "unresolved_pending_exact_source_inspection",
+          "sourceId": "ma-100k-petition-for-expungement-rev-2018-12-20",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/jud-Petition-for-Expungement.pdf",
+          "fieldMapId": "ma-field-map-100k-petition-for-expungement",
+          "implementationStatus": "blocked_pending_source_materialization",
+          "generationAllowed": false,
+          "approval": {
+            "mappingApproved": false,
+            "visual": "visual_review_pending",
+            "legal": "legal_review_pending"
+          }
+        }
+      ],
+      "assemblyStatus": "blocked_pending_source_materialization",
+      "expectedPreMaterializationError": "source_missing",
+      "sourceCurrent": false,
+      "runtimeDisabled": true,
+      "runtimeStatus": "runtime_disabled",
+      "packetReady": false,
+      "generationAllowed": false
+    },
+    {
+      "trackId": "ma-expunge-mj",
+      "packetSetId": "ma-expunge-mj-set",
+      "packetSetVersion": "1.0.0",
+      "trackOutputStrategy": "official_pdf_fill",
+      "compositionMode": null,
+      "fixtureId": "ma-fixture-expunge-mj",
+      "requiredFactKeys": [
+        "courtDepartment",
+        "courtDivision",
+        "caseNumber",
+        "charges",
+        "disposition",
+        "dispositionDate",
+        "marijuanaOffenceCategory",
+        "chargedAmount",
+        "nonMarijuanaCharges"
+      ],
+      "components": [
+        {
+          "componentId": "ma-expunge-mj-primary-filing-1",
+          "order": 1,
+          "role": "primary_filing",
+          "kind": "official_pdf",
+          "outputStrategy": "official_pdf_fill",
+          "rendererStrategy": "unsupported_pending_format_resolution",
+          "sourceId": "ma-tc0021-rev-2022-11",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/source-gated/TC0021__petition-for-expungement-of-marijuana-offenses__rev-2022-11.pdf",
+          "fieldMapId": "ma-field-map-tc0021",
+          "implementationStatus": "blocked_pending_source_materialization",
+          "generationAllowed": false,
+          "approval": {
+            "mappingApproved": false,
+            "visual": "visual_review_pending",
+            "legal": "legal_review_pending"
+          }
+        }
+      ],
+      "assemblyStatus": "blocked_pending_source_materialization",
+      "expectedPreMaterializationError": "source_missing",
+      "sourceCurrent": false,
+      "runtimeDisabled": true,
+      "runtimeStatus": "runtime_disabled",
+      "packetReady": false,
+      "generationAllowed": false
+    }
+  ]
+}

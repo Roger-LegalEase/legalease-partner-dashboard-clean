@@ -1,0 +1,302 @@
+{
+  "schemaVersion": 1,
+  "familyId": "ma-trial-court-official-pdf-families",
+  "jurisdiction": "MA",
+  "fixtures": [
+    {
+      "fixtureId": "ma-fixture-seal-admin",
+      "routeId": "ma-seal-admin",
+      "packetSetId": "ma-seal-admin-set",
+      "sourceId": "ma-mps-petition-to-seal-rev-2012-04",
+      "expectedSourceSha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+      "synthetic": true,
+      "facts": {
+        "petitionerFullLegalName": "Sample Participant",
+        "dateOfBirth": "1990-01-01",
+        "priorNames": [],
+        "mailingAddress": "100 Example Street",
+        "city": "Boston",
+        "state": "MA",
+        "postalCode": "02108",
+        "allDispositions": [
+          "Synthetic misdemeanor disposition in 2020"
+        ],
+        "mostRecentDispositionDate": "2020-01-15",
+        "offenceLevels": [
+          "misdemeanour"
+        ],
+        "excludedOffenceCategories": false,
+        "sexOffenceOrRegistration": false,
+        "everClassifiedLevel2Or3": false,
+        "outOfStateConvictions": false
+      },
+      "requiredFactKeys": [
+        "allDispositions",
+        "mostRecentDispositionDate",
+        "offenceLevels",
+        "excludedOffenceCategories",
+        "sexOffenceOrRegistration",
+        "everClassifiedLevel2Or3",
+        "outOfStateConvictions"
+      ],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "thirdPartyFieldsExpectedBlank": [],
+      "expectedGateResult": {
+        "currentWorkspace": "source_missing",
+        "wrongBytes": "source_hash_mismatch",
+        "exactCandidateBytes": "blocked_pending_mapping_and_authority",
+        "runtime": "runtime_disabled"
+      }
+    },
+    {
+      "fixtureId": "ma-fixture-seal-decrim",
+      "routeId": "ma-seal-decrim",
+      "packetSetId": "ma-seal-decrim-set",
+      "sourceId": "ma-mps-petition-to-seal-rev-2012-04",
+      "expectedSourceSha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+      "synthetic": true,
+      "facts": {
+        "petitionerFullLegalName": "Sample Participant",
+        "dateOfBirth": "1990-01-01",
+        "priorNames": [],
+        "mailingAddress": "100 Example Street",
+        "city": "Boston",
+        "state": "MA",
+        "postalCode": "02108",
+        "offenceCharged": "Synthetic former statutory offense",
+        "offenceDate": "2010-06-15",
+        "believesNoLongerCrime": true,
+        "marijuanaOffence": false
+      },
+      "requiredFactKeys": [
+        "offenceCharged",
+        "offenceDate",
+        "believesNoLongerCrime",
+        "marijuanaOffence"
+      ],
+      "manualFieldsExpectedBlank": [
+        "partASelection",
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "thirdPartyFieldsExpectedBlank": [],
+      "expectedGateResult": {
+        "currentWorkspace": "source_missing",
+        "wrongBytes": "source_hash_mismatch",
+        "exactCandidateBytes": "blocked_pending_mapping_and_authority",
+        "runtime": "runtime_disabled"
+      }
+    },
+    {
+      "fixtureId": "ma-fixture-seal-court",
+      "routeId": "ma-seal-court",
+      "packetSetId": "ma-seal-court-set",
+      "sourceId": "ma-tc0057-rev-unknown-held",
+      "expectedSourceSha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0",
+      "synthetic": true,
+      "facts": {
+        "petitionerFullLegalName": "Sample Participant",
+        "dateOfBirth": "1990-01-01",
+        "mailingAddress": "100 Example Street, Boston, MA 02108",
+        "telephone": "617-555-0100",
+        "email": "sample@example.invalid",
+        "courtDepartment": "Boston Municipal",
+        "courtDivision": "Central Division",
+        "caseNumber": "0000CR000000",
+        "charges": [
+          "Synthetic dismissed charge"
+        ],
+        "disposition": "Dismissed",
+        "dispositionDate": "2020-01-15",
+        "disadvantagesFromRecord": "Synthetic participant-authored account of a specific housing barrier.",
+        "rehabilitationEvidence": "Synthetic participant-authored account of work and community activity.",
+        "circumstancesAtOffence": "Synthetic participant-authored account of circumstances.",
+        "reasonsForDisposition": "Synthetic participant understanding of why the charge was dismissed.",
+        "nearlyEligibleForAdminSealing": false
+      },
+      "requiredFactKeys": [
+        "courtDepartment",
+        "courtDivision",
+        "caseNumber",
+        "charges",
+        "disposition",
+        "dispositionDate",
+        "disadvantagesFromRecord",
+        "rehabilitationEvidence",
+        "circumstancesAtOffence",
+        "reasonsForDisposition",
+        "nearlyEligibleForAdminSealing"
+      ],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "thirdPartyFieldsExpectedBlank": [],
+      "expectedGateResult": {
+        "currentWorkspace": "source_missing",
+        "wrongBytes": "source_hash_mismatch",
+        "exactCandidateBytes": "blocked_pending_mapping_and_authority",
+        "runtime": "runtime_disabled"
+      }
+    },
+    {
+      "fixtureId": "ma-fixture-expunge-time",
+      "routeId": "ma-expunge-time",
+      "packetSetId": "ma-expunge-time-set",
+      "sourceId": "ma-mps-petition-to-expunge-rev-2018-10-11-legacy",
+      "expectedSourceSha256": "5ccb13e55c07a520526cad72fe48b506f6a67c51a2c879817feb49829853b0b1",
+      "synthetic": true,
+      "facts": {
+        "petitionerFullLegalName": "Sample Participant",
+        "dateOfBirth": "1990-01-01",
+        "mailingAddress": "100 Example Street, Boston, MA 02108",
+        "courtDepartment": "District",
+        "courtDivision": "Synthetic Division",
+        "caseNumber": "0000CR000000",
+        "charges": [
+          "Synthetic misdemeanor charge"
+        ],
+        "disposition": "Convicted",
+        "dispositionDate": "2010-01-15",
+        "allOffencesBefore21": true,
+        "totalRecordCount": 1,
+        "anyFelony": false,
+        "custodyCompletionDate": "2010-06-15",
+        "section100JCategories": false,
+        "activeInvestigation": false,
+        "otherJurisdictionRecords": false,
+        "bestInterestsFacts": "Synthetic participant-authored best-interests account."
+      },
+      "requiredFactKeys": [
+        "courtDepartment",
+        "courtDivision",
+        "caseNumber",
+        "charges",
+        "disposition",
+        "dispositionDate",
+        "allOffencesBefore21",
+        "totalRecordCount",
+        "anyFelony",
+        "custodyCompletionDate",
+        "section100JCategories",
+        "activeInvestigation",
+        "otherJurisdictionRecords",
+        "bestInterestsFacts"
+      ],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "thirdPartyFieldsExpectedBlank": [
+        "commissionerEligibilityCertification"
+      ],
+      "expectedGateResult": {
+        "currentWorkspace": "source_missing",
+        "wrongBytes": "source_hash_mismatch",
+        "exactCandidateBytes": "blocked_legacy_candidate_rejected",
+        "runtime": "runtime_disabled"
+      }
+    },
+    {
+      "fixtureId": "ma-fixture-expunge-k",
+      "routeId": "ma-expunge-k",
+      "packetSetId": "ma-expunge-k-set",
+      "sourceId": "ma-100k-petition-for-expungement-rev-2018-12-20",
+      "expectedSourceSha256": "19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce",
+      "synthetic": true,
+      "facts": {
+        "petitionerFullLegalName": "Sample Participant",
+        "dateOfBirth": "1990-01-01",
+        "mailingAddress": "100 Example Street, Boston, MA 02108",
+        "telephone": "617-555-0100",
+        "email": "sample@example.invalid",
+        "courtDepartment": "District",
+        "courtDivision": "Synthetic Division",
+        "caseNumber": "0000CR000000",
+        "charges": [
+          "Synthetic charge created through mistaken identity"
+        ],
+        "disposition": "Dismissed",
+        "dispositionDate": "2020-01-15",
+        "groundSelected": "false identification or identity theft",
+        "howRecordCameToExist": "Synthetic participant-authored account of mistaken identity.",
+        "requestsHearing": false,
+        "marijuanaOffence": false
+      },
+      "requiredFactKeys": [
+        "courtDepartment",
+        "courtDivision",
+        "caseNumber",
+        "charges",
+        "disposition",
+        "dispositionDate",
+        "groundSelected",
+        "howRecordCameToExist",
+        "requestsHearing",
+        "marijuanaOffence"
+      ],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "thirdPartyFieldsExpectedBlank": [],
+      "expectedGateResult": {
+        "currentWorkspace": "source_missing",
+        "wrongBytes": "source_hash_mismatch",
+        "exactCandidateBytes": "blocked_pending_mapping_and_authority",
+        "runtime": "runtime_disabled"
+      }
+    },
+    {
+      "fixtureId": "ma-fixture-expunge-mj",
+      "routeId": "ma-expunge-mj",
+      "packetSetId": "ma-expunge-mj-set",
+      "sourceId": "ma-tc0021-rev-2022-11",
+      "expectedSourceSha256": "a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c",
+      "synthetic": true,
+      "facts": {
+        "petitionerFullLegalName": "Sample Participant",
+        "dateOfBirth": "1990-01-01",
+        "mailingAddress": "100 Example Street, Boston, MA 02108",
+        "telephone": "617-555-0100",
+        "email": "sample@example.invalid",
+        "courtDepartment": "District",
+        "courtDivision": "Synthetic Division",
+        "caseNumber": "0000CR000000",
+        "charges": [
+          "Synthetic marijuana possession charge"
+        ],
+        "disposition": "Convicted",
+        "dispositionDate": "2010-01-15",
+        "marijuanaOffenceCategory": "possession",
+        "chargedAmount": "one ounce or less",
+        "nonMarijuanaCharges": false
+      },
+      "requiredFactKeys": [
+        "courtDepartment",
+        "courtDivision",
+        "caseNumber",
+        "charges",
+        "disposition",
+        "dispositionDate",
+        "marijuanaOffenceCategory",
+        "chargedAmount",
+        "nonMarijuanaCharges"
+      ],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "thirdPartyFieldsExpectedBlank": [],
+      "expectedGateResult": {
+        "currentWorkspace": "source_missing",
+        "wrongBytes": "source_hash_mismatch",
+        "exactCandidateBytes": "blocked_pending_format_resolution",
+        "runtime": "runtime_disabled"
+      }
+    }
+  ]
+}

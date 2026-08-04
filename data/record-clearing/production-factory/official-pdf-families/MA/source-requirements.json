@@ -1,0 +1,444 @@
+{
+  "schemaVersion": 1,
+  "familyId": "ma-trial-court-official-pdf-families",
+  "jurisdiction": "MA",
+  "asOf": "2026-08-04",
+  "runtimePosture": "fail_closed_pending_source_materialization",
+  "physicalSourceCount": 5,
+  "routeCount": 6,
+  "authorityPins": {
+    "authorityEdition": "1.2",
+    "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+    "legalReview": {
+      "workflowKey": "MA:STATEWIDE:LEGAL_REVIEW:EN",
+      "revision": "ASOF-2026-07-30",
+      "sha256": "2de8a4fc3d31116344767e4630fbdb4436312f91f02db6a456bf7e167bca5a65",
+      "canonicalRelativePath": "STATES/MA/01_LEGAL_REVIEW/MA__LEGAL-REVIEW__STATEWIDE__massachusetts-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+      "generationAllowed": false,
+      "runtimeStatus": "runtime_disabled"
+    },
+    "legalReviewAddendum": {
+      "workflowKey": "MA:STATEWIDE-ADDENDUM:LEGAL_REVIEW_ADDENDUM:EN",
+      "revision": "ASOF-2026-08-03",
+      "sha256": "3d552181bf3c8cd99556825f452ab5beb6b3f98baee1bc7d1fbffa875ad46e5b",
+      "canonicalRelativePath": "STATES/MA/01_LEGAL_REVIEW/MA__LEGAL-REVIEW-ADDENDUM__STATEWIDE__massachusetts-record-clearing-legal-review-addendum-edition-1-2__ASOF-2026-08-03__EN.md",
+      "generationAllowed": false,
+      "runtimeStatus": "runtime_disabled"
+    },
+    "planningJob": "planning/record-clearing-100-percent/jobs/IMP-OF-12-de-ma-id-small-official-states.json",
+    "generatedFactoryJobs": [
+      "rcap-ma-acroform-fill",
+      "rcap-ma-composed-route",
+      "rcap-ma-official-download-automation-blocked",
+      "rcap-nationwide-source-materialization-contract"
+    ]
+  },
+  "documents": [
+    {
+      "sourceId": "ma-mps-petition-to-seal-rev-2012-04",
+      "artifactId": "fillable-jud-mps-petition-to-seal",
+      "acquisitionIds": [
+        "acquire:MA:petition-to-seal-office-of-the-commissioner-of-probation",
+        "acquire:MA:petition-to-seal-office-of-the-commissioner-of-probation-part-a-box-4"
+      ],
+      "documentId": "MA Petition to Seal",
+      "officialTitle": "Petition to Seal Form",
+      "issuingBody": "Massachusetts Probation Service",
+      "revision": "REV-2012-04",
+      "routeIds": [
+        "ma-seal-admin",
+        "ma-seal-decrim"
+      ],
+      "componentIds": [
+        "ma-seal-admin-primary-filing-1",
+        "ma-seal-decrim-primary-filing-1"
+      ],
+      "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+      "portableLocator": "source-artifact-registry://fillable-jud-mps-petition-to-seal",
+      "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+      "directOfficialUrl": "https://www.mass.gov/doc/petition-to-seal-form/download",
+      "canonicalAuthorityAsset": null,
+      "expected": {
+        "sha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+        "bytes": 216883,
+        "mimeType": "application/pdf",
+        "pdfMagicHex": "25504446"
+      },
+      "fingerprintDisposition": "historical_candidate_pending_manual_official_diff",
+      "materializationState": "binary_materialization_required",
+      "workerMayRead": true,
+      "workerMayModify": false,
+      "technicalExpectation": {
+        "classification": "contested_acroform_inventory_vs_raw_inspection",
+        "pageCount": 1,
+        "fieldCount": 23,
+        "xfa": false,
+        "encrypted": false,
+        "evidenceState": "historical_registry_conflict_requires_reinspection",
+        "rendererCandidate": "acroform_fill_pending_exact_source_inspection"
+      },
+      "materializationDependencies": [
+        {
+          "id": "attended_official_download",
+          "state": "required",
+          "satisfiedBy": "Retrieve the current form through the official mass.gov browser download channel; automated retrieval is recorded as blocked."
+        },
+        {
+          "id": "exact_path_materialization",
+          "state": "not_satisfied",
+          "satisfiedBy": "Materialize read-only bytes at repositorySourcePath without committing or modifying them."
+        },
+        {
+          "id": "fingerprint_verification",
+          "state": "not_satisfied",
+          "satisfiedBy": "Verify byte length, SHA-256, application/pdf MIME, and %PDF magic against expected."
+        },
+        {
+          "id": "authority_mapping",
+          "state": "blocked",
+          "satisfiedBy": "Publish an approved authority asset mapping; Edition 1.2 currently records this source as unmanifested."
+        },
+        {
+          "id": "exact_source_field_inventory",
+          "state": "blocked",
+          "satisfiedBy": "Inspect the materialized bytes and reconcile the historical 23-field measurement with the raw-inspection warning."
+        },
+        {
+          "id": "mapping_visual_legal_review",
+          "state": "pending_human_review",
+          "satisfiedBy": "Confirm field ownership, mapping, filled-data appearance, source freshness, and counsel output review."
+        }
+      ],
+      "generationAllowed": false,
+      "runtimeStatus": "runtime_disabled"
+    },
+    {
+      "sourceId": "ma-tc0057-rev-unknown-held",
+      "artifactId": "jud-tc-petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal",
+      "acquisitionIds": [
+        "acquire:MA:tc0057"
+      ],
+      "documentId": "TC0057",
+      "officialTitle": "Petition to Seal Criminal Records for Nolle Prosequi or Dismissal (TC0057)",
+      "issuingBody": "Trial Court of Massachusetts",
+      "revision": "HELD-REV-UNKNOWN; PUBLISHED-REV-2024-03",
+      "routeIds": [
+        "ma-seal-court"
+      ],
+      "componentIds": [
+        "ma-seal-court-primary-filing-1"
+      ],
+      "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+      "portableLocator": "master-library-edition-1.2://STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0057__petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal__REV-UNKNOWN__EN.pdf",
+      "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+      "directOfficialUrl": "https://www.mass.gov/doc/petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal/download",
+      "canonicalAuthorityAsset": {
+        "workflowKey": "MA:TC0057:PRIMARY_FILING:EN",
+        "assetClass": "source_gated",
+        "canonicalRelativePath": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0057__petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal__REV-UNKNOWN__EN.pdf"
+      },
+      "expected": {
+        "sha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0",
+        "bytes": 1374671,
+        "mimeType": "application/pdf",
+        "pdfMagicHex": "25504446"
+      },
+      "fingerprintDisposition": "source_gated_candidate_pending_currentness",
+      "materializationState": "binary_materialization_required",
+      "workerMayRead": true,
+      "workerMayModify": false,
+      "technicalExpectation": {
+        "classification": "clean_acroform_historical_measurement",
+        "pageCount": 3,
+        "fieldCount": 135,
+        "xfa": false,
+        "encrypted": false,
+        "evidenceState": "historical_registry_measurement_requires_reinspection",
+        "rendererCandidate": "acroform_fill_pending_exact_source_inspection"
+      },
+      "materializationDependencies": [
+        {
+          "id": "attended_official_download",
+          "state": "required",
+          "satisfiedBy": "Retrieve the official Rev. 3/24 download manually and retain its publisher evidence."
+        },
+        {
+          "id": "exact_path_materialization",
+          "state": "not_satisfied",
+          "satisfiedBy": "Materialize the held candidate read-only at repositorySourcePath, or update this manifest only after an authorized current-source pin."
+        },
+        {
+          "id": "fingerprint_verification",
+          "state": "not_satisfied",
+          "satisfiedBy": "Verify byte length, SHA-256, application/pdf MIME, and %PDF magic against expected."
+        },
+        {
+          "id": "revision_reconciliation",
+          "state": "blocked",
+          "satisfiedBy": "Reconcile Edition 1.2 REV-UNKNOWN, the published Rev. 3/24 description, and the PDF title's TC0057 (2/24)."
+        },
+        {
+          "id": "exact_source_field_inventory",
+          "state": "blocked",
+          "satisfiedBy": "Inspect the exact materialized bytes for AcroForm names, widgets, XFA, encryption, pages, and field ownership."
+        },
+        {
+          "id": "mapping_visual_legal_review",
+          "state": "pending_human_review",
+          "satisfiedBy": "Confirm field ownership, mapping, filled-data appearance, source freshness, and counsel output review."
+        }
+      ],
+      "generationAllowed": false,
+      "runtimeStatus": "runtime_disabled"
+    },
+    {
+      "sourceId": "ma-mps-petition-to-expunge-rev-2018-10-11-legacy",
+      "artifactId": "ma-probation-service-petition-to-expunge-under-gl-c-276-sections-100f-100g-100h-rev-2018-1",
+      "acquisitionIds": [
+        "acquire:MA:massachusetts-probation-service-petition-to-expunge"
+      ],
+      "documentId": "MPS Petition to Expunge",
+      "officialTitle": "Petition to Expunge Under G.L. c. 276, §§ 100F, 100G or 100H",
+      "issuingBody": "Massachusetts Probation Service, Trial Court of Massachusetts",
+      "revision": "REV-2018-10-11",
+      "routeIds": [
+        "ma-expunge-time"
+      ],
+      "componentIds": [
+        "ma-expunge-time-primary-filing-1"
+      ],
+      "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/source-gated/MA-Probation-Service__petition-to-expunge-under-GL-c-276-sections-100F-100G-100H__rev-2018-10-11.pdf",
+      "portableLocator": "master-library-edition-1.2://STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge-under-g-l-c-276-sections-100f-100g-or-100h__REV-2018-10-11__EN.pdf",
+      "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+      "directOfficialUrl": "https://courtforms.jud.state.ma.us/publicforms/PROB0002",
+      "canonicalAuthorityAsset": {
+        "workflowKey": "MA:MA-PROBATION-SERVICE:PETITION:EN",
+        "assetClass": "source_gated",
+        "canonicalRelativePath": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge-under-g-l-c-276-sections-100f-100g-or-100h__REV-2018-10-11__EN.pdf"
+      },
+      "expected": {
+        "sha256": "5ccb13e55c07a520526cad72fe48b506f6a67c51a2c879817feb49829853b0b1",
+        "bytes": 13137,
+        "mimeType": "application/pdf",
+        "pdfMagicHex": "25504446"
+      },
+      "fingerprintDisposition": "legacy_candidate_requires_replacement",
+      "materializationState": "binary_materialization_required",
+      "workerMayRead": true,
+      "workerMayModify": false,
+      "technicalExpectation": {
+        "classification": "legacy_flat_pdf_not_the_current_published_artifact",
+        "pageCount": 2,
+        "fieldCount": 0,
+        "xfa": null,
+        "encrypted": false,
+        "evidenceState": "legacy_candidate_rejected_for_current_rendering",
+        "rendererCandidate": "unsupported_pending_format_resolution"
+      },
+      "materializationDependencies": [
+        {
+          "id": "current_official_binary_acquisition",
+          "state": "required",
+          "satisfiedBy": "Retrieve the current downloadable Acrobat alternative manually; the interactive PROB0002 endpoint identifies an XFA/XDP source."
+        },
+        {
+          "id": "legacy_candidate_quarantine",
+          "state": "blocked",
+          "satisfiedBy": "Do not use the pinned 13,137-byte legacy candidate as a render source; acquisition intelligence records that it matches neither current published artifact."
+        },
+        {
+          "id": "new_fingerprint_pin",
+          "state": "not_satisfied",
+          "satisfiedBy": "After authorized acquisition, record the current official byte length and SHA-256 before any implementation."
+        },
+        {
+          "id": "format_policy",
+          "state": "blocked",
+          "satisfiedBy": "Inspect the current bytes and apply the approved XFA/non-renderable-source policy without converting or reconstructing the form in this lane."
+        },
+        {
+          "id": "exact_source_field_inventory",
+          "state": "blocked",
+          "satisfiedBy": "Inspect the accepted current source for AcroForm/XFA/flat structure, pages, widgets, and actor ownership."
+        },
+        {
+          "id": "mapping_visual_legal_review",
+          "state": "pending_human_review",
+          "satisfiedBy": "Confirm any approved overlay/fill strategy, ownership map, filled-data appearance, source freshness, and counsel output review."
+        }
+      ],
+      "generationAllowed": false,
+      "runtimeStatus": "runtime_disabled"
+    },
+    {
+      "sourceId": "ma-100k-petition-for-expungement-rev-2018-12-20",
+      "artifactId": "jud-petition-for-expungement",
+      "acquisitionIds": [
+        "acquire:MA:petition-for-expungement-g-l-c-276-100k"
+      ],
+      "documentId": "MA 100K Petition for Expungement",
+      "officialTitle": "Petition for Expungement Form (G.L. c. 276, § 100K)",
+      "issuingBody": "Trial Court of Massachusetts",
+      "revision": "REV-2018-12-20",
+      "routeIds": [
+        "ma-expunge-k"
+      ],
+      "componentIds": [
+        "ma-expunge-k-primary-filing-1"
+      ],
+      "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/jud-Petition-for-Expungement.pdf",
+      "portableLocator": "master-library-edition-1.2://STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__PETITION-FOR-EXPUNGEMENT-100K__petition-for-expungement-gl-c-276-s-100k__REV-2018-12-20__EN.pdf",
+      "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+      "directOfficialUrl": "https://www.mass.gov/doc/petition-for-expungement-form/download",
+      "canonicalAuthorityAsset": {
+        "workflowKey": "MA:Petition for Expungement, G.L. c. 276, § 100K:PRIMARY_FILING:EN",
+        "assetClass": "source_gated",
+        "canonicalRelativePath": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__PETITION-FOR-EXPUNGEMENT-100K__petition-for-expungement-gl-c-276-s-100k__REV-2018-12-20__EN.pdf"
+      },
+      "expected": {
+        "sha256": "19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce",
+        "bytes": 1387408,
+        "mimeType": "application/pdf",
+        "pdfMagicHex": "25504446"
+      },
+      "fingerprintDisposition": "source_gated_candidate_pending_currentness",
+      "materializationState": "binary_materialization_required",
+      "workerMayRead": true,
+      "workerMayModify": false,
+      "technicalExpectation": {
+        "classification": "clean_acroform_historical_measurement",
+        "pageCount": 2,
+        "fieldCount": 26,
+        "xfa": false,
+        "encrypted": false,
+        "evidenceState": "historical_registry_measurement_requires_reinspection",
+        "rendererCandidate": "acroform_fill_pending_exact_source_inspection"
+      },
+      "materializationDependencies": [
+        {
+          "id": "attended_official_download",
+          "state": "required",
+          "satisfiedBy": "Retrieve the current official form manually from mass.gov and retain publisher evidence."
+        },
+        {
+          "id": "exact_path_materialization",
+          "state": "not_satisfied",
+          "satisfiedBy": "Materialize read-only bytes at repositorySourcePath without committing or modifying them."
+        },
+        {
+          "id": "fingerprint_verification",
+          "state": "not_satisfied",
+          "satisfiedBy": "Verify byte length, SHA-256, application/pdf MIME, and %PDF magic against expected."
+        },
+        {
+          "id": "source_gate_clearance",
+          "state": "blocked",
+          "satisfiedBy": "Reconcile the manual download to the Edition 1.2 source-gated asset and clear source currentness without changing legal design."
+        },
+        {
+          "id": "exact_source_field_inventory",
+          "state": "blocked",
+          "satisfiedBy": "Inspect the exact materialized bytes for AcroForm names, widgets, XFA, encryption, pages, and field ownership."
+        },
+        {
+          "id": "mapping_visual_legal_review",
+          "state": "pending_human_review",
+          "satisfiedBy": "Confirm field ownership, mapping, filled-data appearance, source freshness, and counsel output review."
+        }
+      ],
+      "generationAllowed": false,
+      "runtimeStatus": "runtime_disabled"
+    },
+    {
+      "sourceId": "ma-tc0021-rev-2022-11",
+      "artifactId": "tc0021-petition-for-expungement-of-marijuana-offenses-rev-2022-11",
+      "acquisitionIds": [
+        "acquire:MA:tc0021"
+      ],
+      "documentId": "TC0021",
+      "officialTitle": "Petition for Expungement of Marijuana Offenses (G.L. c. 276, § 100K¼) (TC0021)",
+      "issuingBody": "Trial Court of Massachusetts",
+      "revision": "REV-2022-11",
+      "routeIds": [
+        "ma-expunge-mj"
+      ],
+      "componentIds": [
+        "ma-expunge-mj-primary-filing-1"
+      ],
+      "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/source-gated/TC0021__petition-for-expungement-of-marijuana-offenses__rev-2022-11.pdf",
+      "portableLocator": "master-library-edition-1.2://STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0021__petition-for-expungement-of-marijuana-offenses-g-l-c-276-section-100k-1-4__REV-2022-11__EN.pdf",
+      "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+      "directOfficialUrl": "https://www.mass.gov/doc/petition-for-expungement-of-marijuana-offenses-form/download",
+      "canonicalAuthorityAsset": {
+        "workflowKey": "MA:TC0021:PETITION:EN",
+        "assetClass": "source_gated",
+        "canonicalRelativePath": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0021__petition-for-expungement-of-marijuana-offenses-g-l-c-276-section-100k-1-4__REV-2022-11__EN.pdf"
+      },
+      "expected": {
+        "sha256": "a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c",
+        "bytes": 1393680,
+        "mimeType": "application/pdf",
+        "pdfMagicHex": "25504446"
+      },
+      "fingerprintDisposition": "source_gated_candidate_with_format_conflict",
+      "materializationState": "binary_materialization_required",
+      "workerMayRead": true,
+      "workerMayModify": false,
+      "technicalExpectation": {
+        "classification": "contested_clean_acroform_vs_xfa_note",
+        "pageCount": 2,
+        "fieldCount": 29,
+        "xfa": null,
+        "encrypted": false,
+        "evidenceState": "historical_registry_conflict_requires_reinspection",
+        "rendererCandidate": "unsupported_pending_format_resolution"
+      },
+      "materializationDependencies": [
+        {
+          "id": "exact_authority_materialization",
+          "state": "required",
+          "satisfiedBy": "Materialize the exact Edition 1.2 source-gated bytes read-only from the portable authority locator."
+        },
+        {
+          "id": "exact_path_materialization",
+          "state": "not_satisfied",
+          "satisfiedBy": "Place those read-only bytes at repositorySourcePath without committing or modifying them."
+        },
+        {
+          "id": "fingerprint_verification",
+          "state": "not_satisfied",
+          "satisfiedBy": "Verify byte length, SHA-256, application/pdf MIME, and %PDF magic against expected."
+        },
+        {
+          "id": "xfa_conflict_resolution",
+          "state": "blocked",
+          "satisfiedBy": "Inspect the exact bytes directly: the measured registry says 29-field clean AcroForm with XFA false, while other repository notes call TC0021 XFA."
+        },
+        {
+          "id": "exact_source_field_inventory",
+          "state": "blocked",
+          "satisfiedBy": "Record AcroForm names, widgets, XFA packets, encryption, pages, field types, and actor ownership from the exact bytes."
+        },
+        {
+          "id": "mapping_visual_legal_review",
+          "state": "pending_human_review",
+          "satisfiedBy": "Select a renderer only after format resolution, then confirm mapping, filled-data appearance, source freshness, and counsel output review."
+        }
+      ],
+      "generationAllowed": false,
+      "runtimeStatus": "runtime_disabled"
+    }
+  ],
+  "inventoryExclusions": [
+    {
+      "artifactId": "ocp004-20-2010days-20notice-20package-20opt-out-20of-20sealing-20form-20version-202-8-2024",
+      "reason": "The old Nationwide inventory includes OCP004, but no normalized Massachusetts official_pdf_fill packet component uses it. It remains inventory-only and is not invented as a packet route.",
+      "runtimeUse": "none"
+    },
+    {
+      "artifactId": "jud-petition-for-expungement-of-marijuana-offenses-2022-11-08-final",
+      "reason": "This top-level historical artifact has the same pinned hash and byte length as canonical source-gated TC0021. The packet definition uses only the canonical source-gated path so duplicate filenames cannot create source selection ambiguity.",
+      "runtimeUse": "none"
+    }
+  ]
+}
