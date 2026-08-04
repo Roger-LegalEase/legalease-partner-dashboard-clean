@@ -610,6 +610,8 @@ function verifyIdentityDeclarations(
     assert(
       declaration.resolverSource === null &&
         declaration.aliasAllowed === false &&
+        declaration.workerReadAuthorized === false &&
+        declaration.workerMaterializationAuthorized === false &&
         declaration.runtimeStatus === "runtime_disabled" &&
         declaration.generationAllowed === false,
       `${declaration.documentId}: unresolved declaration gate widened`,
