@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-ks-source-identity-resolution-criminal-cover-sheet",
+  "parentJobId": "EXC-01-ks-commercial-use-determination",
+  "jurisdiction": "KS",
+  "lane": "source_acquisition",
+  "strategyFamily": "source_identity_resolution",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "203b8931391d5636fda3a3fcfc35c0423c2bf9e3",
+  "generatedOn": "2026-08-04",
+  "acquisitionIds": [
+    "acquire:KS:ks-criminal-cover-sheet-10-14-2025"
+  ],
+  "downloadedSourceCount": 0,
+  "generatedFrom": [
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/track-source-audit.json"
+  ],
+  "method": {
+    "description": "Identity resolution only. The revision asserted inside the assigned document ID was tested against the issuer's own published labelling as recorded in the acquisition intelligence, and the recorded automated-retrieval block was re-tested by HEAD request so no document body was transferred. No binary was acquired.",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "binariesDownloaded": 0,
+    "restrictedDocumentAcquired": false,
+    "restrictedDocumentAcquiredNote": "The Kansas Judicial Council forms are restricted to non-commercial use. This job deliberately did not retrieve the document body. The block re-test used HEAD only, which returns headers without transferring content, so nothing restricted was obtained merely because it might have been obtainable.",
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "byteVerificationMethod": "none_performed_publisher_blocks_automation_and_document_is_commercially_restricted"
+  },
+  "identityResolution": {
+    "assignedDocumentId": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+    "assertedRevisionInId": "10/14/2025",
+    "verdict": "asserted_revision_uncorroborated",
+    "issuerPublishedRevision": "12-2014",
+    "confidence": "high_on_the_negative_finding",
+    "evidence": [
+      "Three independent Kansas Judicial Council document pages all label the file 'Criminal Cover Sheet (12-2014)'.",
+      "No official Kansas source — Judicial Council, Supreme Court, Office of Judicial Administration, or any statewide index — publishes a Criminal Cover Sheet revised 10/14/2025.",
+      "The queue's own recorded title, 'Kansas Judicial Council / Kansas Judicial Branch Criminal Cover Sheet, revised 10/14/2025', carries the same uncorroborated date and is not independent evidence of it."
+    ],
+    "queueClaimAssessed": {
+      "queueValue": "document_identity_and_issuer_confirmed",
+      "supportable": false,
+      "correctedValue": "document_identity_known_revision_conflicting",
+      "why": "The document and its issuer are identified with confidence. The revision embedded in the document ID is not, and a confirmed-identity label that carries an unverified revision inside the identifier overstates what is known."
+    },
+    "resolutionStatus": "resolved_negative_not_yet_corrected",
+    "resolutionStatusNote": "What is resolved is that 10/14/2025 is unsupported. Whether the correct identifier is the Council's 12-2014 revision is the likely answer but is not asserted here as fact: this job could not byte-verify the Council's file, because the publisher blocks automation and the document is commercially restricted."
+  },
+  "requiredCorrection": {
+    "kind": "document_id_revision_correction",
+    "options": [
+      "Correct the document ID to the Council's published 12-2014 revision, or",
+      "Produce an official Kansas source for a 10/14/2025 revision."
+    ],
+    "doNotDoBoth": "Do not retain the 2025 identifier while citing the 12-2014 file as its source. That is the current state and it is what makes the row unverifiable.",
+    "appliedByThisJob": false,
+    "notAppliedRationale": "Changing the expected document ID touches the legal-design track-source relationships and the source-acquisition queue, both forbidden paths for this job."
+  },
+  "substitutionHazards": [
+    {
+      "hazard": "Substituting the Kansas Judicial Branch civil cover sheet",
+      "status": "must_not_be_done",
+      "why": "The Judicial Branch forms page publishes a civil cover sheet only and no criminal cover sheet. The civil form is a different document for different proceedings. Its availability, and the fact that it sits outside the Council's restriction, is not a reason to bind it to a criminal expungement component.",
+      "consequence": "There is therefore no unrestricted statewide alternative to the Council's criminal cover sheet. Availability of a similarly named form is not identity."
+    },
+    {
+      "hazard": "Treating downloadability as permission",
+      "status": "must_not_be_done",
+      "why": "The Council's forms are copyrighted and restricted to non-commercial use. Even were the 403 to lift, obtaining the file would not confer a right to use it in a commercial product. Identity and permission are separate gates."
+    },
+    {
+      "hazard": "Inferring statewide identity from a local district's cover sheet",
+      "status": "must_not_be_done",
+      "why": "Kansas Supreme Court Rule 123(a) requires substantial compliance with the forms on the judicial council website, which makes the Council's form the statewide reference. A district's own sheet is not a substitute identity for it."
+    }
+  ],
+  "automationBlockRetest": {
+    "recordedStatus": "BLOCKED — HTTP 403 to all automated agents including a full Chrome user-agent",
+    "retestedOn": "2026-08-04",
+    "method": "HEAD requests only, full Chrome user-agent, no body transfer",
+    "results": [
+      { "url": "https://www.kjc.ks.gov/legal-forms/case-filing-cover-sheets/-folder-104-431", "httpStatus": 403 },
+      { "url": "https://www.kjc.ks.gov/home/showpublisheddocument/488/638624536353570000", "httpStatus": 403 },
+      { "url": "https://www.kjc.ks.gov/legal-forms/expungement-adult", "httpStatus": 403 }
+    ],
+    "conclusion": "The Kansas block reproduces in full and is current. It is a publisher block, not absence — the documents are published and reachable by a human browser.",
+    "contrastNote": "This is the opposite result from the Colorado host tested in the same cycle, where the recorded 403 did not reproduce. The two must not be generalised to each other."
+  },
+  "affectedTracksAndComponents": [
+    { "trackId": "ks-21-6614-conviction", "componentId": "ks-21-6614-conviction-cover-sheet-1", "role": "cover_sheet" },
+    { "trackId": "ks-21-6614-diversion", "componentId": "ks-21-6614-diversion-cover-sheet-1", "role": "cover_sheet" },
+    { "trackId": "ks-21-6614-prostitution-coercion", "componentId": "ks-21-6614-prostitution-coercion-cover-sheet-1", "role": "cover_sheet" },
+    { "trackId": "ks-21-6614-specialty-court", "componentId": "ks-21-6614-specialty-court-cover-sheet-1", "role": "cover_sheet" },
+    { "trackId": "ks-22-2410-arrest", "componentId": "ks-22-2410-arrest-cover-sheet-1", "role": "cover_sheet" }
+  ],
+  "separateDefectRaised": {
+    "kind": "incorrect_legal_basis_citation",
+    "component": "ks-21-6614-specialty-court-cover-sheet-1",
+    "observed": "The component's legalBasis list includes K.S.A. 20-173.",
+    "assessment": "K.S.A. 20-173 is the specialty-court statute. It may well be authority for the specialty-court track, but it is not authority for a cover sheet. The cover-sheet requirement comes from Kansas Supreme Court Rule 123(a), which no cover-sheet row cites.",
+    "recommendation": "Remove K.S.A. 20-173 as a cover-sheet basis and cite Rule 123(a) instead. Raised as a separate defect; not corrected here.",
+    "appliedByThisJob": false
+  },
+  "ruleInterpretationReferral": {
+    "question": "Rule 123(a)(1) provides that the cover sheet is not retained in the case file. Does a document that is not retained in the case file need to be generated by the product at all, and does the Council's non-commercial restriction bite on a sheet that the court discards?",
+    "referTo": "counsel",
+    "scopeWarning": "This must be referred as a question about one ministerial court-administration document only. It must never be used as a template for the substantive Kansas Judicial Council forms — the petitions and orders — whose restriction is addressed separately under EXC-01.",
+    "answeredByThisJob": false
+  },
+  "commercialGate": {
+    "clearedByThisJob": false,
+    "note": "Resolving the cover-sheet identity does not clear the Kansas Judicial Council commercial-use restriction. The edition disposition for this row is commercial_use_hold and it remains in force. The terminal commercial determination is made under EXC-01, not here."
+  },
+  "unresolved": [
+    {
+      "question": "Where did '10/14/2025' come from?",
+      "status": "unresolved",
+      "why": "No official Kansas source publishes that revision, and this job found no provenance for it in the repository beyond the queue title that repeats it. It may be a capture date, a local district variant, or a transcription error. Recorded as unexplained rather than assumed to be an error of any particular kind."
+    },
+    {
+      "question": "Is the Council's 12-2014 file byte-identical to anything the repository expects?",
+      "status": "not_testable_in_this_job",
+      "why": "The repository holds no binary for this row, the publisher blocks automated retrieval, and the document is commercially restricted so it was deliberately not fetched."
+    }
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0
+  }
+}
