@@ -1,0 +1,150 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-co-source-identity-resolution-jdf-417-order",
+  "parentJobId": "AUTH-01-in-repo-authority-pinning",
+  "jurisdiction": "CO",
+  "lane": "source_acquisition",
+  "strategyFamily": "source_identity_resolution",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "203b8931391d5636fda3a3fcfc35c0423c2bf9e3",
+  "generatedOn": "2026-08-04",
+  "acquisitionIds": [
+    "acquire:CO:jdf-417-order"
+  ],
+  "downloadedSourceCount": 0,
+  "generatedFrom": [
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/legal-design-intake/CO.memo.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json"
+  ],
+  "method": {
+    "description": "Identity resolution only. The assigned document ID was tested against every Colorado form identity the adopted edition retains and against the legal-design memo that introduced it. No binary was downloaded, no issuer was contacted, and no component was rebound.",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "binariesDownloaded": 0,
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "componentRebound": false,
+    "byteVerificationMethod": "edition_recorded_sha256_not_remeasured"
+  },
+  "identityResolution": {
+    "assignedDocumentId": "JDF-417-ORDER",
+    "verdict": "does_not_exist_as_an_issuer_form_number",
+    "classification": "normalization_artefact",
+    "confidence": "high",
+    "evidence": [
+      "No Colorado Judicial Branch form carries the number JDF-417-ORDER. The adopted edition retains no asset under that documentId, and the track-source audit records the component as authority_unmanifested_source with the reason 'No retained Edition 1.2 asset for CO document ID JDF-417-ORDER.'",
+      "The identifier originates in the adopted Colorado legal-design memo, which lists the proposed_order component with officialFormId JDF-417-ORDER and the note 'Order set. Revision drift noted in the original review at section 0.3 item 12.' The note 'Order set' indicates the reviewer knew an order form existed but did not have its number, and the identifier was formed by suffixing the petition's number.",
+      "Colorado does not number a petition and its order with a shared base number plus a suffix. The petition and the order carry adjacent but distinct JDF numbers."
+    ]
+  },
+  "doNotConflate": {
+    "note": "Three separate Colorado identities are in play across this backlog and must not be merged. This job resolves only the third.",
+    "identities": [
+      {
+        "documentId": "JDF-2370",
+        "workflowKey": "CO:JDF-2370:INSTRUCTIONS:EN",
+        "role": "instructions",
+        "track": "co_decriminalized_conduct_seal",
+        "statute": "C.R.S. § 24-72-711",
+        "relationToThisJob": "unrelated_different_track_and_statute"
+      },
+      {
+        "documentId": "JDF-2371",
+        "workflowKey": "CO:JDF-2371:MOTION:EN",
+        "role": "motion",
+        "track": "co_decriminalized_conduct_seal",
+        "statute": "C.R.S. § 24-72-711",
+        "relationToThisJob": "unrelated_different_track_and_statute"
+      },
+      {
+        "documentId": "JDF-417-ORDER",
+        "role": "proposed_order placeholder",
+        "track": "co_petition_seal_arrest",
+        "statute": "C.R.S. § 24-72-704(1)",
+        "relationToThisJob": "the_assigned_identity"
+      }
+    ]
+  },
+  "criticalDistinction": {
+    "headline": "JDF-417 exists. JDF-417-ORDER does not. The two must not be collapsed.",
+    "jdf417": {
+      "exists": true,
+      "workflowKey": "CO:JDF-417:PETITION:EN",
+      "documentId": "JDF-417",
+      "assetClass": "packet_form",
+      "officialTitle": "Petition to Seal Arrest Records - No Charges Filed",
+      "revision": "REV-2025-07-01",
+      "sha256": "e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4",
+      "repositoryPresence": "present",
+      "hashState": "match",
+      "boundTo": "co_petition_seal_arrest-primary-filing-1",
+      "bindingAssessment": "Correct. JDF-417 is the statewide petition for this track and is already mapped as its primary filing."
+    },
+    "why": "The assigned key resolves to nothing only because of the -ORDER suffix. Reporting 'JDF-417 does not exist' would be wrong and would put a correctly mapped primary filing in doubt."
+  },
+  "conflationHazard": {
+    "severity": "high",
+    "observation": "The track-source audit attaches candidateLibraryEvidence to co_petition_seal_arrest-proposed-order-2 pointing at CO:JDF-417:PETITION:EN, marked evidenceOnly=true.",
+    "risk": "The only candidate offered for the proposed-order slot is the petition. A remap that simply promotes the attached candidate would bind the proposed_order component to a petition, producing a packet whose order component is a second copy of the petition.",
+    "instruction": "Do not promote that candidate. It is evidence of adjacency, not the order."
+  },
+  "identifiedOrderCandidate": {
+    "documentId": "JDF-418",
+    "workflowKey": "CO:JDF-418:ORDER:EN",
+    "assetClass": "packet_form",
+    "officialTitle": "Order to Seal Arrest and Criminal Records",
+    "revision": "REV-2024-03-20",
+    "repositoryRevisionText": "R: March 20, 2024",
+    "sha256": "b027be364d93a1f5b879916c144260e7aeeaadc46309bf69c9478d6ad70c7993",
+    "repositoryPresence": "present",
+    "binaryPresent": true,
+    "hashState": "match",
+    "status": "manifested_packet_form",
+    "currentComponentBindings": [],
+    "supportingEvidence": [
+      "It is the only ORDER-role Colorado asset the edition retains whose title matches the arrest-sealing subject matter of this track.",
+      "It is bound to no component anywhere, so the proposed-order slot for this track is the obvious gap it would fill.",
+      "Its number is adjacent to the petition's, which is how the Colorado JDF series pairs a petition with its order.",
+      "The acquisition intelligence independently reaches the same identification."
+    ],
+    "acquisitionRequired": false,
+    "acquisitionRequiredRationale": "JDF-418 is already retained, present in the repository and hash-matched. No download is needed to close this key."
+  },
+  "resolutionRequired": {
+    "kind": "component_remap",
+    "performedByThisJob": false,
+    "notPerformedRationale": "Rebinding co_petition_seal_arrest-proposed-order-2 belongs to AUTH-02-component-remap-corrections and touches the legal-design track-source relationships, a forbidden path for this job. It would also require amending the adopted memo's officialFormId, which is a legal-design change this job must not make.",
+    "handoffTo": "AUTH-02-component-remap-corrections",
+    "recommendedCorrection": "Retire the JDF-417-ORDER key as a normalization artefact and rebind the proposed-order component to JDF-418 (CO:JDF-418:ORDER:EN), subject to the residual scope question below. Recorded as a recommendation, not applied."
+  },
+  "unresolved": [
+    {
+      "question": "Is JDF 418 scoped specifically to a C.R.S. § 24-72-704(1) no-charges-filed petition, or does it serve several Colorado sealing petitions?",
+      "status": "unresolved",
+      "why": "JDF-417's title carries the qualifier 'No Charges Filed' and JDF-418's title does not. A shared order form across multiple seal routes is plausible and would still be the correct order here, but nothing in the retained evidence establishes its scope either way. The identification rests on title subject-matter, number adjacency and the absence of any other ORDER-role candidate — that is strong evidence, not proof.",
+      "doNotInfer": "Do not treat this job as having mapped the component. It identifies a candidate and stops, per the instruction to preserve an unresolved identity rather than map a similar title."
+    },
+    {
+      "question": "What is the 'revision drift' the memo flags at section 0.3 item 12 for the order set?",
+      "status": "unresolved",
+      "why": "The memo notes drift without recording what drifted. JDF-418 carries REV-2024-03-20 while the petition carries REV-2025-07-01, so the pair is not co-revised, but whether that is the drift referred to is not established here."
+    },
+    {
+      "question": "Does JDF-417's mapping meet the edition's matching-hash requirement?",
+      "status": "unresolved_and_outside_this_job",
+      "why": "The audit records that the track source relationship pins no SHA-256 for the primary filing, so the mapping does not yet satisfy the edition's matching-hash rule. Noted because it affects the same track, but pinning it is not this job's scope."
+    }
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0
+  }
+}
