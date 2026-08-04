@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "rcap-official-pdf-renderer-scaffold/v1",
+  "familyId": "rcap-ak-official-pdf-family",
+  "jurisdiction": "AK",
+  "enabled": false,
+  "activeRendererCount": 0,
+  "rendererAdapters": [
+    {
+      "rendererId": "ak-acroform-fill",
+      "kind": "acroform_fill",
+      "enabled": false,
+      "activationRequirements": [
+        "captain assignment anchor exists",
+        "exact portable projection passes digest and byte-count verification",
+        "page, field, widget, encryption, and XFA posture is freshly inspected",
+        "field ownership and manual-signature treatment are approved",
+        "visual and legal-output review pass"
+      ]
+    },
+    {
+      "rendererId": "ak-coordinate-overlay",
+      "kind": "coordinate_overlay",
+      "enabled": false,
+      "activationRequirements": [
+        "document is manifested in the controlling edition",
+        "captain assignment anchor exists",
+        "exact portable projection passes identity verification",
+        "every placement is human-confirmed on the projected source",
+        "field ownership and manual-signature treatment are approved",
+        "visual and legal-output review pass"
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "componentDocumentId": "TF-810",
+      "authorityState": "authority_mapped_packet_candidate",
+      "carriedTechnicalClass": "clean_acroform",
+      "candidateRenderer": "acroform_fill",
+      "rendererSelectionState": "pending_captain_projection_inspection",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "TF-805",
+      "authorityState": "authority_mapped_packet_candidate",
+      "carriedTechnicalClass": "clean_acroform",
+      "candidateRenderer": "acroform_fill",
+      "rendererSelectionState": "pending_captain_projection_inspection",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "TF-800",
+      "authorityState": "authority_mapped_packet_candidate",
+      "carriedTechnicalClass": "clean_acroform",
+      "candidateRenderer": "acroform_fill",
+      "rendererSelectionState": "pending_captain_projection_inspection",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "DPS-REQUEST-TO-SEAL-CRIM-INFO",
+      "authorityState": "authority_unmanifested_source",
+      "acquisitionEvidenceTechnicalClass": "flat_pdf",
+      "candidateRenderer": "coordinate_overlay",
+      "rendererSelectionState": "prohibited_until_successor_edition_manifest_and_captain_projection",
+      "activeRenderer": null
+    }
+  ],
+  "invariants": [
+    "Carried registry measurements and acquisition evidence are classification hints, not fresh source inspection.",
+    "No renderer reads repositorySourcePath or a public URL.",
+    "No renderer becomes active merely because the source-acquisition record confirms a flat PDF."
+  ]
+}

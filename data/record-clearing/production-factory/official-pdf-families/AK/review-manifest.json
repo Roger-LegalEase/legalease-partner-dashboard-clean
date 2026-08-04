@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "rcap-official-pdf-family-review/v1",
+  "familyId": "rcap-ak-official-pdf-family",
+  "jurisdiction": "AK",
+  "sourceBackedSampleCount": 0,
+  "fieldMapReviewArtifactCount": 0,
+  "documentReviews": [
+    {
+      "componentDocumentId": "TF-810",
+      "sourceStatus": "blocked_captain_projection",
+      "sampleStatus": "not_generated",
+      "technicalReview": "not_started",
+      "visualReview": "not_started",
+      "legalOutputReview": "not_started"
+    },
+    {
+      "componentDocumentId": "TF-805",
+      "sourceStatus": "blocked_captain_projection",
+      "sampleStatus": "not_generated",
+      "technicalReview": "not_started",
+      "visualReview": "not_started",
+      "legalOutputReview": "not_started"
+    },
+    {
+      "componentDocumentId": "TF-800",
+      "sourceStatus": "blocked_captain_projection",
+      "sampleStatus": "not_generated",
+      "technicalReview": "not_started",
+      "visualReview": "not_started",
+      "legalOutputReview": "not_started"
+    },
+    {
+      "componentDocumentId": "DPS-REQUEST-TO-SEAL-CRIM-INFO",
+      "sourceStatus": "blocked_successor_edition_manifest_and_captain_projection",
+      "sampleStatus": "not_generated",
+      "technicalReview": "not_started",
+      "visualReview": "not_started",
+      "legalOutputReview": "not_started"
+    }
+  ],
+  "routeReviews": [
+    {
+      "trackId": "ak-courtview",
+      "sampleStatus": "not_generated",
+      "reviewStatus": "blocked",
+      "blockers": [
+        "process guidance specification",
+        "captain projection",
+        "field map and ownership"
+      ]
+    },
+    {
+      "trackId": "ak-tf805",
+      "sampleStatus": "not_generated",
+      "reviewStatus": "blocked",
+      "blockers": [
+        "captain projection",
+        "single-document multi-role map",
+        "manual sworn-verification review"
+      ]
+    },
+    {
+      "trackId": "ak-tf800",
+      "sampleStatus": "not_generated",
+      "reviewStatus": "blocked",
+      "blockers": [
+        "captain projection",
+        "field map and ownership"
+      ]
+    },
+    {
+      "trackId": "ak-mistaken-identity",
+      "sampleStatus": "not_generated",
+      "reviewStatus": "blocked",
+      "blockers": [
+        "successor edition manifest",
+        "captain projection",
+        "overlay map",
+        "third-party ownership review"
+      ]
+    }
+  ],
+  "excludedEvidence": [
+    {
+      "path": "docs/record-clearing/field-map-drafts/all50/alaska-legalease-alaska-requesttosealcriminfo.field-map-draft.json",
+      "reason": "Low-confidence historical coordinates are not an active map or current visual review."
+    },
+    {
+      "path": "docs/record-clearing/field-map-drafts/all50/alaska-legalease-alaska-alaska-recordrelief-agent-reference.field-map-draft.json",
+      "reason": "The reference-only agent document is not a packet asset or review sample."
+    },
+    {
+      "path": "src/lib/rcap/state-packs/alaska/all50-build-metadata.ts",
+      "reason": "Coded Nationwide inventory metadata is identity evidence, not source-backed output approval."
+    }
+  ],
+  "approvals": {
+    "technicalReviewPassed": false,
+    "visualReviewPassed": false,
+    "legalOutputApproved": false,
+    "counselApproved": false,
+    "packetReady": false,
+    "generationAllowed": false,
+    "enabled": false
+  },
+  "promotionRule": "No approval may become true until adopted identities have captain-owned portable projections, the DPS identity is manifested in a successor edition, CourtView guidance is specified, mappings and ownership are complete, source-backed samples exist, and technical, visual, legal-output, and counsel review pass."
+}

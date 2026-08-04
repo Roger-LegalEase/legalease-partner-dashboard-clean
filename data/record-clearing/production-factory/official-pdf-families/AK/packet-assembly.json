@@ -1,0 +1,203 @@
+{
+  "schemaVersion": "rcap-official-pdf-packet-assembly/v1",
+  "familyId": "rcap-ak-official-pdf-family",
+  "jurisdiction": "AK",
+  "runtimeRegistered": false,
+  "routeReadyCount": 0,
+  "assemblies": [
+    {
+      "trackId": "ak-courtview",
+      "packetSetId": "ak-courtview-set",
+      "packetSetVersion": "1.0.0",
+      "logicalComponents": [
+        {
+          "componentId": "ak-courtview-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "order": 1
+        },
+        {
+          "componentId": "ak-courtview-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Where the case is still showing on CourtView.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "TF-810",
+          "order": 2
+        }
+      ],
+      "stages": [
+        {
+          "stage": 1,
+          "kind": "courtview_lookup",
+          "outcomes": [
+            "no_filing_required",
+            "continue_to_eligibility_and_required_documents"
+          ]
+        },
+        {
+          "stage": 2,
+          "kind": "required_before_filing",
+          "requirements": [
+            "final disposition order",
+            "SIS and set-aside proof when that ground is used"
+          ]
+        },
+        {
+          "stage": 3,
+          "kind": "conditional_official_pdf",
+          "physicalDocumentId": "TF-810"
+        }
+      ],
+      "physicalDocumentInstances": [
+        {
+          "instanceId": "ak-courtview-tf810",
+          "componentDocumentId": "TF-810",
+          "logicalComponentIds": [
+            "ak-courtview-primary-filing-2"
+          ],
+          "includeWhen": "stillOnCourtView is true after the required guidance stage",
+          "renderState": "blocked_process_guidance_and_captain_projection"
+        }
+      ],
+      "assemblyState": "blocked"
+    },
+    {
+      "trackId": "ak-tf805",
+      "packetSetId": "ak-tf805-set",
+      "packetSetVersion": "1.0.0",
+      "logicalComponents": [
+        {
+          "componentId": "ak-tf805-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "TF-805",
+          "order": 1
+        },
+        {
+          "componentId": "ak-tf805-certificate-of-service-2",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "TF-805",
+          "order": 2
+        },
+        {
+          "componentId": "ak-tf805-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "TF-805",
+          "order": 3
+        }
+      ],
+      "physicalDocumentInstances": [
+        {
+          "instanceId": "ak-tf805-single-document",
+          "componentDocumentId": "TF-805",
+          "logicalComponentIds": [
+            "ak-tf805-primary-filing-1",
+            "ak-tf805-certificate-of-service-2",
+            "ak-tf805-proposed-order-3"
+          ],
+          "deduplicationRule": "single_physical_document_multi_role",
+          "physicalCopyCount": 1,
+          "renderState": "blocked_captain_projection"
+        }
+      ],
+      "manualCompletion": [
+        "sworn verification",
+        "requestor signature and date",
+        "service signature and date if present"
+      ],
+      "protectedCompletion": [
+        "judicial findings and decision",
+        "judicial signature and date",
+        "clerk fields"
+      ],
+      "assemblyState": "blocked"
+    },
+    {
+      "trackId": "ak-tf800",
+      "packetSetId": "ak-tf800-set",
+      "packetSetVersion": "1.0.0",
+      "logicalComponents": [
+        {
+          "componentId": "ak-tf800-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "TF-800",
+          "order": 1
+        }
+      ],
+      "physicalDocumentInstances": [
+        {
+          "instanceId": "ak-tf800-request",
+          "componentDocumentId": "TF-800",
+          "logicalComponentIds": [
+            "ak-tf800-primary-filing-1"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_captain_projection"
+        }
+      ],
+      "postGenerationHandoff": [
+        "opposition",
+        "contested hearing"
+      ],
+      "assemblyState": "blocked"
+    },
+    {
+      "trackId": "ak-mistaken-identity",
+      "packetSetId": "ak-mistaken-identity-set",
+      "packetSetVersion": "1.0.0",
+      "logicalComponents": [
+        {
+          "componentId": "ak-mistaken-identity-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DPS-REQUEST-TO-SEAL-CRIM-INFO",
+          "order": 1
+        }
+      ],
+      "physicalDocumentInstances": [
+        {
+          "instanceId": "ak-dps-seal-request",
+          "componentDocumentId": "DPS-REQUEST-TO-SEAL-CRIM-INFO",
+          "logicalComponentIds": [
+            "ak-mistaken-identity-primary-filing-1"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_authority_unmanifested"
+        }
+      ],
+      "requiredBeforeFiling": [
+        "officer or prosecutor verification completed by that third party",
+        "court documentation obtained by the participant"
+      ],
+      "destinationEvidence": {
+        "currentIndexOffice": "Records and Identification Bureau — Quality Assurance Unit",
+        "formFaceOffice": "Chief, Criminal Records and Identification Bureau",
+        "status": "instruction_reconciliation_pending",
+        "source": "published acquisition dependency evidence"
+      },
+      "assemblyState": "blocked"
+    }
+  ],
+  "invariants": [
+    "Logical packet components match the adopted packet-set manifests exactly.",
+    "TF-805 produces one physical document, not three duplicate copies.",
+    "Acquisition evidence never creates a physical DPS document instance eligible for rendering."
+  ]
+}

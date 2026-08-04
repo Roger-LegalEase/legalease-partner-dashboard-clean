@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "rcap-official-pdf-family-dependencies/v1",
+  "familyId": "rcap-ak-official-pdf-family",
+  "jurisdiction": "AK",
+  "dependencies": [
+    {
+      "dependencyId": "ak-captain-assignment-and-portable-projection",
+      "kind": "captain_assignment_portable_projection",
+      "status": "blocked",
+      "requiredFor": [
+        "source inspection",
+        "renderer activation",
+        "field mapping",
+        "sample rendering"
+      ],
+      "reason": "No captain assignment anchor or portable projection exists. Repository paths are identity evidence only and are never opened by this scaffold or its verifier."
+    },
+    {
+      "dependencyId": "ak-shared-relationship-sha-pins",
+      "kind": "authority_mapping",
+      "status": "blocked",
+      "requiredFor": [
+        "TF-800 resolver selection",
+        "TF-805 resolver selection",
+        "TF-810 resolver selection"
+      ],
+      "reason": "Edition 1.2 retains exact packet assets, but every Alaska official-form relationship remains not_mapped with a null SHA pin."
+    },
+    {
+      "dependencyId": "ak-courtview-process-guidance-specification",
+      "kind": "process_guidance",
+      "status": "blocked",
+      "requiredFor": [
+        "ak-courtview staged packet"
+      ],
+      "reason": "The adopted packet begins with a CourtView lookup, but the Edition 1.2 track-source audit records no governing process-guidance specification for that component."
+    },
+    {
+      "dependencyId": "ak-dps-successor-edition-manifest",
+      "kind": "authority_manifest",
+      "status": "blocked",
+      "requiredFor": [
+        "ak-mistaken-identity"
+      ],
+      "reason": "The published acquisition record confirms the current six-page flat DPS form and exact digest, but Edition 1.2 still has asset=null. Acquisition evidence cannot promote or select the form; a successor edition must manifest it as the primary filing."
+    },
+    {
+      "dependencyId": "ak-projected-source-technical-inspection",
+      "kind": "pdf_structure_inspection",
+      "status": "blocked",
+      "requiredFor": [
+        "field enumeration",
+        "widget verification",
+        "overlay coordinates"
+      ],
+      "reason": "Technical decisions must be verified from an exact captain-owned portable projection, never from legacy private bytes."
+    },
+    {
+      "dependencyId": "ak-field-map-and-ownership-completion",
+      "kind": "field_mapping",
+      "status": "blocked",
+      "requiredFor": [
+        "packet rendering"
+      ],
+      "reason": "All four documents have zero active mappings and placements; signature and third-party ownership gates remain closed."
+    },
+    {
+      "dependencyId": "ak-source-freshness-and-legal-output-review",
+      "kind": "review",
+      "status": "blocked",
+      "requiredFor": [
+        "packetReady",
+        "generationAllowed",
+        "enabled"
+      ],
+      "reason": "No source-backed sample, visual review, legal-output review, or counsel approval exists."
+    },
+    {
+      "dependencyId": "ak-shared-surface-isolation",
+      "kind": "compatibility",
+      "status": "satisfied",
+      "requiredFor": [
+        "scaffold handoff"
+      ],
+      "reason": "The family is confined to new AK-scoped data, code, and verifier paths with no shared or live import."
+    }
+  ]
+}

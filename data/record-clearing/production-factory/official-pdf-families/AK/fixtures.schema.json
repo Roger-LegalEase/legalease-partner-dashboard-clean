@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rcap-ak-official-pdf-fixtures.schema.json",
+  "title": "Alaska official-PDF fail-closed fixtures",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "fixtures"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "rcap-official-pdf-fixtures/v1"
+    },
+    "familyId": {
+      "const": "rcap-ak-official-pdf-family"
+    },
+    "jurisdiction": {
+      "const": "AK"
+    },
+    "fixtures": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "type": "object",
+        "required": [
+          "fixtureId",
+          "trackId",
+          "synthetic",
+          "facts",
+          "expectedBoundaryCode",
+          "generationAttempted",
+          "manualSignaturesBlank",
+          "thirdPartyFieldsBlank"
+        ],
+        "properties": {
+          "fixtureId": {
+            "type": "string"
+          },
+          "trackId": {
+            "enum": [
+              "ak-courtview",
+              "ak-tf805",
+              "ak-tf800",
+              "ak-mistaken-identity"
+            ]
+          },
+          "synthetic": {
+            "const": true
+          },
+          "facts": {
+            "type": "object"
+          },
+          "expectedBoundaryCode": {
+            "type": "string"
+          },
+          "generationAttempted": {
+            "const": false
+          },
+          "manualSignaturesBlank": {
+            "const": true
+          },
+          "thirdPartyFieldsBlank": {
+            "const": true
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}
