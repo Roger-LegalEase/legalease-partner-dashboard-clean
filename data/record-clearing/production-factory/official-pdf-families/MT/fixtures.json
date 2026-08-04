@@ -1,0 +1,301 @@
+{
+  "schemaVersion": "rcap-official-pdf-fixture-scaffold/v1",
+  "familyId": "rcap-mt-official-pdf-family",
+  "jurisdiction": "MT",
+  "schemaPath": "data/record-clearing/production-factory/official-pdf-families/schemas/fixture-scaffold.schema.json",
+  "syntheticDataOnly": true,
+  "fixtureState": "pending_field_map_and_fact_type_binding",
+  "tracks": [
+    {
+      "trackId": "mt_deferred_dismissal",
+      "fixtureId": "mt_deferred_dismissal-synthetic-layout",
+      "caseReference": "SYN-MT-mt_deferred_dismissal",
+      "requiredFactKeys": [
+        "fullName",
+        "dateOfBirth",
+        "mailingAddress",
+        "sentencingCourtLevel",
+        "sentencingCounty",
+        "caseNumber",
+        "chargeName",
+        "pleaOrVerdict",
+        "sentencingDate",
+        "deferredNotSuspended",
+        "deferralPeriodExpired",
+        "conditionsCompleted",
+        "revocationPetitionFiled",
+        "clerkContacted",
+        "prosecutingOffice"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Any assertion that no revocation petition was filed, where the participant has not confirmed it with the clerk",
+          "whereInPacket": "Motion, the no-revocation-petition allegation",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Any assertion that a suspended sentence qualifies",
+          "whereInPacket": "Not present in the packet at all",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Any characterization of the outcome as expungement, destruction or erasure",
+          "whereInPacket": "Not present in the packet at all",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Any statement that the participant may deny the charge",
+          "whereInPacket": "Not present in the packet at all",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Any statement about immigration consequences",
+          "whereInPacket": "Not present in the packet at all",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The judge's finding, date and signature on the proposed order",
+          "whereInPacket": "Proposed order, findings and signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The participant's signature, the date, and the city and state where signed",
+          "whereInPacket": "Motion, declaration under penalty of perjury",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "mt_misdemeanor_expungement",
+      "fixtureId": "mt_misdemeanor_expungement-synthetic-layout",
+      "caseReference": "SYN-MT-mt_misdemeanor_expungement",
+      "requiredFactKeys": [
+        "fullName",
+        "dateOfBirth",
+        "mailingAddress",
+        "convictionInventory",
+        "convictionInventoryConfirmed",
+        "prosecutingOffices",
+        "sentencingTermsComplete",
+        "completionDate",
+        "anyConvictionSinceCompletion",
+        "currentlyDetainedOrCharged",
+        "priorPetition",
+        "militaryBasis",
+        "presumptionDefeatingOffense",
+        "outOfStateOrTribal",
+        "priorRevokedDeferred"
+      ],
+      "conditionalFactKeys": [
+        "judicialDistrictChoice"
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Any § 46-18-1108(2) rehabilitation or public-safety argument",
+          "whereInPacket": "Not present in the packet at all",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Any assertion that public safety will not be impacted",
+          "whereInPacket": "Not present in the packet at all",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The judge's findings, date and signature on the proposed order",
+          "whereInPacket": "Proposed order, findings and signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The case number on the petition caption",
+          "whereInPacket": "Petition, certificate of service and proposed order captions",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The petitioner's signature, the date, and the city and state where signed",
+          "whereInPacket": "Petition, declaration under penalty of perjury",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The participant's signature and date on the CRISS Expungement/Removal Request Form",
+          "whereInPacket": "CRISS form, signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Any statement that the petitioner may deny the conviction after expungement",
+          "whereInPacket": "Not present in the packet at all",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "mt_mmrta_completed",
+      "fixtureId": "mt_mmrta_completed-synthetic-layout",
+      "caseReference": "SYN-MT-mt_mmrta_completed",
+      "requiredFactKeys": [
+        "fullName",
+        "dateOfBirth",
+        "mailingAddress",
+        "sentencingCourtLevel",
+        "sentencingCounty",
+        "caseNumber",
+        "offenseSelection",
+        "convictionDate",
+        "countyAttorneyCounty",
+        "hearingRequested",
+        "sentenceComplete",
+        "outcomeElection",
+        "eligibilityNarrative",
+        "multipleConvictions"
+      ],
+      "conditionalFactKeys": [
+        "offenseOther"
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "The outcome election among expungement, misdemeanour redesignation and civil-infraction redesignation",
+          "whereInPacket": "MMRTA Form B, the relief-requested section",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The narrative explaining why the conviction is eligible",
+          "whereInPacket": "MMRTA Form B, the free-text because field",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The free-text specify-offence line where the offence is not on the enumerated list",
+          "whereInPacket": "MMRTA Form B, offence section",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Every judicial finding, the date and the judge's signature on the OCA Proposed Order",
+          "whereInPacket": "OCA Proposed Order, findings and signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The case number where the court assigns a new one",
+          "whereInPacket": "Form B, Certificate of Service and Proposed Order captions",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The participant's signature and date",
+          "whereInPacket": "MMRTA Form B and the CRISS form, signature blocks",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "mt_mmrta_serving",
+      "fixtureId": "mt_mmrta_serving-synthetic-layout",
+      "caseReference": "SYN-MT-mt_mmrta_serving",
+      "requiredFactKeys": [
+        "fullName",
+        "dateOfBirth",
+        "mailingAddress",
+        "sentencingCourtLevel",
+        "sentencingCounty",
+        "caseNumber",
+        "offenseSelection",
+        "convictionDate",
+        "countyAttorneyCounty",
+        "hearingRequested",
+        "currentlyServing",
+        "custodyStatus",
+        "outcomeElection",
+        "eligibilityNarrative",
+        "advocateEngaged"
+      ],
+      "conditionalFactKeys": [
+        "offenseOther"
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "The outcome election between expungement and resentencing",
+          "whereInPacket": "MMRTA Form A, the relief-requested section",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Any resentencing computation",
+          "whereInPacket": "Not present in the packet at all",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Any public-safety argument or any assertion that relief would not pose an unreasonable risk of danger to public safety",
+          "whereInPacket": "Not present in the packet at all",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The narrative explaining why the conviction is eligible",
+          "whereInPacket": "MMRTA Form A, the free-text because field",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Every judicial finding, the date and the judge's signature on the OCA Proposed Order",
+          "whereInPacket": "OCA Proposed Order, findings and signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The participant's signature and date",
+          "whereInPacket": "MMRTA Form A and the CRISS form, signature blocks",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "mt_nonconviction_removal",
+      "fixtureId": "mt_nonconviction_removal-synthetic-layout",
+      "caseReference": "SYN-MT-mt_nonconviction_removal",
+      "requiredFactKeys": [
+        "fullName",
+        "dateOfBirth",
+        "returnAddress",
+        "arrestDate",
+        "arrestingAgency",
+        "arrestCounty",
+        "charges",
+        "dispositionType",
+        "dispositionDate",
+        "courtOfJurisdiction",
+        "deferredNotYetDismissed",
+        "deferredRevoked",
+        "choprsRun"
+      ],
+      "conditionalFactKeys": [
+        "ssnLast4"
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "The participant's signature and date on the CRISS form",
+          "whereInPacket": "CRISS Expungement/Removal Request Form, signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Any characterization of a disposition as a non-conviction where the record is ambiguous",
+          "whereInPacket": "CRISS form, disposition section",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Any statement that the outcome is legally guaranteed beyond the photographs and fingerprints",
+          "whereInPacket": "Not present in the packet at all",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Any statement that this route reaches the county court record",
+          "whereInPacket": "Not present in the packet at all",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    }
+  ],
+  "requiredBoundaryFixtures": [
+    "missing_required_input",
+    "authority_identity_unresolved",
+    "captain_projection_missing",
+    "source_hash_mismatch",
+    "source_size_mismatch",
+    "source_mime_mismatch",
+    "third_party_field_ownership",
+    "mapping_unconfirmed",
+    "deterministic_repeat"
+  ]
+}
