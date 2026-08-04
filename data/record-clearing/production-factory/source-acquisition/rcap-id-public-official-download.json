@@ -1,0 +1,215 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-id-public-official-download",
+  "parentJobId": "AUTH-01-in-repo-authority-pinning",
+  "jurisdiction": "ID",
+  "lane": "source_acquisition",
+  "strategyFamily": "public_official_download",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "4eee199a1f0d6d381d0bcc763ee559250b26078e",
+  "generatedOn": "2026-08-04",
+  "acquisitionIds": [
+    "acquire:ID:isc-petition-to-shield-67-3004-11",
+    "acquire:ID:isp-bci-expungement-application"
+  ],
+  "downloadedSourceCount": 2,
+  "downloadedSourceCountNote": "Two binaries were retrieved, but neither was an acquisition of a missing document. Both are already retained by adopted Edition 1.2 at exactly these bytes. The retrievals are currentness re-confirmations against the live issuers, and both confirmed that what the issuer publishes today is byte-identical to what the edition holds. Acquisitions actually required: zero.",
+  "acquisitionsRequired": 0,
+  "generatedFrom": [
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json"
+  ],
+  "method": {
+    "description": "Both assigned Idaho sources were fetched by direct HTTPS GET from their current official URLs, hashed with SHA-256, compared against the digests the adopted edition retains, and inspected for printed revision markings. The component-to-document bindings were then compared against the document identities the edition actually carries.",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "authenticationUsed": false,
+    "binariesDownloaded": 2,
+    "binaryDeposition": "Neither retrieved binary is committed by this job, and neither needed depositing: the edition already retains both at the same bytes.",
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "byteVerificationMethod": "fresh_https_get_then_sha256_compared_to_retained_edition_digest",
+    "byteVerificationNote": "Both digests match the retained edition asset digests exactly."
+  },
+  "totals": {
+    "assignedAcquisitions": 2,
+    "binariesRetrieved": 2,
+    "acquisitionsRequired": 0,
+    "aliasReconciliationsIdentified": 2,
+    "revisionsConfirmed": 1,
+    "revisionsCorrectlyUnknown": 1,
+    "correctionsRaised": 5,
+    "downloadsAvoided": 2
+  },
+  "acquisitions": [
+    {
+      "acquisitionId": "acquire:ID:isc-petition-to-shield-67-3004-11",
+      "componentBoundFormId": "ISC-PETITION-TO-SHIELD-67-3004-11",
+      "documentRole": "primary_filing",
+      "trackIds": [
+        "id_clean_slate_shield"
+      ],
+      "componentIds": [
+        "id_clean_slate_shield-primary-filing-1"
+      ],
+      "disposition": "already_retained_under_another_identity",
+      "officialTitleAsPublished": "Petition to Shield Records from Public Disclosure, I.C. § 67-3004(11)",
+      "issuingBody": "Idaho Supreme Court",
+      "issuingOffice": "Administrative Office of the Courts — Clean Slate Act forms",
+      "officialIndexUrl": "https://isc.idaho.gov/Clean-Slate-Act",
+      "retrievedFromUrl": "https://api.isc.idaho.gov/uploads/Generic_Files/1778008521917-Petition-to-Shield-Records-from-Public-Disclosure-IC67-3004-11.pdf",
+      "retrievalDate": "2026-08-04",
+      "httpStatus": 200,
+      "sha256": "91130b9036728677e0b6919222e00f8eae0a9114222a5b9d0ed8b3376140dede",
+      "sizeBytes": 149898,
+      "pageCount": 2,
+      "encrypted": false,
+      "resolvedRevision": "REV-2024-01-01",
+      "revisionStatus": "confirmed_printed_footer",
+      "revisionEvidence": "Page footer read from the retrieved bytes: 'Petition to Shield Records from Public Disclosure I.C. § 67-3004(11) - 01/01/2024   Page 1 of 2'.",
+      "retainedEditionAsset": {
+        "workflowKey": "ID:PETITION-TO-SHIELD-RECORDS-FROM-PUBLIC-DISCLOSURE:PETITION:EN",
+        "documentId": "PETITION-TO-SHIELD-RECORDS-FROM-PUBLIC-DISCLOSURE",
+        "assetClass": "packet_form",
+        "recordedRevision": "REV-2001-01",
+        "sha256": "91130b9036728677e0b6919222e00f8eae0a9114222a5b9d0ed8b3376140dede"
+      },
+      "hashAgreementWithRetainedAsset": "exact_match",
+      "whyComponentReadsUnmanifested": "The component binds documentId ISC-PETITION-TO-SHIELD-67-3004-11. The edition retains the same bytes under documentId PETITION-TO-SHIELD-RECORDS-FROM-PUBLIC-DISCLOSURE. The audit therefore reports 'No retained Edition 1.2 asset for ID document ID ISC-PETITION-TO-SHIELD-67-3004-11' with empty candidate evidence. The gap is the identifier string, not the document.",
+      "otherPublishedFormats": "The Clean Slate Act page offers the same petition as .pdf, .docx and .rtf. Only the PDF is treated here."
+    },
+    {
+      "acquisitionId": "acquire:ID:isp-bci-expungement-application",
+      "componentBoundFormId": "ISP-BCI-EXPUNGEMENT-APPLICATION",
+      "documentRole": "primary_filing",
+      "trackIds": [
+        "id_isp_expungement"
+      ],
+      "componentIds": [
+        "id_isp_expungement-primary-filing-1"
+      ],
+      "disposition": "already_retained_under_another_identity",
+      "officialTitleAsPublished": "Idaho State Police Bureau of Criminal Identification Expungement Application",
+      "issuingBody": "Idaho State Police",
+      "issuingOffice": "Bureau of Criminal Identification (BCI)",
+      "officialIndexUrl": "https://isp.idaho.gov/bci/criminal-history/",
+      "retrievedFromUrl": "https://isp.idaho.gov/wp-content/uploads/BCI/CrimHistory/ExpungmentApplication.pdf",
+      "retrievalDate": "2026-08-04",
+      "httpStatus": 200,
+      "sha256": "7442267d7799b9b117b20494b919a875974e8086f1317c7bc7532f038c131bcf",
+      "sizeBytes": 145529,
+      "pageCount": 2,
+      "encrypted": false,
+      "resolvedRevision": "REV-UNKNOWN",
+      "revisionStatus": "correctly_unknown_issuer_prints_none",
+      "revisionEvidence": "Full text extraction of both pages of the retrieved bytes returns zero matches for any revision, version or effective-date keyword, and zero date-like tokens anywhere on the form face. The embedded CreationDate and ModDate are 2018-07-23 but are metadata, not printed designators. REV-UNKNOWN is the accurate label and must not be replaced with an inferred date.",
+      "retainedEditionAsset": {
+        "workflowKey": "ID:ISP-BCI:APPLICATION:EN",
+        "documentId": "ISP-BCI",
+        "assetClass": "source_gated",
+        "recordedRevision": "REV-UNKNOWN",
+        "sha256": "7442267d7799b9b117b20494b919a875974e8086f1317c7bc7532f038c131bcf"
+      },
+      "hashAgreementWithRetainedAsset": "exact_match",
+      "whyComponentReadsUnmanifested": "The component binds documentId ISP-BCI-EXPUNGEMENT-APPLICATION while the edition retains the same bytes under documentId ISP-BCI. The candidate library evidence on the component already points at ID:ISP-BCI:APPLICATION:EN with the matching digest, so the document is identified but not mapped.",
+      "officialFilenameNote": "The publisher's filename misspells the word as 'ExpungmentApplication.pdf'. Preserve it verbatim in any URL; do not correct it."
+    }
+  ],
+  "redundantAcquisitionWorkRemoved": {
+    "queueRowsClosedWithoutAcquisition": 2,
+    "acquisitionKeys": [
+      "acquire:ID:isc-petition-to-shield-67-3004-11",
+      "acquire:ID:isp-bci-expungement-application"
+    ],
+    "downloadsAvoided": 2,
+    "rationale": "Both Idaho rows read authority_unmanifested_source solely because the component's documentId string differs from the edition's. Both documents are retained at the exact bytes the issuers publish today. Neither row is an acquisition and neither should remain an open download job."
+  },
+  "correctionsRaised": [
+    {
+      "kind": "document_id_alias",
+      "severity": "high",
+      "component": "id_clean_slate_shield-primary-filing-1",
+      "recordedValue": "ISC-PETITION-TO-SHIELD-67-3004-11",
+      "editionValue": "PETITION-TO-SHIELD-RECORDS-FROM-PUBLIC-DISCLOSURE",
+      "recommendation": "Reconcile the alias so the component maps to ID:PETITION-TO-SHIELD-RECORDS-FROM-PUBLIC-DISCLOSURE:PETITION:EN. The bytes already match.",
+      "appliedByThisJob": false,
+      "notAppliedRationale": "Component remap is AUTH-02 work and touches a forbidden path for this job."
+    },
+    {
+      "kind": "document_id_alias",
+      "severity": "high",
+      "component": "id_isp_expungement-primary-filing-1",
+      "recordedValue": "ISP-BCI-EXPUNGEMENT-APPLICATION",
+      "editionValue": "ISP-BCI",
+      "recommendation": "Reconcile the alias so the component maps to ID:ISP-BCI:APPLICATION:EN.",
+      "appliedByThisJob": false,
+      "notAppliedRationale": "Component remap is AUTH-02 work and touches a forbidden path for this job."
+    },
+    {
+      "kind": "revision_label_parse_error",
+      "severity": "high",
+      "asset": "ID:PETITION-TO-SHIELD-RECORDS-FROM-PUBLIC-DISCLOSURE:PETITION:EN",
+      "recordedValue": "REV-2001-01",
+      "observed": "The form footer reads '01/01/2024'. The retained label appears to have taken the leading '01/01' as a year and month.",
+      "correctValue": "REV-2024-01-01",
+      "recommendation": "Correct the label to REV-2024-01-01. The bytes are right; only the label is wrong, and the canonical path inherits it.",
+      "appliedByThisJob": false,
+      "notAppliedRationale": "The adopted edition is a forbidden path for this job."
+    },
+    {
+      "kind": "dead_recorded_url",
+      "severity": "medium",
+      "field": "id_clean_slate_shield-primary-filing-1.officialSourceUrl",
+      "recordedValue": "https://isc.idaho.gov/files/Petition-to-Shield-Records-from-Public-Disclosure-IC67-3004-11.pdf",
+      "observed": "HTTP 404 on 2026-08-04. The court migrated its forms to api.isc.idaho.gov.",
+      "correctValue": "https://api.isc.idaho.gov/uploads/Generic_Files/1778008521917-Petition-to-Shield-Records-from-Public-Disclosure-IC67-3004-11.pdf",
+      "recommendation": "Replace the recorded URL. Note the filename carries an epoch-millisecond upload prefix, so it is migration-stable but not semantically stable; pin the bytes by hash rather than trusting the path.",
+      "appliedByThisJob": false
+    },
+    {
+      "kind": "asset_class_gate",
+      "severity": "medium",
+      "asset": "ID:ISP-BCI:APPLICATION:EN",
+      "observed": "The retained asset class is source_gated, not packet_form. Reconciling the alias alone does not make the document usable at runtime.",
+      "recommendation": "Resolve the source_gated class as a separate step after the alias is reconciled. Recorded so the alias fix is not mistaken for full clearance.",
+      "appliedByThisJob": false
+    }
+  ],
+  "openQuestionsAddressed": [
+    {
+      "question": "Does the Idaho Supreme Court publish an order form to accompany the Petition to Shield?",
+      "answer": "No form is published by the issuer.",
+      "evidence": "The Clean Slate Act page carries exactly four file links: the Instructions PDF and the Petition in PDF, DOCX and RTF. There is no order, stipulation or notice-of-hearing form. The Instructions place the follow-on paper with the court: once the petition is filed, the court sets a hearing date and sends the petitioner a Notice of Hearing. The statewide self-help forms index has no criminal or shielding category at all.",
+      "residualUnknown": "Whether individual Idaho courts nonetheless expect a petitioner to lodge a proposed order is a local-practice question that no official page answers. It stays open.",
+      "cautionForFutureSessions": "Search-engine result summaries assert that an 'Order to Shield Records from Public Disclosure' and a 'Stipulation to Shield Records from Public Disclosure' exist on courtselfhelp.idaho.gov, one of them citing a nonexistent statute. Direct retrieval of the official index pages disproves this. Do not add an order form to the Idaho packet on the strength of a search summary."
+    }
+  ],
+  "unresolved": [
+    {
+      "question": "Are there redistribution or commercial-use terms for Idaho Supreme Court or ISP forms?",
+      "status": "no_terms_located_neither_granted_nor_prohibited",
+      "why": "isc.idaho.gov publishes no terms-of-use or disclaimer page, and no reuse notice appears on either form or index. The only legal link is the statewide idaho.gov privacy policy, which does not address reproduction of forms. Recorded as no terms located rather than as permission."
+    },
+    {
+      "question": "Is ordinary misdemeanor DUI under I.C. § 18-8004 being shielded in practice, given that only § 18-8004C appears on the assaultive or violent list?",
+      "status": "outside_this_job",
+      "why": "An open legal-design eligibility_branch blocker on id_clean_slate_shield. Neither answered nor narrowed here."
+    },
+    {
+      "question": "Is the 2018 BCI application still the issuer's current form?",
+      "status": "current_by_publication_not_by_designator",
+      "why": "Currentness rests on ISP publishing these exact bytes today, which this job confirmed, rather than on any printed revision. Only one expungement application file exists across both ISP indexes. If ISP later republishes without changing the face, no designator will reveal it — the hash is the only detector."
+    }
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0
+  }
+}
