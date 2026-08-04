@@ -22,6 +22,8 @@ const NEVER_WORKER_OWNED_PATHS = [
   "data/record-clearing/master-library/source-acquisition-queue.json",
   "data/record-clearing/master-library/track-source-audit.json",
   "data/record-clearing/production-factory/review-manifests",
+  "data/record-clearing/production-factory/normalization-readiness-input.json",
+  "data/record-clearing/production-factory/job-claims.json",
   "src/lib/rcap/jurisdictions/packet-capability.ts",
   "src/lib/rcap/state-promotion-manifest.ts"
 ];

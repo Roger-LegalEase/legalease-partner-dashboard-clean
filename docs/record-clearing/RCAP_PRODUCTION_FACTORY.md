@@ -18,6 +18,7 @@ does not create a second legal registry or change a legal conclusion.
 | `npm run rcap:factory:generate-review -- <jobId>` | Rebuild the job's synthetic review PDF, page images, checklists, hashes, and tracked manifest. |
 | `npm run rcap:factory:integrate-wave -- <waveId>` | Print the captain-only regeneration and full integration gates. Execution requires `--execute --captain-ack`. |
 | `npm run rcap:factory:test` | Run the factory's focused deterministic and safety tests. |
+| `npm run rcap:verify-normalization-readiness` | Validate the 24-jurisdiction review, inventory, authority-refresh, and exact-claim foundation. |
 
 Run `plan`, `prompt`, `status`, PDF inspection, validation dry checks, and wave
 dry runs from the repository root. All JSON output is stable: no current time,
@@ -38,6 +39,10 @@ The planner reads these existing sources of truth:
 - authoritative blockers and acquisition work:
   `data/record-clearing/master-library/authoritative-blocker-ledger.json` and
   `data/record-clearing/master-library/source-acquisition-queue.json`
+- normalization review identities, bundle inputs, and exact-job claims:
+  `data/record-clearing/master-library/repository-asset-audit.json`,
+  `data/record-clearing/production-factory/normalization-readiness-input.json`,
+  and `data/record-clearing/production-factory/job-claims.json`
 - the reconciled 100-percent plan and 109-document acquisition-intelligence
   dossier under `planning/record-clearing-100-percent/`
 - implementation records and review manifests:
@@ -66,7 +71,7 @@ Every job has:
 `ownedPaths`, `integrationOwnedOutputs`, `forbiddenPaths`, `requiredInputs`, `expectedOutputs`,
 `requiredOutputFields`, and, where applicable, `regressionVerifier`,
 `participantPacketProofRequired`, `sourceMaterializationInputs`, or
-`normalizationReadiness`,
+`normalizationReadiness`; a reserved child also carries `assignmentClaim`,
 `focusedValidation`, `integrationValidation`, `model`, `effort`,
 `executionScope`, `status`, `commitSubject`, and `stopCondition`.
 Source jobs additionally carry exact `acquisitionIds` or `reconciliationIds`.
@@ -76,7 +81,7 @@ the expected count to zero. The planner rejects duplicate assignment or
 omission, and the focused validator enforces the declared fields without
 weakening strategy-specific safeguards.
 
-The 196 compiled mechanical jobs do not replace the canonical plan's 72 parent
+The 197 compiled mechanical jobs do not replace the canonical plan's 72 parent
 jobs. Every compiled child carries exactly one canonical parent, wave, and lane.
 The exact canonical track partition is 240 parent `tracks`, five Maryland
 `authorityOnlyRoutes`, and five completed Mississippi Tranche 1 tracks: 250
@@ -172,11 +177,22 @@ worker policy, materialization state, and exact verification command. The job
 stays blocked until every binary is materialized and hash-verified.
 
 New-jurisdiction normalization likewise stays blocked until the active
-controlling review is materialized and checksum-verified and an expected
-source-ID set or approved mechanism inventory exists. Retrieval records keep
-shell blocking separate from browser-accessible official authority; a `curl`
-403 does not become `authority_absent` when the exact issuing page remains
-available through the approved browser retrieval channel.
+controlling review is materialized and checksum-verified, the complete
+mechanism inventory and expected source-ID set reconcile to a deterministic
+hash, review precedence is resolved, and primary-authority refresh
+requirements are explicitly recorded. The 24 remaining review identities are
+derived from the Edition 1.2 authority audit; the planner no longer contains a
+Pennsylvania-only readiness branch. Retrieval records keep shell blocking
+separate from browser-accessible official authority; a `curl` 403 does not
+become `authority_absent` when the exact issuing page remains available
+through the approved browser retrieval channel.
+
+Session reservations are exact job claims. A reserved ready job requires the
+matching `--session` value at scaffold time. Duplicate job claims or two
+session owners for one normalization jurisdiction invalidate the plan. Claims
+reserve routing only: they do not satisfy readiness or allow a blocked child
+to be scaffolded. The complete bundle and hashing rules are documented in
+`RCAP_NORMALIZATION_READINESS_CONTRACT.md`.
 
 ## PDF inspection and review artifacts
 

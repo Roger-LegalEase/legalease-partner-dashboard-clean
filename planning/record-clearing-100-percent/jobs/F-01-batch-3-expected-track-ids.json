@@ -5,14 +5,17 @@
   "lane": "authority",
   "model": "claude-opus-5",
   "effort": "xhigh",
-  "title": "Author the Batch 3 expected-track-ID set for the remaining 25 jurisdictions",
-  "reconciliationStatus": "superseded_by_factory_infrastructure",
+  "title": "Materialize the Batch 3 normalization-readiness denominator",
+  "reconciliationStatus": "in_progress_by_integration_captain",
   "reconciliationEvidence": [
     "data/record-clearing/legal-design-implementation-queue.json",
-    "scripts/lib/rcap-factory/planner.mjs",
-    "scripts/verify-rcap-integrated-production-plan.mjs"
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/production-factory/normalization-readiness-input.json",
+    "data/record-clearing/production-factory/job-claims.json",
+    "scripts/lib/rcap-factory/normalization-readiness.mjs",
+    "scripts/verify-rcap-normalization-readiness.mjs"
   ],
-  "reconciliationNote": "The integrated factory deterministically reads the committed 25-jurisdiction outstanding set and emits one bounded normalization child per jurisdiction. No external expected-track-ID file is required for dispatch.",
+  "reconciliationNote": "The integrated factory derives one child per outstanding jurisdiction from a portable, hash-bound readiness record. The 24 new children remain blocked until the captain ingests the Session B and Session D mechanism-inventory bundles. Pennsylvania's prior immutable scaffold remains a separately claimed in-progress transition.",
   "jurisdictions": [
     "KY",
     "NC",
@@ -44,7 +47,11 @@
   "trackCount": 0,
   "dependencies": [],
   "ownedPaths": [
-    "/workspaces/legalease-legal-review-import/batch-3/expected/expected-track-ids.json"
+    "data/record-clearing/production-factory/normalization-readiness-input.json",
+    "data/record-clearing/production-factory/job-claims.json",
+    "docs/record-clearing/RCAP_NORMALIZATION_READINESS_CONTRACT.md",
+    "scripts/lib/rcap-factory/normalization-readiness.mjs",
+    "scripts/verify-rcap-normalization-readiness.mjs"
   ],
   "forbiddenPaths": [
     "data/record-clearing/legal-design-track-registry.json",
@@ -67,11 +74,14 @@
     "/workspaces/legalease-attorney-review-packages/**"
   ],
   "outputs": [
-    "batch-3 expected-track-ids.json: per-jurisdiction expected relief-track IDs counted from each retained Edition 1.2 PART-1 review",
-    "a per-jurisdiction source-slot count reconciling to the 246 counted slots"
+    "one captain-owned readiness bundle per remaining jurisdiction, bound to the active Edition 1.2 review",
+    "a deterministic mechanism-inventory hash and exact expected source-ID set per jurisdiction",
+    "portable review materialization evidence and exact official-authority refresh requirements",
+    "conflict-free exact-job claims for the reserved normalization sessions"
   ],
   "gates": [
-    "npm run rcap:legal-design-batch-delta -- --batch=<POD> --expected=<file> executes and reconciles",
+    "npm run rcap:verify-normalization-readiness",
+    "npm run rcap:factory:test",
     "npm run typecheck",
     "npm run rcap:verify-legal-design-intake",
     "npm run rcap:verify-master-library-authority",
@@ -82,8 +92,8 @@
     "packet_ready remains 0 and enabled jurisdictions remain 0"
   ],
   "commitSubject": "chore(record-clearing): author the Batch 3 expected-track-ID set",
-  "completionCondition": "Every one of the 25 jurisdictions has an expected track-ID list derived from its retained review, and the batch-delta script runs against it without a fixture fallback.",
-  "blockerResolved": "rcap-legal-design-batch-delta.mjs defaults EXPECTED_PATH to the batch-1-amended set; only batch-1-amended and batch-2 expected sets exist on disk, so no normalization pod for the remaining 25 can be reconciled against a counted expectation.",
+  "completionCondition": "All 24 new-jurisdiction bundles are present exactly once; every controlling review, mechanism inventory, expected source ID, precedence decision and official-authority refresh record validates; and each child is either ready or carries one precise authority-refresh blocker.",
+  "blockerResolved": "The prior planner discarded committed Edition 1.2 review identities and special-cased Pennsylvania. The replacement derives readiness from immutable review pins, portable materialization evidence and hash-bound mechanism inventories without relying on an absolute legal-review-import path.",
   "commercialPriority": 55,
   "reuseScore": 40
 }

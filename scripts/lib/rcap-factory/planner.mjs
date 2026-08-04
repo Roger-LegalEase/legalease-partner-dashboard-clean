@@ -9,6 +9,13 @@ import {
   assertValidFactoryPlan,
   normalizeRepoPath
 } from "./schema.mjs";
+import {
+  NORMALIZATION_READINESS_FOUNDATION_JOB_ID,
+  REMAINING_NORMALIZATION_JURISDICTIONS,
+  buildNormalizationReadinessRecords,
+  normalizationFoundationComplete,
+  validateFactoryJobClaims
+} from "./normalization-readiness.mjs";
 
 export const FACTORY_INPUT_PATHS = Object.freeze({
   authority: "data/record-clearing/master-library/authority.json",
@@ -36,7 +43,13 @@ export const FACTORY_INPUT_PATHS = Object.freeze({
   acquisitionUnresolved:
     "planning/record-clearing-100-percent/acquisition-intelligence/unresolved.json",
   acquisitionReadme:
-    "planning/record-clearing-100-percent/acquisition-intelligence/README.md"
+    "planning/record-clearing-100-percent/acquisition-intelligence/README.md",
+  repositoryAssetAudit:
+    "data/record-clearing/master-library/repository-asset-audit.json",
+  normalizationReadiness:
+    "data/record-clearing/production-factory/normalization-readiness-input.json",
+  jobClaims:
+    "data/record-clearing/production-factory/job-claims.json"
 });
 
 export const GLOBAL_GENERATED_REGISTRIES = Object.freeze([
@@ -52,6 +65,8 @@ export const GLOBAL_GENERATED_REGISTRIES = Object.freeze([
   "data/record-clearing/relief-track-registry.json",
   "data/record-clearing/source-artifact-registry.json",
   "data/record-clearing/production-factory/review-manifests",
+  "data/record-clearing/production-factory/normalization-readiness-input.json",
+  "data/record-clearing/production-factory/job-claims.json",
   "src/lib/rcap/jurisdictions/packet-capability.ts",
   "src/lib/rcap/packets/registry.ts",
   "src/lib/rcap/state-promotion-manifest.ts",
@@ -104,6 +119,8 @@ const GEORGIA_TRANCHE_WORKER_COMMIT =
   "080ed5d94e92442069b4000511f04194f734f36d";
 const TRACK_PROMOTION_WORKER_COMMIT =
   "33ff72c8514d289152caa0ed846db0cdd1f79502";
+const SOURCE_MATERIALIZATION_WORKER_COMMIT =
+  "a3b28545af4e8953146a97907d22a28c7aec6726";
 const ARKANSAS_PUBLIC_GAPS_WORKER_COMMIT =
   "d19f7ff100d6e240cc3ffb00ecfcdab1477527c3";
 const ALABAMA_CR65_WORKER_COMMIT =
@@ -285,6 +302,11 @@ export function buildFactoryPlan(options = {}) {
   const stateByCode = new Map(states.map((state) => [state.code, state]));
   const jobs = [];
   const jobsByLaneAndState = new Map();
+  const claimsByJobId = new Map(
+    (inputs.jobClaims.claims ?? [])
+      .filter((claim) => claim.targetType === "compiled_job")
+      .map((claim) => [claim.jobId, claim])
+  );
 
   const addJob = ({
     lane,
@@ -296,6 +318,7 @@ export function buildFactoryPlan(options = {}) {
     strategyFamily,
     expectedOutputs,
     ownedPaths,
+    forbiddenPaths,
     integrationOwnedOutputs,
     acquisitionIds = [],
     reconciliationIds = [],
@@ -347,7 +370,9 @@ export function buildFactoryPlan(options = {}) {
       integrationOwnedOutputs: sortedUnique(
         integrationOwnedOutputs ?? [reviewManifest]
       ),
-      forbiddenPaths: [...GLOBAL_WORKER_FORBIDDEN_PATHS],
+      forbiddenPaths: sortedUnique(
+        forbiddenPaths ?? GLOBAL_WORKER_FORBIDDEN_PATHS
+      ),
       requiredInputs: sortedUnique(requiredInputs),
       expectedOutputs: outputs,
       requiredOutputFields: sortedUnique(
@@ -398,6 +423,10 @@ export function buildFactoryPlan(options = {}) {
     }
     if (executionNote) {
       job.executionNote = executionNote;
+    }
+    const assignmentClaim = claimsByJobId.get(jobId);
+    if (assignmentClaim) {
+      job.assignmentClaim = structuredClone(assignmentClaim);
     }
 
     jobs.push(job);
@@ -488,39 +517,117 @@ export function buildFactoryPlan(options = {}) {
     ],
     model: "codex",
     effort: "xhigh",
-    status: "ready",
+    status: "completed",
+    completionCommit: SOURCE_MATERIALIZATION_WORKER_COMMIT,
     focusedValidation: [
       "node scripts/rcap-factory-plan.mjs --check-job rcap-nationwide-source-materialization-contract",
       "node scripts/verify-rcap-source-materialization-contract.mjs"
     ],
     commitSubject: "feat(record-clearing): define source materialization contract",
     stopCondition:
-      "Implement only the portable, hash-verifying read-only source-materialization contract and " +
-      "focused verifiers. Do not acquire or reconstruct binaries, modify private sources, implement " +
-      "a packet, change legal design, enable runtime, promote a route, or deploy. " +
-      TERMINAL_INSTRUCTION
+      `Terminal completed child: source commit ${SOURCE_MATERIALIZATION_WORKER_COMMIT} is integrated. ` +
+      "Preserve the portable, hash-verifying, read-only source-materialization contract. Do not " +
+      "scaffold, execute, acquire or reconstruct binaries, enable runtime, promote a route, or deploy."
   });
 
   const normalizedTracks = [...inputs.normalizedTracks.tracks].sort(compareTracks);
   const tracksByState = groupBy(normalizedTracks, (track) => track.jurisdiction);
   const outstanding = sortedUnique(inputs.implementationQueue.outstandingJurisdictions ?? []);
+  const normalizationReadinessRecords = buildNormalizationReadinessRecords({
+    input: inputs.normalizationReadiness,
+    authority: inputs.authority,
+    repositoryAssetAudit: inputs.repositoryAssetAudit,
+    claims: inputs.jobClaims,
+    outstandingJurisdictions: outstanding
+  });
+  const readinessFoundationComplete = normalizationFoundationComplete(
+    inputs.normalizationReadiness
+  );
+  const normalizationReadinessFoundation = addJob({
+    lane: "platform_foundation",
+    jurisdiction: "NATIONWIDE",
+    jobId: NORMALIZATION_READINESS_FOUNDATION_JOB_ID,
+    strategyFamily: "normalization_readiness",
+    dependencies: [sourceMaterializationFoundation.jobId],
+    expectedOutputs: [
+      FACTORY_INPUT_PATHS.normalizationReadiness,
+      FACTORY_INPUT_PATHS.jobClaims,
+      "docs/record-clearing/RCAP_NORMALIZATION_READINESS_CONTRACT.md",
+      "scripts/lib/rcap-factory/normalization-readiness.mjs",
+      "scripts/verify-rcap-normalization-readiness.mjs"
+    ],
+    ownedPaths: [
+      FACTORY_INPUT_PATHS.normalizationReadiness,
+      FACTORY_INPUT_PATHS.jobClaims,
+      "docs/record-clearing/RCAP_NORMALIZATION_READINESS_CONTRACT.md",
+      "scripts/lib/rcap-factory/normalization-readiness.mjs",
+      "scripts/verify-rcap-normalization-readiness.mjs"
+    ],
+    forbiddenPaths: GLOBAL_WORKER_FORBIDDEN_PATHS.filter(
+      (candidate) =>
+        ![
+          FACTORY_INPUT_PATHS.normalizationReadiness,
+          FACTORY_INPUT_PATHS.jobClaims
+        ].includes(candidate)
+    ),
+    requiredInputs: [
+      FACTORY_INPUT_PATHS.authority,
+      FACTORY_INPUT_PATHS.repositoryAssetAudit,
+      "docs/record-clearing/RCAP_SOURCE_MATERIALIZATION_CONTRACT.md",
+      "planning/record-clearing-100-percent/jobs/F-01-batch-3-expected-track-ids.json"
+    ],
+    model: "codex",
+    effort: "xhigh",
+    executionScope: "captain",
+    status: readinessFoundationComplete ? "completed" : "in_progress",
+    focusedValidation: [
+      "node scripts/verify-rcap-normalization-readiness.mjs"
+    ],
+    commitSubject:
+      "feat(record-clearing): materialize normalization readiness",
+    stopCondition:
+      "The integration captain owns this foundation. Complete it only after both reserved research " +
+      "bundles cover all 24 jurisdictions exactly once and every review, inventory, expected source " +
+      "ID, and authority-refresh gate validates. Do not normalize a jurisdiction or publish Edition 1.3."
+  });
 
   for (const jurisdiction of outstanding) {
-    const normalizationReadiness = normalizationReadinessFor(
-      jurisdiction,
-      authorityEdition
-    );
+    const normalizationReadiness = normalizationReadinessRecords.get(jurisdiction);
+    const status =
+      normalizationReadiness.readinessState === "normalization_complete"
+        ? "completed"
+        : normalizationReadiness.readinessState === "normalization_in_progress"
+          ? "in_progress"
+          : normalizationReadiness.readinessState === "ready_for_normalization" &&
+              readinessFoundationComplete
+            ? "ready"
+            : "blocked";
     addJob({
       lane: "legal_design_normalization",
       jurisdiction,
-      status: jurisdiction === "PA" ? "in_progress" : "blocked",
+      status,
       normalizationReadiness,
+      dependencies:
+        status === "in_progress"
+          ? []
+          : [normalizationReadinessFoundation.jobId],
       requiredInputs: [
         FACTORY_INPUT_PATHS.authority,
+        FACTORY_INPUT_PATHS.repositoryAssetAudit,
+        FACTORY_INPUT_PATHS.normalizationReadiness,
+        FACTORY_INPUT_PATHS.jobClaims,
         FACTORY_INPUT_PATHS.blockerLedger,
         "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
         FACTORY_INPUT_PATHS.allStateBuildStatus,
-        "planning/record-clearing-100-percent/jobs/F-01-batch-3-expected-track-ids.json"
+        "planning/record-clearing-100-percent/jobs/F-01-batch-3-expected-track-ids.json",
+        normalizationReadiness.reviewMaterialization.materializationDestination
+      ],
+      focusedValidation: [
+        `node scripts/rcap-factory-plan.mjs --check-job ${jobIdFor(
+          jurisdiction,
+          "legal_design_normalization"
+        )}`,
+        normalizationReadiness.reviewMaterialization.verificationCommand
       ]
     });
   }
@@ -757,6 +864,11 @@ export function buildFactoryPlan(options = {}) {
   }
 
   attachCanonicalParents(jobs, inputs.canonicalParentJobs);
+  assertFactoryClaimTargets(
+    inputs.jobClaims,
+    jobs,
+    inputs.canonicalParentJobs.map((record) => record.data)
+  );
   jobs.sort(compareJobs);
   const lanes = FACTORY_LANES.map((lane) => ({
     lane,
@@ -775,6 +887,11 @@ export function buildFactoryPlan(options = {}) {
     baseCommit,
     generatedFrom: inputs.generatedFrom,
     sourceSummary: buildSourceSummary(inputs, classifications),
+    normalizationReadiness: buildNormalizationReadinessSummary(
+      normalizationReadinessRecords,
+      inputs.normalizationReadiness
+    ),
+    jobClaims: structuredClone(inputs.jobClaims),
     canonicalPlan: buildCanonicalPlanSummary(inputs.canonicalParentJobs),
     parentJobReconciliation: buildParentJobReconciliation(
       inputs.canonicalParentJobs,
@@ -814,6 +931,9 @@ export function readFactoryInputs(rootDir) {
   const acquisitionCampaigns = json("acquisitionCampaigns");
   const acquisitionIssuers = json("acquisitionIssuers");
   const acquisitionUnresolved = json("acquisitionUnresolved");
+  const repositoryAssetAudit = json("repositoryAssetAudit");
+  const normalizationReadiness = json("normalizationReadiness");
+  const jobClaims = json("jobClaims");
 
   // Runtime and promotion records are TypeScript only because the application
   // imports them directly. Read them as data without executing application code.
@@ -863,6 +983,9 @@ export function readFactoryInputs(rootDir) {
     acquisitionCampaigns,
     acquisitionIssuers,
     acquisitionUnresolved,
+    repositoryAssetAudit,
+    normalizationReadiness,
+    jobClaims,
     runtimeRegistrySource,
     packetCapabilitySource,
     statePromotionRecords,
@@ -1492,6 +1615,9 @@ function resolveCanonicalParentJobId(job, parents) {
   }
   if (job.jobId === "rcap-nationwide-source-materialization-contract") {
     return "AUTH-06-source-gate-clearance";
+  }
+  if (job.jobId === NORMALIZATION_READINESS_FOUNDATION_JOB_ID) {
+    return "F-01-batch-3-expected-track-ids";
   }
   if (
     [
@@ -2425,72 +2551,59 @@ function implementedTracks(records) {
   return result;
 }
 
-function normalizationReadinessFor(jurisdiction, authorityEdition) {
-  const portableArchiveLocator =
-    "attorney-review-package://Expungement_AI_RCAP_Master_Library_Edition_1_2.zip";
-  if (jurisdiction !== "PA") {
-    return {
-      authorityEdition,
-      readinessState: "legal_review_materialization_required",
-      controllingReviewAssetPath: null,
-      controllingReviewSha256: null,
-      controllingReviewStatus: "authority_asset_known",
-      legalReviewPrecedence:
-        "The active original Master Library legal review controls when no addendum exists.",
-      expectedSourceIds: [],
-      approvedMechanismInventory: null,
-      reviewedThrough: null,
-      openQuestions: [
-        "Materialize and checksum the active controlling review.",
-        "Materialize the expected source-ID set or approve a hash-bound mechanism inventory."
-      ],
-      officialPrimaryAuthorityRefreshRequirements: [],
-      portableArchiveLocator
-    };
-  }
-
-  const controllingReviewAssetPath =
-    "STATES/PA/01_LEGAL_REVIEW/PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md";
-  const controllingReviewSha256 =
-    "68f1c53dda1a810a690a9fc551fa82f5a1c099b1dd5843a5a85538e9f1f4edde";
-  const authorityPages = [
-    ["18 Pa.C.S. § 9122", "022.000"],
-    ["18 Pa.C.S. § 9122.1", "022.001"],
-    ["18 Pa.C.S. § 9122.3", "022.003"]
-  ];
+function buildNormalizationReadinessSummary(records, input) {
+  const remaining = REMAINING_NORMALIZATION_JURISDICTIONS.map((jurisdiction) => {
+    const record = records.get(jurisdiction);
+    if (!record) {
+      throw new Error(
+        `Normalization readiness is missing remaining jurisdiction ${jurisdiction}.`
+      );
+    }
+    return record;
+  });
   return {
-    authorityEdition,
-    readinessState: "ready_for_normalization",
-    controllingReviewAssetPath,
-    controllingReviewSha256,
-    controllingReviewStatus: "checksum_verified",
-    legalReviewPrecedence:
-      "The single active Edition 1.2 Pennsylvania legal review controls; no addendum is required.",
-    expectedSourceIds: [],
-    approvedMechanismInventory: {
-      count: 11,
-      sourcePath: controllingReviewAssetPath,
-      sourceSha256: controllingReviewSha256
-    },
-    reviewedThrough: "2026-08-01",
-    openQuestions: [],
-    officialPrimaryAuthorityRefreshRequirements: authorityPages.map(
-      ([sectionIdentifier, page]) => ({
-        officialUrl:
-          `https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091.${page}..HTM`,
-        issuingDomain: "www.legis.state.pa.us",
-        sectionIdentifier,
-        retrievalMethod: "approved_browser_web_search_fetch",
-        retrievalDate: "2026-08-04",
-        capturedSourceSha256: null,
-        retrievalState: "browser_official_retrieval_available",
-        shellRetrievalState: "shell_download_blocked",
-        alternateOfficialRetrievalChannel:
-          "Browser Web Search / Fetch against the same official Pennsylvania General Assembly URL"
-      })
-    ),
-    portableArchiveLocator
+    expectedJurisdictions: REMAINING_NORMALIZATION_JURISDICTIONS.length,
+    representedExactlyOnce: remaining.length,
+    bundlesReceived: input.bundles.length,
+    readyForNormalization: remaining.filter(
+      (record) => record.readinessState === "ready_for_normalization"
+    ).length,
+    blocked: remaining.filter(
+      (record) => record.readinessState !== "ready_for_normalization"
+    ).length,
+    byReadinessState: tally(remaining, (record) => record.readinessState)
   };
+}
+
+function assertFactoryClaimTargets(claims, jobs, canonicalParents) {
+  const validation = validateFactoryJobClaims(claims);
+  if (!validation.ok) {
+    throw new Error(`Invalid factory job claims:\n- ${validation.issues.join("\n- ")}`);
+  }
+  const compiledJobIds = new Set(jobs.map((job) => job.jobId));
+  const canonicalParentIds = new Set(
+    canonicalParents.map((parent) => parent.jobId)
+  );
+  for (const claim of claims.claims) {
+    const targets =
+      claim.targetType === "compiled_job"
+        ? compiledJobIds
+        : canonicalParentIds;
+    if (!targets.has(claim.jobId)) {
+      throw new Error(
+        `Factory claim ${claim.jobId} does not name a known ${claim.targetType}.`
+      );
+    }
+    if (claim.targetType === "compiled_job") {
+      const job = jobs.find((entry) => entry.jobId === claim.jobId);
+      if (claim.jurisdiction !== job.jurisdiction) {
+        throw new Error(
+          `Factory claim ${claim.jobId} jurisdiction ${claim.jurisdiction} ` +
+            `does not match ${job.jurisdiction}.`
+        );
+      }
+    }
+  }
 }
 
 function canonicalStates(inputs) {

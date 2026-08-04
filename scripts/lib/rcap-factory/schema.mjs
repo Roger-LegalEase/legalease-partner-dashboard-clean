@@ -1,4 +1,8 @@
 import path from "node:path";
+import {
+  NORMALIZATION_READINESS_FOUNDATION_JOB_ID,
+  validateNormalizationReadinessRecord
+} from "./normalization-readiness.mjs";
 
 export const FACTORY_SCHEMA_VERSION = "rcap-production-factory/v1";
 
@@ -225,6 +229,32 @@ export function validateJob(job) {
       !COMMIT_PATTERN.test(job.completionCommit)
     ) {
       add("completionCommit must be a lowercase 40-character Git SHA.");
+    }
+  }
+  if ("assignmentClaim" in job) {
+    const claim = job.assignmentClaim;
+    if (!claim || typeof claim !== "object" || Array.isArray(claim)) {
+      add("assignmentClaim must be an object.");
+    } else {
+      if (claim.targetType !== "compiled_job") {
+        add("assignmentClaim.targetType must be compiled_job.");
+      }
+      if (claim.jobId !== job.jobId) {
+        add("assignmentClaim.jobId must match jobId.");
+      }
+      if (claim.jurisdiction !== job.jurisdiction) {
+        add("assignmentClaim.jurisdiction must match jurisdiction.");
+      }
+      if (
+        !["SESSION_B", "SESSION_C", "SESSION_D", "SESSION_F"].includes(
+          claim.ownerSession
+        )
+      ) {
+        add("assignmentClaim.ownerSession is invalid.");
+      }
+      if (!["reserved", "in_progress"].includes(claim.status)) {
+        add("assignmentClaim.status is invalid.");
+      }
     }
   }
   if ("regressionVerifier" in job) {
@@ -594,157 +624,69 @@ function validateSourceMaterializationInputs(job, issues) {
 
 function validateNormalizationReadiness(job, issues) {
   const input = job.normalizationReadiness;
-  if (!input || typeof input !== "object" || Array.isArray(input)) {
-    issues.push("normalization jobs must carry normalizationReadiness.");
-    return;
-  }
-  const readinessStates = new Set([
-    "legal_review_materialization_required",
-    "expected_source_id_set_required",
-    "authority_archive_inconsistency",
-    "ready_for_normalization"
-  ]);
-  const reviewStatuses = new Set([
-    "authority_absent",
-    "authority_asset_known",
-    "checksum_verified",
-    "authority_archive_inconsistent"
-  ]);
-  if (!readinessStates.has(input.readinessState)) {
-    issues.push("normalizationReadiness.readinessState is invalid.");
-  }
-  if (!reviewStatuses.has(input.controllingReviewStatus)) {
-    issues.push("normalizationReadiness.controllingReviewStatus is invalid.");
-  }
-  for (const field of [
-    "authorityEdition",
-    "legalReviewPrecedence",
-    "portableArchiveLocator"
-  ]) {
-    if (typeof input[field] !== "string" || input[field].trim().length === 0) {
-      issues.push(`normalizationReadiness.${field} must be a non-empty string.`);
-    }
-  }
-  if (
-    input.controllingReviewAssetPath !== null &&
-    (typeof input.controllingReviewAssetPath !== "string" ||
-      input.controllingReviewAssetPath.trim().length === 0)
-  ) {
+  const validation = validateNormalizationReadinessRecord(input);
+  issues.push(...validation.issues);
+  if (!input || typeof input !== "object" || Array.isArray(input)) return;
+  if (input.jurisdiction !== job.jurisdiction) {
     issues.push(
-      "normalizationReadiness.controllingReviewAssetPath must be null or a non-empty string."
+      "normalizationReadiness.jurisdiction must match the assigned job."
     );
   }
+
+  const materializationPath =
+    input.reviewMaterialization?.materializationDestination;
   if (
-    input.controllingReviewSha256 !== null &&
-    !/^[0-9a-f]{64}$/.test(input.controllingReviewSha256 ?? "")
+    typeof materializationPath === "string" &&
+    !(job.requiredInputs ?? []).includes(materializationPath)
   ) {
     issues.push(
-      "normalizationReadiness.controllingReviewSha256 must be null or a lowercase SHA-256."
+      "the verified temporary legal-review path must be an exact requiredInput."
     );
   }
+  const verificationCommand = input.reviewMaterialization?.verificationCommand;
   if (
-    input.reviewedThrough !== null &&
-    !/^\d{4}-\d{2}-\d{2}$/.test(input.reviewedThrough ?? "")
-  ) {
-    issues.push("normalizationReadiness.reviewedThrough must be null or YYYY-MM-DD.");
-  }
-  for (const field of [
-    "expectedSourceIds",
-    "openQuestions",
-    "officialPrimaryAuthorityRefreshRequirements"
-  ]) {
-    if (!Array.isArray(input[field])) {
-      issues.push(`normalizationReadiness.${field} must be an array.`);
-    }
-  }
-  const inventoryCount = input.approvedMechanismInventory?.count ?? 0;
-  if (
-    input.approvedMechanismInventory !== null &&
-    (!input.approvedMechanismInventory ||
-      typeof input.approvedMechanismInventory !== "object" ||
-      !Number.isInteger(inventoryCount) ||
-      inventoryCount <= 0 ||
-      typeof input.approvedMechanismInventory.sourcePath !== "string" ||
-      !/^[0-9a-f]{64}$/.test(
-        input.approvedMechanismInventory.sourceSha256 ?? ""
-      ))
+    typeof verificationCommand === "string" &&
+    !(job.focusedValidation ?? []).includes(verificationCommand)
   ) {
     issues.push(
-      "normalizationReadiness.approvedMechanismInventory must be null or a positive, hash-bound inventory."
+      "the legal-review verification command must be an exact focusedValidation command."
     );
   }
-  for (const [index, requirement] of (
-    input.officialPrimaryAuthorityRefreshRequirements ?? []
-  ).entries()) {
-    if (!requirement || typeof requirement !== "object" || Array.isArray(requirement)) {
+
+  if (job.status === "ready") {
+    if (input.readinessState !== "ready_for_normalization") {
       issues.push(
-        `normalizationReadiness.officialPrimaryAuthorityRefreshRequirements[${index}] must be an object.`
+        "a ready normalization job must be ready_for_normalization."
       );
-      continue;
     }
+    if (!(job.dependencies ?? []).includes(
+      NORMALIZATION_READINESS_FOUNDATION_JOB_ID
+    )) {
+      issues.push(
+        "a ready normalization job must depend on the expected-ID/readiness foundation."
+      );
+    }
+  } else if (job.status === "in_progress") {
     if (
-      ![
-        "shell_download_blocked",
-        "browser_official_retrieval_available",
-        "authority_absent",
-        "authority_archive_inconsistent"
-      ].includes(requirement.retrievalState)
+      input.readinessState !== "normalization_in_progress" ||
+      job.assignmentClaim?.status !== "in_progress"
     ) {
       issues.push(
-        `normalizationReadiness.officialPrimaryAuthorityRefreshRequirements[${index}].retrievalState is invalid.`
+        "an in-progress normalization job requires an exact in-progress assignment claim."
       );
     }
-    for (const field of [
-      "officialUrl",
-      "issuingDomain",
-      "sectionIdentifier",
-      "retrievalMethod",
-      "alternateOfficialRetrievalChannel"
-    ]) {
-      if (
-        typeof requirement[field] !== "string" ||
-        requirement[field].trim().length === 0
-      ) {
-        issues.push(
-          `normalizationReadiness.officialPrimaryAuthorityRefreshRequirements[${index}].${field} must be non-empty.`
-        );
-      }
-    }
-    if (
-      requirement.retrievalDate !== null &&
-      !/^\d{4}-\d{2}-\d{2}$/.test(requirement.retrievalDate ?? "")
-    ) {
-      issues.push(
-        `normalizationReadiness.officialPrimaryAuthorityRefreshRequirements[${index}].retrievalDate must be null or YYYY-MM-DD.`
-      );
-    }
-    if (
-      requirement.capturedSourceSha256 !== null &&
-      !/^[0-9a-f]{64}$/.test(requirement.capturedSourceSha256 ?? "")
-    ) {
-      issues.push(
-        `normalizationReadiness.officialPrimaryAuthorityRefreshRequirements[${index}].capturedSourceSha256 must be null or SHA-256.`
-      );
-    }
-  }
-  const hasInventory =
-    (input.expectedSourceIds?.length ?? 0) > 0 || inventoryCount > 0;
-  const ready =
+  } else if (
     input.readinessState === "ready_for_normalization" &&
-    input.controllingReviewStatus === "checksum_verified" &&
-    typeof input.controllingReviewAssetPath === "string" &&
-    /^[0-9a-f]{64}$/.test(input.controllingReviewSha256 ?? "") &&
-    hasInventory;
-  if (["ready", "in_progress"].includes(job.status) && !ready) {
-    issues.push(
-      "a ready or in-progress normalization job must have a checksum-verified controlling review and expected source or mechanism inventory."
-    );
-  }
-  if (
-    !["ready", "in_progress"].includes(job.status) &&
-    input.readinessState === "ready_for_normalization"
+    !(
+      job.status === "blocked" &&
+      (job.dependencies ?? []).includes(
+        NORMALIZATION_READINESS_FOUNDATION_JOB_ID
+      )
+    )
   ) {
-    issues.push("ready_for_normalization jobs must have status ready or in_progress.");
+    issues.push(
+      "ready_for_normalization jobs must have status ready unless the foundation remains incomplete."
+    );
   }
 }
 

@@ -2,6 +2,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { assertSupportedModel, stableStringify } from "./lib/rcap-factory/prompt.mjs";
 import { scaffoldJob } from "./lib/rcap-factory/scaffold.mjs";
+import { assertClaimPermitsSession } from "./lib/rcap-factory/normalization-readiness.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -24,6 +25,7 @@ async function main() {
   const job = await factory.loadJob(args.jobId, options);
 
   if (!job) throw new Error(`Unknown factory job: ${args.jobId}`);
+  assertClaimPermitsSession(job, args.session);
 
   const model = args.model ?? job.model;
   const authorityVersion =
@@ -44,6 +46,7 @@ async function main() {
 export function parseScaffoldArgs(rawArgs) {
   const positionals = [];
   let model;
+  let session;
   let apply = false;
   let explicitDryRun = false;
   let help = false;
@@ -70,8 +73,18 @@ export function parseScaffoldArgs(rawArgs) {
       if (!model) throw new Error("--model requires opus or codex.");
       continue;
     }
+    if (arg === "--session") {
+      session = rawArgs[index + 1];
+      index += 1;
+      if (!session) throw new Error("--session requires a session identifier.");
+      continue;
+    }
     if (arg.startsWith("--model=")) {
       model = arg.slice("--model=".length);
+      continue;
+    }
+    if (arg.startsWith("--session=")) {
+      session = arg.slice("--session=".length);
       continue;
     }
     if (arg.startsWith("-")) throw new Error(`Unsupported argument: ${arg}`);
@@ -86,18 +99,25 @@ export function parseScaffoldArgs(rawArgs) {
   }
   if (apply && explicitDryRun) throw new Error("Specify --apply or --dry-run, not both.");
   if (model !== undefined) assertSupportedModel(model);
+  if (
+    session !== undefined &&
+    !["SESSION_B", "SESSION_C", "SESSION_D", "SESSION_F"].includes(session)
+  ) {
+    throw new Error("--session must be SESSION_B, SESSION_C, SESSION_D, or SESSION_F.");
+  }
 
-  return { jobId: positionals[0] ?? null, model, apply, help };
+  return { jobId: positionals[0] ?? null, model, session, apply, help };
 }
 
 function scaffoldHelp() {
   return [
-    "Usage: rcap:factory:scaffold -- <jobId> [--model opus|codex] [--apply|--dry-run]",
+    "Usage: rcap:factory:scaffold -- <jobId> [--model opus|codex] [--session SESSION_B|SESSION_C|SESSION_D|SESSION_F] [--apply|--dry-run]",
     "",
     "Without --apply, print a deterministic scaffold plan and make no changes.",
     "--apply creates a complete linked Git worktree at worktreePath and a worker branch.",
     "The reported marker and workspace paths are metadata, not the checkout or disposable output.",
     "Retain the complete worktree, branch, and metadata until integration.",
+    "A reserved exact-job claim requires the matching --session value.",
     ""
   ].join("\n");
 }

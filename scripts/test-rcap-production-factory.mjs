@@ -56,6 +56,16 @@ import {
   ADOPTION_RECORD_PATHS,
   buildCurrentCounselAdoptionRecords
 } from "./lib/rcap-counsel-adoption.mjs";
+import {
+  NORMALIZATION_READINESS_FOUNDATION_JOB_ID,
+  REMAINING_NORMALIZATION_JURISDICTIONS,
+  assertClaimPermitsSession,
+  deriveNormalizationReadinessRecord,
+  inspectNormalizationBundle,
+  legalReviewAssetsForTesting,
+  mechanismInventorySha256,
+  validateNormalizationReadinessRecord
+} from "./lib/rcap-factory/normalization-readiness.mjs";
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(SCRIPT_DIR, "..");
@@ -109,11 +119,11 @@ await check("deterministic plan covers all lanes and jurisdictions", () => {
   assert.deepEqual(first.lanes.map((entry) => entry.lane), FACTORY_LANES);
   assert.ok(first.lanes.every((entry) => entry.jobIds.length > 0));
   assert.equal(first.waves.length, FACTORY_LANES.length);
-  assert.equal(first.jobs.length, 196);
-  assert.equal(first.jobs.filter((job) => job.status === "ready").length, 69);
+  assert.equal(first.jobs.length, 197);
+  assert.equal(first.jobs.filter((job) => job.status === "ready").length, 68);
   assert.equal(first.jobs.filter((job) => job.status === "blocked").length, 116);
-  assert.equal(first.jobs.filter((job) => job.status === "in_progress").length, 1);
-  assert.equal(first.jobs.filter((job) => job.status === "completed").length, 10);
+  assert.equal(first.jobs.filter((job) => job.status === "in_progress").length, 2);
+  assert.equal(first.jobs.filter((job) => job.status === "completed").length, 11);
   assert.equal(findOwnedPathOverlaps(first.jobs).length, 0);
   assert.ok(first.generatedFrom.length >= 8);
   assert.ok(first.generatedFrom.every((entry) => /^[0-9a-f]{64}$/.test(entry.sha256)));
@@ -155,8 +165,8 @@ await check("deterministic plan covers all lanes and jurisdictions", () => {
     "npm run typecheck",
     "npm test"
   ]);
-  assert.equal(first.parentJobReconciliation.compiledChildJobs, 196);
-  assert.equal(first.parentJobReconciliation.childrenMappedExactlyOnce, 196);
+  assert.equal(first.parentJobReconciliation.compiledChildJobs, 197);
+  assert.equal(first.parentJobReconciliation.childrenMappedExactlyOnce, 197);
   assert.equal(first.parentJobReconciliation.unmappedChildren, 0);
   assert.equal(first.parentJobReconciliation.unknownParentReferences, 0);
   plan = first;
@@ -376,14 +386,26 @@ await check("packet, source-materialization, and normalization readiness fail cl
     (entry) => entry.jobId === "rcap-pa-legal-design-normalization"
   );
   assert.equal(pa.status, "in_progress");
-  assert.equal(pa.normalizationReadiness.readinessState, "ready_for_normalization");
-  assert.equal(pa.normalizationReadiness.approvedMechanismInventory.count, 11);
-  assert.ok(
-    pa.normalizationReadiness.officialPrimaryAuthorityRefreshRequirements.every(
-      (entry) =>
-        entry.shellRetrievalState === "shell_download_blocked" &&
-        entry.retrievalState === "browser_official_retrieval_available"
-    )
+  assert.equal(
+    pa.normalizationReadiness.readinessState,
+    "normalization_in_progress"
+  );
+  assert.equal(pa.assignmentClaim.ownerSession, "SESSION_B");
+  assert.equal(pa.assignmentClaim.status, "in_progress");
+  assert.match(
+    pa.normalizationReadiness.controllingReviewAssetPath,
+    /^STATES\/PA\/01_LEGAL_REVIEW\//
+  );
+  assert.match(
+    pa.normalizationReadiness.controllingReviewSha256,
+    /^[0-9a-f]{64}$/
+  );
+  assert.equal(
+    Object.hasOwn(
+      pa.normalizationReadiness,
+      "approvedMechanismInventory"
+    ),
+    false
   );
   const otherNormalizations = plan.jobs.filter(
     (entry) =>
@@ -392,11 +414,304 @@ await check("packet, source-materialization, and normalization readiness fail cl
   );
   assert.equal(otherNormalizations.length, 24);
   assert.ok(otherNormalizations.every((entry) => entry.status === "blocked"));
+  assert.deepEqual(
+    otherNormalizations.map((entry) => entry.jurisdiction).sort(),
+    REMAINING_NORMALIZATION_JURISDICTIONS
+  );
+  for (const entry of otherNormalizations) {
+    const readiness = entry.normalizationReadiness;
+    assert.equal(readiness.jurisdiction, entry.jurisdiction);
+    assert.equal(
+      readiness.readinessState,
+      "legal_review_materialization_required"
+    );
+    assert.equal(readiness.controllingReviewStatus, "authority_asset_known");
+    assert.match(readiness.controllingReviewAssetPath, /^STATES\/[A-Z]{2}\//);
+    assert.match(readiness.controllingReviewSha256, /^[0-9a-f]{64}$/);
+    assert.match(readiness.controllingReviewRevision, /^ASOF-\d{4}-\d{2}-\d{2}$/);
+    assert.match(readiness.reviewedThrough, /^\d{4}-\d{2}-\d{2}$/);
+    assert.deepEqual(readiness.mechanismInventory, []);
+    assert.equal(readiness.mechanismInventorySha256, null);
+    assert.deepEqual(readiness.expectedSourceIds, []);
+    assert.ok(
+      readiness.readinessBlockers.includes(
+        "mechanism_inventory_required"
+      )
+    );
+    assert.ok(
+      entry.dependencies.includes(
+        NORMALIZATION_READINESS_FOUNDATION_JOB_ID
+      )
+    );
+    assert.equal(entry.assignmentClaim.status, "reserved");
+    assert.doesNotThrow(() =>
+      assertClaimPermitsSession(entry, entry.assignmentClaim.ownerSession)
+    );
+    assert.throws(
+      () => assertClaimPermitsSession(entry, "SESSION_C"),
+      /is reserved to/
+    );
+  }
+  assert.deepEqual(plan.normalizationReadiness, {
+    expectedJurisdictions: 24,
+    representedExactlyOnce: 24,
+    bundlesReceived: 0,
+    readyForNormalization: 0,
+    blocked: 24,
+    byReadinessState: {
+      legal_review_materialization_required: 24
+    }
+  });
+  const readinessFoundation = plan.jobs.find(
+    (entry) => entry.jobId === NORMALIZATION_READINESS_FOUNDATION_JOB_ID
+  );
+  assert.equal(readinessFoundation.status, "in_progress");
+  assert.equal(
+    readinessFoundation.parentJobId,
+    "F-01-batch-3-expected-track-ids"
+  );
+  assert.equal(readinessFoundation.executionScope, "captain");
   assert.equal(
     plan.jobs.find(
       (entry) => entry.jobId === "rcap-nationwide-source-materialization-contract"
     ).status,
-    "ready"
+    "completed"
+  );
+});
+
+await check("normalization readiness inventories are hash-bound and data-derived", () => {
+  assert.doesNotMatch(
+    fs.readFileSync(
+      path.join(ROOT, "scripts/lib/rcap-factory/planner.mjs"),
+      "utf8"
+    ),
+    /jurisdiction\s*===\s*["']PA["']/
+  );
+  const authority = readJson(
+    "data/record-clearing/master-library/authority.json"
+  );
+  const input = readJson(
+    "data/record-clearing/production-factory/normalization-readiness-input.json"
+  );
+  const audit = readJson(
+    "data/record-clearing/master-library/repository-asset-audit.json"
+  );
+  const reviewAsset = legalReviewAssetsForTesting(audit).get("KY")[0];
+  const inventory = [
+    {
+      sourceId: "ky-review-slot-02",
+      reviewSlot: "TRACK 2",
+      legalMechanismName: "Candidate non-filing mechanism",
+      classification: "non_relief",
+      candidateFilingActor: "none",
+      candidateDestination: "not_applicable",
+      referencedStatutesOrRules: ["Ky. Rev. Stat. § example-2"],
+      referencedOfficialForms: [],
+      unresolvedQuestions: ["Whether current agency guidance changes the route."]
+    },
+    {
+      sourceId: "ky-review-slot-01",
+      reviewSlot: "TRACK 1",
+      legalMechanismName: "Candidate petition mechanism",
+      classification: "relief",
+      candidateFilingActor: "participant",
+      candidateDestination: "court",
+      referencedStatutesOrRules: ["Ky. Rev. Stat. § example-1"],
+      referencedOfficialForms: ["AOC-EXAMPLE"],
+      unresolvedQuestions: []
+    }
+  ];
+  const inventoryHash = mechanismInventorySha256({
+    authorityEdition: input.authorityEdition,
+    jurisdiction: "KY",
+    controllingReviewSha256: reviewAsset.sha256,
+    mechanismInventory: inventory
+  });
+  assert.equal(
+    mechanismInventorySha256({
+      authorityEdition: input.authorityEdition,
+      jurisdiction: "KY",
+      controllingReviewSha256: reviewAsset.sha256,
+      mechanismInventory: [...inventory].reverse()
+    }),
+    inventoryHash
+  );
+  const materializationDestination =
+    `tmp/rcap-factory/materialized-authority/legal-reviews/KY/` +
+    path.posix.basename(reviewAsset.canonicalRelativePath);
+  const bundle = {
+    schemaVersion: "rcap-normalization-readiness-bundle/v1",
+    authorityEdition: input.authorityEdition,
+    jurisdiction: "KY",
+    controllingReviewAssetPath: reviewAsset.canonicalRelativePath,
+    controllingReviewSha256: reviewAsset.sha256,
+    controllingReviewStatus: "checksum_verified",
+    controllingReviewRevision: reviewAsset.revision,
+    reviewedThrough: "2026-08-02",
+    legalReviewPrecedence:
+      "The single active original Master Library legal review controls when no addendum exists.",
+    precedenceStatus: "resolved",
+    reviewMaterialization: {
+      archiveLocator: input.authorityArchive.portableLocator,
+      archiveSha256: input.authorityArchive.sha256,
+      archiveEntryPath: reviewAsset.canonicalRelativePath,
+      expectedSha256: reviewAsset.sha256,
+      observedSha256: reviewAsset.sha256,
+      materializationDestination,
+      materializationState: "binary_hash_verified",
+      readOnly: true,
+      verificationCommand:
+        "node scripts/verify-rcap-normalization-readiness.mjs --jurisdiction KY",
+      verificationProvenance: "freshly_verified"
+    },
+    mechanismInventory: inventory,
+    mechanismInventorySha256: inventoryHash,
+    expectedReviewSlots: ["TRACK 1", "TRACK 2"],
+    expectedSourceIds: ["ky-review-slot-01", "ky-review-slot-02"],
+    retainedForms: ["AOC-EXAMPLE"],
+    openQuestions: [
+      "Whether current agency guidance changes the route."
+    ],
+    officialAuthorityRefreshStatus: "recorded",
+    officialAuthorityRefreshRequirements: [
+      {
+        officialUrl: "https://legislature.ky.gov/example",
+        issuingDomain: "legislature.ky.gov",
+        sectionIdentifier: "Ky. Rev. Stat. § example-1",
+        retrievalMethod: "shell_download",
+        retrievalDate: "2026-08-04",
+        capturedSourceSha256: null,
+        retrievalState: "shell_download_blocked",
+        alternateOfficialRetrievalChannel:
+          "Approved browser Web Search / Fetch against the same official URL"
+      },
+      {
+        officialUrl: "https://legislature.ky.gov/example",
+        issuingDomain: "legislature.ky.gov",
+        sectionIdentifier: "Ky. Rev. Stat. § example-1",
+        retrievalMethod: "approved_browser_web_search_fetch",
+        retrievalDate: "2026-08-04",
+        capturedSourceSha256:
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        retrievalState: "browser_official_retrieval_available",
+        alternateOfficialRetrievalChannel:
+          "Same official issuing page accessed through the browser channel"
+      }
+    ],
+    retrievalMethods: [
+      {
+        method: "portable_archive_entry",
+        locator: input.authorityArchive.portableLocator,
+        issuingDomain: "integration-provided-authority-archive",
+        status: "binary_hash_verified",
+        alternateOfficialRetrievalChannel: null
+      },
+      {
+        method: "approved_browser_web_search_fetch",
+        locator: "https://legislature.ky.gov/example",
+        issuingDomain: "legislature.ky.gov",
+        status: "captured_source_hash_verified",
+        alternateOfficialRetrievalChannel:
+          "Official browser retrieval used because shell download was blocked"
+      }
+    ]
+  };
+
+  const inspection = inspectNormalizationBundle({
+    bundle,
+    authorityEdition: input.authorityEdition,
+    authorityArchive: input.authorityArchive,
+    reviewAsset
+  });
+  assert.equal(inspection.ok, true, inspection.issues.join("\n"));
+  const ready = deriveNormalizationReadinessRecord({
+    jurisdiction: "KY",
+    authorityEdition: input.authorityEdition,
+    authorityArchive: input.authorityArchive,
+    reviewAsset,
+    bundle,
+    claim: null
+  });
+  assert.equal(ready.readinessState, "ready_for_normalization");
+  assert.deepEqual(ready.readinessBlockers, []);
+  assert.equal(
+    validateNormalizationReadinessRecord(ready).ok,
+    true
+  );
+  assert.deepEqual(
+    ready.mechanismInventory.map((row) => row.sourceId),
+    ["ky-review-slot-01", "ky-review-slot-02"]
+  );
+
+  const withoutInventory = structuredClone(bundle);
+  withoutInventory.mechanismInventory = [];
+  withoutInventory.expectedReviewSlots = [];
+  withoutInventory.expectedSourceIds = [];
+  assert.equal(
+    inspectNormalizationBundle({
+      bundle: withoutInventory,
+      authorityEdition: input.authorityEdition,
+      authorityArchive: input.authorityArchive,
+      reviewAsset
+    }).ok,
+    false
+  );
+  const inventoryBlocked = deriveNormalizationReadinessRecord({
+    jurisdiction: "KY",
+    authorityEdition: input.authorityEdition,
+    authorityArchive: input.authorityArchive,
+    reviewAsset,
+    bundle: withoutInventory,
+    claim: null
+  });
+  assert.equal(
+    inventoryBlocked.readinessState,
+    "mechanism_inventory_required"
+  );
+
+  const wrongHash = structuredClone(bundle);
+  wrongHash.mechanismInventorySha256 =
+    "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+  assert.ok(
+    inspectNormalizationBundle({
+      bundle: wrongHash,
+      authorityEdition: input.authorityEdition,
+      authorityArchive: input.authorityArchive,
+      reviewAsset
+    }).issues.some((issue) => /mechanismInventorySha256/.test(issue))
+  );
+
+  const omittedSlot = structuredClone(bundle);
+  omittedSlot.expectedReviewSlots = ["TRACK 1"];
+  assert.ok(
+    inspectNormalizationBundle({
+      bundle: omittedSlot,
+      authorityEdition: input.authorityEdition,
+      authorityArchive: input.authorityArchive,
+      reviewAsset
+    }).issues.some((issue) => /expectedReviewSlots/.test(issue))
+  );
+
+  const duplicatedSource = structuredClone(bundle);
+  duplicatedSource.mechanismInventory[1].sourceId =
+    duplicatedSource.mechanismInventory[0].sourceId;
+  assert.ok(
+    inspectNormalizationBundle({
+      bundle: duplicatedSource,
+      authorityEdition: input.authorityEdition,
+      authorityArchive: input.authorityArchive,
+      reviewAsset
+    }).issues.some((issue) => /duplicate sourceId/.test(issue))
+  );
+
+  assert.match(ready.legalReviewPrecedence, /original Master Library legal review/);
+  assert.equal(
+    ready.officialAuthorityRefreshRequirements.some(
+      (requirement) =>
+        requirement.retrievalState ===
+        "browser_official_retrieval_available"
+    ),
+    true
   );
 });
 

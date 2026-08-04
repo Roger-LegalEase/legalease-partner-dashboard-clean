@@ -158,10 +158,10 @@ const factoryPlan = buildFactoryPlan({ rootDir: ROOT });
 const factoryValidation = validateFactoryPlan(factoryPlan);
 assert.equal(factoryValidation.ok, true, factoryValidation.issues.join("\n"));
 assert.deepEqual(findOwnedPathOverlaps(factoryPlan.jobs), []);
-assert.equal(factoryPlan.jobs.length, 196);
+assert.equal(factoryPlan.jobs.length, 197);
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "ready").length,
-  69
+  68
 );
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "blocked").length,
@@ -169,11 +169,11 @@ assert.equal(
 );
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "completed").length,
-  10
+  11
 );
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "in_progress").length,
-  1
+  2
 );
 assert.equal(
   productionPlan.factoryQueueReconciliation.jobs,
@@ -216,8 +216,8 @@ assert.equal(
   11
 );
 assert.equal(factoryPlan.canonicalPlan.parentJobs, 72);
-assert.equal(factoryPlan.parentJobReconciliation.compiledChildJobs, 196);
-assert.equal(factoryPlan.parentJobReconciliation.childrenMappedExactlyOnce, 196);
+assert.equal(factoryPlan.parentJobReconciliation.compiledChildJobs, 197);
+assert.equal(factoryPlan.parentJobReconciliation.childrenMappedExactlyOnce, 197);
 assert.equal(factoryPlan.parentJobReconciliation.unmappedChildren, 0);
 assert.equal(factoryPlan.parentJobReconciliation.unknownParentReferences, 0);
 assert.deepEqual(
@@ -277,7 +277,55 @@ const paNormalization = factoryPlan.jobs.find(
 assert.equal(paNormalization.status, "in_progress");
 assert.equal(
   paNormalization.normalizationReadiness.readinessState,
-  "ready_for_normalization"
+  "normalization_in_progress"
+);
+assert.equal(paNormalization.assignmentClaim.ownerSession, "SESSION_B");
+const remainingNormalizations = factoryPlan.jobs.filter(
+  (entry) =>
+    /-legal-design-normalization$/.test(entry.jobId) &&
+    entry.jurisdiction !== "PA"
+);
+assert.equal(remainingNormalizations.length, 24);
+assert.ok(
+  remainingNormalizations.every(
+    (entry) =>
+      entry.status === "blocked" &&
+      entry.normalizationReadiness.readinessState ===
+        "legal_review_materialization_required" &&
+      entry.normalizationReadiness.controllingReviewStatus ===
+        "authority_asset_known" &&
+      /^[0-9a-f]{64}$/.test(
+        entry.normalizationReadiness.controllingReviewSha256
+      ) &&
+      entry.dependencies.includes(
+        "rcap-nationwide-normalization-readiness-foundation"
+      )
+  )
+);
+assert.deepEqual(factoryPlan.normalizationReadiness, {
+  expectedJurisdictions: 24,
+  representedExactlyOnce: 24,
+  bundlesReceived: 0,
+  readyForNormalization: 0,
+  blocked: 24,
+  byReadinessState: {
+    legal_review_materialization_required: 24
+  }
+});
+assert.equal(
+  factoryPlan.jobs.find(
+    (entry) =>
+      entry.jobId ===
+      "rcap-nationwide-normalization-readiness-foundation"
+  ).status,
+  "in_progress"
+);
+assert.equal(
+  factoryPlan.jobs.find(
+    (entry) =>
+      entry.jobId === "rcap-nationwide-source-materialization-contract"
+  ).status,
+  "completed"
 );
 
 const normalizedKeys = normalizedTracks.tracks
@@ -360,7 +408,8 @@ assert.deepEqual(productionPlan.integratedCommits, {
   alabamaCr65IdentityReconciliation: "62be8a3822e42f3f64533ac64820135f20c84e72",
   georgiaJailGuidanceSpecification: "ca5958590d1b52713c4489d58617586e82f33629",
   dcCustomPleadings: "a25306af0e095faac1ce4d36c60b0f04c9221b31",
-  illinoisCustomPleadings: "20379e6e8f7fd41e1fda6714ab05a06183123368"
+  illinoisCustomPleadings: "20379e6e8f7fd41e1fda6714ab05a06183123368",
+  sourceMaterializationContract: "a3b28545af4e8953146a97907d22a28c7aec6726"
 });
 assert.deepEqual(productionPlan.integrationEquivalents, {
   factory: "381abd95efd5370ef592e5ba25bc3368008f0330",
@@ -375,7 +424,8 @@ assert.deepEqual(productionPlan.integrationEquivalents, {
   alabamaCr65IdentityReconciliation: "845755cd5fe979c0ea5a50e2117aec06cc396b93",
   georgiaJailGuidanceSpecification: "05f306208b5345abac4952f784f762cc87481dcc",
   dcCustomPleadings: "7dd99311a44c871e52a0bee114cce25c5ef39584",
-  illinoisCustomPleadings: "16290faef1865f48448a43baaa8728a5317384c1"
+  illinoisCustomPleadings: "16290faef1865f48448a43baaa8728a5317384c1",
+  sourceMaterializationContract: "37cb49b645bee42739d7dea32960a45b1927689f"
 });
 assert.equal(authority.edition, "1.2");
 assert.equal(masterReconciliation.authority.edition, "1.2");
@@ -1074,12 +1124,7 @@ assert.deepEqual(
     session: assignment.session,
     jobId: assignment.jobId
   })),
-  [
-    {
-      session: "A",
-      jobId: "rcap-nationwide-source-materialization-contract"
-    }
-  ]
+  []
 );
 assert.equal(
   productionPlan.routingReservations.sessionB.jobId,
@@ -1092,6 +1137,46 @@ assert.equal(
 assert.equal(
   productionPlan.routingReservations.nextWaveInputs.michiganGuidanceImplementation.commit,
   "7dbe89fe733474a90cc1ad20b5c11dc1a6520aa5"
+);
+assert.equal(
+  productionPlan.routingReservations.normalizationReadiness.bundlesReceived,
+  0
+);
+assert.equal(
+  productionPlan.routingReservations.normalizationReadiness.jurisdictionsBlocked,
+  24
+);
+assert.deepEqual(
+  productionPlan.routingReservations.normalizationReadiness
+    .firstSessionBJobsAfterReadiness,
+  [
+    "rcap-ky-legal-design-normalization",
+    "rcap-nc-legal-design-normalization",
+    "rcap-nd-legal-design-normalization",
+    "rcap-ne-legal-design-normalization"
+  ]
+);
+assert.deepEqual(
+  productionPlan.routingReservations.normalizationReadiness
+    .firstSessionDJobsAfterReadiness,
+  [
+    "rcap-ri-legal-design-normalization",
+    "rcap-sc-legal-design-normalization",
+    "rcap-sd-legal-design-normalization",
+    "rcap-tn-legal-design-normalization"
+  ]
+);
+assert.deepEqual(
+  productionPlan.routingReservations.sessionF.canonicalParentJobIds,
+  [
+    "AUTH-01-in-repo-authority-pinning",
+    "EXC-01-ks-commercial-use-determination"
+  ]
+);
+assert.equal(factoryPlan.jobClaims.claims.length, 28);
+assert.equal(
+  new Set(factoryPlan.jobClaims.claims.map((claim) => claim.jobId)).size,
+  28
 );
 const reservedNextJobIds = new Set([
   productionPlan.routingReservations.sessionB.jobId,
