@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "rcap-queued-official-pdf-family-scaffold-spec/v1",
+  "familyId": "rcap-la-official-pdf-family",
+  "jurisdiction": "LA",
+  "jurisdictionName": "Louisiana",
+  "authorityFamily": "Louisiana Code of Criminal Procedure Articles 987 through 995 and 998 statutory forms",
+  "implementationJobId": "rcap-la-official-pdf-production",
+  "outputDirectory": "data/record-clearing/production-factory/official-pdf-families/LA",
+  "modulePath": "src/lib/rcap/packets/jurisdictions/louisiana/official-pdf/family.ts",
+  "dedicatedVerifier": "scripts/verify-rcap-louisiana-official-pdf-families.mjs",
+  "blockers": [
+    "Articles 987, 988, 989, 991, 992, and 994 are retained as statutory HTML authority records whose measurements are not uniquely selectable as official-PDF source identities; authority must designate their implementation lane without inventing a PDF source.",
+    "The exact Article 993, 995, and 998 identities are source-gated flat PDFs and require captain projection, byte verification, page-geometry inspection, and visual confirmation before coordinate overlays can be activated.",
+    "Article 993 is a continuation form for additional charges or counts and requires an adopted conditional-repeat policy before packet assembly can include it.",
+    "Article 987 set-aside sequencing, Article 988 fee-exemption eligibility, and parish-specific filing mechanics remain route and authority-review dependencies.",
+    "The first-offense-marijuana fee treatment and all post-revision statutory effects require freshness review; the scaffold does not change legal design or infer a current fee rule.",
+    "The Article 990 agency response is not a participant-generated component in the retained tracks and must not be silently added to participant packets."
+  ],
+  "invariants": [
+    "Do not alter statutory fixed language, Louisiana legal design, track selection, or component ordering.",
+    "Use the official term Motion for Expungement and do not relabel statutory motions as petitions.",
+    "Participant signatures, dates signed, certifications, hearing fields, clerk fields, agency-response fields, judge fields, and judicial findings remain blank.",
+    "Article 991 and Article 992 judicial decision fields, and Article 995 order fields, are never populated as participant-owned values.",
+    "Article 988 is conditional and is never included or completed unless the adopted route and fee-exemption conditions are satisfied.",
+    "Protected identifiers, including Social Security number data, remain manual or redacted until a confirmed ownership and data-protection policy expressly permits population.",
+    "Every shared physical form is rendered once per participant packet; repeatable Article 993 pages require an explicit deterministic repeat rule.",
+    "Repository-private paths are identity evidence only and are never opened by packet code or the dedicated verifier.",
+    "No HTML-to-PDF improvisation, source download, URL fallback, fuzzy identity match, live-route change, or runtime enablement is permitted."
+  ]
+}

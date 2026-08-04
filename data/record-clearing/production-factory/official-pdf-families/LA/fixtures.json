@@ -1,0 +1,569 @@
+{
+  "schemaVersion": "rcap-official-pdf-fixture-scaffold/v1",
+  "familyId": "rcap-la-official-pdf-family",
+  "jurisdiction": "LA",
+  "schemaPath": "data/record-clearing/production-factory/official-pdf-families/schemas/fixture-scaffold.schema.json",
+  "syntheticDataOnly": true,
+  "fixtureState": "pending_field_map_and_fact_type_binding",
+  "tracks": [
+    {
+      "trackId": "la-976-arrest-no-conviction",
+      "fixtureId": "la-976-arrest-no-conviction-synthetic-layout",
+      "caseReference": "SYN-LA-la-976-arrest-no-conviction",
+      "requiredFactKeys": [
+        "fullName",
+        "dateOfBirth",
+        "ssnLast4",
+        "judicialDistrict",
+        "parish",
+        "docketNumber",
+        "arrestingAgency",
+        "arrestDate",
+        "originalArrestCharges",
+        "chargeCount",
+        "dispositionType",
+        "dispositionDate",
+        "anyConvictionOnThisArrest",
+        "dwiRelatedArrest",
+        "everConvictedOfFelony",
+        "felonyChargePending",
+        "coDefendantsOnRecord",
+        "hardLaborCustody"
+      ],
+      "conditionalFactKeys": [
+        "driversLicenseNumber",
+        "division",
+        "sidNumber",
+        "atnNumber",
+        "agencyItemNumber",
+        "dwiPretrialDiversion",
+        "factualInnocenceOrder"
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Every finding, ruling, date, place and signature on the Article 991 Order",
+          "whereInPacket": "Article 991 Order — the ordering paragraphs, the date and place line and the judge's signature line",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Every granting or denying paragraph, finding, date, place and signature on the Article 992 Order of Expungement",
+          "whereInPacket": "Article 992 Order of Expungement — the decretal paragraphs, the date and place line and the judge's signature line",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Race and gender",
+          "whereInPacket": "Article 989 Motion, Part I Defendant Information",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The participant's signature and the date of signing",
+          "whereInPacket": "Article 989 Motion, unrepresented-mover signature block on the final page",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Every certification box and the district attorney's signature on the Article 988 Motion for Fee Exemption",
+          "whereInPacket": "Article 988 Motion for Fee Exemption, the certification section and signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The whole of the Article 990 Affidavit of Response",
+          "whereInPacket": "Not printed in the participant packet; described in the filing instructions only",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The clerk's service of the motion and of the order and judgment",
+          "whereInPacket": "Not printed in the participant packet; described in the filing instructions only",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Race and gender fields on Arts. 989 and 994 — Manual completion item, pending data-protection review.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Affidavit of No Opposition and Art. 990 response — Manual completion item, agencies only.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "la-977-misdemeanor-conviction",
+      "fixtureId": "la-977-misdemeanor-conviction-synthetic-layout",
+      "caseReference": "SYN-LA-la-977-misdemeanor-conviction",
+      "requiredFactKeys": [
+        "fullName",
+        "dateOfBirth",
+        "ssnLast4",
+        "judicialDistrict",
+        "parish",
+        "docketNumber",
+        "arrestingAgency",
+        "arrestDate",
+        "originalArrestCharges",
+        "chargeCount",
+        "convictionOffense",
+        "convictionDate",
+        "eligibilityPath",
+        "artic894bOrderObtained",
+        "felonyChargePending",
+        "sexOffenseArrestConnection",
+        "domesticAbuseOrStalking",
+        "dwiConviction",
+        "coDefendantsOnRecord",
+        "hardLaborCustody"
+      ],
+      "conditionalFactKeys": [
+        "driversLicenseNumber",
+        "division",
+        "sidNumber",
+        "atnNumber",
+        "agencyItemNumber",
+        "art894bAvailable",
+        "sentenceCompletionDate",
+        "felonyConvictionInFiveYears"
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Every finding, ruling, date, place and signature on the Article 991 Order",
+          "whereInPacket": "Article 991 Order — the ordering paragraphs, the date and place line and the judge's signature line",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Every granting or denying paragraph, finding, date, place and signature on the Article 992 Order of Expungement",
+          "whereInPacket": "Article 992 Order of Expungement — the decretal paragraphs, the date and place line and the judge's signature line",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Race and gender",
+          "whereInPacket": "Article 989 Motion, Part I Defendant Information",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The participant's signature and the date of signing",
+          "whereInPacket": "Article 989 Motion, unrepresented-mover signature block on the final page",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Every certification box and the district attorney's signature on the Article 988 Motion for Fee Exemption",
+          "whereInPacket": "Article 988 Motion for Fee Exemption, the certification section and signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The whole of the Article 990 Affidavit of Response",
+          "whereInPacket": "Not printed in the participant packet; described in the filing instructions only",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The clerk's service of the motion and of the order and judgment",
+          "whereInPacket": "Not printed in the participant packet; described in the filing instructions only",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Race and gender fields on Arts. 989 and 994 — Manual completion item, pending data-protection review.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Affidavit of No Opposition and Art. 990 response — Manual completion item, agencies only.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "la-977d-marijuana-first-offense",
+      "fixtureId": "la-977d-marijuana-first-offense-synthetic-layout",
+      "caseReference": "SYN-LA-la-977d-marijuana-first-offense",
+      "requiredFactKeys": [
+        "fullName",
+        "dateOfBirth",
+        "ssnLast4",
+        "judicialDistrict",
+        "parish",
+        "docketNumber",
+        "arrestingAgency",
+        "arrestDate",
+        "originalArrestCharges",
+        "chargeCount",
+        "convictionDate",
+        "marijuanaFirstOffense",
+        "convictionStatute",
+        "convictionLevel",
+        "hardLaborCustody"
+      ],
+      "conditionalFactKeys": [
+        "driversLicenseNumber",
+        "division",
+        "sidNumber",
+        "atnNumber",
+        "agencyItemNumber"
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Race and gender",
+          "whereInPacket": "Article 998 Motion, Part I Defendant Information",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The participant's signature and the date of signing",
+          "whereInPacket": "Article 998 Motion, the 'If not represented by counsel' signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Every finding, ruling, date, place and signature on the Article 991 Order",
+          "whereInPacket": "Article 991 Order — the ordering paragraphs, the date and place line and the judge's signature line",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Every granting or denying paragraph, finding, date, place and signature on the Article 992 Order of Expungement",
+          "whereInPacket": "Article 992 Order of Expungement — the decretal paragraphs, the date and place line and the judge's signature line",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Every certification box and the district attorney's signature on the Article 988 Motion for Fee Exemption",
+          "whereInPacket": "Article 988 Motion for Fee Exemption, the certification section and signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The whole of the Article 990 Affidavit of Response",
+          "whereInPacket": "Not printed in the participant packet; described in the filing instructions only",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The clerk's service of the motion and of the order and judgment",
+          "whereInPacket": "Not printed in the participant packet; described in the filing instructions only",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Race and gender fields on Arts. 989 and 994 — Manual completion item, pending data-protection review.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Affidavit of No Opposition and Art. 990 response — Manual completion item, agencies only.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "la-978-felony-conviction",
+      "fixtureId": "la-978-felony-conviction-synthetic-layout",
+      "caseReference": "SYN-LA-la-978-felony-conviction",
+      "requiredFactKeys": [
+        "fullName",
+        "dateOfBirth",
+        "ssnLast4",
+        "judicialDistrict",
+        "parish",
+        "docketNumber",
+        "arrestingAgency",
+        "arrestDate",
+        "originalArrestCharges",
+        "chargeCount",
+        "convictionOffense",
+        "convictionDate",
+        "eligibilityPath",
+        "art893eOrderObtained",
+        "criminalChargePending",
+        "priorFelonyConviction",
+        "crimeOfViolence",
+        "sexOffenseOrMinorVictim",
+        "controlledSubstanceOffense",
+        "domesticAbuseBattery",
+        "dwiConviction",
+        "coDefendantsOnRecord",
+        "hardLaborCustody"
+      ],
+      "conditionalFactKeys": [
+        "driversLicenseNumber",
+        "division",
+        "sidNumber",
+        "atnNumber",
+        "agencyItemNumber",
+        "art893eAvailable",
+        "sentenceCompletionDate",
+        "anyCriminalOffenseInTenYears",
+        "firstOffenderPardonCourtCostsPaid",
+        "art978eOffense",
+        "controlledSubstanceException"
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Every finding, ruling, date, place and signature on the Article 991 Order",
+          "whereInPacket": "Article 991 Order — the ordering paragraphs, the date and place line and the judge's signature line",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Every granting or denying paragraph, finding, date, place and signature on the Article 992 Order of Expungement",
+          "whereInPacket": "Article 992 Order of Expungement — the decretal paragraphs, the date and place line and the judge's signature line",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Race and gender",
+          "whereInPacket": "Article 989 Motion, Part I Defendant Information",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The participant's signature and the date of signing",
+          "whereInPacket": "Article 989 Motion, unrepresented-mover signature block on the final page",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Every certification box and the district attorney's signature on the Article 988 Motion for Fee Exemption",
+          "whereInPacket": "Article 988 Motion for Fee Exemption, the certification section and signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The whole of the Article 990 Affidavit of Response",
+          "whereInPacket": "Not printed in the participant packet; described in the filing instructions only",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The clerk's service of the motion and of the order and judgment",
+          "whereInPacket": "Not printed in the participant packet; described in the filing instructions only",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Race and gender fields on Arts. 989 and 994 — Manual completion item, pending data-protection review.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Affidavit of No Opposition and Art. 990 response — Manual completion item, agencies only.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "la-985-1-interim-expungement",
+      "fixtureId": "la-985-1-interim-expungement-synthetic-layout",
+      "caseReference": "SYN-LA-la-985-1-interim-expungement",
+      "requiredFactKeys": [
+        "fullName",
+        "dateOfBirth",
+        "ssnLast4",
+        "judicialDistrict",
+        "parish",
+        "docketNumber",
+        "arrestingAgency",
+        "arrestDate",
+        "originalArrestCharges",
+        "chargeCount",
+        "originalFelonyArrestCharges",
+        "misdemeanorConvictionOffense",
+        "misdemeanorConvictionDate",
+        "sameArrestEvent",
+        "multipleArrestEvents",
+        "priorInterimExpungements",
+        "hardLaborCustody"
+      ],
+      "conditionalFactKeys": [
+        "driversLicenseNumber",
+        "division",
+        "sidNumber",
+        "atnNumber",
+        "agencyItemNumber"
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "The grant-or-deny selection, both denial-reason boxes, the date, the place and the judge's signature on the Article 995 Order",
+          "whereInPacket": "Article 995 Order of Expungement of Interim Arrest Record — the decretal section and the signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Race and gender",
+          "whereInPacket": "Article 994 Motion, defendant information section",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The participant's signature and the date of signing",
+          "whereInPacket": "Article 994 Motion, unrepresented-mover signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Every certification box and the district attorney's signature on the Article 988 form",
+          "whereInPacket": "Article 988 Motion for Fee Exemption, certification section and signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The whole of the Article 990 Affidavit of Response",
+          "whereInPacket": "Not printed in the participant packet; described in the filing instructions only",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The clerk's service of the motion and of the order and judgment",
+          "whereInPacket": "Not printed in the participant packet; described in the filing instructions only",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Race and gender fields on Arts. 989 and 994 — Manual completion item, pending data-protection review.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Affidavit of No Opposition and Art. 990 response — Manual completion item, agencies only.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "la-985-expungement-by-redaction",
+      "fixtureId": "la-985-expungement-by-redaction-synthetic-layout",
+      "caseReference": "SYN-LA-la-985-expungement-by-redaction",
+      "requiredFactKeys": [
+        "fullName",
+        "dateOfBirth",
+        "ssnLast4",
+        "judicialDistrict",
+        "parish",
+        "docketNumber",
+        "arrestingAgency",
+        "arrestDate",
+        "originalArrestCharges",
+        "chargeCount",
+        "otherIndividualsNamed",
+        "underlyingEntitlement",
+        "dispositionType",
+        "dispositionDate",
+        "othersEntitled",
+        "recordLocations",
+        "hardLaborCustody"
+      ],
+      "conditionalFactKeys": [
+        "driversLicenseNumber",
+        "division",
+        "sidNumber",
+        "atnNumber",
+        "agencyItemNumber"
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Every finding, ruling, date, place and signature on the Article 991 Order",
+          "whereInPacket": "Article 991 Order — the ordering paragraphs, the date and place line and the judge's signature line",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Every granting or denying paragraph, finding, date, place and signature on the Article 992 Order of Expungement",
+          "whereInPacket": "Article 992 Order of Expungement — the decretal paragraphs, the date and place line and the judge's signature line",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Race and gender",
+          "whereInPacket": "Article 989 Motion, Part I Defendant Information",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The participant's signature and the date of signing",
+          "whereInPacket": "Article 989 Motion, unrepresented-mover signature block on the final page",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Every certification box and the district attorney's signature on the Article 988 Motion for Fee Exemption",
+          "whereInPacket": "Article 988 Motion for Fee Exemption, the certification section and signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The whole of the Article 990 Affidavit of Response",
+          "whereInPacket": "Not printed in the participant packet; described in the filing instructions only",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The clerk's service of the motion and of the order and judgment",
+          "whereInPacket": "Not printed in the participant packet; described in the filing instructions only",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The redaction paragraph of the Article 992 Order, including the identification of each record location and the information to be redacted",
+          "whereInPacket": "Article 992 Order of Expungement — the Article 985 redaction paragraph",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Race and gender fields on Arts. 989 and 994 — Manual completion item, pending data-protection review.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Affidavit of No Opposition and Art. 990 response — Manual completion item, agencies only.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "la-987-set-aside-and-dismiss",
+      "fixtureId": "la-987-set-aside-and-dismiss-synthetic-layout",
+      "caseReference": "SYN-LA-la-987-set-aside-and-dismiss",
+      "requiredFactKeys": [
+        "fullName",
+        "dateOfBirth",
+        "judicialDistrict",
+        "parish",
+        "docketNumber",
+        "convictionOffense",
+        "convictionLevel",
+        "convictionDate",
+        "deferredSentenceDate",
+        "deferralPeriod",
+        "deferralPeriodRun",
+        "probationTermsCompleted",
+        "probationCompletionDate",
+        "representedByCounsel"
+      ],
+      "conditionalFactKeys": [
+        "division"
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "The return date, time and place on the Rule to Show Cause",
+          "whereInPacket": "Article 987 instrument, Rule to Show Cause section",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Every finding, decretal paragraph, date, place and the judge's signature on the Order of Dismissal",
+          "whereInPacket": "Article 987 instrument, Order of Dismissal section",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The judge's signature on the Rule to Show Cause",
+          "whereInPacket": "Article 987 instrument, Rule to Show Cause signature line",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The participant's signature and the date of signing",
+          "whereInPacket": "Article 987 instrument, the signature block for an unrepresented mover",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The district attorney's response to the rule",
+          "whereInPacket": "Not printed in the participant packet; described in the filing instructions only",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Must not auto-complete: the assertion that the deferred sentence period has run and probation terms were successfully completed.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The rule to show cause return date is set by the court and supplied by the clerk; leave it blank.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    }
+  ],
+  "requiredBoundaryFixtures": [
+    "missing_required_input",
+    "authority_identity_unresolved",
+    "captain_projection_missing",
+    "source_hash_mismatch",
+    "source_size_mismatch",
+    "source_mime_mismatch",
+    "third_party_field_ownership",
+    "mapping_unconfirmed",
+    "deterministic_repeat"
+  ]
+}
