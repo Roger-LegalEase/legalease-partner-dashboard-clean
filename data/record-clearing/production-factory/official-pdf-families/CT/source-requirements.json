@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "rcap-source-materialization-requirement-set/v1",
+  "familyId": "ct-judicial-branch-jd-cr-202",
+  "jurisdiction": "CT",
+  "dependencyJobId": "rcap-nationwide-source-materialization-contract",
+  "allSourcesRequired": true,
+  "aggregateState": "binary_materialization_required",
+  "workerReady": false,
+  "requirements": [
+    {
+      "schemaVersion": "rcap-source-materialization-requirement/v1",
+      "authorityEdition": "1.2",
+      "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+      "jurisdiction": "CT",
+      "documentId": "JD-CR-202",
+      "documentRole": "PETITION",
+      "canonicalAuthorityPath": "STATES/CT/02_PACKET_FORMS/CT__FORM__JD-CR-202__petition-for-clean-slate-erasure-convictions-before-1-1-2000__REV-2023-11__EN.pdf",
+      "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase Connecticut/CR202.pdf",
+      "portableLocator": "rcap-master-library-edition-1-2://STATES/CT/02_PACKET_FORMS/CT__FORM__JD-CR-202__petition-for-clean-slate-erasure-convictions-before-1-1-2000__REV-2023-11__EN.pdf",
+      "materializationDestination": "private/Nationwide Record Clearing/LegalEase Connecticut/CR202.pdf",
+      "expectedSha256": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
+      "expectedBytes": 820630,
+      "expectedMediaType": "application/pdf",
+      "readOnlyTreatment": "worker_read_only_no_modify",
+      "verificationCommand": "node scripts/verify-rcap-materialized-source.mjs --document-id JD-CR-202 --sha256 b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c --bytes 820630",
+      "retentionPolicy": "retain_until_worker_integration_then_captain_managed_cleanup",
+      "expectedMeasurementBasis": "carried_forward_registry_measurement",
+      "identityBindingStatus": "exact_pinned_identity",
+      "authorityAssetState": "authority_asset_known",
+      "registryState": "registry_metadata_present",
+      "materializationState": "binary_materialization_required",
+      "usageBindings": [
+        {
+          "trackId": "ct-cleanslate-petition",
+          "componentId": "ct-cleanslate-petition-primary-filing-1"
+        }
+      ],
+      "provenance": {
+        "registryPath": "data/record-clearing/source-artifact-registry.json",
+        "authorityReconciliationPath": "data/record-clearing/master-library/repository-asset-audit.json",
+        "freshLocalVerification": false,
+        "registryPresenceConfersReadiness": false
+      }
+    }
+  ]
+}
