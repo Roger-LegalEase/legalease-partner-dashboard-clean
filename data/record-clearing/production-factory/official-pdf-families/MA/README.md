@@ -13,11 +13,12 @@ normalized Massachusetts official-form routes:
 Those routes use five physical PDF sources because the two sealing-through-
 Probation routes share the same Petition to Seal form.
 
-No Massachusetts source PDF is currently present under
-`private/Nationwide Record Clearing/`, and the adopted Edition 1.2 archive is
-not mounted in this workspace. Nothing in this directory substitutes for,
-reconstructs, or downloads an official source. The pinned fingerprints come
-from the existing source-artifact registry and Master Library records.
+No captain-owned assignment, portable projection, or Massachusetts worker
+source is present in this workspace. Legacy `private/Nationwide Record
+Clearing/` paths are retained only as registry identity evidence; packet code
+does not read them. Nothing in this directory substitutes for, reconstructs,
+or downloads an official source. The pinned fingerprints come from the
+existing source-artifact registry and Master Library records.
 
 The artifacts deliberately separate four facts:
 
@@ -38,5 +39,6 @@ Run the focused verifier with:
 node scripts/verify-rcap-massachusetts-official-pdf-families.mjs
 ```
 
-Use `--require-materialized` only after an authorized source-materialization
-step. In the current pre-materialization state that mode is expected to fail.
+Use `--require-materialized` only after integration issues the immutable
+captain assignment and portable projection. In the current state that mode is
+expected to fail.

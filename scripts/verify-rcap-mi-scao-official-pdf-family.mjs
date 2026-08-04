@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import assert from "node:assert/strict";
-import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -18,7 +17,6 @@ const EXPECTED_TRACK_IDS = [
   "mi_setaside_trafficking"
 ];
 const EXPECTED_DOCUMENT_IDS = ["MC-227", "MC-227A", "MC-227B"];
-const WRITE_MASK = 0o222;
 const SHA256 = /^[0-9a-f]{64}$/u;
 
 const manifest = readJson(`${FAMILY_DIR}/family-manifest.json`);
@@ -47,7 +45,7 @@ verifyReviewState(materialization);
 
 if (REQUIRE_MATERIALIZED && materialization.pending.length > 0) {
   throw new Error(
-    `MI source materialization required: ${materialization.pending.join(", ")}`
+    `MI source materialization unavailable: a captain-owned assignment and portable projection are required for ${materialization.pending.join(", ")}`
   );
 }
 
@@ -159,8 +157,15 @@ function verifyLegalDesignAndAssembly() {
 function verifySourceRequirements(officialTracks) {
   assert.equal(
     sourceSet.schemaVersion,
-    "rcap-source-materialization-requirement-set/v1"
+    "rcap-source-materialization-requirement-scaffold-set/v1"
   );
+  assert.equal(
+    sourceSet.normativeRequirementSchema,
+    "rcap-source-materialization-requirement/v1"
+  );
+  assert.equal(sourceSet.contractState, "pending_captain_owned_assignment");
+  assert.equal(sourceSet.assignmentManifest, null);
+  assert.equal(sourceSet.portableProjectionAvailable, false);
   assert.equal(sourceSet.familyId, EXPECTED_FAMILY_ID);
   assert.equal(sourceSet.jurisdiction, "MI");
   assert.equal(sourceSet.allSourcesRequired, true);
@@ -179,9 +184,9 @@ function verifySourceRequirements(officialTracks) {
   );
   assertNoDuplicates(
     sourceSet.requirements.map(
-      (requirement) => requirement.materializationDestination
+      (requirement) => requirement.proposedMaterializationDestination
     ),
-    "materialization destination"
+    "proposed materialization destination"
   );
 
   const legalComponentIds = new Set(
@@ -206,9 +211,17 @@ function verifySourceRequirements(officialTracks) {
   for (const requirement of sourceSet.requirements) {
     assert.equal(
       requirement.schemaVersion,
+      "rcap-source-materialization-requirement-scaffold/v1"
+    );
+    assert.equal(
+      requirement.normativeRequirementSchema,
       "rcap-source-materialization-requirement/v1"
     );
-    assert.equal(requirement.authorityEdition, authority.edition);
+    assert.equal(requirement.contractState, "pending_captain_owned_assignment");
+    assert.equal(
+      requirement.authorityEdition,
+      `master-library/${authority.edition}`
+    );
     assert.equal(
       requirement.authorityArchiveSha256,
       authority.retention.archiveSha256
@@ -239,6 +252,13 @@ function verifySourceRequirements(officialTracks) {
       requirement.materializationState,
       "binary_materialization_required"
     );
+    assert.equal(requirement.workerMaterializationAuthorized, false);
+    assert.deepEqual(requirement.assignmentBinding, {
+      assignmentJobId: null,
+      assignmentBaseCommit: null,
+      assignmentManifestSha256: null,
+      state: "captain_owned_assignment_required"
+    });
     assert.equal(requirement.provenance.freshLocalVerification, false);
     assert.equal(
       requirement.provenance.registryPresenceConfersReadiness,
@@ -247,22 +267,22 @@ function verifySourceRequirements(officialTracks) {
     for (const relativePath of [
       requirement.canonicalAuthorityPath,
       requirement.repositorySourcePath,
-      requirement.materializationDestination,
+      requirement.proposedMaterializationDestination,
       requirement.provenance.registryPath,
       requirement.provenance.authorityReconciliationPath
     ]) {
       assertPortablePath(relativePath);
     }
     assert.equal(
-      requirement.repositorySourcePath,
-      requirement.materializationDestination
+      requirement.proposedMaterializationDestination.startsWith("private/"),
+      false
     );
     assert.equal(
-      requirement.portableLocator,
+      requirement.portableLocatorCandidate,
       `rcap-master-library-edition-1-2://${requirement.canonicalAuthorityPath}`
     );
     assert.equal(
-      requirement.verificationCommand,
+      requirement.verificationCommandCandidate,
       [
         "node scripts/verify-rcap-materialized-source.mjs",
         `--document-id ${requirement.documentId}`,
@@ -292,16 +312,7 @@ function verifySourceRequirements(officialTracks) {
       requirement.canonicalAuthorityPath
     );
 
-    const absolutePath = path.join(
-      ROOT,
-      requirement.materializationDestination
-    );
-    if (!fs.existsSync(absolutePath)) {
-      pending.push(requirement.documentId);
-      continue;
-    }
-    verifyMaterializedFile(requirement, absolutePath);
-    ready.push(requirement.documentId);
+    pending.push(requirement.documentId);
   }
 
   return { ready, pending };
@@ -486,31 +497,8 @@ function verifyReviewState(materialization) {
   }
 }
 
-function verifyMaterializedFile(requirement, absolutePath) {
-  const stat = fs.lstatSync(absolutePath);
-  assert.equal(stat.isSymbolicLink(), false, absolutePath);
-  assert.equal(stat.isFile(), true, absolutePath);
-  assert.equal(stat.nlink, 1, `${absolutePath} must not be a hard-link alias`);
-  assert.equal(
-    stat.mode & WRITE_MASK,
-    0,
-    `${absolutePath} must have no write bits`
-  );
-  assert.equal(stat.size, requirement.expectedBytes, absolutePath);
-  const bytes = fs.readFileSync(absolutePath);
-  assert.equal(bytes.subarray(0, 5).toString("ascii"), "%PDF-", absolutePath);
-  assert.equal(sha256(bytes), requirement.expectedSha256, absolutePath);
-  const latin = bytes.toString("latin1");
-  assert.doesNotMatch(latin, /\/XFA\b/u, absolutePath);
-  assert.doesNotMatch(latin, /\/Encrypt\b/u, absolutePath);
-}
-
 function readJson(relativePath) {
   return JSON.parse(fs.readFileSync(path.join(ROOT, relativePath), "utf8"));
-}
-
-function sha256(bytes) {
-  return crypto.createHash("sha256").update(bytes).digest("hex");
 }
 
 function sorted(values) {

@@ -51,7 +51,7 @@ export type PennsylvaniaSourceRequirement = {
   expectedMediaType: "application/pdf";
   expectedPageCount: number;
   expectedFieldCount: number;
-  sourcePaths: readonly string[];
+  authorizedLocalReviewPaths: readonly string[];
 };
 
 export const PENNSYLVANIA_OFFICIAL_PDF_SOURCE_REQUIREMENTS:
@@ -63,9 +63,7 @@ export const PENNSYLVANIA_OFFICIAL_PDF_SOURCE_REQUIREMENTS:
       expectedMediaType: "application/pdf",
       expectedPageCount: 1,
       expectedFieldCount: 76,
-      sourcePaths: [
-        "private/Nationwide Record Clearing/LegalEase Pennsylvania/222603-petitionforexpungement490030912-000076.pdf"
-      ]
+      authorizedLocalReviewPaths: []
     },
     {
       documentId: "PA-RCRIM-P-490-ORDER",
@@ -74,9 +72,7 @@ export const PENNSYLVANIA_OFFICIAL_PDF_SOURCE_REQUIREMENTS:
       expectedMediaType: "application/pdf",
       expectedPageCount: 2,
       expectedFieldCount: 29,
-      sourcePaths: [
-        "private/Nationwide Record Clearing/LegalEase Pennsylvania/222539-blankexpungementorder4900311121-000064.pdf"
-      ]
+      authorizedLocalReviewPaths: []
     },
     {
       documentId: "PA-RCRIM-P-790-PETITION",
@@ -85,8 +81,7 @@ export const PENNSYLVANIA_OFFICIAL_PDF_SOURCE_REQUIREMENTS:
       expectedMediaType: "application/pdf",
       expectedPageCount: 1,
       expectedFieldCount: 76,
-      sourcePaths: [
-        "private/Nationwide Record Clearing/LegalEase Pennsylvania/222612-petitionforexpungement790030912-000077.pdf",
+      authorizedLocalReviewPaths: [
         "reference/pennsylvania/222612-petitionforexpungement790030912-000077.pdf"
       ]
     },
@@ -97,9 +92,7 @@ export const PENNSYLVANIA_OFFICIAL_PDF_SOURCE_REQUIREMENTS:
       expectedMediaType: "application/pdf",
       expectedPageCount: 2,
       expectedFieldCount: 29,
-      sourcePaths: [
-        "private/Nationwide Record Clearing/LegalEase Pennsylvania/222549-blankexpungementorder7900309121-000065.pdf"
-      ]
+      authorizedLocalReviewPaths: []
     },
     {
       documentId: "PA-RCRIM-P-791-PETITION",
@@ -108,9 +101,7 @@ export const PENNSYLVANIA_OFFICIAL_PDF_SOURCE_REQUIREMENTS:
       expectedMediaType: "application/pdf",
       expectedPageCount: 1,
       expectedFieldCount: 60,
-      sourcePaths: [
-        "private/Nationwide Record Clearing/LegalEase Pennsylvania/215125-file-5632.pdf"
-      ]
+      authorizedLocalReviewPaths: []
     },
     {
       documentId: "PA-RCRIM-P-791-ORDER",
@@ -119,9 +110,7 @@ export const PENNSYLVANIA_OFFICIAL_PDF_SOURCE_REQUIREMENTS:
       expectedMediaType: "application/pdf",
       expectedPageCount: 2,
       expectedFieldCount: 24,
-      sourcePaths: [
-        "private/Nationwide Record Clearing/LegalEase Pennsylvania/215133-file-5631.pdf"
-      ]
+      authorizedLocalReviewPaths: []
     }
   ]);
 
@@ -383,14 +372,18 @@ export async function verifyPennsylvaniaOfficialPdfSource(
   documentId: string
 ): Promise<VerifiedPennsylvaniaSource> {
   const requirement = sourceRequirement(documentId);
-  const availablePath = requirement.sourcePaths.find((relativePath) =>
+  const availablePath = requirement.authorizedLocalReviewPaths.find((relativePath) =>
     fs.existsSync(path.resolve(rootDir, relativePath))
   );
   if (!availablePath) {
     throw new PennsylvaniaOfficialPdfError(
       "source_missing",
       "The exact Pennsylvania official source is not locally available.",
-      { documentId, attemptedPaths: requirement.sourcePaths }
+      {
+        documentId,
+        attemptedPaths: requirement.authorizedLocalReviewPaths,
+        workerProjectionRequired: true
+      }
     );
   }
 

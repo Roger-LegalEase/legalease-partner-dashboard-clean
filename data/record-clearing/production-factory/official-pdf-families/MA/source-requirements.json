@@ -3,7 +3,7 @@
   "familyId": "ma-trial-court-official-pdf-families",
   "jurisdiction": "MA",
   "asOf": "2026-08-04",
-  "runtimePosture": "fail_closed_pending_source_materialization",
+  "runtimePosture": "fail_closed_pending_captain_assignment",
   "physicalSourceCount": 5,
   "routeCount": 6,
   "authorityPins": {
@@ -54,7 +54,6 @@
         "ma-seal-decrim-primary-filing-1"
       ],
       "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
-      "portableLocator": "source-artifact-registry://fillable-jud-mps-petition-to-seal",
       "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
       "directOfficialUrl": "https://www.mass.gov/doc/petition-to-seal-form/download",
       "canonicalAuthorityAsset": null,
@@ -66,7 +65,6 @@
       },
       "fingerprintDisposition": "historical_candidate_pending_manual_official_diff",
       "materializationState": "binary_materialization_required",
-      "workerMayRead": true,
       "workerMayModify": false,
       "technicalExpectation": {
         "classification": "contested_acroform_inventory_vs_raw_inspection",
@@ -86,7 +84,7 @@
         {
           "id": "exact_path_materialization",
           "state": "not_satisfied",
-          "satisfiedBy": "Materialize read-only bytes at repositorySourcePath without committing or modifying them."
+          "satisfiedBy": "The integration captain must issue an immutable assignment and portable projection before exact read-only materialization."
         },
         {
           "id": "fingerprint_verification",
@@ -110,7 +108,20 @@
         }
       ],
       "generationAllowed": false,
-      "runtimeStatus": "runtime_disabled"
+      "runtimeStatus": "runtime_disabled",
+      "contractState": "pending_captain_owned_assignment",
+      "repositorySourcePathTreatment": "identity_evidence_only",
+      "portableLocatorCandidate": "source-artifact-registry://fillable-jud-mps-petition-to-seal",
+      "proposedMaterializationDestination": "official-pdf-sources/MA/fillable-jud-mps-petition-to-seal.pdf",
+      "verificationCommandCandidate": "node scripts/verify-rcap-materialized-source.mjs --document-id fillable-jud-mps-petition-to-seal --sha256 416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce --bytes 216883",
+      "assignmentBinding": {
+        "assignmentJobId": null,
+        "assignmentBaseCommit": null,
+        "assignmentManifestSha256": null,
+        "state": "captain_owned_assignment_required"
+      },
+      "workerMayRead": false,
+      "workerMaterializationAuthorized": false
     },
     {
       "sourceId": "ma-tc0057-rev-unknown-held",
@@ -129,7 +140,6 @@
         "ma-seal-court-primary-filing-1"
       ],
       "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
-      "portableLocator": "master-library-edition-1.2://STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0057__petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal__REV-UNKNOWN__EN.pdf",
       "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
       "directOfficialUrl": "https://www.mass.gov/doc/petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal/download",
       "canonicalAuthorityAsset": {
@@ -145,7 +155,6 @@
       },
       "fingerprintDisposition": "source_gated_candidate_pending_currentness",
       "materializationState": "binary_materialization_required",
-      "workerMayRead": true,
       "workerMayModify": false,
       "technicalExpectation": {
         "classification": "clean_acroform_historical_measurement",
@@ -165,7 +174,7 @@
         {
           "id": "exact_path_materialization",
           "state": "not_satisfied",
-          "satisfiedBy": "Materialize the held candidate read-only at repositorySourcePath, or update this manifest only after an authorized current-source pin."
+          "satisfiedBy": "The integration captain must issue an immutable assignment and portable projection before exact read-only materialization."
         },
         {
           "id": "fingerprint_verification",
@@ -189,7 +198,20 @@
         }
       ],
       "generationAllowed": false,
-      "runtimeStatus": "runtime_disabled"
+      "runtimeStatus": "runtime_disabled",
+      "contractState": "pending_captain_owned_assignment",
+      "repositorySourcePathTreatment": "identity_evidence_only",
+      "portableLocatorCandidate": "master-library-edition-1.2://STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0057__petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal__REV-UNKNOWN__EN.pdf",
+      "proposedMaterializationDestination": "official-pdf-sources/MA/jud-tc-petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal.pdf",
+      "verificationCommandCandidate": "node scripts/verify-rcap-materialized-source.mjs --document-id jud-tc-petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal --sha256 f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0 --bytes 1374671",
+      "assignmentBinding": {
+        "assignmentJobId": null,
+        "assignmentBaseCommit": null,
+        "assignmentManifestSha256": null,
+        "state": "captain_owned_assignment_required"
+      },
+      "workerMayRead": false,
+      "workerMaterializationAuthorized": false
     },
     {
       "sourceId": "ma-mps-petition-to-expunge-rev-2018-10-11-legacy",
@@ -208,7 +230,6 @@
         "ma-expunge-time-primary-filing-1"
       ],
       "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/source-gated/MA-Probation-Service__petition-to-expunge-under-GL-c-276-sections-100F-100G-100H__rev-2018-10-11.pdf",
-      "portableLocator": "master-library-edition-1.2://STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge-under-g-l-c-276-sections-100f-100g-or-100h__REV-2018-10-11__EN.pdf",
       "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
       "directOfficialUrl": "https://courtforms.jud.state.ma.us/publicforms/PROB0002",
       "canonicalAuthorityAsset": {
@@ -224,7 +245,6 @@
       },
       "fingerprintDisposition": "legacy_candidate_requires_replacement",
       "materializationState": "binary_materialization_required",
-      "workerMayRead": true,
       "workerMayModify": false,
       "technicalExpectation": {
         "classification": "legacy_flat_pdf_not_the_current_published_artifact",
@@ -268,7 +288,20 @@
         }
       ],
       "generationAllowed": false,
-      "runtimeStatus": "runtime_disabled"
+      "runtimeStatus": "runtime_disabled",
+      "contractState": "pending_captain_owned_assignment",
+      "repositorySourcePathTreatment": "identity_evidence_only",
+      "portableLocatorCandidate": "master-library-edition-1.2://STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge-under-g-l-c-276-sections-100f-100g-or-100h__REV-2018-10-11__EN.pdf",
+      "proposedMaterializationDestination": "official-pdf-sources/MA/ma-probation-service-petition-to-expunge-under-gl-c-276-sections-100f-100g-100h-rev-2018-1.pdf",
+      "verificationCommandCandidate": "node scripts/verify-rcap-materialized-source.mjs --document-id ma-probation-service-petition-to-expunge-under-gl-c-276-sections-100f-100g-100h-rev-2018-1 --sha256 5ccb13e55c07a520526cad72fe48b506f6a67c51a2c879817feb49829853b0b1 --bytes 13137",
+      "assignmentBinding": {
+        "assignmentJobId": null,
+        "assignmentBaseCommit": null,
+        "assignmentManifestSha256": null,
+        "state": "captain_owned_assignment_required"
+      },
+      "workerMayRead": false,
+      "workerMaterializationAuthorized": false
     },
     {
       "sourceId": "ma-100k-petition-for-expungement-rev-2018-12-20",
@@ -287,7 +320,6 @@
         "ma-expunge-k-primary-filing-1"
       ],
       "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/jud-Petition-for-Expungement.pdf",
-      "portableLocator": "master-library-edition-1.2://STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__PETITION-FOR-EXPUNGEMENT-100K__petition-for-expungement-gl-c-276-s-100k__REV-2018-12-20__EN.pdf",
       "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
       "directOfficialUrl": "https://www.mass.gov/doc/petition-for-expungement-form/download",
       "canonicalAuthorityAsset": {
@@ -303,7 +335,6 @@
       },
       "fingerprintDisposition": "source_gated_candidate_pending_currentness",
       "materializationState": "binary_materialization_required",
-      "workerMayRead": true,
       "workerMayModify": false,
       "technicalExpectation": {
         "classification": "clean_acroform_historical_measurement",
@@ -323,7 +354,7 @@
         {
           "id": "exact_path_materialization",
           "state": "not_satisfied",
-          "satisfiedBy": "Materialize read-only bytes at repositorySourcePath without committing or modifying them."
+          "satisfiedBy": "The integration captain must issue an immutable assignment and portable projection before exact read-only materialization."
         },
         {
           "id": "fingerprint_verification",
@@ -347,7 +378,20 @@
         }
       ],
       "generationAllowed": false,
-      "runtimeStatus": "runtime_disabled"
+      "runtimeStatus": "runtime_disabled",
+      "contractState": "pending_captain_owned_assignment",
+      "repositorySourcePathTreatment": "identity_evidence_only",
+      "portableLocatorCandidate": "master-library-edition-1.2://STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__PETITION-FOR-EXPUNGEMENT-100K__petition-for-expungement-gl-c-276-s-100k__REV-2018-12-20__EN.pdf",
+      "proposedMaterializationDestination": "official-pdf-sources/MA/jud-petition-for-expungement.pdf",
+      "verificationCommandCandidate": "node scripts/verify-rcap-materialized-source.mjs --document-id jud-petition-for-expungement --sha256 19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce --bytes 1387408",
+      "assignmentBinding": {
+        "assignmentJobId": null,
+        "assignmentBaseCommit": null,
+        "assignmentManifestSha256": null,
+        "state": "captain_owned_assignment_required"
+      },
+      "workerMayRead": false,
+      "workerMaterializationAuthorized": false
     },
     {
       "sourceId": "ma-tc0021-rev-2022-11",
@@ -366,7 +410,6 @@
         "ma-expunge-mj-primary-filing-1"
       ],
       "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/source-gated/TC0021__petition-for-expungement-of-marijuana-offenses__rev-2022-11.pdf",
-      "portableLocator": "master-library-edition-1.2://STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0021__petition-for-expungement-of-marijuana-offenses-g-l-c-276-section-100k-1-4__REV-2022-11__EN.pdf",
       "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
       "directOfficialUrl": "https://www.mass.gov/doc/petition-for-expungement-of-marijuana-offenses-form/download",
       "canonicalAuthorityAsset": {
@@ -382,7 +425,6 @@
       },
       "fingerprintDisposition": "source_gated_candidate_with_format_conflict",
       "materializationState": "binary_materialization_required",
-      "workerMayRead": true,
       "workerMayModify": false,
       "technicalExpectation": {
         "classification": "contested_clean_acroform_vs_xfa_note",
@@ -402,7 +444,7 @@
         {
           "id": "exact_path_materialization",
           "state": "not_satisfied",
-          "satisfiedBy": "Place those read-only bytes at repositorySourcePath without committing or modifying them."
+          "satisfiedBy": "The integration captain must issue an immutable assignment and portable projection before exact read-only materialization."
         },
         {
           "id": "fingerprint_verification",
@@ -426,7 +468,20 @@
         }
       ],
       "generationAllowed": false,
-      "runtimeStatus": "runtime_disabled"
+      "runtimeStatus": "runtime_disabled",
+      "contractState": "pending_captain_owned_assignment",
+      "repositorySourcePathTreatment": "identity_evidence_only",
+      "portableLocatorCandidate": "master-library-edition-1.2://STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0021__petition-for-expungement-of-marijuana-offenses-g-l-c-276-section-100k-1-4__REV-2022-11__EN.pdf",
+      "proposedMaterializationDestination": "official-pdf-sources/MA/tc0021-petition-for-expungement-of-marijuana-offenses-rev-2022-11.pdf",
+      "verificationCommandCandidate": "node scripts/verify-rcap-materialized-source.mjs --document-id tc0021-petition-for-expungement-of-marijuana-offenses-rev-2022-11 --sha256 a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c --bytes 1393680",
+      "assignmentBinding": {
+        "assignmentJobId": null,
+        "assignmentBaseCommit": null,
+        "assignmentManifestSha256": null,
+        "state": "captain_owned_assignment_required"
+      },
+      "workerMayRead": false,
+      "workerMaterializationAuthorized": false
     }
   ],
   "inventoryExclusions": [
@@ -440,5 +495,9 @@
       "reason": "This top-level historical artifact has the same pinned hash and byte length as canonical source-gated TC0021. The packet definition uses only the canonical source-gated path so duplicate filenames cannot create source selection ambiguity.",
       "runtimeUse": "none"
     }
-  ]
+  ],
+  "normativeRequirementSchema": "rcap-source-materialization-requirement/v1",
+  "contractState": "pending_captain_owned_assignment",
+  "assignmentManifest": null,
+  "portableProjectionAvailable": false
 }

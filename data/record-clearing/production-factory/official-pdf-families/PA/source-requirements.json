@@ -1,15 +1,21 @@
 {
-  "schemaVersion": "rcap-source-materialization-requirement-set/v1",
+  "schemaVersion": "rcap-source-materialization-requirement-scaffold-set/v1",
+  "normativeRequirementSchema": "rcap-source-materialization-requirement/v1",
   "familyId": "pa-rules-490-790-791",
   "jurisdiction": "PA",
   "dependencyJobId": "rcap-nationwide-source-materialization-contract",
   "allSourcesRequired": true,
   "aggregateState": "partial_exact_source_availability",
   "workerReady": false,
+  "contractState": "pending_captain_owned_assignment",
+  "assignmentManifest": null,
+  "portableProjectionAvailable": false,
   "requirements": [
     {
-      "schemaVersion": "rcap-source-materialization-requirement/v1",
-      "authorityEdition": "1.2",
+      "schemaVersion": "rcap-source-materialization-requirement-scaffold/v1",
+      "normativeRequirementSchema": "rcap-source-materialization-requirement/v1",
+      "contractState": "pending_captain_owned_assignment",
+      "authorityEdition": "master-library/1.2",
       "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
       "jurisdiction": "PA",
       "documentId": "PA-RCRIM-P-490-PETITION",
@@ -19,8 +25,6 @@
       "language": "EN",
       "canonicalAuthorityPath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-490-PETITION__pa-r-crim-p-490-petition__REV-2009-03__EN.pdf",
       "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase Pennsylvania/222603-petitionforexpungement490030912-000076.pdf",
-      "portableLocator": "rcap-master-library-edition-1-2://STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-490-PETITION__pa-r-crim-p-490-petition__REV-2009-03__EN.pdf",
-      "materializationDestination": "private/Nationwide Record Clearing/LegalEase Pennsylvania/222603-petitionforexpungement490030912-000076.pdf",
       "expectedSha256": "082c515ce5a60de33798508c6dd76589f83758ac2ddd8244e934b379ce05def3",
       "expectedBytes": 87204,
       "expectedMediaType": "application/pdf",
@@ -33,7 +37,6 @@
         "measurementBasis": "carried_forward_registry_measurement"
       },
       "readOnlyTreatment": "worker_read_only_no_modify",
-      "retentionPolicy": "source_owner_managed_no_implementation_copy",
       "identityBindingStatus": "exact_pinned_identity",
       "authorityAssetState": "authority_asset_known",
       "registryState": "registry_metadata_present",
@@ -58,11 +61,27 @@
         "authorityReconciliationPath": "data/record-clearing/master-library/repository-asset-audit.json",
         "freshLocalVerification": false,
         "registryPresenceConfersReadiness": false
-      }
+      },
+      "repositorySourcePathTreatment": "identity_evidence_only",
+      "portableLocatorCandidate": "rcap-master-library-edition-1-2://STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-490-PETITION__pa-r-crim-p-490-petition__REV-2009-03__EN.pdf",
+      "proposedMaterializationDestination": "official-pdf-sources/PA/PA-RCRIM-P-490-PETITION.pdf",
+      "verificationCommandCandidate": "node scripts/verify-rcap-materialized-source.mjs --document-id PA-RCRIM-P-490-PETITION --sha256 082c515ce5a60de33798508c6dd76589f83758ac2ddd8244e934b379ce05def3 --bytes 87204",
+      "retentionPolicyCandidate": "retain_until_worker_integration_then_captain_managed_cleanup",
+      "expectedMeasurementBasis": "carried_forward_registry_measurement",
+      "materializationStateBasis": "no_local_source",
+      "assignmentBinding": {
+        "assignmentJobId": null,
+        "assignmentBaseCommit": null,
+        "assignmentManifestSha256": null,
+        "state": "captain_owned_assignment_required"
+      },
+      "workerMaterializationAuthorized": false
     },
     {
-      "schemaVersion": "rcap-source-materialization-requirement/v1",
-      "authorityEdition": "1.2",
+      "schemaVersion": "rcap-source-materialization-requirement-scaffold/v1",
+      "normativeRequirementSchema": "rcap-source-materialization-requirement/v1",
+      "contractState": "pending_captain_owned_assignment",
+      "authorityEdition": "master-library/1.2",
       "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
       "jurisdiction": "PA",
       "documentId": "PA-RCRIM-P-490-ORDER",
@@ -72,8 +91,6 @@
       "language": "EN",
       "canonicalAuthorityPath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-490-ORDER__pa-r-crim-p-490-blank-expungement-order__REV-2006-03__EN.pdf",
       "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase Pennsylvania/222539-blankexpungementorder4900311121-000064.pdf",
-      "portableLocator": "rcap-master-library-edition-1-2://STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-490-ORDER__pa-r-crim-p-490-blank-expungement-order__REV-2006-03__EN.pdf",
-      "materializationDestination": "private/Nationwide Record Clearing/LegalEase Pennsylvania/222539-blankexpungementorder4900311121-000064.pdf",
       "expectedSha256": "ac671421035b12b61d3cfbfaac04bb5676f619b968db879f6992e3279110ce90",
       "expectedBytes": 143399,
       "expectedMediaType": "application/pdf",
@@ -86,7 +103,6 @@
         "measurementBasis": "carried_forward_registry_measurement"
       },
       "readOnlyTreatment": "worker_read_only_no_modify",
-      "retentionPolicy": "source_owner_managed_no_implementation_copy",
       "identityBindingStatus": "exact_pinned_identity",
       "authorityAssetState": "authority_asset_known",
       "registryState": "registry_metadata_present",
@@ -111,11 +127,27 @@
         "authorityReconciliationPath": "data/record-clearing/master-library/repository-asset-audit.json",
         "freshLocalVerification": false,
         "registryPresenceConfersReadiness": false
-      }
+      },
+      "repositorySourcePathTreatment": "identity_evidence_only",
+      "portableLocatorCandidate": "rcap-master-library-edition-1-2://STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-490-ORDER__pa-r-crim-p-490-blank-expungement-order__REV-2006-03__EN.pdf",
+      "proposedMaterializationDestination": "official-pdf-sources/PA/PA-RCRIM-P-490-ORDER.pdf",
+      "verificationCommandCandidate": "node scripts/verify-rcap-materialized-source.mjs --document-id PA-RCRIM-P-490-ORDER --sha256 ac671421035b12b61d3cfbfaac04bb5676f619b968db879f6992e3279110ce90 --bytes 143399",
+      "retentionPolicyCandidate": "retain_until_worker_integration_then_captain_managed_cleanup",
+      "expectedMeasurementBasis": "carried_forward_registry_measurement",
+      "materializationStateBasis": "no_local_source",
+      "assignmentBinding": {
+        "assignmentJobId": null,
+        "assignmentBaseCommit": null,
+        "assignmentManifestSha256": null,
+        "state": "captain_owned_assignment_required"
+      },
+      "workerMaterializationAuthorized": false
     },
     {
-      "schemaVersion": "rcap-source-materialization-requirement/v1",
-      "authorityEdition": "1.2",
+      "schemaVersion": "rcap-source-materialization-requirement-scaffold/v1",
+      "normativeRequirementSchema": "rcap-source-materialization-requirement/v1",
+      "contractState": "pending_captain_owned_assignment",
+      "authorityEdition": "master-library/1.2",
       "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
       "jurisdiction": "PA",
       "documentId": "PA-RCRIM-P-790-PETITION",
@@ -125,8 +157,6 @@
       "language": "EN",
       "canonicalAuthorityPath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf",
       "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase Pennsylvania/222612-petitionforexpungement790030912-000077.pdf",
-      "portableLocator": "rcap-master-library-edition-1-2://STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf",
-      "materializationDestination": "private/Nationwide Record Clearing/LegalEase Pennsylvania/222612-petitionforexpungement790030912-000077.pdf",
       "expectedSha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
       "expectedBytes": 87647,
       "expectedMediaType": "application/pdf",
@@ -139,7 +169,6 @@
         "measurementBasis": "fresh_local_verification"
       },
       "readOnlyTreatment": "worker_read_only_use_in_place_no_modify_no_copy",
-      "retentionPolicy": "tracked_reference_source_owner_managed",
       "identityBindingStatus": "exact_pinned_identity",
       "authorityAssetState": "authority_asset_known",
       "registryState": "registry_metadata_present",
@@ -169,11 +198,27 @@
         "freshLocalVerification": true,
         "registryPresenceConfersReadiness": false,
         "retainedSourceCommit": "b64a343847736593d24ff8797daba272ec57ee7f"
-      }
+      },
+      "repositorySourcePathTreatment": "identity_evidence_only",
+      "portableLocatorCandidate": "rcap-master-library-edition-1-2://STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf",
+      "proposedMaterializationDestination": "official-pdf-sources/PA/PA-RCRIM-P-790-PETITION.pdf",
+      "verificationCommandCandidate": "node scripts/verify-rcap-materialized-source.mjs --document-id PA-RCRIM-P-790-PETITION --sha256 fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de --bytes 87647",
+      "retentionPolicyCandidate": "retain_until_worker_integration_then_captain_managed_cleanup",
+      "expectedMeasurementBasis": "carried_forward_registry_measurement",
+      "materializationStateBasis": "tracked_review_source_not_worker_projection",
+      "assignmentBinding": {
+        "assignmentJobId": null,
+        "assignmentBaseCommit": null,
+        "assignmentManifestSha256": null,
+        "state": "captain_owned_assignment_required"
+      },
+      "workerMaterializationAuthorized": false
     },
     {
-      "schemaVersion": "rcap-source-materialization-requirement/v1",
-      "authorityEdition": "1.2",
+      "schemaVersion": "rcap-source-materialization-requirement-scaffold/v1",
+      "normativeRequirementSchema": "rcap-source-materialization-requirement/v1",
+      "contractState": "pending_captain_owned_assignment",
+      "authorityEdition": "master-library/1.2",
       "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
       "jurisdiction": "PA",
       "documentId": "PA-RCRIM-P-790-ORDER",
@@ -183,8 +228,6 @@
       "language": "EN",
       "canonicalAuthorityPath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-p-790-blank-expungement-order__REV-2021-07__EN.pdf",
       "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase Pennsylvania/222549-blankexpungementorder7900309121-000065.pdf",
-      "portableLocator": "rcap-master-library-edition-1-2://STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-p-790-blank-expungement-order__REV-2021-07__EN.pdf",
-      "materializationDestination": "private/Nationwide Record Clearing/LegalEase Pennsylvania/222549-blankexpungementorder7900309121-000065.pdf",
       "expectedSha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
       "expectedBytes": 151853,
       "expectedMediaType": "application/pdf",
@@ -197,7 +240,6 @@
         "measurementBasis": "carried_forward_registry_measurement"
       },
       "readOnlyTreatment": "worker_read_only_no_modify",
-      "retentionPolicy": "source_owner_managed_no_implementation_copy",
       "identityBindingStatus": "exact_pinned_identity",
       "authorityAssetState": "authority_asset_known",
       "registryState": "registry_metadata_present",
@@ -222,11 +264,27 @@
         "authorityReconciliationPath": "data/record-clearing/master-library/repository-asset-audit.json",
         "freshLocalVerification": false,
         "registryPresenceConfersReadiness": false
-      }
+      },
+      "repositorySourcePathTreatment": "identity_evidence_only",
+      "portableLocatorCandidate": "rcap-master-library-edition-1-2://STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-p-790-blank-expungement-order__REV-2021-07__EN.pdf",
+      "proposedMaterializationDestination": "official-pdf-sources/PA/PA-RCRIM-P-790-ORDER.pdf",
+      "verificationCommandCandidate": "node scripts/verify-rcap-materialized-source.mjs --document-id PA-RCRIM-P-790-ORDER --sha256 4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95 --bytes 151853",
+      "retentionPolicyCandidate": "retain_until_worker_integration_then_captain_managed_cleanup",
+      "expectedMeasurementBasis": "carried_forward_registry_measurement",
+      "materializationStateBasis": "no_local_source",
+      "assignmentBinding": {
+        "assignmentJobId": null,
+        "assignmentBaseCommit": null,
+        "assignmentManifestSha256": null,
+        "state": "captain_owned_assignment_required"
+      },
+      "workerMaterializationAuthorized": false
     },
     {
-      "schemaVersion": "rcap-source-materialization-requirement/v1",
-      "authorityEdition": "1.2",
+      "schemaVersion": "rcap-source-materialization-requirement-scaffold/v1",
+      "normativeRequirementSchema": "rcap-source-materialization-requirement/v1",
+      "contractState": "pending_captain_owned_assignment",
+      "authorityEdition": "master-library/1.2",
       "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
       "jurisdiction": "PA",
       "documentId": "PA-RCRIM-P-791-PETITION",
@@ -236,8 +294,6 @@
       "language": "EN",
       "canonicalAuthorityPath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-791-PETITION__pa-r-crim-p-791-petition-for-order-for-limited-access__REV-UNKNOWN__EN.pdf",
       "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase Pennsylvania/215125-file-5632.pdf",
-      "portableLocator": "rcap-master-library-edition-1-2://STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-791-PETITION__pa-r-crim-p-791-petition-for-order-for-limited-access__REV-UNKNOWN__EN.pdf",
-      "materializationDestination": "private/Nationwide Record Clearing/LegalEase Pennsylvania/215125-file-5632.pdf",
       "expectedSha256": "945a630595c8f6fcbbfaf4f5532fc54ab7267ac585d2cb523bf0f5975d21c2ab",
       "expectedBytes": 673358,
       "expectedMediaType": "application/pdf",
@@ -250,7 +306,6 @@
         "measurementBasis": "carried_forward_registry_measurement"
       },
       "readOnlyTreatment": "worker_read_only_no_modify",
-      "retentionPolicy": "source_owner_managed_no_implementation_copy",
       "identityBindingStatus": "exact_pinned_identity",
       "authorityAssetState": "authority_asset_known",
       "registryState": "registry_metadata_present",
@@ -267,11 +322,27 @@
         "authorityReconciliationPath": "data/record-clearing/master-library/repository-asset-audit.json",
         "freshLocalVerification": false,
         "registryPresenceConfersReadiness": false
-      }
+      },
+      "repositorySourcePathTreatment": "identity_evidence_only",
+      "portableLocatorCandidate": "rcap-master-library-edition-1-2://STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-791-PETITION__pa-r-crim-p-791-petition-for-order-for-limited-access__REV-UNKNOWN__EN.pdf",
+      "proposedMaterializationDestination": "official-pdf-sources/PA/PA-RCRIM-P-791-PETITION.pdf",
+      "verificationCommandCandidate": "node scripts/verify-rcap-materialized-source.mjs --document-id PA-RCRIM-P-791-PETITION --sha256 945a630595c8f6fcbbfaf4f5532fc54ab7267ac585d2cb523bf0f5975d21c2ab --bytes 673358",
+      "retentionPolicyCandidate": "retain_until_worker_integration_then_captain_managed_cleanup",
+      "expectedMeasurementBasis": "carried_forward_registry_measurement",
+      "materializationStateBasis": "no_local_source",
+      "assignmentBinding": {
+        "assignmentJobId": null,
+        "assignmentBaseCommit": null,
+        "assignmentManifestSha256": null,
+        "state": "captain_owned_assignment_required"
+      },
+      "workerMaterializationAuthorized": false
     },
     {
-      "schemaVersion": "rcap-source-materialization-requirement/v1",
-      "authorityEdition": "1.2",
+      "schemaVersion": "rcap-source-materialization-requirement-scaffold/v1",
+      "normativeRequirementSchema": "rcap-source-materialization-requirement/v1",
+      "contractState": "pending_captain_owned_assignment",
+      "authorityEdition": "master-library/1.2",
       "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
       "jurisdiction": "PA",
       "documentId": "PA-RCRIM-P-791-ORDER",
@@ -281,8 +352,6 @@
       "language": "EN",
       "canonicalAuthorityPath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-791-ORDER__pa-r-crim-p-791-order-for-limited-access__REV-UNKNOWN__EN.pdf",
       "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase Pennsylvania/215133-file-5631.pdf",
-      "portableLocator": "rcap-master-library-edition-1-2://STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-791-ORDER__pa-r-crim-p-791-order-for-limited-access__REV-UNKNOWN__EN.pdf",
-      "materializationDestination": "private/Nationwide Record Clearing/LegalEase Pennsylvania/215133-file-5631.pdf",
       "expectedSha256": "99a7704e7d68c0478ef0be1d6c08a79f552a9f439d9468d6476c10e8a5c377cf",
       "expectedBytes": 803224,
       "expectedMediaType": "application/pdf",
@@ -295,7 +364,6 @@
         "measurementBasis": "carried_forward_registry_measurement"
       },
       "readOnlyTreatment": "worker_read_only_no_modify",
-      "retentionPolicy": "source_owner_managed_no_implementation_copy",
       "identityBindingStatus": "exact_pinned_identity",
       "authorityAssetState": "authority_asset_known",
       "registryState": "registry_metadata_present",
@@ -312,7 +380,21 @@
         "authorityReconciliationPath": "data/record-clearing/master-library/repository-asset-audit.json",
         "freshLocalVerification": false,
         "registryPresenceConfersReadiness": false
-      }
+      },
+      "repositorySourcePathTreatment": "identity_evidence_only",
+      "portableLocatorCandidate": "rcap-master-library-edition-1-2://STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-791-ORDER__pa-r-crim-p-791-order-for-limited-access__REV-UNKNOWN__EN.pdf",
+      "proposedMaterializationDestination": "official-pdf-sources/PA/PA-RCRIM-P-791-ORDER.pdf",
+      "verificationCommandCandidate": "node scripts/verify-rcap-materialized-source.mjs --document-id PA-RCRIM-P-791-ORDER --sha256 99a7704e7d68c0478ef0be1d6c08a79f552a9f439d9468d6476c10e8a5c377cf --bytes 803224",
+      "retentionPolicyCandidate": "retain_until_worker_integration_then_captain_managed_cleanup",
+      "expectedMeasurementBasis": "carried_forward_registry_measurement",
+      "materializationStateBasis": "no_local_source",
+      "assignmentBinding": {
+        "assignmentJobId": null,
+        "assignmentBaseCommit": null,
+        "assignmentManifestSha256": null,
+        "state": "captain_owned_assignment_required"
+      },
+      "workerMaterializationAuthorized": false
     }
   ]
 }

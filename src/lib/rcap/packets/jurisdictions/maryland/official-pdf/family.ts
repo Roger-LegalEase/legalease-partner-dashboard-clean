@@ -41,7 +41,7 @@ export type MarylandOfficialPdfSourceIdentity = {
   mediaType: "application/pdf";
   packetRole: "primary_filing" | "attachment" | "fee_waiver";
   assetClass: "source_gated" | "packet_form";
-  materializationDestination: string;
+  repositorySourcePathEvidence: string;
 };
 
 export const MARYLAND_REMAINING_OFFICIAL_PDF_SOURCE_IDENTITIES =
@@ -53,7 +53,7 @@ export const MARYLAND_REMAINING_OFFICIAL_PDF_SOURCE_IDENTITIES =
       mediaType: "application/pdf",
       packetRole: "primary_filing",
       assetClass: "source_gated",
-      materializationDestination:
+      repositorySourcePathEvidence:
         "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072A.pdf"
     },
     {
@@ -63,7 +63,7 @@ export const MARYLAND_REMAINING_OFFICIAL_PDF_SOURCE_IDENTITIES =
       mediaType: "application/pdf",
       packetRole: "primary_filing",
       assetClass: "source_gated",
-      materializationDestination:
+      repositorySourcePathEvidence:
         "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf"
     },
     {
@@ -73,7 +73,7 @@ export const MARYLAND_REMAINING_OFFICIAL_PDF_SOURCE_IDENTITIES =
       mediaType: "application/pdf",
       packetRole: "primary_filing",
       assetClass: "source_gated",
-      materializationDestination:
+      repositorySourcePathEvidence:
         "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072c.pdf"
     },
     {
@@ -83,7 +83,7 @@ export const MARYLAND_REMAINING_OFFICIAL_PDF_SOURCE_IDENTITIES =
       mediaType: "application/pdf",
       packetRole: "primary_filing",
       assetClass: "source_gated",
-      materializationDestination:
+      repositorySourcePathEvidence:
         "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072d.pdf"
     },
     {
@@ -93,7 +93,7 @@ export const MARYLAND_REMAINING_OFFICIAL_PDF_SOURCE_IDENTITIES =
       mediaType: "application/pdf",
       packetRole: "attachment",
       assetClass: "packet_form",
-      materializationDestination:
+      repositorySourcePathEvidence:
         "private/Nationwide Record Clearing/LegalEase Maryland/forms/CC-DC-CR-078__general-waiver-and-release__rev-2025-01.pdf"
     },
     {
@@ -103,7 +103,7 @@ export const MARYLAND_REMAINING_OFFICIAL_PDF_SOURCE_IDENTITIES =
       mediaType: "application/pdf",
       packetRole: "fee_waiver",
       assetClass: "packet_form",
-      materializationDestination:
+      repositorySourcePathEvidence:
         "private/Nationwide Record Clearing/LegalEase Maryland/forms/CC-DC-089__request-for-waiver-of-prepaid-costs__rev-2025-11.pdf"
     }
   ] as const satisfies readonly MarylandOfficialPdfSourceIdentity[];
