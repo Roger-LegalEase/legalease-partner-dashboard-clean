@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rcap-ar-official-pdf-field-map/v1",
+  "title": "Arkansas ACIC official PDF field-map scaffold",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "activeMappingCount",
+    "activeOverlayPlacementCount",
+    "mappingPolicy",
+    "forms"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "rcap-official-pdf-field-map/v1"
+    },
+    "familyId": {
+      "const": "rcap-ar-official-pdf-family"
+    },
+    "jurisdiction": {
+      "const": "AR"
+    },
+    "activeMappingCount": {
+      "const": 0
+    },
+    "activeOverlayPlacementCount": {
+      "const": 0
+    },
+    "mappingPolicy": {
+      "type": "object"
+    },
+    "forms": {
+      "type": "array",
+      "minItems": 20,
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "officialFormId",
+          "authorityState",
+          "identityBindingStatus",
+          "rendererStrategy",
+          "mappingReady",
+          "expectedStructure",
+          "candidateEvidenceIds",
+          "usageBindings",
+          "mappings",
+          "overlayPlacements"
+        ],
+        "properties": {
+          "officialFormId": {
+            "type": "string"
+          },
+          "authorityState": {
+            "const": "authority_unmanifested_source"
+          },
+          "identityBindingStatus": {
+            "const": "document_identity_known_exact_authority_asset_unresolved"
+          },
+          "rendererStrategy": {
+            "type": "null"
+          },
+          "mappingReady": {
+            "const": false
+          },
+          "expectedStructure": {
+            "type": "null"
+          },
+          "candidateEvidenceIds": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "usageBindings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "mappings": {
+            "type": "array",
+            "maxItems": 0
+          },
+          "overlayPlacements": {
+            "type": "array",
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  }
+}

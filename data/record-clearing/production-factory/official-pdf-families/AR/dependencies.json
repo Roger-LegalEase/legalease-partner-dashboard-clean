@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "rcap-official-pdf-family-dependencies/v1",
+  "familyId": "rcap-ar-official-pdf-family",
+  "jurisdiction": "AR",
+  "dependencies": [
+    {
+      "dependencyId": "ar-acic-candidate-evidence-reconciliation",
+      "kind": "identity_evidence",
+      "status": "satisfied_as_evidence_only",
+      "documentIdentityCount": 20,
+      "physicalCandidateEvidenceCount": 22,
+      "authorityAssetsAdopted": 0,
+      "reason": "The two tracked acquisition records reconcile evidence for every queue identity without creating an adopted authority descriptor."
+    },
+    {
+      "dependencyId": "ar-successor-authority-edition-source-identities",
+      "kind": "authority_manifest",
+      "status": "blocked",
+      "officialFormCount": 20,
+      "workerMayResolve": false,
+      "reason": "A successor authority edition must map exact track-specific assets, roles, revisions, hashes, sizes, media types, and canonical paths before any requirement is selectable."
+    },
+    {
+      "dependencyId": "ar-act346-mixed-footer-revision",
+      "kind": "authority_revision",
+      "status": "blocked",
+      "officialFormIds": ["ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS"],
+      "trackIds": ["ar-act346"],
+      "reason": "The candidate has 2014-08-25 footers on four pages and a 2015-04-01 footer on one page. The evidence record proposes but does not adopt a governing revision."
+    },
+    {
+      "dependencyId": "ar-uniform-petition-composite-binding",
+      "kind": "composite_authority_identity",
+      "status": "blocked",
+      "officialFormIds": ["ACIC-UNIFORM-PETITION-TO-SEAL"],
+      "trackIds": ["ar-felony-seal", "ar-misdemeanor-seal"],
+      "candidateVariantCount": 2,
+      "reason": "The single queue identity maps to distinct felony and misdemeanor petition binaries with different revisions, hashes, and sizes. A successor authority assignment must bind variants without collapsing them."
+    },
+    {
+      "dependencyId": "ar-uniform-order-composite-binding",
+      "kind": "composite_authority_identity",
+      "status": "blocked",
+      "officialFormIds": ["ACIC-UNIFORM-ORDER-TO-SEAL"],
+      "trackIds": ["ar-felony-seal", "ar-misdemeanor-seal"],
+      "candidateVariantCount": 2,
+      "reason": "The single queue identity maps to distinct felony and misdemeanor order binaries with different revisions, hashes, and sizes. No composite revision choice is inferred."
+    },
+    {
+      "dependencyId": "ar-captain-assignment-and-portable-projection",
+      "kind": "captain_assignment_portable_projection",
+      "status": "blocked",
+      "assignmentAnchor": null,
+      "portableProjection": null,
+      "workerMayResolveByRepositoryPath": false,
+      "workerMayUsePriorDownloadAsBinary": false,
+      "workerMayAcquireOrDownload": false,
+      "reason": "No immutable captain assignment or portable read-only projection exists."
+    },
+    {
+      "dependencyId": "ar-dwi-bwi-waiting-period-legal-design",
+      "kind": "legal_design",
+      "status": "blocked",
+      "gateClass": "build_blocker",
+      "trackIds": ["ar-misdemeanor-dwi-seal"],
+      "affectedElement": "waiting_period",
+      "reason": "The Coleman/statutory waiting-period conflict and appellate status prevent reliable routing."
+    },
+    {
+      "dependencyId": "ar-nonconviction-venue-legal-design",
+      "kind": "legal_design",
+      "status": "blocked",
+      "gateClass": "build_blocker",
+      "trackIds": ["ar-nonconviction-seal"],
+      "affectedElement": "venue",
+      "reason": "Venue remains unresolved for acquittals and charges that were never filed."
+    },
+    {
+      "dependencyId": "ar-current-acic-form-pairs-and-review-authorization",
+      "kind": "source_freshness",
+      "status": "blocked",
+      "gateClass": "release_blocker",
+      "reason": "Current ACIC form-pair currency and the Authorization for Review of Criminal History Information remain release-review dependencies."
+    },
+    {
+      "dependencyId": "ar-local-court-additional-forms",
+      "kind": "local_filing_process",
+      "status": "blocked",
+      "gateClass": "release_blocker",
+      "trackIds": ["ar-misdemeanor-seal"],
+      "reason": "Whether local courts require additional forms remains unresolved."
+    },
+    {
+      "dependencyId": "ar-act531-current-eligibility-authority",
+      "kind": "legal_source_freshness",
+      "status": "blocked",
+      "gateClass": "release_blocker",
+      "trackIds": ["ar-act531"],
+      "reason": "Current Act 531 statutory criteria, covered historical dispositions, and governing text require confirmation."
+    },
+    {
+      "dependencyId": "ar-veterans-court-current-statutory-text",
+      "kind": "legal_source_freshness",
+      "status": "blocked",
+      "gateClass": "release_blocker",
+      "trackIds": ["ar-veterans-court"],
+      "reason": "Current section 16-101-106 text requires confirmation before participant-facing eligibility language is released."
+    },
+    {
+      "dependencyId": "ar-third-party-and-participant-manual-completion",
+      "kind": "field_ownership",
+      "status": "satisfied_as_policy",
+      "reason": "Participant signatures and dates remain manual; proposed-order and all third-party completion remain prohibited from generation."
+    },
+    {
+      "dependencyId": "ar-external-guidance-component-contract",
+      "kind": "packet_assembly",
+      "status": "satisfied_as_contract",
+      "externalComponentCount": 5,
+      "reason": "Each staged prerequisite-guidance component remains in its adopted position as an external required component."
+    },
+    {
+      "dependencyId": "ar-projected-source-technical-inspection",
+      "kind": "pdf_structure_inspection",
+      "status": "blocked",
+      "requiredFor": [
+        "renderer classification",
+        "field enumeration",
+        "field ownership",
+        "field mapping"
+      ],
+      "reason": "Historical candidate classifications are evidence only. Exact captain-projected bytes require fresh inspection."
+    },
+    {
+      "dependencyId": "ar-field-map-and-ownership-completion",
+      "kind": "field_mapping",
+      "status": "blocked",
+      "requiredFor": ["packet rendering"],
+      "reason": "All 20 field and ownership maps contain zero active field rows pending exact-source inspection."
+    },
+    {
+      "dependencyId": "ar-source-backed-samples-and-review",
+      "kind": "review",
+      "status": "blocked",
+      "requiredFor": ["packet_ready", "generation_allowed", "enabled"],
+      "reason": "No source-backed sample, technical approval, visual approval, legal-output approval, source-freshness approval, or counsel approval exists."
+    },
+    {
+      "dependencyId": "ar-adjacent-surface-isolation",
+      "kind": "compatibility",
+      "status": "satisfied",
+      "reason": "The family is isolated to new Arkansas-scoped paths and has no live or shared registry import."
+    }
+  ]
+}

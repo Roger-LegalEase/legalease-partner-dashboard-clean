@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rcap-ar-official-pdf-fixtures/v1",
+  "title": "Arkansas official PDF synthetic preflight fixtures",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "fixtureKind",
+    "containsRealParticipantData",
+    "factsAreEligibilityDeterminations",
+    "renderedSampleCount",
+    "sampleArtifacts",
+    "routeFixtures",
+    "boundaryFixtures"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "rcap-official-pdf-fixtures/v1"
+    },
+    "familyId": {
+      "const": "rcap-ar-official-pdf-family"
+    },
+    "jurisdiction": {
+      "const": "AR"
+    },
+    "fixtureKind": {
+      "const": "synthetic_preflight_contract_only"
+    },
+    "containsRealParticipantData": {
+      "const": false
+    },
+    "factsAreEligibilityDeterminations": {
+      "const": false
+    },
+    "renderedSampleCount": {
+      "const": 0
+    },
+    "sampleArtifacts": {
+      "type": "array",
+      "maxItems": 0
+    },
+    "routeFixtures": {
+      "type": "array",
+      "minItems": 11,
+      "maxItems": 11,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "fixtureId",
+          "trackId",
+          "requiredFactKeys",
+          "syntheticFacts",
+          "renderExpected",
+          "currentExpectedBlockers"
+        ],
+        "properties": {
+          "fixtureId": {
+            "type": "string"
+          },
+          "trackId": {
+            "type": "string"
+          },
+          "requiredFactKeys": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "syntheticFacts": {
+            "type": "object",
+            "additionalProperties": {
+              "const": "SYNTHETIC_UNANSWERED"
+            }
+          },
+          "renderExpected": {
+            "const": false
+          },
+          "currentExpectedBlockers": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "boundaryFixtures": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}
