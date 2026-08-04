@@ -20,9 +20,13 @@
         "CC-DC-CR-072C",
         "CC-DC-CR-072D",
         "CC-DC-CR-078",
-        "CC-DC-089"
+        "CC-DC-089",
+        "CC-DC-CR-148",
+        "MDJ-008"
       ],
       "resolution": "The integration captain must issue an immutable assignment and portable projection, then materialize the exact read-only bytes and run each contract-bound SHA-256, byte-count, and media-type verifier.",
+      "workerMaterializationAuthorized": false,
+      "workerReadAuthorized": false,
       "workerMayResolveByDownload": false
     },
     {
@@ -88,7 +92,29 @@
         "CC-DC-CR-148",
         "MDJ-008"
       ],
-      "resolution": "Keep the Tranche 2 registry, renderer behavior, fixtures, ownership map, and verifier unchanged."
+      "resolution": "Keep the Tranche 2 registry, renderer behavior, fixtures, ownership map, and verifier unchanged while production-factory identity coverage remains isolated and runtime-disabled."
+    },
+    {
+      "dependencyId": "md-shielding-factory-source-and-map-reconciliation",
+      "kind": "preserved_implementation_factory_coverage",
+      "status": "blocked",
+      "requiredFor": [
+        "factory_source_materialization",
+        "fresh_factory_field_inventory",
+        "factory_mapping_and_ownership_review",
+        "factory_packet_rendering"
+      ],
+      "documentIds": [
+        "CC-DC-CR-148",
+        "MDJ-008"
+      ],
+      "trackIds": [
+        "md_second_chance_shielding"
+      ],
+      "resolution": "A captain-owned portable projection must verify the two exact queue identities before this production-factory scaffold may inspect or map them. The existing Tranche 2 implementation is evidence of a preserved implementation, not a source assignment or authorization for this worker.",
+      "workerMaterializationAuthorized": false,
+      "workerReadAuthorized": false,
+      "workerMayResolve": false
     }
   ],
   "routeReleaseBlockersPreserved": [
@@ -110,18 +136,24 @@
       "blockers": [
         "The June 2024 mass-pardon fit with § 10-105(a)(8), including the only-one-criminal-act condition, remains unresolved."
       ]
+    },
+    {
+      "trackId": "md_second_chance_shielding",
+      "blockers": [
+        "The filing fee for a shielding petition is recorded as $0 by the Judiciary shielding page and CC-DC-CR-148A, but the adopted legal design requires build-time verification before release."
+      ]
     }
   ],
   "excludedOrExternalForms": [
     {
       "documentId": "CC-DC-CR-148",
-      "treatment": "external_completed_tranche",
-      "reason": "Already implemented with MDJ-008 by Maryland Tranche 2."
+      "treatment": "external_completed_tranche_and_factory_identity_covered",
+      "reason": "The Maryland Tranche 2 implementation remains unchanged; this factory now covers its exact identity only through a fail-closed scaffold."
     },
     {
       "documentId": "MDJ-008",
-      "treatment": "external_completed_tranche",
-      "reason": "Already implemented as the required shielding companion by Maryland Tranche 2."
+      "treatment": "external_completed_tranche_and_factory_identity_covered",
+      "reason": "The Maryland Tranche 2 implementation remains unchanged; this factory now covers its exact identity only through a fail-closed scaffold."
     },
     {
       "documentId": "DC-CR-071",

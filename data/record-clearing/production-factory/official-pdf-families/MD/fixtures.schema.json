@@ -28,8 +28,8 @@
     },
     "positiveFixtures": {
       "type": "array",
-      "minItems": 5,
-      "maxItems": 5,
+      "minItems": 6,
+      "maxItems": 6,
       "items": {
         "$ref": "#/$defs/positiveFixture"
       }
@@ -68,7 +68,10 @@
           "pattern": "^SYN-"
         },
         "currentExpectedResult": {
-          "const": "authority_source_gated"
+          "enum": [
+            "authority_source_gated",
+            "source_materialization_required"
+          ]
         },
         "facts": {
           "type": "object",

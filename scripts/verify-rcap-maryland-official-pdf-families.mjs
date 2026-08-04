@@ -6,9 +6,9 @@
 //
 // 1. The normal no-argument run passes when the exact source contract is
 //    internally consistent and absent binaries remain explicitly fail-closed.
-// 2. `--document-id <id> --require-materialized` verifies one materialized
-//    source's exact bytes for a source custodian. It does not promote a field
-//    map or make a route renderer-selectable.
+// 2. Exact-pin, materialization, renderability, and packet CLI assertions
+//    exercise typed terminal boundaries. The verifier never opens a repository
+//    evidence path or private source; a correct pin proves identity only.
 //
 // If exact bytes appear during an implementation run while mappings and field
 // ownership are still scaffolds, the normal run fails and directs the worker to
@@ -22,13 +22,19 @@ import path from "node:path";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 const {
+  MARYLAND_OFFICIAL_PDF_SOURCE_AUTHORIZATION,
   MARYLAND_REMAINING_ACROFORM_MAPPINGS,
   MARYLAND_REMAINING_OFFICIAL_PDF_FAMILY_ID,
   MARYLAND_REMAINING_OFFICIAL_PDF_PACKETS,
   MARYLAND_REMAINING_OFFICIAL_PDF_SOURCE_IDENTITIES,
   MARYLAND_REMAINING_OVERLAY_PLACEMENTS,
   MarylandOfficialPdfFamilyBlockedError,
-  assertMarylandRemainingOfficialPdfTrackRenderable
+  MarylandOfficialPdfSourceBlockedError,
+  assertMarylandOfficialPdfExactSourcePin,
+  assertMarylandOfficialPdfPacketAssemblable,
+  assertMarylandOfficialPdfTrackRenderable,
+  assertMarylandRemainingOfficialPdfTrackRenderable,
+  preflightMarylandOfficialPdfDocument
 } = await import(
   "@/lib/rcap/packets/jurisdictions/maryland/official-pdf/family"
 );
@@ -74,13 +80,21 @@ const relationships = readJson(
 const tranchePins = readJson(
   "data/record-clearing/implementation-tranches/tranche-2-authority-pins.json"
 );
+const productionQueue = readJson(
+  "data/record-clearing/production-factory/official-pdf-production-queue.json"
+);
 
 const failures = [];
 const notes = [];
+let terminalCode = null;
 const ok = (condition, message) => {
   if (!condition) failures.push(message);
 };
 const note = (message) => notes.push(message);
+const terminalFailure = (code, message) => {
+  terminalCode ??= code;
+  failures.push(`[${code}] ${message}`);
+};
 
 const EXPECTED_DOCUMENT_IDS = [
   "CC-DC-CR-072A",
@@ -88,7 +102,9 @@ const EXPECTED_DOCUMENT_IDS = [
   "CC-DC-CR-072C",
   "CC-DC-CR-072D",
   "CC-DC-CR-078",
-  "CC-DC-089"
+  "CC-DC-089",
+  "CC-DC-CR-148",
+  "MDJ-008"
 ];
 const SOURCE_GATED_IDS = new Set([
   "CC-DC-CR-072A",
@@ -96,13 +112,20 @@ const SOURCE_GATED_IDS = new Set([
   "CC-DC-CR-072C",
   "CC-DC-CR-072D"
 ]);
-const PACKET_CANDIDATE_IDS = new Set(["CC-DC-CR-078", "CC-DC-089"]);
+const PACKET_CANDIDATE_IDS = new Set([
+  "CC-DC-CR-078",
+  "CC-DC-089",
+  "CC-DC-CR-148",
+  "MDJ-008"
+]);
+const SHIELDING_DOCUMENT_IDS = new Set(["CC-DC-CR-148", "MDJ-008"]);
 const EXPECTED_TRACK_IDS = [
   "md_10105_favorable",
   "md_10105_early",
   "md_10110_conviction",
   "md_cannabis_petition",
-  "md_pardon_expungement"
+  "md_pardon_expungement",
+  "md_second_chance_shielding"
 ];
 const HASH_PATTERN = /^[a-f0-9]{64}$/;
 const FAMILY_ID = "md-district-court-expungement-form-family";
@@ -128,14 +151,25 @@ ok(
   "The completed shielding tranche is not marked external and preserved."
 );
 ok(
+  sameSet(
+    manifest.tracks?.map((entry) => entry.trackId) ?? [],
+    EXPECTED_TRACK_IDS
+  ) &&
+    sameSet(manifest.documents ?? [], EXPECTED_DOCUMENT_IDS),
+  "Family manifest does not cover all six queue tracks and eight identities."
+);
+ok(
   manifest.status?.packetReady === false &&
     manifest.status?.generationAllowed === false &&
     manifest.status?.enabled === false,
   "The family manifest claims readiness, generation, or enablement."
 );
 ok(
-  manifest.sourceMaterialization?.registryPresenceConfersReadiness === false,
-  "The family manifest treats registry presence as local source readiness."
+  manifest.sourceMaterialization?.registryPresenceConfersReadiness === false &&
+    manifest.sourceMaterialization?.workerMaterializationAuthorized === false &&
+    manifest.sourceMaterialization?.workerReadAuthorized === false &&
+    manifest.sourceMaterialization?.workerReady === false,
+  "The family manifest treats registry presence as readiness or grants worker source authority."
 );
 ok(
   manifest.sourceMaterialization?.generatedSampleMaySubstituteForSource === false,
@@ -158,7 +192,7 @@ ok(
     "scripts/verify-rcap-maryland-official-pdf-families.mjs",
   "Family manifest names the wrong dedicated verifier."
 );
-note("1. Boundary: Maryland-only family artifacts exist; shielding remains external and preserved.");
+note("1. Boundary: six Maryland tracks and eight identities are covered; shielding remains external, unchanged, and factory-disabled.");
 
 // ---------------------------------------------------------------------------
 // 2. Exact source requirements and authority identity
@@ -184,6 +218,8 @@ ok(
 );
 ok(
   sourceRequirements.aggregateState === "binary_materialization_required" &&
+    sourceRequirements.workerMaterializationAuthorized === false &&
+    sourceRequirements.workerReadAuthorized === false &&
     sourceRequirements.workerReady === false,
   "Source requirement set does not fail closed on materialization."
 );
@@ -196,7 +232,7 @@ const requirements = sourceRequirements.requirements ?? [];
 const requirementIds = requirements.map((entry) => entry.documentId);
 ok(
   sameSet(requirementIds, EXPECTED_DOCUMENT_IDS),
-  "Source requirement document set is not exactly the six remaining Maryland forms."
+  "Source requirement document set is not exactly the eight Maryland queue forms."
 );
 ok(
   new Set(requirementIds).size === requirementIds.length,
@@ -220,9 +256,39 @@ const unusedPacketCandidateByWorkflow = new Map(
     entry
   ])
 );
+const shieldingTrancheComponentByWorkflow = new Map(
+  (tranchePins.tracks ?? [])
+    .filter((entry) => entry.trackId === "md_second_chance_shielding")
+    .flatMap((entry) => entry.components ?? [])
+    .filter((entry) => entry.asset?.workflowKey)
+    .map((entry) => [entry.asset.workflowKey, entry])
+);
+const queueFamily = productionQueue.families.find(
+  (entry) => entry.jurisdiction === "MD"
+);
+const queueDocumentById = new Map(
+  (queueFamily?.documents ?? []).map((entry) => [entry.officialFormId, entry])
+);
+ok(
+  queueFamily?.familyId === "rcap-md-official-pdf-family" &&
+    queueFamily?.counts?.trackCount === 6 &&
+    queueFamily?.counts?.componentCount === 11 &&
+    queueFamily?.counts?.documentCount === 8 &&
+    queueFamily?.counts?.exactSourceRequirementCount === 8 &&
+    queueFamily?.counts?.unresolvedSourceIdentityCount === 0 &&
+    sameSet(queueFamily?.trackIds ?? [], EXPECTED_TRACK_IDS) &&
+    sameSet([...queueDocumentById.keys()], EXPECTED_DOCUMENT_IDS) &&
+    queueFamily?.workerReady === false &&
+    queueFamily?.packetReady === false &&
+    queueFamily?.enabled === false,
+  "Production queue no longer describes six tracks, eleven uses, and eight exact disabled identities."
+);
 
 for (const requirement of requirements) {
   const prefix = requirement.documentId;
+  const queueDocument = queueDocumentById.get(prefix);
+  const queueExact = queueDocument?.exactSourceRequirement;
+  const queueAuthority = queueDocument?.authorityAssets?.[0];
   ok(
     requirement.schemaVersion ===
       "rcap-source-materialization-requirement-scaffold/v1",
@@ -281,12 +347,33 @@ for (const requirement of requirements) {
   );
   ok(
     requirement.workerMaterializationAuthorized === false &&
+      requirement.workerReadAuthorized === false &&
+      requirement.workerReady === false &&
       requirement.assignmentBinding?.assignmentJobId === null &&
       requirement.assignmentBinding?.assignmentBaseCommit === null &&
       requirement.assignmentBinding?.assignmentManifestSha256 === null &&
       requirement.assignmentBinding?.state ===
         "captain_owned_assignment_required",
     `${prefix}: source scaffold fabricates or widens assignment authority.`
+  );
+  ok(
+    queueDocument?.sourceIdentityState ===
+        "exact_source_requirement_ready" &&
+      queueDocument?.workerReady === false &&
+      queueExact?.documentId === requirement.documentId &&
+      queueExact?.documentRole === requirement.authorityDocumentRole &&
+      queueExact?.canonicalAuthorityPath ===
+        requirement.canonicalAuthorityPath &&
+      queueExact?.repositorySourcePath === requirement.repositorySourcePath &&
+      queueExact?.expectedSha256 === requirement.expectedSha256 &&
+      queueExact?.expectedBytes === requirement.expectedBytes &&
+      queueExact?.expectedMediaType === requirement.expectedMediaType &&
+      queueAuthority?.workflowKey === requirement.workflowKey &&
+      queueAuthority?.revision === requirement.revision &&
+      queueAuthority?.assetClass === requirement.assetClass &&
+      queueAuthority?.packetCandidate === requirement.packetCandidate &&
+      queueAuthority?.generationAllowed === false,
+    `${prefix}: requirement identity differs from the production queue and retained authority.`
   );
 
   if (SOURCE_GATED_IDS.has(prefix)) {
@@ -356,7 +443,7 @@ for (const requirement of requirements) {
         `${prefix}: source-gated disposition identity changed.`
       );
     }
-  } else {
+  } else if (!SHIELDING_DOCUMENT_IDS.has(prefix)) {
     const pin = unusedPacketCandidateByWorkflow.get(requirement.workflowKey);
     ok(Boolean(pin), `${prefix}: existing tranche does not record the unused packet candidate.`);
     if (pin) {
@@ -366,9 +453,25 @@ for (const requirement of requirements) {
         `${prefix}: unused packet-candidate authority pin differs.`
       );
     }
+  } else {
+    const component = shieldingTrancheComponentByWorkflow.get(
+      requirement.workflowKey
+    );
+    ok(
+      component?.officialFormId === requirement.documentId &&
+        component?.asset?.sha256 === requirement.expectedSha256 &&
+        component?.asset?.bytes === requirement.expectedBytes &&
+        component?.asset?.canonicalRelativePath ===
+          requirement.canonicalAuthorityPath &&
+        component?.repositorySourcePath === requirement.repositorySourcePath &&
+        component?.repositoryBytesMatchEditionBytes === true &&
+        component?.candidateChecks?.approvedPacketCandidate === true &&
+        component?.candidateChecks?.sourceGated === false,
+      `${prefix}: preserved Tranche 2 authority identity differs from the factory requirement.`
+    );
   }
 }
-note("2. Sources: six identities match Edition 1.2, the source registry, and the authority audit.");
+note("2. Sources: eight exact identities match the queue, Edition 1.2, source registry, authority audit, and preserved Tranche 2 pins; all worker flags are false.");
 
 // ---------------------------------------------------------------------------
 // 3. Dependencies distinguish source, authority, and route readiness
@@ -393,11 +496,15 @@ ok(
     dependencyById.get("md-source-materialization")?.documentIds ?? [],
     EXPECTED_DOCUMENT_IDS
   ),
-  "Source materialization dependency does not name all six exact forms."
+  "Source materialization dependency does not name all eight exact forms."
 );
 ok(
   dependencyById.get("md-source-materialization")?.workerMayResolveByDownload ===
-    false,
+      false &&
+    dependencyById.get("md-source-materialization")
+      ?.workerMaterializationAuthorized === false &&
+    dependencyById.get("md-source-materialization")?.workerReadAuthorized ===
+      false,
   "A worker is allowed to download Maryland sources."
 );
 ok(
@@ -411,6 +518,32 @@ ok(
 ok(
   dependencyById.get("md-existing-shielding-tranche")?.status === "satisfied",
   "Existing shielding tranche is not preserved as a satisfied dependency."
+);
+ok(
+  dependencyById.get(
+    "md-shielding-factory-source-and-map-reconciliation"
+  )?.status === "blocked" &&
+    sameSet(
+      dependencyById.get(
+        "md-shielding-factory-source-and-map-reconciliation"
+      )?.documentIds ?? [],
+      [...SHIELDING_DOCUMENT_IDS]
+    ) &&
+    dependencyById.get(
+      "md-shielding-factory-source-and-map-reconciliation"
+    )?.workerMaterializationAuthorized === false &&
+    dependencyById.get(
+      "md-shielding-factory-source-and-map-reconciliation"
+    )?.workerReadAuthorized === false,
+  "Shielding factory reconciliation is not isolated and fail-closed."
+);
+ok(
+  (dependencies.routeReleaseBlockersPreserved ?? []).some(
+    (entry) =>
+      entry.trackId === "md_second_chance_shielding" &&
+      entry.blockers?.some((blocker) => blocker.includes("filing fee"))
+  ),
+  "Shielding filing-fee release blocker was not preserved."
 );
 ok(
   (dependencies.excludedOrExternalForms ?? []).some(
@@ -428,7 +561,7 @@ ok(
   ),
   "CC-DC-CR-072G2 is not explicitly held as a non-packet reference."
 );
-note("3. Dependencies: source materialization, 072 authority, companion pins, and preserved tranche are separate.");
+note("3. Dependencies: eight-source materialization, 072 authority, shielding factory reconciliation, and preserved external tranche remain separate.");
 
 // ---------------------------------------------------------------------------
 // 4. Packet assembly is an exact copy of adopted component identity, not law
@@ -445,7 +578,7 @@ ok(
     mdOfficialTracks.map((entry) => entry.trackId),
     EXPECTED_TRACK_IDS
   ),
-  "Legal-design registry no longer contains the expected five Maryland tracks."
+  "Legal-design registry no longer contains the expected six Maryland tracks."
 );
 
 const normalizedPacketByTrack = new Map(
@@ -465,7 +598,7 @@ ok(
 );
 ok(
   sameSet([...assemblyByTrack.keys()], EXPECTED_TRACK_IDS),
-  "Packet assembly does not contain exactly the five remaining tracks."
+  "Packet assembly does not contain exactly the six queue tracks."
 );
 
 for (const trackId of EXPECTED_TRACK_IDS) {
@@ -476,10 +609,16 @@ for (const trackId of EXPECTED_TRACK_IDS) {
   if (!normalized || !assembly) continue;
   ok(
     assembly.generationState === "blocked" &&
-      assembly.blockingReasonCodes.includes("authority_source_gated") &&
       assembly.blockingReasonCodes.includes("source_materialization_required") &&
-      assembly.blockingReasonCodes.includes("field_mapping_pending"),
-    `${trackId}: packet assembly is not blocked by authority, source, and mapping.`
+      assembly.blockingReasonCodes.includes("field_mapping_pending") &&
+      (trackId === "md_second_chance_shielding"
+        ? assembly.externalImplementationTreatment ===
+            "preserved_unchanged_not_factory_runtime" &&
+          assembly.blockingReasonCodes.includes(
+            "preserved_external_implementation_not_factory_runtime"
+          )
+        : assembly.blockingReasonCodes.includes("authority_source_gated")),
+    `${trackId}: packet assembly is not blocked by its required source, authority/preservation, and mapping gates.`
   );
 
   const actualComponents = assembly.documents.map((document) => ({
@@ -524,13 +663,31 @@ for (const packet of packetAssembly.packets) {
     );
     if (EXPECTED_DOCUMENT_IDS.includes(document.documentId)) {
       ok(
-        relationship?.sha256 === null,
-        `${document.componentId}: a worker unexpectedly changed the captain-owned source pin.`
+        SHIELDING_DOCUMENT_IDS.has(document.documentId)
+          ? relationship?.sha256 ===
+              requirements.find(
+                (entry) => entry.documentId === document.documentId
+              )?.expectedSha256
+          : relationship?.sha256 === null,
+        `${document.componentId}: source relationship pin does not preserve its adopted ownership state.`
       );
     }
   }
 }
-note("4. Assembly: five blocked packets reproduce adopted component identity and ordering exactly.");
+ok(
+  sameSet(
+    (packetAssembly.preservedExternalImplementationDocuments ?? []).map(
+      (entry) => entry.documentId
+    ),
+    [...SHIELDING_DOCUMENT_IDS]
+  ) &&
+    packetAssembly.preservedExternalImplementationDocuments.every(
+      (entry) =>
+        entry.runtimeTreatment === "external_tranche_preserved_unchanged"
+    ),
+  "Packet assembly does not preserve the external shielding implementation."
+);
+note("4. Assembly: six blocked packets reproduce all eleven adopted component uses and preserve shielding externally.");
 
 // ---------------------------------------------------------------------------
 // 5. Field-map and ownership scaffolds contain no invented active fields
@@ -552,7 +709,7 @@ ok(
     fieldMap.forms.map((entry) => entry.documentId),
     EXPECTED_DOCUMENT_IDS
   ),
-  "Field-map scaffold does not cover exactly six forms."
+  "Field-map scaffold does not cover exactly eight forms."
 );
 
 const fieldMapByDocument = new Map(
@@ -596,7 +753,9 @@ ok(
   "Field ownership map is not bound to this Maryland family."
 );
 ok(
-  ownershipSchema.$id === "rcap-md-official-pdf-field-ownership/v1",
+  ownershipSchema.$id === "rcap-md-official-pdf-field-ownership/v1" &&
+    ownershipSchema.properties?.forms?.minItems === 8 &&
+    ownershipSchema.properties?.forms?.maxItems === 8,
   "Field ownership schema has the wrong identity."
 );
 ok(
@@ -604,7 +763,7 @@ ok(
     ownership.forms.map((entry) => entry.documentId),
     EXPECTED_DOCUMENT_IDS
   ),
-  "Field ownership map does not cover exactly six forms."
+  "Field ownership map does not cover exactly eight forms."
 );
 ok(
   sameSet(ownership.policy?.mappingAllowedFor ?? [], [
@@ -645,14 +804,16 @@ for (const form of ownership.forms) {
     `${form.documentId}: ownership and field-map expected counts differ.`
   );
 }
-note("5. Fields: all mappings and ownership rows remain empty pending exact source inspection.");
+note("5. Fields: eight map and ownership rows remain empty pending exact projected-source inspection.");
 
 // ---------------------------------------------------------------------------
 // 6. Synthetic fixture contract and typed stops
 // ---------------------------------------------------------------------------
 
 ok(
-  fixtureSchema.$id === "rcap-md-official-pdf-fixtures/v1",
+  fixtureSchema.$id === "rcap-md-official-pdf-fixtures/v1" &&
+    fixtureSchema.properties?.positiveFixtures?.minItems === 6 &&
+    fixtureSchema.properties?.positiveFixtures?.maxItems === 6,
   "Fixture schema has the wrong identity."
 );
 ok(
@@ -666,7 +827,7 @@ ok(
     fixtures.positiveFixtures.map((entry) => entry.trackId),
     EXPECTED_TRACK_IDS
   ),
-  "Positive fixture set does not cover exactly five tracks."
+  "Positive fixture set does not cover exactly six tracks."
 );
 const positiveFixtureIds = new Set(
   fixtures.positiveFixtures.map((entry) => entry.fixtureId)
@@ -678,7 +839,10 @@ for (const fixture of fixtures.positiveFixtures) {
     `${fixture.fixtureId}: fixture identity is not visibly synthetic.`
   );
   ok(
-    fixture.currentExpectedResult === "authority_source_gated",
+    fixture.currentExpectedResult ===
+      (fixture.trackId === "md_second_chance_shielding"
+        ? "source_materialization_required"
+        : "authority_source_gated"),
     `${fixture.fixtureId}: fixture claims current render success.`
   );
   ok(
@@ -721,7 +885,7 @@ for (const fixture of fixtures.boundaryFixtures) {
     `${fixture.fixtureId}: basedOn does not name a positive fixture.`
   );
 }
-note("6. Fixtures: five synthetic route candidates and five typed fail-closed boundaries are present.");
+note("6. Fixtures: six synthetic route candidates and seven typed fail-closed boundaries are present.");
 
 // ---------------------------------------------------------------------------
 // 7. Code contract is data-equivalent and terminal
@@ -730,6 +894,14 @@ note("6. Fixtures: five synthetic route candidates and five typed fail-closed bo
 ok(
   MARYLAND_REMAINING_OFFICIAL_PDF_FAMILY_ID === FAMILY_ID,
   "TypeScript family id differs from the tracked manifest."
+);
+ok(
+  MARYLAND_OFFICIAL_PDF_SOURCE_AUTHORIZATION
+    .workerMaterializationAuthorized === false &&
+    MARYLAND_OFFICIAL_PDF_SOURCE_AUTHORIZATION.workerReadAuthorized ===
+      false &&
+    MARYLAND_OFFICIAL_PDF_SOURCE_AUTHORIZATION.workerReady === false,
+  "TypeScript source authorization is not explicitly fail-closed."
 );
 ok(
   sameSet(
@@ -757,7 +929,10 @@ for (const requirement of requirements) {
       codeSource.packetRole === requirement.packetRole &&
       codeSource.assetClass === requirement.assetClass &&
       codeSource.repositorySourcePathEvidence ===
-        requirement.repositorySourcePath,
+        requirement.repositorySourcePath &&
+      codeSource.workerMaterializationAuthorized === false &&
+      codeSource.workerReadAuthorized === false &&
+      codeSource.workerReady === false,
     `${requirement.documentId}: TypeScript and JSON source identities differ.`
   );
 }
@@ -801,9 +976,11 @@ for (const trackId of EXPECTED_TRACK_IDS) {
   ok(
     codePacket.runtimeDisabled === true &&
       codePacket.generationAllowed === false &&
-      codePacket.blockers.includes("authority_source_gated") &&
       codePacket.blockers.includes("source_materialization_required") &&
-      codePacket.blockers.includes("field_mapping_pending"),
+      codePacket.blockers.includes("field_mapping_pending") &&
+      (trackId === "md_second_chance_shielding"
+        ? !codePacket.blockers.includes("authority_source_gated")
+        : codePacket.blockers.includes("authority_source_gated")),
     `${trackId}: TypeScript packet contract is not terminal and fail-closed.`
   );
 }
@@ -819,8 +996,68 @@ for (const trackId of EXPECTED_TRACK_IDS) {
   } catch (error) {
     ok(
       error instanceof MarylandOfficialPdfFamilyBlockedError &&
-        error.code === "authority_source_gated",
-      `${trackId}: fail-closed render assertion did not throw authority_source_gated.`
+        error.code ===
+          (trackId === "md_second_chance_shielding"
+            ? "source_materialization_required"
+            : "authority_source_gated"),
+      `${trackId}: compatibility render assertion did not throw its first fail-closed dependency.`
+    );
+  }
+}
+for (const requirement of requirements) {
+  try {
+    assertMarylandOfficialPdfExactSourcePin(
+      requirement.documentId,
+      requirement.expectedSha256,
+      requirement.expectedBytes
+    );
+  } catch {
+    ok(false, `${requirement.documentId}: exact TypeScript source pin rejected.`);
+  }
+  try {
+    preflightMarylandOfficialPdfDocument(requirement.documentId);
+    ok(false, `${requirement.documentId}: source preflight returned.`);
+  } catch (error) {
+    ok(
+      error instanceof MarylandOfficialPdfSourceBlockedError &&
+        error.code === "source_materialization_required",
+      `${requirement.documentId}: source preflight did not require materialization.`
+    );
+  }
+}
+try {
+  assertMarylandOfficialPdfExactSourcePin(
+    "CC-DC-CR-148",
+    "0000000000000000000000000000000000000000000000000000000000000000",
+    238823
+  );
+  ok(false, "Mismatched shielding pin was accepted.");
+} catch (error) {
+  ok(
+    error instanceof MarylandOfficialPdfSourceBlockedError &&
+      error.code === "exact_source_pin_mismatch",
+    "Mismatched shielding pin did not fail with exact_source_pin_mismatch."
+  );
+}
+for (const trackId of EXPECTED_TRACK_IDS) {
+  try {
+    assertMarylandOfficialPdfTrackRenderable(trackId);
+    ok(false, `${trackId}: production render gate returned.`);
+  } catch (error) {
+    ok(
+      error instanceof MarylandOfficialPdfFamilyBlockedError &&
+        error.code === "generation_disabled",
+      `${trackId}: production render gate did not throw generation_disabled.`
+    );
+  }
+  try {
+    assertMarylandOfficialPdfPacketAssemblable(trackId);
+    ok(false, `${trackId}: packet assembly gate returned.`);
+  } catch (error) {
+    ok(
+      error instanceof MarylandOfficialPdfFamilyBlockedError &&
+        error.code === "packet_assembly_blocked",
+      `${trackId}: packet gate did not throw packet_assembly_blocked.`
     );
   }
 }
@@ -838,13 +1075,41 @@ const centralRegistrySource = fs.readFileSync(
   path.join(root, "src/lib/rcap/packets/registry.ts"),
   "utf8"
 );
+const familyModuleSource = fs.readFileSync(
+  path.join(root, manifest.implementationModule),
+  "utf8"
+);
+const verifierSource = fs.readFileSync(
+  path.join(root, manifest.dedicatedVerifier),
+  "utf8"
+);
 ok(
   !centralRegistrySource.includes(
     "jurisdictions/maryland/official-pdf/family"
   ),
   "Fail-closed Maryland scaffold was imported by the central registry."
 );
-note("7. Code: JSON and TypeScript identities agree; every route throws a typed terminal stop.");
+const familySourceSinkTokens = [
+  ["node", "fs"].join(":"),
+  ["node", "crypto"].join(":"),
+  ["readFile", "Sync"].join(""),
+  ["create", "Hash"].join(""),
+  ["copy", "File"].join(""),
+  ["fetch", "("].join("")
+];
+ok(
+  familySourceSinkTokens.every(
+    (token) => !familyModuleSource.includes(token)
+  ),
+  "Maryland typed boundary contains a filesystem, network, copy, or hash sink."
+);
+ok(
+  !verifierSource.includes(["node", "crypto"].join(":")) &&
+    !verifierSource.includes(["create", "Hash"].join("")) &&
+    !verifierSource.includes(["fetch", "("].join("")),
+  "Maryland verifier contains a network or source-hashing sink."
+);
+note("7. Code: eight JSON/TypeScript identities agree; exact, materialization, render, and packet boundaries are terminal.");
 
 // ---------------------------------------------------------------------------
 // 8. Current checkout source state
@@ -854,19 +1119,73 @@ const selectedRequirements = args.documentId
   ? requirements.filter((entry) => entry.documentId === args.documentId)
   : requirements;
 if (args.documentId) {
-  ok(
-    selectedRequirements.length === 1,
-    `Unknown --document-id ${args.documentId}.`
-  );
+  if (selectedRequirements.length !== 1) {
+    terminalFailure(
+      "unsupported_document",
+      `Unknown --document-id ${args.documentId}.`
+    );
+  }
 }
 
 const materialized = [];
 const absent = selectedRequirements.map((requirement) => requirement.documentId);
-if (args.requireMaterialized) {
-  ok(
-    false,
-    "No captain-owned assignment or portable projection is present; use the normative source verifier only after integration issues both."
-  );
+const selectedRequirement = selectedRequirements[0];
+if (
+  selectedRequirement &&
+  (args.requireExact ||
+    args.assertSha256 !== null ||
+    args.assertBytes !== null)
+) {
+  try {
+    assertMarylandOfficialPdfExactSourcePin(
+      selectedRequirement.documentId,
+      args.assertSha256 ?? selectedRequirement.expectedSha256,
+      args.assertBytes ?? selectedRequirement.expectedBytes
+    );
+  } catch (error) {
+    terminalFailure(
+      error instanceof MarylandOfficialPdfSourceBlockedError
+        ? error.code
+        : "exact_source_pin_mismatch",
+      `${selectedRequirement.documentId} does not match the adopted immutable source pin.`
+    );
+  }
+}
+if (selectedRequirement && args.requireMaterialized) {
+  try {
+    preflightMarylandOfficialPdfDocument(selectedRequirement.documentId);
+  } catch (error) {
+    terminalFailure(
+      error instanceof MarylandOfficialPdfSourceBlockedError
+        ? error.code
+        : "source_materialization_required",
+      "No captain-owned assignment or portable projection is present; this factory source remains unavailable."
+    );
+  }
+}
+if (args.requireRenderable && args.trackId) {
+  try {
+    assertMarylandOfficialPdfTrackRenderable(args.trackId);
+  } catch (error) {
+    terminalFailure(
+      error instanceof MarylandOfficialPdfFamilyBlockedError
+        ? error.code
+        : "generation_disabled",
+      `${args.trackId} has no active production-factory renderer.`
+    );
+  }
+}
+if (args.requirePacketReady && args.trackId) {
+  try {
+    assertMarylandOfficialPdfPacketAssemblable(args.trackId);
+  } catch (error) {
+    terminalFailure(
+      error instanceof MarylandOfficialPdfFamilyBlockedError
+        ? error.code
+        : "packet_assembly_blocked",
+      `${args.trackId} has no production-factory packet assembly authorization.`
+    );
+  }
 }
 note(
   `8. Checkout: ${materialized.length} exact selected source(s) materialized; ${absent.length} absent and fail-closed.`
@@ -880,8 +1199,32 @@ ok(
   review.familyId === FAMILY_ID &&
     review.jurisdiction === "MD" &&
     review.legalDesignChanged === false &&
-    review.existingTrancheChanged === false,
+    review.existingTrancheChanged === false &&
+    sameSet(review.factoryCoverage?.trackIds ?? [], EXPECTED_TRACK_IDS) &&
+    sameSet(review.factoryCoverage?.documentIds ?? [], EXPECTED_DOCUMENT_IDS) &&
+    review.factoryCoverage?.sourceRequirementCount === 8 &&
+    review.factoryCoverage?.fieldMapScaffoldCount === 8 &&
+    review.factoryCoverage?.fieldOwnershipScaffoldCount === 8 &&
+    review.factoryCoverage?.fixtureTrackCount === 6 &&
+    review.factoryCoverage?.packetAssemblyTrackCount === 6 &&
+    review.factoryCoverage?.activeMappingCount === 0 &&
+    review.factoryCoverage?.activeRendererCount === 0 &&
+    review.factoryCoverage?.routeReadyCount === 0,
   "Review manifest changes legal design or the existing tranche."
+);
+ok(
+  review.preservedExternalImplementationReview?.trackId ===
+      "md_second_chance_shielding" &&
+    sameSet(
+      review.preservedExternalImplementationReview?.documents ?? [],
+      [...SHIELDING_DOCUMENT_IDS]
+    ) &&
+    review.preservedExternalImplementationReview?.status === "unchanged" &&
+    review.preservedExternalImplementationReview
+      ?.factorySourceAuthorizationConferred === false &&
+    review.preservedExternalImplementationReview
+      ?.factoryRuntimeAuthorizationConferred === false,
+  "Review manifest does not preserve the shielding implementation boundary."
 );
 ok(
   review.sourceReview === "pending_materialization" &&
@@ -911,6 +1254,7 @@ if (failures.length > 0) {
         {
           familyId: FAMILY_ID,
           result: "failed",
+          terminalCode,
           failures,
           notes,
           materialized,
@@ -931,6 +1275,7 @@ if (failures.length > 0) {
       {
         familyId: FAMILY_ID,
         result: "passed",
+        terminalCode,
         checks: notes.length,
         notes,
         materialized,
@@ -956,6 +1301,12 @@ function parseArgs(argv) {
   const result = {
     documentId: null,
     requireMaterialized: false,
+    requireExact: false,
+    assertSha256: null,
+    assertBytes: null,
+    trackId: null,
+    requireRenderable: false,
+    requirePacketReady: false,
     sourceOnly: false,
     json: false
   };
@@ -972,6 +1323,33 @@ function parseArgs(argv) {
       result.documentId = arg.slice("--document-id=".length);
     } else if (arg === "--require-materialized") {
       result.requireMaterialized = true;
+    } else if (arg === "--require-exact") {
+      result.requireExact = true;
+    } else if (arg === "--assert-sha256") {
+      const value = argv[index + 1];
+      if (!value || value.startsWith("--")) {
+        throw new Error("--assert-sha256 requires a value.");
+      }
+      result.assertSha256 = value;
+      index += 1;
+    } else if (arg === "--assert-bytes") {
+      const value = argv[index + 1];
+      if (!value || value.startsWith("--")) {
+        throw new Error("--assert-bytes requires a value.");
+      }
+      result.assertBytes = Number(value);
+      index += 1;
+    } else if (arg === "--track-id") {
+      const value = argv[index + 1];
+      if (!value || value.startsWith("--")) {
+        throw new Error("--track-id requires a value.");
+      }
+      result.trackId = value;
+      index += 1;
+    } else if (arg === "--require-renderable") {
+      result.requireRenderable = true;
+    } else if (arg === "--require-packet-ready") {
+      result.requirePacketReady = true;
     } else if (arg === "--json") {
       result.json = true;
     } else {
@@ -980,6 +1358,39 @@ function parseArgs(argv) {
   }
   if (result.requireMaterialized && !result.documentId) {
     throw new Error("--require-materialized requires --document-id.");
+  }
+  if (
+    (result.requireExact ||
+      result.assertSha256 !== null ||
+      result.assertBytes !== null) &&
+    !result.documentId
+  ) {
+    throw new Error(
+      "--require-exact/--assert-sha256/--assert-bytes require --document-id."
+    );
+  }
+  if (
+    (result.assertSha256 === null) !==
+    (result.assertBytes === null)
+  ) {
+    throw new Error("--assert-sha256 and --assert-bytes must be used together.");
+  }
+  if (
+    result.assertSha256 !== null &&
+    !/^[a-f0-9]{64}$/.test(result.assertSha256)
+  ) {
+    throw new Error("--assert-sha256 must be 64 lowercase hexadecimal characters.");
+  }
+  if (
+    result.assertBytes !== null &&
+    (!Number.isSafeInteger(result.assertBytes) || result.assertBytes <= 0)
+  ) {
+    throw new Error("--assert-bytes must be a positive safe integer.");
+  }
+  if ((result.requireRenderable || result.requirePacketReady) && !result.trackId) {
+    throw new Error(
+      "--require-renderable/--require-packet-ready require --track-id."
+    );
   }
   result.sourceOnly = Boolean(result.requireMaterialized && result.documentId);
   return result;

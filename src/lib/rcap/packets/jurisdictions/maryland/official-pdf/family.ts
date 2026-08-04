@@ -1,16 +1,24 @@
 /**
- * Fail-closed contract for the Maryland District Court expungement form family
- * that remains after the completed CC-DC-CR-148 / MDJ-008 shielding tranche.
+ * Fail-closed production-factory contract for the Maryland District Court
+ * official-PDF family, including identity-only coverage for the completed
+ * CC-DC-CR-148 / MDJ-008 shielding tranche.
  *
  * This module is intentionally not imported by the central packet registry.
  * Master Library Edition 1.2 retains every CC-DC-CR-072 primary as
  * `source_gated`, and the exact source bytes are not materialized in this
- * checkout. The constants below make the identity and packet boundary
- * code-readable without creating a renderer-selectable route.
+ * checkout. The shielding implementation remains external and unchanged. The
+ * constants below make every queue identity and packet boundary code-readable
+ * without creating a source read, renderer-selectable route, or runtime import.
  */
 
 export const MARYLAND_REMAINING_OFFICIAL_PDF_FAMILY_ID =
   "md-district-court-expungement-form-family";
+
+export const MARYLAND_OFFICIAL_PDF_SOURCE_AUTHORIZATION = {
+  workerMaterializationAuthorized: false,
+  workerReadAuthorized: false,
+  workerReady: false
+} as const;
 
 export type MarylandRemainingOfficialPdfDocumentId =
   | "CC-DC-CR-072A"
@@ -18,21 +26,28 @@ export type MarylandRemainingOfficialPdfDocumentId =
   | "CC-DC-CR-072C"
   | "CC-DC-CR-072D"
   | "CC-DC-CR-078"
-  | "CC-DC-089";
+  | "CC-DC-089"
+  | "CC-DC-CR-148"
+  | "MDJ-008";
 
 export type MarylandRemainingOfficialPdfTrackId =
   | "md_10105_favorable"
   | "md_10105_early"
   | "md_10110_conviction"
   | "md_cannabis_petition"
-  | "md_pardon_expungement";
+  | "md_pardon_expungement"
+  | "md_second_chance_shielding";
 
 export type MarylandOfficialPdfBlockCode =
   | "unknown_track"
   | "authority_source_gated"
   | "source_materialization_required"
   | "field_mapping_pending"
-  | "conditional_component_rule_unresolved";
+  | "conditional_component_rule_unresolved"
+  | "unsupported_document"
+  | "exact_source_pin_mismatch"
+  | "generation_disabled"
+  | "packet_assembly_blocked";
 
 export type MarylandOfficialPdfSourceIdentity = {
   documentId: MarylandRemainingOfficialPdfDocumentId;
@@ -42,6 +57,9 @@ export type MarylandOfficialPdfSourceIdentity = {
   packetRole: "primary_filing" | "attachment" | "fee_waiver";
   assetClass: "source_gated" | "packet_form";
   repositorySourcePathEvidence: string;
+  workerMaterializationAuthorized: false;
+  workerReadAuthorized: false;
+  workerReady: false;
 };
 
 export const MARYLAND_REMAINING_OFFICIAL_PDF_SOURCE_IDENTITIES =
@@ -54,7 +72,10 @@ export const MARYLAND_REMAINING_OFFICIAL_PDF_SOURCE_IDENTITIES =
       packetRole: "primary_filing",
       assetClass: "source_gated",
       repositorySourcePathEvidence:
-        "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072A.pdf"
+        "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072A.pdf",
+      workerMaterializationAuthorized: false,
+      workerReadAuthorized: false,
+      workerReady: false
     },
     {
       documentId: "CC-DC-CR-072B",
@@ -64,7 +85,10 @@ export const MARYLAND_REMAINING_OFFICIAL_PDF_SOURCE_IDENTITIES =
       packetRole: "primary_filing",
       assetClass: "source_gated",
       repositorySourcePathEvidence:
-        "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf"
+        "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
+      workerMaterializationAuthorized: false,
+      workerReadAuthorized: false,
+      workerReady: false
     },
     {
       documentId: "CC-DC-CR-072C",
@@ -74,7 +98,10 @@ export const MARYLAND_REMAINING_OFFICIAL_PDF_SOURCE_IDENTITIES =
       packetRole: "primary_filing",
       assetClass: "source_gated",
       repositorySourcePathEvidence:
-        "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072c.pdf"
+        "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072c.pdf",
+      workerMaterializationAuthorized: false,
+      workerReadAuthorized: false,
+      workerReady: false
     },
     {
       documentId: "CC-DC-CR-072D",
@@ -84,7 +111,10 @@ export const MARYLAND_REMAINING_OFFICIAL_PDF_SOURCE_IDENTITIES =
       packetRole: "primary_filing",
       assetClass: "source_gated",
       repositorySourcePathEvidence:
-        "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072d.pdf"
+        "private/Nationwide Record Clearing/LegalEase Maryland/LegalEase Maryland forms /ccdccr072d.pdf",
+      workerMaterializationAuthorized: false,
+      workerReadAuthorized: false,
+      workerReady: false
     },
     {
       documentId: "CC-DC-CR-078",
@@ -94,7 +124,10 @@ export const MARYLAND_REMAINING_OFFICIAL_PDF_SOURCE_IDENTITIES =
       packetRole: "attachment",
       assetClass: "packet_form",
       repositorySourcePathEvidence:
-        "private/Nationwide Record Clearing/LegalEase Maryland/forms/CC-DC-CR-078__general-waiver-and-release__rev-2025-01.pdf"
+        "private/Nationwide Record Clearing/LegalEase Maryland/forms/CC-DC-CR-078__general-waiver-and-release__rev-2025-01.pdf",
+      workerMaterializationAuthorized: false,
+      workerReadAuthorized: false,
+      workerReady: false
     },
     {
       documentId: "CC-DC-089",
@@ -104,7 +137,36 @@ export const MARYLAND_REMAINING_OFFICIAL_PDF_SOURCE_IDENTITIES =
       packetRole: "fee_waiver",
       assetClass: "packet_form",
       repositorySourcePathEvidence:
-        "private/Nationwide Record Clearing/LegalEase Maryland/forms/CC-DC-089__request-for-waiver-of-prepaid-costs__rev-2025-11.pdf"
+        "private/Nationwide Record Clearing/LegalEase Maryland/forms/CC-DC-089__request-for-waiver-of-prepaid-costs__rev-2025-11.pdf",
+      workerMaterializationAuthorized: false,
+      workerReadAuthorized: false,
+      workerReady: false
+    },
+    {
+      documentId: "CC-DC-CR-148",
+      sha256: "abcafbc298d56937ad41ba44675147942b1ab540325898917efafed3f5b43e3f",
+      bytes: 238823,
+      mediaType: "application/pdf",
+      packetRole: "primary_filing",
+      assetClass: "packet_form",
+      repositorySourcePathEvidence:
+        "private/Nationwide Record Clearing/LegalEase Maryland/forms/CC-DC-CR-148__petition-for-shielding-under-maryland-second-chance-act__rev-2026-07.pdf",
+      workerMaterializationAuthorized: false,
+      workerReadAuthorized: false,
+      workerReady: false
+    },
+    {
+      documentId: "MDJ-008",
+      sha256: "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+      bytes: 248175,
+      mediaType: "application/pdf",
+      packetRole: "attachment",
+      assetClass: "packet_form",
+      repositorySourcePathEvidence:
+        "private/Nationwide Record Clearing/LegalEase Maryland/forms/MDJ-008__notice-regarding-restricted-information-pursuant-to-rule-20-201.1__rev-2026-07.pdf",
+      workerMaterializationAuthorized: false,
+      workerReadAuthorized: false,
+      workerReady: false
     }
   ] as const satisfies readonly MarylandOfficialPdfSourceIdentity[];
 
@@ -243,6 +305,29 @@ export const MARYLAND_REMAINING_OFFICIAL_PDF_PACKETS =
       ],
       runtimeDisabled: true,
       generationAllowed: false
+    },
+    {
+      trackId: "md_second_chance_shielding",
+      documents: [
+        {
+          documentId: "CC-DC-CR-148",
+          componentId: "md_second_chance_shielding-primary-filing-1",
+          role: "primary_filing",
+          requirement: "required"
+        },
+        {
+          documentId: "MDJ-008",
+          componentId: "md_second_chance_shielding-attachment-2",
+          role: "attachment",
+          requirement: "required"
+        }
+      ],
+      blockers: [
+        "source_materialization_required",
+        "field_mapping_pending"
+      ],
+      runtimeDisabled: true,
+      generationAllowed: false
     }
   ] as const satisfies readonly MarylandOfficialPdfBlockedPacket[];
 
@@ -265,6 +350,66 @@ export class MarylandOfficialPdfFamilyBlockedError extends Error {
   }
 }
 
+export class MarylandOfficialPdfSourceBlockedError extends Error {
+  readonly code: MarylandOfficialPdfBlockCode;
+  readonly documentId: string;
+
+  constructor(code: MarylandOfficialPdfBlockCode, documentId: string) {
+    super(`Maryland official PDF document ${documentId} is blocked: ${code}.`);
+    this.name = "MarylandOfficialPdfSourceBlockedError";
+    this.code = code;
+    this.documentId = documentId;
+  }
+}
+
+function marylandOfficialPdfSourceIdentity(
+  documentId: string
+): MarylandOfficialPdfSourceIdentity {
+  const identity = MARYLAND_REMAINING_OFFICIAL_PDF_SOURCE_IDENTITIES.find(
+    (candidate) => candidate.documentId === documentId
+  );
+  if (!identity) {
+    throw new MarylandOfficialPdfSourceBlockedError(
+      "unsupported_document",
+      documentId
+    );
+  }
+  return identity;
+}
+
+/**
+ * Confirms only the carried immutable identity. A matching pin does not
+ * authorize this worker to read or materialize the source.
+ */
+export function assertMarylandOfficialPdfExactSourcePin(
+  documentId: string,
+  sha256: string,
+  bytes: number
+): true {
+  const identity = marylandOfficialPdfSourceIdentity(documentId);
+  if (identity.sha256 !== sha256 || identity.bytes !== bytes) {
+    throw new MarylandOfficialPdfSourceBlockedError(
+      "exact_source_pin_mismatch",
+      documentId
+    );
+  }
+  return true;
+}
+
+/**
+ * Always throws until a captain-owned assignment and verified portable
+ * projection exist for this factory scaffold.
+ */
+export function preflightMarylandOfficialPdfDocument(
+  documentId: string
+): never {
+  marylandOfficialPdfSourceIdentity(documentId);
+  throw new MarylandOfficialPdfSourceBlockedError(
+    "source_materialization_required",
+    documentId
+  );
+}
+
 export function marylandOfficialPdfBlockersFor(
   trackId: string
 ): readonly MarylandOfficialPdfBlockCode[] {
@@ -285,6 +430,34 @@ export function assertMarylandRemainingOfficialPdfTrackRenderable(
   const [firstBlocker] = marylandOfficialPdfBlockersFor(trackId);
   throw new MarylandOfficialPdfFamilyBlockedError(
     firstBlocker ?? "unknown_track",
+    trackId
+  );
+}
+
+/**
+ * Uniform production rendering gate. The older `Remaining` assertion above is
+ * retained for compatibility with its source/authority-specific semantics.
+ */
+export function assertMarylandOfficialPdfTrackRenderable(
+  trackId: string
+): never {
+  if (marylandOfficialPdfBlockersFor(trackId)[0] === "unknown_track") {
+    throw new MarylandOfficialPdfFamilyBlockedError("unknown_track", trackId);
+  }
+  throw new MarylandOfficialPdfFamilyBlockedError(
+    "generation_disabled",
+    trackId
+  );
+}
+
+export function assertMarylandOfficialPdfPacketAssemblable(
+  trackId: string
+): never {
+  if (marylandOfficialPdfBlockersFor(trackId)[0] === "unknown_track") {
+    throw new MarylandOfficialPdfFamilyBlockedError("unknown_track", trackId);
+  }
+  throw new MarylandOfficialPdfFamilyBlockedError(
+    "packet_assembly_blocked",
     trackId
   );
 }
