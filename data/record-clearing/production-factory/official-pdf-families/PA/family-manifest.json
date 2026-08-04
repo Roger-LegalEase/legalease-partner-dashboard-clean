@@ -20,30 +20,35 @@
     "requirementManifest": "data/record-clearing/production-factory/official-pdf-families/PA/source-requirements.json",
     "dependencyManifest": "data/record-clearing/production-factory/official-pdf-families/PA/materialization-dependencies.json",
     "allSourcesRequired": true,
-    "verifiedReviewSources": 1,
+    "carriedReviewEvidenceCount": 1,
     "workerReadySourceCount": 0,
-    "missingExactSources": 5,
-    "state": "review_source_available_worker_projection_required",
+    "missingWorkerProjectedExactSources": 6,
+    "unresolvedSourceIdentities": 2,
+    "state": "queue_reconciled_worker_projection_and_identity_resolution_required",
     "contractState": "pending_captain_owned_assignment",
     "assignmentManifest": null,
     "portableProjectionAvailable": false,
     "workerReady": false,
     "registryPresenceConfersReadiness": false,
-    "workerMayAcquireSources": false
+    "workerMayAcquireSources": false,
+    "workerMayReadSources": false,
+    "renderActivationAllowed": false
   },
   "tracks": [
     {
       "trackId": "pa_490_nonconviction",
       "sourceDocumentIds": [
         "PA-RCRIM-P-490-PETITION",
-        "PA-RCRIM-P-490-ORDER"
+        "PA-RCRIM-P-490-ORDER",
+        "PA-IFP-MDJ"
       ]
     },
     {
       "trackId": "pa_790_nonconviction",
       "sourceDocumentIds": [
         "PA-RCRIM-P-790-PETITION",
-        "PA-RCRIM-P-790-ORDER"
+        "PA-RCRIM-P-790-ORDER",
+        "PA-IFP-CCP"
       ]
     },
     {
@@ -79,17 +84,20 @@
       "trackId": "pa_9122_1_limited_access",
       "sourceDocumentIds": [
         "PA-RCRIM-P-791-PETITION",
-        "PA-RCRIM-P-791-ORDER"
+        "PA-RCRIM-P-791-ORDER",
+        "PA-IFP-CCP"
       ]
     }
   ],
   "documents": [
-    "PA-RCRIM-P-490-PETITION",
+    "PA-IFP-CCP",
+    "PA-IFP-MDJ",
     "PA-RCRIM-P-490-ORDER",
-    "PA-RCRIM-P-790-PETITION",
+    "PA-RCRIM-P-490-PETITION",
     "PA-RCRIM-P-790-ORDER",
-    "PA-RCRIM-P-791-PETITION",
-    "PA-RCRIM-P-791-ORDER"
+    "PA-RCRIM-P-790-PETITION",
+    "PA-RCRIM-P-791-ORDER",
+    "PA-RCRIM-P-791-PETITION"
   ],
   "artifacts": {
     "fieldMap": "data/record-clearing/production-factory/official-pdf-families/PA/field-map-scaffold.json",
@@ -103,21 +111,22 @@
   "reviewArtifactGenerator": "scripts/generate-rcap-pa-rules-490-790-791-review-artifacts.mjs",
   "dedicatedVerifier": "scripts/verify-rcap-pa-rules-490-790-791-official-pdf-family.mjs",
   "status": {
-    "sourceRequirements": "exact_identity_scaffold_pending_assignment",
-    "localSourceVerification": "one_of_six_exact_sources_verified",
-    "pdfStructureInspection": "rule_790_petition_verified_other_forms_pending",
-    "fieldMapping": "rule_790_text_map_visual_reviewed_checkbox_semantics_pending",
-    "packetRendering": "component_review_only_complete_packets_blocked",
-    "visualReview": "partial_rule_790_text_fields_passed",
+    "sourceRequirements": "six_exact_and_two_unresolved_identities_queue_reconciled",
+    "localSourceVerification": "no_worker_source_reads_authorized",
+    "pdfStructureInspection": "carried_rule_790_review_evidence_other_forms_pending",
+    "fieldMapping": "eight_document_scaffold_rule_790_carried_review_evidence",
+    "packetRendering": "disabled_all_complete_packets_blocked",
+    "visualReview": "carried_rule_790_text_field_evidence_only",
     "counselReview": "not_submitted",
     "packetReady": false,
     "enabled": false
   },
   "invariants": [
     "Pennsylvania legal design remains unchanged and is treated as read-only provenance.",
-    "Only exact source identities pinned by Master Library Edition 1.2 may be opened.",
-    "The retained Rule 790 petition is used in place and is never copied into an implementation directory.",
-    "Missing Rule 490, Rule 790 order, and Rule 791 bytes fail closed; no download, reconstruction, or substitute is allowed.",
+    "No worker may read source bytes until a captain-owned immutable assignment and portable projection authorize the exact source.",
+    "The retained Rule 790 petition evidence is historical review metadata only and is not a worker source projection.",
+    "All six exact Rule 490, Rule 790, and Rule 791 sources fail closed pending captain projection; no download, reconstruction, or substitute is allowed.",
+    "PA-IFP-CCP and PA-IFP-MDJ fail closed as unknown source identities; public index URLs are discovery evidence only.",
     "No assembled participant packet is emitted until every required official form and cross-family component for its selected branch is available.",
     "Participant signatures and dates remain manual; Social Security Number and unconfirmed checkbox semantics remain blank.",
     "No live Pennsylvania route, legacy generator, central packet registry, or source registry is changed by this family."

@@ -3,12 +3,16 @@
   "familyId": "pa-rules-490-790-791",
   "syntheticDataOnly": true,
   "syntheticDataRule": "All people, addresses, court references, charges, dates, and narratives are invented for deterministic technical review. SYN marks every case reference; no fixture is an eligibility or legal conclusion.",
+  "workerSourceReadsAllowed": false,
+  "renderActivationAllowed": false,
   "positiveFixtures": [
     {
       "fixtureId": "pa-rule790-technical-review-positive",
       "trackId": "pa_790_nonconviction",
       "documentId": "PA-RCRIM-P-790-PETITION",
       "reviewOnly": true,
+      "carriedReviewEvidenceOnly": true,
+      "currentlyRenderable": false,
       "caseReference": "SYN-PA-790-0001",
       "facts": {
         "participant": {
@@ -89,20 +93,58 @@
     {
       "fixtureId": "pa-rule490-petition-source-not-materialized",
       "documentId": "PA-RCRIM-P-490-PETITION",
+      "identityBindingStatus": "exact_pinned_identity",
       "kind": "materialization_required",
-      "expect": "source_missing"
+      "expect": "source_materialization_required"
+    },
+    {
+      "fixtureId": "pa-rule490-order-source-not-materialized",
+      "documentId": "PA-RCRIM-P-490-ORDER",
+      "identityBindingStatus": "exact_pinned_identity",
+      "kind": "materialization_required",
+      "expect": "source_materialization_required"
+    },
+    {
+      "fixtureId": "pa-rule790-petition-worker-projection-not-materialized",
+      "documentId": "PA-RCRIM-P-790-PETITION",
+      "identityBindingStatus": "exact_pinned_identity",
+      "kind": "materialization_required",
+      "expect": "source_materialization_required"
     },
     {
       "fixtureId": "pa-rule790-order-source-not-materialized",
       "documentId": "PA-RCRIM-P-790-ORDER",
+      "identityBindingStatus": "exact_pinned_identity",
       "kind": "materialization_required",
-      "expect": "source_missing"
+      "expect": "source_materialization_required"
     },
     {
       "fixtureId": "pa-rule791-petition-source-not-materialized",
       "documentId": "PA-RCRIM-P-791-PETITION",
+      "identityBindingStatus": "exact_pinned_identity",
       "kind": "materialization_required",
-      "expect": "source_missing"
+      "expect": "source_materialization_required"
+    },
+    {
+      "fixtureId": "pa-rule791-order-source-not-materialized",
+      "documentId": "PA-RCRIM-P-791-ORDER",
+      "identityBindingStatus": "exact_pinned_identity",
+      "kind": "materialization_required",
+      "expect": "source_materialization_required"
+    },
+    {
+      "fixtureId": "pa-ifp-ccp-source-identity-unresolved",
+      "documentId": "PA-IFP-CCP",
+      "identityBindingStatus": "unknown_source_identity",
+      "kind": "identity_resolution_required",
+      "expect": "unknown_source_identity"
+    },
+    {
+      "fixtureId": "pa-ifp-mdj-source-identity-unresolved",
+      "documentId": "PA-IFP-MDJ",
+      "identityBindingStatus": "unknown_source_identity",
+      "kind": "identity_resolution_required",
+      "expect": "unknown_source_identity"
     },
     {
       "fixtureId": "pa-rule790-petition-social-security-number",
