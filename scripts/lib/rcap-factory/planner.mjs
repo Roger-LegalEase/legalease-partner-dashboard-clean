@@ -102,6 +102,18 @@ const ARKANSAS_ACIC_WORKER_COMMIT =
   "2784e3c85ba624c2f94dd8beb749fc0e9fd5e50f";
 const GEORGIA_TRANCHE_WORKER_COMMIT =
   "080ed5d94e92442069b4000511f04194f734f36d";
+const TRACK_PROMOTION_WORKER_COMMIT =
+  "33ff72c8514d289152caa0ed846db0cdd1f79502";
+const ARKANSAS_PUBLIC_GAPS_WORKER_COMMIT =
+  "d19f7ff100d6e240cc3ffb00ecfcdab1477527c3";
+const ALABAMA_CR65_WORKER_COMMIT =
+  "62be8a3822e42f3f64533ac64820135f20c84e72";
+const GEORGIA_JAIL_GUIDANCE_WORKER_COMMIT =
+  "ca5958590d1b52713c4489d58617586e82f33629";
+const DC_CUSTOM_PLEADING_WORKER_COMMIT =
+  "a25306af0e095faac1ce4d36c60b0f04c9221b31";
+const ILLINOIS_CUSTOM_PLEADING_WORKER_COMMIT =
+  "20379e6e8f7fd41e1fda6714ab05a06183123368";
 const NO_DOWNLOAD_AUTHORITY_FAMILIES = new Set([
   "in_repo_identity_reconciliation",
   "local_form_scope_correction",
@@ -284,11 +296,17 @@ export function buildFactoryPlan(options = {}) {
     strategyFamily,
     expectedOutputs,
     ownedPaths,
+    integrationOwnedOutputs,
     acquisitionIds = [],
     reconciliationIds = [],
     requiredOutputFields,
     downloadedSourceCount,
     completionCommit,
+    regressionVerifier,
+    participantPacketProofRequired,
+    sourceMaterializationInputs,
+    normalizationReadiness,
+    executionNote,
     model,
     effort,
     executionScope = "worker",
@@ -326,7 +344,9 @@ export function buildFactoryPlan(options = {}) {
       baseCommit,
       dependencies: sortedUnique(dependencies),
       ownedPaths: sortedUnique(ownedPaths ?? outputs),
-      integrationOwnedOutputs: [reviewManifest],
+      integrationOwnedOutputs: sortedUnique(
+        integrationOwnedOutputs ?? [reviewManifest]
+      ),
       forbiddenPaths: [...GLOBAL_WORKER_FORBIDDEN_PATHS],
       requiredInputs: sortedUnique(requiredInputs),
       expectedOutputs: outputs,
@@ -360,6 +380,24 @@ export function buildFactoryPlan(options = {}) {
     }
     if (completionCommit) {
       job.completionCommit = completionCommit;
+    }
+    if (regressionVerifier) {
+      job.regressionVerifier = normalizeRepoPath(
+        regressionVerifier,
+        `${jobId} regressionVerifier`
+      );
+    }
+    if (participantPacketProofRequired !== undefined) {
+      job.participantPacketProofRequired = participantPacketProofRequired;
+    }
+    if (sourceMaterializationInputs) {
+      job.sourceMaterializationInputs = sourceMaterializationInputs;
+    }
+    if (normalizationReadiness) {
+      job.normalizationReadiness = normalizationReadiness;
+    }
+    if (executionNote) {
+      job.executionNote = executionNote;
     }
 
     jobs.push(job);
@@ -400,7 +438,8 @@ export function buildFactoryPlan(options = {}) {
     jurisdiction: "NATIONWIDE",
     jobId: "rcap-nationwide-track-promotion-contract",
     dependencies: ["rcap-nationwide-template-family-hash-infrastructure"],
-    status: "ready",
+    status: "completed",
+    completionCommit: TRACK_PROMOTION_WORKER_COMMIT,
     expectedOutputs: [
       "docs/rcap-promotion/track-approval-template.json",
       "scripts/rcap-apply-track-promotion-batch.mjs",
@@ -428,11 +467,37 @@ export function buildFactoryPlan(options = {}) {
     ],
     commitSubject: "feat(record-clearing): add the per-track promotion contract",
     stopCondition:
-      "Implement only the fail-closed, hash-bound per-track approval batch format, dry-run/apply " +
-      "contract, route-scoped staging selection contract, and focused verifier. Use the current " +
-      "counsel-adoption records as immutable test fixtures; a jurisdiction-wide staging child may " +
-      "not widen an adopted subset. Do not apply any adoption or promotion, change a track status, enable runtime, " +
-      "modify shared generated registries, deploy, or touch Supabase. " +
+      `Terminal completed child: source commit ${TRACK_PROMOTION_WORKER_COMMIT} is integrated. ` +
+      "Preserve the fail-closed, hash-bound per-track approval and route-scoped staging contract. " +
+      "Do not scaffold, execute, apply an approval batch, promote a track, enable runtime, or deploy."
+  });
+  const sourceMaterializationFoundation = addJob({
+    lane: "platform_foundation",
+    jurisdiction: "NATIONWIDE",
+    jobId: "rcap-nationwide-source-materialization-contract",
+    strategyFamily: "platform_foundation",
+    expectedOutputs: [
+      "docs/record-clearing/RCAP_SOURCE_MATERIALIZATION_CONTRACT.md",
+      "scripts/verify-rcap-materialized-source.mjs",
+      "scripts/verify-rcap-source-materialization-contract.mjs"
+    ],
+    requiredInputs: [
+      FACTORY_INPUT_PATHS.authority,
+      FACTORY_INPUT_PATHS.sourceArtifacts,
+      FACTORY_INPUT_PATHS.sourceRelationships
+    ],
+    model: "codex",
+    effort: "xhigh",
+    status: "ready",
+    focusedValidation: [
+      "node scripts/rcap-factory-plan.mjs --check-job rcap-nationwide-source-materialization-contract",
+      "node scripts/verify-rcap-source-materialization-contract.mjs"
+    ],
+    commitSubject: "feat(record-clearing): define source materialization contract",
+    stopCondition:
+      "Implement only the portable, hash-verifying read-only source-materialization contract and " +
+      "focused verifiers. Do not acquire or reconstruct binaries, modify private sources, implement " +
+      "a packet, change legal design, enable runtime, promote a route, or deploy. " +
       TERMINAL_INSTRUCTION
   });
 
@@ -441,14 +506,21 @@ export function buildFactoryPlan(options = {}) {
   const outstanding = sortedUnique(inputs.implementationQueue.outstandingJurisdictions ?? []);
 
   for (const jurisdiction of outstanding) {
+    const normalizationReadiness = normalizationReadinessFor(
+      jurisdiction,
+      authorityEdition
+    );
     addJob({
       lane: "legal_design_normalization",
       jurisdiction,
+      status: jurisdiction === "PA" ? "in_progress" : "blocked",
+      normalizationReadiness,
       requiredInputs: [
         FACTORY_INPUT_PATHS.authority,
         FACTORY_INPUT_PATHS.blockerLedger,
         "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
-        FACTORY_INPUT_PATHS.allStateBuildStatus
+        FACTORY_INPUT_PATHS.allStateBuildStatus,
+        "planning/record-clearing-100-percent/jobs/F-01-batch-3-expected-track-ids.json"
       ]
     });
   }
@@ -494,15 +566,57 @@ export function buildFactoryPlan(options = {}) {
       commitSubject: group.commitSubject,
       stopCondition: authorityStopCondition(group.strategyFamily, group),
       status:
-        group.jobId === "rcap-ar-in-repo-identity-reconciliation-acic"
+        [
+          "rcap-ar-in-repo-identity-reconciliation-acic",
+          "rcap-ar-public-official-download-acic-gaps",
+          "rcap-al-in-repo-identity-reconciliation-cr-65"
+        ].includes(group.jobId)
           ? "completed"
           : undefined,
       completionCommit:
         group.jobId === "rcap-ar-in-repo-identity-reconciliation-acic"
           ? ARKANSAS_ACIC_WORKER_COMMIT
+          : group.jobId === "rcap-ar-public-official-download-acic-gaps"
+            ? ARKANSAS_PUBLIC_GAPS_WORKER_COMMIT
+            : group.jobId === "rcap-al-in-repo-identity-reconciliation-cr-65"
+              ? ALABAMA_CR65_WORKER_COMMIT
+              : undefined,
+      executionNote:
+        group.jobId === "rcap-al-in-repo-identity-reconciliation-cr-65"
+          ? "Canonical model remains codex. Execution by Opus was a user-directed override and does not change the assignment model."
           : undefined
     });
   }
+
+  addJob({
+    lane: "source_acquisition",
+    jurisdiction: "AR",
+    jobId: "rcap-ar-acic-mixed-footer-revision-adjudication",
+    trackIds: ["ar-act346"],
+    strategyFamily: "source_identity_resolution",
+    reconciliationIds: [
+      "revision:AR:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS"
+    ],
+    downloadedSourceCount: 0,
+    dependencies: ["rcap-ar-public-official-download-acic-gaps"],
+    status: "blocked",
+    expectedOutputs: [
+      `${FACTORY_DATA_DIR}/source-acquisition/rcap-ar-acic-mixed-footer-revision-adjudication.json`
+    ],
+    requiredInputs: [
+      `${FACTORY_DATA_DIR}/source-acquisition/rcap-ar-public-official-download-acic-gaps.json`,
+      FACTORY_INPUT_PATHS.authority,
+      FACTORY_INPUT_PATHS.sourceAcquisitionQueue
+    ],
+    model: "opus",
+    effort: "high",
+    commitSubject: "docs(record-clearing): adjudicate AR mixed form revision",
+    stopCondition:
+      "Adjudicate only which recorded page-level footer controls the existing " +
+      "ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS binary. Do not redownload or modify the " +
+      "binary, change packet implementation, infer unrelated authority, enable runtime, or promote. " +
+      TERMINAL_INSTRUCTION
+  });
 
   const authorityJobs = jobs.filter((job) => job.lane === "source_acquisition");
   const editionPublication = addJob({
@@ -533,6 +647,9 @@ export function buildFactoryPlan(options = {}) {
 
   addCompletedMarylandChild({ addJob });
   addCompletedGeorgiaChild({ addJob });
+  addCompletedDcCustomPleadingChild({ addJob });
+  addCompletedIllinoisCustomPleadingChild({ addJob });
+  addDcCustomPleadingReconciliationChild({ addJob });
 
   const implementedTrackIds = implementedTracks(inputs.implementationRecords);
   const pendingTracks = normalizedTracks.filter(
@@ -540,7 +657,8 @@ export function buildFactoryPlan(options = {}) {
       !implementedTrackIds.has(`${track.jurisdiction}:${track.trackId}`) &&
       !isMarylandAuthorityOnlyRoute(track, inputs.canonicalParentJobs) &&
       !isCanonicalNonImplementationTrack(track, inputs.canonicalParentJobs) &&
-      !isGeorgiaJailGuidanceSpecificationTrack(track)
+      !isGeorgiaJailGuidanceSpecificationTrack(track) &&
+      !isDcCustomPleadingStopTrack(track)
   );
   const classifications = classifyOfficialPdfTracks(inputs, pendingTracks);
 
@@ -553,27 +671,30 @@ export function buildFactoryPlan(options = {}) {
     addJob,
     jobsByLaneAndState
   });
-  addGeorgiaJailGuidanceSpecificationChild({ addJob });
+  addGeorgiaJailGuidanceSpecificationChildren({ addJob });
   addTrackLaneJobs({
     lane: "acroform_fill",
     tracks: classifications.acroform,
     inputs,
     addJob,
-    jobsByLaneAndState
+    jobsByLaneAndState,
+    sourceMaterializationFoundationJobId: sourceMaterializationFoundation.jobId
   });
   addTrackLaneJobs({
     lane: "flat_pdf_overlay",
     tracks: classifications.overlay,
     inputs,
     addJob,
-    jobsByLaneAndState
+    jobsByLaneAndState,
+    sourceMaterializationFoundationJobId: sourceMaterializationFoundation.jobId
   });
   addTrackLaneJobs({
     lane: "composed_route",
     tracks: pendingTracks.filter(isComposedTrack),
     inputs,
     addJob,
-    jobsByLaneAndState
+    jobsByLaneAndState,
+    sourceMaterializationFoundationJobId: sourceMaterializationFoundation.jobId
   });
   addTrackLaneJobs({
     lane: "guidance_implementation",
@@ -752,10 +873,20 @@ export function readFactoryInputs(rootDir) {
   };
 }
 
-function addTrackLaneJobs({ lane, tracks, inputs, addJob, jobsByLaneAndState }) {
+function addTrackLaneJobs({
+  lane,
+  tracks,
+  inputs,
+  addJob,
+  jobsByLaneAndState,
+  sourceMaterializationFoundationJobId
+}) {
   const groups = groupBy(tracks, (track) => track.jurisdiction);
   for (const [jurisdiction, stateTracks] of [...groups.entries()].sort(([a], [b]) => a.localeCompare(b))) {
-    const sourceJobs = ["acroform_fill", "flat_pdf_overlay", "composed_route"].includes(lane)
+    const sourceBacked = ["acroform_fill", "flat_pdf_overlay", "composed_route"].includes(
+      lane
+    );
+    const sourceJobs = sourceBacked
       ? (jobsByLaneAndState.get(`source_acquisition:${jurisdiction}`) ?? []).filter(
           (job) =>
             job.trackIds.length === 0 ||
@@ -765,6 +896,23 @@ function addTrackLaneJobs({ lane, tracks, inputs, addJob, jobsByLaneAndState }) 
         )
       : [];
     const overrides = implementationJobOverrides(lane, jurisdiction);
+    const state = (inputs.allStateBuildStatus.states ?? []).find(
+      (candidate) => candidate.code === jurisdiction
+    );
+    if (!state) throw new Error(`Missing state identity for ${jurisdiction}.`);
+    const defaultOutput = LANE_CONFIGURATION[lane].output(state);
+    const defaultVerifier =
+      `scripts/verify-rcap-${state.slug}-${lane.replaceAll("_", "-")}.mjs`;
+    const regressionVerifier = overrides.regressionVerifier ?? defaultVerifier;
+    const sourceMaterializationInputs = sourceBacked
+      ? sourceMaterializationInputsForTracks(inputs, stateTracks)
+      : undefined;
+    const dependencies = [
+      ...sourceJobs.map((job) => job.jobId),
+      ...(sourceBacked && sourceMaterializationFoundationJobId
+        ? [sourceMaterializationFoundationJobId]
+        : [])
+    ];
     const requiredInputs = [
       FACTORY_INPUT_PATHS.authority,
       FACTORY_INPUT_PATHS.normalizedTracks,
@@ -773,6 +921,9 @@ function addTrackLaneJobs({ lane, tracks, inputs, addJob, jobsByLaneAndState }) 
       FACTORY_INPUT_PATHS.packetSetManifests,
       FACTORY_INPUT_PATHS.sourceArtifacts,
       ...inputs.implementationRecords.map((record) => record.path),
+      ...(sourceMaterializationInputs ?? []).map(
+        (input) => input.materializationDestination
+      ),
       ...(overrides.requiredInputs ?? [])
     ];
     const { requiredInputs: _overrideInputs, ...jobOverrides } = overrides;
@@ -780,8 +931,28 @@ function addTrackLaneJobs({ lane, tracks, inputs, addJob, jobsByLaneAndState }) 
       lane,
       jurisdiction,
       trackIds: stateTracks.map((track) => track.trackId),
-      dependencies: sourceJobs.map((job) => job.jobId),
+      dependencies,
+      status: sourceBacked ? "blocked" : undefined,
       requiredInputs,
+      expectedOutputs:
+        overrides.expectedOutputs ?? [defaultOutput, regressionVerifier],
+      regressionVerifier,
+      participantPacketProofRequired: true,
+      sourceMaterializationInputs:
+        sourceMaterializationInputs?.length > 0
+          ? sourceMaterializationInputs
+          : undefined,
+      focusedValidation:
+        overrides.focusedValidation ?? [
+          `node scripts/rcap-factory-plan.mjs --check-job ${jobIdFor(
+            jurisdiction,
+            lane
+          )}`,
+          ...(sourceMaterializationInputs ?? []).map(
+            (input) => input.verificationCommand
+          ),
+          `node ${regressionVerifier}`
+        ],
       ...jobOverrides
     });
   }
@@ -794,6 +965,9 @@ function implementationJobOverrides(lane, jurisdiction) {
     return {
       model: "opus",
       effort: "xhigh",
+      regressionVerifier:
+        "scripts/verify-rcap-il-custom-pleading-packets.mjs",
+      participantPacketProofRequired: true,
       expectedOutputs: [
         "src/lib/rcap/packets/jurisdictions/illinois/custom-pleading.ts",
         "src/lib/rcap/packets/registry-il-custom-pleading.ts",
@@ -872,6 +1046,9 @@ function addCompletedGeorgiaChild({ addJob }) {
     model: "opus",
     effort: "xhigh",
     completionCommit: GEORGIA_TRANCHE_WORKER_COMMIT,
+    regressionVerifier:
+      "scripts/verify-rcap-ga-superior-court-pleading-family-packets.mjs",
+    participantPacketProofRequired: true,
     expectedOutputs: outputs,
     ownedPaths: outputs,
     requiredInputs: [
@@ -894,7 +1071,7 @@ function addCompletedGeorgiaChild({ addJob }) {
   });
 }
 
-function addGeorgiaJailGuidanceSpecificationChild({ addJob }) {
+function addGeorgiaJailGuidanceSpecificationChildren({ addJob }) {
   addJob({
     lane: "legal_design_normalization",
     jurisdiction: "GA",
@@ -903,6 +1080,8 @@ function addGeorgiaJailGuidanceSpecificationChild({ addJob }) {
     strategyFamily: "legal_design",
     model: "opus",
     effort: "xhigh",
+    status: "completed",
+    completionCommit: GEORGIA_JAIL_GUIDANCE_WORKER_COMMIT,
     expectedOutputs: [
       `${FACTORY_DATA_DIR}/guidance-specifications/ga-jail-k2-process-guidance-3.json`
     ],
@@ -918,16 +1097,261 @@ function addGeorgiaJailGuidanceSpecificationChild({ addJob }) {
     ],
     commitSubject: "docs(record-clearing): specify GA jail restriction guidance",
     stopCondition:
-      "Draft only the bounded legal guidance specification for exact component " +
-      "ga-jail-k2-process-guidance-3. Do not implement or generate a packet, edit shared legal-design " +
-      "registries, infer unresolved timing or local-form conclusions, alter the completed Georgia " +
-      "tranche, enable runtime, or promote a route. " +
+      `Terminal completed child: source commit ${GEORGIA_JAIL_GUIDANCE_WORKER_COMMIT} is integrated. ` +
+      "Preserve the bounded ga-jail-k2-process-guidance-3 specification and its two unresolved " +
+      "release questions. It is not a complete packet and does not weaken the typed stop."
+  });
+  addJob({
+    lane: "platform_foundation",
+    jurisdiction: "GA",
+    jobId: "rcap-ga-jail-k2-primary-filing-template",
+    trackIds: ["ga-jail-k2"],
+    dependencies: ["rcap-ga-guidance-specification-jail-k2"],
+    status: "blocked",
+    expectedOutputs: [
+      "src/lib/rcap/packets/engines/pleading-templates-ga-jail-k2-request.ts",
+      "scripts/verify-rcap-ga-jail-k2-primary-filing-template.mjs"
+    ],
+    requiredInputs: [
+      `${FACTORY_DATA_DIR}/guidance-specifications/ga-jail-k2-process-guidance-3.json`,
+      "src/lib/rcap/packets/engines/pleading-templates-ga.ts"
+    ],
+    focusedValidation: [
+      "node scripts/rcap-factory-plan.mjs --check-job rcap-ga-jail-k2-primary-filing-template",
+      "node scripts/verify-rcap-ga-jail-k2-primary-filing-template.mjs"
+    ],
+    model: "codex",
+    effort: "high",
+    commitSubject: "feat(record-clearing): draft GA jail request template",
+    stopCondition:
+      "Draft only ga-jail-k2-primary-filing-1 from the integrated specification. Do not implement " +
+      "the attachment, assemble a packet, resolve release questions, weaken the typed stop, adopt " +
+      "counsel output, enable runtime, or promote. " +
+      TERMINAL_INSTRUCTION
+  });
+  addJob({
+    lane: "platform_foundation",
+    jurisdiction: "GA",
+    jobId: "rcap-ga-jail-k2-attachment-template",
+    trackIds: ["ga-jail-k2"],
+    dependencies: ["rcap-ga-guidance-specification-jail-k2"],
+    status: "blocked",
+    expectedOutputs: [
+      "src/lib/rcap/packets/engines/pleading-templates-ga-jail-k2-attachment.ts",
+      "scripts/verify-rcap-ga-jail-k2-attachment-template.mjs"
+    ],
+    requiredInputs: [
+      `${FACTORY_DATA_DIR}/guidance-specifications/ga-jail-k2-process-guidance-3.json`,
+      "src/lib/rcap/packets/engines/pleading-templates-ga.ts"
+    ],
+    focusedValidation: [
+      "node scripts/rcap-factory-plan.mjs --check-job rcap-ga-jail-k2-attachment-template",
+      "node scripts/verify-rcap-ga-jail-k2-attachment-template.mjs"
+    ],
+    model: "codex",
+    effort: "high",
+    commitSubject: "feat(record-clearing): draft GA jail attachment template",
+    stopCondition:
+      "Draft only ga-jail-k2-attachment-2 from the integrated specification. Do not implement the " +
+      "request, assemble a packet, resolve release questions, weaken the typed stop, adopt counsel " +
+      "output, enable runtime, or promote. " +
+      TERMINAL_INSTRUCTION
+  });
+  addJob({
+    lane: "legal_design_normalization",
+    jurisdiction: "GA",
+    jobId: "rcap-ga-jail-k2-release-question-adjudication",
+    trackIds: ["ga-jail-k2"],
+    dependencies: ["rcap-ga-guidance-specification-jail-k2"],
+    status: "blocked",
+    expectedOutputs: [
+      `${FACTORY_DATA_DIR}/guidance-specifications/ga-jail-k2-release-question-adjudication.json`
+    ],
+    requiredInputs: [
+      `${FACTORY_DATA_DIR}/guidance-specifications/ga-jail-k2-process-guidance-3.json`
+    ],
+    model: "opus",
+    effort: "high",
+    commitSubject: "docs(record-clearing): adjudicate GA jail release questions",
+    stopCondition:
+      "Adjudicate only the preserved waiting-period and facility-form questions. Do not implement " +
+      "templates or a packet, weaken the typed stop, apply counsel adoption, enable runtime, or promote. " +
+      TERMINAL_INSTRUCTION
+  });
+  const packetVerifier =
+    "scripts/verify-rcap-ga-jail-k2-packet.mjs";
+  addJob({
+    lane: "custom_pleading",
+    jurisdiction: "GA",
+    jobId: "rcap-ga-jail-k2-packet-implementation",
+    trackIds: ["ga-jail-k2"],
+    dependencies: [
+      "rcap-ga-jail-k2-primary-filing-template",
+      "rcap-ga-jail-k2-attachment-template",
+      "rcap-ga-jail-k2-release-question-adjudication"
+    ],
+    status: "blocked",
+    expectedOutputs: [
+      "src/lib/rcap/packets/jurisdictions/georgia/jail-k2.ts",
+      packetVerifier
+    ],
+    requiredInputs: [
+      `${FACTORY_DATA_DIR}/guidance-specifications/ga-jail-k2-process-guidance-3.json`,
+      "data/record-clearing/legal-design-specifications.json"
+    ],
+    regressionVerifier: packetVerifier,
+    participantPacketProofRequired: true,
+    focusedValidation: [
+      "node scripts/rcap-factory-plan.mjs --check-job rcap-ga-jail-k2-packet-implementation",
+      `node ${packetVerifier}`
+    ],
+    model: "codex",
+    effort: "xhigh",
+    commitSubject: "feat(record-clearing): implement GA jail restriction packet",
+    stopCondition:
+      "Implement the complete three-component ga-jail-k2 participant packet only after both " +
+      "templates and release-question adjudication exist. Preserve the typed stop until all proofs " +
+      "pass; do not apply counsel adoption, enable runtime, promote, or deploy. " +
       TERMINAL_INSTRUCTION
   });
 }
 
 function isGeorgiaJailGuidanceSpecificationTrack(track) {
   return track.jurisdiction === "GA" && track.trackId === "ga-jail-k2";
+}
+
+const DC_CUSTOM_PLEADING_TYPED_STOP_TRACKS = Object.freeze([
+  "dc_seal_nonconviction",
+  "dc_seal_fugitive",
+  "dc_seal_conviction",
+  "dc_yra_set_aside"
+]);
+
+function isDcCustomPleadingStopTrack(track) {
+  return (
+    track.jurisdiction === "DC" &&
+    DC_CUSTOM_PLEADING_TYPED_STOP_TRACKS.includes(track.trackId)
+  );
+}
+
+function addCompletedDcCustomPleadingChild({ addJob }) {
+  const tranchePrefix = "data/record-clearing/implementation-tranches/tranche-5";
+  const workerOutput =
+    "src/lib/rcap/packets/jurisdictions/district-of-columbia/custom-pleading.ts";
+  const verifier = "scripts/verify-rcap-dc-custom-pleading-packets.mjs";
+  const integrationOutputs = [
+    `${REVIEW_MANIFEST_DIR}/rcap-dc-custom-pleading.json`,
+    `${tranchePrefix}.json`,
+    `${tranchePrefix}-fixtures.json`,
+    `${tranchePrefix}-legal-output-recommendation.json`,
+    `${tranchePrefix}-review-manifest.json`,
+    "scripts/rcap-generate-dc-custom-pleading-review.mjs",
+    verifier
+  ];
+  addJob({
+    lane: "custom_pleading",
+    jurisdiction: "DC",
+    jobId: "rcap-dc-custom-pleading",
+    trackIds: [
+      "dc_innocence_expungement",
+      "dc_correct_misattributed_arrest"
+    ],
+    status: "completed",
+    completionCommit: DC_CUSTOM_PLEADING_WORKER_COMMIT,
+    model: "opus",
+    effort: "xhigh",
+    expectedOutputs: [workerOutput],
+    ownedPaths: [workerOutput],
+    integrationOwnedOutputs: integrationOutputs,
+    requiredInputs: [
+      FACTORY_INPUT_PATHS.normalizedTracks,
+      FACTORY_INPUT_PATHS.packetSetManifests,
+      "src/lib/rcap/packets/assemble.ts"
+    ],
+    regressionVerifier: verifier,
+    participantPacketProofRequired: true,
+    focusedValidation: [
+      "node scripts/rcap-factory-plan.mjs --check-job rcap-dc-custom-pleading",
+      `node ${verifier}`
+    ],
+    commitSubject: "feat(record-clearing): implement DC custom pleadings",
+    stopCondition:
+      `Terminal completed child: source commit ${DC_CUSTOM_PLEADING_WORKER_COMMIT} is integrated. ` +
+      "Preserve the two deterministic participant packets and four typed stops. Runtime remains " +
+      "disabled and the new hashes remain awaiting counsel adoption."
+  });
+}
+
+function addDcCustomPleadingReconciliationChild({ addJob }) {
+  addJob({
+    lane: "legal_design_normalization",
+    jurisdiction: "DC",
+    jobId: "rcap-dc-custom-pleading-legal-design-reconciliation",
+    trackIds: DC_CUSTOM_PLEADING_TYPED_STOP_TRACKS,
+    strategyFamily: "legal_design",
+    status: "blocked",
+    expectedOutputs: [
+      `${FACTORY_DATA_DIR}/guidance-specifications/dc-custom-pleading-stop-reconciliation.json`
+    ],
+    requiredInputs: [
+      "src/lib/rcap/packets/jurisdictions/district-of-columbia/custom-pleading.ts",
+      "data/record-clearing/legal-design-track-registry.json"
+    ],
+    model: "opus",
+    effort: "high",
+    commitSubject: "docs(record-clearing): reconcile DC pleading typed stops",
+    stopCondition:
+      "Resolve only the four recorded D.C. typed-stop specifications, including branch and " +
+      "attestation prerequisites. Do not invent the Master Grid, decide the September 11, 2026 " +
+      "statutory reversion, implement packets, adopt counsel output, enable runtime, or promote. " +
+      TERMINAL_INSTRUCTION
+  });
+}
+
+function addCompletedIllinoisCustomPleadingChild({ addJob }) {
+  const tranchePrefix = "data/record-clearing/implementation-tranches/tranche-4";
+  const outputs = [
+    "src/lib/rcap/packets/jurisdictions/illinois/custom-pleading.ts",
+    "src/lib/rcap/packets/registry-il-custom-pleading.ts",
+    `${tranchePrefix}.json`,
+    `${tranchePrefix}-authority-pins.json`,
+    `${tranchePrefix}-component-guidance.json`,
+    `${tranchePrefix}-field-ownership.json`,
+    `${tranchePrefix}-fixtures.json`,
+    `${tranchePrefix}-review-manifest.json`,
+    `${tranchePrefix}-visual-review.json`,
+    `${tranchePrefix}-legal-output-recommendation.json`,
+    "scripts/rcap-generate-il-custom-pleading-review.mjs",
+    "scripts/verify-rcap-il-custom-pleading-packets.mjs"
+  ];
+  addJob({
+    lane: "custom_pleading",
+    jurisdiction: "IL",
+    jobId: "rcap-il-custom-pleading",
+    trackIds: ["il-immediate-seal", "il-prostitution-j-vacate"],
+    status: "completed",
+    completionCommit: ILLINOIS_CUSTOM_PLEADING_WORKER_COMMIT,
+    model: "opus",
+    effort: "xhigh",
+    expectedOutputs: outputs,
+    ownedPaths: outputs,
+    requiredInputs: [
+      "data/record-clearing/implementation-tranches/tranche-4.json",
+      "src/lib/rcap/packets/assemble.ts"
+    ],
+    regressionVerifier:
+      "scripts/verify-rcap-il-custom-pleading-packets.mjs",
+    participantPacketProofRequired: true,
+    focusedValidation: [
+      "node scripts/rcap-factory-plan.mjs --check-job rcap-il-custom-pleading",
+      "node scripts/verify-rcap-il-custom-pleading-packets.mjs"
+    ],
+    commitSubject: "feat(record-clearing): implement IL custom pleadings",
+    stopCondition:
+      `Terminal completed child: source commit ${ILLINOIS_CUSTOM_PLEADING_WORKER_COMMIT} is integrated. ` +
+      "Preserve the three assembled PDFs and technical/visual proof. il-immediate-seal remains " +
+      "fail-closed on its delivery-model reconciliation and both routes await counsel adoption."
+  });
 }
 
 function addCompletedMarylandChild({ addJob }) {
@@ -939,6 +1363,8 @@ function addCompletedMarylandChild({ addJob }) {
     status: "completed",
     model: "opus",
     effort: "xhigh",
+    regressionVerifier: "scripts/verify-rcap-tranche-2-packets.mjs",
+    participantPacketProofRequired: true,
     expectedOutputs: [
       "data/record-clearing/implementation-tranches/tranche-2.json",
       "data/record-clearing/implementation-tranches/tranche-2-authority-pins.json",
@@ -1064,8 +1490,21 @@ function resolveCanonicalParentJobId(job, parents) {
   if (job.jobId === "rcap-nationwide-track-promotion-contract") {
     return "F-03-track-promotion-contract";
   }
-  if (job.jobId === "rcap-ga-guidance-specification-jail-k2") {
+  if (job.jobId === "rcap-nationwide-source-materialization-contract") {
+    return "AUTH-06-source-gate-clearance";
+  }
+  if (
+    [
+      "rcap-ga-guidance-specification-jail-k2",
+      "rcap-ga-jail-k2-primary-filing-template",
+      "rcap-ga-jail-k2-attachment-template",
+      "rcap-ga-jail-k2-release-question-adjudication"
+    ].includes(job.jobId)
+  ) {
     return "IMP-CP-02-guidance-spec-unblock-family";
+  }
+  if (job.jobId === "rcap-dc-custom-pleading-legal-design-reconciliation") {
+    return "IMP-CP-03-dc-superior-court-motion-family";
   }
   if (job.lane === "platform_foundation") {
     return "F-02-template-family-hash-infrastructure";
@@ -1622,6 +2061,59 @@ function classifyOfficialPdfTracks(inputs, tracks) {
   };
 }
 
+function sourceMaterializationInputsForTracks(inputs, tracks) {
+  const relationshipsByTrack = groupBy(
+    inputs.sourceRelationships.relationships ?? [],
+    (relationship) => `${relationship.jurisdiction}:${relationship.trackId}`
+  );
+  const artifacts = (inputs.sourceArtifacts.artifacts ?? []).filter(
+    (artifact) =>
+      artifact.fileType === "pdf" &&
+      artifact.currency !== "reference_only" &&
+      typeof artifact.sourcePath === "string" &&
+      /^[0-9a-f]{64}$/.test(
+        artifact.measuredSha256 ?? artifact.inventorySha256 ?? ""
+      ) &&
+      Number.isInteger(artifact.sizeBytes) &&
+      artifact.sizeBytes > 0
+  );
+  const selected = new Map();
+  for (const track of tracks) {
+    const relationships =
+      relationshipsByTrack.get(`${track.jurisdiction}:${track.trackId}`) ?? [];
+    for (const artifact of artifacts.filter(
+      (candidate) => candidate.jurisdiction === track.jurisdiction
+    )) {
+      if (!relationships.some((relationship) => relationshipMatchesArtifact(relationship, artifact))) {
+        continue;
+      }
+      const expectedSha256 =
+        artifact.measuredSha256 ?? artifact.inventorySha256;
+      selected.set(`${artifact.artifactId}:${expectedSha256}`, {
+        documentId: artifact.artifactId,
+        expectedSha256,
+        expectedBytes: artifact.sizeBytes,
+        canonicalAuthorityPath: artifact.sourcePath,
+        repositorySourcePath: artifact.sourcePath,
+        portableLocator:
+          `master-library-edition-1.2://${artifact.sourcePath}`,
+        materializationDestination: artifact.sourcePath,
+        authorityAssetState: "authority_asset_known",
+        materializationState: "binary_materialization_required",
+        workerReadiness: "binary_materialization_required",
+        workerMayRead: true,
+        workerMayModify: false,
+        verificationCommand:
+          `node scripts/verify-rcap-materialized-source.mjs --document-id ${artifact.artifactId} ` +
+          `--sha256 ${expectedSha256} --bytes ${artifact.sizeBytes}`
+      });
+    }
+  }
+  return [...selected.values()].sort((left, right) =>
+    left.documentId.localeCompare(right.documentId)
+  );
+}
+
 function relationshipMatchesArtifact(relationship, artifact) {
   const relationshipKeys = [
     relationship.officialFormId,
@@ -1725,21 +2217,6 @@ function buildTrackReconciliation(normalizedTracks, jobs, implementationRecords)
       };
     }
 
-    const guidanceSpecificationJob = jobs.find(
-      (job) =>
-        job.jobId === "rcap-ga-guidance-specification-jail-k2" &&
-        job.jurisdiction === track.jurisdiction &&
-        job.trackIds.includes(track.trackId)
-    );
-    if (guidanceSpecificationJob) {
-      return {
-        jurisdiction: track.jurisdiction,
-        trackId: track.trackId,
-        disposition: "pending_production_job",
-        jobId: guidanceSpecificationJob.jobId
-      };
-    }
-
     const implementationJobs = jobs
       .filter(
         (job) =>
@@ -1761,6 +2238,21 @@ function buildTrackReconciliation(normalizedTracks, jobs, implementationRecords)
         trackId: track.trackId,
         disposition: "pending_production_job",
         jobId: implementationJobs[0].jobId
+      };
+    }
+
+    const legalDesignBlockerJob = jobs.find(
+      (job) =>
+        job.jobId === "rcap-dc-custom-pleading-legal-design-reconciliation" &&
+        job.jurisdiction === track.jurisdiction &&
+        job.trackIds.includes(track.trackId)
+    );
+    if (legalDesignBlockerJob) {
+      return {
+        jurisdiction: track.jurisdiction,
+        trackId: track.trackId,
+        disposition: "pending_production_job",
+        jobId: legalDesignBlockerJob.jobId
       };
     }
 
@@ -1931,6 +2423,74 @@ function implementedTracks(records) {
     }
   }
   return result;
+}
+
+function normalizationReadinessFor(jurisdiction, authorityEdition) {
+  const portableArchiveLocator =
+    "attorney-review-package://Expungement_AI_RCAP_Master_Library_Edition_1_2.zip";
+  if (jurisdiction !== "PA") {
+    return {
+      authorityEdition,
+      readinessState: "legal_review_materialization_required",
+      controllingReviewAssetPath: null,
+      controllingReviewSha256: null,
+      controllingReviewStatus: "authority_asset_known",
+      legalReviewPrecedence:
+        "The active original Master Library legal review controls when no addendum exists.",
+      expectedSourceIds: [],
+      approvedMechanismInventory: null,
+      reviewedThrough: null,
+      openQuestions: [
+        "Materialize and checksum the active controlling review.",
+        "Materialize the expected source-ID set or approve a hash-bound mechanism inventory."
+      ],
+      officialPrimaryAuthorityRefreshRequirements: [],
+      portableArchiveLocator
+    };
+  }
+
+  const controllingReviewAssetPath =
+    "STATES/PA/01_LEGAL_REVIEW/PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md";
+  const controllingReviewSha256 =
+    "68f1c53dda1a810a690a9fc551fa82f5a1c099b1dd5843a5a85538e9f1f4edde";
+  const authorityPages = [
+    ["18 Pa.C.S. § 9122", "022.000"],
+    ["18 Pa.C.S. § 9122.1", "022.001"],
+    ["18 Pa.C.S. § 9122.3", "022.003"]
+  ];
+  return {
+    authorityEdition,
+    readinessState: "ready_for_normalization",
+    controllingReviewAssetPath,
+    controllingReviewSha256,
+    controllingReviewStatus: "checksum_verified",
+    legalReviewPrecedence:
+      "The single active Edition 1.2 Pennsylvania legal review controls; no addendum is required.",
+    expectedSourceIds: [],
+    approvedMechanismInventory: {
+      count: 11,
+      sourcePath: controllingReviewAssetPath,
+      sourceSha256: controllingReviewSha256
+    },
+    reviewedThrough: "2026-08-01",
+    openQuestions: [],
+    officialPrimaryAuthorityRefreshRequirements: authorityPages.map(
+      ([sectionIdentifier, page]) => ({
+        officialUrl:
+          `https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091.${page}..HTM`,
+        issuingDomain: "www.legis.state.pa.us",
+        sectionIdentifier,
+        retrievalMethod: "approved_browser_web_search_fetch",
+        retrievalDate: "2026-08-04",
+        capturedSourceSha256: null,
+        retrievalState: "browser_official_retrieval_available",
+        shellRetrievalState: "shell_download_blocked",
+        alternateOfficialRetrievalChannel:
+          "Browser Web Search / Fetch against the same official Pennsylvania General Assembly URL"
+      })
+    ),
+    portableArchiveLocator
+  };
 }
 
 function canonicalStates(inputs) {

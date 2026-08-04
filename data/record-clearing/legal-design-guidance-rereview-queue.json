@@ -1062,5 +1062,51 @@
       ],
       "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
     }
+  ],
+  "deliveryModelReconciliationCount": 1,
+  "deliveryModelReconciliations": [
+    {
+      "jurisdiction": "IL",
+      "trackId": "il-immediate-seal",
+      "publicName": "Asking for immediate sealing on the day your case is dismissed or you are acquitted",
+      "reconciliationType": "incompatible_delivery_statements",
+      "reviewStatus": "awaiting_counsel_adoption",
+      "releaseStatus": "blocked_pending_controlling_treatment",
+      "affectedElement": "participant_instructions",
+      "question": "Which treatment controls il-immediate-seal: no LegalEase filing, or a generated attorney-handoff petition for counsel to file during the same disposition hearing?",
+      "conflictingStatements": [
+        {
+          "treatment": "guidance_only_no_legalease_filing",
+          "statement": "LegalEase does not generate a filing for this route. The product is telling the participant the right exists and to ask counsel to file it that day.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
+            "sourceHeading": "TRACK I",
+            "sourceStatement": "Output strategy: process_guidance. LegalEase cannot be in the courtroom and cannot file during a hearing."
+          }
+        },
+        {
+          "treatment": "generated_attorney_handoff_packet",
+          "statement": "Delivery is attorney-mediated. The packet is prepared for retained counsel, appointed counsel or the public defender to file during the disposition hearing. Do not tell the participant they may self-file it after leaving court.",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
+            "sourceHeading": "TRACK I",
+            "sourceStatement": "§ 5.2(g)(5)(A) says \"the defendant's attorney may immediately petition the court, on behalf of the defendant.\" ... The immediate route is drafted around represented defendants at a live hearing."
+          }
+        }
+      ],
+      "implementationRecommendation": "data/record-clearing/implementation-tranches/tranche-4-legal-output-recommendation.json#questionsForCounsel[attorney-handoff-delivery-model]",
+      "controllingTreatment": null,
+      "resolutionAuthority": "licensed_counsel",
+      "requiredResolution": "Counsel must adopt exactly one controlling delivery treatment. Adoption must identify the reviewed packet and legal-output hashes; a future changed output requires renewed adoption.",
+      "failClosedTreatment": {
+        "packetGeneration": "disabled_for_release",
+        "packetReady": false,
+        "runtimeStatus": "runtime_disabled",
+        "jurisdictionEnabled": false,
+        "productionEnabled": false
+      }
+    }
   ]
 }

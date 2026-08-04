@@ -108758,6 +108758,157 @@
     },
     {
       "jurisdiction": "GA",
+      "trackId": "ga-jail-k2",
+      "destination": {
+        "kind": "agency",
+        "name": "The county or municipal jail or detention center that holds the booking records",
+        "detail": "The written request goes directly to the facility. The facility must restrict access to all such criminal history record information within 30 days of the request. No court is involved."
+      },
+      "rules": {
+        "filing": "Send the written request directly to the county or municipal jail or detention center that holds the booking records, citing § 35-3-37(k)(2), with proof that the offence is already restricted enclosed. Follow up at day 31.",
+        "fees": "None identified.",
+        "feeWaiver": "none — no fee is identified",
+        "notice": "None. The request goes to the facility; no court, prosecutor or clerk receives notice.",
+        "service": "No statutory service method. Certified mail is recommended so the participant has a record of the date, because the facility's 30-day compliance period runs from the request.",
+        "participantSignature": "The participant signs the request. No statutory wet-signature rule applies.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "facilityName",
+          "question": "Which county or municipal jail or detention center booked you for this offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "facilityCounty",
+          "question": "In which Georgia county or municipality is that facility?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested and booked?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseRestricted",
+          "question": "Which offence has already been restricted under § 35-3-37?",
+          "requirement": "required"
+        },
+        {
+          "key": "restrictionProof",
+          "question": "How was the offence restricted — automatically, on a pre-2013 application, or by a court order?",
+          "requirement": "required"
+        },
+        {
+          "key": "restrictionDate",
+          "question": "As far as you know, on what date was the record restricted?",
+          "requirement": "required"
+        },
+        {
+          "key": "bookingNumber",
+          "question": "What was your booking number at that facility, if you know it?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because a booking number helps the facility locate the record, but the request generates without it."
+        },
+        {
+          "key": "caseNumber",
+          "question": "What was the court case number for the offence, if there was one?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because it helps the facility match the record, but the request generates without it."
+        }
+      ],
+      "packetInstructions": [
+        "Consumer-facing copy must say \"restrict\" and, separately, \"seal.\" Georgia does not use \"expungement\" in the statute and has not since July 1, 2013, and neither remedy destroys the record.",
+        "The packet must state that a restriction or sealing may still be used to disqualify the participant from employment or office in the same manner as a first offender discharge under § 42-8-63.1, and does not supersede disclosure required by federal law. The packet must never tell a participant they may state the record does not exist.",
+        "The packet must tell the participant to follow up at day 31, because the facility must restrict within 30 days of the request.",
+        "Offer this route as a standard follow-on step after the restriction and sealing routes. Restriction at GCIC and sealing at the clerk do not automatically reach the jail's own records.",
+        "The participant obtains and encloses proof that the offence is already restricted — the criminal history report showing the cycle as restricted, or the restricting order. Prior restriction is the statutory precondition of the request and is a required-before-submission item, not a condition of generating the request.",
+        "The guidance must state on its face that the facility, not LegalEase, decides what it does with the request, and that LegalEase does not contact the facility, does not seek permission and does not negotiate."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that the offence is already restricted — your Georgia criminal history report showing the cycle as restricted, or the court order restricting the record. Obtain your own criminal history report showing the cycle as restricted, or a copy of the restricting order from the clerk, and enclose it with the request. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Most Georgia sheriff's offices and police departments, or GCIC; or the clerk of the court that entered the order",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How was the offence restricted — automatically, on a pre-2013 application, or by a court order?\" against Proof that the offence is already restricted, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which offence has already been restricted under § 35-3-37?\" against Proof that the offence is already restricted, and correct the packet if they disagree. If the offence is not shown as restricted, this route does not yet apply and a restriction route comes first.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Facility postal destination or records-unit contact route — Written request, addressee block. Facility intake routes vary and must be confirmed with that facility. LegalEase does not determine the facility's intake route.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Booking number where the participant does not know it — Written request, identification block. The request generates without it and the participant adds it if the facility asks.",
+          "requirement": "conditional",
+          "conditionDescription": "Only where the participant did not supply a booking number at generation.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "sign",
+          "description": "Participant signature and date — Written request, signature block. The request is the participant's own.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "Send the signed written request, with the proof of restriction enclosed, to the facility. Certified mail is recommended so the participant has a dated record, because the facility's 30-day period runs from the request. LegalEase does not send it.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Proof that the offence is already restricted — your Georgia criminal history report showing the cycle as restricted, or the court order restricting the record. LegalEase never collects, inspects or authenticates it.",
+        "Confirm the offence is in fact restricted under § 35-3-37. Prior restriction is the statutory precondition of the request. If it is not restricted, a restriction route comes first.",
+        "Check your answer to \"How was the offence restricted — automatically, on a pre-2013 application, or by a court order?\" against that proof, and correct the packet if they disagree.",
+        "Confirm the facility's postal destination or records-unit intake route with that facility, and complete the addressee block.",
+        "Participant signature and date — Written request, signature block.",
+        "Enclose the proof of restriction with the request.",
+        "No fee is identified for this request, so no fee or fee-waiver step applies."
+      ],
+      "stopConditions": [
+        "The facility refuses the request or does not respond within 30 days.",
+        "The offence has not in fact been restricted under § 35-3-37, in which case a restriction route comes first.",
+        "The records the participant is concerned about are held by a private mugshot publisher or background-check vendor, which this route does not reach.",
+        "The facility disputes the participant's facts, asks for documentation the participant does not have, or requires its own intake form the participant cannot complete unaided.",
+        "Where self-help stops, route the participant to a Georgia expungement desk: Georgia Justice Project, the Cobb County Second Chance Desk, the Henry County Records Restriction Desk, or Middle Georgia Justice \"The Desk\".",
+        "If the facility refuses the request or does not respond within 30 days, self-help stops and the participant is referred."
+      ],
+      "guidanceStatus": "drafted",
+      "componentId": "ga-jail-k2-process-guidance-3",
+      "unitId": null,
+      "unitLabel": null,
+      "unitDescription": null,
+      "compositionMode": null,
+      "unitAvailable": true,
+      "unavailableReason": null,
+      "templateIds": [],
+      "scope": "The request reaches county and municipal jail and detention center records only. It does not reach private mugshot publishers or background-check vendors that already hold the data.",
+      "notAFiling": "This component is not a court filing and neither is the request it accompanies. Nothing in this route is filed with any court, clerk or prosecutor. The guidance is bound into the same assembled participant PDF as the written request so the participant has one document, and it says so on its face.",
+      "trancheId": null,
+      "componentIds": [
+        "ga-jail-k2-process-guidance-3"
+      ],
+      "specificationId": "ga-jail-k2-process-guidance-3",
+      "specificationSource": "data/record-clearing/production-factory/guidance-specifications/ga-jail-k2-process-guidance-3.json",
+      "authorityEdition": "1.2"
+    },
+    {
+      "jurisdiction": "GA",
       "trackId": "ga-fo-sentencing-post2026",
       "destination": {
         "kind": "court",
@@ -109563,6 +109714,124 @@
     },
     {
       "jurisdiction": "IL",
+      "trackId": "il-immediate-seal",
+      "destination": {
+        "kind": "court",
+        "name": "Presiding trial judge at the disposition hearing",
+        "detail": "A copy is served on the State's Attorney in open court and on no one else. The presiding trial judge enters an order granting or denying during the same hearing."
+      },
+      "rules": {
+        "filing": "The petition is filed with the circuit court clerk on the same day and during the same hearing in which the case is disposed. LegalEase generates the packet in advance and hands it to counsel. LegalEase cannot appear in the courtroom and cannot file during a hearing.",
+        "fees": "The source review states no fee for this route.",
+        "feeWaiver": "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies.",
+        "notice": "The court is required to inform the defendant of the right to immediate sealing and of the procedure.",
+        "service": "A copy is served on the State's Attorney in open court and on no one else.",
+        "participantSignature": "The participant verifies the petition. Section 5.2(g)(5)(A) frames the filing itself as made by the defendant's attorney on the defendant's behalf.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "hasUpcomingDisposition",
+          "question": "Do you have a court date coming up where your case may be dismissed or you may be found not guilty?",
+          "requirement": "required"
+        },
+        {
+          "key": "isRepresented",
+          "question": "Do you have a lawyer or public defender on the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseDateOnOrAfter2018",
+          "question": "Did the arrest or charge happen on or after January 1, 2018?",
+          "requirement": "required"
+        },
+        {
+          "key": "dismissalWithPrejudice",
+          "question": "If the case is dismissed, will it be dismissed with prejudice?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because only acquittal or dismissal with prejudice is within the subsection."
+        }
+      ],
+      "packetInstructions": [
+        "State the fallback plainly: if the petition is not filed during the hearing, ordinary sealing under § 5.2(c)(3)(A) remains available at any time through il-seal-nonconv. Missing the window costs nothing permanent.",
+        "Tell the participant that missing the immediate-sealing window costs nothing permanent, because ordinary sealing under § 5.2(c)(3)(A) remains available at any time."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Counsel's review, adoption and signature — Petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Filing during the disposition hearing — Filing instruction sheet.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Verification — Petition, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant verifies the petition. Section 5.2(g)(5)(A) frames the filing itself as made by the defendant's attorney on the defendant's behalf.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review states no fee for this route.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "A copy is served on the State's Attorney in open court and on no one else.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "The petition is filed with the circuit court clerk on the same day and during the same hearing in which the case is disposed. LegalEase generates the packet in advance and hands it to counsel. LegalEase cannot appear in the courtroom and cannot file during a hearing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Counsel's review, adoption and signature — Petition, signature block.",
+        "Filing during the disposition hearing — Filing instruction sheet.",
+        "Verification — Petition, verification block.",
+        "The participant verifies the petition. Section 5.2(g)(5)(A) frames the filing itself as made by the defendant's attorney on the defendant's behalf.",
+        "The source review states no fee for this route.",
+        "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies."
+      ],
+      "stopConditions": [
+        "The whole track is attorney-mediated: the participant must ask their attorney or public defender to file during the hearing.",
+        "LegalEase cannot appear, cannot file during a hearing, and does not generate a filing for this route.",
+        "Office of the State Appellate Defender, Expungement Unit, 866-787-1776, is the statewide referral destination for every stop condition.",
+        "Refer to counsel by default; the route is attorney-mediated end to end."
+      ],
+      "guidanceStatus": "drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true,
+      "templateIds": [],
+      "scope": null,
+      "notAFiling": null,
+      "trancheId": "tranche-4-illinois-custom-pleadings"
+    },
+    {
+      "jurisdiction": "IL",
       "trackId": "il-auto-seal-2029",
       "destination": {
         "kind": "agency",
@@ -109985,6 +110254,176 @@
       "unitId": null,
       "compositionMode": null,
       "unitAvailable": true
+    },
+    {
+      "jurisdiction": "IL",
+      "trackId": "il-prostitution-j-vacate",
+      "destination": {
+        "kind": "court",
+        "name": "Circuit court of the underlying conviction, or the Chief Judge or a designated judge of that circuit",
+        "detail": "The State's Attorney receives notice and has 60 days to object with supporting evidence. No statewide form exists, so the filing method must be confirmed with the clerk."
+      },
+      "rules": {
+        "filing": "File the motion and proposed order with the circuit court with jurisdiction over the underlying conviction, or with the Chief Judge or a designated judge of that circuit. No statewide form exists, so confirm the filing method with the clerk.",
+        "fees": "The source review does not state a fee for this route. Treat county charges as county-specific and confirm with the clerk.",
+        "feeWaiver": "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies.",
+        "notice": "The State's Attorney receives notice and has 60 days to object with supporting evidence.",
+        "service": "The subsection does not clearly state whether the clerk serves as under § 5.2(d)(4) or the movant serves as in the cannabis suite. Confirm local practice before assuming clerk service.",
+        "participantSignature": "The movant signs the motion. Name, address, phone, email and a pro se designation where unrepresented.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "countyOfConviction",
+          "question": "In which Illinois county were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "isClass4FelonyProstitution",
+          "question": "Does your record say the conviction was a Class 4 felony prostitution offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceComplete",
+          "question": "Have you completed the sentence and any conditions imposed by the conviction?",
+          "requirement": "required"
+        },
+        {
+          "key": "adverseConsequences",
+          "question": "In your own words, what specific problems has this conviction caused you?",
+          "requirement": "required"
+        },
+        {
+          "key": "isTraffickingSurvivor",
+          "question": "Would you like information about relief designed for people whose involvement resulted from trafficking?",
+          "requirement": "required"
+        },
+        {
+          "key": "contactDetails",
+          "question": "What name, address, phone number and email should appear on the signature block?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Do not map the Illinois statewide cannabis form suite to this route. That suite belongs only to the cannabis conviction motion.",
+        "Do not add verification language to the motion; the subsection requires none."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+          "obtainedFrom": "Illinois State Police, Bureau of Identification, through Access and Review",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the case number?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that the sentence or conditions imposed by the conviction are complete. Ask the circuit clerk or probation department for documentation that the sentence and any conditions have been completed.",
+          "obtainedFrom": "Circuit clerk or probation department of the county of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you completed the sentence and any conditions imposed by the conviction?\" against Proof that the sentence or conditions imposed by the conviction are complete, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Movant's signature and date — Motion, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Statement of adverse consequences — Motion, factual allegations.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Filing method and any local cover requirements — Filing instruction sheet.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The movant signs the motion. Name, address, phone, email and a pro se designation where unrepresented.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a fee for this route. Treat county charges as county-specific and confirm with the clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The subsection does not clearly state whether the clerk serves as under § 5.2(d)(4) or the movant serves as in the cannabis suite. Confirm local practice before assuming clerk service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the motion and proposed order with the circuit court with jurisdiction over the underlying conviction, or with the Chief Judge or a designated judge of that circuit. No statewide form exists, so confirm the filing method with the clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Illinois State Police statewide criminal history transcript. Attend an Illinois law enforcement or correctional facility or a licensed fingerprint vendor, submit fingerprints and identifying information, and receive the transcript. Access and Review is free on the ISP fee schedule.",
+        "Check your answer to \"What is the case number?\" against Illinois State Police statewide criminal history transcript, and correct the packet if they disagree.",
+        "Obtain Proof that the sentence or conditions imposed by the conviction are complete. Ask the circuit clerk or probation department for documentation that the sentence and any conditions have been completed.",
+        "Check your answer to \"Have you completed the sentence and any conditions imposed by the conviction?\" against Proof that the sentence or conditions imposed by the conviction are complete, and correct the packet if they disagree.",
+        "Movant's signature and date — Motion, signature block.",
+        "Statement of adverse consequences — Motion, factual allegations.",
+        "Filing method and any local cover requirements — Filing instruction sheet.",
+        "The movant signs the motion. Name, address, phone, email and a pro se designation where unrepresented.",
+        "The source review does not state a fee for this route. Treat county charges as county-specific and confirm with the clerk.",
+        "Supreme Court Rule 298 Application for Waiver of Court Fees where a county fee applies."
+      ],
+      "stopConditions": [
+        "Attorney review by default: this is a conviction vacatur on discretionary factors and touches survivor circumstances.",
+        "The State's Attorney objects within the 60-day window.",
+        "The court sets a contested or evidentiary hearing.",
+        "The participant indicates their involvement resulted from trafficking, in which case the § 5.2(h) route is stronger and the questioning must change.",
+        "The record does not clearly show a Class 4 felony prostitution conviction.",
+        "Office of the State Appellate Defender, Expungement Unit, 866-787-1776, is the statewide referral destination for every stop condition.",
+        "Attorney review by default. The motion is a conviction vacatur on discretionary factors and touches survivor circumstances, and no graphic questioning is permitted."
+      ],
+      "guidanceStatus": "drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true,
+      "templateIds": [],
+      "scope": null,
+      "notAFiling": null,
+      "trancheId": "tranche-4-illinois-custom-pleadings"
     },
     {
       "jurisdiction": "IN",
@@ -111039,9 +111478,6 @@
         "Where the participant has eligible convictions across courts or counties, route to MVLS, Maryland Legal Aid or a Court Help Center for the election itself."
       ],
       "guidanceStatus": "drafted",
-      "unitId": null,
-      "compositionMode": null,
-      "unitAvailable": true,
       "componentIds": [
         "md_second_chance_shielding-instructions-3"
       ],
@@ -111050,7 +111486,10 @@
       ],
       "scope": "How to execute, assemble and file the two completed official Maryland forms in this packet: what the participant must sign and date by hand, what to confirm against Maryland Judiciary Case Search before filing, where and how to file in the single elected court and county, how to verify the filing fee at the counter rather than relying on a printed amount, who serves the State's Attorney and the victims, which supporting records to bring, what happens in the thirty days after filing, and the conditions under which the participant should stop and get a lawyer.",
       "notAFiling": "The guide is not a court filing and is not part of the normalized Maryland packet set. Only CC-DC-CR-148 and MDJ-008 are filed. The guide is bound into the same assembled PDF so the participant has one document, and it says so on its face.",
-      "trancheId": "tranche-2-maryland-official-forms"
+      "trancheId": "tranche-2-maryland-official-forms",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true
     },
     {
       "jurisdiction": "MD",
@@ -114733,9 +115172,6 @@
         "Obtaining the district attorney's approval as to form is the practical gate on the entire Mississippi product and it is a negotiation, not a filing. LegalEase prepares the certificate of service, the cover letter and the notice calendar; it does not seek, obtain or negotiate the prosecutor's approval, and a declining or silent prosecutor is an attorney handoff."
       ],
       "guidanceStatus": "drafted",
-      "unitId": null,
-      "compositionMode": null,
-      "unitAvailable": true,
       "componentIds": [
         "ms-nonconv-attachment-4",
         "ms-nonconv-instructions-5"
@@ -114746,7 +115182,10 @@
       ],
       "scope": "The disposition record the participant obtains for the branch that applies, and the steps to file and serve.",
       "notAFiling": "Neither component is a court filing.",
-      "trancheId": "tranche-1-mississippi-petitions"
+      "trancheId": "tranche-1-mississippi-petitions",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true
     },
     {
       "jurisdiction": "MS",
@@ -115023,9 +115462,6 @@
         "Obtaining the district attorney's approval as to form is the practical gate on the entire Mississippi product and it is a negotiation, not a filing. LegalEase prepares the certificate of service, the cover letter and the notice calendar; it does not seek, obtain or negotiate the prosecutor's approval, and a declining or silent prosecutor is an attorney handoff."
       ],
       "guidanceStatus": "drafted",
-      "unitId": null,
-      "compositionMode": null,
-      "unitAvailable": true,
       "componentIds": [
         "ms-misd-1st-attachment-4",
         "ms-misd-1st-instructions-5"
@@ -115036,7 +115472,10 @@
       ],
       "scope": "The records the participant obtains and attaches, and the steps to file in the convicting court and serve the prosecuting authority.",
       "notAFiling": "Neither component is a court filing.",
-      "trancheId": "tranche-1-mississippi-petitions"
+      "trancheId": "tranche-1-mississippi-petitions",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true
     },
     {
       "jurisdiction": "MS",
@@ -115363,9 +115802,6 @@
         "The rehabilitation showing is participant-authored and is a post-generation and attorney handoff. It is not a reason to withhold the petition packet."
       ],
       "guidanceStatus": "drafted",
-      "unitId": null,
-      "compositionMode": null,
-      "unitAvailable": true,
       "componentIds": [
         "ms-fel-attachment-4",
         "ms-fel-instructions-5"
@@ -115376,7 +115812,10 @@
       ],
       "scope": "The records the participant obtains and attaches, and the steps to file the petition, serve the district attorney and give the ten days' written notice § 99-19-71(2)(b) requires.",
       "notAFiling": "Neither component is a court filing. Both are participant-facing guidance printed inside the packet.",
-      "trancheId": "tranche-1-mississippi-petitions"
+      "trancheId": "tranche-1-mississippi-petitions",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true
     },
     {
       "jurisdiction": "MS",
@@ -115622,9 +116061,6 @@
         "Obtaining the district attorney's approval as to form is the practical gate on the entire Mississippi product and it is a negotiation, not a filing. LegalEase prepares the certificate of service, the cover letter and the notice calendar; it does not seek, obtain or negotiate the prosecutor's approval, and a declining or silent prosecutor is an attorney handoff."
       ],
       "guidanceStatus": "drafted",
-      "unitId": null,
-      "compositionMode": null,
-      "unitAvailable": true,
       "componentIds": [
         "ms-misd-addl-attachment-4",
         "ms-misd-addl-instructions-5"
@@ -115635,7 +116071,10 @@
       ],
       "scope": "The records to obtain and the venue-specific filing steps for a justice court or a municipal court.",
       "notAFiling": "Neither component is a court filing.",
-      "trancheId": "tranche-1-mississippi-petitions"
+      "trancheId": "tranche-1-mississippi-petitions",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true
     },
     {
       "jurisdiction": "MS",
@@ -115902,9 +116341,6 @@
         "Obtaining the district attorney's approval as to form is the practical gate on the entire Mississippi product and it is a negotiation, not a filing. LegalEase prepares the certificate of service, the cover letter and the notice calendar; it does not seek, obtain or negotiate the prosecutor's approval, and a declining or silent prosecutor is an attorney handoff."
       ],
       "guidanceStatus": "drafted",
-      "unitId": null,
-      "compositionMode": null,
-      "unitAvailable": true,
       "componentIds": [
         "ms-nonadj-attachment-4",
         "ms-nonadj-instructions-5"
@@ -115915,7 +116351,10 @@
       ],
       "scope": "The nonadjudication order and completion proof to obtain, and the steps to file in the court that entered the order.",
       "notAFiling": "Neither component is a court filing.",
-      "trancheId": "tranche-1-mississippi-petitions"
+      "trancheId": "tranche-1-mississippi-petitions",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true
     },
     {
       "jurisdiction": "MS",

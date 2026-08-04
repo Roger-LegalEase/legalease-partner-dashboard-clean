@@ -64,7 +64,9 @@ Every job has:
 `jobId`, `parentJobId`, `canonicalWave`, `canonicalLane`, `lane`,
 `jurisdiction`, `trackIds`, `strategyFamily`, `baseCommit`, `dependencies`,
 `ownedPaths`, `integrationOwnedOutputs`, `forbiddenPaths`, `requiredInputs`, `expectedOutputs`,
-`requiredOutputFields`,
+`requiredOutputFields`, and, where applicable, `regressionVerifier`,
+`participantPacketProofRequired`, `sourceMaterializationInputs`, or
+`normalizationReadiness`,
 `focusedValidation`, `integrationValidation`, `model`, `effort`,
 `executionScope`, `status`, `commitSubject`, and `stopCondition`.
 Source jobs additionally carry exact `acquisitionIds` or `reconciliationIds`.
@@ -74,7 +76,7 @@ the expected count to zero. The planner rejects duplicate assignment or
 omission, and the focused validator enforces the declared fields without
 weakening strategy-specific safeguards.
 
-The 189 compiled mechanical jobs do not replace the canonical plan's 72 parent
+The 196 compiled mechanical jobs do not replace the canonical plan's 72 parent
 jobs. Every compiled child carries exactly one canonical parent, wave, and lane.
 The exact canonical track partition is 240 parent `tracks`, five Maryland
 `authorityOnlyRoutes`, and five completed Mississippi Tranche 1 tracks: 250
@@ -84,7 +86,7 @@ unique normalized tracks with no omission, duplicate, or invented ID.
 jurisdiction-bounded mechanical child may aggregate tracks represented by more
 than one canonical family parent; implementation ownership is selected by
 canonical-lane match, then greatest matching-track count, then lexical parent
-ID. This aggregation keeps the fixed 189-child queue without pretending that
+ID. This aggregation keeps the compiled child queue without pretending that
 child bundles define canonical track coverage; the 250-track canonical
 partition is verified independently.
 
@@ -148,8 +150,33 @@ license job from enabling generation without an adopted license pinned by
 SHA-256.
 
 The scaffold records the worker's actual starting commit separately from the
-manifest's provenance commit. Validation uses that scaffold start for the
-worker diff and verifies the manifest base remains an ancestor.
+manifest's provenance commit. It also anchors the complete assigned job to the
+captain-owned scaffold workspace outside the worker checkout. Validation uses
+that immutable assignment even when correct completion removes the job from a
+newly compiled pending queue; changing the marker and recomputing its local
+hash cannot replace the captain-owned assignment. Validation uses the scaffold
+start for the worker diff and verifies the manifest base remains an ancestor.
+
+Every packet implementation job, including process guidance, owns or receives
+a dedicated committed regression verifier. The verifier is an explicit output
+and focused command and must cover positive fixtures, typed stops,
+deterministic component and assembled-PDF bytes, field ownership, prohibited
+content, required components, page counts and hashes, and runtime-disabled
+behavior. A plan check or generated review manifest alone is insufficient.
+
+Official-PDF readiness distinguishes an authority asset known to an edition
+from locally materialized bytes. Registry `presence` metadata never makes a
+worker ready. Each job carries the document identity, expected SHA-256 and byte
+count, authority and repository paths, portable locator, destination, read-only
+worker policy, materialization state, and exact verification command. The job
+stays blocked until every binary is materialized and hash-verified.
+
+New-jurisdiction normalization likewise stays blocked until the active
+controlling review is materialized and checksum-verified and an expected
+source-ID set or approved mechanism inventory exists. Retrieval records keep
+shell blocking separate from browser-accessible official authority; a `curl`
+403 does not become `authority_absent` when the exact issuing page remains
+available through the approved browser retrieval channel.
 
 ## PDF inspection and review artifacts
 

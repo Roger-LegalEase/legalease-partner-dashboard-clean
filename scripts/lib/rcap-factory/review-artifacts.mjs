@@ -647,7 +647,10 @@ function buildReviewManifest({
 }
 
 function inspectParticipantPacketProof(rootDir, job) {
-  for (const relativePath of job.expectedOutputs ?? []) {
+  for (const relativePath of [
+    ...(job.expectedOutputs ?? []),
+    ...(job.integrationOwnedOutputs ?? [])
+  ]) {
     if (
       !/^data\/record-clearing\/implementation-tranches\/tranche-\d+-review-manifest\.json$/.test(
         relativePath

@@ -37,6 +37,14 @@ export const ACTIVE_JOB_STATUSES = Object.freeze([
   "in_progress"
 ]);
 
+export const PACKET_IMPLEMENTATION_LANES = Object.freeze([
+  "custom_pleading",
+  "acroform_fill",
+  "flat_pdf_overlay",
+  "composed_route",
+  "guidance_implementation"
+]);
+
 export const REQUIRED_JOB_FIELDS = Object.freeze([
   "jobId",
   "parentJobId",
@@ -219,6 +227,19 @@ export function validateJob(job) {
       add("completionCommit must be a lowercase 40-character Git SHA.");
     }
   }
+  if ("regressionVerifier" in job) {
+    try {
+      normalizeRepoPath(job.regressionVerifier, "regressionVerifier");
+    } catch (error) {
+      add(error.message);
+    }
+  }
+  if (
+    "participantPacketProofRequired" in job &&
+    typeof job.participantPacketProofRequired !== "boolean"
+  ) {
+    add("participantPacketProofRequired must be a boolean.");
+  }
   validateStringArray(job, "dependencies", issues, { allowEmpty: true, pattern: JOB_ID_PATTERN });
   validateStringArray(job, "requiredOutputFields", issues, { allowEmpty: true });
   for (const field of [
@@ -312,6 +333,62 @@ export function validateJob(job) {
     if (!requiredOutputFields.has("downloadedSourceCount")) {
       add("requiredOutputFields must include downloadedSourceCount.");
     }
+  }
+
+  if (PACKET_IMPLEMENTATION_LANES.includes(job.lane)) {
+    if (typeof job.regressionVerifier !== "string") {
+      add("packet implementation jobs must name a committed regressionVerifier.");
+    } else {
+      const verifierCovered = [
+        ...(job.ownedPaths ?? []),
+        ...(job.integrationOwnedOutputs ?? [])
+      ].some((candidate) => {
+        try {
+          return isPathWithin(job.regressionVerifier, candidate);
+        } catch {
+          return false;
+        }
+      });
+      if (!verifierCovered) {
+        add(
+          `packet regression verifier ${job.regressionVerifier} is not worker- or integration-owned.`
+        );
+      }
+      if (
+        !(job.expectedOutputs ?? []).includes(job.regressionVerifier) &&
+        !(job.integrationOwnedOutputs ?? []).includes(job.regressionVerifier)
+      ) {
+        add(
+          `packet regression verifier ${job.regressionVerifier} must be an expected or integration-owned output.`
+        );
+      }
+      if (
+        !(job.focusedValidation ?? []).some(
+          (command) => command === `node ${job.regressionVerifier}`
+        )
+      ) {
+        add(
+          `focusedValidation must execute node ${job.regressionVerifier}.`
+        );
+      }
+    }
+    if (job.participantPacketProofRequired !== true) {
+      add("packet implementation jobs must require participant packet proof.");
+    }
+  }
+
+  if (
+    job.strategyFamily === "official_pdf_fill" &&
+    ACTIVE_JOB_STATUSES.includes(job.status)
+  ) {
+    validateSourceMaterializationInputs(job, issues);
+  }
+
+  if (
+    job.lane === "legal_design_normalization" &&
+    /-legal-design-normalization$/.test(job.jobId)
+  ) {
+    validateNormalizationReadiness(job, issues);
   }
 
   return { ok: issues.length === 0, issues };
@@ -412,6 +489,263 @@ export function findOwnedPathOverlaps(jobs) {
     }
   }
   return issues;
+}
+
+function validateSourceMaterializationInputs(job, issues) {
+  const inputs = job.sourceMaterializationInputs;
+  if (!Array.isArray(inputs) || inputs.length === 0) {
+    issues.push(
+      "active official-PDF jobs must carry non-empty sourceMaterializationInputs."
+    );
+    return;
+  }
+  const materializationStates = new Set([
+    "binary_materialization_required",
+    "binary_materialized_hash_verified"
+  ]);
+  const authorityStates = new Set(["authority_asset_known"]);
+  const readinessStates = new Set([
+    "binary_materialization_required",
+    "worker_ready"
+  ]);
+  const seen = new Set();
+  for (const [index, input] of inputs.entries()) {
+    const prefix = `sourceMaterializationInputs[${index}]`;
+    if (!input || typeof input !== "object" || Array.isArray(input)) {
+      issues.push(`${prefix} must be an object.`);
+      continue;
+    }
+    for (const field of [
+      "documentId",
+      "canonicalAuthorityPath",
+      "repositorySourcePath",
+      "portableLocator",
+      "materializationDestination",
+      "verificationCommand"
+    ]) {
+      if (typeof input[field] !== "string" || input[field].trim().length === 0) {
+        issues.push(`${prefix}.${field} must be a non-empty string.`);
+      }
+    }
+    if (!/^[0-9a-f]{64}$/.test(input.expectedSha256 ?? "")) {
+      issues.push(`${prefix}.expectedSha256 must be a lowercase SHA-256.`);
+    }
+    if (!Number.isInteger(input.expectedBytes) || input.expectedBytes <= 0) {
+      issues.push(`${prefix}.expectedBytes must be a positive integer.`);
+    }
+    if (!authorityStates.has(input.authorityAssetState)) {
+      issues.push(`${prefix}.authorityAssetState must be authority_asset_known.`);
+    }
+    if (!materializationStates.has(input.materializationState)) {
+      issues.push(
+        `${prefix}.materializationState must distinguish required from hash-verified bytes.`
+      );
+    }
+    if (!readinessStates.has(input.workerReadiness)) {
+      issues.push(`${prefix}.workerReadiness must be binary_materialization_required or worker_ready.`);
+    }
+    if (input.workerMayRead !== true || input.workerMayModify !== false) {
+      issues.push(`${prefix} must grant read-only worker access.`);
+    }
+    try {
+      normalizeRepoPath(
+        input.materializationDestination,
+        `${prefix}.materializationDestination`
+      );
+    } catch (error) {
+      issues.push(error.message);
+    }
+    if (
+      typeof input.materializationDestination === "string" &&
+      !(job.requiredInputs ?? []).includes(input.materializationDestination)
+    ) {
+      issues.push(
+        `${prefix}.materializationDestination must be an exact read-only requiredInput.`
+      );
+    }
+    if (
+      typeof input.verificationCommand === "string" &&
+      !(job.focusedValidation ?? []).includes(input.verificationCommand)
+    ) {
+      issues.push(
+        `${prefix}.verificationCommand must be an exact focusedValidation command.`
+      );
+    }
+    const identity = `${input.documentId ?? ""}:${input.expectedSha256 ?? ""}`;
+    if (seen.has(identity)) issues.push(`${prefix} duplicates ${identity}.`);
+    seen.add(identity);
+  }
+  const ready = inputs.every(
+    (input) =>
+      input?.materializationState === "binary_materialized_hash_verified" &&
+      input?.workerReadiness === "worker_ready"
+  );
+  if (ready && job.status === "blocked") {
+    issues.push(
+      "an official-PDF job with all binaries hash-verified may not remain blocked on materialization."
+    );
+  }
+  if (!ready && job.status !== "blocked") {
+    issues.push(
+      "an official-PDF job must remain blocked until every binary is materialized and hash-verified."
+    );
+  }
+}
+
+function validateNormalizationReadiness(job, issues) {
+  const input = job.normalizationReadiness;
+  if (!input || typeof input !== "object" || Array.isArray(input)) {
+    issues.push("normalization jobs must carry normalizationReadiness.");
+    return;
+  }
+  const readinessStates = new Set([
+    "legal_review_materialization_required",
+    "expected_source_id_set_required",
+    "authority_archive_inconsistency",
+    "ready_for_normalization"
+  ]);
+  const reviewStatuses = new Set([
+    "authority_absent",
+    "authority_asset_known",
+    "checksum_verified",
+    "authority_archive_inconsistent"
+  ]);
+  if (!readinessStates.has(input.readinessState)) {
+    issues.push("normalizationReadiness.readinessState is invalid.");
+  }
+  if (!reviewStatuses.has(input.controllingReviewStatus)) {
+    issues.push("normalizationReadiness.controllingReviewStatus is invalid.");
+  }
+  for (const field of [
+    "authorityEdition",
+    "legalReviewPrecedence",
+    "portableArchiveLocator"
+  ]) {
+    if (typeof input[field] !== "string" || input[field].trim().length === 0) {
+      issues.push(`normalizationReadiness.${field} must be a non-empty string.`);
+    }
+  }
+  if (
+    input.controllingReviewAssetPath !== null &&
+    (typeof input.controllingReviewAssetPath !== "string" ||
+      input.controllingReviewAssetPath.trim().length === 0)
+  ) {
+    issues.push(
+      "normalizationReadiness.controllingReviewAssetPath must be null or a non-empty string."
+    );
+  }
+  if (
+    input.controllingReviewSha256 !== null &&
+    !/^[0-9a-f]{64}$/.test(input.controllingReviewSha256 ?? "")
+  ) {
+    issues.push(
+      "normalizationReadiness.controllingReviewSha256 must be null or a lowercase SHA-256."
+    );
+  }
+  if (
+    input.reviewedThrough !== null &&
+    !/^\d{4}-\d{2}-\d{2}$/.test(input.reviewedThrough ?? "")
+  ) {
+    issues.push("normalizationReadiness.reviewedThrough must be null or YYYY-MM-DD.");
+  }
+  for (const field of [
+    "expectedSourceIds",
+    "openQuestions",
+    "officialPrimaryAuthorityRefreshRequirements"
+  ]) {
+    if (!Array.isArray(input[field])) {
+      issues.push(`normalizationReadiness.${field} must be an array.`);
+    }
+  }
+  const inventoryCount = input.approvedMechanismInventory?.count ?? 0;
+  if (
+    input.approvedMechanismInventory !== null &&
+    (!input.approvedMechanismInventory ||
+      typeof input.approvedMechanismInventory !== "object" ||
+      !Number.isInteger(inventoryCount) ||
+      inventoryCount <= 0 ||
+      typeof input.approvedMechanismInventory.sourcePath !== "string" ||
+      !/^[0-9a-f]{64}$/.test(
+        input.approvedMechanismInventory.sourceSha256 ?? ""
+      ))
+  ) {
+    issues.push(
+      "normalizationReadiness.approvedMechanismInventory must be null or a positive, hash-bound inventory."
+    );
+  }
+  for (const [index, requirement] of (
+    input.officialPrimaryAuthorityRefreshRequirements ?? []
+  ).entries()) {
+    if (!requirement || typeof requirement !== "object" || Array.isArray(requirement)) {
+      issues.push(
+        `normalizationReadiness.officialPrimaryAuthorityRefreshRequirements[${index}] must be an object.`
+      );
+      continue;
+    }
+    if (
+      ![
+        "shell_download_blocked",
+        "browser_official_retrieval_available",
+        "authority_absent",
+        "authority_archive_inconsistent"
+      ].includes(requirement.retrievalState)
+    ) {
+      issues.push(
+        `normalizationReadiness.officialPrimaryAuthorityRefreshRequirements[${index}].retrievalState is invalid.`
+      );
+    }
+    for (const field of [
+      "officialUrl",
+      "issuingDomain",
+      "sectionIdentifier",
+      "retrievalMethod",
+      "alternateOfficialRetrievalChannel"
+    ]) {
+      if (
+        typeof requirement[field] !== "string" ||
+        requirement[field].trim().length === 0
+      ) {
+        issues.push(
+          `normalizationReadiness.officialPrimaryAuthorityRefreshRequirements[${index}].${field} must be non-empty.`
+        );
+      }
+    }
+    if (
+      requirement.retrievalDate !== null &&
+      !/^\d{4}-\d{2}-\d{2}$/.test(requirement.retrievalDate ?? "")
+    ) {
+      issues.push(
+        `normalizationReadiness.officialPrimaryAuthorityRefreshRequirements[${index}].retrievalDate must be null or YYYY-MM-DD.`
+      );
+    }
+    if (
+      requirement.capturedSourceSha256 !== null &&
+      !/^[0-9a-f]{64}$/.test(requirement.capturedSourceSha256 ?? "")
+    ) {
+      issues.push(
+        `normalizationReadiness.officialPrimaryAuthorityRefreshRequirements[${index}].capturedSourceSha256 must be null or SHA-256.`
+      );
+    }
+  }
+  const hasInventory =
+    (input.expectedSourceIds?.length ?? 0) > 0 || inventoryCount > 0;
+  const ready =
+    input.readinessState === "ready_for_normalization" &&
+    input.controllingReviewStatus === "checksum_verified" &&
+    typeof input.controllingReviewAssetPath === "string" &&
+    /^[0-9a-f]{64}$/.test(input.controllingReviewSha256 ?? "") &&
+    hasInventory;
+  if (["ready", "in_progress"].includes(job.status) && !ready) {
+    issues.push(
+      "a ready or in-progress normalization job must have a checksum-verified controlling review and expected source or mechanism inventory."
+    );
+  }
+  if (
+    !["ready", "in_progress"].includes(job.status) &&
+    input.readinessState === "ready_for_normalization"
+  ) {
+    issues.push("ready_for_normalization jobs must have status ready or in_progress.");
+  }
 }
 
 function validateStringArray(object, field, issues, options) {

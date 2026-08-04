@@ -33,6 +33,10 @@ const root = process.cwd();
 const INTAKE_DIR = path.join(root, "data/record-clearing/legal-design-intake");
 const OUT_DIR = path.join(root, "data/record-clearing");
 const TRANCHE_DIR = path.join(root, "data/record-clearing/implementation-tranches");
+const GUIDANCE_SPEC_DIR = path.join(
+  root,
+  "data/record-clearing/production-factory/guidance-specifications"
+);
 
 /**
  * Authored guidance specifications for process-guidance COMPONENTS of a
@@ -47,14 +51,73 @@ const TRANCHE_DIR = path.join(root, "data/record-clearing/implementation-tranche
  * written stays blocked, which is the honest answer.
  */
 function authoredComponentGuidance() {
-  if (!fs.existsSync(TRANCHE_DIR)) return [];
-  return fs
-    .readdirSync(TRANCHE_DIR)
-    .filter((name) => name.endsWith("-component-guidance.json"))
-    .flatMap((name) => {
+  const specifications = [];
+
+  if (fs.existsSync(TRANCHE_DIR)) {
+    for (const name of fs
+      .readdirSync(TRANCHE_DIR)
+      .filter((entry) => entry.endsWith("-component-guidance.json"))
+      .sort()) {
       const file = JSON.parse(fs.readFileSync(path.join(TRANCHE_DIR, name), "utf8"));
-      return (file.specifications ?? []).map((entry) => ({ ...entry, trancheId: file.trancheId }));
-    });
+      for (const entry of file.specifications ?? []) {
+        specifications.push({ ...entry, trancheId: file.trancheId });
+      }
+    }
+  }
+
+  if (fs.existsSync(GUIDANCE_SPEC_DIR)) {
+    for (const name of fs
+      .readdirSync(GUIDANCE_SPEC_DIR)
+      .filter((entry) => entry.endsWith(".json"))
+      .sort()) {
+      const filePath = path.join(GUIDANCE_SPEC_DIR, name);
+      const file = JSON.parse(fs.readFileSync(filePath, "utf8"));
+      const entry = file.specification;
+      const sourcePath = path.relative(root, filePath);
+
+      if (
+        file.schemaVersion !== 1 ||
+        !entry ||
+        file.outputStrategy !== "process_guidance" ||
+        entry.guidanceStatus !== "drafted" ||
+        entry.jurisdiction !== file.jurisdiction ||
+        entry.trackId !== file.trackId ||
+        entry.componentId !== file.componentId
+      ) {
+        throw new Error(
+          `${sourcePath}: invalid authored component-guidance specification or mismatched identity.`
+        );
+      }
+
+      specifications.push({
+        ...entry,
+        componentIds: [entry.componentId],
+        specificationId: file.specificationId,
+        specificationSource: sourcePath,
+        authorityEdition: file.authorityEdition
+      });
+    }
+  }
+
+  const componentOwners = new Map();
+  for (const specification of specifications) {
+    for (const componentId of specification.componentIds ?? []) {
+      const existing = componentOwners.get(componentId);
+      if (existing) {
+        throw new Error(
+          `Guidance component ${componentId} is authored more than once: ${existing} and ${
+            specification.specificationSource ?? specification.trancheId
+          }.`
+        );
+      }
+      componentOwners.set(
+        componentId,
+        specification.specificationSource ?? specification.trancheId ?? "unknown source"
+      );
+    }
+  }
+
+  return specifications;
 }
 
 const COMPONENT_GUIDANCE = authoredComponentGuidance();
@@ -316,9 +379,10 @@ const specifications = {
     const authored = COMPONENT_GUIDANCE.filter((entry) => entry.trackId === track.trackId);
     const componentGuidance = authored.map((entry) => ({
       ...base,
-      unitId: null,
-      compositionMode: track.compositionMode ?? null,
-      unitAvailable: true,
+      ...(Array.isArray(entry.componentIds) ? entry : {}),
+      unitId: entry.unitId ?? null,
+      compositionMode: entry.compositionMode ?? track.compositionMode ?? null,
+      unitAvailable: entry.unitAvailable ?? true,
       componentIds: entry.componentIds,
       templateIds: entry.templateIds ?? [],
       scope: entry.scope ?? null,
@@ -419,7 +483,9 @@ const guidanceRereviewQueue = {
     "Candidates only. Nothing here is reclassified by this script or by engineering. Counsel answers the question; a yes produces a revised memo, a no leaves the track on process guidance. Tracks whose rationale includes negotiation, individualized advocacy, a contested evidentiary showing, or no participant filing existing are deliberately absent.",
   candidateCount: 0,
   candidates: [],
-  preserved: []
+  preserved: [],
+  deliveryModelReconciliationCount: 0,
+  deliveryModelReconciliations: []
 };
 
 for (const track of allTracks) {
@@ -443,6 +509,69 @@ for (const track of allTracks) {
   }
 }
 guidanceRereviewQueue.candidateCount = guidanceRereviewQueue.candidates.length;
+
+// The Illinois intake retains two mutually exclusive delivery statements for
+// the same route. Engineering cannot choose between them, and implementation
+// proof does not make either one controlling. Keep the conflict as one bounded
+// counsel-adoption row and fail closed until counsel adopts exactly one
+// treatment for the hash-bound output.
+const immediateSeal = allTracks.find(
+  (track) => track.jurisdiction === "IL" && track.trackId === "il-immediate-seal"
+);
+if (!immediateSeal) {
+  throw new Error("il-immediate-seal: track is absent; delivery-model reconciliation cannot be generated.");
+}
+const noFiling = immediateSeal.legalDesignLimitations.find((limitation) =>
+  limitation.statement.startsWith("LegalEase does not generate a filing for this route.")
+);
+const attorneyHandoff = immediateSeal.legalDesignLimitations.find((limitation) =>
+  limitation.statement.startsWith("Delivery is attorney-mediated.")
+);
+
+if (!noFiling || !attorneyHandoff) {
+  throw new Error(
+    "il-immediate-seal: the two retained delivery statements required for reconciliation are incomplete."
+  );
+}
+
+guidanceRereviewQueue.deliveryModelReconciliations.push({
+  jurisdiction: immediateSeal.jurisdiction,
+  trackId: immediateSeal.trackId,
+  publicName: immediateSeal.publicName,
+  reconciliationType: "incompatible_delivery_statements",
+  reviewStatus: "awaiting_counsel_adoption",
+  releaseStatus: "blocked_pending_controlling_treatment",
+  affectedElement: "participant_instructions",
+  question:
+    "Which treatment controls il-immediate-seal: no LegalEase filing, or a generated attorney-handoff petition for counsel to file during the same disposition hearing?",
+  conflictingStatements: [
+    {
+      treatment: "guidance_only_no_legalease_filing",
+      statement: noFiling.statement,
+      provenance: noFiling.provenance
+    },
+    {
+      treatment: "generated_attorney_handoff_packet",
+      statement: attorneyHandoff.statement,
+      provenance: attorneyHandoff.provenance
+    }
+  ],
+  implementationRecommendation:
+    "data/record-clearing/implementation-tranches/tranche-4-legal-output-recommendation.json#questionsForCounsel[attorney-handoff-delivery-model]",
+  controllingTreatment: null,
+  resolutionAuthority: "licensed_counsel",
+  requiredResolution:
+    "Counsel must adopt exactly one controlling delivery treatment. Adoption must identify the reviewed packet and legal-output hashes; a future changed output requires renewed adoption.",
+  failClosedTreatment: {
+    packetGeneration: "disabled_for_release",
+    packetReady: false,
+    runtimeStatus: "runtime_disabled",
+    jurisdictionEnabled: false,
+    productionEnabled: false
+  }
+});
+guidanceRereviewQueue.deliveryModelReconciliationCount =
+  guidanceRereviewQueue.deliveryModelReconciliations.length;
 
 // ---------------------------------------------------------------------------
 // Legal-research queue

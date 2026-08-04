@@ -1,7 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 
 import { buildFactoryPlan } from "./planner.mjs";
+import { validateJob } from "./schema.mjs";
 
 const WORKTREE_JOB_MARKER = "tmp/rcap-factory/job.json";
 
@@ -52,6 +54,9 @@ export function loadJob(jobId, options = {}) {
       `This scaffold is assigned to ${marker.jobId}, not ${jobId}.`
     );
   }
+  if (marker?.assignedJob) {
+    return immutableScaffoldJob(marker, jobId, resolvedOptions);
+  }
   const plan = buildFactoryPlan(resolvedOptions);
   const job = plan.jobs.find((entry) => entry.jobId === jobId);
   if (!job) {
@@ -62,6 +67,92 @@ export function loadJob(jobId, options = {}) {
     );
   }
   return job;
+}
+
+/**
+ * A worker validates the assignment that was scaffolded, not a mutable view of
+ * the pending queue. Completing the final pending tracks may correctly remove
+ * the child from a newly compiled plan; that must not erase the contract used
+ * to validate its own completion commit.
+ */
+function immutableScaffoldJob(marker, jobId, options) {
+  const job = marker.assignedJob;
+  if (!job || typeof job !== "object" || Array.isArray(job)) {
+    throw new Error(`${WORKTREE_JOB_MARKER} assignedJob must be an object.`);
+  }
+  if (job.jobId !== jobId || job.jobId !== marker.jobId) {
+    throw new Error(
+      `${WORKTREE_JOB_MARKER} assignedJob does not match ${jobId}.`
+    );
+  }
+  const digest = crypto
+    .createHash("sha256")
+    .update(stableStringify(job, 0))
+    .digest("hex");
+  if (marker.assignedJobSha256 !== digest) {
+    throw new Error(
+      `${WORKTREE_JOB_MARKER} assignedJobSha256 does not match the immutable assignment.`
+    );
+  }
+  validateExternalAssignmentAnchor(marker, job, options);
+  const validation = validateJob(job);
+  if (!validation.ok) {
+    throw new Error(
+      `${WORKTREE_JOB_MARKER} contains an invalid immutable assignment:\n- ` +
+        validation.issues.join("\n- ")
+    );
+  }
+  return structuredClone(job);
+}
+
+function validateExternalAssignmentAnchor(marker, job, options) {
+  if (!marker.assignmentManifestRelativePath) {
+    // Pre-contract scaffolds retain the self-hash fallback. Every newly
+    // generated scaffold receives the captain-owned external anchor below.
+    return;
+  }
+  if (
+    typeof marker.assignmentManifestRelativePath !== "string" ||
+    typeof marker.assignmentManifestSha256 !== "string" ||
+    !/^[0-9a-f]{64}$/.test(marker.assignmentManifestSha256)
+  ) {
+    throw new Error(`${WORKTREE_JOB_MARKER} has an invalid assignment manifest anchor.`);
+  }
+  const rootDir = path.resolve(
+    options.rootDir ?? options.root ?? process.cwd()
+  );
+  const anchorPath = path.resolve(rootDir, marker.assignmentManifestRelativePath);
+  const normalized = anchorPath.replaceAll("\\", "/");
+  if (!normalized.includes("/tmp/rcap-factory/jobs/") || !normalized.endsWith("/job.json")) {
+    throw new Error(
+      `${WORKTREE_JOB_MARKER} assignment manifest anchor is outside the captain-owned scaffold workspace.`
+    );
+  }
+  if (!fs.existsSync(anchorPath)) {
+    throw new Error(
+      `${WORKTREE_JOB_MARKER} assignment manifest anchor is missing.`
+    );
+  }
+  const bytes = fs.readFileSync(anchorPath);
+  const digest = crypto.createHash("sha256").update(bytes).digest("hex");
+  if (digest !== marker.assignmentManifestSha256) {
+    throw new Error(
+      `${WORKTREE_JOB_MARKER} assignment manifest anchor hash does not match.`
+    );
+  }
+  let anchoredJob;
+  try {
+    anchoredJob = JSON.parse(bytes.toString("utf8"));
+  } catch (error) {
+    throw new Error(
+      `${WORKTREE_JOB_MARKER} assignment manifest anchor is invalid JSON: ${error.message}`
+    );
+  }
+  if (stableStringify(anchoredJob, 0) !== stableStringify(job, 0)) {
+    throw new Error(
+      `${WORKTREE_JOB_MARKER} immutable assignment does not match the captain-owned anchor.`
+    );
+  }
 }
 
 /**

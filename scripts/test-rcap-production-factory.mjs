@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import assert from "node:assert/strict";
+import crypto from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -17,6 +18,7 @@ import {
   loadFactoryPlan,
   loadJob,
   serializeFactoryPlan,
+  stableStringify,
   validateFactoryPlan,
   validateJob
 } from "./lib/rcap-factory/index.mjs";
@@ -70,7 +72,7 @@ await check("job JSON Schema and manifest contract", () => {
   assert.deepEqual(schema.required, REQUIRED_JOB_FIELDS);
   assert.equal(schema.additionalProperties, false);
   assert.deepEqual(schema.properties.lane.enum, FACTORY_LANES);
-  assert.equal(schema.allOf.length, 3);
+  assert.equal(schema.allOf.length, 6);
   assert.equal(
     schema.allOf[0].then.properties.requiredOutputFields.contains.const,
     "downloadedSourceCount"
@@ -107,10 +109,11 @@ await check("deterministic plan covers all lanes and jurisdictions", () => {
   assert.deepEqual(first.lanes.map((entry) => entry.lane), FACTORY_LANES);
   assert.ok(first.lanes.every((entry) => entry.jobIds.length > 0));
   assert.equal(first.waves.length, FACTORY_LANES.length);
-  assert.equal(first.jobs.length, 189);
-  assert.equal(first.jobs.filter((job) => job.status === "ready").length, 109);
-  assert.equal(first.jobs.filter((job) => job.status === "blocked").length, 76);
-  assert.equal(first.jobs.filter((job) => job.status === "completed").length, 4);
+  assert.equal(first.jobs.length, 196);
+  assert.equal(first.jobs.filter((job) => job.status === "ready").length, 69);
+  assert.equal(first.jobs.filter((job) => job.status === "blocked").length, 116);
+  assert.equal(first.jobs.filter((job) => job.status === "in_progress").length, 1);
+  assert.equal(first.jobs.filter((job) => job.status === "completed").length, 10);
   assert.equal(findOwnedPathOverlaps(first.jobs).length, 0);
   assert.ok(first.generatedFrom.length >= 8);
   assert.ok(first.generatedFrom.every((entry) => /^[0-9a-f]{64}$/.test(entry.sha256)));
@@ -121,7 +124,7 @@ await check("deterministic plan covers all lanes and jurisdictions", () => {
     for (const field of REQUIRED_JOB_FIELDS) assert.ok(field in job, `${job.jobId}: ${field}`);
     const reviewPath =
       `data/record-clearing/production-factory/review-manifests/${job.jobId}.json`;
-    assert.deepEqual(job.integrationOwnedOutputs, [reviewPath], job.jobId);
+    assert.ok(job.integrationOwnedOutputs.includes(reviewPath), job.jobId);
     assert.equal(job.ownedPaths.includes(reviewPath), false, job.jobId);
     assert.ok(job.forbiddenPaths.includes(
       "data/record-clearing/production-factory/review-manifests"
@@ -131,7 +134,7 @@ await check("deterministic plan covers all lanes and jurisdictions", () => {
     parentJobs: 72,
     waves: 8,
     lanes: 11,
-    completedParentJobs: 3,
+    completedParentJobs: 4,
     childMappingPolicy: {
       cardinality: "exactly_one_execution_owner",
       implementationSelection:
@@ -152,8 +155,8 @@ await check("deterministic plan covers all lanes and jurisdictions", () => {
     "npm run typecheck",
     "npm test"
   ]);
-  assert.equal(first.parentJobReconciliation.compiledChildJobs, 189);
-  assert.equal(first.parentJobReconciliation.childrenMappedExactlyOnce, 189);
+  assert.equal(first.parentJobReconciliation.compiledChildJobs, 196);
+  assert.equal(first.parentJobReconciliation.childrenMappedExactlyOnce, 196);
   assert.equal(first.parentJobReconciliation.unmappedChildren, 0);
   assert.equal(first.parentJobReconciliation.unknownParentReferences, 0);
   plan = first;
@@ -246,19 +249,21 @@ await check("integrated acquisition intelligence is lossless and action-specific
   );
   assert.match(ga.stopCondition, /nine deterministic participant packets/);
   const gaJail = job("rcap-ga-guidance-specification-jail-k2");
-  assert.equal(gaJail.status, "ready");
+  assert.equal(gaJail.status, "completed");
+  assert.equal(gaJail.completionCommit, "ca5958590d1b52713c4489d58617586e82f33629");
   assert.equal(gaJail.parentJobId, "IMP-CP-02-guidance-spec-unblock-family");
   assert.deepEqual(gaJail.trackIds, ["ga-jail-k2"]);
   assert.match(gaJail.stopCondition, /ga-jail-k2-process-guidance-3/);
-  assert.match(gaJail.stopCondition, /Do not implement or generate a packet/);
+  assert.match(gaJail.stopCondition, /not a complete packet/);
+  assert.equal(job("rcap-ga-jail-k2-packet-implementation").status, "blocked");
 });
 
 await check("all normalized tracks reconcile exactly once and completed tranches stay complete", () => {
   const reconciliation = plan.trackReconciliation;
   assert.equal(reconciliation.normalizedTracks, 250);
   assert.equal(reconciliation.representedExactlyOnce, 250);
-  assert.equal(reconciliation.implementationComplete, 15);
-  assert.equal(reconciliation.pendingProductionJob, 235);
+  assert.equal(reconciliation.implementationComplete, 19);
+  assert.equal(reconciliation.pendingProductionJob, 231);
 
   const implementationLanes = new Set([
     "custom_pleading",
@@ -272,6 +277,8 @@ await check("all normalized tracks reconcile exactly once and completed tranches
   );
   assert.equal(completed.filter((entry) => entry.jurisdiction === "MS").length, 5);
   assert.equal(completed.filter((entry) => entry.jurisdiction === "GA").length, 9);
+  assert.equal(completed.filter((entry) => entry.jurisdiction === "DC").length, 2);
+  assert.equal(completed.filter((entry) => entry.jurisdiction === "IL").length, 2);
   assert.deepEqual(
     completed
       .filter((entry) => entry.jurisdiction === "MD")
@@ -313,6 +320,84 @@ await check("all normalized tracks reconcile exactly once and completed tranches
     "md_10105_1_automatic",
     "md_10112_dpscs_cannabis"
   ]);
+});
+
+await check("packet, source-materialization, and normalization readiness fail closed", () => {
+  const packetLanes = new Set([
+    "custom_pleading",
+    "acroform_fill",
+    "flat_pdf_overlay",
+    "composed_route",
+    "guidance_implementation"
+  ]);
+  for (const job of plan.jobs.filter((entry) => packetLanes.has(entry.lane))) {
+    assert.equal(job.participantPacketProofRequired, true, job.jobId);
+    assert.match(job.regressionVerifier, /^scripts\/verify-rcap-.+\.mjs$/, job.jobId);
+    assert.ok(
+      job.expectedOutputs.includes(job.regressionVerifier) ||
+        job.integrationOwnedOutputs.includes(job.regressionVerifier),
+      job.jobId
+    );
+    assert.ok(
+      job.focusedValidation.includes(`node ${job.regressionVerifier}`),
+      job.jobId
+    );
+  }
+  const packetWithoutVerifier = structuredClone(
+    plan.jobs.find((entry) => entry.lane === "guidance_implementation")
+  );
+  delete packetWithoutVerifier.regressionVerifier;
+  assert.equal(validateJob(packetWithoutVerifier).ok, false);
+
+  const officialJobs = plan.jobs.filter(
+    (entry) =>
+      entry.strategyFamily === "official_pdf_fill" &&
+      ["planned", "ready", "blocked", "in_progress"].includes(entry.status)
+  );
+  assert.ok(officialJobs.length > 0);
+  for (const job of officialJobs) {
+    assert.equal(job.status, "blocked", job.jobId);
+    assert.ok(job.sourceMaterializationInputs.length > 0, job.jobId);
+    for (const input of job.sourceMaterializationInputs) {
+      assert.equal(input.authorityAssetState, "authority_asset_known");
+      assert.equal(input.materializationState, "binary_materialization_required");
+      assert.equal(input.workerReadiness, "binary_materialization_required");
+      assert.equal(input.workerMayRead, true);
+      assert.equal(input.workerMayModify, false);
+      assert.ok(job.requiredInputs.includes(input.materializationDestination));
+      assert.ok(job.focusedValidation.includes(input.verificationCommand));
+    }
+  }
+  const falselyReady = structuredClone(officialJobs[0]);
+  falselyReady.status = "ready";
+  assert.equal(validateJob(falselyReady).ok, false);
+
+  const pa = plan.jobs.find(
+    (entry) => entry.jobId === "rcap-pa-legal-design-normalization"
+  );
+  assert.equal(pa.status, "in_progress");
+  assert.equal(pa.normalizationReadiness.readinessState, "ready_for_normalization");
+  assert.equal(pa.normalizationReadiness.approvedMechanismInventory.count, 11);
+  assert.ok(
+    pa.normalizationReadiness.officialPrimaryAuthorityRefreshRequirements.every(
+      (entry) =>
+        entry.shellRetrievalState === "shell_download_blocked" &&
+        entry.retrievalState === "browser_official_retrieval_available"
+    )
+  );
+  const otherNormalizations = plan.jobs.filter(
+    (entry) =>
+      /-legal-design-normalization$/.test(entry.jobId) &&
+      entry.jurisdiction !== "PA"
+  );
+  assert.equal(otherNormalizations.length, 24);
+  assert.ok(otherNormalizations.every((entry) => entry.status === "blocked"));
+  assert.equal(
+    plan.jobs.find(
+      (entry) => entry.jobId === "rcap-nationwide-source-materialization-contract"
+    ).status,
+    "ready"
+  );
 });
 
 await check("counsel adoption is exact, hash-bound, and separate from engineering review", async () => {
@@ -414,10 +499,15 @@ await check("worker prompt is short, stable, and contains only contract sections
   const acquisitionJob = plan.jobs.find(
     (entry) => entry.jobId === "rcap-al-in-repo-identity-reconciliation-cr-65"
   );
+  const promptAcquisitionJob = {
+    ...acquisitionJob,
+    status: "ready"
+  };
+  delete promptAcquisitionJob.completionCommit;
   const acquisitionPrompt = compileWorkerPrompt({
-    job: acquisitionJob,
+    job: promptAcquisitionJob,
     authorityVersion: plan.authorityVersion,
-    model: acquisitionJob.model
+    model: promptAcquisitionJob.model
   });
   assert.match(acquisitionPrompt, /"acquisitionIds": \[/);
   assert.match(acquisitionPrompt, /"downloadedSourceCount": 0/);
@@ -566,6 +656,64 @@ await check("scaffold marker pins plan and job provenance", () => {
     );
   } finally {
     fs.rmSync(markerPath, { force: true });
+  }
+});
+
+await check("completed jobs validate against a captain-anchored immutable scaffold assignment", () => {
+  const markerPath = path.join(ROOT, "tmp/rcap-factory/job.json");
+  const anchorDirectory = path.join(
+    ROOT,
+    "tmp/rcap-factory/jobs/immutable-completion-regression"
+  );
+  const anchorPath = path.join(anchorDirectory, "job.json");
+  assert.equal(fs.existsSync(markerPath), false, `${markerPath} already exists`);
+  const assignedJob = structuredClone(
+    plan.jobs.find((entry) => entry.status === "ready")
+  );
+  assignedJob.jobId = "rcap-final-pending-completion-regression";
+  const anchorBytes = `${JSON.stringify(assignedJob, null, 2)}\n`;
+  const marker = {
+    jobId: assignedJob.jobId,
+    manifestBaseCommit: assignedJob.baseCommit,
+    assignedJob,
+    assignedJobSha256: crypto
+      .createHash("sha256")
+      .update(stableStringify(assignedJob, 0))
+      .digest("hex"),
+    assignmentManifestRelativePath: path.relative(ROOT, anchorPath),
+    assignmentManifestSha256: crypto
+      .createHash("sha256")
+      .update(anchorBytes)
+      .digest("hex")
+  };
+  fs.mkdirSync(path.dirname(markerPath), { recursive: true });
+  fs.mkdirSync(anchorDirectory, { recursive: true });
+  try {
+    fs.writeFileSync(anchorPath, anchorBytes);
+    fs.writeFileSync(markerPath, `${JSON.stringify(marker)}\n`);
+    const loaded = loadJob(assignedJob.jobId, { rootDir: ROOT });
+    assert.deepEqual(loaded, assignedJob);
+
+    const tamperedJob = {
+      ...assignedJob,
+      stopCondition: `${assignedJob.stopCondition} Worker-expanded scope.`
+    };
+    const tamperedMarker = {
+      ...marker,
+      assignedJob: tamperedJob,
+      assignedJobSha256: crypto
+        .createHash("sha256")
+        .update(stableStringify(tamperedJob, 0))
+        .digest("hex")
+    };
+    fs.writeFileSync(markerPath, `${JSON.stringify(tamperedMarker)}\n`);
+    assert.throws(
+      () => loadJob(assignedJob.jobId, { rootDir: ROOT }),
+      /captain-owned anchor/
+    );
+  } finally {
+    fs.rmSync(markerPath, { force: true });
+    fs.rmSync(anchorDirectory, { recursive: true, force: true });
   }
 });
 
@@ -890,17 +1038,17 @@ await check("dashboard reports all 51 and preserves the red launch posture", () 
   assert.deepEqual(status.readinessMetrics, {
     authorityCleared: 87,
     authorityBlocked: 163,
-    sourcePinned: 41,
-    implementationProof: 15,
+    sourcePinned: 43,
+    implementationProof: 17,
     finalDisposition: 0
   });
   assert.equal(status.totals.jurisdictions, 51);
   assert.equal(status.totals.tracks, 250);
   assert.equal(status.totals.normalized, 250);
-  assert.equal(status.totals.implementationComplete, 15);
-  assert.equal(status.totals.technicalProofPassed, 15);
-  assert.equal(status.totals.visualProofPassed, 15);
-  assert.equal(status.totals.legalRecommendationComplete, 15);
+  assert.equal(status.totals.implementationComplete, 19);
+  assert.equal(status.totals.technicalProofPassed, 19);
+  assert.equal(status.totals.visualProofPassed, 17);
+  assert.equal(status.totals.legalRecommendationComplete, 19);
   assert.equal(status.totals.counselAdopted, 15);
   assert.equal(status.totals.stagingPassed, 0);
   assert.equal(status.totals.packetReady, 0);
@@ -984,7 +1132,6 @@ await check("existing legal registries and runtime status are byte-unchanged", (
     "data/record-clearing/master-library",
     "data/record-clearing/relief-track-registry.json",
     "data/record-clearing/source-artifact-registry.json",
-    "docs/rcap-promotion",
     "src/app/api/rcap",
     "src/lib/rcap/packets/registry.ts",
     "src/lib/rcap/state-promotion-manifest.ts"

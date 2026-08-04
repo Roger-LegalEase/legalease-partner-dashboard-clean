@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-5-district-of-columbia-custom-pleadings",
+  "jurisdiction": "DC",
+  "note": "Every person, case number, address and narrative is synthetic. The fixtures exist only for deterministic technical review of the runtime-disabled packet family.",
+  "positiveFixtures": [
+    {
+      "fixtureId": "dc-innocence-expungement__standard",
+      "trackId": "dc_innocence_expungement",
+      "description": "Synthetic actual-innocence motion following a prosecutor termination.",
+      "caseReference": "2026-CMD-004281",
+      "facts": {
+        "movantName": "Jordan Avery Sample",
+        "dateOfBirth": "14 February 1991",
+        "mailingAddress": "725 Sample Street NW, Apartment 4, Washington, DC 20001",
+        "caseNumber": "2026 CMD 004281",
+        "captionSovereign": "united_states",
+        "arrestDate": "8 January 2026",
+        "arrestingAgencyName": "Metropolitan Police Department",
+        "prosecutingAuthorityName": "United States Attorney’s Office for the District of Columbia",
+        "prosecutingAuthorityAddress": "601 D Street NW, Washington, DC 20530",
+        "serviceMethod": "first-class mail",
+        "contactPhone": "(202) 555-0164",
+        "contactEmail": "jordan.sample@example.org",
+        "chargeDescription": "synthetic sample charge",
+        "caseOutcome": "terminated_by_prosecutor",
+        "dispositionDate": "16 March 2026",
+        "innocenceFacts": "I was not the person involved in the event described in this synthetic sample record.",
+        "priorMotionState": "none"
+      }
+    },
+    {
+      "fixtureId": "dc-correct-misattributed-arrest__standard",
+      "trackId": "dc_correct_misattributed_arrest",
+      "description": "Synthetic motion correcting an arrest attributed to the wrong person.",
+      "caseReference": "2026-CMD-004282",
+      "facts": {
+        "movantName": "Morgan Riley Sample",
+        "dateOfBirth": "9 September 1988",
+        "mailingAddress": "913 Example Avenue SE, Washington, DC 20003",
+        "caseNumber": "2026 CMD 004282",
+        "captionSovereign": "district_of_columbia",
+        "arrestDate": "2 February 2026",
+        "arrestingAgencyName": "Metropolitan Police Department",
+        "prosecutingAuthorityName": "Office of the Attorney General for the District of Columbia",
+        "prosecutingAuthorityAddress": "400 6th Street NW, Washington, DC 20001",
+        "serviceMethod": "hand delivery",
+        "contactPhone": "(202) 555-0138",
+        "contactEmail": "morgan.sample@example.org",
+        "misidentificationFacts": "The arrest belongs to another person with a similar name and was attributed to me in this synthetic sample.",
+        "fingerprintsTaken": "no_fingerprints_taken",
+        "otherIdentificationPresented": "no_other_identification"
+      }
+    }
+  ],
+  "boundaryFixtures": [
+    {
+      "fixtureId": "dc-innocence-expungement__invalid-prior-motion-state",
+      "trackId": "dc_innocence_expungement",
+      "basedOn": "dc-innocence-expungement__standard",
+      "overrideFacts": {
+        "priorMotionState": "prior_motion_inside_waiting_period"
+      },
+      "expect": "branch_error",
+      "expectDetail": "priorMotionState"
+    },
+    {
+      "fixtureId": "dc-correct-misattributed-arrest__fingerprints-taken",
+      "trackId": "dc_correct_misattributed_arrest",
+      "basedOn": "dc-correct-misattributed-arrest__standard",
+      "overrideFacts": {
+        "fingerprintsTaken": "fingerprints_taken"
+      },
+      "expect": "branch_error",
+      "expectDetail": "fingerprintsTaken"
+    },
+    {
+      "fixtureId": "dc-correct-misattributed-arrest__other-identification",
+      "trackId": "dc_correct_misattributed_arrest",
+      "basedOn": "dc-correct-misattributed-arrest__standard",
+      "overrideFacts": {
+        "otherIdentificationPresented": "other_identification_presented"
+      },
+      "expect": "branch_error",
+      "expectDetail": "otherIdentificationPresented"
+    },
+    {
+      "fixtureId": "dc-seal-conviction__typed-stop",
+      "trackId": "dc_seal_conviction",
+      "expect": "track_unavailable"
+    },
+    {
+      "fixtureId": "dc-seal-fugitive__typed-stop",
+      "trackId": "dc_seal_fugitive",
+      "expect": "track_unavailable"
+    },
+    {
+      "fixtureId": "dc-seal-nonconviction__typed-stop",
+      "trackId": "dc_seal_nonconviction",
+      "expect": "track_unavailable"
+    },
+    {
+      "fixtureId": "dc-yra-set-aside__typed-stop",
+      "trackId": "dc_yra_set_aside",
+      "expect": "track_unavailable"
+    }
+  ]
+}

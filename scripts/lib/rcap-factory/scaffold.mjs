@@ -252,6 +252,11 @@ function scaffoldManifestFor(plan) {
 }
 
 function worktreeMarkerFor(plan, job, actualStartCommit) {
+  const assignedJob = orderedJobManifest(job, plan.model);
+  const assignmentManifestRelativePath = path.posix.relative(
+    plan.worktreePath,
+    plan.artifacts.jobManifest
+  );
   return {
     schemaVersion: 1,
     jobId: plan.jobId,
@@ -267,7 +272,15 @@ function worktreeMarkerFor(plan, job, actualStartCommit) {
     retainUntilIntegration: plan.retainUntilIntegration,
     ownedPaths: job.ownedPaths,
     forbiddenPaths: job.forbiddenPaths,
-    focusedValidation: job.focusedValidation
+    focusedValidation: job.focusedValidation,
+    assignedJob,
+    assignedJobSha256: createHash("sha256")
+      .update(stableStringify(assignedJob, 0))
+      .digest("hex"),
+    assignmentManifestRelativePath,
+    assignmentManifestSha256: createHash("sha256")
+      .update(`${JSON.stringify(assignedJob, null, 2)}\n`)
+      .digest("hex")
   };
 }
 

@@ -244,10 +244,23 @@ for (const track of GEORGIA_PLEADING_FAMILY_TRACKS) {
 ok(guidance.guidanceSpecificationsAuthoredByThisTranche === 0, "This tranche authored a guidance specification.");
 ok(Object.keys(GEORGIA_GUIDANCE_TEMPLATES).length === 0, "A Georgia guidance template was drafted by this tranche.");
 
-// The blocking fact itself: the ga-jail-k2 guidance specification must still be
-// undrafted. If someone drafts it, this gate is what tells them the typed stop
-// can now come out.
-ok(!guidanceTrackIds.has("ga-jail-k2"), "ga-jail-k2 acquired a guidance specification; its typed stop should be reconsidered.");
+// Integration has now supplied the one process-guidance specification, but a
+// specification alone is deliberately insufficient to remove the typed stop.
+// The request and attachment templates, two release questions, full packet
+// proof, and counsel adoption remain open.
+const jailGuidance = specifications.processGuidanceSpecs.find(
+  (specification) =>
+    specification.trackId === "ga-jail-k2" &&
+    (specification.componentIds ?? []).includes(
+      "ga-jail-k2-process-guidance-3"
+    )
+);
+ok(guidanceTrackIds.has("ga-jail-k2"), "ga-jail-k2 guidance specification was not integrated.");
+ok(jailGuidance?.guidanceStatus === "drafted", "ga-jail-k2 guidance is not drafted.");
+ok(
+  (jailGuidance?.templateIds ?? []).length === 0,
+  "ga-jail-k2 guidance unexpectedly claims a completed template."
+);
 for (const trackId of GEORGIA_BLOCKED_TRACK_IDS) {
   ok(
     !GEORGIA_PLEADING_FAMILY_TRACKS.some((track) => track.trackId === trackId),
@@ -256,7 +269,7 @@ for (const trackId of GEORGIA_BLOCKED_TRACK_IDS) {
   ok(!RELIEF_TRACKS.some((track) => track.trackId === trackId), `${trackId} is blocked but reached the registry.`);
 }
 note(
-  `5. Specifications: all ${usedTemplateIds.size} rendered components governed by a drafted specification; 0 authored here; ga-jail-k2's guidance specification is still undrafted.`
+  `5. Specifications: all ${usedTemplateIds.size} rendered components governed by a drafted specification; 0 authored here; ga-jail-k2 guidance is integrated but templates, release questions, packet proof and counsel adoption remain open.`
 );
 
 // ---------------------------------------------------------------------------

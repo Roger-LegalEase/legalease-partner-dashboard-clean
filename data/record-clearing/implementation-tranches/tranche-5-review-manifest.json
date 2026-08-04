@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-5-district-of-columbia-custom-pleadings",
+  "jobId": "rcap-dc-custom-pleading",
+  "jurisdiction": "DC",
+  "jurisdictionName": "District of Columbia",
+  "implementationCommit": "a25306af0e095faac1ce4d36c60b0f04c9221b31",
+  "integratedEquivalentCommit": "7dd99311a44c871e52a0bee114cce25c5ef39584",
+  "implementationSourceSha256": "4fc8fe9860ca3844df990169e7c4888a6d4e442878316eb22e0e0f65d29599b9",
+  "humanLegalReviewStatus": "awaiting_counsel_adoption",
+  "counselAdopted": false,
+  "runtimeStatus": "runtime_disabled",
+  "packetReady": false,
+  "jurisdictionEnabled": false,
+  "productionEnabled": false,
+  "reviewDirectory": "tmp/packet-output-review/tranche-5 (ignored; regenerate with the generation command)",
+  "generationCommand": "node scripts/rcap-generate-dc-custom-pleading-review.mjs",
+  "verificationCommand": "node scripts/verify-rcap-dc-custom-pleading-packets.mjs",
+  "deliverableModel": "One assembled participant-facing PDF per implemented route. No ZIP and no partial packet for a typed-stop route.",
+  "implementedTrackCount": 2,
+  "blockedTrackCount": 4,
+  "assembledPacketCount": 2,
+  "componentCount": 2,
+  "assembledPageCount": 5,
+  "sourcePinnedCount": 0,
+  "legalRecommendationComplete": true,
+  "implementationProof": false,
+  "technicalReview": {
+    "passed": true,
+    "checks": [
+      "The implementation source hash matches the integrated D.C. module.",
+      "Exactly two routes are registered in-process for technical review and neither is present in the shared runtime registry.",
+      "Each implemented route resolves, renders a deterministic PDF component and assembles a deterministic participant PDF.",
+      "The assembled packet hashes, component hashes and page counts match this manifest.",
+      "Every closed-list boundary fixture fails closed.",
+      "Each of the four unimplemented assigned routes raises DistrictOfColumbiaTrackUnavailableError with its own reason and open questions.",
+      "No route claims visual approval, legal-output approval, source pinning, packet readiness, staging or production enablement."
+    ]
+  },
+  "visualResult": "not_reviewed",
+  "samplePackets": [
+    {
+      "fixtureId": "dc-innocence-expungement__standard",
+      "trackId": "dc_innocence_expungement",
+      "assembledFileName": "LegalEase_District-of-Columbia_Actual-Innocence-Expungement_2026-CMD-004281.pdf",
+      "assembledSha256": "3cc39c5357c14b23d4dfee37dc0e5c2c564e84a88920a185e1ff22ac5879a21c",
+      "assembledPageCount": 3,
+      "assembledBytes": 5576,
+      "runtimeStatus": "runtime_disabled",
+      "componentRanges": [
+        {
+          "componentId": "dc_innocence_expungement-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "startPage": 1,
+          "endPage": 3,
+          "pageCount": 3
+        }
+      ],
+      "components": [
+        {
+          "componentId": "dc_innocence_expungement-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "templateId": "dc-innocence-expungement-motion",
+          "sha256": "8a0010bf92eae23e23a1fd97efdddb935e780371732e2acddc6958bd5606a526",
+          "pageCount": 3,
+          "byteSize": 5489,
+          "deterministic": true
+        }
+      ]
+    },
+    {
+      "fixtureId": "dc-correct-misattributed-arrest__standard",
+      "trackId": "dc_correct_misattributed_arrest",
+      "assembledFileName": "LegalEase_District-of-Columbia_Misattributed-Arrest-Correction_2026-CMD-004282.pdf",
+      "assembledSha256": "4891fa989287b022f1773a09d8552a8326a0fc9b286647a1da42b8631950025d",
+      "assembledPageCount": 2,
+      "assembledBytes": 4755,
+      "runtimeStatus": "runtime_disabled",
+      "componentRanges": [
+        {
+          "componentId": "dc_correct_misattributed_arrest-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "startPage": 1,
+          "endPage": 2,
+          "pageCount": 2
+        }
+      ],
+      "components": [
+        {
+          "componentId": "dc_correct_misattributed_arrest-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "templateId": "dc-correct-misattributed-arrest-motion",
+          "sha256": "494bf83be636cd6bc3faf485c20308f3196f4cbe216c83edb32919968e2f9f57",
+          "pageCount": 2,
+          "byteSize": 4678,
+          "deterministic": true
+        }
+      ]
+    }
+  ],
+  "blockedTracks": [
+    {
+      "trackId": "dc_seal_conviction",
+      "errorType": "DistrictOfColumbiaTrackUnavailableError",
+      "unblockedBy": "A committed Master Grid mapping for Offense Severity Groups 1 to 3, and a recorded determination of which § 16-806 subsections survive 11 September 2026."
+    },
+    {
+      "trackId": "dc_seal_fugitive",
+      "errorType": "DistrictOfColumbiaTrackUnavailableError",
+      "unblockedBy": "A recorded determination of which § 16-806 subsections survive 11 September 2026."
+    },
+    {
+      "trackId": "dc_seal_nonconviction",
+      "errorType": "DistrictOfColumbiaTrackUnavailableError",
+      "unblockedBy": "A recorded determination of which § 16-806 subsections survive 11 September 2026, including whether the (a)(1)(B)(i) route persists."
+    },
+    {
+      "trackId": "dc_yra_set_aside",
+      "errorType": "DistrictOfColumbiaTrackUnavailableError",
+      "unblockedBy": "A drafted packet specification for dc_yra_set_aside naming its components, its service mechanics and its relationship to the sealing motion."
+    }
+  ],
+  "note": "The bounded legal-output recommendation is complete for the two implemented routes and awaits counsel adoption. They remain source-unpinned, visually unreviewed and runtime-disabled, so the readiness-level implementationProof metric remains false. The four typed-stop routes are excluded from both the recommendation and implementation proof."
+}

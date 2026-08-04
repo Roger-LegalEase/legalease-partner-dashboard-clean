@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-5-district-of-columbia-custom-pleadings",
+  "jobId": "rcap-dc-custom-pleading",
+  "jurisdiction": "DC",
+  "jurisdictionName": "District of Columbia",
+  "preparedOn": "2026-08-04",
+  "preparer": "integration engineering review (not counsel and not a legal approval)",
+  "implementationCommit": "a25306af0e095faac1ce4d36c60b0f04c9221b31",
+  "implementationSourceSha256": "4fc8fe9860ca3844df990169e7c4888a6d4e442878316eb22e0e0f65d29599b9",
+  "authorityEdition": "1.2",
+  "whatThisDocumentIs": "A bounded engineering recommendation to reviewing counsel for exactly the two complete D.C. custom-pleading outputs. It records the remedy boundaries, participant-owned facts, known limitations and required-before-filing instructions that counsel is being asked to adopt. It does not recommend or partially approve any typed-stop route.",
+  "humanLegalReviewStatus": "awaiting_counsel_adoption",
+  "counselAdopted": false,
+  "sourcePinnedCount": 0,
+  "visualProofStatus": "not_reviewed",
+  "implementationProof": false,
+  "runtimeStatus": "runtime_disabled",
+  "packetReady": false,
+  "jurisdictionEnabled": false,
+  "productionEnabled": false,
+  "recommendations": [
+    {
+      "trackId": "dc_innocence_expungement",
+      "publicName": "Expungement by motion, actual innocence",
+      "status": "recommended_for_counsel_adoption",
+      "outputStrategy": "custom_pleading",
+      "components": [
+        "primary_filing — Motion for Expungement on Grounds of Actual Innocence, including verification and certificate of service"
+      ],
+      "recommendation": "Adopt the exact hash-bound motion as an initial participant-authored filing only. It distinguishes expungement under D.C. Code § 16-803 from sealing, carries the § 16-803(e) warning that dismissal or acquittal creates no presumption of innocence, reproduces the participant's own innocence statement with attribution, and states that LegalEase does not inspect or judge the supporting evidentiary material.",
+      "basis": [
+        "D.C. Code § 16-803 as recorded by the Edition 1.2 D.C. legal design.",
+        "The adopted single-component packet specification for dc_innocence_expungement-primary-filing-1.",
+        "The deterministic technical fixture recorded in tranche-5-review-manifest.json."
+      ],
+      "whatCounselIsBeingAskedToAdopt": [
+        "The motion's use of expungement vocabulary only for the § 16-803 remedy.",
+        "The participant-authored statement and supporting-material boundary, including the refusal to predict whether the evidentiary showing is sufficient.",
+        "The closed-list treatment of case outcomes and prior-motion timing.",
+        "The instruction to confirm the current filing channel, fee treatment, prosecutor identity and service address before filing."
+      ],
+      "knownLimitations": [
+        "No immutable source SHA-256 is recorded for the controlling legal source.",
+        "Current Criminal Division filing practice and any standing order issued after the retained review remain unconfirmed.",
+        "The repository does not determine whether the United States Attorney's Office or the Office of the Attorney General prosecuted a given case; the participant copies the caption and service identity from the case record.",
+        "Prosecutor opposition, a court-ordered response, a hearing, disputed evidence or individualized advocacy requires attorney handoff."
+      ],
+      "requiredBeforeFiling": [
+        "Attach the participant-authored statement of points and authorities and every supporting exhibit or affidavit.",
+        "Confirm the current Criminal Division filing channel, fee treatment and any Seal Team requirement.",
+        "Confirm the prosecuting authority and service address from the case record.",
+        "Review, sign and date the motion and complete the certificate of service."
+      ]
+    },
+    {
+      "trackId": "dc_correct_misattributed_arrest",
+      "publicName": "Motion to correct a misattributed arrest record",
+      "status": "recommended_for_counsel_adoption",
+      "outputStrategy": "custom_pleading",
+      "components": [
+        "primary_filing — Motion to Correct a Misattributed Arrest Record, including sworn attestation and certificate of service"
+      ],
+      "recommendation": "Adopt the exact hash-bound motion for the narrow D.C. Code § 16-806(g) correction remedy. The output states that correction is not sealing, requires the participant to attest under oath that the arrest was misattributed, and fails closed unless the participant confirms that no fingerprints were taken and no other reliable identification was presented.",
+      "basis": [
+        "D.C. Code § 16-806(g) as recorded by the Edition 1.2 D.C. legal design.",
+        "The adopted single-component packet specification for dc_correct_misattributed_arrest-primary-filing-1.",
+        "The deterministic technical fixture recorded in tranche-5-review-manifest.json."
+      ],
+      "whatCounselIsBeingAskedToAdopt": [
+        "The explicit correction-not-sealing remedy distinction.",
+        "The one-signature sworn-attestation structure.",
+        "The closed-list, fail-closed treatment of the no-fingerprints and no-other-identification elements.",
+        "The instruction to confirm notarization, the current filing channel, fee treatment, prosecutor identity and service address before filing."
+      ],
+      "knownLimitations": [
+        "No immutable source SHA-256 is recorded for the controlling legal source.",
+        "The source requires an attestation under oath but does not establish whether the Criminal Division additionally requires notarization.",
+        "Current Criminal Division filing practice and any standing order issued after the retained review remain unconfirmed.",
+        "The repository does not determine whether the United States Attorney's Office or the Office of the Attorney General prosecuted a given case; the participant copies the caption and service identity from the case record."
+      ],
+      "requiredBeforeFiling": [
+        "Confirm from the participant's record that no fingerprints were taken at arrest and no other reliable identification was presented.",
+        "Confirm whether notarization is required in addition to the sworn attestation.",
+        "Confirm the current Criminal Division filing channel, fee treatment and any Seal Team requirement.",
+        "Confirm the prosecuting authority and service address from the case record.",
+        "Review and sign the sworn attestation and complete the certificate of service."
+      ]
+    }
+  ],
+  "excludedRoutes": [
+    {
+      "trackId": "dc_seal_conviction",
+      "reason": "registered_typed_stop_without_complete_legal_design"
+    },
+    {
+      "trackId": "dc_seal_fugitive",
+      "reason": "registered_typed_stop_without_complete_legal_design"
+    },
+    {
+      "trackId": "dc_seal_nonconviction",
+      "reason": "registered_typed_stop_without_complete_legal_design"
+    },
+    {
+      "trackId": "dc_yra_set_aside",
+      "reason": "registered_typed_stop_without_determined_packet"
+    }
+  ],
+  "questionsForCounsel": [
+    {
+      "id": "dc-current-filing-practice",
+      "appliesTo": "both implemented routes",
+      "question": "What current Criminal Division filing channel, fee treatment and Seal Team requirements apply to these motions?",
+      "whatWasDoneInstead": "Neither output asserts a channel or fee. Both direct the participant to confirm with the clerk before filing."
+    },
+    {
+      "id": "dc-prosecutor-identity-and-service",
+      "appliesTo": "both implemented routes",
+      "question": "What rule determines whether the United States Attorney's Office or the Office of the Attorney General prosecuted a case, and what current service address applies?",
+      "whatWasDoneInstead": "The participant copies the sovereign and prosecuting authority from the case record and confirms the address rather than LegalEase inferring either."
+    },
+    {
+      "id": "dc-actual-innocence-product-scope",
+      "appliesTo": "dc_innocence_expungement",
+      "question": "Should the initial § 16-803 motion remain in product scope where relief turns on an evidentiary showing the participant must carry?",
+      "whatWasDoneInstead": "The motion carries the participant's own statement, refuses to judge the supporting material or predict an outcome, and requires handoff for opposition, disputed evidence or a hearing."
+    },
+    {
+      "id": "dc-correction-notarization",
+      "appliesTo": "dc_correct_misattributed_arrest",
+      "question": "Does the Criminal Division require notarization in addition to the sworn § 16-806(g) attestation?",
+      "whatWasDoneInstead": "The output preserves the sworn attestation and tells the participant to confirm the separate notarization question before filing."
+    }
+  ],
+  "whatThisDoesNotAssert": [
+    "That either route is source-pinned, visually reviewed, counsel-adopted, packet-ready, staged, enabled or production-approved.",
+    "That either motion will be granted or that a participant is eligible.",
+    "That a typed-stop route has a partial or usable packet.",
+    "That a participant's chosen prosecutor identity, service address, supporting evidence or sworn facts are correct."
+  ],
+  "note": "Recommendation only. Exactly two routes await counsel adoption. Visual review remains open, so the readiness-level implementationProof metric remains false. All routes remain runtime_disabled and packet readiness remains 0."
+}
