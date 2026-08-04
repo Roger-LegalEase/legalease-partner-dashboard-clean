@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "rcap-queued-official-pdf-family-scaffold-spec/v1",
+  "familyId": "rcap-mn-official-pdf-family",
+  "jurisdiction": "MN",
+  "jurisdictionName": "Minnesota",
+  "authorityFamily": "Minnesota Judicial Branch EXP101/102/104/105/106 and FEE102 forms",
+  "implementationJobId": "rcap-mn-official-pdf-production",
+  "outputDirectory": "data/record-clearing/production-factory/official-pdf-families/MN",
+  "modulePath": "src/lib/rcap/packets/jurisdictions/minnesota/official-pdf/family.ts",
+  "dedicatedVerifier": "scripts/verify-rcap-minnesota-official-pdf-families.mjs",
+  "blockers": [
+    "All six retained identities are flat or scanned PDFs and require authorized page-geometry inspection plus visually confirmed overlay coordinates.",
+    "EXP101 is an instructions component; implementation must confirm it is assembled as an unchanged pass-through document rather than treating its pages as participant-write targets.",
+    "EXP104 service completion dates and service addresses are post-generation participant fields.",
+    "EXP105 and EXP106 proposed-order judicial fields must remain blank.",
+    "FEE102 is conditional and must not be included unless the adopted packet condition is satisfied."
+  ],
+  "invariants": [
+    "Do not alter official fixed language, adopted component ordering, or Minnesota track selection.",
+    "Participant signatures, hearing details, service attestations, court fields, judge fields, clerk fields, agency fields, and notary fields remain blank unless a confirmed ownership map expressly permits a non-signature value.",
+    "Every shared physical form is rendered once per participant packet.",
+    "Repository-private paths are identity evidence only and are never opened by packet code or the dedicated verifier.",
+    "No source download, URL fallback, fuzzy identity match, live-route change, or runtime enablement is permitted."
+  ]
+}
