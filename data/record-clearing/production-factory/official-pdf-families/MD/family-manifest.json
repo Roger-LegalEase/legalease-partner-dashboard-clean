@@ -27,6 +27,8 @@
     "contractState": "pending_captain_owned_assignment",
     "assignmentManifest": null,
     "portableProjectionAvailable": false,
+    "workerMaterializationAuthorized": false,
+    "workerReadAuthorized": false,
     "workerReady": false,
     "registryPresenceConfersReadiness": false,
     "workerMayAcquireSources": false,
@@ -66,6 +68,14 @@
         "CC-DC-CR-072B",
         "CC-DC-089"
       ]
+    },
+    {
+      "trackId": "md_second_chance_shielding",
+      "sourceDocumentIds": [
+        "CC-DC-CR-148",
+        "MDJ-008"
+      ],
+      "factoryTreatment": "fail_closed_identity_coverage_preserving_external_tranche"
     }
   ],
   "documents": [
@@ -74,7 +84,9 @@
     "CC-DC-CR-072C",
     "CC-DC-CR-072D",
     "CC-DC-CR-078",
-    "CC-DC-089"
+    "CC-DC-089",
+    "CC-DC-CR-148",
+    "MDJ-008"
   ],
   "authorityPosture": {
     "sourceGatedPrimaryDocuments": [
@@ -87,8 +99,12 @@
       "CC-DC-CR-078",
       "CC-DC-089"
     ],
+    "preservedShieldingPacketDocuments": [
+      "CC-DC-CR-148",
+      "MDJ-008"
+    ],
     "routeReadyCount": 0,
-    "reason": "Every remaining normalized Maryland official-form route requires a CC-DC-CR-072 primary filing retained as source_gated by Master Library Edition 1.2. The two packet-form companions cannot form a relief packet by themselves."
+    "reason": "Five normalized Maryland routes require a CC-DC-CR-072 primary filing retained as source_gated by Master Library Edition 1.2. The shielding route's two exact packet-form identities are covered by this factory scaffold solely to close queue coverage; its completed Tranche 2 implementation remains external and unchanged, and this scaffold activates no source read, mapping, renderer, or route."
   },
   "artifacts": {
     "dependencies": "data/record-clearing/production-factory/official-pdf-families/MD/dependencies.json",
@@ -117,6 +133,7 @@
   },
   "invariants": [
     "The completed CC-DC-CR-148 and MDJ-008 shielding implementation remains unchanged.",
+    "CC-DC-CR-148 and MDJ-008 have complete fail-closed production-factory identity coverage without importing, replacing, or activating the external Tranche 2 implementation.",
     "Maryland legal design, source authority, live routing, authentication, billing, and promotion state remain unchanged.",
     "No source-gated CC-DC-CR-072 asset is represented as a packet candidate or renderer-selectable source.",
     "CC-DC-CR-078 and CC-DC-089 are conditional companions and never become standalone relief packets.",

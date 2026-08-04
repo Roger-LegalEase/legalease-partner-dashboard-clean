@@ -145,6 +145,35 @@
         "clerk and tracking fields",
         "judge or court-order fields"
       ]
+    },
+    {
+      "fixtureId": "md-148-shielding-layout-candidate",
+      "trackId": "md_second_chance_shielding",
+      "caseReference": "SYN-MD-SHIELD-0001",
+      "currentExpectedResult": "source_materialization_required",
+      "facts": {
+        "petitionerName": "Casey Synthetic Morales",
+        "dateOfBirth": "02/14/1990",
+        "petitionerAddress": "404 Fictional Harbor Lane, Baltimore, MD 21201",
+        "petitionerEmail": "casey.morales@example.invalid",
+        "courtAndCounty": "Synthetic Maryland District Court caption in one county",
+        "caseNumber": "SYN-MD-SHIELD-0001",
+        "chargesInIncident": "Synthetic enumerated shielding offense used only for layout review",
+        "disposition": "guilty",
+        "pendingCharges": "no",
+        "allEligibleConvictionsAllCourts": "one court in one county",
+        "sentenceSatisfiedDate": "01/10/2021",
+        "priorShieldingPetition": "no",
+        "chosenCourtAndCounty": "Synthetic single court and county",
+        "domesticallyRelated": "no",
+        "understandsShieldingNotExpungement": "yes"
+      },
+      "manualFieldsExpectedBlank": [
+        "petition signature and affirmation date",
+        "restricted-information notice signature fields",
+        "attorney fields",
+        "clerk, court, and judicial fields"
+      ]
     }
   ],
   "boundaryFixtures": [
@@ -182,6 +211,20 @@
       "basedOn": "md-072b-conviction-fee-waiver-layout-candidate",
       "kind": "authority_role_mismatch",
       "expect": "packet_role_remains_fee_waiver"
+    },
+    {
+      "fixtureId": "md-shielding-factory-source-not-materialized",
+      "trackId": "md_second_chance_shielding",
+      "basedOn": "md-148-shielding-layout-candidate",
+      "kind": "materialization_required",
+      "expect": "source_materialization_required"
+    },
+    {
+      "fixtureId": "md-shielding-third-party-fields",
+      "trackId": "md_second_chance_shielding",
+      "basedOn": "md-148-shielding-layout-candidate",
+      "kind": "third_party_field_ownership",
+      "expect": "all_prohibited_fields_blank"
     }
   ]
 }

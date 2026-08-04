@@ -165,17 +165,40 @@
           "standaloneAllowed": false
         }
       ]
+    },
+    {
+      "trackId": "md_second_chance_shielding",
+      "outputFileName": "LegalEase_Maryland_Second-Chance-Shielding_<synthetic-case-id>.pdf",
+      "generationState": "blocked",
+      "externalImplementationTreatment": "preserved_unchanged_not_factory_runtime",
+      "blockingReasonCodes": [
+        "source_materialization_required",
+        "field_mapping_pending",
+        "filing_fee_release_blocker",
+        "preserved_external_implementation_not_factory_runtime"
+      ],
+      "documents": [
+        {
+          "documentId": "CC-DC-CR-148",
+          "componentId": "md_second_chance_shielding-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "order": 1,
+          "rendererStrategy": "unresolved_pending_verified_inspection"
+        },
+        {
+          "documentId": "MDJ-008",
+          "componentId": "md_second_chance_shielding-attachment-2",
+          "role": "attachment",
+          "requirement": "required",
+          "order": 2,
+          "rendererStrategy": "unresolved_pending_verified_inspection",
+          "standaloneAllowed": false
+        }
+      ]
     }
   ],
   "excludedDocuments": [
-    {
-      "documentId": "CC-DC-CR-148",
-      "reason": "Preserved in the existing Maryland shielding tranche."
-    },
-    {
-      "documentId": "MDJ-008",
-      "reason": "Preserved in the existing Maryland shielding tranche."
-    },
     {
       "documentId": "DC-CR-071",
       "reason": "The adopted route is process_guidance on a closed window, not official_pdf_fill."
@@ -183,6 +206,20 @@
     {
       "documentId": "CC-DC-CR-072G2",
       "reason": "Eligibility reference only; not a normalized participant packet component."
+    }
+  ],
+  "preservedExternalImplementationDocuments": [
+    {
+      "documentId": "CC-DC-CR-148",
+      "trackId": "md_second_chance_shielding",
+      "factoryCoverage": "exact_identity_map_ownership_fixture_assembly_review_scaffolded",
+      "runtimeTreatment": "external_tranche_preserved_unchanged"
+    },
+    {
+      "documentId": "MDJ-008",
+      "trackId": "md_second_chance_shielding",
+      "factoryCoverage": "exact_identity_map_ownership_fixture_assembly_review_scaffolded",
+      "runtimeTreatment": "external_tranche_preserved_unchanged"
     }
   ]
 }
