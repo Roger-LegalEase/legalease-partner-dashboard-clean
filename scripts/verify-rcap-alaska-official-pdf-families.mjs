@@ -262,6 +262,7 @@ ok(
     family.sourceContract.captainAssignmentRequired === true &&
     family.sourceContract.portableProjectionRequired === true &&
     family.sourceContract.workerReady === false &&
+    family.sourceContract.workerReadAuthorized === false &&
     family.sourceContract.workerMaterializationAuthorized === false &&
     family.sourceContract.workerMayAcquireOrDownloadSources === false &&
     family.sourceContract.captainProjectedExactSources === 0 &&
@@ -340,6 +341,7 @@ ok(
     sourceRequirements.captainAssignmentRequired === true &&
     sourceRequirements.portableProjectionRequired === true &&
     sourceRequirements.workerReady === false &&
+    sourceRequirements.workerReadAuthorized === false &&
     sourceRequirements.workerMaterializationAuthorized === false &&
     sourceRequirements.networkAcquisitionAuthorized === false &&
     sourceRequirements.counts.captainProjectedExactSources === 0,
@@ -355,6 +357,7 @@ ok(
     requirements.every(
       (requirement) =>
         requirement.workerReady === false &&
+        requirement.workerReadAuthorized === false &&
         requirement.workerMaterializationAuthorized === false &&
         Object.keys(requirement).every(
           (key) => !key.startsWith("verificationSource")

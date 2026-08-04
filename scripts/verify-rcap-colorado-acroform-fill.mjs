@@ -63,6 +63,7 @@ function verify() {
   assert(
     sourceRequirements.documents.every(
       (document) =>
+        document.workerReadAuthorized === false &&
         document.workerMaterializationAuthorized === false &&
         document.portableProjection === null &&
         document.assignmentAnchor === null,
@@ -177,6 +178,7 @@ function assertNonAuthorizing(value, label) {
       value.assignmentAnchor === null &&
       value.portableProjection === null &&
       value.portableProjectionPresent === false &&
+      value.workerReadAuthorized === false &&
       value.workerMaterializationAuthorized === false &&
       value.repositoryPrivatePathTreatment ===
         "identity_evidence_only_not_materialization_authority",

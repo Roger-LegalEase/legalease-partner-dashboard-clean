@@ -1433,6 +1433,7 @@ function assertNonAuthorizingContract(value, label) {
       value.assignmentAnchor === null &&
       value.portableProjection === null &&
       value.portableProjectionPresent === false &&
+      value.workerReadAuthorized === false &&
       value.workerMaterializationAuthorized === false &&
       value.repositoryPrivatePathTreatment ===
         "identity_evidence_only_not_materialization_authority",
