@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/rcap-production-factory-job-v1.json",
+  "title": "RCAP production factory job",
+  "description": "A deterministic, path-bounded unit of nationwide record-clearing work.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "jobId",
+    "lane",
+    "jurisdiction",
+    "trackIds",
+    "strategyFamily",
+    "baseCommit",
+    "dependencies",
+    "ownedPaths",
+    "forbiddenPaths",
+    "requiredInputs",
+    "expectedOutputs",
+    "focusedValidation",
+    "integrationValidation",
+    "model",
+    "effort",
+    "status",
+    "commitSubject",
+    "stopCondition"
+  ],
+  "properties": {
+    "jobId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "lane": {
+      "enum": [
+        "legal_design_normalization",
+        "source_acquisition",
+        "custom_pleading",
+        "acroform_fill",
+        "flat_pdf_overlay",
+        "composed_route",
+        "guidance_implementation",
+        "legal_output_review",
+        "staging_promotion"
+      ]
+    },
+    "jurisdiction": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$"
+    },
+    "trackIds": {
+      "$ref": "#/$defs/uniqueStrings"
+    },
+    "strategyFamily": {
+      "enum": [
+        "legal_design",
+        "source_acquisition",
+        "custom_pleading",
+        "official_pdf_fill",
+        "composed",
+        "process_guidance",
+        "legal_output_review",
+        "staging_promotion"
+      ]
+    },
+    "baseCommit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "dependencies": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+      }
+    },
+    "ownedPaths": {
+      "$ref": "#/$defs/nonemptyPaths"
+    },
+    "forbiddenPaths": {
+      "$ref": "#/$defs/paths"
+    },
+    "requiredInputs": {
+      "$ref": "#/$defs/paths"
+    },
+    "expectedOutputs": {
+      "$ref": "#/$defs/nonemptyPaths"
+    },
+    "focusedValidation": {
+      "$ref": "#/$defs/commands"
+    },
+    "integrationValidation": {
+      "$ref": "#/$defs/commands"
+    },
+    "model": {
+      "enum": [
+        "opus",
+        "codex"
+      ]
+    },
+    "effort": {
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ]
+    },
+    "status": {
+      "enum": [
+        "planned",
+        "ready",
+        "blocked",
+        "in_progress",
+        "completed",
+        "cancelled"
+      ]
+    },
+    "commitSubject": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "pattern": "^[^\\r\\n]+$"
+    },
+    "stopCondition": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "$defs": {
+    "uniqueStrings": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?![A-Za-z]:/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*[*?\\[\\]{}!]).+$"
+    },
+    "paths": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/path"
+      }
+    },
+    "nonemptyPaths": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/path"
+      }
+    },
+    "commands": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}
