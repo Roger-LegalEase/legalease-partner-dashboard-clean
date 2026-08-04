@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "rcap-official-pdf-fixture-scaffold/v1",
+  "familyId": "ga-gbi-gcic-pre-2013-restriction-overlay",
+  "jurisdiction": "GA",
+  "schemaPath": "data/record-clearing/production-factory/official-pdf-families/schemas/fixture-scaffold.schema.json",
+  "syntheticDataOnly": true,
+  "fixtureState": "pending_field_map_and_fact_type_binding",
+  "tracks": [
+    {
+      "trackId": "ga-nonconv-pre2013",
+      "fixtureId": "ga-nonconv-pre2013-synthetic-layout",
+      "caseReference": "SYN-GA-ga-nonconv-pre2013",
+      "requiredFactKeys": [
+        "fullLegalName",
+        "dateOfBirth",
+        "race",
+        "sex",
+        "socialSecurityNumber",
+        "telephoneNumber",
+        "emailForAgency",
+        "streetAddressForCompletionLetter",
+        "cityStateZip",
+        "arrestingAgency",
+        "arrestDate",
+        "offensesArrestedFor",
+        "disposition",
+        "appearsOnCriminalHistory",
+        "pleaAgreementSameTransaction"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Applicant signature and date",
+          "whereInPacket": "Request to Restrict Arrest Record, Section One",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Section Two in its entirety",
+          "whereInPacket": "Request to Restrict Arrest Record, Section Two",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Section Three in its entirety",
+          "whereInPacket": "Request to Restrict Arrest Record, Section Three",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    }
+  ],
+  "requiredBoundaryFixtures": [
+    "missing_required_input",
+    "source_missing",
+    "source_hash_mismatch",
+    "third_party_field_ownership",
+    "deterministic_repeat"
+  ]
+}
