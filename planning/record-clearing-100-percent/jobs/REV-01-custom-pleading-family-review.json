@@ -9,6 +9,23 @@
   "jurisdictions": [],
   "tracks": [],
   "trackCount": 47,
+  "scopedCompletionStatus": "current_implemented_scopes_complete",
+  "completedReviewScopes": [
+    {
+      "familyId": "tranche-1-mississippi-petitions",
+      "routeCount": 5,
+      "reviewManifestSha256": "b74dc79d89039ff5f2c817a7abd71deeba3a41f6c48fbca327acbf2e84c32e8c",
+      "adoptionRecord": "data/record-clearing/template-families/ADOPT-01-custom-pleading-family-adoption.json",
+      "status": "counsel_adopted"
+    },
+    {
+      "familyId": "tranche-3-georgia-superior-court-pleadings",
+      "routeCount": 9,
+      "reviewManifestSha256": "322636876880f4497a5f419f1579fd652f6754669b756b2d5fe6cd16ef83705a",
+      "adoptionRecord": "data/record-clearing/template-families/ADOPT-01-custom-pleading-family-adoption.json",
+      "status": "counsel_adopted"
+    }
+  ],
   "dependencies": [
     "IMP-CP-01-ga-superior-court-pleading-family",
     "IMP-CP-02-guidance-spec-unblock-family",
@@ -16,6 +33,26 @@
     "IMP-CP-04-single-petition-pleading-states",
     "IMP-CP-05-hi-hcjdc-159-family",
     "F-02-template-family-hash-infrastructure"
+  ],
+  "engineeringFollowUps": [
+    {
+      "id": "flow-writer-has-no-keep-together",
+      "status": "planned_integration_owned",
+      "ownedPath": "src/lib/rcap/packets/engines/pdf-layout.ts",
+      "contract": "Add a keep-together primitive for signature blocks without changing Georgia's completed packet bytes."
+    },
+    {
+      "id": "certificate-block-is-a-trap-for-a-standalone-certificate",
+      "status": "planned_integration_owned",
+      "ownedPath": "src/lib/rcap/packets/engines/custom-pleading.ts",
+      "contract": "Define append-only certificate behavior or suppress duplicate headings and signatures for standalone certificates."
+    },
+    {
+      "id": "no-shared-registration-point-for-a-jurisdiction-pack",
+      "status": "planned_integration_owned",
+      "ownedPath": "src/lib/rcap/packets/review-registration.ts",
+      "contract": "Provide a fixture-gated review-time registration hook that never enables runtime routing."
+    }
   ],
   "ownedPaths": [
     "data/record-clearing/template-families/REV-01-custom-pleading-family-review.json"

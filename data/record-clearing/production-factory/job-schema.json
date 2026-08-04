@@ -17,9 +17,11 @@
     "baseCommit",
     "dependencies",
     "ownedPaths",
+    "integrationOwnedOutputs",
     "forbiddenPaths",
     "requiredInputs",
     "expectedOutputs",
+    "requiredOutputFields",
     "focusedValidation",
     "integrationValidation",
     "model",
@@ -108,6 +110,14 @@
     "reconciliationIds": {
       "$ref": "#/$defs/uniqueStrings"
     },
+    "downloadedSourceCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "completionCommit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
     "baseCommit": {
       "type": "string",
       "pattern": "^[0-9a-f]{40}$"
@@ -123,6 +133,9 @@
     "ownedPaths": {
       "$ref": "#/$defs/nonemptyPaths"
     },
+    "integrationOwnedOutputs": {
+      "$ref": "#/$defs/nonemptyPaths"
+    },
     "forbiddenPaths": {
       "$ref": "#/$defs/paths"
     },
@@ -131,6 +144,9 @@
     },
     "expectedOutputs": {
       "$ref": "#/$defs/nonemptyPaths"
+    },
+    "requiredOutputFields": {
+      "$ref": "#/$defs/uniqueStrings"
     },
     "focusedValidation": {
       "$ref": "#/$defs/commands"
@@ -180,6 +196,119 @@
       "minLength": 1
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "lane": {
+            "const": "source_acquisition"
+          },
+          "strategyFamily": {
+            "not": {
+              "const": "edition_publication"
+            }
+          }
+        },
+        "required": [
+          "lane",
+          "strategyFamily"
+        ]
+      },
+      "then": {
+        "anyOf": [
+          {
+            "required": [
+              "acquisitionIds"
+            ],
+            "properties": {
+              "acquisitionIds": {
+                "minItems": 1
+              }
+            }
+          },
+          {
+            "required": [
+              "reconciliationIds"
+            ],
+            "properties": {
+              "reconciliationIds": {
+                "minItems": 1
+              }
+            }
+          }
+        ],
+        "properties": {
+          "requiredOutputFields": {
+            "contains": {
+              "const": "downloadedSourceCount"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "lane": {
+            "const": "source_acquisition"
+          },
+          "strategyFamily": {
+            "not": {
+              "const": "edition_publication"
+            }
+          },
+          "acquisitionIds": {
+            "minItems": 1
+          }
+        },
+        "required": [
+          "lane",
+          "strategyFamily",
+          "acquisitionIds"
+        ]
+      },
+      "then": {
+        "properties": {
+          "requiredOutputFields": {
+            "contains": {
+              "const": "acquisitionIds"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "lane": {
+            "const": "source_acquisition"
+          },
+          "strategyFamily": {
+            "not": {
+              "const": "edition_publication"
+            }
+          },
+          "reconciliationIds": {
+            "minItems": 1
+          }
+        },
+        "required": [
+          "lane",
+          "strategyFamily",
+          "reconciliationIds"
+        ]
+      },
+      "then": {
+        "properties": {
+          "requiredOutputFields": {
+            "contains": {
+              "const": "reconciliationIds"
+            }
+          }
+        }
+      }
+    }
+  ],
   "$defs": {
     "uniqueStrings": {
       "type": "array",

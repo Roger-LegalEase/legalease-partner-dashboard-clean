@@ -21,6 +21,7 @@ const NEVER_WORKER_OWNED_PATHS = [
   "data/record-clearing/master-library/repository-asset-audit.json",
   "data/record-clearing/master-library/source-acquisition-queue.json",
   "data/record-clearing/master-library/track-source-audit.json",
+  "data/record-clearing/production-factory/review-manifests",
   "src/lib/rcap/jurisdictions/packet-capability.ts",
   "src/lib/rcap/state-promotion-manifest.ts"
 ];
@@ -58,6 +59,9 @@ export function buildScaffoldPlan({ rootDir, job, authorityVersion, model = job?
     branch,
     worktreePath,
     workspacePath,
+    worktreeKind: "complete_git_worktree",
+    worktreeDisposable: false,
+    retainUntilIntegration: true,
     artifacts: {
       jobManifest: `${workspacePath}/job.json`,
       workerPrompt: `${workspacePath}/worker-prompt.md`,
@@ -75,6 +79,9 @@ export function buildScaffoldPlan({ rootDir, job, authorityVersion, model = job?
     ],
     safety: {
       explicitApplyRequired: true,
+      completeGitWorktree: true,
+      disposableOutput: false,
+      retainUntilIntegration: true,
       generatedArtifactsIgnored: true,
       globalRegistryRegeneration: false,
       staging: false,
@@ -235,6 +242,9 @@ function scaffoldManifestFor(plan) {
     workerBaseCommit: plan.workerBaseCommit,
     branch: plan.branch,
     worktreePath: plan.worktreePath,
+    worktreeKind: plan.worktreeKind,
+    worktreeDisposable: plan.worktreeDisposable,
+    retainUntilIntegration: plan.retainUntilIntegration,
     jobManifest: plan.artifacts.jobManifest,
     workerPrompt: plan.artifacts.workerPrompt,
     safety: plan.safety
@@ -252,6 +262,9 @@ function worktreeMarkerFor(plan, job, actualStartCommit) {
     workerBaseCommit: actualStartCommit,
     branch: plan.branch,
     markerPath: WORKTREE_JOB_MARKER,
+    worktreeKind: plan.worktreeKind,
+    worktreeDisposable: plan.worktreeDisposable,
+    retainUntilIntegration: plan.retainUntilIntegration,
     ownedPaths: job.ownedPaths,
     forbiddenPaths: job.forbiddenPaths,
     focusedValidation: job.focusedValidation

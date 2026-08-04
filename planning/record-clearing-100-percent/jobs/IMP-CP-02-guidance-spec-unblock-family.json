@@ -5,10 +5,11 @@
   "lane": "implementation-pleading",
   "model": "claude-opus-5",
   "effort": "xhigh",
-  "title": "The seven tracks in the entire corpus blocked by exactly one reason, and that reason is a document LegalEase writes itself",
+  "title": "The eight tracks in the entire corpus blocked by exactly one reason, and that reason is a document LegalEase writes itself",
   "jurisdictions": [
     "MS",
     "KS",
+    "GA",
     "ME"
   ],
   "tracks": [
@@ -18,9 +19,19 @@
     "ms-diversion",
     "ks-12-4516-municipal",
     "ks-12-4516a-municipal-arrest",
+    "ga-jail-k2",
     "me-screening"
   ],
-  "trackCount": 7,
+  "trackCount": 8,
+  "blockingComponents": [
+    {
+      "jurisdiction": "GA",
+      "trackId": "ga-jail-k2",
+      "componentId": "ga-jail-k2-process-guidance-3",
+      "compiledChildJobId": "rcap-ga-guidance-specification-jail-k2",
+      "status": "ready"
+    }
+  ],
   "dependencies": [],
   "ownedPaths": [
     "src/lib/rcap/packets/registry-guidance-spec-unblock-family.ts",
@@ -76,7 +87,7 @@
   ],
   "commitSubject": "feat(record-clearing): implement MS/KS/ME guidance-blocked routes",
   "completionCondition": "Every positive fixture generates one assembled PDF through the real fulfilment and assembly path, every boundary fixture stops with its expected typed failure, technical and visual review pass, a legal-output recommendation is recorded, and every track remains runtime_disabled at awaiting_counsel_review.",
-  "blockerResolved": "Seven tracks blocked solely by a missing process-guidance specification (MS 3, KS 2, GA 1 handled in CP-01, ME 1). No external dependency of any kind.",
+  "blockerResolved": "Eight tracks are bounded by missing process-guidance specifications (MS 4, KS 2, GA 1, ME 1). Georgia's exact missing component is ga-jail-k2-process-guidance-3. No external dependency of any kind.",
   "commercialPriority": 85,
   "reuseScore": 100
 }

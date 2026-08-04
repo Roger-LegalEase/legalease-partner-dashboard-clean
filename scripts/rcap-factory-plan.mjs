@@ -9,6 +9,9 @@ import {
   serializeFactoryPlan,
   stableStringify
 } from "./lib/rcap-factory/index.mjs";
+import {
+  assertAuthorityOutputContract
+} from "./lib/rcap-factory/authority-output.mjs";
 
 try {
   const args = parseArgs(process.argv.slice(2));
@@ -133,7 +136,7 @@ function checkJobOutputs(plan, jobId, rootDir) {
       } catch (error) {
         throw new Error(`${jobId} expected output is invalid JSON (${relativePath}): ${error.message}`);
       }
-      checkAuthorityOutputPolicy(job, relativePath, value);
+      assertAuthorityOutputContract(job, relativePath, value);
     } else if (relativePath.endsWith(".ts") || relativePath.endsWith(".tsx")) {
       checkTypeScriptSyntax(jobId, relativePath, text);
     }
@@ -146,68 +149,6 @@ function checkJobOutputs(plan, jobId, rootDir) {
     result: "passed",
     checkedOutputs: checked
   };
-}
-
-function checkAuthorityOutputPolicy(job, relativePath, value) {
-  if (job.lane !== "source_acquisition") return;
-  if (!value || typeof value !== "object" || Array.isArray(value)) {
-    throw new Error(`${job.jobId} authority output must be a JSON object (${relativePath}).`);
-  }
-
-  if ((job.acquisitionIds?.length ?? 0) > 0) {
-    const actual = Array.isArray(value.acquisitionIds)
-      ? [...new Set(value.acquisitionIds)].sort()
-      : [];
-    const expected = [...job.acquisitionIds].sort();
-    if (JSON.stringify(actual) !== JSON.stringify(expected)) {
-      throw new Error(
-        `${job.jobId} output must account for its exact acquisitionIds (${relativePath}).`
-      );
-    }
-  }
-  if ((job.reconciliationIds?.length ?? 0) > 0) {
-    const actual = Array.isArray(value.reconciliationIds)
-      ? [...new Set(value.reconciliationIds)].sort()
-      : [];
-    const expected = [...job.reconciliationIds].sort();
-    if (JSON.stringify(actual) !== JSON.stringify(expected)) {
-      throw new Error(
-        `${job.jobId} output must account for its exact reconciliationIds (${relativePath}).`
-      );
-    }
-  }
-
-  if (
-    job.strategyFamily === "in_repo_identity_reconciliation" &&
-    value.downloadedSourceCount !== 0
-  ) {
-    throw new Error(
-      `${job.jobId} must record downloadedSourceCount=0 for in-repository reconciliation.`
-    );
-  }
-
-  if (job.strategyFamily === "local_form_scope_correction") {
-    if (
-      value.legalDesignReconciliationRequired !== true ||
-      value.statewidePromotionAllowed !== false
-    ) {
-      throw new Error(
-        `${job.jobId} must require legal-design reconciliation and forbid statewide promotion.`
-      );
-    }
-  }
-
-  if (job.strategyFamily === "commercial_license") {
-    const adoptedLicense =
-      value.licenseAdopted === true &&
-      value.adoptedLicense &&
-      /^[0-9a-f]{64}$/.test(value.adoptedLicense.sha256 ?? "");
-    if (value.generationAllowed !== false && !(value.generationAllowed === true && adoptedLicense)) {
-      throw new Error(
-        `${job.jobId} cannot allow generation without an adopted license pinned by SHA-256.`
-      );
-    }
-  }
 }
 
 function checkTypeScriptSyntax(jobId, relativePath, source) {

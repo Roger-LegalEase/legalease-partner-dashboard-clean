@@ -34,6 +34,7 @@ import {
   verifyTrackedReviewManifest
 } from "./lib/rcap-factory/review-artifacts.mjs";
 import {
+  isWorkerScaffoldCheckout,
   validateChangedPaths,
   validateJobWorkspace,
   validateWorkerCommand
@@ -43,14 +44,22 @@ import {
 } from "./rcap-factory-status.mjs";
 import {
   buildWaveIntegrationPlan,
+  filterPermittedCaptainStatus,
   integrateWave
 } from "./lib/rcap-factory/wave-integration.mjs";
+import {
+  assertAuthorityOutputContract
+} from "./lib/rcap-factory/authority-output.mjs";
+import {
+  ADOPTION_RECORD_PATHS,
+  buildCurrentCounselAdoptionRecords
+} from "./lib/rcap-counsel-adoption.mjs";
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(SCRIPT_DIR, "..");
 const EXPECTED_BASE = "8df94fbaa66c06bf0ba677ee4f5fb417ad08cdc8";
 const AUTHORIZED_INTEGRATED_CONTENT_BASE =
-  "4ccf8ce2f96b5aef19dc6e53715db35cc685776a";
+  "1d8ed5a3302a055ffb5a590aa83dcb47f4a2df86";
 const results = [];
 const failures = [];
 
@@ -61,6 +70,19 @@ await check("job JSON Schema and manifest contract", () => {
   assert.deepEqual(schema.required, REQUIRED_JOB_FIELDS);
   assert.equal(schema.additionalProperties, false);
   assert.deepEqual(schema.properties.lane.enum, FACTORY_LANES);
+  assert.equal(schema.allOf.length, 3);
+  assert.equal(
+    schema.allOf[0].then.properties.requiredOutputFields.contains.const,
+    "downloadedSourceCount"
+  );
+  assert.equal(
+    schema.allOf[1].then.properties.requiredOutputFields.contains.const,
+    "acquisitionIds"
+  );
+  assert.equal(
+    schema.allOf[2].then.properties.requiredOutputFields.contains.const,
+    "reconciliationIds"
+  );
 });
 
 let plan;
@@ -85,10 +107,10 @@ await check("deterministic plan covers all lanes and jurisdictions", () => {
   assert.deepEqual(first.lanes.map((entry) => entry.lane), FACTORY_LANES);
   assert.ok(first.lanes.every((entry) => entry.jobIds.length > 0));
   assert.equal(first.waves.length, FACTORY_LANES.length);
-  assert.equal(first.jobs.length, 187);
-  assert.equal(first.jobs.filter((job) => job.status === "ready").length, 110);
+  assert.equal(first.jobs.length, 189);
+  assert.equal(first.jobs.filter((job) => job.status === "ready").length, 109);
   assert.equal(first.jobs.filter((job) => job.status === "blocked").length, 76);
-  assert.equal(first.jobs.filter((job) => job.status === "completed").length, 1);
+  assert.equal(first.jobs.filter((job) => job.status === "completed").length, 4);
   assert.equal(findOwnedPathOverlaps(first.jobs).length, 0);
   assert.ok(first.generatedFrom.length >= 8);
   assert.ok(first.generatedFrom.every((entry) => /^[0-9a-f]{64}$/.test(entry.sha256)));
@@ -97,12 +119,19 @@ await check("deterministic plan covers all lanes and jurisdictions", () => {
   assert.deepEqual(first.sourceSummary.runtime.launchGates, ["red"]);
   for (const job of first.jobs) {
     for (const field of REQUIRED_JOB_FIELDS) assert.ok(field in job, `${job.jobId}: ${field}`);
+    const reviewPath =
+      `data/record-clearing/production-factory/review-manifests/${job.jobId}.json`;
+    assert.deepEqual(job.integrationOwnedOutputs, [reviewPath], job.jobId);
+    assert.equal(job.ownedPaths.includes(reviewPath), false, job.jobId);
+    assert.ok(job.forbiddenPaths.includes(
+      "data/record-clearing/production-factory/review-manifests"
+    ));
   }
   assert.deepEqual(first.canonicalPlan, {
     parentJobs: 72,
     waves: 8,
     lanes: 11,
-    completedParentJobs: 1,
+    completedParentJobs: 3,
     childMappingPolicy: {
       cardinality: "exactly_one_execution_owner",
       implementationSelection:
@@ -123,8 +152,8 @@ await check("deterministic plan covers all lanes and jurisdictions", () => {
     "npm run typecheck",
     "npm test"
   ]);
-  assert.equal(first.parentJobReconciliation.compiledChildJobs, 187);
-  assert.equal(first.parentJobReconciliation.childrenMappedExactlyOnce, 187);
+  assert.equal(first.parentJobReconciliation.compiledChildJobs, 189);
+  assert.equal(first.parentJobReconciliation.childrenMappedExactlyOnce, 189);
   assert.equal(first.parentJobReconciliation.unmappedChildren, 0);
   assert.equal(first.parentJobReconciliation.unknownParentReferences, 0);
   plan = first;
@@ -208,21 +237,28 @@ await check("integrated acquisition intelligence is lossless and action-specific
   const ga = job("rcap-ga-custom-pleading");
   assert.equal(ga.model, "opus");
   assert.equal(ga.effort, "xhigh");
+  assert.equal(ga.status, "completed");
+  assert.equal(ga.trackIds.length, 9);
   assert.ok(
     ga.expectedOutputs.includes(
       "scripts/verify-rcap-ga-superior-court-pleading-family-packets.mjs"
     )
   );
-  assert.match(ga.stopCondition, /assembled final participant PDFs/);
-  assert.match(ga.stopCondition, /ga-jail-k2/);
+  assert.match(ga.stopCondition, /nine deterministic participant packets/);
+  const gaJail = job("rcap-ga-guidance-specification-jail-k2");
+  assert.equal(gaJail.status, "ready");
+  assert.equal(gaJail.parentJobId, "IMP-CP-02-guidance-spec-unblock-family");
+  assert.deepEqual(gaJail.trackIds, ["ga-jail-k2"]);
+  assert.match(gaJail.stopCondition, /ga-jail-k2-process-guidance-3/);
+  assert.match(gaJail.stopCondition, /Do not implement or generate a packet/);
 });
 
 await check("all normalized tracks reconcile exactly once and completed tranches stay complete", () => {
   const reconciliation = plan.trackReconciliation;
   assert.equal(reconciliation.normalizedTracks, 250);
   assert.equal(reconciliation.representedExactlyOnce, 250);
-  assert.equal(reconciliation.implementationComplete, 6);
-  assert.equal(reconciliation.pendingProductionJob, 244);
+  assert.equal(reconciliation.implementationComplete, 15);
+  assert.equal(reconciliation.pendingProductionJob, 235);
 
   const implementationLanes = new Set([
     "custom_pleading",
@@ -235,6 +271,7 @@ await check("all normalized tracks reconcile exactly once and completed tranches
     (entry) => entry.disposition === "implementation_complete"
   );
   assert.equal(completed.filter((entry) => entry.jurisdiction === "MS").length, 5);
+  assert.equal(completed.filter((entry) => entry.jurisdiction === "GA").length, 9);
   assert.deepEqual(
     completed
       .filter((entry) => entry.jurisdiction === "MD")
@@ -278,15 +315,59 @@ await check("all normalized tracks reconcile exactly once and completed tranches
   ]);
 });
 
+await check("counsel adoption is exact, hash-bound, and separate from engineering review", async () => {
+  const expected = await buildCurrentCounselAdoptionRecords({ rootDir: ROOT });
+  let adoptedRoutes = 0;
+  for (const relativePath of ADOPTION_RECORD_PATHS) {
+    const actual = readJson(relativePath);
+    assert.deepEqual(actual, expected.get(relativePath), relativePath);
+    assert.equal(actual.status, "counsel_adopted");
+    assert.equal(actual.blanketFutureApproval, false);
+    assert.equal(actual.productionEnabled, false);
+    for (const scope of actual.completedScopes) {
+      adoptedRoutes += scope.approvedRouteIds.length;
+      assert.equal(scope.runtime.runtimeStatus, "runtime_disabled");
+      assert.equal(scope.runtime.packetReady, false);
+      assert.equal(scope.runtime.productionEnabled, false);
+      assert.equal(scope.fullCanonicalParentComplete, false);
+      assert.equal(
+        scope.hashBoundScope.schemaVersion,
+        "rcap-counsel-adoption-hash-scope/v1"
+      );
+      assert.equal(Object.hasOwn(scope, "coverage"), false);
+      assert.equal(
+        scope.legalDesignSpecificationHashes.length,
+        scope.approvedRouteIds.length
+      );
+    }
+  }
+  assert.equal(adoptedRoutes, 15);
+  const custom = expected.get(ADOPTION_RECORD_PATHS[0]);
+  assert.deepEqual(
+    custom.completedScopes.find((scope) => scope.jurisdiction === "GA")
+      .excludedRouteIds,
+    ["ga-jail-k2"]
+  );
+  assert.equal(
+    custom.completedScopes.find((scope) => scope.jurisdiction === "GA")
+      .preservedCounselQuestions.length,
+    6
+  );
+});
+
 await check("overlap and owned/forbidden conflicts fail closed", () => {
   const overlapping = structuredClone(plan);
-  overlapping.jobs[1].ownedPaths[0] = overlapping.jobs[0].ownedPaths[0];
+  const active = overlapping.jobs.filter((entry) =>
+    ["planned", "ready", "blocked", "in_progress"].includes(entry.status)
+  );
+  assert.ok(active.length >= 2);
+  active[1].ownedPaths[0] = active[0].ownedPaths[0];
   assert.ok(findOwnedPathOverlaps(overlapping.jobs).length > 0);
   const result = validateFactoryPlan(overlapping);
   assert.equal(result.ok, false);
   assert.ok(result.issues.some((issue) => issue.includes("overlapping owned paths")));
 
-  const conflicted = structuredClone(plan.jobs[0]);
+  const conflicted = structuredClone(active[0]);
   conflicted.forbiddenPaths.push(conflicted.ownedPaths[0]);
   const jobResult = validateJob(conflicted);
   assert.equal(jobResult.ok, false);
@@ -311,9 +392,11 @@ await check("worker prompt is short, stable, and contains only contract sections
     "Authority version",
     "Assigned job manifest",
     "Owned paths",
+    "Integration-owned outputs — do not create or commit",
     "Forbidden paths",
     "Required outputs",
     "Focused acceptance command",
+    "Scaffold worktree",
     "Commit subject",
     "Stop condition"
   ]);
@@ -325,9 +408,11 @@ await check("worker prompt is short, stable, and contains only contract sections
     1
   );
   assert.equal(first.includes("npm test"), false);
+  assert.match(first, /complete linked Git worktree/);
+  assert.match(first, /never delete or treat the worktree as disposable output/);
 
   const acquisitionJob = plan.jobs.find(
-    (entry) => entry.jobId === "rcap-ar-in-repo-identity-reconciliation-acic"
+    (entry) => entry.jobId === "rcap-al-in-repo-identity-reconciliation-cr-65"
   );
   const acquisitionPrompt = compileWorkerPrompt({
     job: acquisitionJob,
@@ -335,10 +420,54 @@ await check("worker prompt is short, stable, and contains only contract sections
     model: acquisitionJob.model
   });
   assert.match(acquisitionPrompt, /"acquisitionIds": \[/);
+  assert.match(acquisitionPrompt, /"downloadedSourceCount": 0/);
+  assert.match(
+    acquisitionPrompt,
+    /required top-level fields: acquisitionIds, downloadedSourceCount/
+  );
   assert.ok(
     acquisitionJob.acquisitionIds.every((acquisitionId) =>
       acquisitionPrompt.includes(acquisitionId)
     )
+  );
+  const authorityFixture = {
+    acquisitionIds: acquisitionJob.acquisitionIds,
+    downloadedSourceCount: 0
+  };
+  assert.doesNotThrow(() =>
+    assertAuthorityOutputContract(
+      acquisitionJob,
+      "authority-fixture.json",
+      authorityFixture
+    )
+  );
+  for (const missingField of ["acquisitionIds", "downloadedSourceCount"]) {
+    const invalid = { ...authorityFixture };
+    delete invalid[missingField];
+    assert.throws(
+      () =>
+        assertAuthorityOutputContract(
+          acquisitionJob,
+          "authority-fixture.json",
+          invalid
+        ),
+      new RegExp(`missing required top-level field ${missingField}`)
+    );
+  }
+  assert.throws(
+    () =>
+      assertAuthorityOutputContract(
+        acquisitionJob,
+        "authority-fixture.json",
+        {
+          ...authorityFixture,
+          acquisitionIds: [
+            ...authorityFixture.acquisitionIds,
+            authorityFixture.acquisitionIds[0]
+          ]
+        }
+      ),
+    /unique string acquisitionIds/
   );
 
   const captainJob = plan.jobs.find(
@@ -388,6 +517,11 @@ await check("scaffold is deterministic, isolated, and dry-run by default", () =>
   const second = buildScaffoldPlan(options);
   assert.deepEqual(first, second);
   assert.equal(first.safety.explicitApplyRequired, true);
+  assert.equal(first.worktreeKind, "complete_git_worktree");
+  assert.equal(first.worktreeDisposable, false);
+  assert.equal(first.retainUntilIntegration, true);
+  assert.equal(first.safety.completeGitWorktree, true);
+  assert.equal(first.safety.disposableOutput, false);
   assert.equal(first.safety.staging, false);
   assert.equal(first.safety.deployment, false);
   assert.ok(first.worktreePath.startsWith("tmp/rcap-factory/worktrees/"));
@@ -395,6 +529,14 @@ await check("scaffold is deterministic, isolated, and dry-run by default", () =>
   assert.equal(first.manifestBaseCommit, job.baseCommit);
   assert.equal(first.scaffoldBaseCommit, git(["rev-parse", "HEAD"]).trim());
   assert.equal(first.command.at(-1), first.scaffoldBaseCommit);
+  const help = spawnSync(
+    "node",
+    ["scripts/rcap-factory-scaffold.mjs", "--help"],
+    { cwd: ROOT, encoding: "utf8" }
+  );
+  assert.equal(help.status, 0, help.stderr);
+  assert.match(help.stdout, /complete linked Git worktree/);
+  assert.match(help.stdout, /not the checkout or disposable output/);
 });
 
 await check("scaffold marker pins plan and job provenance", () => {
@@ -427,6 +569,107 @@ await check("scaffold marker pins plan and job provenance", () => {
   }
 });
 
+await check("scaffold marker preserves the complete non-disposable worktree contract", () => {
+  const job = plan.jobs.find((entry) => entry.status === "ready") ?? plan.jobs[0];
+  const markerPath = path.join(ROOT, "tmp/rcap-factory/job.json");
+  const currentHead = git(["rev-parse", "HEAD"]).trim();
+  const currentBranch = git(["branch", "--show-current"]).trim();
+  const marker = {
+    jobId: job.jobId,
+    manifestBaseCommit: job.baseCommit,
+    scaffoldBaseCommit: currentHead,
+    workerBaseCommit: currentHead,
+    branch: currentBranch,
+    worktreeKind: "complete_git_worktree",
+    worktreeDisposable: false,
+    retainUntilIntegration: true,
+    ownedPaths: job.ownedPaths,
+    forbiddenPaths: job.forbiddenPaths,
+    focusedValidation: job.focusedValidation
+  };
+  assert.equal(fs.existsSync(markerPath), false, `${markerPath} already exists`);
+  fs.mkdirSync(path.dirname(markerPath), { recursive: true });
+  try {
+    const validateMarker = (value) => {
+      fs.writeFileSync(markerPath, `${JSON.stringify(value)}\n`);
+      return validateJobWorkspace(job, {
+        rootDir: ROOT,
+        changedPaths: [],
+        runCommands: false,
+        requireExpectedOutputs: false
+      });
+    };
+    assert.equal(validateMarker(marker).passed, true);
+    for (const [field, invalid] of [
+      ["worktreeKind", "marker_directory"],
+      ["worktreeDisposable", true],
+      ["retainUntilIntegration", false]
+    ]) {
+      const report = validateMarker({ ...marker, [field]: invalid });
+      assert.equal(report.passed, false, field);
+      assert.ok(
+        report.failures.some(
+          (entry) =>
+            entry.code === "scaffold_contract_mismatch" &&
+            entry.message.includes(field)
+        ),
+        field
+      );
+    }
+  } finally {
+    fs.rmSync(markerPath, { force: true });
+  }
+});
+
+await check("worker checkout cannot bypass the scaffold contract by deleting its marker", () => {
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-worker-marker-"));
+  try {
+    const run = (args) =>
+      spawnSync("git", args, { cwd: tempRoot, encoding: "utf8" });
+    assert.equal(run(["init"]).status, 0);
+    assert.equal(run(["config", "user.email", "factory-test@example.invalid"]).status, 0);
+    assert.equal(run(["config", "user.name", "Factory Test"]).status, 0);
+    fs.writeFileSync(path.join(tempRoot, "seed.txt"), "seed\n");
+    assert.equal(run(["add", "seed.txt"]).status, 0);
+    assert.equal(run(["commit", "-m", "test: seed"]).status, 0);
+    assert.equal(run(["switch", "-c", "rcap-factory/missing-marker-test"]).status, 0);
+    assert.equal(isWorkerScaffoldCheckout(tempRoot), true);
+    const workerJob = {
+      ...(plan.jobs.find((entry) => entry.status === "ready") ?? plan.jobs[0]),
+      baseCommit: run(["rev-parse", "HEAD"]).stdout.trim()
+    };
+    const report = validateJobWorkspace(workerJob, {
+      rootDir: tempRoot,
+      changedPaths: [],
+      runCommands: false,
+      requireExpectedOutputs: false
+    });
+    assert.equal(report.passed, false);
+    assert.ok(
+      report.failures.some((entry) => entry.code === "missing_scaffold_marker")
+    );
+  } finally {
+    fs.rmSync(tempRoot, { recursive: true, force: true });
+  }
+});
+
+await check("captain worktree permits only the exact untracked private symlink", () => {
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-private-symlink-"));
+  try {
+    fs.symlinkSync("unavailable-private-target", path.join(tempRoot, "private"));
+    assert.deepEqual(
+      filterPermittedCaptainStatus(tempRoot, [
+        "?? private",
+        " M package.json",
+        "?? private/not-a-symlink.pdf"
+      ]),
+      [" M package.json", "?? private/not-a-symlink.pdf"]
+    );
+  } finally {
+    fs.rmSync(tempRoot, { recursive: true, force: true });
+  }
+});
+
 await check("path and command safeguards reject forbidden worker behavior", () => {
   const job = plan.jobs.find((entry) => entry.jurisdiction === "AK") ?? plan.jobs[0];
   const owned = validateChangedPaths(job, [job.ownedPaths[0]]);
@@ -448,6 +691,14 @@ await check("path and command safeguards reject forbidden worker behavior", () =
   ]) {
     assert.equal(validateChangedPaths(job, [changedPath]).ok, false, changedPath);
   }
+  const reviewManifest = job.integrationOwnedOutputs[0];
+  const reviewChange = validateChangedPaths(job, [reviewManifest]);
+  assert.equal(reviewChange.ok, false);
+  assert.ok(
+    reviewChange.violations.some(
+      (entry) => entry.code === "global_generated_output"
+    )
+  );
 
   assert.equal(validateWorkerCommand("git add .").ok, false);
   assert.equal(validateWorkerCommand("npm test").ok, false);
@@ -558,8 +809,8 @@ await check("review PDFs, page images, hashes, and checklists reproduce", async 
       trackIds: ["ak-fixture-one", "ak-fixture-two"],
       strategyFamily: "custom_pleading",
       baseCommit: plan.baseCommit,
-      ownedPaths: [
-        expectedOutput,
+      ownedPaths: [expectedOutput],
+      integrationOwnedOutputs: [
         "data/record-clearing/production-factory/review-manifests/factory-review-proof.json"
       ],
       expectedOutputs: [expectedOutput]
@@ -592,6 +843,7 @@ await check("review PDFs, page images, hashes, and checklists reproduce", async 
     assert.equal(first.manifest.technicalProofPassed, true);
     assert.equal(first.manifest.visualProofPassed, false);
     assert.equal(first.manifest.counselAdopted, false);
+    assert.equal(first.manifest.productionEnabled, false);
     assert.match(first.manifest.packet.sha256, /^[0-9a-f]{64}$/);
 
     const pdfPath = path.join(
@@ -638,18 +890,18 @@ await check("dashboard reports all 51 and preserves the red launch posture", () 
   assert.deepEqual(status.readinessMetrics, {
     authorityCleared: 87,
     authorityBlocked: 163,
-    sourcePinned: 32,
-    implementationProof: 6,
+    sourcePinned: 41,
+    implementationProof: 15,
     finalDisposition: 0
   });
   assert.equal(status.totals.jurisdictions, 51);
   assert.equal(status.totals.tracks, 250);
   assert.equal(status.totals.normalized, 250);
-  assert.equal(status.totals.implementationComplete, 6);
-  assert.equal(status.totals.technicalProofPassed, 6);
-  assert.equal(status.totals.visualProofPassed, 6);
-  assert.equal(status.totals.legalRecommendationComplete, 1);
-  assert.equal(status.totals.counselAdopted, 0);
+  assert.equal(status.totals.implementationComplete, 15);
+  assert.equal(status.totals.technicalProofPassed, 15);
+  assert.equal(status.totals.visualProofPassed, 15);
+  assert.equal(status.totals.legalRecommendationComplete, 15);
+  assert.equal(status.totals.counselAdopted, 15);
   assert.equal(status.totals.stagingPassed, 0);
   assert.equal(status.totals.packetReady, 0);
   assert.equal(status.totals.enabledJurisdictions, 0);
@@ -678,6 +930,21 @@ await check("wave integration dry run is stable and captain-only", async () => {
   assert.ok(first.integrationValidation.includes("npm test"));
   assert.equal(first.captainRegeneration.includes("npm test"), false);
   assert.equal(first.safety.fullSuiteScope, "wave_integration_only");
+  assert.equal(first.safety.integrationOwnedReviewManifestRequired, true);
+  const activeWave = plan.waves.find((entry) =>
+    entry.jobIds.some(
+      (jobId) => plan.jobs.find((job) => job.jobId === jobId)?.status === "ready"
+    )
+  );
+  const activeWavePlan = buildWaveIntegrationPlan(plan, activeWave.waveId, {
+    rootDir: ROOT
+  });
+  assert.equal(
+    activeWavePlan.readinessBlockers.some((entry) =>
+      /review manifest.*worker commit/i.test(entry)
+    ),
+    false
+  );
 
   const result = await integrateWave(plan, wave.waveId, {
     rootDir: ROOT,
@@ -710,7 +977,6 @@ await check("wave integration dry run is stable and captain-only", async () => {
 
 await check("existing legal registries and runtime status are byte-unchanged", () => {
   const protectedPaths = [
-    "data/record-clearing/implementation-tranches",
     "data/record-clearing/legal-design-implementation-queue.json",
     "data/record-clearing/legal-design-packet-set-manifests.json",
     "data/record-clearing/legal-design-track-registry.json",
@@ -720,7 +986,6 @@ await check("existing legal registries and runtime status are byte-unchanged", (
     "data/record-clearing/source-artifact-registry.json",
     "docs/rcap-promotion",
     "src/app/api/rcap",
-    "src/lib/rcap/jurisdictions/packet-capability.ts",
     "src/lib/rcap/packets/registry.ts",
     "src/lib/rcap/state-promotion-manifest.ts"
   ];

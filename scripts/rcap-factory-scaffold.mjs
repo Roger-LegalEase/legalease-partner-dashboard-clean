@@ -14,6 +14,10 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
 
 async function main() {
   const args = parseScaffoldArgs(process.argv.slice(2));
+  if (args.help) {
+    process.stdout.write(scaffoldHelp());
+    return;
+  }
   const factory = await loadFactoryApi();
   const options = { root: rootDir, rootDir };
   const factoryPlan = await factory.loadFactoryPlan(options);
@@ -42,11 +46,16 @@ export function parseScaffoldArgs(rawArgs) {
   let model;
   let apply = false;
   let explicitDryRun = false;
+  let help = false;
 
   for (let index = 0; index < rawArgs.length; index += 1) {
     const arg = rawArgs[index];
 
     if (arg === "--") continue;
+    if (arg === "--help" || arg === "-h") {
+      help = true;
+      continue;
+    }
     if (arg === "--apply") {
       apply = true;
       continue;
@@ -69,13 +78,28 @@ export function parseScaffoldArgs(rawArgs) {
     positionals.push(arg);
   }
 
-  if (positionals.length !== 1) {
-    throw new Error("Usage: rcap:factory:scaffold -- <jobId> [--model opus|codex] [--apply]");
+  if (!help && positionals.length !== 1) {
+    throw new Error(scaffoldHelp().trim());
+  }
+  if (help && positionals.length > 0) {
+    throw new Error("--help does not accept a job ID.");
   }
   if (apply && explicitDryRun) throw new Error("Specify --apply or --dry-run, not both.");
   if (model !== undefined) assertSupportedModel(model);
 
-  return { jobId: positionals[0], model, apply };
+  return { jobId: positionals[0] ?? null, model, apply, help };
+}
+
+function scaffoldHelp() {
+  return [
+    "Usage: rcap:factory:scaffold -- <jobId> [--model opus|codex] [--apply|--dry-run]",
+    "",
+    "Without --apply, print a deterministic scaffold plan and make no changes.",
+    "--apply creates a complete linked Git worktree at worktreePath and a worker branch.",
+    "The reported marker and workspace paths are metadata, not the checkout or disposable output.",
+    "Retain the complete worktree, branch, and metadata until integration.",
+    ""
+  ].join("\n");
 }
 
 async function loadFactoryApi() {

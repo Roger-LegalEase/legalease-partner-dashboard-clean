@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -15,6 +16,7 @@ const INPUTS = {
   blockers: "data/record-clearing/master-library/authoritative-blocker-ledger.json",
   trackSourceAudit: "data/record-clearing/master-library/track-source-audit.json",
   trancheDirectory: "data/record-clearing/implementation-tranches",
+  adoptionDirectory: "data/record-clearing/template-families",
   factoryReviewDirectory:
     "data/record-clearing/production-factory/review-manifests"
 };
@@ -36,12 +38,98 @@ const TERMINAL_LEGAL_STATUSES = new Set([
   "withdrawn"
 ]);
 
+const TRUSTED_COUNSEL_ADOPTIONS = Object.freeze({
+  "ADOPT-01-custom-pleading-family-adoption.json": {
+    sha256: "3fa444381d1750a2ff85af86303d0f53c600a54f09e3f006a1489d8f824898f7",
+    scopes: {
+      "tranche-1-mississippi-petitions": [
+        "ms-fel",
+        "ms-misd-1st",
+        "ms-misd-addl",
+        "ms-nonconv",
+        "ms-nonadj"
+      ],
+      "tranche-3-georgia-superior-court-pleadings": [
+        "ga-felony-j1",
+        "ga-vacated-j2",
+        "ga-deaddocket-j3",
+        "ga-misd-j4",
+        "ga-fugitive-j5",
+        "ga-pardon-j7",
+        "ga-seal-m",
+        "ga-fo-active-pre2026",
+        "ga-fo-discharged-pre2026"
+      ]
+    }
+  },
+  "ADOPT-02-official-acroform-family-adoption.json": {
+    sha256: "8c5d87a5ed7476987a48573b86f2d5827bcedaa5a0859ff3296b2764ed5509ca",
+    scopes: {
+      "tranche-2-maryland-official-forms": [
+        "md_second_chance_shielding"
+      ]
+    }
+  }
+});
+
 function readJson(rootDir, relativePath) {
   return JSON.parse(fs.readFileSync(path.join(rootDir, relativePath), "utf8"));
 }
 
 function asArray(value) {
   return Array.isArray(value) ? value : [];
+}
+
+function sha256(value) {
+  return crypto.createHash("sha256").update(value).digest("hex");
+}
+
+function sha256Canonical(value) {
+  return sha256(Buffer.from(canonicalJson(value), "utf8"));
+}
+
+function canonicalJson(value) {
+  if (
+    value === null ||
+    typeof value === "string" ||
+    typeof value === "boolean" ||
+    (typeof value === "number" && Number.isFinite(value))
+  ) {
+    return JSON.stringify(value);
+  }
+  if (Array.isArray(value)) {
+    return `[${value.map(canonicalJson).join(",")}]`;
+  }
+  if (value && typeof value === "object") {
+    return `{${Object.keys(value)
+      .sort()
+      .map((key) => `${JSON.stringify(key)}:${canonicalJson(value[key])}`)
+      .join(",")}}`;
+  }
+  throw new Error("Counsel-adoption hash scope contains a non-canonical value");
+}
+
+function artifactPinMatches(rootDir, pin) {
+  if (
+    !pin ||
+    typeof pin.path !== "string" ||
+    !/^[0-9a-f]{64}$/.test(pin.sha256 ?? "")
+  ) {
+    return false;
+  }
+  const root = path.resolve(rootDir);
+  const absolutePath = path.resolve(root, pin.path);
+  if (
+    absolutePath !== root &&
+    !absolutePath.startsWith(`${root}${path.sep}`)
+  ) {
+    return false;
+  }
+  return (
+    fs.existsSync(absolutePath) &&
+    fs.statSync(absolutePath).isFile() &&
+    sha256(fs.readFileSync(absolutePath)) === pin.sha256
+  );
 }
 
 function firstStatement(items) {
@@ -69,6 +157,7 @@ function loadProofIndex(rootDir) {
   const production = new Map();
 
   if (!fs.existsSync(directory)) {
+    loadCounselAdoptionProofs();
     loadFactoryReviewProofs();
     return {
       implementation,
@@ -107,7 +196,10 @@ function loadProofIndex(rootDir) {
       .map((entry) => (typeof entry === "string" ? entry : entry?.trackId))
       .filter(Boolean);
     const recommendationTrackIds = asArray(value.recommendations)
-      .map((entry) => entry?.trackId)
+      .flatMap((entry) => [
+        entry?.trackId,
+        ...asArray(entry?.trackIds)
+      ])
       .filter(Boolean);
     const trackIds =
       explicitTrackIds.length > 0
@@ -130,7 +222,9 @@ function loadProofIndex(rootDir) {
     }
 
     if (name.endsWith("-review-manifest.json")) {
-      const technicalPassed = value.technicalResult === "passed";
+      const technicalPassed =
+        value.technicalResult === "passed" ||
+        value.technicalReview?.passed === true;
       const visualPassed =
         value.visualResult === "passed" ||
         value.visualResult === "passed_no_unresolved_defects";
@@ -168,24 +262,28 @@ function loadProofIndex(rootDir) {
     }
 
     if (name.endsWith("-legal-output-recommendation.json")) {
-      const recommended = asArray(value.recommendations).filter(
-        (entry) =>
-          entry?.trackId &&
-          ["recommended_for_counsel_adoption", "recommended"].includes(entry.status)
+      const recommended = asArray(value.recommendations).filter((entry) =>
+        ["recommended_for_counsel_adoption", "recommended"].includes(entry?.status)
       );
       for (const entry of recommended) {
-        mergeProof(legalRecommendation, entry.trackId, true);
-        mergeProof(
-          counsel,
+        for (const trackId of [
           entry.trackId,
-          ["approved", "adopted", "counsel_adopted"].includes(
-            value.humanLegalReviewStatus
-          )
-        );
+          ...asArray(entry.trackIds)
+        ].filter(Boolean)) {
+          mergeProof(legalRecommendation, trackId, true);
+          mergeProof(
+            counsel,
+            trackId,
+            ["approved", "adopted", "counsel_adopted"].includes(
+              value.humanLegalReviewStatus
+            )
+          );
+        }
       }
     }
   }
 
+  loadCounselAdoptionProofs();
   loadFactoryReviewProofs();
   return {
     implementation,
@@ -197,6 +295,78 @@ function loadProofIndex(rootDir) {
     staging,
     production
   };
+
+  function loadCounselAdoptionProofs() {
+    const adoptionDirectory = path.join(rootDir, INPUTS.adoptionDirectory);
+    if (!fs.existsSync(adoptionDirectory)) return;
+    const adoptedTrackIds = new Set();
+    for (const [name, trusted] of Object.entries(TRUSTED_COUNSEL_ADOPTIONS)) {
+      const absolutePath = path.join(adoptionDirectory, name);
+      if (!fs.existsSync(absolutePath)) continue;
+      const recordBytes = fs.readFileSync(absolutePath);
+      if (sha256(recordBytes) !== trusted.sha256) {
+        throw new Error(`${name} does not match its trusted counsel-adoption hash`);
+      }
+      const value = readJson(
+        rootDir,
+        path.posix.join(INPUTS.adoptionDirectory, name)
+      );
+      if (
+        value.status !== "counsel_adopted" ||
+        value.blanketFutureApproval !== false ||
+        value.productionEnabled !== false
+      ) {
+        throw new Error(`${name} is not a fail-closed counsel adoption record`);
+      }
+      const observedFamilyIds = asArray(value.completedScopes)
+        .map((scope) => scope?.familyId)
+        .sort();
+      const expectedFamilyIds = Object.keys(trusted.scopes).sort();
+      if (JSON.stringify(observedFamilyIds) !== JSON.stringify(expectedFamilyIds)) {
+        throw new Error(`${name} does not match its trusted adopted families`);
+      }
+      for (const scope of asArray(value.completedScopes)) {
+        const expectedRoutes = [...trusted.scopes[scope.familyId]].sort();
+        const observedRoutes = [...asArray(scope.approvedRouteIds)].sort();
+        if (
+          scope.status !== "counsel_adopted" ||
+          scope.scopeCompletion !== "exact_implemented_routes_complete" ||
+          scope.fullCanonicalParentComplete !== false ||
+          scope.runtime?.runtimeStatus !== "runtime_disabled" ||
+          scope.runtime?.generationAllowed !== false ||
+          scope.runtime?.packetReady !== false ||
+          scope.runtime?.jurisdictionEnabled !== false ||
+          scope.runtime?.productionEnabled !== false ||
+          !/^[0-9a-f]{64}$/.test(scope.templateFamilySha256 ?? "") ||
+          !asArray(scope.templateHashes).every((entry) =>
+            /^[0-9a-f]{64}$/.test(entry?.sha256 ?? "")
+          ) ||
+          !asArray(scope.reviewArtifacts).every((entry) =>
+            /^[0-9a-f]{64}$/.test(entry?.sha256 ?? "")
+          ) ||
+          scope.hashBoundScope?.schemaVersion !==
+            "rcap-counsel-adoption-hash-scope/v1" ||
+          sha256Canonical(scope.hashBoundScope) !== scope.templateFamilySha256 ||
+          JSON.stringify(observedRoutes) !== JSON.stringify(expectedRoutes) ||
+          asArray(scope.legalDesignSpecificationHashes).length !==
+            expectedRoutes.length ||
+          !asArray(scope.boundArtifactHashes).every((entry) =>
+            artifactPinMatches(rootDir, entry)
+          )
+        ) {
+          throw new Error(`${name} contains an invalid adopted scope`);
+        }
+        for (const trackId of asArray(scope.approvedRouteIds)) {
+          if (typeof trackId !== "string" || adoptedTrackIds.has(trackId)) {
+            throw new Error(`${name} duplicates or invalidly names ${trackId}`);
+          }
+          adoptedTrackIds.add(trackId);
+          mergeProof(legalRecommendation, trackId, true);
+          mergeProof(counsel, trackId, true);
+        }
+      }
+    }
+  }
 
   function loadFactoryReviewProofs() {
     const factoryDirectory = path.join(rootDir, INPUTS.factoryReviewDirectory);

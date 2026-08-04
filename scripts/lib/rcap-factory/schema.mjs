@@ -49,9 +49,11 @@ export const REQUIRED_JOB_FIELDS = Object.freeze([
   "baseCommit",
   "dependencies",
   "ownedPaths",
+  "integrationOwnedOutputs",
   "forbiddenPaths",
   "requiredInputs",
   "expectedOutputs",
+  "requiredOutputFields",
   "focusedValidation",
   "integrationValidation",
   "model",
@@ -201,14 +203,34 @@ export function validateJob(job) {
   if ("reconciliationIds" in job) {
     validateStringArray(job, "reconciliationIds", issues, { allowEmpty: false });
   }
+  if ("downloadedSourceCount" in job) {
+    if (
+      !Number.isInteger(job.downloadedSourceCount) ||
+      job.downloadedSourceCount < 0
+    ) {
+      add("downloadedSourceCount must be a non-negative integer.");
+    }
+  }
+  if ("completionCommit" in job) {
+    if (
+      typeof job.completionCommit !== "string" ||
+      !COMMIT_PATTERN.test(job.completionCommit)
+    ) {
+      add("completionCommit must be a lowercase 40-character Git SHA.");
+    }
+  }
   validateStringArray(job, "dependencies", issues, { allowEmpty: true, pattern: JOB_ID_PATTERN });
+  validateStringArray(job, "requiredOutputFields", issues, { allowEmpty: true });
   for (const field of [
     "ownedPaths",
+    "integrationOwnedOutputs",
     "forbiddenPaths",
     "requiredInputs",
     "expectedOutputs"
   ]) {
-    validatePathArray(job, field, issues, { allowEmpty: field !== "ownedPaths" && field !== "expectedOutputs" });
+    validatePathArray(job, field, issues, {
+      allowEmpty: !["ownedPaths", "integrationOwnedOutputs", "expectedOutputs"].includes(field)
+    });
   }
   for (const field of ["focusedValidation", "integrationValidation"]) {
     validateStringArray(job, field, issues, { allowEmpty: false });
@@ -246,6 +268,49 @@ export function validateJob(job) {
         }
       }
       if (!covered) add(`expected output ${output} is not contained by an owned path.`);
+    }
+  }
+
+  if (
+    Array.isArray(job.integrationOwnedOutputs) &&
+    Array.isArray(job.ownedPaths)
+  ) {
+    for (const integrationOutput of job.integrationOwnedOutputs) {
+      for (const owned of job.ownedPaths) {
+        try {
+          if (pathsOverlap(integrationOutput, owned)) {
+            add(
+              `integration-owned output ${integrationOutput} overlaps worker-owned path ${owned}.`
+            );
+          }
+        } catch {
+          // The path-array validation above already records the malformed path.
+        }
+      }
+    }
+  }
+
+  if (
+    job.lane === "source_acquisition" &&
+    job.strategyFamily !== "edition_publication"
+  ) {
+    const assignmentField =
+      (job.acquisitionIds?.length ?? 0) > 0
+        ? "acquisitionIds"
+        : (job.reconciliationIds?.length ?? 0) > 0
+          ? "reconciliationIds"
+          : null;
+    if (!assignmentField) {
+      add(
+        "source-acquisition reconciliation jobs must carry acquisitionIds or reconciliationIds."
+      );
+    }
+    const requiredOutputFields = new Set(job.requiredOutputFields ?? []);
+    if (assignmentField && !requiredOutputFields.has(assignmentField)) {
+      add(`requiredOutputFields must include ${assignmentField}.`);
+    }
+    if (!requiredOutputFields.has("downloadedSourceCount")) {
+      add("requiredOutputFields must include downloadedSourceCount.");
     }
   }
 

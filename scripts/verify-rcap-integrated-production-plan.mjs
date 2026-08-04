@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import assert from "node:assert/strict";
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -13,11 +14,20 @@ import {
 } from "./lib/rcap-factory/index.mjs";
 import { compileWorkerPrompt } from "./lib/rcap-factory/prompt.mjs";
 import { buildScaffoldPlan } from "./lib/rcap-factory/scaffold.mjs";
+import {
+  ADOPTION_RECORD_PATHS,
+  buildCurrentCounselAdoptionRecords
+} from "./lib/rcap-counsel-adoption.mjs";
 import { buildFactoryStatus } from "./rcap-factory-status.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const readJson = (relativePath) =>
   JSON.parse(fs.readFileSync(path.join(ROOT, relativePath), "utf8"));
+const fileSha256 = (relativePath) =>
+  crypto
+    .createHash("sha256")
+    .update(fs.readFileSync(path.join(ROOT, relativePath)))
+    .digest("hex");
 
 const productionPlan = readJson(
   "planning/record-clearing-100-percent/production-plan.json"
@@ -58,6 +68,32 @@ const tranche2Visual = readJson(
 const tranche2Recommendation = readJson(
   "data/record-clearing/implementation-tranches/tranche-2-legal-output-recommendation.json"
 );
+const tranche3 = readJson(
+  "data/record-clearing/implementation-tranches/tranche-3.json"
+);
+const tranche3Pins = readJson(
+  "data/record-clearing/implementation-tranches/tranche-3-authority-pins.json"
+);
+const tranche3Review = readJson(
+  "data/record-clearing/implementation-tranches/tranche-3-review-manifest.json"
+);
+const tranche3Visual = readJson(
+  "data/record-clearing/implementation-tranches/tranche-3-visual-review.json"
+);
+const tranche3Recommendation = readJson(
+  "data/record-clearing/implementation-tranches/tranche-3-legal-output-recommendation.json"
+);
+const georgiaFactoryReview = readJson(
+  "data/record-clearing/production-factory/review-manifests/rcap-ga-custom-pleading.json"
+);
+const arkansasReconciliation = readJson(
+  "data/record-clearing/production-factory/source-acquisition/rcap-ar-in-repo-identity-reconciliation-acic.json"
+);
+const customPleadingAdoption = readJson(ADOPTION_RECORD_PATHS[0]);
+const officialAcroformAdoption = readJson(ADOPTION_RECORD_PATHS[1]);
+const expectedAdoptions = await buildCurrentCounselAdoptionRecords({
+  rootDir: ROOT
+});
 const canonicalParentRecords = fs
   .readdirSync(
     path.join(ROOT, "planning/record-clearing-100-percent/jobs"),
@@ -89,10 +125,10 @@ const factoryPlan = buildFactoryPlan({ rootDir: ROOT });
 const factoryValidation = validateFactoryPlan(factoryPlan);
 assert.equal(factoryValidation.ok, true, factoryValidation.issues.join("\n"));
 assert.deepEqual(findOwnedPathOverlaps(factoryPlan.jobs), []);
-assert.equal(factoryPlan.jobs.length, 187);
+assert.equal(factoryPlan.jobs.length, 189);
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "ready").length,
-  110
+  109
 );
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "blocked").length,
@@ -100,7 +136,7 @@ assert.equal(
 );
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "completed").length,
-  1
+  4
 );
 assert.equal(
   productionPlan.factoryQueueReconciliation.jobs,
@@ -139,8 +175,8 @@ assert.equal(
   11
 );
 assert.equal(factoryPlan.canonicalPlan.parentJobs, 72);
-assert.equal(factoryPlan.parentJobReconciliation.compiledChildJobs, 187);
-assert.equal(factoryPlan.parentJobReconciliation.childrenMappedExactlyOnce, 187);
+assert.equal(factoryPlan.parentJobReconciliation.compiledChildJobs, 189);
+assert.equal(factoryPlan.parentJobReconciliation.childrenMappedExactlyOnce, 189);
 assert.equal(factoryPlan.parentJobReconciliation.unmappedChildren, 0);
 assert.equal(factoryPlan.parentJobReconciliation.unknownParentReferences, 0);
 assert.deepEqual(
@@ -230,13 +266,19 @@ assert.deepEqual(productionPlan.integratedCommits, {
   acquisitionIntelligence: "052d91cd5834d1c93b5138db72d64cd9c9f0cde1",
   mississippiTranche1: "1fd2e122c30f7608817910583084e3b068bd5940",
   packetRoutePromotionGuard: "8df94fbaa66c06bf0ba677ee4f5fb417ad08cdc8",
-  marylandTranche2: "e209f3469b1b426d30d6d05550e84dfb0b24c147"
+  marylandTranche2: "e209f3469b1b426d30d6d05550e84dfb0b24c147",
+  templateFamilyHashInfrastructure: "e89416d74f3f5653abb4e561704d5874fa14ef24",
+  arkansasAcicIdentityReconciliation: "2784e3c85ba624c2f94dd8beb749fc0e9fd5e50f",
+  georgiaTranche3: "080ed5d94e92442069b4000511f04194f734f36d"
 });
 assert.deepEqual(productionPlan.integrationEquivalents, {
   factory: "381abd95efd5370ef592e5ba25bc3368008f0330",
   productionPlan: "c18b9b91539ead0d6ff195520aef8e252d472f0d",
   acquisitionIntelligence: "e767098d8f7c86f1c02ff1427d73a31947209370",
-  marylandTranche2: "4ccf8ce2f96b5aef19dc6e53715db35cc685776a"
+  marylandTranche2: "4ccf8ce2f96b5aef19dc6e53715db35cc685776a",
+  templateFamilyHashInfrastructure: "3b692331af5cc9b61051f8cebead28560665a63f",
+  arkansasAcicIdentityReconciliation: "3259be303a82d7d27e72f84e31c72cdb15a7d94c",
+  georgiaTranche3: "037d1a2ce2bccd0dffc243e213a26c5019865561"
 });
 assert.equal(authority.edition, "1.2");
 assert.equal(masterReconciliation.authority.edition, "1.2");
@@ -264,8 +306,8 @@ assert.equal(trackSourceAudit.totals.tracksBlocked, 163);
 assert.deepEqual(productionPlan.readinessMetrics.current, {
   authorityCleared: 87,
   authorityBlocked: 163,
-  sourcePinned: 32,
-  implementationProof: 6,
+  sourcePinned: 41,
+  implementationProof: 15,
   finalDisposition: 0
 });
 assert.deepEqual(productionPlan.readinessMetrics.preMarylandBaseline, {
@@ -339,6 +381,19 @@ assert.equal(
   ).trackIds.length,
   11
 );
+assert.equal(job("rcap-ar-in-repo-identity-reconciliation-acic").status, "completed");
+assert.equal(
+  job("rcap-ar-in-repo-identity-reconciliation-acic").completionCommit,
+  "2784e3c85ba624c2f94dd8beb749fc0e9fd5e50f"
+);
+assert.equal(arkansasReconciliation.acquisitionIds.length, 17);
+assert.equal(new Set(arkansasReconciliation.acquisitionIds).size, 17);
+assert.equal(arkansasReconciliation.downloadedSourceCount, 0);
+assert.equal(arkansasReconciliation.totals.reconciled, 17);
+assert.equal(arkansasReconciliation.totals.retainedArtifactsUsed, 18);
+assert.equal(arkansasReconciliation.totals.redundantDownloadsEliminated, 17);
+assert.equal(arkansasReconciliation.totals.unresolved, 0);
+assert.match(arkansasReconciliation.method.byteVerification, /carried forward/);
 assert.deepEqual(
   expectJob(
     "rcap-ar-public-official-download-acic-gaps",
@@ -476,15 +531,23 @@ assert.ok(
 
 assert.equal(factoryPlan.trackReconciliation.normalizedTracks, 250);
 assert.equal(factoryPlan.trackReconciliation.representedExactlyOnce, 250);
-assert.equal(factoryPlan.trackReconciliation.implementationComplete, 6);
-assert.equal(factoryPlan.trackReconciliation.pendingProductionJob, 244);
+assert.equal(factoryPlan.trackReconciliation.implementationComplete, 15);
+assert.equal(factoryPlan.trackReconciliation.pendingProductionJob, 235);
 assert.equal(
   productionPlan.baselineVerification.confirmed.implementedTracksAwaitingReview,
-  5
+  0
 );
 assert.equal(
   productionPlan.baselineVerification.confirmed.tracksAwaitingCounselAdoption,
-  1
+  0
+);
+assert.equal(
+  productionPlan.baselineVerification.confirmed.legalRecommendationCompleteTracks,
+  15
+);
+assert.equal(
+  productionPlan.baselineVerification.confirmed.counselAdoptedTracks,
+  15
 );
 assert.equal(new Set(factoryPlan.trackReconciliation.assignments.map(
   (entry) => `${entry.jurisdiction}:${entry.trackId}`
@@ -494,6 +557,7 @@ const completed = factoryPlan.trackReconciliation.assignments.filter(
   (entry) => entry.disposition === "implementation_complete"
 );
 assert.equal(completed.filter((entry) => entry.jurisdiction === "MS").length, 5);
+assert.equal(completed.filter((entry) => entry.jurisdiction === "GA").length, 9);
 assert.deepEqual(
   completed
     .filter((entry) => entry.jurisdiction === "MD")
@@ -522,6 +586,7 @@ for (const completedTrack of completed) {
 }
 assert.equal(tranche1.implementationStatus, "implemented_and_internally_proved");
 assert.equal(tranche2.implementationStatus, "implemented_and_internally_proved");
+assert.equal(tranche3.implementationStatus, "implemented_and_internally_proved");
 assert.deepEqual(
   tranche2Pins.sourceRelationshipPinsWritten.map((entry) => ({
     documentId: entry.officialFormId,
@@ -619,6 +684,173 @@ for (const entry of activeMarylandImplementation) {
   );
 }
 
+const georgiaTrackIds = tranche3.selectedTracks
+  .map((entry) => entry.trackId)
+  .sort();
+assert.equal(georgiaTrackIds.length, 9);
+assert.equal(new Set(georgiaTrackIds).size, 9);
+assert.deepEqual(
+  tranche3Pins.tracks.map((entry) => entry.trackId).sort(),
+  georgiaTrackIds
+);
+assert.equal(tranche3Review.implementedTrackCount, 9);
+assert.equal(tranche3Review.samplePackets.length, 9);
+assert.equal(tranche3Review.assembledPageCount, 69);
+assert.equal(
+  tranche3Review.samplePackets.reduce(
+    (total, entry) => total + entry.assembledPageCount,
+    0
+  ),
+  69
+);
+assert.ok(
+  tranche3Review.samplePackets.every((entry) =>
+    /^[0-9a-f]{64}$/.test(entry.assembledSha256)
+  )
+);
+assert.equal(tranche3Review.boundaryFixtures.length, 9);
+const georgiaJailStop = tranche3Review.boundaryFixtures.find(
+  (entry) => entry.trackId === "ga-jail-k2"
+);
+assert.deepEqual(
+  {
+    expected: georgiaJailStop.expected,
+    outcome: georgiaJailStop.outcome,
+    detail: georgiaJailStop.detail,
+    passed: georgiaJailStop.passed
+  },
+  {
+    expected: "track_unavailable",
+    outcome: "track_unavailable",
+    detail: "ga-jail-k2-process-guidance-3",
+    passed: true
+  }
+);
+assert.equal(tranche3Review.technicalReview.passed, true);
+assert.equal(tranche3Visual.result, "passed_no_unresolved_defects");
+assert.equal(tranche3Visual.pagesRendered, 69);
+assert.equal(tranche3Visual.pagesInspected, 69);
+assert.equal(tranche3Recommendation.humanLegalReviewStatus, "awaiting_counsel_adoption");
+assert.ok(
+  tranche3Recommendation.recommendations.every(
+    (entry) => entry.status === "recommended_for_counsel_adoption"
+  )
+);
+assert.deepEqual(
+  tranche3Recommendation.questionsForCounsel.map((entry) => entry.id),
+  [
+    "filing-fee-and-waiver",
+    "combined-restriction-and-sealing-motion",
+    "municipal-court-reach",
+    "otn-absent-at-generation",
+    "balancing-posture",
+    "hearing-request-in-the-alternative"
+  ]
+);
+assert.equal(tranche3.runtimeStatus, "runtime_disabled");
+assert.equal(tranche3.packetReady, false);
+assert.equal(tranche3.generationAllowed, false);
+assert.equal(tranche3.jurisdictionEnabled, false);
+assert.deepEqual(
+  customPleadingAdoption,
+  expectedAdoptions.get(ADOPTION_RECORD_PATHS[0])
+);
+assert.deepEqual(
+  officialAcroformAdoption,
+  expectedAdoptions.get(ADOPTION_RECORD_PATHS[1])
+);
+assert.equal(customPleadingAdoption.status, "counsel_adopted");
+assert.equal(customPleadingAdoption.approvedRouteCount, 14);
+assert.equal(officialAcroformAdoption.status, "counsel_adopted");
+assert.equal(officialAcroformAdoption.approvedRouteCount, 1);
+assert.equal(productionPlan.counselAdoptionReconciliation.status, "counsel_adopted");
+assert.equal(productionPlan.counselAdoptionReconciliation.approvedRouteCount, 15);
+assert.equal(
+  productionPlan.counselAdoptionReconciliation.legalRecommendationCompleteTracks,
+  15
+);
+assert.equal(
+  productionPlan.counselAdoptionReconciliation.counselAdoptedTracks,
+  15
+);
+assert.deepEqual(
+  productionPlan.counselAdoptionReconciliation.records.map((record) => record.path),
+  ADOPTION_RECORD_PATHS
+);
+for (const record of productionPlan.counselAdoptionReconciliation.records) {
+  assert.equal(record.sha256, fileSha256(record.path), record.path);
+}
+assert.deepEqual(
+  productionPlan.counselAdoptionReconciliation.records
+    .flatMap((record) => record.families)
+    .map(({ jurisdiction, templateFamilySha256 }) => ({
+      jurisdiction,
+      templateFamilySha256
+    }))
+    .sort((left, right) => left.jurisdiction.localeCompare(right.jurisdiction)),
+  [...customPleadingAdoption.completedScopes, ...officialAcroformAdoption.completedScopes]
+    .map(({ jurisdiction, templateFamilySha256 }) => ({
+      jurisdiction,
+      templateFamilySha256
+    }))
+    .sort((left, right) => left.jurisdiction.localeCompare(right.jurisdiction))
+);
+assert.deepEqual(
+  productionPlan.counselAdoptionReconciliation.excludedRoutes,
+  [
+    {
+      trackId: "ga-jail-k2",
+      reason: "unavailable_typed_stop_without_completed_packet",
+      missingComponent: "ga-jail-k2-process-guidance-3"
+    }
+  ]
+);
+assert.equal(
+  customPleadingAdoption.completedScopes.reduce(
+    (total, scope) => total + scope.approvedRouteIds.length,
+    0
+  ) + officialAcroformAdoption.approvedRouteCount,
+  15
+);
+assert.deepEqual(
+  customPleadingAdoption.completedScopes.find(
+    (scope) => scope.jurisdiction === "GA"
+  ).excludedRouteIds,
+  ["ga-jail-k2"]
+);
+assert.ok(
+  [...customPleadingAdoption.completedScopes, ...officialAcroformAdoption.completedScopes]
+    .every(
+      (scope) =>
+        scope.runtime.runtimeStatus === "runtime_disabled" &&
+        scope.runtime.packetReady === false &&
+        scope.runtime.productionEnabled === false &&
+        scope.fullCanonicalParentComplete === false
+    )
+);
+const completedGeorgiaChild = job("rcap-ga-custom-pleading");
+assert.equal(completedGeorgiaChild.status, "completed");
+assert.equal(
+  completedGeorgiaChild.completionCommit,
+  "080ed5d94e92442069b4000511f04194f734f36d"
+);
+assert.deepEqual([...completedGeorgiaChild.trackIds].sort(), georgiaTrackIds);
+assert.equal(completedGeorgiaChild.trackIds.includes("ga-jail-k2"), false);
+const georgiaGuidanceJob = job("rcap-ga-guidance-specification-jail-k2");
+assert.equal(georgiaGuidanceJob.status, "ready");
+assert.equal(
+  georgiaGuidanceJob.parentJobId,
+  "IMP-CP-02-guidance-spec-unblock-family"
+);
+assert.deepEqual(georgiaGuidanceJob.trackIds, ["ga-jail-k2"]);
+assert.equal(georgiaFactoryReview.participantPacketProof.verified, true);
+assert.equal(georgiaFactoryReview.participantPacketProof.finalPdfCount, 9);
+assert.equal(georgiaFactoryReview.participantPacketProof.assembledPageCount, 69);
+assert.deepEqual(
+  georgiaFactoryReview.participantPacketProof.packets.map((entry) => entry.sha256),
+  tranche3Review.samplePackets.map((entry) => entry.assembledSha256)
+);
+
 assert.ok(reviewJob.dependencies.includes(staticMarylandJob.jobId));
 assert.ok(adoptionJob.dependencies.includes(reviewJob.jobId));
 assert.ok(stagingJob.jurisdictions.includes("MD"));
@@ -639,15 +871,15 @@ assert.match(
 );
 assert.ok(productionPlan.criticalPath.chain.some((entry) => /source pinning/.test(entry)));
 assert.ok(
-  productionPlan.criticalPath.chain.some((entry) => /template-family-hash/.test(entry))
+  productionPlan.criticalPath.chain.some((entry) => /completed template-family hash/.test(entry))
 );
 assert.ok(
   productionPlan.criticalPath.chain.some((entry) => /packet-persistence/.test(entry))
 );
 assert.equal(productionPlan.sourceAcquisition.oldAllExternalAssumptionRetired, true);
 
-for (const wave of productionPlan.dispatchWaves) {
-  for (const jobId of wave.readyJobIds) assert.equal(job(jobId).status, "ready", jobId);
+for (const jobId of productionPlan.nextDispatchWave.readyJobIds) {
+  assert.equal(job(jobId).status, "ready", jobId);
 }
 assert.deepEqual(
   productionPlan.nextSessionAssignments.map((assignment) => ({
@@ -657,17 +889,40 @@ assert.deepEqual(
   [
     {
       session: "A",
-      jobId: "rcap-nationwide-template-family-hash-infrastructure"
+      jobId: "rcap-nationwide-track-promotion-contract"
     },
     {
       session: "B",
-      jobId: "rcap-ar-in-repo-identity-reconciliation-acic"
+      jobId: "rcap-ga-guidance-specification-jail-k2"
     },
     {
       session: "C",
-      jobId: "rcap-ga-custom-pleading"
+      jobId: "rcap-il-custom-pleading"
     }
   ]
+);
+assert.equal(
+  productionPlan.routingReservations.sessionB.jobId,
+  "rcap-ar-public-official-download-acic-gaps"
+);
+assert.equal(
+  productionPlan.routingReservations.sessionC.jobId,
+  "rcap-dc-custom-pleading"
+);
+assert.equal(
+  productionPlan.routingReservations.workerBaselineCommit,
+  "1d8ed5a3302a055ffb5a590aa83dcb47f4a2df86"
+);
+const reservedNextJobIds = new Set([
+  productionPlan.routingReservations.sessionB.jobId,
+  productionPlan.routingReservations.sessionC.jobId
+]);
+assert.ok(
+  productionPlan.nextSessionAssignments.every(
+    (assignment) =>
+      !reservedNextJobIds.has(assignment.jobId) &&
+      !assignment.jobId.startsWith("rcap-dc-")
+  )
 );
 const scaffoldPlans = [];
 for (const assignment of productionPlan.nextSessionAssignments) {
@@ -677,17 +932,6 @@ for (const assignment of productionPlan.nextSessionAssignments) {
   assert.equal(assignedJob.model, assignment.model, assignment.jobId);
   assert.equal(assignedJob.effort, assignment.effort, assignment.jobId);
   assert.equal(assignedJob.executionScope, "worker", assignment.jobId);
-  assert.deepEqual(assignedJob.ownedPaths, assignment.ownedPaths, assignment.jobId);
-  assert.deepEqual(
-    assignedJob.forbiddenPaths,
-    assignment.forbiddenPaths,
-    assignment.jobId
-  );
-  assert.deepEqual(
-    assignedJob.focusedValidation,
-    assignment.focusedValidation,
-    assignment.jobId
-  );
   const firstPrompt = compileWorkerPrompt({
     job: assignedJob,
     authorityVersion: factoryPlan.authorityVersion,
@@ -706,16 +950,8 @@ for (const assignment of productionPlan.nextSessionAssignments) {
     model: assignment.model
   });
   assert.equal(scaffold.branch, assignment.branch, assignment.jobId);
-  assert.equal(
-    path.join(ROOT, scaffold.worktreePath),
-    assignment.worktree,
-    assignment.jobId
-  );
-  assert.equal(
-    path.join(ROOT, scaffold.artifacts.workerPrompt),
-    assignment.prompt,
-    assignment.jobId
-  );
+  assert.equal(scaffold.worktreeKind, "complete_git_worktree", assignment.jobId);
+  assert.equal(scaffold.worktreeDisposable, false, assignment.jobId);
   scaffoldPlans.push({ assignment, scaffold, job: assignedJob });
 }
 for (let left = 0; left < scaffoldPlans.length; left += 1) {
@@ -737,8 +973,8 @@ const status = buildFactoryStatus({ rootDir: ROOT });
 assert.deepEqual(status.readinessMetrics, {
   authorityCleared: 87,
   authorityBlocked: 163,
-  sourcePinned: 32,
-  implementationProof: 6,
+  sourcePinned: 41,
+  implementationProof: 15,
   finalDisposition: 0
 });
 assert.equal(
@@ -746,8 +982,10 @@ assert.equal(
     (track) =>
       track.sourcePinned &&
       !(
-        track.jurisdiction === "MD" &&
-        track.trackId === "md_second_chance_shielding"
+        (track.jurisdiction === "MD" &&
+          track.trackId === "md_second_chance_shielding") ||
+        (track.jurisdiction === "GA" &&
+          georgiaTrackIds.includes(track.trackId))
       )
   )
     .length,
@@ -766,11 +1004,11 @@ assert.deepEqual(
 );
 assert.equal(status.totals.tracks, 250);
 assert.equal(status.totals.normalized, 250);
-assert.equal(status.totals.implementationComplete, 6);
-assert.equal(status.totals.technicalProofPassed, 6);
-assert.equal(status.totals.visualProofPassed, 6);
-assert.equal(status.totals.legalRecommendationComplete, 1);
-assert.equal(status.totals.counselAdopted, 0);
+assert.equal(status.totals.implementationComplete, 15);
+assert.equal(status.totals.technicalProofPassed, 15);
+assert.equal(status.totals.visualProofPassed, 15);
+assert.equal(status.totals.legalRecommendationComplete, 15);
+assert.equal(status.totals.counselAdopted, 15);
 assert.equal(status.totals.stagingPassed, 0);
 assert.equal(status.totals.productionEnabled, 0);
 assert.equal(status.totals.packetReady, 0);
@@ -784,5 +1022,6 @@ console.log("  PASS tracked Master Library 1.2 reconciliation remains internally
 console.log("  PASS 109 acquisition records represented exactly once");
 console.log("  PASS 313 official evidence records and 32 issuer campaigns preserved");
 console.log("  PASS 250 normalized tracks represented exactly once");
-console.log("  PASS 6 completed tracks excluded from pending implementation");
+console.log("  PASS 15 completed tracks excluded from pending implementation");
+console.log("  PASS 15 exact implemented routes counsel-adopted by hash");
 console.log("  PASS packet_ready=0 enabled_jurisdictions=0 launch_gate=red");

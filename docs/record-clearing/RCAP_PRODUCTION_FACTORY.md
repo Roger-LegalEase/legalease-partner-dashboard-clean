@@ -12,7 +12,7 @@ does not create a second legal registry or change a legal conclusion.
 | `npm run rcap:factory:plan` | Print the deterministic queue and integration waves as JSON. |
 | `npm run rcap:factory:status` | Show jurisdiction progress and the first exact blocker. Add `-- --tracks`, `-- --jurisdiction MS`, or `-- --json` for detail. |
 | `npm run rcap:factory:prompt -- <jobId> --model opus\|codex` | Compile the short worker prompt from one job manifest. |
-| `npm run rcap:factory:scaffold -- <jobId>` | Print the isolated branch/worktree scaffold plan. State-changing scaffold behavior requires its explicit apply flag. |
+| `npm run rcap:factory:scaffold -- <jobId>` | Print the isolated branch/worktree scaffold plan. `--apply` creates a complete linked Git worktree, not just its reported marker path; retain it through integration. |
 | `npm run rcap:factory:inspect-pdf -- <source>` | Emit deterministic structural, field, widget, coordinate, ownership-candidate, and SHA-256 metadata for a PDF. |
 | `npm run rcap:factory:validate-job -- <jobId>` | Enforce the job's path boundary, then run only its focused acceptance commands. |
 | `npm run rcap:factory:generate-review -- <jobId>` | Rebuild the job's synthetic review PDF, page images, checklists, hashes, and tracked manifest. |
@@ -63,13 +63,18 @@ Every job has:
 
 `jobId`, `parentJobId`, `canonicalWave`, `canonicalLane`, `lane`,
 `jurisdiction`, `trackIds`, `strategyFamily`, `baseCommit`, `dependencies`,
-`ownedPaths`, `forbiddenPaths`, `requiredInputs`, `expectedOutputs`,
+`ownedPaths`, `integrationOwnedOutputs`, `forbiddenPaths`, `requiredInputs`, `expectedOutputs`,
+`requiredOutputFields`,
 `focusedValidation`, `integrationValidation`, `model`, `effort`,
 `executionScope`, `status`, `commitSubject`, and `stopCondition`.
-Source jobs additionally carry exact `acquisitionIds` or `reconciliationIds`;
-the planner rejects duplicate assignment or omission.
+Source jobs additionally carry exact `acquisitionIds` or `reconciliationIds`.
+Their generated prompt names those assignment IDs and `downloadedSourceCount`
+as required top-level output fields; no-download reconciliation jobs also pin
+the expected count to zero. The planner rejects duplicate assignment or
+omission, and the focused validator enforces the declared fields without
+weakening strategy-specific safeguards.
 
-The 187 compiled mechanical jobs do not replace the canonical plan's 72 parent
+The 189 compiled mechanical jobs do not replace the canonical plan's 72 parent
 jobs. Every compiled child carries exactly one canonical parent, wave, and lane.
 The exact canonical track partition is 240 parent `tracks`, five Maryland
 `authorityOnlyRoutes`, and five completed Mississippi Tranche 1 tracks: 250
@@ -79,7 +84,7 @@ unique normalized tracks with no omission, duplicate, or invented ID.
 jurisdiction-bounded mechanical child may aggregate tracks represented by more
 than one canonical family parent; implementation ownership is selected by
 canonical-lane match, then greatest matching-track count, then lexical parent
-ID. This aggregation keeps the fixed 187-child queue without pretending that
+ID. This aggregation keeps the fixed 189-child queue without pretending that
 child bundles define canonical track coverage; the 250-track canonical
 partition is verified independently.
 
@@ -107,15 +112,22 @@ Workers:
 5. stage explicit paths and create the job's requested commit;
 6. stop at the manifest's stop condition.
 
+`scaffold --apply` creates the worker's complete linked Git checkout at
+`worktreePath`. The separately reported marker and workspace paths are
+metadata, not the checkout and not disposable generated output. Keep the
+worktree, branch, and scaffold metadata until the integration captain has
+integrated the commit. Focused validation fails closed on a factory worker
+branch/worktree when its scaffold marker is absent.
+
 Only ready `executionScope: worker` jobs may compile a worker prompt or
 scaffold. Blocked, completed, captain, and human jobs fail closed at both
 boundaries. Completed children remain visible for provenance but wave
 integration never treats them as worker branches.
 
-The integration captain alone may regenerate shared derived registries, run the
-normal test suite and promotion gates, integrate a whole wave, and resolve
-cross-job ordering. A worker never runs a full suite as a substitute for its
-focused acceptance command.
+The integration captain alone may regenerate shared derived registries and
+production-factory review manifests, run the normal test suite and promotion
+gates, integrate a whole wave, and resolve cross-job ordering. A worker never
+runs a full suite as a substitute for its focused acceptance command.
 
 The validator fails closed on:
 
@@ -154,6 +166,13 @@ manifest is
 It records packet hashes, page counts, page image hashes, and separate
 technical and visual checklists. Rebuilding identical inputs must produce
 identical bytes and manifest content.
+
+The tracked production-factory review manifest is an
+`integrationOwnedOutputs` artifact. It may contain fail-closed production
+enablement state, so workers never own, create, stage, or commit it. Workers
+commit reproducible fixtures, packet hashes, and legal recommendations; the
+captain runs `rcap:factory:generate-review` after integration. Protected-content
+validation remains strict and grants no worker exemption for production state.
 
 ## Completion dashboard
 

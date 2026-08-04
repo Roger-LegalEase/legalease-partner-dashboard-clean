@@ -6,6 +6,10 @@
   "model": "claude-opus-5",
   "effort": "xhigh",
   "title": "Georgia carries two partner records and is the best-cleared jurisdiction in the corpus (13 of 15 tracks authority-cleared)",
+  "status": "completed",
+  "reconciliationStatus": "completed",
+  "completedAtCommit": "080ed5d94e92442069b4000511f04194f734f36d",
+  "compiledChildJobId": "rcap-ga-custom-pleading",
   "jurisdictions": [
     "GA"
   ],
@@ -17,11 +21,10 @@
     "ga-deaddocket-j3",
     "ga-vacated-j2",
     "ga-fugitive-j5",
-    "ga-jail-k2",
     "ga-fo-active-pre2026",
     "ga-fo-discharged-pre2026"
   ],
-  "trackCount": 10,
+  "trackCount": 9,
   "dependencies": [],
   "ownedPaths": [
     "src/lib/rcap/packets/registry-ga-superior-court-pleading-family.ts",
@@ -65,7 +68,7 @@
     "npm run rcap:verify-packet-capability-registry",
     "npm run rcap:verify-tranche-1-packets (Tranche 1 must stay green)",
     "the job's own rcap:verify-<job>-packets verifier",
-    "review manifest carries humanLegalReviewStatus=awaiting_counsel_review and none of legal_output_approved / counsel_approved / packet_ready / generation_allowed / enabled",
+    "the engineering review manifest retains humanLegalReviewStatus=awaiting_counsel_review, the legal-output recommendation records awaiting_counsel_adoption, and any later counsel adoption is a separate exact hash-bound record; none sets packet_ready / generation_allowed / enabled",
     "npm run typecheck",
     "npm run rcap:verify-legal-design-intake",
     "npm run rcap:verify-master-library-authority",
@@ -76,8 +79,8 @@
     "packet_ready remains 0 and enabled jurisdictions remain 0"
   ],
   "commitSubject": "feat(record-clearing): implement GA pleading routes",
-  "completionCondition": "Every positive fixture generates one assembled PDF through the real fulfilment and assembly path, every boundary fixture stops with its expected typed failure, technical and visual review pass, a legal-output recommendation is recorded, and every track remains runtime_disabled at awaiting_counsel_review.",
-  "blockerResolved": "Nine of the ten are authority-cleared; ga-jail-k2 is blocked only by its own undrafted guidance specification.",
+  "completionCondition": "Every positive fixture generates one assembled PDF through the real fulfilment and assembly path, every boundary fixture stops with its expected typed failure, technical and visual review pass, a legal-output recommendation is recorded, and every implemented track remains runtime_disabled; counsel adoption, when present, is recorded separately against the exact reviewed hashes.",
+  "blockerResolved": "Nine routes are implemented and internally proved; ga-jail-k2 remains an explicit typed stop blocked only by ga-jail-k2-process-guidance-3.",
   "commercialPriority": 92,
   "reuseScore": 95
 }

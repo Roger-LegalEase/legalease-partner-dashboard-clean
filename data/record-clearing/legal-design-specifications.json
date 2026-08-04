@@ -107377,6 +107377,1387 @@
     },
     {
       "jurisdiction": "GA",
+      "trackId": "ga-misd-j4",
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the convicting court",
+        "detail": "Filed in the existing criminal case under the existing case number. E-filing where the court accepts it. Serve the prosecuting attorney; Georgia Justice Project practice also serves the clerk of court."
+      },
+      "rules": {
+        "filing": "File with the clerk of the convicting court in the existing criminal case, under the existing case number, styled State of Georgia v. Defendant. E-filing where the court accepts it. Confirm the filing method with the clerk before filing.",
+        "fees": "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+        "feeWaiver": "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved.",
+        "notice": "Notice to the prosecuting attorney. Georgia Justice Project practice also serves the clerk of court. No response or objection period is specified by statute.",
+        "service": "Certified mail, e-filing or hand delivery, certified in a certificate of service.",
+        "participantSignature": "The petitioner signs. No verification or notarization is required by statute, and none is added.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "convictingCourtAndCounty",
+          "question": "Which court entered the conviction, in which county, and what is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtLevel",
+          "question": "Was that a State Court, Superior Court, Magistrate Court, Probate Court or Municipal Court?",
+          "requirement": "required"
+        },
+        {
+          "key": "otn",
+          "question": "What is the GCIC OTN for the case, if you know it?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because the proposed order needs the OTN to be actionable by GCIC, but the packet generates without it."
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "adjudicationDate",
+          "question": "On what date was the adjudication of guilt entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseCodeSection",
+          "question": "Which O.C.G.A. Code section were you convicted under? The offence label is not enough — the exclusions turn on the exact Code section.",
+          "requirement": "required"
+        },
+        {
+          "key": "singleIncidentSeries",
+          "question": "Were the misdemeanours you want restricted all part of one incident?",
+          "requirement": "required"
+        },
+        {
+          "key": "youthfulOffender",
+          "question": "Were you under 21 years of age at the time of arrest?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where the conviction is family violence simple assault, family violence simple battery or family violence battery, because youthful-offender status lifts only those three exclusions."
+        },
+        {
+          "key": "sentenceTerms",
+          "question": "What were the terms of your sentence, including probation, fines and restitution, and have all of them been completed?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletionDate",
+          "question": "On what date did you finish every term of the sentence?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionsLastFourYears",
+          "question": "Have you been convicted of any crime in any jurisdiction, other than a nonserious traffic offence, in the four years immediately before today?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any pending charged offences in any jurisdiction?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorRestrictionsUsed",
+          "question": "Have you previously had a conviction restricted under § 35-3-37(j)(4)? The lifetime maximum is two.",
+          "requirement": "required"
+        },
+        {
+          "key": "priorDenial",
+          "question": "Has a petition on this same conviction been denied, and if so on what date was the final order?",
+          "requirement": "required"
+        },
+        {
+          "key": "participantNarrative",
+          "question": "In your own words: what has changed in your life, and how has this record been a barrier?",
+          "requirement": "required"
+        },
+        {
+          "key": "requestHearing",
+          "question": "Do you want to ask, in the alternative, that the motion be set for hearing within 90 days of filing?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Consumer-facing copy must say \"restrict\" and, separately, \"seal.\" Georgia does not use \"expungement\" in the statute and has not since July 1, 2013, and neither remedy destroys the record.",
+        "The packet must state that a restriction or sealing may still be used to disqualify the participant from employment or office in the same manner as a first offender discharge under § 42-8-63.1, and does not supersede disclosure required by federal law. The packet must never tell a participant they may state the record does not exist.",
+        "The filing is made in the existing criminal case under the existing case number, styled State of Georgia v. Defendant, in the court that handled the case. It is not a new civil action, is not captioned IN RE, and does not carry a Civil Action No.",
+        "The proposed order must name the OTN and arrest date, name GCIC and the county agencies by category, name the clerk and court, and limit disclosure to what § 35-3-37(t) and (v) permit. A restriction order that does not name GCIC is not actionable.",
+        "Every packet carries a plain-language instruction to confirm the filing method with the clerk before filing. No statewide judiciary form exists, local courts control their own filing and e-filing practice, some clerks resist accepting motions in closed criminal cases, and some judges have standing preferences on proposed orders.",
+        "Where a hearing is requested it must be held within 90 days of filing, and the motion asks in the alternative that the matter be set for hearing within 90 days. There is no prosecutor objection window on this route; the 90 days is a deadline for holding a hearing, not a period for the prosecuting attorney to object.",
+        "The participant obtains and attaches the final disposition, and where relied on, the Georgia criminal history report and proof of sentence completion."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Copy of the final disposition. Ask the clerk of the convicting or accusing court for a copy of the final disposition and attach it to the filing as the referenced exhibit.",
+          "obtainedFrom": "Clerk of the court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date was the adjudication of guilt entered?\" against Copy of the final disposition, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own Georgia criminal history report. GBI's guidance says a Georgia criminal history record can be obtained from most sheriff's offices or police departments, with requirements varying by agency. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Most Georgia sheriff's offices and police departments, or GCIC",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant relies on it or the court expects it.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof of sentence completion, such as a probation termination order. Ask the clerk of the convicting court or the supervising probation office for the order terminating probation or documentation that the sentence was completed.",
+          "obtainedFrom": "Clerk of the convicting court, or the supervising probation office",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant has it or the court expects it.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did you finish every term of the sentence?\" against Proof of sentence completion, such as a probation termination order, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant has it or the court expects it.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Defendant's signature and date — Motion, signature block, and certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge name and hearing date — Caption and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "OTN where the participant does not know it — Caption and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature block of the judge on the proposed order — Proposed order, final page.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs. No verification or notarization is required by statute, and none is added.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Certified mail, e-filing or hand delivery, certified in a certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File with the clerk of the convicting court in the existing criminal case, under the existing case number, styled State of Georgia v. Defendant. E-filing where the court accepts it. Confirm the filing method with the clerk before filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Copy of the final disposition. Ask the clerk of the convicting or accusing court for a copy of the final disposition and attach it to the filing as the referenced exhibit.",
+        "Check your answer to \"On what date was the adjudication of guilt entered?\" against Copy of the final disposition, and correct the packet if they disagree.",
+        "Check your answer to \"On what date did you finish every term of the sentence?\" against Proof of sentence completion, such as a probation termination order, and correct the packet if they disagree.",
+        "Defendant's signature and date — Motion, signature block, and certificate of service.",
+        "Judge name and hearing date — Caption and proposed order.",
+        "OTN where the participant does not know it — Caption and proposed order.",
+        "Signature block of the judge on the proposed order — Proposed order, final page.",
+        "The petitioner signs. No verification or notarization is required by statute, and none is added.",
+        "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+        "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved."
+      ],
+      "stopConditions": [
+        "The prosecuting attorney opposes the filing.",
+        "The court sets a contested hearing or takes evidence on disputed facts.",
+        "Any immigration consequence is in play.",
+        "The participant wants to attack the underlying conviction or charge itself.",
+        "Venue is unclear because the trial court no longer exists or the records cannot be located.",
+        "The offence classification under the § 35-3-37(j)(4)(B) exclusion list is disputed.",
+        "The participant has an out-of-state conviction inside the four-year window.",
+        "The participant may have already used both lifetime slots.",
+        "The participant has pending charges.",
+        "Where self-help stops, route the participant to a Georgia expungement desk: Georgia Justice Project, the Cobb County Second Chance Desk, the Henry County Records Restriction Desk, or Middle Georgia Justice \"The Desk\".",
+        "Generation is complete when the packet is produced. Self-help stops if the prosecuting attorney opposes, a hearing becomes contested, or the offence classification is disputed."
+      ],
+      "guidanceStatus": "drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true,
+      "templateIds": [],
+      "scope": null,
+      "notAFiling": null,
+      "trancheId": "tranche-3-georgia-superior-court-pleadings"
+    },
+    {
+      "jurisdiction": "GA",
+      "trackId": "ga-seal-m",
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the court with original jurisdiction over the offences in the county where the clerk is located",
+        "detail": "Filed in the underlying criminal case. Notice to the clerk of court and the prosecuting attorney."
+      },
+      "rules": {
+        "filing": "File in the underlying criminal case with the clerk of the court with original jurisdiction over the offences in the county where the clerk is located. Confirm the filing method with the clerk before filing.",
+        "fees": "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+        "feeWaiver": "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved.",
+        "notice": "Notice to the clerk of court and the prosecuting attorney. Registered mail, certified mail or statutory overnight delivery is sufficient notice under § 35-3-37(m)(1). Subsection (m) states no response or objection period.",
+        "service": "Registered mail, certified mail or statutory overnight delivery, certified in a certificate of service.",
+        "participantSignature": "The petitioner signs. No verification or notarization is required by statute.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "countyOfClerk",
+          "question": "In which Georgia county is the clerk of court that holds the file?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtWithOriginalJurisdiction",
+          "question": "Which court had original jurisdiction over the offences in that county, and what is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtLevel",
+          "question": "Was that a State Court, Superior Court, Magistrate Court, Probate Court or Municipal Court?",
+          "requirement": "required"
+        },
+        {
+          "key": "otn",
+          "question": "What is the GCIC OTN for the case, if you know it?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because the proposed order needs the OTN to be actionable, but the packet generates without it."
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "restrictionConfirmed",
+          "question": "Does your Georgia criminal history show this case as restricted?",
+          "requirement": "required"
+        },
+        {
+          "key": "restrictionRoute",
+          "question": "Under which route was the record restricted — automatically on a non-conviction, on a pre-2013 application, or by court order?",
+          "requirement": "required"
+        },
+        {
+          "key": "participantNarrative",
+          "question": "In your own words: how has this court file being public harmed you?",
+          "requirement": "required"
+        },
+        {
+          "key": "requestHearing",
+          "question": "Do you want to ask, in the alternative, that the motion be set for hearing?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Consumer-facing copy must say \"restrict\" and, separately, \"seal.\" Georgia does not use \"expungement\" in the statute and has not since July 1, 2013, and neither remedy destroys the record.",
+        "The packet must state that a restriction or sealing may still be used to disqualify the participant from employment or office in the same manner as a first offender discharge under § 42-8-63.1, and does not supersede disclosure required by federal law. The packet must never tell a participant they may state the record does not exist.",
+        "The filing is made in the existing criminal case under the existing case number, styled State of Georgia v. Defendant, in the court that handled the case. It is not a new civil action, is not captioned IN RE, and does not carry a Civil Action No.",
+        "Every packet carries a plain-language instruction to confirm the filing method with the clerk before filing. No statewide judiciary form exists, local courts control their own filing and e-filing practice, some clerks resist accepting motions in closed criminal cases, and some judges have standing preferences on proposed orders.",
+        "The packet must say that after the order the clerk has 60 days to restrict every document, physical or electronic, in its custody, possession or control, and that § 35-3-37(t) and (v) keep sealed files available for the enumerated purposes.",
+        "The record must already be restricted under § 35-3-37 and the participant attaches the criminal history report showing it. That is the proof of statutory element (A); it is obtained and attached by the participant and never delays generation."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own Georgia criminal history report showing the case is restricted. Obtain the report and confirm the cycle shows as restricted. It is effectively required on this route because it is the proof of the first statutory element. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Most Georgia sheriff's offices and police departments, or GCIC",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Does your Georgia criminal history show this case as restricted?\" against Your own Georgia criminal history report showing the case is restricted, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Copy of the final disposition. Ask the clerk for a copy of the final disposition and enclose it with the motion.",
+          "obtainedFrom": "Clerk of the court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the case end?\" against Copy of the final disposition, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Defendant's signature and date — Motion, signature block, and certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge name and hearing date — Caption and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature block of the judge on the proposed order — Proposed order, final page.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs. No verification or notarization is required by statute.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Registered mail, certified mail or statutory overnight delivery, certified in a certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the underlying criminal case with the clerk of the court with original jurisdiction over the offences in the county where the clerk is located. Confirm the filing method with the clerk before filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Your own Georgia criminal history report showing the case is restricted. Obtain the report and confirm the cycle shows as restricted. It is effectively required on this route because it is the proof of the first statutory element. LegalEase never collects, inspects or authenticates it.",
+        "Check your answer to \"Does your Georgia criminal history show this case as restricted?\" against Your own Georgia criminal history report showing the case is restricted, and correct the packet if they disagree.",
+        "Obtain Copy of the final disposition. Ask the clerk for a copy of the final disposition and enclose it with the motion.",
+        "Check your answer to \"How did the case end?\" against Copy of the final disposition, and correct the packet if they disagree.",
+        "Defendant's signature and date — Motion, signature block, and certificate of service.",
+        "Judge name and hearing date — Caption and proposed order.",
+        "Signature block of the judge on the proposed order — Proposed order, final page.",
+        "The petitioner signs. No verification or notarization is required by statute.",
+        "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+        "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved."
+      ],
+      "stopConditions": [
+        "The prosecuting attorney opposes the filing.",
+        "The court sets a contested hearing or takes evidence on disputed facts.",
+        "Any immigration consequence is in play.",
+        "The participant wants to attack the underlying conviction or charge itself.",
+        "Venue is unclear because the trial court no longer exists or the records cannot be located.",
+        "The criminal history does not show the case as restricted, in which case the participant needs a restriction route first.",
+        "The clerk objects.",
+        "The county maintains parallel online records the order may not reach.",
+        "Where self-help stops, route the participant to a Georgia expungement desk: Georgia Justice Project, the Cobb County Second Chance Desk, the Henry County Records Restriction Desk, or Middle Georgia Justice \"The Desk\"."
+      ],
+      "guidanceStatus": "drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true,
+      "templateIds": [],
+      "scope": null,
+      "notAFiling": null,
+      "trancheId": "tranche-3-georgia-superior-court-pleadings"
+    },
+    {
+      "jurisdiction": "GA",
+      "trackId": "ga-pardon-j7",
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the convicting court",
+        "detail": "Filed in the existing criminal case. Served on the prosecuting attorney; hearing within 90 days if requested."
+      },
+      "rules": {
+        "filing": "File in the existing criminal case with the clerk of the convicting court. Confirm the filing method with the clerk before filing.",
+        "fees": "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+        "feeWaiver": "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved.",
+        "notice": "Notice to the prosecuting attorney; practice also serves the clerk of court.",
+        "service": "Certified mail, e-filing or hand delivery, certified in a certificate of service.",
+        "participantSignature": "The petitioner signs. No verification or notarization is required by statute.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "convictingCourtAndCounty",
+          "question": "Which court entered the conviction, in which county, and what is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtLevel",
+          "question": "Was that a State Court, Superior Court, Magistrate Court, Probate Court or Municipal Court?",
+          "requirement": "required"
+        },
+        {
+          "key": "otn",
+          "question": "What is the GCIC OTN for the case, if you know it?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because the proposed order needs the OTN to be actionable by GCIC, but the packet generates without it."
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseCodeSection",
+          "question": "Which O.C.G.A. Code section were you convicted under?",
+          "requirement": "required"
+        },
+        {
+          "key": "pardonDate",
+          "question": "On what date did the State Board of Pardons and Paroles grant the pardon?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionsSincePardon",
+          "question": "Have you been convicted of any crime in any jurisdiction, other than a nonserious traffic offence, since the pardon was granted?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any pending charged offences in any jurisdiction?",
+          "requirement": "required"
+        },
+        {
+          "key": "participantNarrative",
+          "question": "In your own words: what has changed, and how has this record been a barrier?",
+          "requirement": "required"
+        },
+        {
+          "key": "requestHearing",
+          "question": "Do you want to ask, in the alternative, that the matter be set for hearing within 90 days of filing?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Consumer-facing copy must say \"restrict\" and, separately, \"seal.\" Georgia does not use \"expungement\" in the statute and has not since July 1, 2013, and neither remedy destroys the record.",
+        "The packet must state that a restriction or sealing may still be used to disqualify the participant from employment or office in the same manner as a first offender discharge under § 42-8-63.1, and does not supersede disclosure required by federal law. The packet must never tell a participant they may state the record does not exist.",
+        "The filing is made in the existing criminal case under the existing case number, styled State of Georgia v. Defendant, in the court that handled the case. It is not a new civil action, is not captioned IN RE, and does not carry a Civil Action No.",
+        "The proposed order must name the OTN and arrest date, name GCIC and the county agencies by category, name the clerk and court, and limit disclosure to what § 35-3-37(t) and (v) permit. A restriction order that does not name GCIC is not actionable.",
+        "Every packet carries a plain-language instruction to confirm the filing method with the clerk before filing. No statewide judiciary form exists, local courts control their own filing and e-filing practice, some clerks resist accepting motions in closed criminal cases, and some judges have standing preferences on proposed orders.",
+        "The participant obtains the pardon certificate from the State Board of Pardons and Paroles and attaches it, together with the final disposition."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Pardon certificate. Request a copy of the pardon certificate from the State Board of Pardons and Paroles and attach it to the petition. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "State Board of Pardons and Paroles",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did the State Board of Pardons and Paroles grant the pardon?\" against Pardon certificate, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Copy of the final disposition. Ask the clerk of the convicting or accusing court for a copy of the final disposition and attach it to the filing as the referenced exhibit.",
+          "obtainedFrom": "Clerk of the court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which O.C.G.A. Code section were you convicted under?\" against Copy of the final disposition, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own Georgia criminal history report. GBI's guidance says a Georgia criminal history record can be obtained from most sheriff's offices or police departments, with requirements varying by agency. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Most Georgia sheriff's offices and police departments, or GCIC",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant relies on it or the court expects it.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature and date — Petition, signature block, and certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge name and hearing date — Caption and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature block of the judge on the proposed order — Proposed order, final page.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs. No verification or notarization is required by statute.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Certified mail, e-filing or hand delivery, certified in a certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the existing criminal case with the clerk of the convicting court. Confirm the filing method with the clerk before filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Pardon certificate. Request a copy of the pardon certificate from the State Board of Pardons and Paroles and attach it to the petition. LegalEase never collects, inspects or authenticates it.",
+        "Check your answer to \"On what date did the State Board of Pardons and Paroles grant the pardon?\" against Pardon certificate, and correct the packet if they disagree.",
+        "Obtain Copy of the final disposition. Ask the clerk of the convicting or accusing court for a copy of the final disposition and attach it to the filing as the referenced exhibit.",
+        "Check your answer to \"Which O.C.G.A. Code section were you convicted under?\" against Copy of the final disposition, and correct the packet if they disagree.",
+        "Petitioner's signature and date — Petition, signature block, and certificate of service.",
+        "Judge name and hearing date — Caption and proposed order.",
+        "Signature block of the judge on the proposed order — Proposed order, final page.",
+        "The petitioner signs. No verification or notarization is required by statute.",
+        "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+        "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved."
+      ],
+      "stopConditions": [
+        "The prosecuting attorney opposes the filing.",
+        "The court sets a contested hearing or takes evidence on disputed facts.",
+        "Any immigration consequence is in play.",
+        "The participant wants to attack the underlying conviction or charge itself.",
+        "Venue is unclear because the trial court no longer exists or the records cannot be located.",
+        "The pardon status is unclear.",
+        "The offence classification under § 17-10-6.1 or § 17-10-6.2 is disputed.",
+        "The participant is still seeking the pardon.",
+        "Where self-help stops, route the participant to a Georgia expungement desk: Georgia Justice Project, the Cobb County Second Chance Desk, the Henry County Records Restriction Desk, or Middle Georgia Justice \"The Desk\"."
+      ],
+      "guidanceStatus": "drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true,
+      "templateIds": [],
+      "scope": null,
+      "notAFiling": null,
+      "trancheId": "tranche-3-georgia-superior-court-pleadings"
+    },
+    {
+      "jurisdiction": "GA",
+      "trackId": "ga-felony-j1",
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the accusing or convicting court, or the superior court of the county of arrest where the charge was dismissed",
+        "detail": "Notice to the arresting law enforcement agency and the prosecuting attorney, which is broader than the other § 35-3-37(j) routes. Hearing within 90 days if requested."
+      },
+      "rules": {
+        "filing": "File within four years of the arrest, in the court in which you were accused or convicted, or in the superior court of the county of arrest where the felony charge was dismissed. Confirm the filing method with the clerk before filing.",
+        "fees": "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+        "feeWaiver": "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved.",
+        "notice": "Notice to the arresting law enforcement agency and the prosecuting attorney. This is broader than the other § 35-3-37(j) routes.",
+        "service": "Certified mail, e-filing or hand delivery, certified in a certificate of service naming both recipients.",
+        "participantSignature": "The petitioner signs. No verification or notarization is required by statute.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested? The four-year filing deadline runs from this date.",
+          "requirement": "required"
+        },
+        {
+          "key": "countyOfArrest",
+          "question": "In which Georgia county were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "felonyChargeCodeSection",
+          "question": "Which O.C.G.A. Code section was the felony charge under?",
+          "requirement": "required"
+        },
+        {
+          "key": "felonyDisposition",
+          "question": "How was the felony charge resolved — dismissed, nolle prossed, or found not guilty?",
+          "requirement": "required"
+        },
+        {
+          "key": "misdemeanorConvictionCodeSection",
+          "question": "Which O.C.G.A. Code section were you convicted of as a misdemeanour?",
+          "requirement": "required"
+        },
+        {
+          "key": "lesserIncludedAssertion",
+          "question": "Do you assert that the misdemeanour you were convicted of was not a lesser included offence of the felony charge? LegalEase cannot decide this for you and the petition pleads your assertion, not ours.",
+          "requirement": "required"
+        },
+        {
+          "key": "accusingOrConvictingCourt",
+          "question": "Which court accused or convicted you, in which county, and what is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtLevel",
+          "question": "Was that a State Court, Superior Court, Magistrate Court, Probate Court or Municipal Court?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestingAgency",
+          "question": "Which law enforcement agency arrested you? They receive notice as well as the prosecuting attorney.",
+          "requirement": "required"
+        },
+        {
+          "key": "otn",
+          "question": "What is the GCIC OTN for the case, if you know it?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because the proposed order needs the OTN to be actionable by GCIC, but the packet generates without it."
+        },
+        {
+          "key": "participantNarrative",
+          "question": "In your own words: what has changed, and how has this felony charge on your record been a barrier?",
+          "requirement": "required"
+        },
+        {
+          "key": "requestHearing",
+          "question": "Do you want to ask, in the alternative, that the matter be set for hearing within 90 days of filing?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Consumer-facing copy must say \"restrict\" and, separately, \"seal.\" Georgia does not use \"expungement\" in the statute and has not since July 1, 2013, and neither remedy destroys the record.",
+        "The packet must state that a restriction or sealing may still be used to disqualify the participant from employment or office in the same manner as a first offender discharge under § 42-8-63.1, and does not supersede disclosure required by federal law. The packet must never tell a participant they may state the record does not exist.",
+        "The filing is made in the existing criminal case under the existing case number, styled State of Georgia v. Defendant, in the court that handled the case. It is not a new civil action, is not captioned IN RE, and does not carry a Civil Action No.",
+        "The proposed order must name the OTN and arrest date, name GCIC and the county agencies by category, name the clerk and court, and limit disclosure to what § 35-3-37(t) and (v) permit. A restriction order that does not name GCIC is not actionable.",
+        "Every packet carries a plain-language instruction to confirm the filing method with the clerk before filing. No statewide judiciary form exists, local courts control their own filing and e-filing practice, some clerks resist accepting motions in closed criminal cases, and some judges have standing preferences on proposed orders.",
+        "The certificate of service must name both the arresting law enforcement agency and the prosecuting attorney. This notice set is broader than the other § 35-3-37(j) routes.",
+        "The packet must say that the relief restricts the felony charge only and does not reach the misdemeanour conviction."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Copy of the final disposition. Ask the clerk of the convicting or accusing court for a copy of the final disposition and attach it to the filing as the referenced exhibit.",
+          "obtainedFrom": "Clerk of the court that handled the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How was the felony charge resolved — dismissed, nolle prossed, or found not guilty?\" against Copy of the final disposition, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own Georgia criminal history report. GBI's guidance says a Georgia criminal history record can be obtained from most sheriff's offices or police departments, with requirements varying by agency. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Most Georgia sheriff's offices and police departments, or GCIC",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant relies on it or the court expects it.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature and date — Petition, signature block, and certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge name and hearing date — Caption and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Arresting agency service destination — Certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature block of the judge on the proposed order — Proposed order, final page.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs. No verification or notarization is required by statute.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Certified mail, e-filing or hand delivery, certified in a certificate of service naming both recipients.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File within four years of the arrest, in the court in which you were accused or convicted, or in the superior court of the county of arrest where the felony charge was dismissed. Confirm the filing method with the clerk before filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Copy of the final disposition. Ask the clerk of the convicting or accusing court for a copy of the final disposition and attach it to the filing as the referenced exhibit.",
+        "Check your answer to \"How was the felony charge resolved — dismissed, nolle prossed, or found not guilty?\" against Copy of the final disposition, and correct the packet if they disagree.",
+        "Petitioner's signature and date — Petition, signature block, and certificate of service.",
+        "Judge name and hearing date — Caption and proposed order.",
+        "Arresting agency service destination — Certificate of service.",
+        "Signature block of the judge on the proposed order — Proposed order, final page.",
+        "The petitioner signs. No verification or notarization is required by statute.",
+        "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+        "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved."
+      ],
+      "stopConditions": [
+        "The prosecuting attorney opposes the filing.",
+        "The court sets a contested hearing or takes evidence on disputed facts.",
+        "Any immigration consequence is in play.",
+        "The participant wants to attack the underlying conviction or charge itself.",
+        "Venue is unclear because the trial court no longer exists or the records cannot be located.",
+        "The lesser-included analysis is not obvious on the face of the two Code sections.",
+        "The four-year filing window from the arrest is close.",
+        "The arresting agency disputes service or the record.",
+        "Where self-help stops, route the participant to a Georgia expungement desk: Georgia Justice Project, the Cobb County Second Chance Desk, the Henry County Records Restriction Desk, or Middle Georgia Justice \"The Desk\"."
+      ],
+      "guidanceStatus": "drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true,
+      "templateIds": [],
+      "scope": null,
+      "notAFiling": null,
+      "trancheId": "tranche-3-georgia-superior-court-pleadings"
+    },
+    {
+      "jurisdiction": "GA",
+      "trackId": "ga-deaddocket-j3",
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the court in which the charged offence is pending",
+        "detail": "Notice to the prosecuting attorney. Hearing within 90 days if requested."
+      },
+      "rules": {
+        "filing": "File in the pending criminal case with the clerk of the court in which the charged offence is pending. Confirm the filing method with the clerk before filing.",
+        "fees": "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+        "feeWaiver": "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved.",
+        "notice": "Notice to the prosecuting attorney.",
+        "service": "Certified mail, e-filing or hand delivery, certified in a certificate of service.",
+        "participantSignature": "The petitioner signs. No verification or notarization is required by statute.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "pendingCourtAndCounty",
+          "question": "In which court is the charge pending, in which county, and what is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtLevel",
+          "question": "Was that a State Court, Superior Court, Magistrate Court, Probate Court or Municipal Court?",
+          "requirement": "required"
+        },
+        {
+          "key": "deadDocketDate",
+          "question": "On what date was the charge placed on the dead docket?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargeCodeSection",
+          "question": "Which O.C.G.A. Code section is the charge under?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "activeWarrant",
+          "question": "Is any active warrant pending for you in any jurisdiction? An active warrant is an absolute bar to this relief.",
+          "requirement": "required"
+        },
+        {
+          "key": "reasonDeadDocketed",
+          "question": "As far as you know, why was the case placed on the dead docket?",
+          "requirement": "required"
+        },
+        {
+          "key": "otn",
+          "question": "What is the GCIC OTN for the case, if you know it?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because the proposed order needs the OTN to be actionable by GCIC, but the packet generates without it."
+        },
+        {
+          "key": "participantNarrative",
+          "question": "In your own words: how has this pending charge on your record been a barrier?",
+          "requirement": "required"
+        },
+        {
+          "key": "requestHearing",
+          "question": "Do you want to ask, in the alternative, that the matter be set for hearing within 90 days of filing?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Consumer-facing copy must say \"restrict\" and, separately, \"seal.\" Georgia does not use \"expungement\" in the statute and has not since July 1, 2013, and neither remedy destroys the record.",
+        "The packet must state that a restriction or sealing may still be used to disqualify the participant from employment or office in the same manner as a first offender discharge under § 42-8-63.1, and does not supersede disclosure required by federal law. The packet must never tell a participant they may state the record does not exist.",
+        "The filing is made in the existing criminal case under the existing case number, styled State of Georgia v. Defendant, in the court that handled the case. It is not a new civil action, is not captioned IN RE, and does not carry a Civil Action No.",
+        "The proposed order must name the OTN and arrest date, name GCIC and the county agencies by category, name the clerk and court, and limit disclosure to what § 35-3-37(t) and (v) permit. A restriction order that does not name GCIC is not actionable.",
+        "Every packet carries a plain-language instruction to confirm the filing method with the clerk before filing. No statewide judiciary form exists, local courts control their own filing and e-filing practice, some clerks resist accepting motions in closed criminal cases, and some judges have standing preferences on proposed orders.",
+        "The packet must say that the case is still pending and has not been resolved. A participant who believes a dead docket is the same as a dismissal is wrong, and the copy must say so.",
+        "The participant obtains the docket showing the date the charge was placed on the dead docket, which is what starts the 12 months."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Copy of the dead docket entry or the case docket showing the dead docket date. Ask the clerk of the court where the charge is pending for the docket showing when the charge was placed on the dead docket. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Clerk of the court in which the charge is pending",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date was the charge placed on the dead docket?\" against Copy of the dead docket entry or the case docket showing the dead docket date, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own Georgia criminal history report. GBI's guidance says a Georgia criminal history record can be obtained from most sheriff's offices or police departments, with requirements varying by agency. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Most Georgia sheriff's offices and police departments, or GCIC",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant relies on it or the court expects it.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature and date — Petition, signature block, and certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge name and hearing date — Caption and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature block of the judge on the proposed order — Proposed order, final page.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs. No verification or notarization is required by statute.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Certified mail, e-filing or hand delivery, certified in a certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the pending criminal case with the clerk of the court in which the charged offence is pending. Confirm the filing method with the clerk before filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Copy of the dead docket entry or the case docket showing the dead docket date. Ask the clerk of the court where the charge is pending for the docket showing when the charge was placed on the dead docket. LegalEase never collects, inspects or authenticates it.",
+        "Check your answer to \"On what date was the charge placed on the dead docket?\" against Copy of the dead docket entry or the case docket showing the dead docket date, and correct the packet if they disagree.",
+        "Petitioner's signature and date — Petition, signature block, and certificate of service.",
+        "Judge name and hearing date — Caption and proposed order.",
+        "Signature block of the judge on the proposed order — Proposed order, final page.",
+        "The petitioner signs. No verification or notarization is required by statute.",
+        "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+        "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved."
+      ],
+      "stopConditions": [
+        "The prosecuting attorney opposes the filing.",
+        "The court sets a contested hearing or takes evidence on disputed facts.",
+        "Any immigration consequence is in play.",
+        "The participant wants to attack the underlying conviction or charge itself.",
+        "Venue is unclear because the trial court no longer exists or the records cannot be located.",
+        "A warrant may be outstanding for the participant.",
+        "The participant does not know why the case was dead docketed.",
+        "The prosecuting attorney signals an intent to revive the case.",
+        "Where self-help stops, route the participant to a Georgia expungement desk: Georgia Justice Project, the Cobb County Second Chance Desk, the Henry County Records Restriction Desk, or Middle Georgia Justice \"The Desk\"."
+      ],
+      "guidanceStatus": "drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true,
+      "templateIds": [],
+      "scope": null,
+      "notAFiling": null,
+      "trancheId": "tranche-3-georgia-superior-court-pleadings"
+    },
+    {
+      "jurisdiction": "GA",
+      "trackId": "ga-vacated-j2",
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the convicting court",
+        "detail": "Notice to the prosecuting attorney. Hearing within 90 days if requested."
+      },
+      "rules": {
+        "filing": "File in the existing criminal case with the clerk of the convicting court. Confirm the filing method with the clerk before filing.",
+        "fees": "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+        "feeWaiver": "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved.",
+        "notice": "Notice to the prosecuting attorney.",
+        "service": "Certified mail, e-filing or hand delivery, certified in a certificate of service.",
+        "participantSignature": "The petitioner signs. No verification or notarization is required by statute.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "convictingCourtAndCounty",
+          "question": "Which court entered the conviction, in which county, and what is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtLevel",
+          "question": "Was that a State Court, Superior Court, Magistrate Court, Probate Court or Municipal Court?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseCodeSection",
+          "question": "Which O.C.G.A. Code section were you convicted under?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "vacatingCourt",
+          "question": "Which court vacated or reversed the conviction?",
+          "requirement": "required"
+        },
+        {
+          "key": "vacatingOrderDate",
+          "question": "On what date was the order vacating or reversing the conviction entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "finalityDate",
+          "question": "On what date did that decision become final through completion of the appellate process?",
+          "requirement": "required"
+        },
+        {
+          "key": "retried",
+          "question": "Has the prosecuting attorney retried the case at any time since that date?",
+          "requirement": "required"
+        },
+        {
+          "key": "deathPenalty",
+          "question": "Was the sentence a sentence of death?",
+          "requirement": "required"
+        },
+        {
+          "key": "otn",
+          "question": "What is the GCIC OTN for the case, if you know it?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because the proposed order needs the OTN to be actionable by GCIC, but the packet generates without it."
+        },
+        {
+          "key": "participantNarrative",
+          "question": "In your own words: how has this record been a barrier since the conviction was set aside?",
+          "requirement": "required"
+        },
+        {
+          "key": "requestHearing",
+          "question": "Do you want to ask, in the alternative, that the matter be set for hearing within 90 days of filing?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Consumer-facing copy must say \"restrict\" and, separately, \"seal.\" Georgia does not use \"expungement\" in the statute and has not since July 1, 2013, and neither remedy destroys the record.",
+        "The packet must state that a restriction or sealing may still be used to disqualify the participant from employment or office in the same manner as a first offender discharge under § 42-8-63.1, and does not supersede disclosure required by federal law. The packet must never tell a participant they may state the record does not exist.",
+        "The filing is made in the existing criminal case under the existing case number, styled State of Georgia v. Defendant, in the court that handled the case. It is not a new civil action, is not captioned IN RE, and does not carry a Civil Action No.",
+        "The proposed order must name the OTN and arrest date, name GCIC and the county agencies by category, name the clerk and court, and limit disclosure to what § 35-3-37(t) and (v) permit. A restriction order that does not name GCIC is not actionable.",
+        "Every packet carries a plain-language instruction to confirm the filing method with the clerk before filing. No statewide judiciary form exists, local courts control their own filing and e-filing practice, some clerks resist accepting motions in closed criminal cases, and some judges have standing preferences on proposed orders.",
+        "The participant obtains and attaches the order vacating or reversing the conviction and the record showing the decision became final through completion of the appellate process."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain The order vacating or reversing the conviction, and proof the decision became final. Ask the clerk of the court that vacated or reversed the conviction for a copy of the order, and the clerk of the convicting court for the docket entries showing the appellate process is complete. LegalEase never collects, inspects or authenticates them.",
+          "obtainedFrom": "Clerk of the convicting court, or the clerk of the appellate or post-conviction court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date was the order vacating or reversing the conviction entered?\" against The order vacating or reversing the conviction, and proof the decision became final, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own Georgia criminal history report. GBI's guidance says a Georgia criminal history record can be obtained from most sheriff's offices or police departments, with requirements varying by agency. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Most Georgia sheriff's offices and police departments, or GCIC",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant relies on it or the court expects it.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature and date — Petition, signature block, and certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge name and hearing date — Caption and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature block of the judge on the proposed order — Proposed order, final page.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs. No verification or notarization is required by statute.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Certified mail, e-filing or hand delivery, certified in a certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the existing criminal case with the clerk of the convicting court. Confirm the filing method with the clerk before filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain The order vacating or reversing the conviction, and proof the decision became final. Ask the clerk of the court that vacated or reversed the conviction for a copy of the order, and the clerk of the convicting court for the docket entries showing the appellate process is complete. LegalEase never collects, inspects or authenticates them.",
+        "Check your answer to \"On what date was the order vacating or reversing the conviction entered?\" against The order vacating or reversing the conviction, and proof the decision became final, and correct the packet if they disagree.",
+        "Petitioner's signature and date — Petition, signature block, and certificate of service.",
+        "Judge name and hearing date — Caption and proposed order.",
+        "Signature block of the judge on the proposed order — Proposed order, final page.",
+        "The petitioner signs. No verification or notarization is required by statute.",
+        "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+        "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved."
+      ],
+      "stopConditions": [
+        "The prosecuting attorney opposes the filing.",
+        "The court sets a contested hearing or takes evidence on disputed facts.",
+        "Any immigration consequence is in play.",
+        "The participant wants to attack the underlying conviction or charge itself.",
+        "Venue is unclear because the trial court no longer exists or the records cannot be located.",
+        "The prosecuting attorney signals an intent to retry the case.",
+        "Whether the vacating or reversing decision is final through completion of the appellate process is unclear or disputed.",
+        "The participant is pursuing, or wants to pursue, actual-innocence or other contested post-conviction litigation.",
+        "The reason for the vacatur is itself in dispute.",
+        "Where self-help stops, route the participant to a Georgia expungement desk: Georgia Justice Project, the Cobb County Second Chance Desk, the Henry County Records Restriction Desk, or Middle Georgia Justice \"The Desk\".",
+        "Self-help stops if the prosecuting attorney opposes, the court sets a contested or evidentiary hearing, or the participant is pursuing actual-innocence or other contested post-conviction litigation, which remains outside scope."
+      ],
+      "guidanceStatus": "drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true,
+      "templateIds": [],
+      "scope": null,
+      "notAFiling": null,
+      "trancheId": "tranche-3-georgia-superior-court-pleadings"
+    },
+    {
+      "jurisdiction": "GA",
+      "trackId": "ga-fugitive-j5",
+      "destination": {
+        "kind": "court",
+        "name": "Superior court in the county where the arrest occurred",
+        "detail": "Notice to the arresting law enforcement agency and the prosecuting attorney. Hearing within 90 days if requested."
+      },
+      "rules": {
+        "filing": "File in the superior court of the county where the arrest occurred. Confirm the filing method with the clerk before filing.",
+        "fees": "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+        "feeWaiver": "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved.",
+        "notice": "Notice to the arresting law enforcement agency and the prosecuting attorney.",
+        "service": "Certified mail, e-filing or hand delivery, certified in a certificate of service naming both recipients.",
+        "participantSignature": "The petitioner signs. No verification or notarization is required by statute.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "countyOfArrest",
+          "question": "In which Georgia county were you arrested on the fugitive warrant?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested on the fugitive warrant?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestingAgency",
+          "question": "Which law enforcement agency arrested you? They receive notice as well as the prosecuting attorney.",
+          "requirement": "required"
+        },
+        {
+          "key": "demandingState",
+          "question": "Which other state or jurisdiction had asked for you to be held?",
+          "requirement": "required"
+        },
+        {
+          "key": "extraditionOutcome",
+          "question": "In your own words, what happened with the fugitive warrant and any extradition?",
+          "requirement": "required"
+        },
+        {
+          "key": "georgiaCaseNumber",
+          "question": "What Georgia case number, if any, was given to the fugitive warrant matter?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because a case number helps the clerk locate the matter, but the packet generates without it."
+        },
+        {
+          "key": "otn",
+          "question": "What is the GCIC OTN for the arrest, if you know it?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because the proposed order needs the OTN to be actionable by GCIC, but the packet generates without it."
+        },
+        {
+          "key": "participantNarrative",
+          "question": "In your own words: how has this arrest on your record been a barrier?",
+          "requirement": "required"
+        },
+        {
+          "key": "requestHearing",
+          "question": "Do you want to ask, in the alternative, that the matter be set for hearing within 90 days of filing?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "Consumer-facing copy must say \"restrict\" and, separately, \"seal.\" Georgia does not use \"expungement\" in the statute and has not since July 1, 2013, and neither remedy destroys the record.",
+        "The packet must state that a restriction or sealing may still be used to disqualify the participant from employment or office in the same manner as a first offender discharge under § 42-8-63.1, and does not supersede disclosure required by federal law. The packet must never tell a participant they may state the record does not exist.",
+        "The proposed order must name the OTN and arrest date, name GCIC and the county agencies by category, name the clerk and court, and limit disclosure to what § 35-3-37(t) and (v) permit. A restriction order that does not name GCIC is not actionable.",
+        "Every packet carries a plain-language instruction to confirm the filing method with the clerk before filing. No statewide judiciary form exists, local courts control their own filing and e-filing practice, some clerks resist accepting motions in closed criminal cases, and some judges have standing preferences on proposed orders.",
+        "The packet must say that Georgia restriction reaches Georgia records only and does not touch the demanding state's records or the FBI Identity History Summary.",
+        "The certificate of service must name both the arresting law enforcement agency and the prosecuting attorney."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own Georgia criminal history report showing the fugitive warrant arrest cycle. Obtain the report and identify the arrest cycle for the fugitive warrant. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Most Georgia sheriff's offices and police departments, or GCIC",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date were you arrested on the fugitive warrant?\" against Your own Georgia criminal history report showing the fugitive warrant arrest cycle, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Any Georgia court record of the fugitive warrant proceeding. Ask the clerk for the docket or disposition of the fugitive warrant proceeding.",
+          "obtainedFrom": "Clerk of the court where the fugitive warrant matter was heard",
+          "requirement": "conditional",
+          "conditionDescription": "Where a Georgia court record of the matter exists.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"In your own words, what happened with the fugitive warrant and any extradition?\" against Any Georgia court record of the fugitive warrant proceeding, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where a Georgia court record of the matter exists.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature and date — Petition, signature block, and certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge name and hearing date — Caption and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Arresting agency service destination — Certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature block of the judge on the proposed order — Proposed order, final page.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs. No verification or notarization is required by statute.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Certified mail, e-filing or hand delivery, certified in a certificate of service naming both recipients.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File in the superior court of the county where the arrest occurred. Confirm the filing method with the clerk before filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Your own Georgia criminal history report showing the fugitive warrant arrest cycle. Obtain the report and identify the arrest cycle for the fugitive warrant. LegalEase never collects, inspects or authenticates it.",
+        "Check your answer to \"On what date were you arrested on the fugitive warrant?\" against Your own Georgia criminal history report showing the fugitive warrant arrest cycle, and correct the packet if they disagree.",
+        "Check your answer to \"In your own words, what happened with the fugitive warrant and any extradition?\" against Any Georgia court record of the fugitive warrant proceeding, and correct the packet if they disagree.",
+        "Petitioner's signature and date — Petition, signature block, and certificate of service.",
+        "Judge name and hearing date — Caption and proposed order.",
+        "Arresting agency service destination — Certificate of service.",
+        "Signature block of the judge on the proposed order — Proposed order, final page.",
+        "The petitioner signs. No verification or notarization is required by statute.",
+        "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+        "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved."
+      ],
+      "stopConditions": [
+        "The prosecuting attorney opposes the filing.",
+        "The court sets a contested hearing or takes evidence on disputed facts.",
+        "Any immigration consequence is in play.",
+        "The participant wants to attack the underlying conviction or charge itself.",
+        "Venue is unclear because the trial court no longer exists or the records cannot be located.",
+        "The underlying out-of-state matter is unresolved or the demanding state still seeks the participant.",
+        "The participant is subject to a pending extradition demand.",
+        "The out-of-state record itself is the participant's real concern, which Georgia restriction does not reach.",
+        "Where self-help stops, route the participant to a Georgia expungement desk: Georgia Justice Project, the Cobb County Second Chance Desk, the Henry County Records Restriction Desk, or Middle Georgia Justice \"The Desk\"."
+      ],
+      "guidanceStatus": "drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true,
+      "templateIds": [],
+      "scope": null,
+      "notAFiling": null,
+      "trancheId": "tranche-3-georgia-superior-court-pleadings"
+    },
+    {
+      "jurisdiction": "GA",
       "trackId": "ga-fo-sentencing-post2026",
       "destination": {
         "kind": "court",
@@ -107475,6 +108856,386 @@
       "unitId": null,
       "compositionMode": null,
       "unitAvailable": true
+    },
+    {
+      "jurisdiction": "GA",
+      "trackId": "ga-fo-active-pre2026",
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the court that handled the underlying case",
+        "detail": "Filed as a criminal petition in the existing case. Notice to the clerk of court and the prosecuting District Attorney or Solicitor-General for the county."
+      },
+      "rules": {
+        "filing": "File as a criminal petition in the existing case with the clerk of the court that handled the underlying case. Confirm the filing method with the clerk before filing.",
+        "fees": "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+        "feeWaiver": "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved.",
+        "notice": "Notice of the petition shall be sent to the clerk of court and the prosecuting attorney. Notice is not a request for consent and there is no advance-consent requirement on this route. The statute creates no objection period and no objection-triggered hearing branch.",
+        "service": "Notice sent by registered or certified mail or statutory overnight delivery is sufficient notice under § 42-8-62.1(c). Hand delivery or e-filing may also be used, certified in a certificate of service.",
+        "participantSignature": "The defendant signs the petition and the certificate of service. No verification or notarization is required by statute.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "sentencedUnderFirstOffenderAct",
+          "question": "Were you actually sentenced under Georgia's First Offender Act in the original case?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentencingDate",
+          "question": "On what date were you sentenced under the First Offender Act?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceTerms",
+          "question": "What sentence did you receive?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentencingCourtAndCounty",
+          "question": "Which court sentenced you, in which county, and what is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtLevel",
+          "question": "Was that a State Court, Superior Court, Magistrate Court, Probate Court or Municipal Court?",
+          "requirement": "required"
+        },
+        {
+          "key": "statusRevoked",
+          "question": "Has the court revoked your First Offender status and entered an adjudication of guilt?",
+          "requirement": "required"
+        },
+        {
+          "key": "adjudicationOfGuilt",
+          "question": "Has an adjudication of guilt been entered in the case at any time?",
+          "requirement": "required"
+        },
+        {
+          "key": "dischargeEntered",
+          "question": "Have you been exonerated and discharged, or is the case still active or your discharge never entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "otn",
+          "question": "What is the GCIC OTN for the case, if you know it?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because the caption and proposed order carry it where known, but the packet generates without it."
+        },
+        {
+          "key": "arrestingAgency",
+          "question": "Which law enforcement agency arrested you, and which jail or detention center booked you?",
+          "requirement": "required"
+        },
+        {
+          "key": "prosecutingAttorneyOffice",
+          "question": "Was the case prosecuted by the District Attorney or by the Solicitor-General for that county?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "The prosecuting attorney receives notice of the petition. Notice is not a request for consent, there is no advance-consent gate on this route, and the packet must not describe one.",
+        "The filing is made in the existing criminal case under the existing case number, styled State of Georgia v. Defendant, in the court that handled the case. It is not a new civil action, is not captioned IN RE, and does not carry a Civil Action No.",
+        "Every packet carries a plain-language instruction to confirm the filing method with the clerk before filing. No statewide judiciary form exists, local courts control their own filing and e-filing practice, some clerks resist accepting motions in closed criminal cases, and some judges have standing preferences on proposed orders.",
+        "The packet must say that the court shall order restriction and sealing within 90 days of filing, that the clerk then seals every document in its custody within 60 days, and that law enforcement agencies, jails and detention centers must restrict within 30 days of receiving a copy of the order.",
+        "The participant obtains and attaches the final disposition showing the First Offender sentence as Exhibit A."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Final disposition showing the First Offender sentence. Ask the clerk of the sentencing court for the final disposition showing that you were sentenced under the First Offender Act, and attach it to the petition as Exhibit A. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Clerk of the court that sentenced you",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date were you sentenced under the First Offender Act?\" against Final disposition showing the First Offender sentence, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own Georgia criminal history report. GBI's guidance says a Georgia criminal history record can be obtained from most sheriff's offices or police departments, with requirements varying by agency. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Most Georgia sheriff's offices and police departments, or GCIC",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant relies on it or the court expects it.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "Defendant's signature and date — Petition, signature block, and certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge name and the court's order date — Caption and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "OTN where the participant does not know it — Caption and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature block of the judge on the proposed order — Proposed order, final page.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The defendant signs the petition and the certificate of service. No verification or notarization is required by statute.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Notice sent by registered or certified mail or statutory overnight delivery is sufficient notice under § 42-8-62.1(c). Hand delivery or e-filing may also be used, certified in a certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File as a criminal petition in the existing case with the clerk of the court that handled the underlying case. Confirm the filing method with the clerk before filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Final disposition showing the First Offender sentence. Ask the clerk of the sentencing court for the final disposition showing that you were sentenced under the First Offender Act, and attach it to the petition as Exhibit A. LegalEase never collects, inspects or authenticates it.",
+        "Check your answer to \"On what date were you sentenced under the First Offender Act?\" against Final disposition showing the First Offender sentence, and correct the packet if they disagree.",
+        "Defendant's signature and date — Petition, signature block, and certificate of service.",
+        "Judge name and the court's order date — Caption and proposed order.",
+        "OTN where the participant does not know it — Caption and proposed order.",
+        "Signature block of the judge on the proposed order — Proposed order, final page.",
+        "The defendant signs the petition and the certificate of service. No verification or notarization is required by statute.",
+        "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+        "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved."
+      ],
+      "stopConditions": [
+        "First Offender status was revoked and an adjudication of guilt was entered.",
+        "The participant is unsure whether they were sentenced as a first offender at all.",
+        "The prosecuting attorney opposes the petition.",
+        "The court sets a contested or evidentiary hearing.",
+        "Any immigration consequence is in play.",
+        "The participant wants to attack the underlying case.",
+        "Where self-help stops, route the participant to a Georgia expungement desk: Georgia Justice Project, the Cobb County Second Chance Desk, the Henry County Records Restriction Desk, or Middle Georgia Justice \"The Desk\".",
+        "Self-help stops if the prosecuting attorney opposes or the court sets a contested hearing. That is a boundary on what happens next and does not retract the packet."
+      ],
+      "guidanceStatus": "drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true,
+      "templateIds": [],
+      "scope": null,
+      "notAFiling": null,
+      "trancheId": "tranche-3-georgia-superior-court-pleadings"
+    },
+    {
+      "jurisdiction": "GA",
+      "trackId": "ga-fo-discharged-pre2026",
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the court that granted the discharge",
+        "detail": "Filed as a criminal petition in the existing case. Notice to the clerk of court and the prosecuting District Attorney or Solicitor-General for the county."
+      },
+      "rules": {
+        "filing": "File as a criminal petition in the existing case with the clerk of the court that granted the discharge. Confirm the filing method with the clerk before filing.",
+        "fees": "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+        "feeWaiver": "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved.",
+        "notice": "Notice of the petition shall be sent to the clerk of court and the prosecuting attorney. Notice is not a request for consent and there is no advance-consent requirement on this route. The statute creates no objection period and no objection-triggered hearing branch.",
+        "service": "Notice sent by registered or certified mail or statutory overnight delivery is sufficient notice under § 42-8-62.2(c). Hand delivery or e-filing may also be used, certified in a certificate of service.",
+        "participantSignature": "The defendant signs the petition and the certificate of service. No verification or notarization is required by statute.",
+        "notarization": "none"
+      },
+      "generationRequirements": [
+        {
+          "key": "sentencedUnderFirstOffenderAct",
+          "question": "Were you actually sentenced under Georgia's First Offender Act in the original case?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentencingDate",
+          "question": "On what date were you sentenced under the First Offender Act?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceTerms",
+          "question": "What sentence did you receive?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentencingCourtAndCounty",
+          "question": "Which court sentenced you and granted the discharge, in which county, and what is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtLevel",
+          "question": "Was that a State Court, Superior Court, Magistrate Court, Probate Court or Municipal Court?",
+          "requirement": "required"
+        },
+        {
+          "key": "completedWithoutAdjudication",
+          "question": "Did you complete the First Offender sentence without the court entering an adjudication of guilt?",
+          "requirement": "required"
+        },
+        {
+          "key": "dischargeDate",
+          "question": "On what date were you exonerated and discharged, either as a matter of law or by court order? It must be before July 1, 2026 for this route.",
+          "requirement": "required"
+        },
+        {
+          "key": "dischargeEntered",
+          "question": "Was a discharge order actually entered in your case, or were you discharged as a matter of law without an order being entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "otn",
+          "question": "What is the GCIC OTN for the case, if you know it?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because the caption and proposed order carry it where known, but the packet generates without it."
+        },
+        {
+          "key": "arrestingAgency",
+          "question": "Which law enforcement agency arrested you, and which jail or detention center booked you?",
+          "requirement": "required"
+        },
+        {
+          "key": "prosecutingAttorneyOffice",
+          "question": "Was the case prosecuted by the District Attorney or by the Solicitor-General for that county?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "The prosecuting attorney receives notice of the petition. Notice is not a request for consent, there is no advance-consent gate on this route, and the packet must not describe one.",
+        "The filing is made in the existing criminal case under the existing case number, styled State of Georgia v. Defendant, in the court that handled the case. It is not a new civil action, is not captioned IN RE, and does not carry a Civil Action No.",
+        "Every packet carries a plain-language instruction to confirm the filing method with the clerk before filing. No statewide judiciary form exists, local courts control their own filing and e-filing practice, some clerks resist accepting motions in closed criminal cases, and some judges have standing preferences on proposed orders.",
+        "The packet must say that the court shall order sealing within 90 days of filing, that the clerk then seals every document in its custody within 60 days, and that the court shall also order law enforcement agencies, jails and detention centers to restrict, with 30 days to comply after they receive a copy.",
+        "The participant obtains and attaches the final disposition showing the First Offender sentence, and the discharge order where one was entered, as Exhibit A."
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Final disposition showing the First Offender sentence, and the discharge order where one was entered. Ask the clerk for the final disposition showing that you were sentenced under the First Offender Act, and for the discharge order if one was entered, and attach them to the petition as Exhibit A. A discharge frequently was never entered; where that is so, the petition says you were discharged as a matter of law. LegalEase never collects, inspects or authenticates these records.",
+          "obtainedFrom": "Clerk of the court that sentenced you and granted the discharge",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date were you exonerated and discharged, either as a matter of law or by court order? It must be before July 1, 2026 for this route.\" against Final disposition showing the First Offender sentence, and the discharge order where one was entered, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Your own Georgia criminal history report. GBI's guidance says a Georgia criminal history record can be obtained from most sheriff's offices or police departments, with requirements varying by agency. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Most Georgia sheriff's offices and police departments, or GCIC",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant relies on it or the court expects it.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "Defendant's signature and date — Petition, signature block, and certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge name and the court's order date — Caption and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "OTN where the participant does not know it — Caption and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature block of the judge on the proposed order — Proposed order, final page.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The defendant signs the petition and the certificate of service. No verification or notarization is required by statute.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Notice sent by registered or certified mail or statutory overnight delivery is sufficient notice under § 42-8-62.2(c). Hand delivery or e-filing may also be used, certified in a certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File as a criminal petition in the existing case with the clerk of the court that granted the discharge. Confirm the filing method with the clerk before filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Final disposition showing the First Offender sentence, and the discharge order where one was entered. Ask the clerk for the final disposition showing that you were sentenced under the First Offender Act, and for the discharge order if one was entered, and attach them to the petition as Exhibit A. A discharge frequently was never entered; where that is so, the petition says you were discharged as a matter of law. LegalEase never collects, inspects or authenticates these records.",
+        "Check your answer to \"On what date were you exonerated and discharged, either as a matter of law or by court order? It must be before July 1, 2026 for this route.\" against Final disposition showing the First Offender sentence, and the discharge order where one was entered, and correct the packet if they disagree.",
+        "Defendant's signature and date — Petition, signature block, and certificate of service.",
+        "Judge name and the court's order date — Caption and proposed order.",
+        "OTN where the participant does not know it — Caption and proposed order.",
+        "Signature block of the judge on the proposed order — Proposed order, final page.",
+        "The defendant signs the petition and the certificate of service. No verification or notarization is required by statute.",
+        "No statutory filing fee is identified. Because the relief is a motion or petition in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one. Unresolved and county-specific; no figure is quoted.",
+        "Unresolved. The pauper's affidavit route under O.C.G.A. § 9-15-2 is designed for civil actions and its application to a filing in a criminal case is unresolved."
+      ],
+      "stopConditions": [
+        "First Offender status was revoked and an adjudication of guilt was entered, so no exoneration and discharge occurred.",
+        "No discharge was entered despite completed probation and the participant is unsure whether they were discharged as a matter of law.",
+        "The participant is unsure whether they were sentenced as a first offender at all.",
+        "The prosecuting attorney opposes the petition.",
+        "The court sets a contested or evidentiary hearing.",
+        "Any immigration consequence is in play.",
+        "Where self-help stops, route the participant to a Georgia expungement desk: Georgia Justice Project, the Cobb County Second Chance Desk, the Henry County Records Restriction Desk, or Middle Georgia Justice \"The Desk\".",
+        "Self-help stops if the prosecuting attorney opposes or the court sets a contested hearing. That is a boundary on what happens next and does not retract the packet."
+      ],
+      "guidanceStatus": "drafted",
+      "unitId": null,
+      "compositionMode": null,
+      "unitAvailable": true,
+      "templateIds": [],
+      "scope": null,
+      "notAFiling": null,
+      "trancheId": "tranche-3-georgia-superior-court-pleadings"
     },
     {
       "jurisdiction": "GA",

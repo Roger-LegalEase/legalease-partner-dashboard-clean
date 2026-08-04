@@ -62,14 +62,28 @@ export function isPacketDeliveringStatus(
  * source document. A generated derivative, an HTML reconstruction or a rendered
  * sample is not an official source and must never appear here.
  */
-export type PacketAssetBinding = {
+type PacketAssetBindingIdentity = {
   readonly remedyId: string;
   readonly formId: string;
   readonly sourceTemplatePath: string;
   readonly mappingPath: string;
-  /** False until a human has confirmed every live coordinate or field. */
-  readonly mappingApproved: boolean;
 };
+
+/**
+ * A false approval may omit a mapping pin. A true approval is valid only when
+ * it is bound to the canonical SHA-256 of the exact mapping object.
+ */
+export type PacketAssetBinding = PacketAssetBindingIdentity &
+  (
+    | {
+        readonly mappingApproved: false;
+        readonly mappingSha256?: string | null;
+      }
+    | {
+        readonly mappingApproved: true;
+        readonly mappingSha256: string;
+      }
+  );
 
 /**
  * County-scoped capability. Support that is limited to a county is represented
