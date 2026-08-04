@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/al-official-pdf-field-maps.schema.json",
+  "title": "Alabama official-PDF field-map preflight",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "mappingPolicy",
+    "fieldMaps"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "familyId": {
+      "const": "al-statewide-official-form-family"
+    },
+    "jurisdiction": {
+      "const": "AL"
+    },
+    "mappingPolicy": {
+      "const": "no_source_field_binding_without_captain_assignment_and_exact_source_inspection"
+    },
+    "fieldMaps": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "fieldMapId",
+          "documentId",
+          "sourceRequirementId",
+          "sourceGapId",
+          "strategyCandidate",
+          "activeRendererStrategy",
+          "mappingStatus",
+          "usageBindingCount",
+          "normalizedInputKeys",
+          "sourceFieldInventory",
+          "sourceFieldBindings",
+          "overlayPlacements",
+          "unclassifiedSourceFieldPolicy",
+          "reviewStatus",
+          "runtimeStatus",
+          "generationAllowed"
+        ],
+        "properties": {
+          "fieldMapId": {
+            "type": "string"
+          },
+          "documentId": {
+            "enum": ["CR-65", "C-10-CRIMINAL", "ABPP-3"]
+          },
+          "sourceRequirementId": {
+            "type": ["string", "null"]
+          },
+          "sourceGapId": {
+            "type": ["string", "null"]
+          },
+          "strategyCandidate": {
+            "type": ["string", "null"]
+          },
+          "activeRendererStrategy": {
+            "type": "null"
+          },
+          "mappingStatus": {
+            "type": "string"
+          },
+          "usageBindingCount": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "normalizedInputKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sourceFieldInventory": {
+            "type": "array",
+            "maxItems": 0
+          },
+          "sourceFieldBindings": {
+            "type": "array",
+            "maxItems": 0
+          },
+          "overlayPlacements": {
+            "type": "array",
+            "maxItems": 0
+          },
+          "unclassifiedSourceFieldPolicy": {
+            "const": "reject"
+          },
+          "reviewStatus": {
+            "type": "object"
+          },
+          "runtimeStatus": {
+            "const": "runtime_disabled"
+          },
+          "generationAllowed": {
+            "const": false
+          }
+        }
+      }
+    }
+  }
+}

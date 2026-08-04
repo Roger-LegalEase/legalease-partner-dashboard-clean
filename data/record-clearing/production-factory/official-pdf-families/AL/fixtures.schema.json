@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/al-official-pdf-fixtures.schema.json",
+  "title": "Alabama official-PDF synthetic fixtures",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "thirdPartyOwnersAlwaysBlank",
+    "fixtures"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "familyId": {
+      "const": "al-statewide-official-form-family"
+    },
+    "jurisdiction": {
+      "const": "AL"
+    },
+    "thirdPartyOwnersAlwaysBlank": {
+      "type": "array"
+    },
+    "fixtures": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "fixtureId",
+          "routeId",
+          "packetSetId",
+          "synthetic",
+          "facts",
+          "requiredFactKeys",
+          "manualFieldsExpectedBlank",
+          "primaryBlockers",
+          "expectedGateResult"
+        ],
+        "properties": {
+          "fixtureId": {
+            "type": "string"
+          },
+          "routeId": {
+            "type": "string"
+          },
+          "packetSetId": {
+            "type": "string"
+          },
+          "synthetic": {
+            "const": true
+          },
+          "facts": {
+            "type": "object"
+          },
+          "requiredFactKeys": {
+            "type": "array"
+          },
+          "manualFieldsExpectedBlank": {
+            "type": "array"
+          },
+          "primaryBlockers": {
+            "type": "array",
+            "minItems": 1
+          },
+          "expectedGateResult": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

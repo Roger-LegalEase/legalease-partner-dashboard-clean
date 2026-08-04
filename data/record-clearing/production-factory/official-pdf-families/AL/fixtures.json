@@ -1,0 +1,297 @@
+{
+  "schemaVersion": 1,
+  "familyId": "al-statewide-official-form-family",
+  "jurisdiction": "AL",
+  "thirdPartyOwnersAlwaysBlank": [
+    "court",
+    "clerk",
+    "judge",
+    "prosecutor",
+    "law_enforcement",
+    "agency",
+    "notary",
+    "process_server"
+  ],
+  "fixtures": [
+    {
+      "fixtureId": "al-fixture-misd-nonconviction-90",
+      "routeId": "al-misd-nonconviction-90",
+      "packetSetId": "al-misd-nonconviction-90-set",
+      "synthetic": true,
+      "facts": {
+        "howMatterEnded": "Synthetic dismissal; no real person or case.",
+        "dispositionDate": "2021-01-15",
+        "refiled": false,
+        "countyOfFiling": "Example County",
+        "offenceLevel": "Synthetic misdemeanor",
+        "courtOrderedAmounts": "Synthetic none outstanding"
+      },
+      "requiredFactKeys": [
+        "howMatterEnded",
+        "dispositionDate",
+        "refiled",
+        "countyOfFiling",
+        "offenceLevel",
+        "courtOrderedAmounts"
+      ],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "primaryBlockers": [
+        "captain_assignment_required",
+        "source_mapping_not_started"
+      ],
+      "expectedGateResult": {
+        "currentWorkspace": "blocked_fail_closed",
+        "runtime": "runtime_disabled"
+      }
+    },
+    {
+      "fixtureId": "al-fixture-felony-nonconviction-90",
+      "routeId": "al-felony-nonconviction-90",
+      "packetSetId": "al-felony-nonconviction-90-set",
+      "synthetic": true,
+      "facts": {
+        "howMatterEnded": "Synthetic dismissal; no real person or case.",
+        "dispositionDate": "2021-02-16",
+        "refiled": false,
+        "countyOfFiling": "Example County",
+        "courtOrderedAmounts": "Synthetic none outstanding"
+      },
+      "requiredFactKeys": [
+        "howMatterEnded",
+        "dispositionDate",
+        "refiled",
+        "countyOfFiling",
+        "courtOrderedAmounts"
+      ],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "primaryBlockers": [
+        "captain_assignment_required",
+        "legal_design_blockers:2"
+      ],
+      "expectedGateResult": {
+        "currentWorkspace": "blocked_fail_closed",
+        "runtime": "runtime_disabled"
+      }
+    },
+    {
+      "fixtureId": "al-fixture-misd-dwop",
+      "routeId": "al-misd-dwop",
+      "packetSetId": "al-misd-dwop-set",
+      "synthetic": true,
+      "facts": {
+        "dismissedWithoutPrejudice": true,
+        "dismissalDate": "2018-03-17",
+        "interveningConvictions": false,
+        "countyOfFiling": "Example County"
+      },
+      "requiredFactKeys": [
+        "dismissedWithoutPrejudice",
+        "dismissalDate",
+        "interveningConvictions",
+        "countyOfFiling"
+      ],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "primaryBlockers": [
+        "captain_assignment_required",
+        "legal_design_blockers:2"
+      ],
+      "expectedGateResult": {
+        "currentWorkspace": "blocked_fail_closed",
+        "runtime": "runtime_disabled"
+      }
+    },
+    {
+      "fixtureId": "al-fixture-felony-dwop",
+      "routeId": "al-felony-dwop",
+      "packetSetId": "al-felony-dwop-set",
+      "synthetic": true,
+      "facts": {
+        "dismissedWithoutPrejudice": true,
+        "dismissalDate": "2018-04-18",
+        "interveningConvictions": false,
+        "countyOfFiling": "Example County"
+      },
+      "requiredFactKeys": [
+        "dismissedWithoutPrejudice",
+        "dismissalDate",
+        "interveningConvictions",
+        "countyOfFiling"
+      ],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "primaryBlockers": [
+        "captain_assignment_required",
+        "legal_design_blockers:2"
+      ],
+      "expectedGateResult": {
+        "currentWorkspace": "blocked_fail_closed",
+        "runtime": "runtime_disabled"
+      }
+    },
+    {
+      "fixtureId": "al-fixture-diversion",
+      "routeId": "al-diversion",
+      "packetSetId": "al-diversion-set",
+      "synthetic": true,
+      "facts": {
+        "programEndedInDismissal": true,
+        "withheldAdjudication": true,
+        "programType": "Synthetic diversion program",
+        "priorProgramExpungements": 0,
+        "countyOfFiling": "Example County"
+      },
+      "requiredFactKeys": [
+        "programEndedInDismissal",
+        "withheldAdjudication",
+        "programType",
+        "priorProgramExpungements",
+        "countyOfFiling"
+      ],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "primaryBlockers": [
+        "captain_assignment_required",
+        "source_mapping_not_started"
+      ],
+      "expectedGateResult": {
+        "currentWorkspace": "blocked_fail_closed",
+        "runtime": "runtime_disabled"
+      }
+    },
+    {
+      "fixtureId": "al-fixture-misd-conviction",
+      "routeId": "al-misd-conviction",
+      "packetSetId": "al-misd-conviction-set",
+      "synthetic": true,
+      "facts": {
+        "convictionDate": "2019-05-19",
+        "youthfulOffender": false,
+        "allAmountsPaid": true,
+        "violentOffence": false,
+        "sexOffence": false,
+        "moralTurpitude": false,
+        "seriousTrafficOffence": false,
+        "cdlStatus": false,
+        "priorCappedExpungements": 0
+      },
+      "requiredFactKeys": [
+        "convictionDate",
+        "youthfulOffender",
+        "allAmountsPaid",
+        "violentOffence",
+        "sexOffence",
+        "moralTurpitude",
+        "seriousTrafficOffence",
+        "cdlStatus",
+        "priorCappedExpungements"
+      ],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "primaryBlockers": [
+        "captain_assignment_required",
+        "source_mapping_not_started"
+      ],
+      "expectedGateResult": {
+        "currentWorkspace": "blocked_fail_closed",
+        "runtime": "runtime_disabled"
+      }
+    },
+    {
+      "fixtureId": "al-fixture-pardoned-felony",
+      "routeId": "al-pardoned-felony",
+      "packetSetId": "al-pardoned-felony-set",
+      "synthetic": true,
+      "facts": {
+        "pardonDate": "2020-06-20",
+        "restorationLanguage": "Synthetic full restoration language.",
+        "firearmRightsExcluded": false,
+        "countyOfFiling": "Example County"
+      },
+      "requiredFactKeys": [
+        "pardonDate",
+        "restorationLanguage",
+        "firearmRightsExcluded",
+        "countyOfFiling"
+      ],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "primaryBlockers": [
+        "captain_assignment_required",
+        "legal_design_blockers:2"
+      ],
+      "expectedGateResult": {
+        "currentWorkspace": "blocked_fail_closed",
+        "runtime": "runtime_disabled"
+      }
+    },
+    {
+      "fixtureId": "al-fixture-trafficking",
+      "routeId": "al-trafficking",
+      "packetSetId": "al-trafficking-set",
+      "synthetic": true,
+      "facts": {
+        "traffickingFacts": "Synthetic narrative for test coverage only.",
+        "chargesToExpunge": "Synthetic charge in Example County"
+      },
+      "requiredFactKeys": ["traffickingFacts", "chargesToExpunge"],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "primaryBlockers": [
+        "captain_assignment_required",
+        "source_mapping_not_started"
+      ],
+      "expectedGateResult": {
+        "currentWorkspace": "blocked_fail_closed",
+        "runtime": "runtime_disabled"
+      }
+    },
+    {
+      "fixtureId": "al-fixture-pardon",
+      "routeId": "al-pardon",
+      "packetSetId": "al-pardon-set",
+      "synthetic": true,
+      "facts": {
+        "convictionDetails": "Synthetic conviction; no real person or case.",
+        "sentenceCompletion": "Synthetic sentence completed 2020-07-21.",
+        "localProbationOffice": "Example County Probation Office"
+      },
+      "requiredFactKeys": [
+        "convictionDetails",
+        "sentenceCompletion",
+        "localProbationOffice"
+      ],
+      "manualFieldsExpectedBlank": [
+        "participantSignature",
+        "participantSignatureDate"
+      ],
+      "primaryBlockers": [
+        "captain_assignment_required",
+        "unmanifested_source:ABPP-3",
+        "missing_companion:Waiver of Liability"
+      ],
+      "expectedGateResult": {
+        "currentWorkspace": "blocked_fail_closed",
+        "runtime": "runtime_disabled"
+      }
+    }
+  ]
+}

@@ -1,0 +1,334 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/al-official-pdf-source-evidence-preflight.schema.json",
+  "title": "Alabama official-PDF source-evidence preflight",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "authorityPins",
+    "contractState",
+    "assignmentAnchor",
+    "portableProjection",
+    "portableProjectionPresent",
+    "workerReadAuthorized",
+    "workerMaterializationAuthorized",
+    "repositoryPrivatePathTreatment",
+    "declaredIdentityCount",
+    "retainedSourceCount",
+    "unmanifestedSourceCount",
+    "unresolvedIdentityCount",
+    "documents",
+    "unmanifestedSources",
+    "runtimeStatus",
+    "generationAllowed"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "familyId": {
+      "const": "al-statewide-official-form-family"
+    },
+    "jurisdiction": {
+      "const": "AL"
+    },
+    "authorityPins": {
+      "type": "object"
+    },
+    "contractState": {
+      "const": "pending_captain_assignment"
+    },
+    "assignmentAnchor": {
+      "type": "null"
+    },
+    "portableProjection": {
+      "type": "null"
+    },
+    "portableProjectionPresent": {
+      "const": false
+    },
+    "workerReadAuthorized": {
+      "const": false
+    },
+    "workerMaterializationAuthorized": {
+      "const": false
+    },
+    "repositoryPrivatePathTreatment": {
+      "const": "identity_evidence_only_not_worker_read_or_materialization_authority"
+    },
+    "declaredIdentityCount": {
+      "const": 3
+    },
+    "retainedSourceCount": {
+      "const": 2
+    },
+    "unmanifestedSourceCount": {
+      "const": 1
+    },
+    "unresolvedIdentityCount": {
+      "const": 0
+    },
+    "documents": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "$ref": "#/$defs/document"
+      }
+    },
+    "unmanifestedSources": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "$ref": "#/$defs/unmanifestedSource"
+      }
+    },
+    "runtimeStatus": {
+      "const": "runtime_disabled"
+    },
+    "generationAllowed": {
+      "const": false
+    }
+  },
+  "$defs": {
+    "contract": {
+      "type": "object",
+      "properties": {
+        "contractState": {
+          "const": "pending_captain_assignment"
+        },
+        "assignmentAnchor": {
+          "type": "null"
+        },
+        "portableProjection": {
+          "type": "null"
+        },
+        "portableProjectionPresent": {
+          "const": false
+        },
+        "workerReadAuthorized": {
+          "const": false
+        },
+        "workerMaterializationAuthorized": {
+          "const": false
+        }
+      }
+    },
+    "document": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sourceRequirementId",
+        "documentId",
+        "artifactId",
+        "workflowKey",
+        "canonicalAuthorityPath",
+        "authorityBindingState",
+        "officialTitle",
+        "documentRoles",
+        "revision",
+        "officialIndexUrl",
+        "directOfficialUrl",
+        "repositorySourcePath",
+        "repositorySourcePathTreatment",
+        "expected",
+        "technicalExpectation",
+        "usageBindings",
+        "contractState",
+        "assignmentAnchor",
+        "portableProjection",
+        "portableProjectionPresent",
+        "workerReadAuthorized",
+        "workerMaterializationAuthorized",
+        "sourceInspectionState",
+        "mappingApproved",
+        "runtimeStatus",
+        "generationAllowed"
+      ],
+      "properties": {
+        "sourceRequirementId": {
+          "type": "string"
+        },
+        "documentId": {
+          "enum": ["CR-65", "C-10-CRIMINAL"]
+        },
+        "artifactId": {
+          "type": "string"
+        },
+        "workflowKey": {
+          "type": ["string", "null"]
+        },
+        "canonicalAuthorityPath": {
+          "type": ["string", "null"]
+        },
+        "authorityBindingState": {
+          "enum": [
+            "reconciled_retained_identity_pending_edition_projection",
+            "edition_1_2_authority_identity"
+          ]
+        },
+        "officialTitle": {
+          "type": "string"
+        },
+        "documentRoles": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "revision": {
+          "type": "string"
+        },
+        "officialIndexUrl": {
+          "type": ["string", "null"]
+        },
+        "directOfficialUrl": {
+          "type": ["string", "null"]
+        },
+        "repositorySourcePath": {
+          "type": "string",
+          "pattern": "^private/Nationwide Record Clearing/LegalEase Alabama/"
+        },
+        "repositorySourcePathTreatment": {
+          "const": "identity_evidence_only_do_not_resolve_or_read"
+        },
+        "expected": {
+          "type": "object"
+        },
+        "technicalExpectation": {
+          "type": "object"
+        },
+        "usageBindings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object"
+          }
+        },
+        "contractState": {
+          "const": "pending_captain_assignment"
+        },
+        "assignmentAnchor": {
+          "type": "null"
+        },
+        "portableProjection": {
+          "type": "null"
+        },
+        "portableProjectionPresent": {
+          "const": false
+        },
+        "workerReadAuthorized": {
+          "const": false
+        },
+        "workerMaterializationAuthorized": {
+          "const": false
+        },
+        "sourceInspectionState": {
+          "const": "prohibited_until_captain_assignment"
+        },
+        "mappingApproved": {
+          "const": false
+        },
+        "runtimeStatus": {
+          "const": "runtime_disabled"
+        },
+        "generationAllowed": {
+          "const": false
+        }
+      }
+    },
+    "unmanifestedSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "documentId",
+        "acquisitionId",
+        "trackId",
+        "componentId",
+        "identityState",
+        "officialTitle",
+        "revision",
+        "officialIndexUrl",
+        "directOfficialUrl",
+        "observedFingerprint",
+        "artifactId",
+        "repositorySourcePath",
+        "assignmentAnchor",
+        "portableProjection",
+        "workerReadAuthorized",
+        "workerDownloadAuthorized",
+        "workerMaterializationAuthorized",
+        "requiredAction",
+        "runtimeStatus",
+        "generationAllowed"
+      ],
+      "properties": {
+        "documentId": {
+          "const": "ABPP-3"
+        },
+        "acquisitionId": {
+          "const": "acquire:AL:abpp-3"
+        },
+        "trackId": {
+          "const": "al-pardon"
+        },
+        "componentId": {
+          "const": "al-pardon-primary-filing-1"
+        },
+        "identityState": {
+          "const": "official_identity_confirmed_source_unmanifested"
+        },
+        "officialTitle": {
+          "type": "string"
+        },
+        "revision": {
+          "const": "REV-2025-06"
+        },
+        "officialIndexUrl": {
+          "type": "string"
+        },
+        "directOfficialUrl": {
+          "type": "string"
+        },
+        "observedFingerprint": {
+          "type": "object"
+        },
+        "artifactId": {
+          "type": "null"
+        },
+        "repositorySourcePath": {
+          "type": "null"
+        },
+        "assignmentAnchor": {
+          "type": "null"
+        },
+        "portableProjection": {
+          "type": "null"
+        },
+        "workerReadAuthorized": {
+          "const": false
+        },
+        "workerDownloadAuthorized": {
+          "const": false
+        },
+        "workerMaterializationAuthorized": {
+          "const": false
+        },
+        "requiredAction": {
+          "const": "captain_authorized_acquisition_and_manifest_projection"
+        },
+        "runtimeStatus": {
+          "const": "runtime_disabled"
+        },
+        "generationAllowed": {
+          "const": false
+        }
+      }
+    }
+  }
+}
