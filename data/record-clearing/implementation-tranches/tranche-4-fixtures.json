@@ -1,0 +1,190 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-4-illinois-custom-pleadings",
+  "jurisdiction": "IL",
+  "note": "Synthetic review fixtures. Every participant, case number, address and narrative is invented for review. No fixture describes a real person or a real case, and no fixture asks about or describes the circumstances of an offence.",
+  "positiveFixtures": [
+    {
+      "fixtureId": "il-immediate-seal__dismissed-with-prejudice",
+      "trackId": "il-immediate-seal",
+      "description": "Synthetic represented participant whose case is dismissed with prejudice at the disposition hearing.",
+      "caseReference": "24-MC1-401882",
+      "facts": {
+        "dateOfBirth": "12 October 1990",
+        "contactPhone": "(312) 555-0164",
+        "contactEmail": "sample.participant@example.org",
+        "petitionerName": "Marisol Elena Vargas",
+        "mailingAddress": "4418 North Kedzie Avenue, Apartment 2R, Chicago, Illinois 60625",
+        "courtName": "Circuit Court of Cook County, Illinois",
+        "countyName": "Cook",
+        "caseNumber": "24-MC1-401882",
+        "offenseDescription": "Retail theft, 720 ILCS 5/16-25(a)(1)",
+        "arrestOrChargeDate": "3 April 2024",
+        "hasUpcomingDisposition": "yes",
+        "isRepresented": "yes",
+        "offenseDateOnOrAfter2018": "yes",
+        "isMinorTrafficOffense": "no",
+        "dispositionType": "dismissed_with_prejudice",
+        "dismissalWithPrejudice": "yes"
+      }
+    },
+    {
+      "fixtureId": "il-immediate-seal__acquitted",
+      "trackId": "il-immediate-seal",
+      "description": "Synthetic represented participant found not guilty at trial.",
+      "caseReference": "24-MC1-401883",
+      "facts": {
+        "dateOfBirth": "12 October 1990",
+        "contactPhone": "(312) 555-0164",
+        "contactEmail": "sample.participant@example.org",
+        "petitionerName": "Marisol Elena Vargas",
+        "mailingAddress": "4418 North Kedzie Avenue, Apartment 2R, Chicago, Illinois 60625",
+        "courtName": "Circuit Court of Cook County, Illinois",
+        "countyName": "Cook",
+        "caseNumber": "24-MC1-401883",
+        "offenseDescription": "Retail theft, 720 ILCS 5/16-25(a)(1)",
+        "arrestOrChargeDate": "3 April 2024",
+        "hasUpcomingDisposition": "yes",
+        "isRepresented": "yes",
+        "offenseDateOnOrAfter2018": "yes",
+        "isMinorTrafficOffense": "no",
+        "dispositionType": "acquitted",
+        "dismissalWithPrejudice": ""
+      }
+    },
+    {
+      "fixtureId": "il-prostitution-j-vacate__standard",
+      "trackId": "il-prostitution-j-vacate",
+      "description": "Synthetic participant whose record states a Class 4 felony prostitution conviction with the sentence complete.",
+      "caseReference": "11-CR-1704403",
+      "facts": {
+        "dateOfBirth": "12 October 1990",
+        "contactPhone": "(312) 555-0164",
+        "contactEmail": "sample.participant@example.org",
+        "petitionerName": "Andrea Lynn Okonkwo",
+        "mailingAddress": "2207 West Cermak Road, Chicago, Illinois 60608",
+        "courtName": "Circuit Court of Cook County, Illinois",
+        "countyName": "Cook",
+        "caseNumber": "11-CR-1704403",
+        "convictionDate": "18 July 2012",
+        "class4RecordAnswer": "record_states_class_4",
+        "sentenceComplete": "yes",
+        "sentenceCompletionDate": "9 September 2014",
+        "traffickingInformationRequested": "no_trafficking_information_requested",
+        "adverseConsequences": "I have been turned down for three certified nursing assistant positions because this felony shows up, even though it is thirteen years old and I have had nothing since. I finished my associate degree in 2019. My landlord ran a check last year and I nearly lost my apartment over it. I want to be able to apply for work without explaining the worst year of my life to a stranger."
+      }
+    }
+  ],
+  "boundaryFixtures": [
+    {
+      "fixtureId": "il-immediate-seal__no-upcoming-disposition",
+      "trackId": "il-immediate-seal",
+      "basedOn": "il-immediate-seal__dismissed-with-prejudice",
+      "overrideFacts": {
+        "hasUpcomingDisposition": "no"
+      },
+      "expect": "eligibility_stop",
+      "expectDetail": "no_upcoming_disposition",
+      "why": "The § 5.2(g) window exists only at the hearing where the case is disposed. With no upcoming hearing the route does not apply and ordinary sealing under § 5.2(c)(3)(A) is the answer."
+    },
+    {
+      "fixtureId": "il-immediate-seal__unrepresented",
+      "trackId": "il-immediate-seal",
+      "basedOn": "il-immediate-seal__dismissed-with-prejudice",
+      "overrideFacts": {
+        "isRepresented": "no"
+      },
+      "expect": "eligibility_stop",
+      "expectDetail": "unrepresented",
+      "why": "§ 5.2(g)(5)(A) frames the petition as filed by the defendant's attorney. A participant with no lawyer cannot be handed a packet only counsel can file."
+    },
+    {
+      "fixtureId": "il-immediate-seal__pre-2018",
+      "trackId": "il-immediate-seal",
+      "basedOn": "il-immediate-seal__dismissed-with-prejudice",
+      "overrideFacts": {
+        "offenseDateOnOrAfter2018": "no"
+      },
+      "expect": "eligibility_stop",
+      "expectDetail": "offense_before_2018",
+      "why": "§ 5.2(g) reaches arrests and charges on or after 1 January 2018."
+    },
+    {
+      "fixtureId": "il-immediate-seal__minor-traffic",
+      "trackId": "il-immediate-seal",
+      "basedOn": "il-immediate-seal__dismissed-with-prejudice",
+      "overrideFacts": {
+        "isMinorTrafficOffense": "yes"
+      },
+      "expect": "eligibility_stop",
+      "expectDetail": "minor_traffic_offense",
+      "why": "Minor traffic offences are excluded under § 5.2(a)(3)(B)."
+    },
+    {
+      "fixtureId": "il-immediate-seal__dismissal-without-prejudice",
+      "trackId": "il-immediate-seal",
+      "basedOn": "il-immediate-seal__dismissed-with-prejudice",
+      "overrideFacts": {
+        "dismissalWithPrejudice": "no"
+      },
+      "expect": "eligibility_stop",
+      "expectDetail": "dismissal_without_prejudice",
+      "why": "A dismissal without prejudice is not within the subsection."
+    },
+    {
+      "fixtureId": "il-immediate-seal__unapproved-disposition",
+      "trackId": "il-immediate-seal",
+      "basedOn": "il-immediate-seal__dismissed-with-prejudice",
+      "overrideFacts": {
+        "dispositionType": "convicted"
+      },
+      "expect": "branch_error",
+      "expectDetail": "dispositionType",
+      "why": "A conviction is the one disposition this subsection cannot serve, and it has no approved allegation sentence."
+    },
+    {
+      "fixtureId": "il-prostitution-j-vacate__trafficking-route",
+      "trackId": "il-prostitution-j-vacate",
+      "basedOn": "il-prostitution-j-vacate__standard",
+      "overrideFacts": {
+        "traffickingInformationRequested": "wants_trafficking_information"
+      },
+      "expect": "eligibility_stop",
+      "expectDetail": "trafficking_route_is_stronger",
+      "why": "The § 5.2(h) route is stronger and its questioning is different. This stop moves the participant to better relief and is never softened into a warning."
+    },
+    {
+      "fixtureId": "il-prostitution-j-vacate__record-unclear",
+      "trackId": "il-prostitution-j-vacate",
+      "basedOn": "il-prostitution-j-vacate__standard",
+      "overrideFacts": {
+        "class4RecordAnswer": "unsure"
+      },
+      "expect": "eligibility_stop",
+      "expectDetail": "record_does_not_show_class_4_felony_prostitution",
+      "why": "LegalEase must not assert the conviction was a Class 4 felony prostitution offence where the record does not say so."
+    },
+    {
+      "fixtureId": "il-prostitution-j-vacate__sentence-incomplete",
+      "trackId": "il-prostitution-j-vacate",
+      "basedOn": "il-prostitution-j-vacate__standard",
+      "overrideFacts": {
+        "sentenceComplete": "no"
+      },
+      "expect": "eligibility_stop",
+      "expectDetail": "sentence_or_conditions_incomplete",
+      "why": "The motion is available only after completion of any sentence or condition imposed."
+    },
+    {
+      "fixtureId": "il-prostitution-j-vacate__missing-narrative",
+      "trackId": "il-prostitution-j-vacate",
+      "basedOn": "il-prostitution-j-vacate__standard",
+      "omitKeys": [
+        "adverseConsequences"
+      ],
+      "expect": "resolution_missing_required_input",
+      "expectDetail": "adverseConsequences",
+      "why": "The adverse-consequences showing is the participant's own words and the one part of the motion LegalEase does not write. A packet must not generate with it blank."
+    }
+  ]
+}

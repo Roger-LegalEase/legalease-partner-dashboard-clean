@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-4-illinois-custom-pleadings",
+  "jobId": "rcap-il-custom-pleading",
+  "parentJobId": "IMP-CP-04-single-petition-pleading-states",
+  "jurisdiction": "IL",
+  "jurisdictionName": "Illinois",
+  "selectedOn": "2026-08-04",
+  "commitBaseline": "82ff33b917b93537f86f196fabaf9403cdd85afa",
+  "authorityEdition": "1.2",
+  "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+
+  "selectionMethod": "Not selected by this job. The two tracks are the assigned membership of rcap-il-custom-pleading under parent IMP-CP-04-single-petition-pleading-states, taken verbatim from the generated job manifest. Both are authority-cleared: zero build blockers and zero legal-design blockers on each.",
+
+  "reusedArchitecture": "Mississippi Tranche 1 and Georgia Tranche 3. The CustomPleadingRenderer, the pleading-template contract, the packet resolver, the fulfilment lifecycle and the packet assembler are used unchanged. No Mississippi, Maryland, Georgia or District of Columbia file was edited, and no shared generated registry was touched.",
+
+  "selectedTracks": [
+    {
+      "trackId": "il-immediate-seal",
+      "legalName": "Immediate Sealing at Disposition",
+      "publicName": "Asking for immediate sealing on the day your case is dismissed or you are acquitted",
+      "outputStrategy": "custom_pleading",
+      "localFormOverride": true,
+      "implemented": true,
+      "componentCount": 3,
+      "deliveryModel": "attorney_filed",
+      "branchVariants": [
+        { "variantId": "acquitted", "label": "Found not guilty", "basis": "20 ILCS 2630/5.2(g)" },
+        { "variantId": "dismissed_with_prejudice", "label": "Dismissed with prejudice", "basis": "20 ILCS 2630/5.2(g)" }
+      ],
+      "rationale": "Reclassified from process_guidance to custom_pleading on packet-only re-review: a participant-facing petition and proposed order exist under § 5.2(g), and the prior classification conflated LegalEase's inability to appear in court with the absence of a packet. The packet is prepared for counsel to file during the disposition hearing."
+    },
+    {
+      "trackId": "il-prostitution-j-vacate",
+      "legalName": "Motion to Vacate and Expunge a Conviction for Class 4 Felony Prostitution",
+      "publicName": "Vacating and expunging a Class 4 felony prostitution conviction",
+      "outputStrategy": "custom_pleading",
+      "localFormOverride": true,
+      "implemented": true,
+      "componentCount": 2,
+      "deliveryModel": "participant_filed_attorney_review_recommended",
+      "branchVariants": [],
+      "rationale": "A discretionary conviction vacatur with a 60-day State's Attorney objection window. The movant signs their own motion; attorney review is recommended by default because the motion touches survivor circumstances."
+    }
+  ],
+
+  "deliveryModelDistinction": "The two routes are delivered differently and the packets say so differently. il-immediate-seal is attorney-mediated end to end — 20 ILCS 2630/5.2(g)(5)(A) frames the petition as filed by the defendant's attorney, it must be filed with the circuit clerk during the same hearing at which the case is disposed, and LegalEase can neither appear nor file. Its instruction sheet tells the participant to give the packet to their lawyer or public defender before the hearing and says in terms that they cannot file it themselves after leaving court. il-prostitution-j-vacate is the participant's own motion, signed pro se where unrepresented, with attorney review recommended.",
+
+  "individualizedAdvocacyStopsPreserved": [
+    "Trafficking screening runs before any other questioning on il-prostitution-j-vacate. A participant who asks about relief for people whose involvement resulted from trafficking is routed to 20 ILCS 2630/5.2(h), which the adopted design records as the stronger route, and this motion is not prepared. The stop exists to move someone to better relief, so it is a hard stop rather than a warning.",
+    "An unclear record fails closed: LegalEase will not assert a Class 4 felony prostitution conviction where the participant says the record does not show one.",
+    "An incomplete sentence or condition fails closed.",
+    "Attorney review is recommended by default on il-prostitution-j-vacate, and every stop condition routes to the Office of the State Appellate Defender Expungement Unit, 866-787-1776.",
+    "State's Attorney objection within the 60-day window, a contested or evidentiary hearing, and individualized argument all remain self-help stops. Nothing in this tranche weakens them."
+  ],
+
+  "citationDiscipline": "il-prostitution-j-vacate cites only 20 ILCS 2630/5.2(j)(3), the expungement mechanics at (d)(9)(A) and the effect provision at (j)(8). Section 5.2(a)(3)(C)(i) is pinned as track authority and deliberately not cited in the pleading. The Illinois statewide cannabis form suite is not mapped to this route, and the statewide adult suite is not mapped to il-immediate-seal.",
+
+  "sourceAuthorityStatus": {
+    "officialFormDependency": "none. No statewide form covers either mechanism, so both routes carry localFormOverride true and a published local form controls where one exists. No official-form mapping, overlay placement or AcroForm mapping was created.",
+    "commerciallyRestrictedSources": "none in the implemented set.",
+    "primaryEnactedLaw": "20 ILCS 2630/5.2. The legal design records no SHA-256 for any Illinois source cited by these two tracks, so staleness cannot be detected automatically for any of them. Recorded in the authority pins as a known limitation.",
+    "archiveDependency": "none. Every authority this tranche reads is committed to this repository. No Tranche 4 gate opens the Master Library archive."
+  },
+
+  "mappingGatesClosed": [
+    "All five custom-pleading components across the two tracks already carried a drafted custom-pleading specification. Each is now rendered by a drafted template and pinned to its controlling authority.",
+    "il-immediate-seal's reclassification from process_guidance to custom_pleading is implemented as a packet rather than as guidance, which is what the packet-only re-review established."
+  ],
+
+  "mappingGatesRemaining": [
+    "Whether any Illinois court publishes a local form for the § 5.2(g) same-day immediate-sealing petition. No statewide form covers it and the local-form override is therefore unverified.",
+    "Whether an attorney-handoff packet is the accepted delivery model for il-immediate-seal, given that § 5.2(g)(5)(A) frames the petition as filed by the defendant's attorney. Counsel confirms the participant-facing framing before release.",
+    "The service model for the § 5.2(j)(3) motion: the subsection does not state whether the clerk serves as under § 5.2(d)(4) or the movant serves as in the cannabis suite. The motion says the question is confirmed with the clerk and asserts neither.",
+    "County filing fees statewide. Published examples run from roughly sixty to two hundred and thirty-five dollars with no statewide schedule, so no fee figure is printed anywhere in this tranche and a county fee table must be built before one is shown to a participant.",
+    "Whether e-filing is available for expungement and sealing petitions in every county, and how counties handle self-represented e-filing exemptions."
+  ],
+
+  "rendererType": "custom_pleading (CustomPleadingRenderer) for all five components. Neither track carries a process_guidance component; the instruction sheet on il-immediate-seal is itself a custom_pleading component and is marked NOT A COURT FILING on its face.",
+
+  "packetComponents": [
+    "primary_filing — petition or motion (custom_pleading)",
+    "proposed_order — proposed order, every finding and signature blank (custom_pleading)",
+    "instructions — filing instruction sheet, il-immediate-seal only (custom_pleading)"
+  ],
+
+  "implementationStatus": "implemented_and_internally_proved",
+  "humanLegalReviewStatus": "awaiting_counsel_adoption",
+  "runtimeStatus": "runtime_disabled",
+  "packetReady": false,
+  "generationAllowed": false,
+  "jurisdictionEnabled": false,
+
+  "notOwnedByThisTranche": [
+    "No legal-design conclusion was changed and no Illinois normalization was redone.",
+    "The legacy Illinois generator, the Illinois official-PDF routes, the PRB routes, the automatic routes, the cannabis forms and every prostitution route outside the assignment are untouched.",
+    "No shared generated registry was edited. The Illinois module is not imported by src/lib/rcap/packets/registry.ts.",
+    "No Master Library edition was created and no authority archive was reconstructed.",
+    "No track was promoted, no jurisdiction was enabled, and packet readiness remains 0."
+  ]
+}
