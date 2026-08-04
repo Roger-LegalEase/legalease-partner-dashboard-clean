@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "rcap-official-pdf-family/v1",
+  "familyId": "mi-scao-set-aside-applications",
+  "jurisdiction": "MI",
+  "authorityFamily": "Michigan State Court Administrative Office",
+  "implementationJobId": "IMP-OF-05-small-statewide-acroform-states",
+  "outputStrategies": [
+    "official_pdf_fill"
+  ],
+  "legalDesignSource": "data/record-clearing/legal-design-track-registry.json",
+  "sourceMaterialization": {
+    "dependencyJobId": "rcap-nationwide-source-materialization-contract",
+    "requirementManifest": "data/record-clearing/production-factory/official-pdf-families/MI/source-requirements.json",
+    "allSourcesRequired": true,
+    "state": "binary_materialization_required",
+    "workerReady": false,
+    "registryPresenceConfersReadiness": false,
+    "workerMayAcquireSources": false
+  },
+  "tracks": [
+    {
+      "trackId": "mi_setaside_application",
+      "sourceDocumentIds": [
+        "MC-227"
+      ]
+    },
+    {
+      "trackId": "mi_setaside_marihuana",
+      "sourceDocumentIds": [
+        "MC-227A"
+      ]
+    },
+    {
+      "trackId": "mi_setaside_first_owi",
+      "sourceDocumentIds": [
+        "MC-227"
+      ]
+    },
+    {
+      "trackId": "mi_setaside_trafficking",
+      "sourceDocumentIds": [
+        "MC-227B"
+      ]
+    }
+  ],
+  "documents": [
+    "MC-227",
+    "MC-227A",
+    "MC-227B"
+  ],
+  "artifacts": {
+    "fieldMapScaffold": "data/record-clearing/production-factory/official-pdf-families/MI/field-map-scaffold.json",
+    "fieldOwnershipSchema": "data/record-clearing/production-factory/official-pdf-families/MI/field-ownership.schema.json",
+    "fieldOwnershipMap": "data/record-clearing/production-factory/official-pdf-families/MI/field-ownership.json",
+    "fixtureSchema": "data/record-clearing/production-factory/official-pdf-families/MI/fixtures.schema.json",
+    "fixtures": "data/record-clearing/production-factory/official-pdf-families/MI/fixtures.json",
+    "packetAssembly": "data/record-clearing/production-factory/official-pdf-families/MI/packet-assembly.json",
+    "reviewManifest": "data/record-clearing/production-factory/official-pdf-families/MI/review-manifest.json"
+  },
+  "dedicatedVerifier": "scripts/verify-rcap-mi-scao-official-pdf-family.mjs",
+  "status": {
+    "sourceRequirements": "exact_pinned_identity",
+    "localSourceVerification": "pending_materialization",
+    "pdfStructureInspection": "pending_materialization",
+    "fieldMapping": "scaffolded_pending_materialization",
+    "packetRendering": "pending_materialization",
+    "visualReview": "pending_materialization",
+    "counselReview": "not_submitted",
+    "packetReady": false,
+    "enabled": false
+  },
+  "invariants": [
+    "Michigan legal design remains unchanged.",
+    "Michigan uses set aside terminology in participant documents.",
+    "MC-227, MC-227A, and MC-227B are participant applications; court-completed orders are not generated.",
+    "Proof-of-service content embedded in an application is rendered once with that application, never as a duplicated physical form.",
+    "Participant signatures and dates, and judge, clerk, prosecutor, agency, attorney, notary, and process-server fields remain usable and blank.",
+    "No source is downloaded, reconstructed, modified, or replaced by packet implementation code.",
+    "No live route is changed by this family."
+  ]
+}

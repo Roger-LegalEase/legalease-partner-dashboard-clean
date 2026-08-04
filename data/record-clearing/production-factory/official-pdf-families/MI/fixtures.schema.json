@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rcap-official-pdf-fixtures/v1",
+  "title": "RCAP official PDF family fixtures",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "syntheticDataOnly",
+    "positiveFixtures",
+    "boundaryFixtures"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "rcap-official-pdf-fixtures/v1"
+    },
+    "familyId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "syntheticDataOnly": {
+      "const": true
+    },
+    "positiveFixtures": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/positiveFixture"
+      }
+    },
+    "boundaryFixtures": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/boundaryFixture"
+      }
+    }
+  },
+  "$defs": {
+    "positiveFixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fixtureId",
+        "trackId",
+        "caseReference",
+        "facts",
+        "manualFieldsExpectedBlank"
+      ],
+      "properties": {
+        "fixtureId": {
+          "type": "string",
+          "pattern": "^mi-"
+        },
+        "trackId": {
+          "type": "string",
+          "pattern": "^mi_"
+        },
+        "caseReference": {
+          "type": "string",
+          "pattern": "^SYN-"
+        },
+        "facts": {
+          "type": "object",
+          "minProperties": 1
+        },
+        "manualFieldsExpectedBlank": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "boundaryFixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fixtureId",
+        "trackId",
+        "basedOn",
+        "kind",
+        "expect"
+      ],
+      "properties": {
+        "fixtureId": {
+          "type": "string",
+          "pattern": "^mi-"
+        },
+        "trackId": {
+          "type": "string",
+          "pattern": "^mi_"
+        },
+        "basedOn": {
+          "type": "string",
+          "pattern": "^mi-"
+        },
+        "kind": {
+          "enum": [
+            "missing_required_input",
+            "materialization_required",
+            "third_party_field_ownership"
+          ]
+        },
+        "omitKeys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "expect": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}
