@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "rcap-official-pdf-family/v1",
+  "familyId": "ca-judicial-council-cr-record-clearing",
+  "jurisdiction": "CA",
+  "authorityFamily": "California Judicial Council",
+  "implementationJobId": "IMP-OF-02-ca-judicial-council-cr-family",
+  "outputStrategies": [
+    "official_pdf_fill"
+  ],
+  "legalDesignSource": "data/record-clearing/legal-design-track-registry.json",
+  "sourceMaterialization": {
+    "dependencyJobId": "rcap-nationwide-source-materialization-contract",
+    "requirementManifest": "data/record-clearing/production-factory/official-pdf-families/CA/source-requirements.json",
+    "allSourcesRequired": true,
+    "state": "binary_materialization_required",
+    "workerReady": false,
+    "registryPresenceConfersReadiness": false,
+    "workerMayAcquireSources": false
+  },
+  "tracks": [
+    {
+      "trackId": "ca-1203-4",
+      "sourceDocumentIds": [
+        "CR-180",
+        "CR-181",
+        "CR-106",
+        "MC-025",
+        "MC-031"
+      ]
+    },
+    {
+      "trackId": "ca-1203-4a",
+      "sourceDocumentIds": [
+        "CR-180",
+        "CR-181",
+        "CR-106",
+        "MC-031"
+      ]
+    },
+    {
+      "trackId": "ca-1203-41",
+      "sourceDocumentIds": [
+        "CR-180",
+        "CR-181",
+        "CR-106",
+        "MC-031"
+      ]
+    },
+    {
+      "trackId": "ca-1203-42",
+      "sourceDocumentIds": [
+        "CR-180",
+        "CR-181",
+        "CR-106",
+        "MC-031"
+      ]
+    },
+    {
+      "trackId": "ca-1203-43",
+      "sourceDocumentIds": [
+        "CR-180",
+        "CR-181",
+        "CR-106"
+      ]
+    },
+    {
+      "trackId": "ca-17b-reduction",
+      "sourceDocumentIds": [
+        "CR-180",
+        "CR-181",
+        "CR-106"
+      ]
+    },
+    {
+      "trackId": "ca-851-91",
+      "sourceDocumentIds": [
+        "CR-409",
+        "CR-410",
+        "CR-106",
+        "MC-031"
+      ]
+    },
+    {
+      "trackId": "ca-prop64",
+      "sourceDocumentIds": [
+        "CR-400",
+        "CR-401",
+        "CR-403"
+      ]
+    }
+  ],
+  "documents": [
+    "CR-180",
+    "CR-181",
+    "CR-106",
+    "MC-025",
+    "MC-031",
+    "CR-409",
+    "CR-410",
+    "CR-400",
+    "CR-401",
+    "CR-403"
+  ],
+  "artifacts": {
+    "scaffoldSpec": "data/record-clearing/production-factory/official-pdf-families/CA/scaffold-spec.json",
+    "sourceRequirements": "data/record-clearing/production-factory/official-pdf-families/CA/source-requirements.json",
+    "fieldMapScaffold": "data/record-clearing/production-factory/official-pdf-families/CA/field-map-scaffold.json",
+    "fieldOwnershipSchema": "data/record-clearing/production-factory/official-pdf-families/schemas/field-ownership.schema.json",
+    "fieldOwnershipMap": "data/record-clearing/production-factory/official-pdf-families/CA/field-ownership.json",
+    "fixtureSchema": "data/record-clearing/production-factory/official-pdf-families/schemas/fixture-scaffold.schema.json",
+    "fixtureScaffold": "data/record-clearing/production-factory/official-pdf-families/CA/fixture-scaffold.json",
+    "packetAssembly": "data/record-clearing/production-factory/official-pdf-families/CA/packet-assembly.json",
+    "reviewManifest": "data/record-clearing/production-factory/official-pdf-families/CA/review-manifest.json"
+  },
+  "dedicatedVerifier": "scripts/verify-rcap-ca-judicial-council-official-pdf-family.mjs",
+  "status": {
+    "sourceRequirements": "exact_pinned_identity",
+    "localSourceVerification": "pending_materialization",
+    "pdfStructureInspection": "pending_materialization",
+    "fieldMapping": "scaffolded_pending_materialization",
+    "packetRendering": "pending_materialization",
+    "visualReview": "pending_materialization",
+    "counselReview": "not_submitted",
+    "packetReady": false,
+    "enabled": false
+  },
+  "blockers": [
+    "The retained Edition 1.2 identities and the old local private-corpus implementation-gate observations disagree about CR-180 and CR-181 structure; exact materialized authority bytes must settle the contradiction.",
+    "Carried-forward repository inspection classifies all ten sources as encrypted PDFs with no usable field inventory; renderer selection is prohibited until fresh local inspection and the non-renderable-source policy are available.",
+    "No encrypted or XFA source may be decrypted, reconstructed, substituted, or silently routed to a different form by packet implementation code."
+  ],
+  "invariants": [
+    "California legal design and component ordering remain unchanged.",
+    "Every participant, service, attachment, declaration, and proposed-order component stays bound to its exact Judicial Council form identity.",
+    "Judge, clerk, prosecutor, agency, notary, process-server, attorney, participant-signature, and signature-date fields remain usable and blank unless the controlling ownership map expressly permits a participant value.",
+    "No source is downloaded, reconstructed, modified, decrypted, or replaced by packet implementation code.",
+    "No live route or existing legacy generator is changed by this family."
+  ]
+}

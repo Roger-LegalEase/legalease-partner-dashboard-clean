@@ -1,0 +1,252 @@
+{
+  "schemaVersion": "rcap-official-pdf-fixture-scaffold/v1",
+  "familyId": "ca-judicial-council-cr-record-clearing",
+  "jurisdiction": "CA",
+  "schemaPath": "data/record-clearing/production-factory/official-pdf-families/schemas/fixture-scaffold.schema.json",
+  "syntheticDataOnly": true,
+  "fixtureState": "pending_field_map_and_fact_type_binding",
+  "tracks": [
+    {
+      "trackId": "ca-1203-4",
+      "fixtureId": "ca-1203-4-synthetic-layout",
+      "caseReference": "SYN-CA-ca-1203-4",
+      "requiredFactKeys": [
+        "countyOfConviction",
+        "caseNumber",
+        "probationGranted",
+        "probationOutcome",
+        "offenseSections",
+        "currentStatus",
+        "reliefRoute",
+        "citizenshipStatus"
+      ],
+      "conditionalFactKeys": [
+        "interestsOfJusticeNarrative"
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "CR-180, petitioner signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Interests-of-justice explanation",
+          "whereInPacket": "CR-180 item 2b or 2c, and MC-031 where attached",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Offense classification and reduction-eligibility columns",
+          "whereInPacket": "CR-180 item 1",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Case number, offense section, probation status, custody status, sentence completion, restitution and local-form data are participant-entered or manual completion fields.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "ca-1203-4a",
+      "fixtureId": "ca-1203-4a-synthetic-layout",
+      "caseReference": "SYN-CA-ca-1203-4a",
+      "requiredFactKeys": [
+        "probationGranted",
+        "convictionLevel",
+        "convictionDate",
+        "countyOfConviction",
+        "caseNumber",
+        "sentenceComplied",
+        "currentStatus",
+        "reliefRoute",
+        "citizenshipStatus"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "CR-180, petitioner signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Interests-of-justice explanation",
+          "whereInPacket": "CR-180 box 3 and MC-031 where attached",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "ca-1203-41",
+      "fixtureId": "ca-1203-41-synthetic-layout",
+      "caseReference": "SYN-CA-ca-1203-41",
+      "requiredFactKeys": [
+        "sentenceType",
+        "sentenceCompletionDate",
+        "supervisionStatus",
+        "registrationRequirement",
+        "offenseSections",
+        "countyOfConviction",
+        "interestsOfJusticeNarrative",
+        "citizenshipStatus"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "CR-180, petitioner signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Interests-of-justice explanation",
+          "whereInPacket": "CR-180 box 5 and MC-031 where attached",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Sub-route election",
+          "whereInPacket": "CR-180 box 5, sub-items a through c",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "ca-1203-42",
+      "fixtureId": "ca-1203-42-synthetic-layout",
+      "caseReference": "SYN-CA-ca-1203-42",
+      "requiredFactKeys": [
+        "sentenceCompletionDate",
+        "realignmentEligibility",
+        "supervisionStatus",
+        "offenseSections",
+        "countyOfConviction",
+        "interestsOfJusticeNarrative",
+        "citizenshipStatus"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "CR-180, petitioner signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Realignment eligibility confirmation",
+          "whereInPacket": "CR-180 box 6",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Interests-of-justice explanation",
+          "whereInPacket": "CR-180 box 6 and MC-031 where attached",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "ca-1203-43",
+      "fixtureId": "ca-1203-43-synthetic-layout",
+      "caseReference": "SYN-CA-ca-1203-43",
+      "requiredFactKeys": [
+        "dejProgramCompleted",
+        "evidenceRoute",
+        "caseNumber",
+        "countyOfConviction",
+        "citizenshipStatus"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date, under penalty of perjury on the declaration route",
+          "whereInPacket": "CR-180, petitioner signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "ca-17b-reduction",
+      "fixtureId": "ca-17b-reduction-synthetic-layout",
+      "caseReference": "SYN-CA-ca-17b-reduction",
+      "requiredFactKeys": [
+        "reductionElected",
+        "offenseSections",
+        "convictionLevel",
+        "countyOfConviction",
+        "caseNumber"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "CR-180, petitioner signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Offense classification and the two reduction-eligibility columns",
+          "whereInPacket": "CR-180 item 1",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "ca-851-91",
+      "fixtureId": "ca-851-91-synthetic-layout",
+      "caseReference": "SYN-CA-ca-851-91",
+      "requiredFactKeys": [
+        "arrestDate",
+        "arrestCityCounty",
+        "arrestingAgency",
+        "policeReportNumber",
+        "chargesArrestedFor",
+        "howCaseEnded",
+        "patternOffense",
+        "entitlementBasis"
+      ],
+      "conditionalFactKeys": [
+        "courtNumber"
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Verification and signature under penalty of perjury",
+          "whereInPacket": "CR-409, petitioner signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Matter-of-right versus interests-of-justice election",
+          "whereInPacket": "CR-409 item 3h",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Notice of Court Hearing block",
+          "whereInPacket": "CR-409 item 2",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "ca-prop64",
+      "fixtureId": "ca-prop64-synthetic-layout",
+      "caseReference": "SYN-CA-ca-prop64",
+      "requiredFactKeys": [
+        "cannabisOffenseSections",
+        "convictionDate",
+        "countyOfConviction",
+        "caseNumber",
+        "alreadyProcessed",
+        "reliefSought"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "CR-400, petitioner signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    }
+  ],
+  "requiredBoundaryFixtures": [
+    "missing_required_input",
+    "source_missing",
+    "source_hash_mismatch",
+    "third_party_field_ownership",
+    "deterministic_repeat"
+  ]
+}
