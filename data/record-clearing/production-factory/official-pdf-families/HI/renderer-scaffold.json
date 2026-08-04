@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "rcap-official-pdf-renderer-scaffold/v1",
+  "familyId": "rcap-hi-official-pdf-family",
+  "jurisdiction": "HI",
+  "enabled": false,
+  "activeRendererCount": 0,
+  "rendererAdapters": [
+    {
+      "rendererId": "hi-acroform-fill",
+      "kind": "acroform_fill",
+      "enabled": false,
+      "activationRequirements": [
+        "successor authority edition maps the exact official form identity",
+        "captain assignment anchor and portable projection exist",
+        "exact projected bytes pass hash, byte-count, media-type, and read-only verification",
+        "fresh inspection confirms AcroForm structure and rejects encryption or XFA incompatibility",
+        "every source field has an ownership classification",
+        "every active field name and widget type is verified",
+        "source-backed visual and legal-output review pass"
+      ]
+    },
+    {
+      "rendererId": "hi-coordinate-overlay",
+      "kind": "coordinate_overlay",
+      "enabled": false,
+      "activationRequirements": [
+        "successor authority edition maps the exact official form identity",
+        "captain assignment anchor and portable projection exist",
+        "exact projected bytes pass identity and read-only verification",
+        "fresh inspection establishes flat-PDF geometry",
+        "every placement is individually confirmed against the exact source",
+        "source-backed visual and legal-output review pass"
+      ]
+    },
+    {
+      "rendererId": "hi-include-unchanged",
+      "kind": "include_unchanged",
+      "enabled": false,
+      "activationRequirements": [
+        "the document is an adopted authority packet component",
+        "exact source bytes pass identity and read-only verification",
+        "the adopted packet assembly expressly requires unchanged inclusion"
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "officialFormId": "HCJDC-159",
+      "sourceAuthorityState": "authority_unmanifested_source",
+      "historicalCandidateTechnicalClasses": [
+        "flat_pdf"
+      ],
+      "historicalCandidateClassTreatment": "unmapped_evidence_only",
+      "rendererClassificationState": "prohibited_until_exact_authority_asset_and_fresh_inspection",
+      "candidateRenderer": null,
+      "activeRenderer": null
+    },
+    {
+      "officialFormId": "HCJDC-159B",
+      "sourceAuthorityState": "authority_unmanifested_source",
+      "historicalCandidateTechnicalClasses": [
+        "flat_pdf"
+      ],
+      "historicalCandidateClassTreatment": "unmapped_evidence_only",
+      "rendererClassificationState": "prohibited_until_exact_authority_asset_and_fresh_inspection",
+      "candidateRenderer": null,
+      "activeRenderer": null
+    }
+  ],
+  "renderContract": {
+    "sourceMutationAllowed": false,
+    "sourceAcquisitionAllowed": false,
+    "legacyPrivatePathReadAllowed": false,
+    "candidateSourceSubstitutionAllowed": false,
+    "signatureImageGenerationAllowed": false,
+    "flattenParticipantDeliveryCopy": false,
+    "retainWritableManualFieldsUntilParticipantCompletion": true,
+    "deterministicOutputRequired": true,
+    "thirdPartyFieldDefault": "blank",
+    "unmappedFieldDefault": "unchanged_and_blank",
+    "currentRenderingAllowed": false
+  }
+}

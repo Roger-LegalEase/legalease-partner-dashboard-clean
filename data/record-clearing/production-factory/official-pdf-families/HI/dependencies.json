@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "rcap-official-pdf-family-dependencies/v1",
+  "familyId": "rcap-hi-official-pdf-family",
+  "jurisdiction": "HI",
+  "dependencies": [
+    {
+      "dependencyId": "hi-successor-authority-edition-source-identities",
+      "kind": "authority_manifest",
+      "status": "blocked",
+      "officialFormIds": [
+        "HCJDC-159",
+        "HCJDC-159B"
+      ],
+      "workerMayResolve": false,
+      "reason": "Edition 1.2 identifies both required form IDs but retains no mapped packet asset for either. A successor adopted authority edition must bind each exact identity before a source assignment is eligible."
+    },
+    {
+      "dependencyId": "hi-captain-assignment-and-portable-projection",
+      "kind": "captain_assignment_portable_projection",
+      "status": "blocked",
+      "assignmentAnchor": null,
+      "portableProjection": null,
+      "workerMayResolveByPrivatePath": false,
+      "workerMayAcquireOrDownload": false,
+      "reason": "No immutable captain assignment or portable projection exists. Repository paths and historical measurements are identity evidence only."
+    },
+    {
+      "dependencyId": "hi-candidate-authority-reconciliation",
+      "kind": "candidate_to_authority_identity_mapping",
+      "status": "blocked",
+      "candidateIds": [
+        "expungement-application-rev-2026-06",
+        "hawaii-expungement-reference",
+        "revised-exp-application-2019-11"
+      ],
+      "workerMayResolve": false,
+      "reason": "All three exact pinned candidates remain hold_provenance and not_resolver_selectable. None may be inferred to be HCJDC-159 or HCJDC-159B."
+    },
+    {
+      "dependencyId": "hi-current-hcjdc-form-and-instructions",
+      "kind": "source_freshness",
+      "status": "blocked",
+      "requiredFor": [
+        "release promotion"
+      ],
+      "reason": "The controlling Hawaii review keeps current source currency for the HCJDC application and submission instructions as a release gate."
+    },
+    {
+      "dependencyId": "hi-deferred-route-guidance-specifications",
+      "kind": "process_guidance_specification",
+      "status": "blocked",
+      "trackIds": [
+        "hi_dag_danc_expungement",
+        "hi_712_1200_deferred_expungement"
+      ],
+      "reason": "Each adopted packet set begins with required process guidance, but the current track-source audit records no governing guidance specification for those components."
+    },
+    {
+      "dependencyId": "hi-712-1200-waiting-period-legal-design",
+      "kind": "legal_design",
+      "status": "blocked",
+      "trackIds": [
+        "hi_712_1200_deferred_expungement"
+      ],
+      "reason": "Current statutory text, the qualifying section 712-1200 branch, and the authority for the three-year waiting period remain build blockers. The stage-two application must not generate until resolved."
+    },
+    {
+      "dependencyId": "hi-conviction-stage-one-legal-design",
+      "kind": "legal_design",
+      "status": "blocked",
+      "trackIds": [
+        "hi_first_time_drug_offender_expungement",
+        "hi_marijuana_three_grams_expungement",
+        "hi_pre_2004_drug_offender_expungement",
+        "hi_first_time_property_offender_expungement",
+        "hi_under_21_dui_expungement"
+      ],
+      "reason": "The stage-one court filing vehicle and controlling statutory requirements remain true legal-design blockers. The adopted stage-two HCJDC component remains packet-capable in design but source-blocked."
+    },
+    {
+      "dependencyId": "hi-projected-source-technical-inspection",
+      "kind": "pdf_structure_inspection",
+      "status": "blocked",
+      "requiredFor": [
+        "renderer classification",
+        "field enumeration",
+        "field ownership",
+        "field mapping"
+      ],
+      "reason": "Page geometry, fields, encryption, XFA, and renderer class must be measured from an exact captain-owned portable projection after authority identity is adopted."
+    },
+    {
+      "dependencyId": "hi-field-map-and-ownership-completion",
+      "kind": "field_mapping",
+      "status": "blocked",
+      "requiredFor": [
+        "packet rendering"
+      ],
+      "reason": "Both state-scoped field maps and ownership maps contain zero active rows pending exact-source inspection."
+    },
+    {
+      "dependencyId": "hi-source-backed-samples-and-review",
+      "kind": "review",
+      "status": "blocked",
+      "requiredFor": [
+        "packet_ready",
+        "generation_allowed",
+        "enabled"
+      ],
+      "reason": "No source-backed sample, visual review artifact, technical approval, or counsel approval exists."
+    },
+    {
+      "dependencyId": "hi-adjacent-surface-isolation",
+      "kind": "compatibility",
+      "status": "satisfied",
+      "requiredFor": [
+        "scaffold handoff"
+      ],
+      "reason": "The family is isolated to new Hawaii-scoped paths and has no live/shared registry or route import."
+    }
+  ]
+}
