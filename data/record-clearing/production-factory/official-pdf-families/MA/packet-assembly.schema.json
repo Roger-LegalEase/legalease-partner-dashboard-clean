@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/ma-official-pdf-packet-assemblies-v1.json",
+  "title": "Massachusetts official-PDF packet assembly preflight",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "definitionStatus",
+    "sourceSelectionPolicy",
+    "packetAssemblies"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "familyId": { "const": "ma-trial-court-official-pdf-families" },
+    "jurisdiction": { "const": "MA" },
+    "definitionStatus": { "const": "preflight_only_not_registered" },
+    "sourceSelectionPolicy": {
+      "const": "explicit_source_id_only_no_filename_scan_or_fallback"
+    },
+    "packetAssemblies": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": { "$ref": "#/$defs/assembly" }
+    }
+  },
+  "$defs": {
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mappingApproved", "visual", "legal"],
+      "properties": {
+        "mappingApproved": { "const": false },
+        "visual": { "const": "visual_review_pending" },
+        "legal": { "const": "legal_review_pending" }
+      }
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "componentId",
+        "order",
+        "role",
+        "kind",
+        "outputStrategy",
+        "rendererStrategy",
+        "sourceId",
+        "sourcePath",
+        "fieldMapId",
+        "implementationStatus",
+        "generationAllowed",
+        "approval"
+      ],
+      "properties": {
+        "componentId": { "type": "string", "pattern": "^ma-" },
+        "order": { "type": "integer", "minimum": 1 },
+        "role": { "enum": ["primary_filing", "process_guidance"] },
+        "kind": { "enum": ["official_pdf", "process_guidance"] },
+        "outputStrategy": { "enum": ["official_pdf_fill", "process_guidance"] },
+        "rendererStrategy": {
+          "enum": [
+            "unresolved_pending_exact_source_inspection",
+            "unsupported_pending_format_resolution",
+            "process_guidance"
+          ]
+        },
+        "sourceId": { "type": ["string", "null"] },
+        "sourcePath": { "type": ["string", "null"] },
+        "fieldMapId": { "type": ["string", "null"] },
+        "implementationStatus": {
+          "enum": [
+            "blocked_pending_source_materialization",
+            "existing_normalized_definition_outside_official_pdf_lane"
+          ]
+        },
+        "generationAllowed": { "const": false },
+        "approval": { "$ref": "#/$defs/approval" }
+      }
+    },
+    "assembly": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trackId",
+        "packetSetId",
+        "packetSetVersion",
+        "trackOutputStrategy",
+        "compositionMode",
+        "fixtureId",
+        "requiredFactKeys",
+        "components",
+        "assemblyStatus",
+        "expectedPreMaterializationError",
+        "sourceCurrent",
+        "runtimeDisabled",
+        "runtimeStatus",
+        "packetReady",
+        "generationAllowed"
+      ],
+      "properties": {
+        "trackId": { "type": "string", "pattern": "^ma-" },
+        "packetSetId": { "type": "string", "pattern": "^ma-" },
+        "packetSetVersion": { "const": "1.0.0" },
+        "trackOutputStrategy": { "enum": ["official_pdf_fill", "composed"] },
+        "compositionMode": { "type": ["string", "null"], "enum": ["sequential", null] },
+        "fixtureId": { "type": "string", "pattern": "^ma-fixture-" },
+        "requiredFactKeys": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9]*$" }
+        },
+        "components": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/component" }
+        },
+        "assemblyStatus": { "const": "blocked_pending_source_materialization" },
+        "expectedPreMaterializationError": { "const": "source_missing" },
+        "sourceCurrent": { "const": false },
+        "runtimeDisabled": { "const": true },
+        "runtimeStatus": { "const": "runtime_disabled" },
+        "packetReady": { "const": false },
+        "generationAllowed": { "const": false }
+      }
+    }
+  }
+}

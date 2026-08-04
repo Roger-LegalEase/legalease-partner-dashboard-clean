@@ -1,0 +1,538 @@
+{
+  "schemaVersion": 1,
+  "familyId": "ma-trial-court-official-pdf-families",
+  "jurisdiction": "MA",
+  "coverageScope": "canonical_fields_only_pending_exact_source_inventory",
+  "sourceFieldCoverageState": "pending_exact_source_inventory",
+  "unclassifiedSourceFieldPolicy": "reject",
+  "writableOwners": [
+    "participant",
+    "system_derived"
+  ],
+  "actorDefaults": [
+    {
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate"
+    },
+    {
+      "owner": "participant_manual",
+      "automationPolicy": "leave_blank"
+    },
+    {
+      "owner": "agency",
+      "automationPolicy": "leave_blank"
+    },
+    {
+      "owner": "court",
+      "automationPolicy": "leave_blank"
+    },
+    {
+      "owner": "clerk",
+      "automationPolicy": "leave_blank"
+    },
+    {
+      "owner": "judge",
+      "automationPolicy": "leave_blank"
+    },
+    {
+      "owner": "prosecutor",
+      "automationPolicy": "leave_blank"
+    },
+    {
+      "owner": "notary",
+      "automationPolicy": "leave_blank"
+    },
+    {
+      "owner": "process_server",
+      "automationPolicy": "leave_blank"
+    },
+    {
+      "owner": "prohibited_from_generation",
+      "automationPolicy": "reject"
+    }
+  ],
+  "fields": [
+    {
+      "fieldKey": "petitionerFullLegalName",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Massachusetts state-pack required fields and historical form candidate labels."
+    },
+    {
+      "fieldKey": "dateOfBirth",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Massachusetts state-pack required fields; exact field binding waits for source inspection."
+    },
+    {
+      "fieldKey": "priorNames",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Massachusetts state-pack required fields and the historical Petition to Seal candidate extraction."
+    },
+    {
+      "fieldKey": "mailingAddress",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Historical Petition to Seal candidate extraction; exact binding remains unconfirmed."
+    },
+    {
+      "fieldKey": "city",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Historical Petition to Seal candidate extraction."
+    },
+    {
+      "fieldKey": "state",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Historical Petition to Seal candidate extraction."
+    },
+    {
+      "fieldKey": "postalCode",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Historical Petition to Seal candidate extraction."
+    },
+    {
+      "fieldKey": "telephone",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Participant contact information; bind only if the exact official source provides a participant-owned field."
+    },
+    {
+      "fieldKey": "email",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Participant contact information; bind only if the exact official source provides a participant-owned field."
+    },
+    {
+      "fieldKey": "participantSignature",
+      "owner": "participant_manual",
+      "automationPolicy": "leave_blank",
+      "documentUse": "manual_completion",
+      "evidence": "Every normalized MA packet records that the participant signs their own petition; no signature image may be generated."
+    },
+    {
+      "fieldKey": "participantSignatureDate",
+      "owner": "participant_manual",
+      "automationPolicy": "leave_blank",
+      "documentUse": "manual_completion",
+      "evidence": "The signature date stays blank until the participant executes the form."
+    },
+    {
+      "fieldKey": "allDispositions",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Normalized generation requirement for ma-seal-admin, confirmed by the participant against their CORI."
+    },
+    {
+      "fieldKey": "mostRecentDispositionDate",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Normalized generation requirement for ma-seal-admin."
+    },
+    {
+      "fieldKey": "offenceLevels",
+      "owner": "participant",
+      "automationPolicy": "screening_only",
+      "documentUse": "routing_or_screening_only",
+      "evidence": "Normalized generation requirement; the legal-design record requires manual handling where classification cannot be ascertained."
+    },
+    {
+      "fieldKey": "excludedOffenceCategories",
+      "owner": "participant",
+      "automationPolicy": "screening_only",
+      "documentUse": "routing_or_screening_only",
+      "evidence": "Normalized eligibility input for ma-seal-admin, not yet shown to be a source-form field."
+    },
+    {
+      "fieldKey": "sexOffenceOrRegistration",
+      "owner": "participant",
+      "automationPolicy": "screening_only",
+      "documentUse": "routing_or_screening_only",
+      "evidence": "Normalized eligibility input for ma-seal-admin."
+    },
+    {
+      "fieldKey": "everClassifiedLevel2Or3",
+      "owner": "participant",
+      "automationPolicy": "screening_only",
+      "documentUse": "routing_or_screening_only",
+      "evidence": "Normalized eligibility input for ma-seal-admin."
+    },
+    {
+      "fieldKey": "outOfStateConvictions",
+      "owner": "participant",
+      "automationPolicy": "screening_only",
+      "documentUse": "routing_or_screening_only",
+      "evidence": "Normalized eligibility input for ma-seal-admin."
+    },
+    {
+      "fieldKey": "offenceCharged",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Normalized generation requirement for ma-seal-decrim, confirmed against the participant's CORI."
+    },
+    {
+      "fieldKey": "offenceDate",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Normalized generation requirement for ma-seal-decrim."
+    },
+    {
+      "fieldKey": "believesNoLongerCrime",
+      "owner": "participant",
+      "automationPolicy": "screening_only",
+      "documentUse": "routing_or_screening_only",
+      "evidence": "Participant belief is an intake answer, not an automated legal determination."
+    },
+    {
+      "fieldKey": "marijuanaOffence",
+      "owner": "participant",
+      "automationPolicy": "screening_only",
+      "documentUse": "routing_or_screening_only",
+      "evidence": "Normalized routing input used to prefer the marijuana-expungement route where applicable."
+    },
+    {
+      "fieldKey": "partASelection",
+      "owner": "participant_manual",
+      "automationPolicy": "leave_blank",
+      "documentUse": "manual_completion",
+      "evidence": "The legal-design record requires manual completion for the no-longer-a-crime and different-designation analysis."
+    },
+    {
+      "fieldKey": "courtDepartment",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Normalized generation requirement for MA court-filed petitions."
+    },
+    {
+      "fieldKey": "courtDivision",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Normalized generation requirement for MA court-filed petitions."
+    },
+    {
+      "fieldKey": "caseNumber",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Normalized generation requirement, confirmed by the participant against their CORI."
+    },
+    {
+      "fieldKey": "charges",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Normalized generation requirement for MA court-filed petitions."
+    },
+    {
+      "fieldKey": "disposition",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Normalized generation requirement for MA court-filed petitions."
+    },
+    {
+      "fieldKey": "dispositionDate",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Normalized generation requirement for MA court-filed petitions."
+    },
+    {
+      "fieldKey": "disadvantagesFromRecord",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Participant-authored TC0057 narrative input; LegalEase may format but not compose the showing."
+    },
+    {
+      "fieldKey": "rehabilitationEvidence",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Participant-authored TC0057 narrative input."
+    },
+    {
+      "fieldKey": "circumstancesAtOffence",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Participant-authored TC0057 narrative input."
+    },
+    {
+      "fieldKey": "reasonsForDisposition",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Participant-authored TC0057 narrative input."
+    },
+    {
+      "fieldKey": "nearlyEligibleForAdminSealing",
+      "owner": "participant",
+      "automationPolicy": "screening_only",
+      "documentUse": "routing_or_screening_only",
+      "evidence": "Normalized routing input used to explain the ministerial alternative, not yet shown to be a TC0057 field."
+    },
+    {
+      "fieldKey": "allOffencesBefore21",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Normalized generation requirement for ma-expunge-time."
+    },
+    {
+      "fieldKey": "totalRecordCount",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Normalized generation requirement for ma-expunge-time."
+    },
+    {
+      "fieldKey": "anyFelony",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Normalized generation requirement for ma-expunge-time."
+    },
+    {
+      "fieldKey": "custodyCompletionDate",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Normalized generation requirement for ma-expunge-time."
+    },
+    {
+      "fieldKey": "section100JCategories",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Normalized generation requirement for ma-expunge-time; exact form treatment waits for current-source inspection."
+    },
+    {
+      "fieldKey": "activeInvestigation",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Participant certification input for ma-expunge-time."
+    },
+    {
+      "fieldKey": "otherJurisdictionRecords",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Normalized generation requirement for ma-expunge-time."
+    },
+    {
+      "fieldKey": "bestInterestsFacts",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Participant-authored narrative; LegalEase may format but not compose it."
+    },
+    {
+      "fieldKey": "commissionerEligibilityCertification",
+      "owner": "agency",
+      "automationPolicy": "leave_blank",
+      "documentUse": "third_party_completion",
+      "evidence": "The normalized legal design expressly assigns this certification to the Commissioner of Probation."
+    },
+    {
+      "fieldKey": "groundSelected",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Normalized participant selection for the § 100K petition."
+    },
+    {
+      "fieldKey": "howRecordCameToExist",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Participant-authored § 100K narrative; LegalEase may format but not compose the showing."
+    },
+    {
+      "fieldKey": "requestsHearing",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Normalized participant election for ma-expunge-k."
+    },
+    {
+      "fieldKey": "marijuanaOffenceCategory",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Normalized generation requirement for TC0021."
+    },
+    {
+      "fieldKey": "chargedAmount",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Normalized TC0021 input, confirmed by the participant against the complaint or charging document."
+    },
+    {
+      "fieldKey": "nonMarijuanaCharges",
+      "owner": "participant",
+      "automationPolicy": "auto_fill_candidate",
+      "documentUse": "source_binding_candidate",
+      "evidence": "Normalized TC0021 input that enforces the route's same-case scope restriction."
+    }
+  ],
+  "routes": [
+    {
+      "routeId": "ma-seal-admin",
+      "sourceId": "ma-mps-petition-to-seal-rev-2012-04",
+      "fieldKeys": [
+        "petitionerFullLegalName",
+        "dateOfBirth",
+        "priorNames",
+        "mailingAddress",
+        "city",
+        "state",
+        "postalCode",
+        "allDispositions",
+        "mostRecentDispositionDate",
+        "offenceLevels",
+        "excludedOffenceCategories",
+        "sexOffenceOrRegistration",
+        "everClassifiedLevel2Or3",
+        "outOfStateConvictions",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    },
+    {
+      "routeId": "ma-seal-decrim",
+      "sourceId": "ma-mps-petition-to-seal-rev-2012-04",
+      "fieldKeys": [
+        "petitionerFullLegalName",
+        "dateOfBirth",
+        "priorNames",
+        "mailingAddress",
+        "city",
+        "state",
+        "postalCode",
+        "offenceCharged",
+        "offenceDate",
+        "believesNoLongerCrime",
+        "marijuanaOffence",
+        "partASelection",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    },
+    {
+      "routeId": "ma-seal-court",
+      "sourceId": "ma-tc0057-rev-unknown-held",
+      "fieldKeys": [
+        "petitionerFullLegalName",
+        "dateOfBirth",
+        "mailingAddress",
+        "telephone",
+        "email",
+        "courtDepartment",
+        "courtDivision",
+        "caseNumber",
+        "charges",
+        "disposition",
+        "dispositionDate",
+        "disadvantagesFromRecord",
+        "rehabilitationEvidence",
+        "circumstancesAtOffence",
+        "reasonsForDisposition",
+        "nearlyEligibleForAdminSealing",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    },
+    {
+      "routeId": "ma-expunge-time",
+      "sourceId": "ma-mps-petition-to-expunge-rev-2018-10-11-legacy",
+      "fieldKeys": [
+        "petitionerFullLegalName",
+        "dateOfBirth",
+        "mailingAddress",
+        "courtDepartment",
+        "courtDivision",
+        "caseNumber",
+        "charges",
+        "disposition",
+        "dispositionDate",
+        "allOffencesBefore21",
+        "totalRecordCount",
+        "anyFelony",
+        "custodyCompletionDate",
+        "section100JCategories",
+        "activeInvestigation",
+        "otherJurisdictionRecords",
+        "bestInterestsFacts",
+        "participantSignature",
+        "participantSignatureDate",
+        "commissionerEligibilityCertification"
+      ]
+    },
+    {
+      "routeId": "ma-expunge-k",
+      "sourceId": "ma-100k-petition-for-expungement-rev-2018-12-20",
+      "fieldKeys": [
+        "petitionerFullLegalName",
+        "dateOfBirth",
+        "mailingAddress",
+        "telephone",
+        "email",
+        "courtDepartment",
+        "courtDivision",
+        "caseNumber",
+        "charges",
+        "disposition",
+        "dispositionDate",
+        "groundSelected",
+        "howRecordCameToExist",
+        "requestsHearing",
+        "marijuanaOffence",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    },
+    {
+      "routeId": "ma-expunge-mj",
+      "sourceId": "ma-tc0021-rev-2022-11",
+      "fieldKeys": [
+        "petitionerFullLegalName",
+        "dateOfBirth",
+        "mailingAddress",
+        "telephone",
+        "email",
+        "courtDepartment",
+        "courtDivision",
+        "caseNumber",
+        "charges",
+        "disposition",
+        "dispositionDate",
+        "marijuanaOffenceCategory",
+        "chargedAmount",
+        "nonMarijuanaCharges",
+        "participantSignature",
+        "participantSignatureDate"
+      ]
+    }
+  ]
+}

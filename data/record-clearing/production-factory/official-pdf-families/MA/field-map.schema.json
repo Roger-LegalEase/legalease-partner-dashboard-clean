@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/ma-official-pdf-field-map-scaffold-v1.json",
+  "title": "Massachusetts official-PDF field-map scaffold",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "fieldMapId",
+    "jurisdiction",
+    "sourceId",
+    "sourcePath",
+    "exactSourceSha256",
+    "routeIds",
+    "mappingStatus",
+    "rendererCandidate",
+    "activeRendererStrategy",
+    "expectedStructure",
+    "sourceInspection",
+    "canonicalFieldRequirements",
+    "sourceFieldBindings",
+    "overlayPlacements",
+    "activationBlockers",
+    "reviewStatus"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "fieldMapId": { "type": "string", "pattern": "^ma-field-map-" },
+    "jurisdiction": { "const": "MA" },
+    "sourceId": { "type": "string", "pattern": "^ma-" },
+    "sourcePath": {
+      "type": "string",
+      "pattern": "^private/Nationwide Record Clearing/LegalEase massachusetts/"
+    },
+    "exactSourceSha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "routeIds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^ma-" }
+    },
+    "mappingStatus": { "const": "blocked_pending_exact_source_inspection" },
+    "rendererCandidate": {
+      "enum": [
+        "acroform_fill_pending_exact_source_inspection",
+        "coordinate_overlay_pending_current_source_and_coordinates",
+        "unsupported_pending_format_resolution"
+      ]
+    },
+    "activeRendererStrategy": { "type": "null" },
+    "expectedStructure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pageCount",
+        "fieldCount",
+        "xfa",
+        "encrypted",
+        "evidenceState"
+      ],
+      "properties": {
+        "pageCount": { "type": "integer", "minimum": 1 },
+        "fieldCount": { "type": "integer", "minimum": 0 },
+        "xfa": { "type": ["boolean", "null"] },
+        "encrypted": { "type": ["boolean", "null"] },
+        "evidenceState": { "type": "string", "minLength": 1 }
+      }
+    },
+    "sourceInspection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "inspectedSha256",
+        "requiredChecks",
+        "historicalCandidateEvidence"
+      ],
+      "properties": {
+        "state": { "const": "not_run_source_absent" },
+        "inspectedSha256": { "type": "null" },
+        "requiredChecks": {
+          "type": "array",
+          "minItems": 5,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "historicalCandidateEvidence": {
+          "type": ["object", "null"],
+          "required": ["path", "candidateCount", "treatment"],
+          "properties": {
+            "path": { "type": "string", "minLength": 1 },
+            "candidateCount": { "type": "integer", "minimum": 0 },
+            "treatment": { "const": "unverified_reference_only" }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "canonicalFieldRequirements": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9]*$" }
+    },
+    "sourceFieldBindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "fieldKey",
+          "pdfFieldName",
+          "kind",
+          "owner",
+          "confirmed"
+        ],
+        "properties": {
+          "fieldKey": { "type": "string", "minLength": 1 },
+          "pdfFieldName": { "type": "string", "minLength": 1 },
+          "kind": { "enum": ["text", "checkbox", "radio", "dropdown"] },
+          "owner": { "type": "string", "minLength": 1 },
+          "confirmed": { "const": false }
+        }
+      }
+    },
+    "overlayPlacements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "fieldKey",
+          "page",
+          "x",
+          "y",
+          "size",
+          "kind",
+          "confirmed"
+        ],
+        "properties": {
+          "fieldKey": { "type": "string", "minLength": 1 },
+          "page": { "type": "integer", "minimum": 1 },
+          "x": { "type": "number", "minimum": 0 },
+          "y": { "type": "number", "minimum": 0 },
+          "size": { "type": "number", "exclusiveMinimum": 0 },
+          "kind": { "enum": ["text", "checkbox"] },
+          "confirmed": { "const": false }
+        }
+      }
+    },
+    "activationBlockers": {
+      "type": "array",
+      "minItems": 5,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "reviewStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mappingApproved",
+        "technical",
+        "visual",
+        "legal",
+        "sourceFreshness"
+      ],
+      "properties": {
+        "mappingApproved": { "const": false },
+        "technical": { "const": "not_implemented" },
+        "visual": { "const": "visual_review_pending" },
+        "legal": { "const": "legal_review_pending" },
+        "sourceFreshness": { "const": "pending" }
+      }
+    }
+  }
+}
