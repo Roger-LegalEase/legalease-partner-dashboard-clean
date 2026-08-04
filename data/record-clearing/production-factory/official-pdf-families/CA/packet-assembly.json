@@ -9,7 +9,7 @@
     "deterministicTimestamp": "2000-01-01T00:00:00.000Z",
     "producer": "LegalEase",
     "preserveOfficialFixedLanguage": true,
-    "sourceLookupMode": "exact_requirement_only",
+    "sourceLookupMode": "exact_requirement_or_unresolved_identity_stop",
     "downloadOrSourceFallbackAllowed": false,
     "signatureImagesGenerated": false
   },
@@ -366,6 +366,23 @@
             "ca-prop64-proposed-order-3"
           ],
           "requirement": "required",
+          "renderOnce": true
+        }
+      ]
+    },
+    {
+      "trackId": "ca-diversion-seal",
+      "outputFileName": "ca-diversion-seal-participant-packet.pdf",
+      "assembledParticipantPdf": true,
+      "documents": [
+        {
+          "documentId": "SDSC-CRM-307",
+          "order": 1,
+          "rendererStrategy": "pending_authority_identity",
+          "componentIds": [
+            "ca-diversion-seal-primary-filing-2"
+          ],
+          "requirement": "conditional",
           "renderOnce": true
         }
       ]

@@ -12,7 +12,7 @@
     "dependencyJobId": "rcap-nationwide-source-materialization-contract",
     "requirementManifest": "data/record-clearing/production-factory/official-pdf-families/CA/source-requirements.json",
     "allSourcesRequired": true,
-    "state": "binary_materialization_required",
+    "state": "authority_identity_and_binary_materialization_required",
     "contractState": "pending_captain_owned_assignment",
     "assignmentManifest": null,
     "portableProjectionAvailable": false,
@@ -90,6 +90,12 @@
         "CR-401",
         "CR-403"
       ]
+    },
+    {
+      "trackId": "ca-diversion-seal",
+      "sourceDocumentIds": [
+        "SDSC-CRM-307"
+      ]
     }
   ],
   "documents": [
@@ -102,7 +108,8 @@
     "CR-410",
     "CR-400",
     "CR-401",
-    "CR-403"
+    "CR-403",
+    "SDSC-CRM-307"
   ],
   "artifacts": {
     "scaffoldSpec": "data/record-clearing/production-factory/official-pdf-families/CA/scaffold-spec.json",
@@ -117,7 +124,7 @@
   },
   "dedicatedVerifier": "scripts/verify-rcap-ca-judicial-council-official-pdf-family.mjs",
   "status": {
-    "sourceRequirements": "exact_identity_scaffold_pending_assignment",
+    "sourceRequirements": "mixed_identity_scaffold_pending_authority_and_assignment",
     "localSourceVerification": "pending_materialization",
     "pdfStructureInspection": "pending_materialization",
     "fieldMapping": "scaffolded_pending_materialization",
@@ -130,7 +137,8 @@
   "blockers": [
     "The retained Edition 1.2 identities and the old local private-corpus implementation-gate observations disagree about CR-180 and CR-181 structure; exact materialized authority bytes must settle the contradiction.",
     "Carried-forward repository inspection classifies all ten sources as encrypted PDFs with no usable field inventory; renderer selection is prohibited until fresh local inspection and the non-renderable-source policy are available.",
-    "No encrypted or XFA source may be decrypted, reconstructed, substituted, or silently routed to a different form by packet implementation code."
+    "No encrypted or XFA source may be decrypted, reconstructed, substituted, or silently routed to a different form by packet implementation code.",
+    "SDSC-CRM-307 remains county-local and authority-unmanifested; the conditional diversion-seal component cannot be selected until an exact current local identity is adopted."
   ],
   "invariants": [
     "California legal design and component ordering remain unchanged.",

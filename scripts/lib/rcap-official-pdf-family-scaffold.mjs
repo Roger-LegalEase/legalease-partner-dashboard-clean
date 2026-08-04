@@ -32,13 +32,19 @@ export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
   assert.equal(spec.sourceMaterializationDependency, SOURCE_DEPENDENCY);
   assert.ok(Array.isArray(spec.trackIds) && spec.trackIds.length > 0);
   assertNoDuplicates(spec.trackIds, "track");
+  const composedTrackIds = spec.composedTrackIds ?? [];
+  const unresolvedDocumentIds = new Set(spec.unresolvedDocumentIds ?? []);
+  assert.ok(Array.isArray(composedTrackIds));
+  assert.ok(Array.isArray(spec.unresolvedDocumentIds ?? []));
+  assertNoDuplicates(composedTrackIds, "composed track");
+  assertNoDuplicates([...spec.trackIds, ...composedTrackIds], "family track");
 
   const authority = readJson(root, AUTHORITY_PATH);
   const legalDesign = readJson(root, LEGAL_DESIGN_PATH);
   const sourceRegistry = readJson(root, SOURCE_REGISTRY_PATH);
   const repositoryAudit = readJson(root, REPOSITORY_AUDIT_PATH);
 
-  const tracks = spec.trackIds.map((trackId) => {
+  const tracks = [...spec.trackIds, ...composedTrackIds].map((trackId) => {
     const matches = legalDesign.tracks.filter(
       (track) =>
         track.jurisdiction === spec.jurisdiction &&
@@ -46,7 +52,16 @@ export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
     );
     assert.equal(matches.length, 1, `legal-design track ${trackId}`);
     const track = matches[0];
-    assert.equal(track.outputStrategy, "official_pdf_fill", trackId);
+    if (spec.trackIds.includes(trackId)) {
+      assert.equal(track.outputStrategy, "official_pdf_fill", trackId);
+    } else {
+      assert.ok(
+        track.packetSet.components.some(
+          (component) => component.outputStrategy === "official_pdf_fill"
+        ),
+        `${trackId} must contain an official_pdf_fill component`
+      );
+    }
     return track;
   });
 
@@ -77,8 +92,22 @@ export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
     "documentOrder must contain every and only legal-design form ID"
   );
   assertNoDuplicates(documentIds, "document");
+  for (const documentId of unresolvedDocumentIds) {
+    assert.ok(
+      documentIds.includes(documentId),
+      `${documentId} is not a family document`
+    );
+  }
 
   const documentRecords = documentIds.map((documentId) => {
+    if (unresolvedDocumentIds.has(documentId)) {
+      return {
+        documentId,
+        audit: null,
+        artifact: null,
+        identityBindingStatus: "authority_identity_unresolved"
+      };
+    }
     const auditMatches = repositoryAudit.assets.filter(
       (asset) =>
         asset.jurisdiction === spec.jurisdiction &&
@@ -106,7 +135,12 @@ export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
     assert.equal(artifact.measuredSha256, audit.sha256);
     assert.ok(Number.isSafeInteger(artifact.sizeBytes));
     assert.ok(artifact.sizeBytes > 0);
-    return { documentId, audit, artifact };
+    return {
+      documentId,
+      audit,
+      artifact,
+      identityBindingStatus: "exact_pinned_identity"
+    };
   });
 
   const requirements = documentRecords.map(({ documentId, audit, artifact }) => {
@@ -116,6 +150,53 @@ export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
         trackId: component.trackId,
         componentId: component.componentId
       }));
+    if (audit === null || artifact === null) {
+      const componentRole =
+        components.find(
+          (component) => component.officialFormId === documentId
+        )?.role ?? "official_form";
+      return {
+        schemaVersion: SOURCE_REQUIREMENT_SCAFFOLD_SCHEMA,
+        normativeRequirementSchema: SOURCE_REQUIREMENT_SCHEMA,
+        contractState: "pending_captain_owned_assignment",
+        authorityEdition: `master-library/${authority.edition}`,
+        authorityArchiveSha256: authority.retention.archiveSha256,
+        jurisdiction: spec.jurisdiction,
+        documentId,
+        documentRole: componentRole.toUpperCase(),
+        canonicalAuthorityPath: null,
+        repositorySourcePath: null,
+        repositorySourcePathTreatment: "no_worker_locator",
+        portableLocatorCandidate: null,
+        proposedMaterializationDestination: null,
+        expectedSha256: null,
+        expectedBytes: null,
+        expectedMediaType: null,
+        readOnlyTreatment: "worker_read_prohibited",
+        verificationCommandCandidate: null,
+        retentionPolicy: "not_applicable_until_exact_identity_is_adopted",
+        expectedMeasurementBasis: "not_available",
+        identityBindingStatus: "authority_identity_unresolved",
+        authorityAssetState: "authority_asset_unavailable",
+        registryState: "registry_identity_unavailable",
+        materializationState: "authority_identity_required",
+        assignmentBinding: {
+          assignmentJobId: null,
+          assignmentBaseCommit: null,
+          assignmentManifestSha256: null,
+          state: "captain_owned_assignment_required"
+        },
+        workerReadAuthorized: false,
+        workerMaterializationAuthorized: false,
+        usageBindings,
+        provenance: {
+          registryPath: SOURCE_REGISTRY_PATH,
+          authorityReconciliationPath: REPOSITORY_AUDIT_PATH,
+          freshLocalVerification: false,
+          registryPresenceConfersReadiness: false
+        }
+      };
+    }
     const role =
       audit.libraryRow.workflowKey?.split(":")[2] ??
       artifact.role ??
@@ -179,7 +260,10 @@ export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
     assignmentManifest: null,
     portableProjectionAvailable: false,
     allSourcesRequired: true,
-    aggregateState: "binary_materialization_required",
+    aggregateState:
+      unresolvedDocumentIds.size > 0
+        ? "authority_identity_and_binary_materialization_required"
+        : "binary_materialization_required",
     workerReady: false,
     requirements
   };
@@ -215,17 +299,29 @@ export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
       }
       return {
         documentId,
-        rendererStrategyCandidate: rendererCandidate(artifact),
-        materializationState: "binary_materialization_required",
-        mappingState: "pending_local_structure_and_field_confirmation",
+        rendererStrategyCandidate:
+          artifact === null
+            ? "pending_authority_identity"
+            : rendererCandidate(artifact),
+        materializationState:
+          artifact === null
+            ? "authority_identity_required"
+            : "binary_materialization_required",
+        mappingState:
+          artifact === null
+            ? "pending_authority_identity"
+            : "pending_local_structure_and_field_confirmation",
         mappingReady: false,
         expectedStructure: {
-          technicalClass: artifact.technicalClass,
-          pageCount: artifact.pageCount ?? null,
-          fieldCount: artifact.fieldCount ?? null,
-          encrypted: artifact.encrypted ?? null,
-          xfa: artifact.xfa ?? null,
-          measurementBasis: "carried_forward_registry_measurement",
+          technicalClass: artifact?.technicalClass ?? null,
+          pageCount: artifact?.pageCount ?? null,
+          fieldCount: artifact?.fieldCount ?? null,
+          encrypted: artifact?.encrypted ?? null,
+          xfa: artifact?.xfa ?? null,
+          measurementBasis:
+            artifact === null
+              ? "not_available"
+              : "carried_forward_registry_measurement",
           mustVerifyFromMaterializedBytes: true
         },
         candidateInventory,
@@ -273,7 +369,7 @@ export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
     forms: documentRecords.map(({ documentId, artifact }) => ({
       documentId,
       status: "pending_materialization",
-      expectedFieldCount: artifact.fieldCount ?? null,
+      expectedFieldCount: artifact?.fieldCount ?? null,
       coverageComplete: false,
       fields: []
     }))
@@ -322,7 +418,10 @@ export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
       deterministicTimestamp: "2000-01-01T00:00:00.000Z",
       producer: "LegalEase",
       preserveOfficialFixedLanguage: true,
-      sourceLookupMode: "exact_requirement_only",
+      sourceLookupMode:
+        unresolvedDocumentIds.size > 0
+          ? "exact_requirement_or_unresolved_identity_stop"
+          : "exact_requirement_only",
       downloadOrSourceFallbackAllowed: false,
       signatureImagesGenerated: false
     },
@@ -341,10 +440,17 @@ export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
           const documentComponents = trackComponents.filter(
             (component) => component.officialFormId === documentId
           );
+          const documentRecord = documentRecords.find(
+            (record) => record.documentId === documentId
+          );
+          assert.ok(documentRecord, documentId);
           return {
             documentId,
             order: index + 1,
-            rendererStrategy: "pending_materialized_source_inspection",
+            rendererStrategy:
+              documentRecord.artifact === null
+                ? "pending_authority_identity"
+                : "pending_materialized_source_inspection",
             componentIds: documentComponents.map(
               (component) => component.componentId
             ),
@@ -385,7 +491,10 @@ export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
       dependencyJobId: SOURCE_DEPENDENCY,
       requirementManifest: artifactPaths.sourceRequirements,
       allSourcesRequired: true,
-      state: "binary_materialization_required",
+      state:
+        unresolvedDocumentIds.size > 0
+          ? "authority_identity_and_binary_materialization_required"
+          : "binary_materialization_required",
       contractState: "pending_captain_owned_assignment",
       assignmentManifest: null,
       portableProjectionAvailable: false,
@@ -405,7 +514,10 @@ export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
     artifacts: artifactPaths,
     dedicatedVerifier: spec.dedicatedVerifier,
     status: {
-      sourceRequirements: "exact_identity_scaffold_pending_assignment",
+      sourceRequirements:
+        unresolvedDocumentIds.size > 0
+          ? "mixed_identity_scaffold_pending_authority_and_assignment"
+          : "exact_identity_scaffold_pending_assignment",
       localSourceVerification: "pending_materialization",
       pdfStructureInspection: "pending_materialization",
       fieldMapping: "scaffolded_pending_materialization",
@@ -434,6 +546,10 @@ export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
     visualInspectionArtifacts: [],
     unresolvedDependencies: [
       "The source-materialization contract is integrated; a captain-owned immutable assignment and portable projection must still be issued.",
+      ...[...unresolvedDocumentIds].map(
+        (documentId) =>
+          `${documentId} requires an adopted exact authority identity before materialization or renderer selection.`
+      ),
       "Every exact source must be materialized as read-only local bytes and independently verified.",
       "Fresh PDF structure inspection must replace carried-forward measurements.",
       "Every field must receive one ownership classification and every mapping must be visually confirmed.",
@@ -505,7 +621,6 @@ export function verifyOfficialPdfFamilyScaffold({
     );
     assert.equal(requirement.normativeRequirementSchema, SOURCE_REQUIREMENT_SCHEMA);
     assert.equal(requirement.contractState, "pending_captain_owned_assignment");
-    assert.equal(requirement.repositorySourcePathTreatment, "identity_evidence_only");
     assert.equal(requirement.workerMaterializationAuthorized, false);
     assert.deepEqual(requirement.assignmentBinding, {
       assignmentJobId: null,
@@ -513,17 +628,39 @@ export function verifyOfficialPdfFamilyScaffold({
       assignmentManifestSha256: null,
       state: "captain_owned_assignment_required"
     });
-    assertPortablePath(requirement.canonicalAuthorityPath);
-    assertPortablePath(requirement.repositorySourcePath);
-    assertPortablePath(requirement.proposedMaterializationDestination);
-    assert.equal(
-      requirement.proposedMaterializationDestination.startsWith("private/"),
-      false
-    );
-    assert.equal(
-      requirement.portableLocatorCandidate.includes("://private/"),
-      false
-    );
+    if (requirement.identityBindingStatus === "exact_pinned_identity") {
+      assert.equal(
+        requirement.repositorySourcePathTreatment,
+        "identity_evidence_only"
+      );
+      assertPortablePath(requirement.canonicalAuthorityPath);
+      assertPortablePath(requirement.repositorySourcePath);
+      assertPortablePath(requirement.proposedMaterializationDestination);
+      assert.equal(
+        requirement.proposedMaterializationDestination.startsWith("private/"),
+        false
+      );
+      assert.equal(
+        requirement.portableLocatorCandidate.includes("://private/"),
+        false
+      );
+    } else {
+      assert.equal(
+        requirement.identityBindingStatus,
+        "authority_identity_unresolved"
+      );
+      assert.equal(
+        requirement.repositorySourcePathTreatment,
+        "no_worker_locator"
+      );
+      assert.equal(requirement.canonicalAuthorityPath, null);
+      assert.equal(requirement.repositorySourcePath, null);
+      assert.equal(requirement.portableLocatorCandidate, null);
+      assert.equal(requirement.proposedMaterializationDestination, null);
+      assert.equal(requirement.expectedSha256, null);
+      assert.equal(requirement.expectedBytes, null);
+      assert.equal(requirement.workerReadAuthorized, false);
+    }
     pending.push(requirement.documentId);
   }
   if (requireMaterialized && pending.length > 0) {
@@ -533,7 +670,7 @@ export function verifyOfficialPdfFamilyScaffold({
   }
   return {
     familyId: built.spec.familyId,
-    tracks: built.spec.trackIds.length,
+    tracks: built.artifacts["family-manifest.json"].tracks.length,
     documents: built.documents.length,
     ready,
     pending

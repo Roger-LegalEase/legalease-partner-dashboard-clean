@@ -16,5 +16,5 @@ if (specIndex === -1 || !process.argv[specIndex + 1]) {
 const specPath = process.argv[specIndex + 1];
 const result = writeOfficialPdfFamilyScaffold({ root: ROOT, specPath });
 console.log(
-  `Generated ${result.spec.familyId}: ${result.spec.trackIds.length} tracks, ${result.documents.length} exact sources.`
+  `Generated ${result.spec.familyId}: ${result.artifacts["family-manifest.json"].tracks.length} tracks, ${result.documents.length} source identities.`
 );
