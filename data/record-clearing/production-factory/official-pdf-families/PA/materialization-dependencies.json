@@ -20,33 +20,54 @@
       "state": "integrated_pending_captain_assignment",
       "allExactSourcesRequired": true,
       "workerMayAcquireSources": false,
+      "workerMayReadSources": false,
+      "renderActivationAllowed": false,
       "registryPresenceConfersReadiness": false
     },
     {
       "dependencyId": "pa-rule-790-petition-retained-source",
-      "kind": "exact_local_source",
-      "state": "verified_available",
+      "kind": "carried_review_evidence",
+      "state": "historical_evidence_not_worker_source",
       "documentId": "PA-RCRIM-P-790-PETITION",
       "path": "reference/pennsylvania/222612-petitionforexpungement790030912-000077.pdf",
       "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
       "bytes": 87647,
       "mediaType": "application/pdf",
-      "treatment": "read_only_use_in_place_no_copy",
-      "scope": "technical_review_only_not_worker_projection"
+      "treatment": "metadata_only_no_current_read",
+      "scope": "carried_technical_review_evidence_not_worker_projection",
+      "workerReadAuthorized": false,
+      "generationAllowed": false
     },
     {
-      "dependencyId": "pa-five-unavailable-rule-family-sources",
+      "dependencyId": "pa-six-unavailable-rule-family-worker-sources",
       "kind": "exact_local_sources",
       "state": "unresolved",
       "documentIds": [
         "PA-RCRIM-P-490-PETITION",
         "PA-RCRIM-P-490-ORDER",
+        "PA-RCRIM-P-790-PETITION",
         "PA-RCRIM-P-790-ORDER",
         "PA-RCRIM-P-791-PETITION",
         "PA-RCRIM-P-791-ORDER"
       ],
       "resolution": "The integration captain must issue an immutable assignment and portable projection, materialize only exact pinned bytes, and run the contract verifier before this family can consume them.",
-      "downloadOrImprovisationAllowed": false
+      "downloadOrImprovisationAllowed": false,
+      "workerReadAuthorized": false,
+      "generationAllowed": false
+    },
+    {
+      "dependencyId": "pa-ifp-unresolved-source-identities",
+      "kind": "authority_identity_resolution",
+      "state": "unresolved",
+      "documentIds": [
+        "PA-IFP-CCP",
+        "PA-IFP-MDJ"
+      ],
+      "resolution": "An authoritative exact binary identity must be adopted into the production queue and source contract before assignment, field inspection, mapping, or rendering.",
+      "publicIndexIsBinaryResolver": false,
+      "workerReadAuthorized": false,
+      "networkAcquisitionAuthorized": false,
+      "generationAllowed": false
     },
     {
       "dependencyId": "pa-cross-family-packet-components",
@@ -54,11 +75,9 @@
       "state": "outside_this_family",
       "componentFamilies": [
         "certificate_of_service_custom_pleading",
-        "process_guidance",
-        "PA-IFP-CCP",
-        "PA-IFP-MDJ"
+        "process_guidance"
       ],
-      "notes": "These legal-design components are declared in packet assembly but are not implemented or altered by the Rule 490/790/791 official-PDF family."
+      "notes": "These custom legal-design components are declared in packet assembly but are not implemented or altered by the Rule 490/790/791 official-PDF family. IFP identities are tracked separately as unresolved official-PDF sources in this family."
     }
   ],
   "failurePolicy": {

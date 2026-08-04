@@ -14,7 +14,9 @@
     "downloadOrSourceFallbackAllowed": false,
     "partialParticipantPacketAllowed": false,
     "componentReviewArtifactIsParticipantPacket": false,
-    "signatureImagesGenerated": false
+    "signatureImagesGenerated": false,
+    "workerSourceReadsAllowed": false,
+    "renderActivationAllowed": false
   },
   "packets": [
     {
@@ -24,7 +26,7 @@
       "currentlyMaterializable": false,
       "documents": [
         {
-          "componentId": "pa_790_nonconviction-primary-filing-rule790-1",
+          "componentId": "pa_790_nonconviction-primary_filing-1",
           "documentId": "PA-RCRIM-P-790-PETITION",
           "role": "primary_filing",
           "requirement": "required",
@@ -32,7 +34,7 @@
           "rendererStrategy": "acroform_fill"
         },
         {
-          "componentId": "pa_790_nonconviction-proposed-order-rule790-2",
+          "componentId": "pa_790_nonconviction-proposed_order-2",
           "documentId": "PA-RCRIM-P-790-ORDER",
           "role": "proposed_order",
           "requirement": "required",
@@ -49,18 +51,27 @@
           "implementation": "outside_this_family"
         },
         {
-          "componentId": "pa_790_nonconviction-fee-waiver-4",
+          "componentId": "pa_790_nonconviction-fee_waiver-4",
           "documentId": "PA-IFP-CCP",
           "role": "fee_waiver",
           "requirement": "conditional",
           "conditionDescription": "Applies only where the participant seeks to proceed in forma pauperis.",
           "order": 4,
           "rendererStrategy": "official_pdf_fill",
-          "implementation": "outside_this_family"
+          "identityBindingStatus": "unknown_source_identity",
+          "renderState": "blocked_unknown_source_identity",
+          "implementation": "within_family_source_scaffold_only"
         }
       ],
       "blockingDocumentIds": [
+        "PA-RCRIM-P-790-PETITION",
         "PA-RCRIM-P-790-ORDER"
+      ],
+      "conditionalBlockingDocumentIds": [
+        {
+          "documentId": "PA-IFP-CCP",
+          "when": "participant seeks to proceed in forma pauperis"
+        }
       ]
     },
     {
@@ -70,7 +81,7 @@
       "currentlyMaterializable": false,
       "documents": [
         {
-          "componentId": "pa_490_nonconviction-primary-filing-rule490-1",
+          "componentId": "pa_490_nonconviction-primary_filing-1",
           "documentId": "PA-RCRIM-P-490-PETITION",
           "role": "primary_filing",
           "requirement": "required",
@@ -78,7 +89,7 @@
           "rendererStrategy": "acroform_fill"
         },
         {
-          "componentId": "pa_490_nonconviction-proposed-order-rule490-2",
+          "componentId": "pa_490_nonconviction-proposed_order-2",
           "documentId": "PA-RCRIM-P-490-ORDER",
           "role": "proposed_order",
           "requirement": "required",
@@ -95,19 +106,27 @@
           "implementation": "outside_this_family"
         },
         {
-          "componentId": "pa_490_nonconviction-fee-waiver-4",
+          "componentId": "pa_490_nonconviction-fee_waiver-4",
           "documentId": "PA-IFP-MDJ",
           "role": "fee_waiver",
           "requirement": "conditional",
           "conditionDescription": "Applies only where the participant seeks to proceed in forma pauperis at the magisterial district court level.",
           "order": 4,
           "rendererStrategy": "official_pdf_fill",
-          "implementation": "outside_this_family"
+          "identityBindingStatus": "unknown_source_identity",
+          "renderState": "blocked_unknown_source_identity",
+          "implementation": "within_family_source_scaffold_only"
         }
       ],
       "blockingDocumentIds": [
         "PA-RCRIM-P-490-PETITION",
         "PA-RCRIM-P-490-ORDER"
+      ],
+      "conditionalBlockingDocumentIds": [
+        {
+          "documentId": "PA-IFP-MDJ",
+          "when": "participant seeks to proceed in forma pauperis at the magisterial district court level"
+        }
       ]
     },
     {
@@ -118,7 +137,7 @@
       "branchKey": "courtLevel",
       "documents": [
         {
-          "componentId": "pa_summary_conviction-primary-filing-rule490-1",
+          "componentId": "pa_summary_conviction-primary_filing-1",
           "documentId": "PA-RCRIM-P-490-PETITION",
           "role": "primary_filing",
           "requirement": "conditional",
@@ -130,7 +149,7 @@
           "rendererStrategy": "acroform_fill"
         },
         {
-          "componentId": "pa_summary_conviction-primary-filing-rule790-2",
+          "componentId": "pa_summary_conviction-primary_filing-2",
           "documentId": "PA-RCRIM-P-790-PETITION",
           "role": "primary_filing",
           "requirement": "conditional",
@@ -142,7 +161,7 @@
           "rendererStrategy": "acroform_fill"
         },
         {
-          "componentId": "pa_summary_conviction-proposed-order-rule490-3",
+          "componentId": "pa_summary_conviction-proposed_order-3",
           "documentId": "PA-RCRIM-P-490-ORDER",
           "role": "proposed_order",
           "requirement": "required",
@@ -161,7 +180,8 @@
       ],
       "blockingDocumentIds": [
         "PA-RCRIM-P-490-PETITION",
-        "PA-RCRIM-P-490-ORDER"
+        "PA-RCRIM-P-490-ORDER",
+        "PA-RCRIM-P-790-PETITION"
       ],
       "notes": "The proposed-order identity intentionally follows the published normalization memo. This family does not alter or infer a different Rule 790 order for the court-of-common-pleas branch."
     },
@@ -172,7 +192,7 @@
       "currentlyMaterializable": false,
       "documents": [
         {
-          "componentId": "pa_age70_deceased-primary-filing-rule790-1",
+          "componentId": "pa_age70_deceased-primary_filing-1",
           "documentId": "PA-RCRIM-P-790-PETITION",
           "role": "primary_filing",
           "requirement": "required",
@@ -180,7 +200,7 @@
           "rendererStrategy": "acroform_fill"
         },
         {
-          "componentId": "pa_age70_deceased-proposed-order-rule790-2",
+          "componentId": "pa_age70_deceased-proposed_order-2",
           "documentId": "PA-RCRIM-P-790-ORDER",
           "role": "proposed_order",
           "requirement": "required",
@@ -198,6 +218,7 @@
         }
       ],
       "blockingDocumentIds": [
+        "PA-RCRIM-P-790-PETITION",
         "PA-RCRIM-P-790-ORDER"
       ]
     },
@@ -208,7 +229,7 @@
       "currentlyMaterializable": false,
       "documents": [
         {
-          "componentId": "pa_6308_underage-primary-filing-rule490-1",
+          "componentId": "pa_6308_underage-primary_filing-1",
           "documentId": "PA-RCRIM-P-490-PETITION",
           "role": "primary_filing",
           "requirement": "required",
@@ -216,7 +237,7 @@
           "rendererStrategy": "acroform_fill"
         },
         {
-          "componentId": "pa_6308_underage-proposed-order-rule490-2",
+          "componentId": "pa_6308_underage-proposed_order-2",
           "documentId": "PA-RCRIM-P-490-ORDER",
           "role": "proposed_order",
           "requirement": "required",
@@ -255,7 +276,7 @@
           "implementation": "outside_this_family"
         },
         {
-          "componentId": "pa_pardon_expungement-primary-filing-rule790-2",
+          "componentId": "pa_pardon_expungement-primary_filing-2",
           "documentId": "PA-RCRIM-P-790-PETITION",
           "role": "primary_filing",
           "requirement": "conditional",
@@ -267,7 +288,7 @@
           "rendererStrategy": "acroform_fill"
         },
         {
-          "componentId": "pa_pardon_expungement-proposed-order-rule790-3",
+          "componentId": "pa_pardon_expungement-proposed_order-3",
           "documentId": "PA-RCRIM-P-790-ORDER",
           "role": "proposed_order",
           "requirement": "conditional",
@@ -280,6 +301,7 @@
         }
       ],
       "blockingDocumentIds": [
+        "PA-RCRIM-P-790-PETITION",
         "PA-RCRIM-P-790-ORDER"
       ]
     },
@@ -290,7 +312,7 @@
       "currentlyMaterializable": false,
       "documents": [
         {
-          "componentId": "pa_9122_1_limited_access-primary-filing-rule791-1",
+          "componentId": "pa_9122_1_limited_access-primary_filing-1",
           "documentId": "PA-RCRIM-P-791-PETITION",
           "role": "primary_filing",
           "requirement": "required",
@@ -298,7 +320,7 @@
           "rendererStrategy": "acroform_fill"
         },
         {
-          "componentId": "pa_9122_1_limited_access-proposed-order-rule791-2",
+          "componentId": "pa_9122_1_limited_access-proposed_order-2",
           "documentId": "PA-RCRIM-P-791-ORDER",
           "role": "proposed_order",
           "requirement": "required",
@@ -315,19 +337,27 @@
           "implementation": "outside_this_family"
         },
         {
-          "componentId": "pa_9122_1_limited_access-fee-waiver-4",
+          "componentId": "pa_9122_1_limited_access-fee_waiver-4",
           "documentId": "PA-IFP-CCP",
           "role": "fee_waiver",
           "requirement": "conditional",
           "conditionDescription": "Applies only where the participant seeks to proceed in forma pauperis. It does not waive the separate limited access fee that § 9122.1 makes a condition of relief.",
           "order": 4,
           "rendererStrategy": "official_pdf_fill",
-          "implementation": "outside_this_family"
+          "identityBindingStatus": "unknown_source_identity",
+          "renderState": "blocked_unknown_source_identity",
+          "implementation": "within_family_source_scaffold_only"
         }
       ],
       "blockingDocumentIds": [
         "PA-RCRIM-P-791-PETITION",
         "PA-RCRIM-P-791-ORDER"
+      ],
+      "conditionalBlockingDocumentIds": [
+        {
+          "documentId": "PA-IFP-CCP",
+          "when": "participant seeks to proceed in forma pauperis"
+        }
       ]
     }
   ]
