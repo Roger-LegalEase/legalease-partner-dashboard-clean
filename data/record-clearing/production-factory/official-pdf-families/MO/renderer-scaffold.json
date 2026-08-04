@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "rcap-official-pdf-renderer-scaffold/v1",
+  "familyId": "rcap-mo-official-pdf-family",
+  "jurisdiction": "MO",
+  "enabled": false,
+  "activeRendererCount": 0,
+  "rendererAdapters": [
+    {
+      "rendererId": "mo-acroform-or-hybrid-fill",
+      "kind": "acroform_or_hybrid_fill",
+      "enabled": false,
+      "activationRequirements": [
+        "captain assignment anchor and portable projection exist",
+        "exact projected PDF bytes pass size, SHA-256, media-type, and read-only verification",
+        "AcroForm fields, widgets, page count, encryption, and XFA posture are freshly inspected",
+        "field ownership and manual-signature treatment are approved",
+        "source-backed samples pass technical, visual, and legal-output review"
+      ]
+    },
+    {
+      "rendererId": "mo-coordinate-overlay",
+      "kind": "coordinate_overlay",
+      "enabled": false,
+      "activationRequirements": [
+        "an exact adopted PDF identity exists",
+        "captain-projected bytes pass the materialization contract",
+        "fresh inspection proves an overlay lane is required",
+        "every placement and owner is reviewed",
+        "source-backed samples pass technical, visual, and legal-output review"
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "componentDocumentId": "CR143",
+      "identityBindingStatus": "unknown_source_identity",
+      "carriedTechnicalClass": null,
+      "candidateRendererLane": null,
+      "rendererSelectionState": "prohibited_unknown_source_identity",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "CR145",
+      "identityBindingStatus": "exact_pinned_identity",
+      "carriedTechnicalClass": "clean_acroform",
+      "candidateRendererLane": "acroform_or_hybrid_fill",
+      "rendererSelectionState": "pending_captain_projection_inspection",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "CR300",
+      "identityBindingStatus": "exact_pinned_identity",
+      "carriedTechnicalClass": "clean_acroform",
+      "candidateRendererLane": "acroform_or_hybrid_fill",
+      "rendererSelectionState": "pending_captain_projection_inspection",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "CR301",
+      "identityBindingStatus": "exact_pinned_identity",
+      "carriedTechnicalClass": "clean_acroform",
+      "candidateRendererLane": "acroform_or_hybrid_fill",
+      "rendererSelectionState": "pending_captain_projection_inspection",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "CR310",
+      "identityBindingStatus": "unknown_source_identity",
+      "carriedTechnicalClass": null,
+      "candidateRendererLane": null,
+      "rendererSelectionState": "prohibited_unknown_source_identity",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "CR311",
+      "identityBindingStatus": "unknown_source_identity",
+      "carriedTechnicalClass": null,
+      "candidateRendererLane": null,
+      "rendererSelectionState": "prohibited_unknown_source_identity",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "CR360",
+      "identityBindingStatus": "exact_pinned_identity",
+      "carriedTechnicalClass": "clean_acroform",
+      "candidateRendererLane": "acroform_or_hybrid_fill",
+      "rendererSelectionState": "pending_captain_projection_inspection",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "CR370",
+      "identityBindingStatus": "unknown_source_identity",
+      "carriedTechnicalClass": null,
+      "candidateRendererLane": null,
+      "rendererSelectionState": "prohibited_unknown_source_identity",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "CR375",
+      "identityBindingStatus": "exact_pinned_identity",
+      "carriedTechnicalClass": "clean_acroform",
+      "candidateRendererLane": "acroform_or_hybrid_fill",
+      "rendererSelectionState": "pending_captain_projection_inspection",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "FI-05",
+      "identityBindingStatus": "exact_pinned_identity",
+      "carriedTechnicalClass": "clean_acroform",
+      "candidateRendererLane": "acroform_or_hybrid_fill",
+      "rendererSelectionState": "pending_captain_projection_inspection",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "GN10",
+      "identityBindingStatus": "unsupported_container_no_pdf_requirement",
+      "carriedTechnicalClass": null,
+      "candidateRendererLane": null,
+      "rendererSelectionState": "prohibited_unsupported_container_no_pdf_identity",
+      "activeRenderer": null
+    }
+  ],
+  "invariants": [
+    "All six candidate lanes are carried AcroForm metadata, not fresh inspection or active renderer selections.",
+    "The four unmanifested identities and GN10 unsupported-container slot have no renderer lane.",
+    "No renderer reads a repository evidence path or public URL.",
+    "No renderer activates before identity, materialization, mapping, ownership, sample, and review gates pass."
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rcap-mo-official-pdf-fixtures.schema.json",
+  "title": "Missouri official-PDF pre-materialization fixtures",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "fixtureDataPolicy",
+    "fixtures"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "rcap-official-pdf-fixtures/v1"
+    },
+    "familyId": {
+      "const": "rcap-mo-official-pdf-family"
+    },
+    "jurisdiction": {
+      "const": "MO"
+    },
+    "fixtureDataPolicy": {
+      "const": "synthetic_only_no_source_bytes_no_participant_data"
+    },
+    "fixtures": {
+      "type": "array",
+      "minItems": 28,
+      "maxItems": 28,
+      "items": {
+        "type": "object",
+        "required": [
+          "fixtureId",
+          "trackId",
+          "componentId",
+          "componentDocumentId",
+          "identityBindingStatus",
+          "synthetic",
+          "facts",
+          "expectedBoundaryCode",
+          "generationAttempted",
+          "manualSignaturesBlank",
+          "thirdPartyFieldsBlank"
+        ],
+        "properties": {
+          "synthetic": {
+            "const": true
+          },
+          "expectedBoundaryCode": {
+            "enum": [
+              "binary_materialization_required",
+              "unknown_source_identity",
+              "unsupported_source_container"
+            ]
+          },
+          "generationAttempted": {
+            "const": false
+          },
+          "manualSignaturesBlank": {
+            "const": true
+          },
+          "thirdPartyFieldsBlank": {
+            "const": true
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

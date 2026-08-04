@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rcap-mo-official-pdf-packet-assembly.schema.json",
+  "title": "Missouri official-PDF deterministic packet assemblies",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "runtimeRegistered",
+    "routeReadyCount",
+    "deduplication",
+    "physicalSourceCatalog",
+    "assemblies"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "rcap-official-pdf-packet-assembly/v1"
+    },
+    "familyId": {
+      "const": "rcap-mo-official-pdf-family"
+    },
+    "jurisdiction": {
+      "const": "MO"
+    },
+    "runtimeRegistered": {
+      "const": false
+    },
+    "routeReadyCount": {
+      "const": 0
+    },
+    "physicalSourceCatalog": {
+      "type": "array",
+      "minItems": 11,
+      "maxItems": 11
+    },
+    "assemblies": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8
+    }
+  },
+  "additionalProperties": true
+}
