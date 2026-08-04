@@ -1,0 +1,254 @@
+{
+  "schemaVersion": "rcap-official-pdf-field-ownership/v1",
+  "familyId": "rcap-mo-official-pdf-family",
+  "jurisdiction": "MO",
+  "automationPolicy": {
+    "activeWritableFieldCount": 0,
+    "signaturesAlwaysManual": true,
+    "swornStatementsAlwaysManual": true,
+    "notarialCompletionAlwaysManual": true,
+    "unknownOwnerDefaultsToProtected": true,
+    "protectedOwnerClasses": [
+      "judge",
+      "clerk",
+      "court",
+      "agency",
+      "law_enforcement_officer",
+      "prosecutor",
+      "attorney",
+      "notary",
+      "witness",
+      "process_server",
+      "unknown"
+    ],
+    "futureParticipantAutomationRule": "Only an expressly enumerated participant-owned, non-signature, non-sworn, non-notarial field may become writable after exact projected-source inspection and field-level technical, visual, and legal-output approval."
+  },
+  "documents": [
+    {
+      "componentDocumentId": "CR143",
+      "identityBindingStatus": "unknown_source_identity",
+      "classificationStatus": "prohibited_unknown_source_identity",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [],
+      "protectedBlocks": [
+        {
+          "block": "all findings, granting language, court-use fields, judicial signature, and judicial date",
+          "owner": "judge",
+          "automation": "never_fill"
+        },
+        {
+          "block": "all remaining unresolved fields",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "CR145",
+      "identityBindingStatus": "exact_pinned_identity",
+      "classificationStatus": "pending_captain_projection_inspection",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [
+        {
+          "block": "participant oath, signature, and date",
+          "owner": "participant",
+          "automation": "manual_only"
+        },
+        {
+          "block": "notarial, judge, or clerk acknowledgment",
+          "owner": "notary",
+          "automation": "manual_only"
+        }
+      ],
+      "protectedBlocks": [
+        {
+          "block": "all unenumerated AcroForm fields and widgets",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "CR300",
+      "identityBindingStatus": "exact_pinned_identity",
+      "classificationStatus": "pending_captain_projection_inspection",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [
+        {
+          "block": "participant sworn-or-affirmed statement, signature, date, and address line",
+          "owner": "participant",
+          "automation": "manual_only"
+        }
+      ],
+      "protectedBlocks": [
+        {
+          "block": "court, clerk, agency, and all unenumerated AcroForm fields",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "CR301",
+      "identityBindingStatus": "exact_pinned_identity",
+      "classificationStatus": "pending_captain_projection_inspection",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [
+        {
+          "block": "participant sworn-or-affirmed statement, signature, and date",
+          "owner": "participant",
+          "automation": "manual_only"
+        }
+      ],
+      "protectedBlocks": [
+        {
+          "block": "court, clerk, prosecutor, agency, and all unenumerated AcroForm fields",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "CR310",
+      "identityBindingStatus": "unknown_source_identity",
+      "classificationStatus": "prohibited_unknown_source_identity",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [],
+      "protectedBlocks": [
+        {
+          "block": "all findings, correction and expungement directives, judicial signature, and judicial date",
+          "owner": "judge",
+          "automation": "never_fill"
+        },
+        {
+          "block": "all remaining unresolved fields",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "CR311",
+      "identityBindingStatus": "unknown_source_identity",
+      "classificationStatus": "prohibited_unknown_source_identity",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [],
+      "protectedBlocks": [
+        {
+          "block": "all findings, expungement directives, judicial signature, and judicial date",
+          "owner": "judge",
+          "automation": "never_fill"
+        },
+        {
+          "block": "all remaining unresolved fields",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "CR360",
+      "identityBindingStatus": "exact_pinned_identity",
+      "classificationStatus": "pending_captain_projection_inspection",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [
+        {
+          "block": "participant declaration under penalty of perjury, signature, and date",
+          "owner": "participant",
+          "automation": "manual_only"
+        }
+      ],
+      "protectedBlocks": [
+        {
+          "block": "court, clerk, agency, and all unenumerated AcroForm fields",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "CR370",
+      "identityBindingStatus": "unknown_source_identity",
+      "classificationStatus": "prohibited_unknown_source_identity",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [],
+      "protectedBlocks": [
+        {
+          "block": "all findings, granting language, judicial signature, and judicial date",
+          "owner": "judge",
+          "automation": "never_fill"
+        },
+        {
+          "block": "all remaining unresolved fields",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "CR375",
+      "identityBindingStatus": "exact_pinned_identity",
+      "classificationStatus": "pending_captain_projection_inspection",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [
+        {
+          "block": "participant declaration, signature, and date when present on the projected form",
+          "owner": "participant",
+          "automation": "manual_only"
+        }
+      ],
+      "protectedBlocks": [
+        {
+          "block": "court, clerk, agency, and all unenumerated AcroForm fields",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "FI-05",
+      "identityBindingStatus": "exact_pinned_identity",
+      "classificationStatus": "pending_captain_projection_inspection",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [
+        {
+          "block": "participant signature and date if present on the projected form",
+          "owner": "participant",
+          "automation": "manual_only"
+        }
+      ],
+      "protectedBlocks": [
+        {
+          "block": "clerk-assigned case data, court-use fields, and all unenumerated confidential fields",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "GN10",
+      "identityBindingStatus": "unsupported_container_no_pdf_requirement",
+      "classificationStatus": "prohibited_unsupported_container_no_pdf_identity",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [
+        {
+          "block": "participant affidavit, signature, date, and any required notarization",
+          "owner": "participant",
+          "automation": "manual_only"
+        }
+      ],
+      "protectedBlocks": [
+        {
+          "block": "court order, findings, judicial signature, and judicial date",
+          "owner": "judge",
+          "automation": "never_fill"
+        },
+        {
+          "block": "the entire unsupported-container source until an approved contract exists",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rcap-mo-official-pdf-field-map.schema.json",
+  "title": "Missouri official-PDF zero-write field-map scaffold",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "activeMappingCount",
+    "activeOverlayPlacementCount",
+    "documents"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "rcap-official-pdf-field-map/v1"
+    },
+    "familyId": {
+      "const": "rcap-mo-official-pdf-family"
+    },
+    "jurisdiction": {
+      "const": "MO"
+    },
+    "activeMappingCount": {
+      "const": 0
+    },
+    "activeOverlayPlacementCount": {
+      "const": 0
+    },
+    "documents": {
+      "type": "array",
+      "minItems": 11,
+      "maxItems": 11,
+      "items": {
+        "type": "object",
+        "required": [
+          "componentDocumentId",
+          "identityBindingStatus",
+          "candidateRendererLane",
+          "fieldEnumerationStatus",
+          "sourceBacked",
+          "activeMappings",
+          "activeOverlayPlacements"
+        ],
+        "properties": {
+          "sourceBacked": {
+            "const": false
+          },
+          "activeMappings": {
+            "type": "array",
+            "maxItems": 0
+          },
+          "activeOverlayPlacements": {
+            "type": "array",
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

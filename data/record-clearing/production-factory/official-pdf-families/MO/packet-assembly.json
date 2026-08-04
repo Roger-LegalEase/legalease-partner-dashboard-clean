@@ -1,0 +1,752 @@
+{
+  "schemaVersion": "rcap-official-pdf-packet-assembly/v1",
+  "familyId": "rcap-mo-official-pdf-family",
+  "jurisdiction": "MO",
+  "runtimeRegistered": false,
+  "routeReadyCount": 0,
+  "assemblyScope": "official_pdf_fill_components_only",
+  "nonOfficialComponentPolicy": "Custom-pleading and process-guidance components stay in their adopted packet sets and remain outside this isolated official-PDF family.",
+  "deduplication": {
+    "keyRule": "Use the adopted workflow key for an exact PDF identity, an unresolved document slot for an unmanifested identity, and a separate unsupported-container slot for GN10. Never deduplicate by filename, title, or track-level relationship hash.",
+    "componentUsageCount": 28,
+    "uniquePhysicalSourceSlotCount": 11,
+    "familyDeduplicatedUsageBindingCount": 17,
+    "packetPhysicalDocumentInstanceCount": 25,
+    "packetDeduplicatedUsageBindingCount": 3,
+    "uniqueExactPdfSourceCount": 6,
+    "uniqueUnresolvedPdfSourceSlotCount": 5,
+    "exactSourceProjectionRule": "An exact PDF source is projected and verified once per immutable identity while every track/component provenance binding remains explicit.",
+    "packetInstanceRule": "Within one track packet, equal identity keys merge into one physical source instance carrying all logical component IDs."
+  },
+  "determinism": {
+    "trackOrder": "family manifest trackIds order",
+    "componentOrder": "adopted packet-set order ascending after filtering to official_pdf_fill",
+    "physicalDocumentOrder": "minimum logical component order",
+    "conditionalRule": "preserve each adopted requirement and conditionDescription without reinterpretation",
+    "duplicateRule": "merge logical component IDs only when the source identity key is exactly equal"
+  },
+  "physicalSourceCatalog": [
+    {
+      "componentDocumentId": "CR143",
+      "sourceIdentityKey": "unresolved:CR143",
+      "identityBindingStatus": "unknown_source_identity",
+      "usageComponentIds": [
+        "mo-610-122-arrest-expungement-proposed-order-4"
+      ],
+      "runtimeSelectable": false
+    },
+    {
+      "componentDocumentId": "CR145",
+      "sourceIdentityKey": "MO:CR145:PETITION:EN",
+      "identityBindingStatus": "exact_pinned_identity",
+      "usageComponentIds": [
+        "mo-610-122-arrest-expungement-primary-filing-1"
+      ],
+      "runtimeSelectable": false
+    },
+    {
+      "componentDocumentId": "CR300",
+      "sourceIdentityKey": "MO:CR300:PETITION:EN",
+      "identityBindingStatus": "exact_pinned_identity",
+      "usageComponentIds": [
+        "mo-575-120-identity-theft-correction-primary-filing-1"
+      ],
+      "runtimeSelectable": false
+    },
+    {
+      "componentDocumentId": "CR301",
+      "sourceIdentityKey": "MO:CR301:PRIMARY_FILING:EN",
+      "identityBindingStatus": "exact_pinned_identity",
+      "usageComponentIds": [
+        "mo-610-145-mistaken-identity-primary-filing-1"
+      ],
+      "runtimeSelectable": false
+    },
+    {
+      "componentDocumentId": "CR310",
+      "sourceIdentityKey": "unresolved:CR310",
+      "identityBindingStatus": "unknown_source_identity",
+      "usageComponentIds": [
+        "mo-575-120-identity-theft-correction-proposed-order-4"
+      ],
+      "runtimeSelectable": false
+    },
+    {
+      "componentDocumentId": "CR311",
+      "sourceIdentityKey": "unresolved:CR311",
+      "identityBindingStatus": "unknown_source_identity",
+      "usageComponentIds": [
+        "mo-610-145-mistaken-identity-proposed-order-3"
+      ],
+      "runtimeSelectable": false
+    },
+    {
+      "componentDocumentId": "CR360",
+      "sourceIdentityKey": "MO:CR360:PETITION:EN",
+      "identityBindingStatus": "exact_pinned_identity",
+      "usageComponentIds": [
+        "mo-610-140-conviction-primary-filing-1",
+        "mo-610-140-conviction-continuation-4",
+        "mo-610-140-arrest-primary-filing-1",
+        "mo-610-140-arrest-continuation-2"
+      ],
+      "runtimeSelectable": false
+    },
+    {
+      "componentDocumentId": "CR370",
+      "sourceIdentityKey": "unresolved:CR370",
+      "identityBindingStatus": "unknown_source_identity",
+      "usageComponentIds": [
+        "mo-610-140-conviction-proposed-order-3",
+        "mo-610-140-arrest-proposed-order-4"
+      ],
+      "runtimeSelectable": false
+    },
+    {
+      "componentDocumentId": "CR375",
+      "sourceIdentityKey": "MO:CR375:PETITION:EN",
+      "identityBindingStatus": "exact_pinned_identity",
+      "usageComponentIds": [
+        "mo-art-xiv-marijuana-primary-filing-1",
+        "mo-art-xiv-marijuana-continuation-3"
+      ],
+      "runtimeSelectable": false
+    },
+    {
+      "componentDocumentId": "FI-05",
+      "sourceIdentityKey": "MO:FI-05:COVER_SHEET:EN",
+      "identityBindingStatus": "exact_pinned_identity",
+      "usageComponentIds": [
+        "mo-610-140-conviction-cover-sheet-2",
+        "mo-610-140-arrest-cover-sheet-3",
+        "mo-610-122-arrest-expungement-cover-sheet-2",
+        "mo-610-130-first-intoxication-cover-sheet-3",
+        "mo-art-xiv-marijuana-cover-sheet-2",
+        "mo-610-145-mistaken-identity-cover-sheet-2",
+        "mo-575-120-identity-theft-correction-cover-sheet-2",
+        "mo-311-326-minor-in-possession-cover-sheet-3"
+      ],
+      "runtimeSelectable": false
+    },
+    {
+      "componentDocumentId": "GN10",
+      "sourceIdentityKey": "unsupported-container:GN10",
+      "identityBindingStatus": "unsupported_container_no_pdf_requirement",
+      "usageComponentIds": [
+        "mo-610-140-conviction-fee-waiver-5",
+        "mo-610-140-arrest-fee-waiver-5",
+        "mo-610-122-arrest-expungement-fee-waiver-5",
+        "mo-610-130-first-intoxication-fee-waiver-4",
+        "mo-575-120-identity-theft-correction-fee-waiver-5",
+        "mo-311-326-minor-in-possession-fee-waiver-4"
+      ],
+      "runtimeSelectable": false
+    }
+  ],
+  "assemblies": [
+    {
+      "trackId": "mo-311-326-minor-in-possession",
+      "packetSetId": "mo-311-326-minor-in-possession-set",
+      "packetSetVersion": "1.0.0",
+      "nonOfficialComponentCount": 3,
+      "logicalComponents": [
+        {
+          "componentId": "mo-311-326-minor-in-possession-cover-sheet-3",
+          "role": "cover_sheet",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where the application opens a new case rather than proceeding under the original case number, and where the sentencing court requires the sheet.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FI-05",
+          "order": 3
+        },
+        {
+          "componentId": "mo-311-326-minor-in-possession-fee-waiver-4",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Generated only where the participant answers that they cannot pay the filing fee and court costs, and the sentencing court accepts the statewide form.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "GN10",
+          "order": 4
+        }
+      ],
+      "physicalDocumentInstances": [
+        {
+          "instanceId": "mo-minor-possession-fi05",
+          "componentDocumentId": "FI-05",
+          "sourceIdentityKey": "MO:FI-05:COVER_SHEET:EN",
+          "logicalComponentIds": [
+            "mo-311-326-minor-in-possession-cover-sheet-3"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_binary_materialization"
+        },
+        {
+          "instanceId": "mo-minor-possession-gn10",
+          "componentDocumentId": "GN10",
+          "sourceIdentityKey": "unsupported-container:GN10",
+          "logicalComponentIds": [
+            "mo-311-326-minor-in-possession-fee-waiver-4"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_unsupported_source_container"
+        }
+      ],
+      "assemblyState": "blocked"
+    },
+    {
+      "trackId": "mo-575-120-identity-theft-correction",
+      "packetSetId": "mo-575-120-identity-theft-correction-set",
+      "packetSetVersion": "1.0.0",
+      "nonOfficialComponentCount": 2,
+      "logicalComponents": [
+        {
+          "componentId": "mo-575-120-identity-theft-correction-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR300",
+          "order": 1
+        },
+        {
+          "componentId": "mo-575-120-identity-theft-correction-cover-sheet-2",
+          "role": "cover_sheet",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where filing the petition opens a new civil case, which it ordinarily does since the participant was never a party to the underlying criminal matter.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FI-05",
+          "order": 2
+        },
+        {
+          "componentId": "mo-575-120-identity-theft-correction-proposed-order-4",
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where the participant's circuit expects the petitioner to tender a proposed judgment.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR310",
+          "order": 4
+        },
+        {
+          "componentId": "mo-575-120-identity-theft-correction-fee-waiver-5",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Generated only where the participant answers that they cannot pay the filing fee and court costs.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "GN10",
+          "order": 5
+        }
+      ],
+      "physicalDocumentInstances": [
+        {
+          "instanceId": "mo-identity-theft-cr300",
+          "componentDocumentId": "CR300",
+          "sourceIdentityKey": "MO:CR300:PETITION:EN",
+          "logicalComponentIds": [
+            "mo-575-120-identity-theft-correction-primary-filing-1"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_binary_materialization"
+        },
+        {
+          "instanceId": "mo-identity-theft-fi05",
+          "componentDocumentId": "FI-05",
+          "sourceIdentityKey": "MO:FI-05:COVER_SHEET:EN",
+          "logicalComponentIds": [
+            "mo-575-120-identity-theft-correction-cover-sheet-2"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_binary_materialization"
+        },
+        {
+          "instanceId": "mo-identity-theft-cr310",
+          "componentDocumentId": "CR310",
+          "sourceIdentityKey": "unresolved:CR310",
+          "logicalComponentIds": [
+            "mo-575-120-identity-theft-correction-proposed-order-4"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_unknown_source_identity"
+        },
+        {
+          "instanceId": "mo-identity-theft-gn10",
+          "componentDocumentId": "GN10",
+          "sourceIdentityKey": "unsupported-container:GN10",
+          "logicalComponentIds": [
+            "mo-575-120-identity-theft-correction-fee-waiver-5"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_unsupported_source_container"
+        }
+      ],
+      "assemblyState": "blocked"
+    },
+    {
+      "trackId": "mo-610-122-arrest-expungement",
+      "packetSetId": "mo-610-122-arrest-expungement-set",
+      "packetSetVersion": "1.0.0",
+      "nonOfficialComponentCount": 2,
+      "logicalComponents": [
+        {
+          "componentId": "mo-610-122-arrest-expungement-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR145",
+          "order": 1
+        },
+        {
+          "componentId": "mo-610-122-arrest-expungement-cover-sheet-2",
+          "role": "cover_sheet",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FI-05",
+          "order": 2
+        },
+        {
+          "componentId": "mo-610-122-arrest-expungement-proposed-order-4",
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where the participant's circuit expects the petitioner to tender a proposed judgment rather than the court preparing it.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR143",
+          "order": 4
+        },
+        {
+          "componentId": "mo-610-122-arrest-expungement-fee-waiver-5",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Generated only where the participant answers that they cannot pay the filing fee and court costs.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "GN10",
+          "order": 5
+        }
+      ],
+      "physicalDocumentInstances": [
+        {
+          "instanceId": "mo-arrest-122-cr145",
+          "componentDocumentId": "CR145",
+          "sourceIdentityKey": "MO:CR145:PETITION:EN",
+          "logicalComponentIds": [
+            "mo-610-122-arrest-expungement-primary-filing-1"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_binary_materialization"
+        },
+        {
+          "instanceId": "mo-arrest-122-fi05",
+          "componentDocumentId": "FI-05",
+          "sourceIdentityKey": "MO:FI-05:COVER_SHEET:EN",
+          "logicalComponentIds": [
+            "mo-610-122-arrest-expungement-cover-sheet-2"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_binary_materialization"
+        },
+        {
+          "instanceId": "mo-arrest-122-cr143",
+          "componentDocumentId": "CR143",
+          "sourceIdentityKey": "unresolved:CR143",
+          "logicalComponentIds": [
+            "mo-610-122-arrest-expungement-proposed-order-4"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_unknown_source_identity"
+        },
+        {
+          "instanceId": "mo-arrest-122-gn10",
+          "componentDocumentId": "GN10",
+          "sourceIdentityKey": "unsupported-container:GN10",
+          "logicalComponentIds": [
+            "mo-610-122-arrest-expungement-fee-waiver-5"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_unsupported_source_container"
+        }
+      ],
+      "assemblyState": "blocked"
+    },
+    {
+      "trackId": "mo-610-130-first-intoxication",
+      "packetSetId": "mo-610-130-first-intoxication-set",
+      "packetSetVersion": "1.0.0",
+      "nonOfficialComponentCount": 3,
+      "logicalComponents": [
+        {
+          "componentId": "mo-610-130-first-intoxication-cover-sheet-3",
+          "role": "cover_sheet",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where the application opens a new case in a circuit or associate circuit division rather than being filed under the original case number, and where the participant's court requires the sheet.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FI-05",
+          "order": 3
+        },
+        {
+          "componentId": "mo-610-130-first-intoxication-fee-waiver-4",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Generated only where the participant answers that they cannot pay the filing fee and court costs, and where the filing court accepts the statewide form.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "GN10",
+          "order": 4
+        }
+      ],
+      "physicalDocumentInstances": [
+        {
+          "instanceId": "mo-first-intoxication-fi05",
+          "componentDocumentId": "FI-05",
+          "sourceIdentityKey": "MO:FI-05:COVER_SHEET:EN",
+          "logicalComponentIds": [
+            "mo-610-130-first-intoxication-cover-sheet-3"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_binary_materialization"
+        },
+        {
+          "instanceId": "mo-first-intoxication-gn10",
+          "componentDocumentId": "GN10",
+          "sourceIdentityKey": "unsupported-container:GN10",
+          "logicalComponentIds": [
+            "mo-610-130-first-intoxication-fee-waiver-4"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_unsupported_source_container"
+        }
+      ],
+      "assemblyState": "blocked"
+    },
+    {
+      "trackId": "mo-610-140-arrest",
+      "packetSetId": "mo-610-140-arrest-set",
+      "packetSetVersion": "1.0.0",
+      "nonOfficialComponentCount": 1,
+      "logicalComponents": [
+        {
+          "componentId": "mo-610-140-arrest-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR360",
+          "order": 1
+        },
+        {
+          "componentId": "mo-610-140-arrest-continuation-2",
+          "role": "continuation",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR360",
+          "order": 2
+        },
+        {
+          "componentId": "mo-610-140-arrest-cover-sheet-3",
+          "role": "cover_sheet",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FI-05",
+          "order": 3
+        },
+        {
+          "componentId": "mo-610-140-arrest-proposed-order-4",
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where the participant's court expects the petitioner to tender a proposed judgment rather than preparing it under Rule 155.05.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR370",
+          "order": 4
+        },
+        {
+          "componentId": "mo-610-140-arrest-fee-waiver-5",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Generated only where the participant answers that they cannot pay the filing fee and court costs.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "GN10",
+          "order": 5
+        }
+      ],
+      "physicalDocumentInstances": [
+        {
+          "instanceId": "mo-arrest-140-cr360",
+          "componentDocumentId": "CR360",
+          "sourceIdentityKey": "MO:CR360:PETITION:EN",
+          "logicalComponentIds": [
+            "mo-610-140-arrest-primary-filing-1",
+            "mo-610-140-arrest-continuation-2"
+          ],
+          "physicalCopyCount": 1,
+          "deduplicationRule": "single_physical_source_multi_logical_role",
+          "renderState": "blocked_binary_materialization"
+        },
+        {
+          "instanceId": "mo-arrest-140-fi05",
+          "componentDocumentId": "FI-05",
+          "sourceIdentityKey": "MO:FI-05:COVER_SHEET:EN",
+          "logicalComponentIds": [
+            "mo-610-140-arrest-cover-sheet-3"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_binary_materialization"
+        },
+        {
+          "instanceId": "mo-arrest-140-cr370",
+          "componentDocumentId": "CR370",
+          "sourceIdentityKey": "unresolved:CR370",
+          "logicalComponentIds": [
+            "mo-610-140-arrest-proposed-order-4"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_unknown_source_identity"
+        },
+        {
+          "instanceId": "mo-arrest-140-gn10",
+          "componentDocumentId": "GN10",
+          "sourceIdentityKey": "unsupported-container:GN10",
+          "logicalComponentIds": [
+            "mo-610-140-arrest-fee-waiver-5"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_unsupported_source_container"
+        }
+      ],
+      "assemblyState": "blocked"
+    },
+    {
+      "trackId": "mo-610-140-conviction",
+      "packetSetId": "mo-610-140-conviction-set",
+      "packetSetVersion": "1.0.0",
+      "nonOfficialComponentCount": 1,
+      "logicalComponents": [
+        {
+          "componentId": "mo-610-140-conviction-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR360",
+          "order": 1
+        },
+        {
+          "componentId": "mo-610-140-conviction-cover-sheet-2",
+          "role": "cover_sheet",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FI-05",
+          "order": 2
+        },
+        {
+          "componentId": "mo-610-140-conviction-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where the participant's court expects the petitioner to tender a proposed judgment. Missouri circuits differ: some clerks and judges prepare the judgment themselves under Rule 155.05, others expect it with the petition.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR370",
+          "order": 3
+        },
+        {
+          "componentId": "mo-610-140-conviction-continuation-4",
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where the agency defendant list or the offense table exceeds the space on the form. CR360 twice directs the petitioner to attach additional sheets as necessary.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR360",
+          "order": 4
+        },
+        {
+          "componentId": "mo-610-140-conviction-fee-waiver-5",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Generated only where the participant answers that they cannot pay the filing fee and court costs.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "GN10",
+          "order": 5
+        }
+      ],
+      "physicalDocumentInstances": [
+        {
+          "instanceId": "mo-conviction-140-cr360",
+          "componentDocumentId": "CR360",
+          "sourceIdentityKey": "MO:CR360:PETITION:EN",
+          "logicalComponentIds": [
+            "mo-610-140-conviction-primary-filing-1",
+            "mo-610-140-conviction-continuation-4"
+          ],
+          "physicalCopyCount": 1,
+          "deduplicationRule": "single_physical_source_multi_logical_role",
+          "renderState": "blocked_binary_materialization"
+        },
+        {
+          "instanceId": "mo-conviction-140-fi05",
+          "componentDocumentId": "FI-05",
+          "sourceIdentityKey": "MO:FI-05:COVER_SHEET:EN",
+          "logicalComponentIds": [
+            "mo-610-140-conviction-cover-sheet-2"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_binary_materialization"
+        },
+        {
+          "instanceId": "mo-conviction-140-cr370",
+          "componentDocumentId": "CR370",
+          "sourceIdentityKey": "unresolved:CR370",
+          "logicalComponentIds": [
+            "mo-610-140-conviction-proposed-order-3"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_unknown_source_identity"
+        },
+        {
+          "instanceId": "mo-conviction-140-gn10",
+          "componentDocumentId": "GN10",
+          "sourceIdentityKey": "unsupported-container:GN10",
+          "logicalComponentIds": [
+            "mo-610-140-conviction-fee-waiver-5"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_unsupported_source_container"
+        }
+      ],
+      "assemblyState": "blocked"
+    },
+    {
+      "trackId": "mo-610-145-mistaken-identity",
+      "packetSetId": "mo-610-145-mistaken-identity-set",
+      "packetSetVersion": "1.0.0",
+      "nonOfficialComponentCount": 1,
+      "logicalComponents": [
+        {
+          "componentId": "mo-610-145-mistaken-identity-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR301",
+          "order": 1
+        },
+        {
+          "componentId": "mo-610-145-mistaken-identity-cover-sheet-2",
+          "role": "cover_sheet",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where filing the petition opens a new case rather than proceeding under the original case number in the court where the charge was last pending.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FI-05",
+          "order": 2
+        },
+        {
+          "componentId": "mo-610-145-mistaken-identity-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where the participant's court expects the petitioner to tender a proposed judgment rather than preparing it itself.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR311",
+          "order": 3
+        }
+      ],
+      "physicalDocumentInstances": [
+        {
+          "instanceId": "mo-mistaken-identity-cr301",
+          "componentDocumentId": "CR301",
+          "sourceIdentityKey": "MO:CR301:PRIMARY_FILING:EN",
+          "logicalComponentIds": [
+            "mo-610-145-mistaken-identity-primary-filing-1"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_binary_materialization"
+        },
+        {
+          "instanceId": "mo-mistaken-identity-fi05",
+          "componentDocumentId": "FI-05",
+          "sourceIdentityKey": "MO:FI-05:COVER_SHEET:EN",
+          "logicalComponentIds": [
+            "mo-610-145-mistaken-identity-cover-sheet-2"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_binary_materialization"
+        },
+        {
+          "instanceId": "mo-mistaken-identity-cr311",
+          "componentDocumentId": "CR311",
+          "sourceIdentityKey": "unresolved:CR311",
+          "logicalComponentIds": [
+            "mo-610-145-mistaken-identity-proposed-order-3"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_unknown_source_identity"
+        }
+      ],
+      "assemblyState": "blocked"
+    },
+    {
+      "trackId": "mo-art-xiv-marijuana",
+      "packetSetId": "mo-art-xiv-marijuana-set",
+      "packetSetVersion": "1.0.0",
+      "nonOfficialComponentCount": 2,
+      "logicalComponents": [
+        {
+          "componentId": "mo-art-xiv-marijuana-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR375",
+          "order": 1
+        },
+        {
+          "componentId": "mo-art-xiv-marijuana-cover-sheet-2",
+          "role": "cover_sheet",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FI-05",
+          "order": 2
+        },
+        {
+          "componentId": "mo-art-xiv-marijuana-continuation-3",
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "Generated where the agency list or the case table exceeds the space on the form. CR375 twice directs the petitioner to attach additional sheets as necessary.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR375",
+          "order": 3
+        }
+      ],
+      "physicalDocumentInstances": [
+        {
+          "instanceId": "mo-marijuana-cr375",
+          "componentDocumentId": "CR375",
+          "sourceIdentityKey": "MO:CR375:PETITION:EN",
+          "logicalComponentIds": [
+            "mo-art-xiv-marijuana-primary-filing-1",
+            "mo-art-xiv-marijuana-continuation-3"
+          ],
+          "physicalCopyCount": 1,
+          "deduplicationRule": "single_physical_source_multi_logical_role",
+          "renderState": "blocked_binary_materialization"
+        },
+        {
+          "instanceId": "mo-marijuana-fi05",
+          "componentDocumentId": "FI-05",
+          "sourceIdentityKey": "MO:FI-05:COVER_SHEET:EN",
+          "logicalComponentIds": [
+            "mo-art-xiv-marijuana-cover-sheet-2"
+          ],
+          "physicalCopyCount": 1,
+          "renderState": "blocked_binary_materialization"
+        }
+      ],
+      "assemblyState": "blocked"
+    }
+  ],
+  "invariants": [
+    "All twenty-eight adopted official_pdf_fill component usages are represented exactly once in their track assembly.",
+    "The family catalog contains eleven unique source slots, preserving seventeen repeated usage bindings.",
+    "Within-track CR360 and CR375 logical-role repetitions are each represented by one physical source instance.",
+    "Custom-pleading and process-guidance components are counted but not copied or modified by this family.",
+    "No unresolved or unsupported identity is merged with repository evidence, an obsolete form, or a track-level relationship hash.",
+    "No physical instance is renderable while identity, projection, mapping, ownership, and review gates remain closed."
+  ]
+}
