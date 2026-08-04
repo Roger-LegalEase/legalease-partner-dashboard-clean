@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "rcap-official-pdf-family/v1",
+  "familyId": "rcap-ia-official-pdf-family",
+  "jurisdiction": "IA",
+  "jurisdictionName": "Iowa",
+  "authorityFamily": "Iowa Judicial Branch Rule 2.86 forms and Iowa DCI record-check forms",
+  "implementationJobId": "rcap-ia-official-pdf-production",
+  "productionQueuePriority": 20,
+  "outputStrategies": [
+    "official_pdf_fill"
+  ],
+  "scope": {
+    "trackIds": [
+      "ia-12346",
+      "ia-12347",
+      "ia-7251",
+      "ia-901c2",
+      "ia-901c3",
+      "ia-dci77"
+    ],
+    "trackCount": 6,
+    "officialPdfComponentCount": 13,
+    "documentIds": [
+      "Certification of Service by Mailing or Delivery",
+      "DCI-76 Criminal History Record Check Billing Form",
+      "DCI-77 Criminal History Record Check Request Form",
+      "Rule 2.86 Form 1",
+      "Rule 2.86 Form 2",
+      "Rule 2.86 Form 2 attached sheet",
+      "Rule 2.86 Form 3",
+      "Rule 2.86 Form 4",
+      "Rule 2.86 Form 5"
+    ],
+    "documentCount": 9,
+    "exactIdentityCount": 6,
+    "unresolvedIdentityCount": 3
+  },
+  "sourceMaterialization": {
+    "dependencyJobId": "rcap-nationwide-source-materialization-contract",
+    "contractPath": "docs/record-clearing/RCAP_SOURCE_MATERIALIZATION_CONTRACT.md",
+    "requirementManifest": "data/record-clearing/production-factory/official-pdf-families/IA/source-requirements.json",
+    "contractKind": "dependency_scaffold_not_worker_assignment",
+    "assignmentAnchor": null,
+    "portableProjection": null,
+    "portableProjectionAvailable": false,
+    "captainAssignmentRequired": true,
+    "portableProjectionRequired": true,
+    "workerReady": false,
+    "workerMaterializationAuthorized": false,
+    "workerReadAuthorized": false,
+    "workerMayAcquireOrDownloadSources": false,
+    "repositorySourcePathTreatment": "identity_evidence_only_never_worker_source",
+    "registryPresenceConfersReadiness": false
+  },
+  "artifacts": {
+    "scaffoldSpec": "data/record-clearing/production-factory/official-pdf-families/IA/scaffold-spec.json",
+    "dependencies": "data/record-clearing/production-factory/official-pdf-families/IA/dependencies.json",
+    "sourceRequirements": "data/record-clearing/production-factory/official-pdf-families/IA/source-requirements.json",
+    "rendererScaffold": "data/record-clearing/production-factory/official-pdf-families/IA/renderer-scaffold.json",
+    "fieldMapScaffold": "data/record-clearing/production-factory/official-pdf-families/IA/field-map-scaffold.json",
+    "fieldOwnershipSchema": "data/record-clearing/production-factory/official-pdf-families/schemas/field-ownership.schema.json",
+    "fieldOwnership": "data/record-clearing/production-factory/official-pdf-families/IA/field-ownership.json",
+    "fixtureSchema": "data/record-clearing/production-factory/official-pdf-families/schemas/fixture-scaffold.schema.json",
+    "fixtures": "data/record-clearing/production-factory/official-pdf-families/IA/fixtures.json",
+    "packetAssembly": "data/record-clearing/production-factory/official-pdf-families/IA/packet-assembly.json",
+    "reviewManifest": "data/record-clearing/production-factory/official-pdf-families/IA/review-manifest.json"
+  },
+  "implementationModule": "src/lib/rcap/packets/jurisdictions/iowa/official-pdf/family.ts",
+  "dedicatedVerifier": "scripts/verify-rcap-iowa-official-pdf-families.mjs",
+  "status": {
+    "sourceRequirements": "scaffolded_pending_authority_and_assignment",
+    "localSourceVerification": "pending_captain_projection",
+    "pdfStructureInspection": "pending_authorized_source_bytes",
+    "fieldMapping": "scaffolded_zero_active_mappings",
+    "packetRendering": "blocked",
+    "sourceBackedSampleCount": 0,
+    "visualReview": "pending_source_backed_samples",
+    "counselReview": "not_submitted",
+    "legalDesignChanged": false,
+    "packetReady": false,
+    "generationAllowed": false,
+    "enabled": false
+  },
+  "blockers": [
+    "Captain-owned assignment anchor and portable source projection are absent.",
+    "Exact retained identities require read-only materialization and fresh byte verification.",
+    "Authority-unmanifested identities require successor-edition manifestation before assignment.",
+    "PDF structure, field names, overlay coordinates, ownership, fixtures, and samples remain unconfirmed.",
+    "The shared Certification of Service by Mailing or Delivery has no adopted authority asset.",
+    "The Rule 2.86 Form 2 attached sheet has no adopted authority asset.",
+    "The DCI-76 logical attachment has no adopted authority asset, while the retained DCI-77 identity describes a combined DCI-76/DCI-77 physical packet; authority must reconcile physical-document ownership before assembly.",
+    "The scanned Form 2, Form 4, and Form 5 identities require coordinate overlays only after authorized page geometry and visual confirmation."
+  ],
+  "invariants": [
+    "Do not alter official fixed language or Iowa legal-design component ordering.",
+    "Participant signatures, dates signed, service attestations, clerk fields, judge fields, agency fields, and notary fields remain blank unless a confirmed ownership map expressly permits a non-signature value.",
+    "One physical source document may be rendered only once per participant packet after authority resolves combined-document identity.",
+    "Repository-private paths are identity evidence only and are never opened by packet code or the dedicated verifier.",
+    "No source download, URL fallback, fuzzy identity match, live-route change, or runtime enablement is permitted."
+  ]
+}

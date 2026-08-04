@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "rcap-queued-official-pdf-family-scaffold-spec/v1",
+  "familyId": "rcap-ia-official-pdf-family",
+  "jurisdiction": "IA",
+  "jurisdictionName": "Iowa",
+  "authorityFamily": "Iowa Judicial Branch Rule 2.86 forms and Iowa DCI record-check forms",
+  "implementationJobId": "rcap-ia-official-pdf-production",
+  "outputDirectory": "data/record-clearing/production-factory/official-pdf-families/IA",
+  "modulePath": "src/lib/rcap/packets/jurisdictions/iowa/official-pdf/family.ts",
+  "dedicatedVerifier": "scripts/verify-rcap-iowa-official-pdf-families.mjs",
+  "blockers": [
+    "The shared Certification of Service by Mailing or Delivery has no adopted authority asset.",
+    "The Rule 2.86 Form 2 attached sheet has no adopted authority asset.",
+    "The DCI-76 logical attachment has no adopted authority asset, while the retained DCI-77 identity describes a combined DCI-76/DCI-77 physical packet; authority must reconcile physical-document ownership before assembly.",
+    "The scanned Form 2, Form 4, and Form 5 identities require coordinate overlays only after authorized page geometry and visual confirmation."
+  ],
+  "invariants": [
+    "Do not alter official fixed language or Iowa legal-design component ordering.",
+    "Participant signatures, dates signed, service attestations, clerk fields, judge fields, agency fields, and notary fields remain blank unless a confirmed ownership map expressly permits a non-signature value.",
+    "One physical source document may be rendered only once per participant packet after authority resolves combined-document identity.",
+    "Repository-private paths are identity evidence only and are never opened by packet code or the dedicated verifier.",
+    "No source download, URL fallback, fuzzy identity match, live-route change, or runtime enablement is permitted."
+  ]
+}

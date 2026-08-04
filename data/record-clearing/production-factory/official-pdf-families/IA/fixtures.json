@@ -1,0 +1,211 @@
+{
+  "schemaVersion": "rcap-official-pdf-fixture-scaffold/v1",
+  "familyId": "rcap-ia-official-pdf-family",
+  "jurisdiction": "IA",
+  "schemaPath": "data/record-clearing/production-factory/official-pdf-families/schemas/fixture-scaffold.schema.json",
+  "syntheticDataOnly": true,
+  "fixtureState": "pending_field_map_and_fact_type_binding",
+  "tracks": [
+    {
+      "trackId": "ia-12346",
+      "fixtureId": "ia-12346-synthetic-layout",
+      "caseReference": "SYN-IA-ia-12346",
+      "requiredFactKeys": [
+        "countyOfCase",
+        "caseNumber",
+        "convictionDate",
+        "interveningConvictions",
+        "filingMethod"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "ia-12347",
+      "fixtureId": "ia-12347-synthetic-layout",
+      "caseReference": "SYN-IA-ia-12347",
+      "requiredFactKeys": [
+        "countyOfCase",
+        "caseNumber",
+        "convictionDate",
+        "convictedUnderSubsection3",
+        "interveningConvictions",
+        "filingMethod"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Form 4, signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Confirmation that the conviction is under § 123.47(3)",
+          "whereInPacket": "Form 4, item 1",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "ia-7251",
+      "fixtureId": "ia-7251-synthetic-layout",
+      "caseReference": "SYN-IA-ia-7251",
+      "requiredFactKeys": [
+        "countyOfCase",
+        "caseNumber",
+        "convictionDate",
+        "wasUnder18AtAct",
+        "interveningConvictions",
+        "wantsSurvivorServices",
+        "filingMethod"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Form 5, signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Age at the time of the act",
+          "whereInPacket": "Form 5, item 2",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "ia-901c2",
+      "fixtureId": "ia-901c2-synthetic-layout",
+      "caseReference": "SYN-IA-ia-901c2",
+      "requiredFactKeys": [
+        "countyOfCase",
+        "caseNumber",
+        "allChargesResolved",
+        "dispositionDate",
+        "wasDeferredJudgment",
+        "financialObligationsPaid",
+        "requestsWaiverOf180Days",
+        "filingMethod"
+      ],
+      "conditionalFactKeys": [
+        "goodCauseNarrative"
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Form 1, signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Whether all charges were acquitted or all dismissed",
+          "whereInPacket": "Form 1, item 1",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Good-cause waiver narrative",
+          "whereInPacket": "Form 1, item 3.B attached sheet",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "ia-901c3",
+      "fixtureId": "ia-901c3-synthetic-layout",
+      "caseReference": "SYN-IA-ia-901c3",
+      "requiredFactKeys": [
+        "countyOfConviction",
+        "caseNumber",
+        "convictionDate",
+        "offenseCodeSection",
+        "hasUsedLifetimeExpungement",
+        "hasOtherEligibleConvictions",
+        "pendingCharges",
+        "deferredJudgmentCount",
+        "financialObligationsPaid",
+        "relatedCases",
+        "allNamesEverUsed",
+        "dciCheckDate",
+        "filingMethod"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Signature under penalty of perjury, election A or B",
+          "whereInPacket": "Form 2, signature block",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Eligibility assertion against the statutory exclusion list",
+          "whereInPacket": "Form 2, item 4",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Related-cases list and the same-transaction determination",
+          "whereInPacket": "Form 2, item 3",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Deferred-judgment count",
+          "whereInPacket": "Form 2, item 8",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "ia-dci77",
+      "fixtureId": "ia-dci77-synthetic-layout",
+      "caseReference": "SYN-IA-ia-dci77",
+      "requiredFactKeys": [
+        "needsDciCheck",
+        "plannedFilingDate",
+        "allNamesEverUsed",
+        "hasReleaseAuthorizationSigned"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Release authorization signature",
+          "whereInPacket": "DCI-77, RELEASE AUTHORIZATION SIGNATURE",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Payment",
+          "whereInPacket": "DCI-76 billing form",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Criminal history result fields",
+          "whereInPacket": "Returned record",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Notarisation of results",
+          "whereInPacket": "DCI-77, 'I am required to have the results notarized'",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "The release authorization is signed by the subject of the request. DCI-77 is the only approved release authorization form for this purpose.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    }
+  ],
+  "requiredBoundaryFixtures": [
+    "missing_required_input",
+    "authority_identity_unresolved",
+    "captain_projection_missing",
+    "source_hash_mismatch",
+    "source_size_mismatch",
+    "source_mime_mismatch",
+    "third_party_field_ownership",
+    "mapping_unconfirmed",
+    "deterministic_repeat"
+  ]
+}
