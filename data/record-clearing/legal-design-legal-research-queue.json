@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "note": "Deferred, not missing. Counsel has not identified the governing mechanism, whether the route exists, the correct output strategy, or the legally accepted filing vehicle. No strategy is invented to make the record importable. These tracks are absent from runtime resolution and unreachable; they are not runtime_disabled, because they were never registered.",
-  "deferredTrackCount": 7,
+  "deferredTrackCount": 8,
   "deferredTracks": [
     {
       "jurisdiction": "AK",
@@ -604,6 +604,81 @@
           "sourceHeading": "TRACK CO-11 / limitations",
           "sourceStatement": "Read § 24-72-702 in full, identify whether the Judicial Department publishes a form, and determine whether this is a self-help track or an attorney referral.",
           "normalizerInferred": true
+        }
+      ]
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_clean_slate_correction",
+      "publicName": "Fix a record that should have been sealed automatically but was not",
+      "outputStrategy": null,
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "runtimeRegistration": "none",
+      "runtimeReachable": false,
+      "legalDesignStatus": "legal_research_required",
+      "legalDesignRationale": "The controlling review states that the statutory or rule basis for a Clean Slate correction route was not confirmed and that the output strategy is undetermined pending the correction mechanism. The bounded current-primary-authority research carried out for this normalization read 18 Pa.C.S. §§ 9102, 9122, 9122.1, 9122.2, 9122.3 and 9122.5 and Pa.R.Crim.P. 320, 490, 790 and 791 at their official sources. Section 9122.2(b) establishes only the AOPC-to-Pennsylvania State Police transmission and the removal of records for which a notification of ineligibility is received; it creates no participant-facing correction petition, request or form, and Rule 791 on its face governs a petition for limited access rather than the correction of a failed automatic sealing. The review's own suggestion that correction proceeds 'presumably by petition under Rule 791' is expressly a presumption. No output strategy is assigned and no correction petition is invented. The route is deferred so that the ten fully representable Pennsylvania mechanisms are not held back by it.",
+      "authority": [
+        "18 Pa.C.S. § 9122.2"
+      ],
+      "mechanism": "Where an eligible record does not receive limited access through the automatic Clean Slate process, secondary sources indicate the person may need to act to correct it, presumably by petition under Pa.R.Crim.P. 791. The statutory or rule basis for a correction route was not confirmed by the controlling review, and the current official text of § 9122.2 describes the Administrative Office of Pennsylvania Courts and Pennsylvania State Police transmission and ineligibility-notification procedure without establishing a participant-facing correction vehicle.",
+      "destination": {
+        "kind": "court",
+        "name": "Not established",
+        "detail": "No participant-facing filing or request destination is established by the controlling review or by the current official statutory text."
+      },
+      "unresolvedQuestions": [
+        {
+          "question": "The mechanism, form and fee for correcting a Clean Slate automatic sealing failure. The controlling review records this as a build blocker and the highest-value research item in Pennsylvania, and states that the statutory or rule basis was not confirmed.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 11 / Open questions",
+            "sourceStatement": "The mechanism, form and fee for correcting a Clean Slate failure. **Build blocker**, and the highest-value research item in Pennsylvania."
+          }
+        },
+        {
+          "question": "Whether the correction route carries a filing fee.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 11 / Open questions",
+            "sourceStatement": "Whether the correction route carries a filing fee, which changes the product economics."
+          }
+        }
+      ],
+      "deferralReasons": [
+        {
+          "statement": "The governing mechanism for correcting a Clean Slate automatic sealing failure is undetermined. No participant-facing filing vehicle is established by the controlling review or by the current official text of 18 Pa.C.S. § 9122.2, so this track is deferred rather than built.",
+          "affectedElement": "governing_mechanism"
+        }
+      ],
+      "requiredLegalResearch": [
+        "The mechanism, form and fee for correcting a Clean Slate automatic sealing failure. The controlling review records this as a build blocker and the highest-value research item in Pennsylvania, and states that the statutory or rule basis was not confirmed.",
+        "Whether the correction route carries a filing fee."
+      ],
+      "provenance": [
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "TRACK 11 / Status",
+          "sourceStatement": "where an eligible record does not seal automatically, secondary sources indicate the person may need to file to correct it, presumably by petition under Rule 791. The statutory or rule basis was **not confirmed** in this review."
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "TRACK 11 / Open questions",
+          "sourceStatement": "The mechanism, form and fee for correcting a Clean Slate failure. **Build blocker**, and the highest-value research item in Pennsylvania."
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "TRACK 11 / Open questions",
+          "sourceStatement": "Whether the correction route carries a filing fee, which changes the product economics."
         }
       ]
     }

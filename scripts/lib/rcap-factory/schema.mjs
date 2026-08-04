@@ -270,6 +270,24 @@ export function validateJob(job) {
   ) {
     add("participantPacketProofRequired must be a boolean.");
   }
+  if (job.strategyFamily === "legal_design_adjudication") {
+    if (job.participantPacketProofRequired !== false) {
+      add(
+        "legal-design adjudication jobs must explicitly set participantPacketProofRequired to false."
+      );
+    }
+    if (
+      (job.integrationOwnedOutputs ?? []).some((output) =>
+        /^data\/record-clearing\/production-factory\/packet-proofs\/[^/]+\.json$/.test(
+          output
+        )
+      )
+    ) {
+      add(
+        "legal-design adjudication jobs must not claim an integration-owned participant packet proof."
+      );
+    }
+  }
   validateStringArray(job, "dependencies", issues, { allowEmpty: true, pattern: JOB_ID_PATTERN });
   validateStringArray(job, "requiredOutputFields", issues, { allowEmpty: true });
   for (const field of [
@@ -402,7 +420,10 @@ export function validateJob(job) {
         );
       }
     }
-    if (job.participantPacketProofRequired !== true) {
+    if (
+      job.strategyFamily !== "legal_design_adjudication" &&
+      job.participantPacketProofRequired !== true
+    ) {
       add("packet implementation jobs must require participant packet proof.");
     }
   }

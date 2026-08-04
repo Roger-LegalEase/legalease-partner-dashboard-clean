@@ -142,7 +142,10 @@ export async function generateJobReviewArtifacts(
     root,
     job.expectedOutputs ?? []
   );
-  const participantPacketProof = inspectParticipantPacketProof(root, job);
+  const participantPacketProof =
+    job.participantPacketProofRequired === true
+      ? inspectParticipantPacketProof(root, job, { authorityEdition })
+      : null;
   const manifest = buildReviewManifest({
     rootDir: root,
     job,
@@ -481,6 +484,34 @@ export function verifyTrackedReviewManifest(
   if (manifest.counselAdopted !== false) {
     failures.push("generated review manifest must not adopt counsel approval");
   }
+  if (
+    job.participantPacketProofRequired === true &&
+    manifest.participantPacketProof?.verified !== true
+  ) {
+    failures.push(
+      "review manifest is missing required participant packet proof"
+    );
+  }
+  const participantProofChecklist = manifest.technicalChecklist?.items?.find(
+    (item) => item.id === "participant-packet-proof"
+  );
+  if (
+    job.participantPacketProofRequired !== true &&
+    (
+      manifest.participantPacketProof?.status !== "not_applicable" ||
+      participantProofChecklist?.status !== "not_applicable"
+    )
+  ) {
+    failures.push(
+      "review manifest must report inapplicable participant packet proof"
+    );
+  }
+  if (manifest.runtimeStatus !== "runtime_disabled") {
+    failures.push("generated review manifest must leave runtime disabled");
+  }
+  if (manifest.productionEnabled !== false) {
+    failures.push("generated review manifest must leave production disabled");
+  }
   return {
     passed: failures.length === 0,
     manifestPath: relativePath,
@@ -506,6 +537,22 @@ function buildReviewManifest({
   focusedValidation
 }) {
   const focusedPassed = focusedValidation?.passed === true;
+  const packetProofRequired = job.participantPacketProofRequired === true;
+  const participantPacketProofRecord = packetProofRequired
+    ? participantPacketProof
+    : {
+        status: "not_applicable",
+        verified: null,
+        reason:
+          job.strategyFamily === "legal_design_adjudication"
+            ? "This legal-design adjudication resolves a typed question and does not implement a participant packet."
+            : "This job does not implement a participant packet."
+      };
+  const participantPacketProofStatus = packetProofRequired
+    ? participantPacketProof?.verified === true
+      ? "passed"
+      : "failed"
+    : "not_applicable";
   const technicalChecklist = {
     status: focusedValidation ? (focusedPassed ? "passed" : "failed") : "pending",
     items: [
@@ -549,14 +596,12 @@ function buildReviewManifest({
       },
       {
         id: "participant-packet-proof",
-        status: participantPacketProof
-          ? participantPacketProof.verified
-            ? "passed"
-            : "failed"
-          : "not_applicable",
-        evidence: participantPacketProof
+        status: participantPacketProofStatus,
+        evidence: participantPacketProof?.verified === true
           ? `${participantPacketProof.finalPdfCount} final participant PDF hash(es), ${participantPacketProof.assembledPageCount} total page(s), reconciled from ${participantPacketProof.sourceManifestPath}.`
-          : "This job has no tranche participant-packet review manifest."
+          : packetProofRequired
+            ? "This packet implementation job has no integration-owned participant-packet proof."
+            : participantPacketProofRecord.reason
       }
     ]
   };
@@ -631,7 +676,7 @@ function buildReviewManifest({
     },
     renderedPages: renderedPages.map(withoutPngBytes),
     implementationOutputs,
-    participantPacketProof,
+    participantPacketProof: participantPacketProofRecord,
     technicalChecklist,
     visualChecklist,
     technicalProofPassed:
@@ -641,69 +686,248 @@ function buildReviewManifest({
     visualProofPassed: false,
     legalRecommendationComplete: false,
     counselAdopted: false,
+    runtimeStatus: "runtime_disabled",
     stagingPassed: false,
     productionEnabled: false
   };
 }
 
-function inspectParticipantPacketProof(rootDir, job) {
+function inspectParticipantPacketProof(
+  rootDir,
+  job,
+  { authorityEdition = null } = {}
+) {
   for (const relativePath of [
     ...(job.expectedOutputs ?? []),
     ...(job.integrationOwnedOutputs ?? [])
   ]) {
-    if (
-      !/^data\/record-clearing\/implementation-tranches\/tranche-\d+-review-manifest\.json$/.test(
+    const trancheReview =
+      /^data\/record-clearing\/implementation-tranches\/tranche-\d+-review-manifest\.json$/.test(
         relativePath
-      )
-    ) {
+      );
+    const factoryPacketProof =
+      /^data\/record-clearing\/production-factory\/packet-proofs\/[^/]+\.json$/.test(
+        relativePath
+      );
+    if (!trancheReview && !factoryPacketProof) {
       continue;
     }
     const absolutePath = path.join(rootDir, relativePath);
     if (!fs.existsSync(absolutePath)) continue;
     const sourceBytes = fs.readFileSync(absolutePath);
     const source = JSON.parse(sourceBytes.toString("utf8"));
-    if (!Array.isArray(source.samplePackets)) continue;
-
-    const packets = source.samplePackets.map((packet) => ({
-      trackId: packet.trackId,
-      fileName: packet.assembledFileName,
-      sha256: packet.assembledSha256,
-      pageCount: packet.assembledPageCount
-    }));
-    const finalPdfCount = packets.length;
-    const assembledPageCount = packets.reduce(
-      (total, packet) => total + packet.pageCount,
-      0
-    );
-    const expectedTrackIds = [...(job.trackIds ?? [])].sort();
-    const actualTrackIds = packets.map((packet) => packet.trackId).sort();
-    const verified =
-      finalPdfCount === source.implementedTrackCount &&
-      assembledPageCount === source.assembledPageCount &&
-      new Set(actualTrackIds).size === actualTrackIds.length &&
-      JSON.stringify(actualTrackIds) === JSON.stringify(expectedTrackIds) &&
-      packets.every(
-        (packet) =>
-          typeof packet.fileName === "string" &&
-          /^[0-9a-f]{64}$/.test(packet.sha256 ?? "") &&
-          Number.isInteger(packet.pageCount) &&
-          packet.pageCount > 0
-      );
-    if (!verified) {
-      throw new Error(
-        `${job.jobId} participant packet hashes or page counts do not reconcile with ${relativePath}`
-      );
+    if (factoryPacketProof) {
+      if (!(job.integrationOwnedOutputs ?? []).includes(relativePath)) {
+        throw new Error(
+          `${job.jobId} factory packet proof is not integration-owned: ${relativePath}`
+        );
+      }
+      return inspectFactoryPacketProof({
+        rootDir,
+        job,
+        authorityEdition,
+        relativePath,
+        source,
+        sourceBytes
+      });
     }
-    return {
-      sourceManifestPath: relativePath,
-      sourceManifestSha256: sha256(sourceBytes),
-      finalPdfCount,
-      assembledPageCount,
-      packets,
-      verified
-    };
+    return inspectTranchePacketProof({
+      job,
+      relativePath,
+      source,
+      sourceBytes
+    });
   }
   return null;
+}
+
+function inspectFactoryPacketProof({
+  rootDir,
+  job,
+  authorityEdition,
+  relativePath,
+  source,
+  sourceBytes
+}) {
+  const packets = normalizePacketRecords(source.samplePackets);
+  const expectedTrackIds = [...(job.trackIds ?? [])].sort();
+  const actualTrackIds = packets.map((packet) => packet.trackId).sort();
+  const assembledPageCount = packets.reduce(
+    (total, packet) => total + packet.pageCount,
+    0
+  );
+  const implementationOutputs = inspectImplementationOutputs(
+    rootDir,
+    job.expectedOutputs ?? []
+  );
+  const proofOutputs = Array.isArray(source.implementationOutputs)
+    ? source.implementationOutputs
+    : [];
+  const proofOutputPaths = proofOutputs.map((output) => output?.path).sort();
+  const expectedOutputPaths = [...(job.expectedOutputs ?? [])].sort();
+  const outputHashesReconcile =
+    proofOutputs.length === expectedOutputPaths.length &&
+    new Set(proofOutputPaths).size === proofOutputPaths.length &&
+    JSON.stringify(proofOutputPaths) === JSON.stringify(expectedOutputPaths) &&
+    implementationOutputs.every((output) => {
+      const proofOutput = proofOutputs.find(
+        (candidate) => candidate?.path === output.relativePath
+      );
+      return (
+        output.exists === true &&
+        /^[0-9a-f]{64}$/.test(proofOutput?.sha256 ?? "") &&
+        proofOutput.sha256 === output.sha256
+      );
+    });
+  const verifierBytes =
+    typeof job.regressionVerifier === "string" &&
+    fs.existsSync(path.join(rootDir, job.regressionVerifier))
+      ? fs.readFileSync(path.join(rootDir, job.regressionVerifier))
+      : null;
+  const verified =
+    source.schemaVersion === "rcap-participant-packet-proof/v1" &&
+    source.jobId === job.jobId &&
+    source.parentJobId === job.parentJobId &&
+    source.jurisdiction === job.jurisdiction &&
+    source.completionCommit === job.completionCommit &&
+    (
+      authorityEdition === null ||
+      source.authorityEdition === authorityEdition
+    ) &&
+    source.verifier?.path === job.regressionVerifier &&
+    source.verifier?.result === "passed" &&
+    verifierBytes !== null &&
+    source.verifier?.sha256 === sha256(verifierBytes) &&
+    outputHashesReconcile &&
+    packets.length === expectedTrackIds.length &&
+    source.finalPdfCount === packets.length &&
+    source.assembledPageCount === assembledPageCount &&
+    new Set(actualTrackIds).size === actualTrackIds.length &&
+    JSON.stringify(actualTrackIds) === JSON.stringify(expectedTrackIds) &&
+    packetsAreValid(packets) &&
+    source.deterministic === true &&
+    source.generatedPacketBytesTracked === false &&
+    source.runtimeStatus === "runtime_disabled" &&
+    source.visualProof === "pending" &&
+    source.counselAdopted === false &&
+    source.productionEnabled === false;
+  if (!verified) {
+    throw new Error(
+      `${job.jobId} integration-owned packet proof does not reconcile with ${relativePath}`
+    );
+  }
+  return {
+    status: "verified",
+    sourceType: "integration_owned_factory_packet_proof",
+    sourceManifestPath: relativePath,
+    sourceManifestSha256: sha256(sourceBytes),
+    verifier: structuredClone(source.verifier),
+    implementationOutputs: proofOutputs.map((output) => ({
+      path: output.path,
+      sha256: output.sha256
+    })),
+    finalPdfCount: packets.length,
+    assembledPageCount,
+    packets,
+    deterministic: true,
+    runtimeStatus: "runtime_disabled",
+    visualProof: "pending",
+    counselAdopted: false,
+    productionEnabled: false,
+    verified
+  };
+}
+
+function inspectTranchePacketProof({
+  job,
+  relativePath,
+  source,
+  sourceBytes
+}) {
+  const packets = normalizePacketRecords(source.samplePackets);
+  const expectedTrackIds = [...(job.trackIds ?? [])].sort();
+  const actualTrackIds = [...new Set(
+    packets.map((packet) => packet.trackId)
+  )].sort();
+  const selectedTrackIds = Array.isArray(source.selectedTracks)
+    ? source.selectedTracks.map((track) => track?.trackId).sort()
+    : null;
+  const assembledPageCount = packets.reduce(
+    (total, packet) => total + packet.pageCount,
+    0
+  );
+  const declaredPacketCount =
+    source.assembledPacketCount ??
+    source.technicalDetail?.assembledPacketsGenerated ??
+    source.technicalDetail?.fixturesGenerated ??
+    packets.length;
+  const declaredPageCount =
+    source.assembledPageCount ?? assembledPageCount;
+  const declaredImplementedTrackCount =
+    source.implementedTrackCount ?? expectedTrackIds.length;
+  const technicalPassed =
+    source.technicalReview?.passed === true ||
+    (
+      source.technicalResult === "passed" &&
+      source.technicalDetail?.deterministic === true
+    );
+  const verified =
+    packets.length > 0 &&
+    packetsAreValid(packets) &&
+    declaredPacketCount === packets.length &&
+    declaredPageCount === assembledPageCount &&
+    declaredImplementedTrackCount === expectedTrackIds.length &&
+    JSON.stringify(actualTrackIds) === JSON.stringify(expectedTrackIds) &&
+    (
+      selectedTrackIds === null ||
+      JSON.stringify(selectedTrackIds) === JSON.stringify(expectedTrackIds)
+    ) &&
+    technicalPassed &&
+    source.runtimeStatus === "runtime_disabled";
+  if (!verified) {
+    throw new Error(
+      `${job.jobId} participant packet hashes or page counts do not reconcile with ${relativePath}`
+    );
+  }
+  return {
+    status: "verified",
+    sourceType: "implementation_tranche_review_manifest",
+    sourceManifestPath: relativePath,
+    sourceManifestSha256: sha256(sourceBytes),
+    finalPdfCount: packets.length,
+    implementedTrackCount: expectedTrackIds.length,
+    assembledPageCount,
+    packets,
+    deterministic: true,
+    runtimeStatus: "runtime_disabled",
+    visualProof: "separately_governed",
+    counselAdopted: false,
+    productionEnabled: false,
+    verified
+  };
+}
+
+function normalizePacketRecords(samplePackets) {
+  if (!Array.isArray(samplePackets)) return [];
+  return samplePackets.map((packet) => ({
+    trackId: packet?.trackId,
+    fileName: packet?.assembledFileName ?? packet?.fileName,
+    sha256: packet?.assembledSha256 ?? packet?.sha256,
+    pageCount: packet?.assembledPageCount ?? packet?.pageCount
+  }));
+}
+
+function packetsAreValid(packets) {
+  return packets.every(
+    (packet) =>
+      typeof packet.trackId === "string" &&
+      packet.trackId.length > 0 &&
+      typeof packet.fileName === "string" &&
+      packet.fileName.length > 0 &&
+      /^[0-9a-f]{64}$/.test(packet.sha256 ?? "") &&
+      Number.isInteger(packet.pageCount) &&
+      packet.pageCount > 0
+  );
 }
 
 function inspectImplementationOutputs(rootDir, outputs) {

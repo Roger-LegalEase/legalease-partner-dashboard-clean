@@ -96,6 +96,7 @@
         "not_required_design_reconciliation",
         "superseded_source_replacement",
         "edition_publication",
+        "legal_design_adjudication",
         "custom_pleading",
         "official_pdf_fill",
         "composed",
@@ -188,15 +189,23 @@
         "controllingReviewStatus",
         "controllingReviewRevision",
         "reviewedThrough",
+        "reviewDateEvidence",
         "legalReviewPrecedence",
         "precedenceStatus",
         "mechanismInventory",
         "mechanismInventorySha256",
+        "canonicalizationVersion",
+        "researchSuppliedInventorySha256",
+        "canonicalMechanismInventorySha256",
+        "canonicalPayloadByteCount",
+        "denominatorAdjudication",
         "expectedSourceIds",
         "retainedForms",
+        "retainedFormAvailability",
         "openQuestions",
         "officialAuthorityRefreshRequirements",
         "officialAuthorityRefreshStatus",
+        "authorityRefreshFlags",
         "retrievalMethods",
         "reviewMaterialization",
         "portableArchiveLocator",
@@ -216,6 +225,7 @@
           "enum": [
             "legal_review_materialization_required",
             "legal_review_hash_mismatch",
+            "mechanism_inventory_count_conflict",
             "mechanism_inventory_required",
             "mechanism_inventory_hash_mismatch",
             "expected_source_ids_required",
@@ -249,48 +259,31 @@
           "type": "string",
           "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
         },
+        "reviewDateEvidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["filenameAsOf", "internalReviewDate", "status"],
+          "properties": {
+            "filenameAsOf": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "internalReviewDate": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "status": { "enum": ["reconciled", "conflict"] }
+          }
+        },
         "legalReviewPrecedence": { "type": "string", "minLength": 1 },
         "precedenceStatus": { "const": "resolved" },
         "mechanismInventory": {
           "type": "array",
           "items": {
             "type": "object",
-            "additionalProperties": false,
-            "required": [
-              "sourceId",
-              "reviewSlot",
-              "legalMechanismName",
-              "classification",
-              "candidateFilingActor",
-              "candidateDestination",
-              "referencedStatutesOrRules",
-              "referencedOfficialForms",
-              "unresolvedQuestions"
-            ],
+            "required": ["sourceId"],
             "properties": {
-              "sourceId": { "type": "string", "minLength": 1 },
-              "reviewSlot": { "type": "string", "minLength": 1 },
-              "legalMechanismName": { "type": "string", "minLength": 1 },
-              "classification": {
-                "enum": ["relief", "non_relief"]
-              },
-              "candidateFilingActor": {
-                "type": "string",
-                "minLength": 1
-              },
-              "candidateDestination": {
-                "type": "string",
-                "minLength": 1
-              },
-              "referencedStatutesOrRules": {
-                "$ref": "#/$defs/uniqueStrings"
-              },
-              "referencedOfficialForms": {
-                "$ref": "#/$defs/uniqueStrings"
-              },
-              "unresolvedQuestions": {
-                "$ref": "#/$defs/uniqueStrings"
-              }
+              "sourceId": { "type": "string", "minLength": 1 }
             }
           }
         },
@@ -298,9 +291,53 @@
           "type": ["string", "null"],
           "pattern": "^[0-9a-f]{64}$"
         },
+        "canonicalizationVersion": {
+          "const": "mechanism-inventory-v1"
+        },
+        "researchSuppliedInventorySha256": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "canonicalMechanismInventorySha256": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "canonicalPayloadByteCount": {
+          "type": ["integer", "null"],
+          "minimum": 1
+        },
+        "denominatorAdjudication": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reviewSummaryCount",
+            "keyedBodyCount",
+            "resolution",
+            "unresolvedQuestion"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "mechanism_inventory_required",
+                "keyed_denominator_reconciled",
+                "count_conflict_unresolved"
+              ]
+            },
+            "reviewSummaryCount": { "type": ["integer", "null"], "minimum": 0 },
+            "keyedBodyCount": { "type": ["integer", "null"], "minimum": 0 },
+            "resolution": { "type": ["string", "null"], "minLength": 1 },
+            "unresolvedQuestion": {
+              "type": ["string", "null"],
+              "minLength": 1
+            }
+          }
+        },
         "expectedSourceIds": { "$ref": "#/$defs/uniqueStrings" },
         "retainedForms": { "$ref": "#/$defs/uniqueStrings" },
+        "retainedFormAvailability": { "type": "string", "minLength": 1 },
         "openQuestions": { "$ref": "#/$defs/uniqueStrings" },
+        "authorityRefreshFlags": { "$ref": "#/$defs/uniqueStrings" },
         "officialAuthorityRefreshRequirements": {
           "type": "array",
           "items": {
@@ -317,8 +354,14 @@
               "alternateOfficialRetrievalChannel"
             ],
             "properties": {
-              "officialUrl": { "type": "string", "minLength": 1 },
-              "issuingDomain": { "type": "string", "minLength": 1 },
+              "officialUrl": {
+                "type": ["string", "null"],
+                "minLength": 1
+              },
+              "issuingDomain": {
+                "type": ["string", "null"],
+                "minLength": 1
+              },
               "sectionIdentifier": { "type": "string", "minLength": 1 },
               "retrievalMethod": { "type": "string", "minLength": 1 },
               "retrievalDate": {
@@ -331,6 +374,11 @@
               },
               "retrievalState": {
                 "enum": [
+                  "shell_accessible",
+                  "browser_accessible",
+                  "automation_blocked",
+                  "unofficial_reference_only",
+                  "unavailable",
                   "shell_download_blocked",
                   "browser_official_retrieval_available",
                   "authority_absent",
@@ -384,11 +432,19 @@
             "archiveSha256",
             "archiveEntryPath",
             "expectedSha256",
+            "expectedBytes",
+            "observedSha256",
+            "observedBytes",
+            "materializationMethod",
             "materializationDestination",
             "materializationState",
             "readOnly",
+            "readOnlyTreatment",
             "verificationCommand",
-            "verificationProvenance"
+            "verificationProvenance",
+            "researchVerificationResult",
+            "verificationStatus",
+            "cleanupPolicy"
           ],
           "properties": {
             "archiveLocator": { "type": "string", "minLength": 1 },
@@ -401,9 +457,20 @@
               "type": "string",
               "pattern": "^[0-9a-f]{64}$"
             },
+            "expectedBytes": {
+              "type": ["integer", "null"],
+              "minimum": 1
+            },
             "observedSha256": {
-              "type": "string",
+              "type": ["string", "null"],
               "pattern": "^[0-9a-f]{64}$"
+            },
+            "observedBytes": {
+              "type": ["integer", "null"],
+              "minimum": 1
+            },
+            "materializationMethod": {
+              "const": "portable_archive_entry"
             },
             "materializationDestination": { "$ref": "#/$defs/path" },
             "materializationState": {
@@ -415,8 +482,17 @@
               ]
             },
             "readOnly": { "const": true },
+            "readOnlyTreatment": {
+              "const": "worker_read_only_no_modify"
+            },
             "verificationCommand": { "type": "string", "minLength": 1 },
-            "verificationProvenance": { "type": "string", "minLength": 1 }
+            "verificationProvenance": { "type": "string", "minLength": 1 },
+            "researchVerificationResult": {
+              "type": "string",
+              "minLength": 1
+            },
+            "verificationStatus": { "type": "string", "minLength": 1 },
+            "cleanupPolicy": { "type": "string", "minLength": 1 }
           }
         },
         "portableArchiveLocator": { "type": "string", "minLength": 1 },
@@ -647,18 +723,32 @@
     },
     {
       "if": {
-        "properties": {
-          "lane": {
-            "enum": [
-              "custom_pleading",
-              "acroform_fill",
-              "flat_pdf_overlay",
-              "composed_route",
-              "guidance_implementation"
-            ]
+        "allOf": [
+          {
+            "properties": {
+              "lane": {
+                "enum": [
+                  "custom_pleading",
+                  "acroform_fill",
+                  "flat_pdf_overlay",
+                  "composed_route",
+                  "guidance_implementation"
+                ]
+              }
+            },
+            "required": ["lane"]
+          },
+          {
+            "not": {
+              "properties": {
+                "strategyFamily": {
+                  "const": "legal_design_adjudication"
+                }
+              },
+              "required": ["strategyFamily"]
+            }
           }
-        },
-        "required": ["lane"]
+        ]
       },
       "then": {
         "required": [
@@ -668,6 +758,24 @@
         "properties": {
           "participantPacketProofRequired": {
             "const": true
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "strategyFamily": {
+            "const": "legal_design_adjudication"
+          }
+        },
+        "required": ["strategyFamily"]
+      },
+      "then": {
+        "required": ["participantPacketProofRequired"],
+        "properties": {
+          "participantPacketProofRequired": {
+            "const": false
           }
         }
       }

@@ -28799,6 +28799,1111 @@
         "none — no participant document is generated on this route.",
         "None, other than the background-check fee for verification."
       ]
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_790_nonconviction",
+      "packetSetId": "pa_790_nonconviction-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "pa_790_nonconviction-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-790-PETITION",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222549-blankexpungementorder7900309121-000065.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "pa_790_nonconviction-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-790-ORDER",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222549-blankexpungementorder7900309121-000065.pdf",
+          "order": 2
+        },
+        {
+          "componentId": "pa_790_nonconviction-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "pa_790_nonconviction-fee-waiver-4",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only where the participant seeks to proceed in forma pauperis.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-IFP-CCP",
+          "officialSourceUrl": "https://www.pacourts.us/forms/for-the-public",
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Pennsylvania State Police criminal history report obtained within 60 days before filing. Request your own criminal history report from the Pennsylvania State Police. Rule 790 requires a current copy obtained within 60 days before filing to be attached, unless the attorney for the Commonwealth agrees to waive it. Because of the 60-day window, order it late in packet assembly rather than first. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Pennsylvania State Police",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did each charge end — dismissed, withdrawn, nolle prossed, or with no disposition ever entered?\" against Pennsylvania State Police criminal history report obtained within 60 days before filing, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Complete docket sheet for the case. Obtain the docket sheet showing every charge, the OTN, and the disposition of each count.",
+          "obtainedFrom": "Clerk of courts, or the Unified Judicial System web docket sheets",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Did every charge in this case end without a conviction?\" against Complete docket sheet for the case, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner signature, date and verification — Rule 790 petition, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge name and order date — Blank expungement order, caption and signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "List of agencies to receive the certified order — Order, distribution block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs and verifies the petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "County filing fees vary and are not established by statute. The legal review reports a range of roughly $132 to $215 across counties, with expungement petitions generally costing more than limited access petitions. No confirmed statewide schedule exists.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "In forma pauperis relief is available; the Court of Common Pleas Motion to Proceed In Forma Pauperis is published statewide.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Service on the attorney for the Commonwealth concurrently with filing, per Pa.R.Crim.P. 790.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the verified Rule 790 petition, the blank expungement order and the attached Pennsylvania State Police criminal history report with the clerk of the courts of the judicial district in which the charges were disposed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Pennsylvania State Police criminal history report obtained within 60 days before filing. Request your own criminal history report from the Pennsylvania State Police. Rule 790 requires a current copy obtained within 60 days before filing to be attached, unless the attorney for the Commonwealth agrees to waive it. Because of the 60-day window, order it late in packet assembly rather than first. LegalEase never collects, inspects or authenticates it.",
+        "Check your answer to \"How did each charge end — dismissed, withdrawn, nolle prossed, or with no disposition ever entered?\" against Pennsylvania State Police criminal history report obtained within 60 days before filing, and correct the packet if they disagree.",
+        "Obtain Complete docket sheet for the case. Obtain the docket sheet showing every charge, the OTN, and the disposition of each count.",
+        "Check your answer to \"Did every charge in this case end without a conviction?\" against Complete docket sheet for the case, and correct the packet if they disagree.",
+        "Petitioner signature, date and verification — Rule 790 petition, verification block.",
+        "Judge name and order date — Blank expungement order, caption and signature block.",
+        "List of agencies to receive the certified order — Order, distribution block.",
+        "The petitioner signs and verifies the petition.",
+        "County filing fees vary and are not established by statute. The legal review reports a range of roughly $132 to $215 across counties, with expungement petitions generally costing more than limited access petitions. No confirmed statewide schedule exists.",
+        "In forma pauperis relief is available; the Court of Common Pleas Motion to Proceed In Forma Pauperis is published statewide."
+      ]
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_490_nonconviction",
+      "packetSetId": "pa_490_nonconviction-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "pa_490_nonconviction-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-490-PETITION",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222539-blankexpungementorder4900311121-000064.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "pa_490_nonconviction-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-490-ORDER",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222539-blankexpungementorder4900311121-000064.pdf",
+          "order": 2
+        },
+        {
+          "componentId": "pa_490_nonconviction-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "pa_490_nonconviction-fee-waiver-4",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only where the participant seeks to proceed in forma pauperis at the magisterial district court level.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-IFP-MDJ",
+          "officialSourceUrl": "https://www.pacourts.us/forms/for-the-public",
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Pennsylvania State Police criminal history report obtained within 60 days before filing. Request your own criminal history report from the Pennsylvania State Police. Rule 490 requires a current copy obtained within 60 days before filing to be attached. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Pennsylvania State Police",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did each charge end?\" against Pennsylvania State Police criminal history report obtained within 60 days before filing, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Magisterial district court docket sheet. Obtain the docket sheet showing every charge and its disposition, and confirm no misdemeanour or felony was filed with the summary offences.",
+          "obtainedFrom": "The magisterial district court, or the Unified Judicial System web docket sheets",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Were the only charges in this case summary offences, with no misdemeanour, felony or murder charge filed alongside them?\" against Magisterial district court docket sheet, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner signature, date and verification — Rule 490 petition, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge name and order date — Blank expungement order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs and verifies the petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "County filing fees vary and no confirmed statewide schedule exists.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "In forma pauperis relief is available; the Magisterial District Court In Forma Pauperis Affidavit is published statewide.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Service on the attorney for the Commonwealth concurrently with filing, per Pa.R.Crim.P. 490.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the verified Rule 490 petition, the blank expungement order and the attached Pennsylvania State Police criminal history report with the clerk of the courts of the judicial district in which the charges were disposed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Pennsylvania State Police criminal history report obtained within 60 days before filing. Request your own criminal history report from the Pennsylvania State Police. Rule 490 requires a current copy obtained within 60 days before filing to be attached. LegalEase never collects, inspects or authenticates it.",
+        "Check your answer to \"How did each charge end?\" against Pennsylvania State Police criminal history report obtained within 60 days before filing, and correct the packet if they disagree.",
+        "Obtain Magisterial district court docket sheet. Obtain the docket sheet showing every charge and its disposition, and confirm no misdemeanour or felony was filed with the summary offences.",
+        "Check your answer to \"Were the only charges in this case summary offences, with no misdemeanour, felony or murder charge filed alongside them?\" against Magisterial district court docket sheet, and correct the packet if they disagree.",
+        "Petitioner signature, date and verification — Rule 490 petition, verification block.",
+        "Judge name and order date — Blank expungement order.",
+        "The petitioner signs and verifies the petition.",
+        "County filing fees vary and no confirmed statewide schedule exists.",
+        "In forma pauperis relief is available; the Magisterial District Court In Forma Pauperis Affidavit is published statewide."
+      ]
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_acquittal_auto",
+      "packetSetId": "pa_acquittal_auto-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "pa_acquittal_auto-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Docket sheet showing the verdict on every count. Obtain the docket sheet and confirm a not-guilty verdict on every count arising from the incident. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Clerk of courts, or the Unified Judicial System web docket sheets",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Were you found not guilty of every charge that arose from the same incident, or only some of them?\" against Docket sheet showing the verdict on every count, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Pennsylvania State Police criminal history report. Request your own criminal history report to check whether the acquitted cycle still appears.",
+          "obtainedFrom": "Pennsylvania State Police",
+          "requirement": "conditional",
+          "conditionDescription": "Used to verify whether the record actually cleared once twelve months have passed.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "Twelve-month diary date — Guidance, verification schedule.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "none — no participant filing exists on this route",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none for the automatic route",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none — no fee applies",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "Nothing is filed for the automatic route.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Were you found not guilty of every charge that arose from the same incident, or only some of them?\" against Docket sheet showing the verdict on every count, and correct the packet if they disagree.",
+        "Twelve-month diary date — Guidance, verification schedule.",
+        "none — no participant filing exists on this route",
+        "none for the automatic route",
+        "none — no fee applies"
+      ]
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_summary_conviction",
+      "packetSetId": "pa_summary_conviction-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "pa_summary_conviction-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Used where the summary conviction was entered in a case that remained at the magisterial district court.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-490-PETITION",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222539-blankexpungementorder4900311121-000064.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "pa_summary_conviction-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Used where the summary conviction was entered in a court case at the court of common pleas.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-790-PETITION",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222549-blankexpungementorder7900309121-000065.pdf",
+          "order": 2
+        },
+        {
+          "componentId": "pa_summary_conviction-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-490-ORDER",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222539-blankexpungementorder4900311121-000064.pdf",
+          "order": 3
+        },
+        {
+          "componentId": "pa_summary_conviction-certificate-of-service-4",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Pennsylvania State Police criminal history report obtained within 60 days before filing. Request your own criminal history report from the Pennsylvania State Police within 60 days before filing and attach it to the petition. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Pennsylvania State Police",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Since that conviction, have you been free of any arrest or prosecution for five years or more?\" against Pennsylvania State Police criminal history report obtained within 60 days before filing, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner signature, date and verification — Petition, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge name and order date — Blank expungement order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs and verifies the petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "County filing fees vary and no confirmed statewide schedule exists.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "In forma pauperis relief is available on the statewide forms.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Service on the attorney for the Commonwealth concurrently with filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the verified petition, the blank expungement order and the attached Pennsylvania State Police criminal history report with the clerk of courts, on the form matching the court that disposed of the case.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Pennsylvania State Police criminal history report obtained within 60 days before filing. Request your own criminal history report from the Pennsylvania State Police within 60 days before filing and attach it to the petition. LegalEase never collects, inspects or authenticates it.",
+        "Check your answer to \"Since that conviction, have you been free of any arrest or prosecution for five years or more?\" against Pennsylvania State Police criminal history report obtained within 60 days before filing, and correct the packet if they disagree.",
+        "Petitioner signature, date and verification — Petition, verification block.",
+        "Judge name and order date — Blank expungement order.",
+        "The petitioner signs and verifies the petition.",
+        "County filing fees vary and no confirmed statewide schedule exists.",
+        "In forma pauperis relief is available on the statewide forms."
+      ]
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_ard_expungement",
+      "packetSetId": "pa_ard_expungement-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "pa_ard_expungement-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Docket sheet showing the ARD dismissal and any expungement order. Obtain the docket sheet and check whether an expungement order was entered with the dismissal. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Clerk of courts, or the Unified Judicial System web docket sheets",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Has the court entered an order dismissing the charges?\" against Docket sheet showing the ARD dismissal and any expungement order, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Verification date — Guidance, verification schedule.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "none — no participant filing exists on this route",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none identified for the expungement that accompanies the dismissal",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none — no fee applies",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "none by the participant",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Nothing is filed by the participant. The expungement order accompanies the dismissal.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Has the court entered an order dismissing the charges?\" against Docket sheet showing the ARD dismissal and any expungement order, and correct the packet if they disagree.",
+        "Verification date — Guidance, verification schedule.",
+        "none — no participant filing exists on this route",
+        "none identified for the expungement that accompanies the dismissal",
+        "none — no fee applies"
+      ]
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_age70_deceased",
+      "packetSetId": "pa_age70_deceased-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "pa_age70_deceased-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-790-PETITION",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222549-blankexpungementorder7900309121-000065.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "pa_age70_deceased-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-790-ORDER",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222549-blankexpungementorder7900309121-000065.pdf",
+          "order": 2
+        },
+        {
+          "componentId": "pa_age70_deceased-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Pennsylvania State Police criminal history report obtained within 60 days before filing. Request the criminal history report within 60 days before filing and attach it. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Pennsylvania State Police",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Has the person been free of any arrest or prosecution for ten years since that final release?\" against Pennsylvania State Police criminal history report obtained within 60 days before filing, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Records showing final release from confinement or supervision. Ask the supervising agency for confirmation of the final release date.",
+          "obtainedFrom": "The supervising county probation department or the Pennsylvania Department of Corrections",
+          "requirement": "conditional",
+          "conditionDescription": "Only on the age-70 ground, to establish when the ten-year clock began.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified death certificate. Order a certified death certificate from Vital Records.",
+          "obtainedFrom": "Pennsylvania Department of Health, Division of Vital Records",
+          "requirement": "conditional",
+          "conditionDescription": "Only on the deceased ground.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner signature, date and verification — Rule 790 petition, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge name and order date — Blank expungement order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs and verifies the petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "County filing fees vary and no confirmed statewide schedule exists.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "In forma pauperis relief is available on the statewide forms.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Service on the attorney for the Commonwealth concurrently with filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the verified Rule 790 petition, the blank expungement order and the attached criminal history report with the clerk of courts.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Pennsylvania State Police criminal history report obtained within 60 days before filing. Request the criminal history report within 60 days before filing and attach it. LegalEase never collects, inspects or authenticates it.",
+        "Check your answer to \"Has the person been free of any arrest or prosecution for ten years since that final release?\" against Pennsylvania State Police criminal history report obtained within 60 days before filing, and correct the packet if they disagree.",
+        "Obtain Records showing final release from confinement or supervision. Ask the supervising agency for confirmation of the final release date.",
+        "Obtain Certified death certificate. Order a certified death certificate from Vital Records.",
+        "Petitioner signature, date and verification — Rule 790 petition, verification block.",
+        "Judge name and order date — Blank expungement order.",
+        "The petitioner signs and verifies the petition.",
+        "County filing fees vary and no confirmed statewide schedule exists.",
+        "In forma pauperis relief is available on the statewide forms."
+      ]
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_6308_underage",
+      "packetSetId": "pa_6308_underage-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "pa_6308_underage-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-490-PETITION",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222539-blankexpungementorder4900311121-000064.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "pa_6308_underage-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-490-ORDER",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222539-blankexpungementorder4900311121-000064.pdf",
+          "order": 2
+        },
+        {
+          "componentId": "pa_6308_underage-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that the driving-privilege suspension was completed. Request a driver history from PennDOT showing the suspension was served and restoration completed. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Pennsylvania Department of Transportation",
+          "requirement": "conditional",
+          "conditionDescription": "Only where a licence suspension was imposed for the offence.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"If your driving privileges were suspended for this offence, has the suspension been completed?\" against Proof that the driving-privilege suspension was completed, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Only where a licence suspension was imposed for the offence.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Pennsylvania State Police criminal history report obtained within 60 days before filing. Request the criminal history report within 60 days before filing and attach it.",
+          "obtainedFrom": "Pennsylvania State Police",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner signature, date and verification — Petition, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge name and order date — Blank expungement order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs and verifies the petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "County filing fees vary and no confirmed statewide schedule exists.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "In forma pauperis relief is available on the statewide forms.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Service on the attorney for the Commonwealth concurrently with filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the verified petition and blank order on the rule form matching the court that disposed of the case.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Proof that the driving-privilege suspension was completed. Request a driver history from PennDOT showing the suspension was served and restoration completed. LegalEase never collects, inspects or authenticates it.",
+        "Check your answer to \"If your driving privileges were suspended for this offence, has the suspension been completed?\" against Proof that the driving-privilege suspension was completed, and correct the packet if they disagree.",
+        "Obtain Pennsylvania State Police criminal history report obtained within 60 days before filing. Request the criminal history report within 60 days before filing and attach it.",
+        "Petitioner signature, date and verification — Petition, verification block.",
+        "Judge name and order date — Blank expungement order.",
+        "The petitioner signs and verifies the petition.",
+        "County filing fees vary and no confirmed statewide schedule exists.",
+        "In forma pauperis relief is available on the statewide forms."
+      ]
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_pardon_expungement",
+      "packetSetId": "pa_pardon_expungement-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "pa_pardon_expungement-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "pa_pardon_expungement-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Generated only where the automatic route has not cleared the record after the quarterly cycle.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-790-PETITION",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222549-blankexpungementorder7900309121-000065.pdf",
+          "order": 2
+        },
+        {
+          "componentId": "pa_pardon_expungement-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Accompanies the fallback petition.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-790-ORDER",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222549-blankexpungementorder7900309121-000065.pdf",
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Copy of the pardon. Obtain a copy of the pardon showing whether it was unconditional. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Pennsylvania Board of Pardons",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Was the pardon unconditional, or did it carry conditions?\" against Copy of the pardon, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Pennsylvania State Police criminal history report obtained within 60 days before filing. Request the criminal history report within 60 days before filing and attach it to the petition.",
+          "obtainedFrom": "Pennsylvania State Police",
+          "requirement": "conditional",
+          "conditionDescription": "Required only where the fallback Rule 790 petition is filed.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner signature, date and verification — Rule 790 petition, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Quarterly verification date — Guidance, verification schedule.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "None on the automatic route. The petitioner signs and verifies the fallback petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No fee on the automatic route. County filing fees apply to the fallback petition and vary.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "In forma pauperis relief is available for the fallback petition.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "None on the automatic route; service on the attorney for the Commonwealth on the fallback route.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Nothing is filed on the automatic route. On the fallback route, file the verified Rule 790 petition and blank order with the clerk of courts.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Copy of the pardon. Obtain a copy of the pardon showing whether it was unconditional. LegalEase never collects, inspects or authenticates it.",
+        "Check your answer to \"Was the pardon unconditional, or did it carry conditions?\" against Copy of the pardon, and correct the packet if they disagree.",
+        "Obtain Pennsylvania State Police criminal history report obtained within 60 days before filing. Request the criminal history report within 60 days before filing and attach it to the petition.",
+        "Petitioner signature, date and verification — Rule 790 petition, verification block.",
+        "Quarterly verification date — Guidance, verification schedule.",
+        "None on the automatic route. The petitioner signs and verifies the fallback petition.",
+        "No fee on the automatic route. County filing fees apply to the fallback petition and vary.",
+        "In forma pauperis relief is available for the fallback petition."
+      ]
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_9122_1_limited_access",
+      "packetSetId": "pa_9122_1_limited_access-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "pa_9122_1_limited_access-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-791-PETITION",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210515/215125-file-5632.pdf",
+          "order": 1
+        },
+        {
+          "componentId": "pa_9122_1_limited_access-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-791-ORDER",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210515/215133-file-5631.pdf",
+          "order": 2
+        },
+        {
+          "componentId": "pa_9122_1_limited_access-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "pa_9122_1_limited_access-fee-waiver-4",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only where the participant seeks to proceed in forma pauperis. It does not waive the separate limited access fee that § 9122.1 makes a condition of relief.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-IFP-CCP",
+          "officialSourceUrl": "https://www.pacourts.us/forms/for-the-public",
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Pennsylvania State Police criminal history report obtained within 60 days before filing. Request your own criminal history report from the Pennsylvania State Police within 60 days before filing and attach it to the petition, unless the attorney for the Commonwealth agrees to waive it. Because of the 60-day window, order it late in packet assembly. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Pennsylvania State Police",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is the date of your most recent conviction for any offence punishable by imprisonment of one or more years, in any jurisdiction?\" against Pennsylvania State Police criminal history report obtained within 60 days before filing, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Complete docket sheet showing every charge on the docket and the sentence imposed. Obtain the docket sheet showing every count, the grading, the sentence imposed and the restitution status.",
+          "obtainedFrom": "Clerk of courts, or the Unified Judicial System web docket sheets",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What other charges were filed in the same case, on the same docket?\" against Complete docket sheet showing every charge on the docket and the sentence imposed, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner signature, date and verification — Rule 791 petition, verification block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge name and order date — Blank order for limited access.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Limited access fee amount — Filing instructions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs and verifies the petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "County filing fees vary. Separately, § 9122.1 makes payment of the fee authorized to carry out the limited access and clean slate limited access provisions a condition of relief. That fee is distinct from the county filing fee and its amount is not established by the reviewed authority.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "In forma pauperis relief is available for the county filing fee. It does not by its terms waive the separate statutory limited access fee.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Service on the attorney for the Commonwealth concurrently with filing, per Pa.R.Crim.P. 791.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the verified Rule 791 petition, the blank order for limited access and the attached Pennsylvania State Police criminal history report with the clerk of the courts of the judicial district in which the charges were disposed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Pennsylvania State Police criminal history report obtained within 60 days before filing. Request your own criminal history report from the Pennsylvania State Police within 60 days before filing and attach it to the petition, unless the attorney for the Commonwealth agrees to waive it. Because of the 60-day window, order it late in packet assembly. LegalEase never collects, inspects or authenticates it.",
+        "Check your answer to \"What is the date of your most recent conviction for any offence punishable by imprisonment of one or more years, in any jurisdiction?\" against Pennsylvania State Police criminal history report obtained within 60 days before filing, and correct the packet if they disagree.",
+        "Obtain Complete docket sheet showing every charge on the docket and the sentence imposed. Obtain the docket sheet showing every count, the grading, the sentence imposed and the restitution status.",
+        "Check your answer to \"What other charges were filed in the same case, on the same docket?\" against Complete docket sheet showing every charge on the docket and the sentence imposed, and correct the packet if they disagree.",
+        "Petitioner signature, date and verification — Rule 791 petition, verification block.",
+        "Judge name and order date — Blank order for limited access.",
+        "Limited access fee amount — Filing instructions.",
+        "The petitioner signs and verifies the petition.",
+        "County filing fees vary. Separately, § 9122.1 makes payment of the fee authorized to carry out the limited access and clean slate limited access provisions a condition of relief. That fee is distinct from the county filing fee and its amount is not established by the reviewed authority.",
+        "In forma pauperis relief is available for the county filing fee. It does not by its terms waive the separate statutory limited access fee."
+      ]
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_9122_2_clean_slate",
+      "packetSetId": "pa_9122_2_clean_slate-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "pa_9122_2_clean_slate-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Pennsylvania State Police criminal history report. Request your own criminal history report to see whether the record has been given limited access. LegalEase never collects, inspects or authenticates it.",
+          "obtainedFrom": "Pennsylvania State Police",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Does this record still appear when your Pennsylvania criminal history or public docket is searched?\" against Pennsylvania State Police criminal history report, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Public docket sheet. Check whether the docket is still publicly viewable, which indicates whether limited access has been applied.",
+          "obtainedFrom": "Unified Judicial System web docket sheets",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "Eligibility date calculation — Guidance, timing worksheet.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "none — no participant filing exists on this route",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none for the automatic route",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none — no fee applies",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "Nothing is filed. Section 9122.2 operates without a petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Does this record still appear when your Pennsylvania criminal history or public docket is searched?\" against Pennsylvania State Police criminal history report, and correct the packet if they disagree.",
+        "Eligibility date calculation — Guidance, timing worksheet.",
+        "none — no participant filing exists on this route",
+        "none for the automatic route",
+        "none — no fee applies"
+      ]
     }
   ]
 }

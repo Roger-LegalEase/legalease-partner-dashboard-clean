@@ -34,11 +34,15 @@ assigned temporary path, verified against the pinned hash, and exposed
 read-only. No worker may rely on another Codespace's absolute path or copy a
 review permanently into its state output directory.
 
-## Captain-owned research bundle
+## Captain-owned research evidence
 
-Sessions B and D return one JSON bundle per reserved jurisdiction. The captain
-validates it before adding it to the `bundles` array. A bundle uses
-`rcap-normalization-readiness-bundle/v1` and includes:
+Sessions B and D return immutable research bundles and manifests. The captain
+validates their committed bytes, manifest digest, jurisdiction partition and
+slot count, then derives production readiness bundles without rewriting the
+raw evidence. Session B contributes 12 jurisdictions and 182 mechanism rows;
+Session D contributes 12 jurisdictions and 131 keyed mechanism rows.
+
+The derived bundle uses `rcap-normalization-readiness-bundle/v1` and includes:
 
 - authority edition, exact review archive entry, revision, review date, and
   review SHA-256;
@@ -49,7 +53,8 @@ validates it before adding it to the `bundles` array. A bundle uses
 - retained form IDs, exact open questions, official-primary-authority refresh
   requirements, and approved retrieval methods.
 
-Validate a returned bundle without editing the registry:
+Validate a separately materialized candidate bundle without editing the
+registry:
 
 ```sh
 node scripts/verify-rcap-normalization-readiness.mjs --bundle path/to/bundle.json
@@ -72,11 +77,19 @@ Each reviewed slot contains these exact fields:
 - `referencedOfficialForms`
 - `unresolvedQuestions`
 
-The canonical payload binds schema version, authority edition, jurisdiction,
-controlling-review SHA, and rows. Row keys have fixed ordering; string arrays
-and rows are sorted; duplicates are rejected. Retrieval timestamps and
-absolute Codespace paths are outside the payload and forbidden in inventory
-rows. `mechanismInventorySha256` is the SHA-256 of that canonical payload.
+`mechanism-inventory-v1` hashes the jurisdiction's mechanism-inventory array
+only. It encodes compact UTF-8 JSON, recursively sorts object keys, sorts rows
+by stable `sourceId`, and sorts scalar arrays unless the review expressly
+marks their order legally substantive. It excludes volatile retrieval
+timestamps and local materialization destinations. Absolute filesystem paths
+and duplicate source IDs are rejected. `canonicalMechanismInventorySha256` is
+the SHA-256 of those canonical bytes, and
+`canonicalPayloadByteCount` records their length.
+
+`researchSuppliedInventorySha256` is preserved separately because the two
+research sessions used different evidence-hash algorithms. It is reproduced
+as an evidence check but is not substituted for the repository-wide canonical
+hash.
 
 The inventory is a denominator for normalization. Preserving a review's
 proposed classification, actor, destination, or strategy does not adopt it as
@@ -92,6 +105,7 @@ The planner derives, rather than assigns by jurisdiction, these states:
 
 - `legal_review_materialization_required`
 - `legal_review_hash_mismatch`
+- `mechanism_inventory_count_conflict`
 - `mechanism_inventory_required`
 - `mechanism_inventory_hash_mismatch`
 - `expected_source_ids_required`
@@ -111,9 +125,9 @@ official page with a captured hash can satisfy the same section's refresh
 requirement. `authority_absent` and `authority_archive_inconsistent` remain
 distinct fail-closed states.
 
-Pennsylvania's already-scaffolded assignment is represented by its exact
-`in_progress` claim rather than a jurisdiction-specific planner exception.
-That transition does not permit a new job lacking the readiness inputs to be
+Pennsylvania has no planner special case. Its completed normalization is a
+terminal child backed by its integrated memo and worker commit. That completion
+does not permit a different jurisdiction lacking the readiness inputs to be
 scaffolded.
 
 ## Exact-job claims
@@ -135,8 +149,16 @@ claim registries.
 
 ## Current fail-closed posture
 
-The Edition 1.2 review identities are known for all 24 jurisdictions. The
-portable archive and the Session B / Session D mechanism-inventory bundles are
-not materialized in this integration checkout, so none of the 24 new children
-is currently scaffoldable. The first eight remain reserved; they are not
-executed or falsely promoted by this foundation change.
+Both research bundles are committed and all 24 jurisdictions are represented
+exactly once with 313 total denominator rows. UT, VT and WV retain unresolved
+review-summary versus keyed-body count conflicts. The other 21 denominators
+are reconciled, including explicit normalization-time authority refresh
+requirements for SC, TN and WY.
+
+The exact Edition 1.2 archive is not materialized in this checkout, and the raw
+research evidence does not carry the per-review byte counts required by the
+source-materialization contract. The 21 otherwise-complete states therefore
+remain `legal_review_materialization_required`; UT, VT and WV remain
+`mechanism_inventory_count_conflict`. Reserved jobs are not treated as claimed
+or ready until their exact review bytes are locally materialized, size-checked,
+hash-verified and read-only.

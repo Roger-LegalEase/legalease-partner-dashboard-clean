@@ -122,6 +122,16 @@ const alabamaCr65 = readJson(
 const georgiaJailGuidance = readJson(
   "data/record-clearing/production-factory/guidance-specifications/ga-jail-k2-process-guidance-3.json"
 );
+const sessionBReadinessBundlePath =
+  "docs/record-clearing/normalization-readiness-research/session-b-ky-or.bundle.json";
+const sessionBReadinessManifest = readJson(
+  "docs/record-clearing/normalization-readiness-research/session-b-ky-or.manifest.json"
+);
+const sessionDReadinessBundlePath =
+  "docs/record-clearing/normalization-readiness-research/session-d-ri-wy.bundle.json";
+const sessionDReadinessManifest = readJson(
+  "docs/record-clearing/normalization-readiness-research/session-d-ri-wy.manifest.json"
+);
 const customPleadingAdoption = readJson(ADOPTION_RECORD_PATHS[0]);
 const officialAcroformAdoption = readJson(ADOPTION_RECORD_PATHS[1]);
 const expectedAdoptions = await buildCurrentCounselAdoptionRecords({
@@ -158,22 +168,22 @@ const factoryPlan = buildFactoryPlan({ rootDir: ROOT });
 const factoryValidation = validateFactoryPlan(factoryPlan);
 assert.equal(factoryValidation.ok, true, factoryValidation.issues.join("\n"));
 assert.deepEqual(findOwnedPathOverlaps(factoryPlan.jobs), []);
-assert.equal(factoryPlan.jobs.length, 197);
+assert.equal(factoryPlan.jobs.length, 210);
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "ready").length,
-  68
+  61
 );
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "blocked").length,
-  116
+  123
 );
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "completed").length,
-  11
+  25
 );
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "in_progress").length,
-  2
+  1
 );
 assert.equal(
   productionPlan.factoryQueueReconciliation.jobs,
@@ -216,8 +226,8 @@ assert.equal(
   11
 );
 assert.equal(factoryPlan.canonicalPlan.parentJobs, 72);
-assert.equal(factoryPlan.parentJobReconciliation.compiledChildJobs, 197);
-assert.equal(factoryPlan.parentJobReconciliation.childrenMappedExactlyOnce, 197);
+assert.equal(factoryPlan.parentJobReconciliation.compiledChildJobs, 210);
+assert.equal(factoryPlan.parentJobReconciliation.childrenMappedExactlyOnce, 210);
 assert.equal(factoryPlan.parentJobReconciliation.unmappedChildren, 0);
 assert.equal(factoryPlan.parentJobReconciliation.unknownParentReferences, 0);
 assert.deepEqual(
@@ -244,7 +254,11 @@ for (const child of factoryPlan.jobs.filter((entry) =>
     "guidance_implementation"
   ].includes(entry.lane)
 )) {
-  assert.equal(child.participantPacketProofRequired, true, child.jobId);
+  assert.equal(
+    child.participantPacketProofRequired,
+    child.strategyFamily !== "legal_design_adjudication",
+    child.jobId
+  );
   assert.ok(
     child.expectedOutputs.includes(child.regressionVerifier) ||
       child.integrationOwnedOutputs.includes(child.regressionVerifier),
@@ -254,6 +268,58 @@ for (const child of factoryPlan.jobs.filter((entry) =>
     child.focusedValidation.includes(`node ${child.regressionVerifier}`),
     child.jobId
   );
+}
+for (const child of factoryPlan.jobs.filter(
+  (entry) => entry.strategyFamily === "legal_design_adjudication"
+)) {
+  assert.equal(child.participantPacketProofRequired, false, child.jobId);
+  assert.equal(
+    child.integrationOwnedOutputs.some((output) =>
+      output.startsWith(
+        "data/record-clearing/production-factory/packet-proofs/"
+      )
+    ),
+    false,
+    child.jobId
+  );
+}
+for (const child of factoryPlan.jobs.filter(
+  (entry) =>
+    entry.status === "completed" &&
+    entry.lane === "guidance_implementation" &&
+    entry.participantPacketProofRequired === true
+)) {
+  const proofPath =
+    `data/record-clearing/production-factory/packet-proofs/${child.jobId}.json`;
+  assert.ok(child.integrationOwnedOutputs.includes(proofPath), child.jobId);
+  const proof = readJson(proofPath);
+  assert.equal(proof.jobId, child.jobId);
+  assert.equal(proof.parentJobId, child.parentJobId);
+  assert.equal(proof.completionCommit, child.completionCommit);
+  assert.equal(proof.finalPdfCount, child.trackIds.length);
+  assert.equal(proof.samplePackets.length, child.trackIds.length);
+  assert.deepEqual(
+    proof.samplePackets.map((packet) => packet.trackId).sort(),
+    [...child.trackIds].sort(),
+    child.jobId
+  );
+  assert.equal(
+    proof.samplePackets.reduce(
+      (total, packet) => total + packet.assembledPageCount,
+      0
+    ),
+    proof.assembledPageCount,
+    child.jobId
+  );
+  assert.equal(proof.verifier.path, child.regressionVerifier);
+  assert.equal(proof.verifier.sha256, fileSha256(child.regressionVerifier));
+  assert.equal(proof.verifier.result, "passed");
+  assert.equal(proof.deterministic, true);
+  assert.equal(proof.generatedPacketBytesTracked, false);
+  assert.equal(proof.runtimeStatus, "runtime_disabled");
+  assert.equal(proof.visualProof, "pending");
+  assert.equal(proof.counselAdopted, false);
+  assert.equal(proof.productionEnabled, false);
 }
 for (const child of factoryPlan.jobs.filter(
   (entry) =>
@@ -274,12 +340,44 @@ for (const child of factoryPlan.jobs.filter(
 const paNormalization = factoryPlan.jobs.find(
   (entry) => entry.jobId === "rcap-pa-legal-design-normalization"
 );
-assert.equal(paNormalization.status, "in_progress");
+assert.equal(paNormalization.status, "completed");
 assert.equal(
   paNormalization.normalizationReadiness.readinessState,
-  "normalization_in_progress"
+  "normalization_complete"
 );
-assert.equal(paNormalization.assignmentClaim.ownerSession, "SESSION_B");
+assert.equal(
+  paNormalization.completionCommit,
+  "387656ac31a49f7338bd9d1e3e170df929659d98"
+);
+assert.equal(paNormalization.assignmentClaim ?? null, null);
+const paTrack11Adjudication = factoryPlan.jobs.find(
+  (entry) =>
+    entry.jobId === "rcap-pa-clean-slate-correction-adjudication"
+);
+assert.equal(paTrack11Adjudication.status, "blocked");
+assert.equal(paTrack11Adjudication.lane, "legal_design_normalization");
+assert.equal(
+  paTrack11Adjudication.strategyFamily,
+  "legal_design_adjudication"
+);
+assert.deepEqual(paTrack11Adjudication.trackIds, []);
+assert.deepEqual(paTrack11Adjudication.dependencies, [
+  "rcap-pa-legal-design-normalization"
+]);
+assert.equal(
+  paTrack11Adjudication.parentJobId,
+  "NORM-03-pod-2-mid-atlantic"
+);
+assert.equal(paTrack11Adjudication.participantPacketProofRequired, false);
+assert.equal(paTrack11Adjudication.regressionVerifier, undefined);
+assert.match(
+  paTrack11Adjudication.stopCondition,
+  /packet identity and legal effect from controlling authority/
+);
+assert.match(
+  paTrack11Adjudication.stopCondition,
+  /Do not invent a normalized track, filing, or remedy/
+);
 const remainingNormalizations = factoryPlan.jobs.filter(
   (entry) =>
     /-legal-design-normalization$/.test(entry.jobId) &&
@@ -290,28 +388,86 @@ assert.ok(
   remainingNormalizations.every(
     (entry) =>
       entry.status === "blocked" &&
-      entry.normalizationReadiness.readinessState ===
-        "legal_review_materialization_required" &&
+      [
+        "legal_review_materialization_required",
+        "mechanism_inventory_count_conflict"
+      ].includes(entry.normalizationReadiness.readinessState) &&
       entry.normalizationReadiness.controllingReviewStatus ===
-        "authority_asset_known" &&
+        "checksum_verified" &&
       /^[0-9a-f]{64}$/.test(
         entry.normalizationReadiness.controllingReviewSha256
       ) &&
+      entry.normalizationReadiness.canonicalizationVersion ===
+        "mechanism-inventory-v1" &&
+      /^[0-9a-f]{64}$/.test(
+        entry.normalizationReadiness.canonicalMechanismInventorySha256
+      ) &&
+      entry.normalizationReadiness.reviewMaterialization.readOnly === true &&
+      entry.normalizationReadiness.reviewMaterialization
+        .materializationState === "binary_materialization_required" &&
       entry.dependencies.includes(
         "rcap-nationwide-normalization-readiness-foundation"
       )
   )
 );
+assert.deepEqual(
+  remainingNormalizations
+    .filter(
+      (entry) =>
+        entry.normalizationReadiness.readinessState ===
+        "mechanism_inventory_count_conflict"
+    )
+    .map((entry) => entry.jurisdiction)
+    .sort(),
+  ["UT", "VT", "WV"]
+);
+assert.equal(
+  remainingNormalizations.reduce(
+    (total, entry) =>
+      total + entry.normalizationReadiness.mechanismInventory.length,
+    0
+  ),
+  313
+);
 assert.deepEqual(factoryPlan.normalizationReadiness, {
   expectedJurisdictions: 24,
   representedExactlyOnce: 24,
-  bundlesReceived: 0,
+  bundlesReceived: 24,
   readyForNormalization: 0,
   blocked: 24,
   byReadinessState: {
-    legal_review_materialization_required: 24
+    legal_review_materialization_required: 21,
+    mechanism_inventory_count_conflict: 3
   }
 });
+assert.deepEqual(
+  {
+    sha256: fileSha256(sessionBReadinessBundlePath),
+    bytes: fs.statSync(path.join(ROOT, sessionBReadinessBundlePath)).size,
+    jurisdictions: sessionBReadinessManifest.jurisdictionCount,
+    slots: sessionBReadinessManifest.inventorySlotCount
+  },
+  {
+    sha256: "d9a97ca8401193b775f09224860bb764a7eda00d7303a032ff525d0bf10bd3df",
+    bytes: 631596,
+    jurisdictions: 12,
+    slots: 182
+  }
+);
+assert.deepEqual(
+  {
+    sha256: fileSha256(sessionDReadinessBundlePath),
+    bytes: fs.statSync(path.join(ROOT, sessionDReadinessBundlePath)).size,
+    jurisdictions: sessionDReadinessManifest.jurisdictionCount,
+    slots: sessionDReadinessManifest.inventorySlotCount
+  },
+  {
+    sha256: "f5271ad2958341abd31c3ab82603c946e4d485a30f0ee384703e3b96c9a20860",
+    bytes: 48071,
+    jurisdictions: 12,
+    slots: 131
+  }
+);
 assert.equal(
   factoryPlan.jobs.find(
     (entry) =>
@@ -331,12 +487,12 @@ assert.equal(
 const normalizedKeys = normalizedTracks.tracks
   .map((track) => `${track.jurisdiction}:${track.trackId}`)
   .sort();
-assert.equal(normalizedKeys.length, 250);
-assert.equal(new Set(normalizedKeys).size, 250);
+assert.equal(normalizedKeys.length, 260);
+assert.equal(new Set(normalizedKeys).size, 260);
 const trackById = new Map(
   normalizedTracks.tracks.map((track) => [track.trackId, track])
 );
-assert.equal(trackById.size, 250, "Normalized track IDs must be globally unique.");
+assert.equal(trackById.size, 260, "Normalized track IDs must be globally unique.");
 const parentTrackKeys = canonicalParentRecords.flatMap(({ data }) =>
   (data.tracks ?? []).map((trackId) => {
     const track = trackById.get(trackId);
@@ -354,7 +510,7 @@ const authorityOnlyKeys = canonicalParentRecords.flatMap(({ data }) =>
 const completedMississippiKeys = tranche1.selectedTracks.map(
   (track) => `${tranche1.jurisdiction}:${track.trackId}`
 );
-assert.equal(parentTrackKeys.length, 240);
+assert.equal(parentTrackKeys.length, 250);
 assert.equal(authorityOnlyKeys.length, 5);
 assert.equal(completedMississippiKeys.length, 5);
 const canonicalTrackPartition = [
@@ -362,8 +518,8 @@ const canonicalTrackPartition = [
   ...authorityOnlyKeys,
   ...completedMississippiKeys
 ].sort();
-assert.equal(canonicalTrackPartition.length, 250);
-assert.equal(new Set(canonicalTrackPartition).size, 250);
+assert.equal(canonicalTrackPartition.length, 260);
+assert.equal(new Set(canonicalTrackPartition).size, 260);
 assert.deepEqual(canonicalTrackPartition, normalizedKeys);
 
 for (const child of factoryPlan.jobs) {
@@ -409,7 +565,24 @@ assert.deepEqual(productionPlan.integratedCommits, {
   georgiaJailGuidanceSpecification: "ca5958590d1b52713c4489d58617586e82f33629",
   dcCustomPleadings: "a25306af0e095faac1ce4d36c60b0f04c9221b31",
   illinoisCustomPleadings: "20379e6e8f7fd41e1fda6714ab05a06183123368",
-  sourceMaterializationContract: "a3b28545af4e8953146a97907d22a28c7aec6726"
+  sourceMaterializationContract: "a3b28545af4e8953146a97907d22a28c7aec6726",
+  normalizationReadinessFoundation: "203b8931391d5636fda3a3fcfc35c0423c2bf9e3",
+  sessionBNormalizationResearch: "f54348b5dc5f448e5a5b3916ca98388f84c7f704",
+  sessionDNormalizationResearch: "e341927a42ea54abb8b03e587493a5826fa3e0d3",
+  michiganGuidance: "7dbe89fe733474a90cc1ad20b5c11dc1a6520aa5",
+  pennsylvaniaNormalization: "387656ac31a49f7338bd9d1e3e170df929659d98",
+  dcGuidance: "03505f1659072e28b245dfd9677426a995960bdd",
+  minnesotaGuidance: "bf6f368c8a4cd72e0fa488bd37336c073f116925",
+  connecticutGuidance: "fd9ef0bfc18f11d0b34d7504682a574e2a849d06",
+  marylandGuidance: "8dfdc7ae28a6362825ae19621e8a7afd6d8cef6c",
+  alaskaGuidance: "36509c7377c5653db07fd5c43b3948aad079164a",
+  californiaGuidance: "26b4661089849a67eb99bfae6598ba101f75cbbc",
+  coloradoIdentityReconciliation: "6afe0d989bb079dbd1eab377b0547b9b6908d902",
+  alaskaPublicOfficialDownload: "4acded00a77584b0ea9c9f00e490e2a6a92dd033",
+  mainePublicOfficialDownload: "6912e16bc73dbb85612dc5ede86c6a472e5c1e91",
+  michiganPublicOfficialDownload: "6ad135bcd8ef53b36a8c63948056fec546ba24d0",
+  idahoPublicOfficialDownload: "95c47cdbf031b71164e8f2ea4fb71299f61aad9b",
+  illinoisPublicOfficialDownload: "17e9cad367543a4f7b21b30d754d09e51ffbd898"
 });
 assert.deepEqual(productionPlan.integrationEquivalents, {
   factory: "381abd95efd5370ef592e5ba25bc3368008f0330",
@@ -425,7 +598,24 @@ assert.deepEqual(productionPlan.integrationEquivalents, {
   georgiaJailGuidanceSpecification: "05f306208b5345abac4952f784f762cc87481dcc",
   dcCustomPleadings: "7dd99311a44c871e52a0bee114cce25c5ef39584",
   illinoisCustomPleadings: "16290faef1865f48448a43baaa8728a5317384c1",
-  sourceMaterializationContract: "37cb49b645bee42739d7dea32960a45b1927689f"
+  sourceMaterializationContract: "37cb49b645bee42739d7dea32960a45b1927689f",
+  normalizationReadinessFoundation: "203b8931391d5636fda3a3fcfc35c0423c2bf9e3",
+  sessionBNormalizationResearch: "2cda74784c8fc31752cedcf9f371ac22979aa730",
+  sessionDNormalizationResearch: "e48d3dc6c859735f8422d491c29cdf43c964457a",
+  michiganGuidance: "e54449dd7ac5eb21c6b54273ca468cb08f89d78d",
+  pennsylvaniaNormalization: "50cabd1631c2df656200815b0238ec1f9398c1a5",
+  dcGuidance: "6bd7d2e4d3d587453ecea391e484631d7e9bbce9",
+  minnesotaGuidance: "6ae18ce82c1e7fb36aa47ff6fc291c22c91284a2",
+  connecticutGuidance: "e8b071aef4160a3e4841d4af880bd9e4fad840fc",
+  marylandGuidance: "0c7e522e7ff6d88fec17fd1adff9e9103c808dd9",
+  alaskaGuidance: "e6b094f5ffabda47afd29242035e54dd2e0a2b9b",
+  californiaGuidance: "489a620e4c9d2e8b3ec8d9e5137aa71532ae63d4",
+  coloradoIdentityReconciliation: "2cd68354efa3ee36683f17a2d5719df5e7c22159",
+  alaskaPublicOfficialDownload: "ac007a0e030c1e9a741273eea2de7dd4e602168e",
+  mainePublicOfficialDownload: "9fd0122e3896c528398dbbc88d473391cbfac7e1",
+  michiganPublicOfficialDownload: "8411cb87f1b7e4b59cf505f78887f30e78bed38b",
+  idahoPublicOfficialDownload: "a0b2a08384ede082da4a41ef960f46a0f54ba970",
+  illinoisPublicOfficialDownload: "402d6287ad935b98c1bfa7cf870cc2fd4c3e2666"
 });
 assert.equal(authority.edition, "1.2");
 assert.equal(masterReconciliation.authority.edition, "1.2");
@@ -452,8 +642,8 @@ assert.equal(trackSourceAudit.totals.tracksCleared, 87);
 assert.equal(trackSourceAudit.totals.tracksBlocked, 163);
 assert.deepEqual(productionPlan.readinessMetrics.current, {
   authorityCleared: 87,
-  authorityBlocked: 163,
-  sourcePinned: 43,
+  authorityBlocked: 173,
+  sourcePinned: 48,
   implementationProof: 17,
   finalDisposition: 0
 });
@@ -696,13 +886,13 @@ assert.ok(
   )
 );
 
-assert.equal(factoryPlan.trackReconciliation.normalizedTracks, 250);
-assert.equal(factoryPlan.trackReconciliation.representedExactlyOnce, 250);
-assert.equal(factoryPlan.trackReconciliation.implementationComplete, 19);
-assert.equal(factoryPlan.trackReconciliation.pendingProductionJob, 231);
+assert.equal(factoryPlan.trackReconciliation.normalizedTracks, 260);
+assert.equal(factoryPlan.trackReconciliation.representedExactlyOnce, 260);
+assert.equal(factoryPlan.trackReconciliation.implementationComplete, 52);
+assert.equal(factoryPlan.trackReconciliation.pendingProductionJob, 208);
 assert.equal(
   productionPlan.baselineVerification.confirmed.implementedTracksAwaitingReview,
-  2
+  35
 );
 assert.equal(
   productionPlan.baselineVerification.confirmed.tracksAwaitingCounselAdoption,
@@ -718,7 +908,7 @@ assert.equal(
 );
 assert.equal(new Set(factoryPlan.trackReconciliation.assignments.map(
   (entry) => `${entry.jurisdiction}:${entry.trackId}`
-)).size, 250);
+)).size, 260);
 
 const completed = factoryPlan.trackReconciliation.assignments.filter(
   (entry) => entry.disposition === "implementation_complete"
@@ -728,8 +918,16 @@ assert.equal(completed.filter((entry) => entry.jurisdiction === "GA").length, 9)
 assert.deepEqual(
   completed
     .filter((entry) => entry.jurisdiction === "MD")
-    .map((entry) => entry.trackId),
-  ["md_second_chance_shielding"]
+    .map((entry) => entry.trackId)
+    .sort(),
+  [
+    "md_10103_1_automatic",
+    "md_10103_legacy_police",
+    "md_10104_pre_service",
+    "md_10105_1_automatic",
+    "md_10112_dpscs_cannabis",
+    "md_second_chance_shielding"
+  ]
 );
 const activeStatuses = new Set(["planned", "ready", "blocked", "in_progress"]);
 for (const completedTrack of completed) {
@@ -830,15 +1028,8 @@ const activeMarylandImplementation = factoryPlan.jobs.filter(
 );
 assert.deepEqual(
   activeMarylandImplementation.map((entry) => entry.jobId),
-  ["rcap-md-guidance-implementation"]
+  []
 );
-assert.deepEqual(activeMarylandImplementation[0].trackIds, [
-  "md_10103_1_automatic",
-  "md_10103_legacy_police",
-  "md_10104_pre_service",
-  "md_10105_1_automatic",
-  "md_10112_dpscs_cannabis"
-]);
 const forbiddenMarylandRegenerationTracks = new Set([
   "md_second_chance_shielding",
   ...staticMarylandJob.authorityOnlyRoutes
@@ -1126,21 +1317,27 @@ assert.deepEqual(
   })),
   []
 );
-assert.equal(
-  productionPlan.routingReservations.sessionB.jobId,
-  "rcap-pa-legal-design-normalization"
+assert.deepEqual(
+  productionPlan.routingReservations.sessionB.preferredFirstJobs,
+  [
+    "rcap-ky-legal-design-normalization",
+    "rcap-nc-legal-design-normalization",
+    "rcap-nd-legal-design-normalization",
+    "rcap-ne-legal-design-normalization"
+  ]
 );
-assert.equal(
-  productionPlan.routingReservations.sessionC.jobId,
-  "rcap-dc-guidance-implementation"
-);
-assert.equal(
-  productionPlan.routingReservations.nextWaveInputs.michiganGuidanceImplementation.commit,
-  "7dbe89fe733474a90cc1ad20b5c11dc1a6520aa5"
+assert.deepEqual(
+  productionPlan.routingReservations.sessionD.preferredFirstJobs,
+  [
+    "rcap-ri-legal-design-normalization",
+    "rcap-sc-legal-design-normalization",
+    "rcap-sd-legal-design-normalization",
+    "rcap-tn-legal-design-normalization"
+  ]
 );
 assert.equal(
   productionPlan.routingReservations.normalizationReadiness.bundlesReceived,
-  0
+  24
 );
 assert.equal(
   productionPlan.routingReservations.normalizationReadiness.jurisdictionsBlocked,
@@ -1173,14 +1370,15 @@ assert.deepEqual(
     "EXC-01-ks-commercial-use-determination"
   ]
 );
-assert.equal(factoryPlan.jobClaims.claims.length, 28);
+assert.equal(factoryPlan.jobClaims.claims.length, 26);
 assert.equal(
   new Set(factoryPlan.jobClaims.claims.map((claim) => claim.jobId)).size,
-  28
+  26
 );
+assert.ok(factoryPlan.jobClaims.claims.every((claim) => claim.status === "reserved"));
 const reservedNextJobIds = new Set([
-  productionPlan.routingReservations.sessionB.jobId,
-  productionPlan.routingReservations.sessionC.jobId
+  ...productionPlan.routingReservations.sessionB.preferredFirstJobs,
+  ...productionPlan.routingReservations.sessionD.preferredFirstJobs
 ]);
 assert.ok(
   productionPlan.nextSessionAssignments.every(
@@ -1235,8 +1433,8 @@ for (let left = 0; left < scaffoldPlans.length; left += 1) {
 const status = buildFactoryStatus({ rootDir: ROOT });
 assert.deepEqual(status.readinessMetrics, {
   authorityCleared: 87,
-  authorityBlocked: 163,
-  sourcePinned: 43,
+  authorityBlocked: 173,
+  sourcePinned: 48,
   implementationProof: 17,
   finalDisposition: 0
 });
@@ -1256,7 +1454,7 @@ assert.equal(
       )
   )
     .length,
-  31
+  36
 );
 assert.deepEqual(
   status.tracks
@@ -1269,8 +1467,8 @@ assert.deepEqual(
     "md_second_chance_shielding"
   ]
 );
-assert.equal(status.totals.tracks, 250);
-assert.equal(status.totals.normalized, 250);
+assert.equal(status.totals.tracks, 260);
+assert.equal(status.totals.normalized, 260);
 assert.equal(status.totals.implementationComplete, 19);
 assert.equal(status.totals.technicalProofPassed, 19);
 assert.equal(status.totals.visualProofPassed, 17);
@@ -1288,7 +1486,7 @@ console.log("Integrated RCAP production plan verification passed.");
 console.log("  PASS tracked Master Library 1.2 reconciliation remains internally consistent");
 console.log("  PASS 109 acquisition records represented exactly once");
 console.log("  PASS 313 official evidence records and 32 issuer campaigns preserved");
-console.log("  PASS 250 normalized tracks represented exactly once");
-console.log("  PASS 19 completed tracks excluded from pending implementation");
+console.log("  PASS 260 normalized tracks represented exactly once");
+console.log("  PASS 52 engineering-complete tracks excluded from pending implementation");
 console.log("  PASS 15 exact implemented routes counsel-adopted by hash");
 console.log("  PASS packet_ready=0 enabled_jurisdictions=0 launch_gate=red");

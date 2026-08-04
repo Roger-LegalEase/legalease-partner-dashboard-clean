@@ -5,12 +5,13 @@
   "lane": "implementation-acroform",
   "model": "claude-opus-5",
   "effort": "max",
-  "title": "Each state contributes one to four small statewide AcroForms and none justifies its own tranche",
+  "title": "Small statewide AcroForm families that do not justify a dedicated parent tranche",
   "jurisdictions": [
     "AK",
     "CT",
     "MI",
-    "ME"
+    "ME",
+    "PA"
   ],
   "tracks": [
     "ak-courtview",
@@ -23,14 +24,21 @@
     "mi_setaside_first_owi",
     "mi_setaside_trafficking",
     "me-seal-prost",
-    "me-seal-survivor"
+    "me-seal-survivor",
+    "pa_790_nonconviction",
+    "pa_490_nonconviction",
+    "pa_summary_conviction",
+    "pa_age70_deceased",
+    "pa_6308_underage",
+    "pa_9122_1_limited_access"
   ],
-  "trackCount": 11,
+  "trackCount": 17,
   "dependencies": [
     "IMP-OF-01-md-district-court-form-family"
   ],
   "ownedPaths": [
     "src/lib/rcap/packets/registry-ak.ts",
+    "src/lib/rcap/packets/jurisdictions/pennsylvania/acroform.ts",
     "src/lib/rcap/packets/IMP-OF-05-small-statewide-acroform-states-facts.ts",
     "data/record-clearing/implementation-tranches/IMP-OF-05-small-statewide-acroform-states*.json",
     "scripts/rcap-generate-IMP-OF-05-small-statewide-acroform-states-review.mjs",

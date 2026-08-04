@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "data/record-clearing/legal-design-intake",
-  "jurisdictionsReceived": 26,
-  "jurisdictionsOutstanding": 25,
+  "jurisdictionsReceived": 27,
+  "jurisdictionsOutstanding": 24,
   "outstandingJurisdictions": [
     "KY",
     "NC",
@@ -16,7 +16,6 @@
     "OH",
     "OK",
     "OR",
-    "PA",
     "RI",
     "SC",
     "SD",
@@ -59,6 +58,10 @@
     {
       "jurisdiction": "CO",
       "trackId": "co_mistaken_identity_expungement"
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_clean_slate_correction"
     }
   ],
   "batches": [
@@ -71,8 +74,84 @@
     {
       "batch": "B_official_pdf_overlay",
       "label": "Official PDF fill, requiring a coordinate overlay",
-      "trackCount": 0,
-      "tracks": []
+      "trackCount": 2,
+      "tracks": [
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_790_nonconviction",
+          "publicName": "Expunge a Pennsylvania court case that did not end in a conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Expungement under § 9122 is not limited access. Consumer-facing copy must keep the two remedies distinct and must never tell a participant the record no longer exists beyond what § 9122.5 permits."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 12,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): The county filing fee schedule for a Rule 790 expungement petition. No statewide schedule was established and reported county figures range from roughly $132 to $215."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_490_nonconviction",
+          "publicName": "Expunge a Pennsylvania summary case that did not end in a conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [
+            {
+              "question": "Whether the attorney for the Commonwealth may waive the Pennsylvania State Police criminal history report requirement under Rule 490. Rules 790 and 791 state an express waiver; the current text of Rule 490 does not.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "filing_process",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "TRACK 2 / Everything else as in Track 1",
+                "sourceStatement": "**Everything else** as in Track 1.",
+                "counselQuestion": "Rules 790 and 791 permit the attorney for the Commonwealth to waive the attached PSP criminal history report. The current text of Rule 490 states the attachment requirement without an express waiver. Should the Rule 490 packet offer a waiver path?"
+              }
+            }
+          ],
+          "participantActionCount": 11,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            }
+          ]
+        }
+      ]
     },
     {
       "batch": "C_custom_pleading",
@@ -1898,7 +1977,7 @@
     {
       "batch": "D_composed_or_process_guidance",
       "label": "Composed and process-guidance tracks",
-      "trackCount": 66,
+      "trackCount": 69,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -4701,6 +4780,140 @@
               "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
             }
           ]
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_acquittal_auto",
+          "publicName": "Check that a full acquittal cleared your record automatically",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Do not offer this track for a partial acquittal. Section 9122(a) reaches acquittal of all charges based on the same conduct or arising from the same criminal episode."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Whether the participant receives notice that the automatic expungement has occurred.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "notice_or_service",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "TRACK 3 / Open questions",
+                "sourceStatement": "Whether the participant receives notice. Unresolved."
+              }
+            }
+          ],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): What remedy exists where the twelve months pass without the expungement occurring."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_ard_expungement",
+          "publicName": "Check that finishing ARD cleared your arrest record",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Do not offer this track where ARD was granted for an enumerated sexual offence with a victim under 18. Section 9122(b.1) removes the court's authority to expunge the arrest record."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): What a participant does where the ARD dismissal was entered but no expungement order followed."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_9122_2_clean_slate",
+          "publicName": "Check whether Clean Slate has sealed your record automatically",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Limited access is not expungement. Records subject to limited access remain available to criminal justice agencies, are disclosed to a court for sentencing, and must be self-disclosed for public-office eligibility under § 9122.5."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Reconciling the treatment of terroristic threats across the § 9122.1 petition exclusion and the § 9122.2 automatic qualifying list.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "eligibility_branch",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "UNRESOLVED QUESTION IMPACT / Nonblocking research notes",
+                "sourceStatement": "Reconciling terroristic threats across the petition exclusion and the auto-sealing qualifying list."
+              }
+            }
+          ],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
         }
       ]
     },
@@ -4836,7 +5049,7 @@
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 144,
+      "trackCount": 149,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -11722,6 +11935,205 @@
             {
               "kind": "release_blocker",
               "statement": "Open question blocks release (packet_components): Whether CRISS enforces the 2023 form's photo-identification requirement for a Non-Conviction Removal request. The 2024 version drops it and lists only the court judgment. The packet includes photo identification by default, which is the fail-closed reading, pending confirmation."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_summary_conviction",
+          "publicName": "Expunge an old Pennsylvania summary conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_age70_deceased",
+          "publicName": "Expunge a Pennsylvania record on age or on behalf of someone who has died",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 11,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Who has standing to petition for expungement on the deceased ground, and what proof of authority the court requires."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_6308_underage",
+          "publicName": "Expunge an underage drinking conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [
+            {
+              "question": "The commencement date of the § 6308 expungement provision itself, which the reviewed authority does not state. The § 9122 framework date is carried in the interim.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "eligibility_branch",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "TRACK 7 / Controlling statute",
+                "sourceStatement": "**Controlling statute:** 18 Pa.C.S. § 6308.",
+                "counselQuestion": "The review cites § 6308 without an effective date. This normalization carries the § 9122 framework commencement. Please confirm the correct effective date for the § 6308 expungement provision."
+              }
+            }
+          ],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_pardon_expungement",
+          "publicName": "Clear a record after you receive a pardon",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The pardon application itself is out of scope. Surface the Board of Pardons route early at intake as a referral, because for most Pennsylvania felony convictions it is the only route to expungement."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (output_strategy): Whether a Rule 790 petition is the correct vehicle where the automatic unconditional-pardon route has not cleared the record after the quarterly cycle, and on what showing."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_9122_1_limited_access",
+          "publicName": "Petition to seal a Pennsylvania conviction from public view",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [
+            {
+              "question": "The current revision of the retained Rule 791 petition and order, which the Edition 1.2 manifest records as unknown.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "correct_form",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "TRACK 9 / OPEN QUESTIONS",
+                "sourceStatement": "Current UJS form revisions. **Build blocker.**"
+              }
+            }
+          ],
+          "participantActionCount": 12,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): Whether the limited access fee required by § 9122.1 is fixed by statute or set administratively, and its amount."
             },
             {
               "kind": "source_gate",

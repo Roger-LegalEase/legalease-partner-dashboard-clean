@@ -13,6 +13,7 @@ import {
   NORMALIZATION_READINESS_FOUNDATION_JOB_ID,
   REMAINING_NORMALIZATION_JURISDICTIONS,
   buildNormalizationReadinessRecords,
+  materializeNormalizationResearchInputs,
   normalizationFoundationComplete,
   validateFactoryJobClaims
 } from "./normalization-readiness.mjs";
@@ -64,6 +65,7 @@ export const GLOBAL_GENERATED_REGISTRIES = Object.freeze([
   "data/record-clearing/legal-design-track-source-relationships.json",
   "data/record-clearing/relief-track-registry.json",
   "data/record-clearing/source-artifact-registry.json",
+  "data/record-clearing/production-factory/packet-proofs",
   "data/record-clearing/production-factory/review-manifests",
   "data/record-clearing/production-factory/normalization-readiness-input.json",
   "data/record-clearing/production-factory/job-claims.json",
@@ -105,6 +107,7 @@ export const WAVE_INTEGRATION_VALIDATION = Object.freeze([
 const IMPLEMENTATION_DIR = "data/record-clearing/implementation-tranches";
 const CANONICAL_JOBS_DIR = "planning/record-clearing-100-percent/jobs";
 const REVIEW_MANIFEST_DIR = "data/record-clearing/production-factory/review-manifests";
+const PACKET_PROOF_DIR = "data/record-clearing/production-factory/packet-proofs";
 const FACTORY_DATA_DIR = "data/record-clearing/production-factory";
 const PACKET_IMPLEMENTATION_DIR = "src/lib/rcap/packets/jurisdictions";
 const TERMINAL_INSTRUCTION =
@@ -131,6 +134,148 @@ const DC_CUSTOM_PLEADING_WORKER_COMMIT =
   "a25306af0e095faac1ce4d36c60b0f04c9221b31";
 const ILLINOIS_CUSTOM_PLEADING_WORKER_COMMIT =
   "20379e6e8f7fd41e1fda6714ab05a06183123368";
+const PENNSYLVANIA_NORMALIZATION_WORKER_COMMIT =
+  "387656ac31a49f7338bd9d1e3e170df929659d98";
+const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
+  {
+    jurisdiction: "AK",
+    completionCommit: "36509c7377c5653db07fd5c43b3948aad079164a",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/alaska/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-alaska-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: [
+      "ak-juvenile",
+      "ak-nonconviction-confidential",
+      "ak-pardon",
+      "ak-sej"
+    ]
+  },
+  {
+    jurisdiction: "CA",
+    completionCommit: "26b4661089849a67eb99bfae6598ba101f75cbbc",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/california/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-california-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: ["ca-851-8", "ca-auto-arrest", "ca-auto-conviction"]
+  },
+  {
+    jurisdiction: "CT",
+    completionCommit: "fd9ef0bfc18f11d0b34d7504682a574e2a849d06",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/connecticut/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-connecticut-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: [
+      "ct-absolute-pardon",
+      "ct-cannabis-auto",
+      "ct-destruction-request",
+      "ct-diversion",
+      "ct-nonconviction-auto",
+      "ct-provisional-pardon"
+    ]
+  },
+  {
+    jurisdiction: "DC",
+    completionCommit: "03505f1659072e28b245dfd9677426a995960bdd",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/district-of-columbia/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-district-of-columbia-guidance-implementation.mjs",
+    verifierWorkerOwned: false,
+    trackIds: ["dc_auto_expungement", "dc_auto_sealing"]
+  },
+  {
+    jurisdiction: "MD",
+    completionCommit: "8dfdc7ae28a6362825ae19621e8a7afd6d8cef6c",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/maryland/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-maryland-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: [
+      "md_10103_1_automatic",
+      "md_10103_legacy_police",
+      "md_10104_pre_service",
+      "md_10105_1_automatic",
+      "md_10112_dpscs_cannabis"
+    ]
+  },
+  {
+    jurisdiction: "MI",
+    completionCommit: "7dbe89fe733474a90cc1ad20b5c11dc1a6520aa5",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/michigan/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-michigan-guidance-implementation.mjs",
+    verifierWorkerOwned: false,
+    trackIds: [
+      "mi_arrest_acquittal_dismissal",
+      "mi_arrest_no_charge",
+      "mi_auto_felony",
+      "mi_auto_misd92",
+      "mi_auto_misd93",
+      "mi_deferral_status"
+    ]
+  },
+  {
+    jurisdiction: "MN",
+    completionCommit: "bf6f368c8a4cd72e0fa488bd37336c073f116925",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/minnesota/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-minnesota-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: [
+      "mn_auto_cannabis_nonfelony",
+      "mn_auto_clean_slate",
+      "mn_ceb_felony_cannabis",
+      "mn_inherent_authority",
+      "mn_mistaken_identity_court",
+      "mn_mistaken_identity_iddata",
+      "mn_pardon_auto_expungement"
+    ]
+  }
+]);
+const GUIDANCE_TYPED_STOP_TRACKS = new Set([
+  "CT:ct-cleanslate-auto",
+  "MI:mi_setaside_csc4_pre2015"
+]);
+const COMPLETED_GUIDANCE_TRACKS = new Set(
+  COMPLETED_GUIDANCE_IMPLEMENTATIONS.flatMap((record) =>
+    record.trackIds.map((trackId) => `${record.jurisdiction}:${trackId}`)
+  )
+);
+const COMPLETED_AUTHORITY_JOB_COMMITS = new Map([
+  [
+    "rcap-co-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition",
+    "6afe0d989bb079dbd1eab377b0547b9b6908d902"
+  ],
+  [
+    "rcap-ak-public-official-download",
+    "4acded00a77584b0ea9c9f00e490e2a6a92dd033"
+  ],
+  [
+    "rcap-me-public-official-download",
+    "6912e16bc73dbb85612dc5ede86c6a472e5c1e91"
+  ],
+  [
+    "rcap-mi-public-official-download",
+    "6ad135bcd8ef53b36a8c63948056fec546ba24d0"
+  ],
+  [
+    "rcap-id-public-official-download",
+    "95c47cdbf031b71164e8f2ea4fb71299f61aad9b"
+  ],
+  [
+    "rcap-il-public-official-download",
+    "17e9cad367543a4f7b21b30d754d09e51ffbd898"
+  ]
+]);
 const NO_DOWNLOAD_AUTHORITY_FAMILIES = new Set([
   "in_repo_identity_reconciliation",
   "local_form_scope_correction",
@@ -533,12 +678,19 @@ export function buildFactoryPlan(options = {}) {
   const normalizedTracks = [...inputs.normalizedTracks.tracks].sort(compareTracks);
   const tracksByState = groupBy(normalizedTracks, (track) => track.jurisdiction);
   const outstanding = sortedUnique(inputs.implementationQueue.outstandingJurisdictions ?? []);
+  const pennsylvaniaMemoPath =
+    "data/record-clearing/legal-design-intake/PA.memo.json";
+  const pennsylvaniaNormalizationComplete = fs.existsSync(
+    path.join(rootDir, pennsylvaniaMemoPath)
+  );
   const normalizationReadinessRecords = buildNormalizationReadinessRecords({
     input: inputs.normalizationReadiness,
     authority: inputs.authority,
     repositoryAssetAudit: inputs.repositoryAssetAudit,
     claims: inputs.jobClaims,
-    outstandingJurisdictions: outstanding
+    outstandingJurisdictions: pennsylvaniaNormalizationComplete
+      ? sortedUnique([...outstanding, "PA"])
+      : outstanding
   });
   const readinessFoundationComplete = normalizationFoundationComplete(
     inputs.normalizationReadiness
@@ -591,15 +743,87 @@ export function buildFactoryPlan(options = {}) {
       "ID, and authority-refresh gate validates. Do not normalize a jurisdiction or publish Edition 1.3."
   });
 
+  if (pennsylvaniaNormalizationComplete) {
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "PA",
+      jobId: "rcap-pa-legal-design-normalization",
+      trackIds: (tracksByState.get("PA") ?? []).map((track) => track.trackId),
+      status: "completed",
+      completionCommit: PENNSYLVANIA_NORMALIZATION_WORKER_COMMIT,
+      normalizationReadiness: {
+        ...normalizationReadinessRecords.get("PA"),
+        readinessState: "normalization_complete",
+        readinessBlockers: []
+      },
+      expectedOutputs: [pennsylvaniaMemoPath],
+      ownedPaths: [pennsylvaniaMemoPath],
+      requiredInputs: [
+        FACTORY_INPUT_PATHS.authority,
+        FACTORY_INPUT_PATHS.repositoryAssetAudit,
+        "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+        normalizationReadinessRecords.get("PA").reviewMaterialization
+          .materializationDestination
+      ],
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job rcap-pa-legal-design-normalization",
+        normalizationReadinessRecords.get("PA").reviewMaterialization
+          .verificationCommand,
+        "node scripts/verify-rcap-legal-design-intake.mjs"
+      ],
+      commitSubject: "feat(record-clearing): normalize PA legal design",
+      stopCondition:
+        `Terminal completed child: source commit ${PENNSYLVANIA_NORMALIZATION_WORKER_COMMIT} ` +
+        "is integrated. Preserve the bounded Pennsylvania design and its unresolved Track 11 " +
+        "packet-identity question; do not normalize it again, adopt that unresolved route, enable " +
+        "runtime, promote, or deploy."
+    });
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "PA",
+      jobId: "rcap-pa-clean-slate-correction-adjudication",
+      strategyFamily: "legal_design_adjudication",
+      trackIds: [],
+      dependencies: ["rcap-pa-legal-design-normalization"],
+      status: "blocked",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/guidance-specifications/pa-clean-slate-correction-adjudication.json`
+      ],
+      ownedPaths: [
+        `${FACTORY_DATA_DIR}/guidance-specifications/pa-clean-slate-correction-adjudication.json`
+      ],
+      requiredInputs: [
+        pennsylvaniaMemoPath,
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "high",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job rcap-pa-clean-slate-correction-adjudication"
+      ],
+      commitSubject:
+        "docs(record-clearing): adjudicate Pennsylvania clean-slate correction",
+      stopCondition:
+        "Resolve the Pennsylvania Track 11 packet identity and legal effect from controlling " +
+        "authority. Do not invent a normalized track, filing, or remedy; do not inherit standing " +
+        "counsel adoption; and do not enable, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
   for (const jurisdiction of outstanding) {
+    if (jurisdiction === "PA" && pennsylvaniaNormalizationComplete) continue;
     const normalizationReadiness = normalizationReadinessRecords.get(jurisdiction);
     const status =
       normalizationReadiness.readinessState === "normalization_complete"
         ? "completed"
         : normalizationReadiness.readinessState === "normalization_in_progress"
           ? "in_progress"
-          : normalizationReadiness.readinessState === "ready_for_normalization" &&
-              readinessFoundationComplete
+          : normalizationReadiness.readinessState === "ready_for_normalization"
             ? "ready"
             : "blocked";
     addJob({
@@ -610,7 +834,9 @@ export function buildFactoryPlan(options = {}) {
       dependencies:
         status === "in_progress"
           ? []
-          : [normalizationReadinessFoundation.jobId],
+          : status === "ready"
+            ? [sourceMaterializationFoundation.jobId]
+            : [normalizationReadinessFoundation.jobId],
       requiredInputs: [
         FACTORY_INPUT_PATHS.authority,
         FACTORY_INPUT_PATHS.repositoryAssetAudit,
@@ -677,23 +903,27 @@ export function buildFactoryPlan(options = {}) {
           "rcap-ar-in-repo-identity-reconciliation-acic",
           "rcap-ar-public-official-download-acic-gaps",
           "rcap-al-in-repo-identity-reconciliation-cr-65"
-        ].includes(group.jobId)
+        ].includes(group.jobId) ||
+        COMPLETED_AUTHORITY_JOB_COMMITS.has(group.jobId)
           ? "completed"
           : undefined,
       completionCommit:
-        group.jobId === "rcap-ar-in-repo-identity-reconciliation-acic"
+        COMPLETED_AUTHORITY_JOB_COMMITS.get(group.jobId) ??
+        (group.jobId === "rcap-ar-in-repo-identity-reconciliation-acic"
           ? ARKANSAS_ACIC_WORKER_COMMIT
           : group.jobId === "rcap-ar-public-official-download-acic-gaps"
             ? ARKANSAS_PUBLIC_GAPS_WORKER_COMMIT
             : group.jobId === "rcap-al-in-repo-identity-reconciliation-cr-65"
               ? ALABAMA_CR65_WORKER_COMMIT
-              : undefined,
+              : undefined),
       executionNote:
         group.jobId === "rcap-al-in-repo-identity-reconciliation-cr-65"
           ? "Canonical model remains codex. Execution by Opus was a user-directed override and does not change the assignment model."
           : undefined
     });
   }
+
+  addAuthorityCorrectionFollowups({ addJob });
 
   addJob({
     lane: "source_acquisition",
@@ -757,11 +987,19 @@ export function buildFactoryPlan(options = {}) {
   addCompletedDcCustomPleadingChild({ addJob });
   addCompletedIllinoisCustomPleadingChild({ addJob });
   addDcCustomPleadingReconciliationChild({ addJob });
+  addCompletedGuidanceChildren({ addJob });
+  addGuidanceTypedStopChildren({ addJob });
 
   const implementedTrackIds = implementedTracks(inputs.implementationRecords);
   const pendingTracks = normalizedTracks.filter(
     (track) =>
       !implementedTrackIds.has(`${track.jurisdiction}:${track.trackId}`) &&
+      !COMPLETED_GUIDANCE_TRACKS.has(
+        `${track.jurisdiction}:${track.trackId}`
+      ) &&
+      !GUIDANCE_TYPED_STOP_TRACKS.has(
+        `${track.jurisdiction}:${track.trackId}`
+      ) &&
       !isMarylandAuthorityOnlyRoute(track, inputs.canonicalParentJobs) &&
       !isCanonicalNonImplementationTrack(track, inputs.canonicalParentJobs) &&
       !isGeorgiaJailGuidanceSpecificationTrack(track) &&
@@ -932,8 +1170,13 @@ export function readFactoryInputs(rootDir) {
   const acquisitionIssuers = json("acquisitionIssuers");
   const acquisitionUnresolved = json("acquisitionUnresolved");
   const repositoryAssetAudit = json("repositoryAssetAudit");
-  const normalizationReadiness = json("normalizationReadiness");
+  const normalizationReadinessInput = json("normalizationReadiness");
   const jobClaims = json("jobClaims");
+  const normalizationReadiness = materializeNormalizationResearchInputs({
+    input: normalizationReadinessInput,
+    rootDir,
+    repositoryAssetAudit
+  });
 
   // Runtime and promotion records are TypeScript only because the application
   // imports them directly. Read them as data without executing application code.
@@ -957,6 +1200,10 @@ export function readFactoryInputs(rootDir) {
 
   const generatedFromPaths = [
     ...Object.values(FACTORY_INPUT_PATHS),
+    ...(normalizationReadiness.researchInputs ?? []).flatMap((entry) => [
+      entry.bundlePath,
+      entry.manifestPath
+    ]),
     ...implementationPaths,
     ...canonicalJobPaths
   ];
@@ -1127,6 +1374,208 @@ function implementationJobOverrides(lane, jurisdiction) {
     };
   }
   return {};
+}
+
+function addAuthorityCorrectionFollowups({ addJob }) {
+  const records = [
+    {
+      jurisdiction: "CO",
+      jobId: "rcap-co-jdf-2370-role-and-jdf-2371-mapping-correction",
+      dependency:
+        "rcap-co-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition",
+      reconciliationIds: [
+        "role:CO:JDF-2370:instructions",
+        "mapping:CO:JDF-2371:motion"
+      ],
+      reason:
+        "Bind JDF-2370 as instructions and the retained JDF-2371 as the unbound motion, using only the recorded form-face evidence."
+    },
+    {
+      jurisdiction: "ME",
+      jobId: "rcap-me-form-face-title-correction",
+      dependency: "rcap-me-public-official-download",
+      reconciliationIds: ["title:ME:CR-289", "title:ME:CR-307"],
+      reason:
+        "Correct titles only from each form-face heading; never substitute a footer line or change packet identity without exact evidence."
+    },
+    {
+      jurisdiction: "IL",
+      jobId: "rcap-il-notice-of-court-date-statewide-role-correction",
+      dependency: "rcap-il-public-official-download",
+      reconciliationIds: [
+        "scope:IL:CXP-NOTICE-OF-COURT-DATE-FOR-MOTION:statewide"
+      ],
+      reason:
+        "Reconcile the Notice of Court Date as an Illinois statewide-accepted form, without changing unrelated route design."
+    },
+    {
+      jurisdiction: "MI",
+      jobId: "rcap-mi-mc-227-revision-3-25-correction",
+      dependency: "rcap-mi-public-official-download",
+      reconciliationIds: ["revision:MI:MC-227:3-25"],
+      reason:
+        "Record the printed MC-227 Rev. 3/25 identity and preserve the three assigned sub-form rows as components, not separate documents."
+    },
+    {
+      jurisdiction: "ID",
+      jobId: "rcap-id-shield-revision-and-bci-identity-correction",
+      dependency: "rcap-id-public-official-download",
+      reconciliationIds: [
+        "revision:ID:PETITION-TO-SHIELD:01-01-2024",
+        "revision:ID:BCI:REV-UNKNOWN"
+      ],
+      reason:
+        "Record the shield footer as 01/01/2024, retain BCI as REV-UNKNOWN, and never invent an Order to Shield."
+    }
+  ];
+  for (const record of records) {
+    const evidencePath =
+      `${FACTORY_DATA_DIR}/source-acquisition/${record.dependency}.json`;
+    addJob({
+      lane: "source_acquisition",
+      jurisdiction: record.jurisdiction,
+      jobId: record.jobId,
+      strategyFamily: "source_identity_resolution",
+      reconciliationIds: record.reconciliationIds,
+      downloadedSourceCount: 0,
+      dependencies: [record.dependency],
+      status: "ready",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/source-acquisition/${record.jobId}.json`
+      ],
+      requiredInputs: [
+        evidencePath,
+        FACTORY_INPUT_PATHS.authority,
+        FACTORY_INPUT_PATHS.sourceRelationships,
+        FACTORY_INPUT_PATHS.sourceArtifacts
+      ],
+      model: "opus",
+      effort: "high",
+      commitSubject:
+        `docs(record-clearing): reconcile ${record.jurisdiction} source identity`,
+      stopCondition:
+        `${record.reason} Do not download a binary, mutate Edition 1.2, infer a legal ` +
+        "conclusion, implement a packet, enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+}
+
+function addCompletedGuidanceChildren({ addJob }) {
+  for (const record of COMPLETED_GUIDANCE_IMPLEMENTATIONS) {
+    const reviewManifest =
+      `${REVIEW_MANIFEST_DIR}/rcap-${record.jurisdiction.toLowerCase()}-guidance-implementation.json`;
+    const packetProof =
+      `${PACKET_PROOF_DIR}/rcap-${record.jurisdiction.toLowerCase()}-guidance-implementation.json`;
+    const workerOutputs = record.verifierWorkerOwned
+      ? [record.modulePath, record.verifierPath]
+      : [record.modulePath];
+    const integrationOwnedOutputs = record.verifierWorkerOwned
+      ? [packetProof, reviewManifest]
+      : [record.verifierPath, packetProof, reviewManifest];
+    addJob({
+      lane: "guidance_implementation",
+      jurisdiction: record.jurisdiction,
+      jobId: `rcap-${record.jurisdiction.toLowerCase()}-guidance-implementation`,
+      trackIds: record.trackIds,
+      status: "completed",
+      completionCommit: record.completionCommit,
+      model: "opus",
+      effort: "xhigh",
+      expectedOutputs: workerOutputs,
+      ownedPaths: workerOutputs,
+      integrationOwnedOutputs,
+      requiredInputs: [
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.packetSetManifests,
+        FACTORY_INPUT_PATHS.blockerLedger,
+        "src/lib/rcap/packets/engines/process-guidance.ts",
+        "src/lib/rcap/packets/assemble.ts"
+      ],
+      regressionVerifier: record.verifierPath,
+      participantPacketProofRequired: true,
+      focusedValidation: [
+        `node scripts/rcap-factory-plan.mjs --check-job rcap-${record.jurisdiction.toLowerCase()}-guidance-implementation`,
+        `node ${record.verifierPath}`
+      ],
+      commitSubject:
+        `feat(record-clearing): implement ${record.jurisdiction} guidance`,
+      stopCondition:
+        `Terminal completed child: source commit ${record.completionCommit} is integrated. ` +
+        "Preserve the deterministic guidance outputs and typed route boundaries. Visual proof and " +
+        "hash-bound counsel adoption remain separate; runtime stays disabled. Do not scaffold, " +
+        "execute, regenerate, enable, promote, or deploy this job."
+    });
+  }
+}
+
+function addGuidanceTypedStopChildren({ addJob }) {
+  const records = [
+    {
+      jurisdiction: "CT",
+      jobId: "rcap-ct-cleanslate-auto-guidance-adjudication",
+      trackId: "ct-cleanslate-auto",
+      dependency: "rcap-ct-guidance-implementation",
+      modulePath:
+        "src/lib/rcap/packets/jurisdictions/connecticut/guidance.ts",
+      verifierPath:
+        "scripts/verify-rcap-connecticut-guidance-implementation.mjs",
+      outputPath:
+        `${FACTORY_DATA_DIR}/guidance-specifications/ct-cleanslate-auto-adjudication.json`,
+      reason:
+        "Resolve the operative-date basis and missing DESPP section list before any participant artifact exists."
+    },
+    {
+      jurisdiction: "MI",
+      jobId: "rcap-mi-csc4-pre2015-guidance-adjudication",
+      trackId: "mi_setaside_csc4_pre2015",
+      dependency: "rcap-mi-guidance-implementation",
+      modulePath:
+        "src/lib/rcap/packets/jurisdictions/michigan/guidance.ts",
+      verifierPath:
+        "scripts/verify-rcap-michigan-guidance-implementation.mjs",
+      outputPath:
+        `${FACTORY_DATA_DIR}/guidance-specifications/mi-setaside-csc4-pre2015-adjudication.json`,
+      reason:
+        "Resolve the bespoke prior-record, age-at-offence, and continuing SORA questions before self-help guidance exists."
+    }
+  ];
+  for (const record of records) {
+    addJob({
+      lane: "guidance_implementation",
+      strategyFamily: "legal_design_adjudication",
+      jurisdiction: record.jurisdiction,
+      jobId: record.jobId,
+      trackIds: [record.trackId],
+      dependencies: [record.dependency],
+      status: "blocked",
+      expectedOutputs: [record.outputPath],
+      ownedPaths: [record.outputPath],
+      integrationOwnedOutputs: [
+        record.verifierPath,
+        `${REVIEW_MANIFEST_DIR}/${record.jobId}.json`
+      ],
+      requiredInputs: [
+        record.modulePath,
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      regressionVerifier: record.verifierPath,
+      participantPacketProofRequired: false,
+      focusedValidation: [
+        `node scripts/rcap-factory-plan.mjs --check-job ${record.jobId}`,
+        `node ${record.verifierPath}`
+      ],
+      model: "opus",
+      effort: "xhigh",
+      commitSubject:
+        `docs(record-clearing): adjudicate ${record.trackId} guidance`,
+      stopCondition:
+        `${record.reason} Preserve the typed stop and do not draft a packet, infer a legal ` +
+        "conclusion, apply counsel adoption, enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
 }
 
 function georgiaTrancheOutputs() {
@@ -1755,7 +2204,7 @@ function buildCanonicalPlanSummary(canonicalParentRecords) {
       aggregation:
         "A mechanical jurisdiction child may aggregate tracks represented by multiple canonical " +
         "family parents; its one parentJobId is the deterministic execution owner. Canonical " +
-        "250-track representation is verified separately and is not inferred from child bundles."
+        "normalized-track representation is verified separately and is not inferred from child bundles."
     },
     jobIds: parents.map((parent) => parent.jobId).sort()
   };
@@ -2359,6 +2808,15 @@ function buildTrackReconciliation(normalizedTracks, jobs, implementationRecords)
       );
     }
     if (implementationJobs.length === 1) {
+      if (implementationJobs[0].status === "completed") {
+        return {
+          jurisdiction: track.jurisdiction,
+          trackId: track.trackId,
+          disposition: "implementation_complete",
+          completionCommit: implementationJobs[0].completionCommit,
+          evidencePath: implementationJobs[0].expectedOutputs[0]
+        };
+      }
       return {
         jurisdiction: track.jurisdiction,
         trackId: track.trackId,
@@ -2369,7 +2827,8 @@ function buildTrackReconciliation(normalizedTracks, jobs, implementationRecords)
 
     const legalDesignBlockerJob = jobs.find(
       (job) =>
-        job.jobId === "rcap-dc-custom-pleading-legal-design-reconciliation" &&
+        job.strategyFamily === "legal_design" &&
+        job.status !== "completed" &&
         job.jurisdiction === track.jurisdiction &&
         job.trackIds.includes(track.trackId)
     );

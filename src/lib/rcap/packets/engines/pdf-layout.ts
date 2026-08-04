@@ -109,6 +109,58 @@ export class FlowWriter {
     this.y -= height;
   }
 
+  /**
+   * Applies spacing without letting whitespace alone allocate a page.
+   *
+   * Use this only where the caller deliberately owns the following page-break
+   * behavior (for example, the terminal gap after a final section). The
+   * original `gap()` contract remains byte-stable for hash-bound legacy
+   * packets.
+   */
+  spacingGap(height = LINE_HEIGHT): void {
+    if (!Number.isFinite(height) || height < 0) {
+      throw new Error(
+        "FlowWriter spacing-gap height must be a finite non-negative number."
+      );
+    }
+    this.y = Math.max(MARGIN_BOTTOM, this.y - height);
+  }
+
+  measureTextHeight(
+    text: string,
+    options: {
+      font?: keyof Fonts;
+      size?: number;
+      indent?: number;
+      lineHeight?: number;
+    } = {}
+  ): number {
+    const size = options.size ?? 11;
+    const font = this.fonts[options.font ?? "regular"];
+    const indent = options.indent ?? 0;
+    const lineHeight = options.lineHeight ?? LINE_HEIGHT;
+    return (
+      wrapText(text, font, size, this.contentWidth - indent).length *
+      lineHeight
+    );
+  }
+
+  /**
+   * Moves to a new page before the next drawing operation when a small block
+   * would otherwise split. Oversized blocks are left to normal pagination.
+   */
+  keepTogether(height: number): boolean {
+    if (!Number.isFinite(height) || height < 0) {
+      throw new Error(
+        "FlowWriter keep-together height must be a finite non-negative number."
+      );
+    }
+    const usablePageHeight = PAGE_HEIGHT - MARGIN_TOP - MARGIN_BOTTOM;
+    if (height > usablePageHeight) return false;
+    this.ensureRoom(height);
+    return true;
+  }
+
   write(
     text: string,
     options: {

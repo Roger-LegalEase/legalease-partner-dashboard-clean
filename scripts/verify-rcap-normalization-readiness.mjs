@@ -10,6 +10,7 @@ import {
   canonicalStringify,
   inspectNormalizationBundle,
   legalReviewAssetsForTesting,
+  materializeNormalizationResearchInputs,
   mechanismInventorySha256,
   validateFactoryJobClaims,
   validateNormalizationReadinessInput
@@ -48,11 +49,17 @@ if (
 }
 
 function loadContext() {
-  return {
+  const repositoryAssetAudit = readJson(ASSET_AUDIT_PATH);
+  const input = materializeNormalizationResearchInputs({
     input: readJson(INPUT_PATH),
+    rootDir: ROOT,
+    repositoryAssetAudit
+  });
+  return {
+    input,
     claims: readJson(CLAIMS_PATH),
     authority: readJson(AUTHORITY_PATH),
-    repositoryAssetAudit: readJson(ASSET_AUDIT_PATH),
+    repositoryAssetAudit,
     queue: readJson(QUEUE_PATH)
   };
 }
@@ -115,6 +122,34 @@ function verifyCommittedReadiness(context, jurisdiction) {
           .length
       ])
   );
+  const researchResults = context.input.researchIngestionResults ?? [];
+  const researchSlots = researchResults.reduce(
+    (total, result) => total + result.inventorySlotCount,
+    0
+  );
+  if (researchResults.length !== 2 || researchSlots !== 313) {
+    throw new Error(
+      `Expected two research bundles and 313 mechanism slots; found ` +
+        `${researchResults.length} bundles and ${researchSlots} slots.`
+    );
+  }
+  for (const record of remainingRecords) {
+    if (
+      mechanismInventorySha256({
+        mechanismInventory: record.mechanismInventory
+      }) !== record.canonicalMechanismInventorySha256
+    ) {
+      throw new Error(
+        `${record.jurisdiction} canonical mechanism hash does not reproduce.`
+      );
+    }
+  }
+  const reviewReceiptsVerified = remainingRecords.filter(
+    (record) =>
+      record.reviewMaterialization.materializationState ===
+        "binary_hash_verified" &&
+      record.reviewMaterialization.verificationStatus === "verified"
+  ).length;
   process.stdout.write(
     `${JSON.stringify(
       {
@@ -125,6 +160,16 @@ function verifyCommittedReadiness(context, jurisdiction) {
         reviewIdentityConfirmations:
           context.input.reviewIdentityConfirmations.length,
         bundlesReceived: context.input.bundles.length,
+        mechanismSlots: researchSlots,
+        canonicalizationVersion: context.input.canonicalizationVersion,
+        researchBundles: researchResults.map((result) => ({
+          session: result.session,
+          sourceCommit: result.sourceCommit,
+          bundleSha256: result.bundleSha256,
+          jurisdictions: result.jurisdictionCount,
+          mechanismSlots: result.inventorySlotCount
+        })),
+        reviewReceiptsVerified,
         readinessCounts,
         exactJobClaims: context.claims.claims.length,
         sourceAuthorityState:

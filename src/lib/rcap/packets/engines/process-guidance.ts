@@ -24,7 +24,27 @@ import {
 import { MARYLAND_GUIDANCE_TEMPLATES } from "@/lib/rcap/packets/engines/guidance-templates-maryland";
 import { MISSISSIPPI_GUIDANCE_TEMPLATES } from "@/lib/rcap/packets/engines/guidance-templates-mississippi";
 
-const VERSION = "process-guidance/1.0.0";
+const VERSION = "process-guidance/1.0.1";
+const LEGACY_VERSION = "process-guidance/1.0.0";
+
+/**
+ * These exact templates are covered by existing hash-bound counsel adoption.
+ * They retain the 1.0.0 pagination contract until a separately reviewed
+ * adoption scope renews their hashes. New templates use the corrected layout.
+ */
+const HASH_BOUND_LEGACY_LAYOUT_TEMPLATES = new Set([
+  "ms-fel-records-checklist",
+  "ms-fel-filing-instructions",
+  "ms-misd-1st-records-checklist",
+  "ms-misd-1st-filing-instructions",
+  "ms-misd-addl-records-checklist",
+  "ms-misd-addl-filing-instructions",
+  "ms-nonconv-records-checklist",
+  "ms-nonconv-filing-instructions",
+  "ms-nonadj-records-checklist",
+  "ms-nonadj-filing-instructions",
+  "md-second-chance-shielding-participant-guide"
+]);
 
 /** The sentence every guidance artifact must open its notice with. */
 export const NOT_A_COURT_FILING_SENTENCE = "This document is not a court filing.";
@@ -157,6 +177,9 @@ export const ProcessGuidanceRenderer: PacketRenderer = {
           })());
 
     const warnings: string[] = [];
+    const legacyHashBoundLayout = HASH_BOUND_LEGACY_LAYOUT_TEMPLATES.has(
+      resolved.templateId
+    );
     const fill = (text: string) => {
       const result = fillTemplate(text, input.facts);
       if (result.missing.length) warnings.push(`Absent values: ${result.missing.join(", ")}.`);
@@ -227,7 +250,14 @@ export const ProcessGuidanceRenderer: PacketRenderer = {
     section(writer, "WHAT LEGALEASE CAN PREPARE", resolved.legalEaseCanPrepare.map(fill));
     section(writer, "WHAT LEGALEASE CANNOT DO", resolved.legalEaseCannotPerform.map(fill));
     section(writer, "WHEN TO GET LEGAL HELP", resolved.escalationTriggers.map(fill));
-    section(writer, "OFFICIAL SOURCES", resolved.officialSourceReferences.map(fill));
+    section(
+      writer,
+      "OFFICIAL SOURCES",
+      resolved.officialSourceReferences.map(fill),
+      false,
+      !legacyHashBoundLayout,
+      !legacyHashBoundLayout
+    );
 
     // Footers last, once the flow has decided how many pages there are.
     if (resolved.paginate) {
@@ -264,7 +294,7 @@ export const ProcessGuidanceRenderer: PacketRenderer = {
       sourceIdentity: resolved.templateId,
       sourceSha256: null,
       rendererStrategy: "process_guidance",
-      rendererVersion: VERSION,
+      rendererVersion: legacyHashBoundLayout ? LEGACY_VERSION : VERSION,
       warnings,
       validation: { parsed: true, pageCount, byteLength: bytes.byteLength, issues: warnings },
       metadata: {
@@ -280,14 +310,33 @@ export const ProcessGuidanceRenderer: PacketRenderer = {
   }
 };
 
-function section(writer: FlowWriter, heading: string, items: readonly string[], numbered = false): void {
+function section(
+  writer: FlowWriter,
+  heading: string,
+  items: readonly string[],
+  numbered = false,
+  keepLeadTogether = false,
+  suppressTrailingPageBreak = false
+): void {
   if (items.length === 0) return;
+  const firstItem = numbered ? `1.  ${items[0]}` : `•  ${items[0]}`;
+  if (keepLeadTogether) {
+    writer.keepTogether(
+      writer.measureTextHeight(heading, { font: "bold", size: 11 }) +
+        LINE_HEIGHT / 2 +
+        writer.measureTextHeight(firstItem, { size: 11, indent: 14 })
+    );
+  }
   writer.write(heading, { font: "bold", size: 11 });
   writer.gap(LINE_HEIGHT / 2);
   items.forEach((item, index) => {
     writer.write(numbered ? `${index + 1}.  ${item}` : `•  ${item}`, { size: 11, indent: 14 });
   });
-  writer.gap();
+  if (suppressTrailingPageBreak) {
+    writer.spacingGap();
+  } else {
+    writer.gap();
+  }
 }
 
 /** Generic instructions accompanying an official-form packet. */
