@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rcap://official-pdf-families/IL/field-ownership.schema.json",
+  "title": "Illinois official-PDF field ownership scaffold",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "ownerClasses",
+    "defaultRules",
+    "documents"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "rcap-field-ownership-scaffold/v1"
+    },
+    "familyId": {
+      "const": "il-statewide-official-form-families"
+    },
+    "jurisdiction": {
+      "const": "IL"
+    },
+    "ownerClasses": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "participant",
+          "system_derived",
+          "judge",
+          "clerk",
+          "prosecutor",
+          "agency",
+          "attorney",
+          "notary",
+          "witness",
+          "process_server",
+          "unknown"
+        ]
+      }
+    },
+    "defaultRules": {
+      "type": "object"
+    },
+    "documents": {
+      "type": "array",
+      "minItems": 15,
+      "maxItems": 15,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "componentDocumentId",
+          "sourceAuthorityState",
+          "fieldEnumerationStatus",
+          "carriedFieldCount",
+          "classifiedFieldCount",
+          "writableMappedFieldCount",
+          "fieldOwnership",
+          "protectedOwnerClasses",
+          "manualCompletionRules"
+        ],
+        "properties": {
+          "componentDocumentId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceAuthorityState": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fieldEnumerationStatus": {
+            "type": "string",
+            "minLength": 1
+          },
+          "carriedFieldCount": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "candidateFieldCount": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "classifiedFieldCount": {
+            "const": 0
+          },
+          "writableMappedFieldCount": {
+            "const": 0
+          },
+          "fieldOwnership": {
+            "type": "array",
+            "maxItems": 0
+          },
+          "protectedOwnerClasses": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "judge",
+                "clerk",
+                "prosecutor",
+                "agency",
+                "attorney",
+                "notary",
+                "witness",
+                "process_server",
+                "unknown"
+              ]
+            }
+          },
+          "manualCompletionRules": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}

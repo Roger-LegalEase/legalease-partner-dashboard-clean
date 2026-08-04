@@ -1,0 +1,393 @@
+{
+  "schemaVersion": "rcap-official-pdf-packet-assembly/v1",
+  "familyId": "il-statewide-official-form-families",
+  "jurisdiction": "IL",
+  "runtimeRegistered": false,
+  "routeReadyCount": 0,
+  "assemblyTemplates": [
+    {
+      "templateId": "il-exp-ad-standard",
+      "components": [
+        {
+          "slot": "request",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Request",
+          "order": 1
+        },
+        {
+          "slot": "case_list",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Case List",
+          "order": 2
+        },
+        {
+          "slot": "order_granting",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Order Granting",
+          "order": 3
+        },
+        {
+          "slot": "fee_waiver",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Only where the participant cannot pay the county filing fee.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
+          "order": 4
+        }
+      ]
+    },
+    {
+      "templateId": "il-exp-ad-nonconv-with-continuation",
+      "components": [
+        {
+          "slot": "request",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Request",
+          "order": 1
+        },
+        {
+          "slot": "case_list",
+          "role": "attachment",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Case List",
+          "order": 2
+        },
+        {
+          "slot": "order_granting",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Order Granting",
+          "order": 3
+        },
+        {
+          "slot": "additional_cases_expungement",
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "Only where the case count exceeds the Request's capacity.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP-AD Additional Cases Expungement",
+          "order": 4
+        },
+        {
+          "slot": "fee_waiver",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Only where the participant cannot pay the county filing fee.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
+          "order": 5
+        }
+      ]
+    }
+  ],
+  "adultRouteAssemblies": [
+    {
+      "trackId": "il-exp-nonconv",
+      "packetSetId": "il-exp-nonconv-set",
+      "packetSetVersion": "1.0.0",
+      "templateId": "il-exp-ad-nonconv-with-continuation",
+      "componentBindings": {
+        "request": "il-exp-nonconv-primary-filing-1",
+        "case_list": "il-exp-nonconv-attachment-2",
+        "order_granting": "il-exp-nonconv-proposed-order-3",
+        "additional_cases_expungement": "il-exp-nonconv-continuation-4",
+        "fee_waiver": "il-exp-nonconv-fee-waiver-5"
+      },
+      "assemblyState": "blocked_authority_and_materialization"
+    },
+    {
+      "trackId": "il-exp-supervision",
+      "packetSetId": "il-exp-supervision-set",
+      "packetSetVersion": "1.0.0",
+      "templateId": "il-exp-ad-standard",
+      "componentBindings": {
+        "request": "il-exp-supervision-primary-filing-1",
+        "case_list": "il-exp-supervision-attachment-2",
+        "order_granting": "il-exp-supervision-proposed-order-3",
+        "fee_waiver": "il-exp-supervision-fee-waiver-4"
+      },
+      "assemblyState": "blocked_authority_and_materialization"
+    },
+    {
+      "trackId": "il-exp-qualprob",
+      "packetSetId": "il-exp-qualprob-set",
+      "packetSetVersion": "1.0.0",
+      "templateId": "il-exp-ad-standard",
+      "componentBindings": {
+        "request": "il-exp-qualprob-primary-filing-1",
+        "case_list": "il-exp-qualprob-attachment-2",
+        "order_granting": "il-exp-qualprob-proposed-order-3",
+        "fee_waiver": "il-exp-qualprob-fee-waiver-4"
+      },
+      "assemblyState": "blocked_authority_and_materialization"
+    },
+    {
+      "trackId": "il-exp-precompletion",
+      "packetSetId": "il-exp-precompletion-set",
+      "packetSetVersion": "1.0.0",
+      "templateId": "il-exp-ad-standard",
+      "componentBindings": {
+        "request": "il-exp-precompletion-primary-filing-1",
+        "case_list": "il-exp-precompletion-attachment-2",
+        "order_granting": "il-exp-precompletion-proposed-order-3",
+        "fee_waiver": "il-exp-precompletion-fee-waiver-4"
+      },
+      "assemblyState": "blocked_authority_and_materialization"
+    },
+    {
+      "trackId": "il-seal-nonconv",
+      "packetSetId": "il-seal-nonconv-set",
+      "packetSetVersion": "1.0.0",
+      "templateId": "il-exp-ad-standard",
+      "componentBindings": {
+        "request": "il-seal-nonconv-primary-filing-1",
+        "case_list": "il-seal-nonconv-attachment-2",
+        "order_granting": "il-seal-nonconv-proposed-order-3",
+        "fee_waiver": "il-seal-nonconv-fee-waiver-4"
+      },
+      "assemblyState": "blocked_authority_and_materialization"
+    },
+    {
+      "trackId": "il-seal-2yr",
+      "packetSetId": "il-seal-2yr-set",
+      "packetSetVersion": "1.0.0",
+      "templateId": "il-exp-ad-standard",
+      "componentBindings": {
+        "request": "il-seal-2yr-primary-filing-1",
+        "case_list": "il-seal-2yr-attachment-2",
+        "order_granting": "il-seal-2yr-proposed-order-3",
+        "fee_waiver": "il-seal-2yr-fee-waiver-4"
+      },
+      "assemblyState": "blocked_authority_and_materialization"
+    },
+    {
+      "trackId": "il-seal-3yr",
+      "packetSetId": "il-seal-3yr-set",
+      "packetSetVersion": "1.0.0",
+      "templateId": "il-exp-ad-standard",
+      "componentBindings": {
+        "request": "il-seal-3yr-primary-filing-1",
+        "case_list": "il-seal-3yr-attachment-2",
+        "order_granting": "il-seal-3yr-proposed-order-3",
+        "fee_waiver": "il-seal-3yr-fee-waiver-4"
+      },
+      "assemblyState": "blocked_authority_and_materialization"
+    },
+    {
+      "trackId": "il-seal-edu",
+      "packetSetId": "il-seal-edu-set",
+      "packetSetVersion": "1.0.0",
+      "templateId": "il-exp-ad-standard",
+      "componentBindings": {
+        "request": "il-seal-edu-primary-filing-1",
+        "case_list": "il-seal-edu-attachment-2",
+        "order_granting": "il-seal-edu-proposed-order-3",
+        "fee_waiver": "il-seal-edu-fee-waiver-4"
+      },
+      "assemblyState": "blocked_authority_and_materialization"
+    },
+    {
+      "trackId": "il-exp-pardon",
+      "packetSetId": "il-exp-pardon-set",
+      "packetSetVersion": "1.0.0",
+      "templateId": "il-exp-ad-standard",
+      "componentBindings": {
+        "request": "il-exp-pardon-primary-filing-1",
+        "case_list": "il-exp-pardon-attachment-2",
+        "order_granting": "il-exp-pardon-proposed-order-3",
+        "fee_waiver": "il-exp-pardon-fee-waiver-4"
+      },
+      "assemblyState": "blocked_authority_and_materialization"
+    }
+  ],
+  "cannabisAssembly": {
+    "trackId": "il-cannabis-vacate",
+    "packetSetId": "il-cannabis-vacate-set",
+    "packetSetVersion": "1.0.0",
+    "components": [
+      {
+        "componentId": "il-cannabis-vacate-primary-filing-1",
+        "role": "primary_filing",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "CXP Motion to Vacate and Expunge",
+        "order": 1
+      },
+      {
+        "componentId": "il-cannabis-vacate-continuation-2",
+        "role": "continuation",
+        "requirement": "conditional",
+        "conditionDescription": "Where more than one cannabis conviction is included.",
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "CXP Additional Cannabis Convictions",
+        "order": 2
+      },
+      {
+        "componentId": "il-cannabis-vacate-instructions-3",
+        "role": "instructions",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "CXP Getting Started Motion to Vacate and Expunge",
+        "order": 3
+      },
+      {
+        "componentId": "il-cannabis-vacate-local-addendum-4",
+        "role": "local_addendum",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "CXP Notice of Court Date for Motion",
+        "order": 4
+      },
+      {
+        "componentId": "il-cannabis-vacate-continuation-5",
+        "role": "continuation",
+        "requirement": "conditional",
+        "conditionDescription": "Where additional notices of court date are required.",
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "CXP Additional Notice of Court Date",
+        "order": 5
+      },
+      {
+        "componentId": "il-cannabis-vacate-proposed-order-6",
+        "role": "proposed_order",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "CXP Order Granting or Denying Motion",
+        "order": 6
+      }
+    ],
+    "rule298Treatment": "participant_action_only_not_an_adopted_packet_component",
+    "assemblyState": "blocked_authority_and_materialization"
+  },
+  "prbAssembly": {
+    "trackId": "il-prb-cert",
+    "packetSetId": "il-prb-cert-set",
+    "packetSetVersion": "1.0.0",
+    "compositionMode": "mixed",
+    "normalizedComponentSequence": [
+      {
+        "componentId": "il-prb-cert-primary-filing-1",
+        "role": "primary_filing",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "PRB Certificate of Sealing Application",
+        "order": 1
+      },
+      {
+        "componentId": "il-prb-cert-attachment-2",
+        "role": "attachment",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "PRB Certificate of Sealing Eligibility Acknowledgement",
+        "order": 2
+      },
+      {
+        "componentId": "il-prb-cert-primary-filing-3",
+        "role": "primary_filing",
+        "requirement": "conditional",
+        "conditionDescription": "Military branch only, where eligibility rests on military service.",
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "PRB Certificate of Expungement for Military Application",
+        "order": 3
+      },
+      {
+        "componentId": "il-prb-cert-attachment-4",
+        "role": "attachment",
+        "requirement": "conditional",
+        "conditionDescription": "Military branch only.",
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "PRB Certificate of Expungement for Military Eligibility Acknowledgement",
+        "order": 4
+      },
+      {
+        "componentId": "il-prb-cert-primary-filing-5",
+        "role": "primary_filing",
+        "requirement": "conditional",
+        "conditionDescription": "Stage 2, generated once the Board has issued a certificate.",
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "EXP-AD Request",
+        "order": 5
+      }
+    ],
+    "unitViews": [
+      {
+        "unitId": "il-prb-cert-certificate-application",
+        "order": 1,
+        "available": true,
+        "componentIds": [],
+        "state": "explanatory_parent_unit_no_standalone_packet"
+      },
+      {
+        "unitId": "il-prb-cert-sealing-branch",
+        "order": 2,
+        "available": true,
+        "componentIds": [
+          "il-prb-cert-primary-filing-1",
+          "il-prb-cert-attachment-2"
+        ],
+        "state": "blocked_materialization_and_review"
+      },
+      {
+        "unitId": "il-prb-cert-military-branch",
+        "order": 3,
+        "available": true,
+        "componentIds": [
+          "il-prb-cert-primary-filing-3",
+          "il-prb-cert-attachment-4"
+        ],
+        "state": "blocked_materialization_and_review"
+      },
+      {
+        "unitId": "il-prb-cert-nonmilitary-expungement-branch",
+        "order": 4,
+        "available": false,
+        "componentIds": [],
+        "state": "unavailable_no_verified_official_form"
+      },
+      {
+        "unitId": "il-prb-cert-court-petition",
+        "order": 5,
+        "available": true,
+        "componentIds": [
+          "il-prb-cert-primary-filing-5"
+        ],
+        "state": "blocked_materialization_and_review"
+      }
+    ],
+    "rule298Treatment": "participant_action_only_not_an_adopted_packet_component",
+    "assemblyState": "blocked_authority_materialization_and_composed_platform"
+  },
+  "assemblyRules": {
+    "adultSuiteFlatteningRequired": true,
+    "oneParticipantPdfPerRoute": true,
+    "unmanifestedComponentBehavior": "throw_authority_unmanifested",
+    "missingExactSourceBehavior": "throw_source_missing",
+    "unavailablePrbUnitBehavior": "throw_branch_unavailable",
+    "conditionalComponentDefault": "omit_unless_condition_explicitly_true",
+    "thirdPartyFields": "blank",
+    "signatureFields": "blank_and_usable"
+  }
+}

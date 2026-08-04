@@ -1,0 +1,240 @@
+{
+  "schemaVersion": "rcap-official-pdf-fixtures/v1",
+  "familyId": "il-statewide-official-form-families",
+  "jurisdiction": "IL",
+  "syntheticDataOnly": true,
+  "dataSets": {
+    "adult-base": {
+      "participant": {
+        "fullLegalName": "Jordan Example",
+        "dateOfBirth": "1990-02-03",
+        "address": {
+          "line1": "100 Example Avenue",
+          "city": "Springfield",
+          "state": "IL",
+          "postalCode": "62701"
+        },
+        "phone": "217-555-0100",
+        "email": "jordan.example@example.test",
+        "signature": null,
+        "signatureDate": null
+      },
+      "venue": {
+        "county": "Sangamon",
+        "courtName": "Circuit Court",
+        "caseNumber": "2024-CF-000001"
+      },
+      "records": [
+        {
+          "caseNumber": "2024-CF-000001",
+          "arrestDate": "2024-01-02",
+          "arrestingAuthority": "Example Police Department",
+          "disposition": "dismissed",
+          "dispositionDate": "2024-04-05",
+          "participantElection": null
+        }
+      ],
+      "requestsFeeWaiver": false,
+      "courtAssignedHearingDate": null,
+      "judgeSignature": null,
+      "clerkSignature": null
+    },
+    "cannabis-base": {
+      "participant": {
+        "fullLegalName": "Taylor Example",
+        "address": {
+          "line1": "200 Sample Street",
+          "city": "Springfield",
+          "state": "IL",
+          "postalCode": "62702"
+        },
+        "signature": null,
+        "signatureDate": null
+      },
+      "countyOfConviction": "Sangamon",
+      "caseNumber": "2021-CM-000002",
+      "cannabisStatuteSection": "4",
+      "convictionClass": "misdemeanor",
+      "nonFinancialConditionsComplete": true,
+      "ageAtOffence": 23,
+      "adverseConsequences": "Synthetic fixture narrative supplied by the fictional participant.",
+      "hasRunAccessAndReview": true,
+      "courtAssignedHearingDate": null,
+      "judgeDecision": null,
+      "judgeSignature": null
+    },
+    "prb-base": {
+      "participant": {
+        "fullLegalName": "Morgan Example",
+        "dateOfBirth": "1988-06-07",
+        "address": {
+          "line1": "300 Fixture Road",
+          "city": "Springfield",
+          "state": "IL",
+          "postalCode": "62703"
+        },
+        "signature": null,
+        "signatureDate": null
+      },
+      "personalHistoryNarrative": "Synthetic personal-history text supplied by the fictional participant.",
+      "rehabilitationNarrative": "Synthetic rehabilitation text supplied by the fictional participant.",
+      "employmentDocumentationAvailable": true,
+      "educationDocumentationAvailable": true,
+      "fingerprintHistoryAvailable": true,
+      "militaryDocumentationAvailable": false,
+      "notarySignature": null,
+      "witnessOrAttorneySignature": null,
+      "boardCertificateIssued": false
+    }
+  },
+  "fixtures": [
+    {
+      "fixtureId": "il-exp-nonconv-base-source-stop",
+      "trackId": "il-exp-nonconv",
+      "dataSetId": "adult-base",
+      "branch": null,
+      "expectedOutcome": "blocked",
+      "expectedErrorCode": "source_missing"
+    },
+    {
+      "fixtureId": "il-exp-nonconv-continuation-authority-stop",
+      "trackId": "il-exp-nonconv",
+      "dataSetId": "adult-base",
+      "branch": "additional_cases",
+      "overrides": {
+        "recordsCountExceedsRequestCapacity": true
+      },
+      "expectedOutcome": "blocked",
+      "expectedErrorCode": "authority_unmanifested"
+    },
+    {
+      "fixtureId": "il-exp-nonconv-rule-298-mapping-stop",
+      "trackId": "il-exp-nonconv",
+      "dataSetId": "adult-base",
+      "branch": "fee_waiver",
+      "overrides": {
+        "requestsFeeWaiver": true
+      },
+      "expectedOutcome": "blocked",
+      "expectedErrorCode": "component_mapping_unapproved"
+    },
+    {
+      "fixtureId": "il-exp-supervision-source-stop",
+      "trackId": "il-exp-supervision",
+      "dataSetId": "adult-base",
+      "branch": null,
+      "expectedOutcome": "blocked",
+      "expectedErrorCode": "source_missing"
+    },
+    {
+      "fixtureId": "il-exp-qualprob-source-stop",
+      "trackId": "il-exp-qualprob",
+      "dataSetId": "adult-base",
+      "branch": null,
+      "expectedOutcome": "blocked",
+      "expectedErrorCode": "source_missing"
+    },
+    {
+      "fixtureId": "il-exp-precompletion-source-stop",
+      "trackId": "il-exp-precompletion",
+      "dataSetId": "adult-base",
+      "branch": null,
+      "expectedOutcome": "blocked",
+      "expectedErrorCode": "source_missing"
+    },
+    {
+      "fixtureId": "il-seal-nonconv-source-stop",
+      "trackId": "il-seal-nonconv",
+      "dataSetId": "adult-base",
+      "branch": null,
+      "expectedOutcome": "blocked",
+      "expectedErrorCode": "source_missing"
+    },
+    {
+      "fixtureId": "il-seal-2yr-source-stop",
+      "trackId": "il-seal-2yr",
+      "dataSetId": "adult-base",
+      "branch": null,
+      "expectedOutcome": "blocked",
+      "expectedErrorCode": "source_missing"
+    },
+    {
+      "fixtureId": "il-seal-3yr-source-stop",
+      "trackId": "il-seal-3yr",
+      "dataSetId": "adult-base",
+      "branch": null,
+      "expectedOutcome": "blocked",
+      "expectedErrorCode": "source_missing"
+    },
+    {
+      "fixtureId": "il-seal-edu-source-stop",
+      "trackId": "il-seal-edu",
+      "dataSetId": "adult-base",
+      "branch": null,
+      "expectedOutcome": "blocked",
+      "expectedErrorCode": "source_missing"
+    },
+    {
+      "fixtureId": "il-exp-pardon-source-stop",
+      "trackId": "il-exp-pardon",
+      "dataSetId": "adult-base",
+      "branch": null,
+      "expectedOutcome": "blocked",
+      "expectedErrorCode": "source_missing"
+    },
+    {
+      "fixtureId": "il-cannabis-renderer-stop",
+      "trackId": "il-cannabis-vacate",
+      "dataSetId": "cannabis-base",
+      "branch": null,
+      "expectedOutcome": "blocked",
+      "expectedErrorCode": "renderer_classification_unresolved"
+    },
+    {
+      "fixtureId": "il-cannabis-required-companion-stop",
+      "trackId": "il-cannabis-vacate",
+      "dataSetId": "cannabis-base",
+      "branch": "complete_packet",
+      "expectedOutcome": "blocked",
+      "expectedErrorCode": "authority_unmanifested"
+    },
+    {
+      "fixtureId": "il-prb-sealing-source-stop",
+      "trackId": "il-prb-cert",
+      "dataSetId": "prb-base",
+      "branch": "il-prb-cert-sealing-branch",
+      "expectedOutcome": "blocked",
+      "expectedErrorCode": "source_missing"
+    },
+    {
+      "fixtureId": "il-prb-military-source-stop",
+      "trackId": "il-prb-cert",
+      "dataSetId": "prb-base",
+      "branch": "il-prb-cert-military-branch",
+      "overrides": {
+        "militaryDocumentationAvailable": true
+      },
+      "expectedOutcome": "blocked",
+      "expectedErrorCode": "source_missing"
+    },
+    {
+      "fixtureId": "il-prb-nonmilitary-branch-stop",
+      "trackId": "il-prb-cert",
+      "dataSetId": "prb-base",
+      "branch": "il-prb-cert-nonmilitary-expungement-branch",
+      "expectedOutcome": "blocked",
+      "expectedErrorCode": "branch_unavailable"
+    },
+    {
+      "fixtureId": "il-prb-court-petition-source-stop",
+      "trackId": "il-prb-cert",
+      "dataSetId": "prb-base",
+      "branch": "il-prb-cert-court-petition",
+      "overrides": {
+        "boardCertificateIssued": true
+      },
+      "expectedOutcome": "blocked",
+      "expectedErrorCode": "source_missing"
+    }
+  ]
+}
