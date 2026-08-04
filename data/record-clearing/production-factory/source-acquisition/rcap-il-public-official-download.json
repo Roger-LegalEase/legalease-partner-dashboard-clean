@@ -1,0 +1,221 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-il-public-official-download",
+  "parentJobId": "AUTH-01-in-repo-authority-pinning",
+  "jurisdiction": "IL",
+  "lane": "source_acquisition",
+  "strategyFamily": "public_official_download",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "4eee199a1f0d6d381d0bcc763ee559250b26078e",
+  "generatedOn": "2026-08-04",
+  "acquisitionIds": [
+    "acquire:IL:cxp-additional-cannabis-convictions",
+    "acquire:IL:cxp-additional-notice-of-court-date",
+    "acquire:IL:cxp-getting-started-motion-to-vacate-and-expunge",
+    "acquire:IL:cxp-notice-of-court-date-for-motion",
+    "acquire:IL:cxp-order-granting-or-denying-motion",
+    "acquire:IL:exp-ad-additional-cases-expungement"
+  ],
+  "downloadedSourceCount": 6,
+  "generatedFrom": [
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/source-artifact-registry.json"
+  ],
+  "method": {
+    "description": "Full-body download of all six assigned Illinois forms from the official Illinois Courts CDN, each hashed with SHA-256 and inspected for its printed form number, revision stamp and approval line. The official URLs contain literal spaces and were percent-encoded; an unencoded fetch fails as a client error rather than a missing document.",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "authenticationUsed": false,
+    "binariesDownloaded": 6,
+    "binaryDeposition": "None of the six retrieved binaries is committed by this job.",
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "byteVerificationMethod": "fresh_https_get_full_body_then_sha256",
+    "byteVerificationUpgrade": "This is the first true byte verification of the Illinois set. The prior evidence on record was a HEAD request returning a matching Content-Length, which establishes only that the length is unchanged, not that the bytes are. All six digests are computed here over full response bodies and all six match binaries the repository already holds, so the earlier length-based inference is now confirmed rather than merely assumed."
+  },
+  "totals": {
+    "assignedAcquisitions": 6,
+    "binariesRetrieved": 6,
+    "digestsMatchingHeldBinaries": 6,
+    "revisionsConfirmed": 6,
+    "revisionsUnconfirmed": 0,
+    "printedFormNumbersRecovered": 6,
+    "correctionsRaised": 3
+  },
+  "acquisitions": [
+    {
+      "acquisitionId": "acquire:IL:cxp-getting-started-motion-to-vacate-and-expunge",
+      "officialTitle": "Getting Started Motion to Vacate & Expunge Eligible Cannabis Convictions",
+      "printedFormNumber": "EXC-G 4700.2",
+      "printedRevisionStamp": "(03/22)",
+      "resolvedRevision": "03/2022",
+      "documentRole": "instructions",
+      "trackIds": ["il-cannabis-vacate"],
+      "componentIds": ["il-cannabis-vacate-instructions-3"],
+      "disposition": "acquired_public_official_download",
+      "retrievedFromUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/da1fc04d-1770-4e40-8a5c-527bd52ca7f9/CXP%20Getting%20Started%20Motion%20to%20Vacate%20and%20Expunge.pdf",
+      "httpStatus": 200,
+      "sha256": "52ce3880f8d813ca7ebebb1654da5a04f4d70dca538868f7094163a7199eb0b2",
+      "sizeBytes": 150220,
+      "pageCount": 1,
+      "carriesStatewideAcceptanceLine": false,
+      "statewideAcceptanceNote": "Absent, consistent with this being the instruction sheet rather than a filed form.",
+      "digestMatchesHeldBinary": true
+    },
+    {
+      "acquisitionId": "acquire:IL:cxp-additional-cannabis-convictions",
+      "officialTitle": "Additional Cannabis Convictions",
+      "printedFormNumber": "EXC-AA 4706.2",
+      "printedRevisionStamp": "(03/22)",
+      "resolvedRevision": "03/2022",
+      "documentRole": "continuation",
+      "trackIds": ["il-cannabis-vacate"],
+      "componentIds": ["il-cannabis-vacate-continuation-2"],
+      "disposition": "acquired_public_official_download",
+      "retrievedFromUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/85296a2c-ee02-41c9-b962-6fb1f797dc8e/CXP%20Additional%20Cannabis%20Convictions.pdf",
+      "httpStatus": 200,
+      "sha256": "32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969",
+      "sizeBytes": 396270,
+      "pageCount": 2,
+      "carriesStatewideAcceptanceLine": true,
+      "digestMatchesHeldBinary": true
+    },
+    {
+      "acquisitionId": "acquire:IL:cxp-additional-notice-of-court-date",
+      "officialTitle": "Additional Notice of Court Date for Motion to Vacate & Expunge Eligible Cannabis Convictions",
+      "printedFormNumber": "EXC-AM 4705.2",
+      "printedRevisionStamp": "(3/22)",
+      "resolvedRevision": "03/2022",
+      "documentRole": "continuation",
+      "trackIds": ["il-cannabis-vacate"],
+      "componentIds": ["il-cannabis-vacate-continuation-5"],
+      "disposition": "acquired_public_official_download",
+      "retrievedFromUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62d19ea4-46a8-423b-9e42-b975974fc77b/CXP%20Additional%20Notice%20of%20Court%20Date.pdf",
+      "httpStatus": 200,
+      "sha256": "4a6dde5541b6531f99a4294e07a28ea85096ea5c982ee76e46cf3e8dd00b0afa",
+      "sizeBytes": 283605,
+      "pageCount": 1,
+      "carriesStatewideAcceptanceLine": false,
+      "statewideAcceptanceNote": "This continuation page does not carry the acceptance line that its four sibling filed forms carry. Recorded as observed; not treated as evidence of a different status.",
+      "digestMatchesHeldBinary": true
+    },
+    {
+      "acquisitionId": "acquire:IL:cxp-notice-of-court-date-for-motion",
+      "officialTitle": "Notice of Court Date for Motion to Vacate & Expunge Eligible Cannabis Convictions",
+      "printedFormNumber": "EXC-N 4703.2",
+      "printedRevisionStamp": "(3/22)",
+      "resolvedRevision": "03/2022",
+      "documentRoleRecorded": "local_addendum",
+      "documentRoleRecordedIsCorrect": false,
+      "trackIds": ["il-cannabis-vacate"],
+      "componentIds": ["il-cannabis-vacate-local-addendum-4"],
+      "disposition": "acquired_public_official_download",
+      "retrievedFromUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/a9f72f2b-0bc7-482d-a301-9dc73e64e4b7/CXP%20Notice%20of%20Court%20Date%20for%20Motion.pdf",
+      "httpStatus": 200,
+      "sha256": "56179412256e2c98b0f535a328801e4cf012ae3d179848c3a1efe7df6377b041",
+      "sizeBytes": 370872,
+      "pageCount": 2,
+      "carriesStatewideAcceptanceLine": true,
+      "statewideAcceptanceEvidence": "Read from the retrieved bytes, immediately above the caption: 'This form is approved by the Illinois Supreme Court and is required to be accepted in all Illinois Circuit Courts.'",
+      "digestMatchesHeldBinary": true
+    },
+    {
+      "acquisitionId": "acquire:IL:cxp-order-granting-or-denying-motion",
+      "officialTitle": "Order Granting or Denying Motion to Vacate & Expunge Eligible Cannabis Convictions",
+      "printedFormNumber": "EXC-O 4704.2",
+      "printedRevisionStamp": "(3/22)",
+      "resolvedRevision": "03/2022",
+      "documentRole": "proposed_order",
+      "trackIds": ["il-cannabis-vacate"],
+      "componentIds": ["il-cannabis-vacate-proposed-order-6"],
+      "disposition": "acquired_public_official_download",
+      "retrievedFromUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/0c788d57-5951-47d9-9946-dfc36b7d1d50/CXP%20Order%20Granting%20or%20Denying%20Motion.pdf",
+      "httpStatus": 200,
+      "sha256": "ca0fdef8909a3ef134c562d09a89dcc24de22036c7b8238902443892c3ac77cc",
+      "sizeBytes": 332731,
+      "pageCount": 2,
+      "carriesStatewideAcceptanceLine": true,
+      "digestMatchesHeldBinary": true
+    },
+    {
+      "acquisitionId": "acquire:IL:exp-ad-additional-cases-expungement",
+      "officialTitle": "Additional Arrests or Cases for Expungement",
+      "printedFormNumber": "ATJ 2903.5",
+      "printedRevisionStamp": "(06/26)",
+      "resolvedRevision": "06/2026",
+      "documentRole": "continuation",
+      "trackIds": ["il-exp-nonconv"],
+      "componentIds": ["il-exp-nonconv-continuation-4"],
+      "disposition": "acquired_public_official_download",
+      "retrievedFromUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/9cb2130f-056d-4962-a6e7-a592b4f4b4bb/EXP-AD%20Additional%20Cases%20Expungement.pdf",
+      "httpStatus": 200,
+      "sha256": "36ad55c62b891fb2ede8de8bddaeb023c1acc8cbb62880c426dfcdf289686f00",
+      "sizeBytes": 821758,
+      "pageCount": 1,
+      "carriesStatewideAcceptanceLine": true,
+      "formNumberResolution": "The record noted the ATJ form number is not printed on the official index. It is not — the index renders only title text and an approval-date column. The number is printed on the document itself: the footer line reads 'ATJ 2903.5    Page 1 of 1    (06/26)'.",
+      "digestMatchesHeldBinary": true
+    }
+  ],
+  "correctionsRaised": [
+    {
+      "kind": "document_role_misclassification",
+      "severity": "high",
+      "acquisitionId": "acquire:IL:cxp-notice-of-court-date-for-motion",
+      "component": "il-cannabis-vacate-local-addendum-4",
+      "recordedValue": "local_addendum",
+      "observed": "The form face carries 'This form is approved by the Illinois Supreme Court and is required to be accepted in all Illinois Circuit Courts.' It is a statewide Supreme Court-approved form at revision 03/2022, not a local addendum.",
+      "consequence": "Carried as a local addendum, the component invites per-county local-form handling for a form every Illinois circuit court is obliged to accept, and it sits in a component slot named for a role it does not have.",
+      "recommendation": "Reclassify the role to a statewide filed component and rename the component slot accordingly. The queue itself already raised this; the retrieved bytes confirm it.",
+      "appliedByThisJob": false,
+      "notAppliedRationale": "Component role changes touch the legal-design track-source relationships, a forbidden path for this job."
+    },
+    {
+      "kind": "form_number_provenance",
+      "severity": "medium",
+      "observation": "The prefixes CXP and EXP-AD are filename fragments on the CDN, not published form numbers. The official index HTML contains no form-number tokens at all. The real numbers are printed only in the PDF footers and use different prefixes: EXC-G 4700.2, EXC-N 4703.2, EXC-O 4704.2, EXC-AM 4705.2, EXC-AA 4706.2 and ATJ 2903.5.",
+      "recommendation": "Record the printed EXC-/ATJ numbers as the form numbers. Any packet or review artefact printing 'CXP' as a form number is printing a filename fragment that does not appear on the document.",
+      "appliedByThisJob": false
+    },
+    {
+      "kind": "approving_authority_attribution",
+      "severity": "low",
+      "recordedValue": "Illinois Supreme Court Commission on Access to Justice (approving authority)",
+      "observed": "The form face names the approving authority as the Illinois Supreme Court itself. The Commission on Access to Justice is the developing body.",
+      "recommendation": "Attribute approval to the Illinois Supreme Court and keep the Commission as the developing body.",
+      "appliedByThisJob": false
+    }
+  ],
+  "supersessionAssessment": {
+    "conclusion": "No evidence of supersession for any of the six.",
+    "basis": [
+      "All five cannabis forms still carry (03/22) or (3/22) stamps in the bytes retrieved today, with .2 version suffixes on their printed numbers.",
+      "The official expungement and sealing index still lists the cannabis suite at Approved 03/2022 while the adult and juvenile suites around it read Approved 06/2026 and Approved 07/2026, so the page is actively maintained and 03/2022 is a live current value rather than a stale one.",
+      "All six retrieved digests match binaries the repository already holds, so nothing has changed since they were captured."
+    ],
+    "caveat": "Absence of a pending draft is not a guarantee against a future revision. The stamp inconsistency across the cannabis set — (03/22) on two forms and (3/22) on three — is in the source documents themselves and is not a transcription artefact."
+  },
+  "unresolved": [
+    {
+      "question": "Are there redistribution or commercial-use terms for Illinois Courts approved forms?",
+      "status": "not_examined_by_this_job",
+      "why": "The assigned rows resolve without reaching a licensing question. The forms carry a statement that they are free at ilcourts.info/forms, which is a price statement rather than a licence grant, and no terms page was examined. Recorded as unexamined."
+    },
+    {
+      "question": "Why does the Additional Notice of Court Date continuation lack the statewide acceptance line its siblings carry?",
+      "status": "recorded_not_resolved",
+      "why": "Observed in the bytes and preserved. It may simply reflect the layout of a continuation page, but no official source was consulted to settle it, and it is not treated as evidence of different legal status."
+    }
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0
+  }
+}
