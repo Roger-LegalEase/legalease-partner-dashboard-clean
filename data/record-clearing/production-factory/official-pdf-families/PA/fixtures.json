@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "rcap-official-pdf-fixtures/v1",
+  "familyId": "pa-rules-490-790-791",
+  "syntheticDataOnly": true,
+  "syntheticDataRule": "All people, addresses, court references, charges, dates, and narratives are invented for deterministic technical review. SYN marks every case reference; no fixture is an eligibility or legal conclusion.",
+  "positiveFixtures": [
+    {
+      "fixtureId": "pa-rule790-technical-review-positive",
+      "trackId": "pa_790_nonconviction",
+      "documentId": "PA-RCRIM-P-790-PETITION",
+      "reviewOnly": true,
+      "caseReference": "SYN-PA-790-0001",
+      "facts": {
+        "participant": {
+          "fullName": "Avery Example",
+          "dateOfBirth": "01/02/1990",
+          "address": {
+            "line1": "100 Example Avenue",
+            "line2": "Unit 2",
+            "city": "Harrisburg",
+            "state": "PA",
+            "zip": "17101"
+          },
+          "aliases": [
+            "A. Example"
+          ]
+        },
+        "case": {
+          "county": "Dauphin",
+          "judicialDistrict": "12",
+          "docketNumber": "CP-22-CR-0000001-2024",
+          "docketSegments": [
+            "22",
+            "CR",
+            "0000001",
+            "24"
+          ],
+          "otn": "SYN000001",
+          "arrestDate": "01/03/2024",
+          "complaintDate": "01/03/2024",
+          "arrestingAgency": "Synthetic Borough Police",
+          "judge": {
+            "name": "Judge Example",
+            "address": {
+              "line1": "200 Court Street",
+              "line2": "",
+              "city": "Harrisburg",
+              "state": "PA",
+              "zip": "17101"
+            }
+          },
+          "affiant": {
+            "name": "Officer Example",
+            "address": {
+              "line1": "300 Public Safety Road",
+              "line2": "",
+              "city": "Harrisburg",
+              "state": "PA",
+              "zip": "17101"
+            }
+          },
+          "charges": [
+            {
+              "statuteTitle": "18",
+              "section": "0000",
+              "subsection": "(a)",
+              "description": "Synthetic test charge",
+              "count": "1",
+              "grade": "S",
+              "disposition": "Dismissed"
+            }
+          ]
+        },
+        "petition": {
+          "reasonForExpungement": "Synthetic participant narrative used only to test multiline field layout.",
+          "reasonForMissingHistory": ""
+        }
+      },
+      "manualFieldsExpectedBlank": [
+        "Check Box1",
+        "Checkbox2",
+        "Social Security Number",
+        "petitioner signature",
+        "signature date"
+      ]
+    }
+  ],
+  "boundaryFixtures": [
+    {
+      "fixtureId": "pa-rule490-petition-source-not-materialized",
+      "documentId": "PA-RCRIM-P-490-PETITION",
+      "kind": "materialization_required",
+      "expect": "source_missing"
+    },
+    {
+      "fixtureId": "pa-rule790-order-source-not-materialized",
+      "documentId": "PA-RCRIM-P-790-ORDER",
+      "kind": "materialization_required",
+      "expect": "source_missing"
+    },
+    {
+      "fixtureId": "pa-rule791-petition-source-not-materialized",
+      "documentId": "PA-RCRIM-P-791-PETITION",
+      "kind": "materialization_required",
+      "expect": "source_missing"
+    },
+    {
+      "fixtureId": "pa-rule790-petition-social-security-number",
+      "documentId": "PA-RCRIM-P-790-PETITION",
+      "basedOn": "pa-rule790-technical-review-positive",
+      "kind": "prohibited_field_ownership",
+      "setPath": "participant.socialSecurityNumber",
+      "setValue": "000-00-0000",
+      "expect": "prohibited_fact"
+    },
+    {
+      "fixtureId": "pa-rule790-petition-unconfirmed-checkbox",
+      "documentId": "PA-RCRIM-P-790-PETITION",
+      "basedOn": "pa-rule790-technical-review-positive",
+      "kind": "unconfirmed_widget_semantics",
+      "setPath": "petition.amountsPaid",
+      "setValue": true,
+      "expect": "unconfirmed_widget_semantics"
+    },
+    {
+      "fixtureId": "pa-rule790-incomplete-participant-packet",
+      "trackId": "pa_790_nonconviction",
+      "basedOn": "pa-rule790-technical-review-positive",
+      "kind": "required_source_absent",
+      "expect": "packet_source_incomplete"
+    }
+  ]
+}

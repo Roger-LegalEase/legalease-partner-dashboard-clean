@@ -1,0 +1,334 @@
+{
+  "schemaVersion": "rcap-official-pdf-packet-assembly/v1",
+  "familyId": "pa-rules-490-790-791",
+  "jurisdiction": "PA",
+  "assemblyPolicy": {
+    "participantDeliverable": "one_pdf",
+    "zipAllowed": false,
+    "deterministic": true,
+    "deterministicTimestamp": "2000-01-01T00:00:00.000Z",
+    "producer": "LegalEase",
+    "preserveOfficialFixedLanguage": true,
+    "preserveFillableFields": true,
+    "sourceLookupMode": "exact_requirement_only",
+    "downloadOrSourceFallbackAllowed": false,
+    "partialParticipantPacketAllowed": false,
+    "componentReviewArtifactIsParticipantPacket": false,
+    "signatureImagesGenerated": false
+  },
+  "packets": [
+    {
+      "trackId": "pa_790_nonconviction",
+      "outputFileName": "Pennsylvania-Rule-790-Nonconviction-Expungement-Packet.pdf",
+      "targetParticipantPdf": true,
+      "currentlyMaterializable": false,
+      "documents": [
+        {
+          "componentId": "pa_790_nonconviction-primary-filing-rule790-1",
+          "documentId": "PA-RCRIM-P-790-PETITION",
+          "role": "primary_filing",
+          "requirement": "required",
+          "order": 1,
+          "rendererStrategy": "acroform_fill"
+        },
+        {
+          "componentId": "pa_790_nonconviction-proposed-order-rule790-2",
+          "documentId": "PA-RCRIM-P-790-ORDER",
+          "role": "proposed_order",
+          "requirement": "required",
+          "order": 2,
+          "rendererStrategy": "acroform_fill"
+        },
+        {
+          "componentId": "pa_790_nonconviction-certificate-of-service-3",
+          "documentId": null,
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "order": 3,
+          "rendererStrategy": "custom_pleading",
+          "implementation": "outside_this_family"
+        },
+        {
+          "componentId": "pa_790_nonconviction-fee-waiver-4",
+          "documentId": "PA-IFP-CCP",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only where the participant seeks to proceed in forma pauperis.",
+          "order": 4,
+          "rendererStrategy": "official_pdf_fill",
+          "implementation": "outside_this_family"
+        }
+      ],
+      "blockingDocumentIds": [
+        "PA-RCRIM-P-790-ORDER"
+      ]
+    },
+    {
+      "trackId": "pa_490_nonconviction",
+      "outputFileName": "Pennsylvania-Rule-490-Nonconviction-Expungement-Packet.pdf",
+      "targetParticipantPdf": true,
+      "currentlyMaterializable": false,
+      "documents": [
+        {
+          "componentId": "pa_490_nonconviction-primary-filing-rule490-1",
+          "documentId": "PA-RCRIM-P-490-PETITION",
+          "role": "primary_filing",
+          "requirement": "required",
+          "order": 1,
+          "rendererStrategy": "acroform_fill"
+        },
+        {
+          "componentId": "pa_490_nonconviction-proposed-order-rule490-2",
+          "documentId": "PA-RCRIM-P-490-ORDER",
+          "role": "proposed_order",
+          "requirement": "required",
+          "order": 2,
+          "rendererStrategy": "acroform_fill"
+        },
+        {
+          "componentId": "pa_490_nonconviction-certificate-of-service-3",
+          "documentId": null,
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "order": 3,
+          "rendererStrategy": "custom_pleading",
+          "implementation": "outside_this_family"
+        },
+        {
+          "componentId": "pa_490_nonconviction-fee-waiver-4",
+          "documentId": "PA-IFP-MDJ",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only where the participant seeks to proceed in forma pauperis at the magisterial district court level.",
+          "order": 4,
+          "rendererStrategy": "official_pdf_fill",
+          "implementation": "outside_this_family"
+        }
+      ],
+      "blockingDocumentIds": [
+        "PA-RCRIM-P-490-PETITION",
+        "PA-RCRIM-P-490-ORDER"
+      ]
+    },
+    {
+      "trackId": "pa_summary_conviction",
+      "outputFileName": "Pennsylvania-Summary-Conviction-Expungement-Packet.pdf",
+      "targetParticipantPdf": true,
+      "currentlyMaterializable": false,
+      "branchKey": "courtLevel",
+      "documents": [
+        {
+          "componentId": "pa_summary_conviction-primary-filing-rule490-1",
+          "documentId": "PA-RCRIM-P-490-PETITION",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Used where the summary conviction was entered in a case that remained at the magisterial district court.",
+          "condition": {
+            "courtLevel": "magisterial_district_court"
+          },
+          "order": 1,
+          "rendererStrategy": "acroform_fill"
+        },
+        {
+          "componentId": "pa_summary_conviction-primary-filing-rule790-2",
+          "documentId": "PA-RCRIM-P-790-PETITION",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Used where the summary conviction was entered in a court case at the court of common pleas.",
+          "condition": {
+            "courtLevel": "court_of_common_pleas"
+          },
+          "order": 1,
+          "rendererStrategy": "acroform_fill"
+        },
+        {
+          "componentId": "pa_summary_conviction-proposed-order-rule490-3",
+          "documentId": "PA-RCRIM-P-490-ORDER",
+          "role": "proposed_order",
+          "requirement": "required",
+          "order": 2,
+          "rendererStrategy": "acroform_fill"
+        },
+        {
+          "componentId": "pa_summary_conviction-certificate-of-service-4",
+          "documentId": null,
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "order": 3,
+          "rendererStrategy": "custom_pleading",
+          "implementation": "outside_this_family"
+        }
+      ],
+      "blockingDocumentIds": [
+        "PA-RCRIM-P-490-PETITION",
+        "PA-RCRIM-P-490-ORDER"
+      ],
+      "notes": "The proposed-order identity intentionally follows the published normalization memo. This family does not alter or infer a different Rule 790 order for the court-of-common-pleas branch."
+    },
+    {
+      "trackId": "pa_age70_deceased",
+      "outputFileName": "Pennsylvania-Rule-790-Age-70-or-Deceased-Expungement-Packet.pdf",
+      "targetParticipantPdf": true,
+      "currentlyMaterializable": false,
+      "documents": [
+        {
+          "componentId": "pa_age70_deceased-primary-filing-rule790-1",
+          "documentId": "PA-RCRIM-P-790-PETITION",
+          "role": "primary_filing",
+          "requirement": "required",
+          "order": 1,
+          "rendererStrategy": "acroform_fill"
+        },
+        {
+          "componentId": "pa_age70_deceased-proposed-order-rule790-2",
+          "documentId": "PA-RCRIM-P-790-ORDER",
+          "role": "proposed_order",
+          "requirement": "required",
+          "order": 2,
+          "rendererStrategy": "acroform_fill"
+        },
+        {
+          "componentId": "pa_age70_deceased-certificate-of-service-3",
+          "documentId": null,
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "order": 3,
+          "rendererStrategy": "custom_pleading",
+          "implementation": "outside_this_family"
+        }
+      ],
+      "blockingDocumentIds": [
+        "PA-RCRIM-P-790-ORDER"
+      ]
+    },
+    {
+      "trackId": "pa_6308_underage",
+      "outputFileName": "Pennsylvania-Rule-490-Underage-Alcohol-Expungement-Packet.pdf",
+      "targetParticipantPdf": true,
+      "currentlyMaterializable": false,
+      "documents": [
+        {
+          "componentId": "pa_6308_underage-primary-filing-rule490-1",
+          "documentId": "PA-RCRIM-P-490-PETITION",
+          "role": "primary_filing",
+          "requirement": "required",
+          "order": 1,
+          "rendererStrategy": "acroform_fill"
+        },
+        {
+          "componentId": "pa_6308_underage-proposed-order-rule490-2",
+          "documentId": "PA-RCRIM-P-490-ORDER",
+          "role": "proposed_order",
+          "requirement": "required",
+          "order": 2,
+          "rendererStrategy": "acroform_fill"
+        },
+        {
+          "componentId": "pa_6308_underage-certificate-of-service-3",
+          "documentId": null,
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "order": 3,
+          "rendererStrategy": "custom_pleading",
+          "implementation": "outside_this_family"
+        }
+      ],
+      "blockingDocumentIds": [
+        "PA-RCRIM-P-490-PETITION",
+        "PA-RCRIM-P-490-ORDER"
+      ]
+    },
+    {
+      "trackId": "pa_pardon_expungement",
+      "outputFileName": "Pennsylvania-Pardon-Expungement-Fallback-Packet.pdf",
+      "targetParticipantPdf": true,
+      "currentlyMaterializable": false,
+      "branchKey": "automaticRouteClearedRecord",
+      "documents": [
+        {
+          "componentId": "pa_pardon_expungement-process-guidance-1",
+          "documentId": null,
+          "role": "process_guidance",
+          "requirement": "required",
+          "order": 1,
+          "rendererStrategy": "process_guidance",
+          "implementation": "outside_this_family"
+        },
+        {
+          "componentId": "pa_pardon_expungement-primary-filing-rule790-2",
+          "documentId": "PA-RCRIM-P-790-PETITION",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Generated only where the automatic route has not cleared the record after the quarterly cycle.",
+          "condition": {
+            "automaticRouteClearedRecord": false
+          },
+          "order": 2,
+          "rendererStrategy": "acroform_fill"
+        },
+        {
+          "componentId": "pa_pardon_expungement-proposed-order-rule790-3",
+          "documentId": "PA-RCRIM-P-790-ORDER",
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Accompanies the fallback petition.",
+          "condition": {
+            "automaticRouteClearedRecord": false
+          },
+          "order": 3,
+          "rendererStrategy": "acroform_fill"
+        }
+      ],
+      "blockingDocumentIds": [
+        "PA-RCRIM-P-790-ORDER"
+      ]
+    },
+    {
+      "trackId": "pa_9122_1_limited_access",
+      "outputFileName": "Pennsylvania-Rule-791-Limited-Access-Packet.pdf",
+      "targetParticipantPdf": true,
+      "currentlyMaterializable": false,
+      "documents": [
+        {
+          "componentId": "pa_9122_1_limited_access-primary-filing-rule791-1",
+          "documentId": "PA-RCRIM-P-791-PETITION",
+          "role": "primary_filing",
+          "requirement": "required",
+          "order": 1,
+          "rendererStrategy": "acroform_fill"
+        },
+        {
+          "componentId": "pa_9122_1_limited_access-proposed-order-rule791-2",
+          "documentId": "PA-RCRIM-P-791-ORDER",
+          "role": "proposed_order",
+          "requirement": "required",
+          "order": 2,
+          "rendererStrategy": "acroform_fill"
+        },
+        {
+          "componentId": "pa_9122_1_limited_access-certificate-of-service-3",
+          "documentId": null,
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "order": 3,
+          "rendererStrategy": "custom_pleading",
+          "implementation": "outside_this_family"
+        },
+        {
+          "componentId": "pa_9122_1_limited_access-fee-waiver-4",
+          "documentId": "PA-IFP-CCP",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only where the participant seeks to proceed in forma pauperis. It does not waive the separate limited access fee that § 9122.1 makes a condition of relief.",
+          "order": 4,
+          "rendererStrategy": "official_pdf_fill",
+          "implementation": "outside_this_family"
+        }
+      ],
+      "blockingDocumentIds": [
+        "PA-RCRIM-P-791-PETITION",
+        "PA-RCRIM-P-791-ORDER"
+      ]
+    }
+  ]
+}

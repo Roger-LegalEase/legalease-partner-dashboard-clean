@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "rcap-official-pdf-family/v1",
+  "familyId": "pa-rules-490-790-791",
+  "jurisdiction": "PA",
+  "authorityFamily": "Pennsylvania Unified Judicial System",
+  "implementationJobId": "IMP-OF-PA-rules-490-790-791",
+  "outputStrategies": [
+    "official_pdf_fill"
+  ],
+  "legalDesignProvenance": {
+    "normalizationCommit": "387656ac31a49f7338bd9d1e3e170df929659d98",
+    "memoPath": "data/record-clearing/legal-design-intake/PA.memo.json",
+    "memoSha256": "3291a5ce3e083f7988b85f17735b50238ee5b873c82337349fb456c2966bf055",
+    "treatment": "read_only_design_provenance",
+    "binarySourceIdentityTreatment": "Master Library authority, repository audit, exact hash, size, MIME, role, revision, and canonical path control; memo URLs are not binary resolver inputs.",
+    "legalDesignChangedByThisFamily": false
+  },
+  "sourceMaterialization": {
+    "dependencyJobId": "rcap-nationwide-source-materialization-contract",
+    "requirementManifest": "data/record-clearing/production-factory/official-pdf-families/PA/source-requirements.json",
+    "dependencyManifest": "data/record-clearing/production-factory/official-pdf-families/PA/materialization-dependencies.json",
+    "allSourcesRequired": true,
+    "verifiedExactSources": 1,
+    "missingExactSources": 5,
+    "state": "partial_exact_source_availability",
+    "workerReady": false,
+    "registryPresenceConfersReadiness": false,
+    "workerMayAcquireSources": false
+  },
+  "tracks": [
+    {
+      "trackId": "pa_490_nonconviction",
+      "sourceDocumentIds": [
+        "PA-RCRIM-P-490-PETITION",
+        "PA-RCRIM-P-490-ORDER"
+      ]
+    },
+    {
+      "trackId": "pa_790_nonconviction",
+      "sourceDocumentIds": [
+        "PA-RCRIM-P-790-PETITION",
+        "PA-RCRIM-P-790-ORDER"
+      ]
+    },
+    {
+      "trackId": "pa_summary_conviction",
+      "sourceDocumentIds": [
+        "PA-RCRIM-P-490-PETITION",
+        "PA-RCRIM-P-790-PETITION",
+        "PA-RCRIM-P-490-ORDER"
+      ]
+    },
+    {
+      "trackId": "pa_age70_deceased",
+      "sourceDocumentIds": [
+        "PA-RCRIM-P-790-PETITION",
+        "PA-RCRIM-P-790-ORDER"
+      ]
+    },
+    {
+      "trackId": "pa_6308_underage",
+      "sourceDocumentIds": [
+        "PA-RCRIM-P-490-PETITION",
+        "PA-RCRIM-P-490-ORDER"
+      ]
+    },
+    {
+      "trackId": "pa_pardon_expungement",
+      "sourceDocumentIds": [
+        "PA-RCRIM-P-790-PETITION",
+        "PA-RCRIM-P-790-ORDER"
+      ]
+    },
+    {
+      "trackId": "pa_9122_1_limited_access",
+      "sourceDocumentIds": [
+        "PA-RCRIM-P-791-PETITION",
+        "PA-RCRIM-P-791-ORDER"
+      ]
+    }
+  ],
+  "documents": [
+    "PA-RCRIM-P-490-PETITION",
+    "PA-RCRIM-P-490-ORDER",
+    "PA-RCRIM-P-790-PETITION",
+    "PA-RCRIM-P-790-ORDER",
+    "PA-RCRIM-P-791-PETITION",
+    "PA-RCRIM-P-791-ORDER"
+  ],
+  "artifacts": {
+    "fieldMap": "data/record-clearing/production-factory/official-pdf-families/PA/field-map-scaffold.json",
+    "fieldOwnershipMap": "data/record-clearing/production-factory/official-pdf-families/PA/field-ownership.json",
+    "fixtures": "data/record-clearing/production-factory/official-pdf-families/PA/fixtures.json",
+    "packetAssembly": "data/record-clearing/production-factory/official-pdf-families/PA/packet-assembly.json",
+    "sourceInspection": "data/record-clearing/production-factory/official-pdf-families/PA/rule-790-petition-source-inspection.json",
+    "reviewManifest": "data/record-clearing/production-factory/official-pdf-families/PA/review-manifest.json"
+  },
+  "implementationModule": "src/lib/rcap/packets/jurisdictions/pennsylvania/official-pdf/index.ts",
+  "reviewArtifactGenerator": "scripts/generate-rcap-pa-rules-490-790-791-review-artifacts.mjs",
+  "dedicatedVerifier": "scripts/verify-rcap-pa-rules-490-790-791-official-pdf-family.mjs",
+  "status": {
+    "sourceRequirements": "exact_pinned_identity",
+    "localSourceVerification": "one_of_six_exact_sources_verified",
+    "pdfStructureInspection": "rule_790_petition_verified_other_forms_pending",
+    "fieldMapping": "rule_790_text_map_visual_reviewed_checkbox_semantics_pending",
+    "packetRendering": "component_review_only_complete_packets_blocked",
+    "visualReview": "partial_rule_790_text_fields_passed",
+    "counselReview": "not_submitted",
+    "packetReady": false,
+    "enabled": false
+  },
+  "invariants": [
+    "Pennsylvania legal design remains unchanged and is treated as read-only provenance.",
+    "Only exact source identities pinned by Master Library Edition 1.2 may be opened.",
+    "The retained Rule 790 petition is used in place and is never copied into an implementation directory.",
+    "Missing Rule 490, Rule 790 order, and Rule 791 bytes fail closed; no download, reconstruction, or substitute is allowed.",
+    "No assembled participant packet is emitted until every required official form and cross-family component for its selected branch is available.",
+    "Participant signatures and dates remain manual; Social Security Number and unconfirmed checkbox semantics remain blank.",
+    "No live Pennsylvania route, legacy generator, central packet registry, or source registry is changed by this family."
+  ]
+}

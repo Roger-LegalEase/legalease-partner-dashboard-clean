@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "rcap-official-pdf-family-review/v1",
+  "familyId": "pa-rules-490-790-791",
+  "jurisdiction": "PA",
+  "buildStatus": "partial_source_verified_field_map_drafted",
+  "sourceReview": "rule_790_petition_exact_identity_verified_other_sources_pending",
+  "technicalReview": "rule_790_petition_structure_verified_other_sources_pending",
+  "visualReview": "partial_rule_790_text_fields_passed",
+  "humanLegalReviewStatus": "not_submitted",
+  "sourceFreshnessReview": "pending",
+  "legalDesignChanged": false,
+  "completeParticipantPackets": [],
+  "componentReviewSamples": [
+    {
+      "artifactId": "pa-rule-790-petition-synthetic-component-review",
+      "documentId": "PA-RCRIM-P-790-PETITION",
+      "fixtureId": "pa-rule790-technical-review-positive",
+      "outputPath": "artifacts/rcap-factory/pennsylvania-rules-490-790-791/pa-rule-790-petition-synthetic-component-review.pdf",
+      "manifestPath": "artifacts/rcap-factory/pennsylvania-rules-490-790-791/pa-rule-790-petition-synthetic-component-review.json",
+      "participantPacket": false,
+      "reviewOnly": true,
+      "generationCommand": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/generate-rcap-pa-rules-490-790-791-review-artifacts.mjs"
+    }
+  ],
+  "visualInspectionArtifacts": [
+    {
+      "artifactId": "pa-rule-790-petition-synthetic-component-review",
+      "status": "mapped_text_placement_passed_protected_fields_blank_checkbox_semantics_pending",
+      "reviewedOn": "2026-08-04",
+      "reviewMethod": "side_by_side_source_and_filled_pdf_viewer_inspection_at_100_and_150_percent",
+      "sourcePdfSha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+      "filledPdfSha256": "309d058e7e520a20414bdf5eb15ec4f7e5b3875da42e27b050c6ce613ca111f9",
+      "localIgnoredEvidence": [
+        {
+          "path": "tmp/rcap-session-e-pa-visual-review/source-150.png",
+          "sha256": "ce6390e3627b3e758b03efa028f14f15433bc420404d0a7ad4cb6057fb80e9fa"
+        },
+        {
+          "path": "tmp/rcap-session-e-pa-visual-review/filled-150.png",
+          "sha256": "5ddb32479558d1dd62aed6c9f9e718746bcc28e0e3067099ec112b598bf514ed"
+        }
+      ],
+      "observations": [
+        "All 38 populated synthetic values render inside their intended caption, identity, case-information, charge-row, and narrative fields without visible clipping or overlap.",
+        "Social Security Number, both checkbox groups, participant signature, and signature date remain visibly blank and usable.",
+        "Checkbox export-value semantics remain unconfirmed, so both checkbox fields remain excluded from generation."
+      ],
+      "requiredViews": [
+        "full_page",
+        "caption_and_identity",
+        "case_information",
+        "charge_rows",
+        "payment_and_criminal_history_choices",
+        "verification_and_signature_area"
+      ]
+    }
+  ],
+  "unresolvedDependencies": [
+    "Exact Rule 490 petition and order bytes must be materialized and freshly inspected.",
+    "Exact Rule 790 order bytes must be materialized and freshly inspected.",
+    "Exact Rule 791 petition and order bytes must be materialized and freshly inspected.",
+    "Rule 790 mapped text placement passed filled-data visual review; checkbox export-value semantics remain unconfirmed and excluded from generation.",
+    "Counsel/QA should acknowledge the normalized memo's 78-field note versus the fresh exact-source result of 76 AcroForm fields and 78 widgets.",
+    "Cross-family certificate-of-service, process-guidance, and conditional IFP components require integration.",
+    "Every complete selected packet branch must pass deterministic assembly, visual review, source freshness review, and counsel review."
+  ],
+  "promotion": {
+    "legalOutputApproved": false,
+    "counselApproved": false,
+    "packetReady": false,
+    "generationAllowed": false,
+    "enabled": false
+  }
+}
