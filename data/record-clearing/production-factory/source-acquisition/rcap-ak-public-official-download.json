@@ -1,0 +1,144 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-ak-public-official-download",
+  "parentJobId": "AUTH-01-in-repo-authority-pinning",
+  "jurisdiction": "AK",
+  "lane": "source_acquisition",
+  "strategyFamily": "public_official_download",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "4eee199a1f0d6d381d0bcc763ee559250b26078e",
+  "generatedOn": "2026-08-04",
+  "acquisitionIds": [
+    "acquire:AK:dps-request-to-seal-crim-info"
+  ],
+  "downloadedSourceCount": 1,
+  "generatedFrom": [
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/source-artifact-registry.json"
+  ],
+  "method": {
+    "description": "Public official download of the single assigned Alaska source. The binary was fetched by direct HTTPS GET from the URL published on the Alaska DPS background-checks index, hashed with SHA-256, and its printed revision footer, page count and form-field posture read from the retrieved bytes.",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "authenticationUsed": false,
+    "binariesDownloaded": 1,
+    "binaryDeposition": "The retrieved binary is NOT committed by this job. ownedPaths are limited to this single production-factory JSON file, so only provenance, digest, size, page count and footer evidence are recorded. Depositing the bytes into the source-gated corpus is a separate authorized step.",
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "byteVerificationMethod": "fresh_https_get_then_sha256_compared_to_recorded_digest",
+    "byteVerificationNote": "SHA-256 was computed over the freshly retrieved bytes and compared against the digest already recorded in the acquisition intelligence. The two agree exactly, so the published file has not changed since the 2026-08-03 confirmation."
+  },
+  "totals": {
+    "assignedAcquisitions": 1,
+    "binariesRetrieved": 1,
+    "revisionsConfirmed": 1,
+    "revisionsUnconfirmed": 0,
+    "urlCorrectionsRaised": 1
+  },
+  "acquisitions": [
+    {
+      "acquisitionId": "acquire:AK:dps-request-to-seal-crim-info",
+      "documentId": "DPS-REQUEST-TO-SEAL-CRIM-INFO",
+      "documentRole": "primary_filing",
+      "trackIds": [
+        "ak-mistaken-identity"
+      ],
+      "componentIds": [
+        "ak-mistaken-identity-primary-filing-1"
+      ],
+      "disposition": "acquired_public_official_download",
+      "officialTitle": "Request to Seal Criminal Justice Information",
+      "issuingBody": "State of Alaska, Department of Public Safety",
+      "issuingOffice": "Records and Identification Bureau — Quality Assurance Unit",
+      "officialIndexUrl": "https://dps.alaska.gov/statewide/background-checks/",
+      "retrievedFromUrl": "https://dps.alaska.gov/wp-content/uploads/2026/04/RequestToSealCrimInfo.pdf",
+      "retrievalDate": "2026-08-04",
+      "httpStatus": 200,
+      "resolvedRevision": "REV-2004-02",
+      "revisionStatus": "confirmed_uniform_printed_footer",
+      "revisionEvidence": "Printed footer 'Form: Seal Req 2-04' read from the retrieved bytes on all 6 of 6 pages, uniform across the document. Embedded PDF CreationDate and ModDate both 2004-02-19T00:02:22Z. The recorded REV-2004-02 label is correct and current, not stale.",
+      "footerObservations": [
+        { "page": 1, "footer": "Form: Seal Req 2-04" },
+        { "page": 2, "footer": "Form: Seal Req 2-04" },
+        { "page": 3, "footer": "Form: Seal Req 2-04" },
+        { "page": 4, "footer": "Form: Seal Req 2-04" },
+        { "page": 5, "footer": "Form: Seal Req 2-04" },
+        { "page": 6, "footer": "Form: Seal Req 2-04" }
+      ],
+      "sha256": "1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+      "sizeBytes": 37708,
+      "pageCount": 6,
+      "pageSize": "612 x 792 pts (letter)",
+      "encrypted": false,
+      "acroFormPresent": false,
+      "formFieldCount": 0,
+      "hashAgreementWithRecordedDigest": "exact_match",
+      "feeRequired": false,
+      "authenticationRequired": false,
+      "redistributionRestriction": "none_published",
+      "commercialUseRestriction": "none_published"
+    }
+  ],
+  "editionPosture": {
+    "retainedEditionAsset": null,
+    "componentResult": "authority_unmanifested_source",
+    "componentResultEvidence": "The track-source audit records ak-mistaken-identity-primary-filing-1 with asset=null and the reason 'No retained Edition 1.2 asset for AK document ID DPS-REQUEST-TO-SEAL-CRIM-INFO.' Unlike an in-repository identity reconciliation, this row is a genuine acquisition: Edition 1.2 holds nothing for this document.",
+    "acquisitionWasRequired": true,
+    "roleReclassNote": "The acquisition intelligence records a nextAction to 're-class the role from INSTRUCTIONS to primary_filing'. Both the component role and the intelligence documentRole already read primary_filing, and Edition 1.2 retains no asset row for this documentId, so there is no retained row to re-class here. The re-class applies to the asset class assigned when the binary is manifested into a successor edition. That manifestation is edition-publication work and is not performed by this job.",
+    "editionReclassPerformed": false
+  },
+  "correctionsRaised": [
+    {
+      "kind": "dead_alternate_url",
+      "field": "alternateOfficialUrl",
+      "recordedValue": "https://dps.alaska.gov/getmedia/1c3d2bfe-2f0c-4c05-a168-7b4669dab0b3/RequestToSealCrimInfo.pdf;.aspx",
+      "observed": "HTTP 404 on 2026-08-04, no redirect",
+      "recommendation": "Drop the alternate URL. DPS migrated off the legacy Kentico /getmedia/ scheme to WordPress /wp-content/uploads/. The recorded direct URL is the one the official index currently links and it resolves 200.",
+      "appliedByThisJob": false,
+      "notAppliedRationale": "planning/record-clearing-100-percent/acquisition-intelligence is a forbiddenPath for this job."
+    },
+    {
+      "kind": "renderer_constraint",
+      "observation": "The retrieved binary is flat: zero AcroForm dictionary, zero /Widget annotations, zero /FT field types across 6 pages. The ak-mistaken-identity track declares outputStrategy official_pdf_fill.",
+      "consequence": "An AcroForm fill cannot be performed against this source. Any official-PDF output for this track must be an overlay onto the flat pages.",
+      "recommendation": "Record the flat-PDF constraint against the component so the renderer archetype is chosen as overlay rather than acroform fill.",
+      "appliedByThisJob": false,
+      "notAppliedRationale": "Renderer archetype selection is implementation-lane work and is not owned by this job. Recorded as evidence only; no legal-design conclusion is altered."
+    },
+    {
+      "kind": "issuer_attribution_discrepancy",
+      "observation": "The official index page directs completed forms to the 'R&I — Quality Assurance Unit' at 5700 E. Tudor Road, Anchorage, AK 99507, while the 2004 form face directs 'SEND TO: CHIEF, CRIMINAL RECORDS AND IDENTIFICATION BUREAU' at the same street address.",
+      "recommendation": "Retain the Quality Assurance Unit attribution, which follows the current index page, but carry the form-face destination text in participant instructions so the packet does not contradict the document it encloses.",
+      "appliedByThisJob": false,
+      "notAppliedRationale": "Participant instruction content is legal-design and implementation work, not this job's."
+    }
+  ],
+  "unresolved": [
+    {
+      "question": "Does Alaska DPS charge a fee to process a request to seal?",
+      "status": "no_fee_stated_not_affirmatively_waived",
+      "why": "No fee appears on the form face or in the sealing FAQ. Every dollar figure on the index attaches to background-check purchases rather than sealing. Absence of a stated fee is recorded as such and is not upgraded to a confirmed zero-fee finding."
+    },
+    {
+      "question": "Are there redistribution or commercial-use terms for Alaska DPS forms?",
+      "status": "none_published",
+      "why": "No licensing, reuse or redistribution notice attaches to the form or the index. The only proprietary text is the site-wide 'COPYRIGHT © STATE OF ALASKA' footer, which does not address reproduction of forms. Recorded as none published rather than as an affirmative permission."
+    },
+    {
+      "question": "Is the 2004 form still legally sufficient for the ak-mistaken-identity track?",
+      "status": "outside_this_job",
+      "why": "This job confirms the 2004 document is the issuer's current published form. Whether it remains legally sufficient is a legal-design question and is neither answered nor narrowed here."
+    }
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0
+  }
+}
