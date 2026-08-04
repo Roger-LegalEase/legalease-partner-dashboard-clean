@@ -42,6 +42,13 @@ slot count, then derives production readiness bundles without rewriting the
 raw evidence. Session B contributes 12 jurisdictions and 182 mechanism rows;
 Session D contributes 12 jurisdictions and 131 keyed mechanism rows.
 
+Session D also returned one immutable adjudication artifact and manifest. The
+captain verifies the artifact and manifest hashes, the parent research commit,
+and byte identity of the original bundle before adoption. The adjudication may
+replace source identities or add a typed blocker only where it expressly
+resolves or narrows that field. It does not rewrite the research bundle,
+normalize a state, create a track, or make a readiness record production-ready.
+
 The derived bundle uses `rcap-normalization-readiness-bundle/v1` and includes:
 
 - authority edition, exact review archive entry, revision, review date, and
@@ -106,6 +113,9 @@ The planner derives, rather than assigns by jurisdiction, these states:
 - `legal_review_materialization_required`
 - `legal_review_hash_mismatch`
 - `mechanism_inventory_count_conflict`
+- `mechanism_count_counsel_addendum_required`
+- `reviewed_through_librarian_correction_required`
+- `codification_authority_unverified`
 - `mechanism_inventory_required`
 - `mechanism_inventory_hash_mismatch`
 - `expected_source_ids_required`
@@ -149,16 +159,34 @@ claim registries.
 
 ## Current fail-closed posture
 
-Both research bundles are committed and all 24 jurisdictions are represented
-exactly once with 313 total denominator rows. UT, VT and WV retain unresolved
-review-summary versus keyed-body count conflicts. The other 21 denominators
-are reconciled, including explicit normalization-time authority refresh
-requirements for SC, TN and WY.
+Both research bundles, the Session D adjudication, and the hash-bound
+UT/VT/WV counsel structure adoption are committed, and all 24 jurisdictions
+are represented exactly once with 313 total denominator rows. Counsel closed
+the UT, VT and WV mechanism-count blockers without authorizing normalization:
+Utah has 14 substantive tracks plus one adjacent routing node; Vermont's 14
+source slots crosswalk to 11 substantive tracks; and West Virginia has 10
+substantive tracks plus two shared-procedure nodes. West Virginia's
+substantive review date is 2026-08-01 and 2026-08-02 is the packaging date, so
+the librarian date blocker is also closed. Track-specific source,
+legal-design, technical, and release blockers remain preserved. Tennessee
+retains `codification_authority_unverified`; Public Chapter 268 is verified,
+but the current codified text is not. The court-staff-only certification
+remains outside participant generation.
+
+The adjudication supplies official source identities for South Carolina,
+Vermont and Wyoming and narrows Tennessee's official-source record. South
+Carolina retains the corrected SCCA 223A1 and SCCA 223D1 identities, the
+March 7, 2029 section 17-1-65 deadline, and the sentence-completion clock under
+section 56-5-750(F). Vermont's stipulation treatment is procedural rather than
+an independent remedy, and its three no-conviction routes compose one
+alternative mechanism while preserving unit-level filings, forms, timelines,
+and stop conditions. Wyoming uses the official `wyoleg.gov` title PDFs rather
+than secondary publishers.
 
 The exact Edition 1.2 archive is not materialized in this checkout, and the raw
 research evidence does not carry the per-review byte counts required by the
-source-materialization contract. The 21 otherwise-complete states therefore
-remain `legal_review_materialization_required`; UT, VT and WV remain
-`mechanism_inventory_count_conflict`. Reserved jobs are not treated as claimed
-or ready until their exact review bytes are locally materialized, size-checked,
-hash-verified and read-only.
+source-materialization contract. Twenty-three states therefore remain
+`legal_review_materialization_required`; Tennessee also retains its
+codification blocker. Reserved jobs are not treated as claimed or ready until
+their exact review bytes are locally materialized, size-checked, hash-verified
+and read-only.

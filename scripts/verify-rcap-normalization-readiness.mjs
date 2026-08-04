@@ -13,7 +13,8 @@ import {
   materializeNormalizationResearchInputs,
   mechanismInventorySha256,
   validateFactoryJobClaims,
-  validateNormalizationReadinessInput
+  validateNormalizationReadinessInput,
+  validateNormalizationReadinessRecord
 } from "./lib/rcap-factory/normalization-readiness.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -123,6 +124,10 @@ function verifyCommittedReadiness(context, jurisdiction) {
       ])
   );
   const researchResults = context.input.researchIngestionResults ?? [];
+  const adjudicationResults =
+    context.input.adjudicationIngestionResults ?? [];
+  const counselStructureAdoptionResults =
+    context.input.counselStructureAdoptionResults ?? [];
   const researchSlots = researchResults.reduce(
     (total, result) => total + result.inventorySlotCount,
     0
@@ -133,7 +138,51 @@ function verifyCommittedReadiness(context, jurisdiction) {
         `${researchResults.length} bundles and ${researchSlots} slots.`
     );
   }
+  if (
+    adjudicationResults.length !== 1 ||
+    adjudicationResults[0].sourceCommit !==
+      "6ecee4740f7bec047c250ca5c2d6c5a941cba87a" ||
+    adjudicationResults[0].parentResearchCommit !==
+      "e341927a42ea54abb8b03e587493a5826fa3e0d3" ||
+    adjudicationResults[0].adjudicationSha256 !==
+      "911e68f8455184a7926e7bfee5f327a3df7e60ceb115c206dcf71b0b442dc9a2" ||
+    adjudicationResults[0].manifestSha256 !==
+      "b4e2a75b7abf49ea3e8be3d589091193cbec6474b06a5713baf3830aa4398924" ||
+    adjudicationResults[0].status !==
+      "adjudication_evidence_adopted_fail_closed"
+  ) {
+    throw new Error(
+      "Session D adjudication is not the exact hash-bound fail-closed adoption."
+    );
+  }
+  if (
+    counselStructureAdoptionResults.length !== 1 ||
+    counselStructureAdoptionResults[0].adoptionDate !== "2026-08-04" ||
+    counselStructureAdoptionResults[0].adoptedBy !== "counsel" ||
+    counselStructureAdoptionResults[0].adoptionSha256 !==
+      "2510b9a9b095f279fc8e7277f10d4c712a45175e75f48b5d30bd410e20419561" ||
+    counselStructureAdoptionResults[0].manifestSha256 !==
+      "76875b3d4f689c3303863f4e408dceab8c4fa3bee24a2c1bcdffdb399f0e8fdb" ||
+    counselStructureAdoptionResults[0].parentAdjudicationSha256 !==
+      "911e68f8455184a7926e7bfee5f327a3df7e60ceb115c206dcf71b0b442dc9a2" ||
+    canonicalStringify(
+      counselStructureAdoptionResults[0].jurisdictions
+    ) !== canonicalStringify(["UT", "VT", "WV"]) ||
+    counselStructureAdoptionResults[0].status !==
+      "counsel_structure_adopted_no_runtime_effect"
+  ) {
+    throw new Error(
+      "UT/VT/WV counsel structure adoption is not the exact hash-bound no-runtime-effect record."
+    );
+  }
   for (const record of remainingRecords) {
+    const recordValidation = validateNormalizationReadinessRecord(record);
+    if (!recordValidation.ok) {
+      throw new Error(
+        `${record.jurisdiction} readiness record is invalid:\n` +
+          recordValidation.issues.join("\n")
+      );
+    }
     if (
       mechanismInventorySha256({
         mechanismInventory: record.mechanismInventory
@@ -144,11 +193,23 @@ function verifyCommittedReadiness(context, jurisdiction) {
       );
     }
   }
+  if (
+    canonicalStringify(readinessCounts) !==
+    canonicalStringify({
+      codification_authority_unverified: 1,
+      legal_review_materialization_required: 23
+    })
+  ) {
+    throw new Error(
+      `Counsel-adopted readiness partition is stale: ${canonicalStringify(readinessCounts)}.`
+    );
+  }
   const reviewReceiptsVerified = remainingRecords.filter(
     (record) =>
       record.reviewMaterialization.materializationState ===
         "binary_hash_verified" &&
-      record.reviewMaterialization.verificationStatus === "verified"
+      record.reviewMaterialization.verificationStatus ===
+        "binary_hash_and_size_verified"
   ).length;
   process.stdout.write(
     `${JSON.stringify(
@@ -169,6 +230,26 @@ function verifyCommittedReadiness(context, jurisdiction) {
           jurisdictions: result.jurisdictionCount,
           mechanismSlots: result.inventorySlotCount
         })),
+        adjudications: adjudicationResults.map((result) => ({
+          session: result.session,
+          sourceCommit: result.sourceCommit,
+          parentResearchCommit: result.parentResearchCommit,
+          adjudicationSha256: result.adjudicationSha256,
+          manifestSha256: result.manifestSha256,
+          jurisdictions: result.jurisdictions,
+          status: result.status
+        })),
+        counselStructureAdoptions:
+          counselStructureAdoptionResults.map((result) => ({
+            adoptionDate: result.adoptionDate,
+            adoptedBy: result.adoptedBy,
+            adoptionSha256: result.adoptionSha256,
+            manifestSha256: result.manifestSha256,
+            parentAdjudicationSha256:
+              result.parentAdjudicationSha256,
+            jurisdictions: result.jurisdictions,
+            status: result.status
+          })),
         reviewReceiptsVerified,
         readinessCounts,
         exactJobClaims: context.claims.claims.length,

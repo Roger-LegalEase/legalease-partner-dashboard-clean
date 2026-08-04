@@ -132,6 +132,25 @@ const sessionDReadinessBundlePath =
 const sessionDReadinessManifest = readJson(
   "docs/record-clearing/normalization-readiness-research/session-d-ri-wy.manifest.json"
 );
+const sessionDAdjudicationPath =
+  "docs/record-clearing/normalization-readiness-research/session-d-ri-wy.adjudication.json";
+const sessionDAdjudicationManifestPath =
+  "docs/record-clearing/normalization-readiness-research/session-d-ri-wy.adjudication.manifest.json";
+const sessionDAdjudication = readJson(sessionDAdjudicationPath);
+const sessionDAdjudicationManifest = readJson(
+  sessionDAdjudicationManifestPath
+);
+const sessionDCounselAdoptionPath =
+  "docs/record-clearing/normalization-readiness-research/session-d-ut-vt-wv.counsel-adoption.json";
+const sessionDCounselAdoptionManifestPath =
+  "docs/record-clearing/normalization-readiness-research/session-d-ut-vt-wv.counsel-adoption.manifest.json";
+const sessionDCounselAdoption = readJson(sessionDCounselAdoptionPath);
+const sessionDCounselAdoptionManifest = readJson(
+  sessionDCounselAdoptionManifestPath
+);
+const officialPdfSourceContract = readJson(
+  "data/record-clearing/production-factory/official-pdf-source-contract-reconciliation.json"
+);
 const customPleadingAdoption = readJson(ADOPTION_RECORD_PATHS[0]);
 const officialAcroformAdoption = readJson(ADOPTION_RECORD_PATHS[1]);
 const expectedAdoptions = await buildCurrentCounselAdoptionRecords({
@@ -171,7 +190,7 @@ assert.deepEqual(findOwnedPathOverlaps(factoryPlan.jobs), []);
 assert.equal(factoryPlan.jobs.length, 210);
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "ready").length,
-  61
+  53
 );
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "blocked").length,
@@ -179,7 +198,7 @@ assert.equal(
 );
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "completed").length,
-  25
+  33
 );
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "in_progress").length,
@@ -283,12 +302,32 @@ for (const child of factoryPlan.jobs.filter(
     child.jobId
   );
 }
-for (const child of factoryPlan.jobs.filter(
+const completedGuidanceJobs = factoryPlan.jobs.filter(
   (entry) =>
     entry.status === "completed" &&
     entry.lane === "guidance_implementation" &&
     entry.participantPacketProofRequired === true
-)) {
+);
+assert.equal(completedGuidanceJobs.length, 10);
+const expectedGuidanceCompletions = new Map([
+  ["rcap-ak-guidance-implementation", ["36509c7377c5653db07fd5c43b3948aad079164a", 4]],
+  ["rcap-ca-guidance-implementation", ["26b4661089849a67eb99bfae6598ba101f75cbbc", 3]],
+  ["rcap-co-guidance-implementation", ["7be280c8be25bc19e497d668d48abaadfd89ca44", 2]],
+  ["rcap-ct-guidance-implementation", ["fd9ef0bfc18f11d0b34d7504682a574e2a849d06", 6]],
+  ["rcap-dc-guidance-implementation", ["03505f1659072e28b245dfd9677426a995960bdd", 2]],
+  ["rcap-de-guidance-implementation", ["c7af8cf48d42c69590a966141f5373c4ab596675", 2]],
+  ["rcap-la-guidance-implementation", ["df4a5976692134bde5d6033a4ee988f3c83bd432", 3]],
+  ["rcap-md-guidance-implementation", ["8dfdc7ae28a6362825ae19621e8a7afd6d8cef6c", 5]],
+  ["rcap-mi-guidance-implementation", ["7dbe89fe733474a90cc1ad20b5c11dc1a6520aa5", 6]],
+  ["rcap-mn-guidance-implementation", ["bf6f368c8a4cd72e0fa488bd37336c073f116925", 7]]
+]);
+let verifiedGuidancePacketCount = 0;
+let verifiedGuidancePageCount = 0;
+for (const child of completedGuidanceJobs) {
+  const expected = expectedGuidanceCompletions.get(child.jobId);
+  assert.ok(expected, child.jobId);
+  assert.equal(child.completionCommit, expected[0], child.jobId);
+  assert.equal(child.trackIds.length, expected[1], child.jobId);
   const proofPath =
     `data/record-clearing/production-factory/packet-proofs/${child.jobId}.json`;
   assert.ok(child.integrationOwnedOutputs.includes(proofPath), child.jobId);
@@ -320,7 +359,188 @@ for (const child of factoryPlan.jobs.filter(
   assert.equal(proof.visualProof, "pending");
   assert.equal(proof.counselAdopted, false);
   assert.equal(proof.productionEnabled, false);
+  verifiedGuidancePacketCount += proof.finalPdfCount;
+  verifiedGuidancePageCount += proof.assembledPageCount;
 }
+assert.equal(verifiedGuidancePacketCount, 40);
+assert.equal(verifiedGuidancePageCount, 109);
+assert.deepEqual(productionPlan.participantPacketProofReconciliation, {
+  schemaVersion: "rcap-participant-packet-proof/v1",
+  completedGuidanceJobsRequiringProof: 10,
+  proofsPresentAndVerified: 10,
+  assignedTracks: 40,
+  finalPackets: 40,
+  assembledPages: 109,
+  proofDirectory: "data/record-clearing/production-factory/packet-proofs",
+  evidenceSource:
+    "Each integration-owned proof is generated from its committed regression verifier output; worker-authored proof assertions are not accepted.",
+  generatedPacketBytesTracked: false,
+  runtimeStatus: "runtime_disabled",
+  visualProof: "pending",
+  counselAdopted: false,
+  productionEnabled: false
+});
+const expectedAuthorityCompletions = new Map([
+  ["rcap-co-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition", "6afe0d989bb079dbd1eab377b0547b9b6908d902"],
+  ["rcap-ak-public-official-download", "4acded00a77584b0ea9c9f00e490e2a6a92dd033"],
+  ["rcap-me-public-official-download", "6912e16bc73dbb85612dc5ede86c6a472e5c1e91"],
+  ["rcap-mi-public-official-download", "6ad135bcd8ef53b36a8c63948056fec546ba24d0"],
+  ["rcap-id-public-official-download", "95c47cdbf031b71164e8f2ea4fb71299f61aad9b"],
+  ["rcap-il-public-official-download", "17e9cad367543a4f7b21b30d754d09e51ffbd898"],
+  ["rcap-co-official-download-automation-blocked", "2666e25fe748c021f5c668030fcabc7dac8b3fc4"],
+  ["rcap-co-source-identity-resolution-jdf-417-order", "124559c3a6c0010ed1d6883660268b0fcf4585fd"],
+  ["rcap-ks-source-identity-resolution-criminal-cover-sheet", "facfa75f6e25472181a4a40eac6c61c6809e720f"],
+  ["rcap-ca-local-form-scope-correction-sdsc-crm-307", "610f36c450173fc856fbbb188171d67e64f18845"],
+  ["rcap-ks-commercial-license", "b0cfdae005c897083180e2d49e48059b0f495463"]
+]);
+for (const [jobId, completionCommit] of expectedAuthorityCompletions) {
+  const child = factoryPlan.jobs.find((entry) => entry.jobId === jobId);
+  assert.ok(child, jobId);
+  assert.equal(child.status, "completed", jobId);
+  assert.equal(child.completionCommit, completionCommit, jobId);
+  assert.notEqual(child.participantPacketProofRequired, true, jobId);
+  assert.equal(
+    child.integrationOwnedOutputs.some((output) =>
+      output.startsWith(
+        "data/record-clearing/production-factory/packet-proofs/"
+      )
+    ),
+    false,
+    jobId
+  );
+}
+const coloradoJdf684Disposition = readJson(
+  "data/record-clearing/production-factory/source-acquisition/rcap-co-official-download-automation-blocked.json"
+);
+const coloradoJdf417Disposition = readJson(
+  "data/record-clearing/production-factory/source-acquisition/rcap-co-source-identity-resolution-jdf-417-order.json"
+);
+const kansasCoverSheetDisposition = readJson(
+  "data/record-clearing/production-factory/source-acquisition/rcap-ks-source-identity-resolution-criminal-cover-sheet.json"
+);
+const californiaCrm307Disposition = readJson(
+  "data/record-clearing/production-factory/source-acquisition/rcap-ca-local-form-scope-correction-sdsc-crm-307.json"
+);
+const kansasCommercialDisposition = readJson(
+  "data/record-clearing/production-factory/source-acquisition/rcap-ks-commercial-license.json"
+);
+assert.equal(
+  coloradoJdf684Disposition.acquisitions[0].hashAgreementWithInventory,
+  "exact_match"
+);
+assert.equal(coloradoJdf684Disposition.trackEffect.componentCleared, false);
+assert.equal(
+  coloradoJdf417Disposition.identityResolution.classification,
+  "normalization_artefact"
+);
+assert.equal(
+  coloradoJdf417Disposition.criticalDistinction.jdf417.exists,
+  true
+);
+assert.equal(
+  coloradoJdf417Disposition.identifiedOrderCandidate.documentId,
+  "JDF-418"
+);
+assert.equal(
+  kansasCoverSheetDisposition.identityResolution.queueClaimAssessed
+    .correctedValue,
+  "document_identity_known_revision_conflicting"
+);
+assert.match(
+  kansasCoverSheetDisposition.separateDefectRaised.assessment,
+  /Rule 123\(a\)/
+);
+assert.equal(
+  californiaCrm307Disposition.scopeCorrection.scope,
+  "local_court_form"
+);
+assert.equal(californiaCrm307Disposition.runtimeEffect.stage1Available, true);
+assert.equal(californiaCrm307Disposition.runtimeEffect.stage2Available, false);
+assert.equal(
+  kansasCommercialDisposition.terminalDisposition,
+  "deliberately_excluded_commercial_license"
+);
+assert.equal(kansasCommercialDisposition.excludedDocuments.length, 9);
+assert.equal(kansasCommercialDisposition.generationAllowed, false);
+assert.deepEqual(officialPdfSourceContract.queueCoverage.totals, {
+  tracks: 151,
+  components: 403,
+  documentIdentities: 192,
+  exactSourceRequirements: 93,
+  unresolvedSourceIdentities: 99
+});
+assert.equal(officialPdfSourceContract.familyCount, 25);
+assert.equal(officialPdfSourceContract.totals.queueCoverageGaps, 0);
+assert.equal(officialPdfSourceContract.totals.contractSafetyGaps, 0);
+assert.equal(
+  officialPdfSourceContract.totals.normativeAssignedRequirements,
+  0
+);
+assert.equal(officialPdfSourceContract.totals.pendingAssignmentFamilies, 25);
+assert.equal(officialPdfSourceContract.totals.workerReadyFamilies, 0);
+assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 37);
+assert.equal(
+  officialPdfSourceContract.verifierBoundary.packetWorkerMaterializationPaths,
+  0
+);
+assert.equal(
+  officialPdfSourceContract.verifierBoundary
+    .packetImplementationNetworkAcquisitionPaths,
+  0
+);
+assert.equal(
+  factoryPlan.jobs.some((entry) =>
+    entry.integrationOwnedOutputs.includes(
+      officialPdfSourceContract.normativeContract.assignmentMarker
+    )
+  ),
+  false
+);
+assert.deepEqual(productionPlan.officialPdfSourceContractIntegration, {
+  remoteBranch: "origin/feat/record-clearing-production-factory",
+  remoteHead: "967847cc2e617defd2d87b18e42bb692cb39cab6",
+  integrationBaseMergeBase: "4eee199a1f0d6d381d0bcc763ee559250b26078e",
+  claimedFamilyCommitsIntegrated: 39,
+  reconciliationPath:
+    "data/record-clearing/production-factory/official-pdf-source-contract-reconciliation.json",
+  verifierPath:
+    "scripts/verify-rcap-official-pdf-source-contract-reconciliation.mjs",
+  queuedJurisdictions: 25,
+  tracks: 151,
+  componentUses: 403,
+  documentIdentities: 192,
+  exactSourcePins: 93,
+  unresolvedSourceIdentities: 99,
+  queueCoverageGaps: 0,
+  contractSafetyGaps: 0,
+  normativeAssignedRequirements: 0,
+  pendingAssignmentFamilies: 25,
+  packetModuleInventory: {
+    sessionEHead: 27,
+    integrated: 37,
+    delta: 10,
+    explanation:
+      "The integrated inventory includes ten completed guidance packet modules added outside Session E; source-contract queue and safety totals are unchanged."
+  },
+  assignmentMarker: {
+    contractPath: "tmp/rcap-factory/job.json",
+    status: "not_created_no_canonical_session_a_assignment_job",
+    owner: null,
+    missingRelationship:
+      "No current factory child assigns Session A an exact official-PDF identity set and integration-owned assignment marker output."
+  },
+  portableProjection: {
+    path: null,
+    status: "not_created_no_canonical_session_a_projection_job",
+    owner: null,
+    missingRelationship:
+      "No current factory child declares a portable official-PDF materialization projection output or assigns its exact identities to Session A."
+  },
+  materializedSourceCount: 0,
+  activatedRendererCount: 0,
+  workerReadyFamilies: 0,
+  runtimeStatus: "runtime_disabled"
+});
 for (const child of factoryPlan.jobs.filter(
   (entry) =>
     entry.strategyFamily === "official_pdf_fill" &&
@@ -389,8 +609,8 @@ assert.ok(
     (entry) =>
       entry.status === "blocked" &&
       [
-        "legal_review_materialization_required",
-        "mechanism_inventory_count_conflict"
+        "codification_authority_unverified",
+        "legal_review_materialization_required"
       ].includes(entry.normalizationReadiness.readinessState) &&
       entry.normalizationReadiness.controllingReviewStatus ===
         "checksum_verified" &&
@@ -412,15 +632,38 @@ assert.ok(
 );
 assert.deepEqual(
   remainingNormalizations
-    .filter(
-      (entry) =>
-        entry.normalizationReadiness.readinessState ===
-        "mechanism_inventory_count_conflict"
-    )
+    .filter((entry) => ["UT", "VT", "WV"].includes(entry.jurisdiction))
     .map((entry) => entry.jurisdiction)
     .sort(),
   ["UT", "VT", "WV"]
 );
+for (const jurisdiction of ["UT", "VT", "WV"]) {
+  const readiness = remainingNormalizations.find(
+    (entry) => entry.jurisdiction === jurisdiction
+  ).normalizationReadiness;
+  assert.equal(
+    readiness.readinessState,
+    "legal_review_materialization_required"
+  );
+  assert.equal(
+    readiness.denominatorAdjudication.status,
+    "keyed_denominator_reconciled"
+  );
+  assert.equal(
+    readiness.counselStructureAdoption.adoptionSha256,
+    "2510b9a9b095f279fc8e7277f10d4c712a45175e75f48b5d30bd410e20419561"
+  );
+  assert.equal(
+    readiness.counselStructureAdoption.manifestSha256,
+    "76875b3d4f689c3303863f4e408dceab8c4fa3bee24a2c1bcdffdb399f0e8fdb"
+  );
+  assert.equal(
+    readiness.counselStructureAdoption.normalizationExecutionAuthorized,
+    false
+  );
+  assert.equal(readiness.counselStructureAdoption.runtimeEffect, "none");
+  assert.equal(readiness.counselStructureAdoption.productionEffect, "none");
+}
 assert.equal(
   remainingNormalizations.reduce(
     (total, entry) =>
@@ -436,10 +679,72 @@ assert.deepEqual(factoryPlan.normalizationReadiness, {
   readyForNormalization: 0,
   blocked: 24,
   byReadinessState: {
-    legal_review_materialization_required: 21,
-    mechanism_inventory_count_conflict: 3
+    codification_authority_unverified: 1,
+    legal_review_materialization_required: 23
   }
 });
+assert.deepEqual(
+  productionPlan.routingReservations.normalizationReadiness.blockedByState,
+  factoryPlan.normalizationReadiness.byReadinessState
+);
+assert.deepEqual(
+  productionPlan.routingReservations.normalizationReadiness
+    .sessionDCounselStructureAdoption,
+  {
+    adoptionDate: sessionDCounselAdoption.adoptionDate,
+    adoptedBy: sessionDCounselAdoption.adoptedBy,
+    adoptionPath: sessionDCounselAdoptionPath,
+    adoptionSha256: fileSha256(sessionDCounselAdoptionPath),
+    manifestPath: sessionDCounselAdoptionManifestPath,
+    manifestSha256: fileSha256(sessionDCounselAdoptionManifestPath),
+    parentAdjudicationSha256:
+      sessionDCounselAdoption.parentAdjudication.sha256,
+    structureCounts: {
+      UT: {
+        sourceSlots:
+          sessionDCounselAdoption.jurisdictions.UT
+            .authoritativeSourceSlots,
+        substantiveReliefTracks:
+          sessionDCounselAdoption.jurisdictions.UT
+            .authoritativeSubstantiveReliefTracks,
+        normalizedNodes:
+          sessionDCounselAdoption.jurisdictions.UT
+            .authoritativeNormalizedNodes
+      },
+      VT: {
+        sourceSlots:
+          sessionDCounselAdoption.jurisdictions.VT
+            .authoritativeSourceSlots,
+        substantiveReliefTracks:
+          sessionDCounselAdoption.jurisdictions.VT
+            .authoritativeSubstantiveReliefTracks,
+        normalizedNodes:
+          sessionDCounselAdoption.jurisdictions.VT
+            .authoritativeNormalizedNodes
+      },
+      WV: {
+        sourceSlots:
+          sessionDCounselAdoption.jurisdictions.WV
+            .authoritativeSourceSlots,
+        substantiveReliefTracks:
+          sessionDCounselAdoption.jurisdictions.WV
+            .authoritativeSubstantiveReliefTracks,
+        normalizedNodes:
+          sessionDCounselAdoption.jurisdictions.WV
+            .authoritativeNormalizedNodes,
+        reviewedThrough:
+          sessionDCounselAdoption.jurisdictions.WV.reviewedThrough,
+        packagingDate:
+          sessionDCounselAdoption.jurisdictions.WV.packagingDate
+      }
+    },
+    normalizationStructureAuthorized: true,
+    normalizationExecutionAuthorized: false,
+    packetReadyChanged: false,
+    runtimeEffect: "none",
+    productionEffect: "none"
+  }
+);
 assert.deepEqual(
   {
     sha256: fileSha256(sessionBReadinessBundlePath),
@@ -467,6 +772,171 @@ assert.deepEqual(
     jurisdictions: 12,
     slots: 131
   }
+);
+assert.deepEqual(
+  {
+    sha256: fileSha256(sessionDAdjudicationPath),
+    manifestSha256: fileSha256(sessionDAdjudicationManifestPath),
+    parentResearchCommit: sessionDAdjudication.parentResearchCommit,
+    productionEffect: sessionDAdjudication.productionEffect
+  },
+  {
+    sha256: "911e68f8455184a7926e7bfee5f327a3df7e60ceb115c206dcf71b0b442dc9a2",
+    manifestSha256: "b4e2a75b7abf49ea3e8be3d589091193cbec6474b06a5713baf3830aa4398924",
+    parentResearchCommit: "e341927a42ea54abb8b03e587493a5826fa3e0d3",
+    productionEffect: "none"
+  }
+);
+assert.equal(
+  sessionDAdjudicationManifest.fileSha256,
+  fileSha256(sessionDAdjudicationPath)
+);
+assert.deepEqual(
+  {
+    sha256: fileSha256(sessionDCounselAdoptionPath),
+    manifestSha256: fileSha256(sessionDCounselAdoptionManifestPath),
+    manifestFileSha256:
+      sessionDCounselAdoptionManifest.fileSha256,
+    parentAdjudicationSha256:
+      sessionDCounselAdoption.parentAdjudication.sha256,
+    normalizationStructureAuthorized:
+      sessionDCounselAdoption.scope.normalizationStructureAuthorized,
+    normalizationExecutionAuthorized:
+      sessionDCounselAdoption.scope.normalizationExecutionAuthorized,
+    runtimeEnablementAuthorized:
+      sessionDCounselAdoption.scope.runtimeEnablementAuthorized,
+    deploymentAuthorized:
+      sessionDCounselAdoption.scope.deploymentAuthorized
+  },
+  {
+    sha256: "2510b9a9b095f279fc8e7277f10d4c712a45175e75f48b5d30bd410e20419561",
+    manifestSha256: "76875b3d4f689c3303863f4e408dceab8c4fa3bee24a2c1bcdffdb399f0e8fdb",
+    manifestFileSha256:
+      "2510b9a9b095f279fc8e7277f10d4c712a45175e75f48b5d30bd410e20419561",
+    parentAdjudicationSha256:
+      "911e68f8455184a7926e7bfee5f327a3df7e60ceb115c206dcf71b0b442dc9a2",
+    normalizationStructureAuthorized: true,
+    normalizationExecutionAuthorized: false,
+    runtimeEnablementAuthorized: false,
+    deploymentAuthorized: false
+  }
+);
+const sessionDReadinessByJurisdiction = new Map(
+  remainingNormalizations
+    .filter((entry) =>
+      ["RI", "SC", "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"]
+        .includes(entry.jurisdiction)
+    )
+    .map((entry) => [entry.jurisdiction, entry.normalizationReadiness])
+);
+assert.deepEqual(
+  Object.fromEntries(
+    [...sessionDReadinessByJurisdiction].map(([jurisdiction, readiness]) => [
+      jurisdiction,
+      readiness.readinessBlockers
+    ])
+  ),
+  {
+    RI: ["legal_review_materialization_required"],
+    SC: ["legal_review_materialization_required"],
+    SD: ["legal_review_materialization_required"],
+    TN: [
+      "codification_authority_unverified",
+      "legal_review_materialization_required"
+    ],
+    TX: ["legal_review_materialization_required"],
+    UT: ["legal_review_materialization_required"],
+    VA: ["legal_review_materialization_required"],
+    VT: ["legal_review_materialization_required"],
+    WA: ["legal_review_materialization_required"],
+    WI: ["legal_review_materialization_required"],
+    WV: ["legal_review_materialization_required"],
+    WY: ["legal_review_materialization_required"]
+  }
+);
+assert.equal(sessionDAdjudication.scOfficialSourceMap.statutes.length, 10);
+assert.equal(sessionDAdjudication.scOfficialSourceMap.forms.length, 4);
+assert.equal(sessionDAdjudication.utCountResult.controllingCount, null);
+assert.equal(sessionDAdjudication.vtCountResult.controllingCount, null);
+assert.equal(sessionDAdjudication.wvCountResult.controllingCount, null);
+assert.equal(sessionDAdjudication.wvDateResult.resolvableFromDocumentAlone, false);
+assert.deepEqual(
+  {
+    UT: {
+      sourceSlots:
+        sessionDCounselAdoption.jurisdictions.UT
+          .authoritativeSourceSlots,
+      reliefTracks:
+        sessionDCounselAdoption.jurisdictions.UT
+          .authoritativeSubstantiveReliefTracks,
+      normalizedNodes:
+        sessionDCounselAdoption.jurisdictions.UT
+          .authoritativeNormalizedNodes
+    },
+    VT: {
+      sourceSlots:
+        sessionDCounselAdoption.jurisdictions.VT
+          .authoritativeSourceSlots,
+      reliefTracks:
+        sessionDCounselAdoption.jurisdictions.VT
+          .authoritativeSubstantiveReliefTracks,
+      normalizedNodes:
+        sessionDCounselAdoption.jurisdictions.VT
+          .authoritativeNormalizedNodes
+    },
+    WV: {
+      sourceSlots:
+        sessionDCounselAdoption.jurisdictions.WV
+          .authoritativeSourceSlots,
+      reliefTracks:
+        sessionDCounselAdoption.jurisdictions.WV
+          .authoritativeSubstantiveReliefTracks,
+      normalizedNodes:
+        sessionDCounselAdoption.jurisdictions.WV
+          .authoritativeNormalizedNodes,
+      reviewedThrough:
+        sessionDCounselAdoption.jurisdictions.WV.reviewedThrough,
+      packagingDate:
+        sessionDCounselAdoption.jurisdictions.WV.packagingDate
+    }
+  },
+  {
+    UT: { sourceSlots: 15, reliefTracks: 14, normalizedNodes: 15 },
+    VT: { sourceSlots: 14, reliefTracks: 11, normalizedNodes: 11 },
+    WV: {
+      sourceSlots: 10,
+      reliefTracks: 10,
+      normalizedNodes: 12,
+      reviewedThrough: "2026-08-01",
+      packagingDate: "2026-08-02"
+    }
+  }
+);
+assert.match(
+  sessionDReadinessByJurisdiction.get("UT").openQuestions.join("\n"),
+  /UT-PET-10/
+);
+assert.deepEqual(
+  sessionDReadinessByJurisdiction.get("WV").reviewDateEvidence,
+  {
+    filenameAsOf: "2026-08-02",
+    internalReviewDate: "2026-08-01",
+    status: "reconciled"
+  }
+);
+assert.ok(
+  sessionDReadinessByJurisdiction
+    .get("VT")
+    .officialAuthorityRefreshRequirements.every(({ officialUrl }) =>
+      officialUrl.startsWith("https://legislature.vermont.gov/")
+    )
+);
+assert.ok(
+  sessionDReadinessByJurisdiction
+    .get("WY")
+    .officialAuthorityRefreshRequirements.every(({ officialUrl }) =>
+      officialUrl.startsWith("https://wyoleg.gov/")
+    )
 );
 assert.equal(
   factoryPlan.jobs.find(
@@ -569,6 +1039,8 @@ assert.deepEqual(productionPlan.integratedCommits, {
   normalizationReadinessFoundation: "203b8931391d5636fda3a3fcfc35c0423c2bf9e3",
   sessionBNormalizationResearch: "f54348b5dc5f448e5a5b3916ca98388f84c7f704",
   sessionDNormalizationResearch: "e341927a42ea54abb8b03e587493a5826fa3e0d3",
+  sessionDNormalizationAdjudication: "6ecee4740f7bec047c250ca5c2d6c5a941cba87a",
+  sessionEOfficialPdfSourceContract: "967847cc2e617defd2d87b18e42bb692cb39cab6",
   michiganGuidance: "7dbe89fe733474a90cc1ad20b5c11dc1a6520aa5",
   pennsylvaniaNormalization: "387656ac31a49f7338bd9d1e3e170df929659d98",
   dcGuidance: "03505f1659072e28b245dfd9677426a995960bdd",
@@ -577,12 +1049,20 @@ assert.deepEqual(productionPlan.integratedCommits, {
   marylandGuidance: "8dfdc7ae28a6362825ae19621e8a7afd6d8cef6c",
   alaskaGuidance: "36509c7377c5653db07fd5c43b3948aad079164a",
   californiaGuidance: "26b4661089849a67eb99bfae6598ba101f75cbbc",
+  louisianaGuidance: "df4a5976692134bde5d6033a4ee988f3c83bd432",
+  coloradoGuidance: "7be280c8be25bc19e497d668d48abaadfd89ca44",
+  delawareGuidance: "c7af8cf48d42c69590a966141f5373c4ab596675",
   coloradoIdentityReconciliation: "6afe0d989bb079dbd1eab377b0547b9b6908d902",
   alaskaPublicOfficialDownload: "4acded00a77584b0ea9c9f00e490e2a6a92dd033",
   mainePublicOfficialDownload: "6912e16bc73dbb85612dc5ede86c6a472e5c1e91",
   michiganPublicOfficialDownload: "6ad135bcd8ef53b36a8c63948056fec546ba24d0",
   idahoPublicOfficialDownload: "95c47cdbf031b71164e8f2ea4fb71299f61aad9b",
-  illinoisPublicOfficialDownload: "17e9cad367543a4f7b21b30d754d09e51ffbd898"
+  illinoisPublicOfficialDownload: "17e9cad367543a4f7b21b30d754d09e51ffbd898",
+  coloradoAutomationBlockedDisposition: "2666e25fe748c021f5c668030fcabc7dac8b3fc4",
+  coloradoJdf417IdentityAdjudication: "124559c3a6c0010ed1d6883660268b0fcf4585fd",
+  kansasCoverSheetIdentityAdjudication: "facfa75f6e25472181a4a40eac6c61c6809e720f",
+  californiaCrm307ScopeAdjudication: "610f36c450173fc856fbbb188171d67e64f18845",
+  kansasCommercialLicenseDisposition: "b0cfdae005c897083180e2d49e48059b0f495463"
 });
 assert.deepEqual(productionPlan.integrationEquivalents, {
   factory: "381abd95efd5370ef592e5ba25bc3368008f0330",
@@ -602,6 +1082,8 @@ assert.deepEqual(productionPlan.integrationEquivalents, {
   normalizationReadinessFoundation: "203b8931391d5636fda3a3fcfc35c0423c2bf9e3",
   sessionBNormalizationResearch: "2cda74784c8fc31752cedcf9f371ac22979aa730",
   sessionDNormalizationResearch: "e48d3dc6c859735f8422d491c29cdf43c964457a",
+  sessionDNormalizationAdjudication: "6c49a80ff3f8d9007b01a0bb3e8270041708c300",
+  sessionEOfficialPdfSourceContract: "ebac8bf04adeafd994840b44b6116908c9b887a2",
   michiganGuidance: "e54449dd7ac5eb21c6b54273ca468cb08f89d78d",
   pennsylvaniaNormalization: "50cabd1631c2df656200815b0238ec1f9398c1a5",
   dcGuidance: "6bd7d2e4d3d587453ecea391e484631d7e9bbce9",
@@ -610,12 +1092,20 @@ assert.deepEqual(productionPlan.integrationEquivalents, {
   marylandGuidance: "0c7e522e7ff6d88fec17fd1adff9e9103c808dd9",
   alaskaGuidance: "e6b094f5ffabda47afd29242035e54dd2e0a2b9b",
   californiaGuidance: "489a620e4c9d2e8b3ec8d9e5137aa71532ae63d4",
+  louisianaGuidance: "600c7d8c7cc14223ab9a787ce3790e12de2c8970",
+  coloradoGuidance: "6b534760fa831799d307628fe17a857efc404cde",
+  delawareGuidance: "d2a4ea1129a98ee953e75c11728fef81888e1789",
   coloradoIdentityReconciliation: "2cd68354efa3ee36683f17a2d5719df5e7c22159",
   alaskaPublicOfficialDownload: "ac007a0e030c1e9a741273eea2de7dd4e602168e",
   mainePublicOfficialDownload: "9fd0122e3896c528398dbbc88d473391cbfac7e1",
   michiganPublicOfficialDownload: "8411cb87f1b7e4b59cf505f78887f30e78bed38b",
   idahoPublicOfficialDownload: "a0b2a08384ede082da4a41ef960f46a0f54ba970",
-  illinoisPublicOfficialDownload: "402d6287ad935b98c1bfa7cf870cc2fd4c3e2666"
+  illinoisPublicOfficialDownload: "402d6287ad935b98c1bfa7cf870cc2fd4c3e2666",
+  coloradoAutomationBlockedDisposition: "e7d2933cbca620b2921f982a7415408815ea1f46",
+  coloradoJdf417IdentityAdjudication: "6f490c12dbd11709f5d77705eb2b36bad0e174b5",
+  kansasCoverSheetIdentityAdjudication: "e30abd00e152d69af1ada17e1b8ae64e66e449aa",
+  californiaCrm307ScopeAdjudication: "51d7d8c8536ac7c914a542bff505719745c3802b",
+  kansasCommercialLicenseDisposition: "ddb90b6f199c5b07f61f8fedfcf6fd7f5157f842"
 });
 assert.equal(authority.edition, "1.2");
 assert.equal(masterReconciliation.authority.edition, "1.2");
@@ -888,11 +1378,15 @@ assert.ok(
 
 assert.equal(factoryPlan.trackReconciliation.normalizedTracks, 260);
 assert.equal(factoryPlan.trackReconciliation.representedExactlyOnce, 260);
-assert.equal(factoryPlan.trackReconciliation.implementationComplete, 52);
-assert.equal(factoryPlan.trackReconciliation.pendingProductionJob, 208);
+assert.equal(factoryPlan.trackReconciliation.implementationComplete, 59);
+assert.equal(factoryPlan.trackReconciliation.pendingProductionJob, 201);
 assert.equal(
   productionPlan.baselineVerification.confirmed.implementedTracksAwaitingReview,
-  35
+  42
+);
+assert.equal(
+  productionPlan.baselineVerification.confirmed.tracksAwaitingLegalRecommendation,
+  40
 );
 assert.equal(
   productionPlan.baselineVerification.confirmed.tracksAwaitingCounselAdoption,
@@ -1487,6 +1981,6 @@ console.log("  PASS tracked Master Library 1.2 reconciliation remains internally
 console.log("  PASS 109 acquisition records represented exactly once");
 console.log("  PASS 313 official evidence records and 32 issuer campaigns preserved");
 console.log("  PASS 260 normalized tracks represented exactly once");
-console.log("  PASS 52 engineering-complete tracks excluded from pending implementation");
+console.log("  PASS 59 engineering-complete tracks excluded from pending implementation");
 console.log("  PASS 15 exact implemented routes counsel-adopted by hash");
 console.log("  PASS packet_ready=0 enabled_jurisdictions=0 launch_gate=red");

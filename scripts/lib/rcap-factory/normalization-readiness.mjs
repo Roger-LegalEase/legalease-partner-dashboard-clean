@@ -46,6 +46,9 @@ export const REMAINING_NORMALIZATION_JURISDICTIONS = Object.freeze([
 ]);
 
 export const NORMALIZATION_READINESS_STATES = Object.freeze([
+  "mechanism_count_counsel_addendum_required",
+  "reviewed_through_librarian_correction_required",
+  "codification_authority_unverified",
   "legal_review_materialization_required",
   "legal_review_hash_mismatch",
   "mechanism_inventory_count_conflict",
@@ -81,6 +84,9 @@ const REQUIRED_INVENTORY_ROW_FIELDS = Object.freeze([
 ]);
 
 const READINESS_BLOCKER_ORDER = Object.freeze([
+  "mechanism_count_counsel_addendum_required",
+  "reviewed_through_librarian_correction_required",
+  "codification_authority_unverified",
   "mechanism_inventory_count_conflict",
   "legal_review_hash_mismatch",
   "legal_review_materialization_required",
@@ -249,13 +255,603 @@ export function materializeNormalizationResearchInputs({
     });
   }
 
+  const adjudicationIngestionResults = adoptNormalizationAdjudications({
+    input: expanded,
+    bundles,
+    rootDir
+  });
+  const counselStructureAdoptionResults =
+    adoptNormalizationCounselStructures({
+      input: expanded,
+      bundles,
+      rootDir
+    });
+
   expanded.bundles = [...bundles.values()].sort((left, right) =>
     left.jurisdiction.localeCompare(right.jurisdiction)
   );
   expanded.researchIngestionResults = ingestionResults.sort((left, right) =>
     left.session.localeCompare(right.session)
   );
+  expanded.adjudicationIngestionResults = adjudicationIngestionResults;
+  expanded.counselStructureAdoptionResults =
+    counselStructureAdoptionResults;
   return expanded;
+}
+
+function adoptNormalizationAdjudications({ input, bundles, rootDir }) {
+  const descriptors = input.adjudicationInputs ?? [];
+  if (!Array.isArray(descriptors)) {
+    throw new Error(
+      "normalization readiness adjudicationInputs must be an array."
+    );
+  }
+  const results = [];
+  for (const descriptor of descriptors) {
+    if (
+      descriptor?.session !== "SESSION_D" ||
+      descriptor.sourceCommit !==
+        "6ecee4740f7bec047c250ca5c2d6c5a941cba87a" ||
+      descriptor.parentResearchCommit !==
+        "e341927a42ea54abb8b03e587493a5826fa3e0d3"
+    ) {
+      throw new Error(
+        "Session D adjudication is not pinned to the approved commit and parent."
+      );
+    }
+    const parentDescriptor = (input.researchInputs ?? []).find(
+      (candidate) =>
+        candidate.session === "SESSION_D" &&
+        candidate.sourceCommit === descriptor.parentResearchCommit
+    );
+    if (
+      !parentDescriptor ||
+      parentDescriptor.bundleSha256 !==
+        "f5271ad2958341abd31c3ab82603c946e4d485a30f0ee384703e3b96c9a20860"
+    ) {
+      throw new Error(
+        "Session D adjudication does not name the adopted immutable research bundle."
+      );
+    }
+
+    const artifactBytes = readRepositoryResearchFile(
+      rootDir,
+      descriptor.adjudicationPath
+    );
+    const manifestBytes = readRepositoryResearchFile(
+      rootDir,
+      descriptor.manifestPath
+    );
+    const artifactSha256 = sha256Bytes(artifactBytes);
+    const manifestSha256 = sha256Bytes(manifestBytes);
+    if (
+      artifactSha256 !== descriptor.adjudicationSha256 ||
+      artifactBytes.length !== descriptor.adjudicationByteCount ||
+      manifestSha256 !== descriptor.manifestSha256
+    ) {
+      throw new Error(
+        "Session D adjudication bytes do not match the captain-owned pins."
+      );
+    }
+
+    const artifact = JSON.parse(artifactBytes.toString("utf8"));
+    const manifest = JSON.parse(manifestBytes.toString("utf8"));
+    const expectedStates = ["SC", "TN", "UT", "VT", "WV", "WY"];
+    if (
+      artifact.schemaVersion !== 1 ||
+      artifact.parentResearchCommit !== descriptor.parentResearchCommit ||
+      artifact.productionEffect !== "none" ||
+      artifact.recommendedReadinessEffect
+        ?.noJurisdictionBecomesReadyOrBlockedByThisAdjudication !== true ||
+      manifest.schemaVersion !== 1 ||
+      manifest.filePath !== descriptor.adjudicationPath ||
+      manifest.fileSha256 !== artifactSha256 ||
+      manifest.byteCount !== artifactBytes.length ||
+      manifest.parentResearchCommit !== descriptor.parentResearchCommit ||
+      manifest.originalBundleChanged !== false ||
+      manifest.productionEffect !== "none" ||
+      canonicalStringify([...(manifest.statesCovered ?? [])].sort()) !==
+        canonicalStringify(expectedStates) ||
+      canonicalStringify(
+        [...(artifact.jurisdictionsInvestigated ?? [])].sort()
+      ) !== canonicalStringify(expectedStates)
+    ) {
+      throw new Error(
+        "Session D adjudication artifact and manifest do not reconcile."
+      );
+    }
+
+    for (const jurisdiction of expectedStates) {
+      const bundle = bundles.get(jurisdiction);
+      if (!bundle || bundle.researchEvidence?.session !== "SESSION_D") {
+        throw new Error(
+          `Session D adjudication has no adopted research bundle for ${jurisdiction}.`
+        );
+      }
+      bundles.set(
+        jurisdiction,
+        applySessionDAdjudication({
+          bundle,
+          artifact,
+          manifest,
+          descriptor,
+          artifactSha256,
+          manifestSha256
+        })
+      );
+    }
+
+    results.push({
+      session: descriptor.session,
+      sourceCommit: descriptor.sourceCommit,
+      parentResearchCommit: descriptor.parentResearchCommit,
+      adjudicationPath: descriptor.adjudicationPath,
+      adjudicationSha256: artifactSha256,
+      adjudicationByteCount: artifactBytes.length,
+      manifestPath: descriptor.manifestPath,
+      manifestSha256,
+      statesCovered: expectedStates,
+      status: "adjudication_evidence_adopted_fail_closed"
+    });
+  }
+  return results;
+}
+
+function applySessionDAdjudication({
+  bundle,
+  artifact,
+  manifest,
+  descriptor,
+  artifactSha256,
+  manifestSha256
+}) {
+  const jurisdiction = bundle.jurisdiction;
+  const blockerMap = {
+    TN: ["codification_authority_unverified"],
+    UT: ["mechanism_count_counsel_addendum_required"],
+    VT: ["mechanism_count_counsel_addendum_required"],
+    WV: [
+      "mechanism_count_counsel_addendum_required",
+      "reviewed_through_librarian_correction_required"
+    ]
+  };
+  const sourceMapField = {
+    SC: "scOfficialSourceMap",
+    TN: "tnOfficialSourceMap",
+    VT: "vtOfficialSourceMap",
+    WY: "wyOfficialSourceMap"
+  }[jurisdiction];
+  const sourceMap = sourceMapField ? artifact[sourceMapField] : null;
+  const authorityRequirements = sourceMap
+    ? adjudicatedAuthorityRequirements({
+        jurisdiction,
+        sourceMap,
+        adjudicationDate: artifact.adjudicationDate
+      })
+    : bundle.officialAuthorityRefreshRequirements;
+  const adjudicatedQuestions = (artifact.unresolvedQuestions ?? [])
+    .filter((entry) => entry.jurisdiction === jurisdiction)
+    .map(
+      (entry) =>
+        `${entry.owner}: ${entry.question} [${entry.impact}]`
+    );
+  const authorityFlags = new Set(bundle.authorityRefreshFlags ?? []);
+  if (sourceMap) {
+    authorityFlags.delete("official_url_discovery_required");
+    authorityFlags.delete("official_authority_refresh_required");
+    authorityFlags.add("session_d_adjudication_source_identity_adopted");
+  }
+  if (jurisdiction === "TN") {
+    authorityFlags.add("codification_authority_unverified");
+  }
+
+  return {
+    ...bundle,
+    openQuestions: [
+      ...new Set([...(bundle.openQuestions ?? []), ...adjudicatedQuestions])
+    ].sort(),
+    officialAuthorityRefreshRequirements: authorityRequirements,
+    authorityRefreshFlags: [...authorityFlags].sort(),
+    adjudicationBlockers: blockerMap[jurisdiction] ?? [],
+    adjudicationEvidence: {
+      schemaVersion:
+        "rcap-normalization-readiness-adjudication-evidence/v1",
+      session: descriptor.session,
+      sourceCommit: descriptor.sourceCommit,
+      parentResearchCommit: descriptor.parentResearchCommit,
+      adjudicationPath: descriptor.adjudicationPath,
+      adjudicationSha256: artifactSha256,
+      manifestPath: descriptor.manifestPath,
+      manifestSha256,
+      workerDeclaredReadinessRecordChanged:
+        manifest.readinessRecordChanged,
+      originalBundleChanged: manifest.originalBundleChanged,
+      productionEffect: manifest.productionEffect,
+      adoptionEffect:
+        "resolved source identities and typed unresolved blockers only; no normalization or runtime effect",
+      sourceMapField,
+      resultStatus:
+        manifest.resultStatusPerState?.[jurisdiction] ??
+        "parent_research_result_unchanged"
+    }
+  };
+}
+
+function adjudicatedAuthorityRequirements({
+  jurisdiction,
+  sourceMap,
+  adjudicationDate
+}) {
+  const rows = [];
+  if (jurisdiction === "SC") {
+    rows.push(...sourceMap.statutes, ...sourceMap.forms);
+  } else if (jurisdiction === "TN") {
+    rows.push({
+      citedByReview:
+        "Tennessee Code sections 40-32-101 through 40-32-109",
+      officialUrl: null,
+      issuingDomain: null,
+      accessClass: "unavailable",
+      evidence:
+        sourceMap.codeSections.whyUnknown,
+      participantGenerationTarget: false
+    });
+    rows.push(...sourceMap.enactingLawVerified.sources);
+    rows.push(
+      ...sourceMap.forms.map((entry) => ({
+        ...entry,
+        officialUrl:
+          entry.officialUrl ??
+          entry.closestVerifiedOfficialArtifact,
+        participantGenerationTarget:
+          entry.citedByReview.includes("certification")
+            ? false
+            : undefined
+      }))
+    );
+  } else {
+    rows.push(...sourceMap.sources);
+  }
+
+  return rows.map((row, index) => {
+    const officialUrl = row.officialUrl ?? null;
+    const accessClass =
+      row.accessClass === "automation_blocked"
+        ? "automation_blocked"
+        : officialUrl === null
+          ? "unavailable"
+          : "adjudication_verified_identity";
+    return {
+      officialUrl,
+      issuingDomain:
+        row.issuingDomain ??
+        (officialUrl ? new URL(officialUrl).hostname : null),
+      sectionIdentifier:
+        row.citedByReview ??
+        row.act ??
+        `${jurisdiction} adjudicated authority ${index + 1}`,
+      retrievalMethod:
+        officialUrl === null
+          ? "official_url_discovery_required"
+          : "session_d_adjudication_source_identity",
+      retrievalDate: adjudicationDate,
+      capturedSourceSha256: null,
+      retrievalState: accessClass,
+      alternateOfficialRetrievalChannel:
+        row.evidence ??
+        row.whatTheSourceProves ??
+        row.whyUnknown ??
+        row.limitations ??
+        "Use the adopted Session D adjudication artifact; exact source bytes remain subject to the normalization execution verifier.",
+      ...(row.status ? { adjudicatedStatus: row.status } : {}),
+      ...(row.materialCorrection
+        ? { materialCorrection: row.materialCorrection }
+        : {}),
+      ...(row.participantGenerationTarget === false
+        ? { participantGenerationTarget: false }
+        : {})
+    };
+  });
+}
+
+function adoptNormalizationCounselStructures({ input, bundles, rootDir }) {
+  const descriptors = input.counselStructureAdoptionInputs ?? [];
+  if (!Array.isArray(descriptors) || descriptors.length !== 1) {
+    throw new Error(
+      "normalization readiness counselStructureAdoptionInputs must contain one approved record."
+    );
+  }
+  const descriptor = descriptors[0];
+  const adoptionBytes = readRepositoryResearchFile(
+    rootDir,
+    descriptor.adoptionPath
+  );
+  const manifestBytes = readRepositoryResearchFile(
+    rootDir,
+    descriptor.manifestPath
+  );
+  const adoptionSha256 = sha256Bytes(adoptionBytes);
+  const manifestSha256 = sha256Bytes(manifestBytes);
+  if (
+    descriptor.adoptionDate !== "2026-08-04" ||
+    descriptor.adoptedBy !== "counsel" ||
+    descriptor.parentAdjudicationSha256 !==
+      "911e68f8455184a7926e7bfee5f327a3df7e60ceb115c206dcf71b0b442dc9a2" ||
+    adoptionSha256 !== descriptor.adoptionSha256 ||
+    adoptionBytes.length !== descriptor.adoptionByteCount ||
+    manifestSha256 !== descriptor.manifestSha256
+  ) {
+    throw new Error(
+      "Session D counsel structure adoption bytes do not match the captain-owned pins."
+    );
+  }
+  const adoption = JSON.parse(adoptionBytes.toString("utf8"));
+  const manifest = JSON.parse(manifestBytes.toString("utf8"));
+  const jurisdictions = ["UT", "VT", "WV"];
+  if (
+    adoption.schemaVersion !==
+      "rcap-normalization-structure-counsel-adoption/v1" ||
+    adoption.adoptionDate !== descriptor.adoptionDate ||
+    adoption.adoptedBy !== descriptor.adoptedBy ||
+    adoption.parentAdjudication?.sha256 !==
+      descriptor.parentAdjudicationSha256 ||
+    adoption.scope?.normalizationStructureAuthorized !== true ||
+    adoption.scope?.normalizationExecutionAuthorized !== false ||
+    adoption.globalEffect?.normalizationWorkerStarted !== false ||
+    adoption.globalEffect?.packetReadyChanged !== false ||
+    adoption.globalEffect?.runtimeEnablementChanged !== false ||
+    adoption.globalEffect?.deploymentPerformed !== false ||
+    manifest.schemaVersion !==
+      "rcap-normalization-structure-counsel-adoption-manifest/v1" ||
+    manifest.filePath !== descriptor.adoptionPath ||
+    manifest.fileSha256 !== adoptionSha256 ||
+    manifest.byteCount !== adoptionBytes.length ||
+    manifest.parentAdjudicationSha256 !==
+      descriptor.parentAdjudicationSha256 ||
+    manifest.normalizationStructureAuthorized !== true ||
+    manifest.normalizationExecutionAuthorized !== false ||
+    manifest.runtimeEffect !== "none" ||
+    manifest.productionEffect !== "none" ||
+    canonicalStringify([...(manifest.jurisdictions ?? [])].sort()) !==
+      canonicalStringify(jurisdictions)
+  ) {
+    throw new Error(
+      "Session D counsel structure adoption artifact and manifest do not reconcile."
+    );
+  }
+
+  for (const jurisdiction of jurisdictions) {
+    const bundle = bundles.get(jurisdiction);
+    const determination = adoption.jurisdictions?.[jurisdiction];
+    if (
+      !bundle ||
+      bundle.adjudicationEvidence?.adjudicationSha256 !==
+        descriptor.parentAdjudicationSha256 ||
+      !determination
+    ) {
+      throw new Error(
+        `Session D counsel adoption has no adjudicated readiness bundle for ${jurisdiction}.`
+      );
+    }
+    validateCounselStructureCrosswalk({
+      jurisdiction,
+      bundle,
+      determination
+    });
+    bundles.set(
+      jurisdiction,
+      applyCounselStructureDetermination({
+        bundle,
+        determination,
+        descriptor,
+        adoptionSha256,
+        manifestSha256
+      })
+    );
+  }
+
+  return [
+    {
+      adoptionDate: descriptor.adoptionDate,
+      adoptedBy: descriptor.adoptedBy,
+      adoptionPath: descriptor.adoptionPath,
+      adoptionSha256,
+      adoptionByteCount: adoptionBytes.length,
+      manifestPath: descriptor.manifestPath,
+      manifestSha256,
+      parentAdjudicationSha256:
+        descriptor.parentAdjudicationSha256,
+      jurisdictions,
+      status: "counsel_structure_adopted_no_runtime_effect"
+    }
+  ];
+}
+
+function validateCounselStructureCrosswalk({
+  jurisdiction,
+  bundle,
+  determination
+}) {
+  const inventoryIds = bundle.mechanismInventory
+    .map(({ sourceId }) => sourceId)
+    .sort();
+  const crosswalkIds = determination.crosswalk
+    .map(({ sourceId }) => sourceId)
+    .sort();
+  const expectedCrosswalkIds =
+    jurisdiction === "UT"
+      ? [...inventoryIds, "UT-ADJ-01"].sort()
+      : inventoryIds;
+  if (
+    new Set(crosswalkIds).size !== crosswalkIds.length ||
+    canonicalStringify(crosswalkIds) !==
+      canonicalStringify(expectedCrosswalkIds) ||
+    determination.authoritativeSourceSlots !==
+      crosswalkIds.length
+  ) {
+    throw new Error(
+      `${jurisdiction} counsel structure crosswalk does not cover each authoritative source slot exactly once.`
+    );
+  }
+  const expectedCounts = {
+    UT: { relief: 14, nodes: 15 },
+    VT: { relief: 11, nodes: 11 },
+    WV: { relief: 10, nodes: 12 }
+  }[jurisdiction];
+  if (
+    determination.authoritativeSubstantiveReliefTracks !==
+      expectedCounts.relief ||
+    determination.authoritativeNormalizedNodes !==
+      expectedCounts.nodes
+  ) {
+    throw new Error(
+      `${jurisdiction} counsel structure counts do not match the adopted determination.`
+    );
+  }
+  if (
+    jurisdiction === "UT" &&
+    (
+      determination.sharedProcedures?.some(
+        ({ sourceId, disposition }) =>
+          sourceId === "UT-COMMON" &&
+          disposition === "shared_procedure_not_track_or_node"
+      ) !== true ||
+      determination.crosswalk.find(
+        ({ sourceId }) => sourceId === "UT-ADJ-01"
+      )?.disposition !== "routing_node"
+    )
+  ) {
+    throw new Error(
+      "Utah counsel structure must exclude UT-COMMON and retain UT-ADJ-01 as a routing node."
+    );
+  }
+  if (jurisdiction === "VT") {
+    const seal04 = determination.crosswalk.find(
+      ({ sourceId }) => sourceId === "VT-SEAL-04"
+    );
+    const noConviction = determination.crosswalk.filter(({ sourceId }) =>
+      ["VT-SEAL-05", "VT-SEAL-06", "VT-SEAL-07"].includes(sourceId)
+    );
+    if (
+      seal04?.standalonePaidReliefTrack !== false ||
+      noConviction.length !== 3 ||
+      noConviction.some(
+        ({ disposition, compositionMode }) =>
+          disposition !== "merged_no_conviction_sealing_mechanism" ||
+          compositionMode !== "alternative"
+      )
+    ) {
+      throw new Error(
+        "Vermont counsel structure must merge stipulation and the three no-conviction alternatives exactly."
+      );
+    }
+  }
+  if (
+    jurisdiction === "WV" &&
+    (
+      canonicalStringify(
+        determination.sharedProcedureNodes
+          .map(({ sourceId }) => sourceId)
+          .sort()
+      ) !==
+        canonicalStringify(["WV-COMMON-CONV", "WV-COMMON-NC"]) ||
+      determination.reviewedThrough !== "2026-08-01" ||
+      determination.packagingDate !== "2026-08-02"
+    )
+  ) {
+    throw new Error(
+      "West Virginia counsel structure must preserve two shared nodes and the adopted review/packaging dates."
+    );
+  }
+}
+
+function applyCounselStructureDetermination({
+  bundle,
+  determination,
+  descriptor,
+  adoptionSha256,
+  manifestSha256
+}) {
+  const closedBlockers = new Set(determination.closedBlockers);
+  const nextOpenQuestions = (bundle.openQuestions ?? []).filter(
+    (question) => !counselQuestionWasResolved(bundle.jurisdiction, question)
+  );
+  const nextBundle = {
+    ...bundle,
+    denominatorAdjudication: {
+      status: "keyed_denominator_reconciled",
+      reviewSummaryCount:
+        determination.authoritativeSubstantiveReliefTracks,
+      keyedBodyCount: bundle.mechanismInventory.length,
+      resolution: determination.revisedSummary,
+      unresolvedQuestion: null
+    },
+    openQuestions: nextOpenQuestions,
+    adjudicationBlockers: (bundle.adjudicationBlockers ?? []).filter(
+      (blocker) => !closedBlockers.has(blocker)
+    ),
+    counselStructureAdoption: {
+      schemaVersion:
+        "rcap-normalization-structure-counsel-adoption-evidence/v1",
+      adoptionDate: descriptor.adoptionDate,
+      adoptedBy: descriptor.adoptedBy,
+      adoptionPath: descriptor.adoptionPath,
+      adoptionSha256,
+      manifestPath: descriptor.manifestPath,
+      manifestSha256,
+      parentAdjudicationSha256:
+        descriptor.parentAdjudicationSha256,
+      authoritativeSourceSlots:
+        determination.authoritativeSourceSlots,
+      authoritativeSubstantiveReliefTracks:
+        determination.authoritativeSubstantiveReliefTracks,
+      authoritativeNormalizedNodes:
+        determination.authoritativeNormalizedNodes,
+      crosswalkDispositionCount: determination.crosswalk.length,
+      revisedSummary: determination.revisedSummary,
+      closedBlockers: [...closedBlockers].sort(),
+      preservedBlockers: [...determination.preservedBlockers].sort(),
+      structureOnly: true,
+      normalizationExecutionAuthorized: false,
+      runtimeEffect: "none",
+      productionEffect: "none",
+      ...(determination.reviewedThrough
+        ? { reviewedThrough: determination.reviewedThrough }
+        : {}),
+      ...(determination.packagingDate
+        ? { packagingDate: determination.packagingDate }
+        : {})
+    }
+  };
+  if (bundle.jurisdiction === "WV") {
+    nextBundle.reviewedThrough = determination.reviewedThrough;
+    nextBundle.reviewDateEvidence = {
+      filenameAsOf: determination.packagingDate,
+      internalReviewDate: determination.reviewedThrough,
+      status: "reconciled"
+    };
+  }
+  return nextBundle;
+}
+
+function counselQuestionWasResolved(jurisdiction, question) {
+  const resolvedPatterns = {
+    UT: [
+      /two allegedly omitted petition mechanisms/i,
+      /summary numeral 'Sixteen'/i
+    ],
+    VT: [
+      /all fourteen are distinct mechanisms and the summary count/i,
+      /Correct the summary numeral to the enumerated total/i
+    ],
+    WV: [
+      /Identify the eleventh mechanism/i,
+      /Preserve both reviewed-through values/i,
+      /summary numeral 'Eleven'/i,
+      /filename token ASOF-2026-08-02/i
+    ]
+  }[jurisdiction] ?? [];
+  return resolvedPatterns.some((pattern) => pattern.test(question));
 }
 
 function buildSessionBNormalizationBundle({
@@ -466,7 +1062,12 @@ function buildSessionDNormalizationBundle({
           `Preserve both reviewed-through values: filename ${reviewDateEvidence.filenameAsOf}; ` +
             `internal header ${reviewDateEvidence.internalReviewDate}.`
         ]
-      : [])
+      : []),
+    ...(researchRecord.mechanismsMarkedAdditionalResearchRequired ?? []).map(
+      (sourceId) =>
+        `${sourceId}: the controlling review marks this route for additional research; ` +
+        `preserve its route-specific source, legal-design, technical, and release questions during normalization.`
+    )
   ];
 
   return {
@@ -477,7 +1078,7 @@ function buildSessionDNormalizationBundle({
     controllingReviewSha256: reviewAsset.sha256,
     controllingReviewStatus: "checksum_verified",
     controllingReviewRevision: reviewAsset.revision,
-    reviewedThrough: reviewDateEvidence.internalReviewDate,
+    reviewedThrough: researchRecord.reviewedThrough,
     reviewDateEvidence,
     legalReviewPrecedence: ORIGINAL_REVIEW_PRECEDENCE,
     precedenceStatus: "resolved",
@@ -645,6 +1246,53 @@ export function validateNormalizationReadinessInput({
     );
   }
 
+  const adjudicationDescriptors = input.adjudicationInputs ?? [];
+  const adjudicationResults = input.adjudicationIngestionResults ?? [];
+  if (
+    !Array.isArray(adjudicationDescriptors) ||
+    adjudicationDescriptors.length !== 1
+  ) {
+    issues.push(
+      "adjudicationInputs must contain the one approved Session D adjudication."
+    );
+  }
+  if (
+    !Array.isArray(adjudicationResults) ||
+    adjudicationResults.length !== 1 ||
+    adjudicationResults[0]?.status !==
+      "adjudication_evidence_adopted_fail_closed" ||
+    adjudicationResults[0]?.sourceCommit !==
+      "6ecee4740f7bec047c250ca5c2d6c5a941cba87a"
+  ) {
+    issues.push(
+      "Session D adjudication must be hash-verified and adopted fail-closed."
+    );
+  }
+  const counselStructureDescriptors =
+    input.counselStructureAdoptionInputs ?? [];
+  const counselStructureResults =
+    input.counselStructureAdoptionResults ?? [];
+  if (
+    !Array.isArray(counselStructureDescriptors) ||
+    counselStructureDescriptors.length !== 1
+  ) {
+    issues.push(
+      "counselStructureAdoptionInputs must contain the one approved UT/VT/WV structure determination."
+    );
+  }
+  if (
+    !Array.isArray(counselStructureResults) ||
+    counselStructureResults.length !== 1 ||
+    counselStructureResults[0]?.status !==
+      "counsel_structure_adopted_no_runtime_effect" ||
+    counselStructureResults[0]?.adoptionSha256 !==
+      "2510b9a9b095f279fc8e7277f10d4c712a45175e75f48b5d30bd410e20419561"
+  ) {
+    issues.push(
+      "UT/VT/WV counsel structure adoption must be hash-verified with no runtime effect."
+    );
+  }
+
   const claimValidation = validateFactoryJobClaims(claims);
   issues.push(...claimValidation.issues);
 
@@ -704,10 +1352,17 @@ export function inspectNormalizationBundle({
   if (reviewAsset) {
     const revisionDate = reviewedThroughForRevision(reviewAsset.revision);
     if (bundle.reviewDateEvidence) {
-      if (
-        bundle.reviewDateEvidence.filenameAsOf !== revisionDate ||
-        bundle.reviewDateEvidence.internalReviewDate !== bundle.reviewedThrough
-      ) {
+      const dateEvidenceReconciles =
+        bundle.reviewDateEvidence.filenameAsOf === revisionDate &&
+        (bundle.reviewDateEvidence.status === "conflict"
+          ? bundle.reviewedThrough === revisionDate &&
+            DATE_PATTERN.test(
+              bundle.reviewDateEvidence.internalReviewDate ?? ""
+            ) &&
+            bundle.reviewDateEvidence.internalReviewDate !== revisionDate
+          : bundle.reviewDateEvidence.internalReviewDate ===
+            bundle.reviewedThrough);
+      if (!dateEvidenceReconciles) {
         issues.push(
           "reviewDateEvidence does not reconcile the review revision and internal date."
         );
@@ -1043,6 +1698,15 @@ export function deriveNormalizationReadinessRecord({
       retrievalMethods: bundle.retrievalMethods ?? [],
       reviewMaterialization:
         bundle.reviewMaterialization ?? base.reviewMaterialization,
+      ...(bundle.adjudicationEvidence
+        ? { adjudicationEvidence: bundle.adjudicationEvidence }
+        : {}),
+      ...(bundle.counselStructureAdoption
+        ? {
+            counselStructureAdoption:
+              bundle.counselStructureAdoption
+          }
+        : {}),
       readinessState:
         blockers.length === 0
           ? "ready_for_normalization"
@@ -1079,9 +1743,10 @@ export function normalizationFoundationComplete(input) {
       const receipt = bundle?.reviewMaterialization;
       return (
         bundle?.denominatorAdjudication?.status !==
-          "mechanism_inventory_count_conflict" &&
+          "count_conflict_unresolved" &&
         receipt?.materializationState === "binary_hash_verified" &&
-        receipt?.verificationStatus === "verified" &&
+        receipt?.verificationStatus ===
+          "binary_hash_and_size_verified" &&
         Number.isInteger(receipt?.expectedBytes) &&
         receipt.expectedBytes > 0 &&
         receipt.observedBytes === receipt.expectedBytes &&
@@ -1261,6 +1926,7 @@ export function validateNormalizationReadinessRecord(record) {
   ) {
     issues.push("normalizationReadiness.denominatorAdjudication is invalid.");
   }
+  validateCounselStructureAdoptionEvidence(record, issues);
   safeCanonicalStringArray(
     record.expectedSourceIds,
     "normalizationReadiness.expectedSourceIds",
@@ -1424,6 +2090,153 @@ export function validateNormalizationReadinessRecord(record) {
   return { ok: issues.length === 0, issues };
 }
 
+function validateCounselStructureAdoptionEvidence(record, issues) {
+  const expectedByJurisdiction = {
+    UT: {
+      sourceSlots: 15,
+      reliefTracks: 14,
+      normalizedNodes: 15,
+      dispositionCount: 15,
+      keyedBodyCount: 14,
+      closedBlockers: [
+        "mechanism_count_counsel_addendum_required"
+      ],
+      revisedSummary:
+        "14 substantive adult record-clearing tracks, plus one adjacent non-relief routing node. UT-COMMON is shared procedure."
+    },
+    VT: {
+      sourceSlots: 14,
+      reliefTracks: 11,
+      normalizedNodes: 11,
+      dispositionCount: 14,
+      keyedBodyCount: 14,
+      closedBlockers: [
+        "mechanism_count_counsel_addendum_required"
+      ],
+      revisedSummary:
+        "14 authoritative source slots crosswalk to 11 substantive relief tracks. Stipulation is a procedural alternative, not an independent remedy."
+    },
+    WV: {
+      sourceSlots: 10,
+      reliefTracks: 10,
+      normalizedNodes: 12,
+      dispositionCount: 10,
+      keyedBodyCount: 10,
+      closedBlockers: [
+        "mechanism_count_counsel_addendum_required",
+        "reviewed_through_librarian_correction_required"
+      ],
+      revisedSummary:
+        "Ten substantive ordinary adult tracks were identified. Two shared procedure nodes are modeled separately."
+    }
+  };
+  const expected = expectedByJurisdiction[record.jurisdiction];
+  const evidence = record.counselStructureAdoption;
+
+  if (!expected) {
+    if (evidence !== undefined) {
+      issues.push(
+        "normalizationReadiness.counselStructureAdoption is only valid for UT, VT, or WV."
+      );
+    }
+    return;
+  }
+  if (!evidence || typeof evidence !== "object" || Array.isArray(evidence)) {
+    issues.push(
+      `${record.jurisdiction} normalizationReadiness requires hash-bound counselStructureAdoption evidence.`
+    );
+    return;
+  }
+  const exactFields = {
+    schemaVersion:
+      "rcap-normalization-structure-counsel-adoption-evidence/v1",
+    adoptionDate: "2026-08-04",
+    adoptedBy: "counsel",
+    adoptionPath:
+      "docs/record-clearing/normalization-readiness-research/session-d-ut-vt-wv.counsel-adoption.json",
+    adoptionSha256:
+      "2510b9a9b095f279fc8e7277f10d4c712a45175e75f48b5d30bd410e20419561",
+    manifestPath:
+      "docs/record-clearing/normalization-readiness-research/session-d-ut-vt-wv.counsel-adoption.manifest.json",
+    manifestSha256:
+      "76875b3d4f689c3303863f4e408dceab8c4fa3bee24a2c1bcdffdb399f0e8fdb",
+    parentAdjudicationSha256:
+      "911e68f8455184a7926e7bfee5f327a3df7e60ceb115c206dcf71b0b442dc9a2",
+    authoritativeSourceSlots: expected.sourceSlots,
+    authoritativeSubstantiveReliefTracks: expected.reliefTracks,
+    authoritativeNormalizedNodes: expected.normalizedNodes,
+    crosswalkDispositionCount: expected.dispositionCount,
+    revisedSummary: expected.revisedSummary,
+    structureOnly: true,
+    normalizationExecutionAuthorized: false,
+    runtimeEffect: "none",
+    productionEffect: "none"
+  };
+  for (const [field, value] of Object.entries(exactFields)) {
+    if (evidence[field] !== value) {
+      issues.push(
+        `${record.jurisdiction} counselStructureAdoption.${field} does not match the adopted determination.`
+      );
+    }
+  }
+  if (
+    canonicalStringify(evidence.closedBlockers) !==
+    canonicalStringify(expected.closedBlockers)
+  ) {
+    issues.push(
+      `${record.jurisdiction} counselStructureAdoption.closedBlockers is invalid.`
+    );
+  }
+  if (
+    !Array.isArray(evidence.preservedBlockers) ||
+    evidence.preservedBlockers.length === 0
+  ) {
+    issues.push(
+      `${record.jurisdiction} counselStructureAdoption must preserve route-specific blockers.`
+    );
+  }
+  if (
+    record.denominatorAdjudication?.status !==
+      "keyed_denominator_reconciled" ||
+    record.denominatorAdjudication?.reviewSummaryCount !==
+      expected.reliefTracks ||
+    record.denominatorAdjudication?.keyedBodyCount !==
+      expected.keyedBodyCount ||
+    record.denominatorAdjudication?.resolution !==
+      expected.revisedSummary ||
+    record.denominatorAdjudication?.unresolvedQuestion !== null
+  ) {
+    issues.push(
+      `${record.jurisdiction} denominatorAdjudication does not implement the counsel structure determination.`
+    );
+  }
+  for (const closedBlocker of expected.closedBlockers) {
+    if (record.readinessBlockers?.includes(closedBlocker)) {
+      issues.push(
+        `${record.jurisdiction} retains closed blocker ${closedBlocker}.`
+      );
+    }
+  }
+  if (
+    record.jurisdiction === "WV" &&
+    (
+      record.reviewedThrough !== "2026-08-01" ||
+      canonicalStringify(record.reviewDateEvidence) !==
+        canonicalStringify({
+          filenameAsOf: "2026-08-02",
+          internalReviewDate: "2026-08-01",
+          status: "reconciled"
+        }) ||
+      evidence.reviewedThrough !== "2026-08-01" ||
+      evidence.packagingDate !== "2026-08-02"
+    )
+  ) {
+    issues.push(
+      "WV counsel structure adoption must distinguish the 2026-08-01 review date from the 2026-08-02 packaging date."
+    );
+  }
+}
+
 export function validateFactoryJobClaims(claims) {
   const issues = [];
   if (
@@ -1512,14 +2325,34 @@ export function normalizationJobId(jurisdiction) {
 
 function blockersForBundleInspection(bundle, issues) {
   const blockers = new Set();
+  const adjudicationBlockers = new Set(
+    bundle?.adjudicationBlockers ?? []
+  );
+  for (const blocker of adjudicationBlockers) {
+    if (!READINESS_BLOCKER_ORDER.includes(blocker)) {
+      throw new Error(
+        `${bundle?.jurisdiction ?? "unknown"} has unsupported adjudication blocker ${blocker}.`
+      );
+    }
+    blockers.add(blocker);
+  }
+  const hasAdjudicatedMechanismCountBlocker =
+    adjudicationBlockers.has(
+      "mechanism_count_counsel_addendum_required"
+    );
   if (
-    bundle?.denominatorAdjudication?.status === "count_conflict_unresolved"
+    bundle?.denominatorAdjudication?.status === "count_conflict_unresolved" &&
+    !hasAdjudicatedMechanismCountBlocker
   ) {
     blockers.add("mechanism_inventory_count_conflict");
   }
   for (const issue of issues) {
     if (/denominator.*count conflict/i.test(issue)) {
-      blockers.add("mechanism_inventory_count_conflict");
+      blockers.add(
+        hasAdjudicatedMechanismCountBlocker
+          ? "mechanism_count_counsel_addendum_required"
+          : "mechanism_inventory_count_conflict"
+      );
     } else if (
       /controllingReviewAssetPath|controllingReviewSha256|controllingReviewRevision|archiveSha256|archiveEntryPath|expectedSha256|observedSha256/.test(
         issue
@@ -1859,6 +2692,7 @@ function validateAuthorityRefreshRequirements(requirements, issues) {
         "unavailable",
         "shell_download_blocked",
         "browser_official_retrieval_available",
+        "adjudication_verified_identity",
         "authority_absent",
         "authority_archive_inconsistent",
         "official_authority_hash_verified"

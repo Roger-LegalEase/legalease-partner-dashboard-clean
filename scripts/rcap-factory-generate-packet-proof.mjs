@@ -28,15 +28,24 @@ if (
 }
 
 const plan = await loadFactoryPlan({ rootDir: ROOT, root: ROOT });
+const productionPlan = JSON.parse(
+  fs.readFileSync(
+    path.join(
+      ROOT,
+      "planning/record-clearing-100-percent/production-plan.json"
+    ),
+    "utf8"
+  )
+);
 const repositoryRoot = gitOutput(["rev-parse", "--show-toplevel"]);
 const currentBranch = gitOutput(["branch", "--show-current"]);
 if (
   path.resolve(repositoryRoot) !== ROOT ||
-  typeof plan.branch !== "string" ||
-  currentBranch !== plan.branch
+  typeof productionPlan.branch !== "string" ||
+  currentBranch !== productionPlan.branch
 ) {
   fail(
-    `Participant packet proofs may run only from the integration checkout on ${plan.branch}; ` +
+    `Participant packet proofs may run only from the integration checkout on ${productionPlan.branch}; ` +
       `found ${currentBranch || "detached HEAD"} at ${repositoryRoot || ROOT}.`
   );
 }
@@ -141,14 +150,14 @@ function parseSamples(stdout) {
       /^-\s+(\S+):\s+(\d+)\s+pages\s+([0-9a-f]{64})$/
     );
     const table = line.match(
-      /^\s+(\S+)\s+(\d+)p\s+([0-9a-f]{64})$/
+      /^\s+(\S+)\s+(?:\d+c\s+)?(\d+)p\s+([0-9a-f]{64})$/
     );
     const match = colon ?? table;
     if (!match) {
       const malformedColon =
         /^-\s+\S+:\s+\S+\s+pages?\s+\S+\s*$/.test(line);
       const malformedTable =
-        /^\s+\S+\s+\S+p\s+\S+\s*$/.test(line);
+        /^\s+\S+\s+(?:\S+c\s+)?\S+p\s+\S+\s*$/.test(line);
       if (malformedColon || malformedTable) {
         fail(`Malformed packet result emitted by the verifier: ${line.trim()}`);
       }

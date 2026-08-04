@@ -1,0 +1,168 @@
+{
+  "schemaVersion": "rcap-normalization-structure-counsel-adoption/v1",
+  "adoptionDate": "2026-08-04",
+  "adoptedBy": "counsel",
+  "source": "direct_session_instruction",
+  "parentAdjudication": {
+    "path": "docs/record-clearing/normalization-readiness-research/session-d-ri-wy.adjudication.json",
+    "sha256": "911e68f8455184a7926e7bfee5f327a3df7e60ceb115c206dcf71b0b442dc9a2",
+    "sourceCommit": "6ecee4740f7bec047c250ca5c2d6c5a941cba87a"
+  },
+  "scope": {
+    "normalizationStructureAuthorized": true,
+    "normalizationExecutionAuthorized": false,
+    "packetReadyAuthorized": false,
+    "completedOutputCounselAdoptionAuthorized": false,
+    "sourcePromotionAuthorized": false,
+    "runtimeEnablementAuthorized": false,
+    "statePromotionAuthorized": false,
+    "deploymentAuthorized": false
+  },
+  "jurisdictions": {
+    "UT": {
+      "authoritativeSourceSlots": 15,
+      "authoritativeSubstantiveReliefTracks": 14,
+      "authoritativeNormalizedNodes": 15,
+      "revisedSummary": "14 substantive adult record-clearing tracks, plus one adjacent non-relief routing node. UT-COMMON is shared procedure.",
+      "sharedProcedures": [
+        {
+          "sourceId": "UT-COMMON",
+          "disposition": "shared_procedure_not_track_or_node"
+        }
+      ],
+      "crosswalk": [
+        { "sourceId": "UT-AUTO-01", "disposition": "standalone_relief_track", "bucket": "automatic" },
+        { "sourceId": "UT-AUTO-02", "disposition": "standalone_relief_track", "bucket": "automatic" },
+        { "sourceId": "UT-AUTO-03", "disposition": "standalone_relief_track", "bucket": "automatic" },
+        { "sourceId": "UT-PET-01", "disposition": "standalone_relief_track", "bucket": "ordinary_petition" },
+        { "sourceId": "UT-PET-02", "disposition": "standalone_relief_track", "bucket": "ordinary_petition" },
+        { "sourceId": "UT-PET-03", "disposition": "standalone_relief_track", "bucket": "ordinary_petition" },
+        { "sourceId": "UT-PET-04", "disposition": "standalone_relief_track", "bucket": "ordinary_petition" },
+        { "sourceId": "UT-PET-05", "disposition": "standalone_relief_track", "bucket": "ordinary_petition" },
+        { "sourceId": "UT-PET-06", "disposition": "standalone_relief_track", "bucket": "ordinary_petition" },
+        { "sourceId": "UT-PET-07", "disposition": "standalone_relief_track", "bucket": "ordinary_petition" },
+        { "sourceId": "UT-PET-08", "disposition": "standalone_relief_track", "bucket": "ordinary_petition" },
+        { "sourceId": "UT-PET-09", "disposition": "standalone_relief_track", "bucket": "ordinary_petition" },
+        { "sourceId": "UT-PET-10", "disposition": "standalone_relief_track", "bucket": "ordinary_petition" },
+        { "sourceId": "UT-PET-11", "disposition": "standalone_relief_track", "bucket": "appellate" },
+        { "sourceId": "UT-ADJ-01", "disposition": "routing_node", "bucket": "adjacent_non_relief" }
+      ],
+      "closedBlockers": [
+        "mechanism_count_counsel_addendum_required"
+      ],
+      "preservedBlockers": [
+        "legal_review_materialization_required",
+        "all_route_specific_source_legal_design_technical_and_release_blockers",
+        "UT-PET-10_unresolved_questions"
+      ]
+    },
+    "VT": {
+      "authoritativeSourceSlots": 14,
+      "authoritativeSubstantiveReliefTracks": 11,
+      "authoritativeNormalizedNodes": 11,
+      "revisedSummary": "14 authoritative source slots crosswalk to 11 substantive relief tracks. Stipulation is a procedural alternative, not an independent remedy.",
+      "crosswalk": [
+        { "sourceId": "VT-EXP-01", "disposition": "standalone_relief_track" },
+        { "sourceId": "VT-EXP-02", "disposition": "standalone_relief_track" },
+        { "sourceId": "VT-SEAL-01", "disposition": "standalone_relief_track" },
+        { "sourceId": "VT-SEAL-02", "disposition": "standalone_relief_track" },
+        { "sourceId": "VT-SEAL-03", "disposition": "standalone_relief_track" },
+        {
+          "sourceId": "VT-SEAL-04",
+          "disposition": "procedural_alternative_merged_into_applicable_postconviction_petition_mechanisms",
+          "standalonePaidReliefTrack": false
+        },
+        {
+          "sourceId": "VT-SEAL-05",
+          "disposition": "merged_no_conviction_sealing_mechanism",
+          "compositionMode": "alternative",
+          "unit": "automatic_sealing_and_verification"
+        },
+        {
+          "sourceId": "VT-SEAL-06",
+          "disposition": "merged_no_conviction_sealing_mechanism",
+          "compositionMode": "alternative",
+          "unit": "stipulated_petition"
+        },
+        {
+          "sourceId": "VT-SEAL-07",
+          "disposition": "merged_no_conviction_sealing_mechanism",
+          "compositionMode": "alternative",
+          "unit": "ordinary_petition"
+        },
+        { "sourceId": "VT-SEAL-08", "disposition": "standalone_relief_track" },
+        { "sourceId": "VT-SEAL-09", "disposition": "standalone_relief_track" },
+        { "sourceId": "VT-SEAL-10", "disposition": "standalone_relief_track" },
+        { "sourceId": "VT-SEAL-11", "disposition": "standalone_relief_track" },
+        { "sourceId": "VT-SEAL-12", "disposition": "standalone_relief_track" }
+      ],
+      "unitLevelRequirementsPreserved": [
+        "filings",
+        "forms",
+        "timelines",
+        "stop_conditions"
+      ],
+      "closedBlockers": [
+        "mechanism_count_counsel_addendum_required"
+      ],
+      "preservedBlockers": [
+        "legal_review_materialization_required",
+        "under_25",
+        "diversion",
+        "form_currentness",
+        "victim_notice",
+        "all_other_track_specific_source_legal_design_technical_and_release_blockers"
+      ]
+    },
+    "WV": {
+      "authoritativeSourceSlots": 10,
+      "authoritativeSubstantiveReliefTracks": 10,
+      "authoritativeNormalizedNodes": 12,
+      "reviewedThrough": "2026-08-01",
+      "packagingDate": "2026-08-02",
+      "revisedSummary": "Ten substantive ordinary adult tracks were identified. Two shared procedure nodes are modeled separately.",
+      "crosswalk": [
+        { "sourceId": "WV-ACC-01", "disposition": "standalone_relief_track" },
+        { "sourceId": "WV-CONV-01", "disposition": "standalone_relief_track" },
+        { "sourceId": "WV-CONV-02", "disposition": "standalone_relief_track" },
+        { "sourceId": "WV-CONV-03", "disposition": "standalone_relief_track" },
+        { "sourceId": "WV-DRUG-01", "disposition": "standalone_relief_track" },
+        { "sourceId": "WV-DUI-01", "disposition": "standalone_relief_track", "alreadyIncludedInSubstantiveCount": true },
+        { "sourceId": "WV-DUI-02", "disposition": "standalone_relief_track", "alreadyIncludedInSubstantiveCount": true },
+        { "sourceId": "WV-NC-01", "disposition": "standalone_relief_track" },
+        { "sourceId": "WV-NC-02", "disposition": "standalone_relief_track" },
+        { "sourceId": "WV-PARDON-01", "disposition": "standalone_relief_track" }
+      ],
+      "sharedProcedureNodes": [
+        { "sourceId": "WV-COMMON-NC", "disposition": "shared_procedure_node" },
+        { "sourceId": "WV-COMMON-CONV", "disposition": "shared_procedure_node" }
+      ],
+      "specializedOutsideOrdinaryCoreCount": [
+        "W. Va. Code section 61-14-9 trafficking-survivor mechanism"
+      ],
+      "closedBlockers": [
+        "mechanism_count_counsel_addendum_required",
+        "reviewed_through_librarian_correction_required"
+      ],
+      "preservedBlockers": [
+        "legal_review_materialization_required",
+        "forms",
+        "specialty_routes",
+        "exclusion_screens",
+        "local_practice",
+        "once_per_lifetime",
+        "all_other_track_specific_source_legal_design_technical_and_release_blockers"
+      ]
+    }
+  },
+  "globalEffect": {
+    "normalizationWorkerStarted": false,
+    "normalizedTrackCreated": false,
+    "packetReadyChanged": false,
+    "completedOutputCounselAdoptionChanged": false,
+    "sourcePromotionChanged": false,
+    "runtimeEnablementChanged": false,
+    "statePromotionChanged": false,
+    "deploymentPerformed": false
+  }
+}

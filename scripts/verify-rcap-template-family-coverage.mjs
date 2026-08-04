@@ -357,11 +357,18 @@ const packetSetTrackIds = packetSetRegistry.packetSets.map(
 );
 const normalizedTrackIdSet = new Set(normalizedTrackIds);
 
-check("the two canonical inputs still describe the same 250 tracks", () => {
-  assert.equal(normalizedTrackIds.length, 250);
-  assert.equal(normalizedTrackIdSet.size, 250);
-  assert.equal(packetSetTrackIds.length, 250);
-  assert.equal(new Set(packetSetTrackIds).size, 250);
+check("the two canonical inputs describe the registry-declared tracks exactly once", () => {
+  assert.ok(
+    Number.isInteger(normalizedRegistry.trackCount) &&
+      normalizedRegistry.trackCount > 0,
+  );
+  assert.equal(normalizedTrackIds.length, normalizedRegistry.trackCount);
+  assert.equal(normalizedTrackIdSet.size, normalizedRegistry.trackCount);
+  assert.equal(packetSetTrackIds.length, normalizedRegistry.trackCount);
+  assert.equal(
+    new Set(packetSetTrackIds).size,
+    normalizedRegistry.trackCount,
+  );
   assert.deepEqual(
     [...normalizedTrackIds].sort(),
     [...packetSetTrackIds].sort(),

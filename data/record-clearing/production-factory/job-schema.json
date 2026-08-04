@@ -84,6 +84,7 @@
     "strategyFamily": {
       "enum": [
         "platform_foundation",
+        "normalization_readiness",
         "legal_design",
         "source_acquisition",
         "in_repo_identity_reconciliation",
@@ -223,6 +224,9 @@
         },
         "readinessState": {
           "enum": [
+            "mechanism_count_counsel_addendum_required",
+            "reviewed_through_librarian_correction_required",
+            "codification_authority_unverified",
             "legal_review_materialization_required",
             "legal_review_hash_mismatch",
             "mechanism_inventory_count_conflict",
@@ -333,6 +337,132 @@
             }
           }
         },
+        "adjudicationEvidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schemaVersion",
+            "session",
+            "sourceCommit",
+            "parentResearchCommit",
+            "adjudicationPath",
+            "adjudicationSha256",
+            "manifestPath",
+            "manifestSha256",
+            "workerDeclaredReadinessRecordChanged",
+            "originalBundleChanged",
+            "productionEffect",
+            "adoptionEffect",
+            "resultStatus"
+          ],
+          "properties": {
+            "schemaVersion": {
+              "const": "rcap-normalization-readiness-adjudication-evidence/v1"
+            },
+            "session": { "const": "SESSION_D" },
+            "sourceCommit": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$"
+            },
+            "parentResearchCommit": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$"
+            },
+            "adjudicationPath": { "$ref": "#/$defs/path" },
+            "adjudicationSha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "manifestPath": { "$ref": "#/$defs/path" },
+            "manifestSha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "workerDeclaredReadinessRecordChanged": { "type": "boolean" },
+            "originalBundleChanged": { "const": false },
+            "productionEffect": { "const": "none" },
+            "adoptionEffect": { "type": "string", "minLength": 1 },
+            "sourceMapField": { "type": "string", "minLength": 1 },
+            "resultStatus": { "type": "string", "minLength": 1 }
+          }
+        },
+        "counselStructureAdoption": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schemaVersion",
+            "adoptionDate",
+            "adoptedBy",
+            "adoptionPath",
+            "adoptionSha256",
+            "manifestPath",
+            "manifestSha256",
+            "parentAdjudicationSha256",
+            "authoritativeSourceSlots",
+            "authoritativeSubstantiveReliefTracks",
+            "authoritativeNormalizedNodes",
+            "crosswalkDispositionCount",
+            "revisedSummary",
+            "closedBlockers",
+            "preservedBlockers",
+            "structureOnly",
+            "normalizationExecutionAuthorized",
+            "runtimeEffect",
+            "productionEffect"
+          ],
+          "properties": {
+            "schemaVersion": {
+              "const": "rcap-normalization-structure-counsel-adoption-evidence/v1"
+            },
+            "adoptionDate": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "adoptedBy": { "const": "counsel" },
+            "adoptionPath": { "$ref": "#/$defs/path" },
+            "adoptionSha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "manifestPath": { "$ref": "#/$defs/path" },
+            "manifestSha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "parentAdjudicationSha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "authoritativeSourceSlots": { "type": "integer", "minimum": 1 },
+            "authoritativeSubstantiveReliefTracks": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "authoritativeNormalizedNodes": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "crosswalkDispositionCount": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "revisedSummary": { "type": "string", "minLength": 1 },
+            "closedBlockers": { "$ref": "#/$defs/uniqueStrings" },
+            "preservedBlockers": { "$ref": "#/$defs/uniqueStrings" },
+            "structureOnly": { "const": true },
+            "normalizationExecutionAuthorized": { "const": false },
+            "runtimeEffect": { "const": "none" },
+            "productionEffect": { "const": "none" },
+            "reviewedThrough": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "packagingDate": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          }
+        },
         "expectedSourceIds": { "$ref": "#/$defs/uniqueStrings" },
         "retainedForms": { "$ref": "#/$defs/uniqueStrings" },
         "retainedFormAvailability": { "type": "string", "minLength": 1 },
@@ -381,6 +511,7 @@
                   "unavailable",
                   "shell_download_blocked",
                   "browser_official_retrieval_available",
+                  "adjudication_verified_identity",
                   "authority_absent",
                   "authority_archive_inconsistent",
                   "official_authority_hash_verified"
@@ -392,7 +523,10 @@
               "alternateOfficialRetrievalChannel": {
                 "type": "string",
                 "minLength": 1
-              }
+              },
+              "adjudicatedStatus": { "type": "string", "minLength": 1 },
+              "materialCorrection": { "type": "string", "minLength": 1 },
+              "participantGenerationTarget": { "const": false }
             }
           }
         },

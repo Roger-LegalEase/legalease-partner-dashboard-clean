@@ -239,6 +239,46 @@ const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
       "mn_mistaken_identity_iddata",
       "mn_pardon_auto_expungement"
     ]
+  },
+  {
+    jurisdiction: "LA",
+    completionCommit: "df4a5976692134bde5d6033a4ee988f3c83bd432",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/louisiana/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-louisiana-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: [
+      "la-985-2-automated-expungement",
+      "la-985-3-immediate-expungement",
+      "la-999-expedited-expungement"
+    ]
+  },
+  {
+    jurisdiction: "CO",
+    completionCommit: "7be280c8be25bc19e497d668d48abaadfd89ca44",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/colorado/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-colorado-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: [
+      "co_auto_seal_arrest",
+      "co_auto_seal_nonconviction"
+    ]
+  },
+  {
+    jurisdiction: "DE",
+    completionCommit: "c7af8cf48d42c69590a966141f5373c4ab596675",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/delaware/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-delaware-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: [
+      "de_attorney_general_expungement",
+      "de_auto_expungement"
+    ]
   }
 ]);
 const GUIDANCE_TYPED_STOP_TRACKS = new Set([
@@ -274,6 +314,26 @@ const COMPLETED_AUTHORITY_JOB_COMMITS = new Map([
   [
     "rcap-il-public-official-download",
     "17e9cad367543a4f7b21b30d754d09e51ffbd898"
+  ],
+  [
+    "rcap-co-official-download-automation-blocked",
+    "2666e25fe748c021f5c668030fcabc7dac8b3fc4"
+  ],
+  [
+    "rcap-co-source-identity-resolution-jdf-417-order",
+    "124559c3a6c0010ed1d6883660268b0fcf4585fd"
+  ],
+  [
+    "rcap-ks-source-identity-resolution-criminal-cover-sheet",
+    "facfa75f6e25472181a4a40eac6c61c6809e720f"
+  ],
+  [
+    "rcap-ca-local-form-scope-correction-sdsc-crm-307",
+    "610f36c450173fc856fbbb188171d67e64f18845"
+  ],
+  [
+    "rcap-ks-commercial-license",
+    "b0cfdae005c897083180e2d49e48059b0f495463"
   ]
 ]);
 const NO_DOWNLOAD_AUTHORITY_FAMILIES = new Set([
