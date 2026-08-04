@@ -435,15 +435,26 @@ const EXPECTED_PATH = expectedArg
   ? path.resolve(root, expectedArg.slice("--expected=".length))
   : "/workspaces/legalease-legal-review-import/batch-1-amended/expected/expected-track-ids.json";
 
-const EXPECTED = JSON.parse(fs.readFileSync(EXPECTED_PATH, "utf8")).expected_track_ids_by_jurisdiction;
-
 // Expected IDs describe the real Batch 1 corpus. A fixture directory has no
 // relationship to it, so in fixture mode the batch is its own expectation and
-// the reconciliation still proves the arithmetic without asserting a false gap.
+// the reconciliation still proves the arithmetic without asserting a false
+// gap. Do not read the external counsel package in fixture mode: the verifier
+// and CI intentionally run the scratch fixture without that private checkout.
 const fixtureMode = Boolean(intakeArg);
-const expectedIds = fixtureMode
-  ? [...tracks.map((t) => `${t.jurisdiction}:${t.trackId}`), ...deferred.map((d) => `${d.jurisdiction}:${d.trackId}`)]
-  : batchCodes.flatMap((code) => (EXPECTED[code] ?? []).map((id) => `${code}:${id}`));
+const EXPECTED = fixtureMode
+  ? Object.fromEntries(
+      batchCodes.map((code) => [
+        code,
+        [...tracks, ...deferred]
+          .filter((track) => track.jurisdiction === code)
+          .map((track) => track.trackId)
+      ])
+    )
+  : JSON.parse(fs.readFileSync(EXPECTED_PATH, "utf8"))
+      .expected_track_ids_by_jurisdiction;
+const expectedIds = batchCodes.flatMap((code) =>
+  (EXPECTED[code] ?? []).map((id) => `${code}:${id}`)
+);
 const importedIds = tracks.map((track) => `${track.jurisdiction}:${track.trackId}`);
 const deferredIds = deferred.map((entry) => `${entry.jurisdiction}:${entry.trackId}`);
 const accountedIds = new Set([...importedIds, ...deferredIds]);

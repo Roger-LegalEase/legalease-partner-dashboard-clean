@@ -1,0 +1,46 @@
+name: RCAP Production Factory
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/rcap-production-factory.yml"
+      - "data/record-clearing/production-factory/**"
+      - "docs/record-clearing/RCAP_PRODUCTION_FACTORY.md"
+      - "package.json"
+      - "scripts/lib/rcap-factory/**"
+      - "scripts/rcap-factory-*.mjs"
+      - "scripts/test-rcap-production-factory.mjs"
+  push:
+    branches:
+      - feat/record-clearing-production-factory
+
+permissions:
+  contents: read
+
+jobs:
+  focused-factory-validation:
+    name: Focused factory validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      # Worker CI stays focused. The normal suite and promotion verifiers are
+      # captain-only commands emitted by rcap:factory:integrate-wave.
+      - name: Verify the production factory
+        run: npm run rcap:factory:test
