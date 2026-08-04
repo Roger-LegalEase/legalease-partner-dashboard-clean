@@ -1,0 +1,179 @@
+{
+  "schemaVersion": "rcap-official-pdf-field-ownership/v1",
+  "familyId": "rcap-ak-official-pdf-family",
+  "jurisdiction": "AK",
+  "automationPolicy": {
+    "activeWritableFieldCount": 0,
+    "signaturesAlwaysManual": true,
+    "swornVerificationAlwaysManual": true,
+    "unknownOwnerDefaultsToProtected": true,
+    "protectedOwnerClasses": [
+      "judge",
+      "clerk",
+      "court",
+      "agency",
+      "law_enforcement_officer",
+      "prosecutor",
+      "attorney",
+      "notary",
+      "witness",
+      "process_server",
+      "unknown"
+    ],
+    "futureParticipantAutomationRule": "Only an expressly identified participant-owned, non-signature field may become writable after exact projection inspection and field-level approval."
+  },
+  "documents": [
+    {
+      "componentDocumentId": "TF-810",
+      "fieldEnumerationStatus": "pending_captain_projection_inspection",
+      "activeWritableFields": [],
+      "futureParticipantCandidates": [
+        "court location and judicial district",
+        "case number",
+        "requestor contact information",
+        "disposition facts",
+        "selected participant-request grounds"
+      ],
+      "manualParticipantBlocks": [
+        {
+          "block": "requestor signature and signature date",
+          "owner": "participant",
+          "automation": "manual_only"
+        }
+      ],
+      "protectedBlocks": [
+        {
+          "block": "clerk and HelpDesk transmittal fields",
+          "owner": "clerk",
+          "automation": "never_fill"
+        },
+        {
+          "block": "case removed or case not removed response",
+          "owner": "agency",
+          "automation": "never_fill"
+        },
+        {
+          "block": "unknown fields pending inspection",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "TF-805",
+      "fieldEnumerationStatus": "pending_captain_projection_inspection",
+      "activeWritableFields": [],
+      "futureParticipantCandidates": [
+        "court location and judicial district",
+        "case number",
+        "requestor contact information",
+        "participant grounds narrative",
+        "participant service facts"
+      ],
+      "manualParticipantBlocks": [
+        {
+          "block": "sworn verification, requestor signature, and signature date",
+          "owner": "participant",
+          "automation": "manual_only"
+        },
+        {
+          "block": "certificate-of-service signature and date if the projected form requires them",
+          "owner": "participant",
+          "automation": "manual_only"
+        }
+      ],
+      "protectedBlocks": [
+        {
+          "block": "proposed-order findings, decision, judicial signature, and judicial date",
+          "owner": "judge",
+          "automation": "never_fill"
+        },
+        {
+          "block": "clerk distribution or filing fields",
+          "owner": "clerk",
+          "automation": "never_fill"
+        },
+        {
+          "block": "notarial or witness completion if present",
+          "owner": "notary",
+          "automation": "never_fill"
+        },
+        {
+          "block": "unknown fields pending inspection",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "TF-800",
+      "fieldEnumerationStatus": "pending_captain_projection_inspection",
+      "activeWritableFields": [],
+      "futureParticipantCandidates": [
+        "court location and judicial district",
+        "case number",
+        "requestor contact information",
+        "records requested to be sealed",
+        "participant public-access harm narrative"
+      ],
+      "manualParticipantBlocks": [
+        {
+          "block": "requestor signature and signature date",
+          "owner": "participant",
+          "automation": "manual_only"
+        }
+      ],
+      "protectedBlocks": [
+        {
+          "block": "judge, clerk, or court-use-only fields",
+          "owner": "court",
+          "automation": "never_fill"
+        },
+        {
+          "block": "unknown fields pending inspection",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "DPS-REQUEST-TO-SEAL-CRIM-INFO",
+      "fieldEnumerationStatus": "prohibited_until_successor_edition_manifest_and_captain_projection",
+      "activeWritableFields": [],
+      "futureParticipantCandidates": [
+        "applicant identity and contact information",
+        "arrest identifiers",
+        "participant mistaken-identity or false-accusation narrative"
+      ],
+      "manualParticipantBlocks": [
+        {
+          "block": "applicant signature and signature date",
+          "owner": "participant",
+          "automation": "manual_only"
+        }
+      ],
+      "protectedBlocks": [
+        {
+          "block": "officer or prosecutor verification facts",
+          "owner": "law_enforcement_officer_or_prosecutor",
+          "automation": "never_fill"
+        },
+        {
+          "block": "officer or prosecutor signature and date",
+          "owner": "law_enforcement_officer_or_prosecutor",
+          "automation": "never_fill"
+        },
+        {
+          "block": "DPS decision and agency-use fields",
+          "owner": "agency",
+          "automation": "never_fill"
+        },
+        {
+          "block": "unknown overlay regions",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    }
+  ]
+}

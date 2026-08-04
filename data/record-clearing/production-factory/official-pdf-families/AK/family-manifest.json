@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "rcap-official-pdf-family/v1",
+  "familyId": "rcap-ak-official-pdf-family",
+  "jurisdiction": "AK",
+  "authorityEdition": "1.2",
+  "scope": {
+    "trackIds": [
+      "ak-courtview",
+      "ak-tf805",
+      "ak-tf800",
+      "ak-mistaken-identity"
+    ],
+    "documentIds": [
+      "TF-810",
+      "TF-805",
+      "TF-800",
+      "DPS-REQUEST-TO-SEAL-CRIM-INFO"
+    ],
+    "trackCount": 4,
+    "officialPdfComponentCount": 6,
+    "adoptedPacketComponentCountIncludingGuidance": 7,
+    "documentCount": 4,
+    "exactRetainedIdentityCount": 3,
+    "authorityUnmanifestedIdentityCount": 1
+  },
+  "immutableInputs": {
+    "legalDesignMemo": "data/record-clearing/legal-design-intake/AK.memo.json",
+    "legalDesignTrackRegistry": "data/record-clearing/legal-design-track-registry.json",
+    "packetSetManifests": "data/record-clearing/legal-design-packet-set-manifests.json",
+    "trackSourceRelationships": "data/record-clearing/legal-design-track-source-relationships.json",
+    "legalDesignSpecifications": "data/record-clearing/legal-design-specifications.json",
+    "masterLibraryAuthority": "data/record-clearing/master-library/authority.json",
+    "trackSourceAudit": "data/record-clearing/master-library/track-source-audit.json",
+    "repositoryAssetAudit": "data/record-clearing/master-library/repository-asset-audit.json",
+    "sourceArtifactRegistry": "data/record-clearing/source-artifact-registry.json",
+    "productionQueue": "data/record-clearing/production-factory/official-pdf-production-queue.json",
+    "codedStatePackMetadata": "src/lib/rcap/state-packs/alaska/all50-build-metadata.ts"
+  },
+  "sourceContract": {
+    "contractKind": "dependency_scaffold_not_worker_assignment",
+    "assignmentAnchor": null,
+    "portableProjection": null,
+    "captainAssignmentRequired": true,
+    "portableProjectionRequired": true,
+    "workerReady": false,
+    "workerMaterializationAuthorized": false,
+    "workerMayAcquireOrDownloadSources": false,
+    "repositorySourcePathTreatment": "identity_evidence_only_never_worker_source",
+    "historicalRepositoryPathTreatment": "identity_evidence_only_never_worker_source",
+    "captainProjectedExactSources": 0
+  },
+  "authorityPosture": {
+    "retainedExactPacketAssets": 3,
+    "authorityUnmanifestedComponents": 1,
+    "acquiredButNotEditionManifestedComponents": 1,
+    "activeRendererCount": 0,
+    "activeFieldMappingCount": 0,
+    "activeOverlayPlacementCount": 0,
+    "routeReadyCount": 0
+  },
+  "acquisitionDependencyEvidence": {
+    "ref": "origin/rcap-factory/rcap-ak-public-official-download-4f7e588b",
+    "commit": "4acded00a77584b0ea9c9f00e490e2a6a92dd033",
+    "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-ak-public-official-download.json",
+    "treatment": "read_only_dependency_evidence_not_worker_source",
+    "binaryCommitted": false,
+    "editionMutated": false
+  },
+  "artifacts": {
+    "sourceRequirements": "data/record-clearing/production-factory/official-pdf-families/AK/source-requirements.json",
+    "dependencies": "data/record-clearing/production-factory/official-pdf-families/AK/dependencies.json",
+    "rendererScaffold": "data/record-clearing/production-factory/official-pdf-families/AK/renderer-scaffold.json",
+    "fieldMapScaffold": "data/record-clearing/production-factory/official-pdf-families/AK/field-map-scaffold.json",
+    "fieldOwnershipSchema": "data/record-clearing/production-factory/official-pdf-families/AK/field-ownership.schema.json",
+    "fieldOwnership": "data/record-clearing/production-factory/official-pdf-families/AK/field-ownership.json",
+    "fixtureSchema": "data/record-clearing/production-factory/official-pdf-families/AK/fixtures.schema.json",
+    "fixtures": "data/record-clearing/production-factory/official-pdf-families/AK/fixtures.json",
+    "packetAssembly": "data/record-clearing/production-factory/official-pdf-families/AK/packet-assembly.json",
+    "reviewManifest": "data/record-clearing/production-factory/official-pdf-families/AK/review-manifest.json"
+  },
+  "implementationModule": "src/lib/rcap/packets/jurisdictions/alaska/official-pdf/family.ts",
+  "dedicatedVerifier": "scripts/verify-rcap-alaska-official-pdf-families.mjs",
+  "preservedSharedSurfaces": [
+    "package.json",
+    "data/record-clearing/production-factory/official-pdf-production-queue.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-ak-public-official-download.json",
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "src/lib/rcap/state-packs/alaska/index.ts",
+    "src/lib/rcap/state-packs/alaska/all50-build-metadata.ts"
+  ],
+  "status": {
+    "sourceIdentity": "three_exact_one_acquired_unmanifested",
+    "captainProjection": "required_not_present",
+    "rendererSelection": "scaffolded_none_active",
+    "fieldMapping": "scaffolded_none_active",
+    "packetAssembly": "contracted_runtime_blocked",
+    "review": "not_started",
+    "packetReady": false,
+    "generationAllowed": false,
+    "enabled": false
+  },
+  "invariants": [
+    "No Alaska private repository path is opened, hashed, parsed, or treated as a worker source.",
+    "No public source is downloaded by this family or its verifier.",
+    "A source-acquisition record is dependency evidence only and does not create an Edition 1.2 asset or captain projection.",
+    "TF-805 is one physical official document carrying three adopted logical component roles and must never be duplicated in packet assembly.",
+    "The CourtView lookup and no-filing outcome precede any conditional TF-810 request.",
+    "DPS-REQUEST-TO-SEAL-CRIM-INFO remains authority_unmanifested_source until a successor edition manifests the acquired identity.",
+    "Participant signatures, sworn verification, and dates remain manual.",
+    "Judge, clerk, agency, law-enforcement, prosecutor, attorney, notary, witness, and unknown-owner fields remain blank.",
+    "No live route, shared registry, production queue, source-acquisition path, package manifest, or coded state pack is changed."
+  ]
+}

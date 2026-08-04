@@ -1,0 +1,149 @@
+{
+  "schemaVersion": "rcap-official-pdf-fixtures/v1",
+  "familyId": "rcap-ak-official-pdf-family",
+  "jurisdiction": "AK",
+  "fixtures": [
+    {
+      "fixtureId": "ak-courtview-already-absent",
+      "trackId": "ak-courtview",
+      "synthetic": true,
+      "facts": {
+        "stillOnCourtView": false,
+        "caseNumberAndCourt": "3AN-00-00000CR, Anchorage Trial Court"
+      },
+      "expectedBoundaryCode": "no_filing_required",
+      "expectedOutcome": "Do not generate TF-810; explain that the automatic CourtView outcome has already occurred.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "ak-courtview-guidance-missing",
+      "trackId": "ak-courtview",
+      "synthetic": true,
+      "facts": {
+        "stillOnCourtView": true,
+        "caseNumberAndCourt": "1JU-00-00000CR, Juneau Trial Court",
+        "disposition": "dismissed",
+        "dismissalPartOfPlea": false,
+        "dispositionDate": "2000-01-01",
+        "finalDispositionOrderAvailable": true
+      },
+      "expectedBoundaryCode": "process_guidance_missing",
+      "expectedOutcome": "Stop before TF-810 because the adopted first-stage guidance component has no governing specification.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "ak-courtview-sis-proof-missing",
+      "trackId": "ak-courtview",
+      "synthetic": true,
+      "facts": {
+        "stillOnCourtView": true,
+        "caseNumberAndCourt": "4FA-00-00000CR, Fairbanks Trial Court",
+        "disposition": "dismissed_after_suspended_entry_of_judgment",
+        "dispositionDate": "2000-01-01",
+        "finalDispositionOrderAvailable": true,
+        "sisProofAvailable": false
+      },
+      "expectedBoundaryCode": "required_before_filing",
+      "expectedOutcome": "Require SIS and set-aside proof before filing.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "ak-tf805-standard",
+      "trackId": "ak-tf805",
+      "synthetic": true,
+      "facts": {
+        "caseNumberAndCourt": "3AN-00-00001CR, Anchorage Trial Court",
+        "groundsFacts": "Synthetic participant narrative."
+      },
+      "expectedBoundaryCode": "captain_projection_required",
+      "expectedOutcome": "Keep the single multi-role TF-805 document unavailable until a captain projection exists.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "ak-tf805-sworn-verification",
+      "trackId": "ak-tf805",
+      "synthetic": true,
+      "facts": {
+        "caseNumberAndCourt": "2KB-00-00000CR, Kotzebue Trial Court",
+        "groundsFacts": "Synthetic participant narrative.",
+        "swornVerificationCompleted": false
+      },
+      "expectedBoundaryCode": "manual_completion_required",
+      "expectedOutcome": "Leave sworn verification and all signatures blank for manual completion.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "ak-tf800-standard",
+      "trackId": "ak-tf800",
+      "synthetic": true,
+      "facts": {
+        "caseNumberAndCourt": "3PA-00-00000CR, Palmer Trial Court",
+        "recordsToSeal": "Synthetic identified record",
+        "sealingNarrative": "Synthetic participant narrative."
+      },
+      "expectedBoundaryCode": "captain_projection_required",
+      "expectedOutcome": "Do not generate TF-800 before exact projection inspection.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "ak-tf800-contested",
+      "trackId": "ak-tf800",
+      "synthetic": true,
+      "facts": {
+        "caseNumberAndCourt": "1KE-00-00000CR, Ketchikan Trial Court",
+        "oppositionFiled": true
+      },
+      "expectedBoundaryCode": "post_generation_handoff",
+      "expectedOutcome": "A contested proceeding requires the adopted human handoff.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "ak-mistaken-identity-unmanifested",
+      "trackId": "ak-mistaken-identity",
+      "synthetic": true,
+      "facts": {
+        "arrestDetails": "Synthetic agency and arrest facts",
+        "mistakenIdentityFacts": "Synthetic participant narrative",
+        "arrestTrackingNumber": "SYNTHETIC-0001",
+        "officerOrProsecutorVerificationAvailable": true,
+        "courtDocumentationAvailable": true
+      },
+      "expectedBoundaryCode": "authority_unmanifested",
+      "expectedOutcome": "Acquisition evidence does not make the DPS form selectable under Edition 1.2.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "ak-mistaken-identity-third-party-missing",
+      "trackId": "ak-mistaken-identity",
+      "synthetic": true,
+      "facts": {
+        "arrestDetails": "Synthetic agency and arrest facts",
+        "mistakenIdentityFacts": "Synthetic participant narrative",
+        "arrestTrackingNumber": "SYNTHETIC-0002",
+        "officerOrProsecutorVerificationAvailable": false,
+        "courtDocumentationAvailable": true
+      },
+      "expectedBoundaryCode": "required_before_filing",
+      "expectedOutcome": "The participant must obtain officer or prosecutor verification; LegalEase does not complete or validate it.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    }
+  ]
+}
