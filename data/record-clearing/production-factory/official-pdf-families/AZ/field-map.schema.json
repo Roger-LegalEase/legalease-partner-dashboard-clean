@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rcap-az-official-pdf-field-map.schema.json",
+  "title": "Arizona official-PDF zero-write field-map scaffold",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "activeMappingCount",
+    "activeOverlayPlacementCount",
+    "documents"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "rcap-official-pdf-field-map/v1"
+    },
+    "familyId": {
+      "const": "rcap-az-official-pdf-family"
+    },
+    "jurisdiction": {
+      "const": "AZ"
+    },
+    "activeMappingCount": {
+      "const": 0
+    },
+    "activeOverlayPlacementCount": {
+      "const": 0
+    },
+    "documents": {
+      "type": "array",
+      "minItems": 11,
+      "maxItems": 11,
+      "items": {
+        "type": "object",
+        "required": [
+          "componentDocumentId",
+          "identityBindingStatus",
+          "candidateRendererLane",
+          "fieldEnumerationStatus",
+          "sourceBacked",
+          "activeMappings",
+          "activeOverlayPlacements"
+        ],
+        "properties": {
+          "componentDocumentId": {
+            "type": "string"
+          },
+          "identityBindingStatus": {
+            "enum": [
+              "exact_pinned_identity",
+              "unknown_source_identity"
+            ]
+          },
+          "candidateRendererLane": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "fieldEnumerationStatus": {
+            "type": "string"
+          },
+          "sourceBacked": {
+            "const": false
+          },
+          "activeMappings": {
+            "type": "array",
+            "maxItems": 0
+          },
+          "activeOverlayPlacements": {
+            "type": "array",
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

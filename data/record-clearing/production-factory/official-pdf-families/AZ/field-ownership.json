@@ -1,0 +1,246 @@
+{
+  "schemaVersion": "rcap-official-pdf-field-ownership/v1",
+  "familyId": "rcap-az-official-pdf-family",
+  "jurisdiction": "AZ",
+  "automationPolicy": {
+    "activeWritableFieldCount": 0,
+    "signaturesAlwaysManual": true,
+    "swornStatementsAlwaysManual": true,
+    "unknownOwnerDefaultsToProtected": true,
+    "protectedOwnerClasses": [
+      "judge",
+      "clerk",
+      "court",
+      "agency",
+      "law_enforcement_officer",
+      "prosecutor",
+      "attorney",
+      "notary",
+      "witness",
+      "process_server",
+      "unknown"
+    ],
+    "futureParticipantAutomationRule": "Only an expressly enumerated participant-owned, non-signature, non-sworn field may become writable after exact projected-source inspection and field-level technical, visual, and legal-output approval."
+  },
+  "documents": [
+    {
+      "componentDocumentId": "AOC-CREM2F-071221",
+      "identityBindingStatus": "exact_pinned_identity",
+      "classificationStatus": "pending_captain_projection_inspection",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [
+        {
+          "block": "participant signature, perjury declaration, and date when present on the projected form",
+          "owner": "participant",
+          "automation": "manual_only",
+          "basis": "adopted_packet_filing_requirement_not_field_enumeration"
+        }
+      ],
+      "protectedBlocks": [
+        {
+          "block": "all unenumerated fields and overlay regions",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "AOC-CREM2F-071221-CONT",
+      "identityBindingStatus": "unknown_source_identity",
+      "classificationStatus": "prohibited_unknown_source_identity",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [],
+      "protectedBlocks": [
+        {
+          "block": "entire unresolved document",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "AOC-CREM3F-071221",
+      "identityBindingStatus": "exact_pinned_identity",
+      "classificationStatus": "pending_captain_projection_inspection",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [
+        {
+          "block": "participant signature, perjury declaration, and date when present on the projected form",
+          "owner": "participant",
+          "automation": "manual_only",
+          "basis": "adopted_packet_filing_requirement_not_field_enumeration"
+        }
+      ],
+      "protectedBlocks": [
+        {
+          "block": "court-assigned case number for an arrest with no charges",
+          "owner": "court",
+          "automation": "never_fill"
+        },
+        {
+          "block": "all unenumerated fields and overlay regions",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "AOCCR41FORM31A-082224",
+      "identityBindingStatus": "unknown_source_identity",
+      "classificationStatus": "prohibited_unknown_source_identity",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [
+        {
+          "block": "participant signature, declaration, authorization, and date if present on the eventual exact form",
+          "owner": "participant",
+          "automation": "manual_only",
+          "basis": "adopted_packet_filing_requirement_not_field_enumeration"
+        }
+      ],
+      "protectedBlocks": [
+        {
+          "block": "entire unresolved document except expressly manual participant blocks",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "AOCCR41FORM31A-082224-CONT",
+      "identityBindingStatus": "unknown_source_identity",
+      "classificationStatus": "prohibited_unknown_source_identity",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [],
+      "protectedBlocks": [
+        {
+          "block": "entire unresolved document",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "AOCCR41FORM31B-082224",
+      "identityBindingStatus": "unknown_source_identity",
+      "classificationStatus": "prohibited_unknown_source_identity",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [],
+      "protectedBlocks": [
+        {
+          "block": "all findings, rulings, court-use fields, judicial signature, and judicial date",
+          "owner": "judge",
+          "automation": "never_fill"
+        },
+        {
+          "block": "all remaining unresolved fields",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "AOCCRSA3F-010122",
+      "identityBindingStatus": "unknown_source_identity",
+      "classificationStatus": "prohibited_unknown_source_identity",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [
+        {
+          "block": "applicant signature and date if present on the eventual exact form",
+          "owner": "participant",
+          "automation": "manual_only",
+          "basis": "adopted_packet_filing_requirement_not_field_enumeration"
+        }
+      ],
+      "protectedBlocks": [
+        {
+          "block": "entire unresolved document except expressly manual participant blocks",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "AOCCRSA4F-010122",
+      "identityBindingStatus": "unknown_source_identity",
+      "classificationStatus": "prohibited_unknown_source_identity",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [],
+      "protectedBlocks": [
+        {
+          "block": "all findings, rulings, court-use fields, judicial signature, and judicial date",
+          "owner": "judge",
+          "automation": "never_fill"
+        },
+        {
+          "block": "all remaining unresolved fields",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "AOCCRSL1F-050825",
+      "identityBindingStatus": "exact_pinned_identity",
+      "classificationStatus": "pending_captain_projection_inspection",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [
+        {
+          "block": "participant signature, perjury declaration, and date when present on the projected form",
+          "owner": "participant",
+          "automation": "manual_only",
+          "basis": "adopted_packet_filing_requirement_not_field_enumeration"
+        }
+      ],
+      "protectedBlocks": [
+        {
+          "block": "court, clerk, agency, prosecutor, and all other third-party fields",
+          "owner": "court",
+          "automation": "never_fill"
+        },
+        {
+          "block": "all unenumerated AcroForm fields and widgets",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "AOCCRSL1F-050825-CONT",
+      "identityBindingStatus": "unknown_source_identity",
+      "classificationStatus": "prohibited_unknown_source_identity",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [],
+      "protectedBlocks": [
+        {
+          "block": "entire unresolved document",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    },
+    {
+      "componentDocumentId": "AOCCRSL2F-050825",
+      "identityBindingStatus": "exact_pinned_identity",
+      "classificationStatus": "pending_captain_projection_inspection",
+      "activeWritableFields": [],
+      "manualParticipantBlocks": [],
+      "protectedBlocks": [
+        {
+          "block": "all findings, selections, rulings, court-use fields, judicial signature, and judicial date",
+          "owner": "judge",
+          "automation": "never_fill"
+        },
+        {
+          "block": "clerk filing and distribution fields",
+          "owner": "clerk",
+          "automation": "never_fill"
+        },
+        {
+          "block": "all unenumerated AcroForm fields and widgets",
+          "owner": "unknown",
+          "automation": "never_fill"
+        }
+      ]
+    }
+  ]
+}

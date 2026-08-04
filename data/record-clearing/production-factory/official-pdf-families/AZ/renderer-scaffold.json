@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "rcap-official-pdf-renderer-scaffold/v1",
+  "familyId": "rcap-az-official-pdf-family",
+  "jurisdiction": "AZ",
+  "enabled": false,
+  "activeRendererCount": 0,
+  "rendererAdapters": [
+    {
+      "rendererId": "az-acroform-or-hybrid-fill",
+      "kind": "acroform_or_hybrid_fill",
+      "enabled": false,
+      "activationRequirements": [
+        "captain assignment anchor and portable projection exist",
+        "exact projected bytes pass size, SHA-256, media-type, and read-only verification",
+        "AcroForm fields, widgets, page count, encryption, and XFA posture are freshly inspected",
+        "field ownership and manual-signature treatment are approved",
+        "source-backed samples pass technical, visual, and legal-output review"
+      ]
+    },
+    {
+      "rendererId": "az-coordinate-overlay",
+      "kind": "coordinate_overlay",
+      "enabled": false,
+      "activationRequirements": [
+        "authority identity is exact and adopted",
+        "captain assignment anchor and portable projection exist",
+        "exact projected bytes pass size, SHA-256, media-type, and read-only verification",
+        "every placement is derived from and human-confirmed on the projected source",
+        "field ownership and manual-signature treatment are approved",
+        "source-backed samples pass technical, visual, and legal-output review"
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "componentDocumentId": "AOC-CREM2F-071221",
+      "identityBindingStatus": "exact_pinned_identity",
+      "carriedTechnicalClass": "flat_pdf",
+      "candidateRendererLane": "coordinate_overlay",
+      "rendererSelectionState": "pending_captain_projection_inspection",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "AOC-CREM2F-071221-CONT",
+      "identityBindingStatus": "unknown_source_identity",
+      "carriedTechnicalClass": null,
+      "candidateRendererLane": null,
+      "rendererSelectionState": "prohibited_unknown_source_identity",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "AOC-CREM3F-071221",
+      "identityBindingStatus": "exact_pinned_identity",
+      "carriedTechnicalClass": "flat_pdf",
+      "candidateRendererLane": "coordinate_overlay",
+      "rendererSelectionState": "pending_captain_projection_inspection",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "AOCCR41FORM31A-082224",
+      "identityBindingStatus": "unknown_source_identity",
+      "carriedTechnicalClass": null,
+      "candidateRendererLane": null,
+      "rendererSelectionState": "prohibited_unknown_source_identity",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "AOCCR41FORM31A-082224-CONT",
+      "identityBindingStatus": "unknown_source_identity",
+      "carriedTechnicalClass": null,
+      "candidateRendererLane": null,
+      "rendererSelectionState": "prohibited_unknown_source_identity",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "AOCCR41FORM31B-082224",
+      "identityBindingStatus": "unknown_source_identity",
+      "carriedTechnicalClass": null,
+      "candidateRendererLane": null,
+      "rendererSelectionState": "prohibited_unknown_source_identity",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "AOCCRSA3F-010122",
+      "identityBindingStatus": "unknown_source_identity",
+      "carriedTechnicalClass": null,
+      "candidateRendererLane": null,
+      "rendererSelectionState": "prohibited_unknown_source_identity",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "AOCCRSA4F-010122",
+      "identityBindingStatus": "unknown_source_identity",
+      "carriedTechnicalClass": null,
+      "candidateRendererLane": null,
+      "rendererSelectionState": "prohibited_unknown_source_identity",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "AOCCRSL1F-050825",
+      "identityBindingStatus": "exact_pinned_identity",
+      "carriedTechnicalClass": "clean_acroform",
+      "candidateRendererLane": "acroform_or_hybrid_fill",
+      "rendererSelectionState": "pending_captain_projection_inspection",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "AOCCRSL1F-050825-CONT",
+      "identityBindingStatus": "unknown_source_identity",
+      "carriedTechnicalClass": null,
+      "candidateRendererLane": null,
+      "rendererSelectionState": "prohibited_unknown_source_identity",
+      "activeRenderer": null
+    },
+    {
+      "componentDocumentId": "AOCCRSL2F-050825",
+      "identityBindingStatus": "exact_pinned_identity",
+      "carriedTechnicalClass": "clean_acroform",
+      "candidateRendererLane": "acroform_or_hybrid_fill",
+      "rendererSelectionState": "pending_captain_projection_inspection",
+      "activeRenderer": null
+    }
+  ],
+  "invariants": [
+    "Candidate lanes are carried metadata, not fresh source inspection or active renderer selections.",
+    "Unknown source identities have no candidate renderer lane.",
+    "No renderer reads a repository evidence path or public URL.",
+    "No renderer activates before exact projected bytes, mappings, ownership, samples, and reviews exist."
+  ]
+}

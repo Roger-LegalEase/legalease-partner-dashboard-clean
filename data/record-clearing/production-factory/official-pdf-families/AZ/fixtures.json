@@ -1,0 +1,277 @@
+{
+  "schemaVersion": "rcap-official-pdf-fixtures/v1",
+  "familyId": "rcap-az-official-pdf-family",
+  "jurisdiction": "AZ",
+  "fixtureDataPolicy": "synthetic_only_no_source_bytes_no_participant_data",
+  "fixtures": [
+    {
+      "fixtureId": "az-second-chance-application-unknown",
+      "trackId": "az_certificate_second_chance",
+      "componentId": "az_certificate_second_chance-primary-filing-1",
+      "componentDocumentId": "AOCCRSA3F-010122",
+      "identityBindingStatus": "unknown_source_identity",
+      "synthetic": true,
+      "facts": {
+        "caseReference": "AZ-SYNTHETIC-0001",
+        "applicantFacts": "Synthetic fixture only"
+      },
+      "expectedBoundaryCode": "unknown_source_identity",
+      "expectedOutcome": "Stop before source selection; the differently revised retained application is not a substitute.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "az-second-chance-order-unknown",
+      "trackId": "az_certificate_second_chance",
+      "componentId": "az_certificate_second_chance-proposed-order-2",
+      "componentDocumentId": "AOCCRSA4F-010122",
+      "identityBindingStatus": "unknown_source_identity",
+      "synthetic": true,
+      "facts": {
+        "caseReference": "AZ-SYNTHETIC-0002"
+      },
+      "expectedBoundaryCode": "unknown_source_identity",
+      "expectedOutcome": "Stop before source selection and leave every judicial field blank.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "az-marijuana-arrest-superior-petition-materialization",
+      "trackId": "az_marijuana_expungement_arrest_no_charges",
+      "componentId": "az_marijuana_expungement_arrest_no_charges-primary-filing-1",
+      "componentDocumentId": "AOC-CREM3F-071221",
+      "identityBindingStatus": "exact_pinned_identity",
+      "synthetic": true,
+      "facts": {
+        "arrestReference": "AZ-SYNTHETIC-0003",
+        "caseNumberAssigned": false
+      },
+      "expectedBoundaryCode": "source_materialization_required",
+      "expectedOutcome": "Stop until the exact superior-court petition is captain-projected and verified; leave a court-assigned case number blank.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "az-marijuana-limited-petition-materialization",
+      "trackId": "az_marijuana_expungement_limited_jurisdiction",
+      "componentId": "az_marijuana_expungement_limited_jurisdiction-primary-filing-1",
+      "componentDocumentId": "AOC-CREM2F-071221",
+      "identityBindingStatus": "exact_pinned_identity",
+      "synthetic": true,
+      "facts": {
+        "caseReference": "AZ-SYNTHETIC-0004",
+        "countCount": 1
+      },
+      "expectedBoundaryCode": "source_materialization_required",
+      "expectedOutcome": "Stop until the exact municipal/justice-court petition is captain-projected and verified.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "az-marijuana-limited-continuation-unknown",
+      "trackId": "az_marijuana_expungement_limited_jurisdiction",
+      "componentId": "az_marijuana_expungement_limited_jurisdiction-continuation-2",
+      "componentDocumentId": "AOC-CREM2F-071221-CONT",
+      "identityBindingStatus": "unknown_source_identity",
+      "synthetic": true,
+      "facts": {
+        "caseReference": "AZ-SYNTHETIC-0005",
+        "countCount": 6
+      },
+      "expectedBoundaryCode": "unknown_source_identity",
+      "expectedOutcome": "Stop because the conditional continuation identity has no adopted authority binding.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "az-marijuana-superior-petition-materialization",
+      "trackId": "az_marijuana_expungement_superior_court",
+      "componentId": "az_marijuana_expungement_superior_court-primary-filing-1",
+      "componentDocumentId": "AOC-CREM3F-071221",
+      "identityBindingStatus": "exact_pinned_identity",
+      "synthetic": true,
+      "facts": {
+        "caseReference": "AZ-SYNTHETIC-0006",
+        "countCount": 1
+      },
+      "expectedBoundaryCode": "source_materialization_required",
+      "expectedOutcome": "Stop until the shared exact superior-court petition source is captain-projected and verified.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "az-sealing-arrest-petition-materialization",
+      "trackId": "az_record_sealing_arrest_no_charges",
+      "componentId": "az_record_sealing_arrest_no_charges-primary-filing-1",
+      "componentDocumentId": "AOCCRSL1F-050825",
+      "identityBindingStatus": "exact_pinned_identity",
+      "synthetic": true,
+      "facts": {
+        "arrestReference": "AZ-SYNTHETIC-0007"
+      },
+      "expectedBoundaryCode": "source_materialization_required",
+      "expectedOutcome": "Stop until the shared exact sealing petition is captain-projected and verified.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "az-sealing-arrest-order-materialization",
+      "trackId": "az_record_sealing_arrest_no_charges",
+      "componentId": "az_record_sealing_arrest_no_charges-proposed-order-2",
+      "componentDocumentId": "AOCCRSL2F-050825",
+      "identityBindingStatus": "exact_pinned_identity",
+      "synthetic": true,
+      "facts": {
+        "arrestReference": "AZ-SYNTHETIC-0008",
+        "courtRequiresLodgedOrder": true
+      },
+      "expectedBoundaryCode": "source_materialization_required",
+      "expectedOutcome": "Stop until the exact order is captain-projected and verified; leave findings and judicial fields blank.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "az-sealing-conviction-petition-materialization",
+      "trackId": "az_record_sealing_conviction",
+      "componentId": "az_record_sealing_conviction-primary-filing-1",
+      "componentDocumentId": "AOCCRSL1F-050825",
+      "identityBindingStatus": "exact_pinned_identity",
+      "synthetic": true,
+      "facts": {
+        "caseReference": "AZ-SYNTHETIC-0009",
+        "countCount": 1
+      },
+      "expectedBoundaryCode": "source_materialization_required",
+      "expectedOutcome": "Stop until the shared exact sealing petition is captain-projected and verified.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "az-sealing-conviction-order-materialization",
+      "trackId": "az_record_sealing_conviction",
+      "componentId": "az_record_sealing_conviction-proposed-order-2",
+      "componentDocumentId": "AOCCRSL2F-050825",
+      "identityBindingStatus": "exact_pinned_identity",
+      "synthetic": true,
+      "facts": {
+        "caseReference": "AZ-SYNTHETIC-0010",
+        "courtRequiresLodgedOrder": true
+      },
+      "expectedBoundaryCode": "source_materialization_required",
+      "expectedOutcome": "Stop until the exact order is captain-projected and verified; never preselect judicial findings.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "az-sealing-conviction-continuation-unknown",
+      "trackId": "az_record_sealing_conviction",
+      "componentId": "az_record_sealing_conviction-continuation-3",
+      "componentDocumentId": "AOCCRSL1F-050825-CONT",
+      "identityBindingStatus": "unknown_source_identity",
+      "synthetic": true,
+      "facts": {
+        "caseReference": "AZ-SYNTHETIC-0011",
+        "countCount": 7
+      },
+      "expectedBoundaryCode": "unknown_source_identity",
+      "expectedOutcome": "Stop because the conditional additional-count continuation has no adopted authority binding.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "az-sealing-dismissal-petition-materialization",
+      "trackId": "az_record_sealing_dismissal_not_guilty",
+      "componentId": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
+      "componentDocumentId": "AOCCRSL1F-050825",
+      "identityBindingStatus": "exact_pinned_identity",
+      "synthetic": true,
+      "facts": {
+        "caseReference": "AZ-SYNTHETIC-0012",
+        "disposition": "dismissed"
+      },
+      "expectedBoundaryCode": "source_materialization_required",
+      "expectedOutcome": "Stop until the shared exact sealing petition is captain-projected and verified.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "az-sealing-dismissal-order-materialization",
+      "trackId": "az_record_sealing_dismissal_not_guilty",
+      "componentId": "az_record_sealing_dismissal_not_guilty-proposed-order-2",
+      "componentDocumentId": "AOCCRSL2F-050825",
+      "identityBindingStatus": "exact_pinned_identity",
+      "synthetic": true,
+      "facts": {
+        "caseReference": "AZ-SYNTHETIC-0013",
+        "courtRequiresLodgedOrder": true
+      },
+      "expectedBoundaryCode": "source_materialization_required",
+      "expectedOutcome": "Stop until the exact order is captain-projected and verified; leave judicial fields blank.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "az-set-aside-application-unknown",
+      "trackId": "az_set_aside",
+      "componentId": "az_set_aside-primary-filing-1",
+      "componentDocumentId": "AOCCR41FORM31A-082224",
+      "identityBindingStatus": "unknown_source_identity",
+      "synthetic": true,
+      "facts": {
+        "caseReference": "AZ-SYNTHETIC-0014",
+        "countCount": 1
+      },
+      "expectedBoundaryCode": "unknown_source_identity",
+      "expectedOutcome": "Stop because an administrative order is not the clean participant application identity.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "az-set-aside-order-unknown",
+      "trackId": "az_set_aside",
+      "componentId": "az_set_aside-proposed-order-2",
+      "componentDocumentId": "AOCCR41FORM31B-082224",
+      "identityBindingStatus": "unknown_source_identity",
+      "synthetic": true,
+      "facts": {
+        "caseReference": "AZ-SYNTHETIC-0015"
+      },
+      "expectedBoundaryCode": "unknown_source_identity",
+      "expectedOutcome": "Stop because an administrative order is not the clean proposed-order identity; leave judicial fields blank.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    },
+    {
+      "fixtureId": "az-set-aside-continuation-unknown",
+      "trackId": "az_set_aside",
+      "componentId": "az_set_aside-continuation-3",
+      "componentDocumentId": "AOCCR41FORM31A-082224-CONT",
+      "identityBindingStatus": "unknown_source_identity",
+      "synthetic": true,
+      "facts": {
+        "caseReference": "AZ-SYNTHETIC-0016",
+        "countCount": 6
+      },
+      "expectedBoundaryCode": "unknown_source_identity",
+      "expectedOutcome": "Stop because no clean continuation identity is adopted.",
+      "generationAttempted": false,
+      "manualSignaturesBlank": true,
+      "thirdPartyFieldsBlank": true
+    }
+  ]
+}

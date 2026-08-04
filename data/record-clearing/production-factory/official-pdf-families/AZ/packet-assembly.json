@@ -1,0 +1,604 @@
+{
+  "schemaVersion": "rcap-official-pdf-packet-assembly/v1",
+  "familyId": "rcap-az-official-pdf-family",
+  "jurisdiction": "AZ",
+  "runtimeRegistered": false,
+  "routeReadyCount": 0,
+  "deduplication": {
+    "scope": "family_physical_source_catalog",
+    "keyRule": "Use the adopted workflow key for an exact identity and an explicitly unresolved component-document slot for an unknown identity. Never deduplicate by filename or fuzzy title.",
+    "componentUsageCount": 16,
+    "uniquePhysicalSourceSlotCount": 11,
+    "deduplicatedUsageBindingCount": 5,
+    "uniqueExactSourceCount": 4,
+    "uniqueUnresolvedSourceSlotCount": 7,
+    "exactSourceProjectionRule": "An exact source is projected and verified once per immutable identity while all track/component provenance bindings remain explicit.",
+    "packetInstanceRule": "Within one track packet, each physical document identity appears at most once and carries all logical component bindings for that packet."
+  },
+  "determinism": {
+    "trackOrder": "family manifest trackIds order",
+    "componentOrder": "adopted packet-set component order ascending",
+    "physicalDocumentOrder": "minimum logical component order",
+    "conditionalRule": "include only when the adopted component requirement and conditionDescription evaluate true",
+    "duplicateRule": "merge logical component IDs into one physical instance only when the source identity key is exactly equal"
+  },
+  "physicalSourceCatalog": [
+    {
+      "componentDocumentId": "AOC-CREM2F-071221",
+      "sourceIdentityKey": "AZ:AOCCREM2F-071221:PETITION:EN",
+      "identityBindingStatus": "exact_pinned_identity",
+      "usageBindings": [
+        {
+          "trackId": "az_marijuana_expungement_limited_jurisdiction",
+          "componentId": "az_marijuana_expungement_limited_jurisdiction-primary-filing-1",
+          "role": "primary_filing"
+        }
+      ],
+      "runtimeSelectable": false
+    },
+    {
+      "componentDocumentId": "AOC-CREM2F-071221-CONT",
+      "sourceIdentityKey": "unresolved:AOC-CREM2F-071221-CONT",
+      "identityBindingStatus": "unknown_source_identity",
+      "usageBindings": [
+        {
+          "trackId": "az_marijuana_expungement_limited_jurisdiction",
+          "componentId": "az_marijuana_expungement_limited_jurisdiction-continuation-2",
+          "role": "continuation"
+        }
+      ],
+      "runtimeSelectable": false
+    },
+    {
+      "componentDocumentId": "AOC-CREM3F-071221",
+      "sourceIdentityKey": "AZ:AOCCREM3F-071221:PETITION:EN",
+      "identityBindingStatus": "exact_pinned_identity",
+      "usageBindings": [
+        {
+          "trackId": "az_marijuana_expungement_superior_court",
+          "componentId": "az_marijuana_expungement_superior_court-primary-filing-1",
+          "role": "primary_filing"
+        },
+        {
+          "trackId": "az_marijuana_expungement_arrest_no_charges",
+          "componentId": "az_marijuana_expungement_arrest_no_charges-primary-filing-1",
+          "role": "primary_filing"
+        }
+      ],
+      "runtimeSelectable": false
+    },
+    {
+      "componentDocumentId": "AOCCR41FORM31A-082224",
+      "sourceIdentityKey": "unresolved:AOCCR41FORM31A-082224",
+      "identityBindingStatus": "unknown_source_identity",
+      "usageBindings": [
+        {
+          "trackId": "az_set_aside",
+          "componentId": "az_set_aside-primary-filing-1",
+          "role": "primary_filing"
+        }
+      ],
+      "runtimeSelectable": false
+    },
+    {
+      "componentDocumentId": "AOCCR41FORM31A-082224-CONT",
+      "sourceIdentityKey": "unresolved:AOCCR41FORM31A-082224-CONT",
+      "identityBindingStatus": "unknown_source_identity",
+      "usageBindings": [
+        {
+          "trackId": "az_set_aside",
+          "componentId": "az_set_aside-continuation-3",
+          "role": "continuation"
+        }
+      ],
+      "runtimeSelectable": false
+    },
+    {
+      "componentDocumentId": "AOCCR41FORM31B-082224",
+      "sourceIdentityKey": "unresolved:AOCCR41FORM31B-082224",
+      "identityBindingStatus": "unknown_source_identity",
+      "usageBindings": [
+        {
+          "trackId": "az_set_aside",
+          "componentId": "az_set_aside-proposed-order-2",
+          "role": "proposed_order"
+        }
+      ],
+      "runtimeSelectable": false
+    },
+    {
+      "componentDocumentId": "AOCCRSA3F-010122",
+      "sourceIdentityKey": "unresolved:AOCCRSA3F-010122",
+      "identityBindingStatus": "unknown_source_identity",
+      "usageBindings": [
+        {
+          "trackId": "az_certificate_second_chance",
+          "componentId": "az_certificate_second_chance-primary-filing-1",
+          "role": "primary_filing"
+        }
+      ],
+      "runtimeSelectable": false
+    },
+    {
+      "componentDocumentId": "AOCCRSA4F-010122",
+      "sourceIdentityKey": "unresolved:AOCCRSA4F-010122",
+      "identityBindingStatus": "unknown_source_identity",
+      "usageBindings": [
+        {
+          "trackId": "az_certificate_second_chance",
+          "componentId": "az_certificate_second_chance-proposed-order-2",
+          "role": "proposed_order"
+        }
+      ],
+      "runtimeSelectable": false
+    },
+    {
+      "componentDocumentId": "AOCCRSL1F-050825",
+      "sourceIdentityKey": "AZ:AOCCRSL1F-050825:PETITION:EN",
+      "identityBindingStatus": "exact_pinned_identity",
+      "usageBindings": [
+        {
+          "trackId": "az_record_sealing_conviction",
+          "componentId": "az_record_sealing_conviction-primary-filing-1",
+          "role": "primary_filing"
+        },
+        {
+          "trackId": "az_record_sealing_dismissal_not_guilty",
+          "componentId": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
+          "role": "primary_filing"
+        },
+        {
+          "trackId": "az_record_sealing_arrest_no_charges",
+          "componentId": "az_record_sealing_arrest_no_charges-primary-filing-1",
+          "role": "primary_filing"
+        }
+      ],
+      "runtimeSelectable": false
+    },
+    {
+      "componentDocumentId": "AOCCRSL1F-050825-CONT",
+      "sourceIdentityKey": "unresolved:AOCCRSL1F-050825-CONT",
+      "identityBindingStatus": "unknown_source_identity",
+      "usageBindings": [
+        {
+          "trackId": "az_record_sealing_conviction",
+          "componentId": "az_record_sealing_conviction-continuation-3",
+          "role": "continuation"
+        }
+      ],
+      "runtimeSelectable": false
+    },
+    {
+      "componentDocumentId": "AOCCRSL2F-050825",
+      "sourceIdentityKey": "AZ:AOCCRSL2F-050825:ORDER:EN",
+      "identityBindingStatus": "exact_pinned_identity",
+      "usageBindings": [
+        {
+          "trackId": "az_record_sealing_conviction",
+          "componentId": "az_record_sealing_conviction-proposed-order-2",
+          "role": "proposed_order"
+        },
+        {
+          "trackId": "az_record_sealing_dismissal_not_guilty",
+          "componentId": "az_record_sealing_dismissal_not_guilty-proposed-order-2",
+          "role": "proposed_order"
+        },
+        {
+          "trackId": "az_record_sealing_arrest_no_charges",
+          "componentId": "az_record_sealing_arrest_no_charges-proposed-order-2",
+          "role": "proposed_order"
+        }
+      ],
+      "runtimeSelectable": false
+    }
+  ],
+  "assemblies": [
+    {
+      "trackId": "az_certificate_second_chance",
+      "packetSetId": "az_certificate_second_chance-set",
+      "packetSetVersion": "1.0.0",
+      "logicalComponents": [
+        {
+          "componentId": "az_certificate_second_chance-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOCCRSA3F-010122",
+          "order": 1
+        },
+        {
+          "componentId": "az_certificate_second_chance-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOCCRSA4F-010122",
+          "order": 2
+        }
+      ],
+      "physicalDocumentInstances": [
+        {
+          "instanceId": "az-certificate-second-chance-application",
+          "componentDocumentId": "AOCCRSA3F-010122",
+          "sourceIdentityKey": "unresolved:AOCCRSA3F-010122",
+          "logicalComponentIds": [
+            "az_certificate_second_chance-primary-filing-1"
+          ],
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_unknown_source_identity"
+        },
+        {
+          "instanceId": "az-certificate-second-chance-order",
+          "componentDocumentId": "AOCCRSA4F-010122",
+          "sourceIdentityKey": "unresolved:AOCCRSA4F-010122",
+          "logicalComponentIds": [
+            "az_certificate_second_chance-proposed-order-2"
+          ],
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_unknown_source_identity"
+        }
+      ],
+      "assemblyState": "blocked"
+    },
+    {
+      "trackId": "az_marijuana_expungement_arrest_no_charges",
+      "packetSetId": "az_marijuana_expungement_arrest_no_charges-set",
+      "packetSetVersion": "1.0.0",
+      "logicalComponents": [
+        {
+          "componentId": "az_marijuana_expungement_arrest_no_charges-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-CREM3F-071221",
+          "order": 1
+        }
+      ],
+      "physicalDocumentInstances": [
+        {
+          "instanceId": "az-marijuana-arrest-superior-petition",
+          "componentDocumentId": "AOC-CREM3F-071221",
+          "sourceIdentityKey": "AZ:AOCCREM3F-071221:PETITION:EN",
+          "logicalComponentIds": [
+            "az_marijuana_expungement_arrest_no_charges-primary-filing-1"
+          ],
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_source_materialization"
+        }
+      ],
+      "assemblyState": "blocked"
+    },
+    {
+      "trackId": "az_marijuana_expungement_limited_jurisdiction",
+      "packetSetId": "az_marijuana_expungement_limited_jurisdiction-set",
+      "packetSetVersion": "1.0.0",
+      "logicalComponents": [
+        {
+          "componentId": "az_marijuana_expungement_limited_jurisdiction-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-CREM2F-071221",
+          "order": 1
+        },
+        {
+          "componentId": "az_marijuana_expungement_limited_jurisdiction-continuation-2",
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "Where the petitioner has more counts than the form allows.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-CREM2F-071221-CONT",
+          "order": 2
+        }
+      ],
+      "physicalDocumentInstances": [
+        {
+          "instanceId": "az-marijuana-limited-petition",
+          "componentDocumentId": "AOC-CREM2F-071221",
+          "sourceIdentityKey": "AZ:AOCCREM2F-071221:PETITION:EN",
+          "logicalComponentIds": [
+            "az_marijuana_expungement_limited_jurisdiction-primary-filing-1"
+          ],
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_source_materialization"
+        },
+        {
+          "instanceId": "az-marijuana-limited-continuation",
+          "componentDocumentId": "AOC-CREM2F-071221-CONT",
+          "sourceIdentityKey": "unresolved:AOC-CREM2F-071221-CONT",
+          "logicalComponentIds": [
+            "az_marijuana_expungement_limited_jurisdiction-continuation-2"
+          ],
+          "physicalCopyCount": 1,
+          "includeWhen": "Where the petitioner has more counts than the form allows.",
+          "renderState": "blocked_unknown_source_identity"
+        }
+      ],
+      "assemblyState": "blocked"
+    },
+    {
+      "trackId": "az_marijuana_expungement_superior_court",
+      "packetSetId": "az_marijuana_expungement_superior_court-set",
+      "packetSetVersion": "1.0.0",
+      "logicalComponents": [
+        {
+          "componentId": "az_marijuana_expungement_superior_court-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-CREM3F-071221",
+          "order": 1
+        }
+      ],
+      "physicalDocumentInstances": [
+        {
+          "instanceId": "az-marijuana-superior-petition",
+          "componentDocumentId": "AOC-CREM3F-071221",
+          "sourceIdentityKey": "AZ:AOCCREM3F-071221:PETITION:EN",
+          "logicalComponentIds": [
+            "az_marijuana_expungement_superior_court-primary-filing-1"
+          ],
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_source_materialization"
+        }
+      ],
+      "assemblyState": "blocked"
+    },
+    {
+      "trackId": "az_record_sealing_arrest_no_charges",
+      "packetSetId": "az_record_sealing_arrest_no_charges-set",
+      "packetSetVersion": "1.0.0",
+      "logicalComponents": [
+        {
+          "componentId": "az_record_sealing_arrest_no_charges-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOCCRSL1F-050825",
+          "order": 1
+        },
+        {
+          "componentId": "az_record_sealing_arrest_no_charges-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Some courts expect the petitioner to lodge it. Verify per court.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOCCRSL2F-050825",
+          "order": 2
+        }
+      ],
+      "physicalDocumentInstances": [
+        {
+          "instanceId": "az-sealing-arrest-petition",
+          "componentDocumentId": "AOCCRSL1F-050825",
+          "sourceIdentityKey": "AZ:AOCCRSL1F-050825:PETITION:EN",
+          "logicalComponentIds": [
+            "az_record_sealing_arrest_no_charges-primary-filing-1"
+          ],
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_source_materialization"
+        },
+        {
+          "instanceId": "az-sealing-arrest-order",
+          "componentDocumentId": "AOCCRSL2F-050825",
+          "sourceIdentityKey": "AZ:AOCCRSL2F-050825:ORDER:EN",
+          "logicalComponentIds": [
+            "az_record_sealing_arrest_no_charges-proposed-order-2"
+          ],
+          "physicalCopyCount": 1,
+          "includeWhen": "Some courts expect the petitioner to lodge it. Verify per court.",
+          "renderState": "blocked_source_materialization"
+        }
+      ],
+      "assemblyState": "blocked"
+    },
+    {
+      "trackId": "az_record_sealing_conviction",
+      "packetSetId": "az_record_sealing_conviction-set",
+      "packetSetVersion": "1.0.0",
+      "logicalComponents": [
+        {
+          "componentId": "az_record_sealing_conviction-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOCCRSL1F-050825",
+          "order": 1
+        },
+        {
+          "componentId": "az_record_sealing_conviction-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "The form is court-facing and contains the judge's findings. Some courts expect the petitioner to lodge it. Verify per court.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOCCRSL2F-050825",
+          "order": 2
+        },
+        {
+          "componentId": "az_record_sealing_conviction-continuation-3",
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "For additional counts.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOCCRSL1F-050825-CONT",
+          "order": 3
+        }
+      ],
+      "physicalDocumentInstances": [
+        {
+          "instanceId": "az-sealing-conviction-petition",
+          "componentDocumentId": "AOCCRSL1F-050825",
+          "sourceIdentityKey": "AZ:AOCCRSL1F-050825:PETITION:EN",
+          "logicalComponentIds": [
+            "az_record_sealing_conviction-primary-filing-1"
+          ],
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_source_materialization"
+        },
+        {
+          "instanceId": "az-sealing-conviction-order",
+          "componentDocumentId": "AOCCRSL2F-050825",
+          "sourceIdentityKey": "AZ:AOCCRSL2F-050825:ORDER:EN",
+          "logicalComponentIds": [
+            "az_record_sealing_conviction-proposed-order-2"
+          ],
+          "physicalCopyCount": 1,
+          "includeWhen": "The form is court-facing and contains the judge's findings. Some courts expect the petitioner to lodge it. Verify per court.",
+          "renderState": "blocked_source_materialization"
+        },
+        {
+          "instanceId": "az-sealing-conviction-continuation",
+          "componentDocumentId": "AOCCRSL1F-050825-CONT",
+          "sourceIdentityKey": "unresolved:AOCCRSL1F-050825-CONT",
+          "logicalComponentIds": [
+            "az_record_sealing_conviction-continuation-3"
+          ],
+          "physicalCopyCount": 1,
+          "includeWhen": "For additional counts.",
+          "renderState": "blocked_unknown_source_identity"
+        }
+      ],
+      "assemblyState": "blocked"
+    },
+    {
+      "trackId": "az_record_sealing_dismissal_not_guilty",
+      "packetSetId": "az_record_sealing_dismissal_not_guilty-set",
+      "packetSetVersion": "1.0.0",
+      "logicalComponents": [
+        {
+          "componentId": "az_record_sealing_dismissal_not_guilty-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOCCRSL1F-050825",
+          "order": 1
+        },
+        {
+          "componentId": "az_record_sealing_dismissal_not_guilty-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Some courts expect the petitioner to lodge it. Verify per court.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOCCRSL2F-050825",
+          "order": 2
+        }
+      ],
+      "physicalDocumentInstances": [
+        {
+          "instanceId": "az-sealing-dismissal-petition",
+          "componentDocumentId": "AOCCRSL1F-050825",
+          "sourceIdentityKey": "AZ:AOCCRSL1F-050825:PETITION:EN",
+          "logicalComponentIds": [
+            "az_record_sealing_dismissal_not_guilty-primary-filing-1"
+          ],
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_source_materialization"
+        },
+        {
+          "instanceId": "az-sealing-dismissal-order",
+          "componentDocumentId": "AOCCRSL2F-050825",
+          "sourceIdentityKey": "AZ:AOCCRSL2F-050825:ORDER:EN",
+          "logicalComponentIds": [
+            "az_record_sealing_dismissal_not_guilty-proposed-order-2"
+          ],
+          "physicalCopyCount": 1,
+          "includeWhen": "Some courts expect the petitioner to lodge it. Verify per court.",
+          "renderState": "blocked_source_materialization"
+        }
+      ],
+      "assemblyState": "blocked"
+    },
+    {
+      "trackId": "az_set_aside",
+      "packetSetId": "az_set_aside-set",
+      "packetSetVersion": "1.0.0",
+      "logicalComponents": [
+        {
+          "componentId": "az_set_aside-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOCCR41FORM31A-082224",
+          "order": 1
+        },
+        {
+          "componentId": "az_set_aside-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOCCR41FORM31B-082224",
+          "order": 2
+        },
+        {
+          "componentId": "az_set_aside-continuation-3",
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "More than four counts.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOCCR41FORM31A-082224-CONT",
+          "order": 3
+        }
+      ],
+      "physicalDocumentInstances": [
+        {
+          "instanceId": "az-set-aside-application",
+          "componentDocumentId": "AOCCR41FORM31A-082224",
+          "sourceIdentityKey": "unresolved:AOCCR41FORM31A-082224",
+          "logicalComponentIds": [
+            "az_set_aside-primary-filing-1"
+          ],
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_unknown_source_identity"
+        },
+        {
+          "instanceId": "az-set-aside-order",
+          "componentDocumentId": "AOCCR41FORM31B-082224",
+          "sourceIdentityKey": "unresolved:AOCCR41FORM31B-082224",
+          "logicalComponentIds": [
+            "az_set_aside-proposed-order-2"
+          ],
+          "physicalCopyCount": 1,
+          "includeWhen": "always",
+          "renderState": "blocked_unknown_source_identity"
+        },
+        {
+          "instanceId": "az-set-aside-continuation",
+          "componentDocumentId": "AOCCR41FORM31A-082224-CONT",
+          "sourceIdentityKey": "unresolved:AOCCR41FORM31A-082224-CONT",
+          "logicalComponentIds": [
+            "az_set_aside-continuation-3"
+          ],
+          "physicalCopyCount": 1,
+          "includeWhen": "More than four counts.",
+          "renderState": "blocked_unknown_source_identity"
+        }
+      ],
+      "assemblyState": "blocked"
+    }
+  ],
+  "invariants": [
+    "All sixteen adopted official_pdf_fill component usages are represented exactly once in their track assembly.",
+    "The family catalog contains eleven unique source-identity slots, preserving five deduplicated repeated usages.",
+    "AOC-CREM3F-071221, AOCCRSL1F-050825, and AOCCRSL2F-050825 remain single exact catalog identities across their respective multiple tracks.",
+    "No unresolved identity is merged with a retained near-name asset or reference document.",
+    "No physical instance is renderable while its identity, projection, mapping, ownership, and review gates remain closed."
+  ]
+}
