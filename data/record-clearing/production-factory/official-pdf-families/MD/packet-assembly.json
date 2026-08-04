@@ -1,0 +1,188 @@
+{
+  "schemaVersion": "rcap-official-pdf-packet-assembly/v1",
+  "familyId": "md-district-court-expungement-form-family",
+  "jurisdiction": "MD",
+  "assemblyPolicy": {
+    "participantDeliverableWhenReady": "one_pdf",
+    "zipAllowed": false,
+    "deterministic": true,
+    "deterministicTimestamp": "2000-01-01T00:00:00.000Z",
+    "producer": "LegalEase",
+    "preserveOfficialFixedLanguage": true,
+    "preserveFillableFields": true,
+    "sourceLookupMode": "exact_requirement_only",
+    "downloadOrSourceFallbackAllowed": false,
+    "generatedSampleSourceFallbackAllowed": false,
+    "signatureImagesGenerated": false,
+    "currentGenerationAllowed": false,
+    "runtimeIntegrationAllowed": false
+  },
+  "packets": [
+    {
+      "trackId": "md_10105_favorable",
+      "outputFileName": "LegalEase_Maryland_Expungement-Favorable_<synthetic-case-id>.pdf",
+      "generationState": "blocked",
+      "blockingReasonCodes": [
+        "authority_source_gated",
+        "source_materialization_required",
+        "field_mapping_pending"
+      ],
+      "documents": [
+        {
+          "documentId": "CC-DC-CR-072A",
+          "componentId": "md_10105_favorable-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "order": 1,
+          "rendererStrategy": "unresolved_pending_verified_inspection"
+        }
+      ]
+    },
+    {
+      "trackId": "md_10105_early",
+      "outputFileName": "LegalEase_Maryland_Early-Expungement-Waiver_<synthetic-case-id>.pdf",
+      "generationState": "blocked",
+      "blockingReasonCodes": [
+        "authority_source_gated",
+        "source_materialization_required",
+        "conditional_component_rule_unresolved",
+        "field_mapping_pending"
+      ],
+      "documents": [
+        {
+          "documentId": "CC-DC-CR-072C",
+          "componentId": "md_10105_early-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "order": 1,
+          "rendererStrategy": "unresolved_pending_verified_inspection"
+        },
+        {
+          "documentId": "CC-DC-CR-078",
+          "componentId": "md_10105_early-attachment-2",
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionKey": null,
+          "conditionDescription": "Where the alternative route is used: CC-DC-CR-072A plus a standalone waiver.",
+          "conditionResolutionStatus": "unresolved_in_normalized_packet_set",
+          "order": 2,
+          "rendererStrategy": "unresolved_pending_verified_inspection",
+          "standaloneAllowed": false
+        }
+      ]
+    },
+    {
+      "trackId": "md_10110_conviction",
+      "outputFileName": "LegalEase_Maryland_Conviction-Expungement_<synthetic-case-id>.pdf",
+      "generationState": "blocked",
+      "blockingReasonCodes": [
+        "authority_source_gated",
+        "source_materialization_required",
+        "field_mapping_pending"
+      ],
+      "documents": [
+        {
+          "documentId": "CC-DC-CR-072B",
+          "componentId": "md_10110_conviction-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "order": 1,
+          "rendererStrategy": "unresolved_pending_verified_inspection"
+        },
+        {
+          "documentId": "CC-DC-089",
+          "componentId": "md_10110_conviction-fee-waiver-2",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionKey": "requestsFeeWaiver",
+          "conditionValue": "yes",
+          "order": 2,
+          "rendererStrategy": "unresolved_pending_verified_inspection",
+          "standaloneAllowed": false
+        }
+      ]
+    },
+    {
+      "trackId": "md_cannabis_petition",
+      "outputFileName": "LegalEase_Maryland_Cannabis-Expungement_<synthetic-case-id>.pdf",
+      "generationState": "blocked",
+      "blockingReasonCodes": [
+        "authority_source_gated",
+        "source_materialization_required",
+        "filing_fee_release_blocker",
+        "field_mapping_pending"
+      ],
+      "documents": [
+        {
+          "documentId": "CC-DC-CR-072D",
+          "componentId": "md_cannabis_petition-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "order": 1,
+          "rendererStrategy": "unresolved_pending_verified_inspection"
+        },
+        {
+          "documentId": "CC-DC-089",
+          "componentId": "md_cannabis_petition-fee-waiver-2",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionKey": "requestsFeeWaiver",
+          "conditionValue": "yes",
+          "order": 2,
+          "rendererStrategy": "unresolved_pending_verified_inspection",
+          "standaloneAllowed": false
+        }
+      ]
+    },
+    {
+      "trackId": "md_pardon_expungement",
+      "outputFileName": "LegalEase_Maryland_Pardon-Expungement_<synthetic-case-id>.pdf",
+      "generationState": "blocked",
+      "blockingReasonCodes": [
+        "authority_source_gated",
+        "source_materialization_required",
+        "pardon_eligibility_release_blocker",
+        "field_mapping_pending"
+      ],
+      "documents": [
+        {
+          "documentId": "CC-DC-CR-072B",
+          "componentId": "md_pardon_expungement-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "order": 1,
+          "rendererStrategy": "unresolved_pending_verified_inspection"
+        },
+        {
+          "documentId": "CC-DC-089",
+          "componentId": "md_pardon_expungement-fee-waiver-2",
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionKey": "requestsFeeWaiver",
+          "conditionValue": "yes",
+          "order": 2,
+          "rendererStrategy": "unresolved_pending_verified_inspection",
+          "standaloneAllowed": false
+        }
+      ]
+    }
+  ],
+  "excludedDocuments": [
+    {
+      "documentId": "CC-DC-CR-148",
+      "reason": "Preserved in the existing Maryland shielding tranche."
+    },
+    {
+      "documentId": "MDJ-008",
+      "reason": "Preserved in the existing Maryland shielding tranche."
+    },
+    {
+      "documentId": "DC-CR-071",
+      "reason": "The adopted route is process_guidance on a closed window, not official_pdf_fill."
+    },
+    {
+      "documentId": "CC-DC-CR-072G2",
+      "reason": "Eligibility reference only; not a normalized participant packet component."
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "rcap-official-pdf-family/v1",
+  "familyId": "md-district-court-expungement-form-family",
+  "jurisdiction": "MD",
+  "authorityFamily": "Maryland Judiciary, District Court",
+  "implementationJobId": "IMP-OF-01-md-district-court-form-family",
+  "existingCompletedImplementation": {
+    "trackId": "md_second_chance_shielding",
+    "trancheId": "tranche-2-maryland-official-forms",
+    "documents": [
+      "CC-DC-CR-148",
+      "MDJ-008"
+    ],
+    "treatment": "preserved_external_implementation",
+    "registryPath": "src/lib/rcap/packets/registry-maryland.ts",
+    "verifierPath": "scripts/verify-rcap-tranche-2-packets.mjs"
+  },
+  "outputStrategies": [
+    "official_pdf_fill"
+  ],
+  "legalDesignSource": "data/record-clearing/legal-design-track-registry.json",
+  "sourceMaterialization": {
+    "dependencyJobId": "rcap-nationwide-source-materialization-contract",
+    "requirementManifest": "data/record-clearing/production-factory/official-pdf-families/MD/source-requirements.json",
+    "allSourcesRequiredForCompleteFamily": true,
+    "state": "binary_materialization_required",
+    "workerReady": false,
+    "registryPresenceConfersReadiness": false,
+    "workerMayAcquireSources": false,
+    "generatedSampleMaySubstituteForSource": false
+  },
+  "tracks": [
+    {
+      "trackId": "md_10105_favorable",
+      "sourceDocumentIds": [
+        "CC-DC-CR-072A"
+      ]
+    },
+    {
+      "trackId": "md_10105_early",
+      "sourceDocumentIds": [
+        "CC-DC-CR-072C",
+        "CC-DC-CR-078"
+      ]
+    },
+    {
+      "trackId": "md_10110_conviction",
+      "sourceDocumentIds": [
+        "CC-DC-CR-072B",
+        "CC-DC-089"
+      ]
+    },
+    {
+      "trackId": "md_cannabis_petition",
+      "sourceDocumentIds": [
+        "CC-DC-CR-072D",
+        "CC-DC-089"
+      ]
+    },
+    {
+      "trackId": "md_pardon_expungement",
+      "sourceDocumentIds": [
+        "CC-DC-CR-072B",
+        "CC-DC-089"
+      ]
+    }
+  ],
+  "documents": [
+    "CC-DC-CR-072A",
+    "CC-DC-CR-072B",
+    "CC-DC-CR-072C",
+    "CC-DC-CR-072D",
+    "CC-DC-CR-078",
+    "CC-DC-089"
+  ],
+  "authorityPosture": {
+    "sourceGatedPrimaryDocuments": [
+      "CC-DC-CR-072A",
+      "CC-DC-CR-072B",
+      "CC-DC-CR-072C",
+      "CC-DC-CR-072D"
+    ],
+    "packetCandidateCompanionDocuments": [
+      "CC-DC-CR-078",
+      "CC-DC-089"
+    ],
+    "routeReadyCount": 0,
+    "reason": "Every remaining normalized Maryland official-form route requires a CC-DC-CR-072 primary filing retained as source_gated by Master Library Edition 1.2. The two packet-form companions cannot form a relief packet by themselves."
+  },
+  "artifacts": {
+    "dependencies": "data/record-clearing/production-factory/official-pdf-families/MD/dependencies.json",
+    "fieldMapScaffold": "data/record-clearing/production-factory/official-pdf-families/MD/field-map-scaffold.json",
+    "fieldOwnershipSchema": "data/record-clearing/production-factory/official-pdf-families/MD/field-ownership.schema.json",
+    "fieldOwnershipMap": "data/record-clearing/production-factory/official-pdf-families/MD/field-ownership.json",
+    "fixtureSchema": "data/record-clearing/production-factory/official-pdf-families/MD/fixtures.schema.json",
+    "fixtures": "data/record-clearing/production-factory/official-pdf-families/MD/fixtures.json",
+    "packetAssembly": "data/record-clearing/production-factory/official-pdf-families/MD/packet-assembly.json",
+    "reviewManifest": "data/record-clearing/production-factory/official-pdf-families/MD/review-manifest.json"
+  },
+  "implementationModule": "src/lib/rcap/packets/jurisdictions/maryland/official-pdf/family.ts",
+  "dedicatedVerifier": "scripts/verify-rcap-maryland-official-pdf-families.mjs",
+  "status": {
+    "sourceRequirements": "exact_pinned_identity",
+    "localSourceVerification": "pending_materialization",
+    "authorityReview": "mixed_source_gated_and_packet_candidates",
+    "pdfStructureInspection": "pending_materialization",
+    "fieldMapping": "scaffolded_pending_materialization",
+    "packetRendering": "blocked_authority_and_materialization",
+    "visualReview": "pending_materialization",
+    "counselReview": "not_submitted",
+    "packetReady": false,
+    "generationAllowed": false,
+    "enabled": false
+  },
+  "invariants": [
+    "The completed CC-DC-CR-148 and MDJ-008 shielding implementation remains unchanged.",
+    "Maryland legal design, source authority, live routing, authentication, billing, and promotion state remain unchanged.",
+    "No source-gated CC-DC-CR-072 asset is represented as a packet candidate or renderer-selectable source.",
+    "CC-DC-CR-078 and CC-DC-089 are conditional companions and never become standalone relief packets.",
+    "Participant signatures and dates, and judge, clerk, prosecutor, agency, attorney, notary, witness, and process-server fields remain usable and blank.",
+    "No source is downloaded, reconstructed, modified, or replaced by generated sample output.",
+    "No active AcroForm mapping or overlay placement exists until exact local bytes pass hash, byte-count, MIME, encryption, and XFA verification."
+  ]
+}
