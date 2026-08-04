@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rcap-fl-official-pdf-field-ownership/v1",
+  "title": "Florida official PDF field ownership map",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "ownerClasses",
+    "policy",
+    "forms"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "rcap-official-pdf-field-ownership/v1"
+    },
+    "familyId": {
+      "const": "rcap-fl-official-pdf-family"
+    },
+    "jurisdiction": {
+      "const": "FL"
+    },
+    "ownerClasses": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "policy": {
+      "type": "object"
+    },
+    "forms": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "officialFormId",
+          "sourceAuthorityState",
+          "status",
+          "expectedFieldCount",
+          "measurementBasis",
+          "coverageComplete",
+          "knownManualCompletionItems",
+          "fields"
+        ],
+        "properties": {
+          "officialFormId": {
+            "type": "string"
+          },
+          "sourceAuthorityState": {
+            "const": "authority_unmanifested_source"
+          },
+          "status": {
+            "const": "blocked_authority_unmanifested"
+          },
+          "expectedFieldCount": {
+            "type": "null"
+          },
+          "measurementBasis": {
+            "const": "no_exact_authority_asset"
+          },
+          "coverageComplete": {
+            "const": false
+          },
+          "knownManualCompletionItems": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "semanticItem",
+                "owner",
+                "mappingState"
+              ],
+              "properties": {
+                "semanticItem": {
+                  "type": "string"
+                },
+                "owner": {
+                  "type": "string"
+                },
+                "mappingState": {
+                  "const": "semantic_policy_only_no_pdf_field_asserted"
+                }
+              }
+            }
+          },
+          "fields": {
+            "type": "array",
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  }
+}

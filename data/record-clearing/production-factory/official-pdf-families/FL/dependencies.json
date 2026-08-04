@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "rcap-official-pdf-family-dependencies/v1",
+  "familyId": "rcap-fl-official-pdf-family",
+  "jurisdiction": "FL",
+  "dependencies": [
+    {
+      "dependencyId": "fl-successor-authority-edition-source-identities",
+      "kind": "authority_manifest",
+      "status": "blocked",
+      "officialFormIds": [
+        "FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION",
+        "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+        "FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION",
+        "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+        "FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION",
+        "FL-RULE-3.989-AFFIDAVIT",
+        "FL-RULE-3.989-CONTINUATION",
+        "FL-RULE-3.989-ORDER",
+        "FL-RULE-3.989-PETITION"
+      ],
+      "workerMayResolve": false,
+      "reason": "Edition 1.2 and the production queue identify nine required documents but bind no exact authority asset to any of those identities."
+    },
+    {
+      "dependencyId": "fl-captain-assignment-and-portable-projection",
+      "kind": "captain_assignment_portable_projection",
+      "status": "blocked",
+      "assignmentAnchor": null,
+      "portableProjection": null,
+      "workerMayResolveByRepositoryPath": false,
+      "workerMayAcquireOrDownload": false,
+      "reason": "No immutable captain assignment or portable projection exists. Metadata and repository paths are evidence only."
+    },
+    {
+      "dependencyId": "fl-current-official-forms-and-instructions",
+      "kind": "source_freshness",
+      "status": "blocked",
+      "gateClass": "release_blocker",
+      "trackIds": [
+        "fl-10yr-bridge",
+        "fl-administrative",
+        "fl-early-juvenile",
+        "fl-expunction",
+        "fl-juvenile-diversion",
+        "fl-sealing",
+        "fl-self-defense"
+      ],
+      "reason": "The controlling Florida memo requires current authoritative applications, Rule 3.989 forms, and track-specific instructions before runtime release."
+    },
+    {
+      "dependencyId": "fl-expunction-specialty-route-criteria",
+      "kind": "legal_design",
+      "status": "blocked",
+      "gateClass": "build_blocker",
+      "trackIds": [
+        "fl-expunction"
+      ],
+      "affectedElement": "eligibility_branch",
+      "reason": "Any unresolved specialty-route statutory criterion that changes which application applies remains a route-selection blocker."
+    },
+    {
+      "dependencyId": "fl-maintained-disqualifying-offense-data",
+      "kind": "maintained_eligibility_data",
+      "status": "blocked",
+      "gateClass": "release_blocker",
+      "trackIds": [
+        "fl-expunction",
+        "fl-sealing"
+      ],
+      "reason": "The section 943.0584 screen must be a maintained data set rather than a static list."
+    },
+    {
+      "dependencyId": "fl-circuit-packet-variation-review",
+      "kind": "local_packet_variation",
+      "status": "blocked",
+      "gateClass": "release_blocker",
+      "trackIds": [
+        "fl-expunction"
+      ],
+      "reason": "Circuit-level packet variation across Florida remains a post-build release review dependency."
+    },
+    {
+      "dependencyId": "fl-trafficking-governing-mechanism",
+      "kind": "source_freshness",
+      "status": "blocked",
+      "gateClass": "release_blocker",
+      "trackIds": [
+        "fl-trafficking"
+      ],
+      "reason": "The full current official statutory text for section 943.0583 has not been acquired."
+    },
+    {
+      "dependencyId": "fl-third-party-and-participant-manual-completion",
+      "kind": "field_ownership",
+      "status": "satisfied_as_policy",
+      "reason": "Participant signatures, notarization, and agency, prosecutor, State Attorney, judge, clerk, and notary completion remain manual or prohibited from generation."
+    },
+    {
+      "dependencyId": "fl-projected-source-technical-inspection",
+      "kind": "pdf_structure_inspection",
+      "status": "blocked",
+      "requiredFor": [
+        "renderer classification",
+        "field enumeration",
+        "field ownership",
+        "field mapping"
+      ],
+      "reason": "Page geometry, fields, encryption, XFA, and renderer class must be measured from exact captain-owned portable projections."
+    },
+    {
+      "dependencyId": "fl-field-map-and-ownership-completion",
+      "kind": "field_mapping",
+      "status": "blocked",
+      "requiredFor": [
+        "packet rendering"
+      ],
+      "reason": "All nine field maps and ownership maps contain zero active field rows pending exact-source inspection."
+    },
+    {
+      "dependencyId": "fl-source-backed-samples-and-review",
+      "kind": "review",
+      "status": "blocked",
+      "requiredFor": [
+        "packet_ready",
+        "generation_allowed",
+        "enabled"
+      ],
+      "reason": "No source-backed sample, technical approval, visual approval, legal-output approval, source-freshness approval, or counsel approval exists."
+    },
+    {
+      "dependencyId": "fl-adjacent-surface-isolation",
+      "kind": "compatibility",
+      "status": "satisfied",
+      "reason": "The family is isolated to new Florida-scoped paths and has no live or shared registry import."
+    }
+  ]
+}
