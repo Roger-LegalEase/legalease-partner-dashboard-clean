@@ -1,0 +1,251 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "rcap-il-official-pdf-source-requirements.schema.json",
+  "title": "Illinois official-PDF source requirements and queue provenance",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "contractKind",
+    "assignmentAnchor",
+    "portableProjection",
+    "workerReady",
+    "workerReadAuthorized",
+    "workerMaterializationAuthorized",
+    "counts",
+    "provenance",
+    "requirements"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "rcap-source-materialization-scaffold/v1"
+    },
+    "familyId": {
+      "const": "il-statewide-official-form-families"
+    },
+    "jurisdiction": {
+      "const": "IL"
+    },
+    "contractKind": {
+      "const": "dependency_scaffold_not_worker_assignment"
+    },
+    "assignmentAnchor": {
+      "type": "null"
+    },
+    "portableProjection": {
+      "type": "null"
+    },
+    "workerReady": {
+      "const": false
+    },
+    "workerReadAuthorized": {
+      "const": false
+    },
+    "workerMaterializationAuthorized": {
+      "const": false
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "componentDocuments",
+        "officialPdfUsageBindings",
+        "directAuthorityMappings",
+        "retainedAssetsWithComponentMappingPending",
+        "authorityUnmanifestedComponents",
+        "captainProjectedExactSources"
+      ],
+      "properties": {
+        "componentDocuments": {
+          "const": 15
+        },
+        "officialPdfUsageBindings": {
+          "const": 48
+        },
+        "directAuthorityMappings": {
+          "const": 8
+        },
+        "retainedAssetsWithComponentMappingPending": {
+          "const": 1
+        },
+        "authorityUnmanifestedComponents": {
+          "const": 6
+        },
+        "captainProjectedExactSources": {
+          "const": 0
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "productionQueueUsageBindingSource",
+        "productionQueueFamilyId",
+        "usageBindingsAuthorizeSourceReads"
+      ],
+      "properties": {
+        "productionQueueUsageBindingSource": {
+          "const": "data/record-clearing/production-factory/official-pdf-production-queue.json"
+        },
+        "productionQueueFamilyId": {
+          "const": "rcap-il-official-pdf-family"
+        },
+        "usageBindingsAuthorizeSourceReads": {
+          "const": false
+        }
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "minItems": 15,
+      "maxItems": 15,
+      "items": {
+        "type": "object",
+        "required": [
+          "componentDocumentId",
+          "authorityState",
+          "identityBindingStatus",
+          "packetRoles",
+          "usageBindings",
+          "generationAllowed",
+          "readOnlyTreatment",
+          "workerReadAuthorized",
+          "workerMaterializationAuthorized",
+          "captainAssignmentEligibility"
+        ],
+        "properties": {
+          "componentDocumentId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authorityState": {
+            "enum": [
+              "authority_mapped_packet_candidate",
+              "retained_packet_asset_component_mapping_pending",
+              "authority_unmanifested_source"
+            ]
+          },
+          "identityBindingStatus": {
+            "enum": [
+              "exact_local_pin_shared_relationship_unpinned",
+              "component_to_document_mapping_pending",
+              "prohibited_pending_successor_edition"
+            ]
+          },
+          "packetRoles": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "primary_filing",
+                "attachment",
+                "proposed_order",
+                "continuation",
+                "fee_waiver",
+                "instructions",
+                "local_addendum"
+              ]
+            }
+          },
+          "usageBindings": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "trackId",
+                "componentId",
+                "role",
+                "requirement",
+                "conditionDescription"
+              ],
+              "properties": {
+                "trackId": {
+                  "enum": [
+                    "il-exp-nonconv",
+                    "il-exp-supervision",
+                    "il-exp-qualprob",
+                    "il-exp-precompletion",
+                    "il-seal-nonconv",
+                    "il-seal-2yr",
+                    "il-seal-3yr",
+                    "il-seal-edu",
+                    "il-exp-pardon",
+                    "il-cannabis-vacate",
+                    "il-prb-cert"
+                  ]
+                },
+                "componentId": {
+                  "type": "string",
+                  "pattern": "^il-[a-z0-9-]+$"
+                },
+                "role": {
+                  "enum": [
+                    "primary_filing",
+                    "attachment",
+                    "proposed_order",
+                    "continuation",
+                    "fee_waiver",
+                    "instructions",
+                    "local_addendum"
+                  ]
+                },
+                "requirement": {
+                  "type": "null"
+                },
+                "conditionDescription": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          "generationAllowed": {
+            "const": false
+          },
+          "readOnlyTreatment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "workerReadAuthorized": {
+            "const": false
+          },
+          "workerMaterializationAuthorized": {
+            "const": false
+          },
+          "captainAssignmentEligibility": {
+            "enum": [
+              "requires_assignment_anchor_and_portable_projection",
+              "ineligible_authority_unmanifested"
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "componentDocumentId": {
+                  "const": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees"
+                }
+              },
+              "required": ["componentDocumentId"]
+            },
+            "then": {
+              "properties": {
+                "authorityState": {
+                  "const": "retained_packet_asset_component_mapping_pending"
+                },
+                "identityBindingStatus": {
+                  "const": "component_to_document_mapping_pending"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

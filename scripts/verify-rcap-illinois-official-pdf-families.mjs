@@ -2,10 +2,13 @@
 
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
+import { createRequire } from "node:module";
 import path from "node:path";
 
 const ROOT = process.cwd();
 const FAMILY_ID = "il-statewide-official-form-families";
+const PRODUCTION_QUEUE_FAMILY_ID = "rcap-il-official-pdf-family";
+const OFFICIAL_PDF_USAGE_BINDING_COUNT = 48;
 const FAMILY_DIR =
   "data/record-clearing/production-factory/official-pdf-families/IL";
 const MODULE_PATH =
@@ -14,6 +17,7 @@ const MODULE_PATH =
 const files = {
   family: `${FAMILY_DIR}/family-manifest.json`,
   dependencies: `${FAMILY_DIR}/dependencies.json`,
+  sourceRequirementsSchema: `${FAMILY_DIR}/source-requirements.schema.json`,
   sourceRequirements: `${FAMILY_DIR}/source-requirements.json`,
   renderer: `${FAMILY_DIR}/renderer-scaffold.json`,
   fieldMap: `${FAMILY_DIR}/field-map-scaffold.json`,
@@ -37,6 +41,8 @@ const files = {
   acquisitionDispositions:
     "data/record-clearing/master-library/edition-1-2/source-acquisition-dispositions.json",
   sourceRegistry: "data/record-clearing/source-artifact-registry.json",
+  productionQueue:
+    "data/record-clearing/production-factory/official-pdf-production-queue.json",
   illinoisAddendum:
     "data/record-clearing/master-library/edition-1-2/legal-review-addenda/IL.md",
   module: MODULE_PATH
@@ -64,8 +70,7 @@ const DIRECT_DOCUMENT_IDS = new Set([
   "PRB Certificate of Expungement for Military Application",
   "PRB Certificate of Expungement for Military Eligibility Acknowledgement"
 ]);
-const RULE_298_ID =
-  "Ill. S. Ct. R. 298 Application for Waiver of Court Fees";
+const RULE_298_ID = "Ill. S. Ct. R. 298 Application for Waiver of Court Fees";
 const UNMANIFESTED_DOCUMENT_IDS = new Set([
   "EXP-AD Additional Cases Expungement",
   "CXP Additional Cannabis Convictions",
@@ -161,6 +166,20 @@ function sameJson(actual, expected) {
   return JSON.stringify(actual) === JSON.stringify(expected);
 }
 
+function validateJsonSchema(schema, value, label) {
+  try {
+    const require = createRequire(import.meta.url);
+    const Ajv = require("ajv");
+    const validate = new Ajv({ allErrors: true }).compile(schema);
+    ok(
+      validate(value),
+      `${label} fails its checked-in schema: ${JSON.stringify(validate.errors)}`
+    );
+  } catch (error) {
+    failures.push(`${label} schema validation crashed: ${error.message}`);
+  }
+}
+
 function projectComponent(component) {
   return {
     componentId: component.componentId,
@@ -182,11 +201,15 @@ function findRequirement(requirements, value) {
 }
 
 for (const [label, relativePath] of Object.entries(files)) {
-  ok(fs.existsSync(absolute(relativePath)), `${label}: missing ${relativePath}.`);
+  ok(
+    fs.existsSync(absolute(relativePath)),
+    `${label}: missing ${relativePath}.`
+  );
 }
 
 const family = readJson(files.family);
 const dependencies = readJson(files.dependencies);
+const sourceRequirementsSchema = readJson(files.sourceRequirementsSchema);
 const sourceRequirements = readJson(files.sourceRequirements);
 const renderer = readJson(files.renderer);
 const fieldMap = readJson(files.fieldMap);
@@ -206,6 +229,7 @@ const repositoryAudit = readJson(files.repositoryAudit);
 const candidateDispositions = readJson(files.candidateDispositions);
 const acquisitionDispositions = readJson(files.acquisitionDispositions);
 const sourceRegistry = readJson(files.sourceRegistry);
+const productionQueue = readJson(files.productionQueue);
 const addendumText = fs.readFileSync(absolute(files.illinoisAddendum), "utf8");
 const moduleText = fs.readFileSync(absolute(files.module), "utf8");
 
@@ -223,8 +247,18 @@ ok(
 );
 ok(
   family.scope.componentDocumentCount === COMPONENT_DOCUMENT_IDS.size &&
+    family.scope.officialPdfUsageBindingCount ===
+      OFFICIAL_PDF_USAGE_BINDING_COUNT &&
     family.scope.routeCount === TRACK_IDS.length,
-  "Family manifest document or route count is incorrect."
+  "Family manifest document, usage-binding, or route count is incorrect."
+);
+ok(
+  family.artifacts.sourceRequirementsSchema ===
+    `${FAMILY_DIR}/source-requirements.schema.json` &&
+    family.artifacts.sourceRequirements ===
+      `${FAMILY_DIR}/source-requirements.json` &&
+    family.immutableInputs.productionQueue === files.productionQueue,
+  "Family manifest does not declare its source schema, requirements, and production-queue provenance input."
 );
 ok(
   family.authorityPosture.directlyMappedPacketAssets ===
@@ -249,6 +283,7 @@ ok(
     family.sourceMaterialization.captainAssignmentRequired === true &&
     family.sourceMaterialization.portableProjectionRequired === true &&
     family.sourceMaterialization.workerReady === false &&
+    family.sourceMaterialization.workerReadAuthorized === false &&
     family.sourceMaterialization.workerMaterializationAuthorized === false &&
     family.sourceMaterialization.workerMayAcquireOrDownloadSources === false &&
     family.sourceMaterialization.repositorySourcePathTreatment ===
@@ -260,7 +295,8 @@ ok(
 ok(
   authority.edition === "1.2" &&
     authority.adoptionStatus === "adopted" &&
-    authority.retention.archiveSha256 === sourceRequirements.authorityArchiveSha256,
+    authority.retention.archiveSha256 ===
+      sourceRequirements.authorityArchiveSha256,
   "Master Library Edition 1.2 authority pin differs from the source contract."
 );
 ok(
@@ -273,13 +309,20 @@ ok(
     ),
   "Controlling Illinois addendum markers changed."
 );
-section("1. Boundary: 11 Illinois routes remain isolated and runtime-disabled.");
+section(
+  "1. Boundary: 11 Illinois routes remain isolated and runtime-disabled."
+);
 
 // ---------------------------------------------------------------------------
 // 2. Source authority, exact identities, and materialization
 // ---------------------------------------------------------------------------
 
 const requirements = sourceRequirements.requirements;
+validateJsonSchema(
+  sourceRequirementsSchema,
+  sourceRequirements,
+  "source-requirements.json"
+);
 ok(
   requirements.length === COMPONENT_DOCUMENT_IDS.size &&
     unique(requirements.map((item) => item.componentDocumentId)) &&
@@ -292,10 +335,12 @@ ok(
 ok(
   sourceRequirements.counts.directAuthorityMappings ===
     DIRECT_DOCUMENT_IDS.size &&
+    sourceRequirements.counts.officialPdfUsageBindings ===
+      OFFICIAL_PDF_USAGE_BINDING_COUNT &&
     sourceRequirements.counts.retainedAssetsWithComponentMappingPending === 1 &&
     sourceRequirements.counts.authorityUnmanifestedComponents ===
       UNMANIFESTED_DOCUMENT_IDS.size,
-  "Source requirement authority counts are incorrect."
+  "Source requirement authority or usage-binding counts are incorrect."
 );
 ok(
   sourceRequirements.schemaVersion ===
@@ -307,11 +352,17 @@ ok(
     sourceRequirements.captainAssignmentRequired === true &&
     sourceRequirements.portableProjectionRequired === true &&
     sourceRequirements.workerReady === false &&
+    sourceRequirements.workerReadAuthorized === false &&
     sourceRequirements.workerMaterializationAuthorized === false &&
     sourceRequirements.repositorySourcePathTreatment ===
       "identity_evidence_only_never_worker_source" &&
     sourceRequirements.historicalRepositoryPathTreatment ===
       "identity_evidence_only_never_worker_source" &&
+    sourceRequirements.provenance.productionQueueUsageBindingSource ===
+      files.productionQueue &&
+    sourceRequirements.provenance.productionQueueFamilyId ===
+      PRODUCTION_QUEUE_FAMILY_ID &&
+    sourceRequirements.provenance.usageBindingsAuthorizeSourceReads === false &&
     sourceRequirements.counts.captainProjectedExactSources === 0,
   "Illinois source contract became a worker-ready or normative materialization assignment."
 );
@@ -322,6 +373,100 @@ ok(
     )
   ),
   "Illinois source contract contains a worker verification-source locator."
+);
+ok(
+  requirements.every(
+    (requirement) =>
+      requirement.workerReadAuthorized === false &&
+      requirement.workerMaterializationAuthorized === false
+  ),
+  "Every Illinois source record must explicitly deny worker reads and materialization."
+);
+
+const queueFamily = productionQueue.families.find(
+  (entry) => entry.familyId === PRODUCTION_QUEUE_FAMILY_ID
+);
+ok(
+  queueFamily?.jurisdiction === "IL" &&
+    queueFamily?.priority === 6 &&
+    queueFamily?.workerReady === false &&
+    queueFamily?.packetReady === false &&
+    queueFamily?.enabled === false &&
+    queueFamily?.counts?.trackCount === TRACK_IDS.length &&
+    queueFamily?.counts?.componentCount === OFFICIAL_PDF_USAGE_BINDING_COUNT &&
+    queueFamily?.counts?.documentCount === COMPONENT_DOCUMENT_IDS.size &&
+    queueFamily?.counts?.exactSourceRequirementCount ===
+      DIRECT_DOCUMENT_IDS.size &&
+    queueFamily?.counts?.unresolvedSourceIdentityCount ===
+      UNMANIFESTED_DOCUMENT_IDS.size + 1,
+  "Current production-queue Illinois identity, counts, or disabled posture changed."
+);
+
+const queueDocuments = queueFamily?.documents ?? [];
+const queueDocumentById = new Map(
+  queueDocuments.map((document) => [document.officialFormId, document])
+);
+const queueUsageBindings = queueDocuments.flatMap((document) =>
+  document.usageBindings.map((binding) => ({
+    officialFormId: document.officialFormId,
+    ...binding
+  }))
+);
+ok(
+  queueDocuments.length === COMPONENT_DOCUMENT_IDS.size &&
+    sameSet(
+      queueDocuments.map((document) => document.officialFormId),
+      [...COMPONENT_DOCUMENT_IDS]
+    ) &&
+    queueUsageBindings.length === OFFICIAL_PDF_USAGE_BINDING_COUNT &&
+    unique(queueUsageBindings.map((binding) => binding.componentId)),
+  "Production queue does not expose 15 Illinois identities and 48 unique official-PDF component bindings."
+);
+
+for (const requirement of requirements) {
+  const queueDocument = queueDocumentById.get(requirement.componentDocumentId);
+  const queueBindingRoles = [
+    ...new Set(
+      (queueDocument?.usageBindings ?? []).map((binding) => binding.role)
+    )
+  ];
+  ok(
+    sameJson(requirement.usageBindings, queueDocument?.usageBindings) &&
+      sameSet(requirement.packetRoles, queueBindingRoles),
+    `${requirement.componentDocumentId}: source provenance differs from the exact current production-queue usage bindings.`
+  );
+
+  if (DIRECT_DOCUMENT_IDS.has(requirement.componentDocumentId)) {
+    ok(
+      queueDocument?.sourceIdentityState === "exact_source_requirement_ready" &&
+        queueDocument?.exactSourceRequirement !== null &&
+        sameJson(
+          queueDocument?.exactSourceRequirement?.usageBindings,
+          queueDocument?.usageBindings.map(({ trackId, componentId }) => ({
+            trackId,
+            componentId
+          }))
+        ),
+      `${requirement.componentDocumentId}: exact queue identity or compact requirement bindings changed.`
+    );
+  } else {
+    ok(
+      queueDocument?.sourceIdentityState === "authority_identity_unresolved" &&
+        queueDocument?.exactSourceRequirement === null,
+      `${requirement.componentDocumentId}: unresolved queue identity was promoted to an exact requirement.`
+    );
+  }
+}
+
+const rule298QueueDocument = queueDocumentById.get(RULE_298_ID);
+ok(
+  rule298QueueDocument?.usageBindings?.length === ADULT_TRACKS.length &&
+    rule298QueueDocument?.sourceIdentityState ===
+      "authority_identity_unresolved" &&
+    rule298QueueDocument?.exactSourceRequirement === null &&
+    rule298QueueDocument?.authorityAssets?.length === 0 &&
+    rule298QueueDocument?.repositoryCandidates?.length === 0,
+  "Rule 298 queue provenance no longer preserves nine uses and an unresolved authority identity."
 );
 
 const auditTracks = trackAudit.tracks.filter(
@@ -523,7 +668,10 @@ for (const requirement of requirements) {
   sourceObservations.push({
     componentDocumentId: requirement.componentDocumentId,
     authorityDocumentId: requirement.authorityDocumentId,
-    state: "captain_assignment_and_portable_projection_required"
+    state:
+      requirement.componentDocumentId === RULE_298_ID
+        ? "component_mapping_unapproved_retained_evidence_only"
+        : "captain_assignment_and_portable_projection_required"
   });
 }
 
@@ -544,6 +692,13 @@ if (requireMaterialized && targetRequirement) {
     failures.push(
       `${targetRequirement.componentDocumentId}: authority_unmanifested_source cannot be materialized or selected under Edition 1.2.`
     );
+  } else if (
+    targetRequirement.authorityState ===
+    "retained_packet_asset_component_mapping_pending"
+  ) {
+    failures.push(
+      `${targetRequirement.componentDocumentId}: component mapping remains unapproved; retained identity evidence cannot become an exact source requirement or worker-readable source.`
+    );
   } else {
     failures.push(
       `${targetRequirement.componentDocumentId}: captain assignment anchor and portable projection are required; repositorySourcePath is identity evidence only and cannot be inspected as a worker source.`
@@ -560,7 +715,7 @@ ok(
   "Known unselected candidate evidence is missing or was confused with a component document."
 );
 section(
-  "2. Sources: 8 direct assets, 1 mapping-pending asset, 6 unmanifested components; captain assignment and portable projection are required."
+  "2. Sources: all 48 queue usage bindings are exact; 8 direct assets, 1 mapping-pending asset, and 6 unmanifested components remain read- and materialization-disabled."
 );
 
 // ---------------------------------------------------------------------------
@@ -602,10 +757,7 @@ for (const routeAssembly of assembly.adultRouteAssemblies) {
     order: component.order
   }));
   ok(
-    sameJson(
-      materializedTemplate,
-      packetSet?.components.map(projectComponent)
-    ),
+    sameJson(materializedTemplate, packetSet?.components.map(projectComponent)),
     `${routeAssembly.trackId}: template binding differs from the adopted packet set.`
   );
   ok(
@@ -614,9 +766,7 @@ for (const routeAssembly of assembly.adultRouteAssemblies) {
   );
 }
 
-const cannabisPacket = packetSetById.get(
-  assembly.cannabisAssembly.packetSetId
-);
+const cannabisPacket = packetSetById.get(assembly.cannabisAssembly.packetSetId);
 ok(
   cannabisPacket?.trackId === "il-cannabis-vacate" &&
     sameJson(
@@ -672,9 +822,8 @@ const nonmilitaryView = assembly.prbAssembly.unitViews.find(
 ok(
   nonmilitaryView?.available === false &&
     nonmilitaryView?.componentIds.length === 0 &&
-    prbTrack?.units.find(
-      (unit) => unit.unitId === nonmilitaryView?.unitId
-    )?.outputStrategyStatus === "unresolved",
+    prbTrack?.units.find((unit) => unit.unitId === nonmilitaryView?.unitId)
+      ?.outputStrategyStatus === "unresolved",
   "PRB non-military branch no longer fails closed."
 );
 const projectedPrbComponentIds = assembly.prbAssembly.unitViews.flatMap(
@@ -843,7 +992,9 @@ function inspectSignatureValues(value, keyPath = []) {
   }
 }
 inspectSignatureValues(fixtures.dataSets);
-section("5. Fixtures: every route has synthetic, blocked, manual-signature data.");
+section(
+  "5. Fixtures: every route has synthetic, blocked, manual-signature data."
+);
 
 // ---------------------------------------------------------------------------
 // 6. Review state remains empty and unapproved
@@ -905,23 +1056,23 @@ ok(
   requiredBlockedDependencies.every(
     (dependencyId) => dependencyById.get(dependencyId)?.status === "blocked"
   ) &&
-    dependencyById.get("il-legacy-generator-isolation")?.status ===
-      "satisfied",
+    dependencyById.get("il-legacy-generator-isolation")?.status === "satisfied",
   "Dependency contract opened an authority, source, mapping, branch, or review gate."
 );
 const projectionDependency = dependencyById.get(
   "il-captain-source-assignment-and-portable-projection"
 );
 ok(
-  projectionDependency?.kind ===
-    "captain_assignment_portable_projection" &&
+  projectionDependency?.kind === "captain_assignment_portable_projection" &&
     projectionDependency?.reason.includes(
       "repositorySourcePath values are identity evidence only"
     ) &&
     projectionDependency?.reason.includes("never opened"),
   "Dependency contract does not preserve the captain-assignment and portable-projection boundary."
 );
-section("7. Dependencies: all source, mapping, renderer, branch, and review gates stay closed.");
+section(
+  "7. Dependencies: all source, mapping, renderer, branch, and review gates stay closed."
+);
 
 // ---------------------------------------------------------------------------
 // 8. TypeScript boundary is fail-closed and not centrally registered
@@ -938,10 +1089,16 @@ for (const marker of [
   "generation_disabled",
   "activeRendererCount: 0"
 ]) {
-  ok(moduleText.includes(marker), `TypeScript boundary is missing marker ${marker}.`);
+  ok(
+    moduleText.includes(marker),
+    `TypeScript boundary is missing marker ${marker}.`
+  );
 }
 for (const trackId of TRACK_IDS) {
-  ok(moduleText.includes(`"${trackId}"`), `TypeScript boundary omits ${trackId}.`);
+  ok(
+    moduleText.includes(`"${trackId}"`),
+    `TypeScript boundary omits ${trackId}.`
+  );
 }
 for (const requirement of requirements) {
   ok(
@@ -968,7 +1125,9 @@ for (const registryFile of registryFiles) {
     `${registryFile}: Illinois scaffold was imported into a shared registry.`
   );
 }
-section("8. Boundary: typed stops exist and no shared registry imports the family.");
+section(
+  "8. Boundary: typed stops exist and no shared registry imports the family."
+);
 
 // ---------------------------------------------------------------------------
 // 9. Legacy and adjacent Illinois implementations remain untouched
@@ -1031,19 +1190,22 @@ const ilAssignments = specifications.officialFormAssignments.filter(
 );
 ok(
   ilRelationships.length === ilAssignments.length &&
-    ilRelationships.every(
-      (relationship) =>
-        ilAssignments.some(
-          (assignment) =>
-            assignment.trackId === relationship.trackId &&
-            assignment.componentId === relationship.componentId &&
-            assignment.officialFormId === relationship.officialFormId
-        )
+    ilRelationships.every((relationship) =>
+      ilAssignments.some(
+        (assignment) =>
+          assignment.trackId === relationship.trackId &&
+          assignment.componentId === relationship.componentId &&
+          assignment.officialFormId === relationship.officialFormId
+      )
     ) &&
-    ilAssignments.every((assignment) => assignment.mappingStatus === "not_mapped"),
+    ilAssignments.every(
+      (assignment) => assignment.mappingStatus === "not_mapped"
+    ),
   "Immutable Illinois component relationships or mapping posture changed."
 );
-section("9. Isolation: legacy files are untouched and no PDF bytes were added.");
+section(
+  "9. Isolation: legacy files are untouched and no PDF bytes were added."
+);
 
 const result = {
   ok: failures.length === 0,
@@ -1052,6 +1214,7 @@ const result = {
   sectionCount: sections.length,
   sections,
   sourceSummary: {
+    officialPdfUsageBindings: OFFICIAL_PDF_USAGE_BINDING_COUNT,
     directAuthorityMappings: DIRECT_DOCUMENT_IDS.size,
     retainedAssetsWithComponentMappingPending: 1,
     authorityUnmanifestedComponents: UNMANIFESTED_DOCUMENT_IDS.size,
@@ -1064,8 +1227,9 @@ const result = {
     portableProjection: null,
     captainAssignmentRequired: true,
     portableProjectionRequired: true,
-    repositorySourcePathTreatment:
-      "identity_evidence_only_never_worker_source",
+    workerReadAuthorized: false,
+    workerMaterializationAuthorized: false,
+    repositorySourcePathTreatment: "identity_evidence_only_never_worker_source",
     historicalRepositoryPathTreatment:
       "identity_evidence_only_never_worker_source"
   },
