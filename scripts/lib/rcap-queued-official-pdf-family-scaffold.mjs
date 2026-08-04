@@ -382,7 +382,9 @@ export function verifyQueuedOfficialPdfFamilyScaffold({
       failures.push(`Unknown --require-source document: ${requireSource}.`);
     } else if (document.exactSourceRequirement === null) {
       failures.push(
-        `${requireSource}: authority asset manifestation, captain assignment, and portable projection are required.`
+        document.sourceIdentityState === "authority_identity_unresolved"
+          ? `${requireSource}: authority asset manifestation, captain assignment, and portable projection are required.`
+          : `${requireSource}: the recorded authority role, hash, or source-identity conflict must be resolved before a captain assignment or portable projection is possible.`
       );
     } else {
       failures.push(
