@@ -1,0 +1,195 @@
+{
+  "schemaVersion": "rcap-official-pdf-packet-assembly/v1",
+  "familyId": "rcap-de-official-pdf-family",
+  "jurisdiction": "DE",
+  "assemblyPolicy": {
+    "participantDeliverable": "one_pdf",
+    "zipAllowed": false,
+    "deterministic": true,
+    "deterministicTimestamp": "2000-01-01T00:00:00.000Z",
+    "producer": "LegalEase",
+    "preserveOfficialFixedLanguage": true,
+    "sourceLookupMode": "captain_projection_exact_identity_only",
+    "downloadOrSourceFallbackAllowed": false,
+    "duplicatePhysicalDocumentAllowed": false,
+    "signatureImagesGenerated": false
+  },
+  "packets": [
+    {
+      "trackId": "de_discretionary_family_court",
+      "outputFileName": "de_discretionary_family_court-participant-packet.pdf",
+      "assembledParticipantPdf": true,
+      "deterministic": true,
+      "packetReady": false,
+      "documents": [
+        {
+          "componentDocumentId": "FORM-281",
+          "order": 1,
+          "rendererLaneCandidate": "pending_fresh_local_source_inspection",
+          "renderState": "blocked",
+          "renderOnce": true,
+          "componentIds": [
+            "de_discretionary_family_court-primary-filing-1"
+          ],
+          "roles": [
+            "primary_filing"
+          ],
+          "requirements": [
+            "required"
+          ],
+          "conditionDescriptions": []
+        },
+        {
+          "componentDocumentId": "FORM-281E",
+          "order": 2,
+          "rendererLaneCandidate": "pending_fresh_local_source_inspection",
+          "renderState": "blocked",
+          "renderOnce": true,
+          "componentIds": [
+            "de_discretionary_family_court-continuation-2"
+          ],
+          "roles": [
+            "continuation"
+          ],
+          "requirements": [
+            "conditional"
+          ],
+          "conditionDescriptions": [
+            "When charges exceed the table on the petition."
+          ]
+        }
+      ]
+    },
+    {
+      "trackId": "de_discretionary_superior_court",
+      "outputFileName": "de_discretionary_superior_court-participant-packet.pdf",
+      "assembledParticipantPdf": true,
+      "deterministic": true,
+      "packetReady": false,
+      "documents": [
+        {
+          "componentDocumentId": "CIV_EXP_02_A",
+          "order": 1,
+          "rendererLaneCandidate": "pending_fresh_local_source_inspection",
+          "renderState": "blocked",
+          "renderOnce": true,
+          "componentIds": [
+            "de_discretionary_superior_court-primary-filing-1"
+          ],
+          "roles": [
+            "primary_filing"
+          ],
+          "requirements": [
+            "required"
+          ],
+          "conditionDescriptions": []
+        },
+        {
+          "componentDocumentId": "CIV_EXP_02_B",
+          "order": 2,
+          "rendererLaneCandidate": "pending_fresh_local_source_inspection",
+          "renderState": "blocked",
+          "renderOnce": true,
+          "componentIds": [
+            "de_discretionary_superior_court-continuation-2"
+          ],
+          "roles": [
+            "continuation"
+          ],
+          "requirements": [
+            "conditional"
+          ],
+          "conditionDescriptions": [
+            "When charges exceed the table on the petition."
+          ]
+        },
+        {
+          "componentDocumentId": "CIV_EXP_04_A",
+          "order": 3,
+          "rendererLaneCandidate": "pending_fresh_local_source_inspection",
+          "renderState": "blocked",
+          "renderOnce": true,
+          "componentIds": [
+            "de_discretionary_superior_court-proposed-order-3"
+          ],
+          "roles": [
+            "proposed_order"
+          ],
+          "requirements": [
+            "required"
+          ],
+          "conditionDescriptions": []
+        }
+      ]
+    },
+    {
+      "trackId": "de_mandatory_expungement",
+      "outputFileName": "de_mandatory_expungement-participant-packet.pdf",
+      "assembledParticipantPdf": true,
+      "deterministic": true,
+      "packetReady": false,
+      "documents": [
+        {
+          "componentDocumentId": "DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION",
+          "order": 1,
+          "rendererLaneCandidate": "pending_fresh_local_source_inspection",
+          "renderState": "blocked",
+          "renderOnce": true,
+          "componentIds": [
+            "de_mandatory_expungement-primary-filing-1"
+          ],
+          "roles": [
+            "primary_filing"
+          ],
+          "requirements": [
+            "required"
+          ],
+          "conditionDescriptions": []
+        }
+      ]
+    },
+    {
+      "trackId": "de_pardon_expungement",
+      "outputFileName": "de_pardon_expungement-participant-packet.pdf",
+      "assembledParticipantPdf": true,
+      "deterministic": true,
+      "packetReady": false,
+      "documents": [
+        {
+          "componentDocumentId": "CIV_EXP_02_A",
+          "order": 1,
+          "rendererLaneCandidate": "pending_fresh_local_source_inspection",
+          "renderState": "blocked",
+          "renderOnce": true,
+          "componentIds": [
+            "de_pardon_expungement-primary-filing-1"
+          ],
+          "roles": [
+            "primary_filing"
+          ],
+          "requirements": [
+            "required"
+          ],
+          "conditionDescriptions": []
+        },
+        {
+          "componentDocumentId": "CIV_EXP_08_A",
+          "order": 2,
+          "rendererLaneCandidate": "pending_fresh_local_source_inspection",
+          "renderState": "blocked",
+          "renderOnce": true,
+          "componentIds": [
+            "de_pardon_expungement-proposed-order-2"
+          ],
+          "roles": [
+            "proposed_order"
+          ],
+          "requirements": [
+            "required"
+          ],
+          "conditionDescriptions": []
+        }
+      ]
+    }
+  ]
+}
