@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/co-jdf-field-maps-v1.json",
+  "title": "Colorado JDF field-map preflight catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "mappingPolicy",
+    "fieldMaps"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "familyId": { "const": "co-statewide-jdf-official-form-family" },
+    "jurisdiction": { "const": "CO" },
+    "mappingPolicy": {
+      "const": "no_source_field_binding_or_overlay_coordinate_without_exact_source_inspection"
+    },
+    "fieldMaps": {
+      "type": "array",
+      "minItems": 15,
+      "maxItems": 15,
+      "items": { "$ref": "#/$defs/fieldMap" }
+    }
+  },
+  "$defs": {
+    "sourceInspection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "inspectedSha256"],
+      "properties": {
+        "state": {
+          "enum": [
+            "not_run_source_absent",
+            "not_applicable_unresolved_identity"
+          ]
+        },
+        "inspectedSha256": { "type": "null" }
+      }
+    },
+    "reviewStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identityApproved",
+        "ownershipApproved",
+        "mappingApproved",
+        "technical",
+        "visual",
+        "legalOutput"
+      ],
+      "properties": {
+        "identityApproved": { "const": false },
+        "ownershipApproved": { "const": false },
+        "mappingApproved": { "const": false },
+        "technical": {
+          "enum": ["not_run_source_absent", "blocked_identity_or_role"]
+        },
+        "visual": { "const": "visual_review_pending" },
+        "legalOutput": { "const": "legal_output_review_pending" }
+      }
+    },
+    "fieldMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fieldMapId",
+        "documentId",
+        "trackId",
+        "componentId",
+        "sourceRequirementId",
+        "resolutionId",
+        "exactSourceSha256",
+        "strategyCandidate",
+        "activeRendererStrategy",
+        "mappingStatus",
+        "sourceInspection",
+        "canonicalInputKeys",
+        "sourceFieldInventory",
+        "sourceFieldBindings",
+        "overlayPlacements",
+        "unclassifiedSourceFieldPolicy",
+        "reviewStatus",
+        "runtimeStatus",
+        "generationAllowed"
+      ],
+      "properties": {
+        "fieldMapId": { "type": "string", "pattern": "^co-field-map-" },
+        "documentId": { "type": "string", "pattern": "^JDF-" },
+        "trackId": { "type": "string", "pattern": "^co_" },
+        "componentId": { "type": "string", "pattern": "^co_" },
+        "sourceRequirementId": {
+          "type": ["string", "null"],
+          "pattern": "^co-source-jdf-"
+        },
+        "resolutionId": {
+          "type": ["string", "null"],
+          "pattern": "^co-unresolved-"
+        },
+        "exactSourceSha256": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "strategyCandidate": {
+          "type": ["string", "null"],
+          "enum": ["acroform_fill", "coordinate_overlay", null]
+        },
+        "activeRendererStrategy": { "type": "null" },
+        "mappingStatus": {
+          "enum": [
+            "blocked_pending_exact_source_inspection",
+            "blocked_authority_role_mismatch",
+            "blocked_unresolved_identity"
+          ]
+        },
+        "sourceInspection": { "$ref": "#/$defs/sourceInspection" },
+        "canonicalInputKeys": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9]*$"
+          }
+        },
+        "sourceFieldInventory": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "sourceFieldBindings": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "overlayPlacements": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "unclassifiedSourceFieldPolicy": { "const": "reject" },
+        "reviewStatus": { "$ref": "#/$defs/reviewStatus" },
+        "runtimeStatus": { "const": "runtime_disabled" },
+        "generationAllowed": { "const": false }
+      }
+    }
+  }
+}

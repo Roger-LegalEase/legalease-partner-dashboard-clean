@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/co-jdf-field-ownership-v1.json",
+  "title": "Colorado JDF canonical field ownership preflight",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "coverageScope",
+    "sourceFieldCoverageState",
+    "unclassifiedSourceFieldPolicy",
+    "writableOwners",
+    "actorDefaults",
+    "routes",
+    "fields"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "familyId": { "const": "co-statewide-jdf-official-form-family" },
+    "jurisdiction": { "const": "CO" },
+    "coverageScope": {
+      "const": "normalized_generation_keys_only_pending_exact_source_inventory"
+    },
+    "sourceFieldCoverageState": {
+      "const": "pending_exact_source_inventory"
+    },
+    "unclassifiedSourceFieldPolicy": { "const": "reject" },
+    "writableOwners": {
+      "const": ["participant", "system_derived"]
+    },
+    "actorDefaults": {
+      "type": "array",
+      "minItems": 12,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/actorDefault" }
+    },
+    "routes": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": { "$ref": "#/$defs/route" }
+    },
+    "fields": {
+      "type": "array",
+      "minItems": 20,
+      "maxItems": 20,
+      "items": { "$ref": "#/$defs/field" }
+    }
+  },
+  "$defs": {
+    "owner": {
+      "enum": [
+        "participant",
+        "system_derived",
+        "participant_manual",
+        "court",
+        "clerk",
+        "judge",
+        "prosecutor",
+        "law_enforcement",
+        "agency",
+        "notary",
+        "process_server",
+        "prohibited_from_generation"
+      ]
+    },
+    "actorDefault": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "automationPolicy"],
+      "properties": {
+        "owner": { "$ref": "#/$defs/owner" },
+        "automationPolicy": {
+          "enum": ["auto_fill_candidate", "leave_blank", "reject"]
+        }
+      }
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["routeId", "fieldKeys"],
+      "properties": {
+        "routeId": { "type": "string", "pattern": "^co_" },
+        "fieldKeys": {
+          "type": "array",
+          "minItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9]*$"
+          }
+        }
+      }
+    },
+    "field": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fieldKey",
+        "owner",
+        "automationPolicy",
+        "documentUse",
+        "evidence"
+      ],
+      "properties": {
+        "fieldKey": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9]*$"
+        },
+        "owner": { "$ref": "#/$defs/owner" },
+        "automationPolicy": {
+          "enum": [
+            "auto_fill_candidate",
+            "screening_only",
+            "leave_blank",
+            "reject"
+          ]
+        },
+        "documentUse": {
+          "enum": [
+            "source_binding_candidate",
+            "routing_or_screening_only",
+            "manual_completion"
+          ]
+        },
+        "evidence": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

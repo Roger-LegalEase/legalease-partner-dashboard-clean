@@ -1,0 +1,410 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://legalease.example/schemas/co-jdf-source-evidence-preflight.schema.json",
+  "title": "Colorado JDF source-evidence and unresolved-identity preflight",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "authorityPins",
+    "sourceSelectionPolicy",
+    "contractState",
+    "assignmentAnchor",
+    "portableProjection",
+    "portableProjectionPresent",
+    "workerMaterializationAuthorized",
+    "repositoryPrivatePathTreatment",
+    "contractAuthority",
+    "declaredIdentityCount",
+    "resolvedSourceCount",
+    "unresolvedIdentityCount",
+    "documents",
+    "unresolvedIdentities",
+    "nonAliasDeclarations",
+    "runtimeStatus",
+    "generationAllowed"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "familyId": { "const": "co-statewide-jdf-official-form-family" },
+    "jurisdiction": { "const": "CO" },
+    "authorityPins": { "$ref": "#/$defs/authorityPins" },
+    "sourceSelectionPolicy": {
+      "const": "explicit_artifact_workflow_sha256_bytes_only_no_scan_alias_or_fallback"
+    },
+    "contractState": {
+      "const": "pending_captain_assignment"
+    },
+    "assignmentAnchor": {
+      "type": "null"
+    },
+    "portableProjection": {
+      "type": "null"
+    },
+    "portableProjectionPresent": {
+      "const": false
+    },
+    "workerMaterializationAuthorized": {
+      "const": false
+    },
+    "repositoryPrivatePathTreatment": {
+      "const": "identity_evidence_only_not_materialization_authority"
+    },
+    "contractAuthority": {
+      "const": "informational_preflight_only_not_normative_materialization_contract"
+    },
+    "declaredIdentityCount": { "const": 15 },
+    "resolvedSourceCount": { "const": 13 },
+    "unresolvedIdentityCount": { "const": 2 },
+    "documents": {
+      "type": "array",
+      "minItems": 13,
+      "maxItems": 13,
+      "items": { "$ref": "#/$defs/document" }
+    },
+    "unresolvedIdentities": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": { "$ref": "#/$defs/unresolvedIdentity" }
+    },
+    "nonAliasDeclarations": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/nonAliasDeclaration" }
+    },
+    "runtimeStatus": { "const": "runtime_disabled" },
+    "generationAllowed": { "const": false }
+  },
+  "$defs": {
+    "authorityPins": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "edition",
+        "archiveSha256",
+        "legalReviewWorkflowKey",
+        "legalReviewSha256",
+        "legalReviewCanonicalPath",
+        "implementationJobId",
+        "generatedFactoryJobs"
+      ],
+      "properties": {
+        "edition": { "const": "1.2" },
+        "archiveSha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "legalReviewWorkflowKey": {
+          "const": "CO:STATEWIDE:LEGAL_REVIEW:EN"
+        },
+        "legalReviewSha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "legalReviewCanonicalPath": { "type": "string" },
+        "implementationJobId": { "const": "IMP-OF-04-co-jdf-family" },
+        "generatedFactoryJobs": {
+          "type": "array",
+          "minItems": 5,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^rcap-co-" }
+        }
+      }
+    },
+    "expected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sha256", "bytes", "mimeType", "pdfMagicHex"],
+      "properties": {
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "bytes": { "type": "integer", "minimum": 1 },
+        "mimeType": { "const": "application/pdf" },
+        "pdfMagicHex": { "const": "25504446" }
+      }
+    },
+    "technicalExpectation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "technicalClass",
+        "pageCount",
+        "fieldCount",
+        "encrypted",
+        "xfa",
+        "measurementBasis"
+      ],
+      "properties": {
+        "technicalClass": {
+          "enum": ["clean_acroform", "flat_pdf"]
+        },
+        "pageCount": { "type": "integer", "minimum": 1 },
+        "fieldCount": { "type": "integer", "minimum": 0 },
+        "encrypted": { "const": false },
+        "xfa": { "const": false },
+        "measurementBasis": {
+          "const": "source_artifact_registry_historical_measurement_requires_reinspection"
+        }
+      }
+    },
+    "document": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sourceRequirementId",
+        "documentId",
+        "artifactId",
+        "workflowKey",
+        "officialTitle",
+        "documentRole",
+        "revision",
+        "language",
+        "trackId",
+        "componentId",
+        "declaredComponentRole",
+        "authorityDisposition",
+        "componentUsability",
+        "repositorySourcePath",
+        "canonicalAuthorityPath",
+        "portableLocator",
+        "portableLocatorTreatment",
+        "contractState",
+        "assignmentAnchor",
+        "portableProjection",
+        "portableProjectionPresent",
+        "workerMaterializationAuthorized",
+        "repositoryPrivatePathTreatment",
+        "expected",
+        "technicalExpectation",
+        "rendererCandidate",
+        "materializationState",
+        "workerTreatment",
+        "sourceCurrent",
+        "mappingApproved",
+        "runtimeStatus",
+        "generationAllowed"
+      ],
+      "properties": {
+        "sourceRequirementId": {
+          "type": "string",
+          "pattern": "^co-source-jdf-"
+        },
+        "documentId": { "type": "string", "pattern": "^JDF-" },
+        "artifactId": { "type": "string", "pattern": "^jdf-" },
+        "workflowKey": { "type": "string", "pattern": "^CO:JDF-" },
+        "officialTitle": { "type": "string", "minLength": 1 },
+        "documentRole": {
+          "enum": ["FORM", "INSTRUCTIONS", "MOTION", "ORDER", "PETITION"]
+        },
+        "revision": { "type": "string", "pattern": "^REV-" },
+        "language": { "const": "EN" },
+        "trackId": { "type": "string", "pattern": "^co_" },
+        "componentId": { "type": "string", "pattern": "^co_" },
+        "declaredComponentRole": {
+          "enum": ["primary_filing", "proposed_order"]
+        },
+        "authorityDisposition": {
+          "enum": [
+            "authority_mapped_packet_candidate",
+            "authority_role_mismatch"
+          ]
+        },
+        "componentUsability": {
+          "enum": [
+            "blocked_pending_source_mapping_and_reviews",
+            "blocked_authority_role_mismatch"
+          ]
+        },
+        "repositorySourcePath": {
+          "type": "string",
+          "pattern": "^private/Nationwide Record Clearing/LegalEase Colorado/"
+        },
+        "canonicalAuthorityPath": {
+          "type": "string",
+          "pattern": "^STATES/CO/"
+        },
+        "portableLocator": {
+          "type": "string",
+          "pattern": "^rcap-master-library-edition-1-2://STATES/CO/"
+        },
+        "portableLocatorTreatment": {
+          "const": "candidate_identity_locator_only_not_materialization_authority"
+        },
+        "contractState": {
+          "const": "pending_captain_assignment"
+        },
+        "assignmentAnchor": {
+          "type": "null"
+        },
+        "portableProjection": {
+          "type": "null"
+        },
+        "portableProjectionPresent": {
+          "const": false
+        },
+        "workerMaterializationAuthorized": {
+          "const": false
+        },
+        "repositoryPrivatePathTreatment": {
+          "const": "identity_evidence_only_not_materialization_authority"
+        },
+        "expected": { "$ref": "#/$defs/expected" },
+        "technicalExpectation": {
+          "$ref": "#/$defs/technicalExpectation"
+        },
+        "rendererCandidate": {
+          "enum": ["acroform_fill", "coordinate_overlay"]
+        },
+        "materializationState": {
+          "const": "binary_materialization_absent_pending_authorized_assignment"
+        },
+        "workerTreatment": {
+          "const": "read_only_no_download_modify_copy_or_reconstruct"
+        },
+        "sourceCurrent": { "const": false },
+        "mappingApproved": { "const": false },
+        "runtimeStatus": { "const": "runtime_disabled" },
+        "generationAllowed": { "const": false }
+      }
+    },
+    "candidateEvidence": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": [
+        "artifactId",
+        "documentId",
+        "documentRole",
+        "officialTitle",
+        "repositorySourcePath",
+        "sha256",
+        "bytes",
+        "currentness",
+        "usableForDeclaredComponent"
+      ],
+      "properties": {
+        "artifactId": { "type": "string" },
+        "documentId": { "type": "string" },
+        "documentRole": { "type": "string" },
+        "officialTitle": { "type": "string" },
+        "repositorySourcePath": { "type": "string" },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "bytes": { "type": "integer", "minimum": 1 },
+        "currentness": { "type": "string" },
+        "usableForDeclaredComponent": { "const": false }
+      }
+    },
+    "knownDistinctAsset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "documentId",
+        "workflowKey",
+        "officialTitle",
+        "artifactId",
+        "sha256",
+        "bytes",
+        "reasonNotAliased"
+      ],
+      "properties": {
+        "documentId": { "type": "string", "pattern": "^JDF-" },
+        "workflowKey": { "type": "string", "pattern": "^CO:JDF-" },
+        "officialTitle": { "type": "string" },
+        "artifactId": { "type": "string", "pattern": "^jdf-" },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "bytes": { "type": "integer", "minimum": 1 },
+        "reasonNotAliased": { "type": "string", "minLength": 1 }
+      }
+    },
+    "unresolvedIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "resolutionId",
+        "documentId",
+        "trackId",
+        "componentId",
+        "declaredComponentRole",
+        "authorityDisposition",
+        "trackSourceDisposition",
+        "acquisitionStatus",
+        "roleConflict",
+        "acquisitionId",
+        "officialIndexUrl",
+        "evidenceSummary",
+        "authorityCandidate",
+        "knownDistinctAuthorityAsset",
+        "resolverSource",
+        "aliasAllowed",
+        "runtimeStatus",
+        "generationAllowed"
+      ],
+      "properties": {
+        "resolutionId": {
+          "type": "string",
+          "pattern": "^co-unresolved-"
+        },
+        "documentId": { "enum": ["JDF-417-ORDER", "JDF-684"] },
+        "trackId": { "type": "string", "pattern": "^co_" },
+        "componentId": { "type": "string", "pattern": "^co_" },
+        "declaredComponentRole": { "const": "proposed_order" },
+        "authorityDisposition": {
+          "enum": [
+            "identity_unresolved",
+            "authority_unmanifested_source_and_role_conflict"
+          ]
+        },
+        "trackSourceDisposition": {
+          "const": "authority_unmanifested_source"
+        },
+        "acquisitionStatus": {
+          "enum": [
+            "identity_unresolved",
+            "official_download_automation_blocked"
+          ]
+        },
+        "roleConflict": {
+          "type": "boolean"
+        },
+        "acquisitionId": { "type": "string", "pattern": "^acquire:CO:" },
+        "officialIndexUrl": { "type": "string", "format": "uri" },
+        "evidenceSummary": { "type": "string", "minLength": 1 },
+        "authorityCandidate": { "$ref": "#/$defs/candidateEvidence" },
+        "knownDistinctAuthorityAsset": {
+          "$ref": "#/$defs/knownDistinctAsset"
+        },
+        "resolverSource": { "type": "null" },
+        "aliasAllowed": { "const": false },
+        "runtimeStatus": { "const": "runtime_disabled" },
+        "generationAllowed": { "const": false }
+      }
+    },
+    "nonAliasDeclaration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "declaredDocumentId",
+        "distinctDocumentId",
+        "disposition",
+        "requiredResolution"
+      ],
+      "properties": {
+        "declaredDocumentId": { "type": "string", "pattern": "^JDF-" },
+        "distinctDocumentId": { "type": "string", "pattern": "^JDF-" },
+        "disposition": { "const": "do_not_alias" },
+        "requiredResolution": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}
