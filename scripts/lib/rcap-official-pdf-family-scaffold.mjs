@@ -239,6 +239,7 @@ export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
         assignmentManifestSha256: null,
         state: "captain_owned_assignment_required"
       },
+      workerReadAuthorized: false,
       workerMaterializationAuthorized: false,
       usageBindings,
       provenance: {
@@ -264,6 +265,8 @@ export function buildOfficialPdfFamilyScaffold({ root, specPath }) {
       unresolvedDocumentIds.size > 0
         ? "authority_identity_and_binary_materialization_required"
         : "binary_materialization_required",
+    workerReadAuthorized: false,
+    workerMaterializationAuthorized: false,
     workerReady: false,
     requirements
   };

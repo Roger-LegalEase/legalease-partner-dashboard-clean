@@ -169,6 +169,8 @@ function verifySourceRequirements(officialTracks) {
   assert.equal(sourceSet.familyId, EXPECTED_FAMILY_ID);
   assert.equal(sourceSet.jurisdiction, "MI");
   assert.equal(sourceSet.allSourcesRequired, true);
+  assert.equal(sourceSet.workerReadAuthorized, false);
+  assert.equal(sourceSet.workerMaterializationAuthorized, false);
   assert.equal(sourceSet.workerReady, false);
   assert.equal(
     sourceSet.dependencyJobId,
@@ -252,6 +254,7 @@ function verifySourceRequirements(officialTracks) {
       requirement.materializationState,
       "binary_materialization_required"
     );
+    assert.equal(requirement.workerReadAuthorized, false);
     assert.equal(requirement.workerMaterializationAuthorized, false);
     assert.deepEqual(requirement.assignmentBinding, {
       assignmentJobId: null,
