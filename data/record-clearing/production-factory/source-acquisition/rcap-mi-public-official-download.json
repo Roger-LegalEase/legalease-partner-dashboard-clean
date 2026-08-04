@@ -1,0 +1,192 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-mi-public-official-download",
+  "parentJobId": "AUTH-01-in-repo-authority-pinning",
+  "jurisdiction": "MI",
+  "lane": "source_acquisition",
+  "strategyFamily": "public_official_download",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "4eee199a1f0d6d381d0bcc763ee559250b26078e",
+  "generatedOn": "2026-08-04",
+  "acquisitionIds": [
+    "acquire:MI:mc-227-item-2-c",
+    "acquire:MI:mc-227-page-3-proof-of-service",
+    "acquire:MI:proof-of-service"
+  ],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero is the finding, not an omission. None of the three assigned rows names a document that exists as a separate binary; each is a component of an SCAO form the repository already holds byte-identical to the publisher's copy. Two parent forms were retrieved to prove that, and their verification is recorded under parentFormVerification below. No new source document was acquired because none needed to be.",
+  "generatedFrom": [
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/rcap-all50/nationwide-source-inventory.json"
+  ],
+  "method": {
+    "description": "Verification-only disposition of three Michigan queue rows that name sub-parts of SCAO forms rather than documents. Both parent forms were fetched by direct HTTPS GET from the official SCAO forms path, hashed with SHA-256, compared against the digests the repository already records, and inspected for the specific structural features the three rows describe.",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "authenticationUsed": false,
+    "binariesDownloaded": 2,
+    "assignedDocumentBinariesAcquired": 0,
+    "binaryDeposition": "Neither retrieved parent binary is committed by this job, and neither needed to be deposited: the repository already holds both at the same bytes.",
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "byteVerificationMethod": "fresh_https_get_then_sha256_compared_to_repository_recorded_digest",
+    "byteVerificationNote": "Both parent digests match the values recorded in repository-asset-audit.json and nationwide-source-inventory.json exactly, and both artifacts read presence=present, binaryPresent=true, hashState=match. The publisher's current files and the retained copies are the same bytes."
+  },
+  "totals": {
+    "assignedAcquisitions": 3,
+    "assignedAcquisitionsRequiringDownload": 0,
+    "rowsRetiredAsDocuments": 3,
+    "parentFormsVerified": 2,
+    "revisionsConfirmed": 2,
+    "correctionsRaised": 3,
+    "downloadsAvoided": 3
+  },
+  "parentFormVerification": [
+    {
+      "documentId": "MC-227",
+      "workflowKey": "MI:MC-227:PRIMARY_FILING:EN",
+      "officialTitleAsPublished": "Application to Set Aside Conviction(s)",
+      "issuingBody": "Michigan Supreme Court, State Court Administrative Office (SCAO)",
+      "retrievedFromUrl": "https://www.courts.michigan.gov/siteassets/forms/scao-approved/mc227.pdf",
+      "retrievalDate": "2026-08-04",
+      "httpStatus": 200,
+      "sha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7",
+      "sizeBytes": 374474,
+      "pageCount": 4,
+      "pageComposition": "Three-page form paginated Page 1 of 3 through Page 3 of 3, plus a separate one-page instruction sheet INST MC 227.",
+      "printedRevisionStamps": [
+        "Form MC 227, Rev. 3/25",
+        "Form INST MC 227, Rev. 3/25",
+        "Application to Set Aside Conviction(s) (3/25)"
+      ],
+      "resolvedRevision": "REV-2025-03",
+      "revisionStatus": "confirmed_printed_stamp",
+      "hashAgreementWithRepository": "exact_match",
+      "repositoryStatus": "manifested_packet_form"
+    },
+    {
+      "documentId": "MC-227B",
+      "workflowKey": "MI:MC-227B:APPLICATION:EN",
+      "officialTitleAsPublished": "Application for Human Trafficking Victim to Set Aside Conviction(s)",
+      "issuingBody": "Michigan Supreme Court, State Court Administrative Office (SCAO)",
+      "retrievedFromUrl": "https://www.courts.michigan.gov/siteassets/forms/scao-approved/mc227b.pdf",
+      "retrievalDate": "2026-08-04",
+      "httpStatus": 200,
+      "sha256": "1620aa798830917707112ce6fb770aeeedc24c44e69f15b05f8b0c1c20e478a6",
+      "sizeBytes": 370315,
+      "pageCount": 4,
+      "pageComposition": "Three-page form paginated Page 1 of 3 through Page 3 of 3, plus a separate one-page instruction sheet INST MC 227b.",
+      "printedRevisionStamps": [
+        "Form MC 227b, Rev. 7/24",
+        "Form INST MC 227b, Rev. 7/24",
+        "Application for Human Trafficking Victim to Set Aside Conviction(s) (7/24)"
+      ],
+      "resolvedRevision": "REV-2024-07",
+      "revisionStatus": "confirmed_printed_stamp",
+      "hashAgreementWithRepository": "exact_match",
+      "repositoryStatus": "manifested_packet_form"
+    }
+  ],
+  "acquisitions": [
+    {
+      "acquisitionId": "acquire:MI:mc-227-item-2-c",
+      "documentId": "MC 227 item 2.c",
+      "trackIds": [
+        "mi_setaside_first_owi"
+      ],
+      "disposition": "retired_as_document_merged_into_parent_form",
+      "separateBinaryExists": false,
+      "parentDocumentId": "MC-227",
+      "structuralEvidence": "Item 2.c is present verbatim in the retrieved MC 227 bytes: 'I am requesting a first violation operating while intoxicated offense to be set aside. At least five years have passed since sentence was imposed or discharge from imprisonment, probation, or parole for the conviction, whichever is later. I have not been convicted of any offense during that time. I have not previously applied to have and had a first violation operating while intoxicated offense conviction set aside.' It sits in the item-2 eligibility series spanning pages 1 to 2 and is a checkbox line, not a document.",
+      "recommendedDisposition": "Merge into MI:MC-227 as a field-level selector for mi_setaside_first_owi. Do not carry it as an acquirable document."
+    },
+    {
+      "acquisitionId": "acquire:MI:mc-227-page-3-proof-of-service",
+      "documentId": "MC 227 page 3 proof of service",
+      "trackIds": [
+        "mi_setaside_application"
+      ],
+      "disposition": "retired_as_document_merged_into_parent_form",
+      "separateBinaryExists": false,
+      "parentDocumentId": "MC-227",
+      "structuralEvidence": "Page 3 of the retrieved MC 227 bytes is headed 'Application to Set Aside Conviction(s) (3/25)' and 'Page 3 of 3', and carries NOTICE OF HEARING followed by PROOF OF SERVICE. The proof of service is a section of page 3, not a separate filing.",
+      "recommendedDisposition": "Merge into MI:MC-227 as page 3."
+    },
+    {
+      "acquisitionId": "acquire:MI:proof-of-service",
+      "documentId": "MI proof of service",
+      "trackIds": [
+        "mi_setaside_trafficking"
+      ],
+      "disposition": "retired_as_document_merged_into_parent_form",
+      "separateBinaryExists": false,
+      "parentDocumentId": "MC-227B",
+      "structuralEvidence": "Page 3 of the retrieved MC 227b bytes is headed 'Application for Human Trafficking Victim to Set Aside Conviction(s) (7/24)' and 'Page 3 of 3', and likewise carries NOTICE OF HEARING followed by PROOF OF SERVICE.",
+      "trackBindingWarning": "This row belongs to MC 227b, not MC 227. The distinction is load-bearing: MC 227b is the required form where the conviction was a direct result of human trafficking, and the retrieved bytes confirm MC 227b contains no item 2.c at all — its item 2 is a single narrative field. Merging this row into MC 227 would bind the trafficking track to the wrong form.",
+      "recommendedDisposition": "Merge into MI:MC-227B as page 3."
+    }
+  ],
+  "redundantAcquisitionWorkRemoved": {
+    "queueRowsClosedWithoutAcquisition": 3,
+    "acquisitionKeys": [
+      "acquire:MI:mc-227-item-2-c",
+      "acquire:MI:mc-227-page-3-proof-of-service",
+      "acquire:MI:proof-of-service"
+    ],
+    "downloadsAvoided": 3,
+    "rationale": "No issuer interaction can produce any of these three as a document, because the issuer does not publish them as documents. They are a checkbox line and two page-3 sections of forms the repository already holds at the publisher's exact bytes."
+  },
+  "correctionsRaised": [
+    {
+      "kind": "missing_revision_on_retained_asset",
+      "severity": "high",
+      "field": "MI:MC-227:PRIMARY_FILING:EN.revision",
+      "recordedValue": "REV-UNKNOWN",
+      "observed": "The retained bytes are byte-identical to the publisher's current file, which prints 'Form MC 227, Rev. 3/25' on the form face, 'Form INST MC 227, Rev. 3/25' on the instruction sheet, and a running '(3/25)' header on pages 2 and 3.",
+      "recommendation": "Set the revision to REV-2025-03. The canonical relative path embeds REV-UNKNOWN and inherits the defect, so it needs regenerating with the corrected revision.",
+      "appliedByThisJob": false,
+      "notAppliedRationale": "The adopted edition is a forbidden path for this job.",
+      "note": "The repository already holds the bytes that prove the revision. REV-UNKNOWN here is a metadata gap, not an evidentiary one — unlike Idaho's BCI application, where REV-UNKNOWN is the correct value because the form carries no revision marking at all."
+    },
+    {
+      "kind": "official_title_wording",
+      "field": "MC-227B official title",
+      "recordedValue": "Application by Human Trafficking Victim to Set Aside Conviction(s)",
+      "observed": "The form face, both running headers and the instruction sheet all read 'Application for Human Trafficking Victim to Set Aside Conviction(s)'. The preposition is 'for', not 'by'.",
+      "recommendation": "Correct the title to 'for'. The artifact filename and canonical path also embed 'application-by-human-trafficking-victim' and inherit the error.",
+      "appliedByThisJob": false,
+      "notAppliedRationale": "Forbidden path for this job."
+    },
+    {
+      "kind": "revision_evidence_flag_review",
+      "field": "MC-227B revisionEvidence",
+      "observed": "The asset audit records revisionEvidence='differs' for MC-227B, with repositoryRevisionText 'MC 227b Rev. 7/24' against libraryRow revision 'REV-2024-07'. Those two express the same revision in different notations.",
+      "assessment": "This reads as a string-comparison artifact rather than a substantive conflict, but it is recorded as observed rather than dismissed.",
+      "recommendation": "Confirm whether the comparator should normalise MM/YY against REV-YYYY-MM before treating 'differs' as a real discrepancy anywhere it appears.",
+      "appliedByThisJob": false
+    }
+  ],
+  "unresolved": [
+    {
+      "question": "Do the SCAO forms carry redistribution or commercial-use terms?",
+      "status": "not_examined_by_this_job",
+      "why": "The three assigned rows resolve without reaching a licensing question, so none was researched. Recorded as unexamined rather than as none published."
+    },
+    {
+      "question": "Both PDFs were regenerated in January 2026 while retaining their 3/25 and 7/24 revision stamps. Does the repository need to distinguish file date from revision?",
+      "status": "recorded_not_resolved",
+      "why": "A re-publish that leaves the printed revision unchanged is not a new revision, and the retained bytes match the republished files exactly. Flagged so a later file-date change is not misread as a revision change."
+    }
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0
+  }
+}
