@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rcap-hi-official-pdf-field-ownership/v1",
+  "title": "Hawaii HCJDC official PDF field ownership map",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "ownerClasses",
+    "policy",
+    "forms"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "rcap-official-pdf-field-ownership/v1"
+    },
+    "familyId": {
+      "const": "rcap-hi-official-pdf-family"
+    },
+    "jurisdiction": {
+      "const": "HI"
+    },
+    "ownerClasses": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "participant",
+          "system_derived",
+          "participant_manual",
+          "court",
+          "judge",
+          "clerk",
+          "prosecutor",
+          "law_enforcement",
+          "agency",
+          "attorney",
+          "notary",
+          "witness",
+          "process_server",
+          "prohibited_from_generation",
+          "not_applicable",
+          "unclassified"
+        ]
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mappingAllowedFor",
+        "mustRemainBlank",
+        "unclassifiedMappingAllowed",
+        "signatureImagesGenerated",
+        "coverageRule",
+        "sourceInspectionRequired"
+      ],
+      "properties": {
+        "mappingAllowedFor": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "participant",
+              "system_derived"
+            ]
+          }
+        },
+        "mustRemainBlank": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "unclassifiedMappingAllowed": {
+          "const": false
+        },
+        "signatureImagesGenerated": {
+          "const": false
+        },
+        "coverageRule": {
+          "type": "string",
+          "minLength": 40
+        },
+        "sourceInspectionRequired": {
+          "const": true
+        }
+      }
+    },
+    "forms": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "$ref": "#/$defs/form"
+      }
+    }
+  },
+  "$defs": {
+    "form": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "officialFormId",
+        "sourceAuthorityState",
+        "status",
+        "expectedFieldCount",
+        "measurementBasis",
+        "coverageComplete",
+        "knownManualCompletionItems",
+        "fields"
+      ],
+      "properties": {
+        "officialFormId": {
+          "enum": [
+            "HCJDC-159",
+            "HCJDC-159B"
+          ]
+        },
+        "sourceAuthorityState": {
+          "const": "authority_unmanifested_source"
+        },
+        "status": {
+          "const": "blocked_authority_unmanifested"
+        },
+        "expectedFieldCount": {
+          "type": "null"
+        },
+        "measurementBasis": {
+          "const": "no_exact_authority_asset"
+        },
+        "coverageComplete": {
+          "const": false
+        },
+        "knownManualCompletionItems": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "semanticItem",
+              "owner",
+              "mappingState"
+            ],
+            "properties": {
+              "semanticItem": {
+                "type": "string",
+                "minLength": 1
+              },
+              "owner": {
+                "const": "participant_manual"
+              },
+              "mappingState": {
+                "const": "semantic_policy_only_no_pdf_field_asserted"
+              }
+            }
+          }
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/field"
+          }
+        }
+      }
+    },
+    "field": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pdfFieldName",
+        "fieldType",
+        "owner",
+        "mapped"
+      ],
+      "properties": {
+        "pdfFieldName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fieldType": {
+          "enum": [
+            "text",
+            "checkbox",
+            "radio",
+            "dropdown",
+            "button",
+            "signature",
+            "other"
+          ]
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mapped": {
+          "type": "boolean"
+        },
+        "factKey": {
+          "type": "string",
+          "minLength": 1
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

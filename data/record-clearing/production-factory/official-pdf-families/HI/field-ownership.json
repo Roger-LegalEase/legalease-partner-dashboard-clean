@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "rcap-official-pdf-field-ownership/v1",
+  "familyId": "rcap-hi-official-pdf-family",
+  "jurisdiction": "HI",
+  "ownerClasses": [
+    "participant",
+    "system_derived",
+    "participant_manual",
+    "court",
+    "judge",
+    "clerk",
+    "prosecutor",
+    "law_enforcement",
+    "agency",
+    "attorney",
+    "notary",
+    "witness",
+    "process_server",
+    "prohibited_from_generation",
+    "not_applicable",
+    "unclassified"
+  ],
+  "policy": {
+    "mappingAllowedFor": [
+      "participant",
+      "system_derived"
+    ],
+    "mustRemainBlank": [
+      "participant_manual",
+      "court",
+      "judge",
+      "clerk",
+      "prosecutor",
+      "law_enforcement",
+      "agency",
+      "attorney",
+      "notary",
+      "witness",
+      "process_server",
+      "prohibited_from_generation"
+    ],
+    "unclassifiedMappingAllowed": false,
+    "signatureImagesGenerated": false,
+    "coverageRule": "After an exact authority asset is adopted and captain-projected, every source field must occur exactly once in the ownership review before any mapping can become active.",
+    "sourceInspectionRequired": true
+  },
+  "forms": [
+    {
+      "officialFormId": "HCJDC-159",
+      "sourceAuthorityState": "authority_unmanifested_source",
+      "status": "blocked_authority_unmanifested",
+      "expectedFieldCount": null,
+      "measurementBasis": "no_exact_authority_asset",
+      "coverageComplete": false,
+      "knownManualCompletionItems": [
+        {
+          "semanticItem": "participant_signature_and_date",
+          "owner": "participant_manual",
+          "mappingState": "semantic_policy_only_no_pdf_field_asserted"
+        },
+        {
+          "semanticItem": "court_order_number_and_date_for_conviction_routes",
+          "owner": "participant_manual",
+          "mappingState": "semantic_policy_only_no_pdf_field_asserted"
+        }
+      ],
+      "fields": []
+    },
+    {
+      "officialFormId": "HCJDC-159B",
+      "sourceAuthorityState": "authority_unmanifested_source",
+      "status": "blocked_authority_unmanifested",
+      "expectedFieldCount": null,
+      "measurementBasis": "no_exact_authority_asset",
+      "coverageComplete": false,
+      "knownManualCompletionItems": [
+        {
+          "semanticItem": "participant_signature_and_date",
+          "owner": "participant_manual",
+          "mappingState": "semantic_policy_only_no_pdf_field_asserted"
+        }
+      ],
+      "fields": []
+    }
+  ]
+}

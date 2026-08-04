@@ -1,0 +1,328 @@
+{
+  "schemaVersion": "rcap-official-pdf-packet-assembly/v1",
+  "familyId": "rcap-hi-official-pdf-family",
+  "jurisdiction": "HI",
+  "assemblyPolicy": {
+    "participantDeliverableWhenReady": "one_pdf",
+    "zipAllowed": false,
+    "deterministic": true,
+    "preserveOfficialFixedLanguage": true,
+    "preserveFillableManualFields": true,
+    "sourceLookupMode": "captain_assigned_portable_projection_only",
+    "legacyPrivatePathLookupAllowed": false,
+    "downloadOrSourceFallbackAllowed": false,
+    "candidateEvidenceSourceFallbackAllowed": false,
+    "generatedSampleSourceFallbackAllowed": false,
+    "signatureImagesGenerated": false,
+    "currentGenerationAllowed": false,
+    "runtimeIntegrationAllowed": false
+  },
+  "packets": [
+    {
+      "trackId": "hi_nonconviction_expungement",
+      "legalDesignOutputStrategy": "official_pdf_fill",
+      "generationState": "blocked",
+      "blockingReasonCodes": [
+        "authority_unmanifested_source",
+        "captain_assignment_required",
+        "portable_projection_required",
+        "field_mapping_pending",
+        "generation_disabled"
+      ],
+      "components": [
+        {
+          "componentId": "hi_nonconviction_expungement-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "HCJDC-159",
+          "order": 1,
+          "familyTreatment": "owned_scaffold",
+          "legalDesignState": "approved",
+          "rendererStrategy": null
+        }
+      ]
+    },
+    {
+      "trackId": "hi_dag_danc_expungement",
+      "legalDesignOutputStrategy": "official_pdf_fill",
+      "generationState": "blocked",
+      "blockingReasonCodes": [
+        "stage_one_guidance_spec_missing",
+        "authority_unmanifested_source",
+        "captain_assignment_required",
+        "portable_projection_required",
+        "field_mapping_pending",
+        "generation_disabled"
+      ],
+      "components": [
+        {
+          "componentId": "hi_dag_danc_expungement-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "order": 1,
+          "familyTreatment": "external_required_component",
+          "legalDesignState": "approved_stage_one_guidance",
+          "rendererStrategy": null
+        },
+        {
+          "componentId": "hi_dag_danc_expungement-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "HCJDC-159B",
+          "order": 2,
+          "familyTreatment": "owned_scaffold",
+          "legalDesignState": "approved_after_one_year_from_discharge_and_dismissal",
+          "rendererStrategy": null
+        }
+      ]
+    },
+    {
+      "trackId": "hi_712_1200_deferred_expungement",
+      "legalDesignOutputStrategy": "official_pdf_fill",
+      "generationState": "blocked",
+      "blockingReasonCodes": [
+        "legal_design_waiting_period_blocker",
+        "stage_one_guidance_spec_missing",
+        "authority_unmanifested_source",
+        "captain_assignment_required",
+        "portable_projection_required",
+        "field_mapping_pending",
+        "generation_disabled"
+      ],
+      "components": [
+        {
+          "componentId": "hi_712_1200_deferred_expungement-process-guidance-1",
+          "role": "process_guidance",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "order": 1,
+          "familyTreatment": "external_required_component",
+          "legalDesignState": "approved_stage_one_guidance",
+          "rendererStrategy": null
+        },
+        {
+          "componentId": "hi_712_1200_deferred_expungement-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "HCJDC-159B",
+          "order": 2,
+          "familyTreatment": "owned_scaffold",
+          "legalDesignState": "blocked_until_three_year_rule_and_section_712_1200_branch_confirmed",
+          "rendererStrategy": null
+        }
+      ]
+    },
+    {
+      "trackId": "hi_first_time_drug_offender_expungement",
+      "legalDesignOutputStrategy": "custom_pleading",
+      "generationState": "blocked",
+      "blockingReasonCodes": [
+        "conviction_stage_one_legal_design_blocker",
+        "authority_unmanifested_source",
+        "captain_assignment_required",
+        "portable_projection_required",
+        "field_mapping_pending",
+        "generation_disabled"
+      ],
+      "components": [
+        {
+          "componentId": "hi_first_time_drug_offender_expungement-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "order": 1,
+          "familyTreatment": "external_required_component",
+          "legalDesignState": "blocked_current_statute_filing_vehicle_allegations_venue_and_service",
+          "rendererStrategy": null
+        },
+        {
+          "componentId": "hi_first_time_drug_offender_expungement-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "HCJDC-159",
+          "order": 2,
+          "familyTreatment": "owned_scaffold",
+          "legalDesignState": "packet_capable_stage_2_after_signed_court_order",
+          "rendererStrategy": null
+        }
+      ]
+    },
+    {
+      "trackId": "hi_marijuana_three_grams_expungement",
+      "legalDesignOutputStrategy": "custom_pleading",
+      "generationState": "blocked",
+      "blockingReasonCodes": [
+        "conviction_stage_one_legal_design_blocker",
+        "authority_unmanifested_source",
+        "captain_assignment_required",
+        "portable_projection_required",
+        "field_mapping_pending",
+        "generation_disabled"
+      ],
+      "components": [
+        {
+          "componentId": "hi_marijuana_three_grams_expungement-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "order": 1,
+          "familyTreatment": "external_required_component",
+          "legalDesignState": "blocked_current_statute_and_filing_vehicle",
+          "rendererStrategy": null
+        },
+        {
+          "componentId": "hi_marijuana_three_grams_expungement-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "HCJDC-159",
+          "order": 2,
+          "familyTreatment": "owned_scaffold",
+          "legalDesignState": "packet_capable_stage_2_after_signed_court_order",
+          "rendererStrategy": null
+        }
+      ]
+    },
+    {
+      "trackId": "hi_pre_2004_drug_offender_expungement",
+      "legalDesignOutputStrategy": "custom_pleading",
+      "generationState": "blocked",
+      "blockingReasonCodes": [
+        "conviction_stage_one_legal_design_blocker",
+        "authority_unmanifested_source",
+        "captain_assignment_required",
+        "portable_projection_required",
+        "field_mapping_pending",
+        "generation_disabled"
+      ],
+      "components": [
+        {
+          "componentId": "hi_pre_2004_drug_offender_expungement-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "order": 1,
+          "familyTreatment": "external_required_component",
+          "legalDesignState": "blocked_section_706_622_8_and_filing_vehicle",
+          "rendererStrategy": null
+        },
+        {
+          "componentId": "hi_pre_2004_drug_offender_expungement-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "HCJDC-159",
+          "order": 2,
+          "familyTreatment": "owned_scaffold",
+          "legalDesignState": "packet_capable_stage_2_after_signed_court_order",
+          "rendererStrategy": null
+        }
+      ]
+    },
+    {
+      "trackId": "hi_first_time_property_offender_expungement",
+      "legalDesignOutputStrategy": "custom_pleading",
+      "generationState": "blocked",
+      "blockingReasonCodes": [
+        "conviction_stage_one_legal_design_blocker",
+        "authority_unmanifested_source",
+        "captain_assignment_required",
+        "portable_projection_required",
+        "field_mapping_pending",
+        "generation_disabled"
+      ],
+      "components": [
+        {
+          "componentId": "hi_first_time_property_offender_expungement-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "order": 1,
+          "familyTreatment": "external_required_component",
+          "legalDesignState": "blocked_section_706_622_9_and_filing_vehicle",
+          "rendererStrategy": null
+        },
+        {
+          "componentId": "hi_first_time_property_offender_expungement-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "HCJDC-159",
+          "order": 2,
+          "familyTreatment": "owned_scaffold",
+          "legalDesignState": "packet_capable_stage_2_after_signed_court_order",
+          "rendererStrategy": null
+        }
+      ]
+    },
+    {
+      "trackId": "hi_under_21_dui_expungement",
+      "legalDesignOutputStrategy": "custom_pleading",
+      "generationState": "blocked",
+      "blockingReasonCodes": [
+        "conviction_stage_one_legal_design_blocker",
+        "authority_unmanifested_source",
+        "captain_assignment_required",
+        "portable_projection_required",
+        "field_mapping_pending",
+        "generation_disabled"
+      ],
+      "components": [
+        {
+          "componentId": "hi_under_21_dui_expungement-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "order": 1,
+          "familyTreatment": "external_required_component",
+          "legalDesignState": "blocked_section_291e_64_e_and_filing_vehicle",
+          "rendererStrategy": null
+        },
+        {
+          "componentId": "hi_under_21_dui_expungement-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "HCJDC-159",
+          "order": 2,
+          "familyTreatment": "owned_scaffold",
+          "legalDesignState": "packet_capable_stage_2_after_signed_court_order",
+          "rendererStrategy": null
+        }
+      ]
+    }
+  ],
+  "excludedTracks": [
+    {
+      "trackId": "hi_state_initiated_marijuana_pilot",
+      "reason": "The adopted route is process_guidance because the state initiates the pilot and no participant filing was identified."
+    }
+  ]
+}

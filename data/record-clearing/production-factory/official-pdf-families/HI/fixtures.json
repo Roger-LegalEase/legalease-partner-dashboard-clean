@@ -1,0 +1,245 @@
+{
+  "schemaVersion": "rcap-official-pdf-fixtures/v1",
+  "familyId": "rcap-hi-official-pdf-family",
+  "jurisdiction": "HI",
+  "fixtureKind": "preflight_contract_only",
+  "containsParticipantFactValues": false,
+  "renderedSampleCount": 0,
+  "sampleArtifacts": [],
+  "routeFixtures": [
+    {
+      "fixtureId": "hi-nonconviction-preflight",
+      "trackId": "hi_nonconviction_expungement",
+      "officialFormId": "HCJDC-159",
+      "componentId": "hi_nonconviction_expungement-primary-filing-1",
+      "requiredFactKeys": [
+        "arrestDetails",
+        "disposition",
+        "courtCaseNumber"
+      ],
+      "manualCompletionSemantics": [
+        "participant_signature_and_date"
+      ],
+      "stageConstraint": null,
+      "currentExpectedBlockers": [
+        "authority_unmanifested_source",
+        "captain_assignment_required",
+        "portable_projection_required",
+        "field_mapping_pending",
+        "generation_disabled"
+      ],
+      "renderExpected": false
+    },
+    {
+      "fixtureId": "hi-dag-danc-preflight",
+      "trackId": "hi_dag_danc_expungement",
+      "officialFormId": "HCJDC-159B",
+      "componentId": "hi_dag_danc_expungement-primary-filing-2",
+      "requiredFactKeys": [
+        "deferredPleaType",
+        "dischargeAndDismissalDate",
+        "courtAndCaseNumber"
+      ],
+      "manualCompletionSemantics": [
+        "participant_signature_and_date"
+      ],
+      "stageConstraint": "Stage 1 remains process guidance; stage 2 follows discharge and dismissal plus the one-year wait measured from that event.",
+      "currentExpectedBlockers": [
+        "stage_one_guidance_spec_missing",
+        "authority_unmanifested_source",
+        "captain_assignment_required",
+        "portable_projection_required",
+        "field_mapping_pending",
+        "generation_disabled"
+      ],
+      "renderExpected": false
+    },
+    {
+      "fixtureId": "hi-712-1200-preflight",
+      "trackId": "hi_712_1200_deferred_expungement",
+      "officialFormId": "HCJDC-159B",
+      "componentId": "hi_712_1200_deferred_expungement-primary-filing-2",
+      "requiredFactKeys": [
+        "chargeSection",
+        "dischargeAndDismissalDate",
+        "courtAndCaseNumber"
+      ],
+      "manualCompletionSemantics": [
+        "participant_signature_and_date"
+      ],
+      "stageConstraint": "Do not generate stage 2 until current statutory text, the qualifying section 712-1200 branch, and authority for the three-year wait are confirmed.",
+      "currentExpectedBlockers": [
+        "legal_design_waiting_period_blocker",
+        "stage_one_guidance_spec_missing",
+        "authority_unmanifested_source",
+        "captain_assignment_required",
+        "portable_projection_required",
+        "field_mapping_pending",
+        "generation_disabled"
+      ],
+      "renderExpected": false
+    },
+    {
+      "fixtureId": "hi-first-time-drug-preflight",
+      "trackId": "hi_first_time_drug_offender_expungement",
+      "officialFormId": "HCJDC-159",
+      "componentId": "hi_first_time_drug_offender_expungement-primary-filing-2",
+      "requiredFactKeys": [
+        "convictionDetails",
+        "firstTimeOffender",
+        "sentenceCompletion"
+      ],
+      "manualCompletionSemantics": [
+        "court_order_number_and_date",
+        "participant_signature_and_date"
+      ],
+      "stageConstraint": "Stage 1 is a court filing with unresolved legal design; stage 2 is packet-capable only after the participant obtains the signed court order.",
+      "currentExpectedBlockers": [
+        "conviction_stage_one_legal_design_blocker",
+        "authority_unmanifested_source",
+        "captain_assignment_required",
+        "portable_projection_required",
+        "field_mapping_pending",
+        "generation_disabled"
+      ],
+      "renderExpected": false
+    },
+    {
+      "fixtureId": "hi-three-grams-marijuana-preflight",
+      "trackId": "hi_marijuana_three_grams_expungement",
+      "officialFormId": "HCJDC-159",
+      "componentId": "hi_marijuana_three_grams_expungement-primary-filing-2",
+      "requiredFactKeys": [
+        "convictionDetails",
+        "quantity",
+        "sentenceCompletion"
+      ],
+      "manualCompletionSemantics": [
+        "court_order_number_and_date",
+        "participant_signature_and_date"
+      ],
+      "stageConstraint": "Stage 1 is a court filing with unresolved legal design; stage 2 is packet-capable only after the participant obtains the signed court order.",
+      "currentExpectedBlockers": [
+        "conviction_stage_one_legal_design_blocker",
+        "authority_unmanifested_source",
+        "captain_assignment_required",
+        "portable_projection_required",
+        "field_mapping_pending",
+        "generation_disabled"
+      ],
+      "renderExpected": false
+    },
+    {
+      "fixtureId": "hi-pre-2004-drug-preflight",
+      "trackId": "hi_pre_2004_drug_offender_expungement",
+      "officialFormId": "HCJDC-159",
+      "componentId": "hi_pre_2004_drug_offender_expungement-primary-filing-2",
+      "requiredFactKeys": [
+        "convictionDetails",
+        "sentencingDate",
+        "firstTimeOffender"
+      ],
+      "manualCompletionSemantics": [
+        "court_order_number_and_date",
+        "participant_signature_and_date"
+      ],
+      "stageConstraint": "Stage 1 remains blocked on section 706-622.8 and the accepted filing vehicle; stage 2 requires the signed court order.",
+      "currentExpectedBlockers": [
+        "conviction_stage_one_legal_design_blocker",
+        "authority_unmanifested_source",
+        "captain_assignment_required",
+        "portable_projection_required",
+        "field_mapping_pending",
+        "generation_disabled"
+      ],
+      "renderExpected": false
+    },
+    {
+      "fixtureId": "hi-first-time-property-preflight",
+      "trackId": "hi_first_time_property_offender_expungement",
+      "officialFormId": "HCJDC-159",
+      "componentId": "hi_first_time_property_offender_expungement-primary-filing-2",
+      "requiredFactKeys": [
+        "convictionDetails",
+        "firstTimePropertyOffender",
+        "sentenceCompletion"
+      ],
+      "manualCompletionSemantics": [
+        "court_order_number_and_date",
+        "participant_signature_and_date"
+      ],
+      "stageConstraint": "Stage 1 remains blocked on section 706-622.9 and the accepted filing vehicle; stage 2 requires the signed court order.",
+      "currentExpectedBlockers": [
+        "conviction_stage_one_legal_design_blocker",
+        "authority_unmanifested_source",
+        "captain_assignment_required",
+        "portable_projection_required",
+        "field_mapping_pending",
+        "generation_disabled"
+      ],
+      "renderExpected": false
+    },
+    {
+      "fixtureId": "hi-under-21-dui-preflight",
+      "trackId": "hi_under_21_dui_expungement",
+      "officialFormId": "HCJDC-159",
+      "componentId": "hi_under_21_dui_expungement-primary-filing-2",
+      "requiredFactKeys": [
+        "convictionDetails",
+        "ageAtOffence",
+        "sentenceCompletion"
+      ],
+      "manualCompletionSemantics": [
+        "court_order_number_and_date",
+        "participant_signature_and_date"
+      ],
+      "stageConstraint": "Stage 1 remains blocked on section 291E-64(e) and the accepted filing vehicle; stage 2 requires the signed court order.",
+      "currentExpectedBlockers": [
+        "conviction_stage_one_legal_design_blocker",
+        "authority_unmanifested_source",
+        "captain_assignment_required",
+        "portable_projection_required",
+        "field_mapping_pending",
+        "generation_disabled"
+      ],
+      "renderExpected": false
+    }
+  ],
+  "boundaryFixtures": [
+    {
+      "fixtureId": "hi-authority-unmanifested",
+      "kind": "authority_unmanifested",
+      "expect": "HCJDC-159 and HCJDC-159B are refused before source resolution."
+    },
+    {
+      "fixtureId": "hi-candidate-substitution-prohibited",
+      "kind": "candidate_substitution_prohibited",
+      "expect": "A hold_provenance candidate pin never satisfies either official form identity."
+    },
+    {
+      "fixtureId": "hi-captain-assignment-required",
+      "kind": "captain_assignment_required",
+      "expect": "No worker-ready state exists while assignmentAnchor is null."
+    },
+    {
+      "fixtureId": "hi-portable-projection-required",
+      "kind": "portable_projection_required",
+      "expect": "No source inspection occurs while portableProjection is null."
+    },
+    {
+      "fixtureId": "hi-private-path-read-prohibited",
+      "kind": "private_path_read_prohibited",
+      "expect": "Repository paths remain inert identity strings and are never resolved or opened."
+    },
+    {
+      "fixtureId": "hi-712-waiting-period-blocker",
+      "kind": "legal_design_waiting_period",
+      "expect": "The section 712-1200 stage-two application remains blocked even if source dependencies later clear."
+    },
+    {
+      "fixtureId": "hi-conviction-stage-one-blocker",
+      "kind": "conviction_stage_one_legal_design",
+      "expect": "The five conviction packet sequences remain blocked until the stage-one filing design is resolved."
+    }
+  ]
+}

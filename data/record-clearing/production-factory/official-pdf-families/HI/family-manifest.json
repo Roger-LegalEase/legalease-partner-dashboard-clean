@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "rcap-official-pdf-family/v1",
+  "familyId": "rcap-hi-official-pdf-family",
+  "jurisdiction": "HI",
+  "authorityFamily": "Hawaii Criminal Justice Data Center expungement applications",
+  "productionQueuePriority": 11,
+  "scope": {
+    "trackIds": [
+      "hi_nonconviction_expungement",
+      "hi_dag_danc_expungement",
+      "hi_712_1200_deferred_expungement",
+      "hi_first_time_drug_offender_expungement",
+      "hi_marijuana_three_grams_expungement",
+      "hi_pre_2004_drug_offender_expungement",
+      "hi_first_time_property_offender_expungement",
+      "hi_under_21_dui_expungement"
+    ],
+    "officialFormIds": [
+      "HCJDC-159",
+      "HCJDC-159B"
+    ],
+    "routeCount": 8,
+    "officialPdfComponentCount": 8,
+    "documentIdentityCount": 2
+  },
+  "immutableInputs": {
+    "legalDesignIntake": "data/record-clearing/legal-design-intake/HI.memo.json",
+    "legalDesignTrackRegistry": "data/record-clearing/legal-design-track-registry.json",
+    "packetSetManifests": "data/record-clearing/legal-design-packet-set-manifests.json",
+    "trackSourceRelationships": "data/record-clearing/legal-design-track-source-relationships.json",
+    "legalDesignSpecifications": "data/record-clearing/legal-design-specifications.json",
+    "masterLibraryAuthority": "data/record-clearing/master-library/authority.json",
+    "edition12TrackSourceAudit": "data/record-clearing/master-library/track-source-audit.json",
+    "edition12RepositoryAssetAudit": "data/record-clearing/master-library/repository-asset-audit.json",
+    "edition12CandidateDispositions": "data/record-clearing/master-library/edition-1-2/candidate-dispositions.json",
+    "edition12SourceAcquisitionQueue": "data/record-clearing/master-library/source-acquisition-queue.json",
+    "sourceArtifactRegistry": "data/record-clearing/source-artifact-registry.json",
+    "productionQueue": "data/record-clearing/production-factory/official-pdf-production-queue.json",
+    "sourceMaterializationContract": "docs/record-clearing/RCAP_SOURCE_MATERIALIZATION_CONTRACT.md"
+  },
+  "authorityPosture": {
+    "knownDocumentIdentityCount": 2,
+    "adoptedAuthorityAssetCount": 0,
+    "authorityUnmanifestedDocumentCount": 2,
+    "exactCandidateEvidencePinCount": 3,
+    "candidateEvidenceMappedToAuthorityIdentityCount": 0,
+    "captainProjectedExactSourceCount": 0,
+    "routeReadyCount": 0
+  },
+  "sourceMaterialization": {
+    "requirementManifest": "data/record-clearing/production-factory/official-pdf-families/HI/source-requirements.json",
+    "contractKind": "dependency_scaffold_not_worker_assignment",
+    "assignmentAnchor": null,
+    "portableProjection": null,
+    "portableProjectionAvailable": false,
+    "captainAssignmentRequired": true,
+    "portableProjectionRequired": true,
+    "state": "authority_asset_then_captain_assignment_and_portable_projection_required",
+    "workerReady": false,
+    "workerMaterializationAuthorized": false,
+    "workerReadAuthorized": false,
+    "workerMayAcquireOrDownloadSources": false,
+    "repositorySourcePathTreatment": "identity_evidence_only_never_worker_source",
+    "historicalRepositoryPathTreatment": "identity_evidence_only_never_worker_source",
+    "generatedOrHistoricalSampleMaySubstituteForSource": false,
+    "unmanifestedCandidateMaySubstituteForAuthorityAsset": false
+  },
+  "artifacts": {
+    "dependencies": "data/record-clearing/production-factory/official-pdf-families/HI/dependencies.json",
+    "sourceRequirements": "data/record-clearing/production-factory/official-pdf-families/HI/source-requirements.json",
+    "rendererScaffold": "data/record-clearing/production-factory/official-pdf-families/HI/renderer-scaffold.json",
+    "fieldMapScaffold": "data/record-clearing/production-factory/official-pdf-families/HI/field-map-scaffold.json",
+    "fieldOwnershipSchema": "data/record-clearing/production-factory/official-pdf-families/HI/field-ownership.schema.json",
+    "fieldOwnership": "data/record-clearing/production-factory/official-pdf-families/HI/field-ownership.json",
+    "fixtureSchema": "data/record-clearing/production-factory/official-pdf-families/HI/fixtures.schema.json",
+    "fixtures": "data/record-clearing/production-factory/official-pdf-families/HI/fixtures.json",
+    "packetAssembly": "data/record-clearing/production-factory/official-pdf-families/HI/packet-assembly.json",
+    "reviewManifest": "data/record-clearing/production-factory/official-pdf-families/HI/review-manifest.json"
+  },
+  "implementationModule": "src/lib/rcap/packets/jurisdictions/hawaii/official-pdf/family.ts",
+  "dedicatedVerifier": "scripts/verify-rcap-hawaii-hcjdc-official-pdf-family.mjs",
+  "preservedAdjacentHawaiiSurfaces": [
+    "src/lib/rcap/state-packs/hawaii/index.ts",
+    "src/lib/rcap/state-packs/hawaii/all50-build-metadata.ts",
+    "scripts/verify-rcap-hawaii-admin-application.mjs",
+    "docs/expungement-ai/HAWAII_ADMIN_APPLICATION_PACKET.md"
+  ],
+  "status": {
+    "legalDesignChanged": false,
+    "sourceRequirements": "document_identity_known_exact_authority_asset_unresolved",
+    "localSourceVerification": "blocked_authority_asset_and_captain_projection_absent",
+    "rendererSelection": "scaffolded_no_active_renderer",
+    "fieldMapping": "scaffolded_no_active_mapping",
+    "packetAssembly": "contracted_runtime_blocked",
+    "sourceBackedSampleCount": 0,
+    "visualReview": "blocked_before_source_backed_sample",
+    "counselReview": "not_submitted",
+    "packetReady": false,
+    "generationAllowed": false,
+    "enabled": false
+  },
+  "invariants": [
+    "The normalized Hawaii legal design, component ordering, staged-route boundaries, waiting-period blockers, and participant-action treatment remain unchanged.",
+    "HCJDC-159 and HCJDC-159B remain authority_unmanifested_source under Edition 1.2.",
+    "No repository candidate is inferred to be HCJDC-159 or HCJDC-159B.",
+    "Exact hashes and byte counts for hold_provenance candidates are identity evidence only and never resolver-selectable.",
+    "No worker resolves or reads a legacy private repository path.",
+    "No worker downloads, reconstructs, copies, edits, replaces, or materializes a source.",
+    "No active renderer, field mapping, overlay placement, packet rendering, or sample exists.",
+    "Participant signatures and dates remain manual; court-order references on conviction routes remain manual until the participant has the signed order.",
+    "Judge, clerk, prosecutor, law-enforcement, agency, attorney, notary, witness, and process-server fields remain blank unless a future adopted source expressly assigns the field to the participant.",
+    "The existing Hawaii state-pack and administrative-application surfaces remain unchanged and do not import this module.",
+    "This module is not imported by a live or shared packet registry."
+  ]
+}
