@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rcap-md-official-pdf-field-ownership/v1",
+  "title": "Maryland official PDF field ownership map",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "jurisdiction",
+    "ownerClasses",
+    "policy",
+    "forms"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "rcap-official-pdf-field-ownership/v1"
+    },
+    "familyId": {
+      "const": "md-district-court-expungement-form-family"
+    },
+    "jurisdiction": {
+      "const": "MD"
+    },
+    "ownerClasses": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "participant",
+          "system_derived",
+          "participant_manual",
+          "witness_manual",
+          "court",
+          "judge",
+          "clerk",
+          "prosecutor",
+          "agency",
+          "attorney",
+          "notary",
+          "process_server",
+          "prohibited_from_generation",
+          "not_applicable",
+          "unclassified"
+        ]
+      }
+    },
+    "policy": {
+      "type": "object"
+    },
+    "forms": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "documentId",
+          "status",
+          "expectedFieldCount",
+          "measurementBasis",
+          "coverageComplete",
+          "fields"
+        ],
+        "properties": {
+          "documentId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "pending_materialization",
+              "inventory_verified",
+              "ownership_reviewed"
+            ]
+          },
+          "expectedFieldCount": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "measurementBasis": {
+            "type": "string",
+            "minLength": 1
+          },
+          "coverageComplete": {
+            "type": "boolean"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "pdfFieldName",
+                "fieldType",
+                "owner",
+                "mapped"
+              ],
+              "properties": {
+                "pdfFieldName": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "fieldType": {
+                  "enum": [
+                    "text",
+                    "checkbox",
+                    "radio",
+                    "dropdown",
+                    "button",
+                    "signature",
+                    "other"
+                  ]
+                },
+                "owner": {
+                  "enum": [
+                    "participant",
+                    "system_derived",
+                    "participant_manual",
+                    "witness_manual",
+                    "court",
+                    "judge",
+                    "clerk",
+                    "prosecutor",
+                    "agency",
+                    "attorney",
+                    "notary",
+                    "process_server",
+                    "prohibited_from_generation",
+                    "not_applicable",
+                    "unclassified"
+                  ]
+                },
+                "mapped": {
+                  "type": "boolean"
+                },
+                "factKey": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "note": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "schemaVersion": "rcap-official-pdf-family-dependencies/v1",
+  "familyId": "md-district-court-expungement-form-family",
+  "jurisdiction": "MD",
+  "dependencies": [
+    {
+      "dependencyId": "md-source-materialization",
+      "kind": "exact_source_materialization",
+      "status": "blocked",
+      "requiredFor": [
+        "pdf_structure_inspection",
+        "field_inventory",
+        "field_ownership",
+        "field_mapping",
+        "sample_rendering"
+      ],
+      "documentIds": [
+        "CC-DC-CR-072A",
+        "CC-DC-CR-072B",
+        "CC-DC-CR-072C",
+        "CC-DC-CR-072D",
+        "CC-DC-CR-078",
+        "CC-DC-089"
+      ],
+      "resolution": "Materialize the exact read-only bytes at the destinations in source-requirements.json and verify each SHA-256, byte count, and application/pdf signature.",
+      "workerMayResolveByDownload": false
+    },
+    {
+      "dependencyId": "md-072-authority-clearance",
+      "kind": "authority_source_gate",
+      "status": "blocked",
+      "requiredFor": [
+        "renderer_selection",
+        "participant_packet_proof",
+        "runtime_selection"
+      ],
+      "documentIds": [
+        "CC-DC-CR-072A",
+        "CC-DC-CR-072B",
+        "CC-DC-CR-072C",
+        "CC-DC-CR-072D"
+      ],
+      "resolution": "Re-confirm the printed revision and current publication status with the Maryland Judiciary and publish the resulting authority disposition through the captain-owned edition process.",
+      "workerMayResolve": false
+    },
+    {
+      "dependencyId": "md-078-source-relationship-pin",
+      "kind": "source_relationship_sha_pin",
+      "status": "blocked",
+      "requiredFor": [
+        "authority_cleared_track"
+      ],
+      "documentIds": [
+        "CC-DC-CR-078"
+      ],
+      "trackIds": [
+        "md_10105_early"
+      ],
+      "resolution": "Captain-owned integration must pin the exact retained packet-form SHA-256 and confirm the attachment role after the primary source gate is cleared.",
+      "workerMayResolve": false
+    },
+    {
+      "dependencyId": "md-089-source-relationship-and-role-pin",
+      "kind": "source_relationship_sha_and_role_pin",
+      "status": "blocked",
+      "requiredFor": [
+        "authority_cleared_track"
+      ],
+      "documentIds": [
+        "CC-DC-089"
+      ],
+      "trackIds": [
+        "md_10110_conviction",
+        "md_cannabis_petition",
+        "md_pardon_expungement"
+      ],
+      "resolution": "Captain-owned integration must pin the exact retained packet-form SHA-256 while preserving the normalized packet role fee_waiver. Edition 1.2's PETITION document role is recorded as a known mis-role and is not copied into packet assembly semantics.",
+      "workerMayResolve": false
+    },
+    {
+      "dependencyId": "md-existing-shielding-tranche",
+      "kind": "preserved_completed_implementation",
+      "status": "satisfied",
+      "requiredFor": [
+        "regression_preservation"
+      ],
+      "documentIds": [
+        "CC-DC-CR-148",
+        "MDJ-008"
+      ],
+      "resolution": "Keep the Tranche 2 registry, renderer behavior, fixtures, ownership map, and verifier unchanged."
+    }
+  ],
+  "routeReleaseBlockersPreserved": [
+    {
+      "trackId": "md_10105_favorable",
+      "blockers": [
+        "The waiting period for a case transferred to juvenile court under § 4-202 is unspecified in § 10-105(c).",
+        "The enacted status and effect of Maryland SB 315 from the 2026 session remains unresolved in the controlling legal design."
+      ]
+    },
+    {
+      "trackId": "md_cannabis_petition",
+      "blockers": [
+        "The filing fee for CC-DC-CR-072D remains unresolved."
+      ]
+    },
+    {
+      "trackId": "md_pardon_expungement",
+      "blockers": [
+        "The June 2024 mass-pardon fit with § 10-105(a)(8), including the only-one-criminal-act condition, remains unresolved."
+      ]
+    }
+  ],
+  "excludedOrExternalForms": [
+    {
+      "documentId": "CC-DC-CR-148",
+      "treatment": "external_completed_tranche",
+      "reason": "Already implemented with MDJ-008 by Maryland Tranche 2."
+    },
+    {
+      "documentId": "MDJ-008",
+      "treatment": "external_completed_tranche",
+      "reason": "Already implemented as the required shielding companion by Maryland Tranche 2."
+    },
+    {
+      "documentId": "DC-CR-071",
+      "treatment": "not_an_official_pdf_fill_route",
+      "reason": "The adopted md_10103_legacy_police node is process_guidance on a closed statutory window; the retained binary is source-gated and encrypted."
+    },
+    {
+      "documentId": "CC-DC-CR-072G2",
+      "treatment": "reference_not_packet_component",
+      "reason": "The adopted packet sets do not include this eligibility reference as a participant filing component, and no verified local source is available."
+    },
+    {
+      "documentId": "JUV-11-506.1",
+      "treatment": "outside_imp_of_01_normalized_family",
+      "reason": "No adopted Maryland official_pdf_fill track in IMP-OF-01 binds this juvenile form."
+    }
+  ]
+}

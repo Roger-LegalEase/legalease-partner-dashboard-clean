@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rcap-md-official-pdf-fixtures/v1",
+  "title": "Maryland District Court official PDF family fixtures",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "familyId",
+    "syntheticDataOnly",
+    "syntheticDataRule",
+    "positiveFixtures",
+    "boundaryFixtures"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "rcap-official-pdf-fixtures/v1"
+    },
+    "familyId": {
+      "const": "md-district-court-expungement-form-family"
+    },
+    "syntheticDataOnly": {
+      "const": true
+    },
+    "syntheticDataRule": {
+      "type": "string",
+      "minLength": 40
+    },
+    "positiveFixtures": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "$ref": "#/$defs/positiveFixture"
+      }
+    },
+    "boundaryFixtures": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "$ref": "#/$defs/boundaryFixture"
+      }
+    }
+  },
+  "$defs": {
+    "positiveFixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fixtureId",
+        "trackId",
+        "caseReference",
+        "currentExpectedResult",
+        "facts",
+        "manualFieldsExpectedBlank"
+      ],
+      "properties": {
+        "fixtureId": {
+          "type": "string",
+          "pattern": "^md-"
+        },
+        "trackId": {
+          "type": "string",
+          "pattern": "^md_"
+        },
+        "caseReference": {
+          "type": "string",
+          "pattern": "^SYN-"
+        },
+        "currentExpectedResult": {
+          "const": "authority_source_gated"
+        },
+        "facts": {
+          "type": "object",
+          "minProperties": 6
+        },
+        "manualFieldsExpectedBlank": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "boundaryFixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fixtureId",
+        "trackId",
+        "basedOn",
+        "kind",
+        "expect"
+      ],
+      "properties": {
+        "fixtureId": {
+          "type": "string",
+          "pattern": "^md-"
+        },
+        "trackId": {
+          "type": "string",
+          "pattern": "^md_"
+        },
+        "basedOn": {
+          "type": "string",
+          "pattern": "^md-"
+        },
+        "kind": {
+          "enum": [
+            "materialization_required",
+            "authority_source_gated",
+            "third_party_field_ownership",
+            "conditional_companion_only",
+            "authority_role_mismatch"
+          ]
+        },
+        "expect": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}
