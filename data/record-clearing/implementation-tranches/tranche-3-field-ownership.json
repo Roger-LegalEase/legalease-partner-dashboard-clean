@@ -1,0 +1,2130 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-3-georgia-superior-court-pleadings",
+  "jurisdiction": "GA",
+  "note": "Who supplies each value on a Georgia packet. Three owners only: the participant, LegalEase's deriver, and a third party who is never prefilled. LegalEase asserts no fact of its own beyond the statutory recitals in the approved template language.",
+  "ownershipClasses": {
+    "participant": "Answered by the participant and reproduced without change.",
+    "participant_authored_verbatim": "Written by the participant in their own words and reproduced verbatim, introduced as the participant's own statement.",
+    "legalease_derived": "Computed by deriveGeorgiaFacts from a participant answer. Either a capitalisation of a participant value for a caption, or the approved allegation sentence for a closed-list branch. Never a new fact.",
+    "participant_completes_by_hand": "Left blank in the generated packet for the participant to complete before filing.",
+    "third_party_never_prefilled": "Belongs to the court, the clerk, the prosecuting attorney, a law enforcement agency or a notary. Always blank."
+  },
+  "tracks": [
+    {
+      "trackId": "ga-felony-j1",
+      "participantFields": [
+        {
+          "key": "defendantName",
+          "label": "Full legal name",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "dateOfBirth",
+          "label": "Date of birth",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "mailingAddress",
+          "label": "Mailing address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "countyOfResidence",
+          "label": "County of residence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "courtName",
+          "label": "Court that handled the case",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "courtCounty",
+          "label": "County of that court",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "caseNumber",
+          "label": "Case number",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "offenseDescription",
+          "label": "Offence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "offenseCodeSection",
+          "label": "O.C.G.A. Code section of the offence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "arrestDate",
+          "label": "Date of arrest",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "arrestingAgencyName",
+          "label": "Arresting law enforcement agency",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "prosecutingAuthorityName",
+          "label": "Prosecuting attorney",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "prosecutingAuthorityAddress",
+          "label": "Prosecuting attorney's address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "serviceMethod",
+          "label": "How the copy will be delivered",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "otn",
+          "label": "Offender tracking number (OTN), if you know it",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "contactPhone",
+          "label": "Telephone number",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "contactEmail",
+          "label": "Email address",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "arrestingAgencyAddress",
+          "label": "Arresting agency's address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "felonyChargeDescription",
+          "label": "The felony charge you want restricted",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "felonyDisposition",
+          "label": "How the felony charge was resolved",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "felonyDispositionDate",
+          "label": "Date the felony charge was resolved",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "misdemeanorConvictionDescription",
+          "label": "The misdemeanour you were convicted of",
+          "required": true,
+          "ownership": "participant"
+        }
+      ],
+      "participantAuthoredFields": [
+        {
+          "key": "participantNarrative",
+          "label": "Your own statement",
+          "required": true,
+          "ownership": "participant_authored_verbatim",
+          "rule": "Reproduced without change, introduced as the participant's own words and attributed to them on the face of the document. LegalEase does not edit, summarise, improve or legally characterise it."
+        }
+      ],
+      "derivedFields": [
+        {
+          "key": "courtNameUpper",
+          "from": "courtName",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line."
+        },
+        {
+          "key": "courtCountyUpper",
+          "from": "courtCounty",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line."
+        },
+        {
+          "key": "arrestCountyUpper",
+          "from": "arrestCounty or courtCounty",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line on the superior-court-of-arrest route."
+        },
+        {
+          "key": "felonyDisposition",
+          "from": "felonyDisposition",
+          "ownership": "legalease_derived",
+          "rule": "Closed list. Resolves to an approved allegation clause; an unapproved value fails closed."
+        }
+      ],
+      "participantCompletesByHand": [
+        {
+          "field": "Signature and date",
+          "where": "Petition or motion signature block, and the certificate of service",
+          "why": "The filing is the participant's own. Signed \"Defendant, Pro Se\" where unrepresented."
+        },
+        {
+          "field": "Date of delivery",
+          "where": "Certificate of service",
+          "why": "Known only when the copy is actually delivered."
+        },
+        {
+          "field": "Offender tracking number, where not known at generation",
+          "where": "Caption and proposed order",
+          "why": "The packet generates without it; the participant adds it from their criminal history. An order that does not name the OTN is harder for GCIC to act on."
+        }
+      ],
+      "thirdPartyFields": [
+        {
+          "field": "Judge name and signature",
+          "owner": "court",
+          "where": "Caption and proposed order signature block",
+          "prefilled": false,
+          "why": "The court assigns the judge and signs its own order. Never prefilled."
+        },
+        {
+          "field": "Hearing date",
+          "owner": "court",
+          "where": "Caption and proposed order",
+          "prefilled": false,
+          "why": "Set by the court after filing, where a hearing is requested."
+        },
+        {
+          "field": "Case-number stamp and filing date",
+          "owner": "clerk",
+          "where": "Face of the filing",
+          "prefilled": false,
+          "why": "Applied by the clerk on receipt."
+        },
+        {
+          "field": "Findings and grant or denial election",
+          "owner": "court",
+          "where": "Proposed order",
+          "prefilled": false,
+          "why": "Rendered as blank elections. The court decides; LegalEase never pre-selects an outcome."
+        },
+        {
+          "field": "Clerk certification of sealing",
+          "owner": "clerk",
+          "where": "After the order",
+          "prefilled": false,
+          "why": "The clerk acts within 60 days of the order. Not part of the filing."
+        },
+        {
+          "field": "Prosecuting attorney's response",
+          "owner": "prosecutor",
+          "where": "Not in the packet",
+          "prefilled": false,
+          "why": "The prosecuting attorney receives notice. Notice is not a request for consent, and no route in this family has an objection form."
+        },
+        {
+          "field": "Arresting agency and GCIC compliance",
+          "owner": "law_enforcement",
+          "where": "After the order",
+          "prefilled": false,
+          "why": "Agencies restrict their own records on receiving the order. Nothing in the packet is completed by them."
+        },
+        {
+          "field": "Notary block",
+          "owner": "notary",
+          "where": "Not present",
+          "prefilled": false,
+          "why": "No route in this family requires verification or notarization, so no notary block is drawn at all. A blank notary block invites a participant to pay for something the statute does not ask for."
+        }
+      ]
+    },
+    {
+      "trackId": "ga-vacated-j2",
+      "participantFields": [
+        {
+          "key": "defendantName",
+          "label": "Full legal name",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "dateOfBirth",
+          "label": "Date of birth",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "mailingAddress",
+          "label": "Mailing address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "countyOfResidence",
+          "label": "County of residence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "courtName",
+          "label": "Court that handled the case",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "courtCounty",
+          "label": "County of that court",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "caseNumber",
+          "label": "Case number",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "offenseDescription",
+          "label": "Offence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "offenseCodeSection",
+          "label": "O.C.G.A. Code section of the offence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "arrestDate",
+          "label": "Date of arrest",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "arrestingAgencyName",
+          "label": "Arresting law enforcement agency",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "prosecutingAuthorityName",
+          "label": "Prosecuting attorney",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "prosecutingAuthorityAddress",
+          "label": "Prosecuting attorney's address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "serviceMethod",
+          "label": "How the copy will be delivered",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "otn",
+          "label": "Offender tracking number (OTN), if you know it",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "contactPhone",
+          "label": "Telephone number",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "contactEmail",
+          "label": "Email address",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "vacatedOrReversed",
+          "label": "Was the conviction vacated or reversed?",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "vacatingCourtName",
+          "label": "Court that vacated or reversed the conviction",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "vacatingOrderDate",
+          "label": "Date of the vacating or reversing order",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "finalityDate",
+          "label": "Date the decision became final",
+          "required": true,
+          "ownership": "participant"
+        }
+      ],
+      "participantAuthoredFields": [
+        {
+          "key": "participantNarrative",
+          "label": "Your own statement",
+          "required": true,
+          "ownership": "participant_authored_verbatim",
+          "rule": "Reproduced without change, introduced as the participant's own words and attributed to them on the face of the document. LegalEase does not edit, summarise, improve or legally characterise it."
+        }
+      ],
+      "derivedFields": [
+        {
+          "key": "courtNameUpper",
+          "from": "courtName",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line."
+        },
+        {
+          "key": "courtCountyUpper",
+          "from": "courtCounty",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line."
+        },
+        {
+          "key": "arrestCountyUpper",
+          "from": "arrestCounty or courtCounty",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line on the superior-court-of-arrest route."
+        },
+        {
+          "key": "vacatedOrReversed",
+          "from": "vacatedOrReversed",
+          "ownership": "legalease_derived",
+          "rule": "Closed list of two. Vacated and reversed are different acts by different courts."
+        }
+      ],
+      "participantCompletesByHand": [
+        {
+          "field": "Signature and date",
+          "where": "Petition or motion signature block, and the certificate of service",
+          "why": "The filing is the participant's own. Signed \"Defendant, Pro Se\" where unrepresented."
+        },
+        {
+          "field": "Date of delivery",
+          "where": "Certificate of service",
+          "why": "Known only when the copy is actually delivered."
+        },
+        {
+          "field": "Offender tracking number, where not known at generation",
+          "where": "Caption and proposed order",
+          "why": "The packet generates without it; the participant adds it from their criminal history. An order that does not name the OTN is harder for GCIC to act on."
+        }
+      ],
+      "thirdPartyFields": [
+        {
+          "field": "Judge name and signature",
+          "owner": "court",
+          "where": "Caption and proposed order signature block",
+          "prefilled": false,
+          "why": "The court assigns the judge and signs its own order. Never prefilled."
+        },
+        {
+          "field": "Hearing date",
+          "owner": "court",
+          "where": "Caption and proposed order",
+          "prefilled": false,
+          "why": "Set by the court after filing, where a hearing is requested."
+        },
+        {
+          "field": "Case-number stamp and filing date",
+          "owner": "clerk",
+          "where": "Face of the filing",
+          "prefilled": false,
+          "why": "Applied by the clerk on receipt."
+        },
+        {
+          "field": "Findings and grant or denial election",
+          "owner": "court",
+          "where": "Proposed order",
+          "prefilled": false,
+          "why": "Rendered as blank elections. The court decides; LegalEase never pre-selects an outcome."
+        },
+        {
+          "field": "Clerk certification of sealing",
+          "owner": "clerk",
+          "where": "After the order",
+          "prefilled": false,
+          "why": "The clerk acts within 60 days of the order. Not part of the filing."
+        },
+        {
+          "field": "Prosecuting attorney's response",
+          "owner": "prosecutor",
+          "where": "Not in the packet",
+          "prefilled": false,
+          "why": "The prosecuting attorney receives notice. Notice is not a request for consent, and no route in this family has an objection form."
+        },
+        {
+          "field": "Arresting agency and GCIC compliance",
+          "owner": "law_enforcement",
+          "where": "After the order",
+          "prefilled": false,
+          "why": "Agencies restrict their own records on receiving the order. Nothing in the packet is completed by them."
+        },
+        {
+          "field": "Notary block",
+          "owner": "notary",
+          "where": "Not present",
+          "prefilled": false,
+          "why": "No route in this family requires verification or notarization, so no notary block is drawn at all. A blank notary block invites a participant to pay for something the statute does not ask for."
+        }
+      ]
+    },
+    {
+      "trackId": "ga-deaddocket-j3",
+      "participantFields": [
+        {
+          "key": "defendantName",
+          "label": "Full legal name",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "dateOfBirth",
+          "label": "Date of birth",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "mailingAddress",
+          "label": "Mailing address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "countyOfResidence",
+          "label": "County of residence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "courtName",
+          "label": "Court that handled the case",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "courtCounty",
+          "label": "County of that court",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "caseNumber",
+          "label": "Case number",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "offenseDescription",
+          "label": "Offence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "offenseCodeSection",
+          "label": "O.C.G.A. Code section of the offence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "arrestDate",
+          "label": "Date of arrest",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "arrestingAgencyName",
+          "label": "Arresting law enforcement agency",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "prosecutingAuthorityName",
+          "label": "Prosecuting attorney",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "prosecutingAuthorityAddress",
+          "label": "Prosecuting attorney's address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "serviceMethod",
+          "label": "How the copy will be delivered",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "otn",
+          "label": "Offender tracking number (OTN), if you know it",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "contactPhone",
+          "label": "Telephone number",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "contactEmail",
+          "label": "Email address",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "deadDocketDate",
+          "label": "Date the charge was placed on the dead docket",
+          "required": true,
+          "ownership": "participant"
+        }
+      ],
+      "participantAuthoredFields": [
+        {
+          "key": "participantNarrative",
+          "label": "Your own statement",
+          "required": true,
+          "ownership": "participant_authored_verbatim",
+          "rule": "Reproduced without change, introduced as the participant's own words and attributed to them on the face of the document. LegalEase does not edit, summarise, improve or legally characterise it."
+        }
+      ],
+      "derivedFields": [
+        {
+          "key": "courtNameUpper",
+          "from": "courtName",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line."
+        },
+        {
+          "key": "courtCountyUpper",
+          "from": "courtCounty",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line."
+        },
+        {
+          "key": "arrestCountyUpper",
+          "from": "arrestCounty or courtCounty",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line on the superior-court-of-arrest route."
+        }
+      ],
+      "participantCompletesByHand": [
+        {
+          "field": "Signature and date",
+          "where": "Petition or motion signature block, and the certificate of service",
+          "why": "The filing is the participant's own. Signed \"Defendant, Pro Se\" where unrepresented."
+        },
+        {
+          "field": "Date of delivery",
+          "where": "Certificate of service",
+          "why": "Known only when the copy is actually delivered."
+        },
+        {
+          "field": "Offender tracking number, where not known at generation",
+          "where": "Caption and proposed order",
+          "why": "The packet generates without it; the participant adds it from their criminal history. An order that does not name the OTN is harder for GCIC to act on."
+        }
+      ],
+      "thirdPartyFields": [
+        {
+          "field": "Judge name and signature",
+          "owner": "court",
+          "where": "Caption and proposed order signature block",
+          "prefilled": false,
+          "why": "The court assigns the judge and signs its own order. Never prefilled."
+        },
+        {
+          "field": "Hearing date",
+          "owner": "court",
+          "where": "Caption and proposed order",
+          "prefilled": false,
+          "why": "Set by the court after filing, where a hearing is requested."
+        },
+        {
+          "field": "Case-number stamp and filing date",
+          "owner": "clerk",
+          "where": "Face of the filing",
+          "prefilled": false,
+          "why": "Applied by the clerk on receipt."
+        },
+        {
+          "field": "Findings and grant or denial election",
+          "owner": "court",
+          "where": "Proposed order",
+          "prefilled": false,
+          "why": "Rendered as blank elections. The court decides; LegalEase never pre-selects an outcome."
+        },
+        {
+          "field": "Clerk certification of sealing",
+          "owner": "clerk",
+          "where": "After the order",
+          "prefilled": false,
+          "why": "The clerk acts within 60 days of the order. Not part of the filing."
+        },
+        {
+          "field": "Prosecuting attorney's response",
+          "owner": "prosecutor",
+          "where": "Not in the packet",
+          "prefilled": false,
+          "why": "The prosecuting attorney receives notice. Notice is not a request for consent, and no route in this family has an objection form."
+        },
+        {
+          "field": "Arresting agency and GCIC compliance",
+          "owner": "law_enforcement",
+          "where": "After the order",
+          "prefilled": false,
+          "why": "Agencies restrict their own records on receiving the order. Nothing in the packet is completed by them."
+        },
+        {
+          "field": "Notary block",
+          "owner": "notary",
+          "where": "Not present",
+          "prefilled": false,
+          "why": "No route in this family requires verification or notarization, so no notary block is drawn at all. A blank notary block invites a participant to pay for something the statute does not ask for."
+        }
+      ]
+    },
+    {
+      "trackId": "ga-misd-j4",
+      "participantFields": [
+        {
+          "key": "defendantName",
+          "label": "Full legal name",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "dateOfBirth",
+          "label": "Date of birth",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "mailingAddress",
+          "label": "Mailing address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "countyOfResidence",
+          "label": "County of residence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "courtName",
+          "label": "Court that handled the case",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "courtCounty",
+          "label": "County of that court",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "caseNumber",
+          "label": "Case number",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "offenseDescription",
+          "label": "Offence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "offenseCodeSection",
+          "label": "O.C.G.A. Code section of the offence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "arrestDate",
+          "label": "Date of arrest",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "arrestingAgencyName",
+          "label": "Arresting law enforcement agency",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "prosecutingAuthorityName",
+          "label": "Prosecuting attorney",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "prosecutingAuthorityAddress",
+          "label": "Prosecuting attorney's address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "serviceMethod",
+          "label": "How the copy will be delivered",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "otn",
+          "label": "Offender tracking number (OTN), if you know it",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "contactPhone",
+          "label": "Telephone number",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "contactEmail",
+          "label": "Email address",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "adjudicationDate",
+          "label": "Date the adjudication of guilt was entered",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "sentenceCompletionDate",
+          "label": "Date every term of the sentence was completed",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "misdemeanorScope",
+          "label": "One misdemeanour, or a series from a single incident?",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "lifetimeUse",
+          "label": "Is this your first or second use of this relief?",
+          "required": true,
+          "ownership": "participant"
+        }
+      ],
+      "participantAuthoredFields": [
+        {
+          "key": "participantNarrative",
+          "label": "Your own statement",
+          "required": true,
+          "ownership": "participant_authored_verbatim",
+          "rule": "Reproduced without change, introduced as the participant's own words and attributed to them on the face of the document. LegalEase does not edit, summarise, improve or legally characterise it."
+        }
+      ],
+      "derivedFields": [
+        {
+          "key": "courtNameUpper",
+          "from": "courtName",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line."
+        },
+        {
+          "key": "courtCountyUpper",
+          "from": "courtCounty",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line."
+        },
+        {
+          "key": "arrestCountyUpper",
+          "from": "arrestCounty or courtCounty",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line on the superior-court-of-arrest route."
+        },
+        {
+          "key": "singleIncidentAllegation",
+          "from": "misdemeanorScope",
+          "ownership": "legalease_derived",
+          "rule": "Closed list. Approved allegation sentence for one offence or a single-incident series."
+        },
+        {
+          "key": "lifetimeUseNumber",
+          "from": "lifetimeUse",
+          "ownership": "legalease_derived",
+          "rule": "Closed list of two. § 35-3-37(j)(4)(C) caps the relief at two in a lifetime."
+        }
+      ],
+      "participantCompletesByHand": [
+        {
+          "field": "Signature and date",
+          "where": "Petition or motion signature block, and the certificate of service",
+          "why": "The filing is the participant's own. Signed \"Defendant, Pro Se\" where unrepresented."
+        },
+        {
+          "field": "Date of delivery",
+          "where": "Certificate of service",
+          "why": "Known only when the copy is actually delivered."
+        },
+        {
+          "field": "Offender tracking number, where not known at generation",
+          "where": "Caption and proposed order",
+          "why": "The packet generates without it; the participant adds it from their criminal history. An order that does not name the OTN is harder for GCIC to act on."
+        }
+      ],
+      "thirdPartyFields": [
+        {
+          "field": "Judge name and signature",
+          "owner": "court",
+          "where": "Caption and proposed order signature block",
+          "prefilled": false,
+          "why": "The court assigns the judge and signs its own order. Never prefilled."
+        },
+        {
+          "field": "Hearing date",
+          "owner": "court",
+          "where": "Caption and proposed order",
+          "prefilled": false,
+          "why": "Set by the court after filing, where a hearing is requested."
+        },
+        {
+          "field": "Case-number stamp and filing date",
+          "owner": "clerk",
+          "where": "Face of the filing",
+          "prefilled": false,
+          "why": "Applied by the clerk on receipt."
+        },
+        {
+          "field": "Findings and grant or denial election",
+          "owner": "court",
+          "where": "Proposed order",
+          "prefilled": false,
+          "why": "Rendered as blank elections. The court decides; LegalEase never pre-selects an outcome."
+        },
+        {
+          "field": "Clerk certification of sealing",
+          "owner": "clerk",
+          "where": "After the order",
+          "prefilled": false,
+          "why": "The clerk acts within 60 days of the order. Not part of the filing."
+        },
+        {
+          "field": "Prosecuting attorney's response",
+          "owner": "prosecutor",
+          "where": "Not in the packet",
+          "prefilled": false,
+          "why": "The prosecuting attorney receives notice. Notice is not a request for consent, and no route in this family has an objection form."
+        },
+        {
+          "field": "Arresting agency and GCIC compliance",
+          "owner": "law_enforcement",
+          "where": "After the order",
+          "prefilled": false,
+          "why": "Agencies restrict their own records on receiving the order. Nothing in the packet is completed by them."
+        },
+        {
+          "field": "Notary block",
+          "owner": "notary",
+          "where": "Not present",
+          "prefilled": false,
+          "why": "No route in this family requires verification or notarization, so no notary block is drawn at all. A blank notary block invites a participant to pay for something the statute does not ask for."
+        }
+      ]
+    },
+    {
+      "trackId": "ga-fugitive-j5",
+      "participantFields": [
+        {
+          "key": "defendantName",
+          "label": "Full legal name",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "dateOfBirth",
+          "label": "Date of birth",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "mailingAddress",
+          "label": "Mailing address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "countyOfResidence",
+          "label": "County of residence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "courtName",
+          "label": "Court that handled the case",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "courtCounty",
+          "label": "County of that court",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "caseNumber",
+          "label": "Case number",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "offenseDescription",
+          "label": "Offence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "offenseCodeSection",
+          "label": "O.C.G.A. Code section of the offence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "arrestDate",
+          "label": "Date of arrest",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "arrestingAgencyName",
+          "label": "Arresting law enforcement agency",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "prosecutingAuthorityName",
+          "label": "Prosecuting attorney",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "prosecutingAuthorityAddress",
+          "label": "Prosecuting attorney's address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "serviceMethod",
+          "label": "How the copy will be delivered",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "otn",
+          "label": "Offender tracking number (OTN), if you know it",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "contactPhone",
+          "label": "Telephone number",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "contactEmail",
+          "label": "Email address",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "arrestingAgencyAddress",
+          "label": "Arresting agency's address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "arrestCounty",
+          "label": "County where the arrest occurred",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "demandingState",
+          "label": "State that demanded your return",
+          "required": true,
+          "ownership": "participant"
+        }
+      ],
+      "participantAuthoredFields": [
+        {
+          "key": "participantNarrative",
+          "label": "Your own statement",
+          "required": true,
+          "ownership": "participant_authored_verbatim",
+          "rule": "Reproduced without change, introduced as the participant's own words and attributed to them on the face of the document. LegalEase does not edit, summarise, improve or legally characterise it."
+        }
+      ],
+      "derivedFields": [
+        {
+          "key": "courtNameUpper",
+          "from": "courtName",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line."
+        },
+        {
+          "key": "courtCountyUpper",
+          "from": "courtCounty",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line."
+        },
+        {
+          "key": "arrestCountyUpper",
+          "from": "arrestCounty or courtCounty",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line on the superior-court-of-arrest route."
+        }
+      ],
+      "participantCompletesByHand": [
+        {
+          "field": "Signature and date",
+          "where": "Petition or motion signature block, and the certificate of service",
+          "why": "The filing is the participant's own. Signed \"Defendant, Pro Se\" where unrepresented."
+        },
+        {
+          "field": "Date of delivery",
+          "where": "Certificate of service",
+          "why": "Known only when the copy is actually delivered."
+        },
+        {
+          "field": "Offender tracking number, where not known at generation",
+          "where": "Caption and proposed order",
+          "why": "The packet generates without it; the participant adds it from their criminal history. An order that does not name the OTN is harder for GCIC to act on."
+        }
+      ],
+      "thirdPartyFields": [
+        {
+          "field": "Judge name and signature",
+          "owner": "court",
+          "where": "Caption and proposed order signature block",
+          "prefilled": false,
+          "why": "The court assigns the judge and signs its own order. Never prefilled."
+        },
+        {
+          "field": "Hearing date",
+          "owner": "court",
+          "where": "Caption and proposed order",
+          "prefilled": false,
+          "why": "Set by the court after filing, where a hearing is requested."
+        },
+        {
+          "field": "Case-number stamp and filing date",
+          "owner": "clerk",
+          "where": "Face of the filing",
+          "prefilled": false,
+          "why": "Applied by the clerk on receipt."
+        },
+        {
+          "field": "Findings and grant or denial election",
+          "owner": "court",
+          "where": "Proposed order",
+          "prefilled": false,
+          "why": "Rendered as blank elections. The court decides; LegalEase never pre-selects an outcome."
+        },
+        {
+          "field": "Clerk certification of sealing",
+          "owner": "clerk",
+          "where": "After the order",
+          "prefilled": false,
+          "why": "The clerk acts within 60 days of the order. Not part of the filing."
+        },
+        {
+          "field": "Prosecuting attorney's response",
+          "owner": "prosecutor",
+          "where": "Not in the packet",
+          "prefilled": false,
+          "why": "The prosecuting attorney receives notice. Notice is not a request for consent, and no route in this family has an objection form."
+        },
+        {
+          "field": "Arresting agency and GCIC compliance",
+          "owner": "law_enforcement",
+          "where": "After the order",
+          "prefilled": false,
+          "why": "Agencies restrict their own records on receiving the order. Nothing in the packet is completed by them."
+        },
+        {
+          "field": "Notary block",
+          "owner": "notary",
+          "where": "Not present",
+          "prefilled": false,
+          "why": "No route in this family requires verification or notarization, so no notary block is drawn at all. A blank notary block invites a participant to pay for something the statute does not ask for."
+        }
+      ]
+    },
+    {
+      "trackId": "ga-pardon-j7",
+      "participantFields": [
+        {
+          "key": "defendantName",
+          "label": "Full legal name",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "dateOfBirth",
+          "label": "Date of birth",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "mailingAddress",
+          "label": "Mailing address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "countyOfResidence",
+          "label": "County of residence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "courtName",
+          "label": "Court that handled the case",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "courtCounty",
+          "label": "County of that court",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "caseNumber",
+          "label": "Case number",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "offenseDescription",
+          "label": "Offence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "offenseCodeSection",
+          "label": "O.C.G.A. Code section of the offence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "arrestDate",
+          "label": "Date of arrest",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "arrestingAgencyName",
+          "label": "Arresting law enforcement agency",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "prosecutingAuthorityName",
+          "label": "Prosecuting attorney",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "prosecutingAuthorityAddress",
+          "label": "Prosecuting attorney's address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "serviceMethod",
+          "label": "How the copy will be delivered",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "otn",
+          "label": "Offender tracking number (OTN), if you know it",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "contactPhone",
+          "label": "Telephone number",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "contactEmail",
+          "label": "Email address",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "pardonDate",
+          "label": "Date the pardon was granted",
+          "required": true,
+          "ownership": "participant"
+        }
+      ],
+      "participantAuthoredFields": [
+        {
+          "key": "participantNarrative",
+          "label": "Your own statement",
+          "required": true,
+          "ownership": "participant_authored_verbatim",
+          "rule": "Reproduced without change, introduced as the participant's own words and attributed to them on the face of the document. LegalEase does not edit, summarise, improve or legally characterise it."
+        }
+      ],
+      "derivedFields": [
+        {
+          "key": "courtNameUpper",
+          "from": "courtName",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line."
+        },
+        {
+          "key": "courtCountyUpper",
+          "from": "courtCounty",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line."
+        },
+        {
+          "key": "arrestCountyUpper",
+          "from": "arrestCounty or courtCounty",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line on the superior-court-of-arrest route."
+        }
+      ],
+      "participantCompletesByHand": [
+        {
+          "field": "Signature and date",
+          "where": "Petition or motion signature block, and the certificate of service",
+          "why": "The filing is the participant's own. Signed \"Defendant, Pro Se\" where unrepresented."
+        },
+        {
+          "field": "Date of delivery",
+          "where": "Certificate of service",
+          "why": "Known only when the copy is actually delivered."
+        },
+        {
+          "field": "Offender tracking number, where not known at generation",
+          "where": "Caption and proposed order",
+          "why": "The packet generates without it; the participant adds it from their criminal history. An order that does not name the OTN is harder for GCIC to act on."
+        }
+      ],
+      "thirdPartyFields": [
+        {
+          "field": "Judge name and signature",
+          "owner": "court",
+          "where": "Caption and proposed order signature block",
+          "prefilled": false,
+          "why": "The court assigns the judge and signs its own order. Never prefilled."
+        },
+        {
+          "field": "Hearing date",
+          "owner": "court",
+          "where": "Caption and proposed order",
+          "prefilled": false,
+          "why": "Set by the court after filing, where a hearing is requested."
+        },
+        {
+          "field": "Case-number stamp and filing date",
+          "owner": "clerk",
+          "where": "Face of the filing",
+          "prefilled": false,
+          "why": "Applied by the clerk on receipt."
+        },
+        {
+          "field": "Findings and grant or denial election",
+          "owner": "court",
+          "where": "Proposed order",
+          "prefilled": false,
+          "why": "Rendered as blank elections. The court decides; LegalEase never pre-selects an outcome."
+        },
+        {
+          "field": "Clerk certification of sealing",
+          "owner": "clerk",
+          "where": "After the order",
+          "prefilled": false,
+          "why": "The clerk acts within 60 days of the order. Not part of the filing."
+        },
+        {
+          "field": "Prosecuting attorney's response",
+          "owner": "prosecutor",
+          "where": "Not in the packet",
+          "prefilled": false,
+          "why": "The prosecuting attorney receives notice. Notice is not a request for consent, and no route in this family has an objection form."
+        },
+        {
+          "field": "Arresting agency and GCIC compliance",
+          "owner": "law_enforcement",
+          "where": "After the order",
+          "prefilled": false,
+          "why": "Agencies restrict their own records on receiving the order. Nothing in the packet is completed by them."
+        },
+        {
+          "field": "Notary block",
+          "owner": "notary",
+          "where": "Not present",
+          "prefilled": false,
+          "why": "No route in this family requires verification or notarization, so no notary block is drawn at all. A blank notary block invites a participant to pay for something the statute does not ask for."
+        }
+      ]
+    },
+    {
+      "trackId": "ga-seal-m",
+      "participantFields": [
+        {
+          "key": "defendantName",
+          "label": "Full legal name",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "dateOfBirth",
+          "label": "Date of birth",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "mailingAddress",
+          "label": "Mailing address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "countyOfResidence",
+          "label": "County of residence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "courtName",
+          "label": "Court that handled the case",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "courtCounty",
+          "label": "County of that court",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "caseNumber",
+          "label": "Case number",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "offenseDescription",
+          "label": "Offence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "offenseCodeSection",
+          "label": "O.C.G.A. Code section of the offence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "arrestDate",
+          "label": "Date of arrest",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "arrestingAgencyName",
+          "label": "Arresting law enforcement agency",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "prosecutingAuthorityName",
+          "label": "Prosecuting attorney",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "prosecutingAuthorityAddress",
+          "label": "Prosecuting attorney's address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "serviceMethod",
+          "label": "How the copy will be delivered",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "otn",
+          "label": "Offender tracking number (OTN), if you know it",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "contactPhone",
+          "label": "Telephone number",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "contactEmail",
+          "label": "Email address",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "clerkOfCourtName",
+          "label": "Clerk of court",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "clerkOfCourtAddress",
+          "label": "Clerk of court's address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "restrictionBasis",
+          "label": "How the record came to be restricted",
+          "required": true,
+          "ownership": "participant"
+        }
+      ],
+      "participantAuthoredFields": [
+        {
+          "key": "participantNarrative",
+          "label": "Your own statement",
+          "required": true,
+          "ownership": "participant_authored_verbatim",
+          "rule": "Reproduced without change, introduced as the participant's own words and attributed to them on the face of the document. LegalEase does not edit, summarise, improve or legally characterise it."
+        }
+      ],
+      "derivedFields": [
+        {
+          "key": "courtNameUpper",
+          "from": "courtName",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line."
+        },
+        {
+          "key": "courtCountyUpper",
+          "from": "courtCounty",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line."
+        },
+        {
+          "key": "arrestCountyUpper",
+          "from": "arrestCounty or courtCounty",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line on the superior-court-of-arrest route."
+        },
+        {
+          "key": "restrictionBasis",
+          "from": "restrictionBasis",
+          "ownership": "legalease_derived",
+          "rule": "Closed list. How the record came to be restricted, which § 35-3-37(m) requires the petition to establish."
+        }
+      ],
+      "participantCompletesByHand": [
+        {
+          "field": "Signature and date",
+          "where": "Petition or motion signature block, and the certificate of service",
+          "why": "The filing is the participant's own. Signed \"Defendant, Pro Se\" where unrepresented."
+        },
+        {
+          "field": "Date of delivery",
+          "where": "Certificate of service",
+          "why": "Known only when the copy is actually delivered."
+        },
+        {
+          "field": "Offender tracking number, where not known at generation",
+          "where": "Caption and proposed order",
+          "why": "The packet generates without it; the participant adds it from their criminal history. An order that does not name the OTN is harder for GCIC to act on."
+        }
+      ],
+      "thirdPartyFields": [
+        {
+          "field": "Judge name and signature",
+          "owner": "court",
+          "where": "Caption and proposed order signature block",
+          "prefilled": false,
+          "why": "The court assigns the judge and signs its own order. Never prefilled."
+        },
+        {
+          "field": "Hearing date",
+          "owner": "court",
+          "where": "Caption and proposed order",
+          "prefilled": false,
+          "why": "Set by the court after filing, where a hearing is requested."
+        },
+        {
+          "field": "Case-number stamp and filing date",
+          "owner": "clerk",
+          "where": "Face of the filing",
+          "prefilled": false,
+          "why": "Applied by the clerk on receipt."
+        },
+        {
+          "field": "Findings and grant or denial election",
+          "owner": "court",
+          "where": "Proposed order",
+          "prefilled": false,
+          "why": "Rendered as blank elections. The court decides; LegalEase never pre-selects an outcome."
+        },
+        {
+          "field": "Clerk certification of sealing",
+          "owner": "clerk",
+          "where": "After the order",
+          "prefilled": false,
+          "why": "The clerk acts within 60 days of the order. Not part of the filing."
+        },
+        {
+          "field": "Prosecuting attorney's response",
+          "owner": "prosecutor",
+          "where": "Not in the packet",
+          "prefilled": false,
+          "why": "The prosecuting attorney receives notice. Notice is not a request for consent, and no route in this family has an objection form."
+        },
+        {
+          "field": "Arresting agency and GCIC compliance",
+          "owner": "law_enforcement",
+          "where": "After the order",
+          "prefilled": false,
+          "why": "Agencies restrict their own records on receiving the order. Nothing in the packet is completed by them."
+        },
+        {
+          "field": "Notary block",
+          "owner": "notary",
+          "where": "Not present",
+          "prefilled": false,
+          "why": "No route in this family requires verification or notarization, so no notary block is drawn at all. A blank notary block invites a participant to pay for something the statute does not ask for."
+        }
+      ]
+    },
+    {
+      "trackId": "ga-fo-active-pre2026",
+      "participantFields": [
+        {
+          "key": "defendantName",
+          "label": "Full legal name",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "dateOfBirth",
+          "label": "Date of birth",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "mailingAddress",
+          "label": "Mailing address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "countyOfResidence",
+          "label": "County of residence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "courtName",
+          "label": "Court that handled the case",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "courtCounty",
+          "label": "County of that court",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "caseNumber",
+          "label": "Case number",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "offenseDescription",
+          "label": "Offence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "offenseCodeSection",
+          "label": "O.C.G.A. Code section of the offence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "arrestDate",
+          "label": "Date of arrest",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "arrestingAgencyName",
+          "label": "Arresting law enforcement agency",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "prosecutingAuthorityName",
+          "label": "Prosecuting attorney",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "prosecutingAuthorityAddress",
+          "label": "Prosecuting attorney's address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "serviceMethod",
+          "label": "How the copy will be delivered",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "otn",
+          "label": "Offender tracking number (OTN), if you know it",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "contactPhone",
+          "label": "Telephone number",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "contactEmail",
+          "label": "Email address",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "clerkOfCourtName",
+          "label": "Clerk of court",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "clerkOfCourtAddress",
+          "label": "Clerk of court's address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "firstOffenderSentenceDate",
+          "label": "Date of the First Offender sentence",
+          "required": true,
+          "ownership": "participant"
+        }
+      ],
+      "participantAuthoredFields": [
+        {
+          "key": "participantNarrative",
+          "label": "Your own statement",
+          "required": true,
+          "ownership": "participant_authored_verbatim",
+          "rule": "Reproduced without change, introduced as the participant's own words and attributed to them on the face of the document. LegalEase does not edit, summarise, improve or legally characterise it."
+        }
+      ],
+      "derivedFields": [
+        {
+          "key": "courtNameUpper",
+          "from": "courtName",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line."
+        },
+        {
+          "key": "courtCountyUpper",
+          "from": "courtCounty",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line."
+        },
+        {
+          "key": "arrestCountyUpper",
+          "from": "arrestCounty or courtCounty",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line on the superior-court-of-arrest route."
+        }
+      ],
+      "participantCompletesByHand": [
+        {
+          "field": "Signature and date",
+          "where": "Petition or motion signature block, and the certificate of service",
+          "why": "The filing is the participant's own. Signed \"Defendant, Pro Se\" where unrepresented."
+        },
+        {
+          "field": "Date of delivery",
+          "where": "Certificate of service",
+          "why": "Known only when the copy is actually delivered."
+        },
+        {
+          "field": "Offender tracking number, where not known at generation",
+          "where": "Caption and proposed order",
+          "why": "The packet generates without it; the participant adds it from their criminal history. An order that does not name the OTN is harder for GCIC to act on."
+        }
+      ],
+      "thirdPartyFields": [
+        {
+          "field": "Judge name and signature",
+          "owner": "court",
+          "where": "Caption and proposed order signature block",
+          "prefilled": false,
+          "why": "The court assigns the judge and signs its own order. Never prefilled."
+        },
+        {
+          "field": "Hearing date",
+          "owner": "court",
+          "where": "Caption and proposed order",
+          "prefilled": false,
+          "why": "Set by the court after filing, where a hearing is requested."
+        },
+        {
+          "field": "Case-number stamp and filing date",
+          "owner": "clerk",
+          "where": "Face of the filing",
+          "prefilled": false,
+          "why": "Applied by the clerk on receipt."
+        },
+        {
+          "field": "Findings and grant or denial election",
+          "owner": "court",
+          "where": "Proposed order",
+          "prefilled": false,
+          "why": "Rendered as blank elections. The court decides; LegalEase never pre-selects an outcome."
+        },
+        {
+          "field": "Clerk certification of sealing",
+          "owner": "clerk",
+          "where": "After the order",
+          "prefilled": false,
+          "why": "The clerk acts within 60 days of the order. Not part of the filing."
+        },
+        {
+          "field": "Prosecuting attorney's response",
+          "owner": "prosecutor",
+          "where": "Not in the packet",
+          "prefilled": false,
+          "why": "The prosecuting attorney receives notice. Notice is not a request for consent, and no route in this family has an objection form."
+        },
+        {
+          "field": "Arresting agency and GCIC compliance",
+          "owner": "law_enforcement",
+          "where": "After the order",
+          "prefilled": false,
+          "why": "Agencies restrict their own records on receiving the order. Nothing in the packet is completed by them."
+        },
+        {
+          "field": "Notary block",
+          "owner": "notary",
+          "where": "Not present",
+          "prefilled": false,
+          "why": "No route in this family requires verification or notarization, so no notary block is drawn at all. A blank notary block invites a participant to pay for something the statute does not ask for."
+        }
+      ]
+    },
+    {
+      "trackId": "ga-fo-discharged-pre2026",
+      "participantFields": [
+        {
+          "key": "defendantName",
+          "label": "Full legal name",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "dateOfBirth",
+          "label": "Date of birth",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "mailingAddress",
+          "label": "Mailing address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "countyOfResidence",
+          "label": "County of residence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "courtName",
+          "label": "Court that handled the case",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "courtCounty",
+          "label": "County of that court",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "caseNumber",
+          "label": "Case number",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "offenseDescription",
+          "label": "Offence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "offenseCodeSection",
+          "label": "O.C.G.A. Code section of the offence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "arrestDate",
+          "label": "Date of arrest",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "arrestingAgencyName",
+          "label": "Arresting law enforcement agency",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "prosecutingAuthorityName",
+          "label": "Prosecuting attorney",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "prosecutingAuthorityAddress",
+          "label": "Prosecuting attorney's address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "serviceMethod",
+          "label": "How the copy will be delivered",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "otn",
+          "label": "Offender tracking number (OTN), if you know it",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "contactPhone",
+          "label": "Telephone number",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "contactEmail",
+          "label": "Email address",
+          "required": false,
+          "ownership": "participant"
+        },
+        {
+          "key": "clerkOfCourtName",
+          "label": "Clerk of court",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "clerkOfCourtAddress",
+          "label": "Clerk of court's address",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "firstOffenderSentenceDate",
+          "label": "Date of the First Offender sentence",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "dischargeDate",
+          "label": "Date you were exonerated and discharged",
+          "required": true,
+          "ownership": "participant"
+        },
+        {
+          "key": "dischargeBasis",
+          "label": "Discharged as a matter of law, or by court order?",
+          "required": true,
+          "ownership": "participant"
+        }
+      ],
+      "participantAuthoredFields": [
+        {
+          "key": "participantNarrative",
+          "label": "Your own statement",
+          "required": true,
+          "ownership": "participant_authored_verbatim",
+          "rule": "Reproduced without change, introduced as the participant's own words and attributed to them on the face of the document. LegalEase does not edit, summarise, improve or legally characterise it."
+        }
+      ],
+      "derivedFields": [
+        {
+          "key": "courtNameUpper",
+          "from": "courtName",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line."
+        },
+        {
+          "key": "courtCountyUpper",
+          "from": "courtCounty",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line."
+        },
+        {
+          "key": "arrestCountyUpper",
+          "from": "arrestCounty or courtCounty",
+          "ownership": "legalease_derived",
+          "rule": "Upper-cased for the caption line on the superior-court-of-arrest route."
+        },
+        {
+          "key": "dischargeBasis",
+          "from": "dischargeBasis",
+          "ownership": "legalease_derived",
+          "rule": "Closed list of two, as § 42-8-62.2(c) provides."
+        }
+      ],
+      "participantCompletesByHand": [
+        {
+          "field": "Signature and date",
+          "where": "Petition or motion signature block, and the certificate of service",
+          "why": "The filing is the participant's own. Signed \"Defendant, Pro Se\" where unrepresented."
+        },
+        {
+          "field": "Date of delivery",
+          "where": "Certificate of service",
+          "why": "Known only when the copy is actually delivered."
+        },
+        {
+          "field": "Offender tracking number, where not known at generation",
+          "where": "Caption and proposed order",
+          "why": "The packet generates without it; the participant adds it from their criminal history. An order that does not name the OTN is harder for GCIC to act on."
+        }
+      ],
+      "thirdPartyFields": [
+        {
+          "field": "Judge name and signature",
+          "owner": "court",
+          "where": "Caption and proposed order signature block",
+          "prefilled": false,
+          "why": "The court assigns the judge and signs its own order. Never prefilled."
+        },
+        {
+          "field": "Hearing date",
+          "owner": "court",
+          "where": "Caption and proposed order",
+          "prefilled": false,
+          "why": "Set by the court after filing, where a hearing is requested."
+        },
+        {
+          "field": "Case-number stamp and filing date",
+          "owner": "clerk",
+          "where": "Face of the filing",
+          "prefilled": false,
+          "why": "Applied by the clerk on receipt."
+        },
+        {
+          "field": "Findings and grant or denial election",
+          "owner": "court",
+          "where": "Proposed order",
+          "prefilled": false,
+          "why": "Rendered as blank elections. The court decides; LegalEase never pre-selects an outcome."
+        },
+        {
+          "field": "Clerk certification of sealing",
+          "owner": "clerk",
+          "where": "After the order",
+          "prefilled": false,
+          "why": "The clerk acts within 60 days of the order. Not part of the filing."
+        },
+        {
+          "field": "Prosecuting attorney's response",
+          "owner": "prosecutor",
+          "where": "Not in the packet",
+          "prefilled": false,
+          "why": "The prosecuting attorney receives notice. Notice is not a request for consent, and no route in this family has an objection form."
+        },
+        {
+          "field": "Arresting agency and GCIC compliance",
+          "owner": "law_enforcement",
+          "where": "After the order",
+          "prefilled": false,
+          "why": "Agencies restrict their own records on receiving the order. Nothing in the packet is completed by them."
+        },
+        {
+          "field": "Notary block",
+          "owner": "notary",
+          "where": "Not present",
+          "prefilled": false,
+          "why": "No route in this family requires verification or notarization, so no notary block is drawn at all. A blank notary block invites a participant to pay for something the statute does not ask for."
+        }
+      ]
+    }
+  ],
+  "assertions": [
+    "No judge, clerk, prosecutor, law enforcement agency or notary block is prefilled anywhere in this tranche.",
+    "No notary block is drawn at all, because no route in this family requires verification or notarization.",
+    "The participant's own statement is reproduced verbatim and attributed on the face of the document.",
+    "Every derived value is either a capitalisation of a participant answer or an approved sentence from a closed list. LegalEase introduces no fact of its own."
+  ]
+}
