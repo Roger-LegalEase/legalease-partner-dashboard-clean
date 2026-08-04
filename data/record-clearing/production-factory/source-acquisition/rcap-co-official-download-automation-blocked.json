@@ -1,0 +1,164 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-co-official-download-automation-blocked",
+  "parentJobId": "AUTH-01-in-repo-authority-pinning",
+  "jurisdiction": "CO",
+  "lane": "source_acquisition",
+  "strategyFamily": "official_download_automation_blocked",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "203b8931391d5636fda3a3fcfc35c0423c2bf9e3",
+  "generatedOn": "2026-08-04",
+  "acquisitionIds": [
+    "acquire:CO:jdf-684"
+  ],
+  "downloadedSourceCount": 1,
+  "generatedFrom": [
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "data/rcap-all50/nationwide-source-inventory.json"
+  ],
+  "method": {
+    "description": "Re-tested the recorded automated-retrieval block, then retrieved the assigned binary and compared it against the digest the repository inventory already records. The official form page was fetched, the PDF link read from its markup, and the binary hashed and inspected for its printed revision.",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "authenticationUsed": false,
+    "binariesDownloaded": 1,
+    "attendedRetrievalPerformed": false,
+    "thirdPartySubstituteUsed": false,
+    "binaryDeposition": "The retrieved binary is NOT committed by this job. ownedPaths are limited to this single production-factory JSON file.",
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "byteVerificationMethod": "fresh_https_get_then_sha256_compared_to_inventory_recorded_digest"
+  },
+  "dispositionDistinction": {
+    "publicOfficialDocument": true,
+    "publicOfficialDocumentEvidence": "JDF 684 is published on the Colorado Judicial Branch self-help forms site at its own form page, which links the document in both PDF and DOCX. It is free and requires no authentication.",
+    "automatedRetrievalBlocked": false,
+    "automatedRetrievalBlockedNote": "The recorded disposition was blocked_http_403_host_level_waf. That block did NOT reproduce on 2026-08-04. See automationBlockRetest below.",
+    "attendedOfficialRetrievalRequired": false,
+    "attendedOfficialRetrievalNote": "No attended browser download was needed for this document today and none was performed. The recorded acquisitionMethod of 'manual browser download' is superseded for JDF 684 by a successful automated retrieval. This finding is specific to this document on this date and is not a general claim that the Colorado Judicial Branch host never rate-limits or blocks.",
+    "sourceAbsent": false,
+    "sourceAbsentNote": "Explicitly not absent. The document is published, retrievable and byte-identical to the identity already on record."
+  },
+  "automationBlockRetest": {
+    "recordedStatus": "blocked_http_403_host_level_waf",
+    "retestedOn": "2026-08-04",
+    "results": [
+      {
+        "url": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/order-denying-seal-criminal-conviction-municipal-records",
+        "agent": "Chrome 126 user-agent string",
+        "httpStatus": 200
+      },
+      {
+        "url": "https://www.coloradojudicial.gov/self-help/seal-my-case",
+        "agent": "Chrome 126 user-agent string",
+        "httpStatus": 200
+      },
+      {
+        "url": "https://www.coloradojudicial.gov/self-help/seal-my-case",
+        "agent": "default curl user-agent, no spoofing",
+        "httpStatus": 200
+      },
+      {
+        "url": "https://www.coloradojudicial.gov/sites/default/files/2023-07/JDF%20684%20Order%20Denying%20Petition%20to%20Seal%20Criminal%20Conviction%20Municipal%20Records.pdf",
+        "agent": "default curl user-agent, no spoofing",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "bytes": 49317
+      }
+    ],
+    "conclusion": "The host-level WAF block recorded against this source does not reproduce. Automated retrieval succeeded on the form page and on the binary, including with an unspoofed default agent, so the success is not the result of user-agent evasion.",
+    "cautionAgainstOvergeneralising": "A block that does not reproduce is not proof the block never existed. It may have been transient, IP-scoped or since relaxed. The correct reading is that this document is automatable today, not that the earlier 403 observation was wrong."
+  },
+  "acquisitions": [
+    {
+      "acquisitionId": "acquire:CO:jdf-684",
+      "documentId": "JDF-684",
+      "documentRole": "proposed_order",
+      "trackIds": ["co_municipal_conviction_seal"],
+      "componentIds": ["co_municipal_conviction_seal-proposed-order-2"],
+      "disposition": "acquired_by_automated_official_download_block_did_not_reproduce",
+      "officialTitle": "Order Denying Petition to Seal Criminal Conviction Municipal Records",
+      "issuingBody": "Colorado Judicial Branch",
+      "issuingOffice": "Colorado Judicial Branch, self-help forms",
+      "officialIndexUrl": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/order-denying-seal-criminal-conviction-municipal-records",
+      "retrievedFromUrl": "https://www.coloradojudicial.gov/sites/default/files/2023-07/JDF%20684%20Order%20Denying%20Petition%20to%20Seal%20Criminal%20Conviction%20Municipal%20Records.pdf",
+      "retrievalDate": "2026-08-04",
+      "httpStatus": 200,
+      "sha256": "36fc6a2acbfcd7ce032b5a2d43645517aa53541f25c7c5395dd782395d67f874",
+      "sizeBytes": 49317,
+      "pageCount": 1,
+      "resolvedRevision": "R8/19",
+      "revisionStatus": "confirmed_printed_footer",
+      "revisionEvidence": "Footer read from the retrieved bytes: 'JDF 684 R8/19   ORDER DENYING PETITION TO SEAL CRIMINAL CONVICTION MUNICIPAL RECORDS'. Embedded CreationDate and ModDate are both 2019-08-01, consistent with the printed R8/19.",
+      "alsoPublishedAs": "A .docx of the same form is linked from the same page. Not retrieved; PDF is the packet-relevant format.",
+      "hashAgreementWithInventory": "exact_match",
+      "redistributionRestriction": "none_published",
+      "commercialUseRestriction": "none_published"
+    }
+  ],
+  "questionsResolved": [
+    {
+      "question": "The issuer's current revision for this document is unconfirmed.",
+      "source": "source-acquisition-queue currentnessQuestion for co_municipal_conviction_seal-proposed-order-2",
+      "resolution": "Resolved. The issuer's current published revision is R8/19, read from the form face of the file the Colorado Judicial Branch serves today.",
+      "status": "resolved"
+    },
+    {
+      "question": "Is the identity the repository recorded for JDF-684 correct and current?",
+      "resolution": "Resolved affirmatively. The inventory records SHA-256 36fc6a2a…f874 for this artifact. The file retrieved from the publisher today hashes to exactly that value, so the recorded identity is both correct and current. The prior binaryAvailability of 'reference_only_copy_held_currentness_unproven' is upgraded: currentness is now proven against the publisher.",
+      "status": "resolved"
+    }
+  ],
+  "repositoryPosture": {
+    "artifactId": "jdf-684-order-denying-petition-to-seal-criminal-conviction-municipal-records",
+    "presence": "missing",
+    "binaryPresent": false,
+    "hashState": "not_measurable",
+    "status": "unmanifested_repository_asset",
+    "libraryRow": null,
+    "meaning": "The repository inventory expects this file, does not hold the bytes because private/ is untracked, and the adopted edition retains no row for its recorded hash. Confirming the bytes against the publisher does not by itself manifest the document.",
+    "manifestationPerformedByThisJob": false,
+    "manifestationHandoff": "Creating an edition row for JDF-684 is edition-publication work and is not performed here."
+  },
+  "trackEffect": {
+    "trackId": "co_municipal_conviction_seal",
+    "componentCleared": false,
+    "runtimeEffect": "runtime_disabled",
+    "why": "Acquisition was never the only thing holding this track. The queue records a separate open legal-design blocker against co_municipal_conviction_seal, and the track stays failed closed regardless of the source position. Resolving currentness moves the source gate only.",
+    "packetReadyImpact": "none"
+  },
+  "scopeNote": {
+    "assignedDocuments": ["JDF-684"],
+    "siblingsNotInScope": ["JDF-682", "JDF-683", "JDF-685", "JDF-686"],
+    "note": "The acquisition intelligence recommends that operations download JDF 682, 683, 684, 685 and 686 and report each R: date. Only JDF-684 is assigned to this job and only JDF-684 was retrieved. The finding that automated retrieval now succeeds on this host is likely to apply to the siblings, but that is an inference and none of them was tested here."
+  },
+  "unresolved": [
+    {
+      "question": "Is the automated-retrieval success stable, or was the earlier 403 intermittent?",
+      "status": "unresolved",
+      "why": "A single successful retrieval cannot distinguish a lifted block from a transient one. Recorded so a future 403 is read as a recurrence rather than as a contradiction of this job."
+    },
+    {
+      "question": "What are the Colorado Judicial Branch's licensing and commercial-use terms for the JDF form family?",
+      "status": "unresolved",
+      "why": "Carried in the queue as commercialUseQuestion. No terms were located and none were researched by this job. Recorded as unresolved rather than as none published."
+    },
+    {
+      "question": "The open legal-design blocker on co_municipal_conviction_seal.",
+      "status": "outside_this_job",
+      "why": "Legal-design scope. Neither answered nor narrowed here."
+    }
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0
+  }
+}
