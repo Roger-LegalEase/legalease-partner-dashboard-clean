@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "rcap-official-pdf-family/v1",
+  "familyId": "rcap-fl-official-pdf-family",
+  "jurisdiction": "FL",
+  "authorityFamily": "Florida Department of Law Enforcement applications and Florida Rule of Criminal Procedure 3.989 forms",
+  "productionQueuePriority": 14,
+  "scope": {
+    "trackIds": [
+      "fl-10yr-bridge",
+      "fl-administrative",
+      "fl-early-juvenile",
+      "fl-expunction",
+      "fl-juvenile-diversion",
+      "fl-sealing",
+      "fl-self-defense",
+      "fl-trafficking"
+    ],
+    "officialFormIds": [
+      "FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION",
+      "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION",
+      "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION",
+      "FL-RULE-3.989-AFFIDAVIT",
+      "FL-RULE-3.989-CONTINUATION",
+      "FL-RULE-3.989-ORDER",
+      "FL-RULE-3.989-PETITION"
+    ],
+    "routeCount": 8,
+    "packetComponentCount": 24,
+    "officialPdfComponentCount": 19,
+    "externalPacketComponentCount": 5,
+    "documentIdentityCount": 9
+  },
+  "immutableInputs": {
+    "legalDesignIntake": "data/record-clearing/legal-design-intake/FL.memo.json",
+    "packetSetManifests": "data/record-clearing/legal-design-packet-set-manifests.json",
+    "trackSourceRelationships": "data/record-clearing/legal-design-track-source-relationships.json",
+    "edition12TrackSourceAudit": "data/record-clearing/master-library/track-source-audit.json",
+    "edition12SourceAcquisitionQueue": "data/record-clearing/master-library/source-acquisition-queue.json",
+    "masterLibraryAuthority": "data/record-clearing/master-library/authority.json",
+    "productionQueue": "data/record-clearing/production-factory/official-pdf-production-queue.json",
+    "sourceMaterializationContract": "docs/record-clearing/RCAP_SOURCE_MATERIALIZATION_CONTRACT.md"
+  },
+  "authorityPosture": {
+    "knownDocumentIdentityCount": 9,
+    "adoptedAuthorityAssetCount": 0,
+    "authorityUnmanifestedDocumentCount": 9,
+    "exactSourceRequirementCount": 0,
+    "queueMappedRepositoryCandidateCount": 0,
+    "captainProjectedExactSourceCount": 0,
+    "routeReadyCount": 0
+  },
+  "sourceMaterialization": {
+    "requirementManifest": "data/record-clearing/production-factory/official-pdf-families/FL/source-requirements.json",
+    "contractKind": "dependency_scaffold_not_worker_assignment",
+    "assignmentAnchor": null,
+    "portableProjection": null,
+    "portableProjectionAvailable": false,
+    "captainAssignmentRequired": true,
+    "portableProjectionRequired": true,
+    "state": "authority_asset_then_captain_assignment_and_portable_projection_required",
+    "workerReady": false,
+    "workerMaterializationAuthorized": false,
+    "workerReadAuthorized": false,
+    "workerMayAcquireOrDownloadSources": false,
+    "repositorySourcePathTreatment": "identity_evidence_only_never_worker_source",
+    "generatedOrHistoricalSampleMaySubstituteForSource": false,
+    "unmanifestedOrNearMatchAssetMaySubstituteForSource": false
+  },
+  "artifacts": {
+    "dependencies": "data/record-clearing/production-factory/official-pdf-families/FL/dependencies.json",
+    "sourceRequirements": "data/record-clearing/production-factory/official-pdf-families/FL/source-requirements.json",
+    "rendererScaffold": "data/record-clearing/production-factory/official-pdf-families/FL/renderer-scaffold.json",
+    "fieldMapScaffold": "data/record-clearing/production-factory/official-pdf-families/FL/field-map-scaffold.json",
+    "fieldOwnershipSchema": "data/record-clearing/production-factory/official-pdf-families/FL/field-ownership.schema.json",
+    "fieldOwnership": "data/record-clearing/production-factory/official-pdf-families/FL/field-ownership.json",
+    "fixtureSchema": "data/record-clearing/production-factory/official-pdf-families/FL/fixtures.schema.json",
+    "fixtures": "data/record-clearing/production-factory/official-pdf-families/FL/fixtures.json",
+    "packetAssembly": "data/record-clearing/production-factory/official-pdf-families/FL/packet-assembly.json",
+    "reviewManifest": "data/record-clearing/production-factory/official-pdf-families/FL/review-manifest.json"
+  },
+  "implementationModule": "src/lib/rcap/packets/jurisdictions/florida/official-pdf/family.ts",
+  "dedicatedVerifier": "scripts/verify-rcap-florida-official-pdf-families.mjs",
+  "preservedAdjacentFloridaSurfaces": [
+    "src/lib/rcap/state-packs/florida/index.ts",
+    "src/lib/rcap/state-packs/florida/all50-build-metadata.ts",
+    "scripts/verify-fl-state-pack.mjs",
+    "src/lib/rcap/packets/registry.ts"
+  ],
+  "status": {
+    "legalDesignChanged": false,
+    "sourceRequirements": "document_identity_known_exact_authority_asset_unresolved",
+    "localSourceVerification": "blocked_authority_asset_and_captain_projection_absent",
+    "rendererSelection": "scaffolded_no_active_renderer",
+    "fieldMapping": "scaffolded_no_active_mapping",
+    "packetAssembly": "deterministic_contract_runtime_blocked",
+    "sourceBackedSampleCount": 0,
+    "visualReview": "blocked_before_source_backed_sample",
+    "counselReview": "not_submitted",
+    "packetReady": false,
+    "generationAllowed": false,
+    "enabled": false
+  },
+  "invariants": [
+    "The normalized Florida legal design and adopted packet component ordering remain unchanged.",
+    "All nine queue form identities remain authority_unmanifested_source with no exact authority requirement.",
+    "No unassigned edition asset, repository candidate, local packet, or historical sample is inferred to satisfy a queue form identity.",
+    "No worker resolves or reads a legacy source repository path and no worker acquires, downloads, reconstructs, or materializes a source.",
+    "No active renderer, field mapping, overlay placement, packet rendering, or source-backed sample exists.",
+    "The fl-expunction specialty-route eligibility-branch build blocker remains explicit and separate from release gates.",
+    "Participant signatures and notarization remain manual; judge, clerk, prosecutor, law-enforcement, agency, attorney, notary, witness, and process-server fields remain blank.",
+    "The five custom-pleading and process-guidance components remain in their adopted positions as external required components.",
+    "Existing Florida state-pack and shared packet-registry surfaces remain unchanged and do not import this module."
+  ]
+}

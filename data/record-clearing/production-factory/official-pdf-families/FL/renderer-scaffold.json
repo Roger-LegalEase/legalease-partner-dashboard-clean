@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "rcap-official-pdf-renderer-scaffold/v1",
+  "familyId": "rcap-fl-official-pdf-family",
+  "jurisdiction": "FL",
+  "enabled": false,
+  "activeRendererCount": 0,
+  "rendererAdapters": [
+    {
+      "rendererId": "fl-acroform-fill",
+      "kind": "acroform_fill",
+      "enabled": false,
+      "activationRequirements": [
+        "successor authority edition maps the exact official form identity",
+        "captain assignment anchor and portable projection exist",
+        "exact projected bytes pass identity and read-only verification",
+        "fresh inspection confirms compatible AcroForm structure",
+        "every source field has an ownership classification",
+        "source-backed visual and legal-output review pass"
+      ]
+    },
+    {
+      "rendererId": "fl-coordinate-overlay",
+      "kind": "coordinate_overlay",
+      "enabled": false,
+      "activationRequirements": [
+        "successor authority edition maps the exact official form identity",
+        "captain assignment anchor and portable projection exist",
+        "exact projected bytes pass identity and read-only verification",
+        "fresh inspection establishes flat-PDF geometry",
+        "every placement is confirmed against the exact source",
+        "source-backed visual and legal-output review pass"
+      ]
+    },
+    {
+      "rendererId": "fl-include-unchanged",
+      "kind": "include_unchanged",
+      "enabled": false,
+      "activationRequirements": [
+        "the document is an adopted authority packet component",
+        "exact source bytes pass identity and read-only verification",
+        "the adopted packet assembly expressly requires unchanged inclusion"
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "officialFormId": "FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION",
+      "sourceAuthorityState": "authority_unmanifested_source",
+      "rendererClassificationState": "prohibited_until_exact_authority_asset_and_fresh_inspection",
+      "candidateRenderer": null,
+      "activeRenderer": null
+    },
+    {
+      "officialFormId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "sourceAuthorityState": "authority_unmanifested_source",
+      "rendererClassificationState": "prohibited_until_exact_authority_asset_and_fresh_inspection",
+      "candidateRenderer": null,
+      "activeRenderer": null
+    },
+    {
+      "officialFormId": "FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION",
+      "sourceAuthorityState": "authority_unmanifested_source",
+      "rendererClassificationState": "prohibited_until_exact_authority_asset_and_fresh_inspection",
+      "candidateRenderer": null,
+      "activeRenderer": null
+    },
+    {
+      "officialFormId": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "sourceAuthorityState": "authority_unmanifested_source",
+      "rendererClassificationState": "prohibited_until_exact_authority_asset_and_fresh_inspection",
+      "candidateRenderer": null,
+      "activeRenderer": null
+    },
+    {
+      "officialFormId": "FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION",
+      "sourceAuthorityState": "authority_unmanifested_source",
+      "rendererClassificationState": "prohibited_until_exact_authority_asset_and_fresh_inspection",
+      "candidateRenderer": null,
+      "activeRenderer": null
+    },
+    {
+      "officialFormId": "FL-RULE-3.989-AFFIDAVIT",
+      "sourceAuthorityState": "authority_unmanifested_source",
+      "rendererClassificationState": "prohibited_until_exact_authority_asset_and_fresh_inspection",
+      "candidateRenderer": null,
+      "activeRenderer": null
+    },
+    {
+      "officialFormId": "FL-RULE-3.989-CONTINUATION",
+      "sourceAuthorityState": "authority_unmanifested_source",
+      "rendererClassificationState": "prohibited_until_exact_authority_asset_and_fresh_inspection",
+      "candidateRenderer": null,
+      "activeRenderer": null
+    },
+    {
+      "officialFormId": "FL-RULE-3.989-ORDER",
+      "sourceAuthorityState": "authority_unmanifested_source",
+      "rendererClassificationState": "prohibited_until_exact_authority_asset_and_fresh_inspection",
+      "candidateRenderer": null,
+      "activeRenderer": null
+    },
+    {
+      "officialFormId": "FL-RULE-3.989-PETITION",
+      "sourceAuthorityState": "authority_unmanifested_source",
+      "rendererClassificationState": "prohibited_until_exact_authority_asset_and_fresh_inspection",
+      "candidateRenderer": null,
+      "activeRenderer": null
+    }
+  ],
+  "renderContract": {
+    "sourceMutationAllowed": false,
+    "sourceAcquisitionAllowed": false,
+    "legacyRepositoryPathReadAllowed": false,
+    "nearMatchSourceSubstitutionAllowed": false,
+    "signatureImageGenerationAllowed": false,
+    "flattenParticipantDeliveryCopy": false,
+    "retainWritableManualFieldsUntilParticipantCompletion": true,
+    "deterministicOutputRequired": true,
+    "thirdPartyFieldDefault": "blank",
+    "unmappedFieldDefault": "unchanged_and_blank",
+    "currentRenderingAllowed": false
+  }
+}
