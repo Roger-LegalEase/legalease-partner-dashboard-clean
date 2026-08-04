@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -13,7 +14,9 @@ const INPUTS = {
   jurisdictionInventory: "data/record-clearing/relief-track-registry.json",
   relationships: "data/record-clearing/legal-design-track-source-relationships.json",
   blockers: "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+  trackSourceAudit: "data/record-clearing/master-library/track-source-audit.json",
   trancheDirectory: "data/record-clearing/implementation-tranches",
+  adoptionDirectory: "data/record-clearing/template-families",
   factoryReviewDirectory:
     "data/record-clearing/production-factory/review-manifests"
 };
@@ -35,12 +38,98 @@ const TERMINAL_LEGAL_STATUSES = new Set([
   "withdrawn"
 ]);
 
+const TRUSTED_COUNSEL_ADOPTIONS = Object.freeze({
+  "ADOPT-01-custom-pleading-family-adoption.json": {
+    sha256: "3fa444381d1750a2ff85af86303d0f53c600a54f09e3f006a1489d8f824898f7",
+    scopes: {
+      "tranche-1-mississippi-petitions": [
+        "ms-fel",
+        "ms-misd-1st",
+        "ms-misd-addl",
+        "ms-nonconv",
+        "ms-nonadj"
+      ],
+      "tranche-3-georgia-superior-court-pleadings": [
+        "ga-felony-j1",
+        "ga-vacated-j2",
+        "ga-deaddocket-j3",
+        "ga-misd-j4",
+        "ga-fugitive-j5",
+        "ga-pardon-j7",
+        "ga-seal-m",
+        "ga-fo-active-pre2026",
+        "ga-fo-discharged-pre2026"
+      ]
+    }
+  },
+  "ADOPT-02-official-acroform-family-adoption.json": {
+    sha256: "8c5d87a5ed7476987a48573b86f2d5827bcedaa5a0859ff3296b2764ed5509ca",
+    scopes: {
+      "tranche-2-maryland-official-forms": [
+        "md_second_chance_shielding"
+      ]
+    }
+  }
+});
+
 function readJson(rootDir, relativePath) {
   return JSON.parse(fs.readFileSync(path.join(rootDir, relativePath), "utf8"));
 }
 
 function asArray(value) {
   return Array.isArray(value) ? value : [];
+}
+
+function sha256(value) {
+  return crypto.createHash("sha256").update(value).digest("hex");
+}
+
+function sha256Canonical(value) {
+  return sha256(Buffer.from(canonicalJson(value), "utf8"));
+}
+
+function canonicalJson(value) {
+  if (
+    value === null ||
+    typeof value === "string" ||
+    typeof value === "boolean" ||
+    (typeof value === "number" && Number.isFinite(value))
+  ) {
+    return JSON.stringify(value);
+  }
+  if (Array.isArray(value)) {
+    return `[${value.map(canonicalJson).join(",")}]`;
+  }
+  if (value && typeof value === "object") {
+    return `{${Object.keys(value)
+      .sort()
+      .map((key) => `${JSON.stringify(key)}:${canonicalJson(value[key])}`)
+      .join(",")}}`;
+  }
+  throw new Error("Counsel-adoption hash scope contains a non-canonical value");
+}
+
+function artifactPinMatches(rootDir, pin) {
+  if (
+    !pin ||
+    typeof pin.path !== "string" ||
+    !/^[0-9a-f]{64}$/.test(pin.sha256 ?? "")
+  ) {
+    return false;
+  }
+  const root = path.resolve(rootDir);
+  const absolutePath = path.resolve(root, pin.path);
+  if (
+    absolutePath !== root &&
+    !absolutePath.startsWith(`${root}${path.sep}`)
+  ) {
+    return false;
+  }
+  return (
+    fs.existsSync(absolutePath) &&
+    fs.statSync(absolutePath).isFile() &&
+    sha256(fs.readFileSync(absolutePath)) === pin.sha256
+  );
 }
 
 function firstStatement(items) {
@@ -68,6 +157,7 @@ function loadProofIndex(rootDir) {
   const production = new Map();
 
   if (!fs.existsSync(directory)) {
+    loadCounselAdoptionProofs();
     loadFactoryReviewProofs();
     return {
       implementation,
@@ -85,13 +175,38 @@ function loadProofIndex(rootDir) {
     .readdirSync(directory)
     .filter((name) => name.endsWith(".json"))
     .sort();
+  const records = files.map((name) => ({
+    name,
+    value: readJson(rootDir, path.posix.join(INPUTS.trancheDirectory, name))
+  }));
+  const trancheTracks = new Map(
+    records
+      .filter(({ name }) => /^tranche-\d+\.json$/.test(name))
+      .map(({ value }) => [
+        value.trancheId,
+        asArray(value.selectedTracks)
+          .map((entry) => (typeof entry === "string" ? entry : entry?.trackId))
+          .filter(Boolean)
+      ])
+  );
 
-  for (const name of files) {
-    const value = readJson(rootDir, path.posix.join(INPUTS.trancheDirectory, name));
+  for (const { name, value } of records) {
     const selectedTracks = asArray(value.selectedTracks);
-    const trackIds = selectedTracks
+    const explicitTrackIds = selectedTracks
       .map((entry) => (typeof entry === "string" ? entry : entry?.trackId))
       .filter(Boolean);
+    const recommendationTrackIds = asArray(value.recommendations)
+      .flatMap((entry) => [
+        entry?.trackId,
+        ...asArray(entry?.trackIds)
+      ])
+      .filter(Boolean);
+    const trackIds =
+      explicitTrackIds.length > 0
+        ? explicitTrackIds
+        : recommendationTrackIds.length > 0
+          ? recommendationTrackIds
+          : trancheTracks.get(value.trancheId) ?? [];
 
     if (name.endsWith("-authority-pins.json")) {
       for (const entry of asArray(value.tracks)) {
@@ -107,7 +222,9 @@ function loadProofIndex(rootDir) {
     }
 
     if (name.endsWith("-review-manifest.json")) {
-      const technicalPassed = value.technicalResult === "passed";
+      const technicalPassed =
+        value.technicalResult === "passed" ||
+        value.technicalReview?.passed === true;
       const visualPassed =
         value.visualResult === "passed" ||
         value.visualResult === "passed_no_unresolved_defects";
@@ -123,19 +240,50 @@ function loadProofIndex(rootDir) {
         value.packetReady === true;
 
       for (const trackId of trackIds) {
-        technical.set(trackId, technicalPassed);
-        visual.set(trackId, visualPassed);
-        legalRecommendation.set(
+        mergeProof(technical, trackId, technicalPassed);
+        mergeProof(visual, trackId, visualPassed);
+        mergeProof(
+          legalRecommendation,
           trackId,
           value.legalRecommendationComplete === true
         );
-        counsel.set(trackId, counselAdopted);
-        staging.set(trackId, stagingPassed);
-        production.set(trackId, productionEnabled);
+        mergeProof(counsel, trackId, counselAdopted);
+        mergeProof(staging, trackId, stagingPassed);
+        mergeProof(production, trackId, productionEnabled);
+      }
+    }
+
+    if (name.endsWith("-visual-review.json")) {
+      const visualPassed = [
+        "passed",
+        "passed_no_unresolved_defects"
+      ].includes(value.result);
+      for (const trackId of trackIds) mergeProof(visual, trackId, visualPassed);
+    }
+
+    if (name.endsWith("-legal-output-recommendation.json")) {
+      const recommended = asArray(value.recommendations).filter((entry) =>
+        ["recommended_for_counsel_adoption", "recommended"].includes(entry?.status)
+      );
+      for (const entry of recommended) {
+        for (const trackId of [
+          entry.trackId,
+          ...asArray(entry.trackIds)
+        ].filter(Boolean)) {
+          mergeProof(legalRecommendation, trackId, true);
+          mergeProof(
+            counsel,
+            trackId,
+            ["approved", "adopted", "counsel_adopted"].includes(
+              value.humanLegalReviewStatus
+            )
+          );
+        }
       }
     }
   }
 
+  loadCounselAdoptionProofs();
   loadFactoryReviewProofs();
   return {
     implementation,
@@ -147,6 +295,78 @@ function loadProofIndex(rootDir) {
     staging,
     production
   };
+
+  function loadCounselAdoptionProofs() {
+    const adoptionDirectory = path.join(rootDir, INPUTS.adoptionDirectory);
+    if (!fs.existsSync(adoptionDirectory)) return;
+    const adoptedTrackIds = new Set();
+    for (const [name, trusted] of Object.entries(TRUSTED_COUNSEL_ADOPTIONS)) {
+      const absolutePath = path.join(adoptionDirectory, name);
+      if (!fs.existsSync(absolutePath)) continue;
+      const recordBytes = fs.readFileSync(absolutePath);
+      if (sha256(recordBytes) !== trusted.sha256) {
+        throw new Error(`${name} does not match its trusted counsel-adoption hash`);
+      }
+      const value = readJson(
+        rootDir,
+        path.posix.join(INPUTS.adoptionDirectory, name)
+      );
+      if (
+        value.status !== "counsel_adopted" ||
+        value.blanketFutureApproval !== false ||
+        value.productionEnabled !== false
+      ) {
+        throw new Error(`${name} is not a fail-closed counsel adoption record`);
+      }
+      const observedFamilyIds = asArray(value.completedScopes)
+        .map((scope) => scope?.familyId)
+        .sort();
+      const expectedFamilyIds = Object.keys(trusted.scopes).sort();
+      if (JSON.stringify(observedFamilyIds) !== JSON.stringify(expectedFamilyIds)) {
+        throw new Error(`${name} does not match its trusted adopted families`);
+      }
+      for (const scope of asArray(value.completedScopes)) {
+        const expectedRoutes = [...trusted.scopes[scope.familyId]].sort();
+        const observedRoutes = [...asArray(scope.approvedRouteIds)].sort();
+        if (
+          scope.status !== "counsel_adopted" ||
+          scope.scopeCompletion !== "exact_implemented_routes_complete" ||
+          scope.fullCanonicalParentComplete !== false ||
+          scope.runtime?.runtimeStatus !== "runtime_disabled" ||
+          scope.runtime?.generationAllowed !== false ||
+          scope.runtime?.packetReady !== false ||
+          scope.runtime?.jurisdictionEnabled !== false ||
+          scope.runtime?.productionEnabled !== false ||
+          !/^[0-9a-f]{64}$/.test(scope.templateFamilySha256 ?? "") ||
+          !asArray(scope.templateHashes).every((entry) =>
+            /^[0-9a-f]{64}$/.test(entry?.sha256 ?? "")
+          ) ||
+          !asArray(scope.reviewArtifacts).every((entry) =>
+            /^[0-9a-f]{64}$/.test(entry?.sha256 ?? "")
+          ) ||
+          scope.hashBoundScope?.schemaVersion !==
+            "rcap-counsel-adoption-hash-scope/v1" ||
+          sha256Canonical(scope.hashBoundScope) !== scope.templateFamilySha256 ||
+          JSON.stringify(observedRoutes) !== JSON.stringify(expectedRoutes) ||
+          asArray(scope.legalDesignSpecificationHashes).length !==
+            expectedRoutes.length ||
+          !asArray(scope.boundArtifactHashes).every((entry) =>
+            artifactPinMatches(rootDir, entry)
+          )
+        ) {
+          throw new Error(`${name} contains an invalid adopted scope`);
+        }
+        for (const trackId of asArray(scope.approvedRouteIds)) {
+          if (typeof trackId !== "string" || adoptedTrackIds.has(trackId)) {
+            throw new Error(`${name} duplicates or invalidly names ${trackId}`);
+          }
+          adoptedTrackIds.add(trackId);
+          mergeProof(legalRecommendation, trackId, true);
+          mergeProof(counsel, trackId, true);
+        }
+      }
+    }
+  }
 
   function loadFactoryReviewProofs() {
     const factoryDirectory = path.join(rootDir, INPUTS.factoryReviewDirectory);
@@ -209,7 +429,7 @@ function mergeProof(map, key, value) {
 }
 
 function blockerFor(row, sourceRows) {
-  if (!row.authorityPinned) {
+  if (!row.authorityCleared) {
     const authorityBlocker = sourceRows.find((entry) =>
       AUTHORITY_BLOCKER_SCOPES.has(entry.blockerScope)
     );
@@ -220,7 +440,10 @@ function blockerFor(row, sourceRows) {
         authorityBlocker.blockerType
       );
     }
-    return "Controlling authority is not pinned to an immutable source revision.";
+    return "The track has not cleared every adopted authority requirement.";
+  }
+  if (!row.sourcePinned) {
+    return "The selected source is not pinned to an immutable repository revision.";
   }
   if (!row.implementationComplete) {
     return `Implementation incomplete (${row.implementationQueue ?? "unassigned"}).`;
@@ -254,7 +477,14 @@ export function buildFactoryStatus({ rootDir = DEFAULT_ROOT } = {}) {
   const jurisdictionInventory = readJson(rootDir, INPUTS.jurisdictionInventory);
   const relationships = readJson(rootDir, INPUTS.relationships);
   const blockerLedger = readJson(rootDir, INPUTS.blockers);
+  const trackSourceAudit = readJson(rootDir, INPUTS.trackSourceAudit);
   const proofs = loadProofIndex(rootDir);
+  const authorityAuditByTrack = new Map(
+    asArray(trackSourceAudit.tracks).map((entry) => [
+      `${entry.jurisdiction}:${entry.trackId}`,
+      entry
+    ])
+  );
 
   const relationshipsByTrack = new Map();
   for (const entry of asArray(relationships.relationships)) {
@@ -285,7 +515,10 @@ export function buildFactoryStatus({ rootDir = DEFAULT_ROOT } = {}) {
         );
 
       const normalized = Boolean(track.trackId && track.legalDesignStatus);
-      const authorityPinned =
+      const authorityCleared =
+        authority.adoptionStatus === "adopted" &&
+        authorityAuditByTrack.get(key)?.cleared === true;
+      const sourcePinned =
         authority.adoptionStatus === "adopted" &&
         (proofs.authorityPins.has(track.trackId) ||
           (hasPinnedRelationship && !hasAuthorityBlocker));
@@ -308,7 +541,9 @@ export function buildFactoryStatus({ rootDir = DEFAULT_ROOT } = {}) {
         legalDesignStatus: track.legalDesignStatus ?? null,
         legalStatus: track.legalStatus ?? null,
         normalized,
-        authorityPinned,
+        authorityCleared,
+        sourcePinned,
+        authorityPinned: sourcePinned,
         implementationComplete,
         technicalProofPassed,
         visualProofPassed,
@@ -353,6 +588,8 @@ export function buildFactoryStatus({ rootDir = DEFAULT_ROOT } = {}) {
       jurisdiction,
       trackCount: rows.length,
       normalized: count("normalized"),
+      authorityCleared: count("authorityCleared"),
+      sourcePinned: count("sourcePinned"),
       authorityPinned: count("authorityPinned"),
       implementationComplete: count("implementationComplete"),
       technicalProofPassed: count("technicalProofPassed"),
@@ -378,6 +615,12 @@ export function buildFactoryStatus({ rootDir = DEFAULT_ROOT } = {}) {
     publicTracks.length === 0 ? 0 : (finalDispositionCount / publicTracks.length) * 100;
   const countTracks = (field) =>
     publicTracks.filter((track) => track[field]).length;
+  const implementationProofCount = publicTracks.filter(
+    (track) =>
+      track.implementationComplete &&
+      track.technicalProofPassed &&
+      track.visualProofPassed
+  ).length;
   const completionPercent =
     jurisdictionsWithoutNormalizedTracks > 0 && rawCompletion >= 100
       ? 99.99
@@ -389,13 +632,24 @@ export function buildFactoryStatus({ rootDir = DEFAULT_ROOT } = {}) {
     authorityEdition: authority.edition,
     definitionOfComplete:
       "100% requires all 51 jurisdictions normalized and every track to have a terminal disposition: production enabled or an explicit terminal legal disposition.",
+    readinessMetrics: {
+      authorityCleared: countTracks("authorityCleared"),
+      authorityBlocked: publicTracks.length - countTracks("authorityCleared"),
+      sourcePinned: countTracks("sourcePinned"),
+      implementationProof: implementationProofCount,
+      finalDisposition: finalDispositionCount
+    },
     totals: {
       jurisdictions: jurisdictions.length,
       jurisdictionsWithoutNormalizedTracks,
       tracks: publicTracks.length,
       normalized: countTracks("normalized"),
+      authorityCleared: countTracks("authorityCleared"),
+      authorityBlocked: publicTracks.length - countTracks("authorityCleared"),
       authorityPinned: countTracks("authorityPinned"),
+      sourcePinned: countTracks("sourcePinned"),
       implementationComplete: countTracks("implementationComplete"),
+      implementationProof: implementationProofCount,
       technicalProofPassed: countTracks("technicalProofPassed"),
       visualProofPassed: countTracks("visualProofPassed"),
       legalRecommendationComplete: countTracks(

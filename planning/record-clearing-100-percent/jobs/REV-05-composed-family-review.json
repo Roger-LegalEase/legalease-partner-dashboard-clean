@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "jobId": "REV-05-composed-family-review",
+  "wave": 5,
+  "lane": "proof",
+  "model": "claude-opus-5",
+  "effort": "max",
+  "title": "Assemble the composed template-family review package",
+  "jurisdictions": [],
+  "tracks": [],
+  "trackCount": 27,
+  "dependencies": [
+    "IMP-CO-01-sequential-guidance-then-official",
+    "IMP-CO-02-alternative-branch-routes",
+    "IMP-CV-01-la-statutory-form-family",
+    "IMP-CV-02-docx-and-encrypted-sources",
+    "F-02-template-family-hash-infrastructure"
+  ],
+  "ownedPaths": [
+    "data/record-clearing/template-families/REV-05-composed-family-review.json"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**",
+    "supabase/**",
+    "src/lib/rcap/packets/**"
+  ],
+  "outputs": [
+    "representative packets and every branch variant, with their exact rendered SHA-256",
+    "the family's template hashes, official source hashes and mapping hashes",
+    "the authority archive, controlling review and addendum hashes",
+    "a legal-output recommendation per track: approve as implemented, approve subject to listed correction, or hold",
+    "the unchanged-template hash list and the exception list"
+  ],
+  "gates": [
+    "npm run rcap:verify-template-family-coverage",
+    "the family record carries humanLegalReviewStatus=awaiting_counsel_review and none of legal_output_approved / counsel_approved / packet_ready / generation_allowed / enabled",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "docs(record-clearing): assemble the composed counsel review package",
+  "completionCondition": "Counsel can review the family once and adopt it, and every later track in the family claims coverage mechanically by hash rather than by re-review.",
+  "blockerResolved": "Counsel review is the scarcest resource and is per-track today. Without a hashed family model, 250 tracks rising to about 493 each need full review.",
+  "commercialPriority": 85,
+  "reuseScore": 80
+}

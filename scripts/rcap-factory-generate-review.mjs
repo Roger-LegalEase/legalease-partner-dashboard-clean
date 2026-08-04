@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import fs from "node:fs";
 import path from "node:path";
 
 import {
@@ -7,6 +8,7 @@ import {
   loadJob
 } from "./lib/rcap-factory/index.mjs";
 import { generateJobReviewArtifacts } from "./lib/rcap-factory/review-artifacts.mjs";
+import { isWorkerScaffoldCheckout } from "./lib/rcap-factory/validation.mjs";
 
 const args = process.argv.slice(2).filter((arg) => arg !== "--");
 
@@ -18,6 +20,14 @@ try {
     );
   }
   const rootDir = path.resolve(options.rootDir ?? process.cwd());
+  if (
+    fs.existsSync(path.join(rootDir, "tmp/rcap-factory/job.json")) ||
+    isWorkerScaffoldCheckout(rootDir)
+  ) {
+    throw new Error(
+      "Production-factory review manifests are integration-owned; refusing generation from a worker scaffold."
+    );
+  }
   const plan = await loadFactoryPlan({ rootDir, root: rootDir });
   const loaded = await loadJob(options.jobId, { rootDir, root: rootDir });
   const job = loaded?.job ?? loaded;
@@ -28,6 +38,7 @@ try {
     artifactDirectory: options.artifactDirectory,
     manifestPath: options.manifestPath,
     performValidation: !options.noValidate,
+    validationScope: "integration",
     write: true
   });
 

@@ -1,0 +1,208 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-4-illinois-custom-pleadings",
+  "authorityEdition": "1.2",
+  "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+  "note": "Edition 1.2 authority pins for every Tranche 4 component. A custom pleading needs no official form binary, so no official-form mapping is invented for one. No pin here requires a file that is not committed to this repository, and no Tranche 4 gate opens the Master Library archive.",
+  "controllingAuthority": {
+    "retainedLegalReview": {
+      "workflowKey": "IL:STATEWIDE:LEGAL_REVIEW:EN",
+      "precedence": "Controls every conclusion the adopted memorandum does not amend.",
+      "retainedOutsideRepository": true,
+      "note": "Retained in the Master Library archive outside this repository. Tranche 4 reads the committed legal-design records rather than the archive, and no gate opens it.",
+      "generationAllowed": false
+    },
+    "adoptedMemorandum": {
+      "canonicalRelativePath": "00_GOVERNANCE/ADOPTED_BATCH_2_LEGAL_RESEARCH_RESOLUTION.md",
+      "precedence": "Controls where it expressly changes track structure, output strategy, packet capability, blocker treatment, product scope, geography or supporting-document treatment."
+    },
+    "legalDesignRecords": [
+      {
+        "repositoryPath": "data/record-clearing/legal-design-track-registry.json",
+        "sha256": "2150fed8601850979acaeca872684d1426ede5eb1d31adbd0fa3485762f7564a",
+        "role": "normalized track definitions, packet sets and stop conditions"
+      },
+      {
+        "repositoryPath": "data/record-clearing/legal-design-specifications.json",
+        "sha256": "6184e54215ad690ca040d2f121baf2d870c5330facfd9eb5e046cad6af3caee3",
+        "role": "component-level custom-pleading specifications"
+      }
+    ]
+  },
+  "primaryEnactedLaw": [],
+  "citedSourcesWithoutHash": [
+    {
+      "citation": "Criminal Identification Act, 20 ILCS 2630/5.2",
+      "officialUrl": "https://www.ilga.gov/legislation/ilcs/ilcs3.asp?ActID=350&ChapterID=5",
+      "retrievedOn": "2026-07-30",
+      "citedByTracks": [
+        "il-immediate-seal",
+        "il-prostitution-j-vacate"
+      ],
+      "sha256": null,
+      "generationTarget": false,
+      "staleness": "undetectable",
+      "note": "Cited by the legal design without a recorded hash, so staleness cannot be detected for it. Recorded as a known limitation rather than silently omitted."
+    },
+    {
+      "citation": "Public Act 104-0459, the Clean Slate Act, enrolled HB 1836",
+      "officialUrl": "https://ilga.gov/Documents/Legislation/PublicActs/104/PDF/104-0459.pdf",
+      "retrievedOn": "2026-07-30",
+      "citedByTracks": [
+        "il-immediate-seal",
+        "il-prostitution-j-vacate"
+      ],
+      "sha256": null,
+      "generationTarget": false,
+      "staleness": "undetectable",
+      "note": "Cited by the legal design without a recorded hash, so staleness cannot be detected for it. Recorded as a known limitation rather than silently omitted."
+    },
+    {
+      "citation": "Approved Statewide Forms, Expungement and Sealing",
+      "officialUrl": "https://www.illinoiscourts.gov/documents-and-forms/approved-forms/circuit-court-standardized-forms-suites/expungement-sealing/",
+      "retrievedOn": "2026-07-30",
+      "citedByTracks": [
+        "il-immediate-seal"
+      ],
+      "sha256": null,
+      "generationTarget": false,
+      "staleness": "undetectable",
+      "note": "Cited by the legal design without a recorded hash, so staleness cannot be detected for it. Recorded as a known limitation rather than silently omitted."
+    },
+    {
+      "citation": "Request to Expunge and/or Seal Criminal Records",
+      "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62dae17d-e95a-4185-9242-a8cce2bcffde/EXP-AD Request.pdf",
+      "retrievedOn": "2026-07-30",
+      "citedByTracks": [
+        "il-immediate-seal"
+      ],
+      "sha256": null,
+      "generationTarget": false,
+      "staleness": "undetectable",
+      "note": "Cited by the legal design without a recorded hash, so staleness cannot be detected for it. Recorded as a known limitation rather than silently omitted."
+    },
+    {
+      "citation": "Bureau of Identification Fee Schedule",
+      "officialUrl": "https://isp.illinois.gov/BureauOfIdentification/FeeSchedule",
+      "retrievedOn": "2026-07-30",
+      "citedByTracks": [
+        "il-immediate-seal",
+        "il-prostitution-j-vacate"
+      ],
+      "sha256": null,
+      "generationTarget": false,
+      "staleness": "undetectable",
+      "note": "Cited by the legal design without a recorded hash, so staleness cannot be detected for it. Recorded as a known limitation rather than silently omitted."
+    }
+  ],
+  "formSuitesDeliberatelyNotMapped": [
+    {
+      "suite": "Illinois statewide adult expungement and sealing suite",
+      "reason": "Governs Illinois Tracks A, B, C, D, E, F, G, H, J and stage 2 of K, and expressly not the § 5.2(g) same-day immediate-sealing mechanism."
+    },
+    {
+      "suite": "Illinois statewide cannabis form suite",
+      "reason": "Belongs only to the cannabis conviction motion. Mapping it to the § 5.2(j)(3) prostitution vacatur is expressly prohibited by the adopted design."
+    }
+  ],
+  "officialFormMappingsCreated": 0,
+  "overlayPlacementsCreated": 0,
+  "acroFieldMappingsCreated": 0,
+  "tracks": [
+    {
+      "trackId": "il-immediate-seal",
+      "outputStrategy": "custom_pleading",
+      "localFormOverride": true,
+      "localFormOverrideBasis": "No verified statewide form covers the § 5.2(g) same-day, same-hearing mechanism. The statewide adult suite governs other Illinois tracks and expressly not this one. The override is recorded by the design as unverified, and that is carried as a release blocker rather than resolved here.",
+      "statutoryAuthority": [
+        "20 ILCS 2630/5.2(g)",
+        "20 ILCS 2630/5.2(g)(5)(A)",
+        "20 ILCS 2630/5.2(a)(3)(B)",
+        "20 ILCS 2630/5.2(c)(3)(A)"
+      ],
+      "statutoryAuthorityCitedInPleading": [
+        "20 ILCS 2630/5.2(g)",
+        "20 ILCS 2630/5.2(g)(5)(A)",
+        "20 ILCS 2630/5.2(a)(3)(B)",
+        "20 ILCS 2630/5.2(c)(3)(A)"
+      ],
+      "citationRestriction": null,
+      "venueAuthority": "The courtroom in which the case is disposed. The petition is filed with the circuit clerk during that hearing.",
+      "destination": {
+        "kind": "court",
+        "name": "Presiding trial judge at the disposition hearing",
+        "detail": "A copy is served on the State's Attorney in open court and on no one else. The presiding trial judge enters an order granting or denying during the same hearing."
+      },
+      "deliveryModel": "attorney_filed",
+      "components": [
+        {
+          "componentId": "il-immediate-seal-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "custom_pleading",
+          "templateId": "il-immediate-seal-petition",
+          "requirement": "required",
+          "officialFormBinaryRequired": false
+        },
+        {
+          "componentId": "il-immediate-seal-proposed-order-2",
+          "role": "proposed_order",
+          "outputStrategy": "custom_pleading",
+          "templateId": "il-immediate-seal-proposed-order",
+          "requirement": "required",
+          "officialFormBinaryRequired": false
+        },
+        {
+          "componentId": "il-immediate-seal-instructions-3",
+          "role": "instructions",
+          "outputStrategy": "custom_pleading",
+          "templateId": "il-immediate-seal-instructions",
+          "requirement": "required",
+          "officialFormBinaryRequired": false
+        }
+      ]
+    },
+    {
+      "trackId": "il-prostitution-j-vacate",
+      "outputStrategy": "custom_pleading",
+      "localFormOverride": true,
+      "localFormOverrideBasis": "No statewide form exists for the § 5.2(j)(3) route. It remains a counsel-approved custom pleading with a verified local-form override, and a published local form controls where one exists.",
+      "statutoryAuthority": [
+        "20 ILCS 2630/5.2(j)(3)",
+        "20 ILCS 2630/5.2(j)(8)",
+        "20 ILCS 2630/5.2(d)(9)(A)",
+        "20 ILCS 2630/5.2(a)(3)(C)(i)"
+      ],
+      "statutoryAuthorityCitedInPleading": [
+        "20 ILCS 2630/5.2(j)(3)",
+        "20 ILCS 2630/5.2(d)(9)(A)",
+        "20 ILCS 2630/5.2(j)(8)"
+      ],
+      "citationRestriction": "Cite only § 5.2(j)(3), the mechanics at (d)(9)(A) and the effect at (j)(8). § 5.2(a)(3)(C)(i) is pinned as track authority and deliberately not cited in the pleading.",
+      "venueAuthority": "The circuit court with jurisdiction over the underlying conviction, the Chief Judge of that judicial circuit, or any judge of the circuit designated by the Chief Judge.",
+      "destination": {
+        "kind": "court",
+        "name": "Circuit court of the underlying conviction, or the Chief Judge or a designated judge of that circuit",
+        "detail": "The State's Attorney receives notice and has 60 days to object with supporting evidence. No statewide form exists, so the filing method must be confirmed with the clerk."
+      },
+      "deliveryModel": "participant_filed_attorney_review_recommended",
+      "components": [
+        {
+          "componentId": "il-prostitution-j-vacate-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "custom_pleading",
+          "templateId": "il-prostitution-j-vacate-motion",
+          "requirement": "required",
+          "officialFormBinaryRequired": false
+        },
+        {
+          "componentId": "il-prostitution-j-vacate-proposed-order-2",
+          "role": "proposed_order",
+          "outputStrategy": "custom_pleading",
+          "templateId": "il-prostitution-j-vacate-proposed-order",
+          "requirement": "required",
+          "officialFormBinaryRequired": false
+        }
+      ]
+    }
+  ]
+}

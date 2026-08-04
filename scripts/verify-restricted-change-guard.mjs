@@ -203,14 +203,19 @@ scenario("a stale acknowledgement grants nothing and is reported", (repo) => {
 
 const live = evaluateRestrictedChanges(process.cwd());
 expectTop(live.failures.length === 0, `the live guard must pass: ${live.failures.join("; ")}`);
+// Three inherited from the PR #87 platform packet-delivery lane, plus the
+// assembled-packet download route added by Maryland implementation Tranche 2.
+// The count is asserted as well as the membership so a new acknowledgement
+// cannot be added without someone changing this line and looking at it.
 expectTop(
-  live.acknowledged.length === 3,
-  `expected the three inherited PR #87 routes to be acknowledged, found ${live.acknowledged.length}`
+  live.acknowledged.length === 4,
+  `expected the four acknowledged restricted routes, found ${live.acknowledged.length}`
 );
 for (const file of [
   "src/app/api/rcap/documents/[packetId]/pdf/[pdfType]/route.ts",
   "src/app/api/rcap/packets/[fulfillmentId]/components/[componentId]/route.ts",
-  "src/app/api/rcap/packets/generate/route.ts"
+  "src/app/api/rcap/packets/generate/route.ts",
+  "src/app/api/rcap/packets/[fulfillmentId]/packet/route.ts"
 ]) {
   expectTop(live.acknowledged.includes(file), `${file} must be acknowledged by the live guard`);
   expectTop(isRestrictedPath(file), `${file} must be recognised as a restricted path`);

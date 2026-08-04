@@ -1,0 +1,332 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-4-illinois-custom-pleadings",
+  "jobId": "rcap-il-custom-pleading",
+  "jurisdiction": "IL",
+  "jurisdictionName": "Illinois",
+  "authorityEdition": "1.2",
+  "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+  "humanLegalReviewStatus": "awaiting_counsel_adoption",
+  "runtimeStatus": "runtime_disabled",
+  "reviewDirectory": "tmp/packet-output-review/tranche-4 (ignored; regenerate with the generation command)",
+  "generationCommand": "node scripts/rcap-generate-il-custom-pleading-review.mjs",
+  "verificationCommand": "node scripts/verify-rcap-il-custom-pleading-packets.mjs",
+  "deliverableModel": "One assembled participant-facing PDF per route, bound in packet order by the shared packet assembler. There is no ZIP.",
+  "implementedTrackCount": 2,
+  "assembledPacketCount": 3,
+  "componentCount": 8,
+  "assembledPageCount": 13,
+  "deliveryModels": [
+    {
+      "trackId": "il-immediate-seal",
+      "deliveryModel": "attorney_filed"
+    },
+    {
+      "trackId": "il-prostitution-j-vacate",
+      "deliveryModel": "participant_filed_attorney_review_recommended"
+    }
+  ],
+  "technicalReview": {
+    "passed": true,
+    "checks": [
+      "Every component rendered through CustomPleadingRenderer and reopened as a PDF.",
+      "Every component rendered twice under different request keys produced identical bytes.",
+      "Every assembled packet was produced by the shared assembler from durably stored components and is byte-identical on regeneration.",
+      "No fee amount, notary block, cannabis-suite language, success prediction, prefilled attorney recital, social security or race field in any assembled packet.",
+      "il-immediate-seal: the packet never says the participant may file it themselves, says in terms that they cannot, carries the § 5.2(c)(3)(A) fallback and the nothing-permanent statement, marks the instruction sheet as not a court filing, and draws a blank attorney block.",
+      "il-prostitution-j-vacate: only § 5.2(j)(3), (d)(9)(A) and (j)(8) appear; no verification language; a pro se designation is present.",
+      "Every proposed order leaves both elections blank, carries no signature mark, and keeps its judicial signature block on one page.",
+      "Every participant statement is reproduced verbatim and attributed on the face of the motion.",
+      "Every boundary fixture stopped with its expected typed failure."
+    ]
+  },
+  "samplePackets": [
+    {
+      "fixtureId": "il-immediate-seal__dismissed-with-prejudice",
+      "trackId": "il-immediate-seal",
+      "assembledFileName": "LegalEase_Illinois_Immediate-Sealing-At-Disposition_24-MC1-401882.pdf",
+      "assembledSha256": "8bd1bd29e4d3d10b56701aaf8d5b93003b03384d411f867e6f5e0a9c94694d5d",
+      "assembledPageCount": 5,
+      "assembledBytes": 8588,
+      "pageImages": 5,
+      "runtimeStatus": "runtime_disabled",
+      "componentRanges": [
+        {
+          "componentId": "il-immediate-seal-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "startPage": 1,
+          "endPage": 2,
+          "pageCount": 2
+        },
+        {
+          "componentId": "il-immediate-seal-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "startPage": 3,
+          "endPage": 3,
+          "pageCount": 1
+        },
+        {
+          "componentId": "il-immediate-seal-instructions-3",
+          "role": "instructions",
+          "order": 3,
+          "startPage": 4,
+          "endPage": 5,
+          "pageCount": 2
+        }
+      ],
+      "components": [
+        {
+          "componentId": "il-immediate-seal-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "templateId": "il-immediate-seal-petition",
+          "pageCount": 2,
+          "sha256": "a5e0bb53b93686bb70ebf62a7456040e6d041230df76ee5a02db2314d9a2dc41",
+          "byteSize": 3839,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "il-immediate-seal-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "templateId": "il-immediate-seal-proposed-order",
+          "pageCount": 1,
+          "sha256": "1f4ac832c42efc0d80f268dab900ba476314475d44e1973800dfbd4f63ad5007",
+          "byteSize": 2591,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "il-immediate-seal-instructions-3",
+          "role": "instructions",
+          "order": 3,
+          "templateId": "il-immediate-seal-instructions",
+          "pageCount": 2,
+          "sha256": "de24537503e467207e73409bd946ff593b8ac430a2a66d2d9427d2913eb2ef5d",
+          "byteSize": 3638,
+          "deterministic": true,
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "fixtureId": "il-immediate-seal__acquitted",
+      "trackId": "il-immediate-seal",
+      "assembledFileName": "LegalEase_Illinois_Immediate-Sealing-At-Disposition_24-MC1-401883.pdf",
+      "assembledSha256": "4831623b056a34a51ee6cdf97ae3707cf8ab32976f5f785d9ced32dd8de58925",
+      "assembledPageCount": 5,
+      "assembledBytes": 8598,
+      "pageImages": 5,
+      "runtimeStatus": "runtime_disabled",
+      "componentRanges": [
+        {
+          "componentId": "il-immediate-seal-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "startPage": 1,
+          "endPage": 2,
+          "pageCount": 2
+        },
+        {
+          "componentId": "il-immediate-seal-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "startPage": 3,
+          "endPage": 3,
+          "pageCount": 1
+        },
+        {
+          "componentId": "il-immediate-seal-instructions-3",
+          "role": "instructions",
+          "order": 3,
+          "startPage": 4,
+          "endPage": 5,
+          "pageCount": 2
+        }
+      ],
+      "components": [
+        {
+          "componentId": "il-immediate-seal-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "templateId": "il-immediate-seal-petition",
+          "pageCount": 2,
+          "sha256": "3414ddb481eb617e56dff32bd1b7b9aed3cdd16817086254f2779180ad5876e1",
+          "byteSize": 3848,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "il-immediate-seal-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "templateId": "il-immediate-seal-proposed-order",
+          "pageCount": 1,
+          "sha256": "b67349759db8503e6b75eaf5dccfaf0b799ad415ca0ad0366e5073eeba18e412",
+          "byteSize": 2591,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "il-immediate-seal-instructions-3",
+          "role": "instructions",
+          "order": 3,
+          "templateId": "il-immediate-seal-instructions",
+          "pageCount": 2,
+          "sha256": "4cad064bbf29f356d7305683ef09d8b19275678d795c3fda52acbdbca66b7c04",
+          "byteSize": 3638,
+          "deterministic": true,
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "fixtureId": "il-prostitution-j-vacate__standard",
+      "trackId": "il-prostitution-j-vacate",
+      "assembledFileName": "LegalEase_Illinois_Prostitution-Conviction-Vacatur_11-CR-1704403.pdf",
+      "assembledSha256": "a5afef63745f41765ab695c05c7ec410c089e6ff6e7a21e32350d5f20b5d02c3",
+      "assembledPageCount": 3,
+      "assembledBytes": 6108,
+      "pageImages": 3,
+      "runtimeStatus": "runtime_disabled",
+      "componentRanges": [
+        {
+          "componentId": "il-prostitution-j-vacate-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "startPage": 1,
+          "endPage": 2,
+          "pageCount": 2
+        },
+        {
+          "componentId": "il-prostitution-j-vacate-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "startPage": 3,
+          "endPage": 3,
+          "pageCount": 1
+        }
+      ],
+      "components": [
+        {
+          "componentId": "il-prostitution-j-vacate-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "templateId": "il-prostitution-j-vacate-motion",
+          "pageCount": 2,
+          "sha256": "293d14b1f048232608b9420f925a3f0f0f0ca46f0b9cb7f6ffd84ef410954e67",
+          "byteSize": 4238,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "il-prostitution-j-vacate-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "templateId": "il-prostitution-j-vacate-proposed-order",
+          "pageCount": 1,
+          "sha256": "def4f523459dcb95ea2d7a7109d5ff9b2b29acc327b38ba3d526cc392c7824ee",
+          "byteSize": 2511,
+          "deterministic": true,
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "boundaryFixtures": [
+    {
+      "fixtureId": "il-immediate-seal__no-upcoming-disposition",
+      "trackId": "il-immediate-seal",
+      "expected": "eligibility_stop",
+      "outcome": "eligibility_stop",
+      "detail": "no_upcoming_disposition",
+      "passed": true,
+      "why": "The § 5.2(g) window exists only at the hearing where the case is disposed. With no upcoming hearing the route does not apply and ordinary sealing under § 5.2(c)(3)(A) is the answer."
+    },
+    {
+      "fixtureId": "il-immediate-seal__unrepresented",
+      "trackId": "il-immediate-seal",
+      "expected": "eligibility_stop",
+      "outcome": "eligibility_stop",
+      "detail": "unrepresented",
+      "passed": true,
+      "why": "§ 5.2(g)(5)(A) frames the petition as filed by the defendant's attorney. A participant with no lawyer cannot be handed a packet only counsel can file."
+    },
+    {
+      "fixtureId": "il-immediate-seal__pre-2018",
+      "trackId": "il-immediate-seal",
+      "expected": "eligibility_stop",
+      "outcome": "eligibility_stop",
+      "detail": "offense_before_2018",
+      "passed": true,
+      "why": "§ 5.2(g) reaches arrests and charges on or after 1 January 2018."
+    },
+    {
+      "fixtureId": "il-immediate-seal__minor-traffic",
+      "trackId": "il-immediate-seal",
+      "expected": "eligibility_stop",
+      "outcome": "eligibility_stop",
+      "detail": "minor_traffic_offense",
+      "passed": true,
+      "why": "Minor traffic offences are excluded under § 5.2(a)(3)(B)."
+    },
+    {
+      "fixtureId": "il-immediate-seal__dismissal-without-prejudice",
+      "trackId": "il-immediate-seal",
+      "expected": "eligibility_stop",
+      "outcome": "eligibility_stop",
+      "detail": "dismissal_without_prejudice",
+      "passed": true,
+      "why": "A dismissal without prejudice is not within the subsection."
+    },
+    {
+      "fixtureId": "il-immediate-seal__unapproved-disposition",
+      "trackId": "il-immediate-seal",
+      "expected": "branch_error",
+      "outcome": "branch_error",
+      "detail": "dispositionType",
+      "passed": true,
+      "why": "A conviction is the one disposition this subsection cannot serve, and it has no approved allegation sentence."
+    },
+    {
+      "fixtureId": "il-prostitution-j-vacate__trafficking-route",
+      "trackId": "il-prostitution-j-vacate",
+      "expected": "eligibility_stop",
+      "outcome": "eligibility_stop",
+      "detail": "trafficking_route_is_stronger",
+      "passed": true,
+      "why": "The § 5.2(h) route is stronger and its questioning is different. This stop moves the participant to better relief and is never softened into a warning."
+    },
+    {
+      "fixtureId": "il-prostitution-j-vacate__record-unclear",
+      "trackId": "il-prostitution-j-vacate",
+      "expected": "eligibility_stop",
+      "outcome": "eligibility_stop",
+      "detail": "record_does_not_show_class_4_felony_prostitution",
+      "passed": true,
+      "why": "LegalEase must not assert the conviction was a Class 4 felony prostitution offence where the record does not say so."
+    },
+    {
+      "fixtureId": "il-prostitution-j-vacate__sentence-incomplete",
+      "trackId": "il-prostitution-j-vacate",
+      "expected": "eligibility_stop",
+      "outcome": "eligibility_stop",
+      "detail": "sentence_or_conditions_incomplete",
+      "passed": true,
+      "why": "The motion is available only after completion of any sentence or condition imposed."
+    },
+    {
+      "fixtureId": "il-prostitution-j-vacate__missing-narrative",
+      "trackId": "il-prostitution-j-vacate",
+      "expected": "resolution_missing_required_input",
+      "outcome": "resolution_missing_required_input",
+      "detail": "adverseConsequences",
+      "passed": true,
+      "why": "The adverse-consequences showing is the participant's own words and the one part of the motion LegalEase does not write. A packet must not generate with it blank."
+    }
+  ],
+  "note": "An engineering generation and technical-proof record. It is not a legal approval. Both tracks remain runtime_disabled at awaiting_counsel_adoption, no jurisdiction is enabled, and packet readiness remains 0."
+}

@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "jobId": "IMP-OF-07-az-aoc-sealing-family",
+  "wave": 3,
+  "lane": "implementation-acroform",
+  "model": "claude-opus-5",
+  "effort": "max",
+  "title": "Implement the AZ official-form family",
+  "jurisdictions": [
+    "AZ"
+  ],
+  "tracks": [
+    "az_marijuana_expungement_limited_jurisdiction",
+    "az_marijuana_expungement_superior_court",
+    "az_marijuana_expungement_arrest_no_charges",
+    "az_record_sealing_conviction",
+    "az_record_sealing_dismissal_not_guilty",
+    "az_record_sealing_arrest_no_charges",
+    "az_set_aside",
+    "az_certificate_second_chance"
+  ],
+  "trackCount": 8,
+  "dependencies": [
+    "IMP-OF-01-md-district-court-form-family",
+    "AUTH-04-edition-1-3-publication",
+    "PLAT-04-overlay-confirmation-workflow",
+    "AUTH-05-acquisition-campaign-tier-2"
+  ],
+  "ownedPaths": [
+    "src/lib/rcap/packets/registry-az.ts",
+    "data/record-clearing/implementation-tranches/IMP-OF-07-az-aoc-sealing-family*.json",
+    "scripts/rcap-generate-IMP-OF-07-az-aoc-sealing-family-review.mjs",
+    "scripts/verify-rcap-IMP-OF-07-az-aoc-sealing-family-packets.mjs",
+    "package.json"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**",
+    "supabase/**"
+  ],
+  "outputs": [
+    "validated field maps",
+    "field-ownership record",
+    "tranche record and review manifest",
+    "one assembled participant PDF per route"
+  ],
+  "gates": [
+    "npm run rcap:verify-packet-capability-registry",
+    "npm run rcap:verify-tranche-1-packets (Tranche 1 must stay green)",
+    "the job's own rcap:verify-<job>-packets verifier",
+    "review manifest carries humanLegalReviewStatus=awaiting_counsel_review and none of legal_output_approved / counsel_approved / packet_ready / generation_allowed / enabled",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "feat(record-clearing): implement AZ official-form routes",
+  "completionCondition": "Every positive fixture generates one assembled PDF, every third-party field is blank, technical and visual review pass, every track remains runtime_disabled at awaiting_counsel_review.",
+  "blockerResolved": "Two sub-families: AOCCRSL1F/2F are AcroForms and packet candidates; AOC-CREM2F/3F are flat and need overlay, and CREM3F is already the repository's only proven overlay fixture source.",
+  "commercialPriority": 55,
+  "reuseScore": 65
+}

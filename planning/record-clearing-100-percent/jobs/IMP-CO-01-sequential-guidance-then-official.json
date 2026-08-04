@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "jobId": "IMP-CO-01-sequential-guidance-then-official",
+  "wave": 3,
+  "lane": "implementation-composed",
+  "model": "claude-opus-5",
+  "effort": "max",
+  "title": "Implement the sequential composed routes",
+  "jurisdictions": [
+    "CA",
+    "IA",
+    "MA",
+    "MO",
+    "IL"
+  ],
+  "tracks": [
+    "ca-diversion-seal",
+    "ia-9079",
+    "ma-expunge-time",
+    "mo-art-xiv-marijuana",
+    "mo-610-145-mistaken-identity",
+    "il-prb-cert"
+  ],
+  "trackCount": 6,
+  "dependencies": [
+    "PLAT-02-composed-route-unit-model",
+    "AUTH-04-edition-1-3-publication"
+  ],
+  "ownedPaths": [
+    "src/lib/rcap/packets/registry-composed.ts",
+    "data/record-clearing/implementation-tranches/IMP-CO-01*.json",
+    "scripts/rcap-generate-IMP-CO-01-review.mjs",
+    "scripts/verify-rcap-IMP-CO-01-packets.mjs",
+    "package.json"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**",
+    "supabase/**"
+  ],
+  "outputs": [
+    "unit-ordered composed packets",
+    "il-prb-cert as the mixed-mode proof with five units",
+    "one assembled participant PDF per route"
+  ],
+  "gates": [
+    "sequential renders units in order and stops at the first unavailable one",
+    "units with unresolved outputStrategy cannot render at all",
+    "npm run rcap:verify-packet-capability-registry",
+    "npm run rcap:verify-tranche-1-packets (Tranche 1 must stay green)",
+    "the job's own rcap:verify-<job>-packets verifier",
+    "review manifest carries humanLegalReviewStatus=awaiting_counsel_review and none of legal_output_approved / counsel_approved / packet_ready / generation_allowed / enabled",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "feat(record-clearing): implement sequential composed routes",
+  "completionCondition": "Each composed route resolves its units deterministically and each unit independently satisfies its own archetype's gates.",
+  "blockerResolved": "Six composed tracks follow the same pattern — an eligibility or explanatory unit followed by an official-form unit. il-prb-cert is the only composed track fully mapped to packet candidates.",
+  "commercialPriority": 50,
+  "reuseScore": 55
+}

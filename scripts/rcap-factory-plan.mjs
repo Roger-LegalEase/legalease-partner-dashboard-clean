@@ -6,9 +6,13 @@ import { createRequire } from "node:module";
 
 import {
   buildFactoryPlan,
+  loadJob,
   serializeFactoryPlan,
   stableStringify
 } from "./lib/rcap-factory/index.mjs";
+import {
+  assertAuthorityOutputContract
+} from "./lib/rcap-factory/authority-output.mjs";
 
 try {
   const args = parseArgs(process.argv.slice(2));
@@ -32,12 +36,16 @@ try {
   }
 
   const rootDir = path.resolve(args.root ?? process.cwd());
-  const plan = buildFactoryPlan({
+  const planOptions = {
     rootDir,
-    baseCommit: args.baseCommit
-  });
+    ...(args.baseCommit ? { baseCommit: args.baseCommit } : {})
+  };
+  const plan = args.checkJob ? null : buildFactoryPlan(planOptions);
   const output = args.checkJob
-    ? `${stableStringify(checkJobOutputs(plan, args.checkJob, rootDir), args.compact ? 0 : 2)}\n`
+    ? `${stableStringify(
+        checkJobOutputs(loadJob(args.checkJob, planOptions), rootDir),
+        args.compact ? 0 : 2
+      )}\n`
     : args.summary
       ? `${stableStringify(summarize(plan), args.compact ? 0 : 2)}\n`
       : serializeFactoryPlan(plan, args.compact ? 0 : 2);
@@ -98,10 +106,8 @@ function refuseSourceMutation(plan, rootDir, outputPath) {
   }
 }
 
-function checkJobOutputs(plan, jobId, rootDir) {
-  const job = plan.jobs.find((entry) => entry.jobId === jobId);
-  if (!job) throw new Error(`Unknown RCAP factory job ${jobId}.`);
-
+function checkJobOutputs(job, rootDir) {
+  const jobId = job.jobId;
   const checked = [];
   for (const relativePath of job.expectedOutputs) {
     const absolutePath = path.join(rootDir, relativePath);
@@ -127,11 +133,13 @@ function checkJobOutputs(plan, jobId, rootDir) {
       throw new Error(`${jobId} expected output is empty: ${relativePath}.`);
     }
     if (relativePath.endsWith(".json")) {
+      let value;
       try {
-        JSON.parse(text);
+        value = JSON.parse(text);
       } catch (error) {
         throw new Error(`${jobId} expected output is invalid JSON (${relativePath}): ${error.message}`);
       }
+      assertAuthorityOutputContract(job, relativePath, value);
     } else if (relativePath.endsWith(".ts") || relativePath.endsWith(".tsx")) {
       checkTypeScriptSyntax(jobId, relativePath, text);
     }

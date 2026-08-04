@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "jobId": "IMP-CV-01-la-statutory-form-family",
+  "wave": 3,
+  "lane": "implementation-composed",
+  "model": "claude-opus-5",
+  "effort": "max",
+  "title": "Resolve the Louisiana statutory-form question and implement the seven routes",
+  "jurisdictions": [
+    "LA"
+  ],
+  "tracks": [
+    "la-976-arrest-no-conviction",
+    "la-977-misdemeanor-conviction",
+    "la-977d-marijuana-first-offense",
+    "la-978-felony-conviction",
+    "la-985-1-interim-expungement",
+    "la-985-expungement-by-redaction",
+    "la-987-set-aside-and-dismiss"
+  ],
+  "trackCount": 7,
+  "dependencies": [
+    "PLAT-03-non-renderable-source-policy"
+  ],
+  "ownedPaths": [
+    "src/lib/rcap/packets/registry-la.ts",
+    "data/record-clearing/implementation-tranches/IMP-CV-01*.json",
+    "scripts/rcap-generate-IMP-CV-01-review.mjs",
+    "scripts/verify-rcap-IMP-CV-01-packets.mjs",
+    "package.json"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**",
+    "supabase/**"
+  ],
+  "outputs": [
+    "a counsel-settled answer to whether typesetting mandatory statutory text is an official form or a custom pleading",
+    "seven routes implemented under that answer, or recorded terminal-D"
+  ],
+  "gates": [
+    "an HTML reconstruction is never treated as an official source",
+    "npm run rcap:verify-packet-capability-registry",
+    "npm run rcap:verify-tranche-1-packets (Tranche 1 must stay green)",
+    "the job's own rcap:verify-<job>-packets verifier",
+    "review manifest carries humanLegalReviewStatus=awaiting_counsel_review and none of legal_output_approved / counsel_approved / packet_ready / generation_allowed / enabled",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "feat(record-clearing): implement the Louisiana statutory-form routes",
+  "completionCondition": "The statutory-text question is answered by counsel and recorded, and the seven routes are implemented under that answer or recorded terminal-D.",
+  "blockerResolved": "The La. C.Cr.P. art. 986 forms are mandatory statutory text with no official PDF. Edition 1.2 retained arts. 987-995 as html acquired article by article, and packet-capability.ts states that an HTML reconstruction is never an official source. This is the sharpest unresolved renderer question in the corpus.",
+  "commercialPriority": 45,
+  "reuseScore": 35
+}

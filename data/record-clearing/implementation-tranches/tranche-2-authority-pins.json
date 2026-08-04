@@ -1,0 +1,268 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-2-maryland-official-forms",
+  "authorityEdition": "1.2",
+  "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+  "note": "Exact Edition 1.2 authority pins for every Tranche 2 component. This is the first tranche whose participant filings are official state forms, so unlike Tranche 1 every filing component here resolves to one retained Master Library asset by workflow key, document role, revision, language, canonical path and SHA-256. A component is pinned only where the retained asset is an approved packet candidate. No source-gated asset is pinned as a generation target, and no asset is selected by filename, folder scan or title similarity.",
+
+  "controllingAuthority": {
+    "legalReview": {
+      "workflowKey": "MD:STATEWIDE:LEGAL_REVIEW:EN",
+      "assetClass": "legal_review",
+      "documentRole": "LEGAL_REVIEW",
+      "revision": "ASOF-2026-07-30",
+      "language": "EN",
+      "sha256": "a03cae006bbd46eff93aafc5746b68920fa6d6b0c9502a36df457066012b10ee",
+      "canonicalRelativePath": "STATES/MD/01_LEGAL_REVIEW/MD__LEGAL-REVIEW__STATEWIDE__maryland-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+      "generationAllowed": false,
+      "runtimeStatus": "runtime_disabled"
+    },
+    "legalReviewAddendum": {
+      "workflowKey": "MD:STATEWIDE-ADDENDUM:LEGAL_REVIEW_ADDENDUM:EN",
+      "assetClass": "legal_review_addendum",
+      "documentRole": "LEGAL_REVIEW_ADDENDUM",
+      "revision": "ASOF-2026-08-03",
+      "language": "EN",
+      "sha256": "28c2f5ee00a2e6386f20939ee6ff5cf11d766c2c538cac35bc984db19f1e13fb",
+      "canonicalRelativePath": "STATES/MD/01_LEGAL_REVIEW/MD__LEGAL-REVIEW-ADDENDUM__STATEWIDE__maryland-record-clearing-legal-review-addendum-edition-1-2__ASOF-2026-08-03__EN.md",
+      "precedence": "Controls the statements it lists and nothing else. Read before the retained review. It is the authority for treating md_second_chance_shielding as official_pdf_fill on CC-DC-CR-148 with MDJ-008, and it is also the authority for why the CC-DC-CR-072 family is source-gated.",
+      "generationAllowed": false,
+      "runtimeStatus": "runtime_disabled"
+    },
+    "adoptedMemorandum": {
+      "canonicalRelativePath": "00_GOVERNANCE/ADOPTED_BATCH_2_LEGAL_RESEARCH_RESOLUTION.md",
+      "precedence": "Controls where it expressly changes track structure, output strategy, packet capability, blocker treatment, product scope, geography or supporting-document treatment.",
+      "controllingStatementForThisTranche": "Priority issue resolution matrix / 12. Maryland — TRACK 6: official statewide shielding packet using CC-DC-CR-148 with MDJ-008 and current instructions; the narrow eligible-offense list, lifetime petition rule, and court-of-conviction venue are scope/routing fields, not reasons to deny packet identity."
+    },
+    "batch2AuthorityMatrix": {
+      "canonicalRelativePath": "00_GOVERNANCE/BATCH_2_AUTHORITY/BATCH_2_AUTHORITY_MATRIX.csv",
+      "normalizationCommit": "41c0aed"
+    }
+  },
+
+  "statutoryAuthority": [
+    "Md. Code, Crim. Proc. § 10-301 — definitions and the twelve enumerated shieldable offences",
+    "Md. Code, Crim. Proc. § 10-302 — the petition and its three-year waiting period",
+    "Md. Code, Crim. Proc. § 10-303 — venue and the one-petition-per-lifetime rule",
+    "Md. Code, Crim. Proc. § 10-304 — effect of shielding",
+    "Md. Code, Crim. Proc. § 10-305 — a shielded conviction is not a conviction for the subsequent-conviction rule",
+    "Md. Code, Crim. Proc. § 10-306 — record retention and access",
+    "Md. Rule 16-934 — shielding procedure",
+    "Md. Rule 16-941 — sealing and shielding motions",
+    "Md. Rule 20-201.1 — notice regarding restricted information"
+  ],
+
+  "tracks": [
+    {
+      "trackId": "md_second_chance_shielding",
+      "outputStrategy": "official_pdf_fill",
+      "localFormOverride": false,
+      "acceptedStrategyBasis": "Maryland Edition 1.2 controlling addendum, amended statement 1, on the authority of the adopted Batch 2 memorandum: md_second_chance_shielding is official_pdf_fill on CC-DC-CR-148 with MDJ-008.",
+      "scopeRestrictionsCarried": [
+        "Hard-block every multi-court and multi-county record. Generate only where the participant has eligible convictions in exactly one court in exactly one county.",
+        "One shielding petition will be granted per lifetime. A participant who has already filed one is out of scope.",
+        "Never call this sealing or expungement. Say shielding."
+      ],
+      "venueAuthority": "Md. Code, Crim. Proc. § 10-303, mirroring the § 10-105(b) structure: the court that entered the convictions for which shielding is sought. District Court of Maryland or circuit court, in one of the 23 counties or Baltimore City.",
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of the District Court or circuit court that entered the convictions",
+        "detail": "In person, by mail, or through MDEC e-filing where the county is on MDEC. One court, one county."
+      },
+      "components": [
+        {
+          "componentId": "md_second_chance_shielding-primary-filing-1",
+          "role": "primary_filing",
+          "packetStage": "generation_or_filing",
+          "outputStrategy": "official_pdf_fill",
+          "rendererStrategy": "acroform_fill",
+          "officialFormBinaryRequired": true,
+          "officialFormId": "CC-DC-CR-148",
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "MD",
+            "workflowKey": "MD:CC-DC-CR-148:PETITION:EN",
+            "documentId": "CC-DC-CR-148",
+            "documentRole": "PETITION",
+            "officialTitle": "Petition for Shielding Under the Maryland Second Chance Act",
+            "revision": "REV-2026-07",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "packetStage": "generation_or_filing",
+            "eligibilityRole": "primary_or_companion_output",
+            "canonicalRelativePath": "STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-CR-148__petition-for-shielding-under-the-maryland-second-chance-act__REV-2026-07__EN.pdf",
+            "sha256": "abcafbc298d56937ad41ba44675147942b1ab540325898917efafed3f5b43e3f",
+            "bytes": 238823,
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled",
+            "sourceStatus": "repo_form",
+            "freshnessStatus": "candidate_current_source"
+          },
+          "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase Maryland/forms/CC-DC-CR-148__petition-for-shielding-under-maryland-second-chance-act__rev-2026-07.pdf",
+          "repositorySourceSha256": "abcafbc298d56937ad41ba44675147942b1ab540325898917efafed3f5b43e3f",
+          "repositoryBytesMatchEditionBytes": true,
+          "roleCheck": "The component role is primary_filing and the retained asset's document role is PETITION with eligibility role primary_or_companion_output. The petition is the participant's filing. Roles agree.",
+          "candidateChecks": {
+            "approvedPacketCandidate": true,
+            "sourceGated": false,
+            "referenceOnly": false,
+            "retired": false,
+            "excluded": false,
+            "superseded": false,
+            "commerciallyRestricted": false,
+            "revisionCurrent": "REV-2026-07 is the revision Edition 1.2 retains and the revision printed on the form face (Rev. 07/2026). No competing revision of CC-DC-CR-148 is retained.",
+            "uniqueIdentity": "Exactly one Edition 1.2 row carries MD document ID CC-DC-CR-148. No ambiguity."
+          },
+          "structural": {
+            "structuralClass": "clean_acroform",
+            "pages": 1,
+            "fieldCount": 56,
+            "xfa": false,
+            "encrypted": false,
+            "needAppearances": false
+          }
+        },
+        {
+          "componentId": "md_second_chance_shielding-attachment-2",
+          "role": "attachment",
+          "packetStage": "generation_or_filing",
+          "outputStrategy": "official_pdf_fill",
+          "rendererStrategy": "acroform_fill",
+          "officialFormBinaryRequired": true,
+          "officialFormId": "MDJ-008",
+          "requirementBasis": "CC-DC-CR-148 prints the requirement on its own face: \"You must file a Notice Regarding Restricted Information Pursuant to Rule 20-201.1 (form MDJ-008) with this submission.\" Md. Rule 20-201.1.",
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "MD",
+            "workflowKey": "MD:MDJ-008:NOTICE:EN",
+            "documentId": "MDJ-008",
+            "documentRole": "NOTICE",
+            "officialTitle": "Notice Regarding Restricted Information Pursuant to Rule 20-201.1",
+            "revision": "REV-2026-07",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "packetStage": "generation_or_filing",
+            "eligibilityRole": "primary_or_companion_output",
+            "canonicalRelativePath": "STATES/MD/02_PACKET_FORMS/MD__FORM__MDJ-008__notice-regarding-restricted-information-pursuant-to-rule-20-201-1__REV-2026-07__EN.pdf",
+            "sha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+            "bytes": 248175,
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled",
+            "sourceStatus": "repo_form",
+            "freshnessStatus": "candidate_current_source"
+          },
+          "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase Maryland/forms/MDJ-008__notice-regarding-restricted-information-pursuant-to-rule-20-201.1__rev-2026-07.pdf",
+          "repositorySourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+          "repositoryBytesMatchEditionBytes": true,
+          "roleCheck": "The component role is attachment and the retained asset's document role is NOTICE with eligibility role primary_or_companion_output. Edition 1.2 records it as the companion restricted-information notice. Roles agree.",
+          "candidateChecks": {
+            "approvedPacketCandidate": true,
+            "sourceGated": false,
+            "referenceOnly": false,
+            "retired": false,
+            "excluded": false,
+            "superseded": false,
+            "commerciallyRestricted": false,
+            "revisionCurrent": "REV-2026-07 is the revision Edition 1.2 retains and the revision printed on the form face (Rev. 07/2026). No competing revision of MDJ-008 is retained.",
+            "uniqueIdentity": "Exactly one Edition 1.2 row carries MD document ID MDJ-008. No ambiguity."
+          },
+          "structural": {
+            "structuralClass": "acroform_pdf",
+            "pages": 1,
+            "fieldCount": 57,
+            "xfa": false,
+            "encrypted": false,
+            "needAppearances": false
+          }
+        },
+        {
+          "componentId": "md_second_chance_shielding-instructions-3",
+          "role": "instructions",
+          "packetStage": "participant_guidance",
+          "outputStrategy": "process_guidance",
+          "rendererStrategy": "process_guidance",
+          "templateId": "md-second-chance-shielding-participant-guide",
+          "officialFormBinaryRequired": false,
+          "basis": "LegalEase-authored participant guidance appended to the assembled packet. It is not filed with the court and is not part of the normalized Maryland packet set. Its governing specification is authored in tranche-2-component-guidance.json.",
+          "asset": null
+        }
+      ]
+    }
+  ],
+
+  "sourceGatedAssetsDeliberatelyNotPinned": [
+    {
+      "workflowKey": "MD:CC-DC-CR-072A:PRIMARY_FILING:EN",
+      "sha256": "8dcb7b177cfb8900edc03158b064a57121170761e6f34e2456f08fdc68f82db2",
+      "assetClass": "source_gated",
+      "treatment": "Packet identity established, never a generation target. Blocks md_10105_favorable."
+    },
+    {
+      "workflowKey": "MD:CC-DC-CR-072B:PRIMARY_FILING:EN",
+      "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+      "assetClass": "source_gated",
+      "treatment": "Packet identity established, never a generation target. Blocks md_10110_conviction and md_pardon_expungement."
+    },
+    {
+      "workflowKey": "MD:CC-DC-CR-072C:PRIMARY_FILING:EN",
+      "sha256": "9faa52511adfce4c33a63fbc983f5999d288af2579c63f4425dd39714607c5ac",
+      "assetClass": "source_gated",
+      "treatment": "Packet identity established, never a generation target. Blocks md_10105_early."
+    },
+    {
+      "workflowKey": "MD:CC-DC-CR-072D:PRIMARY_FILING:EN",
+      "sha256": "6a5337a5d142c8ae1cc41845bd4c5efb5598e7a64acbda17c9ab70134773f147",
+      "assetClass": "source_gated",
+      "treatment": "Packet identity established, never a generation target. Blocks md_cannabis_petition."
+    },
+    {
+      "workflowKey": "MD:DC-CR-071:APPLICATION:EN",
+      "sha256": "590b62c3cc1a4ebd8a9147dfd391f9c8abaa7917edb0260adb08b7fc1d38fc8a",
+      "assetClass": "source_gated",
+      "treatment": "Maryland District Court form, not a District of Columbia form. Its route md_10103_legacy_police is a closed-window process-guidance node, so the asset has no reachable packet use in any event."
+    }
+  ],
+
+  "packetCandidatesNotUsedByThisTranche": [
+    {
+      "workflowKey": "MD:CC-DC-089:PETITION:EN",
+      "sha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+      "assetClass": "packet_form",
+      "reason": "Request for Waiver of Prepaid Costs. A clean packet candidate, but a conditional component only of the three excluded CC-DC-CR-072B/D routes. The selected track's adopted legal design identifies no fee and no applicable waiver, so it is not attached."
+    },
+    {
+      "workflowKey": "MD:CC-DC-CR-078:FORM:EN",
+      "sha256": "6dc8f576c2fe488b488948c6d50e0137c2fd9781a904179219c491b2f776ea1b",
+      "assetClass": "packet_form",
+      "reason": "General Waiver and Release. A clean packet candidate, but a conditional attachment only of the excluded md_10105_early route, and it waives tort claims — it belongs to no other Maryland packet."
+    }
+  ],
+
+  "sourceRelationshipPinsWritten": [
+    {
+      "trackId": "md_second_chance_shielding",
+      "componentId": "md_second_chance_shielding-primary-filing-1",
+      "officialFormId": "CC-DC-CR-148",
+      "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Maryland/forms/CC-DC-CR-148__petition-for-shielding-under-maryland-second-chance-act__rev-2026-07.pdf",
+      "sha256": "abcafbc298d56937ad41ba44675147942b1ab540325898917efafed3f5b43e3f",
+      "corpusState": "present",
+      "defectClosed": "unpinned_but_uniquely_identifiable_edition_asset"
+    },
+    {
+      "trackId": "md_second_chance_shielding",
+      "componentId": "md_second_chance_shielding-attachment-2",
+      "officialFormId": "MDJ-008",
+      "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Maryland/forms/MDJ-008__notice-regarding-restricted-information-pursuant-to-rule-20-201.1__rev-2026-07.pdf",
+      "sha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+      "corpusState": "present",
+      "defectClosed": "unpinned_but_uniquely_identifiable_edition_asset"
+    }
+  ],
+
+  "roleMismatchesClosed": 0,
+  "hashConflictsClosed": 0,
+  "officialFormMappingsCreated": 2,
+  "officialFormMappingsCreatedNote": "Two, both mechanical. Each component already named exactly one Edition 1.2 document ID that resolves to exactly one retained packet-form asset; only the SHA-256 was absent from the track source relationship. Pinning a uniquely identifiable retained asset is a mapping defect closed, not a new legal-design conclusion. No component's form identity, document role or packet composition was changed."
+}

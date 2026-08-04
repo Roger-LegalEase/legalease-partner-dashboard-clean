@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "jobId": "F-03-track-promotion-contract",
+  "wave": 0,
+  "lane": "platform",
+  "model": "claude-opus-5",
+  "effort": "max",
+  "title": "Define the per-track promotion contract the repository does not have",
+  "status": "completed",
+  "reconciliationStatus": "completed",
+  "reconciliationNote": "The exact hash-bound per-track contract is integrated. No approval batch was applied and no route, jurisdiction or production state was promoted.",
+  "compiledChildJobId": "rcap-nationwide-track-promotion-contract",
+  "completedAtCommit": "33ff72c8514d289152caa0ed846db0cdd1f79502",
+  "jurisdictions": [],
+  "tracks": [],
+  "trackCount": 0,
+  "dependencies": [
+    "F-02-template-family-hash-infrastructure"
+  ],
+  "ownedPaths": [
+    "docs/rcap-promotion/track-approval-template.json",
+    "scripts/rcap-apply-track-promotion-batch.mjs",
+    "scripts/verify-rcap-track-promotion.mjs",
+    "package.json"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**"
+  ],
+  "outputs": [
+    "a track-level approval batch format mirroring the jurisdiction-level docs/rcap-promotion/batch-approval-template.json",
+    "dry-run/apply flow that refuses the whole batch on any single refusal, and can never set runtimeDisabled=false or liveEnabled",
+    "an adoption record shape separate from the engineering-authored review record",
+    "a route-scoped staging selection contract that consumes only exact adopted route IDs and hashes rather than a jurisdiction-wide adoption assumption"
+  ],
+  "gates": [
+    "npm run rcap:verify-track-promotion",
+    "npm run rcap:verify-restricted-change-guard",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "feat(record-clearing): add the per-track promotion contract",
+  "completionCondition": "A counsel adoption can be applied to named tracks through an auditable batch, route-scoped staging can consume only those exact adopted tracks, and no machine path exists that sets legal_approved or visual_review_passed without one.",
+  "blockerResolved": "Promotion is modelled per jurisdiction and per channel only. There is no rcap-promote-track script and no track approval batch format, so 250 tracks have no route from implemented to approved.",
+  "commercialPriority": 75,
+  "reuseScore": 35
+}

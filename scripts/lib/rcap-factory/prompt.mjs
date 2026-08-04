@@ -2,6 +2,9 @@ const SUPPORTED_MODELS = new Set(["opus", "codex"]);
 
 const JOB_FIELD_ORDER = [
   "jobId",
+  "parentJobId",
+  "canonicalWave",
+  "canonicalLane",
   "lane",
   "jurisdiction",
   "trackIds",
@@ -9,29 +12,52 @@ const JOB_FIELD_ORDER = [
   "baseCommit",
   "dependencies",
   "ownedPaths",
+  "integrationOwnedOutputs",
   "forbiddenPaths",
   "requiredInputs",
   "expectedOutputs",
+  "requiredOutputFields",
+  "downloadedSourceCount",
+  "regressionVerifier",
+  "participantPacketProofRequired",
+  "sourceMaterializationInputs",
+  "normalizationReadiness",
+  "executionNote",
   "focusedValidation",
   "integrationValidation",
   "model",
   "effort",
+  "executionScope",
   "status",
+  "completionCommit",
   "commitSubject",
   "stopCondition"
 ];
 
 const PROMPT_MANIFEST_FIELDS = [
   "jobId",
+  "parentJobId",
+  "canonicalWave",
+  "canonicalLane",
   "lane",
   "jurisdiction",
   "trackIds",
   "strategyFamily",
   "baseCommit",
   "dependencies",
+  "acquisitionIds",
+  "reconciliationIds",
+  "downloadedSourceCount",
+  "requiredOutputFields",
+  "regressionVerifier",
+  "participantPacketProofRequired",
+  "sourceMaterializationInputs",
+  "normalizationReadiness",
+  "executionNote",
   "requiredInputs",
   "model",
   "effort",
+  "executionScope",
   "status"
 ];
 
@@ -40,8 +66,9 @@ const PROMPT_MANIFEST_FIELDS = [
  *
  * Legal and operational context belongs in the pinned authority and the job
  * manifest. Repeating it here would make prompts drift independently of those
- * records, so this compiler emits only the nine sections in the factory
- * contract.
+ * records, so this compiler emits only the contract sections, including the
+ * safety sections that distinguish the complete worker worktree from
+ * captain-owned integration outputs.
  */
 export function compileWorkerPrompt({ job, authorityVersion, model = job?.model }) {
   assertJob(job);
@@ -55,9 +82,19 @@ export function compileWorkerPrompt({ job, authorityVersion, model = job?.model 
     section("Authority version", renderScalar(authorityVersion, "unavailable")),
     section("Assigned job manifest", fenced("json", JSON.stringify(promptManifest, null, 2))),
     section("Owned paths", renderList(assignedJob.ownedPaths)),
+    section(
+      "Integration-owned outputs — do not create or commit",
+      renderIntegrationOwnedOutputs(assignedJob)
+    ),
     section("Forbidden paths", renderList(assignedJob.forbiddenPaths)),
-    section("Required outputs", renderList(assignedJob.expectedOutputs)),
+    section("Required outputs", renderRequiredOutputs(assignedJob)),
     section("Focused acceptance command", renderFocusedValidation(assignedJob)),
+    section(
+      "Scaffold worktree",
+      "The scaffold --apply command created a complete linked Git worktree, not a disposable " +
+        "marker or generated-output directory. Work only in that checkout and retain it, its branch, " +
+        "and its metadata until integration; never delete or treat the worktree as disposable output."
+    ),
     section("Commit subject", renderScalar(assignedJob.commitSubject, "Not specified.")),
     section("Stop condition", renderValue(assignedJob.stopCondition, "Not specified."))
   ];
@@ -145,6 +182,17 @@ function assertJob(job) {
   if (typeof job.jobId !== "string" || job.jobId.trim() === "") {
     throw new Error("Factory job is missing jobId.");
   }
+  if (job.executionScope !== "worker") {
+    throw new Error(
+      `${job.jobId} is ${job.executionScope ?? "not"} scoped and cannot compile a worker prompt.`
+    );
+  }
+  if (job.status !== "ready") {
+    throw new Error(
+      `${job.jobId} has status ${job.status ?? "missing"} and cannot compile a worker prompt; ` +
+        "only ready jobs are eligible."
+    );
+  }
 }
 
 function canonicalize(value) {
@@ -172,6 +220,29 @@ function missionFor(job) {
 
 function renderFocusedValidation(job) {
   return fenced("sh", `npm run rcap:factory:validate-job -- ${job.jobId}`);
+}
+
+function renderIntegrationOwnedOutputs(job) {
+  const paths = renderList(job.integrationOwnedOutputs);
+  return (
+    `${paths}\n\n` +
+    "These paths are generated and committed only by the integration captain. A worker must not " +
+    "create, modify, stage, or commit them, and no production-enablement marker exemption exists."
+  );
+}
+
+function renderRequiredOutputs(job) {
+  const paths = renderList(job.expectedOutputs);
+  const fields = job.requiredOutputFields ?? [];
+  if (fields.length === 0) return paths;
+  const expectedCount = Number.isInteger(job.downloadedSourceCount)
+    ? ` The assignment requires downloadedSourceCount=${job.downloadedSourceCount}.`
+    : "";
+  return (
+    `${paths}\n\n` +
+    `Every JSON authority output must include these required top-level fields: ${fields.join(", ")}.` +
+    expectedCount
+  );
 }
 
 function renderList(value) {

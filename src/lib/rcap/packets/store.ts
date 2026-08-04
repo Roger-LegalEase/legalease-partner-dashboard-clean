@@ -327,7 +327,13 @@ function artifactFromRow(row: Record<string, unknown>): StoredArtifactRecord {
 }
 
 function assertSafeObjectPath(value: string): void {
-  if (!/^packets\/[0-9a-f-]{36}\/[a-z0-9-]+\.pdf$/i.test(value) || value.includes("..")) {
+  // The component segment allows underscores as well as hyphens. Component IDs
+  // are the normalized legal-design component IDs, and those inherit the track
+  // ID's separator — Mississippi's tracks are hyphenated, Maryland's are not.
+  // Renaming a component to fit a storage path would break the one identifier
+  // that ties an artifact back to its authority pin and its blocker-ledger row.
+  // An underscore cannot form a traversal, and `..` is still refused outright.
+  if (!/^packets\/[0-9a-f-]{36}\/[a-z0-9_-]+\.pdf$/i.test(value) || value.includes("..")) {
     throw new Error("invalid_object_path");
   }
 }

@@ -19,7 +19,10 @@ import {
 
 export const CAPTAIN_GLOBAL_REGENERATION = Object.freeze([
   "node scripts/rcap-legal-design-intake.mjs",
-  "node scripts/rcap-reconcile-master-library.mjs"
+  "node scripts/rcap-reconcile-master-library.mjs",
+  // Re-run intake after reconciliation so the derived legal-design registries
+  // consume the newly reconciled Master Library records.
+  "node scripts/rcap-legal-design-intake.mjs"
 ]);
 
 const PROTECTED_RUNTIME_PATHS = Object.freeze([
@@ -91,14 +94,21 @@ export function buildWaveIntegrationPlan(
     );
   }
   const jobById = new Map(factoryPlan.jobs.map((job) => [job.jobId, job]));
-  const jobs = wave.jobIds.map((jobId) => {
+  const referencedJobs = wave.jobIds.map((jobId) => {
     const job = jobById.get(jobId);
     if (!job) throw new Error(`${waveId} references missing job ${jobId}`);
     return job;
   });
+  const completedJobs = referencedJobs.filter((job) => job.status === "completed");
+  const activeJobs = referencedJobs.filter(
+    (job) => !["completed", "cancelled"].includes(job.status)
+  );
+  const jobs = activeJobs.filter((job) => job.executionScope === "worker");
+  const captainJobs = activeJobs.filter((job) => job.executionScope === "captain");
+  const humanJobs = activeJobs.filter((job) => job.executionScope === "human");
   const integrationValidation = dedupeStrings([
     ...(wave.integrationValidation ?? []),
-    ...jobs.flatMap((job) => job.integrationValidation ?? [])
+    ...referencedJobs.flatMap((job) => job.integrationValidation ?? [])
   ]);
   const commandFailures = [];
   for (const command of [
@@ -136,6 +146,9 @@ export function buildWaveIntegrationPlan(
     authorityEdition: factoryPlan.authorityEdition,
     baseCommit: factoryPlan.baseCommit,
     jobs: branchInspections,
+    captainJobs: captainJobs.map((job) => job.jobId),
+    humanJobs: humanJobs.map((job) => job.jobId),
+    completedJobs: completedJobs.map((job) => job.jobId),
     captainRegeneration: [...CAPTAIN_GLOBAL_REGENERATION],
     integrationValidation,
     protectedRuntimePaths: [...PROTECTED_RUNTIME_PATHS],
@@ -147,7 +160,7 @@ export function buildWaveIntegrationPlan(
       explicitExecuteRequired: true,
       workerPathValidationRequired: true,
       oneCommitPerJobRequired: true,
-      trackedReviewManifestRequired: true,
+      integrationOwnedReviewManifestRequired: true,
       broadStaging: false,
       deployment: false,
       runtimePromotion: false,
@@ -159,7 +172,8 @@ export function buildWaveIntegrationPlan(
       "Resolve exactly one unintegrated worker commit for each job branch.",
       "Revalidate every worker commit against owned and forbidden paths.",
       "Cherry-pick worker commits without broad staging.",
-      "Reproduce packet and page hashes from each tracked review manifest.",
+      "Generate each production-factory review manifest as a captain-owned output.",
+      "Verify and reproduce packet and page hashes from each captain-generated manifest.",
       "Regenerate global outputs only in the captain worktree.",
       "Run the wave integration validation suite.",
       "Verify runtime, promotion, legacy-generator, and Master Library edition hashes are unchanged."
@@ -234,6 +248,13 @@ export async function integrateWave(
   for (const jobId of integrationPlan.jobs.map((entry) => entry.jobId)) {
     const job = jobById.get(jobId);
     assertExpectedOutputsPresent(root, job);
+    await generateJobReviewArtifacts(job, {
+      rootDir: root,
+      authorityVersion: factoryPlan.authorityVersion,
+      authorityEdition: factoryPlan.authorityEdition,
+      validationScope: "integration",
+      write: true
+    });
     const review = verifyTrackedReviewManifest(root, job);
     if (!review.passed) {
       throw new Error(
@@ -457,41 +478,6 @@ function inspectWorkerBranch(rootDir, job) {
       blockers.push(`expected output is absent from worker commit: ${normalized}`);
     }
   }
-  const reviewPath =
-    `data/record-clearing/production-factory/review-manifests/${job.jobId}.json`;
-  if (!commit || !gitObjectExists(rootDir, `${commit}:${reviewPath}`)) {
-    blockers.push(`tracked review manifest is absent from worker commit: ${reviewPath}`);
-  } else {
-    try {
-      const review = JSON.parse(gitOneBlob(rootDir, `${commit}:${reviewPath}`));
-      if (review.jobId !== job.jobId) blockers.push("review manifest jobId mismatch");
-      if (review.baseCommit !== job.baseCommit) blockers.push("review manifest baseCommit mismatch");
-      if (!/^[0-9a-f]{64}$/.test(review.packet?.sha256 ?? "")) {
-        blockers.push("review manifest packet hash is invalid");
-      }
-      if (review.technicalProofPassed !== true) {
-        blockers.push("review manifest technical proof is not passed");
-      }
-      if (
-        !Array.isArray(review.renderedPages) ||
-        review.renderedPages.length !== review.packet?.pageCount ||
-        review.renderedPages.some(
-          (page) => !/^[0-9a-f]{64}$/.test(page.sha256 ?? "")
-        )
-      ) {
-        blockers.push("review manifest rendered-page proof is invalid");
-      }
-      if (review.visualProofPassed !== false) {
-        blockers.push("worker review manifest may not approve visual proof");
-      }
-      if (review.counselAdopted !== false) {
-        blockers.push("worker review manifest may not adopt counsel approval");
-      }
-    } catch (error) {
-      blockers.push(`review manifest is unreadable: ${error.message}`);
-    }
-  }
-
   return {
     jobId: job.jobId,
     jurisdiction: job.jurisdiction,
@@ -524,12 +510,26 @@ function assertCaptainBranch(rootDir) {
 }
 
 function assertCleanWorktree(rootDir) {
-  const status = gitLines(rootDir, ["status", "--porcelain"]);
+  const status = filterPermittedCaptainStatus(
+    rootDir,
+    gitLines(rootDir, ["status", "--porcelain"])
+  );
   if (status.length > 0) {
     throw new Error(
       `Wave execution requires a clean captain worktree; found ${status.length} change(s)`
     );
   }
+}
+
+export function filterPermittedCaptainStatus(rootDir, statusLines) {
+  return statusLines.filter((line) => {
+    if (line !== "?? private") return true;
+    try {
+      return !fs.lstatSync(path.join(rootDir, "private")).isSymbolicLink();
+    } catch {
+      return true;
+    }
+  });
 }
 
 function snapshotPaths(rootDir, relativePaths) {
@@ -559,6 +559,13 @@ function unexpectedCaptainChanges(rootDir, immutableEditionRoots) {
   return [...new Set(changed.map(normalizeRepoPath))]
     .filter((changedPath) => {
       if (GLOBAL_GENERATED_PATHS.includes(changedPath)) return false;
+      if (
+        changedPath.startsWith(
+          "data/record-clearing/production-factory/review-manifests/"
+        )
+      ) {
+        return false;
+      }
       if (
         changedPath.startsWith("data/record-clearing/master-library/") &&
         !immutableEditionRoots.some(

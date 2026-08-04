@@ -29,6 +29,7 @@ export const GLOBAL_GENERATED_PATHS = Object.freeze([
   "data/record-clearing/master-library/pending-edition-amendments.json",
   "data/record-clearing/master-library/source-acquisition-queue.json",
   "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+  "data/record-clearing/production-factory/review-manifests",
   "docs/record-clearing/MASTER_LIBRARY_AUTHORITY.md",
   "src/lib/rcap/legal-design/master-library-authority.ts",
   "src/lib/rcap/packets/registry.ts"
@@ -889,7 +890,17 @@ function readWorkerMarker(rootDir) {
 }
 
 function validateWorkerMarker(rootDir, job, marker) {
-  if (!marker) return [];
+  if (!marker) {
+    return isWorkerScaffoldCheckout(rootDir)
+      ? [
+          failure(
+            "missing_scaffold_marker",
+            "tmp/rcap-factory/job.json",
+            "a factory worker branch/worktree must retain its non-disposable scaffold marker until integration"
+          )
+        ]
+      : [];
+  }
   const failures = [];
   if (marker.invalid) {
     return [
@@ -925,6 +936,21 @@ function validateWorkerMarker(rootDir, job, marker) {
           "scaffold_contract_mismatch",
           "tmp/rcap-factory/job.json",
           `scaffold ${field} does not match the loaded job`
+        )
+      );
+    }
+  }
+  for (const [field, expected] of Object.entries({
+    worktreeKind: "complete_git_worktree",
+    worktreeDisposable: false,
+    retainUntilIntegration: true
+  })) {
+    if (marker[field] !== expected) {
+      failures.push(
+        failure(
+          "scaffold_contract_mismatch",
+          "tmp/rcap-factory/job.json",
+          `scaffold ${field} must be ${JSON.stringify(expected)}`
         )
       );
     }
@@ -966,6 +992,15 @@ function validateWorkerMarker(rootDir, job, marker) {
     );
   }
   return failures;
+}
+
+export function isWorkerScaffoldCheckout(rootDir) {
+  const root = path.resolve(rootDir);
+  const branch = gitOneLine(root, ["branch", "--show-current"]);
+  return (
+    branch.startsWith("rcap-factory/") ||
+    root.split(path.sep).join("/").includes("/tmp/rcap-factory/worktrees/")
+  );
 }
 
 function normalizePathList(values) {

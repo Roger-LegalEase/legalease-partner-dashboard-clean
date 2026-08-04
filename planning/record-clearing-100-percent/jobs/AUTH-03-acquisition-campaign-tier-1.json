@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "jobId": "AUTH-03-acquisition-campaign-tier-1",
+  "wave": 1,
+  "lane": "authority",
+  "model": "claude-opus-5",
+  "effort": "max",
+  "title": "Execute the five highest-yield authority dispositions without flattening their channels",
+  "jurisdictions": [
+    "AR",
+    "AL",
+    "HI",
+    "MO",
+    "FL"
+  ],
+  "tracks": [],
+  "trackCount": 44,
+  "dependencies": [],
+  "completedChildren": [
+    {
+      "jobId": "rcap-ar-in-repo-identity-reconciliation-acic",
+      "completedAtCommit": "2784e3c85ba624c2f94dd8beb749fc0e9fd5e50f",
+      "result": {
+        "acquisitionIdentitiesReconciled": 17,
+        "retainedAssetsUsed": 18,
+        "redundantDownloadsRemoved": 17,
+        "downloadedSourceCount": 0,
+        "unresolvedIdentities": 0,
+        "remainingPublicGapTrackAssignments": 4,
+        "remainingPublicGapAcquisitionIds": 3,
+        "remainingPublicGapSiblingJobId": "rcap-ar-public-official-download-acic-gaps",
+        "publicGapCountQualification": "Four route-scoped public-gap assignments are represented by three acquisition IDs because ACIC-UNIFORM-PETITION-TO-SEAL is shared by the felony and misdemeanor tracks; the sibling job preserves the retained felony half and retrieves only the missing misdemeanor half.",
+        "measurementQualification": "Artifact hashes are carried-forward registry measurements, not fresh byte measurements in the worker Codespace."
+      }
+    }
+  ],
+  "ownedPaths": [
+    "data/record-clearing/master-library/edition-1-3/acquired-sources.json",
+    "docs/record-clearing/BATCH_3_SOURCE_IMPORT_RECORD.md"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**",
+    "supabase/**"
+  ],
+  "outputs": [
+    "AR ACIC: reconcile 17 dossier records across 11 tracks against retained ACIC identities; route four public-gap track assignments through three exact acquisition IDs in the separate sibling job; create zero redundant downloads",
+    "AL: reconcile retained CR-65 identity/mapping and keep the separate public ABPP source disposition",
+    "HI: reconcile HCJDC-159 / 159B as one shared-form family rather than eight track downloads",
+    "MO: preserve four direct OSCA requests, automation-blocked retrievals, and the FI-05 to FI-50 supersession as distinct dispositions",
+    "FL: one automated official acquisition-and-supersession flow for the FDLE/FAC family",
+    "every dossier record retains its exact authority family, issuer, evidence, revision, provenance and SHA-256 posture"
+  ],
+  "gates": [
+    "every acquired binary carries issuer, revision, retrieval date and hash",
+    "no binary enters version control",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "chore(record-clearing): record the tier-1 source acquisition campaign",
+  "completionCondition": "Every tier-1 dossier record has its exact reconciliation, automated-download, attended-retrieval, direct-request, or supersession disposition recorded. Arkansas retains 17 identity reconciliations, while four public-gap track assignments remain in the sibling job under three exact acquisition IDs because one shared petition identity spans two tracks. Acquisition alone enables nothing.",
+  "blockerResolved": "The acquisition dossier replaces the former all-external assumption: retained identities, public downloads, automation blocks, issuer requests and supersessions are separate work.",
+  "commercialPriority": 68,
+  "reuseScore": 25
+}

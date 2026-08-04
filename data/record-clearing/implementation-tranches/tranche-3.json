@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-3-georgia-superior-court-pleadings",
+  "jobId": "rcap-ga-custom-pleading",
+  "parentJobId": "IMP-CP-01-ga-superior-court-pleading-family",
+  "jurisdiction": "GA",
+  "jurisdictionName": "Georgia",
+  "selectedOn": "2026-08-04",
+  "commitBaseline": "1d8ed5a3302a055ffb5a590aa83dcb47f4a2df86",
+  "authorityEdition": "1.2",
+  "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+
+  "commercialRationale": "Georgia carries two partner records and is the best-cleared jurisdiction in the corpus: thirteen of its fifteen normalized tracks are authority-cleared. This job takes the ten-track Superior Court pleading family, which is the whole of Georgia's court-petition surface. Every one of the ten is custom_pleading with localFormOverride true, so no track depends on an official form binary and none needs a source acquisition to produce a participant packet. Edition 1.2's Georgia addendum establishes that no statewide judiciary form exists for any Georgia court petition, so the statewide neutral pleading is the controlling output rather than a fallback.",
+
+  "selectionMethod": "Not selected by this job. The ten tracks are the assigned membership of the parent job IMP-CP-01-ga-superior-court-pleading-family, taken verbatim from the generated job manifest. This tranche records which of the ten could be implemented on the committed authority and which could not.",
+
+  "reusedArchitecture": "Mississippi Tranche 1. The CustomPleadingRenderer, the pleading-template contract, the packet resolver, the fulfilment lifecycle and the packet assembler are used unchanged. No Mississippi file was edited and no shared generated registry was touched. What is new is Georgia's own template pack, its own registry module and its own fact deriver.",
+
+  "selectedTracks": [
+    { "trackId": "ga-felony-j1", "legalName": "Petition to Restrict Access to Criminal History Record Information for a Felony Charge Resolved Without Conviction", "publicName": "Restricting a felony charge where you were convicted only of a separate misdemeanour", "businessLabel": "felony-charge restriction", "outputStrategy": "custom_pleading", "localFormOverride": true, "implemented": true, "componentCount": 5, "branchVariants": [ { "variantId": "dismissed", "label": "Felony charge dismissed", "basis": "O.C.G.A. § 35-3-37(j)(1)" }, { "variantId": "nolle_prossed", "label": "Felony charge nolle prossed", "basis": "O.C.G.A. § 35-3-37(j)(1)" }, { "variantId": "found_not_guilty", "label": "Found not guilty of the felony charge", "basis": "O.C.G.A. § 35-3-37(j)(1)" } ], "rationale": "The broadest notice set in the family — the arresting agency as well as the prosecuting attorney — and a four-year filing window measured from arrest." },
+    { "trackId": "ga-vacated-j2", "legalName": "Petition to Restrict Access to Criminal History Record Information for a Vacated or Reversed Conviction Not Retried", "publicName": "Restricting a conviction that was thrown out and never retried", "businessLabel": "vacated-conviction restriction", "outputStrategy": "custom_pleading", "localFormOverride": true, "implemented": true, "componentCount": 5, "branchVariants": [ { "variantId": "vacated", "label": "Vacated by the trial court", "basis": "O.C.G.A. § 35-3-37(j)(2)" }, { "variantId": "reversed", "label": "Reversed by an appellate or other post-conviction court", "basis": "O.C.G.A. § 35-3-37(j)(2)" } ], "rationale": "Reclassified from process_guidance to custom_pleading by Edition 1.2 addendum statement 3: the conviction is already vacated, so the petition is not post-conviction litigation and its elements are objective." },
+    { "trackId": "ga-deaddocket-j3", "legalName": "Petition to Restrict Access to Criminal History Record Information for a Charge Dead Docketed for More Than 12 Months", "publicName": "Restricting a charge that has been on the dead docket for more than a year", "businessLabel": "dead-docket restriction", "outputStrategy": "custom_pleading", "localFormOverride": true, "implemented": true, "componentCount": 4, "branchVariants": [], "rationale": "The only route in the family where the charge is still pending. The packet says so expressly rather than letting a participant read a dead docket as a dismissal." },
+    { "trackId": "ga-misd-j4", "legalName": "Motion to Restrict and Seal Records of a Misdemeanor Conviction under the Georgia Second Chance Act", "publicName": "Restricting a misdemeanour conviction (Second Chance Act)", "businessLabel": "Second Chance Act misdemeanour relief", "outputStrategy": "custom_pleading", "localFormOverride": true, "implemented": true, "componentCount": 7, "branchVariants": [ { "variantId": "single_offense", "label": "One misdemeanour conviction", "basis": "O.C.G.A. § 35-3-37(j)(4)(A)" }, { "variantId": "series_from_single_incident", "label": "A series of misdemeanours from one incident", "basis": "O.C.G.A. § 35-3-37(j)(4)(A)" } ], "rationale": "The flagship route and the largest packet in the family. Restriction under § 35-3-37(j)(4) and sealing under § 35-3-37(m) are sought in one filing, which is how the leading Georgia pro se practice does it." },
+    { "trackId": "ga-fugitive-j5", "legalName": "Petition to Restrict Access to Criminal History Record Information for an Arrest on a Fugitive From Justice Warrant", "publicName": "Restricting an arrest made on an out-of-state fugitive warrant", "businessLabel": "fugitive-warrant restriction", "outputStrategy": "custom_pleading", "localFormOverride": true, "implemented": true, "componentCount": 4, "branchVariants": [], "rationale": "Reclassified to custom_pleading by Edition 1.2 addendum statement 3: § 35-3-37(j)(5) supplies venue, notice recipients, contents, standard and relief. The one route venued in the superior court of the county of arrest by name." },
+    { "trackId": "ga-pardon-j7", "legalName": "Petition to Restrict Access to Criminal History Record Information Following a Pardon", "publicName": "Restricting a conviction after a pardon", "businessLabel": "post-pardon restriction", "outputStrategy": "custom_pleading", "localFormOverride": true, "implemented": true, "componentCount": 6, "branchVariants": [], "rationale": "Turns on the exact Code section of the offence rather than its label, because the § 17-10-6.1 and § 17-10-6.2 exclusions are defined by section." },
+    { "trackId": "ga-seal-m", "legalName": "Motion to Seal Clerk of Court Records under O.C.G.A. § 35-3-37(m)", "publicName": "Sealing the court file", "businessLabel": "clerk-file sealing", "outputStrategy": "custom_pleading", "localFormOverride": true, "implemented": true, "componentCount": 6, "branchVariants": [ { "variantId": "automatically", "label": "Restricted automatically on the disposition", "basis": "O.C.G.A. § 35-3-37(h)" }, { "variantId": "pre_2013_application", "label": "Restricted on a pre-2013 application", "basis": "O.C.G.A. § 35-3-37" }, { "variantId": "court_order", "label": "Restricted by a court order", "basis": "O.C.G.A. § 35-3-37(j)" } ], "rationale": "The companion to every restriction route: restriction alone leaves the clerk's file public. Venue follows the § 35-3-37(m) formula — the court with original jurisdiction in the county where the clerk sits — not the convicting court." },
+    { "trackId": "ga-fo-active-pre2026", "legalName": "Petition to Restrict and Seal First Offender Records for a Sentence Imposed Before July 1, 2026 That Has Not Been Revoked", "publicName": "Restricting and sealing an active First Offender case", "businessLabel": "active First Offender relief", "outputStrategy": "custom_pleading", "localFormOverride": true, "implemented": true, "componentCount": 4, "branchVariants": [], "rationale": "Act 403 struck the discretionary standard and the written-findings paragraph, so relief on a properly filed petition is mandatory within 90 days. The petition asks the court to make no balancing finding." },
+    { "trackId": "ga-fo-discharged-pre2026", "legalName": "Petition to Restrict and Seal First Offender Records Where the Participant Was Exonerated and Discharged Before July 1, 2026", "publicName": "Restricting and sealing a completed First Offender case", "businessLabel": "discharged First Offender relief", "outputStrategy": "custom_pleading", "localFormOverride": true, "implemented": true, "componentCount": 4, "branchVariants": [ { "variantId": "as_a_matter_of_law", "label": "Discharged as a matter of law", "basis": "O.C.G.A. § 42-8-62.2(c)" }, { "variantId": "court_order", "label": "Discharged pursuant to a court order", "basis": "O.C.G.A. § 42-8-62.2(c)" } ], "rationale": "New § 42-8-62.2, enacted by Act 403 and effective 1 July 2026. Sealing is mandatory within 90 days with no findings required at all." }
+  ],
+
+  "excludedTracks": [
+    {
+      "trackId": "ga-jail-k2",
+      "legalName": "Written Request to a County or Municipal Jail or Detention Center to Restrict Records of an Already-Restricted Offense",
+      "assignedToThisJob": true,
+      "implemented": false,
+      "treatment": "registered_typed_stop",
+      "blockingComponentId": "ga-jail-k2-process-guidance-3",
+      "reason": "The packet has three required components. Two are custom pleadings with drafted specifications; the third is a required process_guidance component whose guidance specification has not been drafted. legal-design-specifications.json carries process-guidance specifications for four Georgia tracks — ga-nonconv-post2013, ga-time-expired, ga-fo-sentencing-post2026 and ga-rfo — and for none of the ten in this family.",
+      "whyNotPartiallyShipped": "Two of three required components is not a packet. On this route the participant's deliverable is a written request to a jail together with the guidance that tells them where to send it, what to enclose, and what to do when the 30 days in § 35-3-37(k)(2) expire. Shipping the letter alone would hand someone a document and no process.",
+      "whyNotDraftedHere": "Drafting the missing guidance specification is Georgia legal design. This is an implementation job and may not author legal design.",
+      "howItFailsClosed": "ga-jail-k2 is registered in the Georgia module as an explicit typed stop. Requesting it raises GeorgiaTrackUnavailableError naming the blocking component id. It is not silently absent from the registry, because \"unknown track\" and \"known track that is deliberately blocked\" are different facts.",
+      "unblockedBy": "A drafted process-guidance specification for ga-jail-k2 in legal-design-specifications.json.",
+      "authorityStatus": "authority_cleared_under_edition_1_2_blocked_only_by_its_own_guidance_specification"
+    }
+  ],
+
+  "outOfScopeGeorgiaTracks": [
+    { "trackId": "ga-nonconv-post2013", "reason": "Composed route with an automatic unit and a prosecutor-request unit. Not assigned to this job." },
+    { "trackId": "ga-time-expired", "reason": "Not assigned to this job." },
+    { "trackId": "ga-fo-sentencing-post2026", "reason": "Not assigned to this job." },
+    { "trackId": "ga-rfo", "reason": "Not assigned to this job." },
+    { "trackId": "ga-gbi-restrict-b", "reason": "Official-form route on the GBI/GCIC Request to Restrict Arrest Record. Outside a custom-pleading job." }
+  ],
+
+  "sourceAuthorityStatus": {
+    "officialFormDependency": "none. Edition 1.2 Georgia addendum, amended statement 5: no statewide judiciary form exists for any Georgia court petition, so every petition route carries localFormOverride true. No official-form mapping, overlay placement or AcroForm mapping was created by this tranche.",
+    "commerciallyRestrictedSources": "none in the implemented set.",
+    "referenceOnlySources": "The Georgia Justice Project pro se models for the misdemeanour restrict-and-seal and clerk-sealing routes are structural drafting references only. No GJP language, caption, address or branding appears in any Tranche 3 output.",
+    "primaryEnactedLaw": "2026 Ga. Laws Act 403 (HB 162), pinned by the SHA-256 the legal design recorded at acquisition. It rewrote both First Offender petition routes.",
+    "archiveDependency": "none. Every authority this tranche reads is committed to this repository: the Edition 1.2 Georgia addendum, the derived authority record, the legal-design track registry and the legal-design specifications. No Tranche 3 gate opens the Master Library archive."
+  },
+
+  "mappingGatesClosed": [
+    "All 45 custom-pleading components across the nine implemented tracks already carried a drafted custom-pleading specification in legal-design-specifications.json. Each is now pinned to its Edition 1.2 controlling authority and rendered by a drafted template.",
+    "The three routes Edition 1.2 reclassified from process_guidance to custom_pleading — ga-vacated-j2, ga-fugitive-j5 and ga-jail-k2 — are implemented as pleadings where their specifications allow, so none is failed for lacking an official binary."
+  ],
+
+  "mappingGatesRemaining": [
+    "The filing fee is unresolved by design and is county-specific. No statutory fee is identified for a motion or petition in an existing criminal case, and the pauper's affidavit route under § 9-15-2 is designed for civil actions. No fee amount is printed on any Tranche 3 packet; the participant confirms with the clerk.",
+    "ga-jail-k2 remains blocked on its own undrafted guidance specification.",
+    "Seven of the nine distinct official sources the assigned tracks cite carry no recorded SHA-256, so staleness cannot be detected for them automatically. Recorded in the authority pins as a known limitation.",
+    "The production-factory review manifest at data/record-clearing/production-factory/review-manifests/rcap-ga-custom-pleading.json is not shipped by this job, and cannot be. scripts/lib/rcap-factory/review-artifacts.mjs always writes a production-enablement marker field into that manifest, and scripts/lib/rcap-factory/validation.mjs rejects any worker-changed file whose lines contain that field name, so the factory's own generator produces a file its own worker gate always refuses. Both files are shared factory tooling outside this job's owned paths. The manifest is not among this job's expectedOutputs, and the wave-integration step that consumes it applies the ownership check and verifyTrackedReviewManifest but not the worker protected-content scan, so the integration captain can regenerate it with one command: node scripts/rcap-factory-generate-review.mjs rcap-ga-custom-pleading. Recorded here rather than worked around: no generated artifact was hand-edited to get past a gate."
+  ],
+
+  "rendererType": "custom_pleading (CustomPleadingRenderer) for all 45 components. No process_guidance component is produced by this tranche: the nine implemented tracks carry none, and the one that does is the typed stop.",
+
+  "packetComponents": [
+    "primary_filing — petition or motion (custom_pleading)",
+    "proposed_order — proposed order, every finding and signature blank (custom_pleading)",
+    "certificate_of_service — certificate naming the statutory recipients for the route (custom_pleading)",
+    "attachment — exhibit cover sheets for documents the participant obtains and encloses (custom_pleading)"
+  ],
+
+  "implementationStatus": "implemented_and_internally_proved",
+  "humanLegalReviewStatus": "awaiting_counsel_review",
+  "runtimeStatus": "runtime_disabled",
+  "packetReady": false,
+  "generationAllowed": false,
+  "jurisdictionEnabled": false,
+
+  "notOwnedByThisTranche": [
+    "No legal-design conclusion was changed and no Georgia normalization was redone.",
+    "No normalized track object was edited.",
+    "No Master Library edition was created and no authority archive was reconstructed.",
+    "No shared generated registry was edited. The Georgia module is not imported by src/lib/rcap/packets/registry.ts; wiring it in is the integration captain's step.",
+    "No Mississippi or Maryland file was touched.",
+    "No track was promoted, no jurisdiction was enabled, and packet readiness remains 0."
+  ]
+}

@@ -1,0 +1,836 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-ar-in-repo-identity-reconciliation-acic",
+  "parentJobId": "AUTH-03-acquisition-campaign-tier-1",
+  "jurisdiction": "AR",
+  "lane": "source_acquisition",
+  "strategyFamily": "in_repo_identity_reconciliation",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "1d8ed5a3302a055ffb5a590aa83dcb47f4a2df86",
+  "generatedOn": "2026-08-04",
+  "acquisitionIds": [
+    "acquire:AR:acic-order-dismiss-and-seal-first-offenders",
+    "acquire:AR:acic-order-drug-court",
+    "acquire:AR:acic-order-seal-act-531-act-1460",
+    "acquire:AR:acic-order-to-seal-arrest",
+    "acquire:AR:acic-order-to-seal-cs-possession",
+    "acquire:AR:acic-order-to-seal-misdemeanor-dwi-bwi",
+    "acquire:AR:acic-order-to-seal-nonconviction",
+    "acquire:AR:acic-order-to-seal-pardoned-offender",
+    "acquire:AR:acic-petition-drug-court",
+    "acquire:AR:acic-petition-seal-act-531-act-1460",
+    "acquire:AR:acic-petition-to-seal-arrest",
+    "acquire:AR:acic-petition-to-seal-cs-possession",
+    "acquire:AR:acic-petition-to-seal-misdemeanor-dwi-bwi",
+    "acquire:AR:acic-petition-to-seal-nonconviction",
+    "acquire:AR:acic-petition-to-seal-pardoned-offender",
+    "acquire:AR:acic-petition-veterans-court",
+    "acquire:AR:acic-uniform-order-to-seal"
+  ],
+  "downloadedSourceCount": 0,
+  "generatedFrom": [
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/authority.json"
+  ],
+  "method": {
+    "description": "Deterministic in-repository identity reconciliation. Each assigned Arkansas ACIC acquisition is paired with the already-retained repository asset that proves its current official revision, so no new source download is required.",
+    "matchRules": [
+      "canonical_filename_revision_stamp: the retained asset's ACIC__<slug>__rev-<date>.pdf stamp equals the acquisition's currentRevision.",
+      "exact_official_url_basename_identity: the retained asset's fileName is byte-for-byte the basename published at directOfficialUrl."
+    ],
+    "byteVerification": "Not re-measured in this worktree. The source-artifact-registry is tracked metadata generated from data/rcap-all50/nationwide-source-inventory.json; the underlying binaries live in the private corpus (private/Nationwide Record Clearing/...), which is not mounted here. recordedSha256 and sizeBytes are the registry's prior measurements (hashState=match), carried forward as evidence rather than re-verified.",
+    "downloadsPerformed": 0,
+    "issuerContactsMade": 0
+  },
+  "totals": {
+    "assignedAcquisitions": 17,
+    "reconciled": 17,
+    "unresolved": 0,
+    "retainedArtifactsUsed": 18,
+    "arkansasQueueRowsReviewed": 22,
+    "arkansasQueueRowsSuperseded": 18,
+    "redundantDownloadsEliminated": 17
+  },
+  "reconciliations": [
+    {
+      "acquisitionId": "acquire:AR:acic-order-dismiss-and-seal-first-offenders",
+      "documentId": "ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "documentRole": "proposed_order",
+      "trackIds": [
+        "ar-act346"
+      ],
+      "componentIds": [
+        "ar-act346-proposed-order-3"
+      ],
+      "currentRevision": "REV-2014-01-01",
+      "revisionEvidence": "Edition 1.2 STATE_MANIFEST.csv records REV-2014-01-01 for AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346; corroborated 2026-08-03 by exact Content-Length identity with the live ACIC binary 13_FirstOffenderOrderDraftF1.pdf",
+      "directOfficialUrl": "https://media.ark.org/dps/13_FirstOffenderOrderDraftF1.pdf",
+      "sourceIdentityConfidence": "official_source_confirmed",
+      "disposition": "retained_asset_identity_reconciled",
+      "redundantDownloadAvoided": true,
+      "retainedArtifacts": [
+        {
+          "artifactId": "acic-order-to-dismiss-and-seal-first-offenders-act-346-rev-2014-01-01",
+          "fileName": "ACIC__order-to-dismiss-and-seal-first-offenders-act-346__rev-2014-01-01.pdf",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase Arkanasa/source-gated/ACIC__order-to-dismiss-and-seal-first-offenders-act-346__rev-2014-01-01.pdf",
+          "recordedSha256": "70f97584a628507e064540a4bf2830b46162de8f799d2a2a78285db446d15740",
+          "inventorySha256": "70f97584a628507e064540a4bf2830b46162de8f799d2a2a78285db446d15740",
+          "hashState": "match",
+          "presence": "present",
+          "sizeBytes": 307979,
+          "pageCount": 3,
+          "technicalClass": "clean_acroform",
+          "provenRevision": "2014-01-01",
+          "matchBasis": "canonical_filename_revision_stamp"
+        }
+      ],
+      "supersedesQueueRows": [
+        {
+          "trackId": "ar-act346",
+          "componentId": "ar-act346-proposed-order-3",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        }
+      ]
+    },
+    {
+      "acquisitionId": "acquire:AR:acic-order-drug-court",
+      "documentId": "ACIC-ORDER-DRUG-COURT",
+      "documentRole": "proposed_order",
+      "trackIds": [
+        "ar-drug-court"
+      ],
+      "componentIds": [
+        "ar-drug-court-proposed-order-3"
+      ],
+      "currentRevision": "REV-2014-01-01",
+      "revisionEvidence": "Edition 1.2 STATE_MANIFEST.csv records REV-2014-01-01 for AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-OFFE; corroborated 2026-08-03 by exact Content-Length identity with the live ACIC binary 16_DrugCourtPreAdjudicationOrderSealF.pdf",
+      "directOfficialUrl": "https://media.ark.org/dps/16_DrugCourtPreAdjudicationOrderSealF.pdf",
+      "sourceIdentityConfidence": "official_source_confirmed",
+      "disposition": "retained_asset_identity_reconciled",
+      "redundantDownloadAvoided": true,
+      "retainedArtifacts": [
+        {
+          "artifactId": "acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offense-rev-2014-01-01",
+          "fileName": "ACIC__order-to-dismiss-and-seal-pre-adjudication-drug-court-offense__rev-2014-01-01.pdf",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase Arkanasa/source-gated/ACIC__order-to-dismiss-and-seal-pre-adjudication-drug-court-offense__rev-2014-01-01.pdf",
+          "recordedSha256": "b7532d415611a9fe3046fd6fa1aaf662d93c20ba21bf27a3ab8066c96d63b13e",
+          "inventorySha256": "b7532d415611a9fe3046fd6fa1aaf662d93c20ba21bf27a3ab8066c96d63b13e",
+          "hashState": "match",
+          "presence": "present",
+          "sizeBytes": 312762,
+          "pageCount": 4,
+          "technicalClass": "clean_acroform",
+          "provenRevision": "2014-01-01",
+          "matchBasis": "canonical_filename_revision_stamp"
+        }
+      ],
+      "supersedesQueueRows": [
+        {
+          "trackId": "ar-drug-court",
+          "componentId": "ar-drug-court-proposed-order-3",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        }
+      ]
+    },
+    {
+      "acquisitionId": "acquire:AR:acic-order-seal-act-531-act-1460",
+      "documentId": "ACIC-ORDER-SEAL-ACT-531-ACT-1460",
+      "documentRole": "proposed_order",
+      "trackIds": [
+        "ar-act531"
+      ],
+      "componentIds": [
+        "ar-act531-proposed-order-2"
+      ],
+      "currentRevision": "REV-2014-08-25",
+      "revisionEvidence": "Edition 1.2 STATE_MANIFEST.csv records REV-2014-08-25 for AR-ACIC-ORDER-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-ACT-1; corroborated 2026-08-03 by exact Content-Length identity with the live ACIC binary 20_CommunityPunishmentAct531OrderDraftF.pdf",
+      "directOfficialUrl": "https://media.ark.org/dps/20_CommunityPunishmentAct531OrderDraftF.pdf",
+      "sourceIdentityConfidence": "official_source_confirmed",
+      "disposition": "retained_asset_identity_reconciled",
+      "redundantDownloadAvoided": true,
+      "retainedArtifacts": [
+        {
+          "artifactId": "acic-order-to-seal-under-community-punishment-act-531-and-act-1460-rev-2014-08-25",
+          "fileName": "ACIC__order-to-seal-under-community-punishment-act-531-and-act-1460__rev-2014-08-25.pdf",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase Arkanasa/source-gated/ACIC__order-to-seal-under-community-punishment-act-531-and-act-1460__rev-2014-08-25.pdf",
+          "recordedSha256": "edd3eb10e5b3830afa417f4165611489a32c1f43d2dde3203855bdbe3b0b19da",
+          "inventorySha256": "edd3eb10e5b3830afa417f4165611489a32c1f43d2dde3203855bdbe3b0b19da",
+          "hashState": "match",
+          "presence": "present",
+          "sizeBytes": 308243,
+          "pageCount": 3,
+          "technicalClass": "clean_acroform",
+          "provenRevision": "2014-08-25",
+          "matchBasis": "canonical_filename_revision_stamp"
+        }
+      ],
+      "supersedesQueueRows": [
+        {
+          "trackId": "ar-act531",
+          "componentId": "ar-act531-proposed-order-2",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        }
+      ]
+    },
+    {
+      "acquisitionId": "acquire:AR:acic-order-to-seal-arrest",
+      "documentId": "ACIC-ORDER-TO-SEAL-ARREST",
+      "documentRole": "proposed_order",
+      "trackIds": [
+        "ar-arrest-seal"
+      ],
+      "componentIds": [
+        "ar-arrest-seal-proposed-order-2"
+      ],
+      "currentRevision": "REV-2014-01-01",
+      "revisionEvidence": "Edition 1.2 STATE_MANIFEST.csv records REV-2014-01-01 for AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460; corroborated 2026-08-03 by exact Content-Length identity with the live ACIC binary 10_ArrestOrderDraftF.pdf",
+      "directOfficialUrl": "https://media.ark.org/dps/10_ArrestOrderDraftF.pdf",
+      "sourceIdentityConfidence": "official_source_confirmed",
+      "disposition": "retained_asset_identity_reconciled",
+      "redundantDownloadAvoided": true,
+      "retainedArtifacts": [
+        {
+          "artifactId": "acic-order-to-seal-arrest-under-act-1460-rev-2014-01-01",
+          "fileName": "ACIC__order-to-seal-arrest-under-act-1460__rev-2014-01-01.pdf",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase Arkanasa/source-gated/ACIC__order-to-seal-arrest-under-act-1460__rev-2014-01-01.pdf",
+          "recordedSha256": "5bd4ed5bd1b658295b50c2ea7126e276982fd705045f36adfc1f074923722581",
+          "inventorySha256": "5bd4ed5bd1b658295b50c2ea7126e276982fd705045f36adfc1f074923722581",
+          "hashState": "match",
+          "presence": "present",
+          "sizeBytes": 250709,
+          "pageCount": 3,
+          "technicalClass": "clean_acroform",
+          "provenRevision": "2014-01-01",
+          "matchBasis": "canonical_filename_revision_stamp"
+        }
+      ],
+      "supersedesQueueRows": [
+        {
+          "trackId": "ar-arrest-seal",
+          "componentId": "ar-arrest-seal-proposed-order-2",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        }
+      ]
+    },
+    {
+      "acquisitionId": "acquire:AR:acic-order-to-seal-cs-possession",
+      "documentId": "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+      "documentRole": "proposed_order",
+      "trackIds": [
+        "ar-cs-possession-seal"
+      ],
+      "componentIds": [
+        "ar-cs-possession-seal-proposed-order-2"
+      ],
+      "currentRevision": "REV-2014-01-01",
+      "revisionEvidence": "Edition 1.2 STATE_MANIFEST.csv records REV-2014-01-01 for AR-ACIC-ORDER-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSESSI; corroborated 2026-08-03 by exact Content-Length identity with the live ACIC binary 6_ControlledSubstanceOrderDraftF.pdf",
+      "directOfficialUrl": "https://media.ark.org/dps/6_ControlledSubstanceOrderDraftF.pdf",
+      "sourceIdentityConfidence": "official_source_confirmed",
+      "disposition": "retained_asset_identity_reconciled",
+      "redundantDownloadAvoided": true,
+      "retainedArtifacts": [
+        {
+          "artifactId": "acic-order-to-seal-controlled-or-counterfeit-substance-possession-conviction-rev-2014-01-0",
+          "fileName": "ACIC__order-to-seal-controlled-or-counterfeit-substance-possession-conviction__rev-2014-01-01.pdf",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase Arkanasa/source-gated/ACIC__order-to-seal-controlled-or-counterfeit-substance-possession-conviction__rev-2014-01-01.pdf",
+          "recordedSha256": "b347754fd115adea52068fe5cd267f84021f8f435a7b86c02c3347dd86f9f555",
+          "inventorySha256": "b347754fd115adea52068fe5cd267f84021f8f435a7b86c02c3347dd86f9f555",
+          "hashState": "match",
+          "presence": "present",
+          "sizeBytes": 235941,
+          "pageCount": 3,
+          "technicalClass": "clean_acroform",
+          "provenRevision": "2014-01-01",
+          "matchBasis": "canonical_filename_revision_stamp"
+        }
+      ],
+      "supersedesQueueRows": [
+        {
+          "trackId": "ar-cs-possession-seal",
+          "componentId": "ar-cs-possession-seal-proposed-order-2",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        }
+      ]
+    },
+    {
+      "acquisitionId": "acquire:AR:acic-order-to-seal-misdemeanor-dwi-bwi",
+      "documentId": "ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-BWI",
+      "documentRole": "proposed_order",
+      "trackIds": [
+        "ar-misdemeanor-dwi-seal"
+      ],
+      "componentIds": [
+        "ar-misdemeanor-dwi-seal-proposed-order-3"
+      ],
+      "currentRevision": "REV-2021-07-27",
+      "revisionEvidence": "Edition 1.2 STATE_MANIFEST.csv records REV-2021-07-27 for AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION; corroborated 2026-08-03 by exact Content-Length identity with the live ACIC binary Order-to-Seal-DWI-BWI-Form-July2021.pdf",
+      "directOfficialUrl": "https://media.ark.org/dps/Order-to-Seal-DWI-BWI-Form-July2021.pdf",
+      "sourceIdentityConfidence": "official_source_confirmed",
+      "disposition": "retained_asset_identity_reconciled",
+      "redundantDownloadAvoided": true,
+      "retainedArtifacts": [
+        {
+          "artifactId": "acic-order-to-seal-misdemeanor-dwi-or-bwi-conviction-rev-2021-07-27",
+          "fileName": "ACIC__order-to-seal-misdemeanor-dwi-or-bwi-conviction__rev-2021-07-27.pdf",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase Arkanasa/source-gated/ACIC__order-to-seal-misdemeanor-dwi-or-bwi-conviction__rev-2021-07-27.pdf",
+          "recordedSha256": "ae6b81f6882133c207f23435b00785b50b40e014c616d3c77707e8b6020d43af",
+          "inventorySha256": "ae6b81f6882133c207f23435b00785b50b40e014c616d3c77707e8b6020d43af",
+          "hashState": "match",
+          "presence": "present",
+          "sizeBytes": 111099,
+          "pageCount": 2,
+          "technicalClass": "flat_pdf",
+          "provenRevision": "2021-07-27",
+          "matchBasis": "canonical_filename_revision_stamp"
+        }
+      ],
+      "supersedesQueueRows": [
+        {
+          "trackId": "ar-misdemeanor-dwi-seal",
+          "componentId": "ar-misdemeanor-dwi-seal-proposed-order-3",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        }
+      ]
+    },
+    {
+      "acquisitionId": "acquire:AR:acic-order-to-seal-nonconviction",
+      "documentId": "ACIC-ORDER-TO-SEAL-NONCONVICTION",
+      "documentRole": "proposed_order",
+      "trackIds": [
+        "ar-nonconviction-seal"
+      ],
+      "componentIds": [
+        "ar-nonconviction-seal-proposed-order-2"
+      ],
+      "currentRevision": "REV-2023-10-25",
+      "revisionEvidence": "Edition 1.2 STATE_MANIFEST.csv records REV-2023-10-25 for AR-ACIC-ORDER-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO-CHA; corroborated 2026-08-03 by exact Content-Length identity with the live ACIC binary 8_Nolle_Prosequi_Dismissed_Acquittal_Order_2023_F.pdf",
+      "directOfficialUrl": "https://media.ark.org/dps/8_Nolle_Prosequi_Dismissed_Acquittal_Order_2023_F.pdf",
+      "sourceIdentityConfidence": "official_source_confirmed",
+      "disposition": "retained_asset_identity_reconciled",
+      "redundantDownloadAvoided": true,
+      "retainedArtifacts": [
+        {
+          "artifactId": "acic-order-to-seal-nolle-prosequi-dismissal-acquittal-or-no-charge-records-rev-2023-10-25",
+          "fileName": "ACIC__order-to-seal-nolle-prosequi-dismissal-acquittal-or-no-charge-records__rev-2023-10-25.pdf",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase Arkanasa/source-gated/ACIC__order-to-seal-nolle-prosequi-dismissal-acquittal-or-no-charge-records__rev-2023-10-25.pdf",
+          "recordedSha256": "4ca0a57a56f7662dd6590e9bfbbe7b96fcf2d39df8ca84253c53e9bd0f07605a",
+          "inventorySha256": "4ca0a57a56f7662dd6590e9bfbbe7b96fcf2d39df8ca84253c53e9bd0f07605a",
+          "hashState": "match",
+          "presence": "present",
+          "sizeBytes": 274824,
+          "pageCount": 3,
+          "technicalClass": "clean_acroform",
+          "provenRevision": "2023-10-25",
+          "matchBasis": "canonical_filename_revision_stamp"
+        }
+      ],
+      "supersedesQueueRows": [
+        {
+          "trackId": "ar-nonconviction-seal",
+          "componentId": "ar-nonconviction-seal-proposed-order-2",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        }
+      ]
+    },
+    {
+      "acquisitionId": "acquire:AR:acic-order-to-seal-pardoned-offender",
+      "documentId": "ACIC-ORDER-TO-SEAL-PARDONED-OFFENDER",
+      "documentRole": "proposed_order",
+      "trackIds": [
+        "ar-pardon-seal"
+      ],
+      "componentIds": [
+        "ar-pardon-seal-proposed-order-3"
+      ],
+      "currentRevision": "REV-2022-03-07",
+      "revisionEvidence": "Edition 1.2 STATE_MANIFEST.csv records REV-2022-03-07 for AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL; corroborated 2026-08-03 by exact Content-Length identity with the live ACIC binary 11_PardonedOffenderOrderDraftU.pdf",
+      "directOfficialUrl": "https://media.ark.org/dps/11_PardonedOffenderOrderDraftU.pdf",
+      "sourceIdentityConfidence": "official_source_confirmed",
+      "disposition": "retained_asset_identity_reconciled",
+      "redundantDownloadAvoided": true,
+      "retainedArtifacts": [
+        {
+          "artifactId": "acic-order-to-seal-records-of-pardoned-offender-or-youthful-felony-offender-rev-2022-03-07",
+          "fileName": "ACIC__order-to-seal-records-of-pardoned-offender-or-youthful-felony-offender__rev-2022-03-07.pdf",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase Arkanasa/source-gated/ACIC__order-to-seal-records-of-pardoned-offender-or-youthful-felony-offender__rev-2022-03-07.pdf",
+          "recordedSha256": "741fda999c348d763848b98053f93e8c28d25dcc1ba5e8438e98b1bdf555ae6e",
+          "inventorySha256": "741fda999c348d763848b98053f93e8c28d25dcc1ba5e8438e98b1bdf555ae6e",
+          "hashState": "match",
+          "presence": "present",
+          "sizeBytes": 139996,
+          "pageCount": 3,
+          "technicalClass": "flat_pdf",
+          "provenRevision": "2022-03-07",
+          "matchBasis": "canonical_filename_revision_stamp"
+        }
+      ],
+      "supersedesQueueRows": [
+        {
+          "trackId": "ar-pardon-seal",
+          "componentId": "ar-pardon-seal-proposed-order-3",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        }
+      ]
+    },
+    {
+      "acquisitionId": "acquire:AR:acic-petition-drug-court",
+      "documentId": "ACIC-PETITION-DRUG-COURT",
+      "documentRole": "primary_filing",
+      "trackIds": [
+        "ar-drug-court"
+      ],
+      "componentIds": [
+        "ar-drug-court-primary-filing-2"
+      ],
+      "currentRevision": "REV-2014-08-25",
+      "revisionEvidence": "Edition 1.2 STATE_MANIFEST.csv records REV-2014-08-25 for AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-O; corroborated 2026-08-03 by exact Content-Length identity with the live ACIC binary 15_DrugCourtPreAdjudicationPetitionSealF.pdf",
+      "directOfficialUrl": "https://media.ark.org/dps/15_DrugCourtPreAdjudicationPetitionSealF.pdf",
+      "sourceIdentityConfidence": "official_source_confirmed",
+      "disposition": "retained_asset_identity_reconciled",
+      "redundantDownloadAvoided": true,
+      "retainedArtifacts": [
+        {
+          "artifactId": "acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-offense-rev-2014-08-25",
+          "fileName": "ACIC__petition-to-dismiss-and-seal-pre-adjudication-drug-court-offense__rev-2014-08-25.pdf",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase Arkanasa/source-gated/ACIC__petition-to-dismiss-and-seal-pre-adjudication-drug-court-offense__rev-2014-08-25.pdf",
+          "recordedSha256": "7b9426041a2bf7b14ee871847999ecb83d5818829abb39eb9711a411ff70ba42",
+          "inventorySha256": "7b9426041a2bf7b14ee871847999ecb83d5818829abb39eb9711a411ff70ba42",
+          "hashState": "match",
+          "presence": "present",
+          "sizeBytes": 356744,
+          "pageCount": 4,
+          "technicalClass": "clean_acroform",
+          "provenRevision": "2014-08-25",
+          "matchBasis": "canonical_filename_revision_stamp"
+        }
+      ],
+      "supersedesQueueRows": [
+        {
+          "trackId": "ar-drug-court",
+          "componentId": "ar-drug-court-primary-filing-2",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        }
+      ]
+    },
+    {
+      "acquisitionId": "acquire:AR:acic-petition-seal-act-531-act-1460",
+      "documentId": "ACIC-PETITION-SEAL-ACT-531-ACT-1460",
+      "documentRole": "primary_filing",
+      "trackIds": [
+        "ar-act531"
+      ],
+      "componentIds": [
+        "ar-act531-primary-filing-1"
+      ],
+      "currentRevision": "REV-2014-08-25",
+      "revisionEvidence": "Edition 1.2 STATE_MANIFEST.csv records REV-2014-08-25 for AR-ACIC-PETITION-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-AC; corroborated 2026-08-03 by exact Content-Length identity with the live ACIC binary 19_CommuntiyPunishmentAct531PetitionDraftF.pdf",
+      "directOfficialUrl": "https://media.ark.org/dps/19_CommuntiyPunishmentAct531PetitionDraftF.pdf",
+      "sourceIdentityConfidence": "official_source_confirmed",
+      "disposition": "retained_asset_identity_reconciled",
+      "redundantDownloadAvoided": true,
+      "retainedArtifacts": [
+        {
+          "artifactId": "acic-petition-to-seal-under-community-punishment-act-531-and-act-1460-rev-2014-08-25",
+          "fileName": "ACIC__petition-to-seal-under-community-punishment-act-531-and-act-1460__rev-2014-08-25.pdf",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase Arkanasa/source-gated/ACIC__petition-to-seal-under-community-punishment-act-531-and-act-1460__rev-2014-08-25.pdf",
+          "recordedSha256": "cca9d9454b565d36930a95ac6337d370f6506f8780e9d98cbfc8f99343e0a356",
+          "inventorySha256": "cca9d9454b565d36930a95ac6337d370f6506f8780e9d98cbfc8f99343e0a356",
+          "hashState": "match",
+          "presence": "present",
+          "sizeBytes": 357339,
+          "pageCount": 4,
+          "technicalClass": "clean_acroform",
+          "provenRevision": "2014-08-25",
+          "matchBasis": "canonical_filename_revision_stamp"
+        }
+      ],
+      "supersedesQueueRows": [
+        {
+          "trackId": "ar-act531",
+          "componentId": "ar-act531-primary-filing-1",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        }
+      ]
+    },
+    {
+      "acquisitionId": "acquire:AR:acic-petition-to-seal-arrest",
+      "documentId": "ACIC-PETITION-TO-SEAL-ARREST",
+      "documentRole": "primary_filing",
+      "trackIds": [
+        "ar-arrest-seal"
+      ],
+      "componentIds": [
+        "ar-arrest-seal-primary-filing-1"
+      ],
+      "currentRevision": "REV-2014-08-25",
+      "revisionEvidence": "Edition 1.2 STATE_MANIFEST.csv records REV-2014-08-25 for AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460; corroborated 2026-08-03 by exact Content-Length identity with the live ACIC binary 9_ArrestPetitionDraftF.pdf",
+      "directOfficialUrl": "https://media.ark.org/dps/9_ArrestPetitionDraftF.pdf",
+      "sourceIdentityConfidence": "official_source_confirmed",
+      "disposition": "retained_asset_identity_reconciled",
+      "redundantDownloadAvoided": true,
+      "retainedArtifacts": [
+        {
+          "artifactId": "acic-petition-to-seal-arrest-under-act-1460-rev-2014-08-25",
+          "fileName": "ACIC__petition-to-seal-arrest-under-act-1460__rev-2014-08-25.pdf",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase Arkanasa/source-gated/ACIC__petition-to-seal-arrest-under-act-1460__rev-2014-08-25.pdf",
+          "recordedSha256": "f77e17b669bd6e01cc3818329181bb378dd774b1facd9a15c4083d37d380194c",
+          "inventorySha256": "f77e17b669bd6e01cc3818329181bb378dd774b1facd9a15c4083d37d380194c",
+          "hashState": "match",
+          "presence": "present",
+          "sizeBytes": 350326,
+          "pageCount": 3,
+          "technicalClass": "clean_acroform",
+          "provenRevision": "2014-08-25",
+          "matchBasis": "canonical_filename_revision_stamp"
+        }
+      ],
+      "supersedesQueueRows": [
+        {
+          "trackId": "ar-arrest-seal",
+          "componentId": "ar-arrest-seal-primary-filing-1",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        }
+      ]
+    },
+    {
+      "acquisitionId": "acquire:AR:acic-petition-to-seal-cs-possession",
+      "documentId": "ACIC-PETITION-TO-SEAL-CS-POSSESSION",
+      "documentRole": "primary_filing",
+      "trackIds": [
+        "ar-cs-possession-seal"
+      ],
+      "componentIds": [
+        "ar-cs-possession-seal-primary-filing-1"
+      ],
+      "currentRevision": "REV-2015-04-01",
+      "revisionEvidence": "Edition 1.2 STATE_MANIFEST.csv records REV-2015-04-01 for AR-ACIC-PETITION-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSE; corroborated 2026-08-03 by exact Content-Length identity with the live ACIC binary 5_ControlledSubstancePetitionDraftF.pdf",
+      "directOfficialUrl": "https://media.ark.org/dps/5_ControlledSubstancePetitionDraftF.pdf",
+      "sourceIdentityConfidence": "official_source_confirmed",
+      "disposition": "retained_asset_identity_reconciled",
+      "redundantDownloadAvoided": true,
+      "retainedArtifacts": [
+        {
+          "artifactId": "acic-petition-to-seal-controlled-or-counterfeit-substance-possession-conviction-rev-2015-0",
+          "fileName": "ACIC__petition-to-seal-controlled-or-counterfeit-substance-possession-conviction__rev-2015-04-01.pdf",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase Arkanasa/source-gated/ACIC__petition-to-seal-controlled-or-counterfeit-substance-possession-conviction__rev-2015-04-01.pdf",
+          "recordedSha256": "015c7246ffd5ad1512d55234708d885db3dd6d5eebb937c049aca8fe4f818029",
+          "inventorySha256": "015c7246ffd5ad1512d55234708d885db3dd6d5eebb937c049aca8fe4f818029",
+          "hashState": "match",
+          "presence": "present",
+          "sizeBytes": 538670,
+          "pageCount": 5,
+          "technicalClass": "clean_acroform",
+          "provenRevision": "2015-04-01",
+          "matchBasis": "canonical_filename_revision_stamp"
+        }
+      ],
+      "supersedesQueueRows": [
+        {
+          "trackId": "ar-cs-possession-seal",
+          "componentId": "ar-cs-possession-seal-primary-filing-1",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        }
+      ]
+    },
+    {
+      "acquisitionId": "acquire:AR:acic-petition-to-seal-misdemeanor-dwi-bwi",
+      "documentId": "ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-BWI",
+      "documentRole": "primary_filing",
+      "trackIds": [
+        "ar-misdemeanor-dwi-seal"
+      ],
+      "componentIds": [
+        "ar-misdemeanor-dwi-seal-primary-filing-2"
+      ],
+      "currentRevision": "REV-2021-07-27",
+      "revisionEvidence": "Edition 1.2 STATE_MANIFEST.csv records REV-2021-07-27 for AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION; corroborated 2026-08-03 by exact Content-Length identity with the live ACIC binary Petition-to-Seal-DWI-BWI-Form-July2021.pdf",
+      "directOfficialUrl": "https://media.ark.org/dps/Petition-to-Seal-DWI-BWI-Form-July2021.pdf",
+      "sourceIdentityConfidence": "official_source_confirmed",
+      "disposition": "retained_asset_identity_reconciled",
+      "redundantDownloadAvoided": true,
+      "retainedArtifacts": [
+        {
+          "artifactId": "acic-petition-to-seal-misdemeanor-dwi-or-bwi-conviction-rev-2021-07-27",
+          "fileName": "ACIC__petition-to-seal-misdemeanor-dwi-or-bwi-conviction__rev-2021-07-27.pdf",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase Arkanasa/source-gated/ACIC__petition-to-seal-misdemeanor-dwi-or-bwi-conviction__rev-2021-07-27.pdf",
+          "recordedSha256": "04d876b09fe82b76298a2d06093d122a0ef539f767f76811001030cc7805715d",
+          "inventorySha256": "04d876b09fe82b76298a2d06093d122a0ef539f767f76811001030cc7805715d",
+          "hashState": "match",
+          "presence": "present",
+          "sizeBytes": 117345,
+          "pageCount": 4,
+          "technicalClass": "flat_pdf",
+          "provenRevision": "2021-07-27",
+          "matchBasis": "canonical_filename_revision_stamp"
+        }
+      ],
+      "supersedesQueueRows": [
+        {
+          "trackId": "ar-misdemeanor-dwi-seal",
+          "componentId": "ar-misdemeanor-dwi-seal-primary-filing-2",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        }
+      ]
+    },
+    {
+      "acquisitionId": "acquire:AR:acic-petition-to-seal-nonconviction",
+      "documentId": "ACIC-PETITION-TO-SEAL-NONCONVICTION",
+      "documentRole": "primary_filing",
+      "trackIds": [
+        "ar-nonconviction-seal"
+      ],
+      "componentIds": [
+        "ar-nonconviction-seal-primary-filing-1"
+      ],
+      "currentRevision": "REV-2020-04-22",
+      "revisionEvidence": "Edition 1.2 STATE_MANIFEST.csv records REV-2020-04-22 for AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO; corroborated 2026-08-03 by exact Content-Length identity with the live ACIC binary 7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf",
+      "directOfficialUrl": "https://media.ark.org/dps/7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf",
+      "sourceIdentityConfidence": "official_source_confirmed",
+      "disposition": "retained_asset_identity_reconciled",
+      "redundantDownloadAvoided": true,
+      "retainedArtifacts": [
+        {
+          "artifactId": "7-nolle-prosequi-dismissed-acquittal-petition-2020-f",
+          "fileName": "7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase Arkanasa/7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf",
+          "recordedSha256": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+          "inventorySha256": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+          "hashState": "match",
+          "presence": "present",
+          "sizeBytes": 529888,
+          "pageCount": 4,
+          "technicalClass": "clean_acroform",
+          "provenRevision": null,
+          "matchBasis": "exact_official_url_basename_identity"
+        }
+      ],
+      "supersedesQueueRows": [
+        {
+          "trackId": "ar-nonconviction-seal",
+          "componentId": "ar-nonconviction-seal-primary-filing-1",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        }
+      ]
+    },
+    {
+      "acquisitionId": "acquire:AR:acic-petition-to-seal-pardoned-offender",
+      "documentId": "ACIC-PETITION-TO-SEAL-PARDONED-OFFENDER",
+      "documentRole": "primary_filing",
+      "trackIds": [
+        "ar-pardon-seal"
+      ],
+      "componentIds": [
+        "ar-pardon-seal-primary-filing-2"
+      ],
+      "currentRevision": "REV-2022-03-08",
+      "revisionEvidence": "Edition 1.2 STATE_MANIFEST.csv records REV-2022-03-08 for AR-ACIC-PETITION-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL; corroborated 2026-08-03 by exact Content-Length identity with the live ACIC binary 11_PardonedOffenderPetitionDraftU.pdf",
+      "directOfficialUrl": "https://media.ark.org/dps/11_PardonedOffenderPetitionDraftU.pdf",
+      "sourceIdentityConfidence": "official_source_confirmed",
+      "disposition": "retained_asset_identity_reconciled",
+      "redundantDownloadAvoided": true,
+      "retainedArtifacts": [
+        {
+          "artifactId": "acic-petition-to-seal-records-of-pardoned-offender-or-youthful-felony-offender-rev-2022-03",
+          "fileName": "ACIC__petition-to-seal-records-of-pardoned-offender-or-youthful-felony-offender__rev-2022-03-08.pdf",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase Arkanasa/source-gated/ACIC__petition-to-seal-records-of-pardoned-offender-or-youthful-felony-offender__rev-2022-03-08.pdf",
+          "recordedSha256": "59ba1407a5a6c2b8c327a9ca549b379ab88d65105ade1c7e69110d8c1ac6c5d0",
+          "inventorySha256": "59ba1407a5a6c2b8c327a9ca549b379ab88d65105ade1c7e69110d8c1ac6c5d0",
+          "hashState": "match",
+          "presence": "present",
+          "sizeBytes": 222717,
+          "pageCount": 4,
+          "technicalClass": "flat_pdf",
+          "provenRevision": "2022-03-08",
+          "matchBasis": "canonical_filename_revision_stamp"
+        }
+      ],
+      "supersedesQueueRows": [
+        {
+          "trackId": "ar-pardon-seal",
+          "componentId": "ar-pardon-seal-primary-filing-2",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        }
+      ]
+    },
+    {
+      "acquisitionId": "acquire:AR:acic-petition-veterans-court",
+      "documentId": "ACIC-PETITION-VETERANS-COURT",
+      "documentRole": "primary_filing",
+      "trackIds": [
+        "ar-veterans-court"
+      ],
+      "componentIds": [
+        "ar-veterans-court-primary-filing-2"
+      ],
+      "currentRevision": "REV-2021-07-27",
+      "revisionEvidence": "Edition 1.2 STATE_MANIFEST.csv records REV-2021-07-27 for AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY; corroborated 2026-08-03 by exact Content-Length identity with the live ACIC binary Veterans-Court-Petition-to-Seal-Form-July2021.pdf",
+      "directOfficialUrl": "https://media.ark.org/dps/Veterans-Court-Petition-to-Seal-Form-July2021.pdf",
+      "sourceIdentityConfidence": "official_source_confirmed",
+      "disposition": "retained_asset_identity_reconciled",
+      "redundantDownloadAvoided": true,
+      "retainedArtifacts": [
+        {
+          "artifactId": "acic-petition-to-dismiss-and-seal-veterans-treatment-specialty-court-offense-rev-2021-07-2",
+          "fileName": "ACIC__petition-to-dismiss-and-seal-veterans-treatment-specialty-court-offense__rev-2021-07-27.pdf",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase Arkanasa/source-gated/ACIC__petition-to-dismiss-and-seal-veterans-treatment-specialty-court-offense__rev-2021-07-27.pdf",
+          "recordedSha256": "2a60285e2fc0d5c7f765df93143f65edf302dc8f28429a1050d329b3f48ff0a0",
+          "inventorySha256": "2a60285e2fc0d5c7f765df93143f65edf302dc8f28429a1050d329b3f48ff0a0",
+          "hashState": "match",
+          "presence": "present",
+          "sizeBytes": 131167,
+          "pageCount": 5,
+          "technicalClass": "flat_pdf",
+          "provenRevision": "2021-07-27",
+          "matchBasis": "canonical_filename_revision_stamp"
+        }
+      ],
+      "supersedesQueueRows": [
+        {
+          "trackId": "ar-veterans-court",
+          "componentId": "ar-veterans-court-primary-filing-2",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        }
+      ]
+    },
+    {
+      "acquisitionId": "acquire:AR:acic-uniform-order-to-seal",
+      "documentId": "ACIC-UNIFORM-ORDER-TO-SEAL",
+      "documentRole": "proposed_order",
+      "trackIds": [
+        "ar-felony-seal",
+        "ar-misdemeanor-seal"
+      ],
+      "componentIds": [
+        "ar-felony-seal-proposed-order-2",
+        "ar-misdemeanor-seal-proposed-order-2"
+      ],
+      "currentRevision": "REV-2021-08-16",
+      "revisionEvidence": "Felony half REV-2021-08-16 and misdemeanor half REV-2019-08-01; both retained by Edition 1.2 and byte-length identical to the live ACIC files.",
+      "directOfficialUrl": "https://media.ark.org/dps/Felony-Order-Form-f.pdf",
+      "sourceIdentityConfidence": "official_source_confirmed",
+      "disposition": "retained_asset_identity_reconciled",
+      "redundantDownloadAvoided": true,
+      "retainedArtifacts": [
+        {
+          "artifactId": "acic-order-to-seal-felony-under-act-1460-rev-2021-08-16",
+          "fileName": "ACIC__order-to-seal-felony-under-act-1460__rev-2021-08-16.pdf",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase Arkanasa/source-gated/ACIC__order-to-seal-felony-under-act-1460__rev-2021-08-16.pdf",
+          "recordedSha256": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc",
+          "inventorySha256": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc",
+          "hashState": "match",
+          "presence": "present",
+          "sizeBytes": 240203,
+          "pageCount": 3,
+          "technicalClass": "clean_acroform",
+          "provenRevision": "2021-08-16",
+          "matchBasis": "canonical_filename_revision_stamp"
+        },
+        {
+          "artifactId": "acic-order-to-seal-misdemeanors-under-act-1460-rev-2019-08-01",
+          "fileName": "ACIC__order-to-seal-misdemeanors-under-act-1460__rev-2019-08-01.pdf",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase Arkanasa/source-gated/ACIC__order-to-seal-misdemeanors-under-act-1460__rev-2019-08-01.pdf",
+          "recordedSha256": "4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8",
+          "inventorySha256": "4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8",
+          "hashState": "match",
+          "presence": "present",
+          "sizeBytes": 327235,
+          "pageCount": 3,
+          "technicalClass": "clean_acroform",
+          "provenRevision": "2019-08-01",
+          "matchBasis": "canonical_filename_revision_stamp"
+        }
+      ],
+      "supersedesQueueRows": [
+        {
+          "trackId": "ar-misdemeanor-seal",
+          "componentId": "ar-misdemeanor-seal-proposed-order-2",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        },
+        {
+          "trackId": "ar-felony-seal",
+          "componentId": "ar-felony-seal-proposed-order-2",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        }
+      ]
+    }
+  ],
+  "unresolvedIdentities": [],
+  "outOfScope": {
+    "note": "Routed to the sibling job rcap-ar-public-official-download-acic-gaps; not reconciled here because no retained repository asset corresponds to them.",
+    "acquisitionIds": [
+      "acquire:AR:acic-order-veterans-court",
+      "acquire:AR:acic-petition-dismiss-and-seal-first-offenders",
+      "acquire:AR:acic-uniform-petition-to-seal"
+    ]
+  },
+  "retainedArkansasAssetsNotMappedToAnAssignedAcquisition": [
+    {
+      "artifactId": "3-misdemeanor-petition-8-01-2023",
+      "fileName": "3-Misdemeanor-Petition-8_01_2023.pdf",
+      "technicalClass": "clean_acroform",
+      "note": "Present in the repository inventory but outside the 17 assigned acquisitions."
+    },
+    {
+      "artifactId": "arkansas-petition-order-forms",
+      "fileName": "Arkansas-Petition-Order-Forms.html",
+      "technicalClass": "no_pdf_required",
+      "note": "Present in the repository inventory but outside the 17 assigned acquisitions."
+    },
+    {
+      "artifactId": "arkansas-recordsealing-agent-reference",
+      "fileName": "Arkansas-RecordSealing-Agent-Reference.pdf",
+      "technicalClass": "flat_pdf",
+      "note": "Present in the repository inventory but outside the 17 assigned acquisitions."
+    },
+    {
+      "artifactId": "criminal-history",
+      "fileName": "criminal-history.html",
+      "technicalClass": "no_pdf_required",
+      "note": "Present in the repository inventory but outside the 17 assigned acquisitions."
+    },
+    {
+      "artifactId": "felony-petition-form-f",
+      "fileName": "Felony-Petition-Form-f.pdf",
+      "technicalClass": "clean_acroform",
+      "note": "Present in the repository inventory but outside the 17 assigned acquisitions."
+    },
+    {
+      "artifactId": "acic-order-of-probation-under-act-346-rev-2014-08-25",
+      "fileName": "ACIC__order-of-probation-under-act-346__rev-2014-08-25.pdf",
+      "technicalClass": "clean_acroform",
+      "note": "Present in the repository inventory but outside the 17 assigned acquisitions."
+    },
+    {
+      "artifactId": "acic-petition-to-dismiss-and-seal-post-adjudication-drug-court-offense-rev-2014-01-01",
+      "fileName": "ACIC__petition-to-dismiss-and-seal-post-adjudication-drug-court-offense__rev-2014-01-01.pdf",
+      "technicalClass": "clean_acroform",
+      "note": "Present in the repository inventory but outside the 17 assigned acquisitions."
+    },
+    {
+      "artifactId": "acic-order-to-dismiss-and-seal-post-adjudication-drug-court-offense-rev-2014-01-01",
+      "fileName": "ACIC__order-to-dismiss-and-seal-post-adjudication-drug-court-offense__rev-2014-01-01.pdf",
+      "technicalClass": "clean_acroform",
+      "note": "Present in the repository inventory but outside the 17 assigned acquisitions."
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "jobId": "AUTH-06-source-gate-clearance",
+  "wave": 2,
+  "lane": "authority",
+  "model": "claude-opus-5",
+  "effort": "max",
+  "title": "Clear the currentness and provenance gates on 25 retained source-gated documents",
+  "jurisdictions": [
+    "MD",
+    "MO",
+    "LA",
+    "MT",
+    "MA",
+    "AZ",
+    "FL"
+  ],
+  "tracks": [],
+  "trackCount": 32,
+  "dependencies": [],
+  "ownedPaths": [
+    "data/record-clearing/master-library/edition-1-3/source-gate-dispositions.json"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**",
+    "supabase/**"
+  ],
+  "outputs": [
+    "MD CC-DC-CR-072 A/B/C/D retained matching bytes reconciled to their canonical identities and queued for the required edition decision — no reacquisition and no engineering regeneration",
+    "MO currentness work preserves automation-blocked retrieval, four direct OSCA requests, and FI-05 to FI-50 supersession as separate dispositions",
+    "LA C.Cr.P. art. 993 supplemental sheet re-confirmed",
+    "MT OCA MMRTA and DOJ CRISS provenance resolved",
+    "a disposition per document: cleared, still gated, or withdrawn"
+  ],
+  "gates": [
+    "every disposition names the issuer contact and the date of confirmation",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "chore(record-clearing): record source-gate dispositions for Edition 1.3",
+  "completionCondition": "Every source-gated document affecting a selected track has a recorded disposition. A document that cannot be cleared is recorded as terminal-D with its exact external dependency.",
+  "blockerResolved": "51 components across 34 tracks resolve to retained source-gated assets, which establish identity but are never resolver-selectable. Clearing the gate is a publisher conversation, not repository work.",
+  "commercialPriority": 78,
+  "reuseScore": 20
+}

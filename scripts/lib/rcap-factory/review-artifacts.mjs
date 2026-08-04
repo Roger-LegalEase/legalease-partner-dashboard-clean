@@ -49,6 +49,7 @@ export async function generateJobReviewArtifacts(
     artifactDirectory,
     manifestPath,
     performValidation = true,
+    validationScope = "worker",
     validationReport = null,
     write = true
   } = {}
@@ -65,12 +66,12 @@ export async function generateJobReviewArtifacts(
   );
 
   if (
-    !(job.ownedPaths ?? []).some((ownedPath) =>
-      pathRuleMatches(ownedPath, relativeManifestPath)
+    !(job.integrationOwnedOutputs ?? []).some((integrationOutput) =>
+      pathRuleMatches(integrationOutput, relativeManifestPath)
     )
   ) {
     throw new Error(
-      `Review manifest ${relativeManifestPath} is not inside ${job.jobId}'s ownedPaths`
+      `Review manifest ${relativeManifestPath} is not one of ${job.jobId}'s integrationOwnedOutputs`
     );
   }
   assertArtifactDirectoryIgnored(root, relativeArtifactDirectory);
@@ -80,6 +81,7 @@ export async function generateJobReviewArtifacts(
   if (!focusedValidation && performValidation) {
     focusedValidation = validateJobWorkspace(job, {
       rootDir: root,
+      changedPaths: validationScope === "integration" ? [] : undefined,
       runCommands: true,
       requireExpectedOutputs: true
     });
@@ -140,6 +142,7 @@ export async function generateJobReviewArtifacts(
     root,
     job.expectedOutputs ?? []
   );
+  const participantPacketProof = inspectParticipantPacketProof(root, job);
   const manifest = buildReviewManifest({
     rootDir: root,
     job,
@@ -153,6 +156,7 @@ export async function generateJobReviewArtifacts(
     pdfInspection,
     renderedPages,
     implementationOutputs,
+    participantPacketProof,
     focusedValidation
   });
 
@@ -442,7 +446,7 @@ export function verifyTrackedReviewManifest(
   if (manifest.jurisdiction !== job.jurisdiction) {
     failures.push("review manifest jurisdiction does not match");
   }
-  if (manifest.baseCommit !== job.baseCommit) {
+  if (manifest.baseCommit !== (job.completionCommit ?? job.baseCommit)) {
     failures.push("review manifest baseCommit does not match");
   }
   if (!/^[0-9a-f]{64}$/.test(manifest.packet?.sha256 ?? "")) {
@@ -498,6 +502,7 @@ function buildReviewManifest({
   pdfInspection,
   renderedPages,
   implementationOutputs,
+  participantPacketProof,
   focusedValidation
 }) {
   const focusedPassed = focusedValidation?.passed === true;
@@ -541,6 +546,17 @@ function buildReviewManifest({
           ? "passed"
           : "failed",
         evidence: `${implementationOutputs.filter((output) => output.exists).length} of ${implementationOutputs.length} expected outputs hashed.`
+      },
+      {
+        id: "participant-packet-proof",
+        status: participantPacketProof
+          ? participantPacketProof.verified
+            ? "passed"
+            : "failed"
+          : "not_applicable",
+        evidence: participantPacketProof
+          ? `${participantPacketProof.finalPdfCount} final participant PDF hash(es), ${participantPacketProof.assembledPageCount} total page(s), reconciled from ${participantPacketProof.sourceManifestPath}.`
+          : "This job has no tranche participant-packet review manifest."
       }
     ]
   };
@@ -570,10 +586,13 @@ function buildReviewManifest({
     jurisdiction: job.jurisdiction,
     trackIds: [...(job.trackIds ?? [])],
     strategyFamily: job.strategyFamily,
-    baseCommit: job.baseCommit,
+    baseCommit: job.completionCommit ?? job.baseCommit,
     authorityVersion,
     authorityEdition,
-    generatedAt: stableCommitTimestamp(rootDir, job.baseCommit),
+    generatedAt: stableCommitTimestamp(
+      rootDir,
+      job.completionCommit ?? job.baseCommit
+    ),
     syntheticData: true,
     filingUseAllowed: false,
     artifactTracking: {
@@ -612,6 +631,7 @@ function buildReviewManifest({
     },
     renderedPages: renderedPages.map(withoutPngBytes),
     implementationOutputs,
+    participantPacketProof,
     technicalChecklist,
     visualChecklist,
     technicalProofPassed:
@@ -624,6 +644,66 @@ function buildReviewManifest({
     stagingPassed: false,
     productionEnabled: false
   };
+}
+
+function inspectParticipantPacketProof(rootDir, job) {
+  for (const relativePath of [
+    ...(job.expectedOutputs ?? []),
+    ...(job.integrationOwnedOutputs ?? [])
+  ]) {
+    if (
+      !/^data\/record-clearing\/implementation-tranches\/tranche-\d+-review-manifest\.json$/.test(
+        relativePath
+      )
+    ) {
+      continue;
+    }
+    const absolutePath = path.join(rootDir, relativePath);
+    if (!fs.existsSync(absolutePath)) continue;
+    const sourceBytes = fs.readFileSync(absolutePath);
+    const source = JSON.parse(sourceBytes.toString("utf8"));
+    if (!Array.isArray(source.samplePackets)) continue;
+
+    const packets = source.samplePackets.map((packet) => ({
+      trackId: packet.trackId,
+      fileName: packet.assembledFileName,
+      sha256: packet.assembledSha256,
+      pageCount: packet.assembledPageCount
+    }));
+    const finalPdfCount = packets.length;
+    const assembledPageCount = packets.reduce(
+      (total, packet) => total + packet.pageCount,
+      0
+    );
+    const expectedTrackIds = [...(job.trackIds ?? [])].sort();
+    const actualTrackIds = packets.map((packet) => packet.trackId).sort();
+    const verified =
+      finalPdfCount === source.implementedTrackCount &&
+      assembledPageCount === source.assembledPageCount &&
+      new Set(actualTrackIds).size === actualTrackIds.length &&
+      JSON.stringify(actualTrackIds) === JSON.stringify(expectedTrackIds) &&
+      packets.every(
+        (packet) =>
+          typeof packet.fileName === "string" &&
+          /^[0-9a-f]{64}$/.test(packet.sha256 ?? "") &&
+          Number.isInteger(packet.pageCount) &&
+          packet.pageCount > 0
+      );
+    if (!verified) {
+      throw new Error(
+        `${job.jobId} participant packet hashes or page counts do not reconcile with ${relativePath}`
+      );
+    }
+    return {
+      sourceManifestPath: relativePath,
+      sourceManifestSha256: sha256(sourceBytes),
+      finalPdfCount,
+      assembledPageCount,
+      packets,
+      verified
+    };
+  }
+  return null;
 }
 
 function inspectImplementationOutputs(rootDir, outputs) {

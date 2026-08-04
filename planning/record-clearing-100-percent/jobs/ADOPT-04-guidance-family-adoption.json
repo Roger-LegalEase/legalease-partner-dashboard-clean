@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "jobId": "ADOPT-04-guidance-family-adoption",
+  "wave": 5,
+  "lane": "counsel",
+  "model": "human-counsel",
+  "effort": "n/a",
+  "title": "Counsel adoption of the process guidance family",
+  "jurisdictions": [],
+  "tracks": [],
+  "trackCount": 58,
+  "dependencies": [
+    "REV-04-guidance-family-review",
+    "F-03-track-promotion-contract"
+  ],
+  "ownedPaths": [
+    "data/record-clearing/template-families/ADOPT-04-guidance-family-adoption.json"
+  ],
+  "forbiddenPaths": [
+    "everything else"
+  ],
+  "outputs": [
+    "an adoption record naming the exact template hashes adopted",
+    "a per-exception disposition on the six-value limitation scale",
+    "legal set to legal_approved only for components whose hash appears in the adopted set"
+  ],
+  "gates": [
+    "npm run rcap:verify-track-promotion",
+    "the adoption record is a separate file from the engineering-authored review record",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "feat(record-clearing): record counsel adoption of the process guidance family",
+  "completionCondition": "Counsel has adopted the family, or has returned it with corrections. No machine may perform this job.",
+  "blockerResolved": "legal_approved and visual_review_passed are the two status axes no engineer or model may set. This is the only job in the plan a machine cannot do.",
+  "commercialPriority": 95,
+  "reuseScore": 0,
+  "humanOnly": true
+}

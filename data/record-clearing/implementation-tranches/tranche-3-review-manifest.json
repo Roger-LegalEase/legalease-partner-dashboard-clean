@@ -1,0 +1,1088 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-3-georgia-superior-court-pleadings",
+  "jobId": "rcap-ga-custom-pleading",
+  "jurisdiction": "GA",
+  "jurisdictionName": "Georgia",
+  "authorityEdition": "1.2",
+  "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+  "humanLegalReviewStatus": "awaiting_counsel_review",
+  "runtimeStatus": "runtime_disabled",
+  "reviewDirectory": "tmp/packet-output-review/tranche-3 (ignored; regenerate with the generation command)",
+  "generationCommand": "node scripts/rcap-generate-ga-superior-court-pleading-family-review.mjs",
+  "verificationCommand": "node scripts/verify-rcap-ga-superior-court-pleading-family-packets.mjs",
+  "deliverableModel": "One assembled participant-facing PDF per route, bound in packet order by the shared packet assembler. There is no ZIP.",
+  "implementedTrackCount": 9,
+  "componentCount": 44,
+  "assembledPageCount": 69,
+  "technicalReview": {
+    "passed": true,
+    "checks": [
+      "Every component rendered through CustomPleadingRenderer and reopened as a PDF.",
+      "Every component rendered twice under different request keys produced identical bytes.",
+      "Every assembled packet was produced by the shared assembler from durably stored components and is byte-identical on regeneration.",
+      "No prohibited content in any assembled packet: no expungement vocabulary, no IN RE caption, no Civil Action No., no fee amount, no notary block, no asserted balancing conclusion, no reference-model branding.",
+      "Every packet carries the restriction-does-not-destroy-the-record statement, the § 42-8-63.1 disqualification caveat and the confirm-with-the-clerk instruction.",
+      "Every proposed order leaves both elections blank, carries no signature mark and directs the Georgia Crime Information Center.",
+      "Every participant statement is reproduced verbatim and attributed on the face of the document.",
+      "Every boundary fixture stopped with its expected typed failure, including the ga-jail-k2 typed stop."
+    ]
+  },
+  "blockedTracks": [
+    {
+      "trackId": "ga-jail-k2",
+      "blockingComponentId": "ga-jail-k2-process-guidance-3",
+      "reason": "ga-jail-k2 cannot produce a complete packet: its required process-guidance component ga-jail-k2-process-guidance-3 has no drafted guidance specification. Two of three required components are drafted and a partial packet is not a packet. Drafting the missing guidance is legal design, not implementation.",
+      "unblockedBy": "A drafted process-guidance specification for ga-jail-k2 in legal-design-specifications.json.",
+      "provedBy": "ga-jail-k2__typed-stop boundary fixture"
+    }
+  ],
+  "samplePackets": [
+    {
+      "fixtureId": "ga-felony-j1__standard",
+      "trackId": "ga-felony-j1",
+      "assembledFileName": "LegalEase_Georgia_Felony-Charge-Restriction_26-CR-0142.pdf",
+      "assembledSha256": "b6d3e0ca4fc69aac9cf97f49cddb92eaafa212889f3613dbd52b789a6d3e1cbc",
+      "assembledPageCount": 8,
+      "assembledBytes": 13455,
+      "pageImages": 8,
+      "runtimeStatus": "runtime_disabled",
+      "componentRanges": [
+        {
+          "componentId": "ga-felony-j1-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "startPage": 1,
+          "endPage": 3,
+          "pageCount": 3
+        },
+        {
+          "componentId": "ga-felony-j1-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "startPage": 4,
+          "endPage": 5,
+          "pageCount": 2
+        },
+        {
+          "componentId": "ga-felony-j1-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "order": 3,
+          "startPage": 6,
+          "endPage": 6,
+          "pageCount": 1
+        },
+        {
+          "componentId": "ga-felony-j1-attachment-4",
+          "role": "attachment",
+          "order": 4,
+          "startPage": 7,
+          "endPage": 7,
+          "pageCount": 1
+        },
+        {
+          "componentId": "ga-felony-j1-attachment-5",
+          "role": "attachment",
+          "order": 5,
+          "startPage": 8,
+          "endPage": 8,
+          "pageCount": 1
+        }
+      ],
+      "components": [
+        {
+          "componentId": "ga-felony-j1-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "templateId": "ga-felony-j1-petition",
+          "pageCount": 3,
+          "sha256": "7c1da661e32361f4ec678c17c6fafcdef8653bfa6fad081ece4a7272066b36e6",
+          "byteSize": 5901,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-felony-j1-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "templateId": "ga-felony-j1-proposed-order",
+          "pageCount": 2,
+          "sha256": "4f9b8d4b607e9f104cbcfc2faafeb064bc9c637eb699e1cee361a6cd00886567",
+          "byteSize": 3532,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-felony-j1-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "order": 3,
+          "templateId": "ga-felony-j1-certificate-of-service",
+          "pageCount": 1,
+          "sha256": "7a868726f2024c1f96480b153a370490d53b7867b0ba8c7bb2c59de934973977",
+          "byteSize": 2477,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-felony-j1-attachment-4",
+          "role": "attachment",
+          "order": 4,
+          "templateId": "ga-felony-j1-exhibit-disposition",
+          "pageCount": 1,
+          "sha256": "0b9f205457524ebc20d10a7ec5fb060d8b916b0a995f5623a28e6cec62e947cd",
+          "byteSize": 2171,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-felony-j1-attachment-5",
+          "role": "attachment",
+          "order": 5,
+          "templateId": "ga-felony-j1-exhibit-criminal-history",
+          "pageCount": 1,
+          "sha256": "319550071dd86c2e8d053c8c7cdd39cfa43d3f262af55883bb15ec8e209d7116",
+          "byteSize": 2279,
+          "deterministic": true,
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "fixtureId": "ga-vacated-j2__standard",
+      "trackId": "ga-vacated-j2",
+      "assembledFileName": "LegalEase_Georgia_Vacated-Conviction-Restriction_24-CR-0918.pdf",
+      "assembledSha256": "f0f422ef91a5406b9f0005521e9be21fa93161a810c0ed84373ad24aa8b99f22",
+      "assembledPageCount": 8,
+      "assembledBytes": 12817,
+      "pageImages": 8,
+      "runtimeStatus": "runtime_disabled",
+      "componentRanges": [
+        {
+          "componentId": "ga-vacated-j2-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "startPage": 1,
+          "endPage": 3,
+          "pageCount": 3
+        },
+        {
+          "componentId": "ga-vacated-j2-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "startPage": 4,
+          "endPage": 5,
+          "pageCount": 2
+        },
+        {
+          "componentId": "ga-vacated-j2-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "order": 3,
+          "startPage": 6,
+          "endPage": 6,
+          "pageCount": 1
+        },
+        {
+          "componentId": "ga-vacated-j2-attachment-4",
+          "role": "attachment",
+          "order": 4,
+          "startPage": 7,
+          "endPage": 7,
+          "pageCount": 1
+        },
+        {
+          "componentId": "ga-vacated-j2-attachment-5",
+          "role": "attachment",
+          "order": 5,
+          "startPage": 8,
+          "endPage": 8,
+          "pageCount": 1
+        }
+      ],
+      "components": [
+        {
+          "componentId": "ga-vacated-j2-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "templateId": "ga-vacated-j2-petition",
+          "pageCount": 3,
+          "sha256": "1daed58d6672535c003d95994f63b32ad27bd485ba7a15bbcb0d18c34647ab3f",
+          "byteSize": 5727,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-vacated-j2-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "templateId": "ga-vacated-j2-proposed-order",
+          "pageCount": 2,
+          "sha256": "ea1f58f49ccdf6bfcf0a408a9641974f4065c5bf9b8f4bda0877c1c43a3fb7e8",
+          "byteSize": 3269,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-vacated-j2-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "order": 3,
+          "templateId": "ga-vacated-j2-certificate-of-service",
+          "pageCount": 1,
+          "sha256": "886e69fb949a5e8cdc10b46663e4bd0068b734f680c7acc087f3017214f86da1",
+          "byteSize": 2318,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-vacated-j2-attachment-4",
+          "role": "attachment",
+          "order": 4,
+          "templateId": "ga-vacated-j2-exhibit-vacating-order",
+          "pageCount": 1,
+          "sha256": "6058aea0a19ccee2554cdeadae64271feb4887a49f31ca946bb7a0b44e668967",
+          "byteSize": 2146,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-vacated-j2-attachment-5",
+          "role": "attachment",
+          "order": 5,
+          "templateId": "ga-vacated-j2-exhibit-finality",
+          "pageCount": 1,
+          "sha256": "331d16207d03914ac0f7ac7c035fd6fe1517bd63fb8e010e2d713c3370f270da",
+          "byteSize": 2231,
+          "deterministic": true,
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "fixtureId": "ga-deaddocket-j3__standard",
+      "trackId": "ga-deaddocket-j3",
+      "assembledFileName": "LegalEase_Georgia_Dead-Docket-Restriction_23-CR-3307.pdf",
+      "assembledSha256": "67b7c94786d5831f02047c184932424bc0e4002b6f6f06c69f3fb36776e773fd",
+      "assembledPageCount": 7,
+      "assembledBytes": 11485,
+      "pageImages": 7,
+      "runtimeStatus": "runtime_disabled",
+      "componentRanges": [
+        {
+          "componentId": "ga-deaddocket-j3-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "startPage": 1,
+          "endPage": 3,
+          "pageCount": 3
+        },
+        {
+          "componentId": "ga-deaddocket-j3-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "startPage": 4,
+          "endPage": 5,
+          "pageCount": 2
+        },
+        {
+          "componentId": "ga-deaddocket-j3-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "order": 3,
+          "startPage": 6,
+          "endPage": 6,
+          "pageCount": 1
+        },
+        {
+          "componentId": "ga-deaddocket-j3-attachment-4",
+          "role": "attachment",
+          "order": 4,
+          "startPage": 7,
+          "endPage": 7,
+          "pageCount": 1
+        }
+      ],
+      "components": [
+        {
+          "componentId": "ga-deaddocket-j3-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "templateId": "ga-deaddocket-j3-petition",
+          "pageCount": 3,
+          "sha256": "d6611809904c655126d42307a2d2bee1a59227043f051e24419c6891900a0840",
+          "byteSize": 5716,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-deaddocket-j3-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "templateId": "ga-deaddocket-j3-proposed-order",
+          "pageCount": 2,
+          "sha256": "babc2e628773aceca3512bacd79cd7df94fbbd72f11dd7ba43ca5dc688abf4cd",
+          "byteSize": 3485,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-deaddocket-j3-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "order": 3,
+          "templateId": "ga-deaddocket-j3-certificate-of-service",
+          "pageCount": 1,
+          "sha256": "f11fb676144618b8194abc4e9e26305b556de496ac55b9d4ad5398b978a32c57",
+          "byteSize": 2320,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-deaddocket-j3-attachment-4",
+          "role": "attachment",
+          "order": 4,
+          "templateId": "ga-deaddocket-j3-exhibit-dead-docket",
+          "pageCount": 1,
+          "sha256": "4fc1106c114f66e005deb56e85cf06a4962be8d4e2898e1c2b88659901487473",
+          "byteSize": 2117,
+          "deterministic": true,
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "fixtureId": "ga-misd-j4__standard",
+      "trackId": "ga-misd-j4",
+      "assembledFileName": "LegalEase_Georgia_Misdemeanor-Restriction-And-Sealing_19-CR-4471.pdf",
+      "assembledSha256": "e14a29250bde0daddd0c8d2d8d8c06211d67b50dfd109c298249a7e50d079360",
+      "assembledPageCount": 10,
+      "assembledBytes": 17338,
+      "pageImages": 10,
+      "runtimeStatus": "runtime_disabled",
+      "componentRanges": [
+        {
+          "componentId": "ga-misd-j4-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "startPage": 1,
+          "endPage": 3,
+          "pageCount": 3
+        },
+        {
+          "componentId": "ga-misd-j4-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "startPage": 4,
+          "endPage": 5,
+          "pageCount": 2
+        },
+        {
+          "componentId": "ga-misd-j4-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "order": 3,
+          "startPage": 6,
+          "endPage": 6,
+          "pageCount": 1
+        },
+        {
+          "componentId": "ga-misd-j4-attachment-4",
+          "role": "attachment",
+          "order": 4,
+          "startPage": 7,
+          "endPage": 7,
+          "pageCount": 1
+        },
+        {
+          "componentId": "ga-misd-j4-attachment-5",
+          "role": "attachment",
+          "order": 5,
+          "startPage": 8,
+          "endPage": 8,
+          "pageCount": 1
+        },
+        {
+          "componentId": "ga-misd-j4-attachment-6",
+          "role": "attachment",
+          "order": 6,
+          "startPage": 9,
+          "endPage": 9,
+          "pageCount": 1
+        },
+        {
+          "componentId": "ga-misd-j4-attachment-7",
+          "role": "attachment",
+          "order": 7,
+          "startPage": 10,
+          "endPage": 10,
+          "pageCount": 1
+        }
+      ],
+      "components": [
+        {
+          "componentId": "ga-misd-j4-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "templateId": "ga-misd-j4-motion",
+          "pageCount": 3,
+          "sha256": "e6f421817ae29ef17ab11b953b997e3cfa1f3203a0ad13fe7c08210271d8110e",
+          "byteSize": 6784,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-misd-j4-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "templateId": "ga-misd-j4-proposed-order",
+          "pageCount": 2,
+          "sha256": "960cb9ee952a344016aaa0d9b009e8ab635955e81a5ef17d9dfa8793e90dfd3b",
+          "byteSize": 3718,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-misd-j4-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "order": 3,
+          "templateId": "ga-misd-j4-certificate-of-service",
+          "pageCount": 1,
+          "sha256": "b4e6dcb240996d9aa150ce01697728716c7a78ea5e0f2f9aa010e5d74c8b6a31",
+          "byteSize": 2334,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-misd-j4-attachment-4",
+          "role": "attachment",
+          "order": 4,
+          "templateId": "ga-misd-j4-exhibit-disposition",
+          "pageCount": 1,
+          "sha256": "4b84df633a1de7a2a8a01c79426a108f115cc5c829d0361fc9ebf77d82854b62",
+          "byteSize": 2114,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-misd-j4-attachment-5",
+          "role": "attachment",
+          "order": 5,
+          "templateId": "ga-misd-j4-exhibit-criminal-history",
+          "pageCount": 1,
+          "sha256": "9edf2cea52441e66dfdd2c522584d355f798d60dc8558b61c108fb56c1911de5",
+          "byteSize": 2308,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-misd-j4-attachment-6",
+          "role": "attachment",
+          "order": 6,
+          "templateId": "ga-misd-j4-exhibit-sentence-completion",
+          "pageCount": 1,
+          "sha256": "3f03fc17e3ca3b5ffa0eebcf97716575300407ce7871c6665d6e9a8ba380fa59",
+          "byteSize": 2245,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-misd-j4-attachment-7",
+          "role": "attachment",
+          "order": 7,
+          "templateId": "ga-misd-j4-exhibit-supporting",
+          "pageCount": 1,
+          "sha256": "236f683c682c67ddf24853090825fde4f63f0196b10432ee04c754e7a3deda00",
+          "byteSize": 2209,
+          "deterministic": true,
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "fixtureId": "ga-fugitive-j5__standard",
+      "trackId": "ga-fugitive-j5",
+      "assembledFileName": "LegalEase_Georgia_Fugitive-Warrant-Restriction_22-CR-0655.pdf",
+      "assembledSha256": "3a5b6f1741897f152377f125c4e1bd10ef5387d917b66415b2b24de8b0f43fc9",
+      "assembledPageCount": 6,
+      "assembledBytes": 11288,
+      "pageImages": 6,
+      "runtimeStatus": "runtime_disabled",
+      "componentRanges": [
+        {
+          "componentId": "ga-fugitive-j5-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "startPage": 1,
+          "endPage": 2,
+          "pageCount": 2
+        },
+        {
+          "componentId": "ga-fugitive-j5-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "startPage": 3,
+          "endPage": 4,
+          "pageCount": 2
+        },
+        {
+          "componentId": "ga-fugitive-j5-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "order": 3,
+          "startPage": 5,
+          "endPage": 5,
+          "pageCount": 1
+        },
+        {
+          "componentId": "ga-fugitive-j5-attachment-4",
+          "role": "attachment",
+          "order": 4,
+          "startPage": 6,
+          "endPage": 6,
+          "pageCount": 1
+        }
+      ],
+      "components": [
+        {
+          "componentId": "ga-fugitive-j5-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "templateId": "ga-fugitive-j5-petition",
+          "pageCount": 2,
+          "sha256": "4a85bbda4b7973e7d3d432906a6501f200a74c2e67bb29e70cdcf128a7c4a6a1",
+          "byteSize": 5289,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-fugitive-j5-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "templateId": "ga-fugitive-j5-proposed-order",
+          "pageCount": 2,
+          "sha256": "ce50f2107a4f242bbac8aa0a6ba0f105025ab23e6dfb5068656280ac1b7e998e",
+          "byteSize": 3391,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-fugitive-j5-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "order": 3,
+          "templateId": "ga-fugitive-j5-certificate-of-service",
+          "pageCount": 1,
+          "sha256": "db181f8696823d24eac3fbae44b847e4f8a1e6381a87352a24e9c70c8a50a737",
+          "byteSize": 2476,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-fugitive-j5-attachment-4",
+          "role": "attachment",
+          "order": 4,
+          "templateId": "ga-fugitive-j5-exhibit-criminal-history",
+          "pageCount": 1,
+          "sha256": "cd4ada4d9cc0341cd80d4ed2a928eb1ee53dc35f5807d318b79602744b93bde9",
+          "byteSize": 2310,
+          "deterministic": true,
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "fixtureId": "ga-pardon-j7__standard",
+      "trackId": "ga-pardon-j7",
+      "assembledFileName": "LegalEase_Georgia_Pardoned-Conviction-Restriction_08-CR-1120.pdf",
+      "assembledSha256": "c71bd738b1b2addfe16d436d3af7a8fc7e419780ab3fe87f3802b3e7b3f960e8",
+      "assembledPageCount": 9,
+      "assembledBytes": 14257,
+      "pageImages": 9,
+      "runtimeStatus": "runtime_disabled",
+      "componentRanges": [
+        {
+          "componentId": "ga-pardon-j7-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "startPage": 1,
+          "endPage": 3,
+          "pageCount": 3
+        },
+        {
+          "componentId": "ga-pardon-j7-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "startPage": 4,
+          "endPage": 5,
+          "pageCount": 2
+        },
+        {
+          "componentId": "ga-pardon-j7-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "order": 3,
+          "startPage": 6,
+          "endPage": 6,
+          "pageCount": 1
+        },
+        {
+          "componentId": "ga-pardon-j7-attachment-4",
+          "role": "attachment",
+          "order": 4,
+          "startPage": 7,
+          "endPage": 7,
+          "pageCount": 1
+        },
+        {
+          "componentId": "ga-pardon-j7-attachment-5",
+          "role": "attachment",
+          "order": 5,
+          "startPage": 8,
+          "endPage": 8,
+          "pageCount": 1
+        },
+        {
+          "componentId": "ga-pardon-j7-attachment-6",
+          "role": "attachment",
+          "order": 6,
+          "startPage": 9,
+          "endPage": 9,
+          "pageCount": 1
+        }
+      ],
+      "components": [
+        {
+          "componentId": "ga-pardon-j7-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "templateId": "ga-pardon-j7-petition",
+          "pageCount": 3,
+          "sha256": "d9e7b16052721b53f60738985d136f8b08d68796ad9798cb92e7a53061588659",
+          "byteSize": 5625,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-pardon-j7-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "templateId": "ga-pardon-j7-proposed-order",
+          "pageCount": 2,
+          "sha256": "a1399e3b74a124b382f6524ccf1eb0ec96797058de580e797735c8343a629ed5",
+          "byteSize": 3435,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-pardon-j7-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "order": 3,
+          "templateId": "ga-pardon-j7-certificate-of-service",
+          "pageCount": 1,
+          "sha256": "c9fae763733a79c6f43faddb4ffe7d30c33d038d4334e578cd563dead4acface",
+          "byteSize": 2371,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-pardon-j7-attachment-4",
+          "role": "attachment",
+          "order": 4,
+          "templateId": "ga-pardon-j7-exhibit-pardon",
+          "pageCount": 1,
+          "sha256": "47fafd8ce3cd5bc0883681a05862aee5e16e07b000e868572de5907c25890a85",
+          "byteSize": 2077,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-pardon-j7-attachment-5",
+          "role": "attachment",
+          "order": 5,
+          "templateId": "ga-pardon-j7-exhibit-disposition",
+          "pageCount": 1,
+          "sha256": "d3301db52d42092a86b9861577ba31b1196ab681ccdd61816d6529280220a2ff",
+          "byteSize": 2141,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-pardon-j7-attachment-6",
+          "role": "attachment",
+          "order": 6,
+          "templateId": "ga-pardon-j7-exhibit-supporting",
+          "pageCount": 1,
+          "sha256": "db1377f816134b672f971d676773383f101026346a3177ae763f00d60d7e1bb9",
+          "byteSize": 2211,
+          "deterministic": true,
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "fixtureId": "ga-seal-m__standard",
+      "trackId": "ga-seal-m",
+      "assembledFileName": "LegalEase_Georgia_Court-File-Sealing_21-CR-2284.pdf",
+      "assembledSha256": "2f3af954b7fa0806f380550b42f57abfcab5525a59dfa2a9564a860ed8eb12b2",
+      "assembledPageCount": 7,
+      "assembledBytes": 13008,
+      "pageImages": 7,
+      "runtimeStatus": "runtime_disabled",
+      "componentRanges": [
+        {
+          "componentId": "ga-seal-m-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "startPage": 1,
+          "endPage": 3,
+          "pageCount": 3
+        },
+        {
+          "componentId": "ga-seal-m-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "startPage": 4,
+          "endPage": 4,
+          "pageCount": 1
+        },
+        {
+          "componentId": "ga-seal-m-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "order": 3,
+          "startPage": 5,
+          "endPage": 5,
+          "pageCount": 1
+        },
+        {
+          "componentId": "ga-seal-m-attachment-4",
+          "role": "attachment",
+          "order": 4,
+          "startPage": 6,
+          "endPage": 6,
+          "pageCount": 1
+        },
+        {
+          "componentId": "ga-seal-m-attachment-5",
+          "role": "attachment",
+          "order": 5,
+          "startPage": 7,
+          "endPage": 7,
+          "pageCount": 1
+        }
+      ],
+      "components": [
+        {
+          "componentId": "ga-seal-m-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "templateId": "ga-seal-m-petition",
+          "pageCount": 3,
+          "sha256": "86a2ae036e18d5772311a14c6047872eda12ef5511e7e9f79aa71d03b089fcc4",
+          "byteSize": 6133,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-seal-m-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "templateId": "ga-seal-m-proposed-order",
+          "pageCount": 1,
+          "sha256": "821e8f0cfbe48cc25df54f848dbf4b1a39b9106bcd80c4d611ceb986dcbf5265",
+          "byteSize": 2902,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-seal-m-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "order": 3,
+          "templateId": "ga-seal-m-certificate-of-service",
+          "pageCount": 1,
+          "sha256": "9d3b12e51a09873e54496b882fb07185ec46ec7f2fc7042ced46923ab403ae0f",
+          "byteSize": 2508,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-seal-m-attachment-4",
+          "role": "attachment",
+          "order": 4,
+          "templateId": "ga-seal-m-exhibit-criminal-history",
+          "pageCount": 1,
+          "sha256": "6665db75b57fc9c09a1562cc3cf936ea98e62e6510bf591a363fdfcb47963d65",
+          "byteSize": 2310,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-seal-m-attachment-5",
+          "role": "attachment",
+          "order": 5,
+          "templateId": "ga-seal-m-exhibit-disposition",
+          "pageCount": 1,
+          "sha256": "6e9913b7f1bebfe09edb99803ce62c3967ece477a06366cac5a738c45f7e1534",
+          "byteSize": 2073,
+          "deterministic": true,
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "fixtureId": "ga-fo-active-pre2026__standard",
+      "trackId": "ga-fo-active-pre2026",
+      "assembledFileName": "LegalEase_Georgia_First-Offender-Active-Restriction_24-CR-0733.pdf",
+      "assembledSha256": "b888ae83b4fe47459afa6b689762fa1148db1c6d009766117e235eadb310e30d",
+      "assembledPageCount": 7,
+      "assembledBytes": 12285,
+      "pageImages": 7,
+      "runtimeStatus": "runtime_disabled",
+      "componentRanges": [
+        {
+          "componentId": "ga-fo-active-pre2026-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "startPage": 1,
+          "endPage": 3,
+          "pageCount": 3
+        },
+        {
+          "componentId": "ga-fo-active-pre2026-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "startPage": 4,
+          "endPage": 5,
+          "pageCount": 2
+        },
+        {
+          "componentId": "ga-fo-active-pre2026-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "order": 3,
+          "startPage": 6,
+          "endPage": 6,
+          "pageCount": 1
+        },
+        {
+          "componentId": "ga-fo-active-pre2026-attachment-4",
+          "role": "attachment",
+          "order": 4,
+          "startPage": 7,
+          "endPage": 7,
+          "pageCount": 1
+        }
+      ],
+      "components": [
+        {
+          "componentId": "ga-fo-active-pre2026-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "templateId": "ga-fo-active-pre2026-petition",
+          "pageCount": 3,
+          "sha256": "10904ecae94fb89498da6ef3e47c8d9e5a32449f7d7ad10afddfdbcd7547be3b",
+          "byteSize": 6017,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-fo-active-pre2026-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "templateId": "ga-fo-active-pre2026-proposed-order",
+          "pageCount": 2,
+          "sha256": "eae928fc5a67cd1136d8b485c879c2b4f25451875ab795c38902db33799802de",
+          "byteSize": 3752,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-fo-active-pre2026-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "order": 3,
+          "templateId": "ga-fo-active-pre2026-certificate-of-service",
+          "pageCount": 1,
+          "sha256": "e8e19193157e4077909be11ea77c4e3f6ce53a6f2535839ffb80ed1e0b1ed2f6",
+          "byteSize": 2535,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-fo-active-pre2026-attachment-4",
+          "role": "attachment",
+          "order": 4,
+          "templateId": "ga-fo-active-pre2026-exhibit-disposition",
+          "pageCount": 1,
+          "sha256": "0977c4f06c07d1d7f2b09c67513585129cae6f51fe568403bead4764954b9544",
+          "byteSize": 2160,
+          "deterministic": true,
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "fixtureId": "ga-fo-discharged-pre2026__standard",
+      "trackId": "ga-fo-discharged-pre2026",
+      "assembledFileName": "LegalEase_Georgia_First-Offender-Discharge-Sealing_17-CR-0489.pdf",
+      "assembledSha256": "5681cf06b88040c0ea15723121e0e1fda1880b512274bcedf4a8e84078e0425b",
+      "assembledPageCount": 7,
+      "assembledBytes": 12509,
+      "pageImages": 7,
+      "runtimeStatus": "runtime_disabled",
+      "componentRanges": [
+        {
+          "componentId": "ga-fo-discharged-pre2026-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "startPage": 1,
+          "endPage": 3,
+          "pageCount": 3
+        },
+        {
+          "componentId": "ga-fo-discharged-pre2026-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "startPage": 4,
+          "endPage": 5,
+          "pageCount": 2
+        },
+        {
+          "componentId": "ga-fo-discharged-pre2026-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "order": 3,
+          "startPage": 6,
+          "endPage": 6,
+          "pageCount": 1
+        },
+        {
+          "componentId": "ga-fo-discharged-pre2026-attachment-4",
+          "role": "attachment",
+          "order": 4,
+          "startPage": 7,
+          "endPage": 7,
+          "pageCount": 1
+        }
+      ],
+      "components": [
+        {
+          "componentId": "ga-fo-discharged-pre2026-primary-filing-1",
+          "role": "primary_filing",
+          "order": 1,
+          "templateId": "ga-fo-discharged-pre2026-petition",
+          "pageCount": 3,
+          "sha256": "698b9890fd5f01958b526cc1a86300f15b3d978745289109de092161df2aa16e",
+          "byteSize": 6268,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-fo-discharged-pre2026-proposed-order-2",
+          "role": "proposed_order",
+          "order": 2,
+          "templateId": "ga-fo-discharged-pre2026-proposed-order",
+          "pageCount": 2,
+          "sha256": "31eb2ae097e924e02261620649d70c582b6c2195e29d344e6a837d809395cc9a",
+          "byteSize": 3637,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-fo-discharged-pre2026-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "order": 3,
+          "templateId": "ga-fo-discharged-pre2026-certificate-of-service",
+          "pageCount": 1,
+          "sha256": "52d60438be44ca68a8b9b43f4363df1840c1166324b7a787542fd9ff703996de",
+          "byteSize": 2539,
+          "deterministic": true,
+          "warnings": []
+        },
+        {
+          "componentId": "ga-fo-discharged-pre2026-attachment-4",
+          "role": "attachment",
+          "order": 4,
+          "templateId": "ga-fo-discharged-pre2026-exhibit-disposition",
+          "pageCount": 1,
+          "sha256": "e555c991109707e5a0158f99d474803f37d361973325d56129498e64eb643be3",
+          "byteSize": 2255,
+          "deterministic": true,
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "boundaryFixtures": [
+    {
+      "fixtureId": "ga-jail-k2__typed-stop",
+      "trackId": "ga-jail-k2",
+      "expected": "track_unavailable",
+      "outcome": "track_unavailable",
+      "detail": "ga-jail-k2-process-guidance-3",
+      "passed": true,
+      "why": "ga-jail-k2 has a required process-guidance component with no drafted guidance specification. It must fail closed with a typed error naming the blocking component, never produce a two-of-three packet."
+    },
+    {
+      "fixtureId": "ga-misd-j4__missing-sentence-completion",
+      "trackId": "ga-misd-j4",
+      "expected": "resolution_missing_required_input",
+      "outcome": "resolution_missing_required_input",
+      "detail": "sentenceCompletionDate",
+      "passed": true,
+      "why": "Completion of every term of the sentence is a statutory element of § 35-3-37(j)(4)(A). A packet must not generate without the date."
+    },
+    {
+      "fixtureId": "ga-misd-j4__unapproved-scope",
+      "trackId": "ga-misd-j4",
+      "expected": "branch_error",
+      "outcome": "branch_error",
+      "detail": "misdemeanorScope",
+      "passed": true,
+      "why": "§ 35-3-37(j)(4)(A) reaches one misdemeanour or a series from a single incident. Two separate incidents is not an approved branch and must not be described in unreviewed words."
+    },
+    {
+      "fixtureId": "ga-misd-j4__unapproved-lifetime-use",
+      "trackId": "ga-misd-j4",
+      "expected": "branch_error",
+      "outcome": "branch_error",
+      "detail": "lifetimeUse",
+      "passed": true,
+      "why": "§ 35-3-37(j)(4)(C) caps the relief at two in a lifetime. A third use has no approved allegation and must stop."
+    },
+    {
+      "fixtureId": "ga-felony-j1__unapproved-disposition",
+      "trackId": "ga-felony-j1",
+      "expected": "branch_error",
+      "outcome": "branch_error",
+      "detail": "felonyDisposition",
+      "passed": true,
+      "why": "§ 35-3-37(j)(1) reaches a felony charge resolved WITHOUT conviction. A conviction is the one disposition this route cannot serve."
+    },
+    {
+      "fixtureId": "ga-felony-j1__missing-narrative",
+      "trackId": "ga-felony-j1",
+      "expected": "resolution_missing_required_input",
+      "outcome": "resolution_missing_required_input",
+      "detail": "participantNarrative",
+      "passed": true,
+      "why": "The participant's own statement is the only part of the filing LegalEase does not write. A packet must not generate with it blank."
+    },
+    {
+      "fixtureId": "ga-vacated-j2__empty-branch",
+      "trackId": "ga-vacated-j2",
+      "expected": "branch_error",
+      "outcome": "branch_error",
+      "detail": "vacatedOrReversed",
+      "passed": true,
+      "why": "Vacated and reversed are different acts by different courts. An empty answer must stop rather than default to either."
+    },
+    {
+      "fixtureId": "ga-seal-m__unrestricted-record",
+      "trackId": "ga-seal-m",
+      "expected": "branch_error",
+      "outcome": "branch_error",
+      "detail": "restrictionBasis",
+      "passed": true,
+      "why": "§ 35-3-37(m) sealing requires the record to be restricted already. A participant whose record is not restricted needs a restriction route first, not this one."
+    },
+    {
+      "fixtureId": "ga-fo-discharged-pre2026__empty-discharge-basis",
+      "trackId": "ga-fo-discharged-pre2026",
+      "expected": "branch_error",
+      "outcome": "branch_error",
+      "detail": "dischargeBasis",
+      "passed": true,
+      "why": "§ 42-8-62.2(c) reaches a discharge as a matter of law or by court order. The petition recites which, so an empty answer must stop."
+    }
+  ],
+  "note": "An engineering generation and technical-proof record. It is not a legal approval. Every track remains runtime_disabled at awaiting_counsel_review, no jurisdiction is enabled, and packet readiness remains 0."
+}

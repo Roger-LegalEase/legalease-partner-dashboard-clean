@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-5-district-of-columbia-custom-pleadings",
+  "jobId": "rcap-dc-custom-pleading",
+  "parentJobId": "IMP-CP-03-dc-superior-court-motion-family",
+  "jurisdiction": "DC",
+  "jurisdictionName": "District of Columbia",
+  "selectedOn": "2026-08-04",
+  "commitBaseline": "82ff33b917b93537f86f196fabaf9403cdd85afa",
+  "implementationCommit": "a25306af0e095faac1ce4d36c60b0f04c9221b31",
+  "integratedEquivalentCommit": "7dd99311a44c871e52a0bee114cce25c5ef39584",
+  "implementationSource": {
+    "path": "src/lib/rcap/packets/jurisdictions/district-of-columbia/custom-pleading.ts",
+    "sha256": "4fc8fe9860ca3844df990169e7c4888a6d4e442878316eb22e0e0f65d29599b9"
+  },
+  "authorityEdition": "1.2",
+  "selectionMethod": "The six-track assignment is the compiled membership of rcap-dc-custom-pleading. This integration record narrows implementation proof to the two routes for which the worker produced complete templates and records the other four as explicit typed stops.",
+  "reusedArchitecture": "The Mississippi custom-pleading renderer, resolver, fulfillment model and final-PDF assembler are reused unchanged. The District implementation is registered only inside the focused verifier and is not added to the shared runtime registry.",
+  "selectedTracks": [
+    {
+      "trackId": "dc_innocence_expungement",
+      "legalName": "Motion for Expungement on Grounds of Actual Innocence, D.C. Code § 16-803",
+      "publicName": "Expungement by motion, actual innocence",
+      "outputStrategy": "custom_pleading",
+      "implemented": true,
+      "componentCount": 1,
+      "componentIds": [
+        "dc_innocence_expungement-primary-filing-1"
+      ],
+      "templateIds": [
+        "dc-innocence-expungement-motion"
+      ],
+      "knownLimitations": [
+        "The participant supplies the statement of points and authorities, exhibits, affidavits and other supporting material; LegalEase does not decide whether the evidentiary showing is sufficient.",
+        "The participant must confirm the current Criminal Division filing channel and fee treatment with the clerk.",
+        "The participant identifies the prosecuting authority from the case caption; the packet does not decide whether the United States Attorney or District Attorney General handled the case.",
+        "Prosecutor opposition, a court-ordered response, a hearing or disputed evidence requires attorney handoff."
+      ],
+      "requiredBeforeFiling": [
+        "Attach the participant-authored statement of points and authorities and all supporting exhibits or affidavits.",
+        "Confirm the filing channel, fee treatment and any current Seal Team requirement with the Criminal Division.",
+        "Confirm and complete service on the prosecuting authority shown by the participant's case record.",
+        "Sign and date the motion."
+      ]
+    },
+    {
+      "trackId": "dc_correct_misattributed_arrest",
+      "legalName": "Motion to Correct a Misattributed Arrest Record, D.C. Code § 16-806(g)",
+      "publicName": "Motion to correct a misattributed arrest record",
+      "outputStrategy": "custom_pleading",
+      "implemented": true,
+      "componentCount": 1,
+      "componentIds": [
+        "dc_correct_misattributed_arrest-primary-filing-1"
+      ],
+      "templateIds": [
+        "dc-correct-misattributed-arrest-motion"
+      ],
+      "knownLimitations": [
+        "The route corrects publicly available records; it does not seal them.",
+        "The participant may use the route only when no fingerprints were taken at arrest and no other reliable identification was presented.",
+        "The source requires a sworn attestation but does not resolve whether the Criminal Division also requires notarization.",
+        "The participant must confirm the current filing channel, service address and fee treatment with the clerk."
+      ],
+      "requiredBeforeFiling": [
+        "Confirm from the record that no fingerprints were taken at arrest and no other reliable identification was presented.",
+        "Confirm whether notarization is required in addition to the sworn attestation.",
+        "Confirm the filing channel, fee treatment and any current Seal Team requirement with the Criminal Division.",
+        "Confirm and complete service on the prosecuting authority shown by the participant's case record.",
+        "Sign the sworn attestation."
+      ]
+    }
+  ],
+  "excludedTracks": [
+    {
+      "trackId": "dc_seal_conviction",
+      "implemented": false,
+      "treatment": "registered_typed_stop",
+      "reason": "The legal design lacks the controlling post-reversion subsection treatment and a machine-usable Offense Severity Group mapping.",
+      "unblockedBy": "A committed Master Grid mapping for Offense Severity Groups 1 to 3, and a recorded determination of which § 16-806 subsections survive 11 September 2026."
+    },
+    {
+      "trackId": "dc_seal_fugitive",
+      "implemented": false,
+      "treatment": "registered_typed_stop",
+      "reason": "The legal design does not establish which § 16-806 subsections survive the 11 September 2026 reversion.",
+      "unblockedBy": "A recorded determination of which § 16-806 subsections survive 11 September 2026."
+    },
+    {
+      "trackId": "dc_seal_nonconviction",
+      "implemented": false,
+      "treatment": "registered_typed_stop",
+      "reason": "The legal design does not establish whether the non-conviction route survives the 11 September 2026 reversion.",
+      "unblockedBy": "A recorded determination of which § 16-806 subsections survive 11 September 2026, including whether the (a)(1)(B)(i) route persists."
+    },
+    {
+      "trackId": "dc_yra_set_aside",
+      "implemented": false,
+      "treatment": "registered_typed_stop",
+      "reason": "The legal design does not determine the packet components, service mechanics or relationship between set-aside and sealing.",
+      "unblockedBy": "A drafted packet specification for dc_yra_set_aside naming its components, its service mechanics and its relationship to the sealing motion."
+    }
+  ],
+  "sourceAuthorityStatus": {
+    "sourcePinned": false,
+    "officialFormDependency": "none. Both implemented routes are custom pleadings and no official form identity is asserted.",
+    "controllingAuthority": [
+      "D.C. Code § 16-803",
+      "D.C. Code § 16-806(g)"
+    ],
+    "limitation": "The controlling sources have no immutable source SHA-256 in the integrated relationship registry. Implementation proof is therefore recorded independently and does not infer source pinning or authority clearance."
+  },
+  "rendererType": "custom_pleading (CustomPleadingRenderer), one required primary-filing component per implemented route",
+  "implementationStatus": "implemented_and_internally_proved",
+  "technicalProofStatus": "passed",
+  "visualProofStatus": "not_reviewed",
+  "legalRecommendationStatus": "complete_for_exact_implemented_subset",
+  "humanLegalReviewStatus": "awaiting_counsel_adoption",
+  "counselAdopted": false,
+  "implementationProof": false,
+  "runtimeStatus": "runtime_disabled",
+  "packetReady": false,
+  "generationAllowed": false,
+  "jurisdictionEnabled": false,
+  "productionEnabled": false,
+  "notOwnedByThisTranche": [
+    "No legal-design conclusion, normalized track or shared generated registry is changed.",
+    "No source is marked pinned and no authority status is inferred from implementation proof.",
+    "No blocked D.C. route is partially implemented or counted as implementation-proven.",
+    "No route is promoted, no jurisdiction is enabled and no deployment occurs."
+  ]
+}

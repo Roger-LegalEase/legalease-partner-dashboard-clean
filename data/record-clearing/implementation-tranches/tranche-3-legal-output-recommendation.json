@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-3-georgia-superior-court-pleadings",
+  "jobId": "rcap-ga-custom-pleading",
+  "jurisdiction": "GA",
+  "jurisdictionName": "Georgia",
+  "preparedOn": "2026-08-04",
+  "preparer": "engineering implementation pass (not counsel, and not a legal approval)",
+  "authorityEdition": "1.2",
+  "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+
+  "whatThisDocumentIs": "The engineering pass's recommendation to reviewing counsel for the Georgia Superior Court pleading family. It records what was built, on what authority, what it deliberately does not do, and the questions counsel must answer before any of these routes may be adopted. It is a recommendation only. Nothing in it advances any status by itself.",
+
+  "humanLegalReviewStatus": "awaiting_counsel_adoption",
+
+  "familyLevelRecommendation": {
+    "status": "recommended_for_counsel_adoption",
+    "summary": "Adopt the nine implemented routes as built, subject to the questions below, and leave ga-jail-k2 blocked until its guidance specification is drafted. Every route produces one assembled participant-facing PDF containing a petition or motion, a proposed order with every finding and signature blank, a certificate of service naming the recipients the statute requires, and cover sheets for the exhibits the participant obtains and encloses. LegalEase writes no legal argument: the balancing element every route turns on is put to the court as a question, never asserted.",
+    "vocabularyDecision": "Every packet says restrict and seal. The word expunge appears nowhere in any Georgia template, and the verifier fails the tranche if it ever does. Georgia stopped using expungement in the statute on 1 July 2013 and neither remedy destroys the record.",
+    "effectDisclosureDecision": "Every packet states on its face that a restricted or sealed record may still disqualify the participant from employment or office in the same manner as a first offender discharge under § 42-8-63.1, that the relief does not supersede disclosure required by federal law, and that the participant is not entitled to state that the record does not exist. This is asserted positively by the gate, not merely checked for absence of the opposite."
+  },
+
+  "recommendations": [
+    {
+      "trackIds": ["ga-felony-j1", "ga-vacated-j2", "ga-deaddocket-j3", "ga-misd-j4", "ga-pardon-j7", "ga-fugitive-j5"],
+      "grouping": "The six § 35-3-37(j) court-petition routes",
+      "status": "recommended_for_counsel_adoption",
+      "outputStrategy": "custom_pleading",
+      "localFormOverride": true,
+      "recommendation": "Adopt as built. Each is filed in the existing criminal case under the existing case number, styled State of Georgia v. Defendant. None is captioned IN RE and none carries a Civil Action No. Each proposed order names the offender tracking number and the arrest date, directs the Georgia Crime Information Center and the county agencies by category, names the clerk and the court, and limits disclosure to what § 35-3-37(t) and (v) permit — a restriction order that does not name GCIC is not actionable, so this is asserted by the gate rather than assumed.",
+      "basis": [
+        "The Edition 1.2 Georgia controlling addendum, which amends the retained review and is pinned by SHA-256 against the committed file.",
+        "Addendum statement 5: no statewide judiciary form exists for any Georgia court petition, so every route carries localFormOverride and the statewide neutral pleading is the controlling output rather than a fallback.",
+        "Addendum statement 3: ga-vacated-j2 and ga-fugitive-j5 are custom pleadings, not process guidance. § 35-3-37(j)(5) supplies venue, notice recipients, contents, standard and relief; for ga-vacated-j2 the conviction is already vacated, so the petition is not post-conviction litigation.",
+        "A drafted custom-pleading specification for all 45 components, none authored by this tranche."
+      ],
+      "whatCounselIsBeingAskedToAdopt": [
+        "That the statutory recitals in each petition state the elements of their subsection correctly.",
+        "That putting the harm-versus-public-interest balance to the court as a question, rather than asserting it, is the right posture for a self-represented filing.",
+        "That the notice sets are right: the prosecuting attorney alone on ga-vacated-j2, ga-deaddocket-j3, ga-misd-j4 and ga-pardon-j7; the arresting law enforcement agency as well on ga-felony-j1 and ga-fugitive-j5.",
+        "That ga-fugitive-j5 is correctly venued in the superior court of the county of arrest and correctly styled with the participant as Defendant.",
+        "That the exhibit cover sheets correctly describe what the participant must obtain, and that LegalEase never collecting or inspecting those documents is the right boundary."
+      ]
+    },
+    {
+      "trackIds": ["ga-seal-m"],
+      "grouping": "The § 35-3-37(m) clerk-sealing route",
+      "status": "recommended_for_counsel_adoption",
+      "outputStrategy": "custom_pleading",
+      "localFormOverride": true,
+      "recommendation": "Adopt as built. This is the companion to every restriction route: restriction alone leaves the clerk's file public and searchable by name. Venue follows the § 35-3-37(m) formula — the court with original jurisdiction over the offences in the county where the clerk is located — rather than the convicting court. Its proposed order deliberately does not direct GCIC, because the criminal history record information was already restricted by whatever route came first and an order here would be ordering relief the petition did not ask for. The packet states that the clerk has 60 days after the order and that § 35-3-37(t) and (v) keep sealed files available for the enumerated purposes.",
+      "basis": [
+        "O.C.G.A. § 35-3-37(m), (m)(1), (t) and (v).",
+        "The drafted custom-pleading specification for all six components.",
+        "Notice by registered mail, certified mail or statutory overnight delivery is sufficient under § 35-3-37(m)(1); the certificate of service names both the clerk of court and the prosecuting attorney."
+      ],
+      "whatCounselIsBeingAskedToAdopt": [
+        "That the § 35-3-37(m) venue formula is correctly stated and correctly distinguished from the convicting-court routes.",
+        "That the criminal history report showing the case as restricted is the right proof of the first statutory element, obtained and attached by the participant.",
+        "That this order correctly omits any direction to GCIC."
+      ]
+    },
+    {
+      "trackIds": ["ga-fo-active-pre2026", "ga-fo-discharged-pre2026"],
+      "grouping": "The two First Offender petition routes as rewritten by Act 403",
+      "status": "recommended_for_counsel_adoption",
+      "outputStrategy": "custom_pleading",
+      "localFormOverride": true,
+      "recommendation": "Adopt as built, and note that these two routes changed most recently. Act 403 struck the discretionary standard and the written-findings paragraph from § 42-8-62.1 and enacted § 42-8-62.2 with no findings requirement at all, so relief on a properly filed petition is mandatory within 90 days on both. The petitions therefore ask the court to make no balancing finding and plead no privacy-harm narrative. Notice goes to the clerk of court and the prosecuting attorney, and each packet says in terms that notice is not a request for consent and that neither section creates an objection period or an objection-triggered hearing.",
+      "basis": [
+        "Edition 1.2 Georgia addendum statement 1, read from the signed Act: § 42-8-62.1(b)(1) is now mandatory, the (b)(2) written-findings paragraph reads Reserved, the (d) preponderance findings were struck, and (f) changed may to shall.",
+        "Addendum statement 2: the discharged-person petition moved out of § 42-8-62.1(c) into new § 42-8-62.2(c), and Track L splits three ways.",
+        "2026 Ga. Laws Act 403 (HB 162), pinned by the SHA-256 the legal design recorded at acquisition."
+      ],
+      "whatCounselIsBeingAskedToAdopt": [
+        "That asking for no findings is right on both routes, given that Act 403 struck the findings requirements.",
+        "That the compliance timetable each packet states is right: the court within 90 days, the clerk within 60 days, and law enforcement, jails and detention centers within 30 days of receiving the order.",
+        "That the § 42-8-62.1(c) / § 42-8-62.2(c) population overlap the addendum records as a nonblocking note does not need a routing question put to the participant. As built, the participant's own answer about whether they were discharged decides which route they are on."
+      ],
+      "recordedOverlapNote": "§ 42-8-62.1(c) as rewritten reaches anyone sentenced before 1 July 2026 whose sentence was not revoked, which textually overlaps the discharged population reached by § 42-8-62.2(c). The adopted allocation is preserved and the overlap is a nonblocking note on both tracks, not a departure."
+    }
+  ],
+
+  "notRecommendedBecauseNotBuilt": [
+    {
+      "trackId": "ga-jail-k2",
+      "status": "blocked_typed_stop",
+      "reason": "Its required process-guidance component ga-jail-k2-process-guidance-3 has no drafted guidance specification. Two of its three required components are drafted pleadings; two of three is not a packet.",
+      "whyNotShippedPartially": "On this route the deliverable is a written request to a county or municipal jail together with the guidance telling the participant where to send it, what to enclose, and what to do when the 30 days in § 35-3-37(k)(2) expire. The letter without the process is a document and no route.",
+      "whatWouldUnblockIt": "A drafted process-guidance specification for ga-jail-k2 in legal-design-specifications.json. The verifier asserts that the specification is still undrafted, so whoever drafts it will be told by a failing gate that the typed stop can come out.",
+      "openQuestionsCounselWouldStillNeedToAnswer": [
+        "Whether the § 35-3-37(k)(2) written request may be sent as soon as the criminal history record information is restricted, or only after the 30-day period in § 35-3-37(k)(1) has run. The text of (k)(2) imposes no waiting period; county prosecutor guidance describes waiting 30 days.",
+        "Whether any Georgia jail or detention center publishes its own required form or intake route, which would govern over a generated letter. The route is modelled with localFormOverride so a local form governs where one is found."
+      ]
+    }
+  ],
+
+  "questionsForCounsel": [
+    {
+      "id": "filing-fee-and-waiver",
+      "appliesTo": "all nine routes",
+      "question": "Does a Georgia clerk charge a filing fee for a motion or petition filed in an existing criminal case, and does the O.C.G.A. § 9-15-2 pauper's affidavit practice reach such a filing?",
+      "whyItIsOpen": "No statutory fee is identified. Because the relief is a filing in an existing criminal case rather than a new civil action, the leading Georgia pro se practice does not budget one, but the question is county-specific and unresolved. § 9-15-2 is designed for civil actions and its application here is unresolved.",
+      "whatWasDoneInstead": "No amount is printed anywhere in any packet, and the technical gate fails the tranche if a currency figure ever appears. Every packet tells the participant to confirm the filing method — and therefore any fee — with the clerk before filing. No fee-waiver component is generated, because the design records none as applicable."
+    },
+    {
+      "id": "combined-restriction-and-sealing-motion",
+      "appliesTo": "ga-misd-j4",
+      "question": "Will a Georgia court treat a combined § 35-3-37(j)(4) and § 35-3-37(m) motion as premature?",
+      "whyItIsOpen": "Section 35-3-37(m)(1) applies on its face to an individual who HAS a record restricted under the Code section, which reads as sequential. The leading Georgia pro se practice nevertheless files them together.",
+      "whatWasDoneInstead": "The motion asks for both and states expressly that the sealing ordered under § 35-3-37(m) is to take effect upon the restriction ordered under § 35-3-37(j)(4). If counsel prefers strict sequencing, the fix is to split the motion into two filings, which is a template change and not an architecture change."
+    },
+    {
+      "id": "municipal-court-reach",
+      "appliesTo": "ga-misd-j4 and ga-seal-m",
+      "question": "Does restriction under § 35-3-37, and the § 35-3-37(m) clerk-sealing venue formula, reach Municipal Court records where a state-law offence was tried in a court that is not a court of record?",
+      "whyItIsOpen": "The § 35-3-37(a)(5) definition of prosecuting attorney addresses this only partly.",
+      "whatWasDoneInstead": "Nothing in the packet asserts an answer. The court and its county are participant data, so a participant whose case was tried in a Municipal Court generates a packet naming that court. Counsel may prefer a scope restriction that refuses to generate for a non-court-of-record; the packet does not currently refuse."
+    },
+    {
+      "id": "otn-absent-at-generation",
+      "appliesTo": "all nine routes",
+      "question": "Is generating an order that carries a blank offender tracking number acceptable, given that an order without an OTN is harder for GCIC to act on?",
+      "whyItIsOpen": "The OTN appears on the participant's criminal history, which many participants will not have obtained when they generate the packet.",
+      "whatWasDoneInstead": "The OTN is asked for but not required, so the packet generates without it and renders a blank rule the participant completes. The field-ownership record lists it as an item the participant completes by hand, and the exhibit cover sheet for the criminal history explains where to find it. The alternative — refusing to generate — was rejected as disproportionate."
+    },
+    {
+      "id": "balancing-posture",
+      "appliesTo": "the routes whose subsection contains a balancing element",
+      "question": "Is asking the court to perform the statutory balance, rather than pleading that it favours the participant, the right posture?",
+      "whyItIsOpen": "A represented petitioner would ordinarily argue the balance. LegalEase composing that argument would be legal argument on a participant's behalf, which the accepted design bars.",
+      "whatWasDoneInstead": "Each petition sets out the participant's facts, carries the participant's own statement verbatim, and asks the court to determine the balance while stating that the participant makes no representation as to how it should be resolved. The technical gate fails any sentence that reaches the conclusion without framing it as a question or as a recital of the statutory standard."
+    },
+    {
+      "id": "hearing-request-in-the-alternative",
+      "appliesTo": "the § 35-3-37(j) routes",
+      "question": "Should every packet ask in the alternative for a hearing within 90 days, or should that be a participant election?",
+      "whyItIsOpen": "Where a hearing is requested it must be held within 90 days of filing. The 90 days is a deadline for holding a hearing, not a prosecutor objection window, and a hearing may not be in every participant's interest.",
+      "whatWasDoneInstead": "Every § 35-3-37(j) petition carries the alternative request as approved language. The design records the request as a generation question, so making it a participant election is a small change if counsel prefers it."
+    }
+  ],
+
+  "whatThisDoesNotAssert": [
+    "That the participant is eligible. The packet asks, fails closed where an answer is outside an approved list, and otherwise prepares what the participant said.",
+    "That the court will grant the relief.",
+    "That the harm to the participant outweighs the public interest. That determination is the court's on every route that requires it.",
+    "That a restricted or sealed record may be denied. Every packet says the opposite.",
+    "That any document the participant encloses says what they believe it says. LegalEase never collects, inspects or authenticates a participant's records."
+  ],
+
+  "engineeringFollowUpsForTheNextTranche": [
+    {
+      "id": "flow-writer-has-no-keep-together",
+      "finding": "The shared FlowWriter breaks a page wherever the next line does not fit, with no widow or orphan control, so a judicial signature block can be split across a page break. This tranche hit it on ga-seal-m.",
+      "impactOnThisTranche": "One material visual defect, repaired by shortening the order signature block to three lines and asserted against per page by both the generator and the verifier. The repair lowers the probability rather than removing it.",
+      "recommendation": "Add a keep-together primitive to src/lib/rcap/packets/engines/pdf-layout.ts and use it for signature blocks. Outside this job's owned paths, so recorded rather than changed.",
+      "ownedByThisJob": false
+    },
+    {
+      "id": "certificate-block-is-a-trap-for-a-standalone-certificate",
+      "finding": "The renderer's certificateOfService block prints its own heading and its own signature line. Used on a document that is itself a certificate of service, it produces a duplicate heading and two competing signature areas. Mississippi hit the heading half of this in Tranche 1; Georgia hit both halves.",
+      "impactOnThisTranche": "Repaired in the Georgia templates by writing the certificate's body as sections. The shared renderer was not changed.",
+      "recommendation": "Either document the block as append-only, or have it suppress its heading when the document's own title already is CERTIFICATE OF SERVICE.",
+      "ownedByThisJob": false
+    },
+    {
+      "id": "no-shared-registration-point-for-a-jurisdiction-pack",
+      "finding": "A per-jurisdiction pack cannot be exercised through the real resolver and renderer without being present in the shared registry and template map, and a worker may not edit either. Both the Georgia generator and the Georgia verifier therefore register the pack into the in-process maps for the duration of their run, guarded on the technical-fixture flag.",
+      "impactOnThisTranche": "None on the output: the packets are produced by the real resolver, renderer and assembler, and nothing on disk changes. It does mean the same eight lines appear in two scripts.",
+      "recommendation": "Consider a first-class review-time registration hook so a jurisdiction pack can be exercised without either editing a shared registry or duplicating registration in every script.",
+      "ownedByThisJob": false
+    }
+  ],
+
+  "note": "This recommendation is an engineering work product. It is not counsel's sign-off, it does not constitute legal review, and it moves nothing. All nine implemented Georgia tracks remain runtime_disabled, ga-jail-k2 remains a typed stop, no jurisdiction is enabled, and packet readiness remains 0."
+}

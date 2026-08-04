@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "jobId": "STG-01-staging-promotion-partner-priority",
+  "wave": 6,
+  "lane": "release",
+  "model": "claude-opus-5",
+  "effort": "xhigh",
+  "title": "Promote the partner-priority jurisdictions to staging",
+  "jurisdictions": [
+    "MS",
+    "GA",
+    "MD",
+    "CA",
+    "DC",
+    "IL"
+  ],
+  "tracks": [],
+  "trackCount": null,
+  "dependencies": [
+    "F-05-staging-environment-definition",
+    "F-03-track-promotion-contract",
+    "ADOPT-01-custom-pleading-family-adoption",
+    "ADOPT-02-official-acroform-family-adoption"
+  ],
+  "routeScopedAdoptionCompilation": {
+    "status": "required_before_current_adopted_scopes_can_stage",
+    "contractOwner": "F-03-track-promotion-contract",
+    "reason": "The current compiled staging children are jurisdiction-wide. F-03 must make staging batches consume exact adopted route IDs and hashes so a completed subset never inherits or waits on an unimplemented route.",
+    "currentScopes": {
+      "MS": ["ms-fel", "ms-misd-1st", "ms-misd-addl", "ms-nonconv", "ms-nonadj"],
+      "MD": ["md_second_chance_shielding"],
+      "GA": ["ga-felony-j1", "ga-vacated-j2", "ga-deaddocket-j3", "ga-misd-j4", "ga-fugitive-j5", "ga-pardon-j7", "ga-seal-m", "ga-fo-active-pre2026", "ga-fo-discharged-pre2026"]
+    },
+    "excludedRoutes": ["ga-jail-k2"]
+  },
+  "ownedPaths": [
+    "docs/rcap-promotion/staging-batches/*.json"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**"
+  ],
+  "outputs": [
+    "a staging promotion batch per jurisdiction",
+    "a real HTTP packet download proven against the staging deployment"
+  ],
+  "gates": [
+    "npm run rcap:verify-staging-promotion",
+    "npm run rcap:verify-packet-delivery-proof-required against staging",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "feat(record-clearing): promote partner-priority jurisdictions to staging",
+  "completionCondition": "Each named jurisdiction serves a real assembled packet PDF over HTTP from staging, containing its own form identity and no other jurisdiction's.",
+  "blockerResolved": "Staging does not exist in the repository today; F-05 creates it and this job is its first use.",
+  "commercialPriority": 95,
+  "reuseScore": 40
+}

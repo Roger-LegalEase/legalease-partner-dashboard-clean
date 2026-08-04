@@ -35,6 +35,15 @@
       "reviewedUnder": "PR #87 — platform packet-delivery lane",
       "reason": "New route. Generates a packet for one relief track behind an authenticated actor, enforces resolution, readiness and geography before anything is rendered, and reports ready only once every component is stored. Technical fixtures are reachable only when the environment explicitly enables them outside production. It modifies nothing that exists on main.",
       "securityEffect": "neutral_new_surface_fails_closed"
+    },
+    {
+      "path": "src/app/api/rcap/packets/[fulfillmentId]/packet/route.ts",
+      "changeKind": "added",
+      "blobSha256": "c0ecf6d73e661300e3f44a0d92515f6af4908c69",
+      "introducedBy": ["feat/record-clearing-tranche-2-maryland"],
+      "reviewedUnder": "Implementation Tranche 2 — Maryland official-form packet",
+      "reason": "New route, and the sibling of the already-acknowledged component route beside it. It serves the participant's whole packet as one assembled PDF, which is the tranche's deliverable. It requires an authenticated actor, refuses a fulfillment the actor does not own with the same 404 a missing packet returns so the status cannot enumerate identifiers, reads only durably stored bytes and never renders on demand, refuses rather than serving a partially assembled packet, sanitizes the download filename, and sets no-store. It modifies nothing that exists on main.",
+      "securityEffect": "neutral_new_surface_fails_closed"
     }
   ]
 }

@@ -21,6 +21,7 @@ const NEVER_WORKER_OWNED_PATHS = [
   "data/record-clearing/master-library/repository-asset-audit.json",
   "data/record-clearing/master-library/source-acquisition-queue.json",
   "data/record-clearing/master-library/track-source-audit.json",
+  "data/record-clearing/production-factory/review-manifests",
   "src/lib/rcap/jurisdictions/packet-capability.ts",
   "src/lib/rcap/state-promotion-manifest.ts"
 ];
@@ -58,6 +59,9 @@ export function buildScaffoldPlan({ rootDir, job, authorityVersion, model = job?
     branch,
     worktreePath,
     workspacePath,
+    worktreeKind: "complete_git_worktree",
+    worktreeDisposable: false,
+    retainUntilIntegration: true,
     artifacts: {
       jobManifest: `${workspacePath}/job.json`,
       workerPrompt: `${workspacePath}/worker-prompt.md`,
@@ -75,6 +79,9 @@ export function buildScaffoldPlan({ rootDir, job, authorityVersion, model = job?
     ],
     safety: {
       explicitApplyRequired: true,
+      completeGitWorktree: true,
+      disposableOutput: false,
+      retainUntilIntegration: true,
       generatedArtifactsIgnored: true,
       globalRegistryRegeneration: false,
       staging: false,
@@ -176,6 +183,16 @@ export function assertScaffoldableJob(job) {
   if (typeof job.jobId !== "string" || job.jobId.trim() === "") {
     throw new Error("Factory job is missing jobId.");
   }
+  if (job.executionScope !== "worker") {
+    throw new Error(
+      `${job.jobId}: only worker-scoped jobs can be scaffolded (found ${
+        job.executionScope ?? "missing"
+      }).`
+    );
+  }
+  if (job.status !== "ready") {
+    throw new Error(`${job.jobId}: only ready jobs can be scaffolded (found ${job.status}).`);
+  }
   if (typeof job.baseCommit !== "string" || !/^[0-9a-f]{7,40}$/i.test(job.baseCommit)) {
     throw new Error(`${job.jobId}: baseCommit must be a 7-40 character Git SHA.`);
   }
@@ -225,6 +242,9 @@ function scaffoldManifestFor(plan) {
     workerBaseCommit: plan.workerBaseCommit,
     branch: plan.branch,
     worktreePath: plan.worktreePath,
+    worktreeKind: plan.worktreeKind,
+    worktreeDisposable: plan.worktreeDisposable,
+    retainUntilIntegration: plan.retainUntilIntegration,
     jobManifest: plan.artifacts.jobManifest,
     workerPrompt: plan.artifacts.workerPrompt,
     safety: plan.safety
@@ -232,6 +252,11 @@ function scaffoldManifestFor(plan) {
 }
 
 function worktreeMarkerFor(plan, job, actualStartCommit) {
+  const assignedJob = orderedJobManifest(job, plan.model);
+  const assignmentManifestRelativePath = path.posix.relative(
+    plan.worktreePath,
+    plan.artifacts.jobManifest
+  );
   return {
     schemaVersion: 1,
     jobId: plan.jobId,
@@ -242,9 +267,20 @@ function worktreeMarkerFor(plan, job, actualStartCommit) {
     workerBaseCommit: actualStartCommit,
     branch: plan.branch,
     markerPath: WORKTREE_JOB_MARKER,
+    worktreeKind: plan.worktreeKind,
+    worktreeDisposable: plan.worktreeDisposable,
+    retainUntilIntegration: plan.retainUntilIntegration,
     ownedPaths: job.ownedPaths,
     forbiddenPaths: job.forbiddenPaths,
-    focusedValidation: job.focusedValidation
+    focusedValidation: job.focusedValidation,
+    assignedJob,
+    assignedJobSha256: createHash("sha256")
+      .update(stableStringify(assignedJob, 0))
+      .digest("hex"),
+    assignmentManifestRelativePath,
+    assignmentManifestSha256: createHash("sha256")
+      .update(`${JSON.stringify(assignedJob, null, 2)}\n`)
+      .digest("hex")
   };
 }
 

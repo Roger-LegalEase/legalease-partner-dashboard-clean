@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "jobId": "STG-02-staging-promotion-remainder",
+  "wave": 6,
+  "lane": "release",
+  "model": "claude-opus-5",
+  "effort": "xhigh",
+  "title": "Promote the remaining adopted jurisdictions to staging",
+  "jurisdictions": [
+    "ALL_REMAINING"
+  ],
+  "tracks": [],
+  "trackCount": null,
+  "dependencies": [
+    "STG-01-staging-promotion-partner-priority",
+    "ADOPT-03-overlay-family-adoption",
+    "ADOPT-04-guidance-family-adoption",
+    "ADOPT-05-composed-family-adoption"
+  ],
+  "ownedPaths": [
+    "docs/rcap-promotion/staging-batches/*.json"
+  ],
+  "forbiddenPaths": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-guidance-rereview-queue.json",
+    "data/record-clearing/master-library/reconciliation.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/pending-edition-amendments.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+    "src/lib/rcap/state-promotion-manifest.ts",
+    "src/lib/rcap/state-promotion-rules.ts",
+    "docs/rcap-promotion/all51-final-review-signoff.json",
+    "/workspaces/legalease-attorney-review-packages/**"
+  ],
+  "outputs": [
+    "staging promotion for every jurisdiction with an adopted family"
+  ],
+  "gates": [
+    "npm run rcap:verify-staging-promotion",
+    "npm run typecheck",
+    "npm run rcap:verify-legal-design-intake",
+    "npm run rcap:verify-master-library-authority",
+    "npm run rcap:verify-state-promotion",
+    "npm run rcap:verify-state-promotion-routes",
+    "git diff --check",
+    "git ls-files private/ returns zero",
+    "packet_ready remains 0 and enabled jurisdictions remain 0"
+  ],
+  "commitSubject": "feat(record-clearing): promote the remaining jurisdictions to staging",
+  "completionCondition": "Every jurisdiction with at least one adopted track is proven in staging.",
+  "blockerResolved": "A jurisdiction cannot reach production without a staging proof once the staging contract exists.",
+  "commercialPriority": 80,
+  "reuseScore": 60
+}

@@ -1,0 +1,510 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-al-in-repo-identity-reconciliation-cr-65",
+  "parentJobId": "AUTH-03-acquisition-campaign-tier-1",
+  "jurisdiction": "AL",
+  "lane": "source_acquisition",
+  "strategyFamily": "in_repo_identity_reconciliation",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "82ff33b917b93537f86f196fabaf9403cdd85afa",
+  "generatedOn": "2026-08-04",
+  "acquisitionIds": [
+    "acquire:AL:cr-65"
+  ],
+  "downloadedSourceCount": 0,
+  "generatedFrom": [
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/master-library/authority.json"
+  ],
+  "executionNote": "The production plan routes this job to model 'codex'. It was executed by Opus 5 at the operator's explicit direction. The manifest's model assignment is recorded unchanged; only the executing model differs, and the output is subject to the identical focused validation.",
+  "method": {
+    "description": "Deterministic in-repository identity reconciliation for a single shared official form. Alabama AOC form CR-65 is already held in the repository inventory at the revision the acquisition intelligence confirmed current, so the acquisition is satisfied by the retained bytes and no download is required. The one retained artifact is bound to all 17 packet components across all 8 Alabama tracks that consume it.",
+    "matchBasis": "sha256_identity_corroborated_by_size_pagecount_and_fieldcount",
+    "corroboration": [
+      "SHA-256 c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39 recorded identically as both inventorySha256 and measuredSha256, hashState=match.",
+      "sizeBytes 468056 equals the byte length the acquisition intelligence recorded for the retrieved binary.",
+      "pageCount 8, technicalClass clean_acroform, fieldCount 108, encrypted false, xfa false — all equal to the intelligence's expectedFormat 'PDF / AcroForm, 8 pages, 108 fields'.",
+      "The acquisition intelligence states the retrieved binary is byte-identical to the held copy and records binaryAvailability=held_and_confirmed_current."
+    ],
+    "byteVerification": "Not re-measured in this worktree. The source-artifact-registry is tracked metadata generated from data/rcap-all50/nationwide-source-inventory.json; the underlying binary lives in the private corpus (private/Nationwide Record Clearing/LegalEase Alabama/), which is not mounted here. The recorded hash and measurements are carried forward as evidence rather than re-verified.",
+    "downloadsPerformed": 0,
+    "issuerContactsMade": 0,
+    "legalDesignAltered": false
+  },
+  "totals": {
+    "assignedAcquisitions": 1,
+    "reconciled": 1,
+    "unresolved": 0,
+    "retainedArtifactsUsed": 1,
+    "tracksBound": 8,
+    "componentsBound": 17,
+    "alabamaQueueRowsReviewed": 18,
+    "alabamaQueueRowsSuperseded": 17,
+    "relationshipRowsResolvable": 17,
+    "redundantDownloadsEliminated": 1
+  },
+  "reconciliations": [
+    {
+      "acquisitionId": "acquire:AL:cr-65",
+      "documentId": "CR-65",
+      "officialTitle": "Petition for Expungement of Records (Section 15-27-1 et seq., Ala. Code 1975)",
+      "documentRole": "certificate_of_service | continuation | primary_filing",
+      "issuingBody": "State of Alabama Unified Judicial System",
+      "issuingOffice": "Alabama Administrative Office of Courts (AOC)",
+      "currentRevision": "REV-2024-10",
+      "revisionEvidence": "Printed on the form face page 1 as Form CR-65 Rev. 10/2024; the AOC criminal-forms index lists 10/1/2024 as current. Retrieved binary is 8 pages, AcroForm, unencrypted, 468,056 bytes, SHA-256 c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39 — byte-identical to the held copy.",
+      "officialIndexUrl": "https://eforms.alacourt.gov/criminal-forms/",
+      "directOfficialUrl": "https://eforms.alacourt.gov/media/aojnchjg/cr-65-expunge-petition-10-2024.pdf",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "binaryAvailability": "held_and_confirmed_current",
+      "disposition": "retained_asset_identity_reconciled",
+      "redundantDownloadAvoided": true,
+      "retainedArtifact": {
+        "artifactId": "cr-65-expunge-petition-10-2024",
+        "fileName": "cr-65-expunge-petition-10-2024.pdf",
+        "sourcePath": "private/Nationwide Record Clearing/LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+        "recordedSha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+        "inventorySha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+        "hashState": "match",
+        "presence": "present",
+        "sizeBytes": 468056,
+        "pageCount": 8,
+        "fieldCount": 108,
+        "technicalClass": "clean_acroform",
+        "encrypted": false,
+        "xfa": false
+      },
+      "sharedFormBinding": {
+        "note": "CR-65 is one official form consumed by many components. This is a one-to-many binding, not seventeen separate acquisitions.",
+        "trackCount": 8,
+        "componentCount": 17,
+        "trackIds": [
+          "al-diversion",
+          "al-felony-dwop",
+          "al-felony-nonconviction-90",
+          "al-misd-conviction",
+          "al-misd-dwop",
+          "al-misd-nonconviction-90",
+          "al-pardoned-felony",
+          "al-trafficking"
+        ],
+        "componentIds": [
+          "al-diversion-certificate-of-service-2",
+          "al-diversion-primary-filing-1",
+          "al-felony-dwop-certificate-of-service-2",
+          "al-felony-dwop-primary-filing-1",
+          "al-felony-nonconviction-90-certificate-of-service-2",
+          "al-felony-nonconviction-90-primary-filing-1",
+          "al-misd-conviction-certificate-of-service-2",
+          "al-misd-conviction-primary-filing-1",
+          "al-misd-dwop-certificate-of-service-2",
+          "al-misd-dwop-primary-filing-1",
+          "al-misd-nonconviction-90-certificate-of-service-2",
+          "al-misd-nonconviction-90-continuation-4",
+          "al-misd-nonconviction-90-primary-filing-1",
+          "al-pardoned-felony-certificate-of-service-2",
+          "al-pardoned-felony-primary-filing-1",
+          "al-trafficking-certificate-of-service-2",
+          "al-trafficking-primary-filing-1"
+        ],
+        "bindings": [
+          {
+            "trackId": "al-diversion",
+            "componentCount": 2,
+            "components": [
+              {
+                "componentId": "al-diversion-certificate-of-service-2",
+                "priorOfficialFormId": "CR-65",
+                "priorSha256": null,
+                "priorCorpusState": "unchecked",
+                "priorRepositoryStatus": "no_repository_binary",
+                "priorEdition12Disposition": "identity_established_binary_unavailable",
+                "resolvedToArtifactId": "cr-65-expunge-petition-10-2024",
+                "resolvedSha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+              },
+              {
+                "componentId": "al-diversion-primary-filing-1",
+                "priorOfficialFormId": "CR-65",
+                "priorSha256": null,
+                "priorCorpusState": "unchecked",
+                "priorRepositoryStatus": "no_repository_binary",
+                "priorEdition12Disposition": "identity_established_binary_unavailable",
+                "resolvedToArtifactId": "cr-65-expunge-petition-10-2024",
+                "resolvedSha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+              }
+            ]
+          },
+          {
+            "trackId": "al-felony-dwop",
+            "componentCount": 2,
+            "components": [
+              {
+                "componentId": "al-felony-dwop-certificate-of-service-2",
+                "priorOfficialFormId": "CR-65",
+                "priorSha256": null,
+                "priorCorpusState": "unchecked",
+                "priorRepositoryStatus": "no_repository_binary",
+                "priorEdition12Disposition": "identity_established_binary_unavailable",
+                "resolvedToArtifactId": "cr-65-expunge-petition-10-2024",
+                "resolvedSha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+              },
+              {
+                "componentId": "al-felony-dwop-primary-filing-1",
+                "priorOfficialFormId": "CR-65",
+                "priorSha256": null,
+                "priorCorpusState": "unchecked",
+                "priorRepositoryStatus": "no_repository_binary",
+                "priorEdition12Disposition": "identity_established_binary_unavailable",
+                "resolvedToArtifactId": "cr-65-expunge-petition-10-2024",
+                "resolvedSha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+              }
+            ]
+          },
+          {
+            "trackId": "al-felony-nonconviction-90",
+            "componentCount": 2,
+            "components": [
+              {
+                "componentId": "al-felony-nonconviction-90-certificate-of-service-2",
+                "priorOfficialFormId": "CR-65",
+                "priorSha256": null,
+                "priorCorpusState": "unchecked",
+                "priorRepositoryStatus": "no_repository_binary",
+                "priorEdition12Disposition": "identity_established_binary_unavailable",
+                "resolvedToArtifactId": "cr-65-expunge-petition-10-2024",
+                "resolvedSha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+              },
+              {
+                "componentId": "al-felony-nonconviction-90-primary-filing-1",
+                "priorOfficialFormId": "CR-65",
+                "priorSha256": null,
+                "priorCorpusState": "unchecked",
+                "priorRepositoryStatus": "no_repository_binary",
+                "priorEdition12Disposition": "identity_established_binary_unavailable",
+                "resolvedToArtifactId": "cr-65-expunge-petition-10-2024",
+                "resolvedSha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+              }
+            ]
+          },
+          {
+            "trackId": "al-misd-conviction",
+            "componentCount": 2,
+            "components": [
+              {
+                "componentId": "al-misd-conviction-certificate-of-service-2",
+                "priorOfficialFormId": "CR-65",
+                "priorSha256": null,
+                "priorCorpusState": "unchecked",
+                "priorRepositoryStatus": "no_repository_binary",
+                "priorEdition12Disposition": "identity_established_binary_unavailable",
+                "resolvedToArtifactId": "cr-65-expunge-petition-10-2024",
+                "resolvedSha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+              },
+              {
+                "componentId": "al-misd-conviction-primary-filing-1",
+                "priorOfficialFormId": "CR-65",
+                "priorSha256": null,
+                "priorCorpusState": "unchecked",
+                "priorRepositoryStatus": "no_repository_binary",
+                "priorEdition12Disposition": "identity_established_binary_unavailable",
+                "resolvedToArtifactId": "cr-65-expunge-petition-10-2024",
+                "resolvedSha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+              }
+            ]
+          },
+          {
+            "trackId": "al-misd-dwop",
+            "componentCount": 2,
+            "components": [
+              {
+                "componentId": "al-misd-dwop-certificate-of-service-2",
+                "priorOfficialFormId": "CR-65",
+                "priorSha256": null,
+                "priorCorpusState": "unchecked",
+                "priorRepositoryStatus": "no_repository_binary",
+                "priorEdition12Disposition": "identity_established_binary_unavailable",
+                "resolvedToArtifactId": "cr-65-expunge-petition-10-2024",
+                "resolvedSha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+              },
+              {
+                "componentId": "al-misd-dwop-primary-filing-1",
+                "priorOfficialFormId": "CR-65",
+                "priorSha256": null,
+                "priorCorpusState": "unchecked",
+                "priorRepositoryStatus": "no_repository_binary",
+                "priorEdition12Disposition": "identity_established_binary_unavailable",
+                "resolvedToArtifactId": "cr-65-expunge-petition-10-2024",
+                "resolvedSha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+              }
+            ]
+          },
+          {
+            "trackId": "al-misd-nonconviction-90",
+            "componentCount": 3,
+            "components": [
+              {
+                "componentId": "al-misd-nonconviction-90-certificate-of-service-2",
+                "priorOfficialFormId": "CR-65",
+                "priorSha256": null,
+                "priorCorpusState": "unchecked",
+                "priorRepositoryStatus": "no_repository_binary",
+                "priorEdition12Disposition": "identity_established_binary_unavailable",
+                "resolvedToArtifactId": "cr-65-expunge-petition-10-2024",
+                "resolvedSha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+              },
+              {
+                "componentId": "al-misd-nonconviction-90-continuation-4",
+                "priorOfficialFormId": "CR-65",
+                "priorSha256": null,
+                "priorCorpusState": "unchecked",
+                "priorRepositoryStatus": "no_repository_binary",
+                "priorEdition12Disposition": "identity_established_binary_unavailable",
+                "resolvedToArtifactId": "cr-65-expunge-petition-10-2024",
+                "resolvedSha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+              },
+              {
+                "componentId": "al-misd-nonconviction-90-primary-filing-1",
+                "priorOfficialFormId": "CR-65",
+                "priorSha256": null,
+                "priorCorpusState": "unchecked",
+                "priorRepositoryStatus": "no_repository_binary",
+                "priorEdition12Disposition": "identity_established_binary_unavailable",
+                "resolvedToArtifactId": "cr-65-expunge-petition-10-2024",
+                "resolvedSha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+              }
+            ]
+          },
+          {
+            "trackId": "al-pardoned-felony",
+            "componentCount": 2,
+            "components": [
+              {
+                "componentId": "al-pardoned-felony-certificate-of-service-2",
+                "priorOfficialFormId": "CR-65",
+                "priorSha256": null,
+                "priorCorpusState": "unchecked",
+                "priorRepositoryStatus": "no_repository_binary",
+                "priorEdition12Disposition": "identity_established_binary_unavailable",
+                "resolvedToArtifactId": "cr-65-expunge-petition-10-2024",
+                "resolvedSha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+              },
+              {
+                "componentId": "al-pardoned-felony-primary-filing-1",
+                "priorOfficialFormId": "CR-65",
+                "priorSha256": null,
+                "priorCorpusState": "unchecked",
+                "priorRepositoryStatus": "no_repository_binary",
+                "priorEdition12Disposition": "identity_established_binary_unavailable",
+                "resolvedToArtifactId": "cr-65-expunge-petition-10-2024",
+                "resolvedSha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+              }
+            ]
+          },
+          {
+            "trackId": "al-trafficking",
+            "componentCount": 2,
+            "components": [
+              {
+                "componentId": "al-trafficking-certificate-of-service-2",
+                "priorOfficialFormId": "CR-65",
+                "priorSha256": null,
+                "priorCorpusState": "unchecked",
+                "priorRepositoryStatus": "no_repository_binary",
+                "priorEdition12Disposition": "identity_established_binary_unavailable",
+                "resolvedToArtifactId": "cr-65-expunge-petition-10-2024",
+                "resolvedSha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+              },
+              {
+                "componentId": "al-trafficking-primary-filing-1",
+                "priorOfficialFormId": "CR-65",
+                "priorSha256": null,
+                "priorCorpusState": "unchecked",
+                "priorRepositoryStatus": "no_repository_binary",
+                "priorEdition12Disposition": "identity_established_binary_unavailable",
+                "resolvedToArtifactId": "cr-65-expunge-petition-10-2024",
+                "resolvedSha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39"
+              }
+            ]
+          }
+        ]
+      },
+      "supersedesQueueRows": [
+        {
+          "trackId": "al-misd-nonconviction-90",
+          "componentId": "al-misd-nonconviction-90-primary-filing-1",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        },
+        {
+          "trackId": "al-misd-nonconviction-90",
+          "componentId": "al-misd-nonconviction-90-certificate-of-service-2",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        },
+        {
+          "trackId": "al-misd-nonconviction-90",
+          "componentId": "al-misd-nonconviction-90-continuation-4",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        },
+        {
+          "trackId": "al-felony-nonconviction-90",
+          "componentId": "al-felony-nonconviction-90-primary-filing-1",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        },
+        {
+          "trackId": "al-felony-nonconviction-90",
+          "componentId": "al-felony-nonconviction-90-certificate-of-service-2",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        },
+        {
+          "trackId": "al-misd-dwop",
+          "componentId": "al-misd-dwop-primary-filing-1",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        },
+        {
+          "trackId": "al-misd-dwop",
+          "componentId": "al-misd-dwop-certificate-of-service-2",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        },
+        {
+          "trackId": "al-felony-dwop",
+          "componentId": "al-felony-dwop-primary-filing-1",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        },
+        {
+          "trackId": "al-felony-dwop",
+          "componentId": "al-felony-dwop-certificate-of-service-2",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        },
+        {
+          "trackId": "al-diversion",
+          "componentId": "al-diversion-primary-filing-1",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        },
+        {
+          "trackId": "al-diversion",
+          "componentId": "al-diversion-certificate-of-service-2",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        },
+        {
+          "trackId": "al-misd-conviction",
+          "componentId": "al-misd-conviction-primary-filing-1",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        },
+        {
+          "trackId": "al-misd-conviction",
+          "componentId": "al-misd-conviction-certificate-of-service-2",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        },
+        {
+          "trackId": "al-pardoned-felony",
+          "componentId": "al-pardoned-felony-primary-filing-1",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        },
+        {
+          "trackId": "al-pardoned-felony",
+          "componentId": "al-pardoned-felony-certificate-of-service-2",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        },
+        {
+          "trackId": "al-trafficking",
+          "componentId": "al-trafficking-primary-filing-1",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        },
+        {
+          "trackId": "al-trafficking",
+          "componentId": "al-trafficking-certificate-of-service-2",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        }
+      ]
+    }
+  ],
+  "unresolvedIdentities": [],
+  "outOfScope": {
+    "note": "The other Alabama acquisition is not assigned to this job and was not reconciled here.",
+    "acquisitionIds": [
+      "acquire:AL:abpp-3"
+    ],
+    "queueRowsUntouched": 1
+  },
+  "retainedAlabamaAssetsNotMappedToThisAcquisition": [
+    {
+      "artifactId": "al-expungement-petition",
+      "fileName": "al-expungement-petition.html",
+      "technicalClass": "no_pdf_required",
+      "note": "Present in the repository inventory but outside the single acquisition assigned to this job."
+    },
+    {
+      "artifactId": "alabama-expungement-agent-reference",
+      "fileName": "Alabama-Expungement-Agent-Reference.pdf",
+      "technicalClass": "flat_pdf",
+      "note": "Present in the repository inventory but outside the single acquisition assigned to this job."
+    },
+    {
+      "artifactId": "cr-65a-order-on-petition-for-expungement-10-2024",
+      "fileName": "cr-65a-order-on-petition-for-expungement-10-2024.pdf",
+      "technicalClass": "clean_acroform",
+      "note": "Present in the repository inventory but outside the single acquisition assigned to this job."
+    },
+    {
+      "artifactId": "criminal-forms",
+      "fileName": "criminal-forms.html",
+      "technicalClass": "no_pdf_required",
+      "note": "Present in the repository inventory but outside the single acquisition assigned to this job."
+    },
+    {
+      "artifactId": "criminal-record-expungement",
+      "fileName": "criminal-record-expungement.html",
+      "technicalClass": "no_pdf_required",
+      "note": "Present in the repository inventory but outside the single acquisition assigned to this job."
+    },
+    {
+      "artifactId": "c-10-criminal-affidavit-of-substantial-hardship-and-order-rev-2024-05",
+      "fileName": "C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__rev-2024-05.pdf",
+      "technicalClass": "clean_acroform",
+      "note": "Present in the repository inventory but outside the single acquisition assigned to this job."
+    },
+    {
+      "artifactId": "c-94a-petition-for-order-of-limited-relief-rev-2023-10",
+      "fileName": "C-94A__petition-for-order-of-limited-relief__rev-2023-10.pdf",
+      "technicalClass": "clean_acroform",
+      "note": "Present in the repository inventory but outside the single acquisition assigned to this job."
+    },
+    {
+      "artifactId": "sbi-form-46-application-to-review-alabama-criminal-history-record-information-rev-2017-10-",
+      "fileName": "SBI-Form-46__application-to-review-alabama-criminal-history-record-information__rev-2017-10-01.pdf",
+      "technicalClass": "clean_acroform",
+      "note": "Present in the repository inventory but outside the single acquisition assigned to this job."
+    }
+  ],
+  "statusAssertions": {
+    "counselAdopted": false,
+    "legalOutputApproved": false,
+    "packetReady": false,
+    "generationAllowed": false,
+    "runtimeStatus": "runtime_disabled",
+    "jurisdictionStatus": "not_enabled",
+    "productionStatus": "not_production_promoted",
+    "globalRegistriesRegenerated": false,
+    "legalDesignAltered": false,
+    "masterLibraryEditionEdited": false
+  }
+}
