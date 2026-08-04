@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "rcap-official-pdf-materialization-dependencies/v1",
+  "familyId": "pa-rules-490-790-791",
+  "jurisdiction": "PA",
+  "workerReady": false,
+  "dependencies": [
+    {
+      "dependencyId": "pa-legal-design-normalization",
+      "kind": "read_only_design_provenance",
+      "state": "available_as_git_object",
+      "commit": "387656ac31a49f7338bd9d1e3e170df929659d98",
+      "path": "data/record-clearing/legal-design-intake/PA.memo.json",
+      "sha256": "3291a5ce3e083f7988b85f17735b50238ee5b873c82337349fb456c2966bf055",
+      "mayBeModifiedByThisFamily": false,
+      "notes": "The root integrator owns publication of this normalization commit. Family verification may read the committed object before it is integrated into the working tree."
+    },
+    {
+      "dependencyId": "rcap-nationwide-source-materialization-contract",
+      "kind": "source_materialization_contract",
+      "state": "required",
+      "allExactSourcesRequired": true,
+      "workerMayAcquireSources": false,
+      "registryPresenceConfersReadiness": false
+    },
+    {
+      "dependencyId": "pa-rule-790-petition-retained-source",
+      "kind": "exact_local_source",
+      "state": "verified_available",
+      "documentId": "PA-RCRIM-P-790-PETITION",
+      "path": "reference/pennsylvania/222612-petitionforexpungement790030912-000077.pdf",
+      "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+      "bytes": 87647,
+      "mediaType": "application/pdf",
+      "treatment": "read_only_use_in_place_no_copy"
+    },
+    {
+      "dependencyId": "pa-five-unavailable-rule-family-sources",
+      "kind": "exact_local_sources",
+      "state": "unresolved",
+      "documentIds": [
+        "PA-RCRIM-P-490-PETITION",
+        "PA-RCRIM-P-490-ORDER",
+        "PA-RCRIM-P-790-ORDER",
+        "PA-RCRIM-P-791-PETITION",
+        "PA-RCRIM-P-791-ORDER"
+      ],
+      "resolution": "Materialize only exact bytes at their declared destinations through the source-materialization owner, then rerun the dedicated verifier.",
+      "downloadOrImprovisationAllowed": false
+    },
+    {
+      "dependencyId": "pa-cross-family-packet-components",
+      "kind": "packet_assembly_dependencies",
+      "state": "outside_this_family",
+      "componentFamilies": [
+        "certificate_of_service_custom_pleading",
+        "process_guidance",
+        "PA-IFP-CCP",
+        "PA-IFP-MDJ"
+      ],
+      "notes": "These legal-design components are declared in packet assembly but are not implemented or altered by the Rule 490/790/791 official-PDF family."
+    }
+  ],
+  "failurePolicy": {
+    "missingSource": "source_missing",
+    "hashMismatch": "source_hash_mismatch",
+    "sizeMismatch": "source_size_mismatch",
+    "mediaTypeMismatch": "source_media_type_mismatch",
+    "structureMismatch": "source_structure_mismatch",
+    "incompletePacket": "packet_source_incomplete",
+    "fallbackAllowed": false
+  }
+}
