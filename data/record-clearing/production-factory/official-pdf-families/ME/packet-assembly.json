@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "rcap-official-pdf-packet-assembly/v1",
+  "familyId": "rcap-me-official-pdf-family",
+  "jurisdiction": "ME",
+  "assemblyPolicy": {
+    "participantDeliverable": "one_pdf",
+    "zipAllowed": false,
+    "deterministic": true,
+    "deterministicTimestamp": "2000-01-01T00:00:00.000Z",
+    "producer": "LegalEase",
+    "preserveOfficialFixedLanguage": true,
+    "sourceLookupMode": "captain_projection_exact_identity_only",
+    "downloadOrSourceFallbackAllowed": false,
+    "duplicatePhysicalDocumentAllowed": false,
+    "signatureImagesGenerated": false
+  },
+  "packets": [
+    {
+      "trackId": "me-seal-gen",
+      "outputFileName": "me-seal-gen-participant-packet.pdf",
+      "assembledParticipantPdf": true,
+      "deterministic": true,
+      "packetReady": false,
+      "documents": [
+        {
+          "componentDocumentId": "CR-218",
+          "order": 1,
+          "rendererLaneCandidate": "nonrenderable_source_policy_required",
+          "renderState": "blocked",
+          "renderOnce": true,
+          "componentIds": [
+            "me-seal-gen-primary-filing-1"
+          ],
+          "roles": [
+            "primary_filing"
+          ],
+          "requirements": [
+            "required"
+          ],
+          "conditionDescriptions": []
+        }
+      ]
+    },
+    {
+      "trackId": "me-seal-prost",
+      "outputFileName": "me-seal-prost-participant-packet.pdf",
+      "assembledParticipantPdf": true,
+      "deterministic": true,
+      "packetReady": false,
+      "documents": [
+        {
+          "componentDocumentId": "CR-289",
+          "order": 1,
+          "rendererLaneCandidate": "acroform_or_hybrid_candidate",
+          "renderState": "blocked",
+          "renderOnce": true,
+          "componentIds": [
+            "me-seal-prost-primary-filing-1"
+          ],
+          "roles": [
+            "primary_filing"
+          ],
+          "requirements": [
+            "required"
+          ],
+          "conditionDescriptions": []
+        }
+      ]
+    },
+    {
+      "trackId": "me-seal-survivor",
+      "outputFileName": "me-seal-survivor-participant-packet.pdf",
+      "assembledParticipantPdf": true,
+      "deterministic": true,
+      "packetReady": false,
+      "documents": [
+        {
+          "componentDocumentId": "CR-307",
+          "order": 1,
+          "rendererLaneCandidate": "nonrenderable_source_policy_required",
+          "renderState": "blocked",
+          "renderOnce": true,
+          "componentIds": [
+            "me-seal-survivor-primary-filing-1"
+          ],
+          "roles": [
+            "primary_filing"
+          ],
+          "requirements": [
+            "required"
+          ],
+          "conditionDescriptions": []
+        },
+        {
+          "componentDocumentId": "CR-308",
+          "order": 2,
+          "rendererLaneCandidate": "nonrenderable_source_policy_required",
+          "renderState": "blocked",
+          "renderOnce": true,
+          "componentIds": [
+            "me-seal-survivor-proposed-order-2"
+          ],
+          "roles": [
+            "proposed_order"
+          ],
+          "requirements": [
+            "required"
+          ],
+          "conditionDescriptions": []
+        }
+      ]
+    }
+  ]
+}
