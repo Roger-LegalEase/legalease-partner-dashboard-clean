@@ -1,0 +1,153 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-co-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition",
+  "parentJobId": "AUTH-01-in-repo-authority-pinning",
+  "jurisdiction": "CO",
+  "lane": "source_acquisition",
+  "strategyFamily": "in_repo_identity_reconciliation",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "4eee199a1f0d6d381d0bcc763ee559250b26078e",
+  "generatedOn": "2026-08-04",
+  "reconciliationIds": [
+    "acquire:CO:jdf-2370"
+  ],
+  "downloadedSourceCount": 0,
+  "generatedFrom": [
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json"
+  ],
+  "method": {
+    "description": "Deterministic in-repository identity reconciliation of the Colorado conduct-no-longer-prohibited source family. The component-to-document bindings recorded in the track-source audit were compared against the asset identities the adopted Master Library Edition 1.2 actually retains, as recorded in the repository asset audit. No network retrieval, no issuer contact and no edition mutation were performed.",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "authenticationUsed": false,
+    "binariesDownloaded": 0,
+    "binaryDeposition": "No binary was retrieved, deposited or committed. This job's ownedPaths are limited to this single production-factory JSON file.",
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "byteVerificationMethod": "edition_recorded_sha256_not_remeasured",
+    "byteVerificationNote": "The SHA-256 values recorded below are the digests the adopted Edition 1.2 asset rows carry for these documents. They were NOT re-measured in this job: private/ is not tracked in version control, so all three artifacts read presence=missing and hashState=not_measurable in the working tree. The digests are reproduced here as edition-of-record identity, not as a fresh byte verification."
+  },
+  "finding": {
+    "headline": "Confirmed authority_role_mismatch, not an acquisition gap. Edition 1.2 already retains every document this track needs, including the motion. The defect is a component-to-document role binding error.",
+    "queueClaim": "The source-acquisition queue records acquire:CO:jdf-2370 with currentEditionStatus=authority_role_mismatch, repositoryStatus=inventory_row_without_binary and edition12Disposition=provenance_unresolved.",
+    "exclusionReasonConfirmed": "needs_edition_reclass_not_acquisition",
+    "exclusionReasonEvidence": "acquisition-intelligence/documents.json records acquire:CO:jdf-2370 under inventoryDerivation.excludedFromScope with exclusionReason=needs_edition_reclass_not_acquisition, and therefore outside the 109 documents whose hardest remaining dependency is external. This job confirms that exclusion from retained repository data.",
+    "acquisitionRequired": false,
+    "acquisitionRequiredRationale": "All three documents in the Colorado § 24-72-711 family are already retained by adopted Edition 1.2 at recorded byte identities. Nothing needs to be obtained from the Colorado Judicial Branch to close this row."
+  },
+  "componentBindingUnderReview": {
+    "trackId": "co_decriminalized_conduct_seal",
+    "trackLegalName": "Motion to Seal, Conduct No Longer Prohibited, C.R.S. § 24-72-711",
+    "componentId": "co_decriminalized_conduct_seal-primary-filing-1",
+    "requiredRole": "primary_filing",
+    "boundOfficialFormId": "JDF-2370",
+    "repositoryMappingStatus": "not_mapped",
+    "sha256Verified": false,
+    "mismatch": "The component requires role primary_filing. The asset Edition 1.2 retains under documentId JDF-2370 carries documentRole INSTRUCTIONS and assetClass instructions. A guide cannot satisfy a primary_filing component."
+  },
+  "retainedFamily": [
+    {
+      "documentId": "JDF-2370",
+      "workflowKey": "CO:JDF-2370:INSTRUCTIONS:EN",
+      "documentRole": "INSTRUCTIONS",
+      "assetClass": "instructions",
+      "officialTitle": "Guide to Sealing Conviction Records - Conduct No Longer Prohibited",
+      "revision": "REV-2025-07-01",
+      "sha256": "cc0b5737ef0598f9e667e50b00aecbd95f53fdb9aa2bc546f8aaa910da480149",
+      "canonicalRelativePath": "STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-2370__guide-to-sealing-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+      "workingTreePresence": "missing",
+      "hashState": "not_measurable",
+      "currentComponentBindings": [
+        "co_decriminalized_conduct_seal-primary-filing-1"
+      ],
+      "bindingAssessment": "Bound to a primary_filing component it cannot serve. This is the mismatch."
+    },
+    {
+      "documentId": "JDF-2371",
+      "workflowKey": "CO:JDF-2371:MOTION:EN",
+      "documentRole": "MOTION",
+      "assetClass": "packet_form",
+      "officialTitle": "Motion to Seal Conviction Records - Conduct No Longer Prohibited",
+      "revision": "REV-2025-07-01",
+      "sha256": "642558b85e3f3df8c15808369685bbe56398523c7794b6a949d20fd7b4f8b6d6",
+      "canonicalRelativePath": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-2371__motion-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+      "workingTreePresence": "missing",
+      "hashState": "not_measurable",
+      "currentComponentBindings": [],
+      "bindingAssessment": "Retained by the adopted edition as the MOTION for this exact statutory family, and bound to no component anywhere in the track-source relationships. This is the asset that carries the primary_filing role, and it is currently orphaned."
+    },
+    {
+      "documentId": "JDF-2374",
+      "workflowKey": "CO:JDF-2374:ORDER:EN",
+      "documentRole": "ORDER",
+      "assetClass": "packet_form",
+      "officialTitle": "Order to Seal Conviction Records - Conduct No Longer Prohibited",
+      "revision": "REV-2025-07-01",
+      "sha256": "36a7ad4767ac8333183cd26775265697d1c6574029f7f722462f09d382990a72",
+      "canonicalRelativePath": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-2374__order-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+      "workingTreePresence": "missing",
+      "hashState": "not_measurable",
+      "currentComponentBindings": [
+        "co_decriminalized_conduct_seal-proposed-order-2"
+      ],
+      "bindingAssessment": "Correctly bound. The proposed_order component maps to the ORDER asset. No correction needed."
+    }
+  ],
+  "corroboration": {
+    "legalDesignNote": "The adopted Colorado legal-design memo already records, as a note on the primary_filing component, that 'The conduct-no-longer-prohibited set is JDF 2370, 2371 and 2374.' The retained edition identities resolve which member of that set carries which role. This job reads that note as corroboration; it does not alter it.",
+    "legalDesignUnchanged": true,
+    "inventoryHashAgreement": "source-artifact-registry.json records inventorySha256 cc0b5737…0149 for artifactId jdf2370, byte-identical to the Edition 1.2 asset row for CO:JDF-2370:INSTRUCTIONS:EN. The inventory row and the edition row describe the same bytes, so the mismatch is one of role assignment only, not of document identity."
+  },
+  "redundantAcquisitionWorkRemoved": {
+    "queueRowsClosedWithoutAcquisition": 1,
+    "acquisitionKeys": [
+      "acquire:CO:jdf-2370"
+    ],
+    "downloadsAvoided": 1,
+    "rationale": "acquire:CO:jdf-2370 should not remain an open download job. The document is retained, its bytes are pinned by the adopted edition, and no issuer interaction can resolve a role binding held in this repository."
+  },
+  "resolutionRequired": {
+    "kind": "edition_reclass_or_component_remap",
+    "performedByThisJob": false,
+    "notPerformedRationale": "Rebinding co_decriminalized_conduct_seal-primary-filing-1 from JDF-2370 to JDF-2371 is a component remap. It falls under AUTH-02-component-remap-corrections and touches data/record-clearing/legal-design-track-source-relationships.json, which is a forbiddenPath for this job. This job records the finding and stops at the boundary.",
+    "handoffTo": "AUTH-02-component-remap-corrections",
+    "recommendedCorrection": "Rebind co_decriminalized_conduct_seal-primary-filing-1 to JDF-2371 (CO:JDF-2371:MOTION:EN) and retain JDF-2370 as the track's instructions asset rather than as its primary filing. Recorded as a recommendation for the owning job, not applied here."
+  },
+  "unresolved": [
+    {
+      "question": "Is REV-2025-07-01 still the Colorado Judicial Branch's current revision for JDF 2370, 2371 and 2374?",
+      "status": "unresolved",
+      "why": "The queue carries this as an explicit currentnessQuestion. This job is barred from downloading or contacting the issuer, so currentness cannot be tested here. The revision is reproduced as the edition-of-record value, not as a confirmed-current value.",
+      "doNotInfer": "The role reconciliation below does not depend on currentness and must not be read as having confirmed it."
+    },
+    {
+      "question": "What are the Colorado Judicial Branch's licensing and commercial-use terms for the JDF form family?",
+      "status": "unresolved",
+      "why": "Carried in the queue as commercialUseQuestion and untouched by this job."
+    },
+    {
+      "question": "Which offense categories qualify under C.R.S. § 24-72-711?",
+      "status": "unresolved",
+      "why": "Recorded in the track audit as an open eligibility_branch question that blocks the build. It is a legal-design question, outside this job's scope, and is neither answered nor narrowed here."
+    },
+    {
+      "question": "Do the retained bytes for all three assets still match the issuer's published files?",
+      "status": "not_testable_in_this_job",
+      "why": "private/ is untracked, so no binary is present to re-measure. Byte agreement is asserted only between the inventory row and the edition row, both of which are records rather than files."
+    }
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0
+  }
+}
