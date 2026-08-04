@@ -25,7 +25,13 @@ function resolveAliasPath(base) {
 }
 
 export async function resolve(specifier, context, next) {
-  if ((specifier === "next/headers" || specifier === "next/navigation" || specifier === "next/server") && existsSync(path.join(root, "node_modules", `${specifier}.js`))) {
+  if (specifier === "next/server") {
+    return {
+      url: new URL("./next-server-shim.mjs", import.meta.url).href,
+      shortCircuit: true
+    };
+  }
+  if ((specifier === "next/headers" || specifier === "next/navigation") && existsSync(path.join(root, "node_modules", `${specifier}.js`))) {
     return { url: pathToFileURL(path.join(root, "node_modules", `${specifier}.js`)).href, shortCircuit: true };
   }
   if (specifier.startsWith("@/")) {

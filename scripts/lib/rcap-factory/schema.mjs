@@ -3,6 +3,7 @@ import path from "node:path";
 export const FACTORY_SCHEMA_VERSION = "rcap-production-factory/v1";
 
 export const FACTORY_LANES = Object.freeze([
+  "platform_foundation",
   "legal_design_normalization",
   "source_acquisition",
   "custom_pleading",
@@ -38,6 +39,9 @@ export const ACTIVE_JOB_STATUSES = Object.freeze([
 
 export const REQUIRED_JOB_FIELDS = Object.freeze([
   "jobId",
+  "parentJobId",
+  "canonicalWave",
+  "canonicalLane",
   "lane",
   "jurisdiction",
   "trackIds",
@@ -52,14 +56,28 @@ export const REQUIRED_JOB_FIELDS = Object.freeze([
   "integrationValidation",
   "model",
   "effort",
+  "executionScope",
   "status",
   "commitSubject",
   "stopCondition"
 ]);
 
 const JOB_ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const JURISDICTION_PATTERN = /^(?:[A-Z]{2}|DC)$/;
+const JURISDICTION_PATTERN = /^(?:[A-Z]{2}|NATIONWIDE)$/;
 const COMMIT_PATTERN = /^[0-9a-f]{40}$/;
+const CANONICAL_LANES = new Set([
+  "normalization",
+  "authority",
+  "platform",
+  "implementation-pleading",
+  "implementation-acroform",
+  "implementation-overlay",
+  "implementation-composed",
+  "implementation-guidance",
+  "proof",
+  "counsel",
+  "release"
+]);
 
 /**
  * Normalize a path carried by a job manifest.
@@ -122,6 +140,22 @@ export function validateJob(job) {
   if (typeof job.jobId !== "string" || !JOB_ID_PATTERN.test(job.jobId)) {
     add("jobId must be a lowercase kebab-case identifier.");
   }
+  if (
+    typeof job.parentJobId !== "string" ||
+    !/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/.test(job.parentJobId)
+  ) {
+    add("parentJobId must be a canonical kebab-case identifier.");
+  }
+  if (
+    !Number.isInteger(job.canonicalWave) ||
+    job.canonicalWave < 0 ||
+    job.canonicalWave > 7
+  ) {
+    add("canonicalWave must be an integer from 0 through 7.");
+  }
+  if (!CANONICAL_LANES.has(job.canonicalLane)) {
+    add("canonicalLane must name one of the canonical plan's 11 lanes.");
+  }
   if (!FACTORY_LANES.includes(job.lane)) {
     add(`lane must be one of: ${FACTORY_LANES.join(", ")}.`);
   }
@@ -129,7 +163,7 @@ export function validateJob(job) {
     typeof job.jurisdiction !== "string" ||
     !JURISDICTION_PATTERN.test(job.jurisdiction)
   ) {
-    add("jurisdiction must be a two-letter uppercase code.");
+    add("jurisdiction must be a two-letter uppercase code or NATIONWIDE.");
   }
   if (typeof job.strategyFamily !== "string" || job.strategyFamily.trim().length === 0) {
     add("strategyFamily must be a non-empty string.");
@@ -142,6 +176,9 @@ export function validateJob(job) {
   }
   if (!FACTORY_EFFORTS.includes(job.effort)) {
     add(`effort must be one of: ${FACTORY_EFFORTS.join(", ")}.`);
+  }
+  if (!["worker", "captain", "human"].includes(job.executionScope)) {
+    add("executionScope must be one of: worker, captain, human.");
   }
   if (!FACTORY_JOB_STATUSES.includes(job.status)) {
     add(`status must be one of: ${FACTORY_JOB_STATUSES.join(", ")}.`);
@@ -158,6 +195,12 @@ export function validateJob(job) {
   }
 
   validateStringArray(job, "trackIds", issues, { allowEmpty: true });
+  if ("acquisitionIds" in job) {
+    validateStringArray(job, "acquisitionIds", issues, { allowEmpty: false });
+  }
+  if ("reconciliationIds" in job) {
+    validateStringArray(job, "reconciliationIds", issues, { allowEmpty: false });
+  }
   validateStringArray(job, "dependencies", issues, { allowEmpty: true, pattern: JOB_ID_PATTERN });
   for (const field of [
     "ownedPaths",

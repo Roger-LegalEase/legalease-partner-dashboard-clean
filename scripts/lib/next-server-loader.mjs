@@ -12,15 +12,14 @@
  *   register("./lib/ts-esm-loader.mjs", import.meta.url);
  */
 
-import path from "node:path";
-import { fileURLToPath, pathToFileURL } from "node:url";
-
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
-
 export async function resolve(specifier, context, next) {
   if (specifier === "next/server") {
     return {
-      url: pathToFileURL(path.join(root, "node_modules/next/server.js")).href,
+      // Node 24 exposes the CommonJS export names but initializes their values as
+      // undefined when a customization hook resolves the bare specifier straight
+      // to next/server.js. The ESM bridge requires that same installed module and
+      // publishes concrete bindings for route-level verifiers.
+      url: new URL("./next-server-shim.mjs", import.meta.url).href,
       shortCircuit: true
     };
   }

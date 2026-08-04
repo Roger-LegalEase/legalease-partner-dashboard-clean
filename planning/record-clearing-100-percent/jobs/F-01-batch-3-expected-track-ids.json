@@ -6,6 +6,13 @@
   "model": "claude-opus-5",
   "effort": "xhigh",
   "title": "Author the Batch 3 expected-track-ID set for the remaining 25 jurisdictions",
+  "reconciliationStatus": "superseded_by_factory_infrastructure",
+  "reconciliationEvidence": [
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "scripts/lib/rcap-factory/planner.mjs",
+    "scripts/verify-rcap-integrated-production-plan.mjs"
+  ],
+  "reconciliationNote": "The integrated factory deterministically reads the committed 25-jurisdiction outstanding set and emits one bounded normalization child per jurisdiction. No external expected-track-ID file is required for dispatch.",
   "jurisdictions": [
     "KY",
     "NC",

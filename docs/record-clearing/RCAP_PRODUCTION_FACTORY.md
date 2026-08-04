@@ -38,30 +38,59 @@ The planner reads these existing sources of truth:
 - authoritative blockers and acquisition work:
   `data/record-clearing/master-library/authoritative-blocker-ledger.json` and
   `data/record-clearing/master-library/source-acquisition-queue.json`
+- the reconciled 100-percent plan and 109-document acquisition-intelligence
+  dossier under `planning/record-clearing-100-percent/`
 - implementation records and review manifests:
   `data/record-clearing/implementation-tranches/`
 - runtime and promotion posture:
   the track registry, packet capability registry, promotion matrix, and final
   review signoff
 
-The planner emits jobs in nine lanes:
+The planner emits jobs in ten lanes:
 
-1. legal-design normalization
-2. source acquisition
-3. custom pleading
-4. AcroForm fill
-5. flat-PDF overlay
-6. composed route
-7. guidance implementation
-8. legal-output review
-9. staging promotion
+1. platform foundation
+2. legal-design normalization
+3. source authority/acquisition
+4. custom pleading
+5. AcroForm fill
+6. flat-PDF overlay
+7. composed route
+8. guidance implementation
+9. legal-output review
+10. staging promotion
 
 Every job has:
 
-`jobId`, `lane`, `jurisdiction`, `trackIds`, `strategyFamily`, `baseCommit`,
-`dependencies`, `ownedPaths`, `forbiddenPaths`, `requiredInputs`,
-`expectedOutputs`, `focusedValidation`, `integrationValidation`, `model`,
-`effort`, `status`, `commitSubject`, and `stopCondition`.
+`jobId`, `parentJobId`, `canonicalWave`, `canonicalLane`, `lane`,
+`jurisdiction`, `trackIds`, `strategyFamily`, `baseCommit`, `dependencies`,
+`ownedPaths`, `forbiddenPaths`, `requiredInputs`, `expectedOutputs`,
+`focusedValidation`, `integrationValidation`, `model`, `effort`,
+`executionScope`, `status`, `commitSubject`, and `stopCondition`.
+Source jobs additionally carry exact `acquisitionIds` or `reconciliationIds`;
+the planner rejects duplicate assignment or omission.
+
+The 187 compiled mechanical jobs do not replace the canonical plan's 72 parent
+jobs. Every compiled child carries exactly one canonical parent, wave, and lane.
+The exact canonical track partition is 240 parent `tracks`, five Maryland
+`authorityOnlyRoutes`, and five completed Mississippi Tranche 1 tracks: 250
+unique normalized tracks with no omission, duplicate, or invented ID.
+
+`parentJobId` is the child's single deterministic execution owner. A
+jurisdiction-bounded mechanical child may aggregate tracks represented by more
+than one canonical family parent; implementation ownership is selected by
+canonical-lane match, then greatest matching-track count, then lexical parent
+ID. This aggregation keeps the fixed 187-child queue without pretending that
+child bundles define canonical track coverage; the 250-track canonical
+partition is verified independently.
+
+Authority work retains ten distinct families:
+`in_repo_identity_reconciliation`, `public_official_download`,
+`official_download_automation_blocked`, `direct_issuer_request`,
+`commercial_license`, `local_form_scope_correction`,
+`source_identity_resolution`, `not_required_design_reconciliation`,
+`superseded_source_replacement`, and the captain-only `edition_publication`
+record for Master Library Edition 1.3. These are never flattened into “source
+missing.”
 
 Paths are normalized repository-relative POSIX paths. Validations are explicit
 command arrays. A wave contains a stable `waveId`, ordered `jobIds`, and
@@ -77,6 +106,11 @@ Workers:
 4. run `validate-job`, which runs only focused checks;
 5. stage explicit paths and create the job's requested commit;
 6. stop at the manifest's stop condition.
+
+Only ready `executionScope: worker` jobs may compile a worker prompt or
+scaffold. Blocked, completed, captain, and human jobs fail closed at both
+boundaries. Completed children remain visible for provenance but wave
+integration never treats them as worker branches.
 
 The integration captain alone may regenerate shared derived registries, run the
 normal test suite and promotion gates, integrate a whole wave, and resolve
@@ -95,6 +129,11 @@ The validator fails closed on:
 - packet capability, `packet_ready`, jurisdiction enablement, and launch-gate
   changes;
 - broad staging or deployment commands.
+
+Focused source-output checks also require local-form jobs to preserve local
+scope and request legal-design reconciliation, and prohibit a commercial
+license job from enabling generation without an adopted license pinned by
+SHA-256.
 
 The scaffold records the worker's actual starting commit separately from the
 manifest's provenance commit. Validation uses that scaffold start for the

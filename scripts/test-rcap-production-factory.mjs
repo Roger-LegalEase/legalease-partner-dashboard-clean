@@ -49,6 +49,8 @@ import {
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(SCRIPT_DIR, "..");
 const EXPECTED_BASE = "8df94fbaa66c06bf0ba677ee4f5fb417ad08cdc8";
+const AUTHORIZED_INTEGRATED_CONTENT_BASE =
+  "4ccf8ce2f96b5aef19dc6e53715db35cc685776a";
 const results = [];
 const failures = [];
 
@@ -71,10 +73,22 @@ await check("deterministic plan covers all lanes and jurisdictions", () => {
 
   const validation = validateFactoryPlan(first);
   assert.equal(validation.ok, true, validation.issues.join("\n"));
-  assert.equal(new Set(first.jobs.map((job) => job.jurisdiction)).size, 51);
+  assert.equal(
+    new Set(
+      first.jobs
+        .map((job) => job.jurisdiction)
+        .filter((jurisdiction) => jurisdiction !== "NATIONWIDE")
+    ).size,
+    51
+  );
+  assert.ok(first.jobs.some((job) => job.jurisdiction === "NATIONWIDE"));
   assert.deepEqual(first.lanes.map((entry) => entry.lane), FACTORY_LANES);
   assert.ok(first.lanes.every((entry) => entry.jobIds.length > 0));
   assert.equal(first.waves.length, FACTORY_LANES.length);
+  assert.equal(first.jobs.length, 187);
+  assert.equal(first.jobs.filter((job) => job.status === "ready").length, 110);
+  assert.equal(first.jobs.filter((job) => job.status === "blocked").length, 76);
+  assert.equal(first.jobs.filter((job) => job.status === "completed").length, 1);
   assert.equal(findOwnedPathOverlaps(first.jobs).length, 0);
   assert.ok(first.generatedFrom.length >= 8);
   assert.ok(first.generatedFrom.every((entry) => /^[0-9a-f]{64}$/.test(entry.sha256)));
@@ -84,7 +98,184 @@ await check("deterministic plan covers all lanes and jurisdictions", () => {
   for (const job of first.jobs) {
     for (const field of REQUIRED_JOB_FIELDS) assert.ok(field in job, `${job.jobId}: ${field}`);
   }
+  assert.deepEqual(first.canonicalPlan, {
+    parentJobs: 72,
+    waves: 8,
+    lanes: 11,
+    completedParentJobs: 1,
+    childMappingPolicy: {
+      cardinality: "exactly_one_execution_owner",
+      implementationSelection:
+        "canonical lane match, then greatest matching-track count, then lexical parentJobId",
+      reviewSelection:
+        "greatest represented implementation-family count, then lexical review parentJobId",
+      aggregation:
+        "A mechanical jurisdiction child may aggregate tracks represented by multiple canonical " +
+        "family parents; its one parentJobId is the deterministic execution owner. Canonical " +
+        "250-track representation is verified separately and is not inferred from child bundles."
+    },
+    jobIds: first.canonicalPlan.jobIds
+  });
+  assert.deepEqual(first.jobs[0].integrationValidation, [
+    "npm run rcap:factory:test",
+    "npm run rcap:verify-integrated-production-plan",
+    "npm run rcap:verify-master-library-authority",
+    "npm run typecheck",
+    "npm test"
+  ]);
+  assert.equal(first.parentJobReconciliation.compiledChildJobs, 187);
+  assert.equal(first.parentJobReconciliation.childrenMappedExactlyOnce, 187);
+  assert.equal(first.parentJobReconciliation.unmappedChildren, 0);
+  assert.equal(first.parentJobReconciliation.unknownParentReferences, 0);
   plan = first;
+});
+
+await check("integrated acquisition intelligence is lossless and action-specific", () => {
+  const reconciliation = plan.acquisitionReconciliation;
+  assert.equal(reconciliation.researchedDocuments, 109);
+  assert.equal(reconciliation.dispositionedDocuments, 109);
+  assert.equal(reconciliation.evidenceRecords, 313);
+  assert.equal(reconciliation.issuerCampaigns, 32);
+  assert.equal(reconciliation.duplicateAssignments, 0);
+  assert.equal(reconciliation.omissions, 0);
+  assert.deepEqual(reconciliation.byFinalResearchStatus, {
+    commercial_license_required: 13,
+    identity_unresolved: 4,
+    local_court_selection_required: 1,
+    not_required_custom_pleading: 3,
+    not_required_no_filing_route: 2,
+    official_download_automation_blocked: 20,
+    official_request_required: 5,
+    public_official_download: 60,
+    superseded: 1
+  });
+
+  const job = (jobId) => plan.jobs.find((entry) => entry.jobId === jobId);
+  assert.equal(
+    job("rcap-ar-in-repo-identity-reconciliation-acic").acquisitionIds.length,
+    17
+  );
+  assert.deepEqual(
+    job("rcap-ar-public-official-download-acic-gaps").acquisitionIds,
+    [
+      "acquire:AR:acic-order-veterans-court",
+      "acquire:AR:acic-petition-dismiss-and-seal-first-offenders",
+      "acquire:AR:acic-uniform-petition-to-seal"
+    ]
+  );
+  assert.equal(
+    job("rcap-md-in-repo-identity-reconciliation-cc-dc-cr-072").acquisitionIds.length,
+    4
+  );
+  assert.equal(
+    job("rcap-al-in-repo-identity-reconciliation-cr-65").acquisitionIds.length,
+    1
+  );
+  assert.equal(
+    job("rcap-hi-in-repo-identity-reconciliation-hcjdc-159").acquisitionIds.length,
+    2
+  );
+  assert.equal(
+    job("rcap-fl-public-official-download-fdle-fac-supersession").acquisitionIds.length,
+    4
+  );
+  assert.equal(job("rcap-ks-commercial-license").acquisitionIds.length, 9);
+  assert.equal(job("rcap-in-commercial-license").acquisitionIds.length, 4);
+  assert.match(job("rcap-in-commercial-license").stopCondition, /two shared licensed PDF bundles/);
+  assert.equal(job("rcap-mo-direct-issuer-request").acquisitionIds.length, 4);
+  assert.equal(job("rcap-mo-superseded-source-replacement").acquisitionIds.length, 1);
+  assert.equal(job("rcap-de-direct-issuer-request").acquisitionIds.length, 1);
+  assert.equal(
+    job("rcap-ca-local-form-scope-correction-sdsc-crm-307").acquisitionIds.length,
+    1
+  );
+
+  const identityJobs = plan.jobs.filter(
+    (entry) =>
+      entry.strategyFamily === "source_identity_resolution" &&
+      (entry.acquisitionIds?.length ?? 0) > 0
+  );
+  assert.deepEqual(
+    identityJobs.map((entry) => entry.jobId).sort(),
+    [
+      "rcap-co-source-identity-resolution-jdf-417-order",
+      "rcap-fl-source-identity-resolution-rule-3-989-continuation",
+      "rcap-ia-source-identity-resolution-certification-of-service",
+      "rcap-ks-source-identity-resolution-criminal-cover-sheet"
+    ]
+  );
+
+  const ga = job("rcap-ga-custom-pleading");
+  assert.equal(ga.model, "opus");
+  assert.equal(ga.effort, "xhigh");
+  assert.ok(
+    ga.expectedOutputs.includes(
+      "scripts/verify-rcap-ga-superior-court-pleading-family-packets.mjs"
+    )
+  );
+  assert.match(ga.stopCondition, /assembled final participant PDFs/);
+  assert.match(ga.stopCondition, /ga-jail-k2/);
+});
+
+await check("all normalized tracks reconcile exactly once and completed tranches stay complete", () => {
+  const reconciliation = plan.trackReconciliation;
+  assert.equal(reconciliation.normalizedTracks, 250);
+  assert.equal(reconciliation.representedExactlyOnce, 250);
+  assert.equal(reconciliation.implementationComplete, 6);
+  assert.equal(reconciliation.pendingProductionJob, 244);
+
+  const implementationLanes = new Set([
+    "custom_pleading",
+    "acroform_fill",
+    "flat_pdf_overlay",
+    "composed_route",
+    "guidance_implementation"
+  ]);
+  const completed = reconciliation.assignments.filter(
+    (entry) => entry.disposition === "implementation_complete"
+  );
+  assert.equal(completed.filter((entry) => entry.jurisdiction === "MS").length, 5);
+  assert.deepEqual(
+    completed
+      .filter((entry) => entry.jurisdiction === "MD")
+      .map((entry) => entry.trackId),
+    ["md_second_chance_shielding"]
+  );
+  for (const track of completed) {
+    assert.equal(
+      plan.jobs.some(
+        (job) =>
+          ["planned", "ready", "blocked", "in_progress"].includes(job.status) &&
+          implementationLanes.has(job.lane) &&
+          job.jurisdiction === track.jurisdiction &&
+          job.trackIds.includes(track.trackId)
+      ),
+      false,
+      `${track.jurisdiction}:${track.trackId}`
+    );
+  }
+  const completedMarylandJob = plan.jobs.find(
+    (job) => job.jobId === "rcap-md-second-chance-shielding-completed"
+  );
+  assert.equal(completedMarylandJob.status, "completed");
+  assert.deepEqual(completedMarylandJob.trackIds, ["md_second_chance_shielding"]);
+  const activeMarylandImplementation = plan.jobs.filter(
+    (job) =>
+      ["planned", "ready", "blocked", "in_progress"].includes(job.status) &&
+      implementationLanes.has(job.lane) &&
+      job.jurisdiction === "MD"
+  );
+  assert.deepEqual(
+    activeMarylandImplementation.map((job) => job.jobId),
+    ["rcap-md-guidance-implementation"]
+  );
+  assert.deepEqual(activeMarylandImplementation[0].trackIds, [
+    "md_10103_1_automatic",
+    "md_10103_legacy_police",
+    "md_10104_pre_service",
+    "md_10105_1_automatic",
+    "md_10112_dpscs_cannabis"
+  ]);
 });
 
 await check("overlap and owned/forbidden conflicts fail closed", () => {
@@ -134,6 +325,55 @@ await check("worker prompt is short, stable, and contains only contract sections
     1
   );
   assert.equal(first.includes("npm test"), false);
+
+  const acquisitionJob = plan.jobs.find(
+    (entry) => entry.jobId === "rcap-ar-in-repo-identity-reconciliation-acic"
+  );
+  const acquisitionPrompt = compileWorkerPrompt({
+    job: acquisitionJob,
+    authorityVersion: plan.authorityVersion,
+    model: acquisitionJob.model
+  });
+  assert.match(acquisitionPrompt, /"acquisitionIds": \[/);
+  assert.ok(
+    acquisitionJob.acquisitionIds.every((acquisitionId) =>
+      acquisitionPrompt.includes(acquisitionId)
+    )
+  );
+
+  const captainJob = plan.jobs.find(
+    (entry) => entry.executionScope === "captain"
+  );
+  assert.ok(captainJob);
+  assert.throws(
+    () =>
+      compileWorkerPrompt({
+        job: captainJob,
+        authorityVersion: plan.authorityVersion,
+        model: captainJob.model
+      }),
+    /cannot compile a worker prompt/i
+  );
+  assert.throws(
+    () =>
+      buildScaffoldPlan({
+        rootDir: ROOT,
+        job: captainJob,
+        authorityVersion: plan.authorityVersion,
+        model: captainJob.model
+      }),
+    /only worker-scoped jobs/i
+  );
+  const completedJob = plan.jobs.find((entry) => entry.status === "completed");
+  assert.throws(
+    () =>
+      compileWorkerPrompt({
+        job: completedJob,
+        authorityVersion: plan.authorityVersion,
+        model: completedJob.model
+      }),
+    /status completed.*only ready/i
+  );
 });
 
 await check("scaffold is deterministic, isolated, and dry-run by default", () => {
@@ -395,9 +635,22 @@ await check("review PDFs, page images, hashes, and checklists reproduce", async 
 
 await check("dashboard reports all 51 and preserves the red launch posture", () => {
   const status = buildFactoryStatus({ rootDir: ROOT });
+  assert.deepEqual(status.readinessMetrics, {
+    authorityCleared: 87,
+    authorityBlocked: 163,
+    sourcePinned: 32,
+    implementationProof: 6,
+    finalDisposition: 0
+  });
   assert.equal(status.totals.jurisdictions, 51);
   assert.equal(status.totals.tracks, 250);
   assert.equal(status.totals.normalized, 250);
+  assert.equal(status.totals.implementationComplete, 6);
+  assert.equal(status.totals.technicalProofPassed, 6);
+  assert.equal(status.totals.visualProofPassed, 6);
+  assert.equal(status.totals.legalRecommendationComplete, 1);
+  assert.equal(status.totals.counselAdopted, 0);
+  assert.equal(status.totals.stagingPassed, 0);
   assert.equal(status.totals.packetReady, 0);
   assert.equal(status.totals.enabledJurisdictions, 0);
   assert.equal(status.totals.productionEnabled, 0);
@@ -436,6 +689,23 @@ await check("wave integration dry run is stable and captain-only", async () => {
   assert.deepEqual(result.commandResults, []);
   assert.deepEqual(result.integratedJobs, []);
   assert.equal(git(["status", "--porcelain=v1"]), statusBefore);
+
+  const completedMarylandJobId = "rcap-md-second-chance-shielding-completed";
+  const marylandWave = plan.waves.find((entry) =>
+    entry.jobIds.includes(completedMarylandJobId)
+  );
+  const marylandIntegrationPlan = buildWaveIntegrationPlan(
+    plan,
+    marylandWave.waveId,
+    { rootDir: ROOT }
+  );
+  assert.ok(marylandIntegrationPlan.completedJobs.includes(completedMarylandJobId));
+  assert.equal(
+    marylandIntegrationPlan.jobs.some(
+      (entry) => entry.jobId === completedMarylandJobId
+    ),
+    false
+  );
 });
 
 await check("existing legal registries and runtime status are byte-unchanged", () => {
@@ -456,7 +726,7 @@ await check("existing legal registries and runtime status are byte-unchanged", (
   ];
   const result = spawnSync(
     "git",
-    ["diff", "--quiet", EXPECTED_BASE, "--", ...protectedPaths],
+    ["diff", "--quiet", AUTHORIZED_INTEGRATED_CONTENT_BASE, "--", ...protectedPaths],
     { cwd: ROOT, encoding: "utf8" }
   );
   assert.equal(result.status, 0, result.stderr || result.stdout);

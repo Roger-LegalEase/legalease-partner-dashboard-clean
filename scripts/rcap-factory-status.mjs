@@ -13,6 +13,7 @@ const INPUTS = {
   jurisdictionInventory: "data/record-clearing/relief-track-registry.json",
   relationships: "data/record-clearing/legal-design-track-source-relationships.json",
   blockers: "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+  trackSourceAudit: "data/record-clearing/master-library/track-source-audit.json",
   trancheDirectory: "data/record-clearing/implementation-tranches",
   factoryReviewDirectory:
     "data/record-clearing/production-factory/review-manifests"
@@ -85,13 +86,35 @@ function loadProofIndex(rootDir) {
     .readdirSync(directory)
     .filter((name) => name.endsWith(".json"))
     .sort();
+  const records = files.map((name) => ({
+    name,
+    value: readJson(rootDir, path.posix.join(INPUTS.trancheDirectory, name))
+  }));
+  const trancheTracks = new Map(
+    records
+      .filter(({ name }) => /^tranche-\d+\.json$/.test(name))
+      .map(({ value }) => [
+        value.trancheId,
+        asArray(value.selectedTracks)
+          .map((entry) => (typeof entry === "string" ? entry : entry?.trackId))
+          .filter(Boolean)
+      ])
+  );
 
-  for (const name of files) {
-    const value = readJson(rootDir, path.posix.join(INPUTS.trancheDirectory, name));
+  for (const { name, value } of records) {
     const selectedTracks = asArray(value.selectedTracks);
-    const trackIds = selectedTracks
+    const explicitTrackIds = selectedTracks
       .map((entry) => (typeof entry === "string" ? entry : entry?.trackId))
       .filter(Boolean);
+    const recommendationTrackIds = asArray(value.recommendations)
+      .map((entry) => entry?.trackId)
+      .filter(Boolean);
+    const trackIds =
+      explicitTrackIds.length > 0
+        ? explicitTrackIds
+        : recommendationTrackIds.length > 0
+          ? recommendationTrackIds
+          : trancheTracks.get(value.trancheId) ?? [];
 
     if (name.endsWith("-authority-pins.json")) {
       for (const entry of asArray(value.tracks)) {
@@ -123,15 +146,42 @@ function loadProofIndex(rootDir) {
         value.packetReady === true;
 
       for (const trackId of trackIds) {
-        technical.set(trackId, technicalPassed);
-        visual.set(trackId, visualPassed);
-        legalRecommendation.set(
+        mergeProof(technical, trackId, technicalPassed);
+        mergeProof(visual, trackId, visualPassed);
+        mergeProof(
+          legalRecommendation,
           trackId,
           value.legalRecommendationComplete === true
         );
-        counsel.set(trackId, counselAdopted);
-        staging.set(trackId, stagingPassed);
-        production.set(trackId, productionEnabled);
+        mergeProof(counsel, trackId, counselAdopted);
+        mergeProof(staging, trackId, stagingPassed);
+        mergeProof(production, trackId, productionEnabled);
+      }
+    }
+
+    if (name.endsWith("-visual-review.json")) {
+      const visualPassed = [
+        "passed",
+        "passed_no_unresolved_defects"
+      ].includes(value.result);
+      for (const trackId of trackIds) mergeProof(visual, trackId, visualPassed);
+    }
+
+    if (name.endsWith("-legal-output-recommendation.json")) {
+      const recommended = asArray(value.recommendations).filter(
+        (entry) =>
+          entry?.trackId &&
+          ["recommended_for_counsel_adoption", "recommended"].includes(entry.status)
+      );
+      for (const entry of recommended) {
+        mergeProof(legalRecommendation, entry.trackId, true);
+        mergeProof(
+          counsel,
+          entry.trackId,
+          ["approved", "adopted", "counsel_adopted"].includes(
+            value.humanLegalReviewStatus
+          )
+        );
       }
     }
   }
@@ -209,7 +259,7 @@ function mergeProof(map, key, value) {
 }
 
 function blockerFor(row, sourceRows) {
-  if (!row.authorityPinned) {
+  if (!row.authorityCleared) {
     const authorityBlocker = sourceRows.find((entry) =>
       AUTHORITY_BLOCKER_SCOPES.has(entry.blockerScope)
     );
@@ -220,7 +270,10 @@ function blockerFor(row, sourceRows) {
         authorityBlocker.blockerType
       );
     }
-    return "Controlling authority is not pinned to an immutable source revision.";
+    return "The track has not cleared every adopted authority requirement.";
+  }
+  if (!row.sourcePinned) {
+    return "The selected source is not pinned to an immutable repository revision.";
   }
   if (!row.implementationComplete) {
     return `Implementation incomplete (${row.implementationQueue ?? "unassigned"}).`;
@@ -254,7 +307,14 @@ export function buildFactoryStatus({ rootDir = DEFAULT_ROOT } = {}) {
   const jurisdictionInventory = readJson(rootDir, INPUTS.jurisdictionInventory);
   const relationships = readJson(rootDir, INPUTS.relationships);
   const blockerLedger = readJson(rootDir, INPUTS.blockers);
+  const trackSourceAudit = readJson(rootDir, INPUTS.trackSourceAudit);
   const proofs = loadProofIndex(rootDir);
+  const authorityAuditByTrack = new Map(
+    asArray(trackSourceAudit.tracks).map((entry) => [
+      `${entry.jurisdiction}:${entry.trackId}`,
+      entry
+    ])
+  );
 
   const relationshipsByTrack = new Map();
   for (const entry of asArray(relationships.relationships)) {
@@ -285,7 +345,10 @@ export function buildFactoryStatus({ rootDir = DEFAULT_ROOT } = {}) {
         );
 
       const normalized = Boolean(track.trackId && track.legalDesignStatus);
-      const authorityPinned =
+      const authorityCleared =
+        authority.adoptionStatus === "adopted" &&
+        authorityAuditByTrack.get(key)?.cleared === true;
+      const sourcePinned =
         authority.adoptionStatus === "adopted" &&
         (proofs.authorityPins.has(track.trackId) ||
           (hasPinnedRelationship && !hasAuthorityBlocker));
@@ -308,7 +371,9 @@ export function buildFactoryStatus({ rootDir = DEFAULT_ROOT } = {}) {
         legalDesignStatus: track.legalDesignStatus ?? null,
         legalStatus: track.legalStatus ?? null,
         normalized,
-        authorityPinned,
+        authorityCleared,
+        sourcePinned,
+        authorityPinned: sourcePinned,
         implementationComplete,
         technicalProofPassed,
         visualProofPassed,
@@ -353,6 +418,8 @@ export function buildFactoryStatus({ rootDir = DEFAULT_ROOT } = {}) {
       jurisdiction,
       trackCount: rows.length,
       normalized: count("normalized"),
+      authorityCleared: count("authorityCleared"),
+      sourcePinned: count("sourcePinned"),
       authorityPinned: count("authorityPinned"),
       implementationComplete: count("implementationComplete"),
       technicalProofPassed: count("technicalProofPassed"),
@@ -378,6 +445,12 @@ export function buildFactoryStatus({ rootDir = DEFAULT_ROOT } = {}) {
     publicTracks.length === 0 ? 0 : (finalDispositionCount / publicTracks.length) * 100;
   const countTracks = (field) =>
     publicTracks.filter((track) => track[field]).length;
+  const implementationProofCount = publicTracks.filter(
+    (track) =>
+      track.implementationComplete &&
+      track.technicalProofPassed &&
+      track.visualProofPassed
+  ).length;
   const completionPercent =
     jurisdictionsWithoutNormalizedTracks > 0 && rawCompletion >= 100
       ? 99.99
@@ -389,13 +462,24 @@ export function buildFactoryStatus({ rootDir = DEFAULT_ROOT } = {}) {
     authorityEdition: authority.edition,
     definitionOfComplete:
       "100% requires all 51 jurisdictions normalized and every track to have a terminal disposition: production enabled or an explicit terminal legal disposition.",
+    readinessMetrics: {
+      authorityCleared: countTracks("authorityCleared"),
+      authorityBlocked: publicTracks.length - countTracks("authorityCleared"),
+      sourcePinned: countTracks("sourcePinned"),
+      implementationProof: implementationProofCount,
+      finalDisposition: finalDispositionCount
+    },
     totals: {
       jurisdictions: jurisdictions.length,
       jurisdictionsWithoutNormalizedTracks,
       tracks: publicTracks.length,
       normalized: countTracks("normalized"),
+      authorityCleared: countTracks("authorityCleared"),
+      authorityBlocked: publicTracks.length - countTracks("authorityCleared"),
       authorityPinned: countTracks("authorityPinned"),
+      sourcePinned: countTracks("sourcePinned"),
       implementationComplete: countTracks("implementationComplete"),
+      implementationProof: implementationProofCount,
       technicalProofPassed: countTracks("technicalProofPassed"),
       visualProofPassed: countTracks("visualProofPassed"),
       legalRecommendationComplete: countTracks(

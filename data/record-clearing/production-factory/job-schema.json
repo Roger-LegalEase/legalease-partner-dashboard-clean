@@ -7,6 +7,9 @@
   "additionalProperties": false,
   "required": [
     "jobId",
+    "parentJobId",
+    "canonicalWave",
+    "canonicalLane",
     "lane",
     "jurisdiction",
     "trackIds",
@@ -21,6 +24,7 @@
     "integrationValidation",
     "model",
     "effort",
+    "executionScope",
     "status",
     "commitSubject",
     "stopCondition"
@@ -30,8 +34,33 @@
       "type": "string",
       "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
     },
+    "parentJobId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$"
+    },
+    "canonicalWave": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 7
+    },
+    "canonicalLane": {
+      "enum": [
+        "normalization",
+        "authority",
+        "platform",
+        "implementation-pleading",
+        "implementation-acroform",
+        "implementation-overlay",
+        "implementation-composed",
+        "implementation-guidance",
+        "proof",
+        "counsel",
+        "release"
+      ]
+    },
     "lane": {
       "enum": [
+        "platform_foundation",
         "legal_design_normalization",
         "source_acquisition",
         "custom_pleading",
@@ -45,15 +74,26 @@
     },
     "jurisdiction": {
       "type": "string",
-      "pattern": "^[A-Z]{2}$"
+      "pattern": "^(?:[A-Z]{2}|NATIONWIDE)$"
     },
     "trackIds": {
       "$ref": "#/$defs/uniqueStrings"
     },
     "strategyFamily": {
       "enum": [
+        "platform_foundation",
         "legal_design",
         "source_acquisition",
+        "in_repo_identity_reconciliation",
+        "public_official_download",
+        "official_download_automation_blocked",
+        "direct_issuer_request",
+        "commercial_license",
+        "local_form_scope_correction",
+        "source_identity_resolution",
+        "not_required_design_reconciliation",
+        "superseded_source_replacement",
+        "edition_publication",
         "custom_pleading",
         "official_pdf_fill",
         "composed",
@@ -61,6 +101,12 @@
         "legal_output_review",
         "staging_promotion"
       ]
+    },
+    "acquisitionIds": {
+      "$ref": "#/$defs/uniqueStrings"
+    },
+    "reconciliationIds": {
+      "$ref": "#/$defs/uniqueStrings"
     },
     "baseCommit": {
       "type": "string",
@@ -104,6 +150,13 @@
         "medium",
         "high",
         "xhigh"
+      ]
+    },
+    "executionScope": {
+      "enum": [
+        "worker",
+        "captain",
+        "human"
       ]
     },
     "status": {

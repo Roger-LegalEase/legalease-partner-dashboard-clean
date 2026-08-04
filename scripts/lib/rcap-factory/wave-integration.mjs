@@ -19,7 +19,10 @@ import {
 
 export const CAPTAIN_GLOBAL_REGENERATION = Object.freeze([
   "node scripts/rcap-legal-design-intake.mjs",
-  "node scripts/rcap-reconcile-master-library.mjs"
+  "node scripts/rcap-reconcile-master-library.mjs",
+  // Re-run intake after reconciliation so the derived legal-design registries
+  // consume the newly reconciled Master Library records.
+  "node scripts/rcap-legal-design-intake.mjs"
 ]);
 
 const PROTECTED_RUNTIME_PATHS = Object.freeze([
@@ -91,14 +94,21 @@ export function buildWaveIntegrationPlan(
     );
   }
   const jobById = new Map(factoryPlan.jobs.map((job) => [job.jobId, job]));
-  const jobs = wave.jobIds.map((jobId) => {
+  const referencedJobs = wave.jobIds.map((jobId) => {
     const job = jobById.get(jobId);
     if (!job) throw new Error(`${waveId} references missing job ${jobId}`);
     return job;
   });
+  const completedJobs = referencedJobs.filter((job) => job.status === "completed");
+  const activeJobs = referencedJobs.filter(
+    (job) => !["completed", "cancelled"].includes(job.status)
+  );
+  const jobs = activeJobs.filter((job) => job.executionScope === "worker");
+  const captainJobs = activeJobs.filter((job) => job.executionScope === "captain");
+  const humanJobs = activeJobs.filter((job) => job.executionScope === "human");
   const integrationValidation = dedupeStrings([
     ...(wave.integrationValidation ?? []),
-    ...jobs.flatMap((job) => job.integrationValidation ?? [])
+    ...referencedJobs.flatMap((job) => job.integrationValidation ?? [])
   ]);
   const commandFailures = [];
   for (const command of [
@@ -136,6 +146,9 @@ export function buildWaveIntegrationPlan(
     authorityEdition: factoryPlan.authorityEdition,
     baseCommit: factoryPlan.baseCommit,
     jobs: branchInspections,
+    captainJobs: captainJobs.map((job) => job.jobId),
+    humanJobs: humanJobs.map((job) => job.jobId),
+    completedJobs: completedJobs.map((job) => job.jobId),
     captainRegeneration: [...CAPTAIN_GLOBAL_REGENERATION],
     integrationValidation,
     protectedRuntimePaths: [...PROTECTED_RUNTIME_PATHS],

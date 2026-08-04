@@ -2,6 +2,9 @@ const SUPPORTED_MODELS = new Set(["opus", "codex"]);
 
 const JOB_FIELD_ORDER = [
   "jobId",
+  "parentJobId",
+  "canonicalWave",
+  "canonicalLane",
   "lane",
   "jurisdiction",
   "trackIds",
@@ -16,6 +19,7 @@ const JOB_FIELD_ORDER = [
   "integrationValidation",
   "model",
   "effort",
+  "executionScope",
   "status",
   "commitSubject",
   "stopCondition"
@@ -23,15 +27,21 @@ const JOB_FIELD_ORDER = [
 
 const PROMPT_MANIFEST_FIELDS = [
   "jobId",
+  "parentJobId",
+  "canonicalWave",
+  "canonicalLane",
   "lane",
   "jurisdiction",
   "trackIds",
   "strategyFamily",
   "baseCommit",
   "dependencies",
+  "acquisitionIds",
+  "reconciliationIds",
   "requiredInputs",
   "model",
   "effort",
+  "executionScope",
   "status"
 ];
 
@@ -144,6 +154,17 @@ function assertJob(job) {
   }
   if (typeof job.jobId !== "string" || job.jobId.trim() === "") {
     throw new Error("Factory job is missing jobId.");
+  }
+  if (job.executionScope !== "worker") {
+    throw new Error(
+      `${job.jobId} is ${job.executionScope ?? "not"} scoped and cannot compile a worker prompt.`
+    );
+  }
+  if (job.status !== "ready") {
+    throw new Error(
+      `${job.jobId} has status ${job.status ?? "missing"} and cannot compile a worker prompt; ` +
+        "only ready jobs are eligible."
+    );
   }
 }
 

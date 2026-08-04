@@ -176,6 +176,16 @@ export function assertScaffoldableJob(job) {
   if (typeof job.jobId !== "string" || job.jobId.trim() === "") {
     throw new Error("Factory job is missing jobId.");
   }
+  if (job.executionScope !== "worker") {
+    throw new Error(
+      `${job.jobId}: only worker-scoped jobs can be scaffolded (found ${
+        job.executionScope ?? "missing"
+      }).`
+    );
+  }
+  if (job.status !== "ready") {
+    throw new Error(`${job.jobId}: only ready jobs can be scaffolded (found ${job.status}).`);
+  }
   if (typeof job.baseCommit !== "string" || !/^[0-9a-f]{7,40}$/i.test(job.baseCommit)) {
     throw new Error(`${job.jobId}: baseCommit must be a 7-40 character Git SHA.`);
   }
