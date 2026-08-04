@@ -20,13 +20,10 @@
       "il-seal-edu",
       "il-exp-pardon"
     ],
-    "cannabisTracks": [
-      "il-cannabis-vacate"
-    ],
-    "composedTracks": [
-      "il-prb-cert"
-    ],
+    "cannabisTracks": ["il-cannabis-vacate"],
+    "composedTracks": ["il-prb-cert"],
     "componentDocumentCount": 15,
+    "officialPdfUsageBindingCount": 48,
     "routeCount": 11
   },
   "immutableInputs": {
@@ -40,7 +37,8 @@
     "edition12CandidateDispositions": "data/record-clearing/master-library/edition-1-2/candidate-dispositions.json",
     "edition12SourceAcquisitionDispositions": "data/record-clearing/master-library/edition-1-2/source-acquisition-dispositions.json",
     "edition12IllinoisAddendum": "data/record-clearing/master-library/edition-1-2/legal-review-addenda/IL.md",
-    "sourceArtifactRegistry": "data/record-clearing/source-artifact-registry.json"
+    "sourceArtifactRegistry": "data/record-clearing/source-artifact-registry.json",
+    "productionQueue": "data/record-clearing/production-factory/official-pdf-production-queue.json"
   },
   "authorityPosture": {
     "directlyMappedPacketAssets": 8,
@@ -79,6 +77,7 @@
     "portableProjectionRequired": true,
     "state": "captain_assignment_and_portable_projection_required",
     "workerReady": false,
+    "workerReadAuthorized": false,
     "workerMaterializationAuthorized": false,
     "workerMayAcquireOrDownloadSources": false,
     "repositorySourcePathTreatment": "identity_evidence_only_never_worker_source",
@@ -88,6 +87,8 @@
   },
   "artifacts": {
     "dependencies": "data/record-clearing/production-factory/official-pdf-families/IL/dependencies.json",
+    "sourceRequirementsSchema": "data/record-clearing/production-factory/official-pdf-families/IL/source-requirements.schema.json",
+    "sourceRequirements": "data/record-clearing/production-factory/official-pdf-families/IL/source-requirements.json",
     "rendererScaffold": "data/record-clearing/production-factory/official-pdf-families/IL/renderer-scaffold.json",
     "fieldMapScaffold": "data/record-clearing/production-factory/official-pdf-families/IL/field-map-scaffold.json",
     "fieldOwnershipSchema": "data/record-clearing/production-factory/official-pdf-families/IL/field-ownership.schema.json",
@@ -124,6 +125,8 @@
   },
   "invariants": [
     "The existing live Illinois legacy generator, routes, previews, registry wiring, and verifier remain unchanged.",
+    "Each of the 15 source records carries its exact current production-queue usage bindings, covering 48 unique official-PDF component uses.",
+    "Every source record denies worker reads and materialization until an immutable captain assignment and portable projection exist.",
     "No new Illinois official-form module is imported by a live or shared registry.",
     "Edition 1.2 assets remain generationAllowed=false and runtime_disabled.",
     "An authority_unmanifested_source is never treated as a packet asset merely because historical metadata, a field-map draft, or a generated sample exists.",
