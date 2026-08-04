@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "trancheId": "tranche-3-georgia-superior-court-pleadings",
+  "jurisdiction": "GA",
+  "reviewedOn": "2026-08-04",
+  "reviewer": "engineering visual review (not a legal approval)",
+  "result": "passed_no_unresolved_defects",
+  "method": "Every page of every assembled packet was rasterized to a PNG at 110 dpi and the image count was checked against the page count of the assembled deliverable. Pages covering every distinct component type in the tranche — petition, motion, proposed order, certificate of service and exhibit cover sheet — and both caption families were inspected directly as images. The remaining pages are additional instances of those same component types produced by the same wrapping layout, and are covered by the page-count check, by the per-page signature-block check, and by the renderer's own overflow warnings, of which there were none.",
+
+  "pagesRendered": 69,
+  "pagesInspected": 69,
+  "pagesInspectedDirectlyAsImages": 7,
+  "assembledPackets": 9,
+
+  "componentTypesInspected": [
+    "primary_filing — motion (ga-misd-j4, Second Chance Act restrict and seal)",
+    "primary_filing — petition (ga-fugitive-j5, superior court of the county of arrest)",
+    "primary_filing — petition (ga-fo-discharged-pre2026, new § 42-8-62.2)",
+    "proposed_order — restriction and sealing (ga-misd-j4)",
+    "proposed_order — clerk sealing only (ga-seal-m)",
+    "certificate_of_service (ga-misd-j4)",
+    "attachment — exhibit cover sheet (ga-misd-j4 Exhibit A)"
+  ],
+  "captionFamiliesInspected": [
+    "convicting or accusing court — IN THE {COURT} OF {COUNTY} COUNTY, STATE OF GEORGIA",
+    "superior court of the county of arrest — § 35-3-37(j)(5)"
+  ],
+
+  "checks": [
+    { "check": "No clipping at any margin", "result": "pass" },
+    { "check": "No overlapping text", "result": "pass" },
+    { "check": "No text outside the printable margins", "result": "pass" },
+    { "check": "No unreadably small text — body is 11 pt, banner 9 pt", "result": "pass" },
+    { "check": "No broken or substituted characters, including the section mark", "result": "pass" },
+    { "check": "No unexpected blank or orphan page", "result": "pass after repair" },
+    { "check": "Caption columns align and do not collide", "result": "pass — the shared captionRow layout carried over from Tranche 1" },
+    { "check": "Caption right column wraps cleanly on long document titles", "result": "pass — ga-seal-m and ga-fo-discharged-pre2026 both wrap to two lines without collision" },
+    { "check": "Signature blocks are usable, on the correct document, and not split by a page break", "result": "pass after repair" },
+    { "check": "Exactly one signature area per document", "result": "pass after repair" },
+    { "check": "Grant and denial elections render as blank marks", "result": "pass" },
+    { "check": "Multi-line participant answers wrap and remain readable", "result": "pass" },
+    { "check": "Exhibit cover sheets are professionally formatted and carry no signature line", "result": "pass" },
+    { "check": "No reference-model branding copied into a LegalEase pleading", "result": "pass — no Georgia Justice Project language, caption or address appears anywhere" },
+    { "check": "LegalEase branding does not obscure the court document", "result": "pass — one two-line banner above the caption rule" },
+    { "check": "Rendered page image count equals assembled PDF page count for every sample", "result": "pass — 69 of 69" }
+  ],
+
+  "defectsFound": [
+    {
+      "id": "duplicate-certificate-heading-and-double-signature",
+      "description": "The certificate of service was built with the renderer's own certificateOfService block while also carrying its own title. The renderer prints that block under its own 'CERTIFICATE OF SERVICE' heading and gives it its own signature line, so the rendered page showed the heading twice and offered the participant two separate places to sign — one from the document's signature rule and one inside the certificate block.",
+      "severity": "material — a participant could sign the wrong rule, leaving the operative certificate unsigned",
+      "repair": "The certificate's body moved into its sections and the certificateOfService block is no longer used for a document that is itself the certificate. One heading, one signature rule, one date. The shared renderer was not changed.",
+      "status": "repaired"
+    },
+    {
+      "id": "judicial-signature-block-split-across-pages",
+      "description": "On ga-seal-m the proposed order's judicial signature block was split by a page break: the signature rule and the 'JUDGE, Superior Court' line fell at the foot of page four, and the county line and 'Date: ____' were orphaned alone on page five. The same risk existed on both First Offender orders, which also ran to a second page.",
+      "severity": "material — a judge would sign a rule whose date line is on another page, and an order can be signed incompletely",
+      "repair": "The order signature block was reduced from six lines to three: the rule, 'JUDGE, {{courtName}}' and the date. The county line was dropped as repetition, because the caption already names the court and the county. ga-seal-m's proposed order is now one page and the tranche total fell from 73 pages to 69. The generator and the verifier now both assert per page that the JUDGE line and the Date line land on the same page, so the defect cannot return silently.",
+      "status": "repaired"
+    },
+    {
+      "id": "party-label-inconsistent-on-the-fugitive-route",
+      "description": "The ga-fugitive-j5 petition addressed the participant as 'Petitioner' throughout its body and signature block while its caption styled the case State of Georgia v. [name], Defendant. One document called the same person two things.",
+      "severity": "minor — internal inconsistency on the face of a filing",
+      "repair": "The route now uses 'Defendant' throughout, matching its caption and the rest of the family. A person arrested on a § 17-13-4 fugitive warrant is the defendant in that Georgia proceeding, so the caption was correct and the body was not.",
+      "status": "repaired"
+    }
+  ],
+
+  "unresolvedDefects": [],
+
+  "rendererLimitationsObserved": [
+    {
+      "id": "flow-writer-has-no-keep-together",
+      "finding": "The shared FlowWriter breaks a page wherever the next line does not fit, with no widow or orphan control. Any block whose lines must stay together — a signature block above all — can be split, and nothing in the renderer objects.",
+      "impactOnThisTranche": "One material defect, now repaired by shortening the block and asserted against per page. The repair reduces the probability rather than removing the possibility: a longer court name or a participant value that pushes an order onto a second page could split it again.",
+      "recommendation": "Give FlowWriter a keep-together primitive and use it for signature blocks. That belongs in src/lib/rcap/packets/engines/pdf-layout.ts, which is outside this job's owned paths, so it is recorded here rather than changed.",
+      "ownedByThisJob": false
+    }
+  ],
+
+  "note": "This is an engineering visual review. It establishes that the documents render correctly and read as professional Georgia court documents. It is not a legal approval and does not move any track past awaiting_counsel_review."
+}
