@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "rcap-official-pdf-family/v1",
+  "familyId": "rcap-de-official-pdf-family",
+  "jurisdiction": "DE",
+  "jurisdictionName": "Delaware",
+  "authorityFamily": "Delaware SBI, Superior Court CIV_EXP, and Family Court Form 281 expungement forms",
+  "implementationJobId": "rcap-de-official-pdf-production",
+  "productionQueuePriority": 18,
+  "outputStrategies": [
+    "official_pdf_fill"
+  ],
+  "scope": {
+    "trackIds": [
+      "de_discretionary_family_court",
+      "de_discretionary_superior_court",
+      "de_mandatory_expungement",
+      "de_pardon_expungement"
+    ],
+    "trackCount": 4,
+    "officialPdfComponentCount": 8,
+    "documentIds": [
+      "CIV_EXP_02_A",
+      "CIV_EXP_02_B",
+      "CIV_EXP_04_A",
+      "CIV_EXP_08_A",
+      "DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION",
+      "FORM-281",
+      "FORM-281E"
+    ],
+    "documentCount": 7,
+    "exactIdentityCount": 0,
+    "unresolvedIdentityCount": 7
+  },
+  "sourceMaterialization": {
+    "dependencyJobId": "rcap-nationwide-source-materialization-contract",
+    "contractPath": "docs/record-clearing/RCAP_SOURCE_MATERIALIZATION_CONTRACT.md",
+    "requirementManifest": "data/record-clearing/production-factory/official-pdf-families/DE/source-requirements.json",
+    "contractKind": "dependency_scaffold_not_worker_assignment",
+    "assignmentAnchor": null,
+    "portableProjection": null,
+    "portableProjectionAvailable": false,
+    "captainAssignmentRequired": true,
+    "portableProjectionRequired": true,
+    "workerReady": false,
+    "workerMaterializationAuthorized": false,
+    "workerReadAuthorized": false,
+    "workerMayAcquireOrDownloadSources": false,
+    "repositorySourcePathTreatment": "identity_evidence_only_never_worker_source",
+    "registryPresenceConfersReadiness": false
+  },
+  "artifacts": {
+    "scaffoldSpec": "data/record-clearing/production-factory/official-pdf-families/DE/scaffold-spec.json",
+    "dependencies": "data/record-clearing/production-factory/official-pdf-families/DE/dependencies.json",
+    "sourceRequirements": "data/record-clearing/production-factory/official-pdf-families/DE/source-requirements.json",
+    "rendererScaffold": "data/record-clearing/production-factory/official-pdf-families/DE/renderer-scaffold.json",
+    "fieldMapScaffold": "data/record-clearing/production-factory/official-pdf-families/DE/field-map-scaffold.json",
+    "fieldOwnershipSchema": "data/record-clearing/production-factory/official-pdf-families/schemas/field-ownership.schema.json",
+    "fieldOwnership": "data/record-clearing/production-factory/official-pdf-families/DE/field-ownership.json",
+    "fixtureSchema": "data/record-clearing/production-factory/official-pdf-families/schemas/fixture-scaffold.schema.json",
+    "fixtures": "data/record-clearing/production-factory/official-pdf-families/DE/fixtures.json",
+    "packetAssembly": "data/record-clearing/production-factory/official-pdf-families/DE/packet-assembly.json",
+    "reviewManifest": "data/record-clearing/production-factory/official-pdf-families/DE/review-manifest.json"
+  },
+  "implementationModule": "src/lib/rcap/packets/jurisdictions/delaware/official-pdf/family.ts",
+  "dedicatedVerifier": "scripts/verify-rcap-delaware-official-pdf-families.mjs",
+  "status": {
+    "sourceRequirements": "scaffolded_pending_authority_and_assignment",
+    "localSourceVerification": "pending_captain_projection",
+    "pdfStructureInspection": "pending_authorized_source_bytes",
+    "fieldMapping": "scaffolded_zero_active_mappings",
+    "packetRendering": "blocked",
+    "sourceBackedSampleCount": 0,
+    "visualReview": "pending_source_backed_samples",
+    "counselReview": "not_submitted",
+    "legalDesignChanged": false,
+    "packetReady": false,
+    "generationAllowed": false,
+    "enabled": false
+  },
+  "blockers": [
+    "Captain-owned assignment anchor and portable source projection are absent.",
+    "Exact retained identities require read-only materialization and fresh byte verification.",
+    "Authority-unmanifested identities require successor-edition manifestation before assignment.",
+    "PDF structure, field names, overlay coordinates, ownership, fixtures, and samples remain unconfirmed.",
+    "Six document identities have no adopted authority asset, including the SBI mandatory-expungement application and the Superior and Family Court petition/order forms.",
+    "FORM-281E has a candidate authority asset but its registry measurement is not uniquely selectable; it cannot be promoted or substituted without authority resolution.",
+    "The accepted proposed-order identity remains unresolved for both Superior Court and Family Court packets.",
+    "Manifest-injustice and pardon-basis statements remain participant-owned narrative/legal assertions and must not be templated.",
+    "The pardon exception scope remains a legal-design build blocker and packet generation must stay disabled."
+  ],
+  "invariants": [
+    "Do not alter official fixed language, adopted component ordering, or Delaware legal-design decisions.",
+    "Participant signatures, notarized jurats, manifest-injustice narratives, pardon-basis assertions, court findings, outcome selections, judge fields, clerk fields, agency fields, and notary fields remain blank unless a confirmed ownership map expressly permits a non-signature value.",
+    "FORM-281E candidate evidence never substitutes for an adopted exact authority requirement.",
+    "Repository-private paths and official URLs are identity evidence only and are never opened by packet code or the dedicated verifier.",
+    "No source download, URL fallback, fuzzy identity match, live-route change, or runtime enablement is permitted."
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "schemaVersion": "rcap-official-pdf-fixture-scaffold/v1",
+  "familyId": "rcap-de-official-pdf-family",
+  "jurisdiction": "DE",
+  "schemaPath": "data/record-clearing/production-factory/official-pdf-families/schemas/fixture-scaffold.schema.json",
+  "syntheticDataOnly": true,
+  "fixtureState": "pending_field_map_and_fact_type_binding",
+  "tracks": [
+    {
+      "trackId": "de_discretionary_family_court",
+      "fixtureId": "de_discretionary_family_court-synthetic-layout",
+      "caseReference": "SYN-DE-de_discretionary_family_court",
+      "requiredFactKeys": [
+        "chargesAndDispositions",
+        "allDisposedInFamilyCourt",
+        "mostRecentTerminationCounty",
+        "convictionOrReleaseDate",
+        "otherConvictions",
+        "manifestInjusticeFacts",
+        "finesPaid"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Notarized signature",
+          "whereInPacket": "Form 281, signature and jurat",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Manifest-injustice explanation",
+          "whereInPacket": "Form 281, manifest-injustice section",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "History-dependent fields may be left as manual completion items.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "de_discretionary_superior_court",
+      "fixtureId": "de_discretionary_superior_court-synthetic-layout",
+      "caseReference": "SYN-DE-de_discretionary_superior_court",
+      "requiredFactKeys": [
+        "chargesAndDispositions",
+        "mostRecentTerminationCounty",
+        "anyChargeOutsideFamilyCourt",
+        "convictionOrReleaseDate",
+        "otherConvictions",
+        "manifestInjusticeFacts",
+        "finesPaid"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Notarized signature",
+          "whereInPacket": "Petition CIV_EXP_02_A, signature and jurat",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Manifest-injustice explanation",
+          "whereInPacket": "Petition CIV_EXP_02_A, manifest-injustice section",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "History-dependent fields may be left as manual completion items.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    },
+    {
+      "trackId": "de_mandatory_expungement",
+      "fixtureId": "de_mandatory_expungement-synthetic-layout",
+      "caseReference": "SYN-DE-de_mandatory_expungement",
+      "requiredFactKeys": [
+        "caseOutcome",
+        "offenceTypeAndSection",
+        "convictionOrReleaseDate",
+        "otherConvictions",
+        "pendingCharges",
+        "currentlyServing",
+        "finesPaid",
+        "priorExpungement"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": []
+    },
+    {
+      "trackId": "de_pardon_expungement",
+      "fixtureId": "de_pardon_expungement-synthetic-layout",
+      "caseReference": "SYN-DE-de_pardon_expungement",
+      "requiredFactKeys": [
+        "unconditionalPardon",
+        "convictionOffence",
+        "mostRecentTerminationCounty",
+        "manifestInjusticeFacts"
+      ],
+      "conditionalFactKeys": [],
+      "manualCompletionItems": [
+        {
+          "item": "Notarized signature",
+          "whereInPacket": "Petition CIV_EXP_02_A, signature and jurat",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Statement of the § 4375 basis in the body of the petition",
+          "whereInPacket": "Petition CIV_EXP_02_A, body",
+          "expectedTreatment": "left_usable_and_blank"
+        },
+        {
+          "item": "Manifest-injustice explanation",
+          "whereInPacket": "Petition CIV_EXP_02_A, manifest-injustice section",
+          "expectedTreatment": "left_usable_and_blank"
+        }
+      ]
+    }
+  ],
+  "requiredBoundaryFixtures": [
+    "missing_required_input",
+    "authority_identity_unresolved",
+    "captain_projection_missing",
+    "source_hash_mismatch",
+    "source_size_mismatch",
+    "source_mime_mismatch",
+    "third_party_field_ownership",
+    "mapping_unconfirmed",
+    "deterministic_repeat"
+  ]
+}

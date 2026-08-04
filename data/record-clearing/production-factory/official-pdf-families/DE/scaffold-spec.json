@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "rcap-queued-official-pdf-family-scaffold-spec/v1",
+  "familyId": "rcap-de-official-pdf-family",
+  "jurisdiction": "DE",
+  "jurisdictionName": "Delaware",
+  "authorityFamily": "Delaware SBI, Superior Court CIV_EXP, and Family Court Form 281 expungement forms",
+  "implementationJobId": "rcap-de-official-pdf-production",
+  "outputDirectory": "data/record-clearing/production-factory/official-pdf-families/DE",
+  "modulePath": "src/lib/rcap/packets/jurisdictions/delaware/official-pdf/family.ts",
+  "dedicatedVerifier": "scripts/verify-rcap-delaware-official-pdf-families.mjs",
+  "blockers": [
+    "Six document identities have no adopted authority asset, including the SBI mandatory-expungement application and the Superior and Family Court petition/order forms.",
+    "FORM-281E has a candidate authority asset but its registry measurement is not uniquely selectable; it cannot be promoted or substituted without authority resolution.",
+    "The accepted proposed-order identity remains unresolved for both Superior Court and Family Court packets.",
+    "Manifest-injustice and pardon-basis statements remain participant-owned narrative/legal assertions and must not be templated.",
+    "The pardon exception scope remains a legal-design build blocker and packet generation must stay disabled."
+  ],
+  "invariants": [
+    "Do not alter official fixed language, adopted component ordering, or Delaware legal-design decisions.",
+    "Participant signatures, notarized jurats, manifest-injustice narratives, pardon-basis assertions, court findings, outcome selections, judge fields, clerk fields, agency fields, and notary fields remain blank unless a confirmed ownership map expressly permits a non-signature value.",
+    "FORM-281E candidate evidence never substitutes for an adopted exact authority requirement.",
+    "Repository-private paths and official URLs are identity evidence only and are never opened by packet code or the dedicated verifier.",
+    "No source download, URL fallback, fuzzy identity match, live-route change, or runtime enablement is permitted."
+  ]
+}
