@@ -1,0 +1,286 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-ar-public-official-download-acic-gaps",
+  "parentJobId": "AUTH-03-acquisition-campaign-tier-1",
+  "jurisdiction": "AR",
+  "lane": "source_acquisition",
+  "strategyFamily": "public_official_download",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "1d8ed5a3302a055ffb5a590aa83dcb47f4a2df86",
+  "generatedOn": "2026-08-04",
+  "acquisitionIds": [
+    "acquire:AR:acic-order-veterans-court",
+    "acquire:AR:acic-petition-dismiss-and-seal-first-offenders",
+    "acquire:AR:acic-uniform-petition-to-seal"
+  ],
+  "downloadedSourceCount": 3,
+  "generatedFrom": [
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/authority.json"
+  ],
+  "method": {
+    "description": "Public official download of the three remaining Arkansas ACIC source gaps. Each binary was fetched by direct HTTPS GET from the URL published on the official ACIC criminal-history forms index, hashed with SHA-256, and its printed revision footer read from the retrieved bytes.",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "authenticationUsed": false,
+    "retainedIdentitiesReDownloaded": 0,
+    "binaryDeposition": "The retrieved binaries are NOT committed by this job. This job's ownedPaths are limited to its two production-factory JSON files, so only provenance, SHA-256 hashes, sizes, page counts and footer evidence are recorded here. Depositing the bytes into the source-gated corpus is a separate authorized step.",
+    "legalConclusionsAltered": false
+  },
+  "totals": {
+    "assignedAcquisitions": 3,
+    "binariesRetrieved": 3,
+    "retainedIdentitiesPreserved": 1,
+    "revisionsConfirmed": 2,
+    "revisionsUnconfirmed": 1,
+    "arkansasQueueRowsAddressed": 4
+  },
+  "acquisitions": [
+    {
+      "acquisitionId": "acquire:AR:acic-order-veterans-court",
+      "documentId": "ACIC-ORDER-VETERANS-COURT",
+      "documentRole": "proposed_order",
+      "trackIds": [
+        "ar-veterans-court"
+      ],
+      "componentIds": [
+        "ar-veterans-court-proposed-order-3"
+      ],
+      "disposition": "acquired_public_official_download",
+      "priorCurrentRevision": null,
+      "resolvedRevision": "REV-2021-07-27",
+      "revisionStatus": "confirmed_uniform_printed_footer",
+      "revisionEvidence": "Printed footer 'ACIC Form 07/27/2021' read from the retrieved bytes on all 4 of 4 pages. Uniform across the document, and identical to the companion ACIC-PETITION-VETERANS-COURT revision REV-2021-07-27 already adopted by Edition 1.2.",
+      "footerObservations": [
+        {
+          "page": 1,
+          "footer": "ACIC Form 07/27/2021"
+        },
+        {
+          "page": 2,
+          "footer": "ACIC Form 07/27/2021"
+        },
+        {
+          "page": 3,
+          "footer": "ACIC Form 07/27/2021"
+        },
+        {
+          "page": 4,
+          "footer": "ACIC Form 07/27/2021"
+        }
+      ],
+      "pageCount": 4,
+      "issuingBody": "Arkansas Crime Information Center (ACIC), Arkansas Department of Public Safety",
+      "officialIndexUrl": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+      "binary": {
+        "retrievedFileName": "veterans-court-order.pdf",
+        "officialUrl": "https://media.ark.org/dps/Veterans-Court-Order-to-Seal-Form-July2021.pdf",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "contentLength": 116034,
+        "etag": "35d3cc40970ea3b784679bcedff85d48",
+        "lastModified": "Tue, 12 May 2026 16:56:46 GMT",
+        "retrievalDate": "2026-08-04",
+        "retrievalMethod": "direct HTTPS GET of the link published on the official ACIC index",
+        "sha256": "dd73dfdee29c12977a360413311a973fd3366e5a7dc606d385666bfa3b38ccf5",
+        "sizeBytes": 116034
+      },
+      "requiresAuthorityConfirmation": false,
+      "supersedesQueueRows": [
+        {
+          "trackId": "ar-veterans-court",
+          "componentId": "ar-veterans-court-proposed-order-3",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        }
+      ]
+    },
+    {
+      "acquisitionId": "acquire:AR:acic-petition-dismiss-and-seal-first-offenders",
+      "documentId": "ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "documentRole": "primary_filing",
+      "trackIds": [
+        "ar-act346"
+      ],
+      "componentIds": [
+        "ar-act346-primary-filing-2"
+      ],
+      "disposition": "acquired_public_official_download_revision_unconfirmed",
+      "priorCurrentRevision": null,
+      "resolvedRevision": null,
+      "proposedRevision": "REV-2014-08-25",
+      "revisionStatus": "unconfirmed_mixed_printed_footer",
+      "revisionEvidence": "Printed footers read from the retrieved bytes are NOT uniform: pages 1, 2, 3 and 5 carry 'ACIC Form Revised 08/25/2014' while page 4 (the notary/verification page) carries 'ACIC Form Revised 04/01/2015'. The page-1 footer is 08/25/2014, which corroborates the acquisition intelligence expectation of a 2014-era revision. Edition 1.2 precedent for a mixed-footer ACIC form (the felony half of ACIC-UNIFORM-PETITION-TO-SEAL: page 1 07/21/2021, later pages 08/16/2021) adopted the page-1 footer, which would yield REV-2014-08-25 here. That precedent is recorded as a proposal only; adopting a revision is a Master Library authority determination and is not made by this job.",
+      "footerObservations": [
+        {
+          "page": 1,
+          "footer": "ACIC Form Revised 08/25/2014"
+        },
+        {
+          "page": 2,
+          "footer": "ACIC Form Revised 08/25/2014"
+        },
+        {
+          "page": 3,
+          "footer": "ACIC Form Revised 08/25/2014"
+        },
+        {
+          "page": 4,
+          "footer": "ACIC Form Revised 04/01/2015"
+        },
+        {
+          "page": 5,
+          "footer": "ACIC Form Revised 08/25/2014"
+        }
+      ],
+      "pageCount": 5,
+      "issuingBody": "Arkansas Crime Information Center (ACIC), Arkansas Department of Public Safety",
+      "officialIndexUrl": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+      "binary": {
+        "retrievedFileName": "first-offender-petition.pdf",
+        "officialUrl": "https://media.ark.org/dps/12_FirstOffenderPetitionDraftF.pdf",
+        "httpStatus": 200,
+        "contentType": "application/pdf",
+        "contentLength": 530147,
+        "etag": "5bb6384ec8f12f1f5741ec3e023d2f1c",
+        "lastModified": "Tue, 12 May 2026 17:15:34 GMT",
+        "retrievalDate": "2026-08-04",
+        "retrievalMethod": "direct HTTPS GET of the link published on the official ACIC index",
+        "sha256": "b90179f471d3b47bc4aa4d40d8b1cf7aa4c0633d05c4ba5ad3d5a49895bbacd3",
+        "sizeBytes": 530147
+      },
+      "requiresAuthorityConfirmation": true,
+      "authorityQuestion": "Which printed footer governs the revision of ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS: the page-1/majority stamp 08/25/2014, or the later page-4 stamp 04/01/2015?",
+      "supersedesQueueRows": [
+        {
+          "trackId": "ar-act346",
+          "componentId": "ar-act346-primary-filing-2",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        }
+      ]
+    },
+    {
+      "acquisitionId": "acquire:AR:acic-uniform-petition-to-seal",
+      "documentId": "ACIC-UNIFORM-PETITION-TO-SEAL",
+      "documentRole": "primary_filing",
+      "trackIds": [
+        "ar-felony-seal",
+        "ar-misdemeanor-seal"
+      ],
+      "componentIds": [
+        "ar-felony-seal-primary-filing-1",
+        "ar-misdemeanor-seal-primary-filing-1"
+      ],
+      "disposition": "acquired_missing_half_retained_half_preserved",
+      "compositeDocument": true,
+      "halves": [
+        {
+          "half": "felony",
+          "coversTrackId": "ar-felony-seal",
+          "action": "preserved_and_bound_no_download",
+          "officialUrl": "https://media.ark.org/dps/Felony-Petition-Form-f.pdf",
+          "resolvedRevision": "REV-2021-07-21",
+          "revisionStatus": "retained_edition_1_2_identity",
+          "revisionEvidence": "Edition 1.2 retains the felony half at REV-2021-07-21 (page-1 printed footer 07/21/2021; later pages 08/16/2021). Per the job stop condition this retained identity is preserved and bound, not re-acquired.",
+          "retainedArtifact": {
+            "artifactId": "felony-petition-form-f",
+            "fileName": "Felony-Petition-Form-f.pdf",
+            "sourcePath": "private/Nationwide Record Clearing/LegalEase Arkanasa/Felony-Petition-Form-f.pdf",
+            "recordedSha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+            "hashState": "match",
+            "presence": "present",
+            "sizeBytes": 178947,
+            "pageCount": 4,
+            "technicalClass": "clean_acroform"
+          },
+          "binaryDownloaded": false,
+          "corroboration": "An HTTP HEAD (metadata only, no body transferred) against the official URL returned Content-Length 178947, equal to the retained artifact's recorded sizeBytes. The retained bytes were not replaced and the binary was not re-downloaded."
+        },
+        {
+          "half": "misdemeanor",
+          "coversTrackId": "ar-misdemeanor-seal",
+          "action": "retrieved_and_hashed",
+          "officialUrl": "https://media.ark.org/dps/3-Misdemeanor-Petition-8_01_2023.pdf",
+          "resolvedRevision": "REV-2023-10-25",
+          "revisionStatus": "confirmed_uniform_printed_footer",
+          "revisionEvidence": "Printed footer 'ACIC Form Revised 10/25/2023' read from the retrieved bytes on all 5 of 5 pages, confirming the acquisition intelligence note that the printed footer (10/25/2023) governs over the filename's declared 08/01/2023. Not retained by Edition 1.2.",
+          "footerObservations": [
+            {
+              "page": 1,
+              "footer": "ACIC Form Revised 10/25/2023"
+            },
+            {
+              "page": 2,
+              "footer": "ACIC Form Revised 10/25/2023"
+            },
+            {
+              "page": 3,
+              "footer": "ACIC Form Revised 10/25/2023"
+            },
+            {
+              "page": 4,
+              "footer": "ACIC Form Revised 10/25/2023"
+            },
+            {
+              "page": 5,
+              "footer": "ACIC Form Revised 10/25/2023"
+            }
+          ],
+          "pageCount": 5,
+          "binary": {
+            "retrievedFileName": "misdemeanor-petition.pdf",
+            "officialUrl": "https://media.ark.org/dps/3-Misdemeanor-Petition-8_01_2023.pdf",
+            "httpStatus": 200,
+            "contentType": "application/pdf",
+            "contentLength": 775618,
+            "etag": "7adcb55fb8bc32af9563887d555a2673",
+            "lastModified": "Tue, 12 May 2026 16:46:18 GMT",
+            "retrievalDate": "2026-08-04",
+            "retrievalMethod": "direct HTTPS GET of the link published on the official ACIC index",
+            "sha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+            "sizeBytes": 775618
+          },
+          "binaryDownloaded": true,
+          "inventoryCrossCheck": {
+            "artifactId": "3-misdemeanor-petition-8-01-2023",
+            "recordedSha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+            "retrievedSha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+            "identical": true,
+            "note": "The copy already present in the repository inventory is byte-identical to the live official binary retrieved here, though it was never adopted as an Edition 1.2 source."
+          }
+        }
+      ],
+      "issuingBody": "Arkansas Crime Information Center (ACIC), Arkansas Department of Public Safety",
+      "officialIndexUrl": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+      "requiresAuthorityConfirmation": false,
+      "supersedesQueueRows": [
+        {
+          "trackId": "ar-misdemeanor-seal",
+          "componentId": "ar-misdemeanor-seal-primary-filing-1",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        },
+        {
+          "trackId": "ar-felony-seal",
+          "componentId": "ar-felony-seal-primary-filing-1",
+          "priorRepositoryStatus": "no_repository_binary",
+          "priorEdition12Disposition": "identity_established_binary_unavailable"
+        }
+      ]
+    }
+  ],
+  "flaggedForAuthorityConfirmation": [
+    {
+      "acquisitionId": "acquire:AR:acic-petition-dismiss-and-seal-first-offenders",
+      "documentId": "ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "reason": "mixed_printed_revision_footers",
+      "question": "Which printed footer governs the revision of ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS: the page-1/majority stamp 08/25/2014, or the later page-4 stamp 04/01/2015?",
+      "proposedRevision": "REV-2014-08-25",
+      "binaryAcquired": true,
+      "note": "The binary is acquired and hashed; only the revision determination is withheld. Identity and issuer authority are confirmed."
+    }
+  ]
+}
