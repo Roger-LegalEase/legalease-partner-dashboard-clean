@@ -16,8 +16,8 @@
     "excluded": "Retired, mislabelled, unofficial or otherwise outside the authority set."
   },
   "totals": {
-    "rows": 239,
-    "distinctDocuments": 118,
+    "rows": 242,
+    "distinctDocuments": 120,
     "byJurisdiction": {
       "AK": 1,
       "AL": 18,
@@ -40,19 +40,20 @@
       "MI": 4,
       "MN": 13,
       "MO": 21,
-      "MT": 11
+      "MT": 11,
+      "PA": 3
     },
     "byCurrentEditionStatus": {
       "authority_hash_conflict": 4,
       "authority_mapped_source_gated": 51,
-      "authority_role_mismatch": 9,
+      "authority_role_mismatch": 12,
       "authority_unmanifested_source": 175
     },
     "byRequiredAcquisition": {
       "Acquire the current official binary from the issuing authority and manifest it.": 169,
       "Clear the edition's source gate — currentness, provenance or commercial use — or keep packet identity without runtime selection.": 51,
       "Establish official title, revision and provenance for the held binary, then manifest it in an adopted edition.": 6,
-      "Re-manifest the source under the document role the component requires, or map the component to the asset that carries that role.": 9,
+      "Re-manifest the source under the document role the component requires, or map the component to the asset that carries that role.": 12,
       "Separate the conflicting document identities and re-manifest each at its own document ID and SHA-256.": 4
     },
     "byEdition12Disposition": {
@@ -61,19 +62,19 @@
       "commercial_use_hold": 30,
       "currentness_unresolved": 9,
       "identity_established_binary_unavailable": 133,
-      "provenance_unresolved": 19
+      "provenance_unresolved": 22
     },
     "byIdentityConfidence": {
       "document_identity_and_issuer_confirmed": 79,
       "document_identity_confirmed_component_names_the_rule_not_the_form": 9,
       "document_identity_confirmed_role_label_incorrect": 6,
-      "document_identity_known": 130,
+      "document_identity_known": 133,
       "issuer_confirmed_document_class_incorrect_in_the_edition": 5,
       "issuer_confirmed_two_documents_share_one_document_id": 4,
       "two_distinct_documents_conflated_in_one_component_identity": 6
     },
     "closed": 10,
-    "open": 229,
+    "open": 232,
     "rowsWithAuthoredDisposition": 115,
     "overlayKeysWithNoCurrentRow": []
   },
@@ -7198,6 +7199,94 @@
       "edition12Disposition": "provenance_unresolved",
       "edition12DispositionRationale": "The issuer is confirmed as Montana DOJ / DCI CRISS. The defect is in the edition, not the source: the CRISS form is classed `supporting_process`, which the authority gate treats as unable to back an official-form component, producing five role mismatches. Correcting it means republishing the asset under the correct class in a successor edition, not remapping in this repository.",
       "edition12Evidence": "Montana DOJ conviction-expungement process publication, retrieved 2026-08-03 from an archived capture."
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_790_nonconviction",
+      "componentId": "pa_790_nonconviction-fee-waiver-4",
+      "composedUnitId": null,
+      "composedUnitAssociation": "not_a_composed_track",
+      "expectedDocumentId": "PA-IFP-CCP",
+      "expectedDocumentRole": "fee_waiver",
+      "officialTitle": "Court of Common Pleas Motion to Proceed In Forma Pauperis",
+      "issuingAuthority": null,
+      "knownOfficialUrl": "https://www.pacourts.us/forms/for-the-public",
+      "legalBasis": [
+        "18 Pa.C.S. § 9122(a)",
+        "18 Pa.C.S. § 9102",
+        "Pa.R.Crim.P. 790"
+      ],
+      "currentEditionStatus": "authority_role_mismatch",
+      "repositoryStatus": "no_repository_binary",
+      "requiredAcquisition": "Re-manifest the source under the document role the component requires, or map the component to the asset that carries that role.",
+      "currentnessQuestion": "Confirm REV-UNKNOWN is still the issuer's current revision.",
+      "commercialUseQuestion": "The publisher's licensing and commercial-use terms for this document are unresolved.",
+      "sourceIdentityConfidence": "document_identity_known",
+      "runtimeEffect": "runtime_disabled",
+      "blockerDedupeKey": "mapping:PA:pa_790_nonconviction:pa_790_nonconviction-fee-waiver-4",
+      "acquisitionKey": "acquire:PA:pa-ifp-ccp",
+      "edition12Disposition": "provenance_unresolved",
+      "edition12DispositionRationale": "No acquisition was completed for this document in the Edition 1.2 pass; the deterministic fail-closed result stands.",
+      "edition12Evidence": null
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_490_nonconviction",
+      "componentId": "pa_490_nonconviction-fee-waiver-4",
+      "composedUnitId": null,
+      "composedUnitAssociation": "not_a_composed_track",
+      "expectedDocumentId": "PA-IFP-MDJ",
+      "expectedDocumentRole": "fee_waiver",
+      "officialTitle": "Magisterial District Court In Forma Pauperis Affidavit",
+      "issuingAuthority": null,
+      "knownOfficialUrl": "https://www.pacourts.us/forms/for-the-public",
+      "legalBasis": [
+        "18 Pa.C.S. § 9122(a)",
+        "Pa.R.Crim.P. 490"
+      ],
+      "currentEditionStatus": "authority_role_mismatch",
+      "repositoryStatus": "no_repository_binary",
+      "requiredAcquisition": "Re-manifest the source under the document role the component requires, or map the component to the asset that carries that role.",
+      "currentnessQuestion": "Confirm REV-UNKNOWN is still the issuer's current revision.",
+      "commercialUseQuestion": "The publisher's licensing and commercial-use terms for this document are unresolved.",
+      "sourceIdentityConfidence": "document_identity_known",
+      "runtimeEffect": "runtime_disabled",
+      "blockerDedupeKey": "mapping:PA:pa_490_nonconviction:pa_490_nonconviction-fee-waiver-4",
+      "acquisitionKey": "acquire:PA:pa-ifp-mdj",
+      "edition12Disposition": "provenance_unresolved",
+      "edition12DispositionRationale": "No acquisition was completed for this document in the Edition 1.2 pass; the deterministic fail-closed result stands.",
+      "edition12Evidence": null
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_9122_1_limited_access",
+      "componentId": "pa_9122_1_limited_access-fee-waiver-4",
+      "composedUnitId": null,
+      "composedUnitAssociation": "not_a_composed_track",
+      "expectedDocumentId": "PA-IFP-CCP",
+      "expectedDocumentRole": "fee_waiver",
+      "officialTitle": "Court of Common Pleas Motion to Proceed In Forma Pauperis",
+      "issuingAuthority": null,
+      "knownOfficialUrl": "https://www.pacourts.us/forms/for-the-public",
+      "legalBasis": [
+        "18 Pa.C.S. § 9122.1",
+        "18 Pa.C.S. § 9122.3",
+        "18 Pa.C.S. § 9102",
+        "18 Pa.C.S. § 9122.5",
+        "Pa.R.Crim.P. 791"
+      ],
+      "currentEditionStatus": "authority_role_mismatch",
+      "repositoryStatus": "no_repository_binary",
+      "requiredAcquisition": "Re-manifest the source under the document role the component requires, or map the component to the asset that carries that role.",
+      "currentnessQuestion": "Confirm REV-UNKNOWN is still the issuer's current revision.",
+      "commercialUseQuestion": "The publisher's licensing and commercial-use terms for this document are unresolved.",
+      "sourceIdentityConfidence": "document_identity_known",
+      "runtimeEffect": "runtime_disabled",
+      "blockerDedupeKey": "mapping:PA:pa_9122_1_limited_access:pa_9122_1_limited_access-fee-waiver-4",
+      "acquisitionKey": "acquire:PA:pa-ifp-ccp",
+      "edition12Disposition": "provenance_unresolved",
+      "edition12DispositionRationale": "No acquisition was completed for this document in the Edition 1.2 pass; the deterministic fail-closed result stands.",
+      "edition12Evidence": null
     }
   ]
 }

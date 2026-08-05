@@ -89,10 +89,13 @@ function verifyCommittedReadiness(context, jurisdiction) {
     throw new Error(materializationIssues.join("\n"));
   }
 
-  const outstanding = context.queue.outstandingJurisdictions ?? [];
   const records = buildNormalizationReadinessRecords({
     ...context,
-    outstandingJurisdictions: outstanding
+    // Readiness is the immutable 24-jurisdiction foundation partition. The
+    // implementation queue intentionally removes jurisdictions after their
+    // normalization completes, so it cannot be used as the verifier's
+    // denominator.
+    outstandingJurisdictions: REMAINING_NORMALIZATION_JURISDICTIONS
   });
   const remainingRecords = REMAINING_NORMALIZATION_JURISDICTIONS.map(
     (code) => records.get(code)

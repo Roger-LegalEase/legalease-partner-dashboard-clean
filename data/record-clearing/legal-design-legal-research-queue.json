@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "note": "Deferred, not missing. Counsel has not identified the governing mechanism, whether the route exists, the correct output strategy, or the legally accepted filing vehicle. No strategy is invented to make the record importable. These tracks are absent from runtime resolution and unreachable; they are not runtime_disabled, because they were never registered.",
-  "deferredTrackCount": 8,
+  "deferredTrackCount": 10,
   "deferredTracks": [
     {
       "jurisdiction": "AK",
@@ -679,6 +679,227 @@
           "sourceFile": "PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
           "sourceHeading": "TRACK 11 / Open questions",
           "sourceStatement": "Whether the correction route carries a filing fee, which changes the product economics."
+        }
+      ]
+    },
+    {
+      "jurisdiction": "SD",
+      "trackId": "sd_23a_27_53_drug",
+      "publicName": "Drug-offence deferred sentencing and dismissal",
+      "outputStrategy": null,
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "runtimeRegistration": "none",
+      "runtimeReachable": false,
+      "legalDesignStatus": "legal_research_required",
+      "legalDesignRationale": "Additional research required, as counsel decided. Reading § 23A-27-53 at the official source confirmed the mechanism and added two eligibility facts, but it did not answer the question that matters for record clearing: what record remains once the original charge is dismissed and the defendant stands convicted of the lesser ingestion or possession offence. The mechanism is a plea-bargaining structure rather than a record-clearing one, and its interaction with the arrest and SIS tracks is not established. The track is deferred, absent from runtime resolution and unreachable, with counsel's structure preserved.",
+      "authority": [
+        "SDCL § 23A-27-53",
+        "SDCL § 22-42-5",
+        "SDCL § 22-42-5.1",
+        "SDCL § 22-42-15",
+        "SDCL § 22-42-15.1",
+        "SDCL § 22-6-11"
+      ],
+      "mechanism": "After receiving a plea of guilty for a violation of § 22-42-5 or § 22-42-5.1 a court may, without entering a judgment of guilt and with the consent of the defendant, defer imposition of sentence and place the defendant on probation on terms that must include a drug and alcohol evaluation and any recommended course of treatment. If after one year the defendant has completed treatment and complied with all conditions, the court shall dismiss the § 22-42-5 or § 22-42-5.1 charge upon the defendant pleading guilty to ingestion under § 22-42-15 or possession under § 22-42-15.1. No person previously granted a deferred imposition of sentence is eligible for a second. A defendant is ineligible where aggravating circumstances exist as defined by § 22-6-11, or where the defendant is serving a sentence under the supervision of the executive branch.",
+      "destination": {
+        "kind": "court",
+        "name": "The court with jurisdiction of the defendant on the § 22-42-5 or § 22-42-5.1 charge",
+        "detail": "The mechanism operates inside a pending criminal case: the court defers imposition of sentence and, after a year of compliance, dismisses the original charge on a plea to the lesser offence. Whether it produces any sealable record, and how it interacts with the arrest and SIS tracks, is not established."
+      },
+      "unresolvedQuestions": [
+        {
+          "question": "What record remains after dismissal of the original charge, given that the dismissal is conditioned on the defendant pleading guilty to ingestion under § 22-42-15 or possession under § 22-42-15.1? The mechanism trades a greater charge for a conviction on a lesser one, which is a plea-bargaining structure rather than a record-clearing one, and whether it produces a sealable record is not established.",
+          "impact": "release_blocker",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 5 / Open questions / 2",
+            "sourceStatement": "What record remains after dismissal of the original charge, given the guilty plea to the lesser offense. Release blocker."
+          }
+        },
+        {
+          "question": "How does § 23A-27-53 interact with the arrest-expungement track and the suspended-imposition-of-sentence track? Counsel recorded that this is not established.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 5 / Why this needs work",
+            "sourceStatement": "Whether it produces a sealable record, and how it interacts with Tracks 1 and 4, is not established."
+          }
+        },
+        {
+          "question": "What do 'aggravating circumstances' mean here? The section defines them by reference to SDCL § 22-6-11, which was not read at source in this pass.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 5 / Open questions / 3",
+            "sourceStatement": "What \"aggravating circumstances\" means here. Unresolved."
+          }
+        },
+        {
+          "question": "Counsel recorded the full text of § 23A-27-53 as a build blocker. The section has now been read at the official South Dakota Legislature publication and matches the review, and it additionally supplies two facts the review did not carry: the aggravating-circumstances exclusion is defined by SDCL § 22-6-11, and no person previously granted a deferred imposition of sentence is eligible for a second.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 5 / Open questions / 1",
+            "sourceStatement": "Full text of § 23A-27-53. Build blocker.",
+            "counselQuestion": "The section now reads at source. Does the once-only deferred-imposition limit and the § 22-6-11 cross-reference change counsel's view of the track's shape?"
+          }
+        }
+      ],
+      "deferralReasons": [
+        {
+          "statement": "The output strategy is undetermined. No concrete strategy may stand in for it while the track is deferred.",
+          "affectedElement": "output_strategy"
+        },
+        {
+          "statement": "Whether § 23A-27-53 produces a sealable record at all, and how it interacts with the arrest-expungement and SIS tracks, is not established.",
+          "affectedElement": "governing_mechanism"
+        }
+      ],
+      "requiredLegalResearch": [
+        "How does § 23A-27-53 interact with the arrest-expungement track and the suspended-imposition-of-sentence track? Counsel recorded that this is not established.",
+        "What do 'aggravating circumstances' mean here? The section defines them by reference to SDCL § 22-6-11, which was not read at source in this pass."
+      ],
+      "provenance": [
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "TRACK 5 / Output strategy",
+          "sourceStatement": "Output strategy: undetermined."
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "TRACK 5 / Why this needs work",
+          "sourceStatement": "the mechanism involves a plea to a lesser offense as the price of dismissal of the greater, which is a plea-bargaining structure rather than a record-clearing one. Whether it produces a sealable record, and how it interacts with Tracks 1 and 4, is not established."
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "TRACK 5 / Open questions / 2",
+          "sourceStatement": "What record remains after dismissal of the original charge, given the guilty plea to the lesser offense. Release blocker."
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "TRACK 5 / Why this needs work",
+          "sourceStatement": "Whether it produces a sealable record, and how it interacts with Tracks 1 and 4, is not established."
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "TRACK 5 / Open questions / 3",
+          "sourceStatement": "What \"aggravating circumstances\" means here. Unresolved."
+        },
+        {
+          "classificationBasis": "counsel_confirmation_required",
+          "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "TRACK 5 / Open questions / 1",
+          "sourceStatement": "Full text of § 23A-27-53. Build blocker.",
+          "counselQuestion": "The section now reads at source. Does the once-only deferred-imposition limit and the § 22-6-11 cross-reference change counsel's view of the track's shape?"
+        }
+      ]
+    },
+    {
+      "jurisdiction": "SD",
+      "trackId": "sd_23_6_8_1_destruction",
+      "publicName": "Destruction of old misdemeanor records by the state bureau",
+      "outputStrategy": null,
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "runtimeRegistration": "none",
+      "runtimeReachable": false,
+      "legalDesignStatus": "legal_research_required",
+      "legalDesignRationale": "Additional research required, as counsel decided. Reading § 23-6-8.1 at the official source answers counsel's question about whether destruction is automatic, discretionary or on request — the director 'may authorize' it, so it is discretionary and bureau-initiated with no participant application described — and it widens the section beyond the misdemeanor branch the review carried. What remains open is how bureau destruction interacts with the DCI nonpublic record expressly retained on the expungement and SIS tracks, and whether there is any participant-facing action at all. The track is deferred, absent from runtime resolution and unreachable, with counsel's structure preserved and the statutory correction recorded.",
+      "authority": [
+        "SDCL § 23-6-8.1"
+      ],
+      "mechanism": "The director of the Bureau of Criminal Statistics may authorize the destruction of information and records of: persons who are dead; persons seventy-five years of age or older unless a violation has occurred within the last ten years; incidents that are no longer considered crimes under the laws of South Dakota; and misdemeanor offenses whose final date of disposition occurred at least ten years prior to the authorized destruction date. Information and records received by the bureau may not be destroyed except as provided by this section. This is the only true destruction provision identified in South Dakota and it sits entirely outside the expungement chapter.",
+      "destination": {
+        "kind": "agency",
+        "name": "Director of the South Dakota Bureau of Criminal Statistics",
+        "detail": "The statute vests the destruction authority in the bureau's director, who MAY authorize destruction. No participant application, petition or request is described by the section."
+      },
+      "unresolvedQuestions": [
+        {
+          "question": "Counsel flagged as a release blocker whether § 23-6-8.1 destruction is automatic, discretionary or on request, because it determines whether there is anything for a participant to do. The section has now been read at the official South Dakota Legislature publication: the director of the Bureau of Criminal Statistics 'may authorize' the destruction. It is discretionary and bureau-initiated, and the section describes no participant application, petition or request. The section also covers three categories the review did not carry: deceased persons, persons seventy-five or older absent a violation in the last ten years, and incidents no longer considered crimes.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 7 / Open questions / 2",
+            "sourceStatement": "Whether destruction is automatic, discretionary, or on request. Release blocker, because it determines whether there is anything for a participant to do.",
+            "counselQuestion": "The section reads 'may authorize' and describes no participant application. Does counsel accept that this is a discretionary bureau-initiated function with nothing for a participant to submit, and should the track therefore be retained as guidance or dropped from the participant-facing set entirely?"
+          }
+        },
+        {
+          "question": "How does § 23-6-8.1 destruction interact with the DCI nonpublic record that is expressly retained on the expungement and SIS tracks?",
+          "impact": "build_blocker",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 7 / Open questions / 3",
+            "sourceStatement": "How it interacts with the DCI nonpublic record retained on the expungement tracks. Unresolved."
+          }
+        },
+        {
+          "question": "effectiveFrom records 1984-07-01, the South Dakota default effective date for SL 1984 ch 176, the most recent amendment in the official source line. The section originates in SL 1979 ch 158 § 7.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 7 / Controlling statute",
+            "sourceStatement": "Controlling statute: SDCL § 23-6-8.1.",
+            "counselQuestion": "Is the South Dakota July 1 default the right effectiveFrom where the session law states no express effective date?"
+          }
+        }
+      ],
+      "deferralReasons": [
+        {
+          "statement": "The output strategy is undetermined pending resolution of whether there is any participant-facing action on this track at all.",
+          "affectedElement": "output_strategy"
+        }
+      ],
+      "requiredLegalResearch": [
+        "How does § 23-6-8.1 destruction interact with the DCI nonpublic record that is expressly retained on the expungement and SIS tracks?"
+      ],
+      "provenance": [
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "TRACK 7 / Output strategy",
+          "sourceStatement": "Output strategy: process_guidance, pending the text."
+        },
+        {
+          "classificationBasis": "counsel_confirmation_required",
+          "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "TRACK 7 / Open questions / 2",
+          "sourceStatement": "Whether destruction is automatic, discretionary, or on request. Release blocker, because it determines whether there is anything for a participant to do.",
+          "counselQuestion": "The section reads 'may authorize' and describes no participant application. Does counsel accept that this is a discretionary bureau-initiated function with nothing for a participant to submit, and should the track therefore be retained as guidance or dropped from the participant-facing set entirely?"
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "TRACK 7 / Open questions / 3",
+          "sourceStatement": "How it interacts with the DCI nonpublic record retained on the expungement tracks. Unresolved."
+        },
+        {
+          "classificationBasis": "counsel_confirmation_required",
+          "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "TRACK 7 / Controlling statute",
+          "sourceStatement": "Controlling statute: SDCL § 23-6-8.1.",
+          "counselQuestion": "Is the South Dakota July 1 default the right effectiveFrom where the session law states no express effective date?"
         }
       ]
     }

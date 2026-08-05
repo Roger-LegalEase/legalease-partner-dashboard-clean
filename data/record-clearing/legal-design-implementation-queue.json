@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "data/record-clearing/legal-design-intake",
-  "jurisdictionsReceived": 27,
-  "jurisdictionsOutstanding": 24,
+  "jurisdictionsReceived": 29,
+  "jurisdictionsOutstanding": 22,
   "outstandingJurisdictions": [
     "KY",
     "NC",
@@ -18,7 +18,6 @@
     "OR",
     "RI",
     "SC",
-    "SD",
     "TN",
     "TX",
     "UT",
@@ -26,8 +25,7 @@
     "VT",
     "WA",
     "WI",
-    "WV",
-    "WY"
+    "WV"
   ],
   "rejectedMemos": [],
   "deferredTracks": [
@@ -62,6 +60,14 @@
     {
       "jurisdiction": "PA",
       "trackId": "pa_clean_slate_correction"
+    },
+    {
+      "jurisdiction": "SD",
+      "trackId": "sd_23a_27_53_drug"
+    },
+    {
+      "jurisdiction": "SD",
+      "trackId": "sd_23_6_8_1_destruction"
     }
   ],
   "batches": [
@@ -156,7 +162,7 @@
     {
       "batch": "C_custom_pleading",
       "label": "Custom pleading",
-      "trackCount": 37,
+      "trackCount": 40,
       "tracks": [
         {
           "jurisdiction": "AZ",
@@ -1971,13 +1977,260 @@
               "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
             }
           ]
+        },
+        {
+          "jurisdiction": "WY",
+          "trackId": "wy_nc_1401",
+          "publicName": "Clear an arrest or dismissed charge",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (packet_components): Which Wyoming courts publish local expungement templates? Not surveyed, and resolvable by a clerk survey across the 23 counties."
+          ],
+          "scopeRestrictions": [
+            "Do not reuse content from the Wyoming Judicial Branch Expungement Basics handout. It carries a 10/2015 revision date and both conviction statutes and the juvenile provisions have been amended since."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Is the Wyoming Judicial Branch Expungement Basics handout current? It carries a 10/2015 revision date while being hosted in a 2025 upload path.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "participant_instructions",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 5",
+                "sourceStatement": "Is the Expungement Basics handout current? It carries a 10/2015 revision date. Nonblocking research note, mitigated by not reusing its content."
+              }
+            },
+            {
+              "question": "Did the 2025 or 2026 Wyoming sessions amend § 7-13-1401, § 7-13-1501 or § 7-13-1502? No amendment was identified, but the sessions were not swept, and the 2025 session did amend the treatment court program at § 5-12-105 through SF160.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 6",
+                "sourceStatement": "Did the 2025 or 2026 sessions amend any of the three statutes? The 2025 session did amend the treatment court program at section 5-12-105 through SF160, which shows the area was legislatively active. No amendment to the expungement statutes was identified, but the sessions were not swept. Nonblocking research note with a standing monitor."
+              }
+            },
+            {
+              "question": "Is there a filing fee for a Wyo. Stat. § 6-2-708 trafficking vacatur motion? Unresolved, and nonblocking because that route is referred out rather than generated.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "filing_process",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 7",
+                "sourceStatement": "Is there a filing fee for a section 6-2-708 vacatur motion? Unresolved. Nonblocking, since that track is referred out."
+              }
+            },
+            {
+              "question": "What is the original enactment date of Wyo. Stat. § 7-13-1401? The official Wyoming statute publication prints no source or history notes, so effectiveFrom records the date the current operative text took effect (2019 HB0044, Enrolled Act No. 17, effective July 1, 2019) rather than the original enactment.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "CONSOLIDATED PRIMARY SOURCES",
+                "sourceStatement": "Wyo. Stat. section 7-13-1401, petition for expungement, records of arrest, dismissal, disposition | Wyoming Legislature, via Justia | 2024 and 2025 code versions reviewed",
+                "counselQuestion": "Should effectiveFrom carry the original enactment date of each Wyoming expungement section, or the date the current operative text took effect? The official wyoleg.gov statute publication omits history notes, and the review's only date evidence for this section is an unofficial mirror."
+              }
+            }
+          ],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (packet_components): Which Wyoming courts publish local expungement templates? Not surveyed, and resolvable by a clerk survey across the 23 counties."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "WY",
+          "trackId": "wy_misd_1501",
+          "publicName": "Clear a misdemeanor conviction",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: The status-offense determination under Wyo. Stat. § 7-1-107(b)(iii) is not encoded. Do not assume underage alcohol, nicotine or other minor conduct is automatically a status offense, because the one-year and five-year clocks turn on it. (undetermined: waiting_period)",
+            "Open question blocks the build (waiting_period): What exactly does Wyo. Stat. § 7-1-107(b)(iii) define as a status offense, and which common Wyoming charges fall inside it? The one-year and five-year clocks turn entirely on this.",
+            "Open question blocks the build (packet_components): Which Wyoming courts publish local expungement templates? Not surveyed, and resolvable by a clerk survey across the 23 counties."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [
+            {
+              "question": "Does an expungement under § 7-13-1501 restore any rights? Section 7-13-1502(m) has an express restoration provision and § 7-13-1501 does not appear to, which changes what may be promised on the misdemeanor track.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "legal_effect_or_warning",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 8",
+                "sourceStatement": "Does an expungement under section 7-13-1501 restore any rights? Section 7-13-1502(m) has an express restoration provision and section 7-13-1501 does not appear to. Nonblocking research note, but it changes what may be promised on the misdemeanor track."
+              }
+            },
+            {
+              "question": "Did the 2025 or 2026 Wyoming sessions amend § 7-13-1501? No amendment was identified, but the sessions were not swept.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 6",
+                "sourceStatement": "Did the 2025 or 2026 sessions amend any of the three statutes? No amendment to the expungement statutes was identified, but the sessions were not swept. Nonblocking research note with a standing monitor."
+              }
+            },
+            {
+              "question": "What is the original enactment date of Wyo. Stat. § 7-13-1501? The official Wyoming statute publication prints no source or history notes; the section is known to predate 2009 because 2009 HB0106 amended it, and effectiveFrom records the date the current operative text took effect (2014 HB0006, effective July 1, 2014).",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "CONSOLIDATED PRIMARY SOURCES",
+                "sourceStatement": "Wyo. Stat. section 7-13-1501, expungement of certain misdemeanor convictions | Wyoming Legislature, via Justia | 2025 Wyoming Statutes",
+                "counselQuestion": "Should effectiveFrom carry the original enactment date of § 7-13-1501, or the date the current operative text took effect? The official wyoleg.gov statute publication omits history notes."
+              }
+            }
+          ],
+          "participantActionCount": 17,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: The status-offense determination under Wyo. Stat. § 7-1-107(b)(iii) is not encoded. Do not assume underage alcohol, nicotine or other minor conduct is automatically a status offense, because the one-year and five-year clocks turn on it. (undetermined: waiting_period)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (waiting_period): What exactly does Wyo. Stat. § 7-1-107(b)(iii) define as a status offense, and which common Wyoming charges fall inside it? The one-year and five-year clocks turn entirely on this."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (packet_components): Which Wyoming courts publish local expungement templates? Not surveyed, and resolvable by a clerk survey across the 23 counties."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "WY",
+          "trackId": "wy_fel_1502",
+          "publicName": "Clear a felony conviction",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: The § 7-13-1502 exclusion list is long and statute-specific and is not encoded. Do not offer this track without attorney review of whether the felony appears on the list. (undetermined: eligibility_branch)",
+            "Open question blocks the build (governing_mechanism): Does anything else reach a completed felony deferral? If § 7-13-1401 is barred and § 7-13-1502 requires a conviction, is there any other Wyoming mechanism, including anything within § 7-13-301 itself?",
+            "Open question blocks the build (packet_components): Which Wyoming courts publish local expungement templates? Not surveyed, and resolvable by a clerk survey across the 23 counties."
+          ],
+          "scopeRestrictions": [
+            "This track carries a mandatory attorney-review gate before the packet is offered, because the restoration-of-rights payoff makes it worth doing properly once."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Did the 2025 or 2026 Wyoming sessions amend § 7-13-1502? No amendment was identified, but the sessions were not swept.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 6",
+                "sourceStatement": "Did the 2025 or 2026 sessions amend any of the three statutes? No amendment to the expungement statutes was identified, but the sessions were not swept. Nonblocking research note with a standing monitor."
+              }
+            },
+            {
+              "question": "effectiveFrom records the date the current operative text of § 7-13-1502 took effect (2014 HB0006, effective July 1, 2014) rather than its original enactment (2011 SF0088, effective July 1, 2011), because the official Wyoming statute publication prints no source or history notes and the operative-text date is what the normalization could confirm from official primary authority.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "CONSOLIDATED PRIMARY SOURCES",
+                "sourceStatement": "Wyo. Stat. section 7-13-1502, expungement of certain felony convictions | Wyoming Legislature, via FindLaw and Justia | current",
+                "counselQuestion": "Should effectiveFrom carry the original enactment date of § 7-13-1502 (2011-07-01, confirmed from 2011 SF0088) or the date the current operative text took effect (2014-07-01, confirmed from 2014 HB0006)?"
+              }
+            }
+          ],
+          "participantActionCount": 20,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: The § 7-13-1502 exclusion list is long and statute-specific and is not encoded. Do not offer this track without attorney review of whether the felony appears on the list. (undetermined: eligibility_branch)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (governing_mechanism): Does anything else reach a completed felony deferral? If § 7-13-1401 is barred and § 7-13-1502 requires a conviction, is there any other Wyoming mechanism, including anything within § 7-13-301 itself?"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (packet_components): Which Wyoming courts publish local expungement templates? Not surveyed, and resolvable by a clerk survey across the 23 counties."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Is the Lynch citation accurate? The internal reference cites a Wyoming Supreme Court decision at docket S-25-0140, reported as a 2026 case, for the proposition that § 7-13-1502 requires an actual felony conviction and that a completed deferral producing a dismissal is not one. A search surfaced a different Lynch matter from 2024 on an unrelated issue. The proposition is consistent with the statutory text, which opens with 'a person convicted of a felony', but the citation could not be confirmed."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
         }
       ]
     },
     {
       "batch": "D_composed_or_process_guidance",
       "label": "Composed and process-guidance tracks",
-      "trackCount": 69,
+      "trackCount": 73,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -4914,6 +5167,259 @@
               "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
             }
           ]
+        },
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_diversion",
+          "publicName": "Clear a record after completing a diversion program",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Never generate a motion on this track. The statute puts the filing on the State's Attorney and the grant on the court.",
+            "A nonpublic disposition record survives with the Division of Criminal Investigation."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Does the person receive notice when the court grants the expungement under § 23A-3-37?",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "participant_instructions",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "TRACK 2 / Open questions / 2",
+                "sourceStatement": "Whether the person receives notice when the court grants. Unresolved."
+              }
+            },
+            {
+              "question": "effectiveFrom records 2018-07-01, the South Dakota default effective date for SL 2018 ch 143, which created §§ 23A-3-35 to 23A-3-37. The session law states no express effective date.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "TRACK 2 / Controlling statutes",
+                "sourceStatement": "Controlling statutes: SDCL §§ 23A-3-35 to 23A-3-37.",
+                "counselQuestion": "Is the South Dakota July 1 default effective date the right value for effectiveFrom where the session law states none?"
+              }
+            }
+          ],
+          "participantActionCount": 6,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): What does a participant do where the State's Attorney has not filed the dismissal and notice of completion? This is the only realistic failure mode on the track and no statutory remedy is identified."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_23a_3_34_auto",
+          "publicName": "Automatic removal of a minor case from your public record",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Records removed under § 23A-3-34 remain available to court personnel or by order of the court and may be used as an enhancement in the prosecution of subsequent offences. Never say that automatic removal of a Class 2 misdemeanor means the record can never be used again.",
+            "Before § 23A-3-34 was enacted in 2016, executive pardon was the only mechanism to seal a conviction record from public view in South Dakota. That history explains why the state's conviction relief is so thin and is useful in participant conversations."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Counsel flagged a conflict between the five-year period stated in the CCRC and National Reentry Resource Center profiles and a commercial source stating ten years, and directed that it be confirmed against the statute before release. SDCL § 23A-3-34 has now been read at the official South Dakota Legislature publication and states 'shall be automatically removed from a defendant's public record after five years'. The five-year figure is confirmed and the ten-year source is wrong. Recorded here rather than silently applied.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "waiting_period",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "TRACK 3 / Waiting period conflict",
+                "sourceStatement": "Use five, flag the conflict, and confirm against the statute before release.",
+                "counselQuestion": "The statute reads 'after five years' at source. Does counsel accept that as closing the five-versus-ten-year release blocker?"
+              }
+            },
+            {
+              "question": "The review attributes the 2021 amendments to 'SB174 (2021)' and dates enactment to June 2016. The official source line for § 23A-3-34 reads 'SL 2016, ch 134, § 1; SL 2021, ch 106, § 1'. The chapter numbers in the review do not match the official source line, and the bill number was not verified against the session law.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "HEADLINE FINDINGS / 3",
+                "sourceStatement": "SB174 (2021) added the no-convictions-during-the-waiting-period proviso and the enhancement-use proviso. The section itself was enacted in June 2016.",
+                "counselQuestion": "Should the attribution be corrected to SL 2016 ch 134 and SL 2021 ch 106, and should the bill number be re-verified?"
+              }
+            },
+            {
+              "question": "effectiveFrom records 2021-07-01, the South Dakota default effective date for SL 2021 ch 106, the amendment that produced the current operative text. The section originates in SL 2016 ch 134.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "TRACK 3 / Controlling statute",
+                "sourceStatement": "SDCL § 23A-3-34, enacted June 2016 and amended by SB174 (2021).",
+                "counselQuestion": "Should effectiveFrom carry the 2016 original enactment or the 2021 amendment date?"
+              }
+            }
+          ],
+          "participantActionCount": 4,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_sis_sealing",
+          "publicName": "Seal a record after a suspended imposition of sentence",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (eligibility_branch): Counsel recorded that the full text of §§ 23A-27-13 to 23A-27-17 had not been read at source, as a build blocker. Section 23A-27-17 has now been read at the official publication. Sections 23A-27-13 and 23A-27-14, including the once-only felony and misdemeanor limits and the teacher-licensing carve-out, have not been read subsection by subsection."
+          ],
+          "scopeRestrictions": [
+            "A nonpublic disposition is retained by the Division of Criminal Investigation for law enforcement, prosecutors and courts, including for sentencing on later offences, future SIS eligibility and habitual-offender determinations. Never say SIS sealing removes every government record for every purpose."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "effectiveFrom records 1978-07-01, the South Dakota default effective date for SL 1978 ch 178 § 346, the most recent amendment in the official source line for § 23A-27-17. The section originates in SL 1975 ch 257 § 2.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "TRACK 4 / Controlling statutes",
+                "sourceStatement": "Controlling statutes: SDCL §§ 23A-27-13 to 23A-27-17.",
+                "counselQuestion": "Is the South Dakota July 1 default the right effectiveFrom where the session law states no express effective date?"
+              }
+            }
+          ],
+          "participantActionCount": 6,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): Counsel recorded that the full text of §§ 23A-27-13 to 23A-27-17 had not been read at source, as a build blocker. Section 23A-27-17 has now been read at the official publication. Sections 23A-27-13 and 23A-27-14, including the once-only felony and misdemeanor limits and the teacher-licensing carve-out, have not been read subsection by subsection."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Counsel flagged as a release blocker whether sealing under § 23A-27-17 is automatic on discharge or requires a motion, and left an official_pdf_fill fallback unresolved against the possibility that a motion is needed. The section has now been read at the official South Dakota Legislature publication: 'Upon the discharge and dismissal of a person pursuant to § 23A-27-14, a court shall order that all official records ... be sealed'. Sealing is the court's obligation on discharge and dismissal; no participant motion exists. The unresolved fallback unit is therefore not carried, and the track is modelled as process_guidance. What remains open is the remedy where a court did not do what the statute directs."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_pardon_24_14_11",
+          "publicName": "Records sealed after a governor's pardon",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The pardon application itself is outside LegalEase self-help scope. Detect, explain the chapter 24-14 requirement, and refer.",
+            "South Dakota law does not allow sealing unless the pardon goes through the chapter 24-14 Board process. A pardon granted outside that process does not carry sealing.",
+            "A pardon may still count as a prior conviction for later sentencing, habitual-offender proceedings and later DUI sentencing, and DCI retains a nonpublic record. Never say a pardon means the conviction never counts again."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Counsel recorded the full text of § 24-14-11 as a build blocker. The section has now been read at the official South Dakota Legislature publication and matches the review, including the chapter 24-14 requirement, the sealing scope, the five-year public certifying document and the continued use as a prior conviction for subsequent sentencing and habitual-offender determinations.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "PART 2.2 Official documents identified and needed for the form library",
+                "sourceStatement": "SDCL §§ 23-6-8.1 and 24-14-11 | SD Legislature | Build blocker",
+                "counselQuestion": "Section 24-14-11 now reads at source as the review states it. Does counsel accept the build blocker as closed for this section?"
+              }
+            },
+            {
+              "question": "effectiveFrom records 2003-07-01, the South Dakota default effective date for SL 2003 ch 140 § 1, the most recent amendment in the official source line. The section originates in SL 1983 ch 199 § 3.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "TRACK 6 / Controlling statute",
+                "sourceStatement": "Controlling statute: SDCL § 24-14-11, within the Chapter 24-14 pardon process.",
+                "counselQuestion": "Is the South Dakota July 1 default the right effectiveFrom where the session law states no express effective date?"
+              }
+            }
+          ],
+          "participantActionCount": 5,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
         }
       ]
     },
@@ -5049,7 +5555,7 @@
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 149,
+      "trackCount": 150,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -12134,6 +12640,99 @@
             {
               "kind": "release_blocker",
               "statement": "Open question blocks release (participant_instructions): Whether the limited access fee required by § 9122.1 is fixed by statute or set administratively, and its amount."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_arrest_expungement",
+          "publicName": "Expunge a South Dakota arrest record",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Acquire the full UJS form set. No South Dakota forms were supplied in the archive, though the complete set is identified by number and use. (undetermined: correct_form)",
+            "Open question blocks the build (correct_form): The current UJS form set (UJS-232, 390, 391, 392, 393, 394, 395 and the Expungement Print All Packet) was not supplied in the archive and the current revisions are unconfirmed. The forms are identified by number and use but not acquired.",
+            "Open question blocks the build (packet_components): What does the UJS Guide and File expungement interview already generate for free? This is a build dependency and a pricing input: the state publishes the full packet, instructions, a document generator and a Self-Help Center at no cost, and LegalEase should not charge as though it were producing documents the state already produces for nothing."
+          ],
+          "scopeRestrictions": [
+            "Expungement in South Dakota is sealing, not destruction, and the statute expressly says it does not imply physical destruction of records.",
+            "A nonpublic disposition record survives with the Division of Criminal Investigation for use by law enforcement, prosecutors and courts, including for sentencing on later offences, future SIS eligibility and habitual-offender determinations. This is the single most important disclosure in South Dakota.",
+            "South Dakota is not a broad adult conviction-expungement state and must never be described as one.",
+            "Pricing honesty. The UJS publishes the full packet, detailed instructions, a Guide and File document generator and a Self-Help Center with staff contact options, all free. LegalEase adds value through eligibility screening, the entire-dismissal analysis, arrest-record counting and expectation-setting, and should not charge as though it were producing documents the state already produces for nothing."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Has 'compelling necessity' under SDCL § 23A-3-27(4) been construed by any South Dakota court?",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "eligibility_branch",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "TRACK 1 / OPEN QUESTIONS / 4",
+                "sourceStatement": "Whether \"compelling necessity\" has been construed. Nonblocking."
+              }
+            },
+            {
+              "question": "Counsel recorded that the full text of §§ 23A-3-26 to 23A-3-32 had not been read at source, as a build blocker. Section 23A-3-27 has now been read at the official South Dakota Legislature publication and matches the review's timing table exactly, including the 'entire criminal case' requirement in branches (2) and (4). The remaining sections of the range have not been read subsection by subsection.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "TRACK 1 / OPEN QUESTIONS / 1",
+                "sourceStatement": "Full text of §§ 23A-3-26 to 23A-3-32 not read at source. Build blocker.",
+                "counselQuestion": "Section 23A-3-27 now reads at source as the review states it. Does counsel accept the remaining sections of the 23A-3-26 to 23A-3-32 range as read for design purposes, or should the build blocker stand until each is read subsection by subsection?"
+              }
+            },
+            {
+              "question": "effectiveFrom records 2022-03-15, the express effective date of SL 2022 ch 71 § 1, the most recent amendment to § 23A-3-27. The section originates in SL 2010 ch 126 § 2 with amendments in 2012 and 2015.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "TRACK 1 / PRIMARY SOURCES",
+                "sourceStatement": "SDCL Chapter 23A-3 | South Dakota Legislature | sdlegislature.gov | Current | 07/31/2026",
+                "counselQuestion": "Should effectiveFrom carry the original enactment date (2010) or the date the current operative text took effect (2022-03-15)?"
+              }
+            }
+          ],
+          "participantActionCount": 17,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Acquire the full UJS form set. No South Dakota forms were supplied in the archive, though the complete set is identified by number and use. (undetermined: correct_form)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): The current UJS form set (UJS-232, 390, 391, 392, 393, 394, 395 and the Expungement Print All Packet) was not supplied in the archive and the current revisions are unconfirmed. The forms are identified by number and use but not acquired."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (packet_components): What does the UJS Guide and File expungement interview already generate for free? This is a build dependency and a pricing input: the state publishes the full packet, instructions, a document generator and a Self-Help Center at no cost, and LegalEase should not charge as though it were producing documents the state already produces for nothing."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Is the $72 filing fee current?"
             },
             {
               "kind": "source_gate",

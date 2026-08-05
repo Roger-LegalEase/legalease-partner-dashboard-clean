@@ -3,25 +3,25 @@
   "authorityEdition": "1.2",
   "note": "One authority result per packet component. An official-form component must reach one retained asset by workflow key or document ID with a matching SHA-256, correct role and correct language. A custom-pleading component is not failed for lacking an official binary, and a process-guidance component is not failed for lacking a packet form: the adopted memorandum makes both legitimate by design. No legal-design conclusion is changed here.",
   "totals": {
-    "jurisdictionsAudited": 26,
-    "tracksAudited": 250,
-    "tracksCleared": 87,
-    "tracksBlocked": 163,
+    "jurisdictionsAudited": 29,
+    "tracksAudited": 268,
+    "tracksCleared": 94,
+    "tracksBlocked": 174,
     "tracksWithoutRetainedLegalReview": 0,
-    "componentsAudited": 682,
-    "officialPdfComponents": 385,
+    "componentsAudited": 745,
+    "officialPdfComponents": 409,
     "officialPdfComponentsByResult": {
       "authority_hash_conflict": 4,
-      "authority_mapped_packet_candidate": 146,
+      "authority_mapped_packet_candidate": 167,
       "authority_mapped_source_gated": 51,
-      "authority_role_mismatch": 9,
+      "authority_role_mismatch": 12,
       "authority_unmanifested_source": 175
     },
-    "officialPdfComponentsWithPinnedSha": 74,
-    "customPleadingComponents": 144,
-    "processGuidanceComponents": 153,
-    "composedTracks": 25,
-    "composedUnits": 55
+    "officialPdfComponentsWithPinnedSha": 86,
+    "customPleadingComponents": 162,
+    "processGuidanceComponents": 174,
+    "composedTracks": 27,
+    "composedUnits": 60
   },
   "tracks": [
     {
@@ -8179,16 +8179,14 @@
           "asset": null,
           "result": null,
           "reasons": [
-            "Process-guidance component has no guidance specification in this repository."
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
           ],
           "requiresPacketBinary": false,
-          "specificationPresent": false
+          "specificationPresent": true
         }
       ],
-      "cleared": false,
-      "blockingReasons": [
-        "ga-jail-k2-process-guidance-3: process_guidance component has no governing specification in this repository."
-      ],
+      "cleared": true,
+      "blockingReasons": [],
       "declaredOutputStrategy": "custom_pleading",
       "compositionMode": null,
       "legalReviewAsset": "STATES/GA/01_LEGAL_REVIEW/GA__LEGAL-REVIEW__STATEWIDE__georgia-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
@@ -22427,6 +22425,1944 @@
       "declaredOutputStrategy": "process_guidance",
       "compositionMode": null,
       "legalReviewAsset": "STATES/MT/01_LEGAL_REVIEW/MT__LEGAL-REVIEW__STATEWIDE__montana-record-clearing-legal-review__ASOF-2026-07-30__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_790_nonconviction",
+      "outputStrategy": "official_pdf_fill",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_790_nonconviction",
+          "componentId": "pa_790_nonconviction-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-790-PETITION",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222549-blankexpungementorder7900309121-000065.pdf",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": true,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "PA",
+            "workflowKey": "PA:PA-RCRIM-P-790-PETITION:PETITION:EN",
+            "documentId": "PA-RCRIM-P-790-PETITION",
+            "documentRole": "PETITION",
+            "officialTitle": "Pa.R.Crim.P. 790 Petition",
+            "revision": "REV-2009-03",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf",
+            "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate PA:PA-RCRIM-P-790-PETITION:PETITION:EN."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_790_nonconviction",
+          "componentId": "pa_790_nonconviction-proposed-order-2",
+          "role": "proposed_order",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-790-ORDER",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222549-blankexpungementorder7900309121-000065.pdf",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": true,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "PA",
+            "workflowKey": "PA:PA-RCRIM-P-790-ORDER:ORDER:EN",
+            "documentId": "PA-RCRIM-P-790-ORDER",
+            "documentRole": "ORDER",
+            "officialTitle": "Pa.R.Crim.P. 790 Blank Expungement Order",
+            "revision": "REV-2021-07",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-p-790-blank-expungement-order__REV-2021-07__EN.pdf",
+            "sha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate PA:PA-RCRIM-P-790-ORDER:ORDER:EN."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_790_nonconviction",
+          "componentId": "pa_790_nonconviction-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_790_nonconviction",
+          "componentId": "pa_790_nonconviction-fee-waiver-4",
+          "role": "fee_waiver",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-IFP-CCP",
+          "officialSourceUrl": "https://www.pacourts.us/forms/for-the-public",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "PA",
+            "workflowKey": "PA:PA-IFP-CCP:SUPPORTING_FORM:EN",
+            "documentId": "PA-IFP-CCP",
+            "documentRole": "SUPPORTING_FORM",
+            "officialTitle": "Court of Common Pleas Motion to Proceed In Forma Pauperis",
+            "revision": "REV-UNKNOWN",
+            "language": "EN",
+            "assetClass": "supporting_process",
+            "canonicalRelativePath": "STATES/PA/04_SUPPORTING_PROCESS/PA__SUPPORT__PA-IFP-CCP__court-of-common-pleas-motion-to-proceed-in-forma-pauperis__REV-UNKNOWN__EN.pdf",
+            "sha256": "b1255ef0503f9c9ff0565e884083e37fe4072e4e9999bec159712d467d420fca",
+            "packetCandidate": false,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_role_mismatch",
+          "reasons": [
+            "Mapped to a retained supporting_process asset, which cannot fill a fee_waiver component. Instructions and supporting-process assets are assembled around a packet; they do not replace one."
+          ],
+          "requiresPacketBinary": true
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "pa_790_nonconviction-primary-filing-1: the edition does not allow generation from this asset.",
+        "pa_790_nonconviction-proposed-order-2: the edition does not allow generation from this asset.",
+        "pa_790_nonconviction-fee-waiver-4: authority_role_mismatch."
+      ],
+      "declaredOutputStrategy": "official_pdf_fill",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/PA/01_LEGAL_REVIEW/PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_490_nonconviction",
+      "outputStrategy": "official_pdf_fill",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_490_nonconviction",
+          "componentId": "pa_490_nonconviction-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-490-PETITION",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222539-blankexpungementorder4900311121-000064.pdf",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": true,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "PA",
+            "workflowKey": "PA:PA-RCRIM-P-490-PETITION:PETITION:EN",
+            "documentId": "PA-RCRIM-P-490-PETITION",
+            "documentRole": "PETITION",
+            "officialTitle": "Pa.R.Crim.P. 490 Petition",
+            "revision": "REV-2009-03",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-490-PETITION__pa-r-crim-p-490-petition__REV-2009-03__EN.pdf",
+            "sha256": "082c515ce5a60de33798508c6dd76589f83758ac2ddd8244e934b379ce05def3",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate PA:PA-RCRIM-P-490-PETITION:PETITION:EN."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_490_nonconviction",
+          "componentId": "pa_490_nonconviction-proposed-order-2",
+          "role": "proposed_order",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-490-ORDER",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222539-blankexpungementorder4900311121-000064.pdf",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": true,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "PA",
+            "workflowKey": "PA:PA-RCRIM-P-490-ORDER:ORDER:EN",
+            "documentId": "PA-RCRIM-P-490-ORDER",
+            "documentRole": "ORDER",
+            "officialTitle": "Pa.R.Crim.P. 490 Blank Expungement Order",
+            "revision": "REV-2006-03",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-490-ORDER__pa-r-crim-p-490-blank-expungement-order__REV-2006-03__EN.pdf",
+            "sha256": "ac671421035b12b61d3cfbfaac04bb5676f619b968db879f6992e3279110ce90",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate PA:PA-RCRIM-P-490-ORDER:ORDER:EN."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_490_nonconviction",
+          "componentId": "pa_490_nonconviction-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_490_nonconviction",
+          "componentId": "pa_490_nonconviction-fee-waiver-4",
+          "role": "fee_waiver",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-IFP-MDJ",
+          "officialSourceUrl": "https://www.pacourts.us/forms/for-the-public",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "PA",
+            "workflowKey": "PA:PA-IFP-MDJ:AFFIDAVIT:EN",
+            "documentId": "PA-IFP-MDJ",
+            "documentRole": "AFFIDAVIT",
+            "officialTitle": "Magisterial District Court In Forma Pauperis Affidavit",
+            "revision": "REV-UNKNOWN",
+            "language": "EN",
+            "assetClass": "supporting_process",
+            "canonicalRelativePath": "STATES/PA/04_SUPPORTING_PROCESS/PA__SUPPORT__PA-IFP-MDJ__magisterial-district-court-in-forma-pauperis-affidavit__REV-UNKNOWN__EN.pdf",
+            "sha256": "91fa3ce45096bffb221cec09071ba617e063395b0fbb4dcd733c0f7fa29f3ca2",
+            "packetCandidate": false,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_role_mismatch",
+          "reasons": [
+            "Mapped to a retained supporting_process asset, which cannot fill a fee_waiver component. Instructions and supporting-process assets are assembled around a packet; they do not replace one."
+          ],
+          "requiresPacketBinary": true
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "pa_490_nonconviction-primary-filing-1: the edition does not allow generation from this asset.",
+        "pa_490_nonconviction-proposed-order-2: the edition does not allow generation from this asset.",
+        "pa_490_nonconviction-fee-waiver-4: authority_role_mismatch."
+      ],
+      "declaredOutputStrategy": "official_pdf_fill",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/PA/01_LEGAL_REVIEW/PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_acquittal_auto",
+      "outputStrategy": "process_guidance",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_acquittal_auto",
+          "componentId": "pa_acquittal_auto-process-guidance-1",
+          "role": "process_guidance",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": true,
+      "blockingReasons": [],
+      "declaredOutputStrategy": "process_guidance",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/PA/01_LEGAL_REVIEW/PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_summary_conviction",
+      "outputStrategy": "official_pdf_fill",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_summary_conviction",
+          "componentId": "pa_summary_conviction-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-490-PETITION",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222539-blankexpungementorder4900311121-000064.pdf",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": true,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "PA",
+            "workflowKey": "PA:PA-RCRIM-P-490-PETITION:PETITION:EN",
+            "documentId": "PA-RCRIM-P-490-PETITION",
+            "documentRole": "PETITION",
+            "officialTitle": "Pa.R.Crim.P. 490 Petition",
+            "revision": "REV-2009-03",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-490-PETITION__pa-r-crim-p-490-petition__REV-2009-03__EN.pdf",
+            "sha256": "082c515ce5a60de33798508c6dd76589f83758ac2ddd8244e934b379ce05def3",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate PA:PA-RCRIM-P-490-PETITION:PETITION:EN."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_summary_conviction",
+          "componentId": "pa_summary_conviction-primary-filing-2",
+          "role": "primary_filing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-790-PETITION",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222549-blankexpungementorder7900309121-000065.pdf",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "PA",
+            "workflowKey": "PA:PA-RCRIM-P-790-PETITION:PETITION:EN",
+            "documentId": "PA-RCRIM-P-790-PETITION",
+            "documentRole": "PETITION",
+            "officialTitle": "Pa.R.Crim.P. 790 Petition",
+            "revision": "REV-2009-03",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf",
+            "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate PA:PA-RCRIM-P-790-PETITION:PETITION:EN.",
+            "The track source relationship pins no SHA-256, so the mapping does not yet meet the edition's matching-hash requirement."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_summary_conviction",
+          "componentId": "pa_summary_conviction-proposed-order-3",
+          "role": "proposed_order",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-490-ORDER",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222539-blankexpungementorder4900311121-000064.pdf",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": true,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "PA",
+            "workflowKey": "PA:PA-RCRIM-P-490-ORDER:ORDER:EN",
+            "documentId": "PA-RCRIM-P-490-ORDER",
+            "documentRole": "ORDER",
+            "officialTitle": "Pa.R.Crim.P. 490 Blank Expungement Order",
+            "revision": "REV-2006-03",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-490-ORDER__pa-r-crim-p-490-blank-expungement-order__REV-2006-03__EN.pdf",
+            "sha256": "ac671421035b12b61d3cfbfaac04bb5676f619b968db879f6992e3279110ce90",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate PA:PA-RCRIM-P-490-ORDER:ORDER:EN."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_summary_conviction",
+          "componentId": "pa_summary_conviction-certificate-of-service-4",
+          "role": "certificate_of_service",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "pa_summary_conviction-primary-filing-1: the edition does not allow generation from this asset.",
+        "pa_summary_conviction-primary-filing-2: no SHA-256 pinned for the mapped asset.",
+        "pa_summary_conviction-proposed-order-3: the edition does not allow generation from this asset."
+      ],
+      "declaredOutputStrategy": "official_pdf_fill",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/PA/01_LEGAL_REVIEW/PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_ard_expungement",
+      "outputStrategy": "process_guidance",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_ard_expungement",
+          "componentId": "pa_ard_expungement-process-guidance-1",
+          "role": "process_guidance",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": true,
+      "blockingReasons": [],
+      "declaredOutputStrategy": "process_guidance",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/PA/01_LEGAL_REVIEW/PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_age70_deceased",
+      "outputStrategy": "official_pdf_fill",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_age70_deceased",
+          "componentId": "pa_age70_deceased-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-790-PETITION",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222549-blankexpungementorder7900309121-000065.pdf",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": true,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "PA",
+            "workflowKey": "PA:PA-RCRIM-P-790-PETITION:PETITION:EN",
+            "documentId": "PA-RCRIM-P-790-PETITION",
+            "documentRole": "PETITION",
+            "officialTitle": "Pa.R.Crim.P. 790 Petition",
+            "revision": "REV-2009-03",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf",
+            "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate PA:PA-RCRIM-P-790-PETITION:PETITION:EN."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_age70_deceased",
+          "componentId": "pa_age70_deceased-proposed-order-2",
+          "role": "proposed_order",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-790-ORDER",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222549-blankexpungementorder7900309121-000065.pdf",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": true,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "PA",
+            "workflowKey": "PA:PA-RCRIM-P-790-ORDER:ORDER:EN",
+            "documentId": "PA-RCRIM-P-790-ORDER",
+            "documentRole": "ORDER",
+            "officialTitle": "Pa.R.Crim.P. 790 Blank Expungement Order",
+            "revision": "REV-2021-07",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-p-790-blank-expungement-order__REV-2021-07__EN.pdf",
+            "sha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate PA:PA-RCRIM-P-790-ORDER:ORDER:EN."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_age70_deceased",
+          "componentId": "pa_age70_deceased-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "pa_age70_deceased-primary-filing-1: the edition does not allow generation from this asset.",
+        "pa_age70_deceased-proposed-order-2: the edition does not allow generation from this asset."
+      ],
+      "declaredOutputStrategy": "official_pdf_fill",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/PA/01_LEGAL_REVIEW/PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_6308_underage",
+      "outputStrategy": "official_pdf_fill",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_6308_underage",
+          "componentId": "pa_6308_underage-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-490-PETITION",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222539-blankexpungementorder4900311121-000064.pdf",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "PA",
+            "workflowKey": "PA:PA-RCRIM-P-490-PETITION:PETITION:EN",
+            "documentId": "PA-RCRIM-P-490-PETITION",
+            "documentRole": "PETITION",
+            "officialTitle": "Pa.R.Crim.P. 490 Petition",
+            "revision": "REV-2009-03",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-490-PETITION__pa-r-crim-p-490-petition__REV-2009-03__EN.pdf",
+            "sha256": "082c515ce5a60de33798508c6dd76589f83758ac2ddd8244e934b379ce05def3",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate PA:PA-RCRIM-P-490-PETITION:PETITION:EN.",
+            "The track source relationship pins no SHA-256, so the mapping does not yet meet the edition's matching-hash requirement."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_6308_underage",
+          "componentId": "pa_6308_underage-proposed-order-2",
+          "role": "proposed_order",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-490-ORDER",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222539-blankexpungementorder4900311121-000064.pdf",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "PA",
+            "workflowKey": "PA:PA-RCRIM-P-490-ORDER:ORDER:EN",
+            "documentId": "PA-RCRIM-P-490-ORDER",
+            "documentRole": "ORDER",
+            "officialTitle": "Pa.R.Crim.P. 490 Blank Expungement Order",
+            "revision": "REV-2006-03",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-490-ORDER__pa-r-crim-p-490-blank-expungement-order__REV-2006-03__EN.pdf",
+            "sha256": "ac671421035b12b61d3cfbfaac04bb5676f619b968db879f6992e3279110ce90",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate PA:PA-RCRIM-P-490-ORDER:ORDER:EN.",
+            "The track source relationship pins no SHA-256, so the mapping does not yet meet the edition's matching-hash requirement."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_6308_underage",
+          "componentId": "pa_6308_underage-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "pa_6308_underage-primary-filing-1: no SHA-256 pinned for the mapped asset.",
+        "pa_6308_underage-proposed-order-2: no SHA-256 pinned for the mapped asset."
+      ],
+      "declaredOutputStrategy": "official_pdf_fill",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/PA/01_LEGAL_REVIEW/PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_pardon_expungement",
+      "outputStrategy": null,
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_pardon_expungement",
+          "componentId": "pa_pardon_expungement-process-guidance-1",
+          "role": "process_guidance",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_pardon_expungement",
+          "componentId": "pa_pardon_expungement-primary-filing-2",
+          "role": "primary_filing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-790-PETITION",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222549-blankexpungementorder7900309121-000065.pdf",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": true,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "PA",
+            "workflowKey": "PA:PA-RCRIM-P-790-PETITION:PETITION:EN",
+            "documentId": "PA-RCRIM-P-790-PETITION",
+            "documentRole": "PETITION",
+            "officialTitle": "Pa.R.Crim.P. 790 Petition",
+            "revision": "REV-2009-03",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf",
+            "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate PA:PA-RCRIM-P-790-PETITION:PETITION:EN."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_pardon_expungement",
+          "componentId": "pa_pardon_expungement-proposed-order-3",
+          "role": "proposed_order",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-790-ORDER",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210224/222549-blankexpungementorder7900309121-000065.pdf",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": true,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "PA",
+            "workflowKey": "PA:PA-RCRIM-P-790-ORDER:ORDER:EN",
+            "documentId": "PA-RCRIM-P-790-ORDER",
+            "documentRole": "ORDER",
+            "officialTitle": "Pa.R.Crim.P. 790 Blank Expungement Order",
+            "revision": "REV-2021-07",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-p-790-blank-expungement-order__REV-2021-07__EN.pdf",
+            "sha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate PA:PA-RCRIM-P-790-ORDER:ORDER:EN."
+          ],
+          "requiresPacketBinary": true
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "pa_pardon_expungement-primary-filing-2: the edition does not allow generation from this asset.",
+        "pa_pardon_expungement-proposed-order-3: the edition does not allow generation from this asset."
+      ],
+      "declaredOutputStrategy": "composed",
+      "compositionMode": "alternative",
+      "legalReviewAsset": "STATES/PA/01_LEGAL_REVIEW/PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": [
+        {
+          "unitId": "pa_pardon_automatic_route",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "available": true,
+          "approvalPinned": false,
+          "requiresPacketBinary": false
+        },
+        {
+          "unitId": "pa_pardon_fallback_petition",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "available": true,
+          "approvalPinned": false,
+          "requiresPacketBinary": true
+        }
+      ]
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_9122_1_limited_access",
+      "outputStrategy": "official_pdf_fill",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_9122_1_limited_access",
+          "componentId": "pa_9122_1_limited_access-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-791-PETITION",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210515/215125-file-5632.pdf",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": true,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "PA",
+            "workflowKey": "PA:PA-RCRIM-P-791-PETITION:PETITION:EN",
+            "documentId": "PA-RCRIM-P-791-PETITION",
+            "documentRole": "PETITION",
+            "officialTitle": "Pa.R.Crim.P. 791 Petition for Order for Limited Access",
+            "revision": "REV-UNKNOWN",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-791-PETITION__pa-r-crim-p-791-petition-for-order-for-limited-access__REV-UNKNOWN__EN.pdf",
+            "sha256": "945a630595c8f6fcbbfaf4f5532fc54ab7267ac585d2cb523bf0f5975d21c2ab",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate PA:PA-RCRIM-P-791-PETITION:PETITION:EN."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_9122_1_limited_access",
+          "componentId": "pa_9122_1_limited_access-proposed-order-2",
+          "role": "proposed_order",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-RCRIM-P-791-ORDER",
+          "officialSourceUrl": "https://www.pacourts.us/Storage/media/pdfs/20210515/215133-file-5631.pdf",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": true,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "PA",
+            "workflowKey": "PA:PA-RCRIM-P-791-ORDER:ORDER:EN",
+            "documentId": "PA-RCRIM-P-791-ORDER",
+            "documentRole": "ORDER",
+            "officialTitle": "Pa.R.Crim.P. 791 Order for Limited Access",
+            "revision": "REV-UNKNOWN",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-791-ORDER__pa-r-crim-p-791-order-for-limited-access__REV-UNKNOWN__EN.pdf",
+            "sha256": "99a7704e7d68c0478ef0be1d6c08a79f552a9f439d9468d6476c10e8a5c377cf",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate PA:PA-RCRIM-P-791-ORDER:ORDER:EN."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_9122_1_limited_access",
+          "componentId": "pa_9122_1_limited_access-certificate-of-service-3",
+          "role": "certificate_of_service",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_9122_1_limited_access",
+          "componentId": "pa_9122_1_limited_access-fee-waiver-4",
+          "role": "fee_waiver",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "PA-IFP-CCP",
+          "officialSourceUrl": "https://www.pacourts.us/forms/for-the-public",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "PA",
+            "workflowKey": "PA:PA-IFP-CCP:SUPPORTING_FORM:EN",
+            "documentId": "PA-IFP-CCP",
+            "documentRole": "SUPPORTING_FORM",
+            "officialTitle": "Court of Common Pleas Motion to Proceed In Forma Pauperis",
+            "revision": "REV-UNKNOWN",
+            "language": "EN",
+            "assetClass": "supporting_process",
+            "canonicalRelativePath": "STATES/PA/04_SUPPORTING_PROCESS/PA__SUPPORT__PA-IFP-CCP__court-of-common-pleas-motion-to-proceed-in-forma-pauperis__REV-UNKNOWN__EN.pdf",
+            "sha256": "b1255ef0503f9c9ff0565e884083e37fe4072e4e9999bec159712d467d420fca",
+            "packetCandidate": false,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_role_mismatch",
+          "reasons": [
+            "Mapped to a retained supporting_process asset, which cannot fill a fee_waiver component. Instructions and supporting-process assets are assembled around a packet; they do not replace one."
+          ],
+          "requiresPacketBinary": true
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "pa_9122_1_limited_access-primary-filing-1: the edition does not allow generation from this asset.",
+        "pa_9122_1_limited_access-proposed-order-2: the edition does not allow generation from this asset.",
+        "pa_9122_1_limited_access-fee-waiver-4: authority_role_mismatch."
+      ],
+      "declaredOutputStrategy": "official_pdf_fill",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/PA/01_LEGAL_REVIEW/PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_9122_2_clean_slate",
+      "outputStrategy": "process_guidance",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "PA",
+          "trackId": "pa_9122_2_clean_slate",
+          "componentId": "pa_9122_2_clean_slate-process-guidance-1",
+          "role": "process_guidance",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": true,
+      "blockingReasons": [],
+      "declaredOutputStrategy": "process_guidance",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/PA/01_LEGAL_REVIEW/PA__LEGAL-REVIEW__STATEWIDE__pennsylvania-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "SD",
+      "trackId": "sd_arrest_expungement",
+      "outputStrategy": null,
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [
+        "Design undetermined: Acquire the full UJS form set. No South Dakota forms were supplied in the archive, though the complete set is identified by number and use. (undetermined: correct_form)",
+        "Open question blocks the build (correct_form): The current UJS form set (UJS-232, 390, 391, 392, 393, 394, 395 and the Expungement Print All Packet) was not supplied in the archive and the current revisions are unconfirmed. The forms are identified by number and use but not acquired.",
+        "Open question blocks the build (packet_components): What does the UJS Guide and File expungement interview already generate for free? This is a build dependency and a pricing input: the state publishes the full packet, instructions, a document generator and a Self-Help Center at no cost, and LegalEase should not charge as though it were producing documents the state already produces for nothing."
+      ],
+      "components": [
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_arrest_expungement",
+          "componentId": "sd_arrest_expungement-case-filing-statement-1",
+          "role": "case_filing_statement",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "UJS-232",
+          "officialSourceUrl": "https://ujs.sd.gov/Forms/",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "SD",
+            "workflowKey": "SD:UJS-232:FORM:EN",
+            "documentId": "UJS-232",
+            "documentRole": "FORM",
+            "officialTitle": "CASE FILING STATEMENT Information Only; Not Retained in Case Records",
+            "revision": "REV-2020-12",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/SD/02_PACKET_FORMS/SD__FORM__UJS-232__case-filing-statement-information-only-not-retained-in-case-records__REV-2020-12__EN.pdf",
+            "sha256": "308ed5e4386a9e223d510a1dfa6f49cb15b1c349a27db63e32dcf0164d6d7737",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate SD:UJS-232:FORM:EN.",
+            "The track source relationship pins no SHA-256, so the mapping does not yet meet the edition's matching-hash requirement."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_arrest_expungement",
+          "componentId": "sd_arrest_expungement-primary-filing-2",
+          "role": "primary_filing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "UJS-391",
+          "officialSourceUrl": "https://ujs.sd.gov/Forms/",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "SD",
+            "workflowKey": "SD:UJS-391:MOTION:EN",
+            "documentId": "UJS-391",
+            "documentRole": "MOTION",
+            "officialTitle": "INSTRUCTIONS AND FORMS ON MOTION FOR EXPUNGEMENT",
+            "revision": "REV-UNKNOWN",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/SD/02_PACKET_FORMS/SD__FORM__UJS-391__instructions-and-forms-on-motion-for-expungement__REV-UNKNOWN__EN.pdf",
+            "sha256": "ec51457f51583006c76af9bcfe6db03eaf92fdd15e7cfff184b5b4805f18e6a8",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate SD:UJS-391:MOTION:EN.",
+            "The track source relationship pins no SHA-256, so the mapping does not yet meet the edition's matching-hash requirement."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_arrest_expungement",
+          "componentId": "sd_arrest_expungement-proposed-order-3",
+          "role": "proposed_order",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "UJS-394",
+          "officialSourceUrl": "https://ujs.sd.gov/Forms/",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "SD",
+            "workflowKey": "SD:UJS-394:ORDER:EN",
+            "documentId": "UJS-394",
+            "documentRole": "ORDER",
+            "officialTitle": "IN THE MATTER OF THE EXPUNGEMENT OF",
+            "revision": "REV-2024-08",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/SD/02_PACKET_FORMS/SD__FORM__UJS-394__in-the-matter-of-the-expungement-of__REV-2024-08__EN.pdf",
+            "sha256": "d6f2dab3ca32ca7fedd348635871d036dc90170c240ac416b4c9b770a7c7de3f",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate SD:UJS-394:ORDER:EN.",
+            "The track source relationship pins no SHA-256, so the mapping does not yet meet the edition's matching-hash requirement."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_arrest_expungement",
+          "componentId": "sd_arrest_expungement-hearing-waiver-4",
+          "role": "hearing_waiver",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "UJS-392",
+          "officialSourceUrl": "https://ujs.sd.gov/Forms/",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "SD",
+            "workflowKey": "SD:UJS-392:MOTION:EN",
+            "documentId": "UJS-392",
+            "documentRole": "MOTION",
+            "officialTitle": "INSTRUCTIONS AND FORM ON WAIVER OF HEARING",
+            "revision": "REV-UNKNOWN",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/SD/02_PACKET_FORMS/SD__FORM__UJS-392__instructions-and-form-on-waiver-of-hearing__REV-UNKNOWN__EN.pdf",
+            "sha256": "08e44e091b60917fc4bb99ba1cf65a62eca4482d8517d43f6cbfd95aae9a2928",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate SD:UJS-392:MOTION:EN.",
+            "The track source relationship pins no SHA-256, so the mapping does not yet meet the edition's matching-hash requirement."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_arrest_expungement",
+          "componentId": "sd_arrest_expungement-notice-of-hearing-5",
+          "role": "notice_of_hearing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "UJS-393",
+          "officialSourceUrl": "https://ujs.sd.gov/Forms/",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "SD",
+            "workflowKey": "SD:UJS-393:NOTICE:EN",
+            "documentId": "UJS-393",
+            "documentRole": "NOTICE",
+            "officialTitle": "INSTRUCTIONS AND FORM ON NOTICE OF HEARING FOR EXPUNGEMENT OF RECORD",
+            "revision": "REV-2026-07",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/SD/02_PACKET_FORMS/SD__FORM__UJS-393__instructions-and-form-on-notice-of-hearing-for-expungement-of-record__REV-2026-07__EN.pdf",
+            "sha256": "933c600b4516628b60ca20545633cc3c225279bb87b90008780ff406d9e19310",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate SD:UJS-393:NOTICE:EN.",
+            "The track source relationship pins no SHA-256, so the mapping does not yet meet the edition's matching-hash requirement."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_arrest_expungement",
+          "componentId": "sd_arrest_expungement-notice-of-entry-6",
+          "role": "notice_of_entry",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "UJS-395",
+          "officialSourceUrl": "https://ujs.sd.gov/Forms/",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "SD",
+            "workflowKey": "SD:UJS-395:NOTICE:EN",
+            "documentId": "UJS-395",
+            "documentRole": "NOTICE",
+            "officialTitle": "INSTRUCTIONS ON NOTICE OF ENTRY OF ORDER OF EXPUNGEMENT",
+            "revision": "REV-UNKNOWN",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/SD/02_PACKET_FORMS/SD__FORM__UJS-395__instructions-on-notice-of-entry-of-order-of-expungement__REV-UNKNOWN__EN.pdf",
+            "sha256": "4ff12868beb1f4904856ba2751d9d31e99973a18e5e6b38164286c7341dd8e20",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate SD:UJS-395:NOTICE:EN.",
+            "The track source relationship pins no SHA-256, so the mapping does not yet meet the edition's matching-hash requirement."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_arrest_expungement",
+          "componentId": "sd_arrest_expungement-filing-instructions-7",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "sd_arrest_expungement: the controlling review retains an open legal-design blocker — Design undetermined: Acquire the full UJS form set. No South Dakota forms were supplied in the archive, though the complete set is identified by number and use. (undetermined: correct_form)",
+        "sd_arrest_expungement: the controlling review retains an open legal-design blocker — Open question blocks the build (correct_form): The current UJS form set (UJS-232, 390, 391, 392, 393, 394, 395 and the Expungement Print All Packet) was not supplied in the archive and the current revisions are unconfirmed. The forms are identified by number and use but not acquired.",
+        "sd_arrest_expungement: the controlling review retains an open legal-design blocker — Open question blocks the build (packet_components): What does the UJS Guide and File expungement interview already generate for free? This is a build dependency and a pricing input: the state publishes the full packet, instructions, a document generator and a Self-Help Center at no cost, and LegalEase should not charge as though it were producing documents the state already produces for nothing.",
+        "sd_arrest_expungement-case-filing-statement-1: no SHA-256 pinned for the mapped asset.",
+        "sd_arrest_expungement-primary-filing-2: no SHA-256 pinned for the mapped asset.",
+        "sd_arrest_expungement-proposed-order-3: no SHA-256 pinned for the mapped asset.",
+        "sd_arrest_expungement-hearing-waiver-4: no SHA-256 pinned for the mapped asset.",
+        "sd_arrest_expungement-notice-of-hearing-5: no SHA-256 pinned for the mapped asset.",
+        "sd_arrest_expungement-notice-of-entry-6: no SHA-256 pinned for the mapped asset."
+      ],
+      "declaredOutputStrategy": "composed",
+      "compositionMode": "sequential",
+      "legalReviewAsset": "STATES/SD/01_LEGAL_REVIEW/SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": [
+        {
+          "unitId": "sd-arrest-stage-1-record-gathering",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": false
+        },
+        {
+          "unitId": "sd-arrest-stage-2-ujs-motion-packet",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": true
+        },
+        {
+          "unitId": "sd-arrest-stage-3-filing-service-and-notice-of-entry",
+          "order": 3,
+          "outputStrategy": "process_guidance",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": false
+        }
+      ]
+    },
+    {
+      "jurisdiction": "SD",
+      "trackId": "sd_diversion",
+      "outputStrategy": "process_guidance",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_diversion",
+          "componentId": "sd_diversion-eligibility-and-timing-analysis-1",
+          "role": "eligibility_and_timing_analysis",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_diversion",
+          "componentId": "sd_diversion-status-verification-instructions-2",
+          "role": "status_verification_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_diversion",
+          "componentId": "sd_diversion-escalation-instructions-3",
+          "role": "escalation_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": true,
+      "blockingReasons": [],
+      "declaredOutputStrategy": "process_guidance",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/SD/01_LEGAL_REVIEW/SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "SD",
+      "trackId": "sd_23a_3_34_auto",
+      "outputStrategy": "process_guidance",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_23a_3_34_auto",
+          "componentId": "sd_23a_3_34_auto-eligibility-and-timing-analysis-1",
+          "role": "eligibility_and_timing_analysis",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_23a_3_34_auto",
+          "componentId": "sd_23a_3_34_auto-status-verification-instructions-2",
+          "role": "status_verification_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_23a_3_34_auto",
+          "componentId": "sd_23a_3_34_auto-legal-effect-explanation-3",
+          "role": "legal_effect_explanation",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": true,
+      "blockingReasons": [],
+      "declaredOutputStrategy": "process_guidance",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/SD/01_LEGAL_REVIEW/SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "SD",
+      "trackId": "sd_sis_sealing",
+      "outputStrategy": "process_guidance",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [
+        "Open question blocks the build (eligibility_branch): Counsel recorded that the full text of §§ 23A-27-13 to 23A-27-17 had not been read at source, as a build blocker. Section 23A-27-17 has now been read at the official publication. Sections 23A-27-13 and 23A-27-14, including the once-only felony and misdemeanor limits and the teacher-licensing carve-out, have not been read subsection by subsection."
+      ],
+      "components": [
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_sis_sealing",
+          "componentId": "sd_sis_sealing-status-verification-instructions-1",
+          "role": "status_verification_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_sis_sealing",
+          "componentId": "sd_sis_sealing-legal-effect-explanation-2",
+          "role": "legal_effect_explanation",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_sis_sealing",
+          "componentId": "sd_sis_sealing-escalation-instructions-3",
+          "role": "escalation_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_sis_sealing",
+          "componentId": "sd_sis_sealing-teacher-licensing-warning-4",
+          "role": "teacher_licensing_warning",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "sd_sis_sealing: the controlling review retains an open legal-design blocker — Open question blocks the build (eligibility_branch): Counsel recorded that the full text of §§ 23A-27-13 to 23A-27-17 had not been read at source, as a build blocker. Section 23A-27-17 has now been read at the official publication. Sections 23A-27-13 and 23A-27-14, including the once-only felony and misdemeanor limits and the teacher-licensing carve-out, have not been read subsection by subsection."
+      ],
+      "declaredOutputStrategy": "process_guidance",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/SD/01_LEGAL_REVIEW/SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "SD",
+      "trackId": "sd_pardon_24_14_11",
+      "outputStrategy": "process_guidance",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_pardon_24_14_11",
+          "componentId": "sd_pardon_24_14_11-route-detection-and-explanation-1",
+          "role": "route_detection_and_explanation",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_pardon_24_14_11",
+          "componentId": "sd_pardon_24_14_11-referral-instructions-2",
+          "role": "referral_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "SD",
+          "trackId": "sd_pardon_24_14_11",
+          "componentId": "sd_pardon_24_14_11-legal-effect-explanation-3",
+          "role": "legal_effect_explanation",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": true,
+      "blockingReasons": [],
+      "declaredOutputStrategy": "process_guidance",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/SD/01_LEGAL_REVIEW/SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "WY",
+      "trackId": "wy_nc_1401",
+      "outputStrategy": "custom_pleading",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [
+        "Open question blocks the build (packet_components): Which Wyoming courts publish local expungement templates? Not surveyed, and resolvable by a clerk survey across the 23 counties."
+      ],
+      "components": [
+        {
+          "jurisdiction": "WY",
+          "trackId": "wy_nc_1401",
+          "componentId": "wy_nc_1401-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WY",
+          "trackId": "wy_nc_1401",
+          "componentId": "wy_nc_1401-proposed-order-2",
+          "role": "proposed_order",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WY",
+          "trackId": "wy_nc_1401",
+          "componentId": "wy_nc_1401-verification-3",
+          "role": "verification",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WY",
+          "trackId": "wy_nc_1401",
+          "componentId": "wy_nc_1401-certificate-of-service-4",
+          "role": "certificate_of_service",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WY",
+          "trackId": "wy_nc_1401",
+          "componentId": "wy_nc_1401-filing-instructions-5",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process-guidance component has no guidance specification in this repository."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": false
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "wy_nc_1401: the controlling review retains an open legal-design blocker — Open question blocks the build (packet_components): Which Wyoming courts publish local expungement templates? Not surveyed, and resolvable by a clerk survey across the 23 counties.",
+        "wy_nc_1401-filing-instructions-5: process_guidance component has no governing specification in this repository."
+      ],
+      "declaredOutputStrategy": "custom_pleading",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/WY/01_LEGAL_REVIEW/WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "WY",
+      "trackId": "wy_misd_1501",
+      "outputStrategy": "custom_pleading",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [
+        "Design undetermined: The status-offense determination under Wyo. Stat. § 7-1-107(b)(iii) is not encoded. Do not assume underage alcohol, nicotine or other minor conduct is automatically a status offense, because the one-year and five-year clocks turn on it. (undetermined: waiting_period)",
+        "Open question blocks the build (waiting_period): What exactly does Wyo. Stat. § 7-1-107(b)(iii) define as a status offense, and which common Wyoming charges fall inside it? The one-year and five-year clocks turn entirely on this.",
+        "Open question blocks the build (packet_components): Which Wyoming courts publish local expungement templates? Not surveyed, and resolvable by a clerk survey across the 23 counties."
+      ],
+      "components": [
+        {
+          "jurisdiction": "WY",
+          "trackId": "wy_misd_1501",
+          "componentId": "wy_misd_1501-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WY",
+          "trackId": "wy_misd_1501",
+          "componentId": "wy_misd_1501-proposed-order-2",
+          "role": "proposed_order",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WY",
+          "trackId": "wy_misd_1501",
+          "componentId": "wy_misd_1501-verification-3",
+          "role": "verification",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WY",
+          "trackId": "wy_misd_1501",
+          "componentId": "wy_misd_1501-certificate-of-service-4",
+          "role": "certificate_of_service",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WY",
+          "trackId": "wy_misd_1501",
+          "componentId": "wy_misd_1501-filing-instructions-5",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process-guidance component has no guidance specification in this repository."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": false
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "wy_misd_1501: the controlling review retains an open legal-design blocker — Design undetermined: The status-offense determination under Wyo. Stat. § 7-1-107(b)(iii) is not encoded. Do not assume underage alcohol, nicotine or other minor conduct is automatically a status offense, because the one-year and five-year clocks turn on it. (undetermined: waiting_period)",
+        "wy_misd_1501: the controlling review retains an open legal-design blocker — Open question blocks the build (waiting_period): What exactly does Wyo. Stat. § 7-1-107(b)(iii) define as a status offense, and which common Wyoming charges fall inside it? The one-year and five-year clocks turn entirely on this.",
+        "wy_misd_1501: the controlling review retains an open legal-design blocker — Open question blocks the build (packet_components): Which Wyoming courts publish local expungement templates? Not surveyed, and resolvable by a clerk survey across the 23 counties.",
+        "wy_misd_1501-filing-instructions-5: process_guidance component has no governing specification in this repository."
+      ],
+      "declaredOutputStrategy": "custom_pleading",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/WY/01_LEGAL_REVIEW/WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "WY",
+      "trackId": "wy_fel_1502",
+      "outputStrategy": "custom_pleading",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [
+        "Design undetermined: The § 7-13-1502 exclusion list is long and statute-specific and is not encoded. Do not offer this track without attorney review of whether the felony appears on the list. (undetermined: eligibility_branch)",
+        "Open question blocks the build (governing_mechanism): Does anything else reach a completed felony deferral? If § 7-13-1401 is barred and § 7-13-1502 requires a conviction, is there any other Wyoming mechanism, including anything within § 7-13-301 itself?",
+        "Open question blocks the build (packet_components): Which Wyoming courts publish local expungement templates? Not surveyed, and resolvable by a clerk survey across the 23 counties."
+      ],
+      "components": [
+        {
+          "jurisdiction": "WY",
+          "trackId": "wy_fel_1502",
+          "componentId": "wy_fel_1502-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WY",
+          "trackId": "wy_fel_1502",
+          "componentId": "wy_fel_1502-proposed-order-2",
+          "role": "proposed_order",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WY",
+          "trackId": "wy_fel_1502",
+          "componentId": "wy_fel_1502-verification-3",
+          "role": "verification",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WY",
+          "trackId": "wy_fel_1502",
+          "componentId": "wy_fel_1502-certificate-of-service-4",
+          "role": "certificate_of_service",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WY",
+          "trackId": "wy_fel_1502",
+          "componentId": "wy_fel_1502-filing-instructions-5",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process-guidance component has no guidance specification in this repository."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": false
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "wy_fel_1502: the controlling review retains an open legal-design blocker — Design undetermined: The § 7-13-1502 exclusion list is long and statute-specific and is not encoded. Do not offer this track without attorney review of whether the felony appears on the list. (undetermined: eligibility_branch)",
+        "wy_fel_1502: the controlling review retains an open legal-design blocker — Open question blocks the build (governing_mechanism): Does anything else reach a completed felony deferral? If § 7-13-1401 is barred and § 7-13-1502 requires a conviction, is there any other Wyoming mechanism, including anything within § 7-13-301 itself?",
+        "wy_fel_1502: the controlling review retains an open legal-design blocker — Open question blocks the build (packet_components): Which Wyoming courts publish local expungement templates? Not surveyed, and resolvable by a clerk survey across the 23 counties.",
+        "wy_fel_1502-filing-instructions-5: process_guidance component has no governing specification in this repository."
+      ],
+      "declaredOutputStrategy": "custom_pleading",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/WY/01_LEGAL_REVIEW/WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
       "units": []
     }
   ]

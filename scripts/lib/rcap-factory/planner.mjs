@@ -163,6 +163,44 @@ const ILLINOIS_CUSTOM_PLEADING_WORKER_COMMIT =
   "20379e6e8f7fd41e1fda6714ab05a06183123368";
 const PENNSYLVANIA_NORMALIZATION_WORKER_COMMIT =
   "387656ac31a49f7338bd9d1e3e170df929659d98";
+const COMPLETED_SESSION_D_NORMALIZATIONS = Object.freeze([
+  {
+    jurisdiction: "WY",
+    workerCommit: "c27e1d9d6bc732e159b4cbe68b3f4705ede0a9a3",
+    completionCommit: "e49729d9f34adb3762a53b971ae23ab9389bdcfd",
+    memoSha256:
+      "8788564390c3d4ad1c9e9fd90e3dcf6311ccba4557b481a306790214f8d3c0bf"
+  },
+  {
+    jurisdiction: "SD",
+    workerCommit: "f87c45c5939803068090c3c0e6f09b5ad6164b3d",
+    completionCommit: "307a05d8279dbe43992b70ff65c4501e319fcb99",
+    memoSha256:
+      "8d088d48642f09802aa1582be9924642a36026e3721b7aa2de2c33aecac31ae7"
+  }
+]);
+const SESSION_D_NORMALIZATION_CORRECTIONS = Object.freeze([
+  {
+    jurisdiction: "WI",
+    workerCommit: "2180f1f5015f324aa92168fe43f13584209efe29",
+    memoSha256:
+      "dcee6fbc60b4be26e3eb02d1c823be4fb481065ff7f0b5fd2016fba31cc2d9fd",
+    trackId: "wi_exp_certificate_of_discharge",
+    correction:
+      "Model the participant-authored certificate follow-up letter as a generatable supporting " +
+      "or correction-correspondence action while preserving administrative issuance and verification guidance."
+  },
+  {
+    jurisdiction: "RI",
+    workerCommit: "07c675237a275971555250e4a33c7995d7d372de",
+    memoSha256:
+      "6e5a3c34428cecb8d0c52158a2e82f07dc0d85bbe3ea1c39087ddb50e9dfdb06",
+    trackId: "ri_marijuana",
+    correction:
+      "Preserve automatic-relief verification guidance and separately disposition the " +
+      "participant-signed expedited written request as a supporting or correction action."
+  }
+]);
 const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
   {
     jurisdiction: "AK",
@@ -817,7 +855,10 @@ export function buildFactoryPlan(options = {}) {
       job.executionNote = executionNote;
     }
     const assignmentClaim = claimsByJobId.get(jobId);
-    if (assignmentClaim) {
+    if (
+      assignmentClaim &&
+      !["completed", "cancelled"].includes(job.status)
+    ) {
       job.assignmentClaim = structuredClone(assignmentClaim);
     }
 
@@ -925,6 +966,10 @@ export function buildFactoryPlan(options = {}) {
   const normalizedTracks = [...inputs.normalizedTracks.tracks].sort(compareTracks);
   const tracksByState = groupBy(normalizedTracks, (track) => track.jurisdiction);
   const outstanding = sortedUnique(inputs.implementationQueue.outstandingJurisdictions ?? []);
+  const completedNormalizationJurisdictions =
+    COMPLETED_SESSION_D_NORMALIZATIONS.map(
+      (record) => record.jurisdiction
+    );
   const pennsylvaniaMemoPath =
     "data/record-clearing/legal-design-intake/PA.memo.json";
   const pennsylvaniaNormalizationComplete = fs.existsSync(
@@ -935,9 +980,11 @@ export function buildFactoryPlan(options = {}) {
     authority: inputs.authority,
     repositoryAssetAudit: inputs.repositoryAssetAudit,
     claims: inputs.jobClaims,
-    outstandingJurisdictions: pennsylvaniaNormalizationComplete
-      ? sortedUnique([...outstanding, "PA"])
-      : outstanding
+    outstandingJurisdictions: sortedUnique([
+      ...outstanding,
+      ...completedNormalizationJurisdictions,
+      ...(pennsylvaniaNormalizationComplete ? ["PA"] : [])
+    ])
   });
   const readinessFoundationComplete = normalizationFoundationComplete(
     inputs.normalizationReadiness
@@ -1044,6 +1091,79 @@ export function buildFactoryPlan(options = {}) {
     legalReviewMaterializers.set(assignment.jurisdiction, job);
   }
 
+  for (const record of COMPLETED_SESSION_D_NORMALIZATIONS) {
+    const memoPath =
+      `data/record-clearing/legal-design-intake/${record.jurisdiction}.memo.json`;
+    const absoluteMemoPath = path.join(rootDir, memoPath);
+    if (
+      !fs.existsSync(absoluteMemoPath) ||
+      sha256File(absoluteMemoPath) !== record.memoSha256
+    ) {
+      throw new Error(
+        `${record.jurisdiction} completed normalization memo does not match ` +
+          `${record.memoSha256}.`
+      );
+    }
+    const normalizationReadiness =
+      normalizationReadinessRecords.get(record.jurisdiction);
+    const reviewMaterializer =
+      legalReviewMaterializers.get(record.jurisdiction);
+    if (!normalizationReadiness || !reviewMaterializer) {
+      throw new Error(
+        `${record.jurisdiction} completed normalization lacks readiness or review materialization.`
+      );
+    }
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: record.jurisdiction,
+      jobId: jobIdFor(
+        record.jurisdiction,
+        "legal_design_normalization"
+      ),
+      status: "completed",
+      completionCommit: record.completionCommit,
+      normalizationReadiness: {
+        ...normalizationReadiness,
+        readinessState: "normalization_complete",
+        readinessBlockers: []
+      },
+      dependencies: [
+        normalizationReadinessFoundation.jobId,
+        reviewMaterializer.jobId
+      ],
+      expectedOutputs: [memoPath],
+      ownedPaths: [memoPath],
+      requiredInputs: [
+        FACTORY_INPUT_PATHS.authority,
+        FACTORY_INPUT_PATHS.repositoryAssetAudit,
+        FACTORY_INPUT_PATHS.normalizationReadiness,
+        FACTORY_INPUT_PATHS.jobClaims,
+        FACTORY_INPUT_PATHS.blockerLedger,
+        "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
+        FACTORY_INPUT_PATHS.allStateBuildStatus,
+        "planning/record-clearing-100-percent/jobs/F-01-batch-3-expected-track-ids.json",
+        normalizationReadiness.reviewMaterialization
+          .materializationDestination
+      ],
+      focusedValidation: [
+        `node scripts/rcap-factory-plan.mjs --check-job ${jobIdFor(
+          record.jurisdiction,
+          "legal_design_normalization"
+        )}`,
+        normalizationReadiness.reviewMaterialization.verificationCommand,
+        "node scripts/verify-rcap-legal-design-intake.mjs"
+      ],
+      executionNote:
+        `Worker ${record.workerCommit} supplied the exact memo blob ` +
+        `${record.memoSha256}; captain-equivalent commit ${record.completionCommit} ` +
+        "preserves that blob without stale shared generated outputs.",
+      stopCondition:
+        `Terminal completed child: worker ${record.workerCommit} is represented by ` +
+        `captain-equivalent commit ${record.completionCommit}. Preserve the exact memo blob and ` +
+        "data-derived blockers; do not normalize it again, enable runtime, promote, or deploy."
+    });
+  }
+
   if (pennsylvaniaNormalizationComplete) {
     addJob({
       lane: "legal_design_normalization",
@@ -1114,11 +1234,51 @@ export function buildFactoryPlan(options = {}) {
         "counsel adoption; and do not enable, promote, or deploy. " +
         TERMINAL_INSTRUCTION
     });
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "PA",
+      jobId: "rcap-pa-pardon-composed-unit-approval-adjudication",
+      strategyFamily: "legal_design_adjudication",
+      trackIds: ["pa_pardon_expungement"],
+      dependencies: ["rcap-pa-legal-design-normalization"],
+      status: "blocked",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/guidance-specifications/pa-pardon-composed-unit-approval-adjudication.json`
+      ],
+      ownedPaths: [
+        `${FACTORY_DATA_DIR}/guidance-specifications/pa-pardon-composed-unit-approval-adjudication.json`
+      ],
+      requiredInputs: [
+        pennsylvaniaMemoPath,
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.packetSetManifests,
+        "data/record-clearing/legal-design-composed-unit-approvals.json",
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "high",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job rcap-pa-pardon-composed-unit-approval-adjudication"
+      ],
+      commitSubject:
+        "docs(record-clearing): adjudicate Pennsylvania pardon composition",
+      stopCondition:
+        "Determine whether pa_pardon_expungement is composed and, if so, the exact unit " +
+        "structure, unit destinations, unit availability, and substantive composed-unit " +
+        "approval. Do not fabricate an approval, alter the Pennsylvania memo, infer a route, " +
+        "claim participant packet proof, enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
   }
 
   for (const jurisdiction of outstanding) {
     if (jurisdiction === "PA" && pennsylvaniaNormalizationComplete) continue;
     const normalizationReadiness = normalizationReadinessRecords.get(jurisdiction);
+    const correctionRequired =
+      SESSION_D_NORMALIZATION_CORRECTIONS.find(
+        (record) => record.jurisdiction === jurisdiction
+      );
     const readinessStatus =
       normalizationReadiness.readinessState === "normalization_complete"
         ? "completed"
@@ -1166,7 +1326,19 @@ export function buildFactoryPlan(options = {}) {
           "legal_design_normalization"
         )}`,
         normalizationReadiness.reviewMaterialization.verificationCommand
-      ]
+      ],
+      executionNote: correctionRequired
+        ? `Worker ${correctionRequired.workerCommit} is correction_required; memo ` +
+          `${correctionRequired.memoSha256} was not integrated. ` +
+          `${correctionRequired.trackId}: ${correctionRequired.correction}`
+        : undefined,
+      stopCondition: correctionRequired
+        ? `Correct only ${correctionRequired.trackId}. ${correctionRequired.correction} ` +
+          "Preserve all other exact worker memo content and source accounting. Do not integrate " +
+          "the rejected memo unchanged, normalize another jurisdiction, enable runtime, promote, " +
+          "or deploy. " +
+          TERMINAL_INSTRUCTION
+        : undefined
     });
   }
 
@@ -1742,6 +1914,9 @@ function addTrackLaneJobs({
       ...sourceJobs.map((job) => job.jobId),
       ...(sourceBacked && sourceMaterializationFoundationJobId
         ? [sourceMaterializationFoundationJobId]
+        : []),
+      ...(lane === "composed_route" && jurisdiction === "PA"
+        ? ["rcap-pa-pardon-composed-unit-approval-adjudication"]
         : [])
     ];
     const requiredInputs = [
@@ -1751,6 +1926,9 @@ function addTrackLaneJobs({
       FACTORY_INPUT_PATHS.blockerLedger,
       FACTORY_INPUT_PATHS.packetSetManifests,
       FACTORY_INPUT_PATHS.sourceArtifacts,
+      ...(lane === "composed_route" && jurisdiction === "PA"
+        ? ["data/record-clearing/legal-design-composed-unit-approvals.json"]
+        : []),
       ...inputs.implementationRecords.map((record) => record.path),
       ...(overrides.requiredInputs ?? [])
     ];
@@ -2600,7 +2778,11 @@ function attachCanonicalParents(jobs, canonicalParentRecords) {
   assertCanonicalParentPlan(parents);
 
   for (const job of jobs) {
-    const parentJobId = resolveCanonicalParentJobId(job, parents);
+    const parentJobId = resolveCanonicalParentJobId(
+      job,
+      parents,
+      jobs
+    );
     if (!parentById.has(parentJobId)) {
       throw new Error(
         `${job.jobId} resolved unknown canonical parent ${parentJobId ?? "none"}.`
@@ -2640,7 +2822,7 @@ function assertCanonicalParentPlan(parents) {
   }
 }
 
-function resolveCanonicalParentJobId(job, parents) {
+function resolveCanonicalParentJobId(job, parents, jobs) {
   if (job.jobId === "rcap-nationwide-track-promotion-contract") {
     return "F-03-track-promotion-contract";
   }
@@ -2708,7 +2890,7 @@ function resolveCanonicalParentJobId(job, parents) {
     return canonicalImplementationParentJobId(job, parents);
   }
   if (job.lane === "legal_output_review") {
-    return canonicalReviewParentJobId(job, parents);
+    return canonicalReviewParentJobId(job, parents, jobs);
   }
   if (job.lane === "staging_promotion") {
     return PARTNER_PRIORITY_STAGING_JURISDICTIONS.has(job.jurisdiction)
@@ -2762,12 +2944,26 @@ function canonicalImplementationParentJobId(job, parents) {
         left.parent.jobId.localeCompare(right.parent.jobId)
     );
   if (candidates.length === 0) {
-    throw new Error(`${job.jobId} has no canonical implementation parent.`);
+    const dynamicCandidates = parents.filter(
+      (parent) =>
+        parent.lane === requestedLane &&
+        (parent.tracks ?? []).length === 0 &&
+        (parent.jurisdictions ?? []).includes(job.jurisdiction) &&
+        typeof parent.tracksResolvedFrom === "string" &&
+        parent.tracksResolvedFrom.length > 0
+    );
+    if (dynamicCandidates.length !== 1) {
+      throw new Error(
+        `${job.jobId} has no canonical implementation parent; found ` +
+          `${dynamicCandidates.length} jurisdiction-scoped dynamic candidates.`
+      );
+    }
+    return dynamicCandidates[0].jobId;
   }
   return candidates[0].parent.jobId;
 }
 
-function canonicalReviewParentJobId(job, parents) {
+function canonicalReviewParentJobId(job, parents, jobs) {
   const scores = new Map();
   for (const parent of parents.filter((entry) =>
     String(entry.lane ?? "").startsWith("implementation-")
@@ -2780,10 +2976,34 @@ function canonicalReviewParentJobId(job, parents) {
       scores.set(reviewParent, (scores.get(reviewParent) ?? 0) + count);
     }
   }
-  const ranked = [...scores.entries()].sort(
+  let ranked = [...scores.entries()].sort(
     ([leftId, leftCount], [rightId, rightCount]) =>
       rightCount - leftCount || leftId.localeCompare(rightId)
   );
+  if (ranked.length === 0) {
+    for (const dependencyId of job.dependencies) {
+      const dependency = jobs.find(
+        (candidate) => candidate.jobId === dependencyId
+      );
+      const implementationLane =
+        FACTORY_TO_CANONICAL_IMPLEMENTATION_LANE[dependency?.lane];
+      if (!implementationLane) continue;
+      const count = dependency.trackIds.filter((trackId) =>
+        job.trackIds.includes(trackId)
+      ).length;
+      if (count === 0) continue;
+      const reviewParent =
+        REVIEW_PARENT_BY_IMPLEMENTATION_LANE[implementationLane];
+      scores.set(
+        reviewParent,
+        (scores.get(reviewParent) ?? 0) + count
+      );
+    }
+    ranked = [...scores.entries()].sort(
+      ([leftId, leftCount], [rightId, rightCount]) =>
+        rightCount - leftCount || leftId.localeCompare(rightId)
+    );
+  }
   if (ranked.length === 0) {
     throw new Error(`${job.jobId} has no canonical family-review parent.`);
   }
@@ -4426,11 +4646,22 @@ function buildNormalizationReadinessSummary(records, input) {
 }
 
 function buildCompiledJobClaims(inputClaims, jobs) {
+  const terminalCompiledJobIds = new Set(
+    jobs
+      .filter((job) => ["completed", "cancelled"].includes(job.status))
+      .map((job) => job.jobId)
+  );
   const byJobId = new Map(
-    (inputClaims.claims ?? []).map((claim) => [
-      `${claim.targetType}:${claim.jobId}`,
-      structuredClone(claim)
-    ])
+    (inputClaims.claims ?? [])
+      .filter(
+        (claim) =>
+          claim.targetType !== "compiled_job" ||
+          !terminalCompiledJobIds.has(claim.jobId)
+      )
+      .map((claim) => [
+        `${claim.targetType}:${claim.jobId}`,
+        structuredClone(claim)
+      ])
   );
   for (const job of jobs) {
     if (!job.assignmentClaim) continue;

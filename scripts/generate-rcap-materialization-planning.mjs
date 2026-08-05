@@ -320,7 +320,7 @@ const expectedNextDispatchWave = {
 const expectedPlanScope =
   "This integrated baseline includes both immutable normalization-research bundles, " +
   "Session D's controlling source-identity and typed-blocker adjudication, the " +
-  "mechanism-inventory-v1 canonical denominator for all 24 remaining jurisdictions, " +
+  "mechanism-inventory-v1 canonical denominator for all 24 readiness jurisdictions, " +
   "24 explicit portable legal-review materialization jobs, Pennsylvania normalization, " +
   `${completedGuidanceTrackCount} track-specific guidance implementations, ` +
   `${guidanceAdjudicationJobs.length} blocked guidance adjudications, ` +
@@ -366,6 +366,16 @@ const expectedFactoryQueue = {
   canonicalParentMappingPolicy:
     factoryPlan.canonicalPlan.childMappingPolicy,
   byLane
+};
+const expectedReadinessMetrics = {
+  ...productionPlan.readinessMetrics,
+  current: {
+    ...productionPlan.readinessMetrics.current,
+    authorityCleared:
+      factoryPlan.sourceSummary.authority.clearedTracks,
+    authorityBlocked:
+      factoryPlan.sourceSummary.authority.blockedTracks
+  }
 };
 const expectedOfficial = {
   ...productionPlan.officialPdfSourceContractIntegration,
@@ -418,6 +428,7 @@ if (write) {
   fs.writeFileSync(jobClaimsAbsolute, stableJson(factoryPlan.jobClaims));
   process.stdout.write(`wrote ${jobClaimsPath}\n`);
   productionPlan.factoryQueueReconciliation = expectedFactoryQueue;
+  productionPlan.readinessMetrics = expectedReadinessMetrics;
   productionPlan.participantPacketProofReconciliation =
     participantPacketProofReconciliation;
   productionPlan.officialPdfImplementationProofReconciliation =
@@ -438,6 +449,11 @@ if (write) {
     productionPlanSource,
     "factoryQueueReconciliation",
     expectedFactoryQueue
+  );
+  productionPlanSource = upsertTopLevelJsonProperty(
+    productionPlanSource,
+    "readinessMetrics",
+    expectedReadinessMetrics
   );
   productionPlanSource = upsertTopLevelJsonProperty(
     productionPlanSource,
@@ -490,6 +506,8 @@ if (write) {
     productionPlan.planScope !== expectedPlanScope ||
     stableJson(productionPlan.factoryQueueReconciliation) !==
       stableJson(expectedFactoryQueue) ||
+    stableJson(productionPlan.readinessMetrics) !==
+      stableJson(expectedReadinessMetrics) ||
     stableJson(productionPlan.participantPacketProofReconciliation) !==
       stableJson(participantPacketProofReconciliation) ||
     stableJson(productionPlan.officialPdfImplementationProofReconciliation) !==

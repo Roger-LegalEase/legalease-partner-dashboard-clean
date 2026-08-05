@@ -29904,6 +29904,1085 @@
         "none for the automatic route",
         "none — no fee applies"
       ]
+    },
+    {
+      "jurisdiction": "SD",
+      "trackId": "sd_arrest_expungement",
+      "packetSetId": "sd_arrest_expungement-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "sd_arrest_expungement-case-filing-statement-1",
+          "role": "case_filing_statement",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "UJS-232",
+          "officialSourceUrl": "https://ujs.sd.gov/Forms/",
+          "order": 1
+        },
+        {
+          "componentId": "sd_arrest_expungement-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "UJS-391",
+          "officialSourceUrl": "https://ujs.sd.gov/Forms/",
+          "order": 2
+        },
+        {
+          "componentId": "sd_arrest_expungement-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "UJS-394",
+          "officialSourceUrl": "https://ujs.sd.gov/Forms/",
+          "order": 3
+        },
+        {
+          "componentId": "sd_arrest_expungement-hearing-waiver-4",
+          "role": "hearing_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Prepared only where the arrested person or defendant, the prosecutor and any victim will all waive the hearing. All three must waive.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "UJS-392",
+          "officialSourceUrl": "https://ujs.sd.gov/Forms/",
+          "order": 4
+        },
+        {
+          "componentId": "sd_arrest_expungement-notice-of-hearing-5",
+          "role": "notice_of_hearing",
+          "requirement": "conditional",
+          "conditionDescription": "Prepared where a hearing is required because the three-party waiver is not obtained.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "UJS-393",
+          "officialSourceUrl": "https://ujs.sd.gov/Forms/",
+          "order": 5
+        },
+        {
+          "componentId": "sd_arrest_expungement-notice-of-entry-6",
+          "role": "notice_of_entry",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "UJS-395",
+          "officialSourceUrl": "https://ujs.sd.gov/Forms/",
+          "order": 6
+        },
+        {
+          "componentId": "sd_arrest_expungement-filing-instructions-7",
+          "role": "filing_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 7
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Order of dismissal, judgment of acquittal, or proof that no accusatory instrument was filed. Ask the Clerk of Courts for a copy of the dismissal order or the judgment of acquittal. Where no charging document was ever filed, ask the clerk to confirm in writing that no case exists.",
+          "obtainedFrom": "Clerk of Courts for the court with jurisdiction over the arrest",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the matter end — no charging document was ever filed, the prosecutor formally dismissed the case, or you were acquitted?\" against Order of dismissal, judgment of acquittal, or proof that no accusatory instrument was filed, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court docket for the underlying case. Ask the Clerk of Courts for the case docket, which shows whether every charge was dismissed or only some.",
+          "obtainedFrom": "Clerk of Courts",
+          "requirement": "conditional",
+          "conditionDescription": "Applies where a case was opened.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Were ALL of the charges in the case dismissed, or only some of them?\" against Court docket for the underlying case, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies where a case was opened.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain South Dakota criminal history record. Request a criminal history record from the DCI. LegalEase cannot make this request for you.",
+          "obtainedFrom": "South Dakota Division of Criminal Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended where the participant is unsure how many separate arrest records exist.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How many separate arrests are you trying to clear?\" against South Dakota criminal history record, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended where the participant is unsure how many separate arrest records exist.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Participant's signature and date — UJS-391 Motion for Expungement, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Prosecutor's and any victim's signatures — UJS-392 Waiver of Hearing.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Hearing date and time — UJS-393 Notice of Hearing, first line.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge's signature and date of entry — UJS-394 Order for Expungement, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Date of mailing to the State's Attorney — UJS-391 Statement of Mailing, and UJS-395.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any statement that the ends of justice and the best interests of the public will be served, or that compelling necessity exists — UJS-391 Motion, grounds section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs UJS-391. The prosecutor and any victim sign UJS-392 where the hearing is waived.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$72 civil filing fee per petition, per the current UJS instructions. The statute frames it as the same as the civil filing fee.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Available on a finding of indigency. The participant requests it from the court.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve or mail the motion to the prosecuting attorney and complete the Statement of Mailing on UJS-391. After the order is signed, file UJS-395 Notice of Entry of Order and mail it with the order to the State's Attorney.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "The motion starts a NEW CIVIL ACTION filed with the Clerk of Courts in the court that would have jurisdiction over the crime for which the person was arrested. File UJS-232 and UJS-391 with the proposed UJS-394 order. More than one arrest record requires a separate civil action for each.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Order of dismissal, judgment of acquittal, or proof that no accusatory instrument was filed. Ask the Clerk of Courts for a copy of the dismissal order or the judgment of acquittal. Where no charging document was ever filed, ask the clerk to confirm in writing that no case exists.",
+        "Check your answer to \"How did the matter end — no charging document was ever filed, the prosecutor formally dismissed the case, or you were acquitted?\" against Order of dismissal, judgment of acquittal, or proof that no accusatory instrument was filed, and correct the packet if they disagree.",
+        "Check your answer to \"Were ALL of the charges in the case dismissed, or only some of them?\" against Court docket for the underlying case, and correct the packet if they disagree.",
+        "Check your answer to \"How many separate arrests are you trying to clear?\" against South Dakota criminal history record, and correct the packet if they disagree.",
+        "Participant's signature and date — UJS-391 Motion for Expungement, signature block.",
+        "Prosecutor's and any victim's signatures — UJS-392 Waiver of Hearing.",
+        "Hearing date and time — UJS-393 Notice of Hearing, first line.",
+        "Judge's signature and date of entry — UJS-394 Order for Expungement, signature block.",
+        "Date of mailing to the State's Attorney — UJS-391 Statement of Mailing, and UJS-395.",
+        "Any statement that the ends of justice and the best interests of the public will be served, or that compelling necessity exists — UJS-391 Motion, grounds section.",
+        "The participant signs UJS-391. The prosecutor and any victim sign UJS-392 where the hearing is waived.",
+        "$72 civil filing fee per petition, per the current UJS instructions. The statute frames it as the same as the civil filing fee.",
+        "Available on a finding of indigency. The participant requests it from the court."
+      ]
+    },
+    {
+      "jurisdiction": "SD",
+      "trackId": "sd_diversion",
+      "packetSetId": "sd_diversion-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "sd_diversion-eligibility-and-timing-analysis-1",
+          "role": "eligibility_and_timing_analysis",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "sd_diversion-status-verification-instructions-2",
+          "role": "status_verification_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "sd_diversion-escalation-instructions-3",
+          "role": "escalation_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Diversion agreement and proof of successful completion. Ask the State's Attorney's office for the diversion agreement and written confirmation that you completed the program, including the completion date.",
+          "obtainedFrom": "The State's Attorney's office that administered the diversion program",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did you successfully complete the diversion program?\" against Diversion agreement and proof of successful completion, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court docket for the diverted charges. Ask the Clerk of Courts for the case docket and look for the dismissal, the notice of completion and any expungement order.",
+          "obtainedFrom": "Clerk of Courts",
+          "requirement": "conditional",
+          "conditionDescription": "Used to check whether the dismissal and notice have been filed and whether the expungement has been granted.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Do you know whether the State's Attorney has filed the dismissal and the notice that you completed diversion?\" against Court docket for the diverted charges, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Used to check whether the dismissal and notice have been filed and whether the expungement has been granted.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The State's Attorney's dismissal of all charges and notice of completion — Not in the packet; named in the status-verification instructions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "The participant files nothing. The State's Attorney files the dismissal of all charges related to the arrest and the notice of completion of the diversion program; upon that filing the court grants the expungement without a motion or any further action.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"On what date did you successfully complete the diversion program?\" against Diversion agreement and proof of successful completion, and correct the packet if they disagree.",
+        "Check your answer to \"Do you know whether the State's Attorney has filed the dismissal and the notice that you completed diversion?\" against Court docket for the diverted charges, and correct the packet if they disagree.",
+        "The State's Attorney's dismissal of all charges and notice of completion — Not in the packet; named in the status-verification instructions."
+      ]
+    },
+    {
+      "jurisdiction": "SD",
+      "trackId": "sd_23a_3_34_auto",
+      "packetSetId": "sd_23a_3_34_auto-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "sd_23a_3_34_auto-eligibility-and-timing-analysis-1",
+          "role": "eligibility_and_timing_analysis",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "sd_23a_3_34_auto-status-verification-instructions-2",
+          "role": "status_verification_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "sd_23a_3_34_auto-legal-effect-explanation-3",
+          "role": "legal_effect_explanation",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court docket showing the charges and the satisfaction of court-ordered conditions. Ask the Clerk of Courts for the case docket, which shows every charge and whether fines, costs and other conditions were satisfied.",
+          "obtainedFrom": "Clerk of Courts",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended where the participant is unsure of the highest charged offence or whether conditions were satisfied.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have all the conditions the court ordered in that case — fines, costs, classes, community service, probation — been satisfied?\" against Court docket showing the charges and the satisfaction of court-ordered conditions, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended where the participant is unsure of the highest charged offence or whether conditions were satisfied.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "No participant document is produced on this track — Not applicable; the packet is guidance only.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "none",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Have all the conditions the court ordered in that case — fines, costs, classes, community service, probation — been satisfied?\" against Court docket showing the charges and the satisfaction of court-ordered conditions, and correct the packet if they disagree.",
+        "No participant document is produced on this track — Not applicable; the packet is guidance only."
+      ]
+    },
+    {
+      "jurisdiction": "SD",
+      "trackId": "sd_sis_sealing",
+      "packetSetId": "sd_sis_sealing-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "sd_sis_sealing-status-verification-instructions-1",
+          "role": "status_verification_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "sd_sis_sealing-legal-effect-explanation-2",
+          "role": "legal_effect_explanation",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "sd_sis_sealing-escalation-instructions-3",
+          "role": "escalation_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "sd_sis_sealing-teacher-licensing-warning-4",
+          "role": "teacher_licensing_warning",
+          "requirement": "conditional",
+          "conditionDescription": "Applies where the underlying conviction was under a specified subdivision of § 22-22-1 or under § 22-22-7 and the participant holds or seeks a certified teaching licence.",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Suspended imposition of sentence order, and the discharge and dismissal order. Ask the Clerk of Courts for the SIS order and the order of discharge and dismissal. These establish that the sealing obligation under § 23A-27-17 was triggered.",
+          "obtainedFrom": "Clerk of Courts",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Did the court enter an order discharging you and dismissing the case?\" against Suspended imposition of sentence order, and the discharge and dismissal order, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain South Dakota criminal history record. Request a criminal history record from the DCI.",
+          "obtainedFrom": "South Dakota Division of Criminal Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended where the participant needs to see what remains visible after sealing.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Does the case still appear on a public record search now?\" against South Dakota criminal history record, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended where the participant needs to see what remains visible after sealing.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The § 23A-27-17 sealing order — Not in the packet; named in the status-verification instructions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "none",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Did the court enter an order discharging you and dismissing the case?\" against Suspended imposition of sentence order, and the discharge and dismissal order, and correct the packet if they disagree.",
+        "Check your answer to \"Does the case still appear on a public record search now?\" against South Dakota criminal history record, and correct the packet if they disagree.",
+        "The § 23A-27-17 sealing order — Not in the packet; named in the status-verification instructions."
+      ]
+    },
+    {
+      "jurisdiction": "SD",
+      "trackId": "sd_pardon_24_14_11",
+      "packetSetId": "sd_pardon_24_14_11-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "sd_pardon_24_14_11-route-detection-and-explanation-1",
+          "role": "route_detection_and_explanation",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "sd_pardon_24_14_11-referral-instructions-2",
+          "role": "referral_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "sd_pardon_24_14_11-legal-effect-explanation-3",
+          "role": "legal_effect_explanation",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain The pardon document and any Board of Pardons and Paroles decision. Ask the Board of Pardons and Paroles for a copy of the pardon and the Board's decision. These establish whether the pardon went through the chapter 24-14 process, which is what determines whether sealing follows.",
+          "obtainedFrom": "South Dakota Board of Pardons and Paroles, or the Office of the Governor",
+          "requirement": "conditional",
+          "conditionDescription": "Applies where a pardon has been granted.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Was the pardon granted after an application to the South Dakota Board of Pardons and Paroles?\" against The pardon document and any Board of Pardons and Paroles decision, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies where a pardon has been granted.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The pardon application to the Board of Pardons and Paroles — Not in the packet; named in the referral instructions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The Governor's sealing order — Not in the packet.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "none",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Was the pardon granted after an application to the South Dakota Board of Pardons and Paroles?\" against The pardon document and any Board of Pardons and Paroles decision, and correct the packet if they disagree.",
+        "The pardon application to the Board of Pardons and Paroles — Not in the packet; named in the referral instructions.",
+        "The Governor's sealing order — Not in the packet."
+      ]
+    },
+    {
+      "jurisdiction": "WY",
+      "trackId": "wy_nc_1401",
+      "packetSetId": "wy_nc_1401-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "wy_nc_1401-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "wy_nc_1401-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "wy_nc_1401-verification-3",
+          "role": "verification",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "wy_nc_1401-certificate-of-service-4",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "wy_nc_1401-filing-instructions-5",
+          "role": "filing_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 5
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Wyoming DCI criminal history record. Request a personal criminal history record from the DCI Criminal Records Unit. A Wyoming record exists only where an arrest fingerprint card was submitted; if none was submitted the arrest will not appear on the state or FBI record, and DCI cannot create an arrest event from court documents alone.",
+          "obtainedFrom": "Wyoming Division of Criminal Investigation, Criminal Records Unit",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended wherever the participant does not know whether the arrest reached the state central repository.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Do you know whether this arrest appears on your Wyoming Division of Criminal Investigation criminal history — for example, were you fingerprinted at the time of arrest?\" against Wyoming DCI criminal history record, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended wherever the participant does not know whether the arrest reached the state central repository.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court docket or case history for the underlying matter. Ask the clerk of the court for the docket and the order of dismissal or other disposition for the case.",
+          "obtainedFrom": "Clerk of the court in which the proceeding occurred",
+          "requirement": "conditional",
+          "conditionDescription": "Applies where charges were filed.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Which of these describes the outcome — you were not convicted of any charge relating to the event, no charges of any kind were filed, or the prosecutor or the court dismissed all charges relating to the event?\" against Court docket or case history for the underlying matter, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies where charges were filed.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature and date, and the verification — Petition for Expungement, signature and verification block on the final page.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Case number where no charges were filed — Petition for Expungement, caption.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Hearing date — Any notice of hearing, first line.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge's signature and the date of entry — Order for Expungement, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Date of service on the prosecuting attorney — Certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs and verifies the petition. Verification by the petitioner is required by statute.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Verification is required by statute; confirm with the clerk of the filing court whether that court requires the verification to be sworn before a notary.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the verified petition on the prosecuting attorney and file proof of service. The Division of Criminal Investigation is not a service recipient on this track.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the verified Petition for Expungement and the proposed Order for Expungement with the clerk of the court in which the proceeding occurred or would have occurred. Call that clerk about local templates and formatting before finalizing, because Wyoming publishes no statewide form and county, municipal and circuit courts may have their own.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Do you know whether this arrest appears on your Wyoming Division of Criminal Investigation criminal history — for example, were you fingerprinted at the time of arrest?\" against Wyoming DCI criminal history record, and correct the packet if they disagree.",
+        "Check your answer to \"Which of these describes the outcome — you were not convicted of any charge relating to the event, no charges of any kind were filed, or the prosecutor or the court dismissed all charges relating to the event?\" against Court docket or case history for the underlying matter, and correct the packet if they disagree.",
+        "Petitioner's signature and date, and the verification — Petition for Expungement, signature and verification block on the final page.",
+        "Case number where no charges were filed — Petition for Expungement, caption.",
+        "Hearing date — Any notice of hearing, first line.",
+        "Judge's signature and the date of entry — Order for Expungement, signature block.",
+        "Date of service on the prosecuting attorney — Certificate of service.",
+        "The petitioner signs and verifies the petition. Verification by the petitioner is required by statute.",
+        "Verification is required by statute; confirm with the clerk of the filing court whether that court requires the verification to be sworn before a notary."
+      ]
+    },
+    {
+      "jurisdiction": "WY",
+      "trackId": "wy_misd_1501",
+      "packetSetId": "wy_misd_1501-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "wy_misd_1501-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "wy_misd_1501-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "wy_misd_1501-verification-3",
+          "role": "verification",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "wy_misd_1501-certificate-of-service-4",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "wy_misd_1501-filing-instructions-5",
+          "role": "filing_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 5
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified judgment and sentence for the misdemeanor conviction. Ask the clerk of the convicting court for a certified copy of the judgment and sentence. Most clerks charge a per-copy fee.",
+          "obtainedFrom": "Clerk of the convicting court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Did you plead guilty, plead nolo contendere, or were you convicted after trial?\" against Certified judgment and sentence for the misdemeanor conviction, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that probation and any court-ordered program were completed. Ask the probation office or the court for the discharge or completion documentation showing the date the terms of sentence expired. This is what establishes the start of the one-year or five-year clock.",
+          "obtainedFrom": "The supervising probation office, or the clerk of the convicting court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did all the terms of your sentence end, including any probation and any program the court ordered you to complete?\" against Proof that probation and any court-ordered program were completed, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Wyoming DCI criminal history record. Request a personal criminal history record from the DCI Criminal Records Unit.",
+          "obtainedFrom": "Wyoming Division of Criminal Investigation, Criminal Records Unit",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended where the participant does not know what the state record shows, and where the court requests a DCI report.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Do you know whether this conviction appears on your Wyoming Division of Criminal Investigation criminal history?\" against Wyoming DCI criminal history record, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended where the participant does not know what the state record shows, and where the court requests a DCI report.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature and date, and the verification — Petition, signature and verification block on the final page.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any statement that the petitioner does not represent a substantial danger to himself, any identifiable victim or society — Petition, eligibility allegations.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Whether the offense is a status offense under § 7-1-107(b)(iii) — Petition, waiting-period allegation.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Hearing date — Any notice of hearing, first line.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge's signature and the date of entry — Order for Expungement, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Dates of service on the prosecuting attorney and on DCI — Certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs and verifies the petition. Verification by the petitioner is required by statute.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Verification is required by statute; confirm with the clerk of the convicting court whether that court requires the verification to be sworn before a notary.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$100 filing fee per petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the verified petition on the prosecuting attorney and on the Division of Criminal Investigation, and file proof of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the verified Petition for Expungement of Records of Conviction and the proposed Order for Expungement with the clerk of the convicting court. Call that clerk about local templates and formatting before finalizing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified judgment and sentence for the misdemeanor conviction. Ask the clerk of the convicting court for a certified copy of the judgment and sentence. Most clerks charge a per-copy fee.",
+        "Check your answer to \"Did you plead guilty, plead nolo contendere, or were you convicted after trial?\" against Certified judgment and sentence for the misdemeanor conviction, and correct the packet if they disagree.",
+        "Obtain Proof that probation and any court-ordered program were completed. Ask the probation office or the court for the discharge or completion documentation showing the date the terms of sentence expired. This is what establishes the start of the one-year or five-year clock.",
+        "Check your answer to \"On what date did all the terms of your sentence end, including any probation and any program the court ordered you to complete?\" against Proof that probation and any court-ordered program were completed, and correct the packet if they disagree.",
+        "Check your answer to \"Do you know whether this conviction appears on your Wyoming Division of Criminal Investigation criminal history?\" against Wyoming DCI criminal history record, and correct the packet if they disagree.",
+        "Petitioner's signature and date, and the verification — Petition, signature and verification block on the final page.",
+        "Any statement that the petitioner does not represent a substantial danger to himself, any identifiable victim or society — Petition, eligibility allegations.",
+        "Whether the offense is a status offense under § 7-1-107(b)(iii) — Petition, waiting-period allegation.",
+        "Hearing date — Any notice of hearing, first line.",
+        "Judge's signature and the date of entry — Order for Expungement, signature block.",
+        "Dates of service on the prosecuting attorney and on DCI — Certificate of service.",
+        "The petitioner signs and verifies the petition. Verification by the petitioner is required by statute.",
+        "Verification is required by statute; confirm with the clerk of the convicting court whether that court requires the verification to be sworn before a notary.",
+        "$100 filing fee per petition."
+      ]
+    },
+    {
+      "jurisdiction": "WY",
+      "trackId": "wy_fel_1502",
+      "packetSetId": "wy_fel_1502-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "wy_fel_1502-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "wy_fel_1502-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "wy_fel_1502-verification-3",
+          "role": "verification",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "wy_fel_1502-certificate-of-service-4",
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "wy_fel_1502-filing-instructions-5",
+          "role": "filing_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 5
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified judgment and sentence for the felony conviction. Ask the clerk of the convicting court for a certified copy of the judgment and sentence.",
+          "obtainedFrom": "Clerk of the convicting court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the felony offense, as it is written on the court record?\" against Certified judgment and sentence for the felony conviction, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that probation and any court-ordered program were completed. Ask the probation office or the court for the discharge or completion documentation showing the date the terms of sentence expired; the ten-year clock runs from that date.",
+          "obtainedFrom": "The supervising probation office, or the clerk of the convicting court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did all the terms of your sentence end, including any probation?\" against Proof that probation and any court-ordered program were completed, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that court-ordered restitution was paid in full. Ask the clerk of the convicting court for a payoff or satisfaction record showing the restitution balance is zero.",
+          "obtainedFrom": "Clerk of the convicting court",
+          "requirement": "conditional",
+          "conditionDescription": "Applies where restitution was ordered.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Was any court-ordered restitution paid in full?\" against Proof that court-ordered restitution was paid in full, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies where restitution was ordered.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Wyoming DCI criminal history record. Request a personal criminal history record from the DCI Criminal Records Unit.",
+          "obtainedFrom": "Wyoming Division of Criminal Investigation, Criminal Records Unit",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended because the other-felony bar looks at the entire record, and because the court may request a DCI report.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Other than the felony or felonies you are asking to clear, have you ever pled guilty, pled nolo contendere, or been convicted of a felony anywhere?\" against Wyoming DCI criminal history record, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended because the other-felony bar looks at the entire record, and because the court may request a DCI report.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature and date, and the verification — Petition, signature and verification block on the final page.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any statement that the petitioner does not represent a substantial danger to himself, any identifiable victim or society — Petition, eligibility allegations.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any statement that the felony is not on the § 7-13-1502 exclusion list — Petition, eligibility allegations.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any statement that the petitioner has no other felony anywhere — Petition, eligibility allegations.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Hearing date — Any notice of hearing, first line.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge's signature and the date of entry — Order for Expungement, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Dates of service on the prosecuting attorney and on DCI — Certificate of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs and verifies the petition. Verification by the petitioner is required by statute.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Verification is required by statute; confirm with the clerk of the convicting court whether that court requires the verification to be sworn before a notary.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "$300 filing fee per petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the verified petition on the prosecuting attorney and on the Division of Criminal Investigation, and file proof of service.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the verified Petition for Expungement of Records of Conviction and the proposed Order for Expungement with the clerk of the convicting court. Call that clerk about local templates and formatting before finalizing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Certified judgment and sentence for the felony conviction. Ask the clerk of the convicting court for a certified copy of the judgment and sentence.",
+        "Check your answer to \"What was the felony offense, as it is written on the court record?\" against Certified judgment and sentence for the felony conviction, and correct the packet if they disagree.",
+        "Obtain Proof that probation and any court-ordered program were completed. Ask the probation office or the court for the discharge or completion documentation showing the date the terms of sentence expired; the ten-year clock runs from that date.",
+        "Check your answer to \"On what date did all the terms of your sentence end, including any probation?\" against Proof that probation and any court-ordered program were completed, and correct the packet if they disagree.",
+        "Obtain Proof that court-ordered restitution was paid in full. Ask the clerk of the convicting court for a payoff or satisfaction record showing the restitution balance is zero.",
+        "Check your answer to \"Was any court-ordered restitution paid in full?\" against Proof that court-ordered restitution was paid in full, and correct the packet if they disagree.",
+        "Check your answer to \"Other than the felony or felonies you are asking to clear, have you ever pled guilty, pled nolo contendere, or been convicted of a felony anywhere?\" against Wyoming DCI criminal history record, and correct the packet if they disagree.",
+        "Petitioner's signature and date, and the verification — Petition, signature and verification block on the final page.",
+        "Any statement that the petitioner does not represent a substantial danger to himself, any identifiable victim or society — Petition, eligibility allegations.",
+        "Any statement that the felony is not on the § 7-13-1502 exclusion list — Petition, eligibility allegations.",
+        "Any statement that the petitioner has no other felony anywhere — Petition, eligibility allegations.",
+        "Hearing date — Any notice of hearing, first line.",
+        "Judge's signature and the date of entry — Order for Expungement, signature block.",
+        "Dates of service on the prosecuting attorney and on DCI — Certificate of service.",
+        "The petitioner signs and verifies the petition. Verification by the petitioner is required by statute.",
+        "Verification is required by statute; confirm with the clerk of the convicting court whether that court requires the verification to be sworn before a notary.",
+        "$300 filing fee per petition."
+      ]
     }
   ]
 }
