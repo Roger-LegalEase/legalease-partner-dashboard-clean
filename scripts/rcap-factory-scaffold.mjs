@@ -101,9 +101,11 @@ export function parseScaffoldArgs(rawArgs) {
   if (model !== undefined) assertSupportedModel(model);
   if (
     session !== undefined &&
-    !["SESSION_B", "SESSION_C", "SESSION_D", "SESSION_F"].includes(session)
+    !["SESSION_B", "SESSION_C", "SESSION_D", "SESSION_E", "SESSION_F"].includes(session)
   ) {
-    throw new Error("--session must be SESSION_B, SESSION_C, SESSION_D, or SESSION_F.");
+    throw new Error(
+      "--session must be SESSION_B, SESSION_C, SESSION_D, SESSION_E, or SESSION_F."
+    );
   }
 
   return { jobId: positionals[0] ?? null, model, session, apply, help };
@@ -111,7 +113,7 @@ export function parseScaffoldArgs(rawArgs) {
 
 function scaffoldHelp() {
   return [
-    "Usage: rcap:factory:scaffold -- <jobId> [--model opus|codex] [--session SESSION_B|SESSION_C|SESSION_D|SESSION_F] [--apply|--dry-run]",
+    "Usage: rcap:factory:scaffold -- <jobId> [--model opus|codex] [--session SESSION_B|SESSION_C|SESSION_D|SESSION_E|SESSION_F] [--apply|--dry-run]",
     "",
     "Without --apply, print a deterministic scaffold plan and make no changes.",
     "--apply creates a complete linked Git worktree at worktreePath and a worker branch.",

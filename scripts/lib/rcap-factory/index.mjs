@@ -95,6 +95,7 @@ function immutableScaffoldJob(marker, jobId, options) {
     );
   }
   validateExternalAssignmentAnchor(marker, job, options);
+  validateExactAssignmentMarker(marker, job);
   const validation = validateJob(job);
   if (!validation.ok) {
     throw new Error(
@@ -103,6 +104,61 @@ function immutableScaffoldJob(marker, jobId, options) {
     );
   }
   return structuredClone(job);
+}
+
+function validateExactAssignmentMarker(marker, job) {
+  const assignment = job.officialPdfAssignment;
+  const requiresExactMarker =
+    Array.isArray(assignment?.identityKeys) &&
+    assignment.identityKeys.length > 0;
+  if (!requiresExactMarker) {
+    if (marker.exactAssignment !== undefined) {
+      throw new Error(
+        `${WORKTREE_JOB_MARKER} carries an exact assignment for a non-official job.`
+      );
+    }
+    return;
+  }
+  const expected = {
+    jobId: job.jobId,
+    baseCommit: marker.manifestBaseCommit,
+    workerBranch: marker.branch,
+    canonicalParent: job.parentJobId,
+    lane: job.lane,
+    strategyFamily: job.strategyFamily,
+    sourceIdentities: (job.sourceMaterializationInputs ?? []).map(
+      (input) => ({
+        sourceIdentityKey: input.sourceIdentityKey,
+        documentId: input.documentId,
+        expectedSha256: input.expectedSha256,
+        expectedBytes: input.expectedBytes,
+        expectedMime: input.expectedMediaType,
+        portableLocator: input.portableLocator,
+        materializationDestination: input.materializationDestination
+      })
+    ),
+    projectionPath: assignment.projectionPath,
+    projectionSha256: assignment.projectionSha256,
+    exactTracks: assignment.exactTrackIds,
+    exactComponents: assignment.exactComponentIds,
+    newImplementationIdentities:
+      assignment.newImplementationIdentityKeys,
+    existingImplementationMaterializationOnlyIdentities:
+      assignment.existingImplementationMaterializationOnlyIdentityKeys,
+    ownedPaths: job.ownedPaths,
+    expectedOutputs: job.expectedOutputs,
+    focusedVerifier: assignment.focusedVerifier,
+    implementationFamilies: assignment.implementationFamilies,
+    runtimeDisabledInvariant: assignment.runtimeDisabledInvariant
+  };
+  if (
+    stableStringify(marker.exactAssignment, 0) !==
+    stableStringify(expected, 0)
+  ) {
+    throw new Error(
+      `${WORKTREE_JOB_MARKER} exactAssignment broadens or changes the captain-owned assignment.`
+    );
+  }
 }
 
 function validateExternalAssignmentAnchor(marker, job, options) {

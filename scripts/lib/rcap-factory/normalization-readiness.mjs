@@ -2277,7 +2277,7 @@ export function validateFactoryJobClaims(claims) {
     } else {
       seenJobIds.add(claim.jobId);
     }
-    if (!["SESSION_B", "SESSION_C", "SESSION_D", "SESSION_F"].includes(
+    if (!["SESSION_B", "SESSION_C", "SESSION_D", "SESSION_E", "SESSION_F"].includes(
       claim.ownerSession
     )) {
       issues.push(`${prefix}.ownerSession is invalid.`);

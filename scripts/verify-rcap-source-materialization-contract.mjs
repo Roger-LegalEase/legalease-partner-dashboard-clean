@@ -696,7 +696,7 @@ try {
     assert.deepEqual([...foundation.expectedOutputs].sort(), [...REQUIRED_OUTPUTS].sort());
     const officialJobs = plan.jobs.filter(
       (job) =>
-        job.strategyFamily === "official_pdf_fill" &&
+        (job.officialPdfAssignment?.identityKeys?.length ?? 0) > 0 &&
         ["planned", "ready", "blocked", "in_progress"].includes(job.status)
     );
     assert.ok(officialJobs.length > 0);
@@ -757,7 +757,7 @@ try {
         assert.ok(job.focusedValidation.includes(source.verificationCommand));
         assert.match(
           source.verificationCommand,
-          /^node scripts\/verify-rcap-materialized-source\.mjs --document-id /u
+          /^node scripts\/verify-rcap-materialized-source\.mjs --source-identity-key /u
         );
       }
     }
@@ -779,7 +779,7 @@ try {
       path.join(ROOT, MATERIALIZED_VERIFIER_PATH),
       "utf8"
     );
-    assert.match(text, /--document-id/u);
+    assert.match(text, /--source-identity-key/u);
     assert.match(text, /--sha256/u);
     assert.match(text, /--bytes/u);
     assert.match(text, /assignedJobSha256/u);

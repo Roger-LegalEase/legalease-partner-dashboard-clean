@@ -85,6 +85,7 @@
       "enum": [
         "platform_foundation",
         "normalization_readiness",
+        "legal_review_materialization",
         "legal_design",
         "source_acquisition",
         "in_repo_identity_reconciliation",
@@ -134,7 +135,13 @@
         "type": "object",
         "additionalProperties": false,
         "required": [
+          "sourceIdentityKey",
           "documentId",
+          "authorityEdition",
+          "authorityArchiveSha256",
+          "jurisdiction",
+          "documentRole",
+          "expectedMediaType",
           "expectedSha256",
           "expectedBytes",
           "canonicalAuthorityPath",
@@ -146,10 +153,32 @@
           "workerReadiness",
           "workerMayRead",
           "workerMayModify",
-          "verificationCommand"
+          "verificationCommand",
+          "readOnlyTreatment",
+          "retentionPolicy",
+          "expectedMeasurementBasis",
+          "identityBindingStatus",
+          "registryState",
+          "usageBindings",
+          "provenance"
         ],
         "properties": {
+          "sourceIdentityKey": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
           "documentId": { "type": "string", "minLength": 1 },
+          "authorityEdition": { "type": "string", "minLength": 1 },
+          "authorityArchiveSha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "jurisdiction": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$"
+          },
+          "documentRole": { "type": "string", "minLength": 1 },
+          "expectedMediaType": { "const": "application/pdf" },
           "expectedSha256": {
             "type": "string",
             "pattern": "^[0-9a-f]{64}$"
@@ -174,7 +203,302 @@
           },
           "workerMayRead": { "const": true },
           "workerMayModify": { "const": false },
-          "verificationCommand": { "type": "string", "minLength": 1 }
+          "verificationCommand": { "type": "string", "minLength": 1 },
+          "readOnlyTreatment": { "const": "worker_read_only_no_modify" },
+          "retentionPolicy": { "type": "string", "minLength": 1 },
+          "expectedMeasurementBasis": { "type": "string", "minLength": 1 },
+          "identityBindingStatus": { "const": "exact_pinned_identity" },
+          "registryState": { "const": "registry_metadata_present" },
+          "usageBindings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["trackId", "componentId"],
+              "properties": {
+                "trackId": { "type": "string", "minLength": 1 },
+                "componentId": { "type": ["string", "null"] }
+              }
+            }
+          },
+          "provenance": { "type": "object" }
+        }
+      }
+    },
+    "legalReviewMaterializationAssignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "jobId",
+        "jurisdiction",
+        "ownerSession",
+        "canonicalParent",
+        "activeReview",
+        "receiptOutput",
+        "expectedActiveReviewCount",
+        "expectedAddendumCount",
+        "downstreamDependentJobs",
+        "focusedVerifier",
+        "verificationCommand",
+        "ownedPaths",
+        "assignmentClaim",
+        "stopCondition",
+        "currentStatus"
+      ],
+      "properties": {
+        "jobId": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "jurisdiction": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$"
+        },
+        "ownerSession": {
+          "enum": ["SESSION_B", "SESSION_D"]
+        },
+        "canonicalParent": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$"
+        },
+        "activeReview": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "documentId",
+            "expectedTitle",
+            "expectedSha256",
+            "expectedBytes",
+            "expectedMime",
+            "authorityEdition",
+            "revision",
+            "sourceArchiveIdentity",
+            "expectedArchiveSha256",
+            "expectedArchiveBytes",
+            "portableArchiveLocator",
+            "portableSourceLocator",
+            "archiveRelativePath",
+            "materializationDestination"
+          ],
+          "properties": {
+            "documentId": { "const": "STATEWIDE" },
+            "expectedTitle": { "type": "string", "minLength": 1 },
+            "expectedSha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "expectedBytes": {
+              "type": ["integer", "null"],
+              "minimum": 1
+            },
+            "expectedMime": { "const": "text/markdown" },
+            "authorityEdition": { "type": "string", "minLength": 1 },
+            "revision": {
+              "type": "string",
+              "pattern": "^ASOF-\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "sourceArchiveIdentity": { "type": "string", "minLength": 1 },
+            "expectedArchiveSha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "expectedArchiveBytes": { "type": "integer", "minimum": 1 },
+            "portableArchiveLocator": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9+.-]*://[^/].+"
+            },
+            "portableSourceLocator": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9+.-]*://[^/].+"
+            },
+            "archiveRelativePath": { "$ref": "#/$defs/path" },
+            "materializationDestination": { "$ref": "#/$defs/path" }
+          }
+        },
+        "receiptOutput": { "$ref": "#/$defs/path" },
+        "expectedActiveReviewCount": { "const": 1 },
+        "expectedAddendumCount": { "const": 0 },
+        "downstreamDependentJobs": {
+          "$ref": "#/$defs/uniqueStrings"
+        },
+        "focusedVerifier": { "$ref": "#/$defs/path" },
+        "verificationCommand": { "type": "string", "minLength": 1 },
+        "ownedPaths": { "$ref": "#/$defs/nonemptyPaths" },
+        "assignmentClaim": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "targetType",
+            "jobId",
+            "jurisdiction",
+            "ownerSession",
+            "status"
+          ],
+          "properties": {
+            "targetType": { "const": "compiled_job" },
+            "jobId": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+            },
+            "jurisdiction": {
+              "type": "string",
+              "pattern": "^[A-Z]{2}$"
+            },
+            "ownerSession": {
+              "enum": ["SESSION_B", "SESSION_D"]
+            },
+            "status": { "const": "reserved" }
+          }
+        },
+        "stopCondition": { "type": "string", "minLength": 1 },
+        "currentStatus": {
+          "const": "blocked_external_archive_and_verified_receipt_required"
+        }
+      }
+    },
+    "officialPdfAssignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "projectionPath",
+        "projectionSha256",
+        "assignmentState",
+        "identityKeys",
+        "newImplementationIdentityKeys",
+        "existingImplementationMaterializationOnlyIdentityKeys",
+        "documentIds",
+        "exactTrackIds",
+        "exactComponentIds",
+        "componentUses",
+        "implementationFamilies",
+        "fieldOwnershipScaffolds",
+        "legalDesignDependencies",
+        "materializationDependencies",
+        "unresolvedOrTerminalIdentities",
+        "expectedOutputs",
+        "ownedPaths",
+        "focusedVerifier",
+        "runtimeDisabledInvariant",
+        "workerMayAcquireOrMaterializeSources",
+        "assignmentBlockers"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": "rcap-official-pdf-child-assignment/v1"
+        },
+        "projectionPath": { "$ref": "#/$defs/path" },
+        "projectionSha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "assignmentState": {
+          "enum": [
+            "exact_pinned_assignment_blocked_external_materialization",
+            "exact_pinned_assignment_worker_ready",
+            "blocked_no_exact_identity_assignment"
+          ]
+        },
+        "identityKeys": { "$ref": "#/$defs/uniqueStrings" },
+        "newImplementationIdentityKeys": {
+          "$ref": "#/$defs/uniqueStrings"
+        },
+        "existingImplementationMaterializationOnlyIdentityKeys": {
+          "$ref": "#/$defs/uniqueStrings"
+        },
+        "documentIds": { "$ref": "#/$defs/uniqueStrings" },
+        "exactTrackIds": { "$ref": "#/$defs/uniqueStrings" },
+        "exactComponentIds": { "$ref": "#/$defs/uniqueStrings" },
+        "componentUses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "identityKey",
+              "trackId",
+              "componentId",
+              "role",
+              "requirement",
+              "conditionDescription"
+            ],
+            "properties": {
+              "identityKey": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+              },
+              "trackId": { "type": "string", "minLength": 1 },
+              "componentId": { "type": ["string", "null"] },
+              "role": { "type": ["string", "null"] },
+              "requirement": { "type": ["string", "null"] },
+              "conditionDescription": { "type": ["string", "null"] }
+            }
+          }
+        },
+        "implementationFamilies": { "$ref": "#/$defs/uniqueStrings" },
+        "fieldOwnershipScaffolds": { "$ref": "#/$defs/paths" },
+        "legalDesignDependencies": { "$ref": "#/$defs/uniqueStrings" },
+        "materializationDependencies": { "$ref": "#/$defs/uniqueStrings" },
+        "unresolvedOrTerminalIdentities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["identityKey", "disposition"],
+            "properties": {
+              "identityKey": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+              },
+              "disposition": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "expectedOutputs": { "$ref": "#/$defs/paths" },
+        "ownedPaths": { "$ref": "#/$defs/paths" },
+        "focusedVerifier": { "$ref": "#/$defs/path" },
+        "runtimeDisabledInvariant": { "const": true },
+        "workerMayAcquireOrMaterializeSources": { "const": false },
+        "assignmentBlockers": { "$ref": "#/$defs/uniqueStrings" }
+      }
+    },
+    "officialPdfConsumerDependencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["identityKey", "ownerJobId", "componentUses"],
+        "properties": {
+          "identityKey": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "ownerJobId": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "componentUses": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "trackId",
+                "componentId",
+                "role",
+                "requirement",
+                "conditionDescription"
+              ],
+              "properties": {
+                "trackId": { "type": "string", "minLength": 1 },
+                "componentId": { "type": ["string", "null"] },
+                "role": { "type": ["string", "null"] },
+                "requirement": { "type": ["string", "null"] },
+                "conditionDescription": { "type": ["string", "null"] }
+              }
+            }
+          }
         }
       }
     },
@@ -654,7 +978,7 @@
           "pattern": "^(?:[A-Z]{2}|NATIONWIDE)$"
         },
         "ownerSession": {
-          "enum": ["SESSION_B", "SESSION_C", "SESSION_D", "SESSION_F"]
+          "enum": ["SESSION_B", "SESSION_C", "SESSION_D", "SESSION_E", "SESSION_F"]
         },
         "status": {
           "enum": ["reserved", "in_progress"]
@@ -916,15 +1240,31 @@
     },
     {
       "if": {
-        "properties": {
-          "strategyFamily": {
-            "const": "official_pdf_fill"
+        "allOf": [
+          {
+            "properties": {
+              "status": {
+                "enum": ["planned", "ready", "blocked", "in_progress"]
+              }
+            },
+            "required": ["status"]
           },
-          "status": {
-            "enum": ["planned", "ready", "blocked", "in_progress"]
+          {
+            "properties": {
+              "officialPdfAssignment": {
+                "type": "object",
+                "properties": {
+                  "identityKeys": {
+                    "type": "array",
+                    "minItems": 1
+                  }
+                },
+                "required": ["identityKeys"]
+              }
+            },
+            "required": ["officialPdfAssignment"]
           }
-        },
-        "required": ["strategyFamily", "status"]
+        ]
       },
       "then": {
         "required": ["sourceMaterializationInputs"]

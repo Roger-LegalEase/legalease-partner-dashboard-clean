@@ -26,7 +26,8 @@ import {
   compileWorkerPrompt
 } from "./lib/rcap-factory/prompt.mjs";
 import {
-  buildScaffoldPlan
+  buildScaffoldPlan,
+  buildWorktreeJobMarker
 } from "./lib/rcap-factory/scaffold.mjs";
 import {
   inspectPdfBytes
@@ -67,6 +68,10 @@ import {
   mechanismInventorySha256,
   validateNormalizationReadinessRecord
 } from "./lib/rcap-factory/normalization-readiness.mjs";
+import {
+  validateLegalReviewMaterializationContract,
+  validateOfficialPdfSourceProjection
+} from "./lib/rcap-factory/materialization-planning.mjs";
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(SCRIPT_DIR, "..");
@@ -93,6 +98,20 @@ await check("job JSON Schema and manifest contract", () => {
       "normalization_readiness"
     )
   );
+  assert.ok(
+    schema.properties.strategyFamily.enum.includes(
+      "legal_review_materialization"
+    )
+  );
+  assert.equal(
+    schema.properties.legalReviewMaterializationAssignment
+      .additionalProperties,
+    false
+  );
+  assert.equal(
+    schema.properties.officialPdfAssignment.additionalProperties,
+    false
+  );
   assert.equal(schema.allOf.length, 7);
   assert.equal(
     schema.allOf[0].then.properties.requiredOutputFields.contains.const,
@@ -109,6 +128,72 @@ await check("job JSON Schema and manifest contract", () => {
   assert.equal(
     schema.allOf[4].then.properties.participantPacketProofRequired.const,
     false
+  );
+});
+
+await check("portable materialization contracts fail closed on identity or path drift", () => {
+  const reviewContract = readJson(
+    "data/record-clearing/production-factory/legal-review-materialization-contract.json"
+  );
+  assert.deepEqual(
+    validateLegalReviewMaterializationContract(reviewContract),
+    []
+  );
+  const escapingReview = structuredClone(reviewContract);
+  escapingReview.assignments[0].activeReview.portableSourceLocator =
+    "file:///workspaces/private/review.md";
+  assert.ok(
+    validateLegalReviewMaterializationContract(escapingReview).some(
+      (issue) => /locators are not portable/u.test(issue)
+    )
+  );
+  const addedAddendum = structuredClone(reviewContract);
+  addedAddendum.assignments[0].expectedAddendumCount = 1;
+  assert.ok(
+    validateLegalReviewMaterializationContract(addedAddendum).some(
+      (issue) => /cardinality/u.test(issue)
+    )
+  );
+  const wrongJurisdiction = structuredClone(reviewContract);
+  wrongJurisdiction.assignments[0].activeReview.archiveRelativePath =
+    wrongJurisdiction.assignments[0].activeReview.archiveRelativePath.replace(
+      "STATES/KY/",
+      "STATES/NC/"
+    );
+  assert.ok(
+    validateLegalReviewMaterializationContract(wrongJurisdiction).some(
+      (issue) => /does not match the jurisdiction/u.test(issue)
+    )
+  );
+
+  const projection = readJson(
+    "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json"
+  );
+  assert.deepEqual(validateOfficialPdfSourceProjection(projection), []);
+  const unresolved = projection.identities.find(
+    (identity) => identity.disposition === "unresolved_identity"
+  );
+  const promotedUnresolved = structuredClone(projection);
+  promotedUnresolved.identities.find(
+    (identity) => identity.identityKey === unresolved.identityKey
+  ).assignmentEligible = true;
+  assert.ok(
+    validateOfficialPdfSourceProjection(promotedUnresolved).some(
+      (issue) => /eligibility and disposition disagree/u.test(issue)
+    )
+  );
+  const assignable = projection.identities.find(
+    (identity) => identity.assignmentEligible
+  );
+  const absoluteSource = structuredClone(projection);
+  absoluteSource.identities.find(
+    (identity) => identity.identityKey === assignable.identityKey
+  ).exactSourceContract.portableSourceLocator =
+    "file:///home/user/source.pdf";
+  assert.ok(
+    validateOfficialPdfSourceProjection(absoluteSource).some(
+      (issue) => /source MIME or locator contract is invalid/u.test(issue)
+    )
   );
 });
 
@@ -134,9 +219,9 @@ await check("deterministic plan covers all lanes and jurisdictions", () => {
   assert.deepEqual(first.lanes.map((entry) => entry.lane), FACTORY_LANES);
   assert.ok(first.lanes.every((entry) => entry.jobIds.length > 0));
   assert.equal(first.waves.length, FACTORY_LANES.length);
-  assert.equal(first.jobs.length, 210);
+  assert.equal(first.jobs.length, 237);
   assert.equal(first.jobs.filter((job) => job.status === "ready").length, 53);
-  assert.equal(first.jobs.filter((job) => job.status === "blocked").length, 123);
+  assert.equal(first.jobs.filter((job) => job.status === "blocked").length, 150);
   assert.equal(first.jobs.filter((job) => job.status === "in_progress").length, 1);
   assert.equal(first.jobs.filter((job) => job.status === "completed").length, 33);
   assert.equal(findOwnedPathOverlaps(first.jobs).length, 0);
@@ -180,8 +265,8 @@ await check("deterministic plan covers all lanes and jurisdictions", () => {
     "npm run typecheck",
     "npm test"
   ]);
-  assert.equal(first.parentJobReconciliation.compiledChildJobs, 210);
-  assert.equal(first.parentJobReconciliation.childrenMappedExactlyOnce, 210);
+  assert.equal(first.parentJobReconciliation.compiledChildJobs, 237);
+  assert.equal(first.parentJobReconciliation.childrenMappedExactlyOnce, 237);
   assert.equal(first.parentJobReconciliation.unmappedChildren, 0);
   assert.equal(first.parentJobReconciliation.unknownParentReferences, 0);
   plan = first;
@@ -499,7 +584,21 @@ await check("all normalized tracks reconcile exactly once and completed tranches
       implementationLanes.has(job.lane) &&
       job.jurisdiction === "MD"
   );
-  assert.deepEqual(activeMarylandImplementation, []);
+  assert.deepEqual(
+    activeMarylandImplementation.map((job) => job.jobId),
+    ["rcap-md-official-pdf-supporting-components"]
+  );
+  assert.deepEqual(activeMarylandImplementation[0].trackIds, [
+    "md_10105_early",
+    "md_10110_conviction",
+    "md_cannabis_petition",
+    "md_pardon_expungement"
+  ]);
+  assert.equal(
+    activeMarylandImplementation[0].officialPdfAssignment
+      .existingImplementationMaterializationOnlyIdentityKeys.length,
+    2
+  );
 });
 
 await check("packet, source-materialization, and normalization readiness fail closed", () => {
@@ -576,13 +675,72 @@ await check("packet, source-materialization, and normalization readiness fail cl
 
   const officialJobs = plan.jobs.filter(
     (entry) =>
-      entry.strategyFamily === "official_pdf_fill" &&
+      (entry.officialPdfAssignment?.identityKeys?.length ?? 0) > 0 &&
       ["planned", "ready", "blocked", "in_progress"].includes(entry.status)
   );
   assert.ok(officialJobs.length > 0);
+  assert.equal(officialJobs.length, 18);
+  assert.equal(
+    officialJobs.reduce(
+      (total, job) =>
+        total + job.officialPdfAssignment.identityKeys.length,
+      0
+    ),
+    53
+  );
+  assert.ok(
+    officialJobs.every(
+      (job) => job.assignmentClaim?.ownerSession === "SESSION_E"
+    )
+  );
+  assert.equal(
+    new Set(
+      officialJobs.flatMap(
+        (job) => job.officialPdfAssignment.identityKeys
+      )
+    ).size,
+    53
+  );
+  const marylandMaterializationOnly = officialJobs
+    .flatMap(
+      (job) =>
+        job.officialPdfAssignment
+          .existingImplementationMaterializationOnlyIdentityKeys
+    );
+  assert.equal(marylandMaterializationOnly.length, 2);
+  assert.equal(
+    officialJobs.flatMap(
+      (job) => job.officialPdfAssignment.newImplementationIdentityKeys
+    ).length,
+    51
+  );
+  assert.equal(
+    plan.materializationPlanning.officialPdfChildren.materializedSources,
+    0
+  );
+  assert.equal(
+    plan.materializationPlanning.officialPdfChildren.workerReadyFamilies,
+    0
+  );
+  assert.equal(
+    plan.materializationPlanning.officialPdfChildren.blockedFamilies,
+    new Set(officialJobs.map((job) => job.jurisdiction)).size
+  );
   for (const job of officialJobs) {
     assert.equal(job.status, "blocked", job.jobId);
     assert.ok(job.sourceMaterializationInputs.length > 0, job.jobId);
+    assert.ok(
+      job.officialPdfAssignment.assignmentBlockers.length > 0,
+      job.jobId
+    );
+    assert.ok(
+      job.sourceMaterializationInputs.every(
+        (source) =>
+          source.provenance.localVerificationState ===
+            "external_materialization_root_absent"
+      ),
+      job.jobId
+    );
     for (const input of job.sourceMaterializationInputs) {
       assert.equal(input.authorityAssetState, "authority_asset_known");
       assert.equal(input.materializationState, "binary_materialization_required");
@@ -596,6 +754,36 @@ await check("packet, source-materialization, and normalization readiness fail cl
   const falselyReady = structuredClone(officialJobs[0]);
   falselyReady.status = "ready";
   assert.equal(validateJob(falselyReady).ok, false);
+
+  const reviewMaterializers = plan.jobs.filter(
+    (entry) => entry.strategyFamily === "legal_review_materialization"
+  );
+  assert.equal(reviewMaterializers.length, 24);
+  assert.ok(
+    reviewMaterializers.every(
+      (job) =>
+        job.status === "blocked" &&
+        ["SESSION_B", "SESSION_D"].includes(
+          job.assignmentClaim?.ownerSession
+        ) &&
+        job.legalReviewMaterializationAssignment
+          .expectedActiveReviewCount === 1 &&
+        job.legalReviewMaterializationAssignment
+          .expectedAddendumCount === 0
+    )
+  );
+  for (const normalization of plan.jobs.filter(
+    (entry) =>
+      /-legal-design-normalization$/.test(entry.jobId) &&
+      entry.jurisdiction !== "PA"
+  )) {
+    assert.ok(
+      normalization.dependencies.includes(
+        `rcap-${normalization.jurisdiction.toLowerCase()}-legal-review-materialization`
+      ),
+      normalization.jobId
+    );
+  }
 
   const pa = plan.jobs.find(
     (entry) => entry.jobId === "rcap-pa-legal-design-normalization"
@@ -1533,6 +1721,102 @@ await check("scaffold is deterministic, isolated, and dry-run by default", () =>
   assert.equal(help.status, 0, help.stderr);
   assert.match(help.stdout, /complete linked Git worktree/);
   assert.match(help.stdout, /not the checkout or disposable output/);
+});
+
+await check("official-PDF scaffold marker is exact, portable, and cannot broaden", () => {
+  const assigned = structuredClone(
+    plan.jobs.find(
+      (entry) =>
+        (entry.officialPdfAssignment?.identityKeys?.length ?? 0) > 0
+    )
+  );
+  assigned.status = "ready";
+  assigned.officialPdfAssignment.assignmentState =
+    "exact_pinned_assignment_worker_ready";
+  for (const input of assigned.sourceMaterializationInputs) {
+    input.materializationState = "binary_materialized_hash_verified";
+    input.workerReadiness = "worker_ready";
+  }
+  const scaffold = buildScaffoldPlan({
+    rootDir: ROOT,
+    job: assigned,
+    authorityVersion: plan.authorityVersion,
+    model: assigned.model
+  });
+  const marker = buildWorktreeJobMarker({
+    plan: scaffold,
+    job: assigned,
+    actualStartCommit: scaffold.scaffoldBaseCommit
+  });
+  assert.equal(marker.markerPath, "tmp/rcap-factory/job.json");
+  assert.equal(marker.exactAssignment.jobId, assigned.jobId);
+  assert.equal(
+    marker.exactAssignment.projectionPath,
+    "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json"
+  );
+  assert.deepEqual(
+    marker.exactAssignment.sourceIdentities.map(
+      (identity) => identity.sourceIdentityKey
+    ),
+    assigned.officialPdfAssignment.identityKeys
+  );
+  assert.equal(marker.exactAssignment.runtimeDisabledInvariant, true);
+  const ignoredMarker = spawnSync(
+    "git",
+    ["check-ignore", "-q", "tmp/rcap-factory/job.json"],
+    { cwd: ROOT, encoding: "utf8" }
+  );
+  assert.equal(
+    ignoredMarker.status,
+    0
+  );
+  assert.equal(
+    fs.existsSync(path.join(ROOT, "tmp/rcap-factory/job.json")),
+    false
+  );
+
+  const broadened = structuredClone(assigned);
+  broadened.officialPdfAssignment.exactTrackIds.push(
+    "invented-broadened-track"
+  );
+  assert.throws(
+    () =>
+      buildScaffoldPlan({
+        rootDir: ROOT,
+        job: broadened,
+        authorityVersion: plan.authorityVersion,
+        model: broadened.model
+      }),
+    /broadens the exact portable assignment/
+  );
+
+  const substituted = structuredClone(assigned);
+  substituted.sourceMaterializationInputs[0].documentId =
+    "CROSS-DOCUMENT-SUBSTITUTION";
+  assert.throws(
+    () =>
+      buildScaffoldPlan({
+        rootDir: ROOT,
+        job: substituted,
+        authorityVersion: plan.authorityVersion,
+        model: substituted.model
+      }),
+    /broadens or substitutes/
+  );
+
+  const noExactAssignment = structuredClone(assigned);
+  noExactAssignment.officialPdfAssignment.identityKeys = [];
+  noExactAssignment.sourceMaterializationInputs = [];
+  assert.throws(
+    () =>
+      buildScaffoldPlan({
+        rootDir: ROOT,
+        job: noExactAssignment,
+        authorityVersion: plan.authorityVersion,
+        model: noExactAssignment.model
+      }),
+    /non-empty exact assignment/
+  );
 });
 
 await check("scaffold marker pins plan and job provenance", () => {

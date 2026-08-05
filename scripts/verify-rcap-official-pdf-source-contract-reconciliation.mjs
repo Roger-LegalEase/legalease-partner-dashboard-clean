@@ -11,6 +11,10 @@ import {
   parsePortableLocator,
   validateMaterializationRequirement
 } from "./verify-rcap-materialized-source.mjs";
+import {
+  OFFICIAL_PDF_SOURCE_PROJECTION_PATH,
+  validateOfficialPdfSourceProjection
+} from "./lib/rcap-factory/materialization-planning.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const FAMILY_ROOT =
@@ -109,6 +113,14 @@ if (ALLOW_INCOMPLETE && result.totals.contractSafetyGaps > 0) {
 function buildReconciliation() {
   const absoluteFamilyRoot = path.join(ROOT, FAMILY_ROOT);
   const productionQueue = readJson(PRODUCTION_QUEUE_PATH);
+  const sourceProjection = readJson(OFFICIAL_PDF_SOURCE_PROJECTION_PATH);
+  const projectionIssues =
+    validateOfficialPdfSourceProjection(sourceProjection);
+  assert.deepEqual(
+    projectionIssues,
+    [],
+    "Official-PDF portable source projection is invalid"
+  );
   const expectedJurisdictions = productionQueue.families
     .map((family) => family.jurisdiction)
     .sort();
@@ -185,7 +197,13 @@ function buildReconciliation() {
     productionQueue.families.map((family) => [family.jurisdiction, family])
   );
   const families = familyJurisdictions.map((jurisdiction) =>
-    inspectFamily(jurisdiction, queueFamilyByJurisdiction.get(jurisdiction))
+    inspectFamily(
+      jurisdiction,
+      queueFamilyByJurisdiction.get(jurisdiction),
+      sourceProjection.identities.filter(
+        (identity) => identity.jurisdiction === jurisdiction
+      )
+    )
   );
 
   assert.ok(families.length > 0, "No official-PDF source families were found");
@@ -219,10 +237,20 @@ function buildReconciliation() {
     normativeAssignedRequirements: sum(
       families.map((family) => family.normativeAssignedRequirementCount)
     ),
+    projectedDocumentIdentities: sum(
+      families.map((family) => family.projectedDocumentIdentityCount)
+    ),
+    projectedExactWorkerAssignments: sum(
+      families.map((family) => family.projectedExactWorkerAssignmentCount)
+    ),
     pendingAssignmentFamilies: families.filter(
-      (family) => family.assignmentState === "captain_owned_assignment_required"
+      (family) => family.portableProjectionState !==
+        "integration_owned_projection_present"
     ).length,
-    workerReadyFamilies: families.filter((family) => family.workerReady).length
+    materializationBlockedFamilies: families.filter(
+      (family) => family.workerReady === false
+    ).length,
+      workerReadyFamilies: families.filter((family) => family.workerReady).length
   };
 
   assert.equal(
@@ -264,6 +292,17 @@ function buildReconciliation() {
         "docs/record-clearing/RCAP_SOURCE_MATERIALIZATION_CONTRACT.md",
       workerVerifier: "scripts/verify-rcap-materialized-source.mjs",
       assignmentMarker: "tmp/rcap-factory/job.json"
+    },
+    portableAssignmentProjection: {
+      path: OFFICIAL_PDF_SOURCE_PROJECTION_PATH,
+      schemaVersion: sourceProjection.schemaVersion,
+      queueIdentityCount: sourceProjection.coverage.queueIdentityCount,
+      exactWorkerAssignable:
+        sourceProjection.coverage.assignmentEligibleCount,
+      externalArchiveStatus: sourceProjection.sourceArchive.status,
+      projectionIsMaterialization: false,
+      projectionIsApproval: false,
+      projectionEnablesRuntime: false
     },
     familyCount: families.length,
     queueCoverage: {
@@ -413,7 +452,7 @@ function verifyNoLegacyWorkerSourceReads() {
   };
 }
 
-function inspectFamily(jurisdiction, queueFamily) {
+function inspectFamily(jurisdiction, queueFamily, projectedIdentities) {
   assert.ok(queueFamily, `${jurisdiction}: production queue family is missing`);
   const manifestPath =
     `${FAMILY_ROOT}/${jurisdiction}/source-requirements.json`;
@@ -598,6 +637,14 @@ function inspectFamily(jurisdiction, queueFamily) {
     false,
     `${jurisdiction}: source family claims runtime or worker readiness`
   );
+  assert.equal(
+    projectedIdentities.length,
+    queueFamily.counts.documentCount,
+    `${jurisdiction}: portable projection does not disposition every queue identity`
+  );
+  const projectedExactWorkerAssignmentCount = projectedIdentities.filter(
+    (identity) => identity.assignmentEligible
+  ).length;
 
   return {
     jurisdiction,
@@ -616,14 +663,12 @@ function inspectFamily(jurisdiction, queueFamily) {
     queueCoverageGaps: queueReconciliation.gaps,
     contractSafetyGaps,
     normativeAssignedRequirementCount: normativeRequirements.length,
-    assignmentState:
-      normativeRequirements.length > 0
-        ? "captain_owned_assignment_present"
-        : "captain_owned_assignment_required",
-    portableProjectionState:
-      normativeRequirements.length > 0
-        ? "assignment_bound_projection_required"
-        : "portable_projection_required",
+    projectedDocumentIdentityCount: projectedIdentities.length,
+    projectedExactWorkerAssignmentCount,
+    projectedTerminalOrBlockedIdentityCount:
+      projectedIdentities.length - projectedExactWorkerAssignmentCount,
+    assignmentState: "captain_owned_portable_assignment_projection_present",
+    portableProjectionState: "integration_owned_projection_present",
     workerMaterializationAuthorized: false,
     workerReady: false
   };

@@ -17,6 +17,13 @@ import {
   normalizationFoundationComplete,
   validateFactoryJobClaims
 } from "./normalization-readiness.mjs";
+import {
+  LEGAL_REVIEW_MATERIALIZATION_CONTRACT_PATH,
+  OFFICIAL_PDF_RECONCILIATION_PATH,
+  OFFICIAL_PDF_SOURCE_PROJECTION_PATH,
+  validateLegalReviewMaterializationContract,
+  validateOfficialPdfSourceProjection
+} from "./materialization-planning.mjs";
 
 export const FACTORY_INPUT_PATHS = Object.freeze({
   authority: "data/record-clearing/master-library/authority.json",
@@ -50,7 +57,13 @@ export const FACTORY_INPUT_PATHS = Object.freeze({
   normalizationReadiness:
     "data/record-clearing/production-factory/normalization-readiness-input.json",
   jobClaims:
-    "data/record-clearing/production-factory/job-claims.json"
+    "data/record-clearing/production-factory/job-claims.json",
+  legalReviewMaterialization:
+    LEGAL_REVIEW_MATERIALIZATION_CONTRACT_PATH,
+  officialPdfSourceReconciliation:
+    OFFICIAL_PDF_RECONCILIATION_PATH,
+  officialPdfSourceProjection:
+    OFFICIAL_PDF_SOURCE_PROJECTION_PATH
 });
 
 export const GLOBAL_GENERATED_REGISTRIES = Object.freeze([
@@ -68,6 +81,9 @@ export const GLOBAL_GENERATED_REGISTRIES = Object.freeze([
   "data/record-clearing/production-factory/packet-proofs",
   "data/record-clearing/production-factory/review-manifests",
   "data/record-clearing/production-factory/normalization-readiness-input.json",
+  LEGAL_REVIEW_MATERIALIZATION_CONTRACT_PATH,
+  OFFICIAL_PDF_RECONCILIATION_PATH,
+  OFFICIAL_PDF_SOURCE_PROJECTION_PATH,
   "data/record-clearing/production-factory/job-claims.json",
   "src/lib/rcap/jurisdictions/packet-capability.ts",
   "src/lib/rcap/packets/registry.ts",
@@ -110,6 +126,11 @@ const REVIEW_MANIFEST_DIR = "data/record-clearing/production-factory/review-mani
 const PACKET_PROOF_DIR = "data/record-clearing/production-factory/packet-proofs";
 const FACTORY_DATA_DIR = "data/record-clearing/production-factory";
 const PACKET_IMPLEMENTATION_DIR = "src/lib/rcap/packets/jurisdictions";
+const SHA256_PATTERN = /^[0-9a-f]{64}$/u;
+const EXISTING_IMPLEMENTATION_MATERIALIZATION_ONLY_IDENTITIES = new Set([
+  "MD:CC-DC-CR-148",
+  "MD:MDJ-008"
+]);
 const TERMINAL_INSTRUCTION =
   "Stop after focused validation and one commit containing only owned paths. " +
   "Do not regenerate global registries, stage broadly, deploy, or change packet_ready, " +
@@ -533,6 +554,9 @@ export function buildFactoryPlan(options = {}) {
     regressionVerifier,
     participantPacketProofRequired,
     sourceMaterializationInputs,
+    legalReviewMaterializationAssignment,
+    officialPdfAssignment,
+    officialPdfConsumerDependencies,
     normalizationReadiness,
     executionNote,
     model,
@@ -622,6 +646,17 @@ export function buildFactoryPlan(options = {}) {
     }
     if (sourceMaterializationInputs) {
       job.sourceMaterializationInputs = sourceMaterializationInputs;
+    }
+    if (legalReviewMaterializationAssignment) {
+      job.legalReviewMaterializationAssignment =
+        legalReviewMaterializationAssignment;
+    }
+    if (officialPdfAssignment) {
+      job.officialPdfAssignment = officialPdfAssignment;
+    }
+    if (officialPdfConsumerDependencies) {
+      job.officialPdfConsumerDependencies =
+        officialPdfConsumerDependencies;
     }
     if (normalizationReadiness) {
       job.normalizationReadiness = normalizationReadiness;
@@ -803,6 +838,60 @@ export function buildFactoryPlan(options = {}) {
       "ID, and authority-refresh gate validates. Do not normalize a jurisdiction or publish Edition 1.3."
   });
 
+  const legalReviewContractIssues =
+    validateLegalReviewMaterializationContract(
+      inputs.legalReviewMaterialization
+    );
+  if (legalReviewContractIssues.length > 0) {
+    throw new Error(
+      "Invalid legal-review materialization contract:\n- " +
+        legalReviewContractIssues.join("\n- ")
+    );
+  }
+  const legalReviewMaterializers = new Map();
+  const legalReviewArchiveAvailable =
+    exactLegalReviewArchiveAvailable(
+      inputs.legalReviewMaterialization
+    );
+  for (const assignment of inputs.legalReviewMaterialization.assignments) {
+    const materializationComplete =
+      legalReviewMaterializationVerified(rootDir, assignment);
+    const job = addJob({
+      lane: "platform_foundation",
+      jurisdiction: assignment.jurisdiction,
+      jobId: assignment.jobId,
+      strategyFamily: "legal_review_materialization",
+      dependencies: [sourceMaterializationFoundation.jobId],
+      expectedOutputs: [
+        assignment.activeReview.materializationDestination,
+        assignment.receiptOutput
+      ],
+      ownedPaths: assignment.ownedPaths,
+      requiredInputs: [
+        FACTORY_INPUT_PATHS.authority,
+        FACTORY_INPUT_PATHS.repositoryAssetAudit,
+        FACTORY_INPUT_PATHS.normalizationReadiness,
+        FACTORY_INPUT_PATHS.legalReviewMaterialization
+      ],
+      legalReviewMaterializationAssignment:
+        structuredClone(assignment),
+      model: "codex",
+      effort: "xhigh",
+      executionScope: "captain",
+      status: materializationComplete
+        ? "completed"
+        : legalReviewArchiveAvailable
+          ? "ready"
+          : "blocked",
+      focusedValidation: [assignment.verificationCommand],
+      commitSubject:
+        `chore(record-clearing): materialize ${assignment.jurisdiction} legal review`,
+      stopCondition: assignment.stopCondition
+    });
+    job.assignmentClaim = structuredClone(assignment.assignmentClaim);
+    legalReviewMaterializers.set(assignment.jurisdiction, job);
+  }
+
   if (pennsylvaniaNormalizationComplete) {
     addJob({
       lane: "legal_design_normalization",
@@ -878,7 +967,7 @@ export function buildFactoryPlan(options = {}) {
   for (const jurisdiction of outstanding) {
     if (jurisdiction === "PA" && pennsylvaniaNormalizationComplete) continue;
     const normalizationReadiness = normalizationReadinessRecords.get(jurisdiction);
-    const status =
+    const readinessStatus =
       normalizationReadiness.readinessState === "normalization_complete"
         ? "completed"
         : normalizationReadiness.readinessState === "normalization_in_progress"
@@ -886,6 +975,16 @@ export function buildFactoryPlan(options = {}) {
           : normalizationReadiness.readinessState === "ready_for_normalization"
             ? "ready"
             : "blocked";
+    const status =
+      readinessStatus === "ready" && !readinessFoundationComplete
+        ? "blocked"
+        : readinessStatus;
+    const reviewMaterializer = legalReviewMaterializers.get(jurisdiction);
+    if (!reviewMaterializer) {
+      throw new Error(
+        `${jurisdiction} has no canonical legal-review materialization owner.`
+      );
+    }
     addJob({
       lane: "legal_design_normalization",
       jurisdiction,
@@ -893,10 +992,11 @@ export function buildFactoryPlan(options = {}) {
       normalizationReadiness,
       dependencies:
         status === "in_progress"
-          ? []
-          : status === "ready"
-            ? [sourceMaterializationFoundation.jobId]
-            : [normalizationReadinessFoundation.jobId],
+          ? [reviewMaterializer.jobId]
+          : [
+              normalizationReadinessFoundation.jobId,
+              reviewMaterializer.jobId
+            ],
       requiredInputs: [
         FACTORY_INPUT_PATHS.authority,
         FACTORY_INPUT_PATHS.repositoryAssetAudit,
@@ -1111,6 +1211,126 @@ export function buildFactoryPlan(options = {}) {
     jobsByLaneAndState
   });
 
+  addJob({
+    lane: "flat_pdf_overlay",
+    jurisdiction: "GA",
+    jobId: "rcap-ga-flat-pdf-overlay",
+    trackIds: ["ga-nonconv-pre2013"],
+    dependencies: [sourceMaterializationFoundation.jobId],
+    status: "blocked",
+    requiredInputs: [
+      FACTORY_INPUT_PATHS.authority,
+      FACTORY_INPUT_PATHS.normalizedTracks,
+      FACTORY_INPUT_PATHS.officialPdfSourceProjection
+    ],
+    expectedOutputs: [
+      "src/lib/rcap/packets/jurisdictions/georgia/official-overlay.ts",
+      "scripts/verify-rcap-georgia-official-overlay.mjs"
+    ],
+    ownedPaths: [
+      "src/lib/rcap/packets/jurisdictions/georgia/official-overlay.ts",
+      "scripts/verify-rcap-georgia-official-overlay.mjs"
+    ],
+    regressionVerifier:
+      "scripts/verify-rcap-georgia-official-overlay.mjs",
+    participantPacketProofRequired: true,
+    focusedValidation: [
+      "node scripts/rcap-factory-plan.mjs --check-job rcap-ga-flat-pdf-overlay",
+      "node scripts/verify-rcap-georgia-official-overlay.mjs"
+    ],
+    commitSubject:
+      "feat(record-clearing): implement Georgia official PDF overlay",
+    stopCondition:
+      "Implement only the exact assigned pre-2013 Georgia official-PDF overlay. Do not edit the " +
+      "guidance worker surface, acquire sources, change legal design, enable runtime, promote, or " +
+      "deploy. " +
+      TERMINAL_INSTRUCTION
+  });
+
+  addJob({
+    lane: "acroform_fill",
+    jurisdiction: "IA",
+    jobId: "rcap-ia-acroform-fill",
+    trackIds: ["ia-dci77"],
+    dependencies: [sourceMaterializationFoundation.jobId],
+    status: "blocked",
+    requiredInputs: [
+      FACTORY_INPUT_PATHS.authority,
+      FACTORY_INPUT_PATHS.normalizedTracks,
+      FACTORY_INPUT_PATHS.officialPdfSourceProjection
+    ],
+    expectedOutputs: [
+      "src/lib/rcap/packets/jurisdictions/iowa/official-acroform.ts",
+      "scripts/verify-rcap-iowa-official-acroform.mjs"
+    ],
+    ownedPaths: [
+      "src/lib/rcap/packets/jurisdictions/iowa/official-acroform.ts",
+      "scripts/verify-rcap-iowa-official-acroform.mjs"
+    ],
+    regressionVerifier:
+      "scripts/verify-rcap-iowa-official-acroform.mjs",
+    participantPacketProofRequired: true,
+    focusedValidation: [
+      "node scripts/rcap-factory-plan.mjs --check-job rcap-ia-acroform-fill",
+      "node scripts/verify-rcap-iowa-official-acroform.mjs"
+    ],
+    commitSubject:
+      "feat(record-clearing): implement Iowa DCI-77 AcroForm",
+    stopCondition:
+      "Implement only the exact assigned Iowa DCI-77 official AcroForm. Do not broaden into the " +
+      "overlay family, acquire sources, change legal design, enable runtime, promote, or deploy. " +
+      TERMINAL_INSTRUCTION
+  });
+
+  addJob({
+    lane: "acroform_fill",
+    jurisdiction: "MD",
+    jobId: "rcap-md-official-pdf-supporting-components",
+    trackIds: [
+      "md_10105_early",
+      "md_10110_conviction",
+      "md_cannabis_petition",
+      "md_pardon_expungement"
+    ],
+    dependencies: [sourceMaterializationFoundation.jobId],
+    status: "blocked",
+    requiredInputs: [
+      FACTORY_INPUT_PATHS.authority,
+      FACTORY_INPUT_PATHS.normalizedTracks,
+      FACTORY_INPUT_PATHS.officialPdfSourceProjection
+    ],
+    expectedOutputs: [
+      "src/lib/rcap/packets/jurisdictions/maryland/official-components.ts",
+      "scripts/verify-rcap-maryland-official-components.mjs"
+    ],
+    ownedPaths: [
+      "src/lib/rcap/packets/jurisdictions/maryland/official-components.ts",
+      "scripts/verify-rcap-maryland-official-components.mjs"
+    ],
+    regressionVerifier:
+      "scripts/verify-rcap-maryland-official-components.mjs",
+    participantPacketProofRequired: true,
+    focusedValidation: [
+      "node scripts/rcap-factory-plan.mjs --check-job rcap-md-official-pdf-supporting-components",
+      "node scripts/verify-rcap-maryland-official-components.mjs"
+    ],
+    commitSubject:
+      "feat(record-clearing): implement Maryland official PDF supporting components",
+    stopCondition:
+      "Implement only the exact assigned Maryland supporting official-PDF components. Preserve " +
+      "the completed shielding implementation, leave all routes runtime-disabled, and stop before " +
+      "source acquisition, legal-design changes, packet readiness, promotion, or deployment. " +
+      TERMINAL_INSTRUCTION
+  });
+
+  applyOfficialPdfAssignments({
+    rootDir,
+    jobs,
+    inputs,
+    sourceMaterializationFoundationJobId:
+      sourceMaterializationFoundation.jobId
+  });
+
   const implementationLanes = [
     "legal_design_normalization",
     "custom_pleading",
@@ -1162,8 +1382,12 @@ export function buildFactoryPlan(options = {}) {
   }
 
   attachCanonicalParents(jobs, inputs.canonicalParentJobs);
-  assertFactoryClaimTargets(
+  const compiledJobClaims = buildCompiledJobClaims(
     inputs.jobClaims,
+    jobs
+  );
+  assertFactoryClaimTargets(
+    compiledJobClaims,
     jobs,
     inputs.canonicalParentJobs.map((record) => record.data)
   );
@@ -1189,7 +1413,11 @@ export function buildFactoryPlan(options = {}) {
       normalizationReadinessRecords,
       inputs.normalizationReadiness
     ),
-    jobClaims: structuredClone(inputs.jobClaims),
+    materializationPlanning: buildMaterializationPlanningSummary(
+      jobs,
+      inputs
+    ),
+    jobClaims: compiledJobClaims,
     canonicalPlan: buildCanonicalPlanSummary(inputs.canonicalParentJobs),
     parentJobReconciliation: buildParentJobReconciliation(
       inputs.canonicalParentJobs,
@@ -1232,10 +1460,18 @@ export function readFactoryInputs(rootDir) {
   const repositoryAssetAudit = json("repositoryAssetAudit");
   const normalizationReadinessInput = json("normalizationReadiness");
   const jobClaims = json("jobClaims");
-  const normalizationReadiness = materializeNormalizationResearchInputs({
-    input: normalizationReadinessInput,
-    rootDir,
-    repositoryAssetAudit
+  const legalReviewMaterialization = json("legalReviewMaterialization");
+  const officialPdfSourceReconciliation =
+    json("officialPdfSourceReconciliation");
+  const officialPdfSourceProjection = json("officialPdfSourceProjection");
+  const normalizationReadiness = applyLegalReviewMaterializationReceipts({
+    input: materializeNormalizationResearchInputs({
+      input: normalizationReadinessInput,
+      rootDir,
+      repositoryAssetAudit
+    }),
+    contract: legalReviewMaterialization,
+    rootDir
   });
 
   // Runtime and promotion records are TypeScript only because the application
@@ -1293,6 +1529,9 @@ export function readFactoryInputs(rootDir) {
     repositoryAssetAudit,
     normalizationReadiness,
     jobClaims,
+    legalReviewMaterialization,
+    officialPdfSourceReconciliation,
+    officialPdfSourceProjection,
     runtimeRegistrySource,
     packetCapabilitySource,
     statePromotionRecords,
@@ -1334,9 +1573,6 @@ function addTrackLaneJobs({
     const defaultVerifier =
       `scripts/verify-rcap-${state.slug}-${lane.replaceAll("_", "-")}.mjs`;
     const regressionVerifier = overrides.regressionVerifier ?? defaultVerifier;
-    const sourceMaterializationInputs = sourceBacked
-      ? sourceMaterializationInputsForTracks(inputs, stateTracks)
-      : undefined;
     const dependencies = [
       ...sourceJobs.map((job) => job.jobId),
       ...(sourceBacked && sourceMaterializationFoundationJobId
@@ -1351,9 +1587,6 @@ function addTrackLaneJobs({
       FACTORY_INPUT_PATHS.packetSetManifests,
       FACTORY_INPUT_PATHS.sourceArtifacts,
       ...inputs.implementationRecords.map((record) => record.path),
-      ...(sourceMaterializationInputs ?? []).map(
-        (input) => input.materializationDestination
-      ),
       ...(overrides.requiredInputs ?? [])
     ];
     const { requiredInputs: _overrideInputs, ...jobOverrides } = overrides;
@@ -1368,19 +1601,12 @@ function addTrackLaneJobs({
         overrides.expectedOutputs ?? [defaultOutput, regressionVerifier],
       regressionVerifier,
       participantPacketProofRequired: true,
-      sourceMaterializationInputs:
-        sourceMaterializationInputs?.length > 0
-          ? sourceMaterializationInputs
-          : undefined,
       focusedValidation:
         overrides.focusedValidation ?? [
           `node scripts/rcap-factory-plan.mjs --check-job ${jobIdFor(
             jurisdiction,
             lane
           )}`,
-          ...(sourceMaterializationInputs ?? []).map(
-            (input) => input.verificationCommand
-          ),
           `node ${regressionVerifier}`
         ],
       ...jobOverrides
@@ -2128,6 +2354,9 @@ function resolveCanonicalParentJobId(job, parents) {
   if (job.jobId === NORMALIZATION_READINESS_FOUNDATION_JOB_ID) {
     return "F-01-batch-3-expected-track-ids";
   }
+  if (job.jobId === "rcap-md-official-pdf-supporting-components") {
+    return "IMP-OF-01-md-district-court-form-family";
+  }
   if (
     [
       "rcap-ga-guidance-specification-jail-k2",
@@ -2137,6 +2366,19 @@ function resolveCanonicalParentJobId(job, parents) {
     ].includes(job.jobId)
   ) {
     return "IMP-CP-02-guidance-spec-unblock-family";
+  }
+  if (job.strategyFamily === "legal_review_materialization") {
+    const matches = parents.filter(
+      (parent) =>
+        parent.lane === "normalization" &&
+        (parent.jurisdictions ?? []).includes(job.jurisdiction)
+    );
+    if (matches.length !== 1) {
+      throw new Error(
+        `${job.jobId} must map to one canonical normalization parent; found ${matches.length}.`
+      );
+    }
+    return matches[0].jobId;
   }
   if (job.jobId === "rcap-dc-custom-pleading-legal-design-reconciliation") {
     return "IMP-CP-03-dc-superior-court-motion-family";
@@ -2696,6 +2938,612 @@ function classifyOfficialPdfTracks(inputs, tracks) {
   };
 }
 
+function applyOfficialPdfAssignments({
+  rootDir,
+  jobs,
+  inputs,
+  sourceMaterializationFoundationJobId
+}) {
+  const projectionIssues = validateOfficialPdfSourceProjection(
+    inputs.officialPdfSourceProjection
+  );
+  if (projectionIssues.length > 0) {
+    throw new Error(
+      "Invalid official-PDF source projection:\n- " +
+        projectionIssues.join("\n- ")
+    );
+  }
+  const projectionPath = FACTORY_INPUT_PATHS.officialPdfSourceProjection;
+  const projectionSha256 = sha256File(path.join(rootDir, projectionPath));
+  const materializationRoot =
+    typeof process.env.RCAP_SOURCE_MATERIALIZATION_ROOT === "string" &&
+    process.env.RCAP_SOURCE_MATERIALIZATION_ROOT.trim() !== ""
+      ? process.env.RCAP_SOURCE_MATERIALIZATION_ROOT
+      : null;
+  const sourceJobs = jobs.filter(
+    (job) =>
+      ["acroform_fill", "flat_pdf_overlay", "composed_route"].includes(
+        job.lane
+      ) &&
+      job.status !== "completed"
+  );
+  const assignmentRows = inputs.officialPdfSourceProjection.identities.filter(
+    (identity) => identity.assignmentEligible
+  );
+  const rowsByOwner = new Map(sourceJobs.map((job) => [job.jobId, []]));
+  const consumersByJob = new Map(sourceJobs.map((job) => [job.jobId, []]));
+
+  for (const identity of assignmentRows) {
+    let candidates = sourceJobs
+      .filter(
+        (job) =>
+          job.jurisdiction === identity.jurisdiction &&
+          job.trackIds.some((trackId) =>
+            identity.trackIds.includes(trackId)
+          )
+      )
+      .sort(
+        (left, right) =>
+          officialPdfOwnerScore(right, identity) -
+            officialPdfOwnerScore(left, identity) ||
+          left.jobId.localeCompare(right.jobId)
+      );
+    if (candidates.length === 0) {
+      candidates = sourceJobs
+        .filter(
+          (job) =>
+            job.jurisdiction === identity.jurisdiction &&
+            job.lane === identity.implementationFamily
+        )
+        .sort((left, right) => left.jobId.localeCompare(right.jobId));
+    }
+    if (candidates.length === 0) {
+      throw new Error(
+        `${identity.identityKey} has no canonical official-PDF child owner.`
+      );
+    }
+    const owner = candidates[0];
+    rowsByOwner.get(owner.jobId).push(identity);
+    for (const consumer of candidates.slice(1)) {
+      const uses = identity.componentUses.filter((use) =>
+        consumer.trackIds.includes(use.trackId)
+      );
+      if (uses.length === 0) continue;
+      consumersByJob.get(consumer.jobId).push({
+        identityKey: identity.identityKey,
+        ownerJobId: owner.jobId,
+        componentUses: uses
+      });
+      if (
+        consumer.lane === "composed_route" &&
+        owner.jobId !== consumer.jobId
+      ) {
+        consumer.dependencies = sortedUnique([
+          ...consumer.dependencies,
+          owner.jobId
+        ]);
+      }
+    }
+  }
+
+  for (const job of sourceJobs) {
+    const assignedRows = (rowsByOwner.get(job.jobId) ?? []).sort((left, right) =>
+      left.identityKey.localeCompare(right.identityKey)
+    );
+    const materializationInputs = assignedRows.map((identity) => {
+      const verification = inspectOfficialPdfMaterialization({
+        identity,
+        materializationRoot
+      });
+      return officialPdfMaterializationInput(identity, verification);
+    });
+    const relatedBlocked = inputs.officialPdfSourceProjection.identities
+      .filter(
+        (identity) =>
+          identity.jurisdiction === job.jurisdiction &&
+          identity.trackIds.some((trackId) => job.trackIds.includes(trackId)) &&
+          !identity.assignmentEligible
+      )
+      .map((identity) => ({
+        identityKey: identity.identityKey,
+        disposition: identity.disposition
+      }))
+      .sort((left, right) => left.identityKey.localeCompare(right.identityKey));
+    const consumers = (consumersByJob.get(job.jobId) ?? []).sort((left, right) =>
+      left.identityKey.localeCompare(right.identityKey)
+    );
+    if (materializationInputs.length > 0) {
+      job.sourceMaterializationInputs = materializationInputs;
+      job.requiredInputs = sortedUnique([
+        ...job.requiredInputs,
+        projectionPath,
+        ...materializationInputs.map(
+          (input) => input.materializationDestination
+        )
+      ]);
+      job.focusedValidation = sortedUnique([
+        ...job.focusedValidation,
+        ...materializationInputs.map((input) => input.verificationCommand)
+      ]);
+      job.dependencies = sortedUnique([
+        ...job.dependencies,
+        sourceMaterializationFoundationJobId
+      ]);
+    } else {
+      delete job.sourceMaterializationInputs;
+      job.requiredInputs = sortedUnique([...job.requiredInputs, projectionPath]);
+    }
+    job.officialPdfAssignment = {
+      schemaVersion: "rcap-official-pdf-child-assignment/v1",
+      projectionPath,
+      projectionSha256,
+      assignmentState: "blocked_no_exact_identity_assignment",
+      identityKeys: assignedRows.map((identity) => identity.identityKey),
+      newImplementationIdentityKeys: assignedRows
+        .filter(
+          (identity) =>
+            !EXISTING_IMPLEMENTATION_MATERIALIZATION_ONLY_IDENTITIES.has(
+              `${identity.jurisdiction}:${identity.officialDocument.documentId}`
+            )
+        )
+        .map((identity) => identity.identityKey),
+      existingImplementationMaterializationOnlyIdentityKeys: assignedRows
+        .filter((identity) =>
+          EXISTING_IMPLEMENTATION_MATERIALIZATION_ONLY_IDENTITIES.has(
+            `${identity.jurisdiction}:${identity.officialDocument.documentId}`
+          )
+        )
+        .map((identity) => identity.identityKey),
+      documentIds: sortedUnique(
+        assignedRows.map(
+          (identity) => identity.officialDocument.documentId
+        )
+      ),
+      exactTrackIds: sortedUnique(
+        assignedRows.flatMap((identity) => identity.trackIds)
+      ),
+      exactComponentIds: sortedUnique(
+        assignedRows.flatMap((identity) => identity.componentIds)
+      ),
+      componentUses: assignedRows.flatMap((identity) =>
+        identity.componentUses.map((use) => ({
+          ...use,
+          identityKey: identity.identityKey
+        }))
+      ),
+      implementationFamilies: sortedUnique(
+        assignedRows
+          .map((identity) => identity.implementationFamily)
+          .filter(Boolean)
+      ),
+      fieldOwnershipScaffolds: sortedUnique(
+        assignedRows.map((identity) => identity.fieldOwnershipScaffold)
+      ),
+      legalDesignDependencies: sortedUnique(
+        assignedRows.map((identity) => identity.legalDesignDependency)
+      ),
+      materializationDependencies: [
+        sourceMaterializationFoundationJobId
+      ],
+      unresolvedOrTerminalIdentities: relatedBlocked,
+      expectedOutputs: [...job.expectedOutputs],
+      ownedPaths: [...job.ownedPaths],
+      focusedVerifier: job.regressionVerifier,
+      runtimeDisabledInvariant: true,
+      workerMayAcquireOrMaterializeSources: false,
+      assignmentBlockers: []
+    };
+    if (assignedRows.length > 0) {
+      if (
+        job.assignmentClaim &&
+        job.assignmentClaim.ownerSession !== "SESSION_E"
+      ) {
+        throw new Error(
+          `${job.jobId} has a non-Session-E claim collision.`
+        );
+      }
+      job.assignmentClaim = {
+        targetType: "compiled_job",
+        jobId: job.jobId,
+        jurisdiction: job.jurisdiction,
+        ownerSession: "SESSION_E",
+        status: "reserved"
+      };
+    }
+    if (consumers.length > 0) {
+      job.officialPdfConsumerDependencies = consumers;
+    } else {
+      delete job.officialPdfConsumerDependencies;
+    }
+  }
+
+  for (const job of sourceJobs) {
+    const assignment = job.officialPdfAssignment;
+    const materializationInputs = job.sourceMaterializationInputs ?? [];
+    const materializationReady =
+      assignment.identityKeys.length > 0 &&
+      materializationInputs.length === assignment.identityKeys.length &&
+      materializationInputs.every(
+        (input) =>
+          input.materializationState ===
+            "binary_materialized_hash_verified" &&
+          input.workerReadiness === "worker_ready"
+      );
+    const projectionBlockers = assignment.identityKeys.flatMap(
+      (identityKey) => {
+        const identity = inputs.officialPdfSourceProjection.identities.find(
+          (candidate) => candidate.identityKey === identityKey
+        );
+        if (!identity) return ["projection_identity_absent"];
+        return (identity.assignmentBlockers ?? []).filter(
+          (blocker) =>
+            blocker !== "exact_source_archive_not_materialized" ||
+            !materializationReady
+        );
+      }
+    );
+    const terminalBlockers = assignment.unresolvedOrTerminalIdentities.map(
+      (identity) => identity.disposition
+    );
+    const dependencyBlockers = job.dependencies
+      .filter(
+        (dependencyId) =>
+          jobs.find((candidate) => candidate.jobId === dependencyId)?.status !==
+          "completed"
+      )
+      .map((dependencyId) => `dependency_incomplete:${dependencyId}`);
+    assignment.assignmentBlockers = sortedUnique([
+      ...projectionBlockers,
+      ...terminalBlockers,
+      ...dependencyBlockers
+    ]);
+    const ready =
+      materializationReady &&
+      assignment.unresolvedOrTerminalIdentities.length === 0 &&
+      assignment.assignmentBlockers.length === 0;
+    assignment.assignmentState = ready
+      ? "exact_pinned_assignment_worker_ready"
+      : assignment.identityKeys.length > 0
+        ? "exact_pinned_assignment_blocked_external_materialization"
+        : "blocked_no_exact_identity_assignment";
+    job.status = ready ? "ready" : "blocked";
+  }
+
+  const assignedIdentityCount = [...rowsByOwner.values()].reduce(
+    (total, rows) => total + rows.length,
+    0
+  );
+  if (assignedIdentityCount !== assignmentRows.length) {
+    throw new Error(
+      `Official-PDF child assignments cover ${assignedIdentityCount} of ` +
+        `${assignmentRows.length} eligible implementation identities.`
+    );
+  }
+}
+
+function officialPdfOwnerScore(job, identity) {
+  if (job.lane === identity.implementationFamily) return 30;
+  if (job.lane !== "composed_route") return 20;
+  return 10;
+}
+
+function officialPdfMaterializationInput(identity, verification) {
+  const source = identity.exactSourceContract;
+  const verificationCommand =
+    "node scripts/verify-rcap-materialized-source.mjs " +
+    `--source-identity-key ${identity.identityKey} ` +
+    `--sha256 ${source.expectedSha256} --bytes ${source.expectedBytes}`;
+  return {
+    sourceIdentityKey: identity.identityKey,
+    documentId: identity.officialDocument.documentId,
+    authorityEdition: source.authorityEdition,
+    authorityArchiveSha256: source.sourceArchiveSha256,
+    jurisdiction: identity.jurisdiction,
+    documentRole: identity.officialDocument.documentRole,
+    expectedMediaType: source.expectedMime,
+    expectedSha256: source.expectedSha256,
+    expectedBytes: source.expectedBytes,
+    canonicalAuthorityPath: source.archiveRelativePath,
+    repositorySourcePath: source.archiveRelativePath,
+    portableLocator: source.portableSourceLocator,
+    materializationDestination: source.materializationDestination,
+    readOnlyTreatment: "worker_read_only_no_modify",
+    retentionPolicy:
+      "retain_until_worker_integration_then_captain_managed_cleanup",
+    expectedMeasurementBasis: "carried_forward_registry_measurement",
+    identityBindingStatus: "exact_pinned_identity",
+    authorityAssetState: "authority_asset_known",
+    registryState: "registry_metadata_present",
+    materializationState: verification.ready
+      ? "binary_materialized_hash_verified"
+      : "binary_materialization_required",
+    workerReadiness: verification.ready
+      ? "worker_ready"
+      : "binary_materialization_required",
+    workerMayRead: true,
+    workerMayModify: false,
+    verificationCommand,
+    usageBindings: identity.componentUses.map((use) => ({
+      trackId: use.trackId,
+      componentId: use.componentId
+    })),
+    provenance: {
+      projectionPath: OFFICIAL_PDF_SOURCE_PROJECTION_PATH,
+      sourceIdentityKey: identity.identityKey,
+      freshLocalVerification: verification.ready,
+      localVerificationState: verification.state,
+      registryPresenceConfersReadiness: false
+    }
+  };
+}
+
+function inspectOfficialPdfMaterialization({
+  identity,
+  materializationRoot
+}) {
+  if (!materializationRoot) {
+    return {
+      ready: false,
+      state: "external_materialization_root_absent"
+    };
+  }
+  const source = identity.exactSourceContract;
+  let root;
+  try {
+    root = fs.realpathSync(path.resolve(materializationRoot));
+    const rootStat = fs.lstatSync(root);
+    if (
+      !rootStat.isDirectory() ||
+      rootStat.isSymbolicLink() ||
+      (rootStat.mode & 0o777) !== 0o555
+    ) {
+      return {
+        ready: false,
+        state: "external_materialization_root_not_sealed"
+      };
+    }
+  } catch {
+    return {
+      ready: false,
+      state: "external_materialization_root_absent"
+    };
+  }
+
+  const destination = path.resolve(
+    root,
+    ...source.materializationDestination.split("/")
+  );
+  const relative = path.relative(root, destination);
+  if (
+    relative === ".." ||
+    relative.startsWith(`..${path.sep}`) ||
+    path.isAbsolute(relative)
+  ) {
+    return {
+      ready: false,
+      state: "materialization_destination_escape"
+    };
+  }
+
+  let current = path.dirname(destination);
+  while (true) {
+    let currentStat;
+    try {
+      currentStat = fs.lstatSync(current);
+    } catch {
+      return {
+        ready: false,
+        state: "materialized_source_absent"
+      };
+    }
+    if (
+      !currentStat.isDirectory() ||
+      currentStat.isSymbolicLink() ||
+      (currentStat.mode & 0o777) !== 0o555
+    ) {
+      return {
+        ready: false,
+        state: "materialization_boundary_not_sealed"
+      };
+    }
+    if (current === root) break;
+    const parent = path.dirname(current);
+    if (parent === current) {
+      return {
+        ready: false,
+        state: "materialization_destination_escape"
+      };
+    }
+    current = parent;
+  }
+
+  let stat;
+  try {
+    stat = fs.lstatSync(destination);
+  } catch {
+    return {
+      ready: false,
+      state: "materialized_source_absent"
+    };
+  }
+  if (
+    !stat.isFile() ||
+    stat.isSymbolicLink() ||
+    stat.nlink !== 1 ||
+    (stat.mode & 0o222) !== 0
+  ) {
+    return {
+      ready: false,
+      state: "materialized_source_not_read_only_regular_file"
+    };
+  }
+  let realDestination;
+  try {
+    realDestination = fs.realpathSync(destination);
+  } catch {
+    return {
+      ready: false,
+      state: "materialized_source_absent"
+    };
+  }
+  const realRelative = path.relative(root, realDestination);
+  if (
+    realRelative === ".." ||
+    realRelative.startsWith(`..${path.sep}`) ||
+    path.isAbsolute(realRelative)
+  ) {
+    return {
+      ready: false,
+      state: "materialization_destination_escape"
+    };
+  }
+  if (stat.size !== source.expectedBytes) {
+    return {
+      ready: false,
+      state: "materialized_source_size_mismatch"
+    };
+  }
+  const bytes = fs.readFileSync(destination);
+  if (
+    bytes.subarray(0, 5).toString("ascii") !== "%PDF-" ||
+    crypto.createHash("sha256").update(bytes).digest("hex") !==
+      source.expectedSha256
+  ) {
+    return {
+      ready: false,
+      state: "materialized_source_hash_or_mime_mismatch"
+    };
+  }
+  return {
+    ready: true,
+    state: "fresh_local_hash_size_mime_and_boundary_verified"
+  };
+}
+
+function legalReviewMaterializationVerified(rootDir, assignment) {
+  const reviewPath = path.join(
+    rootDir,
+    assignment.activeReview.materializationDestination
+  );
+  const receiptPath = path.join(rootDir, assignment.receiptOutput);
+  if (!fs.existsSync(reviewPath) || !fs.existsSync(receiptPath)) return false;
+  const reviewStat = fs.lstatSync(reviewPath);
+  if (
+    !reviewStat.isFile() ||
+    reviewStat.isSymbolicLink() ||
+    reviewStat.nlink !== 1 ||
+    (reviewStat.mode & 0o222) !== 0
+  ) {
+    return false;
+  }
+  const bytes = fs.readFileSync(reviewPath);
+  const observedSha256 = crypto
+    .createHash("sha256")
+    .update(bytes)
+    .digest("hex");
+  if (observedSha256 !== assignment.activeReview.expectedSha256) return false;
+  let receipt;
+  try {
+    receipt = JSON.parse(fs.readFileSync(receiptPath, "utf8"));
+  } catch {
+    return false;
+  }
+  return (
+    receipt.schemaVersion ===
+      "rcap-legal-review-materialization-receipt/v1" &&
+    receipt.jobId === assignment.jobId &&
+    receipt.jurisdiction === assignment.jurisdiction &&
+    receipt.archiveSha256 ===
+      assignment.activeReview.expectedArchiveSha256 &&
+    receipt.archiveEntryPath ===
+      assignment.activeReview.archiveRelativePath &&
+    receipt.expectedReviewSha256 ===
+      assignment.activeReview.expectedSha256 &&
+    receipt.observedReviewSha256 === observedSha256 &&
+    receipt.observedReviewBytes === bytes.length &&
+    receipt.observedMime === assignment.activeReview.expectedMime &&
+    receipt.expectedTitle === assignment.activeReview.expectedTitle &&
+    receipt.observedTitle === assignment.activeReview.expectedTitle &&
+    receipt.activeReviewCount === assignment.expectedActiveReviewCount &&
+    receipt.addendumCount === assignment.expectedAddendumCount &&
+    receipt.materializationDestination ===
+      assignment.activeReview.materializationDestination &&
+    receipt.materializationState === "binary_hash_verified" &&
+    receipt.verificationStatus === "binary_hash_and_size_verified" &&
+    receipt.readOnly === true
+  );
+}
+
+function exactLegalReviewArchiveAvailable(contract) {
+  const archivePath = process.env.RCAP_AUTHORITY_ARCHIVE_PATH;
+  if (
+    typeof archivePath !== "string" ||
+    archivePath.trim() === "" ||
+    !SHA256_PATTERN.test(contract.sourceArchive?.expectedSha256 ?? "") ||
+    !Number.isSafeInteger(contract.sourceArchive?.expectedBytes) ||
+    contract.sourceArchive.expectedBytes <= 0
+  ) {
+    return false;
+  }
+  let stat;
+  try {
+    stat = fs.lstatSync(archivePath);
+  } catch {
+    return false;
+  }
+  if (
+    !stat.isFile() ||
+    stat.isSymbolicLink() ||
+    stat.size !== contract.sourceArchive.expectedBytes
+  ) {
+    return false;
+  }
+  return (
+    crypto.createHash("sha256").update(fs.readFileSync(archivePath)).digest("hex") ===
+    contract.sourceArchive.expectedSha256
+  );
+}
+
+function applyLegalReviewMaterializationReceipts({
+  input,
+  contract,
+  rootDir
+}) {
+  const expanded = structuredClone(input);
+  const assignments = new Map(
+    (contract.assignments ?? []).map((assignment) => [
+      assignment.jurisdiction,
+      assignment
+    ])
+  );
+  expanded.bundles = (expanded.bundles ?? []).map((bundle) => {
+    const assignment = assignments.get(bundle.jurisdiction);
+    if (
+      !assignment ||
+      !legalReviewMaterializationVerified(rootDir, assignment)
+    ) {
+      return bundle;
+    }
+    const receipt = JSON.parse(
+      fs.readFileSync(path.join(rootDir, assignment.receiptOutput), "utf8")
+    );
+    return {
+      ...bundle,
+      reviewMaterialization: {
+        ...bundle.reviewMaterialization,
+        expectedBytes: receipt.observedReviewBytes,
+        observedSha256: receipt.observedReviewSha256,
+        observedBytes: receipt.observedReviewBytes,
+        materializationState: "binary_hash_verified",
+        verificationCommand: assignment.verificationCommand,
+        verificationProvenance: "freshly_verified",
+        verificationStatus: "binary_hash_and_size_verified"
+      }
+    };
+  });
+  return expanded;
+}
+
 function sourceMaterializationInputsForTracks(inputs, tracks) {
   const relationshipsByTrack = groupBy(
     inputs.sourceRelationships.relationships ?? [],
@@ -3094,6 +3942,43 @@ function buildNormalizationReadinessSummary(records, input) {
   };
 }
 
+function buildCompiledJobClaims(inputClaims, jobs) {
+  const byJobId = new Map(
+    (inputClaims.claims ?? []).map((claim) => [
+      `${claim.targetType}:${claim.jobId}`,
+      structuredClone(claim)
+    ])
+  );
+  for (const job of jobs) {
+    if (!job.assignmentClaim) continue;
+    const key = `compiled_job:${job.jobId}`;
+    const existing = byJobId.get(key);
+    if (
+      existing &&
+      [
+        "targetType",
+        "jobId",
+        "jurisdiction",
+        "ownerSession",
+        "status"
+      ].some(
+        (field) => existing[field] !== job.assignmentClaim[field]
+      )
+    ) {
+      throw new Error(`${job.jobId} has conflicting exact assignment claims.`);
+    }
+    byJobId.set(key, structuredClone(job.assignmentClaim));
+  }
+  return {
+    schemaVersion: inputClaims.schemaVersion,
+    claims: [...byJobId.values()].sort(
+      (left, right) =>
+        left.targetType.localeCompare(right.targetType) ||
+        left.jobId.localeCompare(right.jobId)
+    )
+  };
+}
+
 function assertFactoryClaimTargets(claims, jobs, canonicalParents) {
   const validation = validateFactoryJobClaims(claims);
   if (!validation.ok) {
@@ -3123,6 +4008,95 @@ function assertFactoryClaimTargets(claims, jobs, canonicalParents) {
       }
     }
   }
+}
+
+function buildMaterializationPlanningSummary(jobs, inputs) {
+  const reviewJobs = jobs.filter(
+    (job) => job.strategyFamily === "legal_review_materialization"
+  );
+  const officialJobs = jobs.filter(
+    (job) =>
+      Array.isArray(job.officialPdfAssignment?.identityKeys) &&
+      job.officialPdfAssignment.identityKeys.length > 0
+  );
+  const assignedIdentityKeys = new Set(
+    officialJobs.flatMap(
+      (job) => job.officialPdfAssignment.identityKeys
+    )
+  );
+  const completedImplementationIdentities =
+    inputs.officialPdfSourceProjection.identities.filter(
+      (identity) =>
+        identity.jurisdiction === "MD" &&
+        ["CC-DC-CR-148", "MDJ-008"].includes(
+          identity.officialDocument.documentId
+        ) &&
+        identity.assignmentEligible
+    );
+  const dispositionCounts =
+    inputs.officialPdfSourceProjection.coverage.countsByDisposition;
+  return {
+    legalReviewMaterialization: {
+      assignmentCount:
+        inputs.legalReviewMaterialization.assignmentCount,
+      explicitOwnerJobs: reviewJobs.length,
+      readyJobs: reviewJobs.filter((job) => job.status === "ready").length,
+      blockedJobs: reviewJobs.filter((job) => job.status === "blocked").length,
+      completedJobs: reviewJobs.filter((job) => job.status === "completed")
+        .length,
+      externalArchiveStatus:
+        reviewJobs.some((job) => job.status === "ready")
+          ? "exact_external_archive_verified_materialization_pending"
+          : reviewJobs.every((job) => job.status === "completed")
+            ? "materialized_reviews_verified"
+            : "external_archive_not_materialized"
+    },
+    officialPdfProjection: {
+      path: FACTORY_INPUT_PATHS.officialPdfSourceProjection,
+      queueIdentityCount:
+        inputs.officialPdfSourceProjection.coverage.queueIdentityCount,
+      exactSourceContractCount:
+        inputs.officialPdfSourceProjection.coverage.exactSourceContractCount,
+      exactWorkerAssignable:
+        inputs.officialPdfSourceProjection.coverage.assignmentEligibleCount,
+      assignedToNewImplementationChildren:
+        assignedIdentityKeys.size -
+        completedImplementationIdentities.length,
+      existingImplementationMaterializationOnly:
+        completedImplementationIdentities.length,
+      unresolvedIdentities:
+        dispositionCounts.unresolved_identity ?? 0,
+      dispositionCounts
+    },
+    officialPdfChildren: {
+      childJobsWithExactAssignments: officialJobs.length,
+      workerReadyFamilies: new Set(
+        officialJobs
+          .filter((job) => job.status === "ready")
+          .map((job) => job.jurisdiction)
+      ).size,
+      blockedFamilies: new Set(
+        officialJobs
+          .filter((job) => job.status === "blocked")
+          .map((job) => job.jurisdiction)
+      ).size,
+      materializedSources: new Set(
+        officialJobs.flatMap((job) =>
+          (job.sourceMaterializationInputs ?? [])
+            .filter(
+              (input) =>
+                input.materializationState ===
+                  "binary_materialized_hash_verified" &&
+                input.workerReadiness === "worker_ready"
+            )
+            .map((input) => input.sourceIdentityKey)
+        )
+      ).size,
+      runtimeDisabled: officialJobs.every(
+        (job) => job.officialPdfAssignment.runtimeDisabledInvariant === true
+      )
+    }
+  };
 }
 
 function canonicalStates(inputs) {

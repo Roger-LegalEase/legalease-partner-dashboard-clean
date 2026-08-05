@@ -151,6 +151,12 @@ const sessionDCounselAdoptionManifest = readJson(
 const officialPdfSourceContract = readJson(
   "data/record-clearing/production-factory/official-pdf-source-contract-reconciliation.json"
 );
+const officialPdfSourceProjection = readJson(
+  "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json"
+);
+const legalReviewMaterializationContract = readJson(
+  "data/record-clearing/production-factory/legal-review-materialization-contract.json"
+);
 const customPleadingAdoption = readJson(ADOPTION_RECORD_PATHS[0]);
 const officialAcroformAdoption = readJson(ADOPTION_RECORD_PATHS[1]);
 const expectedAdoptions = await buildCurrentCounselAdoptionRecords({
@@ -187,14 +193,14 @@ const factoryPlan = buildFactoryPlan({ rootDir: ROOT });
 const factoryValidation = validateFactoryPlan(factoryPlan);
 assert.equal(factoryValidation.ok, true, factoryValidation.issues.join("\n"));
 assert.deepEqual(findOwnedPathOverlaps(factoryPlan.jobs), []);
-assert.equal(factoryPlan.jobs.length, 210);
+assert.equal(factoryPlan.jobs.length, 237);
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "ready").length,
   53
 );
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "blocked").length,
-  123
+  150
 );
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "completed").length,
@@ -245,8 +251,8 @@ assert.equal(
   11
 );
 assert.equal(factoryPlan.canonicalPlan.parentJobs, 72);
-assert.equal(factoryPlan.parentJobReconciliation.compiledChildJobs, 210);
-assert.equal(factoryPlan.parentJobReconciliation.childrenMappedExactlyOnce, 210);
+assert.equal(factoryPlan.parentJobReconciliation.compiledChildJobs, 237);
+assert.equal(factoryPlan.parentJobReconciliation.childrenMappedExactlyOnce, 237);
 assert.equal(factoryPlan.parentJobReconciliation.unmappedChildren, 0);
 assert.equal(factoryPlan.parentJobReconciliation.unknownParentReferences, 0);
 assert.deepEqual(
@@ -476,7 +482,16 @@ assert.equal(
   officialPdfSourceContract.totals.normativeAssignedRequirements,
   0
 );
-assert.equal(officialPdfSourceContract.totals.pendingAssignmentFamilies, 25);
+assert.equal(officialPdfSourceContract.totals.pendingAssignmentFamilies, 0);
+assert.equal(officialPdfSourceContract.totals.projectedDocumentIdentities, 192);
+assert.equal(
+  officialPdfSourceContract.totals.projectedExactWorkerAssignments,
+  53
+);
+assert.equal(
+  officialPdfSourceContract.totals.materializationBlockedFamilies,
+  25
+);
 assert.equal(officialPdfSourceContract.totals.workerReadyFamilies, 0);
 assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 37);
 assert.equal(
@@ -496,56 +511,119 @@ assert.equal(
   ),
   false
 );
-assert.deepEqual(productionPlan.officialPdfSourceContractIntegration, {
-  remoteBranch: "origin/feat/record-clearing-production-factory",
-  remoteHead: "967847cc2e617defd2d87b18e42bb692cb39cab6",
-  integrationBaseMergeBase: "4eee199a1f0d6d381d0bcc763ee559250b26078e",
-  claimedFamilyCommitsIntegrated: 39,
-  reconciliationPath:
-    "data/record-clearing/production-factory/official-pdf-source-contract-reconciliation.json",
-  verifierPath:
-    "scripts/verify-rcap-official-pdf-source-contract-reconciliation.mjs",
-  queuedJurisdictions: 25,
-  tracks: 151,
-  componentUses: 403,
-  documentIdentities: 192,
-  exactSourcePins: 93,
-  unresolvedSourceIdentities: 99,
-  queueCoverageGaps: 0,
-  contractSafetyGaps: 0,
-  normativeAssignedRequirements: 0,
-  pendingAssignmentFamilies: 25,
-  packetModuleInventory: {
-    sessionEHead: 27,
-    integrated: 37,
-    delta: 10,
-    explanation:
-      "The integrated inventory includes ten completed guidance packet modules added outside Session E; source-contract queue and safety totals are unchanged."
-  },
-  assignmentMarker: {
-    contractPath: "tmp/rcap-factory/job.json",
-    status: "not_created_no_canonical_session_a_assignment_job",
-    owner: null,
-    missingRelationship:
-      "No current factory child assigns Session A an exact official-PDF identity set and integration-owned assignment marker output."
-  },
-  portableProjection: {
-    path: null,
-    status: "not_created_no_canonical_session_a_projection_job",
-    owner: null,
-    missingRelationship:
-      "No current factory child declares a portable official-PDF materialization projection output or assigns its exact identities to Session A."
-  },
-  materializedSourceCount: 0,
-  activatedRendererCount: 0,
-  workerReadyFamilies: 0,
-  runtimeStatus: "runtime_disabled"
-});
-for (const child of factoryPlan.jobs.filter(
+assert.equal(
+  productionPlan.officialPdfSourceContractIntegration.projectionPath,
+  "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json"
+);
+assert.equal(
+  productionPlan.officialPdfSourceContractIntegration
+    .projectedDocumentIdentities,
+  192
+);
+assert.equal(
+  productionPlan.officialPdfSourceContractIntegration
+    .projectedExactWorkerAssignments,
+  53
+);
+assert.equal(
+  productionPlan.officialPdfSourceContractIntegration
+    .unresolvedSourceIdentities,
+  99
+);
+assert.equal(
+  productionPlan.officialPdfSourceContractIntegration
+    .projectedUnresolvedIdentities,
+  91
+);
+assert.equal(
+  productionPlan.officialPdfSourceContractIntegration
+    .pendingAssignmentFamilies,
+  0
+);
+assert.equal(
+  productionPlan.officialPdfSourceContractIntegration.assignmentMarker.status,
+  "generated_worker_local_untracked_by_factory_scaffold"
+);
+assert.equal(
+  productionPlan.officialPdfSourceContractIntegration.assignmentMarker
+    .integrationCheckoutMarkerCreated,
+  false
+);
+assert.equal(
+  productionPlan.officialPdfSourceContractIntegration.portableProjection
+    .status,
+  "integration_owned_projection_present"
+);
+assert.equal(
+  productionPlan.officialPdfSourceContractIntegration.materializedSourceCount,
+  0
+);
+assert.equal(
+  productionPlan.officialPdfSourceContractIntegration.activatedRendererCount,
+  0
+);
+assert.equal(
+  productionPlan.officialPdfSourceContractIntegration.workerReadyFamilies,
+  0
+);
+assert.equal(
+  productionPlan.officialPdfSourceContractIntegration.runtimeStatus,
+  "runtime_disabled"
+);
+assert.equal(officialPdfSourceProjection.coverage.queueIdentityCount, 192);
+assert.equal(officialPdfSourceProjection.coverage.assignmentEligibleCount, 53);
+assert.deepEqual(
+  officialPdfSourceProjection.coverage.countsByDisposition,
+  {
+    deliberately_excluded_commercial_license: 9,
+    exact_worker_assignable: 53,
+    legal_design_or_technical_policy_blocked: 13,
+    local_scope_identity: 1,
+    role_mismatch: 3,
+    source_gated_identity: 22,
+    unresolved_identity: 91
+  }
+);
+assert.equal(legalReviewMaterializationContract.assignmentCount, 24);
+assert.equal(
+  factoryPlan.jobs.filter(
+    (entry) => entry.strategyFamily === "legal_review_materialization"
+  ).length,
+  24
+);
+const exactOfficialPdfChildren = factoryPlan.jobs.filter(
   (entry) =>
-    entry.strategyFamily === "official_pdf_fill" &&
+    (entry.officialPdfAssignment?.identityKeys?.length ?? 0) > 0 &&
     ["planned", "ready", "blocked", "in_progress"].includes(entry.status)
-)) {
+);
+const assignedOfficialPdfIdentityKeys = exactOfficialPdfChildren.flatMap(
+  (child) => child.officialPdfAssignment.identityKeys
+);
+assert.equal(assignedOfficialPdfIdentityKeys.length, 53);
+assert.equal(new Set(assignedOfficialPdfIdentityKeys).size, 53);
+assert.deepEqual(
+  [...assignedOfficialPdfIdentityKeys].sort(),
+  officialPdfSourceProjection.identities
+    .filter((identity) => identity.assignmentEligible)
+    .map((identity) => identity.identityKey)
+    .sort()
+);
+assert.equal(
+  exactOfficialPdfChildren.flatMap(
+    (child) =>
+      child.officialPdfAssignment.newImplementationIdentityKeys
+  ).length,
+  51
+);
+assert.equal(
+  exactOfficialPdfChildren.flatMap(
+    (child) =>
+      child.officialPdfAssignment
+        .existingImplementationMaterializationOnlyIdentityKeys
+  ).length,
+  2
+);
+for (const child of exactOfficialPdfChildren) {
   assert.equal(child.status, "blocked", child.jobId);
   assert.ok(child.sourceMaterializationInputs.length > 0, child.jobId);
   assert.ok(
@@ -1522,19 +1600,33 @@ const activeMarylandImplementation = factoryPlan.jobs.filter(
 );
 assert.deepEqual(
   activeMarylandImplementation.map((entry) => entry.jobId),
-  []
+  ["rcap-md-official-pdf-supporting-components"]
 );
-const forbiddenMarylandRegenerationTracks = new Set([
-  "md_second_chance_shielding",
-  ...staticMarylandJob.authorityOnlyRoutes
-]);
-for (const entry of activeMarylandImplementation) {
-  assert.equal(
-    entry.trackIds.some((trackId) => forbiddenMarylandRegenerationTracks.has(trackId)),
-    false,
-    entry.jobId
-  );
-}
+assert.equal(
+  activeMarylandImplementation[0].officialPdfAssignment
+    .existingImplementationMaterializationOnlyIdentityKeys.length,
+  2
+);
+assert.equal(activeMarylandImplementation[0].status, "blocked");
+assert.equal(
+  activeMarylandImplementation[0].officialPdfAssignment.assignmentState,
+  "exact_pinned_assignment_blocked_external_materialization"
+);
+assert.equal(
+  activeMarylandImplementation[0].trackIds.includes("md_second_chance_shielding"),
+  false
+);
+assert.ok(
+  activeMarylandImplementation[0].trackIds.every((trackId) =>
+    staticMarylandJob.authorityOnlyRoutes.includes(trackId)
+  )
+);
+assert.deepEqual(
+  activeMarylandImplementation[0].officialPdfAssignment.unresolvedOrTerminalIdentities.map(
+    (entry) => entry.disposition
+  ),
+  ["source_gated_identity", "source_gated_identity", "source_gated_identity"]
+);
 
 const georgiaTrackIds = tranche3.selectedTracks
   .map((entry) => entry.trackId)
@@ -1864,12 +1956,18 @@ assert.deepEqual(
     "EXC-01-ks-commercial-use-determination"
   ]
 );
-assert.equal(factoryPlan.jobClaims.claims.length, 26);
+assert.equal(factoryPlan.jobClaims.claims.length, 68);
 assert.equal(
   new Set(factoryPlan.jobClaims.claims.map((claim) => claim.jobId)).size,
-  26
+  68
 );
 assert.ok(factoryPlan.jobClaims.claims.every((claim) => claim.status === "reserved"));
+assert.equal(
+  factoryPlan.jobClaims.claims.filter(
+    (claim) => claim.ownerSession === "SESSION_E"
+  ).length,
+  18
+);
 const reservedNextJobIds = new Set([
   ...productionPlan.routingReservations.sessionB.preferredFirstJobs,
   ...productionPlan.routingReservations.sessionD.preferredFirstJobs

@@ -190,3 +190,24 @@ source-materialization contract. Twenty-three states therefore remain
 codification blocker. Reserved jobs are not treated as claimed or ready until
 their exact review bytes are locally materialized, size-checked, hash-verified
 and read-only.
+
+Every one of the 24 current readiness records now has a distinct canonical
+materialization owner in
+`data/record-clearing/production-factory/legal-review-materialization-contract.json`.
+The normalization child depends on that jurisdiction's materialization child
+and on the nationwide readiness foundation. The materialization child remains
+blocked until the exact Edition 1.2 archive is available and verifies; that
+exact external input makes only the bounded materialization job ready. The job
+becomes completed, and the normalization dependency clears, only after the
+exact review bytes, title, MIME, read-only destination, and verifier-issued
+receipt all agree. A claim, portable locator, carried-forward research hash,
+or contract row is not a receipt and cannot clear the blocker.
+
+The review-specific verifier enforces one active review and zero addenda for
+the assigned jurisdiction, the exact archive and review hashes, Markdown MIME,
+jurisdiction identity, confined archive/destination paths, exact job
+ownership, non-linked read-only bytes, and an exact receipt. Tennessee retains
+`codification_authority_unverified` after materialization. Utah, Vermont, and
+West Virginia likewise retain their route-, form-, notice-, exclusion-,
+local-practice-, and once-per-lifetime questions; materialization closes no
+unrelated blocker.

@@ -246,7 +246,7 @@ export function validateJob(job) {
         add("assignmentClaim.jurisdiction must match jurisdiction.");
       }
       if (
-        !["SESSION_B", "SESSION_C", "SESSION_D", "SESSION_F"].includes(
+        !["SESSION_B", "SESSION_C", "SESSION_D", "SESSION_E", "SESSION_F"].includes(
           claim.ownerSession
         )
       ) {
@@ -429,10 +429,19 @@ export function validateJob(job) {
   }
 
   if (
-    job.strategyFamily === "official_pdf_fill" &&
-    ACTIVE_JOB_STATUSES.includes(job.status)
+    ACTIVE_JOB_STATUSES.includes(job.status) &&
+    (job.officialPdfAssignment?.identityKeys?.length ?? 0) > 0
   ) {
     validateSourceMaterializationInputs(job, issues);
+  }
+  if ("officialPdfAssignment" in job) {
+    validateOfficialPdfAssignment(job, issues);
+  }
+  if ("officialPdfConsumerDependencies" in job) {
+    validateOfficialPdfConsumerDependencies(job, issues);
+  }
+  if ("legalReviewMaterializationAssignment" in job) {
+    validateLegalReviewMaterializationAssignment(job, issues);
   }
 
   if (
@@ -567,7 +576,13 @@ function validateSourceMaterializationInputs(job, issues) {
       continue;
     }
     for (const field of [
+      "sourceIdentityKey",
       "documentId",
+      "authorityEdition",
+      "authorityArchiveSha256",
+      "jurisdiction",
+      "documentRole",
+      "expectedMediaType",
       "canonicalAuthorityPath",
       "repositorySourcePath",
       "portableLocator",
@@ -577,6 +592,25 @@ function validateSourceMaterializationInputs(job, issues) {
       if (typeof input[field] !== "string" || input[field].trim().length === 0) {
         issues.push(`${prefix}.${field} must be a non-empty string.`);
       }
+    }
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(input.sourceIdentityKey ?? "")) {
+      issues.push(`${prefix}.sourceIdentityKey must be safe kebab case.`);
+    }
+    if (!/^[0-9a-f]{64}$/.test(input.authorityArchiveSha256 ?? "")) {
+      issues.push(`${prefix}.authorityArchiveSha256 must be a lowercase SHA-256.`);
+    }
+    if (input.jurisdiction !== job.jurisdiction) {
+      issues.push(`${prefix}.jurisdiction must match the assigned job.`);
+    }
+    if (input.expectedMediaType !== "application/pdf") {
+      issues.push(`${prefix}.expectedMediaType must be application/pdf.`);
+    }
+    if (
+      input.repositorySourcePath?.startsWith("private/") ||
+      input.repositorySourcePath?.startsWith("/") ||
+      input.repositorySourcePath?.includes("/workspaces/")
+    ) {
+      issues.push(`${prefix}.repositorySourcePath is not a portable contract path.`);
     }
     if (!/^[0-9a-f]{64}$/.test(input.expectedSha256 ?? "")) {
       issues.push(`${prefix}.expectedSha256 must be a lowercase SHA-256.`);
@@ -622,7 +656,7 @@ function validateSourceMaterializationInputs(job, issues) {
         `${prefix}.verificationCommand must be an exact focusedValidation command.`
       );
     }
-    const identity = `${input.documentId ?? ""}:${input.expectedSha256 ?? ""}`;
+    const identity = `${input.sourceIdentityKey ?? ""}:${input.expectedSha256 ?? ""}`;
     if (seen.has(identity)) issues.push(`${prefix} duplicates ${identity}.`);
     seen.add(identity);
   }
@@ -639,6 +673,180 @@ function validateSourceMaterializationInputs(job, issues) {
   if (!ready && job.status !== "blocked") {
     issues.push(
       "an official-PDF job must remain blocked until every binary is materialized and hash-verified."
+    );
+  }
+}
+
+function validateOfficialPdfAssignment(job, issues) {
+  const assignment = job.officialPdfAssignment;
+  const prefix = "officialPdfAssignment";
+  if (!assignment || typeof assignment !== "object" || Array.isArray(assignment)) {
+    issues.push(`${prefix} must be an object.`);
+    return;
+  }
+  if (assignment.schemaVersion !== "rcap-official-pdf-child-assignment/v1") {
+    issues.push(`${prefix}.schemaVersion is invalid.`);
+  }
+  for (const field of [
+    "projectionPath",
+    "projectionSha256",
+    "assignmentState",
+    "focusedVerifier"
+  ]) {
+    if (typeof assignment[field] !== "string" || assignment[field].trim() === "") {
+      issues.push(`${prefix}.${field} is required.`);
+    }
+  }
+  if (!/^[0-9a-f]{64}$/.test(assignment.projectionSha256 ?? "")) {
+    issues.push(`${prefix}.projectionSha256 must be a lowercase SHA-256.`);
+  }
+  try {
+    normalizeRepoPath(assignment.projectionPath, `${prefix}.projectionPath`);
+  } catch (error) {
+    issues.push(error.message);
+  }
+  for (const field of [
+    "identityKeys",
+    "newImplementationIdentityKeys",
+    "existingImplementationMaterializationOnlyIdentityKeys",
+    "documentIds",
+    "exactTrackIds",
+    "exactComponentIds",
+    "implementationFamilies",
+    "fieldOwnershipScaffolds",
+    "legalDesignDependencies",
+    "materializationDependencies",
+    "expectedOutputs",
+    "ownedPaths",
+    "assignmentBlockers"
+  ]) {
+    validateStringArray(assignment, field, issues, { allowEmpty: true });
+  }
+  if (!Array.isArray(assignment.componentUses)) {
+    issues.push(`${prefix}.componentUses must be an array.`);
+  }
+  if (!Array.isArray(assignment.unresolvedOrTerminalIdentities)) {
+    issues.push(`${prefix}.unresolvedOrTerminalIdentities must be an array.`);
+  }
+  if (
+    assignment.runtimeDisabledInvariant !== true ||
+    assignment.workerMayAcquireOrMaterializeSources !== false
+  ) {
+    issues.push(
+      `${prefix} must preserve runtime-disabled and no-worker-materialization invariants.`
+    );
+  }
+  const identityKeys = Array.isArray(assignment.identityKeys)
+    ? assignment.identityKeys
+    : [];
+  if (
+    identityKeys.length > 0 &&
+    (!Array.isArray(job.sourceMaterializationInputs) ||
+      job.sourceMaterializationInputs.length !== assignment.identityKeys.length)
+  ) {
+    issues.push(
+      `${prefix} exact identities must map one-to-one to sourceMaterializationInputs.`
+    );
+  }
+  if (
+    identityKeys.length === 0 &&
+    Array.isArray(job.sourceMaterializationInputs) &&
+    job.sourceMaterializationInputs.length > 0
+  ) {
+    issues.push(`${prefix} may not carry unassigned source inputs.`);
+  }
+  const inputKeys = (job.sourceMaterializationInputs ?? [])
+    .map((input) => input.sourceIdentityKey)
+    .sort();
+  if (
+    JSON.stringify([...identityKeys].sort()) !==
+    JSON.stringify(inputKeys)
+  ) {
+    issues.push(`${prefix}.identityKeys do not match exact source inputs.`);
+  }
+  const assignmentPartition = [
+    ...(assignment.newImplementationIdentityKeys ?? []),
+    ...(assignment.existingImplementationMaterializationOnlyIdentityKeys ?? [])
+  ].sort();
+  if (
+    JSON.stringify(assignmentPartition) !==
+      JSON.stringify([...identityKeys].sort()) ||
+    new Set(assignmentPartition).size !== assignmentPartition.length
+  ) {
+    issues.push(
+      `${prefix} new-implementation and materialization-only identities must exactly partition identityKeys.`
+    );
+  }
+  if (
+    JSON.stringify([...(assignment.expectedOutputs ?? [])].sort()) !==
+      JSON.stringify([...job.expectedOutputs].sort()) ||
+    JSON.stringify([...(assignment.ownedPaths ?? [])].sort()) !==
+      JSON.stringify([...job.ownedPaths].sort())
+  ) {
+    issues.push(`${prefix} output ownership does not match the canonical job.`);
+  }
+}
+
+function validateOfficialPdfConsumerDependencies(job, issues) {
+  if (!Array.isArray(job.officialPdfConsumerDependencies)) {
+    issues.push("officialPdfConsumerDependencies must be an array.");
+    return;
+  }
+  for (const [index, dependency] of job.officialPdfConsumerDependencies.entries()) {
+    const prefix = `officialPdfConsumerDependencies[${index}]`;
+    if (!dependency || typeof dependency !== "object" || Array.isArray(dependency)) {
+      issues.push(`${prefix} must be an object.`);
+      continue;
+    }
+    if (
+      typeof dependency.identityKey !== "string" ||
+      typeof dependency.ownerJobId !== "string" ||
+      !Array.isArray(dependency.componentUses)
+    ) {
+      issues.push(`${prefix} is incomplete.`);
+    }
+  }
+}
+
+function validateLegalReviewMaterializationAssignment(job, issues) {
+  const assignment = job.legalReviewMaterializationAssignment;
+  if (!assignment || typeof assignment !== "object" || Array.isArray(assignment)) {
+    issues.push("legalReviewMaterializationAssignment must be an object.");
+    return;
+  }
+  if (
+    assignment.jobId !== job.jobId ||
+    assignment.jurisdiction !== job.jurisdiction
+  ) {
+    issues.push(
+      "legalReviewMaterializationAssignment must match the canonical job identity."
+    );
+  }
+  if (assignment.expectedActiveReviewCount !== 1) {
+    issues.push("legal-review materialization requires exactly one active review.");
+  }
+  if (assignment.expectedAddendumCount !== 0) {
+    issues.push("legal-review materialization requires zero addenda.");
+  }
+  const review = assignment.activeReview;
+  if (
+    !review ||
+    typeof review !== "object" ||
+    !/^[0-9a-f]{64}$/.test(review.expectedSha256 ?? "") ||
+    !/^[0-9a-f]{64}$/.test(review.expectedArchiveSha256 ?? "") ||
+    review.expectedMime !== "text/markdown"
+  ) {
+    issues.push("legalReviewMaterializationAssignment has an invalid review pin.");
+  }
+  if (
+    !(job.ownedPaths ?? []).includes(review?.materializationDestination) ||
+    !(job.ownedPaths ?? []).includes(assignment.receiptOutput)
+  ) {
+    issues.push("legal-review destination or receipt escapes job ownership.");
+  }
+  if (!(job.focusedValidation ?? []).includes(assignment.verificationCommand)) {
+    issues.push(
+      "legal-review verification command must be exact focused validation."
     );
   }
 }

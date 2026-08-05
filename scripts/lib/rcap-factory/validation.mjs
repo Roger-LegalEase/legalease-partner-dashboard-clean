@@ -31,6 +31,8 @@ export const GLOBAL_GENERATED_PATHS = Object.freeze([
   "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
   "data/record-clearing/production-factory/packet-proofs",
   "data/record-clearing/production-factory/review-manifests",
+  "data/record-clearing/production-factory/legal-review-materialization-contract.json",
+  "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json",
   "docs/record-clearing/MASTER_LIBRARY_AUTHORITY.md",
   "src/lib/rcap/legal-design/master-library-authority.ts",
   "src/lib/rcap/packets/registry.ts"

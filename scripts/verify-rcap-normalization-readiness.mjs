@@ -16,6 +16,10 @@ import {
   validateNormalizationReadinessInput,
   validateNormalizationReadinessRecord
 } from "./lib/rcap-factory/normalization-readiness.mjs";
+import {
+  LEGAL_REVIEW_MATERIALIZATION_CONTRACT_PATH,
+  validateLegalReviewMaterializationContract
+} from "./lib/rcap-factory/materialization-planning.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const INPUT_PATH =
@@ -61,7 +65,10 @@ function loadContext() {
     claims: readJson(CLAIMS_PATH),
     authority: readJson(AUTHORITY_PATH),
     repositoryAssetAudit,
-    queue: readJson(QUEUE_PATH)
+    queue: readJson(QUEUE_PATH),
+    legalReviewMaterialization: readJson(
+      LEGAL_REVIEW_MATERIALIZATION_CONTRACT_PATH
+    )
   };
 }
 
@@ -74,6 +81,13 @@ function verifyCommittedReadiness(context, jurisdiction) {
   if (!claimValidation.ok) {
     throw new Error(claimValidation.issues.join("\n"));
   }
+  const materializationIssues =
+    validateLegalReviewMaterializationContract(
+      context.legalReviewMaterialization
+    );
+  if (materializationIssues.length > 0) {
+    throw new Error(materializationIssues.join("\n"));
+  }
 
   const outstanding = context.queue.outstandingJurisdictions ?? [];
   const records = buildNormalizationReadinessRecords({
@@ -85,6 +99,30 @@ function verifyCommittedReadiness(context, jurisdiction) {
   );
   if (remainingRecords.some((record) => !record)) {
     throw new Error("The 24-jurisdiction readiness partition is incomplete.");
+  }
+  const assignments = new Map(
+    context.legalReviewMaterialization.assignments.map((assignment) => [
+      assignment.jurisdiction,
+      assignment
+    ])
+  );
+  for (const record of remainingRecords) {
+    const assignment = assignments.get(record.jurisdiction);
+    if (
+      !assignment ||
+      assignment.activeReview.expectedSha256 !==
+        record.controllingReviewSha256 ||
+      assignment.activeReview.archiveRelativePath !==
+        record.controllingReviewAssetPath ||
+      assignment.activeReview.materializationDestination !==
+        record.reviewMaterialization.materializationDestination ||
+      assignment.downstreamDependentJobs[0] !==
+        `rcap-${record.jurisdiction.toLowerCase()}-legal-design-normalization`
+    ) {
+      throw new Error(
+        `${record.jurisdiction} has no exact legal-review materialization owner.`
+      );
+    }
   }
 
   if (jurisdiction) {

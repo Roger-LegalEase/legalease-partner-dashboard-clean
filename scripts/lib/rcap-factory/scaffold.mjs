@@ -9,6 +9,10 @@ import {
   orderedJobManifest,
   stableStringify
 } from "./prompt.mjs";
+import {
+  OFFICIAL_PDF_SOURCE_PROJECTION_PATH,
+  validateOfficialPdfSourceProjection
+} from "./materialization-planning.mjs";
 
 const NEVER_WORKER_OWNED_PATHS = [
   "data/record-clearing/legal-design-implementation-queue.json",
@@ -23,12 +27,18 @@ const NEVER_WORKER_OWNED_PATHS = [
   "data/record-clearing/master-library/track-source-audit.json",
   "data/record-clearing/production-factory/review-manifests",
   "data/record-clearing/production-factory/normalization-readiness-input.json",
+  "data/record-clearing/production-factory/legal-review-materialization-contract.json",
+  OFFICIAL_PDF_SOURCE_PROJECTION_PATH,
   "data/record-clearing/production-factory/job-claims.json",
   "src/lib/rcap/jurisdictions/packet-capability.ts",
   "src/lib/rcap/state-promotion-manifest.ts"
 ];
 
 const IMMUTABLE_EDITION_PREFIX = "data/record-clearing/master-library/edition-";
+const EXISTING_IMPLEMENTATION_MATERIALIZATION_ONLY_DOCUMENTS = new Set([
+  "MD:CC-DC-CR-148",
+  "MD:MDJ-008"
+]);
 export const WORKTREE_JOB_MARKER = "tmp/rcap-factory/job.json";
 
 /**
@@ -38,7 +48,7 @@ export const WORKTREE_JOB_MARKER = "tmp/rcap-factory/job.json";
  * uses this path unless the captain explicitly supplies --apply.
  */
 export function buildScaffoldPlan({ rootDir, job, authorityVersion, model = job?.model }) {
-  assertScaffoldableJob(job);
+  assertScaffoldableJob(job, { rootDir });
   assertSupportedModel(model);
   assertAuthorityVersion(authorityVersion);
   assertRoot(rootDir);
@@ -108,7 +118,7 @@ export function scaffoldJob({
 
 export function applyScaffoldPlan({ rootDir, job, plan }) {
   assertRoot(rootDir);
-  assertScaffoldableJob(job);
+  assertScaffoldableJob(job, { rootDir });
 
   const expected = buildScaffoldPlan({
     rootDir,
@@ -173,12 +183,16 @@ export function applyScaffoldPlan({ rootDir, job, plan }) {
   fs.mkdirSync(path.dirname(markerAbsolute), { recursive: true });
   fs.writeFileSync(
     markerAbsolute,
-    `${stableStringify(worktreeMarkerFor(plan, job, actualStartCommit))}\n`,
+    `${stableStringify(buildWorktreeJobMarker({
+      plan,
+      job,
+      actualStartCommit
+    }))}\n`,
     { flag: "wx" }
   );
 }
 
-export function assertScaffoldableJob(job) {
+export function assertScaffoldableJob(job, options = {}) {
   if (!job || typeof job !== "object" || Array.isArray(job)) {
     throw new Error("Factory job must be an object.");
   }
@@ -220,6 +234,13 @@ export function assertScaffoldableJob(job) {
       throw new Error(`${job.jobId}: owned path ${owned} overlaps forbidden path ${conflict}.`);
     }
   }
+  if (
+    ["acroform_fill", "flat_pdf_overlay", "composed_route"].includes(
+      job.lane
+    )
+  ) {
+    assertExactOfficialPdfAssignment(job, options.rootDir);
+  }
 }
 
 export function scaffoldKeyFor(jobId) {
@@ -253,13 +274,13 @@ function scaffoldManifestFor(plan) {
   };
 }
 
-function worktreeMarkerFor(plan, job, actualStartCommit) {
+export function buildWorktreeJobMarker({ plan, job, actualStartCommit }) {
   const assignedJob = orderedJobManifest(job, plan.model);
   const assignmentManifestRelativePath = path.posix.relative(
     plan.worktreePath,
     plan.artifacts.jobManifest
   );
-  return {
+  const marker = {
     schemaVersion: 1,
     jobId: plan.jobId,
     model: plan.model,
@@ -284,6 +305,260 @@ function worktreeMarkerFor(plan, job, actualStartCommit) {
       .update(`${JSON.stringify(assignedJob, null, 2)}\n`)
       .digest("hex")
   };
+  if ((job.officialPdfAssignment?.identityKeys?.length ?? 0) > 0) {
+    marker.exactAssignment = exactAssignmentMarker(job, plan);
+  }
+  return marker;
+}
+
+export function assertExactOfficialPdfAssignment(job, rootDir) {
+  const assignment = job.officialPdfAssignment;
+  if (
+    !assignment ||
+    !Array.isArray(assignment.identityKeys) ||
+    assignment.identityKeys.length === 0
+  ) {
+    throw new Error(
+      `${job.jobId}: official-PDF workers require a non-empty exact assignment.`
+    );
+  }
+  if (!rootDir) {
+    throw new Error(
+      `${job.jobId}: the repository root is required to validate the portable projection.`
+    );
+  }
+  if (assignment.projectionPath !== OFFICIAL_PDF_SOURCE_PROJECTION_PATH) {
+    throw new Error(
+      `${job.jobId}: official-PDF assignment does not use the canonical projection.`
+    );
+  }
+  const projectionAbsolute = resolveInsideRoot(
+    rootDir,
+    assignment.projectionPath
+  );
+  if (!fs.existsSync(projectionAbsolute)) {
+    throw new Error(`${job.jobId}: portable source projection is missing.`);
+  }
+  const projectionBytes = fs.readFileSync(projectionAbsolute);
+  const projectionSha256 = createHash("sha256")
+    .update(projectionBytes)
+    .digest("hex");
+  if (projectionSha256 !== assignment.projectionSha256) {
+    throw new Error(
+      `${job.jobId}: portable source projection hash does not match the assignment.`
+    );
+  }
+  let projection;
+  try {
+    projection = JSON.parse(projectionBytes.toString("utf8"));
+  } catch {
+    throw new Error(`${job.jobId}: portable source projection is invalid JSON.`);
+  }
+  const projectionIssues = validateOfficialPdfSourceProjection(projection);
+  if (projectionIssues.length > 0) {
+    throw new Error(
+      `${job.jobId}: portable source projection is invalid: ` +
+        projectionIssues.join("; ")
+    );
+  }
+  const byKey = new Map(
+    projection.identities.map((identity) => [
+      identity.identityKey,
+      identity
+    ])
+  );
+  const assignedKeys = [...assignment.identityKeys].sort();
+  const inputKeys = (job.sourceMaterializationInputs ?? [])
+    .map((input) => input.sourceIdentityKey)
+    .sort();
+  if (stableStringify(assignedKeys, 0) !== stableStringify(inputKeys, 0)) {
+    throw new Error(
+      `${job.jobId}: exact identities do not match materialization inputs.`
+    );
+  }
+  const assignedProjectionRows = assignedKeys.map((identityKey) =>
+    byKey.get(identityKey)
+  );
+  if (assignedProjectionRows.some((identity) => !identity)) {
+    throw new Error(
+      `${job.jobId}: an exact identity is absent from the portable projection.`
+    );
+  }
+  const exactTrackIds = [
+    ...new Set(
+      assignedProjectionRows.flatMap((identity) => identity.trackIds)
+    )
+  ].sort();
+  const exactComponentIds = [
+    ...new Set(
+      assignedProjectionRows.flatMap((identity) => identity.componentIds)
+    )
+  ].sort();
+  const exactDocumentIds = [
+    ...new Set(
+      assignedProjectionRows.map(
+        (identity) => identity.officialDocument.documentId
+      )
+    )
+  ].sort();
+  const expectedMaterializationOnlyKeys = assignedProjectionRows
+    .filter((identity) =>
+      EXISTING_IMPLEMENTATION_MATERIALIZATION_ONLY_DOCUMENTS.has(
+        `${identity.jurisdiction}:${identity.officialDocument.documentId}`
+      )
+    )
+    .map((identity) => identity.identityKey)
+    .sort();
+  const expectedNewImplementationKeys = assignedProjectionRows
+    .filter(
+      (identity) =>
+        !EXISTING_IMPLEMENTATION_MATERIALIZATION_ONLY_DOCUMENTS.has(
+          `${identity.jurisdiction}:${identity.officialDocument.documentId}`
+        )
+    )
+    .map((identity) => identity.identityKey)
+    .sort();
+  for (const [field, expected] of [
+    ["exactTrackIds", exactTrackIds],
+    ["exactComponentIds", exactComponentIds],
+    ["documentIds", exactDocumentIds],
+    ["newImplementationIdentityKeys", expectedNewImplementationKeys],
+    [
+      "existingImplementationMaterializationOnlyIdentityKeys",
+      expectedMaterializationOnlyKeys
+    ]
+  ]) {
+    if (
+      stableStringify([...(assignment[field] ?? [])].sort(), 0) !==
+      stableStringify(expected, 0)
+    ) {
+      throw new Error(
+        `${job.jobId}: ${field} broadens the exact portable assignment.`
+      );
+    }
+  }
+  for (const input of job.sourceMaterializationInputs ?? []) {
+    const identity = byKey.get(input.sourceIdentityKey);
+    if (!identity) {
+      throw new Error(
+        `${job.jobId}: ${input.sourceIdentityKey} is absent from the portable projection.`
+      );
+    }
+    if (
+      !identity.assignmentEligible ||
+      identity.disposition !== "exact_worker_assignable"
+    ) {
+      throw new Error(
+        `${job.jobId}: ${input.sourceIdentityKey} is unresolved or terminally dispositioned.`
+      );
+    }
+    const source = identity.exactSourceContract;
+    if (
+      input.documentId !== identity.officialDocument.documentId ||
+      input.expectedSha256 !== source.expectedSha256 ||
+      input.expectedBytes !== source.expectedBytes ||
+      input.expectedMediaType !== source.expectedMime ||
+      input.canonicalAuthorityPath !== source.archiveRelativePath ||
+      input.repositorySourcePath !== source.archiveRelativePath ||
+      input.portableLocator !== source.portableSourceLocator ||
+      input.materializationDestination !== source.materializationDestination
+    ) {
+      throw new Error(
+        `${job.jobId}: ${input.sourceIdentityKey} broadens or substitutes its projected identity.`
+      );
+    }
+    if (
+      !input.materializationDestination.startsWith(
+        `official-pdf/${job.jurisdiction}/`
+      )
+    ) {
+      throw new Error(
+        `${job.jobId}: source destination escapes the assigned portable contract.`
+      );
+    }
+    const localDestination = resolveInsideRoot(
+      rootDir,
+      input.materializationDestination
+    );
+    if (fs.existsSync(localDestination)) {
+      throw new Error(
+        `${job.jobId}: refusing to scaffold over an existing source destination.`
+      );
+    }
+    const expectedUses = identity.componentUses
+      .map((use) => ({
+        trackId: use.trackId,
+        componentId: use.componentId
+      }))
+      .sort(compareUsageBinding);
+    const assignedUses = [...(input.usageBindings ?? [])].sort(
+      compareUsageBinding
+    );
+    if (
+      stableStringify(expectedUses, 0) !==
+      stableStringify(assignedUses, 0)
+    ) {
+      throw new Error(
+        `${job.jobId}: ${input.sourceIdentityKey} changes exact component ownership.`
+      );
+    }
+  }
+  for (const output of job.expectedOutputs ?? []) {
+    if (!(job.ownedPaths ?? []).some((owned) => pathIsWithin(output, owned))) {
+      throw new Error(
+        `${job.jobId}: worker destination ${output} escapes exact job ownership.`
+      );
+    }
+  }
+}
+
+function exactAssignmentMarker(job, plan) {
+  const assignment = job.officialPdfAssignment;
+  return {
+    jobId: job.jobId,
+    baseCommit: plan.manifestBaseCommit,
+    workerBranch: plan.branch,
+    canonicalParent: job.parentJobId,
+    lane: job.lane,
+    strategyFamily: job.strategyFamily,
+    sourceIdentities: (job.sourceMaterializationInputs ?? []).map(
+      (input) => ({
+        sourceIdentityKey: input.sourceIdentityKey,
+        documentId: input.documentId,
+        expectedSha256: input.expectedSha256,
+        expectedBytes: input.expectedBytes,
+        expectedMime: input.expectedMediaType,
+        portableLocator: input.portableLocator,
+        materializationDestination: input.materializationDestination
+      })
+    ),
+    projectionPath: assignment.projectionPath,
+    projectionSha256: assignment.projectionSha256,
+    exactTracks: assignment.exactTrackIds,
+    exactComponents: assignment.exactComponentIds,
+    newImplementationIdentities:
+      assignment.newImplementationIdentityKeys,
+    existingImplementationMaterializationOnlyIdentities:
+      assignment.existingImplementationMaterializationOnlyIdentityKeys,
+    ownedPaths: job.ownedPaths,
+    expectedOutputs: job.expectedOutputs,
+    focusedVerifier: assignment.focusedVerifier,
+    implementationFamilies: assignment.implementationFamilies,
+    runtimeDisabledInvariant: assignment.runtimeDisabledInvariant
+  };
+}
+
+function compareUsageBinding(left, right) {
+  return (
+    String(left.trackId).localeCompare(String(right.trackId)) ||
+    String(left.componentId).localeCompare(String(right.componentId))
+  );
+}
+
+function pathIsWithin(candidate, owner) {
+  const child = patternPrefix(candidate);
+  const parent = patternPrefix(owner);
+  return child === parent || child.startsWith(`${parent}/`);
 }
 
 function assertMemoOwnership(job, ownedPath) {

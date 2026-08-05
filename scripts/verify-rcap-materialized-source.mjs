@@ -4,6 +4,10 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  OFFICIAL_PDF_SOURCE_PROJECTION_PATH,
+  validateOfficialPdfSourceProjection
+} from "./lib/rcap-factory/materialization-planning.mjs";
 
 const SCRIPT_PATH = fileURLToPath(import.meta.url);
 const REPOSITORY_ROOT = path.resolve(path.dirname(SCRIPT_PATH), "..");
@@ -11,7 +15,8 @@ const DEFAULT_ASSIGNMENT_MANIFEST = "tmp/rcap-factory/job.json";
 const RESULT_SCHEMA = "rcap-source-materialization-result/v1";
 const REQUIREMENT_SCHEMA = "rcap-source-materialization-requirement/v1";
 const SHA256_PATTERN = /^[0-9a-f]{64}$/u;
-const DOCUMENT_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._-]*$/u;
+const DOCUMENT_ID_PATTERN = /^(?!-)[^\u0000-\u001f\u007f]{1,200}$/u;
+const SOURCE_IDENTITY_KEY_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/u;
 const JURISDICTION_PATTERN = /^(?:[A-Z]{2}|NATIONWIDE)$/u;
 const PORTABLE_SCHEME_PATTERN = /^[a-z][a-z0-9+.-]*$/u;
 const CONTROL_CHARACTER_PATTERN = /[\u0000-\u001f\u007f]/u;
@@ -644,6 +649,7 @@ export async function inspectMaterializedSourceSet(
 export async function loadAssignedMaterializationRequirement({
   rootDir = REPOSITORY_ROOT,
   manifestPath = DEFAULT_ASSIGNMENT_MANIFEST,
+  sourceIdentityKey,
   documentId,
   expectedSha256,
   expectedBytes
@@ -655,7 +661,9 @@ export async function loadAssignedMaterializationRequirement({
   });
   const claims = (assignedJob.sourceMaterializationInputs ?? []).filter(
     (claim) =>
-      claim.documentId === documentId &&
+      (sourceIdentityKey
+        ? claim.sourceIdentityKey === sourceIdentityKey
+        : claim.documentId === documentId) &&
       claim.expectedSha256 === expectedSha256 &&
       claim.expectedBytes === expectedBytes
   );
@@ -705,6 +713,18 @@ export async function loadAssignedMaterializationRequirement({
       "The immutable assignment has not materialized the complete portable source descriptor."
     );
   }
+  const projectionBound =
+    typeof claim.sourceIdentityKey === "string" ||
+    assignedJob.officialPdfAssignment !== undefined;
+  if (
+    projectionBound &&
+    !SOURCE_IDENTITY_KEY_PATTERN.test(claim.sourceIdentityKey ?? "")
+  ) {
+    throw contractError(
+      "factory_contract_incomplete",
+      "The immutable assignment has no safe source identity key."
+    );
+  }
   if (
     claim.jurisdiction !== assignedJob.jurisdiction
   ) {
@@ -726,6 +746,59 @@ export async function loadAssignedMaterializationRequirement({
     path.join(rootDir, registryPath),
     "source artifact registry"
   );
+  let projectedIdentity = null;
+  if (projectionBound) {
+    const projectionPath =
+      claim.provenance?.projectionPath ??
+      assignedJob.officialPdfAssignment?.projectionPath;
+    if (projectionPath !== OFFICIAL_PDF_SOURCE_PROJECTION_PATH) {
+      throw contractError(
+        "unknown_source_identity",
+        "The immutable assignment does not name the canonical portable projection."
+      );
+    }
+    const projection = readJson(
+      path.join(rootDir, projectionPath),
+      "official-PDF source assignment projection"
+    );
+    const projectionIssues = validateOfficialPdfSourceProjection(projection);
+    if (projectionIssues.length > 0) {
+      throw contractError(
+        "unknown_source_identity",
+        "The portable official-PDF projection is invalid."
+      );
+    }
+    const projected = projection.identities.filter(
+      (identity) =>
+        identity.identityKey === claim.sourceIdentityKey &&
+        identity.assignmentEligible === true &&
+        identity.disposition === "exact_worker_assignable"
+    );
+    if (projected.length !== 1) {
+      throw contractError(
+        "unknown_source_identity",
+        "The source identity is absent, unresolved, or terminally dispositioned."
+      );
+    }
+    projectedIdentity = projected[0];
+    const projectedSource = projectedIdentity.exactSourceContract;
+    if (
+      projectedIdentity.officialDocument.documentId !== claim.documentId ||
+      projectedSource.expectedSha256 !== claim.expectedSha256 ||
+      projectedSource.expectedBytes !== claim.expectedBytes ||
+      projectedSource.expectedMime !== claim.expectedMediaType ||
+      projectedSource.archiveRelativePath !== claim.canonicalAuthorityPath ||
+      projectedSource.archiveRelativePath !== claim.repositorySourcePath ||
+      projectedSource.portableSourceLocator !== claim.portableLocator ||
+      projectedSource.materializationDestination !==
+        claim.materializationDestination
+    ) {
+      throw contractError(
+        "assignment_manifest_mismatch",
+        "The immutable source descriptor does not match the portable projection."
+      );
+    }
+  }
   const authorityEdition = claim.authorityEdition;
   if (
     authorityEdition !== marker.authorityVersion ||
@@ -742,9 +815,11 @@ export async function loadAssignedMaterializationRequirement({
 
   const artifactCandidates = (registry.artifacts ?? []).filter(
     (artifact) =>
-      artifact.artifactId === claim.documentId &&
-      artifact.jurisdiction === assignedJob.jurisdiction &&
+      (!projectionBound
+        ? artifact.artifactId === claim.documentId
+        : true) &&
       artifact.sourcePath === claim.repositorySourcePath &&
+      artifact.jurisdiction === assignedJob.jurisdiction &&
       artifact.sizeBytes === claim.expectedBytes &&
       (artifact.measuredSha256 ?? artifact.inventorySha256) ===
         claim.expectedSha256
@@ -757,15 +832,6 @@ export async function loadAssignedMaterializationRequirement({
     );
   }
   const artifact = artifacts[0];
-  if (
-    typeof artifact.role !== "string" ||
-    artifact.role.trim().length === 0
-  ) {
-    throw contractError(
-      "unknown_source_identity",
-      "The exact assigned source has no authoritative document role."
-    );
-  }
   const expectedMediaType = mediaTypeForArtifact(artifact);
   if (expectedMediaType === null) {
     throw contractError(
@@ -774,7 +840,8 @@ export async function loadAssignedMaterializationRequirement({
     );
   }
   if (
-    claim.documentRole !== artifact.role ||
+    claim.documentRole !==
+      (projectedIdentity?.officialDocument.documentRole ?? artifact.role) ||
     claim.expectedMediaType !== expectedMediaType
   ) {
     throw contractError(
@@ -784,6 +851,9 @@ export async function loadAssignedMaterializationRequirement({
   }
   const requirement = {
     schemaVersion: REQUIREMENT_SCHEMA,
+    ...(claim.sourceIdentityKey
+      ? { sourceIdentityKey: claim.sourceIdentityKey }
+      : {}),
     authorityEdition,
     authorityArchiveSha256: claim.authorityArchiveSha256,
     jurisdiction: claim.jurisdiction,
@@ -1900,9 +1970,12 @@ function readJson(filePath, label) {
 }
 
 function expectedVerificationCommand(requirement) {
+  const selector = requirement.sourceIdentityKey
+    ? `--source-identity-key ${requirement.sourceIdentityKey}`
+    : `--document-id ${requirement.documentId}`;
   return (
     "node scripts/verify-rcap-materialized-source.mjs " +
-    `--document-id ${requirement.documentId} ` +
+    `${selector} ` +
     `--sha256 ${requirement.expectedSha256} ` +
     `--bytes ${requirement.expectedBytes}`
   );
@@ -1953,6 +2026,7 @@ function parseCliArguments(rawArguments) {
     if (
       ![
         "document-id",
+        "source-identity-key",
         "sha256",
         "bytes",
         "manifest",
@@ -1987,7 +2061,7 @@ function cliHelp() {
   return [
     "Usage:",
     "  node scripts/verify-rcap-materialized-source.mjs \\",
-    "    --document-id <assigned-id> --sha256 <lowercase-sha256> --bytes <count>",
+    "    --source-identity-key <assigned-key> --sha256 <lowercase-sha256> --bytes <count>",
     "    [--manifest tmp/rcap-factory/job.json] --materialization-root <local-root>",
     "",
     "RCAP_SOURCE_MATERIALIZATION_ROOT may supply the required local root.",
@@ -2003,7 +2077,21 @@ async function main() {
     process.stdout.write(cliHelp());
     return;
   }
-  assertNonemptyString(args["document-id"], "--document-id");
+  if (!args["source-identity-key"] && !args["document-id"]) {
+    throw contractError(
+      "invalid_cli_arguments",
+      "--source-identity-key (or legacy --document-id) is required."
+    );
+  }
+  if (
+    args["source-identity-key"] &&
+    !SOURCE_IDENTITY_KEY_PATTERN.test(args["source-identity-key"])
+  ) {
+    throw contractError(
+      "invalid_cli_arguments",
+      "--source-identity-key must be safe kebab case."
+    );
+  }
   if (!SHA256_PATTERN.test(args.sha256 ?? "")) {
     throw contractError(
       "invalid_cli_arguments",
@@ -2020,6 +2108,7 @@ async function main() {
   const requirement = await loadAssignedMaterializationRequirement({
     rootDir: REPOSITORY_ROOT,
     manifestPath: args.manifest ?? DEFAULT_ASSIGNMENT_MANIFEST,
+    sourceIdentityKey: args["source-identity-key"],
     documentId: args["document-id"],
     expectedSha256: args.sha256,
     expectedBytes

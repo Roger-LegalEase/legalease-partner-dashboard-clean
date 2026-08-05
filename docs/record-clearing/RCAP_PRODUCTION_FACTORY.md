@@ -171,10 +171,50 @@ behavior. A plan check or generated review manifest alone is insufficient.
 
 Official-PDF readiness distinguishes an authority asset known to an edition
 from locally materialized bytes. Registry `presence` metadata never makes a
-worker ready. Each job carries the document identity, expected SHA-256 and byte
-count, authority and repository paths, portable locator, destination, read-only
-worker policy, materialization state, and exact verification command. The job
-stays blocked until every binary is materialized and hash-verified.
+worker ready. The integration-owned portable projection at
+`data/record-clearing/production-factory/official-pdf-source-assignment-projection.json`
+dispositions every production-queue identity exactly once. Only its
+`exact_worker_assignable` rows may enter a child assignment. Each assigned job
+carries the projection hash, exact source-identity keys, document IDs, track
+and component uses, expected SHA-256 and byte count, archive-relative path,
+portable locator, destination, read-only worker policy, materialization state,
+and exact verification command. No private or host-specific source path is a
+worker contract. The job stays blocked until every binary is materialized in a
+sealed external root and hash-, size-, and MIME-verified, every dependency is
+completed, and no required component has an unresolved or terminal
+disposition.
+
+All 53 currently assignable identities map exactly once across 18 canonical
+children. Fifty-one authorize bounded new implementation work. Maryland
+`CC-DC-CR-148` and `MDJ-008` are separately marked materialization-only inside
+the existing Maryland supporting-components assignment because their renderer
+is already complete; their missing bytes remain named external inputs and do
+not reopen or replace that completed implementation.
+
+The scaffold writes the exact assignment to the ignored worker-local
+`tmp/rcap-factory/job.json`. The marker is anchored to the captain-owned job
+manifest and repeats the projection hash, exact identities, hashes, tracks,
+components, owned paths, expected outputs, verifier, implementation family,
+and runtime-disabled invariant. It rejects missing or terminal identities,
+cross-document substitution, broadened tracks/components, projection drift,
+source destinations outside the portable contract, pre-existing source
+destinations, and outputs outside job ownership. The integration checkout does
+not have or commit a global marker.
+
+Legal-review materialization uses the existing platform-foundation lane and
+the jurisdiction's canonical normalization parent. The portable contract at
+`data/record-clearing/production-factory/legal-review-materialization-contract.json`
+derives 24 exact owner jobs from current readiness data. Each assignment pins
+one active review, zero addenda, its title and Markdown MIME, review and
+archive hashes, portable archive and entry locators, materialization
+destination, verifier receipt, downstream normalization child, exact session
+claim, and stop condition. An exact verified archive makes only the bounded
+materialization child ready. The child becomes completed only when the review
+and exact receipt verify. Missing archives, review/title/hash/MIME/jurisdiction
+drift, duplicate active reviews, unexpected addenda, path/ownership escape,
+links, writable bytes, or receipt drift fail closed. The contract assigns
+materialization work; it neither copies review text into the plan nor
+authorizes research or normalization.
 
 New-jurisdiction normalization likewise stays blocked until the active
 controlling review is materialized and checksum-verified, the complete
