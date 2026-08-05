@@ -220,10 +220,10 @@ await check("deterministic plan covers all lanes and jurisdictions", () => {
   assert.ok(first.lanes.every((entry) => entry.jobIds.length > 0));
   assert.equal(first.waves.length, FACTORY_LANES.length);
   assert.equal(first.jobs.length, 238);
-  assert.equal(first.jobs.filter((job) => job.status === "ready").length, 50);
+  assert.equal(first.jobs.filter((job) => job.status === "ready").length, 47);
   assert.equal(first.jobs.filter((job) => job.status === "blocked").length, 151);
   assert.equal(first.jobs.filter((job) => job.status === "in_progress").length, 1);
-  assert.equal(first.jobs.filter((job) => job.status === "completed").length, 36);
+  assert.equal(first.jobs.filter((job) => job.status === "completed").length, 39);
   assert.equal(findOwnedPathOverlaps(first.jobs).length, 0);
   assert.ok(first.generatedFrom.length >= 8);
   assert.ok(first.generatedFrom.every((entry) => /^[0-9a-f]{64}$/.test(entry.sha256)));
@@ -287,6 +287,9 @@ await check("terminal guidance and authority children preserve exact provenance"
     ["rcap-ga-guidance-implementation", ["de0e2debc59aab9f82672876c42c9d542f3bcb18", 3]],
     ["rcap-il-guidance-implementation", ["fd8d51980cab60c67aa13de01da80035a3d7a6a0", 4]],
     ["rcap-pa-guidance-implementation", ["8b996476aa44899b07643546688c60a2cbd09771", 3]],
+    ["rcap-mo-guidance-implementation", ["1b598a7df58249d8d15dd3de207fc10ea186d723", 2]],
+    ["rcap-fl-guidance-implementation", ["c20febac8959dd4345e678bd36bf56b5ed128f8a", 1]],
+    ["rcap-ar-guidance-implementation", ["9a1930abbc0c15bf771b6c10170db982f859759a", 1]],
     ["rcap-co-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition", ["6afe0d989bb079dbd1eab377b0547b9b6908d902", null]],
     ["rcap-ak-public-official-download", ["4acded00a77584b0ea9c9f00e490e2a6a92dd033", null]],
     ["rcap-me-public-official-download", ["6912e16bc73dbb85612dc5ede86c6a472e5c1e91", null]],
@@ -533,8 +536,8 @@ await check("all normalized tracks reconcile exactly once and completed tranches
   const reconciliation = plan.trackReconciliation;
   assert.equal(reconciliation.normalizedTracks, 260);
   assert.equal(reconciliation.representedExactlyOnce, 260);
-  assert.equal(reconciliation.implementationComplete, 69);
-  assert.equal(reconciliation.pendingProductionJob, 191);
+  assert.equal(reconciliation.implementationComplete, 73);
+  assert.equal(reconciliation.pendingProductionJob, 187);
 
   const implementationLanes = new Set([
     "custom_pleading",
@@ -2378,7 +2381,7 @@ await check("completed guidance packet proofs are exact and review-consumable", 
       entry.lane === "guidance_implementation" &&
       entry.participantPacketProofRequired === true
   );
-  assert.equal(completedGuidance.length, 13);
+  assert.equal(completedGuidance.length, 16);
   for (const job of completedGuidance) {
     const proofPath =
       `data/record-clearing/production-factory/packet-proofs/${job.jobId}.json`;
@@ -2488,8 +2491,8 @@ await check("dashboard reports all 51 and preserves the red launch posture", () 
   assert.equal(status.totals.jurisdictions, 51);
   assert.equal(status.totals.tracks, 260);
   assert.equal(status.totals.normalized, 260);
-  assert.equal(status.totals.implementationComplete, 19);
-  assert.equal(status.totals.technicalProofPassed, 19);
+  assert.equal(status.totals.implementationComplete, 23);
+  assert.equal(status.totals.technicalProofPassed, 23);
   assert.equal(status.totals.visualProofPassed, 17);
   assert.equal(status.totals.legalRecommendationComplete, 19);
   assert.equal(status.totals.counselAdopted, 15);

@@ -82,6 +82,7 @@ export async function generateJobReviewArtifacts(
     focusedValidation = validateJobWorkspace(job, {
       rootDir: root,
       changedPaths: validationScope === "integration" ? [] : undefined,
+      validationScope,
       runCommands: true,
       requireExpectedOutputs: true
     });

@@ -343,6 +343,39 @@ const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
       "pa_acquittal_auto",
       "pa_ard_expungement"
     ]
+  },
+  {
+    jurisdiction: "MO",
+    completionCommit: "1b598a7df58249d8d15dd3de207fc10ea186d723",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/missouri/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-missouri-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: [
+      "mo-610-105-automatic-closure",
+      "mo-610-141-automatic-drug"
+    ]
+  },
+  {
+    jurisdiction: "FL",
+    completionCommit: "c20febac8959dd4345e678bd36bf56b5ed128f8a",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/florida/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-florida-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: ["fl-auto-seal"]
+  },
+  {
+    jurisdiction: "AR",
+    completionCommit: "9a1930abbc0c15bf771b6c10170db982f859759a",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/arkansas/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-arkansas-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: ["ar-preadjudication-probation"]
   }
 ]);
 const GUIDANCE_TYPED_STOP_TRACKS = new Set([

@@ -371,6 +371,7 @@ export function validateJobWorkspace(
     rootDir = process.cwd(),
     baselineCommit,
     changedPaths,
+    validationScope = "focused",
     runCommands = true,
     requireExpectedOutputs = true
   } = {}
@@ -518,7 +519,7 @@ export function validateJobWorkspace(
     for (const commandEntry of focusedCommands) {
       const result = runManifestCommand(root, commandEntry, {
         RCAP_FACTORY_JOB_ID: job.jobId,
-        RCAP_FACTORY_VALIDATION_SCOPE: "focused"
+        RCAP_FACTORY_VALIDATION_SCOPE: validationScope
       });
       commandResults.push(result);
       if (!result.passed) {

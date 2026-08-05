@@ -80,7 +80,11 @@ const verification = spawnSync(
   {
     cwd: ROOT,
     encoding: "utf8",
-    maxBuffer: 16 * 1024 * 1024
+    maxBuffer: 16 * 1024 * 1024,
+    env: {
+      ...process.env,
+      RCAP_FACTORY_VALIDATION_SCOPE: "integration"
+    }
   }
 );
 if (verification.status !== 0) {
