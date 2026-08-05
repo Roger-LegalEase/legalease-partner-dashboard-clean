@@ -686,7 +686,7 @@ try {
     );
   });
 
-  await check("factory official-PDF work stays blocked on exact local verification", async () => {
+  await check("factory official-PDF readiness reconciles exact receipts and typed blockers", async () => {
     const plan = await loadFactoryPlan({ root: ROOT, rootDir: ROOT });
     const foundation = plan.jobs.find(
       (job) =>
@@ -700,8 +700,31 @@ try {
         ["planned", "ready", "blocked", "in_progress"].includes(job.status)
     );
     assert.ok(officialJobs.length > 0);
+    const projection = readJson(
+      "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json"
+    );
+    const identityByKey = new Map(
+      projection.identities.map((identity) => [
+        identity.identityKey,
+        identity
+      ])
+    );
+    const assignedIdentityKeys = officialJobs.flatMap(
+      (job) => job.officialPdfAssignment.identityKeys
+    );
+    assert.deepEqual(
+      [...assignedIdentityKeys].sort(),
+      projection.identities
+        .filter((identity) => identity.assignmentEligible)
+        .map((identity) => identity.identityKey)
+        .sort()
+    );
+    assert.equal(
+      new Set(assignedIdentityKeys).size,
+      assignedIdentityKeys.length
+    );
+    const verifiedIdentityKeys = [];
     for (const job of officialJobs) {
-      assert.equal(job.status, "blocked", job.jobId);
       assert.ok(
         job.dependencies.includes(
           "rcap-nationwide-source-materialization-contract"
@@ -709,7 +732,58 @@ try {
         job.jobId
       );
       assert.ok(job.sourceMaterializationInputs.length > 0, job.jobId);
+      assert.equal(
+        job.officialPdfAssignment.runtimeDisabledInvariant,
+        true,
+        job.jobId
+      );
+      assert.equal(
+        job.officialPdfAssignment.workerMayAcquireOrMaterializeSources,
+        false,
+        job.jobId
+      );
       for (const source of job.sourceMaterializationInputs) {
+        const identity = identityByKey.get(source.sourceIdentityKey);
+        assert.ok(identity, source.sourceIdentityKey);
+        assert.equal(
+          identity.assignmentEligible,
+          true,
+          source.sourceIdentityKey
+        );
+        assert.equal(
+          identity.disposition,
+          "exact_worker_assignable",
+          source.sourceIdentityKey
+        );
+        assert.equal(identity.jurisdiction, job.jurisdiction);
+        assert.equal(
+          identity.officialDocument.documentId,
+          source.documentId
+        );
+        assert.equal(
+          identity.officialDocument.documentRole,
+          source.documentRole
+        );
+        assert.equal(
+          identity.exactSourceContract.archiveRelativePath,
+          source.canonicalAuthorityPath
+        );
+        assert.equal(
+          identity.exactSourceContract.expectedSha256,
+          source.expectedSha256
+        );
+        assert.equal(
+          identity.exactSourceContract.expectedBytes,
+          source.expectedBytes
+        );
+        assert.equal(
+          identity.exactSourceContract.expectedMime,
+          source.expectedMediaType
+        );
+        assert.equal(
+          identity.exactSourceContract.materializationDestination,
+          source.materializationDestination
+        );
         assert.equal(
           source.materializationState,
           source.workerReadiness === "worker_ready"
@@ -770,7 +844,151 @@ try {
           source.verificationCommand,
           /^node scripts\/verify-rcap-materialized-source\.mjs --source-identity-key /u
         );
+        if (source.workerReadiness === "worker_ready") {
+          verifiedIdentityKeys.push(source.sourceIdentityKey);
+          assert.equal(
+            source.materializationState,
+            "binary_materialized_hash_verified"
+          );
+          assert.equal(source.provenance.freshLocalVerification, true);
+          assert.equal(
+            source.provenance.localVerificationState,
+            "fresh_local_hash_size_mime_boundary_and_receipt_verified"
+          );
+          const receipt = readJson(source.receiptOutput);
+          assert.equal(
+            receipt.schemaVersion,
+            "rcap-source-materialization-result/v1"
+          );
+          assert.equal(receipt.assignmentJobId, job.jobId);
+          assert.equal(receipt.authorityEdition, source.authorityEdition);
+          assert.equal(
+            receipt.authorityArchiveSha256,
+            source.authorityArchiveSha256
+          );
+          assert.equal(receipt.jurisdiction, source.jurisdiction);
+          assert.equal(receipt.documentId, source.documentId);
+          assert.equal(receipt.documentRole, source.documentRole);
+          assert.equal(
+            receipt.canonicalAuthorityPath,
+            source.canonicalAuthorityPath
+          );
+          assert.equal(receipt.expectedSha256, source.expectedSha256);
+          assert.equal(receipt.actualSha256, source.expectedSha256);
+          assert.equal(receipt.expectedBytes, source.expectedBytes);
+          assert.equal(receipt.actualBytes, source.expectedBytes);
+          assert.equal(receipt.expectedMediaType, source.expectedMediaType);
+          assert.equal(receipt.actualMediaType, source.expectedMediaType);
+          assert.equal(receipt.portableLocator, source.portableLocator);
+          assert.equal(
+            receipt.materializationDestination,
+            source.materializationDestination
+          );
+          assert.equal(receipt.localVerificationBasis, "freshly_verified_local_bytes");
+          assert.equal(receipt.state, "worker_ready");
+          assert.deepEqual(receipt.states, [
+            "authority_asset_known",
+            "registry_metadata_present",
+            "binary_materialized",
+            "binary_hash_verified",
+            "worker_read_authorized",
+            "worker_ready"
+          ]);
+          assert.equal(receipt.actualMode, 0o444);
+          assert.equal(receipt.hashAndMediaVerified, true);
+          assert.equal(receipt.workerReady, true);
+          assert.equal(receipt.ready, true);
+          assert.equal(receipt.provenance.freshLocalVerification, true);
+          assert.equal(
+            receipt.provenance.registryPresenceConfersReadiness,
+            false
+          );
+          assert.deepEqual(receipt.usageBindings, source.usageBindings);
+          assert.equal(
+            receipt.receiptSha256,
+            canonicalJsonSha256(
+              Object.fromEntries(
+                Object.entries(receipt).filter(
+                  ([key]) =>
+                    key !== "receiptSha256" &&
+                    key !== "materializationAction"
+                )
+              )
+            )
+          );
+        } else {
+          assert.equal(
+            source.materializationState,
+            "binary_materialization_required"
+          );
+          assert.equal(source.provenance.freshLocalVerification, false);
+        }
       }
+      const materializationReady =
+        job.sourceMaterializationInputs.length ===
+          job.officialPdfAssignment.identityKeys.length &&
+        job.sourceMaterializationInputs.every(
+          (source) =>
+            source.materializationState ===
+              "binary_materialized_hash_verified" &&
+            source.workerReadiness === "worker_ready" &&
+            source.provenance.freshLocalVerification === true
+        );
+      const projectionBlockers =
+        job.officialPdfAssignment.identityKeys.flatMap(
+          (identityKey) =>
+            identityByKey
+              .get(identityKey)
+              .assignmentBlockers.filter(
+                (blocker) =>
+                  blocker !==
+                    "exact_source_archive_not_materialized" ||
+                  !materializationReady
+              )
+        );
+      const terminalBlockers =
+        job.officialPdfAssignment.unresolvedOrTerminalIdentities.map(
+          (identity) => identity.disposition
+        );
+      const dependencyBlockers = job.dependencies
+        .filter(
+          (dependencyId) =>
+            plan.jobs.find(
+              (candidate) => candidate.jobId === dependencyId
+            )?.status !== "completed"
+        )
+        .map((dependencyId) => `dependency_incomplete:${dependencyId}`);
+      const expectedBlockers = [
+        ...new Set([
+          ...projectionBlockers,
+          ...terminalBlockers,
+          ...dependencyBlockers
+        ])
+      ].sort();
+      assert.deepEqual(
+        job.officialPdfAssignment.assignmentBlockers,
+        expectedBlockers,
+        job.jobId
+      );
+      const expectedReady =
+        materializationReady &&
+        job.officialPdfAssignment.unresolvedOrTerminalIdentities.length ===
+          0 &&
+        expectedBlockers.length === 0;
+      assert.equal(
+        job.status,
+        expectedReady ? "ready" : "blocked",
+        job.jobId
+      );
+      assert.equal(
+        job.officialPdfAssignment.assignmentState,
+        expectedReady
+          ? "exact_pinned_assignment_worker_ready"
+          : materializationReady
+            ? "exact_pinned_assignment_blocked_non_source_dependencies"
+            : "exact_pinned_assignment_blocked_external_materialization",
+        job.jobId
+      );
     }
     const registry = readJson(
       "data/record-clearing/source-artifact-registry.json"
@@ -779,9 +997,46 @@ try {
       registry.artifacts.some((artifact) => artifact.presence === "present")
     );
     assert.equal(
-      officialJobs.some((job) => job.status === "ready"),
-      false,
-      "registry presence must not create worker readiness"
+      new Set(verifiedIdentityKeys).size,
+      verifiedIdentityKeys.length,
+      "one exact receipt may materialize only one assigned identity"
+    );
+    assert.equal(
+      plan.materializationPlanning.officialPdfChildren.materializedSources,
+      verifiedIdentityKeys.length
+    );
+    assert.equal(
+      plan.materializationPlanning.officialPdfChildren.workerReadyFamilies,
+      new Set(
+        officialJobs
+          .filter((job) => job.status === "ready")
+          .map((job) => job.jurisdiction)
+      ).size
+    );
+    assert.equal(
+      plan.materializationPlanning.officialPdfChildren.blockedFamilies,
+      new Set(
+        officialJobs
+          .filter((job) => job.status === "blocked")
+          .map((job) => job.jurisdiction)
+      ).size
+    );
+    assert.deepEqual(
+      fs
+        .readdirSync(
+          path.join(
+            ROOT,
+            "data/record-clearing/production-factory/source-materialization-receipts"
+          ),
+          { withFileTypes: true }
+        )
+        .filter((entry) => entry.isFile() && entry.name.endsWith(".json"))
+        .map((entry) => entry.name)
+        .sort(),
+      verifiedIdentityKeys
+        .map((identityKey) => `${identityKey}.json`)
+        .sort(),
+      "only exact worker-assignable identities may have verified receipts"
     );
   });
 

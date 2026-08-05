@@ -28,6 +28,36 @@ const fileSha256 = (relativePath) =>
     .createHash("sha256")
     .update(fs.readFileSync(path.join(ROOT, relativePath)))
     .digest("hex");
+const sourceReceiptSha256 = (receipt) =>
+  crypto
+    .createHash("sha256")
+    .update(
+      canonicalJson(
+        Object.fromEntries(
+          Object.entries(receipt).filter(
+            ([key]) =>
+              key !== "receiptSha256" &&
+              key !== "materializationAction"
+          )
+        )
+      )
+    )
+    .digest("hex");
+const canonicalJson = (value) => {
+  if (Array.isArray(value)) {
+    return `[${value.map(canonicalJson).join(",")}]`;
+  }
+  if (value && typeof value === "object") {
+    return `{${Object.keys(value)
+      .sort()
+      .map(
+        (key) =>
+          `${JSON.stringify(key)}:${canonicalJson(value[key])}`
+      )
+      .join(",")}}`;
+  }
+  return JSON.stringify(value);
+};
 
 const productionPlan = readJson(
   "planning/record-clearing-100-percent/production-plan.json"
@@ -525,9 +555,16 @@ assert.equal(
 );
 assert.equal(
   officialPdfSourceContract.totals.materializationBlockedFamilies,
-  25
+  officialPdfSourceContract.families.filter(
+    (family) => family.workerReady === false
+  ).length
 );
-assert.equal(officialPdfSourceContract.totals.workerReadyFamilies, 0);
+assert.equal(
+  officialPdfSourceContract.totals.workerReadyFamilies,
+  officialPdfSourceContract.families.filter(
+    (family) => family.workerReady === true
+  ).length
+);
 assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 48);
 assert.equal(
   officialPdfSourceContract.verifierBoundary.packetWorkerMaterializationPaths,
@@ -598,9 +635,35 @@ assert.equal(
   productionPlan.officialPdfSourceContractIntegration.activatedRendererCount,
   0
 );
+const readyOfficialPdfFamilies = new Set(
+  factoryPlan.jobs
+    .filter(
+      (child) =>
+        (child.officialPdfAssignment?.identityKeys?.length ?? 0) > 0 &&
+        child.status === "ready"
+    )
+    .map((child) => child.jurisdiction)
+);
+const blockedOfficialPdfFamilies = new Set(
+  factoryPlan.jobs
+    .filter(
+      (child) =>
+        (child.officialPdfAssignment?.identityKeys?.length ?? 0) > 0 &&
+        child.status === "blocked"
+    )
+    .map((child) => child.jurisdiction)
+);
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration.workerReadyFamilies,
-  0
+  readyOfficialPdfFamilies.size
+);
+assert.equal(
+  productionPlan.materializationPlanning.officialPdfAssignment.readyFamilies,
+  readyOfficialPdfFamilies.size
+);
+assert.equal(
+  productionPlan.materializationPlanning.officialPdfAssignment.blockedFamilies,
+  blockedOfficialPdfFamilies.size
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration.runtimeStatus,
@@ -667,16 +730,173 @@ assert.equal(
   2
 );
 for (const child of exactOfficialPdfChildren) {
-  assert.equal(child.status, "blocked", child.jobId);
   assert.ok(child.sourceMaterializationInputs.length > 0, child.jobId);
+  assert.equal(
+    child.officialPdfAssignment.runtimeDisabledInvariant,
+    true,
+    child.jobId
+  );
+  assert.equal(
+    child.officialPdfAssignment.workerMayAcquireOrMaterializeSources,
+    false,
+    child.jobId
+  );
+  const materializationReady =
+    child.sourceMaterializationInputs.length ===
+      child.officialPdfAssignment.identityKeys.length &&
+    child.sourceMaterializationInputs.every(
+      (input) =>
+        input.materializationState ===
+          "binary_materialized_hash_verified" &&
+        input.workerReadiness === "worker_ready" &&
+        input.provenance.freshLocalVerification === true
+    );
+  const projectionBlockers =
+    child.officialPdfAssignment.identityKeys.flatMap((identityKey) => {
+      const identity = officialPdfSourceProjection.identities.find(
+        (candidate) => candidate.identityKey === identityKey
+      );
+      assert.ok(identity, identityKey);
+      assert.equal(identity.assignmentEligible, true, identityKey);
+      return identity.assignmentBlockers.filter(
+        (blocker) =>
+          blocker !== "exact_source_archive_not_materialized" ||
+          !materializationReady
+      );
+    });
+  const terminalBlockers =
+    child.officialPdfAssignment.unresolvedOrTerminalIdentities.map(
+      (identity) => identity.disposition
+    );
+  const dependencyBlockers = child.dependencies
+    .filter(
+      (dependencyId) =>
+        factoryPlan.jobs.find(
+          (candidate) => candidate.jobId === dependencyId
+        )?.status !== "completed"
+    )
+    .map((dependencyId) => `dependency_incomplete:${dependencyId}`);
+  const expectedBlockers = [
+    ...new Set([
+      ...projectionBlockers,
+      ...terminalBlockers,
+      ...dependencyBlockers
+    ])
+  ].sort();
+  assert.deepEqual(
+    child.officialPdfAssignment.assignmentBlockers,
+    expectedBlockers,
+    child.jobId
+  );
+  const expectedReady =
+    materializationReady &&
+    child.officialPdfAssignment.unresolvedOrTerminalIdentities.length ===
+      0 &&
+    expectedBlockers.length === 0;
+  assert.equal(
+    child.status,
+    expectedReady ? "ready" : "blocked",
+    child.jobId
+  );
+  assert.equal(
+    child.officialPdfAssignment.assignmentState,
+    expectedReady
+      ? "exact_pinned_assignment_worker_ready"
+      : materializationReady
+        ? "exact_pinned_assignment_blocked_non_source_dependencies"
+        : "exact_pinned_assignment_blocked_external_materialization",
+    child.jobId
+  );
   for (const input of child.sourceMaterializationInputs) {
+    const identity = officialPdfSourceProjection.identities.find(
+      (candidate) =>
+        candidate.identityKey === input.sourceIdentityKey
+    );
+    assert.ok(identity, input.sourceIdentityKey);
+    assert.equal(identity.assignmentEligible, true);
+    assert.equal(identity.disposition, "exact_worker_assignable");
+    assert.equal(identity.jurisdiction, child.jurisdiction);
+    assert.equal(
+      identity.officialDocument.documentId,
+      input.documentId
+    );
+    assert.equal(
+      identity.officialDocument.documentRole,
+      input.documentRole
+    );
+    assert.equal(
+      identity.exactSourceContract.archiveRelativePath,
+      input.canonicalAuthorityPath
+    );
+    assert.equal(
+      identity.exactSourceContract.expectedSha256,
+      input.expectedSha256
+    );
+    assert.equal(
+      identity.exactSourceContract.expectedBytes,
+      input.expectedBytes
+    );
+    assert.equal(
+      identity.exactSourceContract.expectedMime,
+      input.expectedMediaType
+    );
+    assert.equal(
+      identity.exactSourceContract.materializationDestination,
+      input.materializationDestination
+    );
     if (
       input.materializationState ===
       "binary_materialized_hash_verified"
     ) {
-      assert.equal(input.documentId, "CC-DC-CR-148");
       assert.equal(input.workerReadiness, "worker_ready");
       assert.equal(input.provenance.freshLocalVerification, true);
+      assert.equal(
+        input.provenance.localVerificationState,
+        "fresh_local_hash_size_mime_boundary_and_receipt_verified"
+      );
+      const receipt = readJson(input.receiptOutput);
+      assert.equal(
+        receipt.schemaVersion,
+        "rcap-source-materialization-result/v1"
+      );
+      assert.equal(receipt.assignmentJobId, child.jobId);
+      assert.equal(receipt.authorityEdition, input.authorityEdition);
+      assert.equal(
+        receipt.authorityArchiveSha256,
+        input.authorityArchiveSha256
+      );
+      assert.equal(receipt.jurisdiction, input.jurisdiction);
+      assert.equal(receipt.documentId, input.documentId);
+      assert.equal(receipt.documentRole, input.documentRole);
+      assert.equal(
+        receipt.canonicalAuthorityPath,
+        input.canonicalAuthorityPath
+      );
+      assert.equal(receipt.expectedSha256, input.expectedSha256);
+      assert.equal(receipt.actualSha256, input.expectedSha256);
+      assert.equal(receipt.expectedBytes, input.expectedBytes);
+      assert.equal(receipt.actualBytes, input.expectedBytes);
+      assert.equal(receipt.expectedMediaType, input.expectedMediaType);
+      assert.equal(receipt.actualMediaType, input.expectedMediaType);
+      assert.equal(receipt.portableLocator, input.portableLocator);
+      assert.equal(
+        receipt.materializationDestination,
+        input.materializationDestination
+      );
+      assert.equal(receipt.actualMode, 0o444);
+      assert.equal(receipt.hashAndMediaVerified, true);
+      assert.equal(receipt.workerReady, true);
+      assert.equal(receipt.ready, true);
+      assert.equal(receipt.provenance.freshLocalVerification, true);
+      assert.equal(
+        receipt.provenance.registryPresenceConfersReadiness,
+        false
+      );
+      assert.deepEqual(receipt.usageBindings, input.usageBindings);
+      assert.equal(
+        receipt.receiptSha256,
+        sourceReceiptSha256(receipt)
+      );
     } else {
       assert.equal(
         input.materializationState,
@@ -690,6 +910,43 @@ for (const child of exactOfficialPdfChildren) {
     }
   }
 }
+const verifiedOfficialPdfIdentityKeys = exactOfficialPdfChildren.flatMap(
+  (child) =>
+    child.sourceMaterializationInputs
+      .filter(
+        (input) =>
+          input.materializationState ===
+            "binary_materialized_hash_verified" &&
+          input.workerReadiness === "worker_ready" &&
+          input.provenance.freshLocalVerification === true
+      )
+      .map((input) => input.sourceIdentityKey)
+);
+assert.equal(
+  new Set(verifiedOfficialPdfIdentityKeys).size,
+  verifiedOfficialPdfIdentityKeys.length
+);
+assert.equal(
+  productionPlan.officialPdfSourceContractIntegration
+    .materializedSourceCount,
+  verifiedOfficialPdfIdentityKeys.length
+);
+assert.deepEqual(
+  fs
+    .readdirSync(
+      path.join(
+        ROOT,
+        "data/record-clearing/production-factory/source-materialization-receipts"
+      ),
+      { withFileTypes: true }
+    )
+    .filter((entry) => entry.isFile() && entry.name.endsWith(".json"))
+    .map((entry) => entry.name)
+    .sort(),
+  verifiedOfficialPdfIdentityKeys
+    .map((identityKey) => `${identityKey}.json`)
+    .sort()
+);
 const paNormalization = factoryPlan.jobs.find(
   (entry) => entry.jobId === "rcap-pa-legal-design-normalization"
 );
@@ -1776,7 +2033,7 @@ assert.equal(
 assert.equal(activeMarylandImplementation[0].status, "blocked");
 assert.equal(
   activeMarylandImplementation[0].officialPdfAssignment.assignmentState,
-  "exact_pinned_assignment_blocked_external_materialization"
+  "exact_pinned_assignment_blocked_non_source_dependencies"
 );
 assert.equal(
   activeMarylandImplementation[0].trackIds.includes("md_second_chance_shielding"),

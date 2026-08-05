@@ -3453,7 +3453,9 @@ function applyOfficialPdfAssignments({
     assignment.assignmentState = ready
       ? "exact_pinned_assignment_worker_ready"
       : assignment.identityKeys.length > 0
-        ? "exact_pinned_assignment_blocked_external_materialization"
+        ? materializationReady
+          ? "exact_pinned_assignment_blocked_non_source_dependencies"
+          : "exact_pinned_assignment_blocked_external_materialization"
         : "blocked_no_exact_identity_assignment";
     job.status = ready ? "ready" : "blocked";
   }

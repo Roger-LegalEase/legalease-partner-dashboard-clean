@@ -828,7 +828,18 @@ export async function loadAssignedMaterializationRequirement({
       (artifact.measuredSha256 ?? artifact.inventorySha256) ===
         claim.expectedSha256
   );
-  const artifacts = uniqueCanonicalObjects(artifactCandidates);
+  let artifacts = uniqueCanonicalObjects(artifactCandidates);
+  if (projectionBound && artifacts.length !== 1) {
+    const freshlyMeasured = artifacts.filter(
+      (artifact) =>
+        artifact.presence === "present" &&
+        artifact.hashState === "match" &&
+        artifact.measuredSha256 === claim.expectedSha256
+    );
+    if (freshlyMeasured.length === 1) {
+      artifacts = freshlyMeasured;
+    }
+  }
   if (artifacts.length !== 1) {
     throw contractError(
       "unknown_source_identity",

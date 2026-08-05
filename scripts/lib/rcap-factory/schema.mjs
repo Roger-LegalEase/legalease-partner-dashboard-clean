@@ -674,9 +674,27 @@ function validateSourceMaterializationInputs(job, issues) {
       input?.materializationState === "binary_materialized_hash_verified" &&
       input?.workerReadiness === "worker_ready"
   );
-  if (ready && job.status === "blocked") {
+  const typedNonMaterializationBlockers = (
+    job.officialPdfAssignment?.assignmentBlockers ?? []
+  ).filter(
+    (blocker) => blocker !== "exact_source_archive_not_materialized"
+  );
+  if (
+    ready &&
+    job.status === "blocked" &&
+    typedNonMaterializationBlockers.length === 0
+  ) {
     issues.push(
-      "an official-PDF job with all binaries hash-verified may not remain blocked on materialization."
+      "an official-PDF job with all binaries hash-verified may remain blocked only on typed non-materialization blockers."
+    );
+  }
+  if (
+    ready &&
+    job.status === "ready" &&
+    (job.officialPdfAssignment?.assignmentBlockers?.length ?? 0) > 0
+  ) {
+    issues.push(
+      "a ready official-PDF job may not retain assignment blockers."
     );
   }
   if (!ready && job.status !== "blocked") {

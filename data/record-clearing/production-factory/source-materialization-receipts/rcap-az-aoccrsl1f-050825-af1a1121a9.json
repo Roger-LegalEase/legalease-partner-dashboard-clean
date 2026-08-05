@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "rcap-source-materialization-result/v1",
+  "authorityEdition": "master-library/1.2",
+  "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+  "jurisdiction": "AZ",
+  "documentId": "AOCCRSL1F-050825",
+  "documentRole": "PETITION",
+  "canonicalAuthorityPath": "STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+  "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase Arizona/forms/AOCCRSL1F-050825__petition-to-seal-criminal-case-records.pdf",
+  "expectedSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+  "expectedBytes": 299110,
+  "expectedMediaType": "application/pdf",
+  "portableLocator": "attorney-review-package://STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+  "portableLocatorSha256": "9cbbfd1f1b5ad2cb0e9817d7940dab4846957d0679e196df4971e095d8bdf850",
+  "materializationDestination": "official-pdf/AZ/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+  "locatorScheme": "attorney-review-package",
+  "readOnlyTreatment": "worker_read_only_no_modify",
+  "retentionPolicy": "retain_until_worker_integration_then_captain_managed_cleanup",
+  "expectedMeasurementBasis": "carried_forward_registry_measurement",
+  "identityBindingStatus": "exact_pinned_identity",
+  "verificationCommand": "node scripts/verify-rcap-materialized-source.mjs --source-identity-key rcap-az-aoccrsl1f-050825-af1a1121a9 --sha256 32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05 --bytes 299110",
+  "assignmentJobId": "rcap-az-acroform-fill",
+  "assignmentBaseCommit": "f446d06c1d9b64071625f32e8e99a1c244315112",
+  "assignmentManifestSha256": "dc1c8112038e6d088df87a3c42a28a5588eb9232ab309a7616eaca63676ef0c0",
+  "localVerificationBasis": "freshly_verified_local_bytes",
+  "state": "worker_ready",
+  "states": [
+    "authority_asset_known",
+    "registry_metadata_present",
+    "binary_materialized",
+    "binary_hash_verified",
+    "worker_read_authorized",
+    "worker_ready"
+  ],
+  "actualSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+  "actualBytes": 299110,
+  "actualMediaType": "application/pdf",
+  "actualMode": 292,
+  "hashAndMediaVerified": true,
+  "workerReady": true,
+  "ready": true,
+  "usageBindings": [
+    {
+      "trackId": "az_record_sealing_arrest_no_charges",
+      "componentId": "az_record_sealing_arrest_no_charges-primary-filing-1"
+    },
+    {
+      "trackId": "az_record_sealing_conviction",
+      "componentId": "az_record_sealing_conviction-primary-filing-1"
+    },
+    {
+      "trackId": "az_record_sealing_dismissal_not_guilty",
+      "componentId": "az_record_sealing_dismissal_not_guilty-primary-filing-1"
+    }
+  ],
+  "provenance": {
+    "projectionPath": "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json",
+    "sourceIdentityKey": "rcap-az-aoccrsl1f-050825-af1a1121a9",
+    "freshLocalVerification": true,
+    "localVerificationState": "materialized_source_absent",
+    "registryPresenceConfersReadiness": false,
+    "registryPath": "data/record-clearing/source-artifact-registry.json",
+    "registryArtifactId": "aoccrsl1f-050825-petition-to-seal-criminal-case-records",
+    "registryPresence": "present",
+    "registryHashState": "match",
+    "sourcePackage": "LegalEase_Missing_Forms_Batch_1_Repo_Ready_v2",
+    "sourceManifest": "RENAME_MANIFEST.csv"
+  },
+  "materializationAction": "verified_existing_binary",
+  "receiptSha256": "1e9901a262ce4aa64cbacb3ede29fdca0c0d2fdb41bae456e97d317b76af299e"
+}
