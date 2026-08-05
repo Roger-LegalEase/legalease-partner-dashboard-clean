@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "note": "Approved composed-unit substance. Read on every batch-delta run and written only by --approve-composed-units. A composed route has no track-level renderer strategy, so this file is where its legal substance is pinned: which vehicle each unit files, which units are unresolved, which are available, and — for a sequential composition — what order the stages run in. Alternative-branch array order is deliberately not pinned; those branches are selected by a predicate, not by position.",
-  "approvedTracks": 25,
+  "approvedTracks": 26,
   "tracks": [
     {
       "jurisdiction": "AR",
@@ -871,6 +871,51 @@
       "sequence": [
         "mt-mmrta-serving-court-petition",
         "mt-mmrta-serving-criss-submission"
+      ]
+    },
+    {
+      "jurisdiction": "SD",
+      "trackId": "sd_arrest_expungement",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "sequential",
+      "orderIsSubstantive": true,
+      "counselAuthoredProvenanceCount": 16,
+      "units": [
+        {
+          "unitId": "sd-arrest-stage-1-record-gathering",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "sd-arrest-stage-2-ujs-motion-packet",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "sd-arrest-stage-3-filing-service-and-notice-of-entry",
+          "order": 3,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": [
+        "sd-arrest-stage-1-record-gathering",
+        "sd-arrest-stage-2-ujs-motion-packet",
+        "sd-arrest-stage-3-filing-service-and-notice-of-entry"
       ]
     }
   ]
