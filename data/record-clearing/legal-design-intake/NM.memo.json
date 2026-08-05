@@ -1,0 +1,2591 @@
+{
+  "schemaVersion": 1,
+  "jurisdiction": "NM",
+  "memoVersion": "1.0.0",
+  "submittedAt": "2026-08-05T00:00:00.000Z",
+  "tracks": [
+    {
+      "trackId": "nm_identity_theft",
+      "legalName": "Petition to Expunge Arrest Records and Public Records; Identity Theft, NMSA 1978 § 29-3A-3",
+      "publicName": "Clear a New Mexico record that is not yours",
+      "controllingAuthority": {
+        "citations": [
+          "NMSA 1978 § 29-3A-3",
+          "Rule 1-077.1 NMRA",
+          "Form 4-951 NMRA",
+          "Supreme Court Order No. 21-8300-033"
+        ],
+        "summary": "On a showing that the person is a victim of identity theft and was wrongly identified in arrest records or public records, the court must order expungement of the arrest records and public records and must cause the order to be delivered to the relevant law enforcement agencies and courts. Use of Form 4-951 NMRA is mandatory under Rule 1-077.1(D) and (M). Service is not required for this track under Rule 1-077.1(E), and Rule 1-077.1(J) permits the court to decide on the pleadings where no objection is filed."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2022-01-28",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "arrest_record",
+        "public_record"
+      ],
+      "eligibleDispositions": [
+        "wrongly_identified_identity_theft"
+      ],
+      "exclusions": [
+        "New Mexico district courts cannot expunge records of another state or federal records."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Person wrongly identified in arrest records or public records as a result of identity theft",
+          "duration": "none"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The district court of the county where the charges originated, or the arrest occurred, or a conviction was entered. An expungement proceeding is a civil petition filed in district court even where the underlying case was in municipal, magistrate or metropolitan court, and even where no case was ever filed."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "New Mexico district court for the county where the charges originated, the arrest occurred, or a conviction was entered",
+        "detail": "Civil petition filed in district court. No service is required for this track under Rule 1-077.1(E). The court may decide on the pleadings where no objection is filed."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "NM-4-951",
+          "officialSourceUrl": "https://www.nmcourts.gov/self-help/expungement/",
+          "notes": "Form 4-951 NMRA, Petition to expunge arrest records and public records; identity theft. Mandatory under Rule 1-077.1(D) and (M). Retained in Edition 1.2 as NM-4-951 in the PETITION role."
+        },
+        {
+          "role": "notice_of_hearing",
+          "requirement": "conditional",
+          "conditionDescription": "Where the local district packet requires a Notice of Hearing to accompany the petition.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "NM-4-960.1",
+          "officialSourceUrl": "https://www.nmcourts.gov/self-help/expungement/",
+          "notes": "A Notice of Hearing is retained in Edition 1.2 as NM-4-960.1. The review does not itself assign that form number to this track; it refers only to 'notice of hearing and order forms, per the local packet'. The hearing time and location are left blank because the court supplies them."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "NM-LOCAL-IDENTITY-THEFT-ORDER",
+          "officialSourceUrl": "https://www.nmcourts.gov/self-help/expungement/",
+          "notes": "Local identity-theft Order on Petition, retained in Edition 1.2 as NM-LOCAL-IDENTITY-THEFT-ORDER. Only the caption is completed; the New Mexico Judiciary packet states the court completes the rest. The order must never name an alleged identity thief: Rule 1-077.1 deliberately omits the § 29-3A-3(D) requirement to insert the true offender's name, because naming that person in a civil proceeding without notice to them would violate due process."
+        },
+        {
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant cannot pay the district court filing fee and seeks free process.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "NM-4-222",
+          "officialSourceUrl": "https://www.nmcourts.gov/self-help/expungement/",
+          "notes": "Form 4-222 NMRA, Application for Free Process and Affidavit of Indigency, retained in Edition 1.2 as NM-4-222. Whether the $132 fee applies to this track at all is unresolved."
+        },
+        {
+          "role": "participant_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Covers the district court venue rule, that no service is required on this track, that the court may decide on the pleadings, the order-timing consequences, and the express instruction that LegalEase will not name anyone as the true offender."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "fullLegalNameAndAliases",
+          "question": "What is your full legal name, and every other name you have used?",
+          "requirement": "required"
+        },
+        {
+          "key": "dateOfBirth",
+          "question": "What is your date of birth?",
+          "requirement": "required"
+        },
+        {
+          "key": "countyOfRecord",
+          "question": "In which New Mexico county did the charges originate, or the arrest occur, or the conviction get entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtCaseNumber",
+          "question": "What is the court case number of the record you say is not yours?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked where a case was actually filed. A petition may also be brought where no case was ever filed."
+        },
+        {
+          "key": "arrestDateAndAgency",
+          "question": "What was the arrest date, and which law enforcement agency made the arrest?",
+          "requirement": "required"
+        },
+        {
+          "key": "howMisidentified",
+          "question": "How were you wrongly identified in this record as a result of identity theft?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingChargeAnywhere",
+          "question": "Do you have any charge or proceeding pending anywhere right now?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Proof that you were the victim of identity theft",
+          "obtainedFrom": "Police report, court record, credit bureau or other issuing source, as applicable",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Gather whatever the district court will accept as proof that the record belongs to someone using your identity. What courts accept is not settled, so bring everything you have.",
+          "confirms": "howMisidentified"
+        },
+        {
+          "name": "Records showing the misidentified arrest or case",
+          "obtainedFrom": "The court where the case was heard, or the arresting agency",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Use the New Mexico Courts 'Find a Case' search and request certified copies from the court where the case was heard. Court copies run $0.35 per page.",
+          "confirms": "courtCaseNumber"
+        },
+        {
+          "name": "New Mexico DPS record of arrest and prosecutions",
+          "obtainedFrom": "New Mexico Department of Public Safety",
+          "requirement": "conditional",
+          "conditionDescription": "Where the district packet or the court asks for it to establish what the record shows.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Submit the DPS Authorization for Release of Information, notarized with an original signature, with a $15 money order or cashier's check."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature and date",
+          "whereInPacket": "Form 4-951, signature block",
+          "why": "The petition is signed by the petitioner."
+        },
+        {
+          "item": "Hearing time and location",
+          "whereInPacket": "Notice of Hearing, hearing details",
+          "why": "The New Mexico Judiciary packet states the court supplies them; leave them blank."
+        },
+        {
+          "item": "The body of the Order on Petition",
+          "whereInPacket": "Order on Petition, everything below the caption",
+          "why": "The Judiciary packet states the petitioner completes only the caption and the court completes the rest."
+        },
+        {
+          "item": "The identity of the person who used your identity",
+          "whereInPacket": "Order on Petition, anywhere",
+          "why": "Rule 1-077.1 deliberately omits the statutory requirement to insert the true offender's name. LegalEase must never draft it."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Rule 1-077.1 NMRA, Expungement of arrest records and public records, published by the New Mexico Compilation Commission",
+          "url": "https://nmonesource.com",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        },
+        {
+          "title": "Form 4-951 NMRA, Petition to expunge arrest records and public records; identity theft, retained Edition 1.2 asset NM-4-951",
+          "url": "https://www.nmcourts.gov/self-help/expungement/",
+          "retrievedOn": "2026-08-01",
+          "sha256": "b8a0dba2cd21f9fed317ccea57e568a360345608782cea2a3f0e34b769ae67e4"
+        },
+        {
+          "title": "Form 4-222 NMRA, Application for Free Process and Affidavit of Indigency, retained Edition 1.2 asset NM-4-222",
+          "url": "https://www.nmcourts.gov/self-help/expungement/",
+          "retrievedOn": "2026-08-01",
+          "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a"
+        },
+        {
+          "title": "Local Order on Petition to Expunge, identity theft, retained Edition 1.2 asset NM-LOCAL-IDENTITY-THEFT-ORDER",
+          "url": "https://www.nmcourts.gov/self-help/expungement/",
+          "retrievedOn": "2026-08-01",
+          "sha256": "80a70804dff453a8"
+        }
+      ],
+      "rules": {
+        "filing": "File the completed Form 4-951 as a civil petition in the district court for the county where the charges originated, the arrest occurred, or a conviction was entered. Bring copies for yourself and for the judge, and a self-addressed stamped envelope for the court to mail the notice of hearing.",
+        "fees": "$132 district court filing fee, payable by cash, cashier's check or money order at most courts. Whether that fee applies to this track is unresolved. Court copies run $0.35 per page; the DPS record check is $15.",
+        "feeWaiver": "Form 4-222 NMRA, Application for Free Process and Affidavit of Indigency.",
+        "notice": "No responding party is served on this track, so no objection window runs unless the court directs otherwise. Rule 1-077.1(J) permits a decision on the pleadings where no objection is filed.",
+        "service": "none. Service is not required for this track under Rule 1-077.1(E).",
+        "participantSignature": "The petitioner signs the petition. The DPS Authorization for Release of Information, if used, requires a notarized original signature.",
+        "notarization": "none on the petition itself. The DPS Authorization for Release of Information must be notarized with an original signature."
+      },
+      "selfHelpStopConditions": [
+        "Any dispute about whether the participant is the subject of the record.",
+        "Any suggestion that LegalEase name the true offender.",
+        "Any related pending charge.",
+        "Any non-citizen, because the New Mexico Judiciary packet itself tells non-citizens to seek legal advice about the consequences of expungement."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The full text of NMSA 1978 § 29-3A-3 was not read at the official source in this review. The New Mexico Compilation Commission host nmonesource.com is confirmed reachable as of 2026-08-05; the text remains unread.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 1 - IDENTITY THEFT / Open questions",
+            "sourceStatement": "Full text of § 29-3A-3 not read in this review. **Build blocker.**"
+          }
+        },
+        {
+          "question": "What evidence New Mexico district courts accept as proof of identity theft.",
+          "impact": "release_blocker",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 1 - IDENTITY THEFT / Open questions",
+            "sourceStatement": "What evidence courts accept as proof of identity theft. Unresolved."
+          }
+        },
+        {
+          "question": "Whether the $132 district court filing fee applies to the identity-theft track.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 1 - IDENTITY THEFT / Open questions",
+            "sourceStatement": "Whether the $132 fee applies to this track. Unresolved."
+          }
+        },
+        {
+          "question": "Rule 1-077.1 NMRA was not held or read in full by this review, including subsections (B)(4), (B)(5), (D), (E), (G), (J), (K) and (M) and the committee commentary. It is the controlling procedural authority for this track and supplies the venue, service, sealing, briefing and hearing rules. The issuer host nmonesource.com is confirmed reachable as of 2026-08-05.",
+          "impact": "build_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "PART 2 - SOURCE DOCUMENT REVIEW / 2.2 Official documents identified and needed for the form library",
+            "sourceStatement": "Rule 1-077.1 NMRA | New Mexico Supreme Court | **Build blocker.** Controlling procedure."
+          }
+        },
+        {
+          "question": "Whether Rule 1-077.1 NMRA has been amended since its provisional adoption effective January 28, 2022 by Supreme Court Order No. 21-8300-033.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "UNRESOLVED QUESTION IMPACT / Nonblocking research notes",
+            "sourceStatement": "Whether Rule 1-077.1 has been amended since its provisional adoption effective January 28, 2022."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "A mandatory statewide Supreme Court form, no service requirement, relief mandatory on proof, and a decision available on the pleadings. That combination makes this the simplest official_pdf_fill route in New Mexico. A custom pleading is not available: Rule 1-077.1(D) and (M) make Forms 4-951 to 4-960.3 mandatory.",
+        "limitations": [
+          {
+            "classification": "self_help_boundary",
+            "statement": "Never name an alleged identity thief in a proposed order.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Never name an alleged identity thief in a proposed order"
+            }
+          },
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Acquire Rule 1-077.1 NMRA and all of Forms 4-951 to 4-960.3.",
+            "undeterminedElement": "filing_process",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Acquire Rule 1-077.1 NMRA and all of Forms 4-951 to 4-960.3"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Records are not destroyed except under the cannabis and DNA provisions.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Records are not destroyed except under the cannabis and DNA provisions"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "FINRA and SEC employment disclosure survives expungement.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "FINRA and SEC employment disclosure survives expungement"
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "The petitioner completes only the caption on the Order on Petition; the court completes the rest, and the hearing time and location are left blank on the Notice of Hearing.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "CAN LEGALEASE GENERATE A PARTICIPANT-FACING FORM OR PACKET EVEN IF AN OUTSIDE PERSON OR AGENCY MUST LATER COMPLETE, SIGN, CERTIFY, OR APPROVE IT?",
+              "sourceStatement": "The Judiciary packet tells the petitioner to complete only the caption on the Order on Petition to Expunge and states plainly that the court will complete the rest of that form, and to leave the hearing time and location blank on the Notice of Hearing because the court supplies them.",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nm_release_without_conviction",
+      "legalName": "Petition to Expunge Arrest Records and Public Records upon Release Without Conviction, NMSA 1978 § 29-3A-4",
+      "publicName": "Expunge a New Mexico case that did not end in a conviction",
+      "controllingAuthority": {
+        "citations": [
+          "NMSA 1978 § 29-3A-4",
+          "NMSA 1978 § 31-20-13",
+          "Rule 1-077.1 NMRA",
+          "Rule 1-079 NMRA",
+          "Form 4-952 NMRA",
+          "Form 4-955 NMRA",
+          "Form 4-959 NMRA",
+          "Form 4-960.2 NMRA"
+        ],
+        "summary": "On petition, where the court finds that no other charge or proceeding is pending and that the person was released without conviction, it must order expungement of the arrest records and public records. 'Released without conviction' is broad: acquittal or a finding of not guilty; nolle prosequi, no bill or other dismissal; referral to a preprosecution diversion programme; an order of conditional discharge under § 31-20-13; or proceedings otherwise discharged. The petition is filed under seal under Rule 1-079 NMRA."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2022-01-28",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "arrest_record",
+        "public_record",
+        "municipal_ordinance_violation",
+        "misdemeanor",
+        "felony",
+        "penalty_assessment",
+        "motor_vehicle_code_violation",
+        "deferred_sentence"
+      ],
+      "eligibleDispositions": [
+        "acquitted",
+        "not_guilty",
+        "nolle_prosequi",
+        "no_bill",
+        "dismissed",
+        "preprosecution_diversion",
+        "conditional_discharge",
+        "otherwise_discharged"
+      ],
+      "exclusions": [
+        "Any other charge or proceeding pending anywhere defeats the required finding.",
+        "New Mexico district courts cannot expunge records of another state or federal records.",
+        "The statutory definition of 'arrest records' excludes DWI citations maintained by the Taxation and Revenue Department, computer-aided dispatch information, and breath alcohol testing equipment log books, so some DWI-related records survive even a successful expungement.",
+        "The § 29-3A-2 definitions carve several categories out of 'public records', including confidential arrest-record information, district attorney and attorney general law-enforcement files, certain CYFD, HSD and PED records, and records received through an authorized background check."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Release without conviction, per the internal reference only and not independently verified in this review",
+          "duration": "1 year from the final disposition"
+        }
+      ],
+      "outputStrategy": "composed",
+      "compositionMode": "sequential",
+      "units": [
+        {
+          "unitId": "nm_rwc_record_gathering",
+          "order": 1,
+          "label": "Gather the DPS record and the court records within the ninety-day window",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "Guidance on ordering the DPS record of arrest and prosecutions, which must be dated no earlier than ninety days before filing, using the notarized Authorization for Release of Information with an original signature and a $15 money order or cashier's check; and on filling the disposition gaps through the New Mexico Courts 'Find a Case' search and certified copies. The ninety-day window is why this stage is timed rather than done first.",
+          "available": true
+        },
+        {
+          "unitId": "nm_rwc_petition_and_service",
+          "order": 2,
+          "label": "File Form 4-952 under seal and serve, then file the Form 4-955 certificate of service",
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "The mandatory petition, filed under seal under Rule 1-079 NMRA in the district court for the county where the charges originated or the arrest occurred, served by first-class United States mail on the district attorney for that county and the New Mexico Department of Public Safety, followed by the mandatory certificate of service on Form 4-955.",
+          "available": true
+        },
+        {
+          "unitId": "nm_rwc_completion_of_briefing",
+          "order": 3,
+          "label": "After the sixty-day objection window, file Form 4-959 with the Form 4-960.2 affirmation attached",
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "The step most likely to strand a self-represented participant. No hearing on the merits will be set before the notice of completion of briefing is filed with the affirmation in support attached and served on every party that objected. If the affirmation discloses arrests, charges or convictions occurring after the petition was filed, the parties get twenty more days to object.",
+          "available": true
+        }
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The district court for the county where the charges originated or the arrest occurred."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "New Mexico district court for the county where the charges originated or the arrest occurred",
+        "detail": "Civil petition filed under seal under Rule 1-079 NMRA. Served by first-class United States mail on the district attorney for the county where the arrest was made or the charge or proceeding was filed, and on the New Mexico Department of Public Safety. Those parties have sixty days from service to object on Form 4-957 or to file a notice of non-objection on Form 4-958. If no objection is filed the court may decide on the pleadings and the affirmation without a hearing."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "NM-4-952",
+          "officialSourceUrl": "https://www.nmcourts.gov/self-help/expungement/",
+          "notes": "Form 4-952 NMRA, mandatory. Retained in Edition 1.2 as NM-4-952 in the PETITION role. The district instruction packet reproduces Rule 1-077.1(D) with a typographical error citing 'Form 4-452 NMRA'; that number must never enter the form library."
+        },
+        {
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "NM-4-955",
+          "officialSourceUrl": "https://www.nmcourts.gov/self-help/expungement/",
+          "notes": "Form 4-955 NMRA, certificate of service for the non-conviction track, mandatory. Retained in Edition 1.2 as NM-4-955 in the SERVICE role."
+        },
+        {
+          "role": "notice_of_completion_of_briefing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "NM-4-959",
+          "officialSourceUrl": "https://www.nmcourts.gov/self-help/expungement/",
+          "notes": "Form 4-959 NMRA, filed after the sixty-day objection window. Retained in Edition 1.2 as NM-4-959 in the NOTICE role. No hearing on the merits is set before this filing."
+        },
+        {
+          "role": "affirmation_in_support",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "NM-4-960.2",
+          "officialSourceUrl": "https://www.nmcourts.gov/self-help/expungement/",
+          "notes": "Form 4-960.2 NMRA, Affirmation in Support of Expungement upon Release Without Conviction, attached to Form 4-959. Retained in Edition 1.2 as NM-4-960.2 in the AFFIDAVIT role."
+        },
+        {
+          "role": "notice_of_hearing",
+          "requirement": "conditional",
+          "conditionDescription": "Where an objection is filed and the court sets a hearing, or where the local district packet requires the form with the petition.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "NM-4-960.1",
+          "officialSourceUrl": "https://www.nmcourts.gov/self-help/expungement/",
+          "notes": "Notice of Hearing, retained in Edition 1.2 as NM-4-960.1. The hearing time and location are left blank because the court supplies them."
+        },
+        {
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant cannot pay the $132 district court filing fee.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "NM-4-222",
+          "officialSourceUrl": "https://www.nmcourts.gov/self-help/expungement/",
+          "notes": "Form 4-222 NMRA, retained in Edition 1.2 as NM-4-222."
+        },
+        {
+          "role": "record_request",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "NM-DPS-ROI",
+          "officialSourceUrl": "https://www.nmcourts.gov/self-help/expungement/",
+          "notes": "New Mexico DPS Authorization for Release of Information, retained in Edition 1.2 as NM-DPS-ROI with two variants. Requires a notarized original signature and a $15 money order or cashier's check. LegalEase prepares the form; the participant notarizes and submits it."
+        },
+        {
+          "role": "record_gathering_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Stage 1, including the ninety-day timing rule that governs when to order the DPS record."
+        },
+        {
+          "role": "objection_window_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Stage 3 sequencing: the sixty-day objection diary, what Forms 4-957 and 4-958 mean when they arrive, the further twenty-day window if the affirmation discloses anything new, and the post-order timing."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "fullLegalNameAndAliases",
+          "question": "What is your full legal name, and every other name you have used?",
+          "requirement": "required"
+        },
+        {
+          "key": "dateOfBirth",
+          "question": "What is your date of birth?",
+          "requirement": "required"
+        },
+        {
+          "key": "countyAndJudicialDistrict",
+          "question": "In which New Mexico county did the charges originate or the arrest occur, and which judicial district is that?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtLevelAndCaseNumber",
+          "question": "Which court heard the case — district, metropolitan, magistrate or municipal — and what is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestDetails",
+          "question": "What was the arrest date, the arresting agency, the agency case number and the arrest number?",
+          "requirement": "required"
+        },
+        {
+          "key": "originalAndFinalCharge",
+          "question": "What were the original and final charges, with the statute or ordinance number?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionType",
+          "question": "How did the case end — acquittal or not guilty, nolle prosequi, no bill, dismissal, preprosecution diversion, conditional discharge under § 31-20-13, or otherwise discharged?",
+          "requirement": "required"
+        },
+        {
+          "key": "finalDispositionDate",
+          "question": "On what date was the final disposition entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "diversionOrDischargeCompleted",
+          "question": "If this was a diversion programme or a conditional discharge, did you complete it?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where the disposition was a diversion referral or a conditional discharge, because whether it actually completed decides eligibility."
+        },
+        {
+          "key": "pendingChargeAnywhere",
+          "question": "Do you have any other charge or proceeding pending anywhere right now?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordsInMultipleDistricts",
+          "question": "Are the records you want expunged in more than one New Mexico judicial district?",
+          "requirement": "required"
+        },
+        {
+          "key": "alsoSeekingConvictionExpungement",
+          "question": "Do you also want to expunge a conviction?",
+          "requirement": "required",
+          "conditionDescription": "Asked because a petition seeking both conviction and non-conviction expungement is treated as a conviction petition and loses the Rule 1-079 sealing protection."
+        },
+        {
+          "key": "feeWaiverSought",
+          "question": "Do you want to apply for free process because you cannot pay the $132 filing fee?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "New Mexico DPS record of arrest and prosecutions, dated no earlier than ninety days before filing",
+          "obtainedFrom": "New Mexico Department of Public Safety",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Submit the DPS Authorization for Release of Information, notarized with an original signature, with a $15 money order or cashier's check. Order it once the rest of the packet is nearly ready, because it must be within ninety days of filing.",
+          "confirms": "originalAndFinalCharge"
+        },
+        {
+          "name": "FBI Identity History Summary",
+          "obtainedFrom": "Federal Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Whether Form 4-952 requires the FBI rap sheet as well as the DPS record is unresolved; the conviction form requires both.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request your Identity History Summary from the FBI. If a responding party objects to a non-conviction petition based on the contents of your FBI rap sheet, that party must give you a free copy of it when it files the objection."
+        },
+        {
+          "name": "Record of the final disposition",
+          "obtainedFrom": "The court where the case was heard",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Use the New Mexico Courts 'Find a Case' search and request certified copies from the court where the case was heard. Court copies run $0.35 per page.",
+          "confirms": "finalDispositionDate"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature and date",
+          "whereInPacket": "Form 4-952 signature block, and Form 4-960.2 affirmation signature block",
+          "why": "Both are the petitioner's own statements."
+        },
+        {
+          "item": "Notarized original signature on the DPS authorization",
+          "whereInPacket": "DPS Authorization for Release of Information, signature block",
+          "why": "DPS requires an original notarized signature; a generated copy cannot carry one."
+        },
+        {
+          "item": "Hearing time and location",
+          "whereInPacket": "Notice of Hearing, hearing details",
+          "why": "The court supplies them."
+        },
+        {
+          "item": "The body of the Order on Petition",
+          "whereInPacket": "Order on Petition, everything below the caption",
+          "why": "The Judiciary packet states the court completes the rest."
+        },
+        {
+          "item": "Anything arising after the petition was filed",
+          "whereInPacket": "Form 4-960.2, the disclosure of arrests, charges or convictions after filing",
+          "why": "The affirmation speaks as at the date it is signed, and a disclosure there opens a further twenty-day objection window."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Rule 1-077.1 NMRA, published by the New Mexico Compilation Commission",
+          "url": "https://nmonesource.com",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        },
+        {
+          "title": "Form 4-952 NMRA, Petition to expunge arrest records and public records; upon release without conviction, retained Edition 1.2 asset NM-4-952",
+          "url": "https://www.nmcourts.gov/self-help/expungement/",
+          "retrievedOn": "2026-08-01",
+          "sha256": "951e5b8114dc6c31fa05b6230e2fe45509fa9c8f9ef99e3e6f384270a40977ca"
+        },
+        {
+          "title": "Form 4-955 NMRA, Certificate of service; expungement of records upon release without conviction, retained Edition 1.2 asset NM-4-955",
+          "url": "https://www.nmcourts.gov/self-help/expungement/",
+          "retrievedOn": "2026-08-01",
+          "sha256": "99482e163d9addac8440be3c5628e88501061c82adf8ea4320167bda67952e11"
+        },
+        {
+          "title": "Form 4-959 NMRA, Notice of Completion of Briefing, non-conviction, retained Edition 1.2 asset NM-4-959",
+          "url": "https://www.nmcourts.gov/self-help/expungement/",
+          "retrievedOn": "2026-08-01",
+          "sha256": "1ec4057eef1340456e65abe4708c9b174b5ffacd313e7b52c145989963b53148"
+        },
+        {
+          "title": "Form 4-960.2 NMRA, Affirmation in Support of Expungement upon Release Without Conviction, retained Edition 1.2 asset NM-4-960.2",
+          "url": "https://www.nmcourts.gov/self-help/expungement/",
+          "retrievedOn": "2026-08-01",
+          "sha256": "fc22cdcb28d74dfd23de5931fc2d2825c9488589894f5ea75a284bfb4347154e"
+        },
+        {
+          "title": "New Mexico DPS Authorization for Release of Information, retained Edition 1.2 asset NM-DPS-ROI",
+          "url": "https://www.nmcourts.gov/self-help/expungement/",
+          "retrievedOn": "2026-08-01",
+          "sha256": "32e28929ed0bfedca2b7cb4e3313b3fc723ebd204519473f6bea59c95f8c11e9"
+        }
+      ],
+      "rules": {
+        "filing": "File Form 4-952 under seal under Rule 1-079 NMRA in the district court for the county where the charges originated or the arrest occurred. If the initial petition does not comply with the rule and the form, the court may grant sixty days to amend, and may dismiss without prejudice if the amended petition still fails.",
+        "fees": "$132 district court filing fee, payable by cash, cashier's check or money order at most courts. $15 per DPS record check. Court copies $0.35 per page.",
+        "feeWaiver": "Form 4-222 NMRA, Application for Free Process and Affidavit of Indigency.",
+        "notice": "Responding parties have sixty days from service to object on Form 4-957 or to file a notice of non-objection on Form 4-958. Rule 1-077.1(G) gives sixty days and controls over the thirty days in § 29-3A-4(B). A party filing a non-objection is excused from further participation.",
+        "service": "By first-class United States mail on the district attorney for the county where the arrest was made or the charge or proceeding was filed, and on the New Mexico Department of Public Safety. File the certificate of service on Form 4-955.",
+        "participantSignature": "The petitioner signs the petition and the affirmation in support. The DPS Authorization for Release of Information requires a notarized original signature.",
+        "notarization": "none on the petition. The DPS Authorization for Release of Information must be notarized with an original signature."
+      },
+      "selfHelpStopConditions": [
+        "Prosecutor or DPS objection.",
+        "Any pending charge or proceeding anywhere.",
+        "Whether a diversion or conditional discharge actually completed.",
+        "Records in more than one judicial district.",
+        "Any non-citizen, per the Judiciary's own warning."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The one-year waiting period for this track is sourced only to the internal reference and was not independently verified in this review.",
+          "impact": "release_blocker",
+          "affectedElement": "waiting_period",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 2 - RELEASE WITHOUT CONVICTION / Open questions",
+            "sourceStatement": "The one-year waiting period is reference-sourced only. **Release blocker.**"
+          }
+        },
+        {
+          "question": "Whether Form 4-952 requires the FBI rap sheet as well as the DPS record. The conviction form requires both within ninety days.",
+          "impact": "build_blocker",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 2 - RELEASE WITHOUT CONVICTION / Open questions",
+            "sourceStatement": "Whether Form 4-952 requires the FBI rap sheet as well as the DPS record. **Build blocker.**"
+          }
+        },
+        {
+          "question": "Rule 1-077.1(B)(5) permits a petition to request expungement of records pertaining to any number of arrests, charges filed without arrest, and convictions in a single judicial district. The New Mexico Judiciary instruction packet says one court case number per petition, with a separate petition for each additional court case. These conflict.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "UNRESOLVED QUESTION IMPACT / Release blockers",
+            "sourceStatement": "Rule 1-077.1(B)(5) permits any number of matters in one judicial district in a single petition; the Judiciary instruction packet says one court case number per petition. These conflict."
+          }
+        },
+        {
+          "question": "Whether an unfiled arrest with no case number requires its own petition. The instruction packet says yes for arrests not associated with a filed case; this must be confirmed against the rule.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 2 - RELEASE WITHOUT CONVICTION / Open questions",
+            "sourceStatement": "Whether an unfiled arrest with no case number requires its own petition. The instruction packet says yes for arrests not associated with a filed case. Confirm against the rule."
+          }
+        },
+        {
+          "question": "The full text of NMSA 1978 § 29-3A-4 was not read at the official source in this review, and Rule 1-077.1 NMRA was not held. Both issuer hosts are confirmed reachable as of 2026-08-05; the texts remain unread.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "UNRESOLVED QUESTION IMPACT / Build blockers",
+            "sourceStatement": "§§ 29-3A-3, 29-3A-4, 29-3A-9 and 29-16-10 not read at source."
+          }
+        },
+        {
+          "question": "How deferred sentences under § 31-20-3 interact with the released-without-conviction definition.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "UNRESOLVED QUESTION IMPACT / Nonblocking research notes",
+            "sourceStatement": "How deferred sentences under § 31-20-3 interact with the released-without-conviction definition."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The highest-value New Mexico track: no conviction to argue about, mandatory relief on the findings, a sealed petition, and a decision available without a hearing. The route is composed sequentially because the ninety-day DPS window governs when records are ordered, the petition and its certificate of service are one filing, and the notice of completion of briefing is a separate later filing without which no hearing on the merits is ever set. Collapsing those into a single output is what strands a self-represented participant. A custom pleading is not available.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Do not combine conviction and non-conviction petitions, because the filing loses its seal.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Do not combine conviction and non-conviction petitions, because the filing loses its seal"
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "Add the notice of completion of briefing and affirmation stage to every non-conviction and conviction flow.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Add the notice of completion of briefing and affirmation stage to every non-conviction and conviction flow"
+            }
+          },
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Correct the objection period to sixty days and the order deadline to sixty days.",
+            "undeterminedElement": "filing_process",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Correct the objection period to sixty days and the order deadline to sixty days"
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "FBI and DPS rap sheets, both within ninety days, for the conviction petition.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "FBI and DPS rap sheets, both within ninety days, for the conviction petition"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Records are not destroyed except under the cannabis and DNA provisions.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Records are not destroyed except under the cannabis and DNA provisions"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "FINRA and SEC employment disclosure survives expungement.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "FINRA and SEC employment disclosure survives expungement"
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Three agencies have sixty days to object, and the participant must file a further notice and affirmation before any hearing will be set.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "CAN LEGALEASE GENERATE A PARTICIPANT-FACING FORM OR PACKET EVEN IF AN OUTSIDE PERSON OR AGENCY MUST LATER COMPLETE, SIGN, CERTIFY, OR APPROVE IT?",
+              "sourceStatement": "the packet must state which fields the court completes, that three agencies have sixty days to object, that the participant must file a further notice and affirmation before any hearing will be set, and that after an order the expungement itself takes at least another sixty days"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nm_conviction",
+      "legalName": "Petition to Expunge Arrest Records and Public Records upon Conviction, NMSA 1978 § 29-3A-5",
+      "publicName": "Expunge a New Mexico conviction",
+      "controllingAuthority": {
+        "citations": [
+          "NMSA 1978 § 29-3A-5",
+          "NMSA 1978 § 29-11A-3",
+          "NMSA 1978 § 30-16-8",
+          "NMSA 1978 §§ 30-3-10 to 30-3-18",
+          "Rule 1-077.1 NMRA",
+          "Form 4-953 NMRA",
+          "Form 4-956 NMRA",
+          "Form 4-960 NMRA",
+          "Form 4-960.3 NMRA"
+        ],
+        "summary": "On petition, after completion of the sentence and payment of any fines or fees owed to the state for that conviction, the court may expunge a conviction of a municipal ordinance violation, misdemeanor or felony. Relief is discretionary: the court must find no other charge or proceeding pending anywhere, that justice will be served, that victim restitution ordered in connection with the conviction has been fulfilled, and that there was no other criminal conviction during the applicable waiting period. Rule 1-077.1(J) requires a hearing; there is no paper-only route."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2022-01-28",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "municipal_ordinance_violation",
+        "misdemeanor",
+        "felony"
+      ],
+      "eligibleDispositions": [
+        "convicted"
+      ],
+      "exclusions": [
+        "An offense committed against a child.",
+        "An offense that caused great bodily harm or death.",
+        "A sex offense as defined in NMSA 1978 § 29-11A-3.",
+        "Embezzlement under NMSA 1978 § 30-16-8.",
+        "An offense involving driving while under the influence of intoxicating liquor or drugs.",
+        "Any other criminal conviction during the applicable waiting period.",
+        "Any other charge or proceeding pending anywhere.",
+        "Unfulfilled victim restitution ordered in connection with the conviction.",
+        "New Mexico district courts cannot expunge records of another state or federal records."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Municipal ordinance violation, or misdemeanor not otherwise listed, under § 29-3A-5(C)(4)(a)",
+          "duration": "2 years from the last date on which the person completed a sentence for a conviction in any jurisdiction"
+        },
+        {
+          "condition": "Misdemeanor aggravated battery under § 30-3-5(B), or fourth degree felony not otherwise listed, under § 29-3A-5(C)(4)(b)",
+          "duration": "4 years from the last date on which the person completed a sentence for a conviction in any jurisdiction"
+        },
+        {
+          "condition": "Third degree felony not otherwise listed, under § 29-3A-5(C)(4)(c)",
+          "duration": "6 years from the last date on which the person completed a sentence for a conviction in any jurisdiction"
+        },
+        {
+          "condition": "Second degree felony not otherwise listed, under § 29-3A-5(C)(4)(d)",
+          "duration": "8 years from the last date on which the person completed a sentence for a conviction in any jurisdiction"
+        },
+        {
+          "condition": "First degree felony, or any offense under the Crimes Against Household Members Act, §§ 30-3-10 to 30-3-18, under § 29-3A-5(C)(4)(e)",
+          "duration": "10 years from the last date on which the person completed a sentence for a conviction in any jurisdiction"
+        }
+      ],
+      "outputStrategy": "composed",
+      "compositionMode": "sequential",
+      "units": [
+        {
+          "unitId": "nm_conviction_record_gathering",
+          "order": 1,
+          "label": "Gather the FBI and DPS rap sheets and the sentence-completion proof within the ninety-day window",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "Guidance on ordering both the FBI Identity History Summary and the DPS record of arrest and prosecutions, each dated no later than ninety days before filing, and on assembling documentation of sentence completion for the convictions sought to be expunged and for any other convictions served in any jurisdiction, proof of final payment of fines and fees, and proof of completion of any victim restitution.",
+          "available": true
+        },
+        {
+          "unitId": "nm_conviction_petition_and_service",
+          "order": 2,
+          "label": "File Form 4-953 and serve, then file the Form 4-956 certificate of service",
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "The mandatory conviction petition, filed in the district court in the county in which the conviction was entered and served by first-class United States mail on the district attorney for that county, the New Mexico Department of Public Safety and the law enforcement agency that arrested the petitioner, followed by the mandatory certificate of service on Form 4-956. This petition is not sealed.",
+          "available": true
+        },
+        {
+          "unitId": "nm_conviction_completion_of_briefing",
+          "order": 3,
+          "label": "After the sixty-day objection window, file Form 4-960 with the Form 4-960.3 affirmation attached",
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "The notice of completion of briefing with the affirmation in support attached, served on every party that objected. No hearing on the merits is set before this filing. If the affirmation discloses anything arising after the petition was filed, the parties get twenty more days to object.",
+          "available": true
+        },
+        {
+          "unitId": "nm_conviction_hearing",
+          "order": 4,
+          "label": "The mandatory hearing and the order",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "Every conviction petition ends at a hearing: Rule 1-077.1(J) requires the court to hold one to determine whether the § 29-3A-5(C) requirements are met. Guidance covers what the hearing decides, that the burden is on the petitioner, that the justice-will-be-served narrative is argument LegalEase does not write, that the court issues its order within sixty days, and that the expungement then takes at least another sixty days to complete.",
+          "available": true
+        }
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The district court in the county in which the conviction was entered."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "New Mexico district court in the county in which the conviction was entered",
+        "detail": "Civil petition, not sealed. Served on the district attorney for the county where the conviction was entered, the New Mexico Department of Public Safety, and the law enforcement agency that arrested the petitioner. Those parties have sixty days to object on Form 4-957 or to file a non-objection on Form 4-958. A hearing is mandatory. The court issues its order within sixty days of the hearing, any order must allow a minimum of sixty days to complete the expungement, court records may not be expunged earlier than thirty days from entry of the order, and any order granting a petition must require that the civil expungement proceeding itself be expunged. Denial may be appealed to the Court of Appeals."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "NM-4-953",
+          "officialSourceUrl": "https://www.nmcourts.gov/self-help/expungement/",
+          "notes": "Form 4-953 NMRA, mandatory. Retained in Edition 1.2 as NM-4-953 in the PETITION role. Signed under penalty of perjury. Paragraphs 8, 10, 11 and 13 require legal judgment and must not be auto-completed."
+        },
+        {
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "NM-4-956",
+          "officialSourceUrl": "https://www.nmcourts.gov/self-help/expungement/",
+          "notes": "Form 4-956 NMRA, certificate of service for the conviction track, mandatory. Retained in Edition 1.2 as NM-4-956 in the SERVICE role."
+        },
+        {
+          "role": "notice_of_completion_of_briefing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "NM-4-960",
+          "officialSourceUrl": "https://www.nmcourts.gov/self-help/expungement/",
+          "notes": "Form 4-960 NMRA, filed after the sixty-day objection window. Retained in Edition 1.2 as NM-4-960 in the NOTICE role."
+        },
+        {
+          "role": "affirmation_in_support",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "NM-4-960.3",
+          "officialSourceUrl": "https://www.nmcourts.gov/self-help/expungement/",
+          "notes": "Form 4-960.3 NMRA, Affirmation in Support of Expungement upon Conviction, attached to Form 4-960. Retained in Edition 1.2 as NM-4-960.3 in the AFFIDAVIT role."
+        },
+        {
+          "role": "notice_of_hearing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "NM-4-960.1",
+          "officialSourceUrl": "https://www.nmcourts.gov/self-help/expungement/",
+          "notes": "Notice of Hearing, retained in Edition 1.2 as NM-4-960.1. Required on this track because a hearing is mandatory. The hearing time and location are left blank because the court supplies them."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "NM-LOCAL-CONVICTION-ORDER",
+          "officialSourceUrl": "https://www.nmcourts.gov/self-help/expungement/",
+          "notes": "Local conviction Order on Petition, retained in Edition 1.2 as NM-LOCAL-CONVICTION-ORDER. Only the caption is completed; the court completes the rest. LegalEase must never assert that justice will be served, which is the court's finding under § 29-3A-5(E)."
+        },
+        {
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant cannot pay the $132 district court filing fee.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "NM-4-222",
+          "officialSourceUrl": "https://www.nmcourts.gov/self-help/expungement/",
+          "notes": "Form 4-222 NMRA, retained in Edition 1.2 as NM-4-222."
+        },
+        {
+          "role": "record_request",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "NM-DPS-ROI",
+          "officialSourceUrl": "https://www.nmcourts.gov/self-help/expungement/",
+          "notes": "New Mexico DPS Authorization for Release of Information, retained in Edition 1.2 as NM-DPS-ROI. Requires a notarized original signature and a $15 money order or cashier's check."
+        },
+        {
+          "role": "record_gathering_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Stage 1, including the ninety-day timing rule for both rap sheets and the any-jurisdiction sentence-completion rule that sets the waiting tier."
+        },
+        {
+          "role": "hearing_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Stage 4. Every conviction track ends at a hearing; say so up front."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "fullLegalNameAndAliases",
+          "question": "What is your full legal name, and every other name you have used?",
+          "requirement": "required"
+        },
+        {
+          "key": "dateOfBirth",
+          "question": "What is your date of birth?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionCountyAndDistrict",
+          "question": "In which New Mexico county was the conviction entered, and which judicial district is that?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtCaseNumber",
+          "question": "What is the case number of the conviction you want expunged?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseAndStatuteFromRecord",
+          "question": "What was the offence and its statute or ordinance number, exactly as the official record shows it?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseDegreeFromRecord",
+          "question": "What degree does the official record show — municipal ordinance violation, misdemeanor, or fourth, third, second or first degree felony?",
+          "requirement": "required",
+          "conditionDescription": "Taken from the record rather than recall, because the degree sets the waiting tier."
+        },
+        {
+          "key": "lastSentenceCompletionAnywhere",
+          "question": "What is the most recent date on which you completed a sentence for any conviction, in any jurisdiction?",
+          "requirement": "required",
+          "conditionDescription": "The waiting period runs from this date, not from the date of the conviction you want expunged."
+        },
+        {
+          "key": "finesAndFeesPaid",
+          "question": "Have you paid all fines and fees owed for the conviction you want expunged, and on what date?",
+          "requirement": "required"
+        },
+        {
+          "key": "restitutionFulfilled",
+          "question": "Was victim restitution ordered in connection with this conviction, and has it been fulfilled?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDuringWaitingPeriod",
+          "question": "Have you been convicted of anything, anywhere, during the applicable waiting period?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingChargeAnywhere",
+          "question": "Do you have any charge or proceeding pending anywhere right now?",
+          "requirement": "required"
+        },
+        {
+          "key": "possiblyExcludedOffense",
+          "question": "Could this offence involve a child, great bodily harm or death, a sex offence, embezzlement, or driving under the influence?",
+          "requirement": "required",
+          "conditionDescription": "Asked to route out of self-help. LegalEase does not complete the exclusion-list certification, which is signed under penalty of perjury."
+        },
+        {
+          "key": "adverseConsequences",
+          "question": "What specific adverse consequences do you face if this petition is denied?",
+          "requirement": "required",
+          "conditionDescription": "One of the statutory justice-will-be-served factors. The participant's own answer; LegalEase does not write the narrative."
+        },
+        {
+          "key": "recordsInMultipleDistricts",
+          "question": "Are the records you want expunged in more than one New Mexico judicial district?",
+          "requirement": "required"
+        },
+        {
+          "key": "feeWaiverSought",
+          "question": "Do you want to apply for free process because you cannot pay the $132 filing fee?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "FBI Identity History Summary, dated no later than ninety days before filing",
+          "obtainedFrom": "Federal Bureau of Investigation",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your Identity History Summary from the FBI. Form 4-953 paragraph 15 requires copies of both the FBI and the DPS rap sheets, so order them once the rest of the packet is nearly ready.",
+          "confirms": "lastSentenceCompletionAnywhere"
+        },
+        {
+          "name": "New Mexico DPS record of arrest and prosecutions, dated no later than ninety days before filing",
+          "obtainedFrom": "New Mexico Department of Public Safety",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Submit the DPS Authorization for Release of Information, notarized with an original signature, with a $15 money order or cashier's check.",
+          "confirms": "offenseDegreeFromRecord"
+        },
+        {
+          "name": "Documentation showing completion of the sentences for the convictions sought to be expunged",
+          "obtainedFrom": "The sentencing court, or the supervising probation or parole office",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Obtain the judgment and sentence and proof of discharge from probation and parole.",
+          "confirms": "lastSentenceCompletionAnywhere"
+        },
+        {
+          "name": "Documentation showing completion of sentences for any other convictions served, in any jurisdiction",
+          "obtainedFrom": "The court or corrections agency in each jurisdiction",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Obtain discharge documentation from every jurisdiction where you served a sentence, because the waiting period runs from the most recent one anywhere."
+        },
+        {
+          "name": "Proof of final payment of fines and fees",
+          "obtainedFrom": "The court that imposed them",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the court for a receipt or a zero-balance statement.",
+          "confirms": "finesAndFeesPaid"
+        },
+        {
+          "name": "Proof of completion of any victim restitution",
+          "obtainedFrom": "The court or the collecting agency",
+          "requirement": "conditional",
+          "conditionDescription": "Where victim restitution was ordered in connection with the conviction.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the court or the collecting agency for confirmation that restitution has been fulfilled.",
+          "confirms": "restitutionFulfilled"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Paragraph 8, the certification of the period with no other criminal convictions",
+          "whereInPacket": "Form 4-953, paragraph 8 checkbox",
+          "why": "It is measured from sentence completion in any jurisdiction and is signed under penalty of perjury."
+        },
+        {
+          "item": "Paragraph 10, the exclusion-list certification",
+          "whereInPacket": "Form 4-953, paragraph 10",
+          "why": "It is a legal conclusion about the exclusion list signed under penalty of perjury, and must be run against official records rather than participant recall."
+        },
+        {
+          "item": "Paragraph 11, the narrative explaining why justice will be served",
+          "whereInPacket": "Form 4-953, paragraph 11",
+          "why": "It is argument. LegalEase must never assert that justice will be served; that is the court's finding under § 29-3A-5(E)."
+        },
+        {
+          "item": "Paragraph 13, identifying where the charges were originally disposed of",
+          "whereInPacket": "Form 4-953, paragraph 13",
+          "why": "It drives venue and must be taken from the record."
+        },
+        {
+          "item": "Petitioner signature and date",
+          "whereInPacket": "Form 4-953 signature block, and Form 4-960.3 affirmation signature block",
+          "why": "Both are signed by the petitioner, and the petition is signed under penalty of perjury."
+        },
+        {
+          "item": "Hearing time and location",
+          "whereInPacket": "Notice of Hearing, hearing details",
+          "why": "The court supplies them."
+        },
+        {
+          "item": "The body of the Order on Petition",
+          "whereInPacket": "Order on Petition, everything below the caption",
+          "why": "The Judiciary packet states the court completes the rest."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Rule 1-077.1 NMRA, published by the New Mexico Compilation Commission",
+          "url": "https://nmonesource.com",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        },
+        {
+          "title": "Form 4-953 NMRA, Petition to expunge arrest records and public records; upon conviction, retained Edition 1.2 asset NM-4-953",
+          "url": "https://www.nmcourts.gov/self-help/expungement/",
+          "retrievedOn": "2026-08-01",
+          "sha256": "2ee3d41243e0a7e807ed52e77ac08fda9e0c55c7abdef3195a53de29a0f90c40"
+        },
+        {
+          "title": "Form 4-956 NMRA, Certificate of service; expungement of records upon conviction, retained Edition 1.2 asset NM-4-956",
+          "url": "https://www.nmcourts.gov/self-help/expungement/",
+          "retrievedOn": "2026-08-01",
+          "sha256": "a6a01d6853d6ae3199bf81a355065ecf40cf20e76a8d1131d9bc5b56527b4c0e"
+        },
+        {
+          "title": "Form 4-960 NMRA, Notice of Completion of Briefing, conviction, retained Edition 1.2 asset NM-4-960",
+          "url": "https://www.nmcourts.gov/self-help/expungement/",
+          "retrievedOn": "2026-08-01",
+          "sha256": "79c8556655ee6e36a5a5516309e869637401f753c70172ecd78bfa138655d4de"
+        },
+        {
+          "title": "Form 4-960.3 NMRA, Affirmation in Support of Expungement upon Conviction, retained Edition 1.2 asset NM-4-960.3",
+          "url": "https://www.nmcourts.gov/self-help/expungement/",
+          "retrievedOn": "2026-08-01",
+          "sha256": "14d16b83fe55e3b872f233118305fecac27a7c48e839cba323db2d8bd48c2226"
+        },
+        {
+          "title": "Notice of Hearing, retained Edition 1.2 asset NM-4-960.1",
+          "url": "https://www.nmcourts.gov/self-help/expungement/",
+          "retrievedOn": "2026-08-01",
+          "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c"
+        }
+      ],
+      "rules": {
+        "filing": "File Form 4-953 in the district court in the county in which the conviction was entered. This petition is not filed under seal, and a petition that seeks both conviction and non-conviction expungement is treated as a conviction petition and loses the Rule 1-079 sealing protection. If the initial petition does not comply, the court may grant sixty days to amend and may then dismiss without prejudice.",
+        "fees": "$132 district court filing fee, payable by cash, cashier's check or money order at most courts. $15 per DPS record check, plus the FBI rap sheet fee. Court copies $0.35 per page.",
+        "feeWaiver": "Form 4-222 NMRA, Application for Free Process and Affidavit of Indigency.",
+        "notice": "Responding parties have sixty days from service to object on Form 4-957 or to file a notice of non-objection on Form 4-958. Rule 1-077.1(G) gives sixty days and controls over the thirty days in the statute. A hearing is mandatory on this track under Rule 1-077.1(J), and the court issues its order within sixty days of the hearing under Rule 1-077.1(K).",
+        "service": "By first-class United States mail on the district attorney for the county where the conviction was entered, the New Mexico Department of Public Safety, and the law enforcement agency that arrested the petitioner. File the certificate of service on Form 4-956.",
+        "participantSignature": "The petitioner signs the petition under penalty of perjury, and signs the affirmation in support. The DPS Authorization for Release of Information requires a notarized original signature.",
+        "notarization": "none on the petition. The DPS Authorization for Release of Information must be notarized with an original signature."
+      },
+      "selfHelpStopConditions": [
+        "Any felony.",
+        "Any possible exclusion-list offence.",
+        "Any DWI.",
+        "Any Crimes Against Household Members Act offence.",
+        "Unpaid or unclear restitution.",
+        "A conviction during the waiting period.",
+        "Any pending charge anywhere.",
+        "Records across multiple judicial districts.",
+        "The justice-will-be-served narrative.",
+        "Any contested hearing.",
+        "Any non-citizen, per the Judiciary's own warning."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether the § 29-3A-5(A) requirement to pay 'fines or fees owed to the state' is satisfied where amounts are owed to a municipality rather than the state.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 3 - CONVICTION / Open questions",
+            "sourceStatement": "Whether the § 29-3A-5(A) \"fines or fees owed to the state\" requirement is satisfied where amounts are owed to a municipality rather than the state. Unresolved."
+          }
+        },
+        {
+          "question": "Whether an out-of-state conviction during the waiting period defeats eligibility. The statute measures time from sentence completion in any jurisdiction, which implies yes, but the point is unresolved as a matter of text.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 3 - CONVICTION / Open questions",
+            "sourceStatement": "Whether an out-of-state conviction during the waiting period defeats eligibility. The statute measures time from sentence completion in any jurisdiction, which implies yes. Unresolved as a matter of text."
+          }
+        },
+        {
+          "question": "Rule 1-077.1(B)(5) permits any number of matters in one judicial district in a single petition; the Judiciary instruction packet says one court case number per petition. These conflict.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 3 - CONVICTION / Open questions",
+            "sourceStatement": "Rule versus instruction-sheet conflict on multiple cases in one petition. **Release blocker.**"
+          }
+        },
+        {
+          "question": "Rule 1-077.1 NMRA was not held or read in full by this review, and it is the controlling procedural authority that overrides the statute on the objection window and the order deadline. The issuer host nmonesource.com is confirmed reachable as of 2026-08-05.",
+          "impact": "build_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "UNRESOLVED QUESTION IMPACT / Build blockers",
+            "sourceStatement": "Rule 1-077.1 NMRA not held."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The only New Mexico track where the court weighs a balancing test and the only one where a hearing is mandatory, so it is composed on the release-without-conviction pattern with a hearing stage added. The mandatory Supreme Court forms do the document work, but the petition is signed under penalty of perjury and three of its paragraphs are legal conclusions or argument that LegalEase must leave to the participant or their lawyer. A custom pleading is not available.",
+        "limitations": [
+          {
+            "classification": "self_help_boundary",
+            "statement": "The signature on Form 4-953 is under penalty of perjury and paragraph 10 is an exclusion-list certification. The exclusion screen must be run against official records, not participant recall.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 3 - CONVICTION / Limitations",
+              "sourceStatement": "The signature on Form 4-953 is under penalty of perjury and paragraph 10 is an exclusion-list certification. The exclusion screen must be run against official records, not participant recall."
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Paragraph 11 is attorney or assisted work.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 3 - CONVICTION / Limitations",
+              "sourceStatement": "Paragraph 11 is attorney or assisted work."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Conviction track always has a hearing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Conviction track always has a hearing"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Do not combine conviction and non-conviction petitions, because the filing loses its seal.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Do not combine conviction and non-conviction petitions, because the filing loses its seal"
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "FBI and DPS rap sheets, both within ninety days, for the conviction petition.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "FBI and DPS rap sheets, both within ninety days, for the conviction petition"
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Justice-will-be-served narrative.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Justice-will-be-served narrative"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "FINRA and SEC employment disclosure survives expungement.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "FINRA and SEC employment disclosure survives expungement"
+            }
+          },
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Correct the objection period to sixty days and the order deadline to sixty days.",
+            "undeterminedElement": "filing_process",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Correct the objection period to sixty days and the order deadline to sixty days"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nm_cannabis",
+      "legalName": "Cannabis Automatic Expungement, AOC Verification and the No-Fee Petition, NMSA 1978 § 29-3A-8",
+      "publicName": "New Mexico cannabis record clearing",
+      "controllingAuthority": {
+        "citations": [
+          "NMSA 1978 § 29-3A-8, as amended effective June 16, 2023",
+          "Cannabis Regulation Act, NMSA 1978 §§ 26-2C-1 to 26-2C-42",
+          "Rule 1-077.1 NMRA",
+          "Form 4-954 NMRA"
+        ],
+        "summary": "Where a person was charged with an offence involving cannabis that is no longer a crime as of June 29, 2021, or that would have resulted in a lesser offence had the Cannabis Regulation Act been in effect, then whether or not there was a conviction, all public records held by a court or a state or local agency relating to the arrest or conviction are automatically expunged two years after the conviction date, or two years after the arrest date if there was no conviction. For minors the record is retained for two years or until the person turns eighteen, whichever comes first. Automatic expungement applies to records involving only cannabis and cannabis paraphernalia charges and requires destruction of the records. The 2023 amendment requires the Administrative Office of the Courts to implement a verification procedure and an administrative request route for mixed cases, and Rule 1-077.1(B)(4) provides that there is no filing fee for an action commenced under § 29-3A-8."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2021-06-29",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "arrest_record",
+        "public_record",
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "convicted",
+        "arrested_no_conviction"
+      ],
+      "exclusions": [
+        "Records involving anything other than cannabis and cannabis paraphernalia charges. Only the portion of the records related to the cannabis charges is expunged under § 29-3A-8.",
+        "Offences that remain crimes and would not have resulted in a lesser offence under the Cannabis Regulation Act.",
+        "Anyone currently or formerly incarcerated for a cannabis offence, who belongs in the sentence dismissal and vacatur track."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Cannabis offence with a conviction",
+          "duration": "Automatically expunged two years after the conviction date"
+        },
+        {
+          "condition": "Cannabis offence with no conviction",
+          "duration": "Automatically expunged two years after the arrest date"
+        },
+        {
+          "condition": "Minors",
+          "duration": "The record is retained for two years or until the person turns eighteen, whichever comes first, and is then automatically expunged"
+        }
+      ],
+      "outputStrategy": "composed",
+      "compositionMode": "alternative",
+      "units": [
+        {
+          "unitId": "nm_cannabis_automatic_verification",
+          "order": 1,
+          "label": "Verify through the AOC whether the record already cleared automatically",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "The correct first move. The record may already have been destroyed by operation of law, so guidance explains the two-year rule, the minor retention rule, that automatic expungement requires destruction and removes the record from all statewide criminal databases, that requests for automatic expungement remain confidential, and how to use the AOC verification procedure before filing anything.",
+          "available": true
+        },
+        {
+          "unitId": "nm_cannabis_aoc_administrative_request",
+          "order": 2,
+          "label": "Administrative request to the AOC for the cannabis portion of a mixed case",
+          "packetIdentity": "unresolved",
+          "outputStrategyStatus": "unresolved",
+          "description": "Where an arrest or conviction involved both cannabis and non-cannabis charges, the 2023 amendment allows the person to request expungement of the eligible cannabis charges through an administrative process through the AOC. New Mexico Courts publishes an Application for Expungement of Court Records involving Cannabis for this purpose, but that application is not retained in Edition 1.2 and was not held by the review, so the artifact to generate is not identified.",
+          "available": false,
+          "unavailableReason": "The Application for Expungement of Court Records involving Cannabis is not retained in Edition 1.2 and was not held by the review, and the current status and mechanics of the AOC verification and administrative procedure are unconfirmed. The document identity cannot be established without acquiring it from the AOC, and no similarly named form may be substituted."
+        },
+        {
+          "unitId": "nm_cannabis_no_fee_petition_fallback",
+          "order": 3,
+          "label": "No-fee district court petition on Form 4-954 where automatic expungement has not occurred",
+          "packetIdentity": "unresolved",
+          "outputStrategyStatus": "unresolved",
+          "description": "Where automatic expungement is eligible but has not occurred, the person may file a district court action using Form 4-954 NMRA. Rule 1-077.1(B)(4) provides that there shall be no filing fee for an action commenced under the automatic expungement provisions of § 29-3A-8, Rule 1-077.1(J) permits the court to decide such a petition on the pleadings without a hearing, and Rule 1-077.1(E) does not require service. The form number and role are known; the form itself is not.",
+          "available": false,
+          "unavailableReason": "Form 4-954 NMRA is mandatory under Rule 1-077.1(D) and (M) but is not retained in Edition 1.2, no NM-4-954 asset appears in the New Mexico archive metadata, and the review records the form as absent from the internal reference. The form number is known and the role is known, but the document is not held, so no packet can be identified and no similarly named form may be substituted."
+        }
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "For the petition fallback, the district court in which the arrest occurred, the charges were originally filed, or the conviction was entered. The automatic route and the AOC administrative request have no court venue."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "New Mexico Administrative Office of the Courts, with a district court fallback",
+        "detail": "The automatic route is administered by operation of law and verified through the AOC. The administrative request for mixed cases runs through the AOC. Only the no-fee petition fallback goes to a district court, where no service is required and the court may decide on the pleadings. The Judiciary packet recommends that a person with other eligible charges file under § 29-3A-4 or § 29-3A-5 for those."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "The AOC verification route: the two-year rule, the minor retention rule, the destruction requirement, the confidentiality of automatic-expungement requests, the mixed-case limitation and the recommendation to file under § 29-3A-4 or § 29-3A-5 for non-cannabis charges, and the instruction not to file a petition for a record the law has already destroyed."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "fullLegalNameAndAliases",
+          "question": "What is your full legal name, and every other name you have used?",
+          "requirement": "required"
+        },
+        {
+          "key": "dateOfBirth",
+          "question": "What is your date of birth?",
+          "requirement": "required"
+        },
+        {
+          "key": "cannabisOffenseDescription",
+          "question": "What was the cannabis charge, as it appears on the record?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionOrArrestDate",
+          "question": "What was the conviction date, or the arrest date if there was no conviction?",
+          "requirement": "required",
+          "conditionDescription": "The two-year automatic clock runs from the conviction date, or from the arrest date where there was no conviction."
+        },
+        {
+          "key": "ageAtOffense",
+          "question": "Were you under eighteen at the time?",
+          "requirement": "required",
+          "conditionDescription": "Minors are subject to a different retention rule before automatic expungement."
+        },
+        {
+          "key": "mixedCannabisAndOtherCharges",
+          "question": "Did the same arrest or case also involve charges that were not cannabis or cannabis paraphernalia?",
+          "requirement": "required",
+          "conditionDescription": "Only the cannabis portion is expunged under § 29-3A-8, and a mixed case routes to the AOC administrative request."
+        },
+        {
+          "key": "everIncarceratedForCannabis",
+          "question": "Are you now, or were you ever, incarcerated for this cannabis offence?",
+          "requirement": "required",
+          "conditionDescription": "Routes to the sentence dismissal and vacatur track instead."
+        },
+        {
+          "key": "aocVerificationResult",
+          "question": "When you checked with the Administrative Office of the Courts, did it confirm the record had already been expunged?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Case documentation for the cannabis charge",
+          "obtainedFrom": "The court where the case was heard",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Use the New Mexico Courts 'Find a Case' search and request copies from the court. The AOC cannabis application asks for the full case number.",
+          "confirms": "cannabisOffenseDescription"
+        },
+        {
+          "name": "Picture identification",
+          "obtainedFrom": "The participant's own identity documents",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "The AOC cannabis application asks for picture ID along with name, date of birth, the full case number and the last four digits of the social security number."
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "New Mexico Courts expungement self-help, the AOC channel for cannabis verification and the Application for Expungement of Court Records involving Cannabis",
+          "url": "https://www.nmcourts.gov/self-help/expungement/",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        },
+        {
+          "title": "Rule 1-077.1 NMRA, including subsections (B)(4), (E) and (J), published by the New Mexico Compilation Commission",
+          "url": "https://nmonesource.com",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Nothing is filed on the automatic route. For a mixed case, request expungement of the cannabis charges through the AOC administrative process. Where automatic expungement is eligible but has not occurred, file a district court action on Form 4-954 in the district court in which the arrest occurred, the charges were originally filed, or the conviction was entered.",
+        "fees": "none. Rule 1-077.1(B)(4) provides that there shall be no filing fee for an action commenced under the automatic expungement provisions of § 29-3A-8.",
+        "feeWaiver": "none needed, because no filing fee applies to a § 29-3A-8 action.",
+        "notice": "none on the automatic route. On the petition fallback, Rule 1-077.1(J) permits the court to decide on the pleadings without a hearing.",
+        "service": "none. Service is not required for this track under Rule 1-077.1(E).",
+        "participantSignature": "none on the automatic route. The AOC application and the Form 4-954 petition are signed by the participant.",
+        "notarization": "none stated by the review for this track."
+      },
+      "selfHelpStopConditions": [
+        "Whether the offence is one that is no longer a crime or would be a lesser offence under the Cannabis Regulation Act.",
+        "Mixed cannabis and non-cannabis cases.",
+        "Anyone currently or formerly incarcerated, who belongs in the cannabis sentence dismissal and vacatur track.",
+        "Any non-citizen, per the Judiciary's own warning."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The current status and mechanics of the AOC cannabis verification procedure. The whole track routes through it, and the Application for Expungement of Court Records involving Cannabis is not retained in Edition 1.2. The nmcourts.gov host and its expungement self-help page are confirmed reachable as of 2026-08-05, but the application itself was not acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 4 / Open questions",
+            "sourceStatement": "Current status and mechanics of the AOC verification procedure. **Release blocker**, because the whole track routes through it."
+          }
+        },
+        {
+          "question": "Form 4-954 NMRA is mandatory for the no-fee petition fallback but is not retained in Edition 1.2 and was not supplied to the review, so the document identity of the petition cannot be established. No similarly named form may be substituted.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "HEADLINE FINDINGS",
+            "sourceStatement": "It lists 4-951, 4-952 and 4-953 and misses Form 4-954 (automatic cannabis expungement) plus the entire mandatory 4-955 through 4-960.3 series"
+          }
+        },
+        {
+          "question": "Whether Form 4-954 is used for the AOC administrative request or only for the district court action.",
+          "impact": "build_blocker",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 4 / Open questions",
+            "sourceStatement": "Whether Form 4-954 is used for the AOC administrative request or only for the district court action. Unresolved."
+          }
+        },
+        {
+          "question": "Whether automatic expungement has in fact been executed at scale.",
+          "impact": "release_blocker",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 4 / Open questions",
+            "sourceStatement": "Whether automatic expungement has in fact been executed at scale. Unresolved."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The correct first move is verification through the AOC, not a filing. Selling a petition for a record the law already destroyed is the failure mode to avoid, and the fallback is free anyway. The route is composed as alternatives because exactly one of the three applies to a given participant: the record cleared automatically, or the case is mixed and the cannabis portion goes through the AOC administrative process, or automatic expungement did not occur and a no-fee district court petition follows. Only the verification branch is available: neither the AOC application nor Form 4-954 is retained in Edition 1.2, so no packet identity exists for the other two and no strategy is asserted for them.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Verify cannabis records through the AOC before filing anything.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Verify cannabis records through the AOC before filing anything"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "No filing fee for a § 29-3A-8 action.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "No filing fee for a § 29-3A-8 action"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Only the portion of the records related to the cannabis charges is expunged under § 29-3A-8.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 4 / Mixed-case rule",
+              "sourceStatement": "only the portion of the records related to the cannabis charges is expunged under § 29-3A-8"
+            }
+          },
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Acquire Rule 1-077.1 NMRA and all of Forms 4-951 to 4-960.3.",
+            "undeterminedElement": "correct_form",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Acquire Rule 1-077.1 NMRA and all of Forms 4-951 to 4-960.3"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nm_cannabis_sentence",
+      "legalName": "Cannabis Sentence Dismissal, Vacatur and Redesignation, NMSA 1978 § 29-3A-9",
+      "publicName": "New Mexico cannabis sentence review and vacatur",
+      "controllingAuthority": {
+        "citations": [
+          "NMSA 1978 § 29-3A-9",
+          "Cannabis Regulation Act, NMSA 1978 §§ 26-2C-1 to 26-2C-42"
+        ],
+        "summary": "For a person currently incarcerated for a cannabis offence that is no longer a crime or would have been a lesser offence under the Cannabis Regulation Act, the correctional facility, jail or juvenile facility was required to notify the court that the case may be reopened for dismissal of sentence or expungement, and the court must reopen and dismiss the sentence if it is legally invalid. A person who completed such a sentence is entitled to have the conviction dismissed and expunged as legally invalid, or redesignated as a penalty assessment citation. A person currently or formerly incarcerated may petition at any time to modify the sentence or vacate the conviction, and no fee or cost may be imposed for sentence review under this section."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2021-06-29",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "conviction",
+        "sentence"
+      ],
+      "eligibleDispositions": [
+        "convicted",
+        "currently_incarcerated",
+        "sentence_completed"
+      ],
+      "exclusions": [
+        "Offences that remain crimes and would not have been a lesser offence under the Cannabis Regulation Act."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "A person currently or formerly incarcerated for a qualifying cannabis offence",
+          "duration": "none. The person may petition at any time to modify the sentence or vacate the conviction"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "guidanceRationales": [
+        "individualized_advocacy",
+        "contested_evidentiary_showing"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The court that imposed the sentence, which reopens the case."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The sentencing court, with the correctional facility, jail or juvenile facility as the notifying party",
+        "detail": "The facility was required to notify the court that the case may be reopened. The court must reopen and dismiss the sentence if it is legally invalid. This is vacatur and sentence modification, not record clearing."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Detect, name and refer. Explains that a person currently or formerly incarcerated for a qualifying cannabis offence may seek dismissal of the sentence, vacatur of the conviction as legally invalid, or redesignation as a penalty assessment citation; that the facility had a notification duty; and, importantly, that no fee or cost may be imposed for sentence review under this section."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "cannabisOffenseDescription",
+          "question": "What was the cannabis offence you were sentenced for?",
+          "requirement": "required"
+        },
+        {
+          "key": "currentlyOrFormerlyIncarcerated",
+          "question": "Are you currently incarcerated for this offence, or did you complete the sentence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentencingCourtAndCase",
+          "question": "Which court imposed the sentence, and what is the case number?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Judgment and sentence",
+          "obtainedFrom": "The sentencing court",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request a copy of the judgment and sentence from the court that imposed it.",
+          "confirms": "sentencingCourtAndCase"
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "NMSA 1978 § 29-3A-9, published by the New Mexico Compilation Commission",
+          "url": "https://nmonesource.com",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "A person currently or formerly incarcerated may petition at any time to modify the sentence or vacate the conviction. The specific vehicle was not established by this review.",
+        "fees": "none. No fee or cost may be imposed for sentence review under this section.",
+        "feeWaiver": "none needed, because no fee or cost may be imposed for sentence review under this section.",
+        "notice": "Not established by this review.",
+        "service": "Not established by this review.",
+        "participantSignature": "Not established by this review.",
+        "notarization": "Not established by this review."
+      },
+      "selfHelpStopConditions": [
+        "Everyone on this track. It requires a legal-invalidity analysis and, for incarcerated people, coordination with a facility and possibly counsel.",
+        "Any non-citizen, per the Judiciary's own warning."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The full text of NMSA 1978 § 29-3A-9 was not read at the official source in this review. The New Mexico Compilation Commission host nmonesource.com is confirmed reachable as of 2026-08-05; the text remains unread, and the petition vehicle, notice and service rules are therefore unestablished.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 5 / Open questions",
+            "sourceStatement": "Full text of § 29-3A-9 not read in this review. **Build blocker** for this track."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "This is vacatur and sentence modification, not record clearing. It requires a legal-invalidity analysis and, for incarcerated people, coordination with a facility and possibly counsel, so it sits outside the packet product. Guidance is preserved rather than re-reviewed because the reason is individualized advocacy on a contested legal-invalidity question, not merely that an outside party must sign something. The review's direction is to detect, name and refer, and to tell the participant there is no fee for sentence review under this section.",
+        "limitations": [
+          {
+            "classification": "self_help_boundary",
+            "statement": "Outside the current LegalEase self-help scope. Detect, name, refer, and tell the participant there is no fee for sentence review under this section.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 5 / Legal-design decision",
+              "sourceStatement": "Outside the current LegalEase self-help scope. Detect, name, refer, and tell the participant there is no fee for sentence review under this section."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "No fee or cost may be imposed for sentence review under NMSA 1978 § 29-3A-9.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 5 / Mechanism",
+              "sourceStatement": "no fee or cost may be imposed for sentence review under this section"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nm_dna_expungement",
+      "legalName": "Expungement of DNA Sample and DNA Records from the State DNA Identification System, NMSA 1978 § 29-16-10",
+      "publicName": "Remove your DNA sample and profile from the New Mexico DNA system",
+      "controllingAuthority": {
+        "citations": [
+          "NMSA 1978 § 29-16-10",
+          "DNA Identification Act, NMSA 1978 Chapter 29, Article 16"
+        ],
+        "summary": "A person may request expungement of their DNA sample and DNA records from the state DNA identification system where the conviction that led to the sample was reversed, or the arrest that led to the sample resulted in dismissal, nolle prosequi, successful preprosecution diversion, conditional discharge, misdemeanor conviction, acquittal, or did not result in a felony charge within one year. The request must be written and supported by certified documentation, or by a sworn affidavit that no felony charges were filed within one year. If the state records are expunged, the administrative centre must ensure expungement from CODIS."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-31",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "dna_sample",
+        "dna_record"
+      ],
+      "eligibleDispositions": [
+        "conviction_reversed",
+        "dismissed",
+        "nolle_prosequi",
+        "preprosecution_diversion",
+        "conditional_discharge",
+        "misdemeanor_conviction",
+        "acquitted",
+        "no_felony_charge_within_one_year"
+      ],
+      "exclusions": [
+        "A prior felony conviction for which DNA collection is authorized.",
+        "A pending felony charge for which DNA collection is authorized."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Arrest that did not result in a felony charge",
+          "duration": "1 year, after which a sworn affidavit that no felony charges were filed will support the request"
+        },
+        {
+          "condition": "Conviction reversed, or arrest resulting in dismissal, nolle prosequi, successful preprosecution diversion, conditional discharge, misdemeanor conviction or acquittal",
+          "duration": "none"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "guidanceRationales": [
+        "another_entity_decides",
+        "participant_obtains_record"
+      ],
+      "geography": {
+        "scope": "agency_specific",
+        "keys": [],
+        "venue": "No court venue. This is an administrative written request to an agency, not a court filing, and it does not use the Rule 1-077.1 form set."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "The New Mexico administrative centre for the state DNA identification system",
+        "detail": "A written request supported by certified documentation, or by a sworn affidavit that no felony charges were filed within one year. If the state records are expunged, the administrative centre must ensure expungement from CODIS. The exact receiving agency and the request format were not confirmed by this review."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explains the qualifying dispositions, the one-year rule for arrests that produced no felony charge, that the request must be written and supported either by certified documentation or by a sworn affidavit, that CODIS removal follows state expungement, and that a prior felony conviction or a pending felony charge for which DNA collection is authorized defeats the request."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "dnaCollectionBasis",
+          "question": "What arrest or conviction led to your DNA sample being taken?",
+          "requirement": "required"
+        },
+        {
+          "key": "qualifyingDisposition",
+          "question": "How did that matter end — conviction reversed, dismissal, nolle prosequi, successful preprosecution diversion, conditional discharge, misdemeanor conviction, acquittal, or no felony charge within a year?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorFelonyOrPendingFelony",
+          "question": "Do you have a prior felony conviction, or a pending felony charge, for which DNA collection is authorized?",
+          "requirement": "required"
+        },
+        {
+          "key": "oneYearElapsedNoFelonyCharge",
+          "question": "If no felony charge was filed, has a year passed since the arrest?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where the basis is an arrest that produced no felony charge, because the sworn affidavit route depends on the year having run."
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Certified documentation of the qualifying disposition",
+          "obtainedFrom": "The court where the matter was heard",
+          "requirement": "conditional",
+          "conditionDescription": "Where the basis is a reversal, dismissal, nolle prosequi, diversion, conditional discharge, misdemeanor conviction or acquittal rather than the one-year no-felony-charge route.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request certified copies of the disposition from the court where the matter was heard. Court copies run $0.35 per page.",
+          "confirms": "qualifyingDisposition"
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "NMSA 1978 § 29-16-10, published by the New Mexico Compilation Commission",
+          "url": "https://nmonesource.com",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "A written request to the administrative centre for the state DNA identification system. The exact receiving agency and the request format were not confirmed by this review.",
+        "fees": "Not established by this review.",
+        "feeWaiver": "Not established by this review.",
+        "notice": "Not established by this review.",
+        "service": "Not established by this review.",
+        "participantSignature": "The participant signs the written request, and signs the sworn affidavit where the one-year no-felony-charge route is used.",
+        "notarization": "A sworn affidavit that no felony charges were filed within one year is required where that route is used. Whether it must be notarized was not established by this review."
+      },
+      "selfHelpStopConditions": [
+        "Any prior felony conviction or pending felony charge for which DNA collection is authorized.",
+        "Obtaining certified dispositions.",
+        "Any non-citizen, per the Judiciary's own warning."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The full text of NMSA 1978 § 29-16-10 was not read at the official source in this review, and the receiving agency and the request format are not confirmed. The New Mexico Compilation Commission host nmonesource.com is confirmed reachable as of 2026-08-05; the text remains unread.",
+          "impact": "build_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 6 / Open questions",
+            "sourceStatement": "Full text of § 29-16-10 not read in this review, and the receiving agency and request format are not confirmed. **Build blocker** for this track."
+          }
+        },
+        {
+          "question": "Whether LegalEase can generate the written request and the sworn affidavit for this track. The statute describes a participant-facing written request supported by certified documentation or a sworn affidavit, which is the shape of an artifact LegalEase could prepare, but the receiving agency and the request format are unconfirmed, so the artifact to generate cannot yet be identified.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 6 - DNA SAMPLE AND PROFILE EXPUNGEMENT / Output strategy",
+            "sourceStatement": "**process_guidance.** This is an administrative written request to an agency, not a court filing, and it does not use the Rule 1-077.1 form set.",
+            "counselQuestion": "Once the receiving agency and the request format are confirmed, can LegalEase prepare the participant's written request and the sworn affidavit under § 29-16-10, leave the certified documentation for the participant to attach, and instruct them where to send it? The review chose process_guidance because no Rule 1-077.1 form applies, not because no participant-facing submission exists."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The review selected process_guidance because this is an administrative written request to an agency rather than a court filing, and it does not use the mandatory Rule 1-077.1 form set. That reasoning is recorded, but the guidance rationales here are that another entity decides and that the participant must obtain certified records, both of which are external dependencies rather than the absence of a participant filing. The track is therefore routed to the guidance re-review queue so counsel can answer whether LegalEase should prepare the written request and affidavit once the receiving agency and format are confirmed. Nothing is reclassified here.",
+        "limitations": [
+          {
+            "classification": "required_before_filing",
+            "statement": "The request must be written and supported by certified documentation, or by a sworn affidavit that no felony charges were filed within one year.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 6 / Mechanism",
+              "sourceStatement": "The request must be written and supported by certified documentation, or by a sworn affidavit that no felony charges were filed within one year."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Relief is unavailable where the person has a prior felony conviction or a pending felony charge for which DNA collection is authorized.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 6 / Mechanism",
+              "sourceStatement": "Relief is unavailable where the person has a prior felony conviction or a pending felony charge for which DNA collection is authorized."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nm-ls-1",
+      "legalName": "Trafficking-Survivor Conviction Relief",
+      "publicName": "New Mexico record relief for survivors of trafficking",
+      "controllingAuthority": {
+        "citations": [
+          "Statute not identified in this review"
+        ],
+        "summary": "New Mexico has conviction relief for survivors of trafficking that the controlling review describes as broader in scope and easier to obtain than general conviction expungement, and whose sealed records do not carry the financial-institution disclosure requirement that NMSA 1978 § 29-3A-7 imposes on expunged records. The statute was not identified in this review."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-31",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "convicted"
+      ],
+      "exclusions": [
+        "Not determined. The statute was not identified in this review."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Not determined",
+          "duration": "unresolved pending identification of the statute"
+        }
+      ],
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Not stated by the review for this matter."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Not determined",
+        "detail": "The review states no filing actor, no form and no destination for this matter, because it did not identify the governing statute."
+      },
+      "components": [],
+      "participantInputs": [],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "New Mexico statutes, published by the New Mexico Compilation Commission; the trafficking-survivor relief statute is to be located here",
+          "url": "https://nmonesource.com",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Not determined.",
+        "fees": "Not determined.",
+        "feeWaiver": "Not determined.",
+        "notice": "Not determined.",
+        "service": "Not determined.",
+        "participantSignature": "Not determined.",
+        "notarization": "Not determined."
+      },
+      "selfHelpStopConditions": [
+        "Every matter under this heading, until the governing statute is identified and read."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The New Mexico trafficking-survivor relief statute was not identified in this review, so no mechanism, form, venue or output strategy exists for it. The review records the relief as broader in scope and easier to obtain than general conviction expungement, and as producing sealed records that escape the § 29-3A-7 financial-institution disclosure requirement, which makes it materially more favourable than the conviction track for anyone eligible. The Compilation Commission host is confirmed reachable as of 2026-08-05.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+            "sourceStatement": "New Mexico has conviction relief for survivors that is described as broader in scope and easier to obtain than general conviction expungement, and whose sealed records do not carry the financial-institution disclosure requirement that § 29-3A-7 imposes on expunged records. Statute not identified in this review. **Unresolved** and worth running down."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "The controlling review records this as a real and materially more favourable route than the conviction track, but did not identify the statute. It is preserved as a deferred entry rather than dropped, precisely because the review calls it worth running down: a participant eligible for it should not be routed to the harder, discretionary conviction track by default. No output strategy is asserted, because none was determined.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Statute not identified in this review. Unresolved and worth running down.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+              "sourceStatement": "Statute not identified in this review. **Unresolved** and worth running down."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nm-ls-2",
+      "legalName": "New Mexico Juvenile Records",
+      "publicName": "New Mexico juvenile record relief",
+      "controllingAuthority": {
+        "citations": [
+          "Not surveyed in this review"
+        ],
+        "summary": "Juvenile record relief in New Mexico. The controlling review records that it was not surveyed and places it out of scope."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-31",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "juvenile_record"
+      ],
+      "eligibleDispositions": [
+        "adjudicated"
+      ],
+      "exclusions": [
+        "Not determined. Juvenile records were not surveyed in this review."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Not determined",
+          "duration": "unresolved; the review places this matter out of scope"
+        }
+      ],
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Not stated by the review for this matter."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Not determined",
+        "detail": "The review states no filing actor and no destination for this matter and marks it not surveyed and out of scope."
+      },
+      "components": [],
+      "participantInputs": [],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "New Mexico statutes, published by the New Mexico Compilation Commission",
+          "url": "https://nmonesource.com",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Not determined.",
+        "fees": "Not determined.",
+        "feeWaiver": "Not determined.",
+        "notice": "Not determined.",
+        "service": "Not determined.",
+        "participantSignature": "Not determined.",
+        "notarization": "Not determined."
+      },
+      "selfHelpStopConditions": [
+        "Every juvenile matter. The review did not survey them and the adult tracks in this memo do not reach juvenile records."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Juvenile records were not surveyed by this review, and the review marks them out of scope without stating whether that is a permanent product-scope exclusion or a deferral to a separate juvenile review.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+            "sourceStatement": "Juvenile records | Not surveyed. Out of scope.",
+            "counselQuestion": "Is New Mexico juvenile record relief permanently outside the LegalEase product scope, or is it deferred to a separate juvenile review? The review records only that it was not surveyed and is out of scope."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "Recorded by the controlling review as not surveyed and out of scope. It is preserved as a deferred entry rather than dropped, so that the source ID is accounted for, and no output strategy is asserted. It is not recorded as rejected, because 'not surveyed' does not support a conclusion that the relief should never be offered.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Not surveyed. Out of scope.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+              "sourceStatement": "Not surveyed. Out of scope."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nm-ls-3",
+      "legalName": "New Mexico Pardons",
+      "publicName": "New Mexico pardons",
+      "controllingAuthority": {
+        "citations": [
+          "Not surveyed in this review"
+        ],
+        "summary": "Executive pardons in New Mexico. The controlling review records that they were not surveyed and places them out of scope."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-31",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "convicted"
+      ],
+      "exclusions": [
+        "Not determined. Pardons were not surveyed in this review."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Not determined",
+          "duration": "unresolved; the review places this matter out of scope"
+        }
+      ],
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Not stated by the review for this matter. A pardon is an executive act, not a court proceeding."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Not determined",
+        "detail": "The review states no filing actor and no destination for this matter and marks it not surveyed and out of scope."
+      },
+      "components": [],
+      "participantInputs": [],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "New Mexico statutes, published by the New Mexico Compilation Commission",
+          "url": "https://nmonesource.com",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Not determined.",
+        "fees": "Not determined.",
+        "feeWaiver": "Not determined.",
+        "notice": "Not determined.",
+        "service": "Not determined.",
+        "participantSignature": "Not determined.",
+        "notarization": "Not determined."
+      },
+      "selfHelpStopConditions": [
+        "Every pardon matter. The review did not survey them and no track in this memo produces a pardon application."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Pardons were not surveyed by this review, and the review marks them out of scope without stating whether that is a permanent product-scope exclusion or a deferral.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+            "sourceStatement": "Pardons | Not surveyed. Out of scope.",
+            "counselQuestion": "Is the New Mexico pardon route permanently outside the LegalEase product scope, or is it deferred pending a survey? The review records only that it was not surveyed and is out of scope."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "Recorded by the controlling review as not surveyed and out of scope. It is preserved as a deferred entry rather than dropped, so that the source ID is accounted for, and no output strategy is asserted.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Not surveyed. Out of scope.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+              "sourceStatement": "Not surveyed. Out of scope."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nm-ls-4",
+      "legalName": "Federal, Tribal, Military and Out-of-State Records",
+      "publicName": "Records a New Mexico court cannot reach",
+      "controllingAuthority": {
+        "citations": [
+          "NMSA 1978 § 29-3A-1 to § 29-3A-9, by limitation"
+        ],
+        "summary": "New Mexico district courts cannot reach federal, tribal, military or out-of-state records. The New Mexico Judiciary packet says so expressly. This is a boundary on every New Mexico track rather than a relief mechanism of its own."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-31",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "federal_record",
+        "tribal_record",
+        "military_record",
+        "out_of_state_record"
+      ],
+      "eligibleDispositions": [
+        "not_applicable"
+      ],
+      "exclusions": [
+        "All of them. No New Mexico expungement track reaches these records."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Not applicable",
+          "duration": "not applicable; no New Mexico relief exists for these records"
+        }
+      ],
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "None. No New Mexico venue can reach these records."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "None available in New Mexico",
+        "detail": "The review records this as a limitation on the reach of every New Mexico track, not as a mechanism with a destination."
+      },
+      "components": [],
+      "participantInputs": [],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "New Mexico Courts expungement self-help and the district instruction packets, which state the limitation expressly",
+          "url": "https://www.nmcourts.gov/self-help/expungement/",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "none. No New Mexico filing reaches these records.",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "none",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "Any participant whose record is federal, tribal, military or from another state, who must be told plainly that no New Mexico expungement reaches it."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "This entry is a scope boundary recorded by the review rather than a relief mechanism, so it has no mechanism, form, venue or strategy to determine. Whether it should continue to occupy a source-ID slot in the New Mexico inventory, or be carried only as a scope restriction on the other tracks, is a normalization question rather than a legal one.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "geographic_scope",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+            "sourceStatement": "Federal, tribal, military and out-of-state records | New Mexico district courts cannot reach them. The Judiciary packet says so expressly.",
+            "counselQuestion": "Should this scope boundary keep its own source-ID slot in the New Mexico inventory, or should it be carried only as the scope restriction it already is on every other New Mexico track? It is preserved as its own entry here solely so the frozen source ID is accounted for exactly once."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "This is a boundary the review recorded in its separately listed table, not a relief mechanism. It is preserved as its own entry so that the frozen source ID is accounted for exactly once and is not silently merged into another track, and no output strategy is asserted because there is no relief to produce. The substance of the boundary is also carried as a scope restriction on the tracks it actually limits.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "New Mexico district courts cannot reach federal, tribal, military or out-of-state records. The Judiciary packet says so expressly.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+              "sourceStatement": "New Mexico district courts cannot reach them. The Judiciary packet says so expressly."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nm-ls-5",
+      "legalName": "Immigration Consequences of New Mexico Expungement",
+      "publicName": "Immigration and New Mexico expungement",
+      "controllingAuthority": {
+        "citations": [
+          "Federal immigration law, outside New Mexico jurisdiction"
+        ],
+        "summary": "Out of scope. The New Mexico Judiciary packet itself tells non-citizens to seek legal advice about the consequences of expungement, which the controlling review records as a useful thing to echo."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-31",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "immigration_matter"
+      ],
+      "eligibleDispositions": [
+        "not_applicable"
+      ],
+      "exclusions": [
+        "All of it. LegalEase gives no immigration advice and asserts no immigration effect."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Not applicable",
+          "duration": "not applicable; this is a warning and referral, not a relief mechanism"
+        }
+      ],
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "None. Immigration consequences are a federal matter outside any New Mexico venue."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "None available in New Mexico",
+        "detail": "The review records this as an out-of-scope warning and referral, not as a mechanism with a destination."
+      },
+      "components": [],
+      "participantInputs": [],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "New Mexico Courts expungement self-help and the district instruction packets, which advise non-citizens to seek legal advice",
+          "url": "https://www.nmcourts.gov/self-help/expungement/",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "none",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "none",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "Every non-citizen, per the New Mexico Judiciary's own warning. LegalEase must never assert that expungement has any immigration effect."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "This entry is an out-of-scope warning and referral recorded by the review rather than a relief mechanism, so it has no mechanism, form, venue or strategy to determine. Whether it should continue to occupy a source-ID slot in the New Mexico inventory, or be carried only as the self-help boundary it already is on every other track, is a normalization question rather than a legal one.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+            "sourceStatement": "Immigration | Out of scope. The Judiciary packet itself tells non-citizens to seek legal advice about the consequences of expungement, which is a useful thing to echo.",
+            "counselQuestion": "Should this warning keep its own source-ID slot in the New Mexico inventory, or be carried only as the self-help boundary it already is on every other New Mexico track? It is preserved as its own entry here solely so the frozen source ID is accounted for exactly once."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "This is an out-of-scope warning the review recorded in its separately listed table, not a relief mechanism. It is preserved as its own entry so that the frozen source ID is accounted for exactly once and is not silently merged, and no output strategy is asserted because there is no relief to produce. The substance is carried as a self-help boundary on every track that generates anything.",
+        "limitations": [
+          {
+            "classification": "self_help_boundary",
+            "statement": "Out of scope. The Judiciary packet itself tells non-citizens to seek legal advice about the consequences of expungement, which is a useful thing to echo.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+              "sourceStatement": "Out of scope. The Judiciary packet itself tells non-citizens to seek legal advice about the consequences of expungement, which is a useful thing to echo."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nm-ls-6",
+      "legalName": "Deferred Imposition of Sentence under NMSA 1978 § 31-20-3 and Conditional Discharge under § 31-20-13",
+      "publicName": "New Mexico deferred sentences and conditional discharges",
+      "controllingAuthority": {
+        "citations": [
+          "NMSA 1978 § 31-20-3",
+          "NMSA 1978 § 31-20-13",
+          "NMSA 1978 § 29-3A-4"
+        ],
+        "summary": "These are not separate relief tracks. Conditional discharge under § 31-20-13 feeds the release-without-conviction track through the statutory 'released without conviction' definition, and deferred sentences under § 31-20-3 may do the same. The review records the deferred-sentence point as unresolved."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-31",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "arrest_record",
+        "public_record",
+        "deferred_sentence"
+      ],
+      "eligibleDispositions": [
+        "conditional_discharge",
+        "deferred_sentence"
+      ],
+      "exclusions": [
+        "Not determined as a standalone mechanism, because the review records these as feeding the release-without-conviction track rather than standing alone."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Not determined as a standalone mechanism",
+          "duration": "unresolved; where these feed the release-without-conviction track, that track's waiting period governs"
+        }
+      ],
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Where these feed the release-without-conviction track, that track's venue governs: the district court for the county where the charges originated or the arrest occurred."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Not determined as a standalone mechanism",
+        "detail": "The review records these as not separate tracks. Conditional discharge feeds the release-without-conviction track through the 'released without conviction' definition, which already lists an order of conditional discharge under § 31-20-13 as an eligible disposition. Whether a deferred sentence does the same is unresolved."
+      },
+      "components": [],
+      "participantInputs": [],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "NMSA 1978 §§ 31-20-3 and 31-20-13, published by the New Mexico Compilation Commission",
+          "url": "https://nmonesource.com",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Not determined as a standalone mechanism. Where these feed the release-without-conviction track, that track's filing rules govern.",
+        "fees": "Not determined as a standalone mechanism.",
+        "feeWaiver": "Not determined as a standalone mechanism.",
+        "notice": "Not determined as a standalone mechanism.",
+        "service": "Not determined as a standalone mechanism.",
+        "participantSignature": "Not determined as a standalone mechanism.",
+        "notarization": "Not determined as a standalone mechanism."
+      },
+      "selfHelpStopConditions": [
+        "Any deferred sentence, until it is settled whether it falls within the released-without-conviction definition.",
+        "Whether a diversion or conditional discharge actually completed, which the release-without-conviction track already treats as a stop condition."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "How deferred sentences under NMSA 1978 § 31-20-3 interact with the released-without-conviction definition in § 29-3A-4. Conditional discharge under § 31-20-13 is expressly within that definition; deferred sentences may be, and the review records the point as unresolved. The Compilation Commission host is confirmed reachable as of 2026-08-05.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+            "sourceStatement": "Deferred imposition of sentence under § 31-20-3 and conditional discharge under § 31-20-13 | Not separate tracks. Conditional discharge feeds Track 2 through the \"released without conviction\" definition. Deferred sentences may as well. **Unresolved.**"
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "The review is explicit that these are not separate tracks: conditional discharge feeds the release-without-conviction track through the statutory definition, and deferred sentences may as well. The entry is preserved so that the frozen source ID is accounted for exactly once and is not silently merged into the release-without-conviction track, which would erase the unresolved deferred-sentence question. No output strategy is asserted, because the review determined that this is not a mechanism of its own. Conditional discharge is already carried as an eligible disposition on the release-without-conviction track, where the review placed it.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Not separate tracks. Conditional discharge feeds Track 2 through the \"released without conviction\" definition. Deferred sentences may as well. Unresolved.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NM__LEGAL-REVIEW__STATEWIDE__new-mexico-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+              "sourceStatement": "Not separate tracks. Conditional discharge feeds Track 2 through the \"released without conviction\" definition. Deferred sentences may as well. **Unresolved.**"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
