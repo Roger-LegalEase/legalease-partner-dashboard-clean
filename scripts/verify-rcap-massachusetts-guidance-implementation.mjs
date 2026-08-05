@@ -34,6 +34,8 @@ const OUT = path.join(root, "tmp/packet-output-review/massachusetts-guidance");
 const failures = []; const checks = [];
 const ok = (c, m) => { if (!c) failures.push(m); };
 const note = (l) => checks.push(l);
+const integrationValidation =
+  process.env.RCAP_FACTORY_VALIDATION_SCOPE === "integration";
 
 const TRACK_ID = "ma-autoseal";
 const MY_TRACK_IDS = ma.MASSACHUSETTS_GUIDANCE_TRACKS.map(t => t.trackId);
@@ -63,7 +65,7 @@ ok(ma.MASSACHUSETTS_COUNSEL_ADOPTED === false, "the worker branch claims counsel
     for (const id of MY_TRACK_IDS) ok(!text.includes(id), `${id} already appears in the counsel adoption record ${file}.`);
   }
   ok(files.length > 0, "no counsel adoption records were found to check against.");
-  ok(!fs.existsSync(path.join(root, "data/record-clearing/production-factory/packet-proofs/rcap-ma-guidance-implementation.json")),
+  ok(integrationValidation || !fs.existsSync(path.join(root, "data/record-clearing/production-factory/packet-proofs/rcap-ma-guidance-implementation.json")),
     "the worker branch created the integration-owned packet proof.");
 }
 for (const track of ma.MASSACHUSETTS_GUIDANCE_TRACKS) {
@@ -74,7 +76,7 @@ for (const track of ma.MASSACHUSETTS_GUIDANCE_TRACKS) {
       runtimeDisabled: track.runtimeDisabled, outputStrategy: track.outputStrategy }) === "runtime_disabled",
     `${track.trackId} does not compute runtime_disabled.`);
 }
-note("2. Adoption and promotion: 1 track runtime_disabled, recommended_for_counsel_adoption, counselAdopted false, no integration-owned proof written.");
+note(`2. Adoption and promotion: 1 track runtime_disabled, recommended_for_counsel_adoption, counselAdopted false, ${integrationValidation ? "captain-owned proof permitted during integration" : "no integration-owned proof written"}.`);
 
 const spec = JSON.parse(fs.readFileSync(path.join(root, "data/record-clearing/legal-design-specifications.json"), "utf8"));
 const design = JSON.parse(fs.readFileSync(path.join(root, "data/record-clearing/legal-design-track-registry.json"), "utf8"));

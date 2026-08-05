@@ -219,11 +219,11 @@ await check("deterministic plan covers all lanes and jurisdictions", () => {
   assert.deepEqual(first.lanes.map((entry) => entry.lane), FACTORY_LANES);
   assert.ok(first.lanes.every((entry) => entry.jobIds.length > 0));
   assert.equal(first.waves.length, FACTORY_LANES.length);
-  assert.equal(first.jobs.length, 238);
-  assert.equal(first.jobs.filter((job) => job.status === "ready").length, 47);
-  assert.equal(first.jobs.filter((job) => job.status === "blocked").length, 151);
+  assert.equal(first.jobs.length, 239);
+  assert.equal(first.jobs.filter((job) => job.status === "ready").length, 42);
+  assert.equal(first.jobs.filter((job) => job.status === "blocked").length, 152);
   assert.equal(first.jobs.filter((job) => job.status === "in_progress").length, 1);
-  assert.equal(first.jobs.filter((job) => job.status === "completed").length, 39);
+  assert.equal(first.jobs.filter((job) => job.status === "completed").length, 44);
   assert.equal(findOwnedPathOverlaps(first.jobs).length, 0);
   assert.ok(first.generatedFrom.length >= 8);
   assert.ok(first.generatedFrom.every((entry) => /^[0-9a-f]{64}$/.test(entry.sha256)));
@@ -265,8 +265,8 @@ await check("deterministic plan covers all lanes and jurisdictions", () => {
     "npm run typecheck",
     "npm test"
   ]);
-  assert.equal(first.parentJobReconciliation.compiledChildJobs, 238);
-  assert.equal(first.parentJobReconciliation.childrenMappedExactlyOnce, 238);
+  assert.equal(first.parentJobReconciliation.compiledChildJobs, 239);
+  assert.equal(first.parentJobReconciliation.childrenMappedExactlyOnce, 239);
   assert.equal(first.parentJobReconciliation.unmappedChildren, 0);
   assert.equal(first.parentJobReconciliation.unknownParentReferences, 0);
   plan = first;
@@ -290,6 +290,11 @@ await check("terminal guidance and authority children preserve exact provenance"
     ["rcap-mo-guidance-implementation", ["1b598a7df58249d8d15dd3de207fc10ea186d723", 2]],
     ["rcap-fl-guidance-implementation", ["c20febac8959dd4345e678bd36bf56b5ed128f8a", 1]],
     ["rcap-ar-guidance-implementation", ["9a1930abbc0c15bf771b6c10170db982f859759a", 1]],
+    ["rcap-hi-guidance-implementation", ["04484c319cd4a77dbd348661c0e20e28db1a8bd7", 1]],
+    ["rcap-in-guidance-implementation", ["b2c10962970adc43fdf2f774787cfcfc9d88c7aa", 1]],
+    ["rcap-ma-guidance-implementation", ["dc8f5182a9499362e8c07ade983fb40a2bbfbb02", 1]],
+    ["rcap-me-guidance-implementation", ["253ad752bf597231dd9cb797544324cd604b49ee", 1]],
+    ["rcap-mt-guidance-implementation", ["96dfa91f92a967b30b2dec6d94818131f20e022b", 1]],
     ["rcap-co-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition", ["6afe0d989bb079dbd1eab377b0547b9b6908d902", null]],
     ["rcap-ak-public-official-download", ["4acded00a77584b0ea9c9f00e490e2a6a92dd033", null]],
     ["rcap-me-public-official-download", ["6912e16bc73dbb85612dc5ede86c6a472e5c1e91", null]],
@@ -536,8 +541,8 @@ await check("all normalized tracks reconcile exactly once and completed tranches
   const reconciliation = plan.trackReconciliation;
   assert.equal(reconciliation.normalizedTracks, 260);
   assert.equal(reconciliation.representedExactlyOnce, 260);
-  assert.equal(reconciliation.implementationComplete, 73);
-  assert.equal(reconciliation.pendingProductionJob, 187);
+  assert.equal(reconciliation.implementationComplete, 78);
+  assert.equal(reconciliation.pendingProductionJob, 182);
 
   const implementationLanes = new Set([
     "custom_pleading",
@@ -868,6 +873,54 @@ await check("packet, source-materialization, and normalization readiness fail cl
   );
   assert.ok(
     gaReview.dependencies.includes(gaRfoAdjudication.jobId)
+  );
+  const maOcpAdjudication = plan.jobs.find(
+    (entry) =>
+      entry.jobId ===
+      "rcap-ma-pre-2024-autoseal-ocp-request-adjudication"
+  );
+  assert.equal(maOcpAdjudication.status, "blocked");
+  assert.equal(
+    maOcpAdjudication.strategyFamily,
+    "legal_design_adjudication"
+  );
+  assert.deepEqual(maOcpAdjudication.trackIds, []);
+  assert.deepEqual(maOcpAdjudication.dependencies, [
+    "rcap-ma-guidance-implementation"
+  ]);
+  assert.equal(
+    maOcpAdjudication.parentJobId,
+    "IMP-GU-01-automatic-relief-guidance-clean-slate"
+  );
+  assert.equal(
+    maOcpAdjudication.participantPacketProofRequired,
+    false
+  );
+  assert.ok(
+    maOcpAdjudication.requiredInputs.includes(
+      "data/record-clearing/legal-design-intake/MA.memo.json"
+    )
+  );
+  assert.match(
+    maOcpAdjudication.executionNote,
+    /legal-design normalization is preserved/
+  );
+  assert.match(
+    maOcpAdjudication.stopCondition,
+    /pre-March 11, 2024 record/
+  );
+  assert.match(
+    maOcpAdjudication.stopCondition,
+    /supporting action, a correction route, or a component of ma-autoseal/
+  );
+  assert.match(
+    maOcpAdjudication.stopCondition,
+    /Do not generate an OCP request, invent a normalized node or official form/
+  );
+  assert.ok(
+    plan.jobs
+      .find((entry) => entry.jobId === "rcap-ma-legal-output-review")
+      .dependencies.includes(maOcpAdjudication.jobId)
   );
   const gaRfoReconciliation = plan.trackReconciliation.assignments.find(
     (entry) =>
@@ -2381,7 +2434,7 @@ await check("completed guidance packet proofs are exact and review-consumable", 
       entry.lane === "guidance_implementation" &&
       entry.participantPacketProofRequired === true
   );
-  assert.equal(completedGuidance.length, 16);
+  assert.equal(completedGuidance.length, 21);
   for (const job of completedGuidance) {
     const proofPath =
       `data/record-clearing/production-factory/packet-proofs/${job.jobId}.json`;
@@ -2491,8 +2544,8 @@ await check("dashboard reports all 51 and preserves the red launch posture", () 
   assert.equal(status.totals.jurisdictions, 51);
   assert.equal(status.totals.tracks, 260);
   assert.equal(status.totals.normalized, 260);
-  assert.equal(status.totals.implementationComplete, 23);
-  assert.equal(status.totals.technicalProofPassed, 23);
+  assert.equal(status.totals.implementationComplete, 28);
+  assert.equal(status.totals.technicalProofPassed, 28);
   assert.equal(status.totals.visualProofPassed, 17);
   assert.equal(status.totals.legalRecommendationComplete, 19);
   assert.equal(status.totals.counselAdopted, 15);

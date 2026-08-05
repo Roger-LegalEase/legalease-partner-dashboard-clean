@@ -376,6 +376,56 @@ const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
       "scripts/verify-rcap-arkansas-guidance-implementation.mjs",
     verifierWorkerOwned: true,
     trackIds: ["ar-preadjudication-probation"]
+  },
+  {
+    jurisdiction: "HI",
+    completionCommit: "04484c319cd4a77dbd348661c0e20e28db1a8bd7",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/hawaii/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-hawaii-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: ["hi_state_initiated_marijuana_pilot"]
+  },
+  {
+    jurisdiction: "IN",
+    completionCommit: "b2c10962970adc43fdf2f774787cfcfc9d88c7aa",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/indiana/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-indiana-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: ["in_auto_expungement"]
+  },
+  {
+    jurisdiction: "MA",
+    completionCommit: "dc8f5182a9499362e8c07ade983fb40a2bbfbb02",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/massachusetts/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-massachusetts-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: ["ma-autoseal"]
+  },
+  {
+    jurisdiction: "ME",
+    completionCommit: "253ad752bf597231dd9cb797544324cd604b49ee",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/maine/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-maine-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: ["me-deferred"]
+  },
+  {
+    jurisdiction: "MT",
+    completionCommit: "96dfa91f92a967b30b2dec6d94818131f20e022b",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/montana/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-montana-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: ["mt_auto_nonconviction"]
   }
 ]);
 const GUIDANCE_TYPED_STOP_TRACKS = new Set([
@@ -1226,6 +1276,7 @@ export function buildFactoryPlan(options = {}) {
   addCompletedGuidanceChildren({ addJob });
   addGuidanceTypedStopChildren({ addJob });
   addGeorgiaRfoPostConsentAdjudicationChild({ addJob });
+  addMassachusettsPre2024OcpRequestAdjudicationChild({ addJob });
 
   const implementedTrackIds = implementedTracks(inputs.implementationRecords);
   const pendingTracks = normalizedTracks.filter(
@@ -1992,6 +2043,61 @@ function addGeorgiaRfoPostConsentAdjudicationChild({ addJob }) {
   });
 }
 
+function addMassachusettsPre2024OcpRequestAdjudicationChild({ addJob }) {
+  const jobId =
+    "rcap-ma-pre-2024-autoseal-ocp-request-adjudication";
+  const outputPath =
+    `${FACTORY_DATA_DIR}/guidance-specifications/ma-pre-2024-autoseal-ocp-request-adjudication.json`;
+  addJob({
+    lane: "guidance_implementation",
+    strategyFamily: "legal_design_adjudication",
+    jurisdiction: "MA",
+    jobId,
+    trackIds: [],
+    dependencies: ["rcap-ma-guidance-implementation"],
+    status: "blocked",
+    expectedOutputs: [outputPath],
+    ownedPaths: [outputPath],
+    integrationOwnedOutputs: [
+      "scripts/verify-rcap-massachusetts-guidance-implementation.mjs",
+      `${REVIEW_MANIFEST_DIR}/${jobId}.json`
+    ],
+    requiredInputs: [
+      "data/record-clearing/legal-design-intake/MA.memo.json",
+      FACTORY_INPUT_PATHS.normalizedTracks,
+      FACTORY_INPUT_PATHS.blockerLedger,
+      "src/lib/rcap/packets/jurisdictions/massachusetts/guidance.ts"
+    ],
+    regressionVerifier:
+      "scripts/verify-rcap-massachusetts-guidance-implementation.mjs",
+    participantPacketProofRequired: false,
+    focusedValidation: [
+      `node scripts/rcap-factory-plan.mjs --check-job ${jobId}`,
+      "node scripts/verify-rcap-massachusetts-guidance-implementation.mjs"
+    ],
+    executionNote:
+      "The integrated Massachusetts legal-design normalization is preserved through the " +
+      "required MA memo and normalized registry inputs. The completed ma-autoseal guidance " +
+      "implementation is a separate valid dependency. The possible OCP correspondence has no " +
+      "normalized track or supporting-action node, so this adjudication remains trackless.",
+    model: "opus",
+    effort: "xhigh",
+    commitSubject:
+      "docs(record-clearing): adjudicate pre-2024 Massachusetts OCP request",
+    stopCondition:
+      "For a qualifying pre-March 11, 2024 record that did not receive automatic sealing, " +
+      "determine whether LegalEase should generate a participant-written request to the Office " +
+      "of the Commissioner of Probation, and whether that correspondence is a supporting action, " +
+      "a correction route, or a component of ma-autoseal. Resolve current legal authority, exact " +
+      "destination, required contents, whether the request initiates relief or corrects " +
+      "implementation, statewide scope, official-form availability, controlled-correspondence " +
+      "capability, node type, output strategy, and the post-denial or nonresponse handoff. Do not " +
+      "generate an OCP request, invent a normalized node or official form, alter the completed " +
+      "ma-autoseal packet, claim counsel adoption, enable runtime, promote, or deploy. " +
+      TERMINAL_INSTRUCTION
+  });
+}
+
 function georgiaTrancheOutputs() {
   const tranchePrefix = "data/record-clearing/implementation-tranches/tranche-3";
   return [
@@ -2494,6 +2600,12 @@ function resolveCanonicalParentJobId(job, parents) {
     ].includes(job.jobId)
   ) {
     return "IMP-CP-02-guidance-spec-unblock-family";
+  }
+  if (
+    job.jobId ===
+    "rcap-ma-pre-2024-autoseal-ocp-request-adjudication"
+  ) {
+    return "IMP-GU-01-automatic-relief-guidance-clean-slate";
   }
   if (job.strategyFamily === "legal_review_materialization") {
     const matches = parents.filter(

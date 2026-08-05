@@ -159,12 +159,70 @@ const completedGuidanceTrackCount = factoryPlan.jobs
   .reduce((count, job) => count + job.trackIds.length, 0);
 const participantPacketProofReconciliation =
   buildParticipantPacketProofReconciliation(factoryPlan);
+const guidanceImplementationJobs = factoryPlan.jobs.filter(
+  (job) =>
+    job.lane === "guidance_implementation" &&
+    job.strategyFamily !== "legal_design_adjudication"
+);
+const guidanceAdjudicationJobs = factoryPlan.jobs.filter(
+  (job) =>
+    job.lane === "guidance_implementation" &&
+    job.strategyFamily === "legal_design_adjudication"
+);
+const completedGuidanceImplementationJobs =
+  guidanceImplementationJobs.filter(
+    (job) => job.status === "completed"
+  );
+const guidanceImplementationPoolExhausted =
+  guidanceImplementationJobs.length > 0 &&
+  completedGuidanceImplementationJobs.length ===
+    guidanceImplementationJobs.length;
+const guidanceTechnicalPacketProofComplete =
+  participantPacketProofReconciliation
+    .completedGuidanceJobsRequiringProof ===
+    completedGuidanceImplementationJobs.filter(
+      (job) => job.participantPacketProofRequired === true
+    ).length &&
+  participantPacketProofReconciliation.proofsPresentAndVerified ===
+    participantPacketProofReconciliation
+      .completedGuidanceJobsRequiringProof;
+const guidanceLaneReconciliation = {
+  schemaVersion: "rcap-guidance-lane-reconciliation/v1",
+  implementationJobs: guidanceImplementationJobs.length,
+  completedImplementationJobs:
+    completedGuidanceImplementationJobs.length,
+  readyImplementationJobs: guidanceImplementationJobs.filter(
+    (job) => job.status === "ready"
+  ).length,
+  implementationPoolExhausted:
+    guidanceImplementationPoolExhausted,
+  workerImplementationStatus:
+    guidanceImplementationPoolExhausted ? "complete" : "incomplete",
+  technicalPacketProofStatus:
+    guidanceTechnicalPacketProofComplete ? "complete" : "incomplete",
+  finalPackets: participantPacketProofReconciliation.finalPackets,
+  assembledPages: participantPacketProofReconciliation.assembledPages,
+  blockedAdjudications: guidanceAdjudicationJobs.filter(
+    (job) => job.status === "blocked"
+  ).length,
+  blockedAdjudicationJobIds: guidanceAdjudicationJobs
+    .filter((job) => job.status === "blocked")
+    .map((job) => job.jobId)
+    .sort(),
+  formalVisualProofStatus: "pending",
+  finalLegalOutputReviewStatus: "pending",
+  counselAdopted: false,
+  packetReady: false,
+  runtimeStatus: "runtime_disabled",
+  productionEnabled: false
+};
 const expectedPlanScope =
   "This integrated baseline includes both immutable normalization-research bundles, " +
   "Session D's controlling source-identity and typed-blocker adjudication, the " +
   "mechanism-inventory-v1 canonical denominator for all 24 remaining jurisdictions, " +
   "24 explicit portable legal-review materialization jobs, Pennsylvania normalization, " +
   `${completedGuidanceTrackCount} track-specific guidance implementations, ` +
+  `${guidanceAdjudicationJobs.length} blocked guidance adjudications, ` +
   "Session E's 25-jurisdiction official-PDF " +
   "source-contract reconciliation, one integration-owned 192-identity portable projection, " +
   "18 exact Session E child assignments, and eleven bounded Session F authority results. " +
@@ -256,6 +314,8 @@ if (write) {
   productionPlan.factoryQueueReconciliation = expectedFactoryQueue;
   productionPlan.participantPacketProofReconciliation =
     participantPacketProofReconciliation;
+  productionPlan.guidanceLaneReconciliation =
+    guidanceLaneReconciliation;
   productionPlan.officialPdfSourceContractIntegration = expectedOfficial;
   productionPlan.materializationPlanning = materializationPlanningSnapshot;
   let productionPlanSource = fs.readFileSync(productionPlanAbsolute, "utf8");
@@ -273,6 +333,11 @@ if (write) {
     productionPlanSource,
     "participantPacketProofReconciliation",
     participantPacketProofReconciliation
+  );
+  productionPlanSource = upsertTopLevelJsonProperty(
+    productionPlanSource,
+    "guidanceLaneReconciliation",
+    guidanceLaneReconciliation
   );
   productionPlanSource = upsertTopLevelJsonProperty(
     productionPlanSource,
@@ -302,6 +367,8 @@ if (write) {
       stableJson(expectedFactoryQueue) ||
     stableJson(productionPlan.participantPacketProofReconciliation) !==
       stableJson(participantPacketProofReconciliation) ||
+    stableJson(productionPlan.guidanceLaneReconciliation) !==
+      stableJson(guidanceLaneReconciliation) ||
     stableJson(productionPlan.officialPdfSourceContractIntegration) !==
       stableJson(expectedOfficial) ||
     stableJson(productionPlan.materializationPlanning) !==
