@@ -1,0 +1,206 @@
+{
+  "schemaVersion": "rcap-official-pdf-implementation-proof/v1",
+  "jobId": "rcap-ak-acroform-fill",
+  "parentJobId": "IMP-OF-05-small-statewide-acroform-states",
+  "jurisdiction": "AK",
+  "completionCommit": "27210a0ee9f2fa01b907ba54c91ed9040dd04c2d",
+  "authorityEdition": "1.2",
+  "generatedAt": "2026-08-05T20:27:04Z",
+  "sourceReceipts": [
+    {
+      "sourceIdentityKey": "rcap-ak-tf-800-e717f4aed8",
+      "documentId": "TF-800",
+      "receiptPath": "data/record-clearing/production-factory/source-materialization-receipts/rcap-ak-tf-800-e717f4aed8.json",
+      "receiptSha256": "ead1d36505f4f435ac3958f4c5b730b675eb08f34aaed8b056bcaa0e683085af",
+      "sourceSha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+      "sourceBytes": 130602,
+      "materializationDestination": "official-pdf/AK/AK__FORM__TF-800__request-to-make-case-records-confidential-or-sealed-under-administrative-rule-37-6__REV-2025-05__EN.pdf",
+      "verified": true
+    },
+    {
+      "sourceIdentityKey": "rcap-ak-tf-805-0d259b9bb8",
+      "documentId": "TF-805",
+      "receiptPath": "data/record-clearing/production-factory/source-materialization-receipts/rcap-ak-tf-805-0d259b9bb8.json",
+      "receiptSha256": "6597425c4d6000cc70c5d5cf70709094845d8fb6deba545a8ffd657affcdd0be",
+      "sourceSha256": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+      "sourceBytes": 93899,
+      "materializationDestination": "official-pdf/AK/AK__FORM__TF-805__request-to-remove-name-from-online-public-index-courtview-under-administrative-rule-40-b-o__REV-2025-05__EN.pdf",
+      "verified": true
+    },
+    {
+      "sourceIdentityKey": "rcap-ak-tf-810-9daa019355",
+      "documentId": "TF-810",
+      "receiptPath": "data/record-clearing/production-factory/source-materialization-receipts/rcap-ak-tf-810-9daa019355.json",
+      "receiptSha256": "343b48278388d6fb48921e67a5bdf0f56e9bf5d0bcf978bc1276f5cae375be74",
+      "sourceSha256": "c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
+      "sourceBytes": 85386,
+      "materializationDestination": "official-pdf/AK/AK__FORM__TF-810__request-to-exclude-case-from-online-public-index-courtview-under-administrative-rule-40-a__REV-2025-05__EN.pdf",
+      "verified": true
+    }
+  ],
+  "verifier": {
+    "path": "scripts/verify-rcap-alaska-acroform-fill.mjs",
+    "sha256": "ecb710ea400e3bd963677bcf2c0893555b8b8c0e40b23ee3ec4651fb7d69ac6d",
+    "result": "passed"
+  },
+  "implementationOutputs": [
+    {
+      "path": "src/lib/rcap/packets/jurisdictions/alaska/acroform.ts",
+      "sha256": "e5d4cc09b7a97078897173526732e54f97d11593c2d73afa8b200ffa0d113afe"
+    },
+    {
+      "path": "scripts/verify-rcap-alaska-acroform-fill.mjs",
+      "sha256": "ecb710ea400e3bd963677bcf2c0893555b8b8c0e40b23ee3ec4651fb7d69ac6d"
+    }
+  ],
+  "assignments": {
+    "trackIds": [
+      "ak-courtview",
+      "ak-tf800",
+      "ak-tf805"
+    ],
+    "componentIds": [
+      "ak-courtview-primary-filing-2",
+      "ak-tf800-primary-filing-1",
+      "ak-tf805-certificate-of-service-2",
+      "ak-tf805-primary-filing-1",
+      "ak-tf805-proposed-order-3"
+    ],
+    "sourceIdentityKeys": [
+      "rcap-ak-tf-800-e717f4aed8",
+      "rcap-ak-tf-805-0d259b9bb8",
+      "rcap-ak-tf-810-9daa019355"
+    ]
+  },
+  "fieldOrOverlayInventory": {
+    "inventoryType": "acroform_fields",
+    "totalSourceFields": 66,
+    "mappedParticipantFields": 6,
+    "manualFields": 60,
+    "protectedOutsidePartySurfaces": 2,
+    "protectedCourtOrAgencySurfaces": 4
+  },
+  "protectedSurfaceTreatment": "Outside-party, clerk, court, judge, agency, signature, certification, and legal-conclusion surfaces remain blank or manual.",
+  "fixtures": [
+    {
+      "fixtureId": "ak-courtview-already-absent",
+      "trackId": "ak-courtview",
+      "componentIds": [],
+      "sourceIdentityKeys": [],
+      "documentId": null,
+      "variant": "already_absent",
+      "expectedOutputStatus": "no_document_required",
+      "generatedPdf": false,
+      "assembledFileName": null,
+      "outputSha256": null,
+      "assembledPageCount": 0,
+      "deterministic": true,
+      "legalOrBranchResult": "passed",
+      "workerVisualEvidence": {
+        "status": "not_applicable_expected_no_document",
+        "pagesInspected": 0,
+        "renderedPageImages": 0,
+        "sourceReferencePageImages": 0,
+        "noBlankPages": null,
+        "formalApproval": false
+      }
+    },
+    {
+      "fixtureId": "ak-courtview-visible",
+      "trackId": "ak-courtview",
+      "componentIds": [
+        "ak-courtview-primary-filing-2"
+      ],
+      "sourceIdentityKeys": [
+        "rcap-ak-tf-810-9daa019355"
+      ],
+      "documentId": "TF-810",
+      "variant": "visible",
+      "expectedOutputStatus": "rendered_pdf",
+      "generatedPdf": true,
+      "assembledFileName": "ak-courtview-visible-TF-810.pdf",
+      "outputSha256": "ffaecab7d507158d8ddc245d0256cc07f8acadb7dc512c99bd6c5e8be3f34bf3",
+      "assembledPageCount": 1,
+      "deterministic": true,
+      "workerVisualEvidence": {
+        "status": "worker_inspected_technical_evidence",
+        "pagesInspected": 1,
+        "renderedPageImages": 1,
+        "sourceReferencePageImages": 0,
+        "noBlankPages": true,
+        "formalApproval": false
+      }
+    },
+    {
+      "fixtureId": "ak-tf800-standard",
+      "trackId": "ak-tf800",
+      "componentIds": [
+        "ak-tf800-primary-filing-1"
+      ],
+      "sourceIdentityKeys": [
+        "rcap-ak-tf-800-e717f4aed8"
+      ],
+      "documentId": "TF-800",
+      "variant": "standard",
+      "expectedOutputStatus": "rendered_pdf",
+      "generatedPdf": true,
+      "assembledFileName": "ak-tf800-standard-TF-800.pdf",
+      "outputSha256": "d334a729ee9e1e8f80b5a53cd4a1cd0f70965278c8a90c9c10815928f4aa18d7",
+      "assembledPageCount": 3,
+      "deterministic": true,
+      "workerVisualEvidence": {
+        "status": "worker_inspected_technical_evidence",
+        "pagesInspected": 3,
+        "renderedPageImages": 3,
+        "sourceReferencePageImages": 0,
+        "noBlankPages": true,
+        "formalApproval": false
+      }
+    },
+    {
+      "fixtureId": "ak-tf805-standard",
+      "trackId": "ak-tf805",
+      "componentIds": [
+        "ak-tf805-certificate-of-service-2",
+        "ak-tf805-primary-filing-1",
+        "ak-tf805-proposed-order-3"
+      ],
+      "sourceIdentityKeys": [
+        "rcap-ak-tf-805-0d259b9bb8"
+      ],
+      "documentId": "TF-805",
+      "variant": "standard",
+      "expectedOutputStatus": "rendered_pdf",
+      "generatedPdf": true,
+      "assembledFileName": "ak-tf805-standard-TF-805.pdf",
+      "outputSha256": "9cee2c2a6a3785eddfcf366b9ca9ce960548bb9ff39131fe42cc586f2ab984dc",
+      "assembledPageCount": 2,
+      "deterministic": true,
+      "workerVisualEvidence": {
+        "status": "worker_inspected_technical_evidence",
+        "pagesInspected": 2,
+        "renderedPageImages": 2,
+        "sourceReferencePageImages": 0,
+        "noBlankPages": true,
+        "formalApproval": false
+      }
+    }
+  ],
+  "totals": {
+    "assignedTracks": 3,
+    "positiveRenderedFixtures": 3,
+    "renderedPages": 6,
+    "expectedNoDocumentBranches": 1
+  },
+  "deterministic": true,
+  "sourceMutationDetected": false,
+  "officialSourcePdfBytesTracked": false,
+  "generatedParticipantPdfBytesTracked": false,
+  "workerVisualEvidenceStatus": "technical_evidence_only",
+  "formalVisualApprovalStatus": "pending",
+  "completedOutputLegalReviewStatus": "pending",
+  "counselAdopted": false,
+  "packetReady": false,
+  "runtimeStatus": "runtime_disabled",
+  "productionEnabled": false
+}

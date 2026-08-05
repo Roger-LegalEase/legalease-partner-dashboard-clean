@@ -567,6 +567,13 @@ function unexpectedCaptainChanges(rootDir, immutableEditionRoots) {
         return false;
       }
       if (
+        changedPath.startsWith(
+          "data/record-clearing/production-factory/official-pdf-proofs/"
+        )
+      ) {
+        return false;
+      }
+      if (
         changedPath.startsWith("data/record-clearing/master-library/") &&
         !immutableEditionRoots.some(
           (editionRoot) =>

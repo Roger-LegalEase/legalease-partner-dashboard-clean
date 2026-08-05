@@ -40,6 +40,8 @@ const failures = [];
 const checks = [];
 const rendered = [];
 const pageImages = [];
+const integrationValidation =
+  process.env.RCAP_FACTORY_VALIDATION_SCOPE === "integration";
 
 function ok(condition, message) {
   if (!condition) failures.push(message);
@@ -51,6 +53,21 @@ function note(message) {
 
 function readJson(relativePath) {
   return JSON.parse(fs.readFileSync(path.join(ROOT, relativePath), "utf8"));
+}
+
+function materializedSourcePath(destination) {
+  const root = path.resolve(MATERIALIZATION_ROOT);
+  const candidate = path.resolve(root, ...destination.split("/"));
+  const relative = path.relative(root, candidate);
+  if (
+    relative === "" ||
+    relative === ".." ||
+    relative.startsWith(`..${path.sep}`) ||
+    path.isAbsolute(relative)
+  ) {
+    throw new Error("The assigned source escapes the materialization root.");
+  }
+  return candidate;
 }
 
 function sha256(bytes) {
@@ -173,59 +190,69 @@ async function expectError(code, callback, label) {
 }
 
 ok(Boolean(MATERIALIZATION_ROOT), "RCAP_SOURCE_MATERIALIZATION_ROOT is required.");
-ok(fs.existsSync(MARKER_PATH), "The worker-local assignment marker is missing.");
-const marker = readJson("tmp/rcap-factory/job.json");
-ok(marker.jobId === ak.ALASKA_ACROFORM_JOB_ID, "The worker marker names another job.");
+const marker = fs.existsSync(MARKER_PATH)
+  ? readJson("tmp/rcap-factory/job.json")
+  : null;
 ok(
-  marker.exactAssignment?.jobId === ak.ALASKA_ACROFORM_JOB_ID,
-  "The exact assignment marker names another job."
+  integrationValidation || marker !== null,
+  "The worker-local assignment marker is missing."
 );
-ok(
-  marker.exactAssignment?.runtimeDisabledInvariant === true,
-  "The marker lost the runtime-disabled invariant."
-);
-ok(
-  marker.exactAssignment?.canonicalParent ===
-    "IMP-OF-05-small-statewide-acroform-states",
-  "The marker canonical parent differs from the factory plan."
-);
-ok(
-  marker.exactAssignment?.lane === "acroform_fill" &&
-    marker.exactAssignment?.strategyFamily === "official_pdf_fill",
-  "The marker lane or strategy family differs from the factory assignment."
-);
-sameMembers(
-  marker.exactAssignment?.exactTracks ?? [],
-  ak.ALASKA_ACROFORM_TRACK_IDS,
-  "assigned tracks"
-);
-sameMembers(
-  marker.exactAssignment?.exactComponents ?? [],
-  ak.ALASKA_ACROFORM_COMPONENT_IDS,
-  "assigned components"
-);
-sameMembers(
-  marker.exactAssignment?.ownedPaths ?? [],
-  [
-    "scripts/verify-rcap-alaska-acroform-fill.mjs",
-    "src/lib/rcap/packets/jurisdictions/alaska/acroform.ts"
-  ],
-  "owned paths"
-);
-sameMembers(
-  marker.exactAssignment?.sourceIdentities?.map(
-    (source) => source.sourceIdentityKey
-  ) ?? [],
-  ak.ALASKA_ACROFORM_SOURCE_REQUIREMENTS.map(
-    (source) => source.sourceIdentityKey
-  ),
-  "assigned source identities"
-);
-note("1. Worker marker, parent, lane, source identities, tracks, components, and owned paths match the exact factory assignment.");
+if (marker) {
+  ok(marker.jobId === ak.ALASKA_ACROFORM_JOB_ID, "The worker marker names another job.");
+  ok(
+    marker.exactAssignment?.jobId === ak.ALASKA_ACROFORM_JOB_ID,
+    "The exact assignment marker names another job."
+  );
+  ok(
+    marker.exactAssignment?.runtimeDisabledInvariant === true,
+    "The marker lost the runtime-disabled invariant."
+  );
+  ok(
+    marker.exactAssignment?.canonicalParent ===
+      "IMP-OF-05-small-statewide-acroform-states",
+    "The marker canonical parent differs from the factory plan."
+  );
+  ok(
+    marker.exactAssignment?.lane === "acroform_fill" &&
+      marker.exactAssignment?.strategyFamily === "official_pdf_fill",
+    "The marker lane or strategy family differs from the factory assignment."
+  );
+  sameMembers(
+    marker.exactAssignment?.exactTracks ?? [],
+    ak.ALASKA_ACROFORM_TRACK_IDS,
+    "assigned tracks"
+  );
+  sameMembers(
+    marker.exactAssignment?.exactComponents ?? [],
+    ak.ALASKA_ACROFORM_COMPONENT_IDS,
+    "assigned components"
+  );
+  sameMembers(
+    marker.exactAssignment?.ownedPaths ?? [],
+    [
+      "scripts/verify-rcap-alaska-acroform-fill.mjs",
+      "src/lib/rcap/packets/jurisdictions/alaska/acroform.ts"
+    ],
+    "owned paths"
+  );
+  sameMembers(
+    marker.exactAssignment?.sourceIdentities?.map(
+      (source) => source.sourceIdentityKey
+    ) ?? [],
+    ak.ALASKA_ACROFORM_SOURCE_REQUIREMENTS.map(
+      (source) => source.sourceIdentityKey
+    ),
+    "assigned source identities"
+  );
+  note("1. Worker marker, parent, lane, source identities, tracks, components, and owned paths match the exact factory assignment.");
+} else {
+  note("1. Captain integration scope: the committed exact factory assignment replaces the worker-local marker.");
+}
 
 const projectionBytes = fs.readFileSync(path.join(ROOT, PROJECTION_PATH));
 ok(
-  sha256(projectionBytes) === marker.exactAssignment?.projectionSha256,
+  integrationValidation ||
+    sha256(projectionBytes) === marker?.exactAssignment?.projectionSha256,
   "The official-PDF assignment projection hash differs from the worker marker."
 );
 const projection = JSON.parse(projectionBytes.toString("utf8"));
@@ -434,8 +461,7 @@ fs.mkdirSync(OUT, { recursive: true });
 
 const sourceBefore = new Map();
 for (const requirement of ak.ALASKA_ACROFORM_SOURCE_REQUIREMENTS) {
-  const absolutePath = path.join(
-    MATERIALIZATION_ROOT,
+  const absolutePath = materializedSourcePath(
     requirement.materializationDestination
   );
   sourceBefore.set(requirement.sourceIdentityKey, {
@@ -705,8 +731,7 @@ await expectError(
 note("6. Fail-closed cases: missing input, capacity overflow, protected signature input, malformed combined case/court input, and an unassigned track are refused.");
 
 for (const requirement of ak.ALASKA_ACROFORM_SOURCE_REQUIREMENTS) {
-  const absolutePath = path.join(
-    MATERIALIZATION_ROOT,
+  const absolutePath = materializedSourcePath(
     requirement.materializationDestination
   );
   const before = sourceBefore.get(requirement.sourceIdentityKey);

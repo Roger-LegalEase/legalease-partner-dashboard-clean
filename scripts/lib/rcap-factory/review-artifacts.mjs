@@ -17,6 +17,9 @@ import {
   reviewManifestPathFor,
   validateJobWorkspace
 } from "./validation.mjs";
+import {
+  verifyOfficialPdfImplementationProof
+} from "./official-pdf-proof.mjs";
 
 export const REVIEW_ARTIFACT_RENDERER_VERSION =
   "rcap-factory-shared-layout-pdf-png/v1";
@@ -493,6 +496,21 @@ export function verifyTrackedReviewManifest(
       "review manifest is missing required participant packet proof"
     );
   }
+  if (
+    ["acroform_fill", "flat_pdf_overlay", "composed_route"].includes(
+      job.lane
+    ) &&
+    job.status === "completed" &&
+    (
+      manifest.participantPacketProof?.sourceType !==
+        "integration_owned_official_pdf_implementation_proof" ||
+      manifest.officialPdfImplementationProof?.verified !== true
+    )
+  ) {
+    failures.push(
+      "completed official-PDF review manifest is missing its exact implementation proof"
+    );
+  }
   const participantProofChecklist = manifest.technicalChecklist?.items?.find(
     (item) => item.id === "participant-packet-proof"
   );
@@ -599,7 +617,10 @@ function buildReviewManifest({
         id: "participant-packet-proof",
         status: participantPacketProofStatus,
         evidence: participantPacketProof?.verified === true
-          ? `${participantPacketProof.finalPdfCount} final participant PDF hash(es), ${participantPacketProof.assembledPageCount} total page(s), reconciled from ${participantPacketProof.sourceManifestPath}.`
+          ? participantPacketProof.sourceType ===
+              "integration_owned_official_pdf_implementation_proof"
+            ? `${participantPacketProof.finalPdfCount} deterministic rendered fixture(s), ${participantPacketProof.assembledPageCount} total page(s), and ${participantPacketProof.expectedNoDocumentBranches} expected no-document branch(es) reconciled from ${participantPacketProof.sourceManifestPath}.`
+            : `${participantPacketProof.finalPdfCount} final participant PDF hash(es), ${participantPacketProof.assembledPageCount} total page(s), reconciled from ${participantPacketProof.sourceManifestPath}.`
           : packetProofRequired
             ? "This packet implementation job has no integration-owned participant-packet proof."
             : participantPacketProofRecord.reason
@@ -678,6 +699,31 @@ function buildReviewManifest({
     renderedPages: renderedPages.map(withoutPngBytes),
     implementationOutputs,
     participantPacketProof: participantPacketProofRecord,
+    officialPdfImplementationProof:
+      participantPacketProofRecord?.sourceType ===
+      "integration_owned_official_pdf_implementation_proof"
+        ? {
+            status: participantPacketProofRecord.status,
+            sourceManifestPath:
+              participantPacketProofRecord.sourceManifestPath,
+            sourceManifestSha256:
+              participantPacketProofRecord.sourceManifestSha256,
+            sourceReceipts: participantPacketProofRecord.sourceReceipts,
+            fieldOrOverlayInventory:
+              participantPacketProofRecord.fieldOrOverlayInventory,
+            fixtureEvidence: participantPacketProofRecord.fixtureEvidence,
+            positiveRenderedFixtures:
+              participantPacketProofRecord.finalPdfCount,
+            renderedPages:
+              participantPacketProofRecord.assembledPageCount,
+            expectedNoDocumentBranches:
+              participantPacketProofRecord.expectedNoDocumentBranches,
+            verified: true
+          }
+        : {
+            status: "not_applicable",
+            verified: null
+          },
     technicalChecklist,
     visualChecklist,
     technicalProofPassed:
@@ -710,8 +756,31 @@ function inspectParticipantPacketProof(
       /^data\/record-clearing\/production-factory\/packet-proofs\/[^/]+\.json$/.test(
         relativePath
       );
-    if (!trancheReview && !factoryPacketProof) {
+    const officialPdfProof =
+      /^data\/record-clearing\/production-factory\/official-pdf-proofs\/[^/]+\.json$/.test(
+        relativePath
+      );
+    if (!trancheReview && !factoryPacketProof && !officialPdfProof) {
       continue;
+    }
+    if (officialPdfProof) {
+      if (!(job.integrationOwnedOutputs ?? []).includes(relativePath)) {
+        throw new Error(
+          `${job.jobId} official-PDF proof is not integration-owned: ${relativePath}`
+        );
+      }
+      const verification = verifyOfficialPdfImplementationProof(
+        rootDir,
+        job,
+        { proofPath: relativePath, authorityEdition }
+      );
+      if (!verification.passed) {
+        throw new Error(
+          `${job.jobId} integration-owned official-PDF proof does not reconcile with ${relativePath}: ` +
+            verification.failures.join("; ")
+        );
+      }
+      return verification.normalizedEvidence;
     }
     const absolutePath = path.join(rootDir, relativePath);
     if (!fs.existsSync(absolutePath)) continue;

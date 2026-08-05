@@ -14,6 +14,10 @@ import {
   validateOfficialPdfSourceProjection
 } from "./lib/rcap-factory/materialization-planning.mjs";
 import { buildFactoryPlan } from "./lib/rcap-factory/planner.mjs";
+import {
+  officialPdfProofPathFor,
+  verifyOfficialPdfImplementationProof
+} from "./lib/rcap-factory/official-pdf-proof.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const write = process.argv.includes("--write");
@@ -159,6 +163,8 @@ const completedGuidanceTrackCount = factoryPlan.jobs
   .reduce((count, job) => count + job.trackIds.length, 0);
 const participantPacketProofReconciliation =
   buildParticipantPacketProofReconciliation(factoryPlan);
+const officialPdfImplementationProofReconciliation =
+  buildOfficialPdfImplementationProofReconciliation(factoryPlan);
 const guidanceImplementationJobs = factoryPlan.jobs.filter(
   (job) =>
     job.lane === "guidance_implementation" &&
@@ -414,6 +420,8 @@ if (write) {
   productionPlan.factoryQueueReconciliation = expectedFactoryQueue;
   productionPlan.participantPacketProofReconciliation =
     participantPacketProofReconciliation;
+  productionPlan.officialPdfImplementationProofReconciliation =
+    officialPdfImplementationProofReconciliation;
   productionPlan.guidanceLaneReconciliation =
     guidanceLaneReconciliation;
   productionPlan.officialPdfSourceContractIntegration = expectedOfficial;
@@ -435,6 +443,11 @@ if (write) {
     productionPlanSource,
     "participantPacketProofReconciliation",
     participantPacketProofReconciliation
+  );
+  productionPlanSource = upsertTopLevelJsonProperty(
+    productionPlanSource,
+    "officialPdfImplementationProofReconciliation",
+    officialPdfImplementationProofReconciliation
   );
   productionPlanSource = upsertTopLevelJsonProperty(
     productionPlanSource,
@@ -479,6 +492,8 @@ if (write) {
       stableJson(expectedFactoryQueue) ||
     stableJson(productionPlan.participantPacketProofReconciliation) !==
       stableJson(participantPacketProofReconciliation) ||
+    stableJson(productionPlan.officialPdfImplementationProofReconciliation) !==
+      stableJson(officialPdfImplementationProofReconciliation) ||
     stableJson(productionPlan.guidanceLaneReconciliation) !==
       stableJson(guidanceLaneReconciliation) ||
     stableJson(productionPlan.officialPdfSourceContractIntegration) !==
@@ -568,6 +583,70 @@ function buildParticipantPacketProofReconciliation(factoryPlan) {
     runtimeStatus: "runtime_disabled",
     visualProof: "pending",
     counselAdopted: false,
+    productionEnabled: false
+  };
+}
+
+function buildOfficialPdfImplementationProofReconciliation(factoryPlan) {
+  const completed = factoryPlan.jobs.filter(
+    (job) =>
+      ["acroform_fill", "flat_pdf_overlay", "composed_route"].includes(
+        job.lane
+      ) &&
+      job.status === "completed" &&
+      (job.integrationOwnedOutputs ?? []).includes(
+        officialPdfProofPathFor(job.jobId)
+      )
+  );
+  let assignedTracks = 0;
+  let positiveRenderedFixtures = 0;
+  let renderedPages = 0;
+  let expectedNoDocumentBranches = 0;
+  const completedJobIds = [];
+  for (const job of completed) {
+    const proofPath = officialPdfProofPathFor(job.jobId);
+    const verification = verifyOfficialPdfImplementationProof(
+      ROOT,
+      job,
+      {
+        proofPath,
+        authorityEdition: factoryPlan.authorityEdition
+      }
+    );
+    if (!verification.passed) {
+      throw new Error(
+        `${proofPath} does not reconcile to ${job.jobId}:\n- ` +
+          verification.failures.join("\n- ")
+      );
+    }
+    const proof = verification.proof;
+    assignedTracks += job.trackIds.length;
+    positiveRenderedFixtures +=
+      proof.totals.positiveRenderedFixtures;
+    renderedPages += proof.totals.renderedPages;
+    expectedNoDocumentBranches +=
+      proof.totals.expectedNoDocumentBranches;
+    completedJobIds.push(job.jobId);
+  }
+  return {
+    schemaVersion: "rcap-official-pdf-implementation-proof/v1",
+    completedOfficialPdfJobsRequiringProof: completed.length,
+    proofsPresentAndVerified: completed.length,
+    completedJobIds: completedJobIds.sort(),
+    assignedTracks,
+    positiveRenderedFixtures,
+    renderedPages,
+    expectedNoDocumentBranches,
+    proofDirectory:
+      "data/record-clearing/production-factory/official-pdf-proofs",
+    sourceReceiptsVerified: true,
+    sourceMutationDetected: false,
+    generatedParticipantPdfBytesTracked: false,
+    formalVisualApprovalStatus: "pending",
+    completedOutputLegalReviewStatus: "pending",
+    counselAdopted: false,
+    packetReady: false,
+    runtimeStatus: "runtime_disabled",
     productionEnabled: false
   };
 }

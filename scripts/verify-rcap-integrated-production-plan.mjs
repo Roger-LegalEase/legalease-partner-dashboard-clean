@@ -18,6 +18,13 @@ import {
   ADOPTION_RECORD_PATHS,
   buildCurrentCounselAdoptionRecords
 } from "./lib/rcap-counsel-adoption.mjs";
+import {
+  officialPdfProofPathFor,
+  verifyOfficialPdfImplementationProof
+} from "./lib/rcap-factory/official-pdf-proof.mjs";
+import {
+  verifyTrackedReviewManifest
+} from "./lib/rcap-factory/review-artifacts.mjs";
 import { buildFactoryStatus } from "./rcap-factory-status.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -565,7 +572,7 @@ assert.equal(
     (family) => family.workerReady === true
   ).length
 );
-assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 48);
+assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 51);
 assert.equal(
   officialPdfSourceContract.verifierBoundary.packetWorkerMaterializationPaths,
   0
@@ -700,7 +707,9 @@ assert.ok(
 const exactOfficialPdfChildren = factoryPlan.jobs.filter(
   (entry) =>
     (entry.officialPdfAssignment?.identityKeys?.length ?? 0) > 0 &&
-    ["planned", "ready", "blocked", "in_progress"].includes(entry.status)
+    ["planned", "ready", "blocked", "in_progress", "completed"].includes(
+      entry.status
+    )
 );
 const assignedOfficialPdfIdentityKeys = exactOfficialPdfChildren.flatMap(
   (child) => child.officialPdfAssignment.identityKeys
@@ -793,20 +802,29 @@ for (const child of exactOfficialPdfChildren) {
     child.officialPdfAssignment.unresolvedOrTerminalIdentities.length ===
       0 &&
     expectedBlockers.length === 0;
-  assert.equal(
-    child.status,
-    expectedReady ? "ready" : "blocked",
-    child.jobId
-  );
-  assert.equal(
-    child.officialPdfAssignment.assignmentState,
-    expectedReady
-      ? "exact_pinned_assignment_worker_ready"
-      : materializationReady
-        ? "exact_pinned_assignment_blocked_non_source_dependencies"
-        : "exact_pinned_assignment_blocked_external_materialization",
-    child.jobId
-  );
+  if (child.status === "completed") {
+    assert.equal(expectedReady, true, child.jobId);
+    assert.equal(
+      child.officialPdfAssignment.assignmentState,
+      "exact_pinned_assignment_implemented",
+      child.jobId
+    );
+  } else {
+    assert.equal(
+      child.status,
+      expectedReady ? "ready" : "blocked",
+      child.jobId
+    );
+    assert.equal(
+      child.officialPdfAssignment.assignmentState,
+      expectedReady
+        ? "exact_pinned_assignment_worker_ready"
+        : materializationReady
+          ? "exact_pinned_assignment_blocked_non_source_dependencies"
+          : "exact_pinned_assignment_blocked_external_materialization",
+      child.jobId
+    );
+  }
   for (const input of child.sourceMaterializationInputs) {
     const identity = officialPdfSourceProjection.identities.find(
       (candidate) =>
@@ -946,6 +964,128 @@ assert.deepEqual(
   verifiedOfficialPdfIdentityKeys
     .map((identityKey) => `${identityKey}.json`)
     .sort()
+);
+const completedOfficialPdfExpectations = new Map([
+  [
+    "rcap-ak-acroform-fill",
+    {
+      commit: "27210a0ee9f2fa01b907ba54c91ed9040dd04c2d",
+      tracks: 3,
+      positiveRenderedFixtures: 3,
+      renderedPages: 6,
+      expectedNoDocumentBranches: 1
+    }
+  ],
+  [
+    "rcap-ct-acroform-fill",
+    {
+      commit: "777ca177419b934e61c40ea7776526d1ad605bdb",
+      tracks: 1,
+      positiveRenderedFixtures: 2,
+      renderedPages: 4,
+      expectedNoDocumentBranches: 0
+    }
+  ],
+  [
+    "rcap-ga-flat-pdf-overlay",
+    {
+      commit: "f2f2c2c4de39d631bdd04e78563265519f8d21bd",
+      tracks: 1,
+      positiveRenderedFixtures: 1,
+      renderedPages: 4,
+      expectedNoDocumentBranches: 0
+    }
+  ]
+]);
+let officialPdfPositiveRenderedFixtures = 0;
+let officialPdfRenderedPages = 0;
+let officialPdfExpectedNoDocumentBranches = 0;
+for (const [jobId, expected] of completedOfficialPdfExpectations) {
+  const completedJob = factoryPlan.jobs.find((entry) => entry.jobId === jobId);
+  assert.ok(completedJob, jobId);
+  assert.equal(completedJob.status, "completed", jobId);
+  assert.equal(completedJob.completionCommit, expected.commit, jobId);
+  assert.equal(completedJob.trackIds.length, expected.tracks, jobId);
+  assert.equal(
+    completedJob.officialPdfAssignment.assignmentState,
+    "exact_pinned_assignment_implemented",
+    jobId
+  );
+  const proofPath = officialPdfProofPathFor(jobId);
+  assert.ok(completedJob.integrationOwnedOutputs.includes(proofPath), jobId);
+  const proofVerification = verifyOfficialPdfImplementationProof(
+    ROOT,
+    completedJob,
+    {
+      proofPath,
+      authorityEdition: factoryPlan.authorityEdition
+    }
+  );
+  assert.equal(
+    proofVerification.passed,
+    true,
+    proofVerification.failures.join("\n")
+  );
+  const proof = proofVerification.proof;
+  assert.equal(
+    proof.totals.positiveRenderedFixtures,
+    expected.positiveRenderedFixtures,
+    jobId
+  );
+  assert.equal(proof.totals.renderedPages, expected.renderedPages, jobId);
+  assert.equal(
+    proof.totals.expectedNoDocumentBranches,
+    expected.expectedNoDocumentBranches,
+    jobId
+  );
+  assert.equal(proof.formalVisualApprovalStatus, "pending", jobId);
+  assert.equal(proof.completedOutputLegalReviewStatus, "pending", jobId);
+  assert.equal(proof.counselAdopted, false, jobId);
+  assert.equal(proof.packetReady, false, jobId);
+  assert.equal(proof.runtimeStatus, "runtime_disabled", jobId);
+  assert.equal(proof.productionEnabled, false, jobId);
+  const reviewVerification = verifyTrackedReviewManifest(ROOT, completedJob);
+  assert.equal(
+    reviewVerification.passed,
+    true,
+    reviewVerification.failures.join("\n")
+  );
+  assert.equal(
+    reviewVerification.manifest.participantPacketProof.sourceType,
+    "integration_owned_official_pdf_implementation_proof",
+    jobId
+  );
+  assert.equal(reviewVerification.manifest.visualProofPassed, false, jobId);
+  assert.equal(reviewVerification.manifest.counselAdopted, false, jobId);
+  officialPdfPositiveRenderedFixtures +=
+    expected.positiveRenderedFixtures;
+  officialPdfRenderedPages += expected.renderedPages;
+  officialPdfExpectedNoDocumentBranches +=
+    expected.expectedNoDocumentBranches;
+}
+assert.deepEqual(
+  productionPlan.officialPdfImplementationProofReconciliation,
+  {
+    schemaVersion: "rcap-official-pdf-implementation-proof/v1",
+    completedOfficialPdfJobsRequiringProof: 3,
+    proofsPresentAndVerified: 3,
+    completedJobIds: [...completedOfficialPdfExpectations.keys()].sort(),
+    assignedTracks: 5,
+    positiveRenderedFixtures: officialPdfPositiveRenderedFixtures,
+    renderedPages: officialPdfRenderedPages,
+    expectedNoDocumentBranches: officialPdfExpectedNoDocumentBranches,
+    proofDirectory:
+      "data/record-clearing/production-factory/official-pdf-proofs",
+    sourceReceiptsVerified: true,
+    sourceMutationDetected: false,
+    generatedParticipantPdfBytesTracked: false,
+    formalVisualApprovalStatus: "pending",
+    completedOutputLegalReviewStatus: "pending",
+    counselAdopted: false,
+    packetReady: false,
+    runtimeStatus: "runtime_disabled",
+    productionEnabled: false
+  }
 );
 const paNormalization = factoryPlan.jobs.find(
   (entry) => entry.jobId === "rcap-pa-legal-design-normalization"
@@ -1876,8 +2016,8 @@ assert.ok(
 
 assert.equal(factoryPlan.trackReconciliation.normalizedTracks, 260);
 assert.equal(factoryPlan.trackReconciliation.representedExactlyOnce, 260);
-assert.equal(factoryPlan.trackReconciliation.implementationComplete, 78);
-assert.equal(factoryPlan.trackReconciliation.pendingProductionJob, 182);
+assert.equal(factoryPlan.trackReconciliation.implementationComplete, 83);
+assert.equal(factoryPlan.trackReconciliation.pendingProductionJob, 177);
 assert.equal(
   productionPlan.baselineVerification.confirmed.implementedTracksAwaitingReview,
   52
@@ -1906,7 +2046,7 @@ const completed = factoryPlan.trackReconciliation.assignments.filter(
   (entry) => entry.disposition === "implementation_complete"
 );
 assert.equal(completed.filter((entry) => entry.jurisdiction === "MS").length, 5);
-assert.equal(completed.filter((entry) => entry.jurisdiction === "GA").length, 12);
+assert.equal(completed.filter((entry) => entry.jurisdiction === "GA").length, 13);
 assert.equal(completed.filter((entry) => entry.jurisdiction === "IL").length, 6);
 assert.equal(completed.filter((entry) => entry.jurisdiction === "PA").length, 3);
 assert.deepEqual(
@@ -2484,8 +2624,8 @@ assert.deepEqual(
 );
 assert.equal(status.totals.tracks, 260);
 assert.equal(status.totals.normalized, 260);
-assert.equal(status.totals.implementationComplete, 28);
-assert.equal(status.totals.technicalProofPassed, 28);
+assert.equal(status.totals.implementationComplete, 33);
+assert.equal(status.totals.technicalProofPassed, 33);
 assert.equal(status.totals.visualProofPassed, 17);
 assert.equal(status.totals.legalRecommendationComplete, 19);
 assert.equal(status.totals.counselAdopted, 15);
@@ -2502,6 +2642,6 @@ console.log("  PASS tracked Master Library 1.2 reconciliation remains internally
 console.log("  PASS 109 acquisition records represented exactly once");
 console.log("  PASS 313 official evidence records and 32 issuer campaigns preserved");
 console.log("  PASS 260 normalized tracks represented exactly once");
-console.log("  PASS 78 engineering-complete tracks excluded from pending implementation");
+console.log("  PASS 83 engineering-complete tracks excluded from pending implementation");
 console.log("  PASS 15 exact implemented routes counsel-adopted by hash");
 console.log("  PASS packet_ready=0 enabled_jurisdictions=0 launch_gate=red");

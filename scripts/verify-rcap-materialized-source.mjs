@@ -907,6 +907,84 @@ export async function loadAssignedMaterializationRequirement({
   return validateMaterializationRequirement(requirement);
 }
 
+/**
+ * The captain verifies an already committed receipt without recreating a
+ * worker-local scaffold marker. The receipt remains the identity authority;
+ * CLI values are assertions and the current job ID must match its assignment.
+ */
+export function loadCaptainMaterializationRequirement({
+  rootDir = REPOSITORY_ROOT,
+  sourceIdentityKey,
+  expectedSha256,
+  expectedBytes,
+  assignmentJobId
+}) {
+  if (!SOURCE_IDENTITY_KEY_PATTERN.test(sourceIdentityKey ?? "")) {
+    throw contractError(
+      "unknown_source_identity",
+      "Captain verification requires one safe source identity key."
+    );
+  }
+  const receiptPath =
+    `data/record-clearing/production-factory/source-materialization-receipts/` +
+    `${sourceIdentityKey}.json`;
+  const absoluteReceipt = path.join(rootDir, receiptPath);
+  if (!fs.existsSync(absoluteReceipt)) {
+    throw contractError(
+      "unknown_source_identity",
+      `The canonical source receipt is missing: ${receiptPath}`
+    );
+  }
+  const receipt = JSON.parse(fs.readFileSync(absoluteReceipt, "utf8"));
+  if (
+    receipt.provenance?.sourceIdentityKey !== sourceIdentityKey ||
+    receipt.actualSha256 !== expectedSha256 ||
+    receipt.actualBytes !== expectedBytes ||
+    receipt.expectedSha256 !== expectedSha256 ||
+    receipt.expectedBytes !== expectedBytes ||
+    receipt.assignmentJobId !== assignmentJobId ||
+    receipt.ready !== true ||
+    receipt.workerReady !== true
+  ) {
+    throw contractError(
+      "unknown_source_identity",
+      "Captain assertions do not match one ready canonical source receipt."
+    );
+  }
+  return validateMaterializationRequirement({
+    schemaVersion: REQUIREMENT_SCHEMA,
+    sourceIdentityKey,
+    authorityEdition: receipt.authorityEdition,
+    authorityArchiveSha256: receipt.authorityArchiveSha256,
+    jurisdiction: receipt.jurisdiction,
+    documentId: receipt.documentId,
+    documentRole: receipt.documentRole,
+    canonicalAuthorityPath: receipt.canonicalAuthorityPath,
+    repositorySourcePath: receipt.repositorySourcePath,
+    portableLocator: receipt.portableLocator,
+    materializationDestination: receipt.materializationDestination,
+    expectedSha256: receipt.expectedSha256,
+    expectedBytes: receipt.expectedBytes,
+    expectedMediaType: receipt.expectedMediaType,
+    readOnlyTreatment: receipt.readOnlyTreatment,
+    verificationCommand: receipt.verificationCommand,
+    retentionPolicy: receipt.retentionPolicy,
+    expectedMeasurementBasis: receipt.expectedMeasurementBasis,
+    identityBindingStatus: receipt.identityBindingStatus,
+    assignmentJobId: receipt.assignmentJobId,
+    assignmentBaseCommit: receipt.assignmentBaseCommit,
+    assignmentManifestSha256: receipt.assignmentManifestSha256,
+    authorityAssetState: "authority_asset_known",
+    registryState: "registry_metadata_present",
+    usageBindings: receipt.usageBindings,
+    provenance: {
+      ...receipt.provenance,
+      freshLocalVerification: false,
+      registryPresenceConfersReadiness: false
+    }
+  });
+}
+
 export function canonicalJson(value) {
   if (value === null) return "null";
   if (Array.isArray(value)) {
@@ -2120,14 +2198,29 @@ async function main() {
       "--bytes must be a positive safe integer."
     );
   }
-  const requirement = await loadAssignedMaterializationRequirement({
-    rootDir: REPOSITORY_ROOT,
-    manifestPath: args.manifest ?? DEFAULT_ASSIGNMENT_MANIFEST,
-    sourceIdentityKey: args["source-identity-key"],
-    documentId: args["document-id"],
-    expectedSha256: args.sha256,
-    expectedBytes
-  });
+  const markerPath = path.join(
+    REPOSITORY_ROOT,
+    args.manifest ?? DEFAULT_ASSIGNMENT_MANIFEST
+  );
+  const captainIntegration =
+    process.env.RCAP_FACTORY_VALIDATION_SCOPE === "integration" &&
+    !fs.existsSync(markerPath);
+  const requirement = captainIntegration
+    ? loadCaptainMaterializationRequirement({
+        rootDir: REPOSITORY_ROOT,
+        sourceIdentityKey: args["source-identity-key"],
+        expectedSha256: args.sha256,
+        expectedBytes,
+        assignmentJobId: process.env.RCAP_FACTORY_JOB_ID
+      })
+    : await loadAssignedMaterializationRequirement({
+        rootDir: REPOSITORY_ROOT,
+        manifestPath: args.manifest ?? DEFAULT_ASSIGNMENT_MANIFEST,
+        sourceIdentityKey: args["source-identity-key"],
+        documentId: args["document-id"],
+        expectedSha256: args.sha256,
+        expectedBytes
+      });
   const materializationRoot =
     args["materialization-root"] ??
     process.env.RCAP_SOURCE_MATERIALIZATION_ROOT;

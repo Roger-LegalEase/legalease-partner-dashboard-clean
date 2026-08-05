@@ -697,7 +697,9 @@ try {
     const officialJobs = plan.jobs.filter(
       (job) =>
         (job.officialPdfAssignment?.identityKeys?.length ?? 0) > 0 &&
-        ["planned", "ready", "blocked", "in_progress"].includes(job.status)
+        ["planned", "ready", "blocked", "in_progress", "completed"].includes(
+          job.status
+        )
     );
     assert.ok(officialJobs.length > 0);
     const projection = readJson(
@@ -975,20 +977,29 @@ try {
         job.officialPdfAssignment.unresolvedOrTerminalIdentities.length ===
           0 &&
         expectedBlockers.length === 0;
-      assert.equal(
-        job.status,
-        expectedReady ? "ready" : "blocked",
-        job.jobId
-      );
-      assert.equal(
-        job.officialPdfAssignment.assignmentState,
-        expectedReady
-          ? "exact_pinned_assignment_worker_ready"
-          : materializationReady
-            ? "exact_pinned_assignment_blocked_non_source_dependencies"
-            : "exact_pinned_assignment_blocked_external_materialization",
-        job.jobId
-      );
+      if (job.status === "completed") {
+        assert.equal(expectedReady, true, job.jobId);
+        assert.equal(
+          job.officialPdfAssignment.assignmentState,
+          "exact_pinned_assignment_implemented",
+          job.jobId
+        );
+      } else {
+        assert.equal(
+          job.status,
+          expectedReady ? "ready" : "blocked",
+          job.jobId
+        );
+        assert.equal(
+          job.officialPdfAssignment.assignmentState,
+          expectedReady
+            ? "exact_pinned_assignment_worker_ready"
+            : materializationReady
+              ? "exact_pinned_assignment_blocked_non_source_dependencies"
+              : "exact_pinned_assignment_blocked_external_materialization",
+          job.jobId
+        );
+      }
     }
     const registry = readJson(
       "data/record-clearing/source-artifact-registry.json"

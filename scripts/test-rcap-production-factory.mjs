@@ -37,6 +37,10 @@ import {
   verifyTrackedReviewManifest
 } from "./lib/rcap-factory/review-artifacts.mjs";
 import {
+  officialPdfProofPathFor,
+  verifyOfficialPdfImplementationProof
+} from "./lib/rcap-factory/official-pdf-proof.mjs";
+import {
   isWorkerScaffoldCheckout,
   validateChangedPaths,
   validateJobWorkspace,
@@ -556,8 +560,8 @@ await check("all normalized tracks reconcile exactly once and completed tranches
   const reconciliation = plan.trackReconciliation;
   assert.equal(reconciliation.normalizedTracks, 260);
   assert.equal(reconciliation.representedExactlyOnce, 260);
-  assert.equal(reconciliation.implementationComplete, 78);
-  assert.equal(reconciliation.pendingProductionJob, 182);
+  assert.equal(reconciliation.implementationComplete, 83);
+  assert.equal(reconciliation.pendingProductionJob, 177);
 
   const implementationLanes = new Set([
     "custom_pleading",
@@ -570,7 +574,9 @@ await check("all normalized tracks reconcile exactly once and completed tranches
     (entry) => entry.disposition === "implementation_complete"
   );
   assert.equal(completed.filter((entry) => entry.jurisdiction === "MS").length, 5);
-  assert.equal(completed.filter((entry) => entry.jurisdiction === "GA").length, 12);
+  assert.equal(completed.filter((entry) => entry.jurisdiction === "AK").length, 7);
+  assert.equal(completed.filter((entry) => entry.jurisdiction === "CT").length, 7);
+  assert.equal(completed.filter((entry) => entry.jurisdiction === "GA").length, 13);
   assert.equal(completed.filter((entry) => entry.jurisdiction === "DC").length, 4);
   assert.equal(completed.filter((entry) => entry.jurisdiction === "IL").length, 6);
   assert.equal(completed.filter((entry) => entry.jurisdiction === "PA").length, 3);
@@ -703,8 +709,7 @@ await check("packet, source-materialization, and normalization readiness fail cl
 
   const officialJobs = plan.jobs.filter(
     (entry) =>
-      (entry.officialPdfAssignment?.identityKeys?.length ?? 0) > 0 &&
-      ["planned", "ready", "blocked", "in_progress"].includes(entry.status)
+      (entry.officialPdfAssignment?.identityKeys?.length ?? 0) > 0
   );
   assert.ok(officialJobs.length > 0);
   assert.equal(officialJobs.length, 18);
@@ -940,14 +945,27 @@ await check("packet, source-materialization, and normalization readiness fail cl
       job.officialPdfAssignment.unresolvedOrTerminalIdentities.length ===
         0 &&
       expectedBlockers.length === 0;
-    assert.equal(job.status, expectedReady ? "ready" : "blocked", job.jobId);
+    const completedImplementation =
+      typeof job.completionCommit === "string" &&
+      job.status === "completed";
+    assert.equal(
+      job.status,
+      completedImplementation
+        ? "completed"
+        : expectedReady
+          ? "ready"
+          : "blocked",
+      job.jobId
+    );
     assert.equal(
       job.officialPdfAssignment.assignmentState,
-      expectedReady
-        ? "exact_pinned_assignment_worker_ready"
-        : materializationReady
-          ? "exact_pinned_assignment_blocked_non_source_dependencies"
-          : "exact_pinned_assignment_blocked_external_materialization",
+      completedImplementation
+        ? "exact_pinned_assignment_implemented"
+        : expectedReady
+          ? "exact_pinned_assignment_worker_ready"
+          : materializationReady
+            ? "exact_pinned_assignment_blocked_non_source_dependencies"
+            : "exact_pinned_assignment_blocked_external_materialization",
       job.jobId
     );
     for (const input of job.sourceMaterializationInputs) {
@@ -2781,6 +2799,136 @@ await check("completed guidance packet proofs are exact and review-consumable", 
   assert.equal(review.manifest.productionEnabled, false);
 });
 
+await check("completed official-PDF proofs preserve variants and no-document outcomes", async () => {
+  const expectations = new Map([
+    [
+      "rcap-ak-acroform-fill",
+      {
+        commit: "27210a0ee9f2fa01b907ba54c91ed9040dd04c2d",
+        tracks: 3,
+        fixtures: 3,
+        pages: 6,
+        noDocument: 1
+      }
+    ],
+    [
+      "rcap-ct-acroform-fill",
+      {
+        commit: "777ca177419b934e61c40ea7776526d1ad605bdb",
+        tracks: 1,
+        fixtures: 2,
+        pages: 4,
+        noDocument: 0
+      }
+    ],
+    [
+      "rcap-ga-flat-pdf-overlay",
+      {
+        commit: "f2f2c2c4de39d631bdd04e78563265519f8d21bd",
+        tracks: 1,
+        fixtures: 1,
+        pages: 4,
+        noDocument: 0
+      }
+    ]
+  ]);
+  let positiveRenderedFixtures = 0;
+  let renderedPages = 0;
+  let expectedNoDocumentBranches = 0;
+  for (const [jobId, expected] of expectations) {
+    const officialJob = plan.jobs.find((entry) => entry.jobId === jobId);
+    assert.equal(officialJob.status, "completed", jobId);
+    assert.equal(officialJob.completionCommit, expected.commit, jobId);
+    assert.equal(officialJob.trackIds.length, expected.tracks, jobId);
+    assert.equal(
+      officialJob.officialPdfAssignment.assignmentState,
+      "exact_pinned_assignment_implemented",
+      jobId
+    );
+    const proofPath = officialPdfProofPathFor(jobId);
+    assert.ok(
+      officialJob.integrationOwnedOutputs.includes(proofPath),
+      jobId
+    );
+    const verification = verifyOfficialPdfImplementationProof(
+      ROOT,
+      officialJob,
+      {
+        proofPath,
+        authorityEdition: plan.authorityEdition
+      }
+    );
+    assert.equal(
+      verification.passed,
+      true,
+      verification.failures.join("\n")
+    );
+    const proof = verification.proof;
+    assert.equal(
+      proof.totals.positiveRenderedFixtures,
+      expected.fixtures,
+      jobId
+    );
+    assert.equal(proof.totals.renderedPages, expected.pages, jobId);
+    assert.equal(
+      proof.totals.expectedNoDocumentBranches,
+      expected.noDocument,
+      jobId
+    );
+    assert.equal(proof.formalVisualApprovalStatus, "pending", jobId);
+    assert.equal(proof.completedOutputLegalReviewStatus, "pending", jobId);
+    assert.equal(proof.counselAdopted, false, jobId);
+    assert.equal(proof.packetReady, false, jobId);
+    assert.equal(proof.runtimeStatus, "runtime_disabled", jobId);
+    assert.equal(proof.productionEnabled, false, jobId);
+    const review = verifyTrackedReviewManifest(ROOT, officialJob);
+    assert.equal(review.passed, true, review.failures.join("\n"));
+    assert.equal(
+      review.manifest.participantPacketProof.sourceType,
+      "integration_owned_official_pdf_implementation_proof",
+      jobId
+    );
+    assert.equal(
+      review.manifest.officialPdfImplementationProof.verified,
+      true,
+      jobId
+    );
+    assert.equal(review.manifest.visualProofPassed, false, jobId);
+    positiveRenderedFixtures += expected.fixtures;
+    renderedPages += expected.pages;
+    expectedNoDocumentBranches += expected.noDocument;
+  }
+  const alaskaProof = readJson(
+    officialPdfProofPathFor("rcap-ak-acroform-fill")
+  );
+  const noDocument = alaskaProof.fixtures.find(
+    (fixture) =>
+      fixture.fixtureId === "ak-courtview-already-absent"
+  );
+  assert.equal(noDocument.expectedOutputStatus, "no_document_required");
+  assert.equal(noDocument.generatedPdf, false);
+  assert.equal(noDocument.outputSha256, null);
+  assert.equal(noDocument.assembledPageCount, 0);
+  assert.equal(noDocument.legalOrBranchResult, "passed");
+
+  const connecticutProof = readJson(
+    officialPdfProofPathFor("rcap-ct-acroform-fill")
+  );
+  assert.equal(connecticutProof.assignments.trackIds.length, 1);
+  assert.deepEqual(
+    connecticutProof.fixtures.map((fixture) => fixture.variant).sort(),
+    ["optional_contact_blank", "standard"]
+  );
+  assert.ok(
+    connecticutProof.fixtures.every(
+      (fixture) => fixture.trackId === "ct-cleanslate-petition"
+    )
+  );
+  assert.equal(positiveRenderedFixtures, 6);
+  assert.equal(renderedPages, 14);
+  assert.equal(expectedNoDocumentBranches, 1);
+});
+
 await check("dashboard reports all 51 and preserves the red launch posture", () => {
   const status = buildFactoryStatus({ rootDir: ROOT });
   assert.deepEqual(status.readinessMetrics, {
@@ -2793,8 +2941,8 @@ await check("dashboard reports all 51 and preserves the red launch posture", () 
   assert.equal(status.totals.jurisdictions, 51);
   assert.equal(status.totals.tracks, 260);
   assert.equal(status.totals.normalized, 260);
-  assert.equal(status.totals.implementationComplete, 28);
-  assert.equal(status.totals.technicalProofPassed, 28);
+  assert.equal(status.totals.implementationComplete, 33);
+  assert.equal(status.totals.technicalProofPassed, 33);
   assert.equal(status.totals.visualProofPassed, 17);
   assert.equal(status.totals.legalRecommendationComplete, 19);
   assert.equal(status.totals.counselAdopted, 15);

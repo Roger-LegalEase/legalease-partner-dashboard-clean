@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 import { spawnSync } from "node:child_process";
 
 const MAX_COMMAND_OUTPUT = 32 * 1024 * 1024;
@@ -30,6 +31,7 @@ export const GLOBAL_GENERATED_PATHS = Object.freeze([
   "data/record-clearing/master-library/source-acquisition-queue.json",
   "data/record-clearing/master-library/edition-1-2-legal-design-reconciliation-queue.json",
   "data/record-clearing/production-factory/packet-proofs",
+  "data/record-clearing/production-factory/official-pdf-proofs",
   "data/record-clearing/production-factory/review-manifests",
   "data/record-clearing/production-factory/legal-review-materialization-contract.json",
   "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json",
@@ -438,12 +440,26 @@ export function validateJobWorkspace(
     );
   }
 
+  const materializedInputsByDestination = new Map(
+    (job.sourceMaterializationInputs ?? []).map((input) => [
+      input.materializationDestination,
+      input
+    ])
+  );
   const inputReport = checkManifestPaths(
     root,
-    job.requiredInputs ?? [],
+    (job.requiredInputs ?? []).filter(
+      (input) => !materializedInputsByDestination.has(input)
+    ),
     "required_input_missing"
   );
   failures.push(...inputReport.failures);
+  failures.push(
+    ...checkExternalMaterializedInputs(
+      root,
+      [...materializedInputsByDestination.values()]
+    )
+  );
 
   if (requireExpectedOutputs) {
     const outputReport = checkManifestPaths(
@@ -850,6 +866,97 @@ function inspectProtectedContentChanges(
           )
         );
       }
+    }
+  }
+  return failures;
+}
+
+function checkExternalMaterializedInputs(rootDir, inputs) {
+  if (inputs.length === 0) return [];
+  const failures = [];
+  const configuredRoot =
+    typeof process.env.RCAP_SOURCE_MATERIALIZATION_ROOT === "string"
+      ? process.env.RCAP_SOURCE_MATERIALIZATION_ROOT.trim()
+      : "";
+  if (!configuredRoot) {
+    return inputs.map((input) =>
+      failure(
+        "required_input_missing",
+        input.materializationDestination,
+        "RCAP_SOURCE_MATERIALIZATION_ROOT is required for an exact materialized source input"
+      )
+    );
+  }
+  let externalRoot;
+  try {
+    externalRoot = fs.realpathSync(path.resolve(configuredRoot));
+    const rootStat = fs.lstatSync(externalRoot);
+    if (
+      !rootStat.isDirectory() ||
+      rootStat.isSymbolicLink() ||
+      (rootStat.mode & 0o777) !== 0o555
+    ) {
+      throw new Error("the external materialization root is not a sealed directory");
+    }
+  } catch (error) {
+    return inputs.map((input) =>
+      failure(
+        "required_input_missing",
+        input.materializationDestination,
+        `external materialization root is unavailable: ${error.message}`
+      )
+    );
+  }
+  for (const input of inputs) {
+    const destination = path.resolve(
+      externalRoot,
+      ...String(input.materializationDestination ?? "").split("/")
+    );
+    const relative = path.relative(externalRoot, destination);
+    if (
+      relative === ".." ||
+      relative.startsWith(`..${path.sep}`) ||
+      path.isAbsolute(relative)
+    ) {
+      failures.push(
+        failure(
+          "required_input_missing",
+          input.materializationDestination,
+          "materialized source destination escapes the approved external root"
+        )
+      );
+      continue;
+    }
+    try {
+      const stat = fs.statSync(destination);
+      const actualSha256 = crypto
+        .createHash("sha256")
+        .update(fs.readFileSync(destination))
+        .digest("hex");
+      if (
+        !stat.isFile() ||
+        stat.size !== input.expectedBytes ||
+        actualSha256 !== input.expectedSha256 ||
+        (stat.mode & 0o777) !== 0o444
+      ) {
+        throw new Error(
+          "materialized source size, hash, file type, or read-only mode does not match"
+        );
+      }
+      if (
+        typeof input.receiptOutput !== "string" ||
+        !fs.existsSync(path.join(rootDir, input.receiptOutput))
+      ) {
+        throw new Error("canonical source-materialization receipt is missing");
+      }
+    } catch (error) {
+      failures.push(
+        failure(
+          "required_input_missing",
+          input.materializationDestination,
+          error.message
+        )
+      );
     }
   }
   return failures;

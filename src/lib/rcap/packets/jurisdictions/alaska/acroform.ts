@@ -330,7 +330,7 @@ export const ALASKA_ACROFORM_FIELD_INVENTORIES: Readonly<
       deterministicSource: null,
       treatment:
         "Confidential versus sealed is an explicit participant request; recordsToSeal does not safely encode this choice."
-    },
+    } as const,
     manualCheckbox(
       "hd",
       [widget(2, 245.734, 344.601, 11.531, 11.437)],
@@ -480,7 +480,7 @@ export const ALASKA_ACROFORM_FIELD_INVENTORIES: Readonly<
       deterministicSource: null,
       treatment:
         "Rule 40(b) versus 40(c) is not inferred from the participant's free-text grounds narrative."
-    }
+    } as const
   ]),
   "TF-810": Object.freeze([
     manualText(
@@ -615,36 +615,36 @@ export const ALASKA_ACROFORM_TEXT_MAPPINGS: Readonly<
       fieldName: "caseNo",
       inputKey: "caseNumberAndCourt",
       transform: "case_number_before_first_comma"
-    },
+    } as const,
     {
       fieldName: "documents",
       inputKey: "recordsToSeal",
       transform: "identity"
-    },
+    } as const,
     {
       fieldName: "confidentialBecause",
       inputKey: "sealingNarrative",
       transform: "identity"
-    }
+    } as const
   ]),
   "TF-805": Object.freeze([
     {
       fieldName: "caseNo",
       inputKey: "caseNumberAndCourt",
       transform: "case_number_before_first_comma"
-    },
+    } as const,
     {
       fieldName: "reason",
       inputKey: "groundsFacts",
       transform: "identity"
-    }
+    } as const
   ]),
   "TF-810": Object.freeze([
     {
       fieldName: "caseNo",
       inputKey: "caseNumberAndCourt",
       transform: "case_number_before_first_comma"
-    }
+    } as const
   ])
 });
 

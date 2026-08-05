@@ -49,6 +49,8 @@ const failures = [];
 const checks = [];
 const rendered = [];
 const pageImages = [];
+const integrationValidation =
+  process.env.RCAP_FACTORY_VALIDATION_SCOPE === "integration";
 
 function ok(condition, message) {
   if (!condition) failures.push(message);
@@ -60,6 +62,21 @@ function note(message) {
 
 function readJson(relativePath) {
   return JSON.parse(fs.readFileSync(path.join(ROOT, relativePath), "utf8"));
+}
+
+function materializedSourcePath(destination, rootPath = MATERIALIZATION_ROOT) {
+  const root = path.resolve(rootPath);
+  const candidate = path.resolve(root, ...destination.split("/"));
+  const relative = path.relative(root, candidate);
+  if (
+    relative === "" ||
+    relative === ".." ||
+    relative.startsWith(`..${path.sep}`) ||
+    path.isAbsolute(relative)
+  ) {
+    throw new Error("The assigned source escapes the materialization root.");
+  }
+  return candidate;
 }
 
 function sha256(bytes) {
@@ -179,9 +196,9 @@ function sourceBoundaryFixture({ includeFile, expectedBytes }) {
   const root = fs.mkdtempSync(
     path.join(os.tmpdir(), "rcap-ga-overlay-boundary-")
   );
-  const destination = path.join(
-    root,
-    ga.GEORGIA_OFFICIAL_OVERLAY_SOURCE_REQUIREMENT.materializationDestination
+  const destination = materializedSourcePath(
+    ga.GEORGIA_OFFICIAL_OVERLAY_SOURCE_REQUIREMENT.materializationDestination,
+    root
   );
   const directory = path.dirname(destination);
   fs.mkdirSync(directory, { recursive: true });
@@ -215,96 +232,105 @@ function sourceBoundaryFixture({ includeFile, expectedBytes }) {
 }
 
 ok(Boolean(MATERIALIZATION_ROOT), "RCAP_SOURCE_MATERIALIZATION_ROOT is required.");
+const marker = fs.existsSync(path.join(ROOT, MARKER_PATH))
+  ? readJson(MARKER_PATH)
+  : null;
 ok(
-  fs.existsSync(path.join(ROOT, MARKER_PATH)),
+  integrationValidation || marker !== null,
   "The worker-local assignment marker is missing."
 );
-const marker = readJson(MARKER_PATH);
-ok(
-  marker.jobId === ga.GEORGIA_OFFICIAL_OVERLAY_JOB_ID,
-  "The worker marker names another job."
-);
-ok(
-  marker.exactAssignment?.jobId === ga.GEORGIA_OFFICIAL_OVERLAY_JOB_ID,
-  "The exact assignment marker names another job."
-);
-ok(
-  marker.exactAssignment?.baseCommit ===
-    "ed03a7d77173283e13bd0bf41a3ea15c1bfed89c" &&
-    marker.workerBaseCommit ===
-      "ed03a7d77173283e13bd0bf41a3ea15c1bfed89c",
-  "The marker base differs from the factory assignment."
-);
-ok(
-  marker.exactAssignment?.workerBranch ===
-    "rcap-factory/rcap-ga-flat-pdf-overlay-4bdcaaef",
-  "The generated worker branch differs from the marker."
-);
-ok(
-  marker.exactAssignment?.canonicalParent ===
-    "IMP-OV-01-flat-pdf-overlay-family",
-  "The marker canonical parent differs from the factory plan."
-);
-ok(
-  marker.exactAssignment?.lane === "flat_pdf_overlay" &&
-    marker.exactAssignment?.strategyFamily === "official_pdf_fill",
-  "The marker lane or strategy family differs from the factory assignment."
-);
-ok(
-  marker.exactAssignment?.runtimeDisabledInvariant === true,
-  "The marker lost the runtime-disabled invariant."
-);
-sameMembers(
-  marker.exactAssignment?.implementationFamilies ?? [],
-  ["flat_pdf_overlay"],
-  "implementation families"
-);
-sameMembers(
-  marker.exactAssignment?.exactTracks ?? [],
-  ga.GEORGIA_OFFICIAL_OVERLAY_TRACK_IDS,
-  "assigned tracks"
-);
-sameMembers(
-  marker.exactAssignment?.exactComponents ?? [],
-  ga.GEORGIA_OFFICIAL_OVERLAY_COMPONENT_IDS,
-  "assigned components"
-);
-sameMembers(
-  marker.exactAssignment?.ownedPaths ?? [],
-  [
-    "scripts/verify-rcap-georgia-official-overlay.mjs",
-    "src/lib/rcap/packets/jurisdictions/georgia/official-overlay.ts"
-  ],
-  "owned paths"
-);
-sameMembers(
-  marker.exactAssignment?.expectedOutputs ?? [],
-  [
-    "scripts/verify-rcap-georgia-official-overlay.mjs",
-    "src/lib/rcap/packets/jurisdictions/georgia/official-overlay.ts"
-  ],
-  "expected outputs"
-);
-sameMembers(
-  marker.exactAssignment?.sourceIdentities?.map(
-    (source) => source.sourceIdentityKey
-  ) ?? [],
-  [ga.GEORGIA_OFFICIAL_OVERLAY_SOURCE_REQUIREMENT.sourceIdentityKey],
-  "assigned source identities"
-);
-ok(
-  marker.exactAssignment?.focusedVerifier ===
-    "scripts/verify-rcap-georgia-official-overlay.mjs",
-  "The marker focused verifier differs from this verifier."
-);
-note(
-  "1. Worker marker, base, branch, parent, lane, implementation family, source identity, track, component, owned paths, outputs, and verifier match the exact factory assignment."
-);
+if (marker) {
+  ok(
+    marker.jobId === ga.GEORGIA_OFFICIAL_OVERLAY_JOB_ID,
+    "The worker marker names another job."
+  );
+  ok(
+    marker.exactAssignment?.jobId === ga.GEORGIA_OFFICIAL_OVERLAY_JOB_ID,
+    "The exact assignment marker names another job."
+  );
+  ok(
+    marker.exactAssignment?.baseCommit ===
+      "ed03a7d77173283e13bd0bf41a3ea15c1bfed89c" &&
+      marker.workerBaseCommit ===
+        "ed03a7d77173283e13bd0bf41a3ea15c1bfed89c",
+    "The marker base differs from the factory assignment."
+  );
+  ok(
+    marker.exactAssignment?.workerBranch ===
+      "rcap-factory/rcap-ga-flat-pdf-overlay-4bdcaaef",
+    "The generated worker branch differs from the marker."
+  );
+  ok(
+    marker.exactAssignment?.canonicalParent ===
+      "IMP-OV-01-flat-pdf-overlay-family",
+    "The marker canonical parent differs from the factory plan."
+  );
+  ok(
+    marker.exactAssignment?.lane === "flat_pdf_overlay" &&
+      marker.exactAssignment?.strategyFamily === "official_pdf_fill",
+    "The marker lane or strategy family differs from the factory assignment."
+  );
+  ok(
+    marker.exactAssignment?.runtimeDisabledInvariant === true,
+    "The marker lost the runtime-disabled invariant."
+  );
+  sameMembers(
+    marker.exactAssignment?.implementationFamilies ?? [],
+    ["flat_pdf_overlay"],
+    "implementation families"
+  );
+  sameMembers(
+    marker.exactAssignment?.exactTracks ?? [],
+    ga.GEORGIA_OFFICIAL_OVERLAY_TRACK_IDS,
+    "assigned tracks"
+  );
+  sameMembers(
+    marker.exactAssignment?.exactComponents ?? [],
+    ga.GEORGIA_OFFICIAL_OVERLAY_COMPONENT_IDS,
+    "assigned components"
+  );
+  sameMembers(
+    marker.exactAssignment?.ownedPaths ?? [],
+    [
+      "scripts/verify-rcap-georgia-official-overlay.mjs",
+      "src/lib/rcap/packets/jurisdictions/georgia/official-overlay.ts"
+    ],
+    "owned paths"
+  );
+  sameMembers(
+    marker.exactAssignment?.expectedOutputs ?? [],
+    [
+      "scripts/verify-rcap-georgia-official-overlay.mjs",
+      "src/lib/rcap/packets/jurisdictions/georgia/official-overlay.ts"
+    ],
+    "expected outputs"
+  );
+  sameMembers(
+    marker.exactAssignment?.sourceIdentities?.map(
+      (source) => source.sourceIdentityKey
+    ) ?? [],
+    [ga.GEORGIA_OFFICIAL_OVERLAY_SOURCE_REQUIREMENT.sourceIdentityKey],
+    "assigned source identities"
+  );
+  ok(
+    marker.exactAssignment?.focusedVerifier ===
+      "scripts/verify-rcap-georgia-official-overlay.mjs",
+    "The marker focused verifier differs from this verifier."
+  );
+  note(
+    "1. Worker marker, base, branch, parent, lane, implementation family, source identity, track, component, owned paths, outputs, and verifier match the exact factory assignment."
+  );
+} else {
+  note(
+    "1. Captain integration scope: the committed exact factory assignment replaces the worker-local marker."
+  );
+}
 
 const requirement = ga.GEORGIA_OFFICIAL_OVERLAY_SOURCE_REQUIREMENT;
 const projectionBytes = fs.readFileSync(path.join(ROOT, PROJECTION_PATH));
 ok(
-  sha256(projectionBytes) === marker.exactAssignment?.projectionSha256,
+  integrationValidation ||
+    sha256(projectionBytes) === marker?.exactAssignment?.projectionSha256,
   "The official-PDF assignment projection hash differs from the worker marker."
 );
 const projection = JSON.parse(projectionBytes.toString("utf8"));
@@ -587,8 +613,7 @@ note(
   "4. Legal-design boundary: all 12 mapped input keys are exact adopted participant answers; city/state/ZIP is only deterministically split. Three screening answers are not converted into agency or prosecutor assertions."
 );
 
-const sourcePath = path.join(
-  MATERIALIZATION_ROOT,
+const sourcePath = materializedSourcePath(
   requirement.materializationDestination
 );
 const sourceBefore = {
@@ -935,14 +960,20 @@ const changedPaths = status.stdout
   .split("\n")
   .filter(Boolean)
   .map((line) => line.slice(3));
-sameMembers(
-  changedPaths,
-  [
-    "scripts/verify-rcap-georgia-official-overlay.mjs",
-    "src/lib/rcap/packets/jurisdictions/georgia/official-overlay.ts"
-  ],
-  "worker-owned changed paths"
-);
+if (integrationValidation) {
+  note(
+    "7a. Captain integration scope: worker-owned path reconciliation is verified from the atomic worker commit."
+  );
+} else {
+  sameMembers(
+    changedPaths,
+    [
+      "scripts/verify-rcap-georgia-official-overlay.mjs",
+      "src/lib/rcap/packets/jurisdictions/georgia/official-overlay.ts"
+    ],
+    "worker-owned changed paths"
+  );
+}
 const sharedRegistry = fs.readFileSync(
   path.join(ROOT, SHARED_REGISTRY_PATH),
   "utf8"

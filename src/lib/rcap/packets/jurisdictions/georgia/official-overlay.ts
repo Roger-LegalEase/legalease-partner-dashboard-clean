@@ -598,9 +598,11 @@ export async function verifyGeorgiaOfficialOverlaySource(input: {
 }>> {
   const requirement = GEORGIA_OFFICIAL_OVERLAY_SOURCE_REQUIREMENT;
   const root = path.resolve(input.materializationRoot);
+  const destinationSegments =
+    requirement.materializationDestination.split("/");
   const absolutePath = path.resolve(
     root,
-    ...requirement.materializationDestination.split("/")
+    ...destinationSegments
   );
   const relative = path.relative(root, absolutePath);
   if (

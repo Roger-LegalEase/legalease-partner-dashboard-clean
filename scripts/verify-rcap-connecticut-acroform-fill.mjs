@@ -49,6 +49,8 @@ const failures = [];
 const checks = [];
 const rendered = [];
 const pageImages = [];
+const integrationValidation =
+  process.env.RCAP_FACTORY_VALIDATION_SCOPE === "integration";
 
 function ok(condition, message) {
   if (!condition) failures.push(message);
@@ -60,6 +62,21 @@ function note(message) {
 
 function readJson(relativePath) {
   return JSON.parse(fs.readFileSync(path.join(ROOT, relativePath), "utf8"));
+}
+
+function materializedSourcePath(destination) {
+  const root = path.resolve(MATERIALIZATION_ROOT);
+  const candidate = path.resolve(root, ...destination.split("/"));
+  const relative = path.relative(root, candidate);
+  if (
+    relative === "" ||
+    relative === ".." ||
+    relative.startsWith(`..${path.sep}`) ||
+    path.isAbsolute(relative)
+  ) {
+    throw new Error("The assigned source escapes the materialization root.");
+  }
+  return candidate;
 }
 
 function sha256(bytes) {
@@ -191,95 +208,104 @@ async function expectError(code, callback, label) {
 }
 
 ok(Boolean(MATERIALIZATION_ROOT), "RCAP_SOURCE_MATERIALIZATION_ROOT is required.");
+const marker = fs.existsSync(path.join(ROOT, MARKER_PATH))
+  ? readJson(MARKER_PATH)
+  : null;
 ok(
-  fs.existsSync(path.join(ROOT, MARKER_PATH)),
+  integrationValidation || marker !== null,
   "The worker-local assignment marker is missing."
 );
-const marker = readJson(MARKER_PATH);
-ok(
-  marker.jobId === ct.CONNECTICUT_ACROFORM_JOB_ID,
-  "The worker marker names another job."
-);
-ok(
-  marker.exactAssignment?.jobId === ct.CONNECTICUT_ACROFORM_JOB_ID,
-  "The exact assignment marker names another job."
-);
-ok(
-  marker.exactAssignment?.baseCommit ===
-    "ed03a7d77173283e13bd0bf41a3ea15c1bfed89c" &&
-    marker.workerBaseCommit ===
-      "ed03a7d77173283e13bd0bf41a3ea15c1bfed89c",
-  "The worker marker base differs from the factory assignment."
-);
-ok(
-  marker.exactAssignment?.workerBranch ===
-    "rcap-factory/rcap-ct-acroform-fill-ab8bfb1f",
-  "The generated worker branch differs from the marker."
-);
-ok(
-  marker.exactAssignment?.runtimeDisabledInvariant === true,
-  "The marker lost the runtime-disabled invariant."
-);
-ok(
-  marker.exactAssignment?.canonicalParent ===
-    "IMP-OF-05-small-statewide-acroform-states",
-  "The marker canonical parent differs from the factory plan."
-);
-ok(
-  marker.exactAssignment?.lane === "acroform_fill" &&
-    marker.exactAssignment?.strategyFamily === "official_pdf_fill",
-  "The marker lane or strategy family differs from the factory assignment."
-);
-sameMembers(
-  marker.exactAssignment?.implementationFamilies ?? [],
-  ["acroform_fill"],
-  "implementation families"
-);
-sameMembers(
-  marker.exactAssignment?.exactTracks ?? [],
-  ct.CONNECTICUT_ACROFORM_TRACK_IDS,
-  "assigned tracks"
-);
-sameMembers(
-  marker.exactAssignment?.exactComponents ?? [],
-  ct.CONNECTICUT_ACROFORM_COMPONENT_IDS,
-  "assigned components"
-);
-sameMembers(
-  marker.exactAssignment?.ownedPaths ?? [],
-  [
-    "scripts/verify-rcap-connecticut-acroform-fill.mjs",
-    "src/lib/rcap/packets/jurisdictions/connecticut/acroform.ts"
-  ],
-  "owned paths"
-);
-sameMembers(
-  marker.exactAssignment?.expectedOutputs ?? [],
-  [
-    "scripts/verify-rcap-connecticut-acroform-fill.mjs",
-    "src/lib/rcap/packets/jurisdictions/connecticut/acroform.ts"
-  ],
-  "expected outputs"
-);
-sameMembers(
-  marker.exactAssignment?.sourceIdentities?.map(
-    (source) => source.sourceIdentityKey
-  ) ?? [],
-  [ct.CONNECTICUT_ACROFORM_SOURCE_REQUIREMENT.sourceIdentityKey],
-  "assigned source identities"
-);
-ok(
-  marker.exactAssignment?.focusedVerifier ===
-    "scripts/verify-rcap-connecticut-acroform-fill.mjs",
-  "The marker focused verifier differs from this verifier."
-);
-note(
-  "1. Worker marker, base, branch, parent, lane, implementation family, source identity, track, component, owned paths, outputs, and verifier match the exact factory assignment."
-);
+if (marker) {
+  ok(
+    marker.jobId === ct.CONNECTICUT_ACROFORM_JOB_ID,
+    "The worker marker names another job."
+  );
+  ok(
+    marker.exactAssignment?.jobId === ct.CONNECTICUT_ACROFORM_JOB_ID,
+    "The exact assignment marker names another job."
+  );
+  ok(
+    marker.exactAssignment?.baseCommit ===
+      "ed03a7d77173283e13bd0bf41a3ea15c1bfed89c" &&
+      marker.workerBaseCommit ===
+        "ed03a7d77173283e13bd0bf41a3ea15c1bfed89c",
+    "The worker marker base differs from the factory assignment."
+  );
+  ok(
+    marker.exactAssignment?.workerBranch ===
+      "rcap-factory/rcap-ct-acroform-fill-ab8bfb1f",
+    "The generated worker branch differs from the marker."
+  );
+  ok(
+    marker.exactAssignment?.runtimeDisabledInvariant === true,
+    "The marker lost the runtime-disabled invariant."
+  );
+  ok(
+    marker.exactAssignment?.canonicalParent ===
+      "IMP-OF-05-small-statewide-acroform-states",
+    "The marker canonical parent differs from the factory plan."
+  );
+  ok(
+    marker.exactAssignment?.lane === "acroform_fill" &&
+      marker.exactAssignment?.strategyFamily === "official_pdf_fill",
+    "The marker lane or strategy family differs from the factory assignment."
+  );
+  sameMembers(
+    marker.exactAssignment?.implementationFamilies ?? [],
+    ["acroform_fill"],
+    "implementation families"
+  );
+  sameMembers(
+    marker.exactAssignment?.exactTracks ?? [],
+    ct.CONNECTICUT_ACROFORM_TRACK_IDS,
+    "assigned tracks"
+  );
+  sameMembers(
+    marker.exactAssignment?.exactComponents ?? [],
+    ct.CONNECTICUT_ACROFORM_COMPONENT_IDS,
+    "assigned components"
+  );
+  sameMembers(
+    marker.exactAssignment?.ownedPaths ?? [],
+    [
+      "scripts/verify-rcap-connecticut-acroform-fill.mjs",
+      "src/lib/rcap/packets/jurisdictions/connecticut/acroform.ts"
+    ],
+    "owned paths"
+  );
+  sameMembers(
+    marker.exactAssignment?.expectedOutputs ?? [],
+    [
+      "scripts/verify-rcap-connecticut-acroform-fill.mjs",
+      "src/lib/rcap/packets/jurisdictions/connecticut/acroform.ts"
+    ],
+    "expected outputs"
+  );
+  sameMembers(
+    marker.exactAssignment?.sourceIdentities?.map(
+      (source) => source.sourceIdentityKey
+    ) ?? [],
+    [ct.CONNECTICUT_ACROFORM_SOURCE_REQUIREMENT.sourceIdentityKey],
+    "assigned source identities"
+  );
+  ok(
+    marker.exactAssignment?.focusedVerifier ===
+      "scripts/verify-rcap-connecticut-acroform-fill.mjs",
+    "The marker focused verifier differs from this verifier."
+  );
+  note(
+    "1. Worker marker, base, branch, parent, lane, implementation family, source identity, track, component, owned paths, outputs, and verifier match the exact factory assignment."
+  );
+} else {
+  note(
+    "1. Captain integration scope: the committed exact factory assignment replaces the worker-local marker."
+  );
+}
 
 const projectionBytes = fs.readFileSync(path.join(ROOT, PROJECTION_PATH));
 ok(
-  sha256(projectionBytes) === marker.exactAssignment?.projectionSha256,
+  integrationValidation ||
+    sha256(projectionBytes) === marker?.exactAssignment?.projectionSha256,
   "The official-PDF assignment projection hash differs from the worker marker."
 );
 const projection = JSON.parse(projectionBytes.toString("utf8"));
@@ -530,8 +556,7 @@ note(
   "4. Legal-design boundary: docket data and established participant profile/contact values are the only inputs written. Crime selection, venue identifiers, eligibility assertions, execution, notarization, and the court order remain manual or blank."
 );
 
-const sourcePath = path.join(
-  MATERIALIZATION_ROOT,
+const sourcePath = materializedSourcePath(
   requirement.materializationDestination
 );
 const sourceBefore = {

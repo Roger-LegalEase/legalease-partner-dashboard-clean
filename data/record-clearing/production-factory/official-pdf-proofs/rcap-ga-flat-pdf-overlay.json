@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "rcap-official-pdf-implementation-proof/v1",
+  "jobId": "rcap-ga-flat-pdf-overlay",
+  "parentJobId": "IMP-OV-01-flat-pdf-overlay-family",
+  "jurisdiction": "GA",
+  "completionCommit": "f2f2c2c4de39d631bdd04e78563265519f8d21bd",
+  "authorityEdition": "1.2",
+  "generatedAt": "2026-08-05T20:49:23Z",
+  "sourceReceipts": [
+    {
+      "sourceIdentityKey": "rcap-ga-gbi-gcic-request-to-restrict-arrest-record-prior-c9460dd6ad",
+      "documentId": "GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013",
+      "receiptPath": "data/record-clearing/production-factory/source-materialization-receipts/rcap-ga-gbi-gcic-request-to-restrict-arrest-record-prior-c9460dd6ad.json",
+      "receiptSha256": "aa6bfbc54a44650d63ee11ca418277c7d040aa77c5e6a032207ed875b28fc11f",
+      "sourceSha256": "5fe841de263070f192ddfb0e322e41b2c2a97e8d07e7e643e98fdf780aefa1ab",
+      "sourceBytes": 449903,
+      "materializationDestination": "official-pdf/GA/GA__FORM__GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013__agency-instructions-and-request-to-restrict-expunge-arrest-record__REV-2013-07-01__EN.pdf",
+      "verified": true
+    }
+  ],
+  "verifier": {
+    "path": "scripts/verify-rcap-georgia-official-overlay.mjs",
+    "sha256": "7711a23317dcca04bcc242c8ccb3ce96c21115dbff3c64f48fcf9dcd61e11d34",
+    "result": "passed"
+  },
+  "implementationOutputs": [
+    {
+      "path": "src/lib/rcap/packets/jurisdictions/georgia/official-overlay.ts",
+      "sha256": "4d855b6fcd2fa1ca67217b4344a21430ef28bcf5c8cec57a8f6fae49ece2f591"
+    },
+    {
+      "path": "scripts/verify-rcap-georgia-official-overlay.mjs",
+      "sha256": "7711a23317dcca04bcc242c8ccb3ce96c21115dbff3c64f48fcf9dcd61e11d34"
+    }
+  ],
+  "assignments": {
+    "trackIds": [
+      "ga-nonconv-pre2013"
+    ],
+    "componentIds": [
+      "ga-nonconv-pre2013-primary-filing-1"
+    ],
+    "sourceIdentityKeys": [
+      "rcap-ga-gbi-gcic-request-to-restrict-arrest-record-prior-c9460dd6ad"
+    ]
+  },
+  "fieldOrOverlayInventory": {
+    "inventoryType": "flat_pdf_overlay_regions",
+    "totalSourcePages": 4,
+    "overlayPages": [
+      2
+    ],
+    "mappedParticipantRegions": 14,
+    "unchangedSourcePages": [
+      1,
+      3,
+      4
+    ]
+  },
+  "protectedSurfaceTreatment": "Agency, prosecutor, signature, execution, disposition, screening, and GBI-only regions remain blank or unchanged; pages 1, 3, and 4 remain raster-identical.",
+  "fixtures": [
+    {
+      "fixtureId": "ga-nonconv-pre2013-synthetic-layout",
+      "trackId": "ga-nonconv-pre2013",
+      "componentIds": [
+        "ga-nonconv-pre2013-primary-filing-1"
+      ],
+      "sourceIdentityKeys": [
+        "rcap-ga-gbi-gcic-request-to-restrict-arrest-record-prior-c9460dd6ad"
+      ],
+      "documentId": "GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013",
+      "variant": "synthetic_layout",
+      "expectedOutputStatus": "rendered_pdf",
+      "generatedPdf": true,
+      "assembledFileName": "ga-nonconv-pre2013-synthetic-layout-GBI-GCIC.pdf",
+      "outputSha256": "50ab667554ca4148a8488b844b82fc99799df88f2eb712e8c7c2ff9832e747ed",
+      "assembledPageCount": 4,
+      "deterministic": true,
+      "workerVisualEvidence": {
+        "status": "worker_inspected_technical_evidence",
+        "pagesInspected": 4,
+        "renderedPageImages": 4,
+        "sourceReferencePageImages": 4,
+        "noBlankPages": true,
+        "formalApproval": false
+      }
+    }
+  ],
+  "totals": {
+    "assignedTracks": 1,
+    "positiveRenderedFixtures": 1,
+    "renderedPages": 4,
+    "expectedNoDocumentBranches": 0
+  },
+  "deterministic": true,
+  "sourceMutationDetected": false,
+  "officialSourcePdfBytesTracked": false,
+  "generatedParticipantPdfBytesTracked": false,
+  "workerVisualEvidenceStatus": "technical_evidence_only",
+  "formalVisualApprovalStatus": "pending",
+  "completedOutputLegalReviewStatus": "pending",
+  "counselAdopted": false,
+  "packetReady": false,
+  "runtimeStatus": "runtime_disabled",
+  "productionEnabled": false
+}

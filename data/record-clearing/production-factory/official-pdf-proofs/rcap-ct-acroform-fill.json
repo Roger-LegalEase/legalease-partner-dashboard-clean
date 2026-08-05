@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "rcap-official-pdf-implementation-proof/v1",
+  "jobId": "rcap-ct-acroform-fill",
+  "parentJobId": "IMP-OF-05-small-statewide-acroform-states",
+  "jurisdiction": "CT",
+  "completionCommit": "777ca177419b934e61c40ea7776526d1ad605bdb",
+  "authorityEdition": "1.2",
+  "generatedAt": "2026-08-05T20:38:16Z",
+  "sourceReceipts": [
+    {
+      "sourceIdentityKey": "rcap-ct-jd-cr-202-d37887dc0b",
+      "documentId": "JD-CR-202",
+      "receiptPath": "data/record-clearing/production-factory/source-materialization-receipts/rcap-ct-jd-cr-202-d37887dc0b.json",
+      "receiptSha256": "de7374954f34d48b9f0d3c5642690d85b3be8060778181990575667d6c813c7e",
+      "sourceSha256": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
+      "sourceBytes": 820630,
+      "materializationDestination": "official-pdf/CT/CT__FORM__JD-CR-202__petition-for-clean-slate-erasure-convictions-before-1-1-2000__REV-2023-11__EN.pdf",
+      "verified": true
+    }
+  ],
+  "verifier": {
+    "path": "scripts/verify-rcap-connecticut-acroform-fill.mjs",
+    "sha256": "7eff028374537f7f0613a525b8bf373bd86a86806ed6f0f117ac09c73069aa5e",
+    "result": "passed"
+  },
+  "implementationOutputs": [
+    {
+      "path": "src/lib/rcap/packets/jurisdictions/connecticut/acroform.ts",
+      "sha256": "edb72bc957255da70ef7fd9a2e2cd15b1ec9e93b07dd93dfd24587affec8a041"
+    },
+    {
+      "path": "scripts/verify-rcap-connecticut-acroform-fill.mjs",
+      "sha256": "7eff028374537f7f0613a525b8bf373bd86a86806ed6f0f117ac09c73069aa5e"
+    }
+  ],
+  "assignments": {
+    "trackIds": [
+      "ct-cleanslate-petition"
+    ],
+    "componentIds": [
+      "ct-cleanslate-petition-primary-filing-1"
+    ],
+    "sourceIdentityKeys": [
+      "rcap-ct-jd-cr-202-d37887dc0b"
+    ]
+  },
+  "fieldOrOverlayInventory": {
+    "inventoryType": "acroform_fields",
+    "totalSourceFields": 22,
+    "completionFields": 18,
+    "mappedParticipantFields": 7,
+    "manualFields": 4,
+    "outsidePartyFields": 2,
+    "courtOnlyFields": 5,
+    "unusedActionButtons": 4
+  },
+  "protectedSurfaceTreatment": "Print/reset action buttons are not completion fields; court, order, outside-party, execution, and optional-unprovided participant fields remain blank.",
+  "fixtures": [
+    {
+      "fixtureId": "ct-cleanslate-petition-optional-contact-blank",
+      "trackId": "ct-cleanslate-petition",
+      "componentIds": [
+        "ct-cleanslate-petition-primary-filing-1"
+      ],
+      "sourceIdentityKeys": [
+        "rcap-ct-jd-cr-202-d37887dc0b"
+      ],
+      "documentId": "JD-CR-202",
+      "variant": "optional_contact_blank",
+      "expectedOutputStatus": "rendered_pdf",
+      "generatedPdf": true,
+      "assembledFileName": "ct-cleanslate-petition-optional-contact-blank-JD-CR-202.pdf",
+      "outputSha256": "010eda6d9417dd06674f1163fbccaf26c365b257a45491a0070750c50fc21ddf",
+      "assembledPageCount": 2,
+      "deterministic": true,
+      "workerVisualEvidence": {
+        "status": "worker_inspected_technical_evidence",
+        "pagesInspected": 2,
+        "renderedPageImages": 2,
+        "sourceReferencePageImages": 0,
+        "noBlankPages": true,
+        "formalApproval": false
+      }
+    },
+    {
+      "fixtureId": "ct-cleanslate-petition-standard",
+      "trackId": "ct-cleanslate-petition",
+      "componentIds": [
+        "ct-cleanslate-petition-primary-filing-1"
+      ],
+      "sourceIdentityKeys": [
+        "rcap-ct-jd-cr-202-d37887dc0b"
+      ],
+      "documentId": "JD-CR-202",
+      "variant": "standard",
+      "expectedOutputStatus": "rendered_pdf",
+      "generatedPdf": true,
+      "assembledFileName": "ct-cleanslate-petition-standard-JD-CR-202.pdf",
+      "outputSha256": "f2e3dd07c1a22006cc820de3a86c549df5eb861c541a546cbc2af1ef3f1d6c3d",
+      "assembledPageCount": 2,
+      "deterministic": true,
+      "workerVisualEvidence": {
+        "status": "worker_inspected_technical_evidence",
+        "pagesInspected": 2,
+        "renderedPageImages": 2,
+        "sourceReferencePageImages": 0,
+        "noBlankPages": true,
+        "formalApproval": false
+      }
+    }
+  ],
+  "totals": {
+    "assignedTracks": 1,
+    "positiveRenderedFixtures": 2,
+    "renderedPages": 4,
+    "expectedNoDocumentBranches": 0
+  },
+  "deterministic": true,
+  "sourceMutationDetected": false,
+  "officialSourcePdfBytesTracked": false,
+  "generatedParticipantPdfBytesTracked": false,
+  "workerVisualEvidenceStatus": "technical_evidence_only",
+  "formalVisualApprovalStatus": "pending",
+  "completedOutputLegalReviewStatus": "pending",
+  "counselAdopted": false,
+  "packetReady": false,
+  "runtimeStatus": "runtime_disabled",
+  "productionEnabled": false
+}

@@ -26,6 +26,7 @@ const NEVER_WORKER_OWNED_PATHS = [
   "data/record-clearing/master-library/source-acquisition-queue.json",
   "data/record-clearing/master-library/track-source-audit.json",
   "data/record-clearing/production-factory/review-manifests",
+  "data/record-clearing/production-factory/official-pdf-proofs",
   "data/record-clearing/production-factory/normalization-readiness-input.json",
   "data/record-clearing/production-factory/legal-review-materialization-contract.json",
   OFFICIAL_PDF_SOURCE_PROJECTION_PATH,

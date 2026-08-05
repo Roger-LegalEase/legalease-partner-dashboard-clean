@@ -690,11 +690,11 @@ function validateSourceMaterializationInputs(job, issues) {
   }
   if (
     ready &&
-    job.status === "ready" &&
+    ["ready", "completed"].includes(job.status) &&
     (job.officialPdfAssignment?.assignmentBlockers?.length ?? 0) > 0
   ) {
     issues.push(
-      "a ready official-PDF job may not retain assignment blockers."
+      "a ready or completed official-PDF job may not retain assignment blockers."
     );
   }
   if (!ready && job.status !== "blocked") {

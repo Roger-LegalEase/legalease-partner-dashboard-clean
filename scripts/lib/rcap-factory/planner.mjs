@@ -79,6 +79,7 @@ export const GLOBAL_GENERATED_REGISTRIES = Object.freeze([
   "data/record-clearing/relief-track-registry.json",
   "data/record-clearing/source-artifact-registry.json",
   "data/record-clearing/production-factory/packet-proofs",
+  "data/record-clearing/production-factory/official-pdf-proofs",
   "data/record-clearing/production-factory/review-manifests",
   "data/record-clearing/production-factory/source-materialization-receipts",
   "data/record-clearing/production-factory/normalization-readiness-input.json",
@@ -125,6 +126,8 @@ const IMPLEMENTATION_DIR = "data/record-clearing/implementation-tranches";
 const CANONICAL_JOBS_DIR = "planning/record-clearing-100-percent/jobs";
 const REVIEW_MANIFEST_DIR = "data/record-clearing/production-factory/review-manifests";
 const PACKET_PROOF_DIR = "data/record-clearing/production-factory/packet-proofs";
+const OFFICIAL_PDF_PROOF_DIR =
+  "data/record-clearing/production-factory/official-pdf-proofs";
 const SOURCE_MATERIALIZATION_RECEIPT_DIR =
   "data/record-clearing/production-factory/source-materialization-receipts";
 const FACTORY_DATA_DIR = "data/record-clearing/production-factory";
@@ -429,6 +432,26 @@ const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
       "scripts/verify-rcap-montana-guidance-implementation.mjs",
     verifierWorkerOwned: true,
     trackIds: ["mt_auto_nonconviction"]
+  }
+]);
+const COMPLETED_OFFICIAL_PDF_IMPLEMENTATIONS = Object.freeze([
+  {
+    jobId: "rcap-ak-acroform-fill",
+    jurisdiction: "AK",
+    lane: "acroform_fill",
+    completionCommit: "27210a0ee9f2fa01b907ba54c91ed9040dd04c2d"
+  },
+  {
+    jobId: "rcap-ct-acroform-fill",
+    jurisdiction: "CT",
+    lane: "acroform_fill",
+    completionCommit: "777ca177419b934e61c40ea7776526d1ad605bdb"
+  },
+  {
+    jobId: "rcap-ga-flat-pdf-overlay",
+    jurisdiction: "GA",
+    lane: "flat_pdf_overlay",
+    completionCommit: "f2f2c2c4de39d631bdd04e78563265519f8d21bd"
   }
 ]);
 const GUIDANCE_TYPED_STOP_TRACKS = new Set([
@@ -1348,7 +1371,9 @@ export function buildFactoryPlan(options = {}) {
     jobId: "rcap-ga-flat-pdf-overlay",
     trackIds: ["ga-nonconv-pre2013"],
     dependencies: [sourceMaterializationFoundation.jobId],
-    status: "blocked",
+    status: "completed",
+    completionCommit:
+      "f2f2c2c4de39d631bdd04e78563265519f8d21bd",
     requiredInputs: [
       FACTORY_INPUT_PATHS.authority,
       FACTORY_INPUT_PATHS.normalizedTracks,
@@ -1362,6 +1387,10 @@ export function buildFactoryPlan(options = {}) {
       "src/lib/rcap/packets/jurisdictions/georgia/official-overlay.ts",
       "scripts/verify-rcap-georgia-official-overlay.mjs"
     ],
+    integrationOwnedOutputs: [
+      `${OFFICIAL_PDF_PROOF_DIR}/rcap-ga-flat-pdf-overlay.json`,
+      `${REVIEW_MANIFEST_DIR}/rcap-ga-flat-pdf-overlay.json`
+    ],
     regressionVerifier:
       "scripts/verify-rcap-georgia-official-overlay.mjs",
     participantPacketProofRequired: true,
@@ -1371,11 +1400,16 @@ export function buildFactoryPlan(options = {}) {
     ],
     commitSubject:
       "feat(record-clearing): implement Georgia official PDF overlay",
+    executionNote:
+      "The exact source-bound worker implementation and deterministic technical fixture are " +
+      "integrated. Formal visual review, completed-output legal review, counsel adoption, packet " +
+      "readiness, runtime registration, and production enablement remain separate.",
     stopCondition:
-      "Implement only the exact assigned pre-2013 Georgia official-PDF overlay. Do not edit the " +
-      "guidance worker surface, acquire sources, change legal design, enable runtime, promote, or " +
-      "deploy. " +
-      TERMINAL_INSTRUCTION
+      "Terminal completed child: source commit " +
+      "f2f2c2c4de39d631bdd04e78563265519f8d21bd is integrated with an " +
+      "integration-owned official-PDF proof. Preserve source immutability, the page-2-only " +
+      "overlay map, protected regions, and the runtime-disabled boundary. Do not scaffold, " +
+      "execute, enable, promote, or deploy this job."
   });
 
   addJob({
@@ -1746,6 +1780,31 @@ function addTrackLaneJobs({
 }
 
 function implementationJobOverrides(lane, jurisdiction) {
+  const completedOfficialPdf = COMPLETED_OFFICIAL_PDF_IMPLEMENTATIONS.find(
+    (record) =>
+      record.lane === lane && record.jurisdiction === jurisdiction
+  );
+  if (completedOfficialPdf) {
+    const reviewManifest =
+      `${REVIEW_MANIFEST_DIR}/${completedOfficialPdf.jobId}.json`;
+    const implementationProof =
+      `${OFFICIAL_PDF_PROOF_DIR}/${completedOfficialPdf.jobId}.json`;
+    return {
+      status: "completed",
+      completionCommit: completedOfficialPdf.completionCommit,
+      integrationOwnedOutputs: [implementationProof, reviewManifest],
+      participantPacketProofRequired: true,
+      executionNote:
+        "The exact source-bound worker implementation and deterministic technical fixtures are " +
+        "integrated. Formal visual review, completed-output legal review, counsel adoption, " +
+        "packet readiness, runtime registration, and production enablement remain separate.",
+      stopCondition:
+        `Terminal completed child: source commit ${completedOfficialPdf.completionCommit} is ` +
+        "integrated with an integration-owned official-PDF proof. Preserve source immutability, " +
+        "fixture variants, expected no-document outcomes, protected field ownership, and the " +
+        "runtime-disabled boundary. Do not scaffold, execute, enable, promote, or deploy this job."
+    };
+  }
   if (lane === "custom_pleading" && jurisdiction === "IL") {
     const tranchePrefix =
       "data/record-clearing/implementation-tranches/tranche-4";
@@ -3208,7 +3267,12 @@ function applyOfficialPdfAssignments({
       ["acroform_fill", "flat_pdf_overlay", "composed_route"].includes(
         job.lane
       ) &&
-      job.status !== "completed"
+      (
+        job.status !== "completed" ||
+        COMPLETED_OFFICIAL_PDF_IMPLEMENTATIONS.some(
+          (record) => record.jobId === job.jobId
+        )
+      )
   );
   const assignmentRows = inputs.officialPdfSourceProjection.identities.filter(
     (identity) => identity.assignmentEligible
@@ -3457,6 +3521,15 @@ function applyOfficialPdfAssignments({
           ? "exact_pinned_assignment_blocked_non_source_dependencies"
           : "exact_pinned_assignment_blocked_external_materialization"
         : "blocked_no_exact_identity_assignment";
+    if (job.status === "completed") {
+      if (!ready) {
+        throw new Error(
+          `${job.jobId} cannot remain completed after its exact source assignment stopped verifying.`
+        );
+      }
+      assignment.assignmentState = "exact_pinned_assignment_implemented";
+      continue;
+    }
     job.status = ready ? "ready" : "blocked";
   }
 
