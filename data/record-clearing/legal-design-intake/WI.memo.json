@@ -1,6 +1,6 @@
 {
   "_controllingReview": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md, materialized from Expungement_AI_RCAP_Master_Library_Edition_1_2.zip (sha256 7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd). Edition 1.2 is the controlling review source.",
-  "_sourceSlotAccounting": "Eight review source slots, each accounted for exactly once, 1:1, with no splits, merges, replacements, supporting-action nodes, routing nodes or local variants: WI-EXP-01 -> wi_exp_certificate_of_discharge, WI-EXP-02 -> wi_exp_cr266, WI-EXP-03 -> wi_exp_942_08_mandatory, WI-EXP-04 -> wi_exp_trafficking_2m, WI-NC-01 -> wi_nc_doj_fingerprint_removal, WI-NC-02 -> wi_nc_doj_challenge, WI-DEF-01 -> wi_def_961_47, WI-DEF-02 -> wi_def_prosecution_agreement (deferred). Seven import; one is deferred under legal_research_required exactly as counsel decided. WI-COMMON is shared terminology and stop conditions, not a source slot, and is distributed into each track. The seven specialized matters are outside ordinary adult scope and are carried as stop conditions and scope restrictions. No track is composed: the two DOJ routes are official_pdf_fill with process_guidance components, not legally distinct stages.",
+  "_sourceSlotAccounting": "Eight review source slots, each accounted for exactly once, normalized to NINE nodes through one explicit split on WI-EXP-01: WI-EXP-01 -> wi_exp_certificate_of_discharge (relief track, authority-issued certificate, process_guidance) PLUS wi_exp_certificate_of_discharge_followup (supporting_action, participant's written request, custom_pleading); WI-EXP-02 -> wi_exp_cr266; WI-EXP-03 -> wi_exp_942_08_mandatory; WI-EXP-04 -> wi_exp_trafficking_2m; WI-NC-01 -> wi_nc_doj_fingerprint_removal; WI-NC-02 -> wi_nc_doj_challenge; WI-DEF-01 -> wi_def_961_47; WI-DEF-02 -> wi_def_prosecution_agreement (deferred). Eight import as relief tracks or supporting actions, one is deferred under legal_research_required exactly as counsel decided. The split adds a supporting node, never a second substantive remedy: WI-EXP-01 still yields exactly one record-clearing mechanism. No merges, replacements, routing nodes or local variants. WI-COMMON is shared terminology and stop conditions, not a source slot. No track is composed: the two DOJ routes are official_pdf_fill with process_guidance components, not legally distinct stages.",
   "_officialAuthorityConfirmation": "Wis. Stat. sections 973.015, 961.47, 967.055 and 165.84 were read at source on docs.legis.wisconsin.gov on 2026-08-05, and the amending acts were read as published PDFs. Four findings are recorded on the affected tracks with provenance rather than silently applied: (1) the statutes are now certified through 2025 Wis. Act 247 and in effect on 2026-08-05, later than the 'through 2025 Wis. Act 170, in effect 2026-05-22' currency the review relied on, and section 973.015 is textually unchanged, which strengthens rather than weakens counsel's 'nothing has changed' finding; (2) section 973.015's history line ends at 2015 Wis. Act 366, independently corroborating that no reform has been enacted since; (3) section 961.47 contains NO expungement provision, which answers counsel's build blocker on WI-DEF-01 — completion produces a non-conviction and nothing more — and its official caption is 'Conditional discharge for possession or attempted possession as first offense', not a 'deferred judgment'; the section also carries a once-per-lifetime limit and a 20-day clerk-to-DOJ notification duty that the review did not record; (4) the section 967.055(3) bar is not a general 'OWI offense' bar but a specific list: sections 346.63(1) or (5), 346.63(2) or (6), and 940.09 where the offense involved the use of a vehicle. effectiveFrom records the date each section's current operative text took effect, read from the enacting acts: 2015 Wis. Act 366 (enacted 19 Apr 2016, published 20 Apr 2016, effective 21 Apr 2016) for sections 973.015 and 165.84; 1995 Wis. Act 448 (published 8 Jul 1996, effective 9 Jul 1996) for section 961.47; 2019 Wis. Act 68 (published 27 Nov 2019, effective 28 Nov 2019) for section 967.055.",
   "schemaVersion": 1,
   "jurisdiction": "WI",
@@ -58,7 +58,7 @@
       "destination": {
         "kind": "agency",
         "name": "The detaining or probationary authority, which issues the certificate of discharge to the court of record",
-        "detail": "The statute places the issuing duty on the supervising or detaining authority — the Department of Corrections in most probation cases — and the certificate itself has the effect of expunging the record when it reaches the clerk. The participant files nothing. Their realistic job is verification and follow-up where the certificate was never issued or never forwarded."
+        "detail": "The statute places the issuing duty on the supervising or detaining authority — the Department of Corrections in most probation cases — and the certificate itself has the effect of expunging the record when it reaches the clerk. Nothing is filed on this track: the certificate is the authority's document and LegalEase cannot complete it. Where it was never issued or never forwarded, the participant's own written request is produced by the wi_exp_certificate_of_discharge_followup supporting action rather than by this route."
       },
       "components": [
         {
@@ -77,14 +77,7 @@
           "role": "status_verification_instructions",
           "requirement": "required",
           "outputStrategy": "process_guidance",
-          "notes": "Check Wisconsin Circuit Court Access to see whether the case is still publicly visible, then confirm with the clerk whether the certificate of discharge was received and the record left public access."
-        },
-        {
-          "role": "follow_up_request",
-          "requirement": "conditional",
-          "conditionDescription": "Prepared where the record is still publicly visible and the certificate appears not to have issued or not to have been forwarded.",
-          "outputStrategy": "process_guidance",
-          "notes": "A written request to the supervising or detaining authority asking that the certificate of discharge be issued and forwarded to the clerk. This is a participant-authored letter, not a court filing."
+          "notes": "Check Wisconsin Circuit Court Access to see whether the case is still publicly visible, then confirm with the clerk whether the certificate of discharge was received and the record left public access. Where the record is still publicly visible and the certificate appears not to have issued or not to have been forwarded, this track hands off to the wi_exp_certificate_of_discharge_followup supporting action, which produces the participant's written request. Nothing is filed on this track itself."
         },
         {
           "role": "legal_effect_explanation",
@@ -286,12 +279,24 @@
             "sourceStatement": "Nothing has changed. The statutes as published are current through 2025 Wis. Act 170 and in effect on 2026-05-22, and section 973.015 still reads that way.",
             "counselQuestion": "Should the reviewed-through date for Wisconsin be advanced to the 2025 Wis. Act 247 certification, given the text is unchanged?"
           }
+        },
+        {
+          "question": "Source-slot disposition: WI-EXP-01 is split into two normalized nodes — this process_guidance relief track for the authority-issued certificate, and the wi_exp_certificate_of_discharge_followup supporting action for the participant's written request. The slot is still accounted exactly once; the split adds a supporting node, not a second substantive remedy. Wisconsin therefore normalizes 8 source slots to 9 nodes.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "WI-EXP-01 / How relief actually happens",
+            "sourceStatement": "on successful completion, the detaining or probationary authority issues a certificate of discharge and forwards it to the court. That certificate has the effect of expunging the record. There is no petition and no separate court motion in the ordinary case",
+            "counselQuestion": "Confirm that splitting WI-EXP-01 into an authority-issued guidance track plus a participant supporting-action letter correctly states the route, and that the letter is not to be counted as a separate relief mechanism."
+          }
         }
       ],
       "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track and must name the undetermined element.",
       "legalDesignDecision": {
         "status": "legal_design_approved_with_limitations",
-        "rationale": "Process guidance only, and guidance because no participant filing vehicle exists rather than for want of a form: the statute delivers the entire relief through a certificate the supervising authority issues and forwards to the clerk. This is the most common Wisconsin scenario where something has gone wrong administratively, and the fix is a phone call and a letter, not a filing. Do not charge petition-level pricing for it.",
+        "rationale": "Process guidance only for the authority-issued certificate, and guidance because no participant filing vehicle exists on this route: the statute delivers the entire relief through a certificate the supervising authority shall issue and forward to the clerk, and LegalEase cannot complete that document. The participant's neutral follow-up letter, which the review expressly says LegalEase can prepare, is not part of this no-filing route — it is split out as the wi_exp_certificate_of_discharge_followup supporting action so that a packet-capable participant submission is not hidden inside a guidance classification. This remains the most common Wisconsin scenario where something has gone wrong administratively, and the fix is a phone call and a letter, not a filing. Do not charge petition-level pricing for it.",
         "limitations": [
           {
             "classification": "scope_restriction",
@@ -371,6 +376,308 @@
               "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
               "sourceHeading": "PART 4.2 / Attorney-handoff triggers",
               "sourceStatement": "any dispute about whether completion was successful, particularly a revocation or a subsequent conviction question, because those are the two facts that destroy the expungement entirely."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "This route covers only the authority-issued certificate of discharge, for which nothing is filed. The participant's written request for issuance is generated on the wi_exp_certificate_of_discharge_followup supporting action, which is a supporting node on the same source slot and not a second record-clearing remedy.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-EXP-01 / What LegalEase can prepare",
+              "sourceStatement": "What LegalEase can prepare: the verification checklist, the request to the supervising authority or clerk, and a written follow-up where the certificate was never sent"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "wi_exp_certificate_of_discharge_followup",
+      "nodeType": "supporting_action",
+      "supportsTrackId": "wi_exp_certificate_of_discharge",
+      "legalName": "Participant Request that the Supervising or Detaining Authority Issue and Forward the Certificate of Discharge (Wis. Stat. § 973.015(1m)(b))",
+      "publicName": "Ask for the certificate that completes your expungement",
+      "controllingAuthority": {
+        "citations": [
+          "Wis. Stat. § 973.015(1m)",
+          "Wis. Stat. § 973.015(1m)(b)"
+        ],
+        "summary": "Section 973.015(1m)(b) makes issuance mandatory rather than discretionary: upon successful completion of the sentence the detaining or probationary authority SHALL issue a certificate of discharge, which shall be forwarded to the court of record and which shall have the effect of expunging the record. The triggering event is successful completion — no subsequent conviction and, where the person was on probation, no revocation and satisfied conditions. Where that mandatory certificate was not issued, or was issued but never forwarded to the clerk, the participant may write to the supervising or detaining authority asking that it be issued and forwarded. No statute or rule prescribes the contents of that request and Wisconsin publishes no official participant form for it, so the correspondence is drafted. The letter supports implementation of an expungement the court already ordered; it does not itself change legal status, and the certificate remains the authority's document."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2016-04-21",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-01"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "convicted_with_expungement_ordered_at_sentencing"
+      ],
+      "exclusions": [
+        "Any case where the sentencing court did not order expungement at the time of sentencing. There is nothing to ask the supervising authority to certify.",
+        "Any case where the sentence included neither probation nor incarceration, which has no supervising or detaining authority and routes to the CR-266 petition track instead.",
+        "Any case where the person was convicted of a subsequent offense before completion, or where probation was revoked or its conditions unsatisfied — the certificate is not owed and the request would misstate the position.",
+        "Federal, tribal and out-of-state records."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Successful completion of the sentence, after which the authority's issuing duty arises",
+          "duration": "none independent of sentence completion"
+        },
+        {
+          "condition": "Before writing, allow the authority and the clerk a reasonable interval to complete issuance and forwarding, and confirm on Wisconsin Circuit Court Access that the case is still publicly visible",
+          "duration": "no statutory interval; the statute sets no deadline for issuance or forwarding"
+        }
+      ],
+      "outputStrategy": "custom_pleading",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Not a court filing. The request is addressed to the supervising or detaining authority for the participant's own case, which is statewide in scope: the Department of Corrections in most probation cases, or the detaining authority where the sentence included confinement."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "The detaining or probationary authority that supervised the participant, with the clerk of circuit court as the certificate's destination",
+        "detail": "The letter goes to the supervising or detaining authority, because § 973.015(1m)(b) places the issuing and forwarding duty on it. It asks that the certificate of discharge be issued and forwarded to the clerk of the circuit court of conviction, and asks the authority to confirm when that has been done. A copy to the clerk of circuit court is appropriate where the participant has already confirmed with the clerk that nothing was received."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "The participant's written request. Neutral in tone and confined to controlled facts: the participant's identity and contact details, the case and supervision identifiers, the completion date as the participant states it, the statutory basis for the request under § 973.015(1m)(b), a request that the certificate of discharge be issued and forwarded to the clerk of the circuit court of conviction, and return-contact details. It asserts nothing about agency conduct and draws no legal conclusion."
+        },
+        {
+          "role": "status_request",
+          "requirement": "conditional",
+          "conditionDescription": "Used where the participant wants only to know whether the certificate has issued, rather than to ask that it be issued.",
+          "outputStrategy": "custom_pleading",
+          "notes": "A status-only variant of the same letter, asking whether the certificate of discharge has been issued and forwarded and, if so, on what date. Same controlled contents, no request for action."
+        },
+        {
+          "role": "filing_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "How to send the request and what to do next: confirm first with the clerk that the certificate was not received, keep a copy and a record of the date sent, allow the authority time to respond, re-check Wisconsin Circuit Court Access, and escalate to a lawyer where the authority declines or does not respond, or where it says completion was not successful."
+        }
+      ],
+      "_participantInputsNote": "Controlled participant facts only. Everything the letter contains comes from the participant's own answers; LegalEase does not obtain, inspect or authenticate any record and does not certify that completion occurred.",
+      "participantInputs": [
+        {
+          "key": "fullLegalName",
+          "question": "What is your full legal name, and any other name the case was under?",
+          "requirement": "required"
+        },
+        {
+          "key": "dateOfBirth",
+          "question": "What is your date of birth?",
+          "requirement": "required"
+        },
+        {
+          "key": "returnContactDetails",
+          "question": "What postal address, phone number or email should the authority use to reply to you?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumberAndCounty",
+          "question": "What is the case number, and which Wisconsin county was the case in?",
+          "requirement": "required"
+        },
+        {
+          "key": "supervisionIdentifier",
+          "question": "What is your Department of Corrections or offender identification number, if you have one?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked where the sentence included probation or confinement, because it is how the supervising authority locates the file."
+        },
+        {
+          "key": "supervisingAuthority",
+          "question": "Which agency supervised your probation, or which facility held you?",
+          "requirement": "required"
+        },
+        {
+          "key": "supervisingAgentName",
+          "question": "Do you know the name of your probation agent or the office that supervised you?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked where the sentence included probation; it helps the authority route the request."
+        },
+        {
+          "key": "sentenceCompletionDate",
+          "question": "On what date did you finish your sentence, including any probation?",
+          "requirement": "required"
+        },
+        {
+          "key": "expungementOrderedAtSentencing",
+          "question": "Did the judge order at your sentencing that the record would be expunged once you completed your sentence?",
+          "requirement": "required"
+        },
+        {
+          "key": "clerkConfirmedNotReceived",
+          "question": "Have you asked the clerk of court whether they received a certificate of discharge, and what did they say?",
+          "requirement": "required"
+        },
+        {
+          "key": "requestType",
+          "question": "Do you want to ask the authority to issue and forward the certificate, or only to tell you whether it has already been done?",
+          "requirement": "required"
+        }
+      ],
+      "_supportingDocumentsNote": "Records the participant may obtain and enclose. None of them delays generation, and LegalEase never receives, inspects or authenticates them.",
+      "supportingDocuments": [
+        {
+          "name": "Judgment of conviction, or the sentencing transcript or minutes",
+          "obtainedFrom": "Clerk of circuit court for the county of conviction",
+          "requirement": "conditional",
+          "conditionDescription": "Useful to enclose so the authority can see that expungement was ordered at sentencing.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk of circuit court for the judgment of conviction and, where it is silent, the sentencing transcript or minutes.",
+          "confirms": "expungementOrderedAtSentencing"
+        },
+        {
+          "name": "Proof of discharge from probation or confinement",
+          "obtainedFrom": "The Department of Corrections or the detaining authority",
+          "requirement": "conditional",
+          "conditionDescription": "Useful to enclose where the participant already holds it.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the supervising agent or the detaining authority for the discharge documentation showing the sentence terms were completed.",
+          "confirms": "sentenceCompletionDate"
+        }
+      ],
+      "_manualCompletionNote": "What the generated letter deliberately leaves blank or does not produce.",
+      "manualCompletionItems": [
+        {
+          "item": "Participant's signature and the date sent",
+          "whereInPacket": "Request letter, signature block",
+          "why": "The participant sends the request in their own name."
+        },
+        {
+          "item": "The certificate of discharge itself",
+          "whereInPacket": "Not in the packet",
+          "why": "Section 973.015(1m)(b) places the issuing duty on the detaining or probationary authority. LegalEase cannot complete it and does not obtain or guarantee it."
+        },
+        {
+          "item": "Any assertion that the sentence was successfully completed",
+          "whereInPacket": "Request letter, completion paragraph",
+          "why": "The letter states the completion date as the participant reports it. Whether completion was successful within the meaning of the statute is not a fact LegalEase can establish, and it turns on revocation and subsequent-conviction questions."
+        },
+        {
+          "item": "The current mailing address of the supervising authority",
+          "whereInPacket": "Request letter, addressee block",
+          "why": "Office addresses change. The participant confirms the current address before sending."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Wis. Stat. § 973.015, Special disposition (official statute text; § 973.015(1m)(b) certificate of discharge duty; certified through 2025 Wis. Act 247, in effect 2026-08-05)",
+          "url": "https://docs.legis.wisconsin.gov/statutes/statutes/973/015",
+          "retrievedOn": "2026-08-05"
+        },
+        {
+          "title": "2015 Wisconsin Act 366 (enacted 19 Apr 2016, published 20 Apr 2016; most recent amendment to § 973.015)",
+          "url": "https://docs.legis.wisconsin.gov/2015/related/acts/366.pdf",
+          "retrievedOn": "2026-08-05"
+        }
+      ],
+      "rules": {
+        "filing": "Not a court filing. Send the written request to the supervising or detaining authority. Confirm with the clerk of circuit court first that no certificate was received, and keep a copy and a record of the date sent.",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "none. No notice to any other party is required, and no hearing arises from the request.",
+        "service": "none. Ordinary mail or the authority's stated correspondence channel is sufficient; there is no service requirement.",
+        "participantSignature": "The participant signs and dates the request in their own name.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The judge did not order expungement at sentencing. There is no certificate owed and the request would be pointless.",
+        "Any dispute about whether completion was successful, particularly a revocation or a subsequent conviction, because those are the two facts that destroy the expungement entirely.",
+        "The supervising authority declines to issue the certificate, or asserts that completion was not successful.",
+        "The authority does not respond, or responds that it has issued and forwarded the certificate while the clerk says nothing was received.",
+        "Any request to argue entitlement, allege agency fault or press the authority beyond a neutral request. That is individualized advocacy and outside self-help.",
+        "Immigration consequences.",
+        "Federal, tribal or out-of-state records."
+      ],
+      "_unresolvedQuestionsNote": "Recorded for this supporting action. The absence of an official form does not block generation: the destination, purpose and controlled contents are all known.",
+      "unresolvedQuestions": [
+        {
+          "question": "What recourse does a participant have where the supervising or detaining authority does not respond to the request, or declines to issue the certificate of discharge that § 973.015(1m)(b) says it shall issue? The statute sets no deadline for issuance or forwarding and identifies no remedy, so the packet can ask but cannot say what follows a refusal.",
+          "impact": "release_blocker",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "PART 4.2 / WI-EXP-01, chasing a certificate of discharge",
+            "sourceStatement": "If it was not, request it in writing",
+            "counselQuestion": "Where the authority does not issue or forward the certificate after a written request, what should the packet tell the participant to do next — return to the sentencing court, escalate within the agency, or refer to counsel?"
+          }
+        },
+        {
+          "question": "Neither the statute nor any Wisconsin rule prescribes the contents of a request for issuance of a certificate of discharge, and no official participant form was identified. The letter is therefore drafted from controlled participant facts. This is recorded as a scope note rather than a build blocker: the mechanism, the destination, the required content and the statewide scope are all known.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "PART 2.1 / Gaps in the form set",
+            "sourceStatement": "no form was identified for the section 973.015(2m) trafficking survivor motion, or for any certificate of discharge follow-up."
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a node, and none applies here: this is controlled correspondence whose destination, purpose and contents are established.",
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "A supporting action on the WI-EXP-01 source slot, not a separate record-clearing remedy. The controlling review states in terms that LegalEase can prepare 'the request to the supervising authority or clerk, and a written follow-up where the certificate was never sent', and that what it cannot complete is the certificate itself. That is a participant-authored submission whose destination, purpose and controlled contents are all known, so it is packet-capable and is modelled as a custom pleading because Wisconsin publishes no official form for it. The node claims nothing about whether the certificate will issue: issuance is the authority's mandatory duty under § 973.015(1m)(b), and LegalEase neither obtains nor guarantees it.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "This is a supporting action on the certificate-of-discharge slot, not a second substantive record-clearing remedy. It produces correspondence that supports implementation of an expungement the court already ordered; it does not itself change legal status.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-EXP-01 / How relief actually happens",
+              "sourceStatement": "on successful completion, the detaining or probationary authority issues a certificate of discharge and forwards it to the court. That certificate has the effect of expunging the record. There is no petition and no separate court motion in the ordinary case"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Confirm with the clerk of circuit court that no certificate of discharge was received before sending the request, and re-check Wisconsin Circuit Court Access afterwards to see whether the record left public access.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "PART 4.2 / Sequence",
+              "sourceStatement": "Check Wisconsin Circuit Court Access to see whether the case is still publicly visible. If it is, contact the supervising authority (Department of Corrections in most probation cases, or the detaining authority) to confirm the certificate issued and was forwarded to the clerk. If it was not, request it in writing."
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "The letter records the completion date as the participant states it and never asserts that completion was successful within the meaning of the statute. LegalEase does not review discharge documents and does not certify completion.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "PART 4.2 / Attorney-handoff triggers",
+              "sourceStatement": "any dispute about whether completion was successful, particularly a revocation or a subsequent conviction question, because those are the two facts that destroy the expungement entirely."
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Neutral request only. Do not draft accusations of agency misconduct, assertions of legal entitlement that would require document review, or any individualized advocacy. Where the authority declines or disputes completion, refer to a lawyer.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-EXP-01 / What LegalEase cannot complete",
+              "sourceStatement": "What LegalEase cannot complete: the certificate itself"
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "After the participant sends the request, issuance and forwarding are the supervising authority's acts and the sealing follows from the certificate reaching the clerk. The packet ends at the letter and the follow-up checklist.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "WI-EXP-01 / OUTPUT STRATEGY",
+              "sourceStatement": "The work is verification and follow-up: confirm the sentencing order, confirm completion, confirm the certificate reached the clerk, and confirm the record left public access"
             }
           }
         ]
@@ -2151,5 +2458,6 @@
         ]
       }
     }
-  ]
+  ],
+  "_packetCapabilityCorrection": "Correction applied 2026-08-05 on the existing worker branch. The held memo classified wi_exp_certificate_of_discharge as process_guidance with rationale no_participant_filing_exists while simultaneously carrying a participant-authored follow_up_request component. Those two statements cannot coexist in one no-filing route. The authority-issued certificate remains guidance because nothing is filed for it and the issuing duty is the authority's; the participant's neutral follow-up letter is split out as a packet-capable supporting_action. No other track, component, blocker, source disposition or provenance statement was changed, and no shared registry, composed approval, delta or integration-owned file was touched."
 }
