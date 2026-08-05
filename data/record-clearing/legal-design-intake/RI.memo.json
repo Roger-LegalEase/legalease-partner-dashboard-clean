@@ -1,6 +1,6 @@
 {
   "_controllingReview": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md, sha256 c8a886ffdd0e8d042466bcb5ca958cbbd1af288e3dbe42371dcf598f814b4034, materialized from Expungement_AI_RCAP_Master_Library_Edition_1_2.zip (sha256 7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd). Edition 1.2 is the controlling review source.",
-  "_sourceSlotAccounting": "Ten review source slots, each accounted for exactly once, 1:1, with no splits, merges, replacements, supporting-action nodes, routing nodes or local variants: ri_first_offender_misdemeanor (Track 1), ri_first_offender_felony (Track 2), ri_multiple_misdemeanors (Track 3), ri_reclassified_felony (Track 4, deferred), ri_deferred_sentence (Track 5), ri_nonconviction_sealing (Track 6), ri_filed_complaints (Track 7), ri_marijuana (Track 8), ri_decriminalized (Track 9), ri_commercial_sexual_activity (Track 10). Nine import; one is deferred under legal_research_required exactly as counsel decided. The 'Provisions common to the Chapter 12-1.3 conviction tracks' section is shared procedure, not a source slot, and is distributed into each conviction track. The five matters listed separately are outside ordinary adult scope and are carried as stop conditions. Five tracks are composed: the four Chapter 12-1.3 motion tracks are sequential three-stage routes exactly as the review selects them, and the non-conviction track is an alternative between verifying automatic sealing and filing a motion to seal.",
+  "_sourceSlotAccounting": "Ten review source slots, each accounted for exactly once, 1:1, with no splits, merges, replacements, supporting-action nodes, routing nodes or local variants: ri_first_offender_misdemeanor (Track 1), ri_first_offender_felony (Track 2), ri_multiple_misdemeanors (Track 3), ri_reclassified_felony (Track 4, deferred), ri_deferred_sentence (Track 5), ri_nonconviction_sealing (Track 6), ri_filed_complaints (Track 7), ri_marijuana (Track 8), ri_decriminalized (Track 9), ri_commercial_sexual_activity (Track 10). Nine import; one is deferred under legal_research_required exactly as counsel decided. The 'Provisions common to the Chapter 12-1.3 conviction tracks' section is shared procedure, not a source slot, and is distributed into each conviction track. The five matters listed separately are outside ordinary adult scope and are carried as stop conditions. ri_marijuana is normalized as one relief mechanism with a sequential composition (automatic verification, then a conditional participant-signed expedited written request) because both stages seek the same statutory legal effect under § 12-1.3-5; no separate relief track was created and the slot is still accounted exactly once. Six tracks are composed: the four Chapter 12-1.3 motion tracks are sequential three-stage routes exactly as the review selects them, and the non-conviction track is an alternative between verifying automatic sealing and filing a motion to seal.",
   "_officialAuthorityConfirmation": "Every cited section was read at source against the official Rhode Island General Assembly publication (webserver.rilegislature.gov, retrieved 2026-08-05), which the controlling review listed as build blockers. Four findings are recorded on the affected tracks with provenance rather than silently applied: (1) the § 12-1.3-1(5) reclassification definition the review flagged as missing from the internal reference is confirmed verbatim at source, and the official history line dates it to P.L. 2024 ch. 386 § 1 and ch. 387 § 1, each effective 26 June 2024 — this closes the first of the three open questions counsel raised on the reclassification overlay; (2) § 12-1.3-5's effective date is confirmed as 25 May 2022, matching the Cannabis Act date the review states, with a further amendment at P.L. 2022 ch. 234 art. 2 § 4 effective 28 June 2022 that the review does not mention; (3) §§ 12-1-12, 12-1-12.1 and 12-1.3-3 were last amended by P.L. 2021 ch. 141 and ch. 142, effective 3 July 2021, and § 12-10-12 by P.L. 2023 ch. 231 and ch. 232, effective 23 June 2023; (4) § 12-1.3-2 and § 12-19-19 were last amended by P.L. 2018 ch. 247 § 1 and P.L. 2017 ch. 351 § 1 respectively, neither of which carries a dated effective clause — Rhode Island acts of that kind take effect upon passage and the passage date is not carried on the official statute or public-law pages, so effectiveFrom for those two sections is an explicitly flagged mid-year approximation rather than a sourced date, and a counsel question is recorded on every affected track.",
   "schemaVersion": 1,
   "jurisdiction": "RI",
@@ -2798,7 +2798,7 @@
     },
     {
       "trackId": "ri_marijuana",
-      "nodeType": "completed_or_verification",
+      "nodeType": "relief_track",
       "legalName": "Automatic Expungement of Marijuana Possession Records (R.I. Gen. Laws § 12-1.3-5)",
       "publicName": "Check that an old marijuana possession record has been cleared",
       "controllingAuthority": {
@@ -2838,13 +2838,9 @@
           "duration": "none; records were to be expunged before 1 July 2024 and the initial effort completed in June 2023"
         }
       ],
-      "outputStrategy": "process_guidance",
+      "outputStrategy": "composed",
       "outputStrategyStatus": "resolved",
       "packetIdentity": "identified",
-      "guidanceRationales": [
-        "no_participant_filing_exists",
-        "another_entity_decides"
-      ],
       "geography": {
         "scope": "statewide",
         "keys": [],
@@ -2853,7 +2849,7 @@
       "destination": {
         "kind": "automatic",
         "name": "Operation of R.I. Gen. Laws § 12-1.3-5, with the court distributing the order",
-        "detail": "Relief is automatic and the initial statewide effort is complete. Under § 12-1.3-5(f) the court sends a copy of the order to the Attorney General, the arresting agency and any other agency known to hold records — the participant does not do the distribution on this track, which is the opposite of the general Chapter 12-1.3 rule."
+        "detail": "In the ordinary case relief is automatic and the initial statewide effort is complete, and under § 12-1.3-5(f) the court sends a copy of the order to the Attorney General, the arresting agency and any other agency known to hold records — the participant does not do the distribution on this track, which is the opposite of the general Chapter 12-1.3 rule. Where the automatic action did not reach the record, the participant's signed expedited written request goes to the court in which the marijuana case was heard."
       },
       "components": [
         {
@@ -2873,7 +2869,21 @@
           "requirement": "conditional",
           "conditionDescription": "Applies only where verification shows the record has not cleared.",
           "outputStrategy": "process_guidance",
-          "notes": "The statute provides an expedited procedure available on written request. Use it only where the record has not cleared; never sell a marijuana expungement motion in Rhode Island, because the work is done and the statute makes it free."
+          "notes": "Instructions for the conditional expedited-request stage: confirm from the BCI record that the marijuana record has not cleared, then send the signed request produced by the primary_filing component below to the court in which the case was heard. Never sell a marijuana expungement motion in Rhode Island where the record has already cleared — the work is done and the statute makes it free."
+        },
+        {
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Generated only where the verification stage establishes that the automatic § 12-1.3-5 expungement did not reach the record, on the participant's own confirmation from their BCI criminal history.",
+          "outputStrategy": "custom_pleading",
+          "notes": "The participant's expedited written request under § 12-1.3-5. Rhode Island publishes no official form, so it is drafted. Controlled contents only: the addressee and caption for the court in which the marijuana case was heard, the participant's identity, the case identifiers, a statement that the request is made under the § 12-1.3-5 expedited procedure, the participant-supplied qualifying facts (possession only, and the amount where the record states one), the relief requested, and a signature instruction. It does not certify that the automatic relief failed, decide disputed eligibility, invent supporting evidence, seek agency agreement, promise expedited treatment or argue the participant's case."
+        },
+        {
+          "role": "filing_instructions",
+          "requirement": "conditional",
+          "conditionDescription": "Accompanies the expedited written request.",
+          "outputStrategy": "process_guidance",
+          "notes": "How to sign and send the request, what to keep, and what to do next. No fee applies: eligible marijuana-related fines, fees and costs are waived, and under § 12-1.3-5(e) anyone who was incarcerated for misdemeanor or felony marijuana possession has all court costs waived with respect to expungement. Under § 12-1.3-5(f) the court distributes the resulting order, so the participant does not deliver certified copies on this track."
         }
       ],
       "_participantInputsNote": "What LegalEase asks in order to run the verification. Nothing is generated for filing.",
@@ -2918,6 +2928,24 @@
           "key": "stillShowingOnBci",
           "question": "Does the marijuana case still appear on your BCI criminal history record?",
           "requirement": "required"
+        },
+        {
+          "key": "confirmedNotExpunged",
+          "question": "After checking your BCI criminal history, can you confirm the marijuana case still appears and has not been expunged?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only before the expedited written request is generated. LegalEase does not certify that the automatic relief failed; the participant confirms it from their own record."
+        },
+        {
+          "key": "courtForExpeditedRequest",
+          "question": "Which court heard the marijuana case — Superior Court, District Court or the Traffic Tribunal?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only for the expedited written request, because it is addressed to that court."
+        },
+        {
+          "key": "requestReturnContact",
+          "question": "What postal address, phone number or email should the court use to reply to you?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only for the expedited written request."
         }
       ],
       "_supportingDocumentsNote": "Records the participant obtains. None of them delays generation.",
@@ -2942,6 +2970,11 @@
           "item": "Distribution of the expungement order",
           "whereInPacket": "Not in the packet",
           "why": "Under § 12-1.3-5(f) the court sends the order to the Attorney General, the arresting agency and any other agency known to hold records. This is the opposite of the general Chapter 12-1.3 rule and would produce wrong instructions if the general rule were applied here."
+        },
+        {
+          "item": "Participant's signature and the date on the expedited written request",
+          "whereInPacket": "Expedited written request, signature block",
+          "why": "The request is a participant submission and must be signed by the participant. LegalEase prepares it; the participant signs and sends it."
         }
       ],
       "officialSources": [
@@ -2957,19 +2990,21 @@
         }
       ],
       "rules": {
-        "filing": "none in the ordinary case. Where verification shows the record has not cleared, the statute provides an expedited procedure available on written request.",
+        "filing": "Nothing is filed in the ordinary case. Where the participant confirms the record did not clear, the signed expedited written request under § 12-1.3-5 is sent to the court in which the marijuana case was heard.",
         "fees": "none. Eligible marijuana-related fines, fees and costs are waived, and anyone who was incarcerated for misdemeanor or felony marijuana possession has all court costs waived with respect to expungement.",
         "feeWaiver": "Automatic for eligible marijuana-related amounts, and all court costs are waived for anyone incarcerated for marijuana possession under § 12-1.3-5(e).",
         "notice": "none required of the participant.",
         "service": "none. Under § 12-1.3-5(f) the court sends the order to the Attorney General, the arresting agency and any other agency known to hold records.",
-        "participantSignature": "none in the ordinary case; a written request is signed by the participant only where the expedited procedure is used.",
+        "participantSignature": "None in the ordinary case. The expedited written request is signed by the participant.",
         "notarization": "none"
       },
       "selfHelpStopConditions": [
         "Any case with non-marijuana counts where the participant wants those cleared too; this section reaches only the eligible marijuana count.",
         "Possession-with-intent or distribution charges.",
         "Any record that should have cleared and has not.",
-        "Federal, out-of-state, military and tribal records."
+        "Federal, out-of-state, military and tribal records.",
+        "The court denies the expedited written request, or does not respond to it. The statute identifies no remedy and no appeal route for the expedited procedure, so escalate rather than re-filing.",
+        "Any dispute about whether the offence was possession only, or about the amount involved, which decides eligibility and is not LegalEase's to resolve."
       ],
       "_unresolvedQuestionsNote": "Preserved from the controlling review with impact and affected element.",
       "unresolvedQuestions": [
@@ -2995,12 +3030,36 @@
             "sourceStatement": "§ 12-1.3-5, enacted by the Rhode Island Cannabis Act effective May 25, 2022, with the underlying legalisation thresholds at § 21-28.11-22.",
             "counselQuestion": "Does the P.L. 2022 ch. 234 art. 2 § 4 amendment, effective 28 June 2022, change anything in the marijuana track's design?"
           }
+        },
+        {
+          "question": "What happens after the court denies an expedited § 12-1.3-5 written request, or does not respond to it? The statute makes the expedited procedure available on written request but identifies no timeline, no remedy for non-response and no appeal route, so the packet can make the request but cannot tell the participant what follows a denial.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 8 / Output strategy",
+            "sourceStatement": "process_guidance. Verify, then use the expedited written request only where the record has not cleared.",
+            "counselQuestion": "Where an expedited § 12-1.3-5 request is denied or unanswered, should the packet direct the participant to the general Chapter 12-1.3 motion route, to counsel, or elsewhere?"
+          }
+        },
+        {
+          "question": "Structure note: ri_marijuana is normalized as ONE relief mechanism with a sequential composition — automatic verification, then a conditional participant-signed expedited request — because both paths seek the same statutory legal effect under § 12-1.3-5. No separate relief track was created and the source slot is still accounted exactly once. The node type moved from completed_or_verification to relief_track because the route now carries a participant submission path rather than verification alone.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 8 / Mechanism",
+            "sourceStatement": "a person with a prior civil violation, misdemeanor conviction or felony conviction for possession only of a marijuana offense since decriminalized is entitled to automatic expungement, notwithstanding the general Chapter 12-1.3 rules. Records were to be expunged before July 1, 2024, on a timeline set by the chief justice, with an expedited procedure available on written request.",
+            "counselQuestion": "Confirm that the expedited written request is a stage of the same § 12-1.3-5 mechanism rather than an independent remedy, and that a sequential composition correctly states it."
+          }
         }
       ],
       "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
       "legalDesignDecision": {
         "status": "legal_design_approved_with_limitations",
-        "rationale": "Process guidance only, and specifically a verification node rather than a relief-pending track. Rhode Island completed more than 23,000 marijuana possession expungements in June 2023, over a year ahead of the statutory deadline. A participant with a marijuana possession record from before legalisation should be told it has almost certainly already been expunged and asked to verify — not told that relief is coming. Never sell a marijuana expungement motion in Rhode Island: the work is done and the statute makes it free.",
+        "rationale": "One relief mechanism under § 12-1.3-5, normalized as a sequential composition rather than pure guidance. The held memo preserved automatic verification while also describing a participant-signed expedited written request; a signed request is a participant submission and cannot disappear inside a no-filing guidance classification. The automatic stage remains guidance and remains the default: Rhode Island completed more than 23,000 marijuana possession expungements in June 2023, over a year ahead of the statutory deadline, so a participant with a pre-legalisation possession record should be told it has almost certainly already been expunged and asked to verify — never sold a motion. The expedited written request is generated only where the participant confirms from their own BCI record that the automatic action did not reach the case. Both stages seek the same statutory legal effect, so no second relief track is created.",
         "limitations": [
           {
             "classification": "manual_completion_item",
@@ -3061,9 +3120,72 @@
               "sourceHeading": "PART 3 / Statements LegalEase must not generate",
               "sourceStatement": "That all marijuana cases are automatically expunged. Possession-only and decriminalized are the conditions."
             }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Run the automatic-verification stage first, always. The expedited written request is generated only where the participant confirms from their BCI criminal history that the record did not clear. Never generate it at the outset and never sell a marijuana expungement motion where the work is already done.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 8 / Legal-design decision",
+              "sourceStatement": "Process guidance only. Never sell a marijuana expungement motion in Rhode Island. The work is done and the statute makes it free."
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "LegalEase does not certify that the automatic relief failed. The participant confirms non-expungement from their own BCI record, and the request records that confirmation as the participant's statement.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 8 / Current status",
+              "sourceStatement": "the initial effort is complete. Rhode Island reported completing more than 23,000 marijuana possession expungements in June 2023 ... Treat this as a verification track, not a pending-relief track."
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "The request is neutral. Do not determine disputed eligibility, invent supporting evidence, seek the court's or an agency's agreement, promise expedited treatment, or draft individualized advocacy. Where possession-only status or the amount is disputed, escalate.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 8 / Self-help limits",
+              "sourceStatement": "any case with non-marijuana counts where the participant wants those cleared too; possession-with-intent or distribution charges; any record that should have cleared and has not."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "After the participant signs and sends the expedited request, the court acts and, under § 12-1.3-5(f), distributes any resulting order to the Attorney General, the arresting agency and other record holders. The participant does not deliver certified copies on this track.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 8 / Additional rules the reference omits",
+              "sourceStatement": "§ 12-1.3-5(f): when expunged, the court sends a copy of the order to the Attorney General, the arresting agency and any other agency known to hold records. The participant does not do the distribution on this track."
+            }
           }
         ]
-      }
+      },
+      "compositionMode": "sequential",
+      "units": [
+        {
+          "unitId": "ri-marijuana-automatic-verification",
+          "order": 1,
+          "label": "Verify the automatic § 12-1.3-5 expungement",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "The default stage, and the one that must run first. Section 12-1.3-5 entitles a person with a prior civil violation, misdemeanor conviction or felony conviction for possession only of a since-decriminalized marijuana offence to automatic expungement, and Rhode Island completed the initial statewide effort in June 2023 — more than 23,000 records, being 3,015 in Superior Court, 9,952 in the Traffic Tribunal and 10,650 in District Court — over a year ahead of the 1 July 2024 deadline. The participant pulls a BCI criminal history and checks whether the record has already cleared. Nothing is filed at this stage and no participant submission exists: the relief is automatic and, under § 12-1.3-5(f), the court rather than the participant distributes the order to the Attorney General, the arresting agency and any other agency known to hold records. Where the record has cleared, the route ends here and no motion is generated or sold.",
+          "available": true
+        },
+        {
+          "unitId": "ri-marijuana-expedited-written-request",
+          "order": 2,
+          "label": "Participant-signed expedited written request where the record has not cleared",
+          "outputStrategy": "custom_pleading",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "The conditional stage, reached only where the participant confirms from their BCI record that the eligible marijuana possession record has not been expunged. Section 12-1.3-5 makes an expedited procedure available on written request, so the participant signs and submits a request to the court in which the marijuana case was heard. It seeks the same statutory legal effect as the automatic route — expungement of the same eligible marijuana count — so this is one mechanism with two stages, not two remedies. Rhode Island publishes no official form for the request, so it is drafted from controlled participant facts. The unit is unavailable until the verification stage establishes that the automatic action did not reach the record; it is never offered at the outset.",
+          "available": true
+        }
+      ]
     },
     {
       "trackId": "ri_decriminalized",
@@ -3553,5 +3675,6 @@
         ]
       }
     }
-  ]
+  ],
+  "_packetCapabilityCorrection": "Correction applied 2026-08-05 on the existing worker branch. The held memo classified ri_marijuana as process_guidance with rationale no_participant_filing_exists while also describing a participant-signed expedited written request under § 12-1.3-5. A signed request is a participant submission and cannot sit inside a pure guidance classification. ri_marijuana is now one relief mechanism with a sequential composition: a process_guidance automatic-verification unit and a conditional custom_pleading expedited-request unit. Its node type moved from completed_or_verification to relief_track for the same reason. No second relief track was created, no other RI track or unit was changed, and no shared registry, composed approval, delta or integration-owned file was touched — Session A records substantive composed-unit approval after integrating this memo."
 }
