@@ -63,7 +63,21 @@ const productionPlanAbsolute = path.join(ROOT, productionPlanPath);
 const productionPlan = JSON.parse(
   fs.readFileSync(productionPlanAbsolute, "utf8")
 );
-const factoryPlan = buildFactoryPlan({ rootDir: ROOT });
+const recordedFactoryBase =
+  productionPlan.factoryQueueReconciliation?.generatedAgainstCommit;
+if (
+  !write &&
+  (typeof recordedFactoryBase !== "string" ||
+    !/^[0-9a-f]{40}$/u.test(recordedFactoryBase))
+) {
+  throw new Error(
+    `${productionPlanPath} has no valid recorded factory planning base.`
+  );
+}
+const factoryPlan = buildFactoryPlan({
+  rootDir: ROOT,
+  ...(!write ? { baseCommit: recordedFactoryBase } : {})
+});
 const byStatus = tally(factoryPlan.jobs, (job) => job.status);
 const byLane = Object.fromEntries(
   factoryPlan.lanes.map((lane) => [lane.lane, lane.jobIds.length])
