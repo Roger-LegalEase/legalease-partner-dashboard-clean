@@ -1,0 +1,2822 @@
+{
+  "schemaVersion": 1,
+  "jurisdiction": "KY",
+  "memoVersion": "1.0.0",
+  "submittedAt": "2026-08-05T00:00:00.000Z",
+  "tracks": [
+    {
+      "trackId": "ky-cert",
+      "legalName": "Expungement Eligibility Certification under KRS 431.079",
+      "publicName": "Expungement certification",
+      "controllingAuthority": {
+        "citations": [
+          "KRS 431.079",
+          "KRS 431.073",
+          "KRS 431.078"
+        ],
+        "summary": "A certification of eligibility for expungement, requested from the Administrative Office of the Courts and produced with a Kentucky State Police eligibility determination. It is a prerequisite attachment to any conviction petition under KRS 431.073 or 431.078. It is not required for KRS 431.076 non-conviction petitions and not required for KRS 218A.275 or 218A.276 void-and-seal motions. The correct terminology is 'expungement certification' or 'certification of eligibility for expungement'; Kentucky does not use 'certificate of eligibility' in the statute."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2014-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "convicted"
+      ],
+      "exclusions": [
+        "Not required for KRS 431.076 non-conviction petitions.",
+        "Not required for KRS 218A.275 or 218A.276 void-and-seal motions."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Requesting the certification",
+          "duration": "none to request. The certification expires 30 days after issuance, and KSP reports 4 to 5 months average processing time, which is the single biggest sequencing constraint on the Kentucky product"
+        }
+      ],
+      "outputStrategy": "composed",
+      "compositionMode": "alternative",
+      "units": [
+        {
+          "unitId": "ky_cert_online_portal",
+          "order": 1,
+          "label": "Request the certification through the AOC record request portal",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "The primary channel. An authenticated online portal with card payment. LegalEase cannot submit on the participant's behalf and cannot pay from the participant's account, so the deliverable is guidance: register and verify the email address, complete the request, pay the $40, wait through the 4-to-5-month KSP processing, and retrieve the packet. The 30-day expiry starts on issuance, so the petition must be ready to file when the packet arrives.",
+          "available": true
+        },
+        {
+          "unitId": "ky_cert_mail_ru009",
+          "order": 2,
+          "label": "Request the certification by mail on Form RU-009",
+          "packetIdentity": "unresolved",
+          "outputStrategyStatus": "unresolved",
+          "description": "The mail-service alternative. RU-009 is mandatory for mail requests and is a form LegalEase could prepare for the participant to sign and mail with a check or money order payable to the Kentucky State Treasurer, which is why the review calls this track realistically hybrid rather than pure guidance. The document identity is not established: Edition 1.2 retains documentId AOC-009, title 'RECORDS UNIT', role ORDER, which the frozen research records as the probable RU-009 asset with the identity unconfirmed.",
+          "available": false,
+          "unavailableReason": "The retained Edition 1.2 asset AOC-009 is only the probable RU-009 form and its identity is unconfirmed. RU-009 may not be assigned to it by name similarity. The official RU-009 URL is known and browser-accessible, so the form can be acquired, but until the identity is confirmed no packet may be generated on this branch."
+        }
+      ],
+      "geography": {
+        "scope": "agency_specific",
+        "keys": [],
+        "venue": "Not applicable. The certification is requested from the Administrative Office of the Courts, not filed with a court."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Records Unit, Administrative Office of the Courts, Frankfort, Kentucky",
+        "detail": "Online at the AOC record request portal, in person by drive-thru at AOC, or by mail to the Records Unit. AOC runs the criminal record report, forwards it to the Kentucky State Police, KSP completes the certification, and the packet is released to the requester. The KSP eligibility determination is advisory to the court: a person may file regardless of it, because only a judge can grant expungement."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "The portal walkthrough, the $40 fee, the 4-to-5-month KSP processing expectation, and the 30-day expiry warning. The product must not generate a conviction petition packet before the participant confirms the certification issue date."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "fullLegalName",
+          "question": "What is your full legal name?",
+          "requirement": "required"
+        },
+        {
+          "key": "dateOfBirth",
+          "question": "What is your date of birth?",
+          "requirement": "required"
+        },
+        {
+          "key": "certificationIssueDate",
+          "question": "What date does your expungement certification packet say it was issued?",
+          "requirement": "required",
+          "conditionDescription": "The certification expires 30 days after issuance, and no conviction petition should be generated before this date is known."
+        },
+        {
+          "key": "ksp EligibilityResult",
+          "question": "What did the Kentucky State Police eligibility determination say?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Expungement certification packet",
+          "obtainedFrom": "Records Unit, Administrative Office of the Courts",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request it online through the AOC record request portal, in person by drive-thru at AOC, or by mail. The fee is $40. KSP reports 4 to 5 months average processing time. The packet expires 30 days after issuance, so do not request it until you are ready to file.",
+          "confirms": "certificationIssueDate"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "The online portal submission and card payment",
+          "whereInPacket": "AOC record request portal",
+          "why": "The portal is authenticated by a registered account and LegalEase cannot submit or pay on the participant's behalf."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "KRS 431.079, Kentucky Legislative Research Commission",
+          "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=49360",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Expungement Certification Process, Kentucky Court of Justice / AOC",
+          "url": "https://www.kycourts.gov/AOC/Information-and-Technology/Pages/Expungement.aspx",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Form RU-009, Expungement Certification Request Form, AOC",
+          "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/RU-009.pdf",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Edition 1.2 retained asset AOC-009, title 'RECORDS UNIT', role ORDER, probable RU-009 with unconfirmed identity",
+          "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/RU-009.pdf",
+          "retrievedOn": "2026-08-01",
+          "sha256": "469835852a1d7427a2212403aacd3118e93d6adc07791653aab25cb93324f662"
+        }
+      ],
+      "rules": {
+        "filing": "Not a court filing. Submit online through the AOC record request portal, in person by drive-thru at AOC, or by mail to the Records Unit on Form RU-009.",
+        "fees": "$40.",
+        "feeWaiver": "none identified. Whether AOC waives the certification fee on a showing of indigency is unresolved.",
+        "notice": "none. KSP makes the eligibility determination, which is advisory to the court.",
+        "service": "none",
+        "participantSignature": "Required on RU-009 for mail requests. Portal submission is authenticated by the registered account.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The certification returns 'not eligible' and the participant wants to file anyway. That is a decision to file against an agency determination and needs counsel.",
+        "The certification shows records the participant does not recognize or disputes."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether AOC waives the $40 certification fee on a showing of indigency.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 1 / OPEN QUESTIONS",
+            "sourceStatement": "Whether AOC waives the $40 certification fee on a showing of indigency. Unresolved."
+          }
+        },
+        {
+          "question": "Whether the 30-day expiry runs from packet issuance or from participant download. Practitioner sources say issuance; this is unresolved against primary authority.",
+          "impact": "release_blocker",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 1 / OPEN QUESTIONS",
+            "sourceStatement": "Whether the 30-day expiry runs from packet issuance or from participant download. Practitioner sources say issuance. Unresolved against primary authority."
+          }
+        },
+        {
+          "question": "Whether a single certification packet can support multiple petitions filed in different counties within the 30-day window.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 1 / OPEN QUESTIONS",
+            "sourceStatement": "Whether a single certification packet can support multiple petitions filed in different counties within the 30-day window. Unresolved."
+          }
+        },
+        {
+          "question": "The identity of Edition 1.2 retained asset AOC-009, title 'RECORDS UNIT', role ORDER, which the frozen research records as the probable RU-009 asset with the identity unconfirmed. RU-009 may not be assigned to it by name similarity. The official RU-009 URL is browser-accessible: a plain shell client receives HTTP 403 and a browser user-agent receives HTTP 200, so the 403 is user-agent filtering rather than absence.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "session-b-ky-or.bundle.json",
+            "sourceHeading": "KY / mechanismInventory / KY-CERT / formsNamed",
+            "sourceStatement": "RU-009, Expungement Certification Request Form (AOC) - mandatory for mail requests. Edition 1.2 cross-reference: the retained set contains documentId AOC-009, title 'RECORDS UNIT', role ORDER, at STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-009__records-unit__REV-UNKNOWN__EN.pdf; this is the probable RU-009 asset but the identity is unconfirmed.",
+            "counselQuestion": "Is the Edition 1.2 retained asset AOC-009 in fact Form RU-009, the AOC Expungement Certification Request Form, and if so what is its current revision? Confirm by attended retrieval from the official AOC URL rather than by filename or title similarity."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The certification is requested from AOC rather than filed with a court, and the primary channel is an authenticated portal LegalEase cannot submit through. But the mail alternative uses RU-009, which LegalEase could prepare for the participant to sign and mail, so the review records the track as realistically hybrid rather than pure guidance. It is therefore composed as alternatives: the portal branch is available as guidance, and the RU-009 branch is unavailable only because the retained asset's identity is unconfirmed. The 30-day expiry against a 4-to-5-month processing time is the single biggest sequencing constraint in Kentucky and gates both conviction tracks.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Product must gate conviction petition generation on certification in hand and must warn on the 30-day expiry. Do not generate a petition packet before the participant confirms the certification date.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 1 / LEGAL-DESIGN DECISION / Limitations",
+              "sourceStatement": "Product must gate conviction petition generation on certification in hand and must warn on the 30-day expiry. Do not generate a petition packet before the participant confirms the certification date."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "A person may file regardless of the KSP eligibility determination, because only a judge can grant expungement.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 1 / Questions requiring individualized legal judgment",
+              "sourceStatement": "AOC's own guidance confirms a person may file regardless of the KSP determination, because only a judge can grant expungement."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ky-misd",
+      "legalName": "Petition for Expungement of Misdemeanor, Violation, and Traffic Infraction Convictions under KRS 431.078",
+      "publicName": "Misdemeanor expungement",
+      "controllingAuthority": {
+        "citations": [
+          "KRS 431.078",
+          "KRS 431.078(7)",
+          "KRS 431.079",
+          "KRS 453.190"
+        ],
+        "summary": "On petition, the court may expunge misdemeanor, violation and traffic infraction convictions, plus any misdemeanor, violation or traffic infraction charges that were dismissed or amended within the same criminal action. Relief is mandatory under KRS 431.078(1)(a) for a single offence or a series arising from a single incident, and discretionary under (1)(b) for a series not arising from a single incident. Kentucky uses expungement, not sealing, for this track."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2019-06-27",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "misdemeanor",
+        "violation",
+        "traffic_infraction",
+        "dismissed_or_amended_charge_in_same_action"
+      ],
+      "eligibleDispositions": [
+        "convicted",
+        "dismissed",
+        "amended"
+      ],
+      "exclusions": [
+        "Sex offences and offences committed against a child.",
+        "Offences subject to enhancement for a second or subsequent offence, unless the enhancement window has expired.",
+        "Offences other than offences against the Commonwealth of Kentucky.",
+        "Any felony or misdemeanor conviction in the five years before filing.",
+        "Any felony or misdemeanor proceeding pending or being instituted."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Misdemeanor, violation or traffic infraction conviction",
+          "duration": "5 years from the later of completion of sentence or successful completion of probation"
+        },
+        {
+          "condition": "Conviction voided under KRS 218A.275(8) or 218A.276(8)",
+          "duration": "none. This is the only route in Kentucky to same-year misdemeanor conviction expungement"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The court in which the person was convicted, for the record within that judicial district. District Court for most misdemeanors; Circuit Court where the misdemeanor conviction was entered in Circuit Court. Filed at the office of the Circuit Court Clerk in the county where the original charge was filed."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Office of the Circuit Court Clerk, county where the original charge was filed",
+        "detail": "The clerk serves notice on the county attorney, the victim if there was an identified victim, and any other person the petitioner has reason to believe has relevant information, and completes the service block on page 2 of the form. The court sets a hearing no sooner than 30 days after filing. On grant, the order issues on AOC-496 and copies go to each agency named; each agency must certify completion."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-496.2",
+          "officialSourceUrl": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/496.2.pdf",
+          "notes": "Petition for Expungement (For Misdemeanor, Violation, or Traffic Infraction Conviction), Rev. 7-16, Doc. Code PEXC. Retained in Edition 1.2 as documentId AOC-496.2, title 'PETITION FOR EXPUNGEMENT', role PETITION, revision unknown in the retained metadata. The Clerks Manual directs clerks not to accept a petition that is not on the AOC form, without the certification attached, and without the fee."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Local practice varies on whether the petitioner submits a proposed order or the clerk prepares it.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-496",
+          "officialSourceUrl": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/496.pdf",
+          "notes": "Expungement Order. Retained in Edition 1.2 as documentId AOC-496, title 'EXPUNGEMENT ORDER', role ORDER."
+        },
+        {
+          "role": "certificate_of_eligibility",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "The expungement certification packet from the certification track, attached to the petition. It expires 30 days after issuance."
+        },
+        {
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant cannot pay the $100 per-case fee.",
+          "outputStrategy": "custom_pleading",
+          "notes": "Motion to proceed in forma pauperis with affidavit of indigency under KRS 453.190. No AOC form number is given by the review. Whether the non-refundable $50 deputy-clerk portion can be waived is unresolved."
+        },
+        {
+          "role": "continuation_page",
+          "requirement": "conditional",
+          "conditionDescription": "Where the charges exceed the six lines on the form, or the records are held by more agencies than the form's three lines allow.",
+          "outputStrategy": "custom_pleading",
+          "notes": "No form number given by the review."
+        },
+        {
+          "role": "participant_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Covers the notarization step, the $100 per-case fee and its non-refundable $50 portion, the hearing set no sooner than 30 days after filing, and the fact that private background-check vendors already holding the data are not bound by the order and must be handled separately."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "convictionCounty",
+          "question": "In which Kentucky county was the original charge filed?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number of the conviction you want expunged?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtLevel",
+          "question": "Was the case in District Court or Circuit Court?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseAsRecorded",
+          "question": "What was the offence, exactly as it appears on the court record?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceOrProbationCompletionDate",
+          "question": "On what date did you finish the sentence, or successfully complete probation, whichever was later?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionVoidedUnder218A",
+          "question": "Was this conviction voided under KRS 218A.275(8) or 218A.276(8)?",
+          "requirement": "required",
+          "conditionDescription": "A voided conviction carries no five-year wait, which is the only route in Kentucky to same-year misdemeanor conviction expungement."
+        },
+        {
+          "key": "singleIncident",
+          "question": "Did all of the charges you want expunged arise from a single incident?",
+          "requirement": "required",
+          "conditionDescription": "This decides whether relief is mandatory under KRS 431.078(1)(a) or discretionary under (1)(b). The statute does not define 'single incident' and LegalEase does not decide it."
+        },
+        {
+          "key": "convictionInLastFiveYears",
+          "question": "Have you been convicted of any felony or misdemeanor in the five years before filing?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingProceeding",
+          "question": "Is any felony or misdemeanor proceeding pending or being instituted against you?",
+          "requirement": "required"
+        },
+        {
+          "key": "identifiedVictim",
+          "question": "Was there an identified victim in this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "agenciesHoldingRecords",
+          "question": "Which agencies do you believe hold records of this arrest, charge or conviction?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Expungement certification packet",
+          "obtainedFrom": "Records Unit, Administrative Office of the Courts",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request it from AOC for $40. It includes the criminal-history report. It expires 30 days after issuance, so the petition must be filed within that window.",
+          "confirms": "offenseAsRecorded"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "The paragraph 6 three-way checkbox",
+          "whereInPacket": "AOC-496.2, paragraph 6",
+          "why": "It selects between the five-year wait, the KRS 218A.275(8) void and the KRS 218A.276(8) void, which is a legal characterization LegalEase does not make."
+        },
+        {
+          "item": "The victim and relevant-persons list",
+          "whereInPacket": "AOC-496.2, notice block",
+          "why": "It requires judgment about who has relevant information."
+        },
+        {
+          "item": "The agency list",
+          "whereInPacket": "AOC-496.2, agency block",
+          "why": "It requires judgment about which agencies hold records, and the form allows only three lines."
+        },
+        {
+          "item": "Signature before a notary or the circuit court clerk",
+          "whereInPacket": "AOC-496.2, verification block",
+          "why": "Verification is required and the signature must be witnessed and notarized. This is a participant step."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "KRS 431.078, Kentucky Legislative Research Commission",
+          "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=45221",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "AOC-496.2 Rev. 7-16, Petition for Expungement, retained Edition 1.2 asset",
+          "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/496.2.pdf",
+          "retrievedOn": "2026-08-01",
+          "sha256": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde"
+        },
+        {
+          "title": "AOC-496, Expungement Order, retained Edition 1.2 asset",
+          "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/496.pdf",
+          "retrievedOn": "2026-08-01",
+          "sha256": "4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd"
+        }
+      ],
+      "rules": {
+        "filing": "In person or by mail at the circuit court clerk's office in the county where the original charge was filed. Pro se e-filing is not generally available in Kentucky. AOC-496.2 directs a separate petition per criminal case.",
+        "fees": "$100 per case. The first $50 is deposited to the deputy clerks' trust and agency account and is not refundable. If relief is denied, the balance above $50 may be refunded.",
+        "feeWaiver": "Motion to proceed in forma pauperis with affidavit of indigency under KRS 453.190. Whether the non-refundable $50 deputy-clerk portion can be waived is unresolved.",
+        "notice": "The clerk notifies the county attorney, the victim if there was an identified victim, and any other person the petitioner has reason to believe has relevant information. Inability to locate the victim does not delay the case. There is no fixed statutory response window; the county attorney may appear and object at the hearing, which the court sets no sooner than 30 days after filing.",
+        "service": "Performed by the clerk, who completes the service block on AOC-496.2 page 2. Not a petitioner obligation.",
+        "participantSignature": "The petitioner signs.",
+        "notarization": "Required. The signature must be made before a notary or the circuit court clerk."
+      },
+      "selfHelpStopConditions": [
+        "The petition falls under KRS 431.078(1)(b), multiple incidents, because relief is discretionary.",
+        "The county attorney signals objection or appears in opposition.",
+        "Enhancement exposure is unclear, in particular DUI and domestic violence related offences.",
+        "There is an identified victim who opposes.",
+        "The certification lists convictions the participant disputes.",
+        "The participant is not a US citizen. Kentucky expungement does not bind federal immigration authorities.",
+        "The participant wants to attack the underlying conviction rather than expunge it.",
+        "Venue is unclear because the case moved between district and circuit court."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The statute authorizes expungement of the person's misdemeanor record 'within that judicial district', while AOC-496.2 directs a separate petition per criminal case and the fee is per case. Whether a single petition can reach multiple cases in one district is unresolved and is a real cost question for participants with several cases.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 2 / OPEN QUESTIONS",
+            "sourceStatement": "The statute authorizes expungement of the person's misdemeanor record \"within that judicial district,\" while AOC-496.2 directs a separate petition per criminal case and the fee is per case. Whether a single petition can reach multiple cases in one district is unresolved and is a real cost question for participants with several cases."
+          }
+        },
+        {
+          "question": "AOC-496.2 is Rev. 7-16 and predates the statutory expansion to dismissed and amended charges within the criminal action. The form has no checkbox for that. How clerks handle a petition that lists dismissed or amended charges on the 7-16 form is unresolved.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 2 / OPEN QUESTIONS",
+            "sourceStatement": "AOC-496.2 is Rev. 7-16 and predates the statutory expansion to dismissed and amended charges within the criminal action. The form has no checkbox for that. How clerks handle a petition that lists dismissed or amended charges on the 7-16 form is unresolved."
+          }
+        },
+        {
+          "question": "Whether the non-refundable $50 can be waived for indigent petitioners.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 2 / OPEN QUESTIONS",
+            "sourceStatement": "Whether the non-refundable $50 can be waived for indigent petitioners. Unresolved."
+          }
+        },
+        {
+          "question": "Whether local rules in any county require a proposed order at filing. Not surveyed.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 2 / OPEN QUESTIONS",
+            "sourceStatement": "Whether local rules in any county require a proposed order at filing. Unresolved, not surveyed."
+          }
+        },
+        {
+          "question": "The revision of the Edition 1.2 retained AOC-496.2 and AOC-496 assets is not recorded in the retained metadata. The review confirmed AOC-496.2 as Rev. 7-16 current in the AOC Legal Form Library as of 2026-07-30. The official AOC form URLs are browser-accessible: a plain shell client receives HTTP 403 and a browser user-agent receives HTTP 200, so the 403 is user-agent filtering rather than absence.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "session-b-ky-or.bundle.json",
+            "sourceHeading": "KY / officialAuthorityRefreshRequirements",
+            "sourceStatement": "AOC official form PDFs cited by the review, all browser_accessible (plain shell curl 403; browser user-agent curl 200; the 403 is user-agent filtering, not absence)",
+            "counselQuestion": "Confirm the revision stamps of the Edition 1.2 retained AOC-496.2 and AOC-496 assets against the current AOC Legal Form Library, since the retained metadata records the revision as unknown."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "AOC-496.2 is the statewide AOC form and the Clerks Manual directs clerks not to accept a petition that is not on it, without the certification attached, and without the fee. A custom pleading would be rejected at the counter. The form is short and its factual allegations map cleanly to intake fields, so this is a clean official_pdf_fill once the certification is in hand.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Route 431.078(1)(b) multi-incident petitions to attorney review rather than automated generation. Do not automate the single-incident determination.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 2 / LEGAL-DESIGN DECISION / Limitations",
+              "sourceStatement": "Route 431.078(1)(b) multi-incident petitions to attorney review rather than automated generation. Do not automate the single-incident determination."
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "Treat notarization as a participant step with explicit instructions.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 2 / LEGAL-DESIGN DECISION / Limitations",
+              "sourceStatement": "Treat notarization as a participant step with explicit instructions."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Private background-check vendors that already hold the data are not bound by the order and must be handled separately.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 2 / Records, agencies, or uses not affected",
+              "sourceStatement": "Private background-check vendors that already hold the data are not bound by the order and must be handled separately."
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "The expungement certification packet must be attached, and it expires 30 days after issuance.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "READ THIS FIRST / 3",
+              "sourceStatement": "The eligibility certification has a 30-day shelf life. AOC issues the certification packet, it costs $40, and the petition must be filed before it expires 30 days after issuance."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ky-fel",
+      "legalName": "Application to Vacate and Expunge Felony Conviction under KRS 431.073",
+      "publicName": "Felony expungement",
+      "controllingAuthority": {
+        "citations": [
+          "KRS 431.073",
+          "KRS 431.079",
+          "KRS 431.0795",
+          "KRS 534.020"
+        ],
+        "summary": "Kentucky vacates the judgment, dismisses the charges with prejudice, and then expunges. It is filed as a motion in the original criminal case, not as a new action. Four eligibility bases exist under KRS 431.073(1): (a) an enumerated Class D felony, (b) a series of enumerated Class D felonies arising from a single incident, (c) a full pardon, and (d) any other Class D felony or a pre-1975 offence punishable by not more than five years. Relief is discretionary; for (1)(d) applications the court must additionally find rehabilitation and no significant threat of recidivism."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2023-06-29",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "felony",
+        "non_felony_charge_in_same_case",
+        "underlying_district_court_charge"
+      ],
+      "eligibleDispositions": [
+        "convicted"
+      ],
+      "exclusions": [
+        "For the (1)(d) catch-all: KRS 189A.010 driving under the influence, KRS 508.032 assault in the fourth degree, KRS 519.055 impersonating a peace officer, abuse of public office, sex offences, offences committed against a child, and any offence that resulted in serious bodily injury or death.",
+        "Any felony or misdemeanor conviction in the five years before filing.",
+        "Any felony or misdemeanor proceeding pending or being instituted."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Class D felony conviction",
+          "duration": "5 years from the later of completion of sentence or successful completion of probation or parole"
+        }
+      ],
+      "outputStrategy": "composed",
+      "compositionMode": "sequential",
+      "units": [
+        {
+          "unitId": "ky_fel_certification",
+          "order": 1,
+          "label": "Obtain the expungement certification",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "Stage 1. The certification under KRS 431.079 must be attached to the application, costs $40, takes 4 to 5 months at KSP, and expires 30 days after issuance. Nothing else in this track can be generated until the participant confirms the issue date.",
+          "available": true
+        },
+        {
+          "unitId": "ky_fel_application",
+          "order": 2,
+          "label": "Prepare and file AOC-496.3 as a motion in the original criminal case",
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "Stage 2. The statewide AOC application, verified and notarized, filed with the $50 non-refundable filing fee in the court of conviction. The caption is dictated by the existing criminal case.",
+          "available": true
+        },
+        {
+          "unitId": "ky_fel_fee_compliance",
+          "order": 3,
+          "label": "Post-order fee compliance and the installment plan",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "Stage 3, and a genuine process obligation rather than an afterthought: the conviction is vacated and the charges dismissed on entry of the order, but the record is not expunged until the separate $250 expungement fee is paid in full. The court may set an installment plan with a compliance date no sooner than eighteen months out, and no applicant may be jailed for failure to complete it. AOC-496.5 issues on payment in full. Without this stage the participant will believe they are done when they are not.",
+          "available": true
+        }
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The court in which the person was convicted, as a motion in the original criminal case. Circuit Court in most cases. Where the case originated in district court, the district case numbers and charges are listed on the same application. Filed at the office of the Circuit Court Clerk in the county where the conviction occurred."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Office of the Circuit Court Clerk, county where the conviction occurred",
+        "detail": "The clerk serves notice on the Commonwealth's attorney or county attorney who prosecuted the case and on the county attorney of the county where the judgment was entered; the prosecutor notifies the victim if there was an identified victim. The Commonwealth has 60 days to respond, extendable for good cause, and a hearing must occur no later than 120 days after filing. If the prosecutor does not object, the court may vacate without a hearing."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-496.3",
+          "officialSourceUrl": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/496.3.pdf",
+          "notes": "Application to Vacate and Expunge Felony Conviction, Rev. 6-23, Doc. Code AFEX. Retained in Edition 1.2 as documentId AOC-496.3, role APPLICATION. Correctly reflects the June 2023 amendment including multiple eligible offences under (1)(d), and includes the district court case and charge block."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Ordinarily prepared by the clerk or court; tendered where local practice requires it.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-496.4",
+          "officialSourceUrl": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/496.4.pdf",
+          "notes": "Order on Application to Vacate and Expunge Felony Conviction, Rev. 6-23. Retained in Edition 1.2 as documentId AOC-496.4. Contains the contested-hearing findings block."
+        },
+        {
+          "role": "notice_of_expungement",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-496.5",
+          "officialSourceUrl": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/496.5.pdf",
+          "notes": "Notice of Expungement, issued on payment of the $250 in full. Retained in Edition 1.2 as documentId AOC-496.5, role ORDER, REV-2019-06. This is the stage 3 artifact and is court-issued rather than participant-completed."
+        },
+        {
+          "role": "certificate_of_eligibility",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "The expungement certification packet, attached to the application."
+        },
+        {
+          "role": "supporting_exhibit",
+          "requirement": "conditional",
+          "conditionDescription": "A copy of the full pardon where the basis is a pardon, or additional charge sheets where charges exceed the form's lines.",
+          "outputStrategy": "process_guidance",
+          "notes": "No form number."
+        },
+        {
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant cannot pay the $50 filing fee.",
+          "outputStrategy": "custom_pleading",
+          "notes": "In forma pauperis motion with affidavit of indigency. For the separate $250 expungement fee the statute provides an installment plan rather than a waiver."
+        },
+        {
+          "role": "participant_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Covers verification and notarization, the $50 plus $250 fee structure and the warning that at least one circuit clerk's public page states $300 is due at filing, which conflicts with KRS 431.073(10) and (11); the 60-day response window and 120-day hearing deadline; and that the record is not expunged until the $250 is paid in full."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "convictionCounty",
+          "question": "In which Kentucky county was the felony conviction entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number of the conviction you want vacated and expunged?",
+          "requirement": "required"
+        },
+        {
+          "key": "districtCourtCaseNumbers",
+          "question": "If the case started in District Court, what were the district case numbers and charges?",
+          "requirement": "conditional",
+          "conditionDescription": "The application lists these on the same form where the case originated in district court."
+        },
+        {
+          "key": "offenseAndStatuteFromRecord",
+          "question": "What was the offence and its KRS statute number, exactly as the record shows?",
+          "requirement": "required"
+        },
+        {
+          "key": "eligibilityBasis",
+          "question": "Which basis applies — an enumerated Class D felony, a series of enumerated Class D felonies from a single incident, a full pardon, or another Class D felony?",
+          "requirement": "required",
+          "conditionDescription": "The choice between (1)(a) and (1)(d) is strategic, because filing under (1)(d) triggers a mandatory hearing and a clear-and-convincing burden if the Commonwealth objects. LegalEase does not make that choice."
+        },
+        {
+          "key": "sentenceOrSupervisionCompletionDate",
+          "question": "On what date did you complete the sentence, or successfully complete probation or parole, whichever was later?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionInLastFiveYears",
+          "question": "Have you been convicted of any felony or misdemeanor in the five years before filing?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingProceeding",
+          "question": "Is any felony or misdemeanor proceeding pending or being instituted against you?",
+          "requirement": "required"
+        },
+        {
+          "key": "seriousBodilyInjuryOrDeath",
+          "question": "Did the offence result in serious bodily injury or death?",
+          "requirement": "required",
+          "conditionDescription": "A fact question that is not answerable from the charge title and routes out of self-help."
+        },
+        {
+          "key": "identifiedVictim",
+          "question": "Was there an identified victim in this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "installmentPlanSought",
+          "question": "Do you want to ask the court for an installment plan for the $250 expungement fee?",
+          "requirement": "required"
+        },
+        {
+          "key": "agenciesHoldingRecords",
+          "question": "Which agencies do you believe hold records of this arrest, charge or conviction?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Expungement certification packet",
+          "obtainedFrom": "Records Unit, Administrative Office of the Courts",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request it from AOC for $40. It takes 4 to 5 months and expires 30 days after issuance.",
+          "confirms": "offenseAndStatuteFromRecord"
+        },
+        {
+          "name": "Copy of the full pardon",
+          "obtainedFrom": "The Office of the Governor",
+          "requirement": "conditional",
+          "conditionDescription": "Where the eligibility basis is a full pardon under KRS 431.073(1)(c).",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Obtain a copy of the pardon instrument granted by the Governor."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "The paragraph 2 five-way eligibility checkbox",
+          "whereInPacket": "AOC-496.3, paragraph 2",
+          "why": "The choice of basis is strategic and legal, and filing under (1)(d) changes the burden and forces a hearing."
+        },
+        {
+          "item": "All of section 7, subsections (a) through (g)",
+          "whereInPacket": "AOC-496.3, section 7",
+          "why": "These are the rehabilitation narrative answers required for a (1)(d) application. LegalEase must never generate them."
+        },
+        {
+          "item": "The victim list and the agency list",
+          "whereInPacket": "AOC-496.3, notice and agency blocks",
+          "why": "Both require judgment about who must be notified and who holds records."
+        },
+        {
+          "item": "The installment plan amount and frequency",
+          "whereInPacket": "AOC-496.3, installment plan block",
+          "why": "It is a request to the court about the participant's own finances."
+        },
+        {
+          "item": "Verification signature before a notary or the circuit court clerk",
+          "whereInPacket": "AOC-496.3, verification block",
+          "why": "KRS 431.073(2)(a) requires a verified application and the form requires notarization."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "KRS 431.073, current text effective June 29, 2023, Kentucky Legislative Research Commission",
+          "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=53904",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "AOC-496.3 Rev. 6-23, Application to Vacate and Expunge Felony Conviction, retained Edition 1.2 asset",
+          "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/496.3.pdf",
+          "retrievedOn": "2026-08-01",
+          "sha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa"
+        },
+        {
+          "title": "AOC-496.4 Rev. 6-23, Order on Application to Vacate and Expunge Felony Conviction, retained Edition 1.2 asset",
+          "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/496.4.pdf",
+          "retrievedOn": "2026-08-01",
+          "sha256": "70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182"
+        },
+        {
+          "title": "AOC-496.5, Notice of Expungement, retained Edition 1.2 asset REV-2019-06",
+          "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/496.5.pdf",
+          "retrievedOn": "2026-08-01",
+          "sha256": "273e45032d4f1caed9442ebcfe5804e9202c29eb6265f5b7dde7734e44048ca8"
+        },
+        {
+          "title": "Expungement Certification Process, AOC, including the enumerated Class D list and the $300 total fee statement",
+          "url": "https://www.kycourts.gov/AOC/Information-and-Technology/Pages/Expungement.aspx",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "In person or by mail at the circuit court clerk's office in the county of conviction, as a motion in the original criminal case. Attorneys may e-file through KYeCourts; pro se e-filing is not generally available.",
+        "fees": "$50 non-refundable at filing, deposited to the deputy clerks' trust and agency account, plus a separate $250 expungement fee on grant. Total $300. At least one circuit clerk's public page states $300 is due at filing, which conflicts with KRS 431.073(10) and (11); participants must be warned that a clerk may quote the full $300.",
+        "feeWaiver": "In forma pauperis motion with affidavit of indigency for the filing fee. For the $250 the statute provides an installment plan rather than a waiver: the court sets a compliance date no sooner than eighteen months out, and no applicant may be jailed for failure to complete the plan.",
+        "notice": "The clerk serves the Commonwealth's attorney or county attorney who prosecuted the case and the county attorney of the county where the judgment was entered. The Commonwealth has 60 days to respond, extendable for good cause. A hearing must occur no later than 120 days after filing. If the prosecutor does not object the court may vacate without a hearing. For (1)(d) applications where the Commonwealth objects, the court must schedule a hearing within 120 days of the response, the applicant or counsel must be present, and the applicant must prove by clear and convincing evidence that vacatur is consistent with public welfare and safety.",
+        "service": "The Circuit Court clerk serves the notice of filing on payment of the fee and filing of the application. Not an applicant obligation.",
+        "participantSignature": "The applicant signs.",
+        "notarization": "Required, before a notary or the circuit court clerk."
+      },
+      "selfHelpStopConditions": [
+        "The application is brought under KRS 431.073(1)(d). The contested-hearing burden is clear and convincing evidence, the applicant or counsel must appear, and section 7 requires drafted narrative testimony. This is not safe self-help.",
+        "The Commonwealth files any objection.",
+        "There is a serious bodily injury or death question on the facts.",
+        "There is an identified victim.",
+        "The offence classification, Class D versus higher, or the effect of persistent felony offender enhancement, is disputed.",
+        "The participant is not a US citizen.",
+        "The participant cannot fund the $250 and needs an installment plan argued.",
+        "The case spans district and circuit court and the charge list is uncertain."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether an offence specifically enumerated in KRS 431.073(1)(a) may also be brought under (1)(d). Practitioner guidance says this is unclear, and it matters for participants with several enumerated felonies.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 3 / OPEN QUESTIONS",
+            "sourceStatement": "Whether an offense specifically enumerated in (1)(a) may also be brought under (1)(d). Practitioner guidance says this is unclear. It matters for participants with several enumerated felonies. Unresolved."
+          }
+        },
+        {
+          "question": "Whether AOC-496.4 must be tendered by the applicant or is always prepared by the court. Clerk practice appears to control.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 3 / OPEN QUESTIONS",
+            "sourceStatement": "Whether AOC-496.4 must be tendered by the applicant or is always prepared by the court. Clerk practice appears to control. Unresolved."
+          }
+        },
+        {
+          "question": "What happens to the vacatur if the applicant never completes the $250. The conviction is vacated and charges dismissed on the order, but the record is not expunged, and the practical status of that intermediate state is unresolved.",
+          "impact": "release_blocker",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 3 / OPEN QUESTIONS",
+            "sourceStatement": "What happens to the vacatur if the applicant never completes the $250. The conviction is vacated and charges dismissed on the order, but the record is not expunged. The practical status of that intermediate state is unresolved."
+          }
+        },
+        {
+          "question": "Fee-collection variance across circuit clerks, where at least one clerk's public page states $300 is due at filing contrary to KRS 431.073(10) and (11).",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 3 / OPEN QUESTIONS",
+            "sourceStatement": "Fee-collection variance across circuit clerks. Unresolved and county-specific."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "AOC-496.3 is the statewide AOC form and KRS 431.073(9) directs AOC to establish it; the Clerks Manual directs clerks not to accept an application that is not on the form, without the certification, and without the fee. The route is composed sequentially because the certification must be in hand before the application can be prepared, and because the record is not expunged until the separate $250 is paid after the order. Building only the middle stage would leave the participant believing they are finished when the record is still there.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Automate (1)(a) and (1)(b) enumerated-offense applications only. Route all (1)(d) applications to attorney review.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 3 / LEGAL-DESIGN DECISION / Limitations",
+              "sourceStatement": "Automate (1)(a) and (1)(b) enumerated-offense applications only. Route all (1)(d) applications to attorney review."
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Never generate section 7 narrative answers.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 3 / LEGAL-DESIGN DECISION / Limitations",
+              "sourceStatement": "Never generate section 7 narrative answers."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Build the $250 post-grant step into fulfillment or the participant will believe they are done when they are not.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 3 / LEGAL-DESIGN DECISION / Limitations",
+              "sourceStatement": "Build the $250 post-grant step into fulfillment or the participant will believe they are done when they are not."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Warn that a clerk may quote the full $300 at filing, which conflicts with KRS 431.073(10) and (11).",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 3 / Known local-form or local-practice requirements",
+              "sourceStatement": "Participants must be warned that a clerk may quote the full $300."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The order does not extend or revive an expired statute of limitations, does not constitute a finding of legal error or innocence, and does not nullify findings of fact or conclusions of law. Federal firearms and immigration consequences are not resolved by a Kentucky vacatur.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 3 / Records, agencies, or uses not affected",
+              "sourceStatement": "The order does not extend or revive an expired statute of limitations, does not constitute a finding of legal error or innocence, and does not nullify findings of fact or conclusions of law."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ky-pardon",
+      "legalName": "Pardon-Based Felony Expungement under KRS 431.073(1)(c)",
+      "publicName": "Expungement after a full pardon",
+      "controllingAuthority": {
+        "citations": [
+          "KRS 431.073(1)(c)",
+          "KRS 431.073(5)",
+          "KRS 431.079"
+        ],
+        "summary": "The same application as the felony track on a completely different eligibility basis: a full pardon granted by the Governor. The Class D limitation and the enumerated offence list do not apply, though the general KRS 431.073(5) findings still do. AOC guidance confirms the conviction does not have to be an enumerated offence."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2023-06-29",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "felony"
+      ],
+      "eligibleDispositions": [
+        "convicted_then_fully_pardoned"
+      ],
+      "exclusions": [
+        "Anything short of a full pardon. A partial or conditional pardon, or a commutation, does not qualify.",
+        "Any felony or misdemeanor conviction in the five years before filing.",
+        "Any felony or misdemeanor proceeding pending or being instituted."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Felony conviction followed by a full pardon",
+          "duration": "5 years from the later of completion of sentence or successful completion of probation or parole"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Identical to the felony track: the court in which the person was convicted, as a motion in the original criminal case, filed at the office of the Circuit Court Clerk in the county where the conviction occurred."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Office of the Circuit Court Clerk, county where the conviction occurred",
+        "detail": "Identical to the felony track, including the $50 and $250 fee structure and the clerk-performed service."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-496.3",
+          "officialSourceUrl": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/496.3.pdf",
+          "notes": "Application to Vacate and Expunge Felony Conviction, Rev. 6-23, checkbox 2 option 3. Retained in Edition 1.2 as documentId AOC-496.3, role APPLICATION."
+        },
+        {
+          "role": "supporting_exhibit",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "A copy of the full pardon, attached to the application."
+        },
+        {
+          "role": "certificate_of_eligibility",
+          "requirement": "conditional",
+          "conditionDescription": "Subject to the open question below. KRS 431.079 requires certification for every petition or application seeking expungement of a conviction and the form says a certification must be attached, so the working answer is that it is required.",
+          "outputStrategy": "process_guidance",
+          "notes": "Confirm with AOC before release."
+        },
+        {
+          "role": "participant_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Covers the fee structure, the notarization step, and the warning that the participant is relying entirely on the pardon where the underlying offence is outside (1)(a) and (1)(d)."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "convictionCounty",
+          "question": "In which Kentucky county was the felony conviction entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number of the conviction you want vacated and expunged?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseAndStatuteFromRecord",
+          "question": "What was the offence and its KRS statute number, exactly as the record shows?",
+          "requirement": "required"
+        },
+        {
+          "key": "pardonDate",
+          "question": "On what date did the Governor grant the pardon?",
+          "requirement": "required"
+        },
+        {
+          "key": "pardonIsFull",
+          "question": "Does the pardon document say it is a full pardon, rather than a partial or conditional pardon or a commutation?",
+          "requirement": "required",
+          "conditionDescription": "Whether the instrument is a full pardon is the whole of eligibility on this track, and it is a legal characterization LegalEase does not make."
+        },
+        {
+          "key": "sentenceOrSupervisionCompletionDate",
+          "question": "On what date did you complete the sentence, or successfully complete probation or parole, whichever was later?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionInLastFiveYears",
+          "question": "Have you been convicted of any felony or misdemeanor in the five years before filing?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingProceeding",
+          "question": "Is any felony or misdemeanor proceeding pending or being instituted against you?",
+          "requirement": "required"
+        },
+        {
+          "key": "agenciesHoldingRecords",
+          "question": "Which agencies do you believe hold records of this arrest, charge or conviction?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Copy of the full pardon",
+          "obtainedFrom": "The Office of the Governor",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Obtain a copy of the pardon instrument granted by the Governor and attach it to the application.",
+          "confirms": "pardonIsFull"
+        },
+        {
+          "name": "Expungement certification packet",
+          "obtainedFrom": "Records Unit, Administrative Office of the Courts",
+          "requirement": "conditional",
+          "conditionDescription": "Subject to the open question whether a certification is required where the basis is a pardon. The working answer is yes.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request it from AOC for $40. It takes 4 to 5 months and expires 30 days after issuance."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "The paragraph 2 checkbox selecting the pardon basis",
+          "whereInPacket": "AOC-496.3, paragraph 2, option 3",
+          "why": "Selecting the basis is a legal characterization of the pardon instrument."
+        },
+        {
+          "item": "The victim list and the agency list",
+          "whereInPacket": "AOC-496.3, notice and agency blocks",
+          "why": "Both require judgment about who must be notified and who holds records."
+        },
+        {
+          "item": "Verification signature before a notary or the circuit court clerk",
+          "whereInPacket": "AOC-496.3, verification block",
+          "why": "A verified application is required and the form requires notarization."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "KRS 431.073(1)(c), Kentucky Legislative Research Commission",
+          "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=53904",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Expungement Certification Process, AOC, Defendants Who Have Been Pardoned section",
+          "url": "https://www.kycourts.gov/AOC/Information-and-Technology/Pages/Expungement.aspx",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "AOC-496.3 Rev. 6-23, retained Edition 1.2 asset",
+          "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/496.3.pdf",
+          "retrievedOn": "2026-08-01",
+          "sha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa"
+        }
+      ],
+      "rules": {
+        "filing": "Identical to the felony track: in person or by mail at the circuit court clerk's office in the county of conviction, as a motion in the original criminal case.",
+        "fees": "$50 non-refundable at filing plus a separate $250 expungement fee on grant. Total $300.",
+        "feeWaiver": "In forma pauperis motion with affidavit of indigency for the filing fee; an installment plan rather than a waiver for the $250.",
+        "notice": "Identical to the felony track. The Commonwealth has 60 days to respond and a hearing must occur no later than 120 days after filing.",
+        "service": "Performed by the Circuit Court clerk. Not an applicant obligation.",
+        "participantSignature": "The applicant signs.",
+        "notarization": "Required, before a notary or the circuit court clerk."
+      },
+      "selfHelpStopConditions": [
+        "The pardon document is anything other than a plainly full and unconditional pardon.",
+        "Every case where the underlying offence would be outside KRS 431.073(1)(a) and (1)(d), because the participant is relying entirely on the pardon.",
+        "The Commonwealth files any objection.",
+        "The participant is not a US citizen."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether a certification is required where the basis is a pardon. KRS 431.079 requires certification for every petition or application seeking expungement of a conviction, and the form says a certification must be attached, so the working answer is yes. Confirm with AOC before release.",
+          "impact": "release_blocker",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 4 / OPEN QUESTIONS",
+            "sourceStatement": "Whether a certification is required where the basis is a pardon. KRS 431.079 requires certification for every petition or application seeking expungement of a conviction, and the form says a certification must be attached, so the working answer is yes. Confirm with AOC before release."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Same form and same clerk requirements as the felony track. It is kept as a separate track rather than merged because eligibility is completely different and the intake logic must not run the enumerated-offence test on a pardon case. Expected volume is low.",
+        "limitations": [
+          {
+            "classification": "self_help_boundary",
+            "statement": "Attorney review of the pardon instrument before packet generation.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 4 / LEGAL-DESIGN DECISION / Limitations",
+              "sourceStatement": "Attorney review of the pardon instrument before packet generation. Low expected volume."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The intake logic must not run the enumerated-offense test on a pardon case.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 4 / OUTPUT STRATEGY / Why appropriate",
+              "sourceStatement": "It is separated here because eligibility is completely different and the intake logic must not run the enumerated-offense test on a pardon case."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ky-auto-nc",
+      "legalName": "Automatic Expungement of Acquittals and Dismissals with Prejudice under KRS 431.076(1)(a)",
+      "publicName": "Automatic expungement (dismissed or found not guilty)",
+      "controllingAuthority": {
+        "citations": [
+          "KRS 431.076(1)(a)",
+          "KRS 431.076(4)",
+          "KRS 431.076(5)",
+          "KRS 431.076(8)"
+        ],
+        "summary": "For any acquittal, or any order dismissing with prejudice all criminal charges in a case not in exchange for a guilty plea to another charge, entered on or after July 15, 2020, the court orders the record expunged 30 days after entry with no action required by the person. AOC calls this 'Auto Expungement' and the order is AOC-497.3. KRS 431.076(8) makes the section retroactive except subsection (1)(a), so this mechanism does not reach pre-July 15, 2020 dispositions."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2020-07-15",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "court_record",
+        "law_enforcement_record"
+      ],
+      "eligibleDispositions": [
+        "acquitted",
+        "dismissed_with_prejudice"
+      ],
+      "exclusions": [
+        "Traffic infractions not otherwise classified as misdemeanors.",
+        "Dismissals in exchange for a guilty plea to another offence.",
+        "Dispositions before July 15, 2020.",
+        "Records in the custody of the Department for Community Based Services."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Entry of the order of acquittal or dismissal with prejudice on or after July 15, 2020",
+          "duration": "30 days from entry, after which the court orders the record expunged with no action required by the person"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Not applicable. The court that entered the acquittal or dismissal acts on its own."
+      },
+      "destination": {
+        "kind": "automatic",
+        "name": "The court that entered the acquittal or dismissal with prejudice",
+        "detail": "The order requires no action by the person. Standard distribution is to the defendant or their attorney, the county attorney or Commonwealth's attorney, the Kentucky State Police, the arresting agency and the local jail; KSP notifies federal agencies. A defendant who needs the order sent to any other agency must notify the court within 60 days of the expungement. Agencies must certify completion within 60 days."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "A verification and escalation path rather than a packet: confirm whether the order was entered, and if it was not, route to the non-conviction petition track. Explains the July 15, 2020 boundary, the 30-day timer, the all-charges requirement, the dismissal-for-plea disqualifier, the standard distribution list, the 60-day window to ask the court to send the order to additional agencies, and that Department for Community Based Services records are not reached."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "dispositionDate",
+          "question": "On what date was the order of acquittal or dismissal entered?",
+          "requirement": "required",
+          "conditionDescription": "Dispositions before July 15, 2020 are outside this mechanism entirely."
+        },
+        {
+          "key": "allChargesDisposed",
+          "question": "Were all of the criminal charges in the case dismissed with prejudice, or were you acquitted of all of them?",
+          "requirement": "required"
+        },
+        {
+          "key": "dismissalForGuiltyPlea",
+          "question": "Was the dismissal given in exchange for a guilty plea to another charge?",
+          "requirement": "required",
+          "conditionDescription": "This is the most common disqualifier and is often not obvious from the docket."
+        },
+        {
+          "key": "withPrejudice",
+          "question": "Does the order say the dismissal was with prejudice?",
+          "requirement": "required"
+        },
+        {
+          "key": "trafficInfractionOnly",
+          "question": "Was the charge a traffic infraction that is not classified as a misdemeanor?",
+          "requirement": "required"
+        },
+        {
+          "key": "additionalAgencies",
+          "question": "Are there agencies beyond the court, the prosecutor, the Kentucky State Police, the arresting agency and the local jail that you need the order sent to?",
+          "requirement": "required",
+          "conditionDescription": "The request must reach the court within 60 days of the expungement."
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Copy of the order of acquittal or dismissal",
+          "obtainedFrom": "The clerk of the court that entered it",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk for a copy of the disposition order. It is what shows whether the dismissal was with prejudice and whether all charges were included.",
+          "confirms": "withPrejudice"
+        },
+        {
+          "name": "Copy of the AOC-497.3 order of expungement, if entered",
+          "obtainedFrom": "The clerk of the court that entered the disposition",
+          "requirement": "conditional",
+          "conditionDescription": "To confirm the automatic expungement actually occurred.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk whether an order of expungement was entered in the case and for a copy of it."
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "KRS 431.076, Kentucky Legislative Research Commission",
+          "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=50191",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "Expungement Certification Process, Auto Expungement section, AOC",
+          "url": "https://www.kycourts.gov/AOC/Information-and-Technology/Pages/Expungement.aspx",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "AOC-497.3 Rev. 7-20, Order of Expungement (automatic), retained Edition 1.2 asset",
+          "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/497.3.pdf",
+          "retrievedOn": "2026-08-01",
+          "sha256": "71049fcaf0321ff6ccd3bdc5142c92fabcb4134f7aebb48a6859083085f7c2eb"
+        }
+      ],
+      "rules": {
+        "filing": "none. Nothing is filed. The court orders the record expunged 30 days after entry of the acquittal or dismissal with prejudice.",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "The order is distributed to the defendant or their attorney, the county attorney or Commonwealth's attorney, the Kentucky State Police, the arresting agency and the local jail. KSP notifies federal agencies. The defendant may object in writing within 30 days of the dismissal or acquittal.",
+        "service": "none required of the participant.",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "The participant believes the auto-expungement should have happened and it did not, and the reason is unclear.",
+        "The participant wants the order sent to additional agencies more than 60 days after entry.",
+        "The case involves Department for Community Based Services records the participant expects to be cleared."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Real-world reliability. Whether courts consistently enter AOC-497.3 across all 120 counties is unresolved and matters directly to whether the product should tell a participant 'you are already clear'.",
+          "impact": "release_blocker",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 5 / OPEN QUESTIONS",
+            "sourceStatement": "Real-world reliability. Whether courts consistently enter AOC-497.3 across all 120 counties is unresolved and matters directly to whether the product should tell a participant \"you are already clear.\""
+          }
+        },
+        {
+          "question": "Whether a partial dismissal with prejudice of some charges in a case, with others resolved differently, triggers the subsection. The text says 'all criminal charges in a case'.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 5 / OPEN QUESTIONS",
+            "sourceStatement": "Whether a partial dismissal with prejudice of some charges in a case, with others resolved differently, triggers the subsection. The text says \"all criminal charges in a case.\" Unresolved in application."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "There is nothing to file. The correct product output is a verification and escalation path: confirm whether the order was entered, and if it was not, route to the non-conviction petition track. Generating a petition for a person whose record was already auto-expunged wastes their time and a clerk's. Guidance is preserved because no participant filing exists, not because an outside party must act. The defendant's right to object within 30 days is the only participant-initiated filing in this track and the review places it out of scope.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "This track produces no document. It must be built as an intake branch and a verification workflow, not as a packet.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 5 / LEGAL-DESIGN DECISION / Limitations",
+              "sourceStatement": "This track produces no document. It must be built as an intake branch and a verification workflow, not as a packet."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "A defendant who needs the order sent to any other agency must notify the court within 60 days of the expungement.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 5 / Standard distribution of the order",
+              "sourceStatement": "A defendant who needs the order sent to any other agency must notify the court within 60 days of the expungement."
+            }
+          },
+          {
+            "classification": "legal_design_blocker",
+            "statement": "The internal reference's 'automatic clean slate' section is wrong: no automatic conviction expungement was enacted in Kentucky. 2025 HB 257 died in committee and the 2026 SB 290 'Clean Slate Kentucky' also did not pass. Remove this from the reference and from any intake copy before it ships.",
+            "undeterminedElement": "legal_effect_or_warning",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "READ THIS FIRST: FOUR CORRECTIONS TO THE INTERNAL REFERENCE / 1",
+              "sourceStatement": "The \"automatic clean slate\" section is wrong. The reference states that Kentucky enacted an automatic expungement provision in 2025 directing KSP and AOC to identify eligible convictions monthly from August 1, 2025. No such law was enacted. There is no automatic conviction expungement in Kentucky. Remove this from the reference and from any intake copy before it ships."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ky-nonconv",
+      "legalName": "Petition for Expungement after Acquittal, Dismissal, or Failure to Indict under KRS 431.076",
+      "publicName": "Expungement of a dismissed or acquitted case",
+      "controllingAuthority": {
+        "citations": [
+          "KRS 431.076(1)(b)",
+          "KRS 431.076(1)(c)",
+          "KRS 431.076(2)",
+          "KRS 431.076(3)"
+        ],
+        "summary": "On petition, the court expunges records of a criminal charge that did not end in conviction: an acquittal or a dismissal not in exchange for a guilty plea where the record was not already expunged automatically, and felony charges originally filed in District Court that did not result in a grand jury indictment or an information. No certification is required, and there is no filing fee, which makes this the cheapest and cleanest track in Kentucky."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2020-07-15",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "criminal_charge_record"
+      ],
+      "eligibleDispositions": [
+        "acquitted",
+        "dismissed_with_prejudice",
+        "dismissed_without_prejudice",
+        "failure_to_indict"
+      ],
+      "exclusions": [
+        "Any dismissal given in exchange for a guilty plea to another offence."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Order of acquittal or dismissal with prejudice",
+          "duration": "60 days after entry"
+        },
+        {
+          "condition": "Felony charges held to the grand jury with no indictment",
+          "duration": "6 months after the District Court decision to hold the matter to the grand jury"
+        },
+        {
+          "condition": "Order dismissing misdemeanor charges without prejudice",
+          "duration": "1 year after entry"
+        },
+        {
+          "condition": "Order dismissing felony charges without prejudice",
+          "duration": "3 years after entry"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "For KRS 431.076(1)(b), the court in which the disposition was made. For (1)(c), the District Court in which the charges were filed. Filed at the office of the Circuit Court Clerk in the county where the original charge was filed."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Office of the Circuit Court Clerk, county where the original charge was filed",
+        "detail": "The clerk serves and completes the service block. On grant the order is entered on AOC-497 and copies go to the defendant or their attorney, the Kentucky State Police and the named agencies; each agency certifies completion within 60 days. Some clerks incorrectly attempt to charge a fee on this track."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-497.2",
+          "officialSourceUrl": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/497.2.pdf",
+          "notes": "Petition for Expungement (For Acquittal, Dismissal, or Failure to Indict), Rev. 7-20, Doc. Code PEXA, confirmed current as of 2026-07-30. NOT retained in Edition 1.2: the archive holds AOC-497 but not AOC-497.2, so the primary petition for this track must be acquired from the official AOC URL before anything is generated."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Per local practice.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-497",
+          "officialSourceUrl": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/497.pdf",
+          "notes": "Expungement Order (for Acquittal, Dismissal, or Failure to Indict), Rev. 7-20. Retained in Edition 1.2 as documentId AOC-497 with role PETITION, although the review identifies AOC-497 as the order rather than the petition; the retained role assignment is inconsistent with the review and must be reconciled before use."
+        },
+        {
+          "role": "participant_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Covers the four different waiting periods, the notarization step, the absence of any filing fee and the warning that some clerks incorrectly attempt to charge one, and the fact that no certification is required on this track."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "countyOfCharge",
+          "question": "In which Kentucky county was the original charge filed?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionType",
+          "question": "How did the case end — acquittal, dismissal with prejudice, dismissal without prejudice, or a felony held to the grand jury with no indictment?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date was the disposition order entered, or the decision made to hold the matter to the grand jury?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargeLevel",
+          "question": "Were the charges misdemeanors or felonies?",
+          "requirement": "required",
+          "conditionDescription": "A dismissal without prejudice carries a one-year wait for misdemeanors and a three-year wait for felonies."
+        },
+        {
+          "key": "dismissalForGuiltyPlea",
+          "question": "Was the dismissal given in exchange for a guilty plea to another charge?",
+          "requirement": "required"
+        },
+        {
+          "key": "alreadyAutoExpunged",
+          "question": "Have you checked whether the record was already expunged automatically? Acquittals and dismissals with prejudice entered on or after July 15, 2020 clear on their own 30 days after entry.",
+          "requirement": "required"
+        },
+        {
+          "key": "agenciesHoldingRecords",
+          "question": "Which agencies do you believe hold records of this arrest or charge?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Copy of the dismissal or acquittal order",
+          "obtainedFrom": "The clerk of the court that entered it",
+          "requirement": "conditional",
+          "conditionDescription": "Not required by the form, but practically useful to establish whether the dismissal was with or without prejudice.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk for a copy of the disposition order.",
+          "confirms": "dispositionType"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "All five condition checkboxes",
+          "whereInPacket": "AOC-497.2, condition checkbox block",
+          "why": "The block is ambiguous on its face, instructing 'check all that apply' while joining the conditions with AND. Until AOC confirms the intended completion, the checkboxes must not be auto-completed."
+        },
+        {
+          "item": "The agency list",
+          "whereInPacket": "AOC-497.2, agency block",
+          "why": "It requires judgment about which agencies hold records."
+        },
+        {
+          "item": "Signature before a notary or the circuit court clerk",
+          "whereInPacket": "AOC-497.2, verification block",
+          "why": "Verification is required and the signature must be witnessed."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "KRS 431.076, full current text, Kentucky Legislative Research Commission",
+          "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=50191",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "AOC-497.2 Rev. 7-20, Petition for Expungement (For Acquittal, Dismissal, or Failure to Indict), NOT retained in Edition 1.2 and to be acquired from the official AOC URL",
+          "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/497.2.pdf",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "AOC-497 Rev. 7-20, Expungement Order, retained Edition 1.2 asset",
+          "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/497.pdf",
+          "retrievedOn": "2026-08-01",
+          "sha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b"
+        }
+      ],
+      "rules": {
+        "filing": "In person or by mail at the circuit court clerk's office in the county where the original charge was filed. A separate petition per criminal case, per the form.",
+        "fees": "none. AOC confirms there is no filing fee for the failure-to-indict petition, and Department of Public Advocacy and circuit clerk guidance confirm no fee for the dismissal and acquittal track. Some clerks incorrectly attempt to charge one.",
+        "feeWaiver": "none needed, because no filing fee applies.",
+        "notice": "The clerk notifies the defendant or their attorney and the county or Commonwealth's attorney as appropriate. For the failure-to-indict variant the petition must be served on the offices of both the county and Commonwealth's attorneys that prosecuted the case, and the response window is 90 days after filing. No hearing is required for the (1)(b) variant.",
+        "service": "Performed by the clerk on filing. Not a petitioner obligation.",
+        "participantSignature": "The petitioner signs.",
+        "notarization": "Required. The signature must be witnessed by a notary or the circuit court clerk."
+      },
+      "selfHelpStopConditions": [
+        "It is unclear whether the dismissal was in exchange for a guilty plea to another charge.",
+        "The order does not state whether the dismissal was with or without prejudice.",
+        "The case involves an appellate opinion the participant wants sealed under KRS 431.076(5)(b), which requires a motion.",
+        "The participant is not a US citizen.",
+        "The case involves Department for Community Based Services records the participant expects to be cleared."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether the form's five checkbox conditions are read conjunctively. AOC-497.2 says 'check all that apply' and lists conditions joined with 'AND' before the final clause, which is confusing on its face. The statute is disjunctive. Confirm intended completion with AOC before automating checkbox logic.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 6 / OPEN QUESTIONS",
+            "sourceStatement": "Whether the form's five checkbox conditions are read conjunctively. AOC-497.2 says \"check all that apply\" and lists conditions joined with \"AND\" before the final clause, which is confusing on its face. The statute is disjunctive. Confirm intended completion with AOC before automating checkbox logic. **This is a build blocker for automated completion of this form.**"
+          }
+        },
+        {
+          "question": "AOC-497.2, the primary petition for this track and the review's highest-value automation target, is not retained in Edition 1.2. The archive holds AOC-497 but not AOC-497.2. The form identity is unambiguous — Rev. 7-20, Doc. Code PEXA, confirmed current in the AOC Legal Form Library as of 2026-07-30 — and the official URL is browser-accessible, with a plain shell client receiving HTTP 403 and a browser user-agent receiving HTTP 200. The document must be acquired from the official AOC source before anything is generated. No unofficial copy may be substituted.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "session-b-ky-or.bundle.json",
+            "sourceHeading": "KY / mechanismInventory / KY-NONCONV / formsNamed",
+            "sourceStatement": "AOC-497.2 (Rev. 7-20), Petition for Expungement (For Acquittal, Dismissal, or Failure to Indict), Doc. Code PEXA - primary petition, required, statewide-approved and directed by AOC. NOT PRESENT in the Edition 1.2 retained set."
+          }
+        },
+        {
+          "question": "The Edition 1.2 retained asset AOC-497 carries role PETITION, while the controlling review identifies AOC-497 as the Expungement Order and AOC-497.2 as the petition. The retained role assignment is inconsistent with the review and must be reconciled before the asset is used, so that an order is not generated as though it were a petition.",
+          "impact": "build_blocker",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "session-b-ky-or.bundle.json",
+            "sourceHeading": "KY / mechanismInventory / KY-NONCONV / formsNamed",
+            "sourceStatement": "AOC-497 (Rev. 7-20), Expungement Order (for Acquittal, Dismissal, or Failure to Indict) - proposed order, conditional. RETAINED in Edition 1.2 as documentId AOC-497, role PETITION, REV-UNKNOWN, packet_form.",
+            "counselQuestion": "Confirm whether the Edition 1.2 retained AOC-497 asset is the Expungement Order, as the controlling review states, and correct the retained role from PETITION to ORDER if so."
+          }
+        },
+        {
+          "question": "Whether a pre-July 15, 2020 dismissal with prejudice uses the 60-day condition. The statute says yes via KRS 431.076(1)(b) and (2)(a); clerk practice should be confirmed.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "waiting_period",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 6 / OPEN QUESTIONS",
+            "sourceStatement": "Whether a pre-July 15, 2020 dismissal with prejudice uses the 60-day condition. Statute says yes via (1)(b) and (2)(a). Confirm clerk practice."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "AOC-497.2 is the statewide AOC form and the AOC expungement page directs its use. No certification is required and there is no filing fee, so this is the cleanest and cheapest track in Kentucky and the highest-value automation target. Two things hold it back from generation: the checkbox ambiguity on the form itself, and the fact that Edition 1.2 does not retain the petition. Both are recorded as build blockers rather than worked around, and no unofficial copy of the form may be substituted.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Resolve the checkbox logic question before automating.",
+            "undeterminedElement": "correct_form",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 6 / LEGAL-DESIGN DECISION / Limitations",
+              "sourceStatement": "Resolve the checkbox logic question before automating. Route every case where the dismissal-for-plea question is unclear to attorney review."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Route every case where the dismissal-for-plea question is unclear to attorney review.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 6 / LEGAL-DESIGN DECISION / Limitations",
+              "sourceStatement": "Resolve the checkbox logic question before automating. Route every case where the dismissal-for-plea question is unclear to attorney review."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "There is no filing fee on this track. Warn participants that some clerks incorrectly attempt to charge one.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 6 / Local-form or local-practice requirements",
+              "sourceStatement": "Some clerks incorrectly attempt to charge a fee on this track. Warn participants that there is no filing fee."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Check whether the record was already auto-expunged before generating this petition.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 5 / OUTPUT STRATEGY",
+              "sourceStatement": "Generating AOC-497.2 for a person whose record was already auto-expunged wastes their time and a clerk's."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ky-void-cs",
+      "legalName": "Motion to Void Conviction and Seal Records, First Controlled-Substance Possession, under KRS 218A.275",
+      "publicName": "Voiding a first drug possession conviction",
+      "controllingAuthority": {
+        "citations": [
+          "KRS 218A.275",
+          "KRS 218A.275(8)",
+          "KRS 27A.099"
+        ],
+        "summary": "On satisfactory completion of court-ordered treatment, probation or sentence, the court may void a first conviction for possession of a controlled substance, including possession in the first degree, which is a Class D felony. Voiding is discretionary; sealing is mandatory once the court voids. Kentucky calls this voiding and sealing, not expungement, and conflating the two produces wrong participant expectations."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-30",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "controlled_substance_possession_conviction"
+      ],
+      "eligibleDispositions": [
+        "convicted_then_completed_treatment_or_sentence"
+      ],
+      "exclusions": [
+        "Not a first offence under KRS Chapter 218A.",
+        "Trafficking offences.",
+        "A person may void a possession conviction only once.",
+        "Records excepted under KRS 27A.099 are not sealed."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Satisfactory completion of the treatment programme, probation or sentence",
+          "duration": "none. Relief is available on completion"
+        }
+      ],
+      "outputStrategy": "custom_pleading",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The court of conviction, as a motion in the original criminal case. District Court for misdemeanor possession; Circuit Court for possession of a controlled substance in the first degree. Filed at the office of the Circuit Court Clerk in the county of conviction."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Office of the Circuit Court Clerk, county of conviction",
+        "detail": "The court voids the conviction and orders sealing on AOC-334. Every agency with records must certify to the court within 60 days that sealing is complete. If the order partially seals the case, the clerk prepares AOC-336."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "MOTION TO VOID CONVICTION AND SEAL RECORDS, filed in the original criminal case. There is no AOC petition or motion form for this relief; AOC-334 is the court's order, not the moving paper. AOC-496.2 is sometimes misused for this relief, and practitioners report clerks then wrongly charge the $100 misdemeanor expungement fee, which is the wrong fee for the wrong statute. This is the one adult track in Kentucky that genuinely requires a custom pleading. The caption mirrors the original criminal case exactly."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-334",
+          "officialSourceUrl": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/334.pdf",
+          "notes": "Order Voiding Conviction and Sealing Records, tendered with the motion completed with the caption, offence and agency list. Retained in Edition 1.2 as documentId AOC-334, role FORM, revision unknown. Do not draft a substitute order."
+        },
+        {
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "Standard Kentucky certificate of service reciting mailing or hand delivery to the office of the county attorney or Commonwealth's attorney that prosecuted the case, with date."
+        },
+        {
+          "role": "supporting_exhibit",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant has documentation of completion of treatment, probation or sentence.",
+          "outputStrategy": "process_guidance",
+          "notes": "Not statutorily required but practically expected."
+        },
+        {
+          "role": "participant_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Includes the local-form warning: some circuit court clerks may not recognize this motion and may attempt to charge the $100 misdemeanor expungement fee that does not apply to this statute. Tell the participant to call the clerk's office before filing. Also explains that sealing is not expungement and the records continue to exist in sealed form."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "convictionCounty",
+          "question": "In which Kentucky county were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number of the conviction you want voided?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseAsRecorded",
+          "question": "What was the possession offence, exactly as it appears on the court record?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "firstOffenseUnder218A",
+          "question": "Is this your first conviction for that offence under KRS Chapter 218A?",
+          "requirement": "required",
+          "conditionDescription": "The participant's own statement of fact. LegalEase records it and does not assert it as a legal conclusion."
+        },
+        {
+          "key": "completionDate",
+          "question": "On what date did you satisfactorily complete the court-ordered treatment, probation or sentence?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorVoiding",
+          "question": "Have you previously had a conviction voided under this section?",
+          "requirement": "required"
+        },
+        {
+          "key": "agenciesHoldingRecords",
+          "question": "Which agencies do you believe hold records of this arrest, charge or conviction?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Proof of completion of treatment, probation or sentence",
+          "obtainedFrom": "The treatment provider, the supervising probation office, or the court",
+          "requirement": "conditional",
+          "conditionDescription": "Not statutorily required but practically expected.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the treatment provider or the probation office for documentation showing satisfactory completion.",
+          "confirms": "completionDate"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "The agency list on the tendered AOC-334",
+          "whereInPacket": "AOC-334, agency block",
+          "why": "It requires judgment about which agencies hold records."
+        },
+        {
+          "item": "Movant signature",
+          "whereInPacket": "Motion, signature block",
+          "why": "The movant signs. Notarization is not required by the statute, so the motion carries a simple truth statement rather than a notarized verification."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "KRS 218A.275, Kentucky Legislative Research Commission",
+          "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=40910",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "AOC-334, Order Voiding Conviction and Sealing Records, retained Edition 1.2 asset",
+          "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/334.pdf",
+          "retrievedOn": "2026-08-01",
+          "sha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d"
+        }
+      ],
+      "rules": {
+        "filing": "In person or by mail with the circuit court clerk in the county of conviction, as a motion in the original criminal case.",
+        "fees": "none identified in the statute. Practitioners report clerks sometimes charging the $100 misdemeanor expungement fee in error.",
+        "feeWaiver": "none applicable if no fee is authorized.",
+        "notice": "The county attorney or Commonwealth's attorney that prosecuted the case. No response or objection period is fixed by statute. Hearing procedure follows local practice.",
+        "service": "The movant serves the county attorney or Commonwealth's attorney and files a certificate of service.",
+        "participantSignature": "The movant signs.",
+        "notarization": "none. Verification is not required by statute, and the pleading includes a simple truth statement rather than a notarized verification, to avoid implying a requirement that does not exist."
+      },
+      "selfHelpStopConditions": [
+        "Whether the conviction is a 'first offence' is contested.",
+        "The participant is choosing between void-and-seal and expungement. That is a strategy decision with lifetime consequences.",
+        "The participant is not a US citizen. A void conviction may still be a conviction for immigration purposes.",
+        "The clerk demands a fee."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether any filing fee is authorized for this relief.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 7 / OPEN QUESTIONS",
+            "sourceStatement": "Whether any filing fee is authorized. Unresolved."
+          }
+        },
+        {
+          "question": "Whether AOC has ever issued a motion form for this relief. None was found.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 7 / OPEN QUESTIONS",
+            "sourceStatement": "Whether AOC has ever issued a motion form for this relief. None found. Unresolved."
+          }
+        },
+        {
+          "question": "The interaction between a sealed void and a later expungement certification. The certification is prepared by AOC and KSP from their retained records, and whether a sealed void surfaces there is unresolved.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 7 / OPEN QUESTIONS",
+            "sourceStatement": "The interaction between a sealed void and a later expungement certification. The certification is prepared by AOC and KSP from their retained records, and whether a sealed void surfaces there is unresolved."
+          }
+        },
+        {
+          "question": "The approved static legal propositions for the custom pleading template must be drafted and ratified by counsel before release. The safe set is limited to a recitation of what the statute provides.",
+          "impact": "build_blocker",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "PART 3 - CUSTOM-PLEADING SPECIFICATION",
+            "sourceStatement": "Approved static legal propositions or language: To be drafted and ratified by Lawrence before release."
+          }
+        },
+        {
+          "question": "Local motion-format variations across the 120 counties were not surveyed.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 7 / Local-form or local-practice requirements",
+            "sourceStatement": "Unresolved. Some courts may have a preferred local motion format."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "There is no AOC petition or motion form for this relief. AOC-334 is the court's order, not the moving paper, and the misuse of AOC-496.2 produces the wrong fee under the wrong statute. A short motion to void the conviction and seal the records under KRS 218A.275, filed in the original criminal case with AOC-334 tendered as the proposed order, is the correct instrument. This is the one adult track in Kentucky that genuinely requires a custom pleading.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Requires a custom pleading template and counsel's sign-off on the approved static legal propositions.",
+            "undeterminedElement": "output_strategy",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 7 / LEGAL-DESIGN DECISION / Limitations",
+              "sourceStatement": "Requires a custom pleading template and Lawrence's sign-off on the approved static legal propositions."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Do not release until the fee question is resolved, because a participant told 'there is no fee' and then charged $100 at the counter is a failed delivery.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 7 / LEGAL-DESIGN DECISION / Limitations",
+              "sourceStatement": "Do not release until the fee question is resolved, because a participant told \"there is no fee\" and then charged $100 at the counter is a failed delivery."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Sealing is not expungement. The records continue to exist in sealed form.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 7 / Records not affected",
+              "sourceStatement": "Sealing is not expungement. The records continue to exist in sealed form."
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "LegalEase must not state that the participant is entitled to relief, that the conviction is a first offense as a legal conclusion, that sealing has the same effect as expungement, anything about immigration, firearms or federal consequences, or any characterization of the participant's rehabilitation or treatment outcome.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "PART 3 / Statements or legal conclusions LegalEase must not generate",
+              "sourceStatement": "That the participant is entitled to relief. Voiding is discretionary. That the conviction is a first offense, as a legal conclusion rather than the participant's stated fact. That sealing has the same effect as expungement. Any statement about immigration, firearms, or federal consequences. Any characterization of the participant's rehabilitation or treatment outcome."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ky-void-mj",
+      "legalName": "Motion to Void Conviction and Seal Records, Marijuana, Synthetic Drug or Salvia Possession, under KRS 218A.276",
+      "publicName": "Voiding a marijuana or synthetic drug possession conviction",
+      "controllingAuthority": {
+        "citations": [
+          "KRS 218A.276",
+          "KRS 218A.276(1)",
+          "KRS 218A.276(8)",
+          "KRS 218A.276(9)",
+          "KRS 431.078(2)",
+          "KRS 27A.099"
+        ],
+        "summary": "On successful completion of the sentence, treatment or probation, the court may void a first conviction for possession of marijuana, synthetic drugs or salvia, limited to the offences listed in KRS 218A.276(1). Voiding is discretionary; sealing is mandatory once voided. A conviction voided under 218A.276(8) can then be expunged under KRS 431.078 without the five-year wait, which is the only route in Kentucky to same-year misdemeanor conviction expungement."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-30",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "marijuana_possession_conviction",
+        "synthetic_drug_possession_conviction",
+        "salvia_possession_conviction"
+      ],
+      "eligibleDispositions": [
+        "convicted_then_completed_treatment_or_sentence"
+      ],
+      "exclusions": [
+        "Offences not listed in KRS 218A.276(1).",
+        "Not a first offence.",
+        "Records excepted under KRS 27A.099 are not sealed."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Successful completion of the assessment and treatment programme, probation or sentence",
+          "duration": "none"
+        }
+      ],
+      "outputStrategy": "custom_pleading",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The court of conviction, ordinarily District Court, as a motion in the original criminal case. Filed at the office of the Circuit Court Clerk in the county of conviction."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Office of the Circuit Court Clerk, county of conviction",
+        "detail": "Identical to the controlled-substance void track. Agencies certify sealing within 60 days. If the order partially seals the case, the clerk prepares AOC-336."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "MOTION TO VOID CONVICTION AND SEAL RECORDS. One Part 3 template serves both void tracks with the citation and eligibility recitals swapped. There is no AOC moving-paper form; AOC-334 is the order."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-334",
+          "officialSourceUrl": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/334.pdf",
+          "notes": "Order Voiding Conviction and Sealing Records, tendered. Retained in Edition 1.2 as documentId AOC-334, role FORM."
+        },
+        {
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "Standard Kentucky certificate of service on the county attorney or Commonwealth's attorney that prosecuted the case."
+        },
+        {
+          "role": "participant_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Includes the same local-form and fee warning as the controlled-substance track, and surfaces that a voided conviction can then be expunged under KRS 431.078 with no five-year wait."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "convictionCounty",
+          "question": "In which Kentucky county were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number of the conviction you want voided?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseAsRecorded",
+          "question": "What was the possession offence, exactly as it appears on the court record?",
+          "requirement": "required",
+          "conditionDescription": "Eligibility is limited to the offences listed in KRS 218A.276(1), and whether the specific offence is on that list is a judgment LegalEase does not make."
+        },
+        {
+          "key": "firstOffense",
+          "question": "Is this your first conviction for that offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "completionDate",
+          "question": "On what date did you successfully complete the assessment and treatment programme, probation or sentence?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorVoiding",
+          "question": "Have you previously had a conviction voided under this section?",
+          "requirement": "required"
+        },
+        {
+          "key": "agenciesHoldingRecords",
+          "question": "Which agencies do you believe hold records of this arrest, charge or conviction?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Proof of completion of treatment, probation or sentence",
+          "obtainedFrom": "The treatment provider, the supervising probation office, or the court",
+          "requirement": "conditional",
+          "conditionDescription": "Not statutorily required but practically expected.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the treatment provider or the probation office for documentation showing successful completion.",
+          "confirms": "completionDate"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "The agency list on the tendered AOC-334",
+          "whereInPacket": "AOC-334, agency block",
+          "why": "It requires judgment about which agencies hold records."
+        },
+        {
+          "item": "Movant signature",
+          "whereInPacket": "Motion, signature block",
+          "why": "The movant signs. Notarization is not required by the statute."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "KRS 218A.276, Kentucky Legislative Research Commission, to be verified against the current LRC text",
+          "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=40911",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "AOC-334, Order Voiding Conviction and Sealing Records, retained Edition 1.2 asset",
+          "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/334.pdf",
+          "retrievedOn": "2026-08-01",
+          "sha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d"
+        }
+      ],
+      "rules": {
+        "filing": "In person or by mail with the circuit court clerk in the county of conviction, as a motion in the original criminal case.",
+        "fees": "none identified in the statute. Clerks sometimes charge the $100 misdemeanor expungement fee in error.",
+        "feeWaiver": "none applicable if no fee is authorized.",
+        "notice": "The county attorney or Commonwealth's attorney that prosecuted the case. No response or objection period is fixed by statute.",
+        "service": "The movant serves the prosecutor and files a certificate of service.",
+        "participantSignature": "The movant signs.",
+        "notarization": "none. Verification is not required by statute."
+      },
+      "selfHelpStopConditions": [
+        "Whether the conviction is a 'first offence' is contested.",
+        "Whether the specific offence is on the KRS 218A.276(1) list.",
+        "The participant is choosing between void-and-seal and expungement.",
+        "The participant is not a US citizen.",
+        "The clerk demands a fee."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The current text of KRS 218A.276 was not verified against the Legislative Research Commission. The accessible full text located by the review was a 2014 compilation, and the review directs that it be confirmed against the current LRC text before release.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 8 / OPEN QUESTIONS",
+            "sourceStatement": "Current text of 218A.276 not verified against LRC. **Nonblocking research note, but must close before release.**"
+          }
+        },
+        {
+          "question": "The scope of the KRS 27A.099 exception to sealing.",
+          "impact": "release_blocker",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 8 / OPEN QUESTIONS",
+            "sourceStatement": "Scope of the KRS 27A.099 exception to sealing. Unresolved."
+          }
+        },
+        {
+          "question": "The approved static legal propositions for the shared custom pleading template must be drafted and ratified by counsel before release.",
+          "impact": "build_blocker",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "PART 3 - CUSTOM-PLEADING SPECIFICATION",
+            "sourceStatement": "Approved static legal propositions or language: To be drafted and ratified by Lawrence before release."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "The review records this track's decision as additional research required, for one reason only: the controlling subsection text was verified against a 2014 compilation rather than the current Legislative Research Commission text. Everything else in the track is sound, and the review states that closing the text verification makes this Approved with limitations alongside the controlled-substance void track. The output strategy is therefore retained as counsel selected it — a custom pleading with AOC-334 tendered — rather than being emptied, because the design is settled and only the statutory text check is open. The track remains deferred until that check closes.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "The controlling subsection text was verified only against a 2014 compilation. Close the text verification and this becomes Approved with limitations alongside the controlled-substance void track.",
+            "undeterminedElement": "governing_mechanism",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 8 / LEGAL-DESIGN DECISION",
+              "sourceStatement": "The controlling subsection text was verified only against a 2014 compilation. Everything else in this track is sound. Close the text verification and this becomes Approved with limitations alongside Track 7."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "A conviction voided under 218A.276(8) can be expunged under KRS 431.078 without the five-year wait. This is the only route in Kentucky to same-year misdemeanor conviction expungement and it is worth surfacing in intake.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 8 / Interaction with Track 2",
+              "sourceStatement": "A conviction voided under 218A.276(8) can be expunged under KRS 431.078 without the five-year wait. This is the only route in Kentucky to same-year misdemeanor conviction expungement and it is worth surfacing in intake."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Sealing is not expungement. Records excepted under KRS 27A.099 are not sealed.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 8 / FILING AND POST-FILING PROCESS",
+              "sourceStatement": "Records excepted under KRS 27A.099 are not sealed."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ky-diversion",
+      "legalName": "Completed Pretrial Diversion, Dismissed-Diverted, under KRS 533.250 to 533.262",
+      "publicName": "Clearing a case that ended in diversion",
+      "controllingAuthority": {
+        "citations": [
+          "KRS 533.250",
+          "KRS 533.251",
+          "KRS 533.258",
+          "KRS 431.076"
+        ],
+        "summary": "Class C and Class D felony cases resolved through pretrial diversion are listed as 'dismissed-diverted' on successful completion of the diversion agreement. The designation is not itself a record-clearance mechanism: it produces a disposition that then feeds the non-conviction tracks. A dismissed-diverted disposition is not a criminal conviction, the person is not required to list it on any application for employment, licensure or otherwise unless required by federal law, and pretrial diversion records may not be introduced as evidence in any matter without the defendant's consent."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-30",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "class_c_felony_case",
+        "class_d_felony_case"
+      ],
+      "eligibleDispositions": [
+        "dismissed_diverted"
+      ],
+      "exclusions": [
+        "Diversion eligibility itself is governed by KRS 533.250 and 533.251 and is upstream of this track."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "The dismissed-diverted designation itself",
+          "duration": "none. Any subsequent expungement runs on the KRS 431.076 clock, which is 30 days automatic where the dismissal was with prejudice and post-dates July 15, 2020, 60 days on petition for a dismissal with prejudice, and 3 years on petition for a felony dismissed without prejudice"
+        }
+      ],
+      "outputStrategy": "composed",
+      "compositionMode": "sequential",
+      "units": [
+        {
+          "unitId": "ky_diversion_confirm_designation",
+          "order": 1,
+          "label": "Confirm the dismissed-diverted designation was entered",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "Guidance on checking the docket for the dismissed-diverted designation and, critically, on reading the dismissal order to see whether it was with or without prejudice. Where the designation was never entered, some courts require a separate motion to formalize it, which is attorney work. The participant is also asked whether the diversion agreement itself contained an expungement waiver, because older AOC diversion forms did.",
+          "available": true
+        },
+        {
+          "unitId": "ky_diversion_route_to_noncoviction_relief",
+          "order": 2,
+          "label": "Route to the automatic or the petition non-conviction track",
+          "packetIdentity": "unresolved",
+          "outputStrategyStatus": "unresolved",
+          "description": "Where the dismissal was with prejudice and post-dates July 15, 2020, the case should already have cleared automatically; otherwise the non-conviction petition track applies at 60 days, or at 3 years for a felony dismissed without prejudice. Which of those applies is exactly what the central unresolved question in this track decides.",
+          "available": false,
+          "unavailableReason": "Whether a dismissed-diverted disposition is a dismissal with prejudice for the purposes of KRS 431.076(1)(a) automatic expungement is unresolved, and it is the highest-value unresolved question in this jurisdiction. Until it closes, the route cannot be selected: it determines whether a large population of diverted felony participants is already clear or faces a three-year wait."
+        }
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Circuit Court, in the original criminal case."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The Circuit Court that entered the diversion and the dismissal",
+        "detail": "The designation is mandatory on successful completion, though in practice some courts require a motion to formalize it. The record still exists until expunged; the designation is not expungement."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Stage 1 only. Confirm the designation, read the prejudice status off the order, and check the diversion agreement for an expungement waiver. Stage 2 routing is withheld until the central unresolved question closes."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "convictionCounty",
+          "question": "In which Kentucky county was the diverted case?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the case number?",
+          "requirement": "required"
+        },
+        {
+          "key": "diversionCompleted",
+          "question": "Did you successfully complete the pretrial diversion agreement?",
+          "requirement": "required"
+        },
+        {
+          "key": "dismissedDivertedEntered",
+          "question": "Does the docket show the charges as 'dismissed-diverted'?",
+          "requirement": "required"
+        },
+        {
+          "key": "dismissalPrejudiceStatus",
+          "question": "Does the dismissal order say whether the dismissal was with or without prejudice?",
+          "requirement": "required",
+          "conditionDescription": "This decides which non-conviction route applies, and the review records that it is unclear in most cases rather than a few."
+        },
+        {
+          "key": "dismissalDate",
+          "question": "On what date was the dismissal order entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "expungementWaiverInAgreement",
+          "question": "Did the diversion agreement contain a clause about not seeking expungement?",
+          "requirement": "required",
+          "conditionDescription": "Older AOC diversion forms contained such a clause."
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Copy of the dismissal order",
+          "obtainedFrom": "The clerk of the Circuit Court",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk for a copy of the order dismissing the diverted charges. It is what shows whether the dismissal was with or without prejudice.",
+          "confirms": "dismissalPrejudiceStatus"
+        },
+        {
+          "name": "Copy of the pretrial diversion agreement",
+          "obtainedFrom": "The clerk of the Circuit Court, or the participant's own file",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk for a copy of the diversion agreement, and check it for any clause about not seeking expungement.",
+          "confirms": "expungementWaiverInAgreement"
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "KRS 533.258, effects of successful completion of pretrial diversion, Kentucky Legislative Research Commission",
+          "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=20105",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "KRS 431.076, which supplies the clock for any subsequent expungement",
+          "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=50191",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Nothing is filed for the designation itself, which is mandatory on successful completion. Where the designation was never entered, a motion to formalize it is needed and is attorney work.",
+        "fees": "none for the designation.",
+        "feeWaiver": "none applicable.",
+        "notice": "none for the designation.",
+        "service": "none for the designation.",
+        "participantSignature": "none for the designation.",
+        "notarization": "none for the designation."
+      },
+      "selfHelpStopConditions": [
+        "The prejudice status of the dismissal is unclear. This is the norm, not the exception.",
+        "The dismissed-diverted designation was never entered.",
+        "The diversion agreement contains an expungement waiver."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether a 'dismissed-diverted' disposition is a dismissal with prejudice for purposes of KRS 431.076(1)(a) automatic expungement. This is the highest-value unresolved question in this jurisdiction: it determines whether a large population of diverted felony participants is already clear or needs a three-year wait.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 9 / OPEN QUESTIONS",
+            "sourceStatement": "Whether a \"dismissed-diverted\" disposition is a dismissal with prejudice for purposes of KRS 431.076(1)(a) auto-expungement. **Unresolved and it is the highest-value unresolved question in this jurisdiction.** It determines whether a large population of diverted felony participants is already clear or needs a three-year wait."
+          }
+        },
+        {
+          "question": "Whether current AOC diversion agreement forms still contain an expungement waiver clause.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 9 / OPEN QUESTIONS",
+            "sourceStatement": "Whether current AOC diversion agreement forms still contain an expungement waiver clause. Unresolved."
+          }
+        },
+        {
+          "question": "Whether the case actually received the dismissed-diverted designation, which in some courts requires a separate motion for which no form exists.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "TRACK 9 / Questions requiring individualized legal judgment",
+            "sourceStatement": "Whether the case actually received the dismissed-diverted designation, which in some courts requires a separate motion."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "Diversion is not itself a record-clearance mechanism. It produces a disposition that then feeds the non-conviction tracks, and treating it as a standalone packet would be wrong. The review records the decision as additional research required, and the central unresolved question — whether dismissed-diverted is a dismissal with prejudice for automatic expungement — decides which downstream route applies. The confirmation stage is therefore preserved as available guidance, while the routing stage is held unavailable with unresolved packet identity until that question closes.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "A dismissed-diverted disposition is not a criminal conviction. The person is not required to list it on any application for employment, licensure, or otherwise unless required by federal law, and pretrial diversion records may not be introduced as evidence in any civil, criminal, or other matter without the defendant's consent.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 9 / Legal effect of the designation",
+              "sourceStatement": "Not a criminal conviction. The person is not required to list the disposition on any application for employment, licensure, or otherwise unless required by federal law. Pretrial diversion records may not be introduced as evidence in any civil, criminal, or other matter without the defendant's consent."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The record still exists until expunged. The designation is not expungement.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "TRACK 9 / Records not affected",
+              "sourceStatement": "The record still exists until expunged. The designation is not expungement."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ky-10",
+      "legalName": "Juvenile Record Expungement under KRS 610.330",
+      "publicName": "Clearing a Kentucky juvenile record",
+      "controllingAuthority": {
+        "citations": [
+          "KRS 610.330",
+          "KRS 630",
+          "KRS 635",
+          "KRS 645",
+          "KRS 17.500",
+          "KRS 439.3401"
+        ],
+        "summary": "Two halves. An automatic branch with no petition, where the court enters AOC-JV-29 on its own following dismissal for lack of jurisdiction under mandatory diversion, dismissal at first appearance with intent to reinitiate and divert, a finding or adjudication of not delinquent, or dismissal for any other reason. A petition branch on AOC-JV-30 for adjudicated offences under KRS Chapters 630, 635 and 645, but not 620 or 640, filed no sooner than two years after termination of the court's jurisdiction or unconditional release from commitment, waivable for extraordinary circumstances. There is no filing fee. The order is AOC-JV-29.1. The statute was amended in 2023."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2023-06-29",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "juvenile_record"
+      ],
+      "eligibleDispositions": [
+        "adjudicated",
+        "dismissed",
+        "not_delinquent"
+      ],
+      "exclusions": [
+        "Pending proceedings.",
+        "Sex crimes under KRS 17.500.",
+        "Offences classifying the person as a violent offender under KRS 439.3401.",
+        "Adjudications under KRS Chapters 620 and 640, which are not covered."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Petition branch, for adjudicated offences under KRS Chapters 630, 635 and 645",
+          "duration": "2 years after termination of the court's jurisdiction or unconditional release from commitment, waivable for extraordinary circumstances"
+        },
+        {
+          "condition": "Automatic branch",
+          "duration": "none. The court enters AOC-JV-29 on its own"
+        }
+      ],
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The juvenile session of the District Court that had jurisdiction. The review does not state a venue rule for this matter beyond the court that heard it."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The District Court that had jurisdiction over the juvenile matter",
+        "detail": "On the petition branch, the court sets a hearing and notifies the county attorney, and grants unless the county attorney establishes ineligibility. On the automatic branch, the court enters AOC-JV-29 on its own with nothing for the participant to file."
+      },
+      "components": [],
+      "participantInputs": [],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "KRS 610.330, Kentucky Legislative Research Commission",
+          "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=45551",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "AOC-JV-30 Rev. 6-23, Petition to Vacate and Expunge Juvenile Record, Doc. Code PEX, NOT retained in Edition 1.2",
+          "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/JV-30.pdf",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "On the petition branch, AOC-JV-30 is filed with the court that had jurisdiction. On the automatic branch nothing is filed.",
+        "fees": "none. There is no filing fee, which the internal reference does not mention.",
+        "feeWaiver": "none needed, because there is no filing fee.",
+        "notice": "The court sets a hearing and notifies the county attorney. The court grants unless the county attorney establishes ineligibility.",
+        "service": "Not stated by the review for this matter.",
+        "participantSignature": "The petitioner signs AOC-JV-30 on the petition branch.",
+        "notarization": "Not stated by the review for this matter."
+      },
+      "selfHelpStopConditions": [
+        "Every juvenile matter, because the review places juvenile expungement outside the core adult scope and no juvenile intake has been designed.",
+        "Any matter involving a sex crime under KRS 17.500 or violent offender classification under KRS 439.3401."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "AOC-JV-30, the primary petition on the petition branch, is not retained in Edition 1.2, and neither are the AOC-JV-29 and AOC-JV-29.1 orders. The form numbers and revisions are known — AOC-JV-30 Rev. 6-23 Doc. Code PEX, AOC-JV-29 Rev. 8-23 Doc. Code OEX, and AOC-JV-29.1 Rev. 8-23 Doc. Codes OEXD and OEXG — but the documents are not held, so no packet identity exists and none may be assigned by name similarity.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "session-b-ky-or.bundle.json",
+            "sourceHeading": "KY / mechanismInventory / KY-10 / formsNamed",
+            "sourceStatement": "AOC-JV-30 (Rev. 6-23), Petition to Vacate and Expunge Juvenile Record, Doc. Code PEX - primary petition. NOT PRESENT in the Edition 1.2 retained set."
+          }
+        },
+        {
+          "question": "The review places this matter under separately listed matters not in the core adult scope, recording that it is set aside so it does not delay the adult tracks. Whether juvenile expungement is to be built at all, and on what intake, is a product-scope question the review does not answer.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "SEPARATELY LISTED MATTERS (not in core adult scope)",
+            "sourceStatement": "Per the scope instruction, these are recorded and set aside so they do not delay the adult tracks.",
+            "counselQuestion": "Is Kentucky juvenile expungement under KRS 610.330 to be built as a product track, given that the review assigns it a proposed strategy of official_pdf_fill for AOC-JV-30 but places it outside the core adult scope?"
+          }
+        },
+        {
+          "question": "The internal reference does not mention the mandatory-diversion dismissal branch of AOC-JV-29 clearly enough to route intake, and does not mention that there is no filing fee. The review records both as reference defects.",
+          "impact": "release_blocker",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "SEPARATELY LISTED MATTERS / Note on the internal reference",
+            "sourceStatement": "It does not mention the mandatory-diversion dismissal branch of AOC-JV-29 clearly enough to route intake, and it does not mention that there is no filing fee."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "The review assigns this matter a proposed strategy of official_pdf_fill for AOC-JV-30, with AOC-JV-29 and AOC-JV-29.1 as court-completed reference-only orders, but places it under separately listed matters not in the core adult scope and records it as set aside so it does not delay the adult tracks. No output strategy is asserted here because the primary petition is not retained in Edition 1.2, so the packet cannot be identified, and because the product-scope question is unanswered. The matter is preserved as a deferred entry rather than dropped: it is a genuine relief mechanism with two distinct branches, and the automatic branch in particular is something participants will ask about.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Recorded and set aside so it does not delay the adult tracks.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "SEPARATELY LISTED MATTERS (not in core adult scope)",
+              "sourceStatement": "Per the scope instruction, these are recorded and set aside so they do not delay the adult tracks."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "AOC-JV-30 collects date of birth, sex, race and Social Security number in the caption block. Handle under participant data policy.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "PART 2 / JV-30.pdf / AOC-JV-30 / Notes",
+              "sourceStatement": "Collects DOB, sex, race, and SSN in the caption block. Handle under participant data policy."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ky-11",
+      "legalName": "Protective Order Record Expungement under KRS 403.745 and KRS 456.070",
+      "publicName": "Clearing a Kentucky protective order record",
+      "controllingAuthority": {
+        "citations": [
+          "KRS 403.745",
+          "KRS 456.070"
+        ],
+        "summary": "Emergency protective orders and temporary interpersonal protective orders may be expunged where the petition did not result in a full order and six months have elapsed since dismissal. There is no filing fee. This is a civil record, not a criminal record, and the review places it outside the current core scope while flagging it for a later scope decision because it is a common participant question."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-30",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "emergency_protective_order_record",
+        "temporary_interpersonal_protective_order_record"
+      ],
+      "eligibleDispositions": [
+        "petition_dismissed_without_full_order"
+      ],
+      "exclusions": [
+        "Petitions that resulted in a full order."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Petition did not result in a full order",
+          "duration": "6 months since dismissal"
+        }
+      ],
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Not stated by the review for this matter."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Not determined",
+        "detail": "The review states no filing actor and no destination for this matter, and places it outside the current core scope."
+      },
+      "components": [],
+      "participantInputs": [],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "KRS 403.745, Kentucky Legislative Research Commission",
+          "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=43554",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        },
+        {
+          "title": "KRS 456.070, Kentucky Legislative Research Commission",
+          "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=43682",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Not determined. The review identifies AOC-275.18 as the associated form but does not state the filing rule, and that form is not retained in Edition 1.2.",
+        "fees": "none. There is no filing fee.",
+        "feeWaiver": "none needed, because there is no filing fee.",
+        "notice": "Not determined.",
+        "service": "Not determined.",
+        "participantSignature": "Not determined.",
+        "notarization": "Not determined."
+      },
+      "selfHelpStopConditions": [
+        "Every matter under this heading, because it is a civil record outside the current core criminal-record scope and no intake has been designed for it."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The review places protective order record expungement outside the current core scope and flags it for a later scope decision because it is a common participant question. Whether it is to be built, and as a civil-record track distinct from the criminal tracks, is undetermined. AOC-275.18 is named as the associated form and is not retained in Edition 1.2.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "SEPARATELY LISTED MATTERS / Protective order record expungement",
+            "sourceStatement": "This is a civil record, not a criminal record, and sits outside the current core scope. Flag for a later scope decision because it is a common participant question.",
+            "counselQuestion": "Should Kentucky protective order record expungement under KRS 403.745 and KRS 456.070 be brought into scope as a civil-record track? The review flags it expressly for a later scope decision because participants ask about it often."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "The review records this as a real mechanism with a stated eligibility rule, a six-month waiting period and no filing fee, but places it outside the current core scope and expressly flags it for a later scope decision. It is preserved as a deferred entry rather than dropped, because the review says participants ask about it often and because dropping it would lose the scope flag. No output strategy is asserted, because the review determined none.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "This is a civil record, not a criminal record, and sits outside the current core scope. Flag for a later scope decision because it is a common participant question.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "SEPARATELY LISTED MATTERS / Protective order record expungement",
+              "sourceStatement": "This is a civil record, not a criminal record, and sits outside the current core scope. Flag for a later scope decision because it is a common participant question."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ky-12",
+      "legalName": "Segregation of Criminal Records under KRS 17.142",
+      "publicName": "Kentucky record segregation",
+      "controllingAuthority": {
+        "citations": [
+          "KRS 17.142"
+        ],
+        "summary": "An agency-level, non-court mechanism requiring criminal justice agencies to segregate records where charges were dismissed, the person was acquitted, or no charges were filed. Segregation is weaker than expungement and does not reach court records. The review retains it for completeness and records that it is not a product track."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-30",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "criminal_justice_agency_record"
+      ],
+      "eligibleDispositions": [
+        "dismissed",
+        "acquitted",
+        "no_charges_filed"
+      ],
+      "exclusions": [
+        "Court records, which segregation does not reach."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Charges dismissed, acquittal, or no charges filed",
+          "duration": "Not stated by the review for this matter"
+        }
+      ],
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "geography": {
+        "scope": "agency_specific",
+        "keys": [],
+        "venue": "Not applicable. This is an agency-level mechanism, not a court proceeding."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Kentucky criminal justice agencies holding the records",
+        "detail": "The obligation runs to the agencies themselves. The review does not state a participant-facing request route, and records that segregation does not reach court records."
+      },
+      "components": [],
+      "participantInputs": [],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "KRS 17.142, Kentucky Legislative Research Commission",
+          "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=3169",
+          "retrievedOn": "2026-07-30",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Not determined. The review does not state a participant-facing request route.",
+        "fees": "Not determined.",
+        "feeWaiver": "Not determined.",
+        "notice": "Not determined.",
+        "service": "Not determined.",
+        "participantSignature": "Not determined.",
+        "notarization": "Not determined."
+      },
+      "selfHelpStopConditions": [
+        "Every matter under this heading. The review records it as not a product track, and segregation is weaker than expungement and does not reach court records."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The review retains segregation for completeness and states it is not a product track, without stating whether that is a permanent exclusion or a deferral. It also does not state whether KRS 17.142 provides a participant-facing request route that LegalEase could prepare, or whether the obligation runs to the agencies alone.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+            "sourceHeading": "SEPARATELY LISTED MATTERS / Segregation of criminal records",
+            "sourceStatement": "An agency-level, non-court mechanism requiring criminal justice agencies to segregate records where charges were dismissed, the person was acquitted, or no charges were filed. Segregation is weaker than expungement and does not reach court records. Retained here for completeness. Not a product track.",
+            "counselQuestion": "Does KRS 17.142 provide a participant-facing request that LegalEase could generate, or does the segregation obligation run to the criminal justice agencies alone? The review records the mechanism as not a product track without answering that question."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "The review retains this mechanism for completeness and records expressly that it is not a product track. It is preserved as a deferred entry rather than dropped so that the source ID is accounted for exactly once, and no output strategy is asserted. It is not recorded as rejected, because the review does not say whether a participant-facing request exists under KRS 17.142, and that question decides whether there is anything LegalEase could ever generate here.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Retained here for completeness. Not a product track.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "SEPARATELY LISTED MATTERS / Segregation of criminal records",
+              "sourceStatement": "Retained here for completeness. Not a product track."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Segregation is weaker than expungement and does not reach court records.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+              "sourceHeading": "SEPARATELY LISTED MATTERS / Segregation of criminal records",
+              "sourceStatement": "Segregation is weaker than expungement and does not reach court records."
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
