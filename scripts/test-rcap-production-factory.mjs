@@ -219,11 +219,11 @@ await check("deterministic plan covers all lanes and jurisdictions", () => {
   assert.deepEqual(first.lanes.map((entry) => entry.lane), FACTORY_LANES);
   assert.ok(first.lanes.every((entry) => entry.jobIds.length > 0));
   assert.equal(first.waves.length, FACTORY_LANES.length);
-  assert.equal(first.jobs.length, 237);
-  assert.equal(first.jobs.filter((job) => job.status === "ready").length, 53);
-  assert.equal(first.jobs.filter((job) => job.status === "blocked").length, 150);
+  assert.equal(first.jobs.length, 238);
+  assert.equal(first.jobs.filter((job) => job.status === "ready").length, 50);
+  assert.equal(first.jobs.filter((job) => job.status === "blocked").length, 151);
   assert.equal(first.jobs.filter((job) => job.status === "in_progress").length, 1);
-  assert.equal(first.jobs.filter((job) => job.status === "completed").length, 33);
+  assert.equal(first.jobs.filter((job) => job.status === "completed").length, 36);
   assert.equal(findOwnedPathOverlaps(first.jobs).length, 0);
   assert.ok(first.generatedFrom.length >= 8);
   assert.ok(first.generatedFrom.every((entry) => /^[0-9a-f]{64}$/.test(entry.sha256)));
@@ -265,8 +265,8 @@ await check("deterministic plan covers all lanes and jurisdictions", () => {
     "npm run typecheck",
     "npm test"
   ]);
-  assert.equal(first.parentJobReconciliation.compiledChildJobs, 237);
-  assert.equal(first.parentJobReconciliation.childrenMappedExactlyOnce, 237);
+  assert.equal(first.parentJobReconciliation.compiledChildJobs, 238);
+  assert.equal(first.parentJobReconciliation.childrenMappedExactlyOnce, 238);
   assert.equal(first.parentJobReconciliation.unmappedChildren, 0);
   assert.equal(first.parentJobReconciliation.unknownParentReferences, 0);
   plan = first;
@@ -284,6 +284,9 @@ await check("terminal guidance and authority children preserve exact provenance"
     ["rcap-la-guidance-implementation", ["df4a5976692134bde5d6033a4ee988f3c83bd432", 3]],
     ["rcap-co-guidance-implementation", ["7be280c8be25bc19e497d668d48abaadfd89ca44", 2]],
     ["rcap-de-guidance-implementation", ["c7af8cf48d42c69590a966141f5373c4ab596675", 2]],
+    ["rcap-ga-guidance-implementation", ["de0e2debc59aab9f82672876c42c9d542f3bcb18", 3]],
+    ["rcap-il-guidance-implementation", ["fd8d51980cab60c67aa13de01da80035a3d7a6a0", 4]],
+    ["rcap-pa-guidance-implementation", ["8b996476aa44899b07643546688c60a2cbd09771", 3]],
     ["rcap-co-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition", ["6afe0d989bb079dbd1eab377b0547b9b6908d902", null]],
     ["rcap-ak-public-official-download", ["4acded00a77584b0ea9c9f00e490e2a6a92dd033", null]],
     ["rcap-me-public-official-download", ["6912e16bc73dbb85612dc5ede86c6a472e5c1e91", null]],
@@ -530,8 +533,8 @@ await check("all normalized tracks reconcile exactly once and completed tranches
   const reconciliation = plan.trackReconciliation;
   assert.equal(reconciliation.normalizedTracks, 260);
   assert.equal(reconciliation.representedExactlyOnce, 260);
-  assert.equal(reconciliation.implementationComplete, 59);
-  assert.equal(reconciliation.pendingProductionJob, 201);
+  assert.equal(reconciliation.implementationComplete, 69);
+  assert.equal(reconciliation.pendingProductionJob, 191);
 
   const implementationLanes = new Set([
     "custom_pleading",
@@ -544,9 +547,10 @@ await check("all normalized tracks reconcile exactly once and completed tranches
     (entry) => entry.disposition === "implementation_complete"
   );
   assert.equal(completed.filter((entry) => entry.jurisdiction === "MS").length, 5);
-  assert.equal(completed.filter((entry) => entry.jurisdiction === "GA").length, 9);
+  assert.equal(completed.filter((entry) => entry.jurisdiction === "GA").length, 12);
   assert.equal(completed.filter((entry) => entry.jurisdiction === "DC").length, 4);
-  assert.equal(completed.filter((entry) => entry.jurisdiction === "IL").length, 2);
+  assert.equal(completed.filter((entry) => entry.jurisdiction === "IL").length, 6);
+  assert.equal(completed.filter((entry) => entry.jurisdiction === "PA").length, 3);
   assert.deepEqual(
     completed
       .filter((entry) => entry.jurisdiction === "MD")
@@ -566,6 +570,7 @@ await check("all normalized tracks reconcile exactly once and completed tranches
         (job) =>
           ["planned", "ready", "blocked", "in_progress"].includes(job.status) &&
           implementationLanes.has(job.lane) &&
+          job.strategyFamily !== "legal_design_adjudication" &&
           job.jurisdiction === track.jurisdiction &&
           job.trackIds.includes(track.trackId)
       ),
@@ -822,6 +827,56 @@ await check("packet, source-materialization, and normalization readiness fail cl
     paTrack11.requiredInputs.includes(
       "data/record-clearing/legal-design-intake/PA.memo.json"
     )
+  );
+  const gaRfoAdjudication = plan.jobs.find(
+    (entry) =>
+      entry.jobId ===
+      "rcap-ga-rfo-post-consent-petition-adjudication"
+  );
+  assert.equal(gaRfoAdjudication.status, "blocked");
+  assert.equal(
+    gaRfoAdjudication.strategyFamily,
+    "legal_design_adjudication"
+  );
+  assert.deepEqual(gaRfoAdjudication.trackIds, ["ga-rfo"]);
+  assert.deepEqual(gaRfoAdjudication.dependencies, [
+    "rcap-ga-guidance-implementation"
+  ]);
+  assert.equal(gaRfoAdjudication.participantPacketProofRequired, false);
+  assert.ok(
+    gaRfoAdjudication.requiredInputs.includes(
+      "data/record-clearing/legal-design-intake/GA.memo.json"
+    )
+  );
+  assert.match(
+    gaRfoAdjudication.stopCondition,
+    /After the required prosecutor consent is obtained/
+  );
+  assert.match(
+    gaRfoAdjudication.stopCondition,
+    /does not obtain or negotiate prosecutor consent/
+  );
+  assert.match(
+    gaRfoAdjudication.stopCondition,
+    /Do not invent consent, generate a post-consent petition/
+  );
+  const gaReview = plan.jobs.find(
+    (entry) => entry.jobId === "rcap-ga-legal-output-review"
+  );
+  assert.ok(
+    gaReview.dependencies.includes(gaRfoAdjudication.jobId)
+  );
+  const gaRfoReconciliation = plan.trackReconciliation.assignments.find(
+    (entry) =>
+      entry.jurisdiction === "GA" && entry.trackId === "ga-rfo"
+  );
+  assert.equal(
+    gaRfoReconciliation.disposition,
+    "implementation_complete"
+  );
+  assert.equal(
+    gaRfoReconciliation.completionCommit,
+    "de0e2debc59aab9f82672876c42c9d542f3bcb18"
   );
   assert.match(
     pa.normalizationReadiness.controllingReviewAssetPath,
@@ -2323,7 +2378,7 @@ await check("completed guidance packet proofs are exact and review-consumable", 
       entry.lane === "guidance_implementation" &&
       entry.participantPacketProofRequired === true
   );
-  assert.equal(completedGuidance.length, 10);
+  assert.equal(completedGuidance.length, 13);
   for (const job of completedGuidance) {
     const proofPath =
       `data/record-clearing/production-factory/packet-proofs/${job.jobId}.json`;

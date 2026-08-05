@@ -300,6 +300,49 @@ const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
       "de_attorney_general_expungement",
       "de_auto_expungement"
     ]
+  },
+  {
+    jurisdiction: "GA",
+    completionCommit: "de0e2debc59aab9f82672876c42c9d542f3bcb18",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/georgia/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-georgia-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: [
+      "ga-fo-sentencing-post2026",
+      "ga-rfo",
+      "ga-time-expired"
+    ]
+  },
+  {
+    jurisdiction: "IL",
+    completionCommit: "fd8d51980cab60c67aa13de01da80035a3d7a6a0",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/illinois/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-illinois-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: [
+      "il-auto-seal-2028",
+      "il-auto-seal-2029",
+      "il-cannabis-auto",
+      "il-prostitution-j-auto"
+    ]
+  },
+  {
+    jurisdiction: "PA",
+    completionCommit: "8b996476aa44899b07643546688c60a2cbd09771",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/pennsylvania/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-pennsylvania-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: [
+      "pa_9122_2_clean_slate",
+      "pa_acquittal_auto",
+      "pa_ard_expungement"
+    ]
   }
 ]);
 const GUIDANCE_TYPED_STOP_TRACKS = new Set([
@@ -1149,6 +1192,7 @@ export function buildFactoryPlan(options = {}) {
   addDcCustomPleadingReconciliationChild({ addJob });
   addCompletedGuidanceChildren({ addJob });
   addGuidanceTypedStopChildren({ addJob });
+  addGeorgiaRfoPostConsentAdjudicationChild({ addJob });
 
   const implementedTrackIds = implementedTracks(inputs.implementationRecords);
   const pendingTracks = normalizedTracks.filter(
@@ -1862,6 +1906,57 @@ function addGuidanceTypedStopChildren({ addJob }) {
         TERMINAL_INSTRUCTION
     });
   }
+}
+
+function addGeorgiaRfoPostConsentAdjudicationChild({ addJob }) {
+  const jobId = "rcap-ga-rfo-post-consent-petition-adjudication";
+  const verifierPath =
+    "scripts/verify-rcap-georgia-guidance-implementation.mjs";
+  const outputPath =
+    `${FACTORY_DATA_DIR}/guidance-specifications/ga-rfo-post-consent-petition-adjudication.json`;
+  addJob({
+    lane: "guidance_implementation",
+    strategyFamily: "legal_design_adjudication",
+    jurisdiction: "GA",
+    jobId,
+    trackIds: ["ga-rfo"],
+    dependencies: ["rcap-ga-guidance-implementation"],
+    status: "blocked",
+    expectedOutputs: [outputPath],
+    ownedPaths: [outputPath],
+    integrationOwnedOutputs: [
+      verifierPath,
+      `${REVIEW_MANIFEST_DIR}/${jobId}.json`
+    ],
+    requiredInputs: [
+      "data/record-clearing/legal-design-intake/GA.memo.json",
+      FACTORY_INPUT_PATHS.normalizedTracks,
+      FACTORY_INPUT_PATHS.blockerLedger,
+      "src/lib/rcap/packets/jurisdictions/georgia/guidance.ts"
+    ],
+    regressionVerifier: verifierPath,
+    participantPacketProofRequired: false,
+    focusedValidation: [
+      `node scripts/rcap-factory-plan.mjs --check-job ${jobId}`,
+      `node ${verifierPath}`
+    ],
+    executionNote:
+      "Georgia normalization is the integrated GA legal-design memo from " +
+      "3dfa302b25aafcf32ca4463c1effc6ec874fbcd8. The completed pre-consent " +
+      "guidance implementation remains a separate, useful dependency.",
+    model: "opus",
+    effort: "xhigh",
+    commitSubject:
+      "docs(record-clearing): adjudicate GA post-consent petition delivery",
+    stopCondition:
+      "After the required prosecutor consent is obtained, should LegalEase provide a " +
+      "conditional participant petition packet under § 42-8-66, or should direct delivery " +
+      "remain outside current product scope? Preserve the current pre-consent assessment, " +
+      "participant factual record, and attorney/prosecutor handoff. LegalEase does not obtain " +
+      "or negotiate prosecutor consent. Do not invent consent, generate a post-consent petition, " +
+      "claim counsel adoption, enable runtime, promote, or deploy. " +
+      TERMINAL_INSTRUCTION
+  });
 }
 
 function georgiaTrancheOutputs() {
@@ -3700,7 +3795,7 @@ function buildTrackReconciliation(normalizedTracks, jobs, implementationRecords)
       };
     }
 
-    const implementationJobs = jobs
+    const implementationCandidates = jobs
       .filter(
         (job) =>
           implementationLanes.has(job.lane) &&
@@ -3708,6 +3803,12 @@ function buildTrackReconciliation(normalizedTracks, jobs, implementationRecords)
           job.trackIds.includes(track.trackId)
       )
       .sort(compareJobs);
+    const implementationJobs = implementationCandidates.filter(
+      (job) => job.strategyFamily !== "legal_design_adjudication"
+    );
+    const adjudicationJobs = implementationCandidates.filter(
+      (job) => job.strategyFamily === "legal_design_adjudication"
+    );
     if (implementationJobs.length > 1) {
       throw new Error(
         `${key} appears in multiple pending implementation jobs: ${implementationJobs
@@ -3730,6 +3831,21 @@ function buildTrackReconciliation(normalizedTracks, jobs, implementationRecords)
         trackId: track.trackId,
         disposition: "pending_production_job",
         jobId: implementationJobs[0].jobId
+      };
+    }
+    if (adjudicationJobs.length > 1) {
+      throw new Error(
+        `${key} appears in multiple legal-design adjudication jobs: ${adjudicationJobs
+          .map((job) => job.jobId)
+          .join(", ")}.`
+      );
+    }
+    if (adjudicationJobs.length === 1) {
+      return {
+        jurisdiction: track.jurisdiction,
+        trackId: track.trackId,
+        disposition: "pending_production_job",
+        jobId: adjudicationJobs[0].jobId
       };
     }
 

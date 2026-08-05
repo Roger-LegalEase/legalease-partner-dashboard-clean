@@ -193,18 +193,18 @@ const factoryPlan = buildFactoryPlan({ rootDir: ROOT });
 const factoryValidation = validateFactoryPlan(factoryPlan);
 assert.equal(factoryValidation.ok, true, factoryValidation.issues.join("\n"));
 assert.deepEqual(findOwnedPathOverlaps(factoryPlan.jobs), []);
-assert.equal(factoryPlan.jobs.length, 237);
+assert.equal(factoryPlan.jobs.length, 238);
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "ready").length,
-  53
+  50
 );
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "blocked").length,
-  150
+  151
 );
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "completed").length,
-  33
+  36
 );
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "in_progress").length,
@@ -251,8 +251,8 @@ assert.equal(
   11
 );
 assert.equal(factoryPlan.canonicalPlan.parentJobs, 72);
-assert.equal(factoryPlan.parentJobReconciliation.compiledChildJobs, 237);
-assert.equal(factoryPlan.parentJobReconciliation.childrenMappedExactlyOnce, 237);
+assert.equal(factoryPlan.parentJobReconciliation.compiledChildJobs, 238);
+assert.equal(factoryPlan.parentJobReconciliation.childrenMappedExactlyOnce, 238);
 assert.equal(factoryPlan.parentJobReconciliation.unmappedChildren, 0);
 assert.equal(factoryPlan.parentJobReconciliation.unknownParentReferences, 0);
 assert.deepEqual(
@@ -314,7 +314,7 @@ const completedGuidanceJobs = factoryPlan.jobs.filter(
     entry.lane === "guidance_implementation" &&
     entry.participantPacketProofRequired === true
 );
-assert.equal(completedGuidanceJobs.length, 10);
+assert.equal(completedGuidanceJobs.length, 13);
 const expectedGuidanceCompletions = new Map([
   ["rcap-ak-guidance-implementation", ["36509c7377c5653db07fd5c43b3948aad079164a", 4]],
   ["rcap-ca-guidance-implementation", ["26b4661089849a67eb99bfae6598ba101f75cbbc", 3]],
@@ -322,10 +322,13 @@ const expectedGuidanceCompletions = new Map([
   ["rcap-ct-guidance-implementation", ["fd9ef0bfc18f11d0b34d7504682a574e2a849d06", 6]],
   ["rcap-dc-guidance-implementation", ["03505f1659072e28b245dfd9677426a995960bdd", 2]],
   ["rcap-de-guidance-implementation", ["c7af8cf48d42c69590a966141f5373c4ab596675", 2]],
+  ["rcap-ga-guidance-implementation", ["de0e2debc59aab9f82672876c42c9d542f3bcb18", 3]],
+  ["rcap-il-guidance-implementation", ["fd8d51980cab60c67aa13de01da80035a3d7a6a0", 4]],
   ["rcap-la-guidance-implementation", ["df4a5976692134bde5d6033a4ee988f3c83bd432", 3]],
   ["rcap-md-guidance-implementation", ["8dfdc7ae28a6362825ae19621e8a7afd6d8cef6c", 5]],
   ["rcap-mi-guidance-implementation", ["7dbe89fe733474a90cc1ad20b5c11dc1a6520aa5", 6]],
-  ["rcap-mn-guidance-implementation", ["bf6f368c8a4cd72e0fa488bd37336c073f116925", 7]]
+  ["rcap-mn-guidance-implementation", ["bf6f368c8a4cd72e0fa488bd37336c073f116925", 7]],
+  ["rcap-pa-guidance-implementation", ["8b996476aa44899b07643546688c60a2cbd09771", 3]]
 ]);
 let verifiedGuidancePacketCount = 0;
 let verifiedGuidancePageCount = 0;
@@ -368,15 +371,15 @@ for (const child of completedGuidanceJobs) {
   verifiedGuidancePacketCount += proof.finalPdfCount;
   verifiedGuidancePageCount += proof.assembledPageCount;
 }
-assert.equal(verifiedGuidancePacketCount, 40);
-assert.equal(verifiedGuidancePageCount, 109);
+assert.equal(verifiedGuidancePacketCount, 50);
+assert.equal(verifiedGuidancePageCount, 142);
 assert.deepEqual(productionPlan.participantPacketProofReconciliation, {
   schemaVersion: "rcap-participant-packet-proof/v1",
-  completedGuidanceJobsRequiringProof: 10,
-  proofsPresentAndVerified: 10,
-  assignedTracks: 40,
-  finalPackets: 40,
-  assembledPages: 109,
+  completedGuidanceJobsRequiringProof: 13,
+  proofsPresentAndVerified: 13,
+  assignedTracks: 50,
+  finalPackets: 50,
+  assembledPages: 142,
   proofDirectory: "data/record-clearing/production-factory/packet-proofs",
   evidenceSource:
     "Each integration-owned proof is generated from its committed regression verifier output; worker-authored proof assertions are not accepted.",
@@ -493,7 +496,7 @@ assert.equal(
   25
 );
 assert.equal(officialPdfSourceContract.totals.workerReadyFamilies, 0);
-assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 37);
+assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 40);
 assert.equal(
   officialPdfSourceContract.verifierBoundary.packetWorkerMaterializationPaths,
   0
@@ -675,6 +678,59 @@ assert.match(
 assert.match(
   paTrack11Adjudication.stopCondition,
   /Do not invent a normalized track, filing, or remedy/
+);
+const gaRfoPostConsentAdjudication = factoryPlan.jobs.find(
+  (entry) =>
+    entry.jobId ===
+    "rcap-ga-rfo-post-consent-petition-adjudication"
+);
+assert.equal(gaRfoPostConsentAdjudication.status, "blocked");
+assert.equal(
+  gaRfoPostConsentAdjudication.strategyFamily,
+  "legal_design_adjudication"
+);
+assert.deepEqual(gaRfoPostConsentAdjudication.trackIds, ["ga-rfo"]);
+assert.deepEqual(gaRfoPostConsentAdjudication.dependencies, [
+  "rcap-ga-guidance-implementation"
+]);
+assert.equal(
+  gaRfoPostConsentAdjudication.participantPacketProofRequired,
+  false
+);
+assert.ok(
+  gaRfoPostConsentAdjudication.requiredInputs.includes(
+    "data/record-clearing/legal-design-intake/GA.memo.json"
+  )
+);
+assert.match(
+  gaRfoPostConsentAdjudication.stopCondition,
+  /After the required prosecutor consent is obtained/
+);
+assert.match(
+  gaRfoPostConsentAdjudication.stopCondition,
+  /does not obtain or negotiate prosecutor consent/
+);
+assert.match(
+  gaRfoPostConsentAdjudication.stopCondition,
+  /Do not invent consent, generate a post-consent petition/
+);
+assert.ok(
+  factoryPlan.jobs
+    .find((entry) => entry.jobId === "rcap-ga-legal-output-review")
+    .dependencies.includes(gaRfoPostConsentAdjudication.jobId)
+);
+const gaRfoTrackReconciliation =
+  factoryPlan.trackReconciliation.assignments.find(
+    (entry) =>
+      entry.jurisdiction === "GA" && entry.trackId === "ga-rfo"
+  );
+assert.equal(
+  gaRfoTrackReconciliation.disposition,
+  "implementation_complete"
+);
+assert.equal(
+  gaRfoTrackReconciliation.completionCommit,
+  "de0e2debc59aab9f82672876c42c9d542f3bcb18"
 );
 const remainingNormalizations = factoryPlan.jobs.filter(
   (entry) =>
@@ -1130,6 +1186,9 @@ assert.deepEqual(productionPlan.integratedCommits, {
   louisianaGuidance: "df4a5976692134bde5d6033a4ee988f3c83bd432",
   coloradoGuidance: "7be280c8be25bc19e497d668d48abaadfd89ca44",
   delawareGuidance: "c7af8cf48d42c69590a966141f5373c4ab596675",
+  georgiaGuidance: "de0e2debc59aab9f82672876c42c9d542f3bcb18",
+  illinoisGuidance: "fd8d51980cab60c67aa13de01da80035a3d7a6a0",
+  pennsylvaniaGuidance: "8b996476aa44899b07643546688c60a2cbd09771",
   coloradoIdentityReconciliation: "6afe0d989bb079dbd1eab377b0547b9b6908d902",
   alaskaPublicOfficialDownload: "4acded00a77584b0ea9c9f00e490e2a6a92dd033",
   mainePublicOfficialDownload: "6912e16bc73dbb85612dc5ede86c6a472e5c1e91",
@@ -1173,6 +1232,9 @@ assert.deepEqual(productionPlan.integrationEquivalents, {
   louisianaGuidance: "600c7d8c7cc14223ab9a787ce3790e12de2c8970",
   coloradoGuidance: "6b534760fa831799d307628fe17a857efc404cde",
   delawareGuidance: "d2a4ea1129a98ee953e75c11728fef81888e1789",
+  georgiaGuidance: "c11b14d90fdd484664149ab914896102493d2062",
+  illinoisGuidance: "b023d0ecca422c27b7c4324c6f1ced45f8230024",
+  pennsylvaniaGuidance: "e285071728b92809a36b4e445b21442c2202f2f5",
   coloradoIdentityReconciliation: "2cd68354efa3ee36683f17a2d5719df5e7c22159",
   alaskaPublicOfficialDownload: "ac007a0e030c1e9a741273eea2de7dd4e602168e",
   mainePublicOfficialDownload: "9fd0122e3896c528398dbbc88d473391cbfac7e1",
@@ -1456,15 +1518,15 @@ assert.ok(
 
 assert.equal(factoryPlan.trackReconciliation.normalizedTracks, 260);
 assert.equal(factoryPlan.trackReconciliation.representedExactlyOnce, 260);
-assert.equal(factoryPlan.trackReconciliation.implementationComplete, 59);
-assert.equal(factoryPlan.trackReconciliation.pendingProductionJob, 201);
+assert.equal(factoryPlan.trackReconciliation.implementationComplete, 69);
+assert.equal(factoryPlan.trackReconciliation.pendingProductionJob, 191);
 assert.equal(
   productionPlan.baselineVerification.confirmed.implementedTracksAwaitingReview,
-  42
+  52
 );
 assert.equal(
   productionPlan.baselineVerification.confirmed.tracksAwaitingLegalRecommendation,
-  40
+  50
 );
 assert.equal(
   productionPlan.baselineVerification.confirmed.tracksAwaitingCounselAdoption,
@@ -1486,7 +1548,9 @@ const completed = factoryPlan.trackReconciliation.assignments.filter(
   (entry) => entry.disposition === "implementation_complete"
 );
 assert.equal(completed.filter((entry) => entry.jurisdiction === "MS").length, 5);
-assert.equal(completed.filter((entry) => entry.jurisdiction === "GA").length, 9);
+assert.equal(completed.filter((entry) => entry.jurisdiction === "GA").length, 12);
+assert.equal(completed.filter((entry) => entry.jurisdiction === "IL").length, 6);
+assert.equal(completed.filter((entry) => entry.jurisdiction === "PA").length, 3);
 assert.deepEqual(
   completed
     .filter((entry) => entry.jurisdiction === "MD")
@@ -1514,6 +1578,7 @@ for (const completedTrack of completed) {
           "composed_route",
           "guidance_implementation"
         ].includes(entry.lane) &&
+        entry.strategyFamily !== "legal_design_adjudication" &&
         entry.jurisdiction === completedTrack.jurisdiction &&
         entry.trackIds.includes(completedTrack.trackId)
     ),
@@ -2079,6 +2144,6 @@ console.log("  PASS tracked Master Library 1.2 reconciliation remains internally
 console.log("  PASS 109 acquisition records represented exactly once");
 console.log("  PASS 313 official evidence records and 32 issuer campaigns preserved");
 console.log("  PASS 260 normalized tracks represented exactly once");
-console.log("  PASS 59 engineering-complete tracks excluded from pending implementation");
+console.log("  PASS 69 engineering-complete tracks excluded from pending implementation");
 console.log("  PASS 15 exact implemented routes counsel-adopted by hash");
 console.log("  PASS packet_ready=0 enabled_jurisdictions=0 launch_gate=red");

@@ -149,12 +149,23 @@ const marylandShieldingSourceReady = officialJobs.some((job) =>
       input.workerReadiness === "worker_ready"
   )
 );
+const completedGuidanceTrackCount = factoryPlan.jobs
+  .filter(
+    (job) =>
+      job.lane === "guidance_implementation" &&
+      job.status === "completed" &&
+      job.participantPacketProofRequired === true
+  )
+  .reduce((count, job) => count + job.trackIds.length, 0);
+const participantPacketProofReconciliation =
+  buildParticipantPacketProofReconciliation(factoryPlan);
 const expectedPlanScope =
   "This integrated baseline includes both immutable normalization-research bundles, " +
   "Session D's controlling source-identity and typed-blocker adjudication, the " +
   "mechanism-inventory-v1 canonical denominator for all 24 remaining jurisdictions, " +
   "24 explicit portable legal-review materialization jobs, Pennsylvania normalization, " +
-  "40 track-specific guidance implementations, Session E's 25-jurisdiction official-PDF " +
+  `${completedGuidanceTrackCount} track-specific guidance implementations, ` +
+  "Session E's 25-jurisdiction official-PDF " +
   "source-contract reconciliation, one integration-owned 192-identity portable projection, " +
   "18 exact Session E child assignments, and eleven bounded Session F authority results. " +
   `The exact Edition 1.2 archive ${
@@ -243,6 +254,8 @@ if (write) {
   fs.writeFileSync(jobClaimsAbsolute, stableJson(factoryPlan.jobClaims));
   process.stdout.write(`wrote ${jobClaimsPath}\n`);
   productionPlan.factoryQueueReconciliation = expectedFactoryQueue;
+  productionPlan.participantPacketProofReconciliation =
+    participantPacketProofReconciliation;
   productionPlan.officialPdfSourceContractIntegration = expectedOfficial;
   productionPlan.materializationPlanning = materializationPlanningSnapshot;
   let productionPlanSource = fs.readFileSync(productionPlanAbsolute, "utf8");
@@ -255,6 +268,11 @@ if (write) {
     productionPlanSource,
     "factoryQueueReconciliation",
     expectedFactoryQueue
+  );
+  productionPlanSource = upsertTopLevelJsonProperty(
+    productionPlanSource,
+    "participantPacketProofReconciliation",
+    participantPacketProofReconciliation
   );
   productionPlanSource = upsertTopLevelJsonProperty(
     productionPlanSource,
@@ -282,6 +300,8 @@ if (write) {
     productionPlan.planScope !== expectedPlanScope ||
     stableJson(productionPlan.factoryQueueReconciliation) !==
       stableJson(expectedFactoryQueue) ||
+    stableJson(productionPlan.participantPacketProofReconciliation) !==
+      stableJson(participantPacketProofReconciliation) ||
     stableJson(productionPlan.officialPdfSourceContractIntegration) !==
       stableJson(expectedOfficial) ||
     stableJson(productionPlan.materializationPlanning) !==
@@ -290,6 +310,83 @@ if (write) {
     throw new Error(`${productionPlanPath} factory planning snapshot is stale.`);
   }
   process.stdout.write(`verified ${productionPlanPath}\n`);
+}
+
+function buildParticipantPacketProofReconciliation(factoryPlan) {
+  const completed = factoryPlan.jobs.filter(
+    (job) =>
+      job.lane === "guidance_implementation" &&
+      job.status === "completed" &&
+      job.participantPacketProofRequired === true
+  );
+  let finalPackets = 0;
+  let assembledPages = 0;
+  for (const job of completed) {
+    const proofPath =
+      `data/record-clearing/production-factory/packet-proofs/${job.jobId}.json`;
+    if (!(job.integrationOwnedOutputs ?? []).includes(proofPath)) {
+      throw new Error(`${job.jobId} does not reserve ${proofPath}.`);
+    }
+    const absoluteProofPath = path.join(ROOT, proofPath);
+    if (!fs.existsSync(absoluteProofPath)) {
+      throw new Error(`${proofPath} is missing.`);
+    }
+    const proof = JSON.parse(fs.readFileSync(absoluteProofPath, "utf8"));
+    const expectedTracks = [...job.trackIds].sort();
+    const actualTracks = (proof.samplePackets ?? [])
+      .map((packet) => packet.trackId)
+      .sort();
+    if (
+      proof.schemaVersion !== "rcap-participant-packet-proof/v1" ||
+      proof.jobId !== job.jobId ||
+      proof.parentJobId !== job.parentJobId ||
+      proof.completionCommit !== job.completionCommit ||
+      proof.verifier?.path !== job.regressionVerifier ||
+      proof.verifier?.result !== "passed" ||
+      proof.finalPdfCount !== job.trackIds.length ||
+      proof.samplePackets?.length !== job.trackIds.length ||
+      JSON.stringify(actualTracks) !== JSON.stringify(expectedTracks) ||
+      proof.samplePackets.some(
+        (packet) =>
+          !/^[0-9a-f]{64}$/u.test(packet.assembledSha256 ?? "") ||
+          !Number.isInteger(packet.assembledPageCount) ||
+          packet.assembledPageCount < 1
+      ) ||
+      proof.assembledPageCount !==
+        proof.samplePackets.reduce(
+          (count, packet) => count + packet.assembledPageCount,
+          0
+        ) ||
+      proof.deterministic !== true ||
+      proof.generatedPacketBytesTracked !== false ||
+      proof.runtimeStatus !== "runtime_disabled" ||
+      proof.visualProof !== "pending" ||
+      proof.counselAdopted !== false ||
+      proof.productionEnabled !== false
+    ) {
+      throw new Error(`${proofPath} does not reconcile to ${job.jobId}.`);
+    }
+    finalPackets += proof.finalPdfCount;
+    assembledPages += proof.assembledPageCount;
+  }
+  return {
+    schemaVersion: "rcap-participant-packet-proof/v1",
+    completedGuidanceJobsRequiringProof: completed.length,
+    proofsPresentAndVerified: completed.length,
+    assignedTracks: completedGuidanceTrackCount,
+    finalPackets,
+    assembledPages,
+    proofDirectory:
+      "data/record-clearing/production-factory/packet-proofs",
+    evidenceSource:
+      "Each integration-owned proof is generated from its committed regression verifier output; " +
+      "worker-authored proof assertions are not accepted.",
+    generatedPacketBytesTracked: false,
+    runtimeStatus: "runtime_disabled",
+    visualProof: "pending",
+    counselAdopted: false,
+    productionEnabled: false
+  };
 }
 
 function tally(values, keyFor) {
