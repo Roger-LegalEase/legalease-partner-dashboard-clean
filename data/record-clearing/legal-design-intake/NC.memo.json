@@ -1,0 +1,2845 @@
+{
+  "schemaVersion": 1,
+  "jurisdiction": "NC",
+  "memoVersion": "1.0.0",
+  "submittedAt": "2026-08-05T00:00:00.000Z",
+  "tracks": [
+    {
+      "trackId": "nc_auto_146_a4",
+      "legalName": "Automatic Expunction of Dismissals and Findings of Not Guilty or Not Responsible under G.S. 15A-146(a4)",
+      "publicName": "Your dismissed North Carolina case may have cleared itself",
+      "controllingAuthority": {
+        "citations": [
+          "N.C. Gen. Stat. § 15A-146(a4)",
+          "N.C. Gen. Stat. § 15A-150",
+          "N.C. Gen. Stat. § 15A-151(a1)",
+          "N.C. Gen. Stat. § 15A-153"
+        ],
+        "summary": "Where a person is charged with a misdemeanor, a felony or an infraction and all charges in the case are disposed on or after December 1, 2021 by dismissal, a finding of not guilty, or a finding of not responsible, the charges are expunged by operation of law not less than 180 and not more than 210 days after the date of final disposition, if the statutory conditions are met. The General Assembly postponed the automatic process until July 1, 2024; it is now underway."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2021-12-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge",
+        "infraction"
+      ],
+      "eligibleDispositions": [
+        "dismissed",
+        "acquitted",
+        "found_not_responsible"
+      ],
+      "exclusions": [
+        "Dispositions before December 1, 2021.",
+        "Cases in which not every charge was disposed favorably.",
+        "Dismissals through deferred prosecution or conditional discharge, which are treated differently and route to the petition track.",
+        "Under G.S. 15A-146(a), no case with a felony charge dismissed pursuant to a plea agreement is expunged under that subsection.",
+        "Effective for dismissals on or after December 1, 2025, a dismissal by the court of a charge against a defendant found incapable to proceed is not eligible for expunction under G.S. 15A-146 and should not be included in an automatic expunction."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "All charges in the case disposed by dismissal, not guilty or not responsible on or after December 1, 2021",
+          "duration": "Expunction occurs by operation of law not less than 180 and not more than 210 days after the date of final disposition"
+        }
+      ],
+      "outputStrategy": "process_guidance",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "No venue. Relief occurs by operation of law and nothing is filed by the participant."
+      },
+      "destination": {
+        "kind": "automatic",
+        "name": "North Carolina Administrative Office of the Courts and the clerk of superior court",
+        "detail": "Administered through the courts and the AOC. No petition, no fee and no form. For an automatic expunction under subsection (a4) the clerk is not required to transmit an expunction order to other entities, so agencies other than the court may still hold the record."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explains the December 1, 2021 disposition boundary, the July 1, 2024 start of the automatic process, the 180-to-210-day window measured from final disposition, the all-charges-disposed-favorably gate, the deferred prosecution and conditional discharge carve-out, the plea-agreement felony exclusion and the incapable-to-proceed exclusion; tells the participant to verify with an SBI criminal record check rather than assume; and states plainly that the court record clearing does not mean agency records cleared, because the clerk is not required to transmit the order."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "finalDispositionDate",
+          "question": "On what date did the last charge in your case reach its final disposition?",
+          "requirement": "required"
+        },
+        {
+          "key": "allChargesDisposedFavorably",
+          "question": "Were all of the charges in the case dismissed, or found not guilty, or found not responsible?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionType",
+          "question": "How did the case end — dismissed by the State, dismissed by the court, found not guilty, or found not responsible?",
+          "requirement": "required"
+        },
+        {
+          "key": "deferredOrConditionalDischarge",
+          "question": "Was the dismissal part of a deferred prosecution or a conditional discharge agreement?",
+          "requirement": "required"
+        },
+        {
+          "key": "felonyDismissedByPleaAgreement",
+          "question": "Was any felony charge in the case dismissed as part of a plea agreement?",
+          "requirement": "required"
+        },
+        {
+          "key": "incapableToProceedDismissal",
+          "question": "Was the charge dismissed by the court because you were found incapable to proceed?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked when the disposition is a court dismissal, because a dismissal on that ground on or after December 1, 2025 is not eligible."
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "SBI criminal record check",
+          "obtainedFrom": "North Carolina Department of Public Safety, State Bureau of Investigation",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request a right-to-review copy of your own North Carolina criminal history from the SBI. This is the instrument that shows whether the automatic expunction actually ran and whether other agencies still hold the record.",
+          "confirms": "allChargesDisposedFavorably"
+        },
+        {
+          "name": "Court file from the clerk of superior court",
+          "obtainedFrom": "Clerk of superior court in the county where the charge was brought",
+          "requirement": "conditional",
+          "conditionDescription": "Where the SBI record is ambiguous about the disposition or the disposition date.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk of superior court in the county of the charge for the case file or a copy of the disposition."
+        },
+        {
+          "name": "Copies of the charging documents, dismissal orders and judgments",
+          "obtainedFrom": "Clerk of superior court in the county where the charge was brought",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Obtain and keep permanent copies before the expunction takes effect. After an expunction, access to these records is restricted and you may be unable to obtain them if you later need to prove what actually happened, most acutely in an immigration proceeding."
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "N.C. Gen. Stat. § 15A-146, Expunction of records when charges are dismissed or there are findings of not guilty",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_15A/GS_15A-146.html",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        },
+        {
+          "title": "N.C. Gen. Stat. § 15A-150, Notification requirements",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_15A/GS_15A-150.html",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        },
+        {
+          "title": "N.C. Gen. Stat. § 15A-151, Confidential agency files",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_15A/GS_15A-151.html",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        },
+        {
+          "title": "North Carolina SBI Right to Review Criminal History Instructions, retained Edition 1.2 asset NC-SBI-RIGHT-TO-REVIEW REV-2025-12 EN",
+          "url": "https://www.ncsbi.gov/Services/Criminal-Information-and-Identification",
+          "retrievedOn": "2026-08-01",
+          "sha256": "68fe0acc130a1a67eb045ad465fd06762167a5ee355a7e9dca046f5a6514c25e"
+        }
+      ],
+      "rules": {
+        "filing": "none. Nothing is filed. Relief occurs by operation of law between 180 and 210 days after final disposition.",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "none to the participant. The clerk is not required to transmit an expunction order to other entities for an automatic expunction under subsection (a4).",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "Any case where not all charges were disposed favorably.",
+        "Deferred prosecution or conditional discharge dismissals, which route to the petition track and carry a fee.",
+        "A felony charge dismissed pursuant to a plea agreement.",
+        "An incapable-to-proceed dismissal.",
+        "The record still showing after 210 days, particularly with agencies other than the court.",
+        "Any immigration matter, where losing access to the underlying records can hurt."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The full list of conditions in G.S. 15A-146(a4) was not read at the official source in this review, so the complete gate for automatic expunction is not encoded.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 1 - AUTOMATIC EXPUNCTION OF DISMISSALS AND NOT-GUILTY FINDINGS / OPEN QUESTIONS",
+            "sourceStatement": "The full list of conditions in G.S. 15A-146(a4) was not read in this review. **Build blocker.**"
+          }
+        },
+        {
+          "question": "What remedy exists where automatic expunction did not occur, or where agencies other than the court still hold the record after the 210-day window.",
+          "impact": "release_blocker",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 1 - AUTOMATIC EXPUNCTION OF DISMISSALS AND NOT-GUILTY FINDINGS / OPEN QUESTIONS",
+            "sourceStatement": "What remedy exists where automatic expunction did not occur or where agencies still hold records. **Release blocker**, because the reference currently promises the automatic route without a fallback."
+          }
+        },
+        {
+          "question": "Whether dismissals under G.S. 15A-1008 before December 1, 2025 on the ground that the defendant was incapable to proceed are expungeable.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 1 - AUTOMATIC EXPUNCTION OF DISMISSALS AND NOT-GUILTY FINDINGS / OPEN QUESTIONS",
+            "sourceStatement": "Whether dismissals under G.S. 15A-1008 before December 1, 2025 are expungeable. The School of Government calls this an open question. Nonblocking but real."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "There is nothing to file. Relief runs by operation of law, so no petition, fee or form exists and generating one would waste the participant's time and money. The deliverable is a timing calculation, a verification step through the SBI record, and an agency-level follow-up plan, because the automatic route does not push the order out to other record holders. Guidance is preserved here because no participant filing exists, not because an outside party must act.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Never generate a petition here without first checking whether the case already cleared, and never promise that agency records cleared with it.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 1 / LEGAL-DESIGN DECISION",
+              "sourceStatement": "Never generate a petition here without first checking whether the case already cleared, and never promise that agency records cleared with it."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "State that automatic expunction does not transmit an order to other agencies.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "State that automatic expunction does not transmit an order to other agencies"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Correct the automatic expunction start to July 1, 2024.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Correct the automatic expunction start to July 1, 2024"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Advise retention of charging documents, dismissal orders and judgments before filing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Advise retention of charging documents, dismissal orders and judgments before filing"
+            }
+          },
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Remove the record-destruction claim and replace it with G.S. 15A-151(a1) and 15A-151.5.",
+            "undeterminedElement": "legal_effect_or_warning",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Remove the record-destruction claim and replace it with G.S. 15A-151(a1) and 15A-151.5"
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Expunction can harm an immigration case by destroying record access.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Expunction can harm an immigration case by destroying record access"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nc_146_dismissal_petition",
+      "legalName": "Petition and Order of Expunction of Dismissed Charges under G.S. 15A-146(a) and (a1)",
+      "publicName": "Clear a North Carolina charge that was dismissed",
+      "controllingAuthority": {
+        "citations": [
+          "N.C. Gen. Stat. § 15A-146(a)",
+          "N.C. Gen. Stat. § 15A-146(a1)",
+          "N.C. Gen. Stat. § 15A-146(a6)",
+          "N.C. Gen. Stat. § 15A-146(b1)",
+          "N.C. Gen. Stat. § 15A-146(c)",
+          "N.C. Gen. Stat. § 15A-150",
+          "N.C. Gen. Stat. § 15A-153"
+        ],
+        "summary": "On petition, the court expunges the records of a charge dismissed by the State or by the court, for a single dismissal under subsection (a) and for multiple dismissals under subsection (a1). There is no prior-conviction bar and no prior-expunction bar; the 2017 legislation eliminated the prior-expunction bar. A judge may grant the petition without a hearing under subsection (a6). Any petition under this section must be on a form approved by the Administrative Office of the Courts."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2017-12-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "dismissed",
+        "charges_dropped"
+      ],
+      "exclusions": [
+        "No case with a felony charge dismissed pursuant to a plea agreement is expunged under subsection (a).",
+        "Effective for dismissals on or after December 1, 2025, a court dismissal of a charge against a defendant found incapable to proceed is not eligible. AOC-CR-287 (Dec. 2025) reflects this and does not limit the exclusion by date, which leaves earlier dismissals unresolved.",
+        "Out-of-state and federal convictions and charges are outside this relief; it reaches North Carolina records only."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Charge dismissed by the State or by the court",
+          "duration": "none"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Superior Court of the county where the charge was brought."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of superior court, county where the charge was brought",
+        "detail": "Statewide statute with county venue. The petition is filed with the clerk of superior court on the AOC-approved form. Excluding automatic expunctions under subsection (a4), the clerk notifies State and local agencies of the order as provided in G.S. 15A-150 and forwards a certified copy to the Division of Motor Vehicles for expunction of any civil revocation where the underlying criminal charge is also expunged."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-CR-287",
+          "officialSourceUrl": "https://www.nccourts.gov/documents/forms",
+          "notes": "Petition and Order of Expunction. The December 2025 revision incorporates the incapable-to-proceed exclusion. The form combines the petition, the verification and affidavits, and the order for the judge in one document; the proposed order and the verification are inside it and are not separate components. Edition 1.2 retains AOC-CR-287 Petition and Order of Expunction REV-2025-12 EN in the PACKET role, REV-2020-12 ES and VI in the PETITION role, and AOC-CR-287 Instructions REV-2025-12 EN with REV-2020-12 ES and VI."
+        },
+        {
+          "role": "instructions",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-CR-287-INSTRUCTIONS",
+          "officialSourceUrl": "https://www.nccourts.gov/documents/forms",
+          "notes": "AOC-CR-287 Instructions, retained in Edition 1.2 at REV-2025-12 EN with REV-2020-12 ES and VI."
+        },
+        {
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only where the charge was dismissed pursuant to a deferred prosecution or conditional discharge agreement, which carries the $175 fee, and the petitioner seeks an indigency waiver.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-CV-226",
+          "officialSourceUrl": "https://www.nccourts.gov/documents/forms",
+          "notes": "Affidavit of Indigency. Edition 1.2 retains AOC-CV-226 REV-2023-04 EN and REV-2021-06 ES and VI in the AFFIDAVIT role. A true dismissal carries no fee and needs no waiver."
+        },
+        {
+          "role": "participant_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Check the automatic expunction track first; many participants will not need this form at all. Covers venue, the absence of a fee for a true dismissal, the $175 fee for a deferred prosecution or conditional discharge dismissal, that the petition may be granted without a hearing, that the clerk retains a confidential record under G.S. 15A-151(a1) and the AOC keeps a confidential file, and the instruction to keep copies of the charging documents, dismissal orders and judgments before the expunction is granted."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "caseNumber",
+          "question": "What is the file number of the case you want expunged?",
+          "requirement": "required"
+        },
+        {
+          "key": "countyOfCharge",
+          "question": "In which North Carolina county was the charge brought?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseDescription",
+          "question": "What was the charge, as it appears on the court record?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date was the charge dismissed?",
+          "requirement": "required"
+        },
+        {
+          "key": "dismissedBy",
+          "question": "Was the charge dismissed by the State or by the court?",
+          "requirement": "required"
+        },
+        {
+          "key": "multipleDismissals",
+          "question": "Are you asking to expunge more than one dismissed charge?",
+          "requirement": "required"
+        },
+        {
+          "key": "deferredOrConditionalDischarge",
+          "question": "Was the dismissal part of a deferred prosecution or a conditional discharge agreement?",
+          "requirement": "required"
+        },
+        {
+          "key": "felonyDismissedByPleaAgreement",
+          "question": "Was any felony charge in the case dismissed as part of a plea agreement?",
+          "requirement": "required"
+        },
+        {
+          "key": "incapableToProceedDismissal",
+          "question": "Was the charge dismissed by the court because you were found incapable to proceed?",
+          "requirement": "required"
+        },
+        {
+          "key": "automaticExpunctionChecked",
+          "question": "Have you checked whether this case already cleared automatically? Cases where every charge was disposed favorably on or after December 1, 2021 clear by operation of law 180 to 210 days after final disposition.",
+          "requirement": "required"
+        },
+        {
+          "key": "dnaRecordInDatabase",
+          "question": "Is your DNA record or profile in the State DNA Database as a result of this case?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked because a DNA expunction application under G.S. 15A-146(b1) carries its own service and hearing requirements and routes to a separate matter."
+        },
+        {
+          "key": "futureRelief1454Or1456",
+          "question": "Do you also have a nonviolent felony committed before age 18, or a prostitution offense, that you may want expunged later?",
+          "requirement": "required",
+          "conditionDescription": "Asked because an expunction under G.S. 15A-146 may bar later relief under G.S. 15A-145.4 and 15A-145.6, so the order of filing matters."
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "SBI criminal record check",
+          "obtainedFrom": "North Carolina Department of Public Safety, State Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Optional as a filing and essential in practice, to confirm the disposition and to check whether the case already cleared automatically.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request a right-to-review copy of your own North Carolina criminal history from the SBI.",
+          "confirms": "dispositionDate"
+        },
+        {
+          "name": "Court file or certified disposition from the clerk",
+          "obtainedFrom": "Clerk of superior court in the county where the charge was brought",
+          "requirement": "conditional",
+          "conditionDescription": "Where the file number, offense description or disposition date needs to be confirmed against the record.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk of superior court in the county of the charge for the case file or a certified copy of the disposition.",
+          "confirms": "dispositionDate"
+        },
+        {
+          "name": "Copies of the charging documents, dismissal orders and judgments",
+          "obtainedFrom": "Clerk of superior court in the county where the charge was brought",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Obtain and keep permanent copies before filing. After an expunction, access to these records is restricted and you may be unable to obtain them if you later need to prove what actually happened, most acutely in an immigration proceeding."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature and date",
+          "whereInPacket": "AOC-CR-287, petition and verification signature block",
+          "why": "The petitioner must sign and verify the petition personally."
+        },
+        {
+          "item": "The order portion",
+          "whereInPacket": "AOC-CR-287, order section",
+          "why": "The order is for the judge. LegalEase does not complete or sign it."
+        },
+        {
+          "item": "Incapable-to-proceed and plea-agreement certifications",
+          "whereInPacket": "AOC-CR-287, findings and certification entries",
+          "why": "These turn on the court record and on a legal characterization of the disposition. They are not auto-completed from participant recall."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "N.C. Gen. Stat. § 15A-146, Expunction of records when charges are dismissed or there are findings of not guilty",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_15A/GS_15A-146.html",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        },
+        {
+          "title": "AOC-CR-287 Petition and Order of Expunction, retained Edition 1.2 asset REV-2025-12 EN, role PACKET",
+          "url": "https://www.nccourts.gov/documents/forms",
+          "retrievedOn": "2026-08-01",
+          "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed"
+        },
+        {
+          "title": "AOC-CR-287 Instructions, retained Edition 1.2 asset REV-2025-12 EN",
+          "url": "https://www.nccourts.gov/documents/forms",
+          "retrievedOn": "2026-08-01",
+          "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7"
+        },
+        {
+          "title": "AOC-CV-226 Affidavit of Indigency, retained Edition 1.2 asset REV-2023-04 EN",
+          "url": "https://www.nccourts.gov/documents/forms",
+          "retrievedOn": "2026-08-01",
+          "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f"
+        }
+      ],
+      "rules": {
+        "filing": "File the AOC-approved form with the clerk of superior court in the county where the charge was brought. G.S. 15A-146(c) requires any petition under this section to be on a form approved by the Administrative Office of the Courts.",
+        "fees": "none for a true dismissal. $175 applies where the charge was dismissed pursuant to a deferred prosecution or conditional discharge agreement. Separately, the costs of expunging the records required under G.S. 15A-150 are not taxed against the petitioner.",
+        "feeWaiver": "Indigency waiver available where a fee applies, on AOC-CV-226, including for petitioners receiving SNAP, TANF or SSI or represented by a legal services organization.",
+        "notice": "none required by the AOC form for dismissals. The court may grant the petition without a hearing under G.S. 15A-146(a6).",
+        "service": "none required by the AOC form for dismissals. A DNA expunction application under G.S. 15A-146(b1) is a separate matter and must be served on the district attorney not less than 20 days before the hearing.",
+        "participantSignature": "The petitioner signs and verifies the petition. The order portion is signed by the judge.",
+        "notarization": "none stated by the review for this form. Confirm against the current AOC-CR-287 before release."
+      },
+      "selfHelpStopConditions": [
+        "A felony charge dismissed pursuant to a plea agreement.",
+        "An incapable-to-proceed dismissal, in either direction given the open question about pre-December 2025 cases.",
+        "A deferred prosecution or conditional discharge dismissal, which carries the fee and different rules.",
+        "Anyone who may later need G.S. 15A-145.4 or 15A-145.6 relief, because sequencing matters.",
+        "DNA expunction, which carries its own service and hearing requirements.",
+        "Any immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Edition 1.2 retains the identified North Carolina AOC form, but the current official AOC forms channel could not be accessed through either available automation layer. The retained binary may support normalization and technical preparation where packet identity is otherwise established, but currentness, revision, and supersession remain unverified. Release remains disabled pending attended verification through an official North Carolina AOC channel. No unofficial substitute is permitted. The channel that must be checked is https://www.nccourts.gov/documents/forms, which returned HTTP 403 to a shell client following redirects and HTTP 403 to the browser-automation layer on 2026-08-05.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "session-b-ky-or.bundle.json",
+            "sourceHeading": "NC / officialAuthorityRefreshRequirements",
+            "sourceStatement": "AOC-CR-287 (Dec. 2025), AOC-CR-288, AOC-CR-296, AOC-CR-297 and AOC-CR-298 (July 2025) at the NC AOC - the review records all as build blockers and states no North Carolina forms were supplied to it. Edition 1.2 does retain all five, so form acquisition is satisfied in the archive even though it is unsatisfied in the review; revisions must still be re-checked at the AOC because the review confirmed only two revision dates.",
+            "counselQuestion": "Does the retained Edition 1.2 AOC-CR-287 REV-2025-12 EN remain the current, unsuperseded statewide form, and is its revision stamp still December 2025, as confirmed through an attended check of an official North Carolina AOC channel?"
+          }
+        },
+        {
+          "question": "The full text of G.S. 15A-146(a) and (a1) was not read at the official source in this review. The statutory source is confirmed reachable at ncleg.gov as of 2026-08-05, but the text remains unread.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 2 - PETITION TO EXPUNGE A DISMISSAL / OPEN QUESTIONS",
+            "sourceStatement": "Full text of G.S. 15A-146(a) and (a1) not read at source. **Build blocker.**"
+          }
+        },
+        {
+          "question": "Whether pre-December 2025 incapable-to-proceed dismissals are expungeable, given that AOC-CR-287 (Dec. 2025) states the exclusion without limiting it by date.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 2 - PETITION TO EXPUNGE A DISMISSAL / OPEN QUESTIONS",
+            "sourceStatement": "Whether pre-December 2025 incapable-to-proceed dismissals are expungeable. Nonblocking."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "A statute-specific AOC form that combines the petition, the affidavits and the order; no waiting period; no record-check consents required; no service on the prosecutor required by the form; and a decision available without a hearing. This is the cleanest form-fill in the state. A custom pleading may not be used: G.S. 15A-146(c) requires an AOC-approved form. Check the automatic expunction track first, because many participants will not need this form at all.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Check automatic expunction before generating any dismissal petition.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Check automatic expunction before generating any dismissal petition"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Check sequencing against 15A-145.4 and 15A-145.6.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Check sequencing against 15A-145.4 and 15A-145.6"
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "Advise retention of charging documents, dismissal orders and judgments before filing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Advise retention of charging documents, dismissal orders and judgments before filing"
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "Add the incapable-to-proceed exclusion and the plea-agreement felony exclusion.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Add the incapable-to-proceed exclusion and the plea-agreement felony exclusion"
+            }
+          },
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Remove the record-destruction claim and replace it with G.S. 15A-151(a1) and 15A-151.5.",
+            "undeterminedElement": "legal_effect_or_warning",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Remove the record-destruction claim and replace it with G.S. 15A-151(a1) and 15A-151.5"
+            }
+          },
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Read 15A-146, 15A-145.8A and the Track 7 statutes.",
+            "undeterminedElement": "governing_mechanism",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Read 15A-146, 15A-145.8A and the Track 7 statutes"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "No reach to federal or out-of-state records.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "No reach to federal or out-of-state records"
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Expunction can harm an immigration case by destroying record access.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Expunction can harm an immigration case by destroying record access"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nc_146_acquittal_petition",
+      "legalName": "Petition and Order of Expunction of a Finding of Not Guilty or Not Responsible under G.S. 15A-146(a2)",
+      "publicName": "Clear a North Carolina charge you were found not guilty of",
+      "controllingAuthority": {
+        "citations": [
+          "N.C. Gen. Stat. § 15A-146(a2)",
+          "N.C. Gen. Stat. § 15A-146(a6)",
+          "N.C. Gen. Stat. § 15A-146(c)",
+          "N.C. Gen. Stat. § 15A-150",
+          "N.C. Gen. Stat. § 15A-153"
+        ],
+        "summary": "On petition, the court expunges the records of a finding of not guilty on a misdemeanor or felony charge, or a finding of not responsible for certain infractions. The bars, effect, venue, fee, hearing and packet are identical to the dismissal petition: no prior-conviction bar, no prior-expunction bar and free filing for a true acquittal. This is a separate track because it is a different subsection with a different official form, and using AOC-CR-287 for an acquittal is a rejection risk."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2017-12-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge",
+        "infraction"
+      ],
+      "eligibleDispositions": [
+        "acquitted",
+        "found_not_responsible"
+      ],
+      "exclusions": [
+        "Out-of-state and federal charges are outside this relief; it reaches North Carolina records only."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Finding of not guilty or not responsible, once all related charges have reached final disposition",
+          "duration": "none"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Superior Court of the county where the charge was brought."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of superior court, county where the charge was brought",
+        "detail": "Statewide statute with county venue, on the AOC-approved form. On a grant the clerk notifies State and local agencies under G.S. 15A-150 and forwards a certified copy to the Division of Motor Vehicles where a civil revocation is involved."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-CR-288",
+          "officialSourceUrl": "https://www.nccourts.gov/documents/forms",
+          "notes": "Petition and Order of Expunction for a finding of not guilty or not responsible. The form combines the petition, the verification and the order. Edition 1.2 retains AOC-CR-288 Petition and Order of Expunction REV-2025-03 EN and REV-2020-12 ES and VI in the PETITION role, plus AOC-CR-288 Instructions REV-2025-03 EN and REV-2020-12 ES and VI. The review did not confirm a revision date for this form."
+        },
+        {
+          "role": "instructions",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-CR-288-INSTRUCTIONS",
+          "officialSourceUrl": "https://www.nccourts.gov/documents/forms",
+          "notes": "AOC-CR-288 Instructions, retained in Edition 1.2 at REV-2025-03 EN with REV-2020-12 ES and VI."
+        },
+        {
+          "role": "participant_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Covers venue, the absence of a filing fee for a true acquittal, that the petition may be granted without a hearing, the statute-specific form warning, that the clerk retains a confidential record under G.S. 15A-151(a1), and the instruction to keep copies of the charging documents and judgments before the expunction is granted."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "caseNumber",
+          "question": "What is the file number of the case you want expunged?",
+          "requirement": "required"
+        },
+        {
+          "key": "countyOfCharge",
+          "question": "In which North Carolina county was the charge brought?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseDescription",
+          "question": "What was the charge, as it appears on the court record?",
+          "requirement": "required"
+        },
+        {
+          "key": "findingType",
+          "question": "Were you found not guilty, or found not responsible for an infraction?",
+          "requirement": "required"
+        },
+        {
+          "key": "findingDate",
+          "question": "On what date was the finding entered?",
+          "requirement": "required"
+        },
+        {
+          "key": "allRelatedChargesDisposed",
+          "question": "Have all of the related charges in the case reached final disposition?",
+          "requirement": "required"
+        },
+        {
+          "key": "automaticExpunctionChecked",
+          "question": "Have you checked whether this case already cleared automatically? Cases where every charge was disposed favorably on or after December 1, 2021 clear by operation of law 180 to 210 days after final disposition.",
+          "requirement": "required"
+        },
+        {
+          "key": "futureRelief1454Or1456",
+          "question": "Do you also have a nonviolent felony committed before age 18, or a prostitution offense, that you may want expunged later?",
+          "requirement": "required",
+          "conditionDescription": "Asked because an expunction under G.S. 15A-146 may bar later relief under G.S. 15A-145.4 and 15A-145.6."
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "SBI criminal record check",
+          "obtainedFrom": "North Carolina Department of Public Safety, State Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Optional as a filing and essential in practice, to confirm the finding and to check whether the case already cleared automatically.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request a right-to-review copy of your own North Carolina criminal history from the SBI.",
+          "confirms": "findingDate"
+        },
+        {
+          "name": "Court file or certified disposition from the clerk",
+          "obtainedFrom": "Clerk of superior court in the county where the charge was brought",
+          "requirement": "conditional",
+          "conditionDescription": "Where the file number, offense description or finding date needs to be confirmed against the record.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk of superior court in the county of the charge for the case file or a certified copy of the disposition.",
+          "confirms": "findingDate"
+        },
+        {
+          "name": "Copies of the charging documents and judgments",
+          "obtainedFrom": "Clerk of superior court in the county where the charge was brought",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Obtain and keep permanent copies before filing. After an expunction, access to these records is restricted and you may be unable to obtain them if you later need to prove what actually happened."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature and date",
+          "whereInPacket": "AOC-CR-288, petition and verification signature block",
+          "why": "The petitioner must sign and verify the petition personally."
+        },
+        {
+          "item": "The order portion",
+          "whereInPacket": "AOC-CR-288, order section",
+          "why": "The order is for the judge. LegalEase does not complete or sign it."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "N.C. Gen. Stat. § 15A-146, Expunction of records when charges are dismissed or there are findings of not guilty",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_15A/GS_15A-146.html",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        },
+        {
+          "title": "AOC-CR-288 Petition and Order of Expunction, retained Edition 1.2 asset REV-2025-03 EN, role PETITION",
+          "url": "https://www.nccourts.gov/documents/forms",
+          "retrievedOn": "2026-08-01",
+          "sha256": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08"
+        },
+        {
+          "title": "AOC-CR-288 Instructions, retained Edition 1.2 asset REV-2025-03 EN",
+          "url": "https://www.nccourts.gov/documents/forms",
+          "retrievedOn": "2026-08-01",
+          "sha256": "19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade"
+        }
+      ],
+      "rules": {
+        "filing": "File the AOC-approved form with the clerk of superior court in the county where the charge was brought. G.S. 15A-146(c) requires any petition under this section to be on a form approved by the Administrative Office of the Courts.",
+        "fees": "none for a true acquittal. The costs of expunging the records required under G.S. 15A-150 are not taxed against the petitioner.",
+        "feeWaiver": "none needed, because no filing fee applies to a true acquittal.",
+        "notice": "none required by the AOC form. The court may grant the petition without a hearing under G.S. 15A-146(a6).",
+        "service": "none required by the AOC form.",
+        "participantSignature": "The petitioner signs and verifies the petition. The order portion is signed by the judge.",
+        "notarization": "none stated by the review for this form. Confirm against the current AOC-CR-288 before release."
+      },
+      "selfHelpStopConditions": [
+        "Any case where related charges have not all reached final disposition.",
+        "Anyone who may later need G.S. 15A-145.4 or 15A-145.6 relief, because sequencing matters.",
+        "Any immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Edition 1.2 retains the identified North Carolina AOC form, but the current official AOC forms channel could not be accessed through either available automation layer. The retained binary may support normalization and technical preparation where packet identity is otherwise established, but currentness, revision, and supersession remain unverified. Release remains disabled pending attended verification through an official North Carolina AOC channel. No unofficial substitute is permitted. The channel that must be checked is https://www.nccourts.gov/documents/forms, which returned HTTP 403 to a shell client following redirects and HTTP 403 to the browser-automation layer on 2026-08-05.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "session-b-ky-or.bundle.json",
+            "sourceHeading": "NC / officialAuthorityRefreshRequirements",
+            "sourceStatement": "AOC-CR-287 (Dec. 2025), AOC-CR-288, AOC-CR-296, AOC-CR-297 and AOC-CR-298 (July 2025) at the NC AOC - the review records all as build blockers and states no North Carolina forms were supplied to it. Edition 1.2 does retain all five, so form acquisition is satisfied in the archive even though it is unsatisfied in the review; revisions must still be re-checked at the AOC because the review confirmed only two revision dates.",
+            "counselQuestion": "Does the retained Edition 1.2 AOC-CR-288 REV-2025-03 EN remain the current, unsuperseded statewide form, as confirmed through an attended check of an official North Carolina AOC channel? The review confirmed no revision date for this form."
+          }
+        },
+        {
+          "question": "The full text of G.S. 15A-146(a2) was not read at the official source in this review. The statutory source is confirmed reachable at ncleg.gov as of 2026-08-05, but the text remains unread.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 3 - PETITION TO EXPUNGE A NOT-GUILTY OR NOT-RESPONSIBLE FINDING",
+            "sourceStatement": "Open questions: full text of 15A-146(a2) not read; current AOC-CR-288 revision not confirmed. **Build blockers** for this track."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "A separate subsection with its own statute-specific AOC form, no waiting period, no fee for a true acquittal, and a decision available without a hearing. It is kept as a distinct track rather than merged into the dismissal petition because the AOC form system is statute-specific and using AOC-CR-287 for an acquittal is a rejection risk. A custom pleading may not be used.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Check automatic expunction before generating any dismissal petition.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Check automatic expunction before generating any dismissal petition"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Check sequencing against 15A-145.4 and 15A-145.6.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Check sequencing against 15A-145.4 and 15A-145.6"
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "Advise retention of charging documents, dismissal orders and judgments before filing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Advise retention of charging documents, dismissal orders and judgments before filing"
+            }
+          },
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Remove the record-destruction claim and replace it with G.S. 15A-151(a1) and 15A-151.5.",
+            "undeterminedElement": "legal_effect_or_warning",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Remove the record-destruction claim and replace it with G.S. 15A-151(a1) and 15A-151.5"
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Expunction can harm an immigration case by destroying record access.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Expunction can harm an immigration case by destroying record access"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nc_145_5_misdemeanor",
+      "legalName": "Petition and Order of Expunction of Nonviolent Misdemeanor Convictions under G.S. 15A-145.5",
+      "publicName": "Expunge a nonviolent North Carolina misdemeanor conviction",
+      "controllingAuthority": {
+        "citations": [
+          "N.C. Gen. Stat. § 15A-145.5",
+          "S.L. 2020-35, the Second Chance Act",
+          "N.C. Gen. Stat. § 15A-150",
+          "N.C. Gen. Stat. § 15A-151(a1)",
+          "N.C. Gen. Stat. § 15A-153"
+        ],
+        "summary": "On petition, the court may expunge nonviolent misdemeanor convictions. Nonviolent is defined by exclusion in G.S. 15A-145.5(a). The waiting period is three years for one nonviolent misdemeanor conviction, for petitions filed on or after July 9, 2025, and seven years for more than one, each measured from the conviction and completion of any active, probationary or post-release sentence, whichever is later. The petitioner consents to two record checks: the AOC checks for prior expunctions and the DPS State Bureau of Investigation checks for prior convictions. The district attorney is given notice and may be heard."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2020-12-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "convicted"
+      ],
+      "exclusions": [
+        "Any Class A through G felony, so only Class H and I felonies can qualify as nonviolent.",
+        "Any Class A1 misdemeanor.",
+        "Impaired driving under G.S. 20-138.1 and related offenses. DWI is the classic trap.",
+        "Sex offenses and any offense requiring sex offender registration.",
+        "Offenses with assault as an essential element, certain offenses against minors, stalking and other enumerated crimes.",
+        "Methamphetamine offenses, certain controlled substance trafficking, and hate crimes, as enumerated.",
+        "Any non-traffic conviction at any time other than the offense or offenses being expunged bars relief on this track.",
+        "A new conviction during the waiting period.",
+        "Generally, more than one expunction under G.S. 15A-145.5 in a lifetime.",
+        "Outstanding restitution on the conviction to be expunged, until satisfied.",
+        "Pending charges at the time of the petition.",
+        "Out-of-state and federal convictions are not expungeable here, but they count toward eligibility."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "One nonviolent misdemeanor conviction, for petitions filed on or after July 9, 2025",
+          "duration": "3 years from the conviction and completion of any active, probationary or post-release sentence, whichever is later"
+        },
+        {
+          "condition": "More than one nonviolent misdemeanor conviction",
+          "duration": "7 years from the last conviction and completion of sentence"
+        }
+      ],
+      "outputStrategy": "composed",
+      "compositionMode": "sequential",
+      "units": [
+        {
+          "unitId": "nc_145_5_misdemeanor_record_gathering",
+          "order": 1,
+          "label": "Obtain the SBI record and the court file and fix the offence classes and dates",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "Guidance on pulling the SBI criminal record check and the court file from the clerk of superior court, so that every charge and conviction is classified by its North Carolina offence class and the sentence-completion dates are fixed. The nonviolent analysis is class-driven and the offence label will not resolve it, so this stage precedes the petition rather than accompanying it.",
+          "available": true
+        },
+        {
+          "unitId": "nc_145_5_misdemeanor_petition",
+          "order": 2,
+          "label": "Complete AOC-CR-298 with the record-check consents and the good-character affidavits",
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "The statute-specific AOC form, which covers both one nonviolent misdemeanor conviction and more than one, and which combines the petition, the affidavits, the record-check consents and the order. LegalEase completes the participant's portion from their answers and leaves the good-character affidavits, which are third-party statements, and the order for the judge.",
+          "available": true
+        },
+        {
+          "unitId": "nc_145_5_misdemeanor_filing_and_followthrough",
+          "order": 3,
+          "label": "File, pay or waive the fee, and follow the record checks, the prosecutor notice and the decision",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "Guidance on filing with the clerk of superior court in the county of the charge, paying the $175 fee or applying for an indigency waiver, the AOC and SBI record checks that follow, the district attorney's notice and opportunity to be heard, the court's decision, and the post-order verification that the agencies acted.",
+          "available": true
+        }
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Superior Court of the county where the charge was brought."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of superior court, county where the charge was brought",
+        "detail": "Statewide statute with county venue. After the petition is filed the AOC checks for prior expunctions, the DPS State Bureau of Investigation checks for prior convictions, and the district attorney is given notice and may be heard. On a grant the order directs the SBI, DPS, DMV, the AOC, the clerk and the arresting agency to expunge the records, and the clerk notifies State and local agencies under G.S. 15A-150."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-CR-298",
+          "officialSourceUrl": "https://www.nccourts.gov/documents/forms",
+          "notes": "Petition and Order of Expunction, July 2025 revision, covering one nonviolent misdemeanor conviction and more than one. Finding of Fact number 3 states the periods as three years for one conviction and seven for more than one. The petition, the affidavits, the record-check consents and the order are combined in this one form. Edition 1.2 retains AOC-CR-298 Petition and Order of Expunction REV-2025-07 EN in the PACKET role and AOC-CR-298 Instructions REV-2025-07 EN."
+        },
+        {
+          "role": "instructions",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-CR-298-INSTRUCTIONS",
+          "officialSourceUrl": "https://www.nccourts.gov/documents/forms",
+          "notes": "AOC-CR-298 Instructions, retained in Edition 1.2 at REV-2025-07 EN."
+        },
+        {
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Applies where the petitioner seeks an indigency waiver of the $175 filing fee.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-CV-226",
+          "officialSourceUrl": "https://www.nccourts.gov/documents/forms",
+          "notes": "Affidavit of Indigency. Edition 1.2 retains AOC-CV-226 REV-2023-04 EN and REV-2021-06 ES and VI in the AFFIDAVIT role. The waiver is available including for petitioners receiving SNAP, TANF or SSI or represented by a legal services organization."
+        },
+        {
+          "role": "record_gathering_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Stage 1. How to obtain the SBI criminal record check and the court file, and why the offence class rather than the offence label drives the nonviolent screen."
+        },
+        {
+          "role": "filing_and_followthrough_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Stage 3. Filing, the fee or waiver, the two agency record checks, the district attorney notice, the decision, and the follow-up SBI check confirming the agencies acted."
+        },
+        {
+          "role": "good_character_affidavit_request",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "The request package the participant gives to the third parties who will supply the good-character affidavits. LegalEase builds the request; it does not draft the content and does not assert that the participant is of good character."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "convictionCounty",
+          "question": "In which North Carolina county were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the file number of the conviction you want expunged?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseAsRecorded",
+          "question": "What was the offence, exactly as it appears on the court record or the SBI record?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseClassFromRecord",
+          "question": "What offence class does the official record show for this conviction?",
+          "requirement": "required",
+          "conditionDescription": "Taken from the record rather than from recall, because the nonviolent screen is class-driven and LegalEase may not determine an offence class itself."
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletionDate",
+          "question": "On what date did you finish the whole sentence, including any active time, probation and post-release supervision?",
+          "requirement": "required"
+        },
+        {
+          "key": "numberOfNonviolentMisdemeanors",
+          "question": "How many nonviolent misdemeanor convictions are you asking to expunge?",
+          "requirement": "required"
+        },
+        {
+          "key": "anyOtherNonTrafficConviction",
+          "question": "Do you have any other non-traffic conviction, anywhere, at any time, apart from the ones you are asking to expunge?",
+          "requirement": "required",
+          "conditionDescription": "Asked because any other non-traffic conviction is an absolute bar on this track."
+        },
+        {
+          "key": "newConvictionDuringWaitingPeriod",
+          "question": "Have you been convicted of anything new since the conviction you want expunged?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorExpunction1455",
+          "question": "Have you ever had a conviction expunged under G.S. 15A-145.5 before?",
+          "requirement": "required"
+        },
+        {
+          "key": "restitutionOutstanding",
+          "question": "Is any restitution on this conviction still unpaid?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any criminal charge pending right now?",
+          "requirement": "required"
+        },
+        {
+          "key": "outOfStateOrFederalConvictions",
+          "question": "Do you have any out-of-state or federal convictions?",
+          "requirement": "required",
+          "conditionDescription": "Asked because they are not expungeable in North Carolina but they count when assessing eligibility."
+        },
+        {
+          "key": "feeWaiverSought",
+          "question": "Do you want to apply for a waiver of the $175 filing fee?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "SBI criminal record check",
+          "obtainedFrom": "North Carolina Department of Public Safety, State Bureau of Investigation",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request a right-to-review copy of your own North Carolina criminal history from the SBI. This is what fixes the offence classes that drive the nonviolent analysis, the dispositions, and the sentence-completion dates.",
+          "confirms": "offenseClassFromRecord"
+        },
+        {
+          "name": "Court file from the clerk of superior court",
+          "obtainedFrom": "Clerk of superior court in the county where the charge was brought",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk of superior court in the county of the conviction for the case file.",
+          "confirms": "convictionDate"
+        },
+        {
+          "name": "Documentation of sentence completion, including active time, probation and post-release supervision",
+          "obtainedFrom": "Clerk of superior court, or the supervising probation office",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Obtain the judgment and any probation or post-release termination documentation showing the date the sentence finished.",
+          "confirms": "sentenceCompletionDate"
+        },
+        {
+          "name": "Proof of restitution satisfaction",
+          "obtainedFrom": "Clerk of superior court in the county of the conviction",
+          "requirement": "conditional",
+          "conditionDescription": "Where restitution was ordered on the conviction to be expunged.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for confirmation that the restitution has been paid in full.",
+          "confirms": "restitutionOutstanding"
+        },
+        {
+          "name": "Good-character affidavits from third parties",
+          "obtainedFrom": "Third parties the participant recruits",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask people who know you to complete the affidavit section of the form. These are their statements, not yours. LegalEase prepares the request package but cannot supply the content and cannot state that you are of good character."
+        },
+        {
+          "name": "FBI Identity History Summary",
+          "obtainedFrom": "Federal Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Where the record may extend beyond North Carolina.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request your Identity History Summary from the FBI.",
+          "confirms": "outOfStateOrFederalConvictions"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "The nonviolent classification entries",
+          "whereInPacket": "AOC-CR-298, findings and petition entries describing the offence and its class",
+          "why": "The classification is a legal characterization taken from the official record. It must not be auto-completed from participant recall."
+        },
+        {
+          "item": "The certification of no other non-traffic conviction",
+          "whereInPacket": "AOC-CR-298, petitioner certification entries",
+          "why": "This is an absolute bar on this track and must be screened against the SBI record, not participant recall."
+        },
+        {
+          "item": "The no-prior-expunction certification",
+          "whereInPacket": "AOC-CR-298, petitioner certification entries",
+          "why": "The AOC verifies this independently through its own record check; the certification is the petitioner's own statement."
+        },
+        {
+          "item": "The good-character affidavits",
+          "whereInPacket": "AOC-CR-298, affidavit section",
+          "why": "These are third-party statements which LegalEase cannot supply."
+        },
+        {
+          "item": "Petitioner signature and date",
+          "whereInPacket": "AOC-CR-298, petition signature block",
+          "why": "The petitioner must sign the petition personally."
+        },
+        {
+          "item": "The order portion",
+          "whereInPacket": "AOC-CR-298, order section",
+          "why": "The order is for the judge. LegalEase does not complete or sign it."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "N.C. Gen. Stat. § 15A-145.5, Expunction of certain misdemeanors and felonies; no age limitation",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_15A/GS_15A-145.5.html",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        },
+        {
+          "title": "AOC-CR-298 Petition and Order of Expunction, retained Edition 1.2 asset REV-2025-07 EN, role PACKET",
+          "url": "https://www.nccourts.gov/documents/forms",
+          "retrievedOn": "2026-08-01",
+          "sha256": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b"
+        },
+        {
+          "title": "AOC-CR-298 Instructions, retained Edition 1.2 asset REV-2025-07 EN",
+          "url": "https://www.nccourts.gov/documents/forms",
+          "retrievedOn": "2026-08-01",
+          "sha256": "5d648de001ff725135f8b83eb38a8c45fc5001ae2dd1d2edb2e6e34044117d5c"
+        },
+        {
+          "title": "AOC-CV-226 Affidavit of Indigency, retained Edition 1.2 asset REV-2023-04 EN",
+          "url": "https://www.nccourts.gov/documents/forms",
+          "retrievedOn": "2026-08-01",
+          "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f"
+        },
+        {
+          "title": "North Carolina SBI Right to Review Criminal History Instructions, retained Edition 1.2 asset NC-SBI-RIGHT-TO-REVIEW REV-2025-12 EN",
+          "url": "https://www.ncsbi.gov/Services/Criminal-Information-and-Identification",
+          "retrievedOn": "2026-08-01",
+          "sha256": "68fe0acc130a1a67eb045ad465fd06762167a5ee355a7e9dca046f5a6514c25e"
+        }
+      ],
+      "rules": {
+        "filing": "File AOC-CR-298 with the clerk of superior court in the county where the charge was brought.",
+        "fees": "$175 per petition. The costs of expunging the records required under G.S. 15A-150 are separate and are not taxed against the petitioner.",
+        "feeWaiver": "Indigency waiver available on AOC-CV-226, including for petitioners receiving SNAP, TANF or SSI or represented by a legal services organization.",
+        "notice": "The district attorney is given notice and may be heard.",
+        "service": "none stated by the review beyond the district attorney notice, which the statute provides for. Confirm against the current AOC-CR-298 before release.",
+        "participantSignature": "The petitioner signs the petition and the record-check consents. The good-character affidavits are signed by the third parties who give them. The order portion is signed by the judge.",
+        "notarization": "none stated by the review for this form. Confirm against the current AOC-CR-298 before release."
+      },
+      "selfHelpStopConditions": [
+        "Any offence that might be a Class A1 misdemeanor, a Class A through G felony, a DWI, a sex offence, or on the enumerated exclusion list.",
+        "Any other non-traffic conviction anywhere on the record.",
+        "Any prior G.S. 15A-145.5 expunction.",
+        "Outstanding restitution.",
+        "Pending charges.",
+        "District attorney objection.",
+        "Good-character affidavits, which require third parties.",
+        "Out-of-state or federal convictions requiring equivalency analysis.",
+        "Any immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The full text of G.S. 15A-145.5, including the complete enumerated exclusion list, was not read at the official source in this review. This is the single most important text to obtain for North Carolina. The statutory source is confirmed reachable at ncleg.gov as of 2026-08-05, but the text remains unread and the exclusion list is therefore not encoded.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 4 - NONVIOLENT MISDEMEANOR CONVICTIONS / OPEN QUESTIONS",
+            "sourceStatement": "Full text of G.S. 15A-145.5, including the complete enumerated exclusion list, not read at source. **Build blocker.** This is the single most important text to obtain for North Carolina."
+          }
+        },
+        {
+          "question": "Whether the good-character affidavits must come from named third parties, and how many are required.",
+          "impact": "build_blocker",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 4 - NONVIOLENT MISDEMEANOR CONVICTIONS / OPEN QUESTIONS",
+            "sourceStatement": "Whether the good-character affidavits must come from named third parties and how many. **Build blocker** for packet design."
+          }
+        },
+        {
+          "question": "The session law citation for the 2025 change reducing the one-misdemeanor waiting period from five years to three. The internal reference says S.L. 2025-71; the July 9, 2025 effective date is corroborated but the session law number is not.",
+          "impact": "release_blocker",
+          "affectedElement": "waiting_period",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 4 - NONVIOLENT MISDEMEANOR CONVICTIONS / OPEN QUESTIONS",
+            "sourceStatement": "The session law citation for the 2025 change. The reference says S.L. 2025-71; the effective date of July 9, 2025 is corroborated but the number is not. **Release blocker** for any citation in participant-facing material."
+          }
+        },
+        {
+          "question": "Whether the grant is mandatory on the statutory findings or discretionary.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 4 - NONVIOLENT MISDEMEANOR CONVICTIONS / OPEN QUESTIONS",
+            "sourceStatement": "Whether the grant is mandatory on the findings or discretionary. Unresolved."
+          }
+        },
+        {
+          "question": "Edition 1.2 retains the identified North Carolina AOC form, but the current official AOC forms channel could not be accessed through either available automation layer. The retained binary may support normalization and technical preparation where packet identity is otherwise established, but currentness, revision, and supersession remain unverified. Release remains disabled pending attended verification through an official North Carolina AOC channel. No unofficial substitute is permitted. The channel that must be checked is https://www.nccourts.gov/documents/forms, which returned HTTP 403 to a shell client following redirects and HTTP 403 to the browser-automation layer on 2026-08-05.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "session-b-ky-or.bundle.json",
+            "sourceHeading": "NC / officialAuthorityRefreshRequirements",
+            "sourceStatement": "AOC-CR-287 (Dec. 2025), AOC-CR-288, AOC-CR-296, AOC-CR-297 and AOC-CR-298 (July 2025) at the NC AOC - the review records all as build blockers and states no North Carolina forms were supplied to it. Edition 1.2 does retain all five, so form acquisition is satisfied in the archive even though it is unsatisfied in the review; revisions must still be re-checked at the AOC because the review confirmed only two revision dates.",
+            "counselQuestion": "Does the retained Edition 1.2 AOC-CR-298 REV-2025-07 EN remain the current, unsuperseded statewide form, and does its Finding of Fact number 3 still state the three-year and seven-year periods, as confirmed through an attended check of an official North Carolina AOC channel?"
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "A mandatory statute-specific AOC form does the document work, but the eligibility analysis is class-driven and unforgiving, and the back end involves two agency record checks and a prosecutor who may be heard. The route is therefore composed sequentially: record gathering first, because the offence class rather than the offence label decides the nonviolent screen; then the form; then filing and follow-through. The composition preserves the reviewed staging rather than collapsing three independently gated stages into one output. A custom pleading may not be used.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Obtain and encode the full nonviolent exclusion list before any generation.",
+            "undeterminedElement": "eligibility_branch",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 4 / LEGAL-DESIGN DECISION / Limitations",
+              "sourceStatement": "Obtain and encode the full nonviolent exclusion list before any generation."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The any-non-traffic-conviction bar on this track is absolute and must be screened against the SBI record, not participant recall.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 4 / LEGAL-DESIGN DECISION / Limitations",
+              "sourceStatement": "The any-non-traffic-conviction bar on this track is absolute and must be screened against the SBI record, not participant recall."
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "Good-character affidavits are participant-supplied third-party documents. Build the request, do not draft the content.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 4 / LEGAL-DESIGN DECISION / Limitations",
+              "sourceStatement": "Good-character affidavits are participant-supplied third-party documents. Build the request, do not draft the content."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "DWI and Class A1 misdemeanors are categorically out.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "DWI and Class A1 misdemeanors are categorically out"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Any non-traffic conviction anywhere bars the misdemeanor track.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Any non-traffic conviction anywhere bars the misdemeanor track"
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Offence classification.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Offense classification"
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "The district attorney is given notice and may be heard.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 4 / FILING AND POST-FILING PROCESS",
+              "sourceStatement": "Notice: the district attorney is given notice and may be heard.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Verify the 2025 session law citation.",
+            "undeterminedElement": "waiting_period",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Verify the 2025 session law citation"
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Expunction can harm an immigration case by destroying record access.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Expunction can harm an immigration case by destroying record access"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nc_145_5_felony",
+      "legalName": "Petition and Order of Expunction of Nonviolent Felony Convictions under G.S. 15A-145.5",
+      "publicName": "Expunge a nonviolent North Carolina felony conviction",
+      "controllingAuthority": {
+        "citations": [
+          "N.C. Gen. Stat. § 15A-145.5",
+          "S.L. 2020-35, the Second Chance Act",
+          "N.C. Gen. Stat. § 15A-150",
+          "N.C. Gen. Stat. § 15A-151(a1)",
+          "N.C. Gen. Stat. § 15A-153"
+        ],
+        "summary": "On petition, the court may expunge nonviolent felony convictions. Only Class H and I felonies can be nonviolent; Class A through G felonies are categorically out. The waiting period is ten years from completion of the sentence for one nonviolent felony conviction and twenty years for two or three. All nonviolent felonies disposed in the same session of court count as one nonviolent felony conviction for both the count and the waiting tier."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2020-12-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "convicted"
+      ],
+      "exclusions": [
+        "Any Class A through G felony. Only Class H and I felonies can be nonviolent.",
+        "Sex offenses and any offense requiring sex offender registration.",
+        "Offenses with assault as an essential element, certain offenses against minors, stalking and other enumerated crimes.",
+        "Methamphetamine offenses, certain controlled substance trafficking, and hate crimes, as enumerated.",
+        "More than three nonviolent felony convictions.",
+        "Disqualifying convictions, and any new conviction during the waiting period.",
+        "Outstanding restitution on the conviction to be expunged, until satisfied.",
+        "Generally, more than one expunction under G.S. 15A-145.5 in a lifetime.",
+        "Pending charges at the time of the petition.",
+        "Out-of-state and federal convictions are not expungeable here, but they count toward eligibility."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "One nonviolent felony conviction",
+          "duration": "10 years from completion of the sentence"
+        },
+        {
+          "condition": "Two or three nonviolent felony convictions",
+          "duration": "20 years from completion of the sentence"
+        },
+        {
+          "condition": "Nonviolent felonies disposed in the same session of court",
+          "duration": "Counted as one nonviolent felony conviction for both the count and the waiting tier, which can move a petitioner from the twenty-year tier to the ten-year tier or from ineligible to eligible"
+        }
+      ],
+      "outputStrategy": "composed",
+      "compositionMode": "sequential",
+      "units": [
+        {
+          "unitId": "nc_145_5_felony_record_gathering",
+          "order": 1,
+          "label": "Obtain the SBI record and the court file and fix the offence classes, dates and session groupings",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "Guidance on pulling the SBI criminal record check and the court file, classifying every conviction by North Carolina offence class, fixing the sentence-completion dates, and identifying which felonies were disposed in the same session of court, because the same-session rule can change the waiting tier or eligibility itself.",
+          "available": true
+        },
+        {
+          "unitId": "nc_145_5_felony_petition",
+          "order": 2,
+          "label": "Complete AOC-CR-297 with the record-check consents and the good-character affidavits",
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "The statute-specific AOC form for nonviolent felony convictions, combining the petition, the affidavits, the record-check consents and the order. LegalEase completes the participant's portion and leaves the good-character affidavits and the order.",
+          "available": true
+        },
+        {
+          "unitId": "nc_145_5_felony_filing_and_followthrough",
+          "order": 3,
+          "label": "File, pay or waive the fee, and follow the record checks, the prosecutor notice and the decision",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "Guidance on filing with the clerk of superior court in the county of the charge, the $175 fee or indigency waiver, the AOC and SBI record checks, the district attorney's notice and opportunity to be heard, the decision, and the post-order verification that the agencies acted.",
+          "available": true
+        }
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Superior Court of the county where the charge was brought."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of superior court, county where the charge was brought",
+        "detail": "As in the misdemeanor track, with AOC-CR-297 in place of AOC-CR-298. The AOC checks for prior expunctions, the DPS State Bureau of Investigation checks for prior convictions, and the district attorney is given notice and may be heard. On a grant the order directs the SBI, DPS, DMV, the AOC, the clerk and the arresting agency to expunge the records."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-CR-297",
+          "officialSourceUrl": "https://www.nccourts.gov/documents/forms",
+          "notes": "Petition and Order of Expunction for nonviolent felony convictions. The review gives no revision date and records the current revision as an open question. Edition 1.2 retains AOC-CR-297 Petition and Order of Expunction REV-2025-06 EN in the PACKET role and AOC-CR-297 Instructions REV-2025-06 EN. No ES or VI variant is retained."
+        },
+        {
+          "role": "instructions",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-CR-297-INSTRUCTIONS",
+          "officialSourceUrl": "https://www.nccourts.gov/documents/forms",
+          "notes": "AOC-CR-297 Instructions, retained in Edition 1.2 at REV-2025-06 EN."
+        },
+        {
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Applies where the petitioner seeks an indigency waiver of the $175 filing fee.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-CV-226",
+          "officialSourceUrl": "https://www.nccourts.gov/documents/forms",
+          "notes": "Affidavit of Indigency, retained in Edition 1.2 at REV-2023-04 EN with REV-2021-06 ES and VI."
+        },
+        {
+          "role": "record_gathering_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Stage 1, including the same-session analysis, which must be applied in the participant's favour wherever the record supports it."
+        },
+        {
+          "role": "filing_and_followthrough_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Stage 3. Filing, the fee or waiver, the two agency record checks, the district attorney notice, the decision, and the follow-up SBI check."
+        },
+        {
+          "role": "good_character_affidavit_request",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "The request package for the third parties who supply the good-character affidavits. LegalEase builds the request and does not draft the content."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "convictionCounty",
+          "question": "In which North Carolina county were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the file number of the conviction you want expunged?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseAsRecorded",
+          "question": "What was the offence, exactly as it appears on the court record or the SBI record?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseClassFromRecord",
+          "question": "What offence class does the official record show for this conviction?",
+          "requirement": "required",
+          "conditionDescription": "Taken from the record rather than recall. Only Class H and I felonies can be nonviolent."
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletionDate",
+          "question": "On what date did you finish the whole sentence, including any active time, probation and post-release supervision?",
+          "requirement": "required"
+        },
+        {
+          "key": "numberOfNonviolentFelonies",
+          "question": "How many nonviolent felony convictions do you have?",
+          "requirement": "required"
+        },
+        {
+          "key": "sameSessionDisposal",
+          "question": "Does the court record show that more than one of these felonies was disposed in the same session of court?",
+          "requirement": "required",
+          "conditionDescription": "Asked because felonies disposed in the same session count as one conviction for the count and the waiting tier. LegalEase does not assert this unless the record says so."
+        },
+        {
+          "key": "newConvictionDuringWaitingPeriod",
+          "question": "Have you been convicted of anything new since the conviction you want expunged?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorExpunction1455",
+          "question": "Have you ever had a conviction expunged under G.S. 15A-145.5 before?",
+          "requirement": "required"
+        },
+        {
+          "key": "restitutionOutstanding",
+          "question": "Is any restitution on this conviction still unpaid?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any criminal charge pending right now?",
+          "requirement": "required"
+        },
+        {
+          "key": "anyOtherNonTrafficConviction",
+          "question": "Do you have any other non-traffic conviction, anywhere, at any time, apart from the ones you are asking to expunge?",
+          "requirement": "required",
+          "conditionDescription": "Asked because whether the absolute bar that applies on the misdemeanor track also applies on the felony track is unresolved, so the answer is collected and the question is escalated rather than assumed."
+        },
+        {
+          "key": "outOfStateOrFederalConvictions",
+          "question": "Do you have any out-of-state or federal convictions?",
+          "requirement": "required"
+        },
+        {
+          "key": "feeWaiverSought",
+          "question": "Do you want to apply for a waiver of the $175 filing fee?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "SBI criminal record check",
+          "obtainedFrom": "North Carolina Department of Public Safety, State Bureau of Investigation",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request a right-to-review copy of your own North Carolina criminal history from the SBI. This fixes the offence classes, the dispositions and the sentence-completion dates.",
+          "confirms": "offenseClassFromRecord"
+        },
+        {
+          "name": "Court file from the clerk of superior court",
+          "obtainedFrom": "Clerk of superior court in the county where the charge was brought",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk for the case file. This is also where the session of court appears, which decides the same-session question.",
+          "confirms": "sameSessionDisposal"
+        },
+        {
+          "name": "Documentation of sentence completion, including active time, probation and post-release supervision",
+          "obtainedFrom": "Clerk of superior court, or the supervising probation office",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Obtain the judgment and any probation or post-release termination documentation showing the date the sentence finished.",
+          "confirms": "sentenceCompletionDate"
+        },
+        {
+          "name": "Proof of restitution satisfaction",
+          "obtainedFrom": "Clerk of superior court in the county of the conviction",
+          "requirement": "conditional",
+          "conditionDescription": "Where restitution was ordered on the conviction to be expunged.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for confirmation that the restitution has been paid in full.",
+          "confirms": "restitutionOutstanding"
+        },
+        {
+          "name": "Good-character affidavits from third parties",
+          "obtainedFrom": "Third parties the participant recruits",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask people who know you to complete the affidavit section of the form. These are their statements, not yours."
+        },
+        {
+          "name": "FBI Identity History Summary",
+          "obtainedFrom": "Federal Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Where the record may extend beyond North Carolina.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request your Identity History Summary from the FBI.",
+          "confirms": "outOfStateOrFederalConvictions"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "The nonviolent classification entries",
+          "whereInPacket": "AOC-CR-297, findings and petition entries describing the offence and its class",
+          "why": "The classification is a legal characterization taken from the official record and must not be auto-completed."
+        },
+        {
+          "item": "The same-session characterization",
+          "whereInPacket": "AOC-CR-297, entries describing the number of convictions and the applicable period",
+          "why": "LegalEase may not state that a set of felonies was disposed in the same session of court unless the record says so."
+        },
+        {
+          "item": "The good-character affidavits",
+          "whereInPacket": "AOC-CR-297, affidavit section",
+          "why": "These are third-party statements which LegalEase cannot supply."
+        },
+        {
+          "item": "Petitioner signature and date",
+          "whereInPacket": "AOC-CR-297, petition signature block",
+          "why": "The petitioner must sign the petition personally."
+        },
+        {
+          "item": "The order portion",
+          "whereInPacket": "AOC-CR-297, order section",
+          "why": "The order is for the judge."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "N.C. Gen. Stat. § 15A-145.5, Expunction of certain misdemeanors and felonies; no age limitation",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_15A/GS_15A-145.5.html",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        },
+        {
+          "title": "AOC-CR-297 Petition and Order of Expunction, retained Edition 1.2 asset REV-2025-06 EN, role PACKET",
+          "url": "https://www.nccourts.gov/documents/forms",
+          "retrievedOn": "2026-08-01",
+          "sha256": "99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c"
+        },
+        {
+          "title": "AOC-CR-297 Instructions, retained Edition 1.2 asset REV-2025-06 EN",
+          "url": "https://www.nccourts.gov/documents/forms",
+          "retrievedOn": "2026-08-01",
+          "sha256": "689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484"
+        },
+        {
+          "title": "AOC-CV-226 Affidavit of Indigency, retained Edition 1.2 asset REV-2023-04 EN",
+          "url": "https://www.nccourts.gov/documents/forms",
+          "retrievedOn": "2026-08-01",
+          "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f"
+        }
+      ],
+      "rules": {
+        "filing": "File AOC-CR-297 with the clerk of superior court in the county where the charge was brought.",
+        "fees": "$175 per petition. The costs of expunging the records required under G.S. 15A-150 are separate and are not taxed against the petitioner.",
+        "feeWaiver": "Indigency waiver available on AOC-CV-226, including for petitioners receiving SNAP, TANF or SSI or represented by a legal services organization.",
+        "notice": "The district attorney is given notice and may be heard.",
+        "service": "none stated by the review beyond the district attorney notice. Confirm against the current AOC-CR-297 before release.",
+        "participantSignature": "The petitioner signs the petition and the record-check consents. The good-character affidavits are signed by the third parties who give them. The order portion is signed by the judge.",
+        "notarization": "none stated by the review for this form. Confirm against the current AOC-CR-297 before release."
+      },
+      "selfHelpStopConditions": [
+        "Any offence that might be a Class A through G felony, a sex offence, or on the enumerated exclusion list.",
+        "Any same-session argument, which is a legal characterization worth getting right and worth escalating when the record is ambiguous.",
+        "Any other non-traffic conviction anywhere on the record, pending the unresolved question about whether the misdemeanor-track bar applies here.",
+        "Any prior G.S. 15A-145.5 expunction.",
+        "Outstanding restitution.",
+        "Pending charges.",
+        "District attorney objection.",
+        "Good-character affidavits, which require third parties.",
+        "Out-of-state or federal convictions requiring equivalency analysis.",
+        "Any immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The full text of G.S. 15A-145.5, including the complete enumerated exclusion list, was not read at the official source in this review. The statutory source is confirmed reachable at ncleg.gov as of 2026-08-05, but the text remains unread.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 5 - NONVIOLENT FELONY CONVICTIONS / Open questions",
+            "sourceStatement": "Full statutory text, as in Track 4. **Build blocker.**"
+          }
+        },
+        {
+          "question": "Whether the felony track carries the same absolute prior-conviction bar as the misdemeanor track. The internal reference states the rule as applying to the misdemeanor track only, which is the reading adopted by the review, but it must be confirmed against the statute.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 5 - NONVIOLENT FELONY CONVICTIONS / Open questions",
+            "sourceStatement": "Whether the felony track carries the same absolute prior-conviction bar as the misdemeanor track. **Release blocker.**"
+          }
+        },
+        {
+          "question": "Edition 1.2 retains the identified North Carolina AOC form, but the current official AOC forms channel could not be accessed through either available automation layer. The retained binary may support normalization and technical preparation where packet identity is otherwise established, but currentness, revision, and supersession remain unverified. Release remains disabled pending attended verification through an official North Carolina AOC channel. No unofficial substitute is permitted. The channel that must be checked is https://www.nccourts.gov/documents/forms, which returned HTTP 403 to a shell client following redirects and HTTP 403 to the browser-automation layer on 2026-08-05.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "session-b-ky-or.bundle.json",
+            "sourceHeading": "NC / officialAuthorityRefreshRequirements",
+            "sourceStatement": "AOC-CR-287 (Dec. 2025), AOC-CR-288, AOC-CR-296, AOC-CR-297 and AOC-CR-298 (July 2025) at the NC AOC - the review records all as build blockers and states no North Carolina forms were supplied to it. Edition 1.2 does retain all five, so form acquisition is satisfied in the archive even though it is unsatisfied in the review; revisions must still be re-checked at the AOC because the review confirmed only two revision dates.",
+            "counselQuestion": "Does the retained Edition 1.2 AOC-CR-297 REV-2025-06 EN remain the current, unsuperseded statewide form, as confirmed through an attended check of an official North Carolina AOC channel? The review confirmed no revision date for this form."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The output strategy, geography, packet, filing, fees, notice and effect follow the misdemeanor track with AOC-CR-297 in place of AOC-CR-298, so the same sequential composition applies: record gathering, then the form, then filing and follow-through. The same-session rule is what makes stage 1 indispensable here, because it can move a petitioner between waiting tiers or into eligibility, and it must be read off the record rather than asserted. A custom pleading may not be used.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Obtain and encode the full nonviolent exclusion list before any generation.",
+            "undeterminedElement": "eligibility_branch",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 4 / LEGAL-DESIGN DECISION / Limitations",
+              "sourceStatement": "Obtain and encode the full nonviolent exclusion list before any generation."
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "Apply the same-session rule in the participant's favor.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Apply the same-session rule in the participant's favor"
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "Good-character affidavits are participant-supplied third-party documents. Build the request, do not draft the content.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 4 / LEGAL-DESIGN DECISION / Limitations",
+              "sourceStatement": "Good-character affidavits are participant-supplied third-party documents. Build the request, do not draft the content."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "No reach to federal or out-of-state records.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "No reach to federal or out-of-state records"
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Offence classification.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Offense classification"
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "The district attorney is given notice and may be heard.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 4 / FILING AND POST-FILING PROCESS",
+              "sourceStatement": "Notice: the district attorney is given notice and may be heard.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Expunction can harm an immigration case by destroying record access.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Expunction can harm an immigration case by destroying record access"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nc_145_8a_youthful",
+      "legalName": "Petition and Order of Expunction of Youthful Convictions at Age 16 or 17 before December 1, 2019, under G.S. 15A-145.8A",
+      "publicName": "Clear a North Carolina conviction from when you were 16 or 17",
+      "controllingAuthority": {
+        "citations": [
+          "N.C. Gen. Stat. § 15A-145.8A",
+          "N.C. Gen. Stat. § 15A-150",
+          "N.C. Gen. Stat. § 15A-151(a1)",
+          "N.C. Gen. Stat. § 15A-153"
+        ],
+        "summary": "On petition, the court expunges convictions for Class H and I felonies and misdemeanors committed at age 16 or 17 before December 1, 2019, that is, before Raise the Age took effect. There is no waiting period beyond completion of the sentence, and there must be no outstanding restitution. Either the person or the district attorney may file."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2019-12-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "convicted"
+      ],
+      "exclusions": [
+        "Class A through G felonies, which are outside the section.",
+        "Offenses committed at age 18 or older.",
+        "Offenses committed on or after December 1, 2019.",
+        "Outstanding restitution.",
+        "Out-of-state and federal convictions."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Conviction for a Class H or I felony or a misdemeanor committed at age 16 or 17 before December 1, 2019",
+          "duration": "none beyond completion of the sentence"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Superior Court of the county where the charge was brought."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of superior court, county where the charge was brought",
+        "detail": "Statewide statute with county venue. On a grant the clerk notifies State and local agencies under G.S. 15A-150."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-CR-296",
+          "officialSourceUrl": "https://www.nccourts.gov/documents/forms",
+          "notes": "Petition and Order of Expunction under G.S. 15A-145.8A. The review gives no revision date and records the current revision as an open question. Edition 1.2 retains AOC-CR-296 Petition and Order of Expunction REV-2025-03 EN in the PETITION role. No instructions sheet and no ES or VI variant is retained for AOC-CR-296, which is a difference from the other four AOC-CR forms in this state."
+        },
+        {
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Applies where the petitioner seeks an indigency waiver of the $175 filing fee.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "AOC-CV-226",
+          "officialSourceUrl": "https://www.nccourts.gov/documents/forms",
+          "notes": "Affidavit of Indigency, retained in Edition 1.2 at REV-2023-04 EN with REV-2021-06 ES and VI."
+        },
+        {
+          "role": "participant_instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Covers the age and date boundary, which is the whole of this track's eligibility; the class limit; the restitution requirement; venue; the $175 fee and the waiver; and the caution that participants will describe these as ordinary adult convictions, so the cohort is easy to miss."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "dateOfBirth",
+          "question": "What is your date of birth?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseDate",
+          "question": "On what date was the offence committed?",
+          "requirement": "required",
+          "conditionDescription": "The offence date and the date of birth together decide whether the offence was committed at age 16 or 17 and before December 1, 2019."
+        },
+        {
+          "key": "convictionCounty",
+          "question": "In which North Carolina county were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the file number of the conviction you want expunged?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenseClassFromRecord",
+          "question": "What offence class does the official record show for this conviction?",
+          "requirement": "required",
+          "conditionDescription": "Only Class H and I felonies and misdemeanors are within the section."
+        },
+        {
+          "key": "sentenceCompleted",
+          "question": "Have you completed the whole sentence for this conviction?",
+          "requirement": "required"
+        },
+        {
+          "key": "restitutionOutstanding",
+          "question": "Is any restitution on this conviction still unpaid?",
+          "requirement": "required"
+        },
+        {
+          "key": "feeWaiverSought",
+          "question": "Do you want to apply for a waiver of the $175 filing fee?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "SBI criminal record check",
+          "obtainedFrom": "North Carolina Department of Public Safety, State Bureau of Investigation",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request a right-to-review copy of your own North Carolina criminal history from the SBI, to fix the offence class and the offence date.",
+          "confirms": "offenseClassFromRecord"
+        },
+        {
+          "name": "Court file from the clerk of superior court",
+          "obtainedFrom": "Clerk of superior court in the county where the charge was brought",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Ask the clerk for the case file, which shows the offence date that decides eligibility at the age boundary.",
+          "confirms": "offenseDate"
+        },
+        {
+          "name": "Documentation of sentence completion",
+          "obtainedFrom": "Clerk of superior court, or the supervising probation office",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Obtain the judgment and any probation termination documentation showing the sentence is complete.",
+          "confirms": "sentenceCompleted"
+        },
+        {
+          "name": "Proof of restitution satisfaction",
+          "obtainedFrom": "Clerk of superior court in the county of the conviction",
+          "requirement": "conditional",
+          "conditionDescription": "Where restitution was ordered.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for confirmation that the restitution has been paid in full.",
+          "confirms": "restitutionOutstanding"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "The offence class entry",
+          "whereInPacket": "AOC-CR-296, petition entries describing the offence",
+          "why": "The class is taken from the official record and is not determined by LegalEase."
+        },
+        {
+          "item": "Petitioner signature and date",
+          "whereInPacket": "AOC-CR-296, petition signature block",
+          "why": "The petitioner must sign the petition personally."
+        },
+        {
+          "item": "The order portion",
+          "whereInPacket": "AOC-CR-296, order section",
+          "why": "The order is for the judge."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "N.C. Gen. Stat. § 15A-145.8A, Expunction of records for offenses committed at age 16 or 17",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_15A/GS_15A-145.8A.html",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        },
+        {
+          "title": "AOC-CR-296 Petition and Order of Expunction, retained Edition 1.2 asset REV-2025-03 EN, role PETITION",
+          "url": "https://www.nccourts.gov/documents/forms",
+          "retrievedOn": "2026-08-01",
+          "sha256": "48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d"
+        },
+        {
+          "title": "AOC-CV-226 Affidavit of Indigency, retained Edition 1.2 asset REV-2023-04 EN",
+          "url": "https://www.nccourts.gov/documents/forms",
+          "retrievedOn": "2026-08-01",
+          "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f"
+        }
+      ],
+      "rules": {
+        "filing": "File AOC-CR-296 with the clerk of superior court in the county where the charge was brought. Either the person or the district attorney may file.",
+        "fees": "$175 per petition. A district attorney filing may differ.",
+        "feeWaiver": "Indigency waiver available on AOC-CV-226, including for petitioners receiving SNAP, TANF or SSI or represented by a legal services organization.",
+        "notice": "none stated by the review for this section. Confirm against the current AOC-CR-296 before release.",
+        "service": "none stated by the review for this section. Confirm against the current AOC-CR-296 before release.",
+        "participantSignature": "The petitioner signs the petition. The order portion is signed by the judge.",
+        "notarization": "none stated by the review for this form. Confirm against the current AOC-CR-296 before release."
+      },
+      "selfHelpStopConditions": [
+        "Age and date verification at the boundary, where the offence date is close to the participant's eighteenth birthday or to December 1, 2019.",
+        "Class A through G felonies, which are outside the section.",
+        "Outstanding restitution.",
+        "Any immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The full text of G.S. 15A-145.8A was not read at the official source in this review. The statutory source is confirmed reachable at ncleg.gov as of 2026-08-05, but the text remains unread.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 6 - YOUTHFUL CONVICTIONS / Open questions",
+            "sourceStatement": "Full text of G.S. 15A-145.8A not read. **Build blocker.**"
+          }
+        },
+        {
+          "question": "Whether the grant is truly mandatory on eligibility. The internal reference states that a judge must grant an eligible petition; the review did not verify it. If correct, this is the strongest conviction relief in the state.",
+          "impact": "release_blocker",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 6 - YOUTHFUL CONVICTIONS / Open questions",
+            "sourceStatement": "Whether the grant is truly mandatory. **Release blocker** for eligibility language."
+          }
+        },
+        {
+          "question": "Edition 1.2 retains the identified North Carolina AOC form, but the current official AOC forms channel could not be accessed through either available automation layer. The retained binary may support normalization and technical preparation where packet identity is otherwise established, but currentness, revision, and supersession remain unverified. Release remains disabled pending attended verification through an official North Carolina AOC channel. No unofficial substitute is permitted. The channel that must be checked is https://www.nccourts.gov/documents/forms, which returned HTTP 403 to a shell client following redirects and HTTP 403 to the browser-automation layer on 2026-08-05. For AOC-CR-296 the attended check must also establish whether an official instructions sheet exists, because none is retained in Edition 1.2.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "session-b-ky-or.bundle.json",
+            "sourceHeading": "NC / officialAuthorityRefreshRequirements",
+            "sourceStatement": "AOC-CR-287 (Dec. 2025), AOC-CR-288, AOC-CR-296, AOC-CR-297 and AOC-CR-298 (July 2025) at the NC AOC - the review records all as build blockers and states no North Carolina forms were supplied to it. Edition 1.2 does retain all five, so form acquisition is satisfied in the archive even though it is unsatisfied in the review; revisions must still be re-checked at the AOC because the review confirmed only two revision dates.",
+            "counselQuestion": "Does the retained Edition 1.2 AOC-CR-296 REV-2025-03 EN remain the current, unsuperseded statewide form, and does an official AOC instructions sheet exist for it, as confirmed through an attended check of an official North Carolina AOC channel?"
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "A narrow but valuable cohort, on a single statute-specific AOC form, with no waiting period beyond sentence completion and a short eligibility test that turns almost entirely on the offence date and the participant's age at that date. It is easy to miss because participants will describe these as ordinary adult convictions, so it should be screened for aggressively. A custom pleading may not be used.",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "Screen for this cohort aggressively, because participants will describe these as ordinary adult convictions.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 6 / Legal-design decision",
+              "sourceStatement": "This is a narrow but valuable cohort and it is easy to miss, because participants will describe these as ordinary adult convictions."
+            }
+          },
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Read 15A-146, 15A-145.8A and the Track 7 statutes.",
+            "undeterminedElement": "governing_mechanism",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Read 15A-146, 15A-145.8A and the Track 7 statutes"
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Offence classification.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Offense classification"
+            }
+          },
+          {
+            "classification": "self_help_boundary",
+            "statement": "Expunction can harm an immigration case by destroying record access.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Expunction can harm an immigration case by destroying record access"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nc_targeted_statutes",
+      "legalName": "Targeted Age-Based and Diversion Expunction Statutes under G.S. 15A-145, 15A-145.1, 15A-145.2, 15A-145.3 and 15A-145.4",
+      "publicName": "Other North Carolina expunctions for young people and completed diversion programmes",
+      "controllingAuthority": {
+        "citations": [
+          "N.C. Gen. Stat. § 15A-145",
+          "N.C. Gen. Stat. § 15A-145.1",
+          "N.C. Gen. Stat. § 15A-145.2",
+          "N.C. Gen. Stat. § 15A-145.3",
+          "N.C. Gen. Stat. § 15A-145.4"
+        ],
+        "summary": "A family of targeted statutes, each with its own form and rules: G.S. 15A-145 for offenses committed under age 18 or under 21 and for larceny by anyone; G.S. 15A-145.1 for gang offenses committed before age 18; G.S. 15A-145.2 and 15A-145.3 for certain drug conditional discharges; and G.S. 15A-145.4 for a nonviolent felony committed before age 18. Sequencing matters: an expunction under G.S. 15A-146 may bar later relief under G.S. 15A-145.4, while a person may obtain relief under G.S. 15A-145 before or simultaneously with G.S. 15A-146, because 15A-145 does not treat a 15A-146 expunction as a bar."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-31",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "conviction",
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "convicted",
+        "conditional_discharge"
+      ],
+      "exclusions": [
+        "Not determined. The individual statutes were not read in this review, so no exclusion list can be stated without inventing one."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Not determined. The internal reference gives a two-year period for an under-18 misdemeanor and a fifteen-year period for larceny under G.S. 15A-145, without citation, and the review did not verify either",
+          "duration": "unresolved pending the statutory texts"
+        }
+      ],
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Superior Court of the county where the charge was brought, stated by the review at the jurisdiction level rather than per statute."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Clerk of superior court, county where the charge was brought",
+        "detail": "Stated by the review only at the jurisdiction level: all statewide statutes with county venue. No destination is stated per statute within this family."
+      },
+      "components": [],
+      "participantInputs": [],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "N.C. Gen. Stat. § 15A-145, Expunction of records for first offenders under the age of 18 at the time of conviction of misdemeanor",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_15A/GS_15A-145.html",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        },
+        {
+          "title": "N.C. Gen. Stat. § 15A-145.1, Expunction of records for first offenders under the age of 18 at the time of conviction of certain gang offenses",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_15A/GS_15A-145.1.html",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        },
+        {
+          "title": "N.C. Gen. Stat. § 15A-145.2, Expunction of records for first offenders not over 21 years of age at the time of the offense of certain drug offenses",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_15A/GS_15A-145.2.html",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        },
+        {
+          "title": "N.C. Gen. Stat. § 15A-145.3, Expunction of records for first offenders not over 21 years of age at the time of the offense of certain toxic vapors offenses",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_15A/GS_15A-145.3.html",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        },
+        {
+          "title": "N.C. Gen. Stat. § 15A-145.4, Expunction of records for first offenders who are under 18 years of age at the time of the commission of a nonviolent felony",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_15A/GS_15A-145.4.html",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Not determined. Each statute operates through its own AOC-CR form, and no form numbers are given by the review.",
+        "fees": "Not determined.",
+        "feeWaiver": "Not determined.",
+        "notice": "Not determined.",
+        "service": "Not determined.",
+        "participantSignature": "Not determined.",
+        "notarization": "Not determined."
+      },
+      "selfHelpStopConditions": [
+        "Every matter under this family, until each statute is read and either mapped to a track or documented as out of scope.",
+        "Sequencing questions involving G.S. 15A-145.4, because a prior G.S. 15A-146 expunction may bar that relief."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The statutory texts and form numbers for G.S. 15A-145, 15A-145.1, 15A-145.2, 15A-145.3 and 15A-145.4 were not read in this review, so the output strategy for this family is undetermined and no packet identity exists. Each of the five statutory sources is confirmed reachable at ncleg.gov as of 2026-08-05; the texts remain unread and no AOC form numbers are identified.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 7 - TARGETED AGE-BASED AND DIVERSION STATUTES",
+            "sourceStatement": "Output strategy: undetermined pending the statutory texts and form numbers."
+          }
+        },
+        {
+          "question": "Which AOC-CR form corresponds to each of the five targeted statutes. The review records only 'Various AOC-CR' and gives no form numbers, so no Edition 1.2 cross-reference is possible for this family and no form may be selected by name similarity.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "Track summary",
+            "sourceStatement": "7. Targeted age-based and diversion statutes | 15A-145, 145.1, 145.2, 145.3, 145.4 | Various AOC-CR | Additional research required | Additional research required"
+          }
+        },
+        {
+          "question": "The two waiting periods the internal reference gives for G.S. 15A-145, being two years for an under-18 misdemeanor and fifteen years for larceny, are uncited and unverified.",
+          "impact": "build_blocker",
+          "affectedElement": "waiting_period",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 7 - TARGETED AGE-BASED AND DIVERSION STATUTES",
+            "sourceStatement": "The internal reference lists them in a single sentence and gives two waiting periods without citation."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "The review classifies this family as additional research required and states that North Carolina cannot be called complete until each statute is read and either mapped to a track or documented as out of scope. No output strategy is asserted, because the review determined none and a concrete strategy may never stand in for what has not been decided. The family is preserved here as a single deferred entry, exactly as the review recorded it, rather than split into five speculative tracks or dropped.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Read 15A-146, 15A-145.8A and the Track 7 statutes.",
+            "undeterminedElement": "governing_mechanism",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Read 15A-146, 15A-145.8A and the Track 7 statutes"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Check sequencing against 15A-145.4 and 15A-145.6.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Check sequencing against 15A-145.4 and 15A-145.6"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nc-ls-1",
+      "legalName": "Expunction on Grounds of Identity Theft or Mistaken Identity under G.S. 15A-147",
+      "publicName": "Clear a North Carolina record that was created by identity theft or mistaken identity",
+      "controllingAuthority": {
+        "citations": [
+          "N.C. Gen. Stat. § 15A-147"
+        ],
+        "summary": "Expunction where charges are dismissed, or there are findings of not guilty, as a result of identity theft or mistaken identity. The controlling review lists this separately from the ordinary adult scope and does not specify its mechanism, form, venue or strategy."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-31",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "dismissed",
+        "acquitted"
+      ],
+      "exclusions": [
+        "Not determined. G.S. 15A-147 was not read in this review."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Not determined",
+          "duration": "unresolved pending the statutory text"
+        }
+      ],
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Not stated by the review for this matter."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Not determined",
+        "detail": "The review states no filing actor and no destination for this matter. It is recorded as listed separately, not as part of the ordinary adult scope."
+      },
+      "components": [],
+      "participantInputs": [],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "N.C. Gen. Stat. § 15A-147, Expunction of records when charges are dismissed or there are findings of not guilty as a result of identity theft or mistaken identity",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_15A/GS_15A-147.html",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Not determined.",
+        "fees": "Not determined.",
+        "feeWaiver": "Not determined.",
+        "notice": "Not determined.",
+        "service": "Not determined.",
+        "participantSignature": "Not determined.",
+        "notarization": "Not determined."
+      },
+      "selfHelpStopConditions": [
+        "Every matter under this section, until the statute is read and the mechanism, form and venue are established."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "G.S. 15A-147 was not read in this review and no form, venue, filing actor or output strategy is stated for it. The statutory source is confirmed reachable at ncleg.gov as of 2026-08-05; the text remains unread.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+            "sourceStatement": "Identity theft and mistaken identity | G.S. 15A-147 | Expunction where charges are dismissed or there are findings of not guilty as a result of identity theft or mistaken identity. Template directs separate listing."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "The controlling review records this matter in the table of matters listed separately from the ordinary adult scope, with a citation and a one-line description and nothing further. It is a genuine North Carolina relief mechanism, so it is preserved here as a deferred entry rather than dropped, and no output strategy is asserted because the review determined none. The template directs separate listing; separate listing is not a determination that the relief is unavailable.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Template directs separate listing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+              "sourceStatement": "Template directs separate listing."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nc-ls-2",
+      "legalName": "Expunction of DNA Records under G.S. 15A-148 and the DNA Application within G.S. 15A-146(b1)",
+      "publicName": "Remove your DNA record after a North Carolina case cleared",
+      "controllingAuthority": {
+        "citations": [
+          "N.C. Gen. Stat. § 15A-148",
+          "N.C. Gen. Stat. § 15A-146(b1)"
+        ],
+        "summary": "Expunction of DNA records where charges are dismissed on appeal or a pardon of innocence is granted, and the separate DNA application route within G.S. 15A-146(b1) where the case was dismissed and the person's DNA record or profile is in the State DNA Database. The (b1) application must be served on the district attorney not less than 20 days before the hearing."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-31",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "dna_record"
+      ],
+      "eligibleDispositions": [
+        "dismissed",
+        "pardon_of_innocence"
+      ],
+      "exclusions": [
+        "Not determined. G.S. 15A-148 was not read in this review."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Not determined",
+          "duration": "unresolved pending the statutory text"
+        }
+      ],
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Not stated by the review for this matter, beyond the hearing implied by the 20-day service requirement in G.S. 15A-146(b1)."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Not determined",
+        "detail": "The review states no filing actor and no destination for this matter. It records that the G.S. 15A-146(b1) application must be served on the district attorney not less than 20 days before the hearing, and that no form number is given for it. The application is not retained in Edition 1.2."
+      },
+      "components": [],
+      "participantInputs": [],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "N.C. Gen. Stat. § 15A-148, Expunction of DNA records when charges are dismissed on appeal or pardon of innocence is granted",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_15A/GS_15A-148.html",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        },
+        {
+          "title": "N.C. Gen. Stat. § 15A-146, including the subsection (b1) DNA application route",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_15A/GS_15A-146.html",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Not determined. No form number is given by the review for the G.S. 15A-146(b1) application, and no such form is retained in Edition 1.2.",
+        "fees": "Not determined.",
+        "feeWaiver": "Not determined.",
+        "notice": "Not determined.",
+        "service": "The G.S. 15A-146(b1) application must be served on the district attorney not less than 20 days before the hearing.",
+        "participantSignature": "Not determined.",
+        "notarization": "Not determined."
+      },
+      "selfHelpStopConditions": [
+        "DNA expunction, which carries its own service and hearing requirements.",
+        "Every matter under G.S. 15A-148, until the statute is read and the mechanism, form and venue are established."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "G.S. 15A-148 was not read in this review, and no form number is identified for the DNA application under G.S. 15A-146(b1). No such form is retained in Edition 1.2, so no document identity exists and none may be selected by name similarity. Both statutory sources are confirmed reachable at ncleg.gov as of 2026-08-05; the texts remain unread.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+            "sourceStatement": "DNA records | G.S. 15A-148, and G.S. 15A-146(b1) | Expunction of DNA records where charges are dismissed on appeal or a pardon of innocence is granted, and the DNA application route within 15A-146. The (b1) application must be served on the district attorney not less than 20 days before the hearing."
+          }
+        },
+        {
+          "question": "The review records the missing DNA application route inside G.S. 15A-146(b1), including its 20-day service requirement, as a correction required to the internal reference. Whether that route is offered as its own track or as a conditional component of the dismissal petition is undetermined.",
+          "impact": "build_blocker",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "PART 2 - SOURCE DOCUMENT REVIEW / Corrections required",
+            "sourceStatement": "**The DNA application route inside 15A-146(b1) is missing,** including its 20-day service requirement on the district attorney."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "Recorded by the controlling review in the table of matters listed separately from the ordinary adult scope. It is preserved as a deferred entry because it is a genuine relief mechanism with a stated service rule, and because the dismissal petition track carries the (b1) application only as a conditional component and routes the participant away from it. No output strategy is asserted, and no form is named, because none is identified in the review and none is retained in Edition 1.2.",
+        "limitations": [
+          {
+            "classification": "self_help_boundary",
+            "statement": "DNA expunction, which carries its own service and hearing requirements.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "TRACK 2 / SELF-HELP LIMITS",
+              "sourceStatement": "DNA expunction, which carries its own service and hearing requirements."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nc-ls-3",
+      "legalName": "Expunction Following a Pardon of Innocence under G.S. 15A-149",
+      "publicName": "Clear a North Carolina record after a pardon of innocence",
+      "controllingAuthority": {
+        "citations": [
+          "N.C. Gen. Stat. § 15A-149"
+        ],
+        "summary": "Expunction of records following a pardon of innocence. The controlling review lists this matter separately and expressly places it out of scope for the ordinary adult record-clearing product."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-31",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "pardon_of_innocence"
+      ],
+      "exclusions": [
+        "Not determined. G.S. 15A-149 was not read in this review and the review places the matter out of scope."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Not determined",
+          "duration": "unresolved; the review places this matter out of scope"
+        }
+      ],
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Not stated by the review for this matter."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Not determined",
+        "detail": "The review states no filing actor and no destination for this matter and marks it out of scope."
+      },
+      "components": [],
+      "participantInputs": [],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "N.C. Gen. Stat. § 15A-149, Expunction of records when pardon of innocence is granted",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_15A/GS_15A-149.html",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Not determined.",
+        "fees": "Not determined.",
+        "feeWaiver": "Not determined.",
+        "notice": "Not determined.",
+        "service": "Not determined.",
+        "participantSignature": "Not determined.",
+        "notarization": "Not determined."
+      },
+      "selfHelpStopConditions": [
+        "Every matter under this section. The review places it out of scope, and obtaining a pardon of innocence is itself outside anything LegalEase generates."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The review marks this matter out of scope without stating whether that is a permanent product-scope exclusion or a deferral pending the statutory text. G.S. 15A-149 was not read; the statutory source is confirmed reachable at ncleg.gov as of 2026-08-05.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+            "sourceStatement": "Pardon of innocence | G.S. 15A-149 | Out of scope.",
+            "counselQuestion": "Is the expunction that follows a pardon of innocence under G.S. 15A-149 permanently outside the LegalEase product scope, or is it deferred pending the statutory text? The review records only the words 'Out of scope' without distinguishing the two."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "The controlling review places this matter out of scope in its table of separately listed matters. It is preserved here as a deferred entry rather than dropped, so that the source ID is accounted for, and no output strategy is asserted. It is not recorded as rejected, because the review's two words do not distinguish a permanent product-scope exclusion from a deferral, and asserting the stronger reading would put a decision counsel did not make into the record. That distinction is returned to counsel.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Out of scope.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+              "sourceStatement": "Out of scope."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nc-ls-4",
+      "legalName": "Expunction of Prostitution Offenses under G.S. 15A-145.6",
+      "publicName": "Clear a North Carolina prostitution offense",
+      "controllingAuthority": {
+        "citations": [
+          "N.C. Gen. Stat. § 15A-145.6"
+        ],
+        "summary": "Relief for prostitution offenses, which the controlling review records as trafficking-adjacent and as relief that may be barred by a prior expunction under G.S. 15A-146. The template directs separate listing."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-31",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "convicted"
+      ],
+      "exclusions": [
+        "Not determined. G.S. 15A-145.6 was not read in this review.",
+        "A prior expunction under G.S. 15A-146 may bar this relief."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Not determined",
+          "duration": "unresolved pending the statutory text"
+        }
+      ],
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Not stated by the review for this matter."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "Not determined",
+        "detail": "The review states no filing actor and no destination for this matter."
+      },
+      "components": [],
+      "participantInputs": [],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "N.C. Gen. Stat. § 15A-145.6, Conditional discharge and expunction of records for certain prostitution offenses",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_15A/GS_15A-145.6.html",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Not determined.",
+        "fees": "Not determined.",
+        "feeWaiver": "Not determined.",
+        "notice": "Not determined.",
+        "service": "Not determined.",
+        "participantSignature": "Not determined.",
+        "notarization": "Not determined."
+      },
+      "selfHelpStopConditions": [
+        "Every matter under this section, until the statute is read and the mechanism, form and venue are established.",
+        "Any participant who has already obtained a G.S. 15A-146 expunction, because it may bar this relief."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "G.S. 15A-145.6 was not read in this review and no form, venue, filing actor or output strategy is stated for it. The statutory source is confirmed reachable at ncleg.gov as of 2026-08-05; the text remains unread.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+            "sourceStatement": "Prostitution offenses | G.S. 15A-145.6 | Relief that may be barred by a prior 15A-146 expunction. Trafficking-adjacent, template directs separate listing."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "Recorded by the controlling review in the table of matters listed separately from the ordinary adult scope, as trafficking-adjacent relief that a prior G.S. 15A-146 expunction may bar. It is preserved as a deferred entry rather than dropped, because the sequencing rule that flows from it is already carried as a packet instruction on both G.S. 15A-146 tracks and the mechanism itself must remain visible. No output strategy is asserted.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Check sequencing against 15A-145.4 and 15A-145.6.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LIMITATIONS, CLASSIFIED",
+              "sourceStatement": "Check sequencing against 15A-145.4 and 15A-145.6"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Trafficking-adjacent, template directs separate listing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+              "sourceStatement": "Trafficking-adjacent, template directs separate listing."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "nc-ls-5",
+      "legalName": "Juvenile Records under N.C. Gen. Stat. Chapter 7B",
+      "publicName": "Clear a North Carolina juvenile record",
+      "controllingAuthority": {
+        "citations": [
+          "N.C. Gen. Stat. Chapter 7B"
+        ],
+        "summary": "Juvenile record relief under Chapter 7B. The controlling review lists this matter separately and expressly places it out of scope for the ordinary adult record-clearing product."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-31",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-31"
+      },
+      "eligibleRecordTypes": [
+        "juvenile_record"
+      ],
+      "eligibleDispositions": [
+        "adjudicated"
+      ],
+      "exclusions": [
+        "Not determined. Chapter 7B was not read in this review and the review places the matter out of scope."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Not determined",
+          "duration": "unresolved; the review places this matter out of scope"
+        }
+      ],
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Not stated by the review for this matter."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Not determined",
+        "detail": "The review states no filing actor and no destination for this matter and marks it out of scope. Juvenile matters are heard in the district court division rather than the superior court venue that governs every adult track in this memo."
+      },
+      "components": [],
+      "participantInputs": [],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "N.C. Gen. Stat. Chapter 7B, Juvenile Code",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/ByChapter/Chapter_7B.html",
+          "retrievedOn": "2026-08-05",
+          "sha256": null
+        }
+      ],
+      "rules": {
+        "filing": "Not determined.",
+        "fees": "Not determined.",
+        "feeWaiver": "Not determined.",
+        "notice": "Not determined.",
+        "service": "Not determined.",
+        "participantSignature": "Not determined.",
+        "notarization": "Not determined."
+      },
+      "selfHelpStopConditions": [
+        "Every juvenile matter. The review places Chapter 7B out of scope, and the adult tracks in this memo do not reach juvenile records."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The review marks juvenile records out of scope without stating whether that is a permanent product-scope exclusion or a deferral pending a separate juvenile review. Chapter 7B was not read; the statutory source is confirmed reachable at ncleg.gov as of 2026-08-05.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+            "sourceStatement": "Juvenile records | Chapter 7B | Out of scope.",
+            "counselQuestion": "Is North Carolina juvenile record relief under Chapter 7B permanently outside the LegalEase product scope, or is it deferred to a separate juvenile review? The review records only the words 'Out of scope' without distinguishing the two."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_research_required",
+        "rationale": "The controlling review places this matter out of scope in its table of separately listed matters. It is preserved here as a deferred entry rather than dropped, so that the source ID is accounted for, and no output strategy is asserted. It is not recorded as rejected, because the review's two words do not distinguish a permanent product-scope exclusion from a deferral to a separate juvenile review, and asserting the stronger reading would put a decision counsel did not make into the record.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Out of scope.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+              "sourceStatement": "Out of scope."
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
