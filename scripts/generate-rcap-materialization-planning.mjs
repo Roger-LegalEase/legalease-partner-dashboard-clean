@@ -216,6 +216,101 @@ const guidanceLaneReconciliation = {
   runtimeStatus: "runtime_disabled",
   productionEnabled: false
 };
+const normalizationJobs = factoryPlan.jobs.filter(
+  (job) =>
+    /-legal-design-normalization$/u.test(job.jobId) &&
+    job.jurisdiction !== "PA"
+);
+const normalizationReadyJobs = normalizationJobs
+  .filter((job) => job.status === "ready")
+  .map((job) => job.jobId)
+  .sort();
+const normalizationBlockedJobs = normalizationJobs.filter(
+  (job) => job.status === "blocked"
+);
+const normalizationReadyForSession = (session) =>
+  normalizationReadyJobs.filter((jobId) => {
+    const job = normalizationJobs.find((candidate) => candidate.jobId === jobId);
+    return job?.assignmentClaim?.ownerSession === session;
+  });
+const expectedRoutingReservations = {
+  ...productionPlan.routingReservations,
+  sessionB: {
+    ...productionPlan.routingReservations.sessionB,
+    preferredFirstJobs:
+      normalizationReadyForSession("SESSION_B").slice(0, 4),
+    status: "ready_for_normalization"
+  },
+  sessionD: {
+    ...productionPlan.routingReservations.sessionD,
+    preferredFirstJobs:
+      normalizationReadyForSession("SESSION_D").slice(0, 4),
+    status:
+      normalizationBlockedJobs.length === 0
+        ? "ready_for_normalization"
+        : "partially_ready_with_typed_blockers"
+  },
+  normalizationReadiness: {
+    ...productionPlan.routingReservations.normalizationReadiness,
+    status:
+      factoryPlan.jobs.find(
+        (job) =>
+          job.jobId ===
+          "rcap-nationwide-normalization-readiness-foundation"
+      )?.status ?? "blocked",
+    jurisdictionsReady:
+      factoryPlan.normalizationReadiness.readyForNormalization,
+    jurisdictionsBlocked:
+      factoryPlan.normalizationReadiness.blocked,
+    blockedByState:
+      factoryPlan.normalizationReadiness.byReadinessState,
+    sessionDAdjudication: {
+      ...productionPlan.routingReservations.normalizationReadiness
+        .sessionDAdjudication,
+      typedFailClosedStates: Object.fromEntries(
+        normalizationJobs
+          .filter(
+            (job) =>
+              job.assignmentClaim?.ownerSession === "SESSION_D" &&
+              (job.normalizationReadiness?.readinessBlockers?.length ?? 0) > 0
+          )
+          .map((job) => [
+            job.jurisdiction,
+            job.normalizationReadiness.readinessBlockers
+          ])
+      )
+    },
+    firstSessionBJobsAfterReadiness:
+      normalizationReadyForSession("SESSION_B").slice(0, 4),
+    firstSessionDJobsAfterReadiness:
+      normalizationReadyForSession("SESSION_D").slice(0, 4),
+    scaffoldStatus:
+      normalizationBlockedJobs.length === 0
+        ? "ready_for_normalization"
+        : "ready_except_typed_state_blockers",
+    externalInput: {
+      path:
+        reviewContract.sourceArchive.portableLocator,
+      expectedSha256:
+        reviewContract.sourceArchive.expectedSha256,
+      expectedBytes:
+        reviewContract.sourceArchive.expectedBytes,
+      status:
+        factoryPlan.materializationPlanning.legalReviewMaterialization
+          .externalArchiveStatus
+    }
+  }
+};
+const expectedNextDispatchWave = {
+  ...productionPlan.nextDispatchWave,
+  readyJobIds: normalizationReadyJobs,
+  ownedPathOverlaps: 0,
+  reason:
+    `${normalizationReadyJobs.length} normalization jobs have exact verified ` +
+    `Edition 1.2 review receipts; ${normalizationBlockedJobs.length} ` +
+    `${normalizationBlockedJobs.length === 1 ? "remains" : "remain"} ` +
+    "fail-closed on typed state-specific authority blockers."
+};
 const expectedPlanScope =
   "This integrated baseline includes both immutable normalization-research bundles, " +
   "Session D's controlling source-identity and typed-blocker adjudication, the " +
@@ -235,10 +330,15 @@ const expectedPlanScope =
     marylandShieldingSourceReady
       ? "is materialized and locally verified"
       : "remains absent"
-  }, so review ` +
-  "receipts, binary materialization, normalization, and official-PDF implementation remain " +
-  "fail-closed. It publishes no edition, enables no route, performs no promotion, and " +
-  "deploys nothing.";
+  }. The 24 review receipts are verified and ${
+    normalizationReadyJobs.length
+  } normalization jobs are data-derived ready; ${
+    normalizationBlockedJobs.length
+  } ${
+    normalizationBlockedJobs.length === 1 ? "remains" : "remain"
+  } fail-closed on typed state-specific authority blockers. Official-PDF ` +
+  "implementation remains fail-closed. It publishes no edition, enables no route, " +
+  "performs no promotion, and deploys nothing.";
 const expectedFactoryQueue = {
   ...productionPlan.factoryQueueReconciliation,
   generatedAgainstCommit: factoryPlan.baseCommit,
@@ -318,6 +418,8 @@ if (write) {
     guidanceLaneReconciliation;
   productionPlan.officialPdfSourceContractIntegration = expectedOfficial;
   productionPlan.materializationPlanning = materializationPlanningSnapshot;
+  productionPlan.routingReservations = expectedRoutingReservations;
+  productionPlan.nextDispatchWave = expectedNextDispatchWave;
   let productionPlanSource = fs.readFileSync(productionPlanAbsolute, "utf8");
   productionPlanSource = upsertTopLevelJsonProperty(
     productionPlanSource,
@@ -349,6 +451,16 @@ if (write) {
     "materializationPlanning",
     materializationPlanningSnapshot
   );
+  productionPlanSource = upsertTopLevelJsonProperty(
+    productionPlanSource,
+    "routingReservations",
+    expectedRoutingReservations
+  );
+  productionPlanSource = upsertTopLevelJsonProperty(
+    productionPlanSource,
+    "nextDispatchWave",
+    expectedNextDispatchWave
+  );
   fs.writeFileSync(
     productionPlanAbsolute,
     productionPlanSource
@@ -372,7 +484,11 @@ if (write) {
     stableJson(productionPlan.officialPdfSourceContractIntegration) !==
       stableJson(expectedOfficial) ||
     stableJson(productionPlan.materializationPlanning) !==
-      stableJson(materializationPlanningSnapshot)
+      stableJson(materializationPlanningSnapshot) ||
+    stableJson(productionPlan.routingReservations) !==
+      stableJson(expectedRoutingReservations) ||
+    stableJson(productionPlan.nextDispatchWave) !==
+      stableJson(expectedNextDispatchWave)
   ) {
     throw new Error(`${productionPlanPath} factory planning snapshot is stale.`);
   }

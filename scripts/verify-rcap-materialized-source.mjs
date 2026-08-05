@@ -816,9 +816,13 @@ export async function loadAssignedMaterializationRequirement({
   const artifactCandidates = (registry.artifacts ?? []).filter(
     (artifact) =>
       (!projectionBound
-        ? artifact.artifactId === claim.documentId
+        ? artifact.artifactId === claim.documentId &&
+          artifact.sourcePath === claim.repositorySourcePath
+        // A projected claim deliberately uses its canonical archive path as
+        // the portable source identity. The registry retains the separate
+        // repository evidence path, so bind that evidence by the already
+        // projection-pinned jurisdiction, hash, and byte count instead.
         : true) &&
-      artifact.sourcePath === claim.repositorySourcePath &&
       artifact.jurisdiction === assignedJob.jurisdiction &&
       artifact.sizeBytes === claim.expectedBytes &&
       (artifact.measuredSha256 ?? artifact.inventorySha256) ===
@@ -863,7 +867,7 @@ export async function loadAssignedMaterializationRequirement({
     expectedSha256: claim.expectedSha256,
     expectedBytes: claim.expectedBytes,
     expectedMediaType: claim.expectedMediaType,
-    repositorySourcePath: claim.repositorySourcePath,
+    repositorySourcePath: artifact.sourcePath,
     portableLocator: claim.portableLocator,
     materializationDestination: claim.materializationDestination,
     readOnlyTreatment: claim.readOnlyTreatment,

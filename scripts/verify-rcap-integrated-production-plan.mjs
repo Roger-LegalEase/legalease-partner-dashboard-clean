@@ -196,19 +196,19 @@ assert.deepEqual(findOwnedPathOverlaps(factoryPlan.jobs), []);
 assert.equal(factoryPlan.jobs.length, 239);
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "ready").length,
-  42
+  productionPlan.factoryQueueReconciliation.ready
 );
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "blocked").length,
-  152
+  productionPlan.factoryQueueReconciliation.blocked
 );
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "completed").length,
-  44
+  productionPlan.factoryQueueReconciliation.completed
 );
 assert.equal(
   factoryPlan.jobs.filter((entry) => entry.status === "in_progress").length,
-  1
+  productionPlan.factoryQueueReconciliation.inProgress
 );
 assert.equal(
   productionPlan.factoryQueueReconciliation.jobs,
@@ -591,7 +591,8 @@ assert.equal(
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration.materializedSourceCount,
-  0
+  factoryPlan.materializationPlanning.officialPdfChildren
+    .materializedSources
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration.activatedRendererCount,
@@ -625,6 +626,13 @@ assert.equal(
     (entry) => entry.strategyFamily === "legal_review_materialization"
   ).length,
   24
+);
+assert.ok(
+  factoryPlan.jobs
+    .filter(
+      (entry) => entry.strategyFamily === "legal_review_materialization"
+    )
+    .every((entry) => entry.status === "completed")
 );
 const exactOfficialPdfChildren = factoryPlan.jobs.filter(
   (entry) =>
@@ -661,14 +669,26 @@ assert.equal(
 for (const child of exactOfficialPdfChildren) {
   assert.equal(child.status, "blocked", child.jobId);
   assert.ok(child.sourceMaterializationInputs.length > 0, child.jobId);
-  assert.ok(
-    child.sourceMaterializationInputs.every(
-      (input) =>
-        input.materializationState === "binary_materialization_required" &&
-        input.workerReadiness === "binary_materialization_required"
-    ),
-    child.jobId
-  );
+  for (const input of child.sourceMaterializationInputs) {
+    if (
+      input.materializationState ===
+      "binary_materialized_hash_verified"
+    ) {
+      assert.equal(input.documentId, "CC-DC-CR-148");
+      assert.equal(input.workerReadiness, "worker_ready");
+      assert.equal(input.provenance.freshLocalVerification, true);
+    } else {
+      assert.equal(
+        input.materializationState,
+        "binary_materialization_required"
+      );
+      assert.equal(
+        input.workerReadiness,
+        "binary_materialization_required"
+      );
+      assert.equal(input.provenance.freshLocalVerification, false);
+    }
+  }
 }
 const paNormalization = factoryPlan.jobs.find(
   (entry) => entry.jobId === "rcap-pa-legal-design-normalization"
@@ -821,11 +841,13 @@ assert.equal(remainingNormalizations.length, 24);
 assert.ok(
   remainingNormalizations.every(
     (entry) =>
-      entry.status === "blocked" &&
-      [
-        "codification_authority_unverified",
-        "legal_review_materialization_required"
-      ].includes(entry.normalizationReadiness.readinessState) &&
+      (entry.jurisdiction === "TN"
+        ? entry.status === "blocked" &&
+          entry.normalizationReadiness.readinessState ===
+            "codification_authority_unverified"
+        : entry.status === "ready" &&
+          entry.normalizationReadiness.readinessState ===
+            "ready_for_normalization") &&
       entry.normalizationReadiness.controllingReviewStatus ===
         "checksum_verified" &&
       /^[0-9a-f]{64}$/.test(
@@ -838,7 +860,9 @@ assert.ok(
       ) &&
       entry.normalizationReadiness.reviewMaterialization.readOnly === true &&
       entry.normalizationReadiness.reviewMaterialization
-        .materializationState === "binary_materialization_required" &&
+        .materializationState === "binary_hash_verified" &&
+      entry.normalizationReadiness.reviewMaterialization
+        .verificationStatus === "binary_hash_and_size_verified" &&
       entry.dependencies.includes(
         "rcap-nationwide-normalization-readiness-foundation"
       )
@@ -857,7 +881,7 @@ for (const jurisdiction of ["UT", "VT", "WV"]) {
   ).normalizationReadiness;
   assert.equal(
     readiness.readinessState,
-    "legal_review_materialization_required"
+    "ready_for_normalization"
   );
   assert.equal(
     readiness.denominatorAdjudication.status,
@@ -890,11 +914,11 @@ assert.deepEqual(factoryPlan.normalizationReadiness, {
   expectedJurisdictions: 24,
   representedExactlyOnce: 24,
   bundlesReceived: 24,
-  readyForNormalization: 0,
-  blocked: 24,
+  readyForNormalization: 23,
+  blocked: 1,
   byReadinessState: {
     codification_authority_unverified: 1,
-    legal_review_materialization_required: 23
+    ready_for_normalization: 23
   }
 });
 assert.deepEqual(
@@ -1051,21 +1075,18 @@ assert.deepEqual(
     ])
   ),
   {
-    RI: ["legal_review_materialization_required"],
-    SC: ["legal_review_materialization_required"],
-    SD: ["legal_review_materialization_required"],
-    TN: [
-      "codification_authority_unverified",
-      "legal_review_materialization_required"
-    ],
-    TX: ["legal_review_materialization_required"],
-    UT: ["legal_review_materialization_required"],
-    VA: ["legal_review_materialization_required"],
-    VT: ["legal_review_materialization_required"],
-    WA: ["legal_review_materialization_required"],
-    WI: ["legal_review_materialization_required"],
-    WV: ["legal_review_materialization_required"],
-    WY: ["legal_review_materialization_required"]
+    RI: [],
+    SC: [],
+    SD: [],
+    TN: ["codification_authority_unverified"],
+    TX: [],
+    UT: [],
+    VA: [],
+    VT: [],
+    WA: [],
+    WI: [],
+    WV: [],
+    WY: []
   }
 );
 assert.equal(sessionDAdjudication.scOfficialSourceMap.statutes.length, 10);
@@ -1158,7 +1179,7 @@ assert.equal(
       entry.jobId ===
       "rcap-nationwide-normalization-readiness-foundation"
   ).status,
-  "in_progress"
+  "completed"
 );
 assert.equal(
   factoryPlan.jobs.find(
@@ -2063,7 +2084,7 @@ assert.deepEqual(
     "rcap-ri-legal-design-normalization",
     "rcap-sc-legal-design-normalization",
     "rcap-sd-legal-design-normalization",
-    "rcap-tn-legal-design-normalization"
+    "rcap-tx-legal-design-normalization"
   ]
 );
 assert.equal(
@@ -2072,7 +2093,7 @@ assert.equal(
 );
 assert.equal(
   productionPlan.routingReservations.normalizationReadiness.jurisdictionsBlocked,
-  24
+  1
 );
 assert.deepEqual(
   productionPlan.routingReservations.normalizationReadiness
@@ -2091,7 +2112,7 @@ assert.deepEqual(
     "rcap-ri-legal-design-normalization",
     "rcap-sc-legal-design-normalization",
     "rcap-sd-legal-design-normalization",
-    "rcap-tn-legal-design-normalization"
+    "rcap-tx-legal-design-normalization"
   ]
 );
 assert.deepEqual(

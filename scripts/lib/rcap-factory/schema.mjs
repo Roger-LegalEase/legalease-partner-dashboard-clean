@@ -587,6 +587,7 @@ function validateSourceMaterializationInputs(job, issues) {
       "repositorySourcePath",
       "portableLocator",
       "materializationDestination",
+      "receiptOutput",
       "verificationCommand"
     ]) {
       if (typeof input[field] !== "string" || input[field].trim().length === 0) {
@@ -646,6 +647,14 @@ function validateSourceMaterializationInputs(job, issues) {
     ) {
       issues.push(
         `${prefix}.materializationDestination must be an exact read-only requiredInput.`
+      );
+    }
+    if (
+      typeof input.receiptOutput === "string" &&
+      !(job.integrationOwnedOutputs ?? []).includes(input.receiptOutput)
+    ) {
+      issues.push(
+        `${prefix}.receiptOutput must be an exact integrationOwnedOutput.`
       );
     }
     if (

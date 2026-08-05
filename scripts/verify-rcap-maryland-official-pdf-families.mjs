@@ -19,6 +19,8 @@ import { register } from "node:module";
 import fs from "node:fs";
 import path from "node:path";
 
+import { buildFactoryPlan } from "./lib/rcap-factory/planner.mjs";
+
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 const {
@@ -1127,8 +1129,40 @@ if (args.documentId) {
   }
 }
 
-const materialized = [];
-const absent = selectedRequirements.map((requirement) => requirement.documentId);
+const recordedPlan = readJson(
+  "planning/record-clearing-100-percent/production-plan.json"
+);
+const currentFactoryPlan = buildFactoryPlan({
+  rootDir: root,
+  baseCommit:
+    recordedPlan.factoryQueueReconciliation?.generatedAgainstCommit
+});
+const marylandAssignment = currentFactoryPlan.jobs.find(
+  (job) => job.jobId === "rcap-md-official-pdf-supporting-components"
+);
+const materializationByDocument = new Map(
+  (marylandAssignment?.sourceMaterializationInputs ?? []).map((input) => [
+    input.documentId,
+    input
+  ])
+);
+const materialized = selectedRequirements
+  .filter((requirement) => {
+    const input = materializationByDocument.get(requirement.documentId);
+    return (
+      input?.expectedSha256 === requirement.expectedSha256 &&
+      input?.expectedBytes === requirement.expectedBytes &&
+      input?.materializationState === "binary_materialized_hash_verified" &&
+      input?.workerReadiness === "worker_ready" &&
+      input?.provenance?.freshLocalVerification === true &&
+      input?.provenance?.localVerificationState ===
+        "fresh_local_hash_size_mime_boundary_and_receipt_verified"
+    );
+  })
+  .map((requirement) => requirement.documentId);
+const absent = selectedRequirements
+  .map((requirement) => requirement.documentId)
+  .filter((documentId) => !materialized.includes(documentId));
 const selectedRequirement = selectedRequirements[0];
 if (
   selectedRequirement &&
@@ -1152,14 +1186,15 @@ if (
   }
 }
 if (selectedRequirement && args.requireMaterialized) {
-  try {
-    preflightMarylandOfficialPdfDocument(selectedRequirement.documentId);
-  } catch (error) {
+  if (!materialized.includes(selectedRequirement.documentId)) {
+    const materialization =
+      materializationByDocument.get(selectedRequirement.documentId);
     terminalFailure(
-      error instanceof MarylandOfficialPdfSourceBlockedError
-        ? error.code
-        : "source_materialization_required",
-      "No captain-owned assignment or portable projection is present; this factory source remains unavailable."
+      "source_materialization_required",
+      `${selectedRequirement.documentId} remains unavailable: ${
+        materialization?.provenance?.localVerificationState ??
+        "captain_owned_assignment_or_materialization_absent"
+      }.`
     );
   }
 }

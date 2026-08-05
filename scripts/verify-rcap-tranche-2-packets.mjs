@@ -28,6 +28,8 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { PDFCheckBox, PDFDocument, PDFDropdown, PDFRadioGroup, PDFTextField } from "pdf-lib";
 
+import { buildFactoryPlan } from "./lib/rcap-factory/planner.mjs";
+
 process.env.RCAP_TECHNICAL_FIXTURES_ENABLED = "true";
 process.env.RCAP_PACKET_STORE_DRIVER = "local";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
@@ -59,6 +61,36 @@ const pins = readJson("tranche-2-authority-pins.json");
 const fixtures = readJson("tranche-2-fixtures.json");
 const guidance = readJson("tranche-2-component-guidance.json");
 const ownership = readJson("tranche-2-field-ownership.json");
+const recordedProductionPlan = JSON.parse(
+  fs.readFileSync(
+    path.join(
+      root,
+      "planning/record-clearing-100-percent/production-plan.json"
+    ),
+    "utf8"
+  )
+);
+const currentFactoryPlan = buildFactoryPlan({
+  rootDir: root,
+  baseCommit:
+    recordedProductionPlan.factoryQueueReconciliation
+      ?.generatedAgainstCommit
+});
+const marylandSourceInputs =
+  currentFactoryPlan.jobs.find(
+    (job) => job.jobId === "rcap-md-official-pdf-supporting-components"
+  )?.sourceMaterializationInputs ?? [];
+const verifiedMaterializationByDocument = new Map(
+  marylandSourceInputs
+    .filter(
+      (input) =>
+        input.materializationState ===
+          "binary_materialized_hash_verified" &&
+        input.workerReadiness === "worker_ready" &&
+        input.provenance?.freshLocalVerification === true
+    )
+    .map((input) => [input.documentId, input])
+);
 
 const failures = [];
 const checks = [];
@@ -169,6 +201,7 @@ const pinWritten = new Map((pins.sourceRelationshipPinsWritten ?? []).map((p) =>
 
 /** Source form identity, keyed by component, re-derived from the file on disk. */
 const officialSources = new Map();
+const missingOfficialSources = [];
 
 for (const pinnedTrack of pins.tracks ?? []) {
   for (const component of pinnedTrack.components ?? []) {
@@ -199,9 +232,34 @@ for (const pinnedTrack of pins.tracks ?? []) {
       `${component.componentId}: the edition asset hash and the repository hash disagree.`
     );
 
-    const file = path.join(root, repositoryPath ?? "");
+    const repositoryFile = path.join(root, repositoryPath ?? "");
+    const materialization =
+      verifiedMaterializationByDocument.get(component.officialFormId);
+    const materializationRoot =
+      process.env.RCAP_SOURCE_MATERIALIZATION_ROOT;
+    const materializedFile =
+      materialization && materializationRoot
+        ? path.join(
+            path.resolve(materializationRoot),
+            materialization.materializationDestination
+          )
+        : null;
+    const file =
+      materializedFile && fs.existsSync(materializedFile)
+        ? materializedFile
+        : repositoryFile;
     ok(fs.existsSync(file), `${component.componentId}: the pinned source binary is absent at ${repositoryPath}.`);
-    if (!fs.existsSync(file)) continue;
+    if (!fs.existsSync(file)) {
+      missingOfficialSources.push({
+        componentId: component.componentId,
+        documentId: component.officialFormId,
+        repositoryPath,
+        materializationState:
+          materialization?.provenance?.localVerificationState ??
+          "materialized_source_absent"
+      });
+      continue;
+    }
 
     const actual = crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
     ok(actual === sha256, `${component.componentId}: the pinned SHA-256 does not match the file on disk.`);
@@ -237,7 +295,9 @@ for (const pinnedTrack of pins.tracks ?? []) {
       workflowKey: asset.workflowKey,
       repositoryPath,
       sha256,
-      absolutePath: file
+      absolutePath: file,
+      materializedExternalSource:
+        file === materializedFile
     });
   }
 }
@@ -254,6 +314,18 @@ for (const gated of pins.sourceGatedAssetsDeliberatelyNotPinned ?? []) {
 note(
   `3. Authority: Edition ${pins.authorityEdition} pinned by SHA-256; ${officialSources.size} packet-form sources hash-matched on disk; ${(pins.sourceGatedAssetsDeliberatelyNotPinned ?? []).length} source-gated assets refused.`
 );
+if (missingOfficialSources.length > 0) {
+  console.error("");
+  console.error("Tranche 2 packet verification failed:");
+  for (const failure of failures) console.error(`- ${failure}`);
+  for (const source of missingOfficialSources) {
+    console.error(
+      `- ${source.documentId}: companion source remains unavailable ` +
+      `(${source.materializationState}); no substitute was used.`
+    );
+  }
+  process.exit(1);
+}
 
 // ---------------------------------------------------------------------------
 // 4. Component roles, order, strategy and source identity match the pins
@@ -561,7 +633,7 @@ for (const boundary of fixtures.boundaryFixtures) {
     });
     for (const component of resolved.components) {
       await renderPacketComponent({
-        component,
+        component: verificationSourceComponent(component),
         jurisdiction: "MD",
         geography: null,
         facts: derived,
@@ -636,14 +708,19 @@ async function renderFixture(fixture) {
 
   const rendered = new Map();
   for (const component of resolved.components) {
+    const verificationComponent =
+      verificationSourceComponent(component);
     const result = await renderPacketComponent({
-      component,
+      component: verificationComponent,
       jurisdiction: "MD",
       geography: null,
       facts,
       rootDir: root
     });
-    rendered.set(component.componentId, { component, result });
+    rendered.set(component.componentId, {
+      component: verificationComponent,
+      result
+    });
   }
   return { facts, rendered };
 }
@@ -1005,4 +1082,13 @@ function readJson(relative) {
 }
 function sha(bytes) {
   return crypto.createHash("sha256").update(bytes).digest("hex");
+}
+
+function verificationSourceComponent(component) {
+  const source = officialSources.get(component.componentId);
+  if (!source?.materializedExternalSource) return component;
+  return {
+    ...component,
+    sourcePath: path.relative(root, source.absolutePath)
+  };
 }

@@ -80,6 +80,7 @@ export const GLOBAL_GENERATED_REGISTRIES = Object.freeze([
   "data/record-clearing/source-artifact-registry.json",
   "data/record-clearing/production-factory/packet-proofs",
   "data/record-clearing/production-factory/review-manifests",
+  "data/record-clearing/production-factory/source-materialization-receipts",
   "data/record-clearing/production-factory/normalization-readiness-input.json",
   LEGAL_REVIEW_MATERIALIZATION_CONTRACT_PATH,
   OFFICIAL_PDF_RECONCILIATION_PATH,
@@ -124,6 +125,8 @@ const IMPLEMENTATION_DIR = "data/record-clearing/implementation-tranches";
 const CANONICAL_JOBS_DIR = "planning/record-clearing-100-percent/jobs";
 const REVIEW_MANIFEST_DIR = "data/record-clearing/production-factory/review-manifests";
 const PACKET_PROOF_DIR = "data/record-clearing/production-factory/packet-proofs";
+const SOURCE_MATERIALIZATION_RECEIPT_DIR =
+  "data/record-clearing/production-factory/source-materialization-receipts";
 const FACTORY_DATA_DIR = "data/record-clearing/production-factory";
 const PACKET_IMPLEMENTATION_DIR = "src/lib/rcap/packets/jurisdictions";
 const SHA256_PATTERN = /^[0-9a-f]{64}$/u;
@@ -3273,7 +3276,9 @@ function applyOfficialPdfAssignments({
     const materializationInputs = assignedRows.map((identity) => {
       const verification = inspectOfficialPdfMaterialization({
         identity,
-        materializationRoot
+        materializationRoot,
+        ownerJobId: job.jobId,
+        rootDir
       });
       return officialPdfMaterializationInput(identity, verification);
     });
@@ -3294,6 +3299,10 @@ function applyOfficialPdfAssignments({
     );
     if (materializationInputs.length > 0) {
       job.sourceMaterializationInputs = materializationInputs;
+      job.integrationOwnedOutputs = sortedUnique([
+        ...job.integrationOwnedOutputs,
+        ...materializationInputs.map((input) => input.receiptOutput)
+      ]);
       job.requiredInputs = sortedUnique([
         ...job.requiredInputs,
         projectionPath,
@@ -3487,6 +3496,7 @@ function officialPdfMaterializationInput(identity, verification) {
     repositorySourcePath: source.archiveRelativePath,
     portableLocator: source.portableSourceLocator,
     materializationDestination: source.materializationDestination,
+    receiptOutput: sourceMaterializationReceiptPath(identity.identityKey),
     readOnlyTreatment: "worker_read_only_no_modify",
     retentionPolicy:
       "retain_until_worker_integration_then_captain_managed_cleanup",
@@ -3519,7 +3529,9 @@ function officialPdfMaterializationInput(identity, verification) {
 
 function inspectOfficialPdfMaterialization({
   identity,
-  materializationRoot
+  materializationRoot,
+  ownerJobId,
+  rootDir
 }) {
   if (!materializationRoot) {
     return {
@@ -3654,10 +3666,107 @@ function inspectOfficialPdfMaterialization({
       state: "materialized_source_hash_or_mime_mismatch"
     };
   }
+  const receiptPath = path.join(
+    rootDir,
+    sourceMaterializationReceiptPath(identity.identityKey)
+  );
+  let receipt;
+  try {
+    receipt = JSON.parse(fs.readFileSync(receiptPath, "utf8"));
+  } catch {
+    return {
+      ready: false,
+      state: "materialization_receipt_absent"
+    };
+  }
+  const receiptWithoutEnvelope = Object.fromEntries(
+    Object.entries(receipt).filter(
+      ([key]) => key !== "receiptSha256" && key !== "materializationAction"
+    )
+  );
+  const expectedStates = [
+    "authority_asset_known",
+    "registry_metadata_present",
+    "binary_materialized",
+    "binary_hash_verified",
+    "worker_read_authorized",
+    "worker_ready"
+  ];
+  if (
+    receipt.schemaVersion !== "rcap-source-materialization-result/v1" ||
+    receipt.authorityEdition !== source.authorityEdition ||
+    receipt.authorityArchiveSha256 !== source.sourceArchiveSha256 ||
+    receipt.jurisdiction !== identity.jurisdiction ||
+    receipt.documentId !== identity.officialDocument.documentId ||
+    receipt.documentRole !== identity.officialDocument.documentRole ||
+    receipt.canonicalAuthorityPath !== source.archiveRelativePath ||
+    receipt.expectedSha256 !== source.expectedSha256 ||
+    receipt.actualSha256 !== source.expectedSha256 ||
+    receipt.expectedBytes !== source.expectedBytes ||
+    receipt.actualBytes !== source.expectedBytes ||
+    receipt.expectedMediaType !== source.expectedMime ||
+    receipt.actualMediaType !== source.expectedMime ||
+    receipt.portableLocator !== source.portableSourceLocator ||
+    receipt.portableLocatorSha256 !==
+      crypto
+        .createHash("sha256")
+        .update(JSON.stringify(source.portableSourceLocator))
+        .digest("hex") ||
+    receipt.materializationDestination !==
+      source.materializationDestination ||
+    receipt.locatorScheme !== "attorney-review-package" ||
+    receipt.readOnlyTreatment !== "worker_read_only_no_modify" ||
+    receipt.assignmentJobId !== ownerJobId ||
+    !/^[0-9a-f]{40}$/u.test(receipt.assignmentBaseCommit ?? "") ||
+    !SHA256_PATTERN.test(receipt.assignmentManifestSha256 ?? "") ||
+    receipt.localVerificationBasis !== "freshly_verified_local_bytes" ||
+    receipt.state !== "worker_ready" ||
+    JSON.stringify(receipt.states) !== JSON.stringify(expectedStates) ||
+    receipt.actualMode !== 0o444 ||
+    receipt.hashAndMediaVerified !== true ||
+    receipt.workerReady !== true ||
+    receipt.ready !== true ||
+    receipt.provenance?.freshLocalVerification !== true ||
+    receipt.provenance?.registryPresenceConfersReadiness !== false ||
+    !["verified_existing_binary", "materialized_verified_binary"].includes(
+      receipt.materializationAction
+    ) ||
+    receipt.receiptSha256 !==
+      crypto
+        .createHash("sha256")
+        .update(canonicalReceiptJson(receiptWithoutEnvelope))
+        .digest("hex")
+  ) {
+    return {
+      ready: false,
+      state: "materialization_receipt_invalid"
+    };
+  }
   return {
     ready: true,
-    state: "fresh_local_hash_size_mime_and_boundary_verified"
+    state:
+      "fresh_local_hash_size_mime_boundary_and_receipt_verified"
   };
+}
+
+function sourceMaterializationReceiptPath(identityKey) {
+  return `${SOURCE_MATERIALIZATION_RECEIPT_DIR}/${identityKey}.json`;
+}
+
+function canonicalReceiptJson(value) {
+  if (Array.isArray(value)) {
+    return `[${value.map(canonicalReceiptJson).join(",")}]`;
+  }
+  if (value && typeof value === "object") {
+    return `{${Object.keys(value)
+      .sort()
+      .map(
+        (key) =>
+          `${JSON.stringify(key)}:${canonicalReceiptJson(value[key])}`
+      )
+      .join(",")}}`;
+  }
+  return JSON.stringify(value);
 }
 
 function legalReviewMaterializationVerified(rootDir, assignment) {
@@ -3682,6 +3791,41 @@ function legalReviewMaterializationVerified(rootDir, assignment) {
     .update(bytes)
     .digest("hex");
   if (observedSha256 !== assignment.activeReview.expectedSha256) return false;
+  let observedTitle;
+  let observedJurisdictionMarker;
+  try {
+    const reviewText = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+    observedTitle =
+      reviewText
+        .split(/\r?\n/u)
+        .map((line) => line.match(/^#\s+(.+?)\s*$/u)?.[1] ?? null)
+        .find(Boolean) ?? null;
+    const jurisdictionMarkers = reviewText
+      .split(/\r?\n/u)
+      .map(
+        (line) =>
+          line.match(/^\*\*JURISDICTION:\s*(.+?)\s*\*\*\s*$/iu)?.[1] ??
+          null
+      )
+      .filter(Boolean);
+    observedJurisdictionMarker =
+      jurisdictionMarkers.length === 1 ? jurisdictionMarkers[0] : null;
+  } catch {
+    return false;
+  }
+  if (
+    observedTitle !== assignment.activeReview.expectedTitle ||
+    observedJurisdictionMarker === null ||
+    !observedJurisdictionMarker
+      .toLocaleUpperCase("en-US")
+      .includes(
+        assignment.activeReview.expectedJurisdictionName.toLocaleUpperCase(
+          "en-US"
+        )
+      )
+  ) {
+    return false;
+  }
   let receipt;
   try {
     receipt = JSON.parse(fs.readFileSync(receiptPath, "utf8"));
@@ -3704,6 +3848,9 @@ function legalReviewMaterializationVerified(rootDir, assignment) {
     receipt.observedMime === assignment.activeReview.expectedMime &&
     receipt.expectedTitle === assignment.activeReview.expectedTitle &&
     receipt.observedTitle === assignment.activeReview.expectedTitle &&
+    receipt.expectedJurisdictionName ===
+      assignment.activeReview.expectedJurisdictionName &&
+    receipt.observedJurisdictionMarker === observedJurisdictionMarker &&
     receipt.activeReviewCount === assignment.expectedActiveReviewCount &&
     receipt.addendumCount === assignment.expectedAddendumCount &&
     receipt.materializationDestination ===

@@ -148,6 +148,7 @@
           "repositorySourcePath",
           "portableLocator",
           "materializationDestination",
+          "receiptOutput",
           "authorityAssetState",
           "materializationState",
           "workerReadiness",
@@ -188,6 +189,7 @@
           "repositorySourcePath": { "type": "string", "minLength": 1 },
           "portableLocator": { "type": "string", "minLength": 1 },
           "materializationDestination": { "$ref": "#/$defs/path" },
+          "receiptOutput": { "$ref": "#/$defs/path" },
           "authorityAssetState": { "const": "authority_asset_known" },
           "materializationState": {
             "enum": [
@@ -267,6 +269,7 @@
           "required": [
             "documentId",
             "expectedTitle",
+            "expectedJurisdictionName",
             "expectedSha256",
             "expectedBytes",
             "expectedMime",
@@ -283,6 +286,10 @@
           "properties": {
             "documentId": { "const": "STATEWIDE" },
             "expectedTitle": { "type": "string", "minLength": 1 },
+            "expectedJurisdictionName": {
+              "type": "string",
+              "minLength": 1
+            },
             "expectedSha256": {
               "type": "string",
               "pattern": "^[0-9a-f]{64}$"

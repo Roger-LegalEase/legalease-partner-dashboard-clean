@@ -266,6 +266,11 @@ export function materializeNormalizationResearchInputs({
       bundles,
       rootDir
     });
+  adoptLegalReviewMaterializationReceipts({
+    input: expanded,
+    bundles,
+    rootDir
+  });
 
   expanded.bundles = [...bundles.values()].sort((left, right) =>
     left.jurisdiction.localeCompare(right.jurisdiction)
@@ -277,6 +282,159 @@ export function materializeNormalizationResearchInputs({
   expanded.counselStructureAdoptionResults =
     counselStructureAdoptionResults;
   return expanded;
+}
+
+function adoptLegalReviewMaterializationReceipts({
+  input,
+  bundles,
+  rootDir
+}) {
+  const contractPath = path.join(
+    rootDir,
+    "data/record-clearing/production-factory/legal-review-materialization-contract.json"
+  );
+  if (!fs.existsSync(contractPath)) return;
+  const contract = JSON.parse(fs.readFileSync(contractPath, "utf8"));
+  const assignments = new Map(
+    (contract.assignments ?? []).map((assignment) => [
+      assignment.jurisdiction,
+      assignment
+    ])
+  );
+  for (const [jurisdiction, bundle] of bundles) {
+    const assignment = assignments.get(jurisdiction);
+    if (!assignment) continue;
+    const receiptPath = path.join(rootDir, assignment.receiptOutput);
+    const reviewPath = path.join(
+      rootDir,
+      assignment.activeReview.materializationDestination
+    );
+    if (!fs.existsSync(receiptPath) && !fs.existsSync(reviewPath)) continue;
+    if (!fs.existsSync(receiptPath) || !fs.existsSync(reviewPath)) {
+      throw new Error(
+        `${jurisdiction} has an incomplete legal-review materialization.`
+      );
+    }
+    const stat = fs.lstatSync(reviewPath);
+    if (
+      !stat.isFile() ||
+      stat.isSymbolicLink() ||
+      stat.nlink !== 1 ||
+      (stat.mode & 0o222) !== 0
+    ) {
+      throw new Error(
+        `${jurisdiction} materialized review is not a read-only regular file.`
+      );
+    }
+    const reviewBytes = fs.readFileSync(reviewPath);
+    const observedSha256 = sha256Bytes(reviewBytes);
+    const receipt = JSON.parse(fs.readFileSync(receiptPath, "utf8"));
+    let reviewText;
+    try {
+      reviewText = new TextDecoder("utf-8", { fatal: true }).decode(
+        reviewBytes
+      );
+    } catch {
+      throw new Error(
+        `${jurisdiction} materialized review is not valid UTF-8.`
+      );
+    }
+    const observedTitle =
+      reviewText
+        .split(/\r?\n/u)
+        .map((line) => line.match(/^#\s+(.+?)\s*$/u)?.[1] ?? null)
+        .find(Boolean) ?? null;
+    const jurisdictionMarkers = reviewText
+      .split(/\r?\n/u)
+      .map(
+        (line) =>
+          line.match(/^\*\*JURISDICTION:\s*(.+?)\s*\*\*\s*$/iu)?.[1] ??
+          null
+      )
+      .filter(Boolean);
+    const observedJurisdictionMarker =
+      jurisdictionMarkers.length === 1 ? jurisdictionMarkers[0] : null;
+    if (
+      assignment.activeReview.authorityEdition !==
+        String(input.authorityEdition) ||
+      assignment.activeReview.expectedArchiveSha256 !==
+        input.authorityArchive.sha256 ||
+      assignment.activeReview.archiveRelativePath !==
+        bundle.controllingReviewAssetPath ||
+      assignment.activeReview.expectedSha256 !==
+        bundle.controllingReviewSha256 ||
+      observedSha256 !== assignment.activeReview.expectedSha256 ||
+      observedTitle !== assignment.activeReview.expectedTitle ||
+      observedJurisdictionMarker === null ||
+      !observedJurisdictionMarker
+        .toLocaleUpperCase("en-US")
+        .includes(
+          assignment.activeReview.expectedJurisdictionName.toLocaleUpperCase(
+            "en-US"
+          )
+        ) ||
+      receipt.schemaVersion !==
+        "rcap-legal-review-materialization-receipt/v1" ||
+      receipt.jobId !== assignment.jobId ||
+      receipt.jurisdiction !== jurisdiction ||
+      receipt.authorityEdition !==
+        assignment.activeReview.authorityEdition ||
+      receipt.archiveSha256 !==
+        assignment.activeReview.expectedArchiveSha256 ||
+      receipt.archiveEntryPath !==
+        assignment.activeReview.archiveRelativePath ||
+      receipt.expectedReviewSha256 !==
+        assignment.activeReview.expectedSha256 ||
+      receipt.observedReviewSha256 !== observedSha256 ||
+      receipt.observedReviewBytes !== reviewBytes.length ||
+      receipt.observedMime !== assignment.activeReview.expectedMime ||
+      receipt.expectedTitle !== assignment.activeReview.expectedTitle ||
+      receipt.observedTitle !== observedTitle ||
+      receipt.expectedJurisdictionName !==
+        assignment.activeReview.expectedJurisdictionName ||
+      receipt.observedJurisdictionMarker !==
+        observedJurisdictionMarker ||
+      receipt.activeReviewCount !== assignment.expectedActiveReviewCount ||
+      receipt.addendumCount !== assignment.expectedAddendumCount ||
+      receipt.materializationDestination !==
+        assignment.activeReview.materializationDestination ||
+      receipt.materializationState !== "binary_hash_verified" ||
+      receipt.verificationStatus !==
+        "binary_hash_and_size_verified" ||
+      receipt.readOnly !== true
+    ) {
+      throw new Error(
+        `${jurisdiction} legal-review materialization receipt is invalid.`
+      );
+    }
+    bundles.set(jurisdiction, {
+      ...bundle,
+      reviewMaterialization: {
+        archiveLocator: input.authorityArchive.portableLocator,
+        archiveSha256: input.authorityArchive.sha256,
+        archiveEntryPath:
+          assignment.activeReview.archiveRelativePath,
+        expectedSha256: assignment.activeReview.expectedSha256,
+        expectedBytes: reviewBytes.length,
+        observedSha256,
+        observedBytes: reviewBytes.length,
+        materializationMethod: "portable_archive_entry",
+        materializationDestination:
+          assignment.activeReview.materializationDestination,
+        materializationState: "binary_hash_verified",
+        readOnly: true,
+        readOnlyTreatment: "worker_read_only_no_modify",
+        verificationCommand:
+          `node scripts/verify-rcap-normalization-readiness.mjs --jurisdiction ${jurisdiction}`,
+        verificationProvenance: "freshly_verified",
+        researchVerificationResult:
+          "captain_materialization_receipt_verified",
+        verificationStatus: "binary_hash_and_size_verified",
+        cleanupPolicy:
+          "captain_managed_cleanup_after_normalization_worker_integration"
+      }
+    });
+  }
 }
 
 function adoptNormalizationAdjudications({ input, bundles, rootDir }) {

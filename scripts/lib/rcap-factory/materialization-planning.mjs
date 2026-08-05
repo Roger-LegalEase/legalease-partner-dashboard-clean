@@ -126,7 +126,9 @@ export function buildLegalReviewMaterializationContract(rootDir) {
         activeReview: {
           documentId: review.documentId,
           expectedTitle:
-            `${stateNames.get(jurisdiction) ?? jurisdiction} Record Clearing Legal Review`,
+            "LEGALEASE NATIONWIDE RECORD-CLEARING LEGAL REVIEW",
+          expectedJurisdictionName:
+            stateNames.get(jurisdiction) ?? jurisdiction,
           expectedSha256: review.sha256,
           expectedBytes: null,
           expectedMime: "text/markdown",
@@ -507,6 +509,7 @@ export function validateLegalReviewMaterializationContract(contract) {
     for (const field of [
       "documentId",
       "expectedTitle",
+      "expectedJurisdictionName",
       "expectedMime",
       "authorityEdition",
       "revision",

@@ -77,7 +77,7 @@ const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(SCRIPT_DIR, "..");
 const EXPECTED_BASE = "8df94fbaa66c06bf0ba677ee4f5fb417ad08cdc8";
 const AUTHORIZED_INTEGRATED_CONTENT_BASE =
-  "1d8ed5a3302a055ffb5a590aa83dcb47f4a2df86";
+  "2b82ffeeb3c22c8e1e9afa3258b624b3fd142920";
 const results = [];
 const failures = [];
 
@@ -220,10 +220,25 @@ await check("deterministic plan covers all lanes and jurisdictions", () => {
   assert.ok(first.lanes.every((entry) => entry.jobIds.length > 0));
   assert.equal(first.waves.length, FACTORY_LANES.length);
   assert.equal(first.jobs.length, 239);
-  assert.equal(first.jobs.filter((job) => job.status === "ready").length, 42);
-  assert.equal(first.jobs.filter((job) => job.status === "blocked").length, 152);
-  assert.equal(first.jobs.filter((job) => job.status === "in_progress").length, 1);
-  assert.equal(first.jobs.filter((job) => job.status === "completed").length, 44);
+  const recordedFactoryCounts = readJson(
+    "planning/record-clearing-100-percent/production-plan.json"
+  ).factoryQueueReconciliation;
+  assert.equal(
+    first.jobs.filter((job) => job.status === "ready").length,
+    recordedFactoryCounts.ready
+  );
+  assert.equal(
+    first.jobs.filter((job) => job.status === "blocked").length,
+    recordedFactoryCounts.blocked
+  );
+  assert.equal(
+    first.jobs.filter((job) => job.status === "in_progress").length,
+    recordedFactoryCounts.inProgress
+  );
+  assert.equal(
+    first.jobs.filter((job) => job.status === "completed").length,
+    recordedFactoryCounts.completed
+  );
   assert.equal(findOwnedPathOverlaps(first.jobs).length, 0);
   assert.ok(first.generatedFrom.length >= 8);
   assert.ok(first.generatedFrom.every((entry) => /^[0-9a-f]{64}$/.test(entry.sha256)));
@@ -727,10 +742,23 @@ await check("packet, source-materialization, and normalization readiness fail cl
     ).length,
     51
   );
+  const materiallyVerifiedSources = officialJobs.flatMap((job) =>
+    job.sourceMaterializationInputs.filter(
+      (source) =>
+        source.materializationState ===
+          "binary_materialized_hash_verified" &&
+        source.workerReadiness === "worker_ready" &&
+        source.provenance.freshLocalVerification === true
+    )
+  );
   assert.equal(
     plan.materializationPlanning.officialPdfChildren.materializedSources,
-    0
+    materiallyVerifiedSources.length
   );
+  assert.ok(materiallyVerifiedSources.length <= 1);
+  if (materiallyVerifiedSources.length === 1) {
+    assert.equal(materiallyVerifiedSources[0].documentId, "CC-DC-CR-148");
+  }
   assert.equal(
     plan.materializationPlanning.officialPdfChildren.workerReadyFamilies,
     0
@@ -746,18 +774,30 @@ await check("packet, source-materialization, and normalization readiness fail cl
       job.officialPdfAssignment.assignmentBlockers.length > 0,
       job.jobId
     );
-    assert.ok(
-      job.sourceMaterializationInputs.every(
-        (source) =>
-          source.provenance.localVerificationState ===
-            "external_materialization_root_absent"
-      ),
-      job.jobId
-    );
     for (const input of job.sourceMaterializationInputs) {
       assert.equal(input.authorityAssetState, "authority_asset_known");
-      assert.equal(input.materializationState, "binary_materialization_required");
-      assert.equal(input.workerReadiness, "binary_materialization_required");
+      if (
+        input.materializationState ===
+        "binary_materialized_hash_verified"
+      ) {
+        assert.equal(input.documentId, "CC-DC-CR-148");
+        assert.equal(input.workerReadiness, "worker_ready");
+        assert.equal(input.provenance.freshLocalVerification, true);
+        assert.equal(
+          input.provenance.localVerificationState,
+          "fresh_local_hash_size_mime_boundary_and_receipt_verified"
+        );
+      } else {
+        assert.equal(
+          input.materializationState,
+          "binary_materialization_required"
+        );
+        assert.equal(
+          input.workerReadiness,
+          "binary_materialization_required"
+        );
+        assert.equal(input.provenance.freshLocalVerification, false);
+      }
       assert.equal(input.workerMayRead, true);
       assert.equal(input.workerMayModify, false);
       assert.ok(job.requiredInputs.includes(input.materializationDestination));
@@ -775,7 +815,7 @@ await check("packet, source-materialization, and normalization readiness fail cl
   assert.ok(
     reviewMaterializers.every(
       (job) =>
-        job.status === "blocked" &&
+        job.status === "completed" &&
         ["SESSION_B", "SESSION_D"].includes(
           job.assignmentClaim?.ownerSession
         ) &&
@@ -955,7 +995,16 @@ await check("packet, source-materialization, and normalization readiness fail cl
       entry.jurisdiction !== "PA"
   );
   assert.equal(otherNormalizations.length, 24);
-  assert.ok(otherNormalizations.every((entry) => entry.status === "blocked"));
+  assert.equal(
+    otherNormalizations.filter((entry) => entry.status === "ready").length,
+    23
+  );
+  assert.deepEqual(
+    otherNormalizations
+      .filter((entry) => entry.status === "blocked")
+      .map((entry) => entry.jurisdiction),
+    ["TN"]
+  );
   assert.deepEqual(
     otherNormalizations.map((entry) => entry.jurisdiction).sort(),
     REMAINING_NORMALIZATION_JURISDICTIONS
@@ -966,7 +1015,7 @@ await check("packet, source-materialization, and normalization readiness fail cl
     const expectedState =
       entry.jurisdiction === "TN"
         ? "codification_authority_unverified"
-        : "legal_review_materialization_required";
+        : "ready_for_normalization";
     assert.equal(
       readiness.readinessState,
       expectedState
@@ -988,13 +1037,23 @@ await check("packet, source-materialization, and normalization readiness fail cl
       new Set(readiness.expectedSourceIds).size,
       readiness.expectedSourceIds.length
     );
-    assert.ok(
-      readiness.readinessBlockers.includes(expectedState)
+    assert.deepEqual(
+      readiness.readinessBlockers,
+      entry.jurisdiction === "TN"
+        ? ["codification_authority_unverified"]
+        : []
     );
-    assert.ok(
-      readiness.readinessBlockers.includes(
-        "legal_review_materialization_required"
-      )
+    assert.equal(
+      readiness.reviewMaterialization.materializationState,
+      "binary_hash_verified"
+    );
+    assert.equal(
+      readiness.reviewMaterialization.verificationStatus,
+      "binary_hash_and_size_verified"
+    );
+    assert.equal(
+      readiness.reviewMaterialization.expectedBytes,
+      readiness.reviewMaterialization.observedBytes
     );
     const readinessValidation =
       validateNormalizationReadinessRecord(readiness);
@@ -1027,7 +1086,7 @@ await check("packet, source-materialization, and normalization readiness fail cl
     );
     assert.equal(
       readiness.readinessState,
-      "legal_review_materialization_required"
+      "ready_for_normalization"
     );
     assert.equal(
       readiness.counselStructureAdoption.adoptionSha256,
@@ -1285,17 +1344,17 @@ await check("packet, source-materialization, and normalization readiness fail cl
     expectedJurisdictions: 24,
     representedExactlyOnce: 24,
     bundlesReceived: 24,
-    readyForNormalization: 0,
-    blocked: 24,
+    readyForNormalization: 23,
+    blocked: 1,
     byReadinessState: {
       codification_authority_unverified: 1,
-      legal_review_materialization_required: 23
+      ready_for_normalization: 23
     }
   });
   const readinessFoundation = plan.jobs.find(
     (entry) => entry.jobId === NORMALIZATION_READINESS_FOUNDATION_JOB_ID
   );
-  assert.equal(readinessFoundation.status, "in_progress");
+  assert.equal(readinessFoundation.status, "completed");
   assert.equal(
     readinessFoundation.parentJobId,
     "F-01-batch-3-expected-track-ids"
@@ -1665,7 +1724,12 @@ await check("overlap and owned/forbidden conflicts fail closed", () => {
 });
 
 await check("worker prompt is short, stable, and contains only contract sections", () => {
-  const job = plan.jobs.find((entry) => entry.status === "ready") ?? plan.jobs[0];
+  const job =
+    plan.jobs.find(
+      (entry) =>
+        entry.status === "ready" &&
+        !entry.jobId.endsWith("-legal-design-normalization")
+    ) ?? plan.jobs[0];
   const options = {
     job,
     authorityVersion: plan.authorityVersion,
@@ -1788,7 +1852,10 @@ await check("worker prompt is short, stable, and contains only contract sections
       }),
     /only worker-scoped jobs/i
   );
-  const completedJob = plan.jobs.find((entry) => entry.status === "completed");
+  const completedJob = plan.jobs.find(
+    (entry) =>
+      entry.status === "completed" && entry.executionScope === "worker"
+  );
   assert.throws(
     () =>
       compileWorkerPrompt({
@@ -1972,6 +2039,9 @@ await check("completed jobs validate against a captain-anchored immutable scaffo
     plan.jobs.find((entry) => entry.status === "ready")
   );
   assignedJob.jobId = "rcap-final-pending-completion-regression";
+  if (assignedJob.assignmentClaim) {
+    assignedJob.assignmentClaim.jobId = assignedJob.jobId;
+  }
   const anchorBytes = `${JSON.stringify(assignedJob, null, 2)}\n`;
   const marker = {
     jobId: assignedJob.jobId,

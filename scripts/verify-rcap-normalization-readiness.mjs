@@ -235,7 +235,7 @@ function verifyCommittedReadiness(context, jurisdiction) {
     canonicalStringify(readinessCounts) !==
     canonicalStringify({
       codification_authority_unverified: 1,
-      legal_review_materialization_required: 23
+      ready_for_normalization: 23
     })
   ) {
     throw new Error(
@@ -292,7 +292,7 @@ function verifyCommittedReadiness(context, jurisdiction) {
         readinessCounts,
         exactJobClaims: context.claims.claims.length,
         sourceAuthorityState:
-          "authority_asset_known_binary_materialization_required"
+          "authority_asset_known_binary_materialized_receipts_verified"
       },
       null,
       2

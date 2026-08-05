@@ -712,16 +712,27 @@ try {
       for (const source of job.sourceMaterializationInputs) {
         assert.equal(
           source.materializationState,
-          "binary_materialization_required",
+          source.workerReadiness === "worker_ready"
+            ? "binary_materialized_hash_verified"
+            : "binary_materialization_required",
           `${job.jobId}:${source.documentId}`
         );
-        assert.equal(
-          source.workerReadiness,
-          "binary_materialization_required",
+        assert.ok(
+          ["binary_materialization_required", "worker_ready"].includes(
+            source.workerReadiness
+          ),
           `${job.jobId}:${source.documentId}`
         );
         assert.equal(source.workerMayRead, true);
         assert.equal(source.workerMayModify, false);
+        assert.ok(
+          job.integrationOwnedOutputs.includes(source.receiptOutput),
+          `${job.jobId}:${source.documentId}:receipt`
+        );
+        assert.match(
+          source.receiptOutput,
+          /^data\/record-clearing\/production-factory\/source-materialization-receipts\/[a-z0-9-]+\.json$/u
+        );
         assert.match(
           source.portableLocator,
           /^[a-z][a-z0-9+.-]*:\/\/[^/].+/u

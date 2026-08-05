@@ -69,16 +69,39 @@ const normalizedEntries = entries.map(normalizeArchiveEntry);
 if (new Set(normalizedEntries).size !== normalizedEntries.length) {
   fail("duplicate_archive_entry", "The authority archive has duplicate normalized entries.");
 }
+const expectedArchiveRoot =
+  assignment.activeReview.sourceArchiveIdentity.replace(/\.zip$/u, "") + "/";
+if (
+  normalizedEntries.length === 0 ||
+  normalizedEntries.some((entry) => !entry.startsWith(expectedArchiveRoot))
+) {
+  fail(
+    "archive_root_mismatch",
+    "The authority archive does not use its exact canonical edition root."
+  );
+}
+const archiveRelativeEntries = normalizedEntries.map((entry) =>
+  entry.slice(expectedArchiveRoot.length)
+);
+if (
+  archiveRelativeEntries.some((entry) => entry.length === 0) ||
+  new Set(archiveRelativeEntries).size !== archiveRelativeEntries.length
+) {
+  fail(
+    "duplicate_archive_entry",
+    "The authority archive has duplicate or empty edition-relative entries."
+  );
+}
 const statePrefix = `STATES/${assignment.jurisdiction}/01_LEGAL_REVIEW/`;
-const activeReviews = normalizedEntries.filter(
+const activeReviews = archiveRelativeEntries.filter(
   (entry) =>
     entry.startsWith(statePrefix) &&
     /__LEGAL-REVIEW__.*\.md$/u.test(entry)
 );
-const addenda = normalizedEntries.filter(
+const addenda = archiveRelativeEntries.filter(
   (entry) =>
-    entry.startsWith(`STATES/${assignment.jurisdiction}/`) &&
-    /(?:ADDENDUM|legal-review-addenda)/iu.test(entry)
+    entry.startsWith(statePrefix) &&
+    /__LEGAL-REVIEW-ADDENDUM__.*\.md$/u.test(entry)
 );
 if (activeReviews.length !== assignment.expectedActiveReviewCount) {
   fail(
@@ -103,6 +126,21 @@ const materializedPath = resolveOwnedPath(
   assignment.activeReview.materializationDestination,
   assignment.ownedPaths
 );
+if (args.materialize) {
+  const archiveEntry =
+    `${expectedArchiveRoot}${assignment.activeReview.archiveRelativePath}`;
+  const extraction = spawnSync("unzip", ["-p", archivePath, archiveEntry], {
+    encoding: "buffer",
+    maxBuffer: 16 * 1024 * 1024
+  });
+  if (extraction.status !== 0) {
+    fail(
+      "review_extraction_failed",
+      "Unable to extract the exact assigned review from the authority archive."
+    );
+  }
+  materializeExactFile(materializedPath, extraction.stdout, 0o444);
+}
 const materializedStat = safeLstat(
   materializedPath,
   "required_review_absent"
@@ -141,6 +179,29 @@ if (observedTitle !== assignment.activeReview.expectedTitle) {
     "The active review title does not match the exact assigned title."
   );
 }
+const jurisdictionMarkers = reviewText
+  .split(/\r?\n/u)
+  .map(
+    (line) =>
+      line.match(/^\*\*JURISDICTION:\s*(.+?)\s*\*\*\s*$/iu)?.[1] ?? null
+  )
+  .filter(Boolean);
+if (
+  jurisdictionMarkers.length !== 1 ||
+  !jurisdictionMarkers[0]
+    .toLocaleUpperCase("en-US")
+    .includes(
+      assignment.activeReview.expectedJurisdictionName.toLocaleUpperCase(
+        "en-US"
+      )
+    )
+) {
+  fail(
+    "jurisdiction_mismatch",
+    "The review must contain exactly one jurisdiction marker matching the assignment."
+  );
+}
+const observedJurisdictionMarker = jurisdictionMarkers[0];
 const observedSha256 = crypto.createHash("sha256").update(bytes).digest("hex");
 if (observedSha256 !== assignment.activeReview.expectedSha256) {
   fail("review_sha_mismatch", "The materialized review SHA-256 differs.");
@@ -163,7 +224,6 @@ const receiptPath = resolveOwnedPath(
   assignment.receiptOutput,
   assignment.ownedPaths
 );
-const receipt = readJson(receiptPath, "legal-review materialization receipt");
 const expectedReceipt = {
   schemaVersion: RECEIPT_SCHEMA,
   jobId: assignment.jobId,
@@ -179,6 +239,9 @@ const expectedReceipt = {
   observedMime: "text/markdown",
   expectedTitle: assignment.activeReview.expectedTitle,
   observedTitle,
+  expectedJurisdictionName:
+    assignment.activeReview.expectedJurisdictionName,
+  observedJurisdictionMarker,
   activeReviewCount: activeReviews.length,
   addendumCount: addenda.length,
   materializationDestination:
@@ -188,6 +251,14 @@ const expectedReceipt = {
   verifier: "scripts/verify-rcap-legal-review-materialization.mjs",
   readOnly: true
 };
+if (args.materialize) {
+  materializeExactFile(
+    receiptPath,
+    Buffer.from(`${JSON.stringify(expectedReceipt, null, 2)}\n`, "utf8"),
+    0o644
+  );
+}
+const receipt = readJson(receiptPath, "legal-review materialization receipt");
 if (canonicalJson(receipt) !== canonicalJson(expectedReceipt)) {
   fail(
     "receipt_mismatch",
@@ -200,6 +271,10 @@ function parseArgs(raw) {
   const result = {};
   for (let index = 0; index < raw.length; index += 1) {
     const argument = raw[index];
+    if (argument === "--materialize") {
+      result.materialize = true;
+      continue;
+    }
     if (!["--jurisdiction", "--archive"].includes(argument)) {
       fail("invalid_arguments", `Unsupported argument ${argument}.`);
     }
@@ -217,6 +292,43 @@ function parseArgs(raw) {
     fail("invalid_arguments", "--jurisdiction must be a two-letter code.");
   }
   return result;
+}
+
+function materializeExactFile(filePath, bytes, mode) {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  if (fs.existsSync(filePath)) {
+    const stat = fs.lstatSync(filePath);
+    if (
+      !stat.isFile() ||
+      stat.isSymbolicLink() ||
+      stat.nlink !== 1 ||
+      !fs.readFileSync(filePath).equals(bytes)
+    ) {
+      fail(
+        "materialization_collision",
+        `Refusing to replace a different materialization at ${filePath}.`
+      );
+    }
+    fs.chmodSync(filePath, mode);
+    return;
+  }
+  let descriptor;
+  try {
+    descriptor = fs.openSync(filePath, "wx", mode);
+    fs.writeFileSync(descriptor, bytes);
+    fs.fsyncSync(descriptor);
+  } catch (error) {
+    if (descriptor !== undefined) {
+      fs.closeSync(descriptor);
+      if (fs.existsSync(filePath)) fs.rmSync(filePath);
+    }
+    fail(
+      "materialization_write_failed",
+      `Unable to create the exact materialization at ${filePath}: ${error.message}`
+    );
+  }
+  fs.closeSync(descriptor);
+  fs.chmodSync(filePath, mode);
 }
 
 function zipEntries(archivePath) {
@@ -340,6 +452,15 @@ function verifiedMaterializationPresent(assignment) {
       .split(/\r?\n/u)
       .map((line) => line.match(/^#\s+(.+?)\s*$/u)?.[1] ?? null)
       .find(Boolean) ?? null;
+  const jurisdictionMarkers = reviewText
+    .split(/\r?\n/u)
+    .map(
+      (line) =>
+        line.match(/^\*\*JURISDICTION:\s*(.+?)\s*\*\*\s*$/iu)?.[1] ?? null
+    )
+    .filter(Boolean);
+  const observedJurisdictionMarker =
+    jurisdictionMarkers.length === 1 ? jurisdictionMarkers[0] : null;
   const observedSha256 = crypto
     .createHash("sha256")
     .update(bytes)
@@ -347,6 +468,14 @@ function verifiedMaterializationPresent(assignment) {
   return (
     observedSha256 === assignment.activeReview.expectedSha256 &&
     observedTitle === assignment.activeReview.expectedTitle &&
+    observedJurisdictionMarker !== null &&
+    observedJurisdictionMarker
+      .toLocaleUpperCase("en-US")
+      .includes(
+        assignment.activeReview.expectedJurisdictionName.toLocaleUpperCase(
+          "en-US"
+        )
+      ) &&
     receipt?.schemaVersion === RECEIPT_SCHEMA &&
     receipt.jobId === assignment.jobId &&
     receipt.jurisdiction === assignment.jurisdiction &&
@@ -357,6 +486,9 @@ function verifiedMaterializationPresent(assignment) {
     receipt.observedMime === assignment.activeReview.expectedMime &&
     receipt.expectedTitle === assignment.activeReview.expectedTitle &&
     receipt.observedTitle === assignment.activeReview.expectedTitle &&
+    receipt.expectedJurisdictionName ===
+      assignment.activeReview.expectedJurisdictionName &&
+    receipt.observedJurisdictionMarker === observedJurisdictionMarker &&
     receipt.activeReviewCount === assignment.expectedActiveReviewCount &&
     receipt.addendumCount === assignment.expectedAddendumCount &&
     receipt.materializationState === "binary_hash_verified" &&
