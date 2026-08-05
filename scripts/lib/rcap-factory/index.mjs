@@ -4,6 +4,10 @@ import crypto from "node:crypto";
 
 import { buildFactoryPlan } from "./planner.mjs";
 import { validateJob } from "./schema.mjs";
+import {
+  canonicalSha256,
+  canonicalStringify
+} from "./canonical-json.mjs";
 
 const WORKTREE_JOB_MARKER = "tmp/rcap-factory/job.json";
 
@@ -85,10 +89,7 @@ function immutableScaffoldJob(marker, jobId, options) {
       `${WORKTREE_JOB_MARKER} assignedJob does not match ${jobId}.`
     );
   }
-  const digest = crypto
-    .createHash("sha256")
-    .update(stableStringify(job, 0))
-    .digest("hex");
+  const digest = canonicalSha256(job);
   if (marker.assignedJobSha256 !== digest) {
     throw new Error(
       `${WORKTREE_JOB_MARKER} assignedJobSha256 does not match the immutable assignment.`
@@ -249,19 +250,9 @@ function readWorktreeMarker(options) {
 }
 
 export function stableStringify(value, space = 2) {
-  return JSON.stringify(sortObject(value), null, space);
+  return canonicalStringify(value, space);
 }
 
 export function serializeFactoryPlan(plan, space = 2) {
   return `${stableStringify(plan, space)}\n`;
-}
-
-function sortObject(value) {
-  if (Array.isArray(value)) return value.map(sortObject);
-  if (!value || typeof value !== "object") return value;
-  return Object.fromEntries(
-    Object.keys(value)
-      .sort((a, b) => a.localeCompare(b))
-      .map((key) => [key, sortObject(value[key])])
-  );
 }

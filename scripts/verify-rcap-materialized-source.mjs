@@ -8,6 +8,10 @@ import {
   OFFICIAL_PDF_SOURCE_PROJECTION_PATH,
   validateOfficialPdfSourceProjection
 } from "./lib/rcap-factory/materialization-planning.mjs";
+import {
+  canonicalSha256,
+  canonicalStringify
+} from "./lib/rcap-factory/canonical-json.mjs";
 
 const SCRIPT_PATH = fileURLToPath(import.meta.url);
 const REPOSITORY_ROOT = path.resolve(path.dirname(SCRIPT_PATH), "..");
@@ -1940,7 +1944,7 @@ function loadAnchoredAssignment({ rootDir, manifestPath }) {
     );
   }
   if (
-    canonicalJsonSha256(marker.assignedJob) !== marker.assignedJobSha256
+    canonicalSha256(marker.assignedJob) !== marker.assignedJobSha256
   ) {
     throw contractError(
       "assignment_manifest_mismatch",
@@ -2000,7 +2004,8 @@ function loadAnchoredAssignment({ rootDir, manifestPath }) {
     );
   }
   if (
-    canonicalJson(anchoredJob) !== canonicalJson(marker.assignedJob) ||
+    canonicalStringify(anchoredJob, 0) !==
+      canonicalStringify(marker.assignedJob, 0) ||
     anchoredJob.jobId !== marker.jobId ||
     anchoredJob.baseCommit !== marker.manifestBaseCommit ||
     !/^[0-9a-f]{40}$/u.test(marker.manifestBaseCommit ?? "")

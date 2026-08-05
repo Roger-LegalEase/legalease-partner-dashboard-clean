@@ -9,6 +9,7 @@ import {
   orderedJobManifest,
   stableStringify
 } from "./prompt.mjs";
+import { canonicalSha256 } from "./canonical-json.mjs";
 import {
   OFFICIAL_PDF_SOURCE_PROJECTION_PATH,
   validateOfficialPdfSourceProjection
@@ -298,9 +299,7 @@ export function buildWorktreeJobMarker({ plan, job, actualStartCommit }) {
     forbiddenPaths: job.forbiddenPaths,
     focusedValidation: job.focusedValidation,
     assignedJob,
-    assignedJobSha256: createHash("sha256")
-      .update(stableStringify(assignedJob, 0))
-      .digest("hex"),
+    assignedJobSha256: canonicalSha256(assignedJob),
     assignmentManifestRelativePath,
     assignmentManifestSha256: createHash("sha256")
       .update(`${JSON.stringify(assignedJob, null, 2)}\n`)

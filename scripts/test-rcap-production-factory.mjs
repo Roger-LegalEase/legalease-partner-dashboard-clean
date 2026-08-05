@@ -23,8 +23,13 @@ import {
   validateJob
 } from "./lib/rcap-factory/index.mjs";
 import {
-  compileWorkerPrompt
+  compileWorkerPrompt,
+  stableStringify as promptStableStringify
 } from "./lib/rcap-factory/prompt.mjs";
+import {
+  canonicalSha256,
+  canonicalStringify
+} from "./lib/rcap-factory/canonical-json.mjs";
 import {
   buildScaffoldPlan,
   buildWorktreeJobMarker
@@ -289,6 +294,71 @@ await check("deterministic plan covers all lanes and jurisdictions", () => {
   assert.equal(first.parentJobReconciliation.unmappedChildren, 0);
   assert.equal(first.parentJobReconciliation.unknownParentReferences, 0);
   plan = first;
+});
+
+await check("factory assignment canonicalization is locale-independent and round-trips", () => {
+  const localeSensitive = {
+    ä: "umlaut",
+    a: "lower",
+    Z: "upper-z",
+    A: "upper-a",
+    omitted: undefined,
+    sequence: ["z", "A", undefined, null, 3, false]
+  };
+  assert.equal(
+    canonicalStringify(localeSensitive, 0),
+    '{"A":"upper-a","Z":"upper-z","a":"lower","sequence":["z","A",null,null,3,false],"ä":"umlaut"}'
+  );
+  assert.equal(
+    promptStableStringify(localeSensitive, 0),
+    stableStringify(localeSensitive, 0)
+  );
+
+  const assigned = plan.jobs.find(
+    (job) =>
+      job.status === "ready" &&
+      (job.officialPdfAssignment?.identityKeys?.length ?? 0) === 0
+  );
+  const scaffold = buildScaffoldPlan({
+    rootDir: ROOT,
+    job: assigned,
+    authorityVersion: plan.authorityVersion,
+    model: assigned.model
+  });
+  const marker = buildWorktreeJobMarker({
+    plan: scaffold,
+    job: assigned,
+    actualStartCommit: scaffold.scaffoldBaseCommit
+  });
+  assert.equal(marker.assignedJobSha256, canonicalSha256(marker.assignedJob));
+
+  const markerPath = path.join(ROOT, "tmp/rcap-factory/job.json");
+  const roundTripMarker = structuredClone(marker);
+  delete roundTripMarker.assignmentManifestRelativePath;
+  delete roundTripMarker.assignmentManifestSha256;
+  assert.equal(fs.existsSync(markerPath), false, `${markerPath} already exists`);
+  fs.mkdirSync(path.dirname(markerPath), { recursive: true });
+  try {
+    fs.writeFileSync(markerPath, `${JSON.stringify(roundTripMarker)}\n`);
+    assert.deepEqual(
+      loadJob(assigned.jobId, { rootDir: ROOT }),
+      marker.assignedJob
+    );
+
+    const changed = structuredClone(roundTripMarker);
+    changed.assignedJob.stopCondition += " Changed assignment content.";
+    assert.notEqual(
+      canonicalSha256(changed.assignedJob),
+      roundTripMarker.assignedJobSha256
+    );
+    fs.writeFileSync(markerPath, `${JSON.stringify(changed)}\n`);
+    assert.throws(
+      () => loadJob(assigned.jobId, { rootDir: ROOT }),
+      /assignedJobSha256 does not match/
+    );
+  } finally {
+    fs.rmSync(markerPath, { force: true });
+  }
 });
 
 await check("terminal guidance and authority children preserve exact provenance", () => {

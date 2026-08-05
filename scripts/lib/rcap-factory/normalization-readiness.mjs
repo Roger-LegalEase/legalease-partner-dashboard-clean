@@ -1,6 +1,11 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
+import {
+  canonicalSha256,
+  canonicalStringify as canonicalFactoryStringify,
+  canonicalizeFactoryValue
+} from "./canonical-json.mjs";
 
 export const NORMALIZATION_READINESS_INPUT_SCHEMA =
   "rcap-normalization-readiness-input/v1";
@@ -105,7 +110,7 @@ const VOLATILE_MECHANISM_FIELDS = new Set([
 ]);
 
 export function canonicalStringify(value) {
-  return JSON.stringify(canonicalizeObject(value));
+  return canonicalFactoryStringify(value, 0);
 }
 
 export function canonicalizeMechanismInventory(rows) {
@@ -129,17 +134,18 @@ export function canonicalizeMechanismInventory(rows) {
   });
 
   return canonicalRows.sort((left, right) =>
-    left.sourceId.localeCompare(right.sourceId)
+    left.sourceId < right.sourceId
+      ? -1
+      : left.sourceId > right.sourceId
+        ? 1
+        : 0
   );
 }
 
 export function mechanismInventorySha256({
   mechanismInventory
 }) {
-  return crypto
-    .createHash("sha256")
-    .update(mechanismInventoryCanonicalPayload(mechanismInventory))
-    .digest("hex");
+  return canonicalSha256(canonicalizeMechanismInventory(mechanismInventory));
 }
 
 export function mechanismInventoryCanonicalPayload(mechanismInventory) {
@@ -1037,7 +1043,7 @@ function buildSessionBNormalizationBundle({
   if (
     canonicalStringify(
       [...researchRecord.expectedSourceIds].sort((left, right) =>
-        left.localeCompare(right)
+        left < right ? -1 : left > right ? 1 : 0
       )
     ) !==
     canonicalStringify(expectedSourceIds)
@@ -1871,11 +1877,11 @@ export function deriveNormalizationReadinessRecord({
           : firstReadinessBlocker(blockers),
       readinessBlockers: blockers
     };
-    return canonicalizeObject(record);
+    return canonicalizeFactoryValue(record);
   }
 
   if (claim?.status === "in_progress") {
-    return canonicalizeObject({
+    return canonicalizeFactoryValue({
       ...base,
       readinessState: "normalization_in_progress",
       readinessBlockers: [
@@ -1885,7 +1891,7 @@ export function deriveNormalizationReadinessRecord({
     });
   }
 
-  return canonicalizeObject(base);
+  return canonicalizeFactoryValue(base);
 }
 
 export function normalizationFoundationComplete(input) {
@@ -3239,16 +3245,6 @@ function materializationDestinationFor(jurisdiction, assetPath) {
   );
 }
 
-function canonicalizeObject(value) {
-  if (Array.isArray(value)) return value.map((entry) => canonicalizeObject(entry));
-  if (!value || typeof value !== "object") return value;
-  return Object.fromEntries(
-    Object.keys(value)
-      .sort()
-      .map((key) => [key, canonicalizeObject(value[key])])
-  );
-}
-
 function researchCanonicalizeObject(value) {
   if (Array.isArray(value)) {
     return value.map((entry) => researchCanonicalizeObject(entry));
@@ -3269,9 +3265,15 @@ function canonicalizeMechanismValue(value) {
         entry === null ||
         ["string", "number", "boolean"].includes(typeof entry)
     )
-      ? entries.sort((left, right) =>
-          canonicalStringify(left).localeCompare(canonicalStringify(right))
-        )
+      ? entries.sort((left, right) => {
+          const leftCanonical = canonicalStringify(left);
+          const rightCanonical = canonicalStringify(right);
+          return leftCanonical < rightCanonical
+            ? -1
+            : leftCanonical > rightCanonical
+              ? 1
+              : 0;
+        })
       : entries;
   }
   if (!value || typeof value !== "object") return value;

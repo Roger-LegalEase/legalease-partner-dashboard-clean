@@ -1,3 +1,8 @@
+import {
+  canonicalStringify,
+  canonicalizeFactoryValue
+} from "./canonical-json.mjs";
+
 const SUPPORTED_MODELS = new Set(["opus", "codex"]);
 
 const JOB_FIELD_ORDER = [
@@ -127,18 +132,22 @@ export function orderedJobManifest(job, model = job?.model) {
   const ordered = {};
 
   for (const field of JOB_FIELD_ORDER) {
-    if (Object.hasOwn(source, field)) ordered[field] = canonicalize(source[field]);
+    if (Object.hasOwn(source, field)) {
+      ordered[field] = canonicalizeFactoryValue(source[field]);
+    }
   }
 
   for (const field of Object.keys(source).sort()) {
-    if (!Object.hasOwn(ordered, field)) ordered[field] = canonicalize(source[field]);
+    if (!Object.hasOwn(ordered, field)) {
+      ordered[field] = canonicalizeFactoryValue(source[field]);
+    }
   }
 
   return ordered;
 }
 
 export function stableStringify(value, space = 2) {
-  return JSON.stringify(canonicalize(value), null, space);
+  return canonicalStringify(value, space);
 }
 
 export function assertSupportedModel(model) {
@@ -201,17 +210,6 @@ function assertJob(job) {
         "only ready jobs are eligible."
     );
   }
-}
-
-function canonicalize(value) {
-  if (Array.isArray(value)) return value.map((entry) => canonicalize(entry));
-  if (!value || typeof value !== "object") return value;
-
-  const result = {};
-  for (const key of Object.keys(value).sort()) {
-    result[key] = canonicalize(value[key]);
-  }
-  return result;
 }
 
 function missionFor(job) {
