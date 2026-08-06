@@ -1470,16 +1470,21 @@ await check("packet, source-materialization, and normalization readiness fail cl
     otherNormalizations.length,
     REMAINING_NORMALIZATION_JURISDICTIONS.length
   );
-  assert.equal(
-    otherNormalizations.filter((entry) => entry.status === "ready").length,
-    REMAINING_NORMALIZATION_JURISDICTIONS.length - 4
-  );
+  // Integrated waves. Each of these carries an exact worker memo blob through a
+  // captain-equivalent commit; the rest are still awaiting a normalization
+  // worker. The ready count is derived rather than hardcoded so landing a wave
+  // moves both sides of the identity together.
+  const integratedNormalizations = ["RI", "SC", "SD", "VA", "WA", "WI", "WV", "WY"];
   assert.deepEqual(
     otherNormalizations
       .filter((entry) => entry.status === "completed")
       .map((entry) => entry.jurisdiction)
       .sort(),
-    ["RI", "SD", "WI", "WY"]
+    integratedNormalizations
+  );
+  assert.equal(
+    otherNormalizations.filter((entry) => entry.status === "ready").length,
+    REMAINING_NORMALIZATION_JURISDICTIONS.length - integratedNormalizations.length
   );
   // Tennessee's codification-authority blocker is cleared by the verified
   // package receipt, so no normalization job is left blocked on state-specific
@@ -1497,10 +1502,9 @@ await check("packet, source-materialization, and normalization readiness fail cl
   for (const entry of otherNormalizations) {
     const readiness = entry.normalizationReadiness;
     assert.equal(readiness.jurisdiction, entry.jurisdiction);
-    const expectedState =
-      ["RI", "SD", "WI", "WY"].includes(entry.jurisdiction)
-        ? "normalization_complete"
-        : "ready_for_normalization";
+    const expectedState = integratedNormalizations.includes(entry.jurisdiction)
+      ? "normalization_complete"
+      : "ready_for_normalization";
     assert.equal(
       readiness.readinessState,
       expectedState
@@ -1568,9 +1572,14 @@ await check("packet, source-materialization, and normalization readiness fail cl
       readiness.denominatorAdjudication.status,
       "keyed_denominator_reconciled"
     );
+    // West Virginia has since been normalized and integrated, so its readiness
+    // record now reads complete. The counsel structure it was adopted under is
+    // asserted below either way — integration must not drop it.
     assert.equal(
       readiness.readinessState,
-      "ready_for_normalization"
+      integratedNormalizations.includes(jurisdiction)
+        ? "normalization_complete"
+        : "ready_for_normalization"
     );
     assert.equal(
       readiness.counselStructureAdoption.adoptionSha256,
@@ -3407,7 +3416,7 @@ await check("dashboard reports all 51 and preserves the red launch posture", () 
   assert.deepEqual(status.readinessMetrics, {
     authorityCleared: trackSourceAudit.totals.tracksCleared,
     authorityBlocked: trackSourceAudit.totals.tracksBlocked,
-    sourcePinned: 52,
+    sourcePinned: 54,
     implementationProof: 17,
     finalDisposition: 0
   });

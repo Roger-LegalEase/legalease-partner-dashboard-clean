@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "note": "Approved composed-unit substance. Read on every batch-delta run and written only by --approve-composed-units. A composed route has no track-level renderer strategy, so this file is where its legal substance is pinned: which vehicle each unit files, which units are unresolved, which are available, and — for a sequential composition — what order the stages run in. Alternative-branch array order is deliberately not pinned; those branches are selected by a predicate, not by position.",
-  "approvedTracks": 32,
+  "approvedTracks": 34,
   "tracks": [
     {
       "jurisdiction": "AR",
@@ -1119,6 +1119,37 @@
       "sequence": null
     },
     {
+      "jurisdiction": "SC",
+      "trackId": "sc_17_22_950_summary",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "alternative",
+      "orderIsSubstantive": false,
+      "counselAuthoredProvenanceCount": 6,
+      "units": [
+        {
+          "unitId": "sc-17-22-950-unit-a-fingerprinted-automatic",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "sc-17-22-950-unit-b-unfingerprinted-application",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": null
+    },
+    {
       "jurisdiction": "SD",
       "trackId": "sd_arrest_expungement",
       "outputStrategyDeclared": "composed",
@@ -1161,6 +1192,40 @@
         "sd-arrest-stage-1-record-gathering",
         "sd-arrest-stage-2-ujs-motion-packet",
         "sd-arrest-stage-3-filing-service-and-notice-of-entry"
+      ]
+    },
+    {
+      "jurisdiction": "WV",
+      "trackId": "wv_dui_deferral_expungement",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "sequential",
+      "orderIsSubstantive": true,
+      "counselAuthoredProvenanceCount": 9,
+      "units": [
+        {
+          "unitId": "wv-dui-deferral-unit-1-motion-to-dismiss",
+          "order": 1,
+          "outputStrategy": "custom_pleading",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "wv-dui-deferral-unit-2-application-to-expunge",
+          "order": 2,
+          "outputStrategy": "custom_pleading",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": [
+        "wv-dui-deferral-unit-1-motion-to-dismiss",
+        "wv-dui-deferral-unit-2-application-to-expunge"
       ]
     }
   ]

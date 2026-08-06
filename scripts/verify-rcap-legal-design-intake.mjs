@@ -2144,7 +2144,10 @@ check("the corrected Rhode Island memo and approvals preserve one conditional ma
       "utf8"
     )
   );
-  assert.equal(approvals.tracks.length, 32);
+  // Session D wave 2 added WV's sequential DUI-deferral composition and SC's
+  // alternative summary-court composition. Every earlier approval is preserved
+  // value-identically; PA's pardon composition is still deliberately absent.
+  assert.equal(approvals.tracks.length, 34);
   const riApprovals = approvals.tracks.filter(
     (track) => track.jurisdiction === "RI"
   );

@@ -163,7 +163,12 @@ const ILLINOIS_CUSTOM_PLEADING_WORKER_COMMIT =
   "20379e6e8f7fd41e1fda6714ab05a06183123368";
 const PENNSYLVANIA_NORMALIZATION_WORKER_COMMIT =
   "387656ac31a49f7338bd9d1e3e170df929659d98";
-const COMPLETED_SESSION_D_NORMALIZATIONS = Object.freeze([
+// Integrated normalization waves. Each record pins the exact worker commit, the
+// memo blob SHA-256 that commit supplied, and the captain-equivalent commit that
+// carries that blob into the integration branch without the worker's stale
+// shared generated outputs. The memo on disk is re-hashed against `memoSha256`
+// on every plan compile, so a record cannot drift from the blob it claims.
+const COMPLETED_NORMALIZATIONS = Object.freeze([
   {
     jurisdiction: "WY",
     workerCommit: "c27e1d9d6bc732e159b4cbe68b3f4705ede0a9a3",
@@ -199,6 +204,34 @@ const COMPLETED_SESSION_D_NORMALIZATIONS = Object.freeze([
     completionCommit: "2f091c7e1e60b317a225e6f53f201f79019c05f0",
     memoSha256:
       "918bdea81d68d75e072b8034dc22ba2cce0d6c86451c9ebdc3607b1225cfd62f"
+  },
+  {
+    jurisdiction: "WV",
+    workerCommit: "c1d0c69b4817168bad97e157f6bedac5920160c2",
+    completionCommit: "8fc211a0fb5d32a25aa3bb603a21a8625cddfcbc",
+    memoSha256:
+      "fe10623bba14a83fc8d14996baaf375775e1f90b916f047b5353553a4759fa5f"
+  },
+  {
+    jurisdiction: "SC",
+    workerCommit: "d0f6d52dabb5dd2de1f3875fb33ffcfae75e8a86",
+    completionCommit: "e6d915c1dee80918ffdac3e1848140350768246b",
+    memoSha256:
+      "1cb55c352a0ec365439dac7b1bacbeb154466d55d976c53d537dd25f654a5e64"
+  },
+  {
+    jurisdiction: "VA",
+    workerCommit: "467a12d75fee5652e3bc1014a7735af3d6c10369",
+    completionCommit: "8b6857900b9e2337449788d9f4f8ff35bf6da36c",
+    memoSha256:
+      "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66"
+  },
+  {
+    jurisdiction: "WA",
+    workerCommit: "ee749ed1e397ddb4bb25957ee28d83de9662f892",
+    completionCommit: "8244dc1bf5c2bc24e0d6725e412dc01bfe308533",
+    memoSha256:
+      "edf0f86c7eee382f6c0666e3a400b4b41bb5ffadc3a51610c12aacd6fe93b2f8"
   }
 ]);
 const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
@@ -967,7 +1000,7 @@ export function buildFactoryPlan(options = {}) {
   const tracksByState = groupBy(normalizedTracks, (track) => track.jurisdiction);
   const outstanding = sortedUnique(inputs.implementationQueue.outstandingJurisdictions ?? []);
   const completedNormalizationJurisdictions =
-    COMPLETED_SESSION_D_NORMALIZATIONS.map(
+    COMPLETED_NORMALIZATIONS.map(
       (record) => record.jurisdiction
     );
   const pennsylvaniaMemoPath =
@@ -1091,7 +1124,7 @@ export function buildFactoryPlan(options = {}) {
     legalReviewMaterializers.set(assignment.jurisdiction, job);
   }
 
-  for (const record of COMPLETED_SESSION_D_NORMALIZATIONS) {
+  for (const record of COMPLETED_NORMALIZATIONS) {
     const memoPath =
       `data/record-clearing/legal-design-intake/${record.jurisdiction}.memo.json`;
     const absoluteMemoPath = path.join(rootDir, memoPath);
@@ -1272,6 +1305,150 @@ export function buildFactoryPlan(options = {}) {
         "structure, unit destinations, unit availability, and substantive composed-unit " +
         "approval. Do not fabricate an approval, alter the Pennsylvania memo, infer a route, " +
         "claim participant packet proof, enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  // Follow-ups opened by an integrated normalization memo. Each one exists
+  // because the memo answered its own question honestly and left a distinct
+  // question that must not be answered by quietly widening the memo. They are
+  // registered only once the state they belong to is integrated, so the plan
+  // never carries a follow-up to work that has not landed.
+  const integratedNormalizations = new Set(completedNormalizationJurisdictions);
+
+  if (integratedNormalizations.has("WV")) {
+    // The West Virginia review surfaced a participant-facing mechanism under
+    // W. Va. Code section 61-11-26(r) that the adopted ten-slot denominator does
+    // not contain. Adding an eleventh slot to the integrated memo would change a
+    // counsel-adopted structure on an engineering inference, so the mechanism is
+    // carried here instead, blocked, until it is established on its own terms.
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "WV",
+      jobId: "rcap-wv-61-11-26-r-normalization-addendum",
+      strategyFamily: "legal_design_adjudication",
+      trackIds: [],
+      dependencies: ["rcap-wv-legal-design-normalization"],
+      status: "blocked",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/guidance-specifications/wv-61-11-26-r-normalization-addendum.json`
+      ],
+      ownedPaths: [
+        `${FACTORY_DATA_DIR}/guidance-specifications/wv-61-11-26-r-normalization-addendum.json`
+      ],
+      requiredInputs: [
+        "data/record-clearing/legal-design-intake/WV.memo.json",
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.normalizationReadiness,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "high",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job rcap-wv-61-11-26-r-normalization-addendum"
+      ],
+      commitSubject:
+        "docs(record-clearing): adjudicate West Virginia 61-11-26(r) addendum",
+      stopCondition:
+        "Establish, for the W. Va. Code section 61-11-26(r) mechanism, its source-slot identity, " +
+        "eligible population, filing vehicle, venue, destination, output strategy, and its exact " +
+        "relationship to the existing section 61-11-26 routes. Do not add an eleventh slot or " +
+        "track to the integrated West Virginia memo, do not restate the adopted ten-slot " +
+        "denominator as eleven, and do not enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  if (integratedNormalizations.has("VA")) {
+    // Virginia publishes two versions of section 19.2-392.2 and two of
+    // section 19.2-392.6. The integrated memo builds against the text in force
+    // and dates every affected track out at 2026-11-30. The successor text is
+    // real, dated, and must not be activated early, so the cutover is its own
+    // job rather than a conditional inside a live track.
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "VA",
+      jobId: "rcap-va-2026-2027-statutory-cutover",
+      strategyFamily: "legal_design_adjudication",
+      trackIds: [],
+      dependencies: ["rcap-va-legal-design-normalization"],
+      status: "blocked",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/guidance-specifications/va-2026-2027-statutory-cutover.json`
+      ],
+      ownedPaths: [
+        `${FACTORY_DATA_DIR}/guidance-specifications/va-2026-2027-statutory-cutover.json`
+      ],
+      requiredInputs: [
+        "data/record-clearing/legal-design-intake/VA.memo.json",
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.packetSetManifests,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job rcap-va-2026-2027-statutory-cutover"
+      ],
+      commitSubject:
+        "docs(record-clearing): plan the Virginia 2026-2027 statutory cutover",
+      stopCondition:
+        "Cover the Va. Code section 19.2-392.2 version effective December 1, 2026 against the " +
+        "existing tracks ending November 30, 2026, including the broader subsection A gateway and " +
+        "the multi-transaction single-petition treatment; the section 19.2-392.6 changes effective " +
+        "July 1, 2027; and the resulting screening, packet, and dated regression-test requirements. " +
+        "Do not activate future law early, do not retire a track that is still in force, and do not " +
+        "enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+
+    // Every plausible CC-1201 and CC-1203 path at the official circuit-court
+    // form library returned 404 on the normalization pass while CC-1473
+    // retrieved cleanly from the same library. That is a source-retrieval
+    // failure, not a finding that the series does not exist, and CC-1473 is a
+    // section 19.2-392.2(A) instrument that must not be substituted for it.
+    // Kept out of the source_acquisition lane deliberately: that lane is keyed to
+    // acquisition records for documents whose identity is already established,
+    // and CC-1201's identity is precisely what is unknown. Inventing acquisition
+    // rows to fit the lane would manufacture the identity this job exists to
+    // determine.
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "VA",
+      jobId: "rcap-va-cc-1201-source-identity-materialization",
+      strategyFamily: "source_identity_resolution",
+      trackIds: [],
+      dependencies: ["rcap-va-legal-design-normalization"],
+      status: "blocked",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/guidance-specifications/va-cc-1201-source-identity-materialization.json`
+      ],
+      ownedPaths: [
+        `${FACTORY_DATA_DIR}/guidance-specifications/va-cc-1201-source-identity-materialization.json`
+      ],
+      requiredInputs: [
+        "data/record-clearing/legal-design-intake/VA.memo.json",
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.sourceRelationships,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "codex",
+      effort: "high",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job rcap-va-cc-1201-source-identity-materialization"
+      ],
+      commitSubject:
+        "chore(record-clearing): resolve Virginia CC-1201 source identity",
+      stopCondition:
+        "Establish, for each instrument in the current CC-1201 series, its exact form number, " +
+        "title, revision, role, statewide scope, official URL, content hash, participant-facing " +
+        "status, and the affected Virginia tracks and components. Do not substitute CC-1473 " +
+        "outside Va. Code section 19.2-392.2(A), do not adopt an unofficial mirror or aggregator " +
+        "copy as authority, do not commit a source binary, and do not enable runtime, promote, or " +
+        "deploy. " +
         TERMINAL_INSTRUCTION
     });
   }

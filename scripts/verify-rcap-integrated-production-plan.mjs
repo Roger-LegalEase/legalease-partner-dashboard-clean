@@ -1260,6 +1260,18 @@ assert.equal(
   gaRfoTrackReconciliation.completionCommit,
   "de0e2debc59aab9f82672876c42c9d542f3bcb18"
 );
+// Normalization waves already integrated from an exact worker memo blob through
+// a captain-equivalent commit. Everything else is still awaiting a worker.
+const INTEGRATED_NORMALIZATIONS = [
+  "RI",
+  "SC",
+  "SD",
+  "VA",
+  "WA",
+  "WI",
+  "WV",
+  "WY"
+];
 const remainingNormalizations = factoryPlan.jobs.filter(
   (entry) =>
     /-legal-design-normalization$/.test(entry.jobId) &&
@@ -1269,14 +1281,11 @@ assert.equal(remainingNormalizations.length, 24);
 assert.ok(
   remainingNormalizations.every(
     (entry) => {
-      const expectedStatus = ["RI", "SD", "WI", "WY"].includes(
+      const integrated = INTEGRATED_NORMALIZATIONS.includes(
         entry.jurisdiction
-      )
-        ? "completed"
-        : "ready";
-      const expectedReadinessState = ["RI", "SD", "WI", "WY"].includes(
-        entry.jurisdiction
-      )
+      );
+      const expectedStatus = integrated ? "completed" : "ready";
+      const expectedReadinessState = integrated
         ? "normalization_complete"
         : "ready_for_normalization";
       return (
@@ -1321,7 +1330,9 @@ for (const jurisdiction of ["UT", "VT", "WV"]) {
   ).normalizationReadiness;
   assert.equal(
     readiness.readinessState,
-    "ready_for_normalization"
+    INTEGRATED_NORMALIZATIONS.includes(jurisdiction)
+      ? "normalization_complete"
+      : "ready_for_normalization"
   );
   assert.equal(
     readiness.denominatorAdjudication.status,
@@ -1674,33 +1685,28 @@ const staticCanonicalTrackKeys = new Set(staticCanonicalTrackPartition);
 const dynamicallyResolvedTrackKeys = normalizedKeys.filter(
   (trackKey) => !staticCanonicalTrackKeys.has(trackKey)
 );
-assert.deepEqual(dynamicallyResolvedTrackKeys, [
-  "RI:ri_commercial_sexual_activity",
-  "RI:ri_decriminalized",
-  "RI:ri_deferred_sentence",
-  "RI:ri_filed_complaints",
-  "RI:ri_first_offender_felony",
-  "RI:ri_first_offender_misdemeanor",
-  "RI:ri_marijuana",
-  "RI:ri_multiple_misdemeanors",
-  "RI:ri_nonconviction_sealing",
-  "SD:sd_23a_3_34_auto",
-  "SD:sd_arrest_expungement",
-  "SD:sd_diversion",
-  "SD:sd_pardon_24_14_11",
-  "SD:sd_sis_sealing",
-  "WI:wi_def_961_47",
-  "WI:wi_exp_942_08_mandatory",
-  "WI:wi_exp_certificate_of_discharge",
-  "WI:wi_exp_certificate_of_discharge_followup",
-  "WI:wi_exp_cr266",
-  "WI:wi_exp_trafficking_2m",
-  "WI:wi_nc_doj_challenge",
-  "WI:wi_nc_doj_fingerprint_removal",
-  "WY:wy_fel_1502",
-  "WY:wy_misd_1501",
-  "WY:wy_nc_1401"
-]);
+// Every track that no static canonical-parent record claims must belong to a
+// normalization wave integrated after those records were authored — and every
+// track of such a wave must appear here. Stated as an identity rather than as a
+// frozen list, so a wave landing cannot quietly leave a track unaccounted for
+// and a hand-edited list cannot drift from the registry.
+const dynamicallyResolvedJurisdictions = [
+  ...new Set(dynamicallyResolvedTrackKeys.map((key) => key.split(":")[0]))
+].sort();
+assert.deepEqual(
+  dynamicallyResolvedJurisdictions,
+  INTEGRATED_NORMALIZATIONS.filter((jurisdiction) =>
+    normalizedKeys.some((key) => key.startsWith(`${jurisdiction}:`))
+  )
+);
+assert.deepEqual(
+  dynamicallyResolvedTrackKeys,
+  normalizedKeys
+    .filter((key) =>
+      dynamicallyResolvedJurisdictions.includes(key.split(":")[0])
+    )
+    .sort()
+);
 assert.equal(
   staticCanonicalTrackPartition.length +
     dynamicallyResolvedTrackKeys.length,
@@ -1857,7 +1863,7 @@ assert.equal(
 assert.deepEqual(productionPlan.readinessMetrics.current, {
   authorityCleared: trackSourceAudit.totals.tracksCleared,
   authorityBlocked: trackSourceAudit.totals.tracksBlocked,
-  sourcePinned: 52,
+  sourcePinned: 54,
   implementationProof: 17,
   finalDisposition: 0
 });
@@ -2685,7 +2691,7 @@ const status = buildFactoryStatus({ rootDir: ROOT });
 assert.deepEqual(status.readinessMetrics, {
   authorityCleared: trackSourceAudit.totals.tracksCleared,
   authorityBlocked: trackSourceAudit.totals.tracksBlocked,
-  sourcePinned: 52,
+  sourcePinned: 54,
   implementationProof: 17,
   finalDisposition: 0
 });
@@ -2705,7 +2711,9 @@ assert.equal(
       )
   )
     .length,
-  40
+  // 40 before Session D wave 2; wa_del_nonconviction and wv_common_nc_procedure
+  // pinned a source when their memos landed.
+  42
 );
 assert.deepEqual(
   status.tracks
