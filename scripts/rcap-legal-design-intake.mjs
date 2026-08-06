@@ -162,10 +162,9 @@ function applySourcePin(relationship) {
 
 const strict = !process.argv.includes("--report-only");
 
-fs.mkdirSync(INTAKE_DIR, { recursive: true });
+if (strict) fs.mkdirSync(INTAKE_DIR, { recursive: true });
 
-const memoFiles = fs
-  .readdirSync(INTAKE_DIR)
+const memoFiles = (fs.existsSync(INTAKE_DIR) ? fs.readdirSync(INTAKE_DIR) : [])
   .filter((name) => /^[A-Z]{2}\.memo\.json$/.test(name))
   .sort();
 
@@ -592,14 +591,28 @@ const legalResearchQueue = {
   deferredTracks: allDeferred
 };
 
-fs.mkdirSync(OUT_DIR, { recursive: true });
-write("legal-design-legal-research-queue.json", legalResearchQueue);
-write("legal-design-guidance-rereview-queue.json", guidanceRereviewQueue);
-write("legal-design-track-registry.json", registryRecords);
-write("legal-design-packet-set-manifests.json", packetSetManifests);
-write("legal-design-track-source-relationships.json", { schemaVersion: 1, relationships: allRelationships });
-write("legal-design-specifications.json", specifications);
-write("legal-design-implementation-queue.json", implementationQueue);
+// Report-only is a read of the current memo set, not a write of it. It has to
+// stay byte-inert: a captain runs it to see what a candidate memo would do
+// before deciding to accept the state, and a run that silently rewrote the
+// shared registries would leave the worktree carrying an unreviewed derived
+// change attributed to no commit. Write mode is unchanged.
+const OUTPUTS = [
+  ["legal-design-legal-research-queue.json", legalResearchQueue],
+  ["legal-design-guidance-rereview-queue.json", guidanceRereviewQueue],
+  ["legal-design-track-registry.json", registryRecords],
+  ["legal-design-packet-set-manifests.json", packetSetManifests],
+  [
+    "legal-design-track-source-relationships.json",
+    { schemaVersion: 1, relationships: allRelationships }
+  ],
+  ["legal-design-specifications.json", specifications],
+  ["legal-design-implementation-queue.json", implementationQueue]
+];
+
+if (strict) {
+  fs.mkdirSync(OUT_DIR, { recursive: true });
+  for (const [name, value] of OUTPUTS) write(name, value);
+}
 
 // ---------------------------------------------------------------------------
 // Report
@@ -634,6 +647,12 @@ console.log(`8. Tracks packet_ready: ${registryRecords.packetReadyCount}. Import
 console.log(
   `9. Master Library authority: ${authorityAudit ? `Edition ${authorityAudit.edition}` : "audit absent — every track fails closed"}. Authority-cleared: ${authorityClearedTracks} of ${allTracks.length}. Readiness ceilings removed by the gate: ${registryRecords.readinessCeiling.removedByAuthorityGate}.`
 );
+
+if (!strict) {
+  console.log("");
+  console.log("Report-only: nothing was written. Write mode would regenerate:");
+  for (const [name] of OUTPUTS) console.log(`     data/record-clearing/${name}`);
+}
 
 if (rejected.length > 0) {
   console.error("");

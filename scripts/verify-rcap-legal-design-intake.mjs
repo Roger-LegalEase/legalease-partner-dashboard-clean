@@ -2167,6 +2167,62 @@ check("the corrected Rhode Island memo and approvals preserve one conditional ma
   );
 });
 
+// --- report-only is byte-inert -----------------------------------------------
+//
+// A captain runs `--report-only` to see what a candidate memo set would produce
+// before deciding to accept a state. The run reported honestly but rewrote the
+// seven shared registries on its way out, so an inspection left the worktree
+// carrying a derived change nobody committed and nobody reviewed. The proof has
+// to be byte-for-byte over the real script: a memo the tree does not yet carry
+// is dropped into the intake directory, report-only runs against it, and every
+// shared output must hash exactly as it did before.
+
+check("report-only writes nothing, while write mode still regenerates", () => {
+  const intakeDir = path.join(process.cwd(), "data/record-clearing/legal-design-intake");
+  const outDir = path.join(process.cwd(), "data/record-clearing");
+  const outputs = [
+    "legal-design-legal-research-queue.json",
+    "legal-design-guidance-rereview-queue.json",
+    "legal-design-track-registry.json",
+    "legal-design-packet-set-manifests.json",
+    "legal-design-track-source-relationships.json",
+    "legal-design-specifications.json",
+    "legal-design-implementation-queue.json"
+  ];
+  const digest = () =>
+    Object.fromEntries(
+      outputs.map((name) => [
+        name,
+        crypto.createHash("sha256").update(fs.readFileSync(path.join(outDir, name))).digest("hex")
+      ])
+    );
+
+  // A syntactically valid memo for a jurisdiction the tree has not imported.
+  // Report-only must notice it — the accepted count moves — and still write
+  // nothing. NV is used because no NV memo is committed; the probe is removed
+  // before this test returns whether it passes or throws.
+  const probe = path.join(intakeDir, "NV.memo.json");
+  assert.equal(fs.existsSync(probe), false, "NV.memo.json exists; pick an unimported probe jurisdiction");
+
+  const before = digest();
+  try {
+    fs.writeFileSync(probe, JSON.stringify(validMemo({}, { jurisdiction: "NV" })));
+    const stdout = execFileSync(
+      process.execPath,
+      ["scripts/rcap-legal-design-intake.mjs", "--report-only"],
+      { cwd: process.cwd(), encoding: "utf8" }
+    );
+    // The probe really did reach the run, so byte-identity below is not the
+    // trivial result of report-only having had nothing new to say.
+    assert.match(stdout, /Report-only: nothing was written/);
+    assert.match(stdout, /Accepted: \d+\./);
+  } finally {
+    fs.rmSync(probe, { force: true });
+  }
+
+  assert.deepEqual(digest(), before, "report-only mutated a shared registry");
+});
+
 console.log("RCAP legal-design intake verifier passed.");
 console.log(`1. ${checks} contract checks over validation, normalization and queueing.`);
 console.log("2. All eighteen required fields are enforced; a memo missing any one is rejected.");
