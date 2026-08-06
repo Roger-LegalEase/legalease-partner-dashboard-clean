@@ -3,6 +3,8 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { spawnSync } from "node:child_process";
 
+import { scaffoldKeyFor } from "./scaffold.mjs";
+
 const MAX_COMMAND_OUTPUT = 32 * 1024 * 1024;
 
 /**
@@ -1103,6 +1105,155 @@ function validateWorkerMarker(rootDir, job, marker) {
     );
   }
   return failures;
+}
+
+/**
+ * Verifies a worker's completion commit before it is pushed.
+ *
+ * `validateJobWorkspace` proves the checkout is doing the right work; this
+ * proves the commit that leaves it is the one integration will accept. The gap
+ * between the two is how four Session D normalization commits reached the
+ * remote with `feat(legal-design): normalize Utah` when the factory pins
+ * `feat(record-clearing): normalize UT legal design` — every one of them had to
+ * be integrated through a captain-equivalent commit instead, because a pushed
+ * worker commit cannot be amended.
+ *
+ * The subject is read from `job.commitSubject`, the same field the worker
+ * prompt renders and the integration planner compares against, so the three can
+ * never drift apart.
+ */
+export function validateWorkerCompletionCommit(
+  job,
+  { rootDir = process.cwd(), commit = "HEAD", branch } = {}
+) {
+  const failures = [];
+  const root = path.resolve(rootDir);
+
+  if (!job || typeof job !== "object") {
+    return {
+      schemaVersion: "rcap-factory-worker-completion-commit/v1",
+      jobId: "unknown",
+      commit: null,
+      passed: false,
+      failures: [failure("invalid_job", null, "job manifest is required")]
+    };
+  }
+
+  if (!gitCommitExists(root, commit)) {
+    return {
+      schemaVersion: "rcap-factory-worker-completion-commit/v1",
+      jobId: job.jobId,
+      commit: null,
+      passed: false,
+      failures: [
+        failure("commit_missing", null, `${commit} does not resolve to a commit`)
+      ]
+    };
+  }
+
+  const resolved = gitOneLine(root, ["rev-parse", commit]);
+  const marker = readWorkerMarker(root);
+  failures.push(...validateWorkerMarker(root, job, marker));
+
+  // Exactly one parent, and it must be the commit the assignment was scaffolded
+  // from. A worker that branched from somewhere else is not producing the
+  // change the captain reserved.
+  const parents = (gitOneLine(root, ["show", "-s", "--format=%P", resolved]) ?? "")
+    .split(/\s+/u)
+    .filter(Boolean);
+  const assignedBase = marker?.workerBaseCommit ?? job.baseCommit;
+  if (parents.length !== 1) {
+    failures.push(
+      failure(
+        "commit_parent_count",
+        null,
+        `worker commit must have exactly one parent, found ${parents.length}`
+      )
+    );
+  } else if (assignedBase && parents[0] !== assignedBase) {
+    failures.push(
+      failure(
+        "commit_parent_mismatch",
+        null,
+        `worker commit parent ${parents[0]} is not the assigned base ${assignedBase}`
+      )
+    );
+  }
+
+  const subject = gitOneLine(root, ["show", "-s", "--format=%s", resolved]);
+  if (typeof job.commitSubject !== "string" || job.commitSubject.trim() === "") {
+    failures.push(
+      failure("commit_subject_unassigned", null, "job carries no pinned commit subject")
+    );
+  } else if (subject !== job.commitSubject) {
+    failures.push(
+      failure(
+        "commit_subject_mismatch",
+        null,
+        `commit subject must be exactly ${JSON.stringify(job.commitSubject)}, found ${JSON.stringify(subject)}`
+      )
+    );
+  }
+
+  const changedPaths = gitNullList(root, [
+    "diff-tree",
+    "--no-commit-id",
+    "--name-only",
+    "--diff-filter=ACDMRTUXB",
+    "-r",
+    "-z",
+    resolved
+  ])
+    .map(normalizeRepoPath)
+    .sort((left, right) => left.localeCompare(right));
+  failures.push(...validateChangedPaths(job, changedPaths).violations);
+
+  // A binary in a worker commit is always wrong: sources are materialized to a
+  // sealed external root and pinned by receipt, never committed.
+  const numstat = gitOneLine(root, ["diff-tree", "--no-commit-id", "--numstat", "-r", resolved]) ?? "";
+  for (const line of numstat.split("\n").filter(Boolean)) {
+    const [added, removed, changedPath] = line.split(/\t/u);
+    if (added === "-" || removed === "-") {
+      failures.push(
+        failure("binary_in_commit", changedPath ?? null, `${changedPath} is a binary change`)
+      );
+    }
+  }
+
+  const currentBranch =
+    branch ?? gitOneLine(root, ["rev-parse", "--abbrev-ref", "HEAD"]);
+  const expectedBranch = `rcap-factory/${scaffoldKeyFor(job.jobId, {
+    job,
+    model: job.model
+  })}`;
+  const legacyBranch = `rcap-factory/${scaffoldKeyFor(job.jobId)}`;
+  if (
+    currentBranch &&
+    currentBranch !== expectedBranch &&
+    currentBranch !== legacyBranch
+  ) {
+    failures.push(
+      failure(
+        "branch_not_canonical",
+        null,
+        `worker branch must be ${expectedBranch}, found ${currentBranch}`
+      )
+    );
+  }
+
+  const deduped = dedupeFailures(failures);
+  return {
+    schemaVersion: "rcap-factory-worker-completion-commit/v1",
+    jobId: job.jobId,
+    commit: resolved,
+    branch: currentBranch ?? null,
+    expectedBranch,
+    requiredCommitSubject: job.commitSubject ?? null,
+    actualCommitSubject: subject,
+    changedPaths,
+    passed: deduped.length === 0,
+    failures: deduped
+  };
 }
 
 export function isWorkerScaffoldCheckout(rootDir) {

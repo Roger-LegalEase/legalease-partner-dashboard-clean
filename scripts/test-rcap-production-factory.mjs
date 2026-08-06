@@ -36,6 +36,10 @@ import {
   buildWorktreeJobMarker,
   scaffoldKeyFor
 } from "./lib/rcap-factory/scaffold.mjs";
+
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/gu, "\\$&");
+}
 import {
   inspectPdfBytes
 } from "./lib/rcap-factory/pdf-inspection.mjs";
@@ -49,6 +53,7 @@ import {
 } from "./lib/rcap-factory/official-pdf-proof.mjs";
 import {
   isWorkerScaffoldCheckout,
+  validateWorkerCompletionCommit,
   validateChangedPaths,
   validateJobWorkspace,
   validateWorkerCommand
@@ -2589,6 +2594,79 @@ await check("worker branch identity follows the assignment, not just the job", (
     () => scaffoldKeyFor(job.jobId, "not-a-digest"),
     /canonical assignment fingerprint/
   );
+});
+
+// --- worker commit subjects ------------------------------------------------
+//
+// Four Session D normalization commits reached the remote with
+// `feat(legal-design): normalize Utah` where the factory pins
+// `feat(record-clearing): normalize UT legal design`. A pushed worker commit is
+// never amended, so each had to be integrated through a captain-equivalent
+// commit. The gate below is what stops that happening again, while the ordinary
+// integration path stays strict about the subject it accepts.
+
+await check("worker commit subjects are gated before push", () => {
+  const job = plan.jobs.find((entry) => entry.status === "ready") ?? plan.jobs[0];
+  assert.ok(job.commitSubject, "every job must pin a commit subject");
+
+  // The prompt renders the same field the gate and the planner compare, so the
+  // three cannot drift apart.
+  const prompt = compileWorkerPrompt({
+    job,
+    authorityVersion: plan.authorityVersion,
+    model: job.model
+  });
+  assert.match(prompt, new RegExp(escapeRegExp(job.commitSubject)));
+  assert.match(prompt, /rcap-factory-verify-worker-commit\.mjs/);
+  // Rendered verbatim in its own section rather than paraphrased, so the worker
+  // reads the exact string the gate requires.
+  assert.match(prompt, /Use this subject verbatim/);
+
+  // A correct subject passes the subject rule; a wrong one is rejected by it.
+  const captainHead = git(["show", "-s", "--format=%s", "HEAD"]).trim();
+  const matching = validateWorkerCompletionCommit(
+    { ...job, commitSubject: captainHead },
+    { rootDir: ROOT, commit: "HEAD" }
+  );
+  assert.equal(
+    matching.failures.some((entry) => entry.code === "commit_subject_mismatch"),
+    false,
+    "an exactly matching subject must not raise a subject failure"
+  );
+  const mismatched = validateWorkerCompletionCommit(
+    { ...job, commitSubject: "feat(legal-design): normalize Utah" },
+    { rootDir: ROOT, commit: "HEAD" }
+  );
+  assert.equal(
+    mismatched.failures.some((entry) => entry.code === "commit_subject_mismatch"),
+    true,
+    "a wrong subject must be rejected before push"
+  );
+  assert.equal(mismatched.passed, false);
+
+  // A job with no pinned subject cannot pass by omission.
+  const unpinned = validateWorkerCompletionCommit(
+    { ...job, commitSubject: "" },
+    { rootDir: ROOT, commit: "HEAD" }
+  );
+  assert.equal(
+    unpinned.failures.some((entry) => entry.code === "commit_subject_unassigned"),
+    true
+  );
+
+  // The report names both sides, so a captain-equivalent integration records
+  // what the worker wrote and what the factory required.
+  assert.equal(mismatched.requiredCommitSubject, "feat(legal-design): normalize Utah");
+  assert.equal(mismatched.actualCommitSubject, captainHead);
+
+  // The ordinary integration path is unchanged: it still compares the pushed
+  // subject against the pinned one and blocks on any difference.
+  const integrationSource = fs.readFileSync(
+    path.join(ROOT, "scripts/lib/rcap-factory/wave-integration.mjs"),
+    "utf8"
+  );
+  assert.match(integrationSource, /commitSubject !== job\.commitSubject/);
+  assert.match(integrationSource, /commit subject mismatch/);
 });
 
 await check("official-PDF scaffold marker is exact, portable, and cannot broaden", () => {

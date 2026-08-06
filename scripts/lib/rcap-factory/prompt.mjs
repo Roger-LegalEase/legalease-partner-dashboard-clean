@@ -108,7 +108,20 @@ export function compileWorkerPrompt({ job, authorityVersion, model = job?.model 
         "marker or generated-output directory. Work only in that checkout and retain it, its branch, " +
         "and its metadata until integration; never delete or treat the worktree as disposable output."
     ),
-    section("Commit subject", renderScalar(assignedJob.commitSubject, "Not specified.")),
+    section(
+      "Commit subject",
+      // Rendered from assignedJob.commitSubject, which is the same field the
+      // pre-push gate and the integration planner compare against. The subject
+      // is exact — not a template to paraphrase — because a pushed worker
+      // commit cannot be amended, and a mismatch forces integration through a
+      // captain-equivalent commit.
+      `${renderScalar(assignedJob.commitSubject, "Not specified.")}\n\n` +
+        "Use this subject verbatim. Before pushing, run:\n\n" +
+        `    node scripts/rcap-factory-verify-worker-commit.mjs ${assignedJob.jobId}\n\n` +
+        "It rejects a wrong subject, a wrong parent, an unowned path, a binary, " +
+        "a broken assignment marker or a non-canonical branch while the commit " +
+        "can still be corrected."
+    ),
     section("Stop condition", renderValue(assignedJob.stopCondition, "Not specified."))
   ];
 
