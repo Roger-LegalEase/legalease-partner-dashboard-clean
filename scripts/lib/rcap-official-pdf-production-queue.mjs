@@ -9,7 +9,22 @@ const REPOSITORY_AUDIT_PATH =
   "data/record-clearing/master-library/repository-asset-audit.json";
 const SOURCE_REGISTRY_PATH =
   "data/record-clearing/source-artifact-registry.json";
-const PA_MEMO_PATH = "data/record-clearing/legal-design-intake/PA.memo.json";
+/**
+ * Supplemental published-memo lanes.
+ *
+ * A jurisdiction enters the queue from the integrated track-source audit. The
+ * supplemental lane exists only for a jurisdiction whose memo is published but
+ * whose tracks the global audit has not yet regenerated — it is a fallback, not
+ * a second opinion. Once the audit carries that jurisdiction's official-form
+ * components the fallback retires itself, and the same jurisdiction may never
+ * enter through both paths.
+ *
+ * Pennsylvania was the first jurisdiction to make that transition. The rule
+ * below is general so the next one needs no code change.
+ */
+const SUPPLEMENTAL_MEMO_PATHS = Object.freeze([
+  "data/record-clearing/legal-design-intake/PA.memo.json"
+]);
 const OUTPUT_PATH =
   "data/record-clearing/production-factory/official-pdf-production-queue.json";
 const MATERIALIZATION_DEPENDENCY =
@@ -57,21 +72,50 @@ export function buildOfficialPdfProductionQueue(root) {
   const trackAudit = readJson(root, TRACK_AUDIT_PATH);
   const repositoryAudit = readJson(root, REPOSITORY_AUDIT_PATH);
   const sourceRegistry = readJson(root, SOURCE_REGISTRY_PATH);
-  const paMemo = readJson(root, PA_MEMO_PATH);
 
   const auditedTracks = trackAudit.tracks
     .map(normalizeAuditedTrack)
     .filter((track) => track.components.length > 0);
-  const supplementalTracks = paMemo.tracks
-    .map((track) => normalizeMemoTrack(track, paMemo))
-    .filter((track) => track.components.length > 0);
-  assert.equal(
-    auditedTracks.some((track) => track.jurisdiction === "PA"),
-    false,
-    "PA must leave the supplemental lane once it is regenerated into the audit"
+  const auditedJurisdictions = new Set(
+    auditedTracks.map((track) => track.jurisdiction)
+  );
+
+  const supplemental = resolveSupplementalLanes({
+    root,
+    auditedTracks,
+    auditedJurisdictions
+  });
+  const supplementalTracks = supplemental.tracks;
+
+  // The two lanes are disjoint by construction; assert it anyway, because a
+  // jurisdiction entering twice would double every one of its components and
+  // the counts would still look internally consistent.
+  const duplicated = [
+    ...new Set(supplementalTracks.map((track) => track.jurisdiction))
+  ].filter((jurisdiction) => auditedJurisdictions.has(jurisdiction));
+  assert.deepEqual(
+    duplicated,
+    [],
+    `jurisdiction present in both the integrated audit and a supplemental lane: ${duplicated.join(", ")}`
   );
 
   const tracks = [...auditedTracks, ...supplementalTracks];
+  const trackKeys = tracks.map((track) => `${track.jurisdiction}:${track.trackId}`);
+  assert.equal(
+    new Set(trackKeys).size,
+    trackKeys.length,
+    "queue track rows must be unique across both lanes"
+  );
+  const componentKeys = tracks.flatMap((track) =>
+    track.components.map(
+      (component) => `${component.jurisdiction}:${component.componentId}`
+    )
+  );
+  assert.equal(
+    new Set(componentKeys).size,
+    componentKeys.length,
+    "queue component rows must be unique across both lanes"
+  );
   const jurisdictions = unique(tracks.map((track) => track.jurisdiction));
   const families = jurisdictions
     .map((jurisdiction) =>
@@ -101,7 +145,8 @@ export function buildOfficialPdfProductionQueue(root) {
       trackSourceAudit: TRACK_AUDIT_PATH,
       repositoryAssetAudit: REPOSITORY_AUDIT_PATH,
       sourceArtifactRegistry: SOURCE_REGISTRY_PATH,
-      supplementalPublishedMemos: [PA_MEMO_PATH]
+      supplementalPublishedMemos: supplemental.active,
+      supersededSupplementalPublishedMemos: supplemental.superseded
     },
     materializationDependency: {
       jobId: MATERIALIZATION_DEPENDENCY,
@@ -230,6 +275,73 @@ export function verifyOfficialPdfProductionQueue(root) {
 }
 
 export const OFFICIAL_PDF_PRODUCTION_QUEUE_PATH = OUTPUT_PATH;
+
+/**
+ * Decides, for each supplemental memo lane, whether it is still the canonical
+ * source for its jurisdiction.
+ *
+ * Retiring a lane is only safe if the audit actually carries what the memo
+ * carried, so a retirement is not taken on trust: every official-form component
+ * the memo declares must be present in the audit under the same track, role and
+ * form. If any is missing the lane cannot retire, because dropping it would
+ * silently shrink the queue.
+ */
+function resolveSupplementalLanes({ root, auditedTracks, auditedJurisdictions }) {
+  const active = [];
+  const superseded = [];
+  const tracks = [];
+
+  for (const memoPath of SUPPLEMENTAL_MEMO_PATHS) {
+    const memoFile = path.join(root, memoPath);
+    if (!fs.existsSync(memoFile)) continue;
+    const memo = JSON.parse(fs.readFileSync(memoFile, "utf8"));
+    const memoTracks = memo.tracks
+      .map((track) => normalizeMemoTrack(track, memo))
+      .filter((track) => track.components.length > 0);
+
+    if (!auditedJurisdictions.has(memo.jurisdiction)) {
+      active.push(memoPath);
+      tracks.push(...memoTracks);
+      continue;
+    }
+
+    const auditedKeys = new Set(
+      auditedTracks
+        .filter((track) => track.jurisdiction === memo.jurisdiction)
+        .flatMap((track) =>
+          track.components.map((component) => componentIdentityKey(component))
+        )
+    );
+    const lost = memoTracks
+      .flatMap((track) => track.components)
+      .map((component) => componentIdentityKey(component))
+      .filter((key) => !auditedKeys.has(key))
+      .sort();
+    assert.deepEqual(
+      lost,
+      [],
+      `${memo.jurisdiction}: the integrated audit does not carry every official-form component the supplemental memo declares, so the supplemental lane cannot retire: ${lost.join(", ")}`
+    );
+    superseded.push(memoPath);
+  }
+
+  return { active: active.sort(), superseded: superseded.sort(), tracks };
+}
+
+/**
+ * Identity of an official-form component use, independent of which lane
+ * produced it. The audit spells a component id with hyphens where the memo
+ * lane synthesizes it with the role's own underscores, so the id itself is not
+ * comparable across lanes; the track, role and form are.
+ */
+function componentIdentityKey(component) {
+  return [
+    component.jurisdiction,
+    component.trackId,
+    String(component.role ?? "").replaceAll("-", "_"),
+    component.officialFormId
+  ].join("::");
+}
 
 function normalizeAuditedTrack(track) {
   const components = track.components
