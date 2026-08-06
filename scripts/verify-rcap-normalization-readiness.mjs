@@ -237,8 +237,7 @@ function verifyCommittedReadiness(context, jurisdiction) {
   if (
     canonicalStringify(readinessCounts) !==
     canonicalStringify({
-      codification_authority_unverified: 1,
-      ready_for_normalization: 23
+      ready_for_normalization: 24
     })
   ) {
     throw new Error(

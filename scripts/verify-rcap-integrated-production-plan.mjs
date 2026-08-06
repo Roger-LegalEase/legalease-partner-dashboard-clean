@@ -1269,18 +1269,16 @@ assert.equal(remainingNormalizations.length, 24);
 assert.ok(
   remainingNormalizations.every(
     (entry) => {
-      const expectedStatus =
-        entry.jurisdiction === "TN"
-          ? "blocked"
-          : ["RI", "SD", "WI", "WY"].includes(entry.jurisdiction)
-          ? "completed"
-          : "ready";
-      const expectedReadinessState =
-        entry.jurisdiction === "TN"
-          ? "codification_authority_unverified"
-          : ["RI", "SD", "WI", "WY"].includes(entry.jurisdiction)
-          ? "normalization_complete"
-          : "ready_for_normalization";
+      const expectedStatus = ["RI", "SD", "WI", "WY"].includes(
+        entry.jurisdiction
+      )
+        ? "completed"
+        : "ready";
+      const expectedReadinessState = ["RI", "SD", "WI", "WY"].includes(
+        entry.jurisdiction
+      )
+        ? "normalization_complete"
+        : "ready_for_normalization";
       return (
         entry.status === expectedStatus &&
         entry.normalizationReadiness.readinessState ===
@@ -1356,11 +1354,10 @@ assert.deepEqual(factoryPlan.normalizationReadiness, {
   expectedJurisdictions: 24,
   representedExactlyOnce: 24,
   bundlesReceived: 24,
-  readyForNormalization: 23,
-  blocked: 1,
+  readyForNormalization: 24,
+  blocked: 0,
   byReadinessState: {
-    codification_authority_unverified: 1,
-    ready_for_normalization: 23
+    ready_for_normalization: 24
   }
 });
 assert.deepEqual(
@@ -1520,7 +1517,7 @@ assert.deepEqual(
     RI: [],
     SC: [],
     SD: [],
-    TN: ["codification_authority_unverified"],
+    TN: [],
     TX: [],
     UT: [],
     VA: [],
@@ -2594,7 +2591,7 @@ assert.equal(
 );
 assert.equal(
   productionPlan.routingReservations.normalizationReadiness.jurisdictionsBlocked,
-  1
+  0
 );
 assert.deepEqual(
   productionPlan.routingReservations.normalizationReadiness
