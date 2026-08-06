@@ -156,12 +156,84 @@ ok(
   pins.authorityArchiveSha256 === authority.retention.archiveSha256,
   "The pinned archive SHA-256 does not match the adopted edition."
 );
+// The legal-design records these pins cover are nationwide files that every
+// later normalization legitimately rewrites. Pinning them whole made this
+// completed Illinois job fail whenever an unrelated state was normalized, which
+// says nothing about Illinois. The pin is now the canonical Illinois slice of
+// each record — the assigned tracks and their components — so an unrelated
+// jurisdiction moving is invisible here while any change to Illinois' own
+// controlling design still fails, as does packet-output drift below.
+const ASSIGNED_IL_TRACK_IDS = Object.freeze([
+  "il-immediate-seal",
+  "il-prostitution-j-vacate"
+]);
+
+function canonicalize(value) {
+  if (Array.isArray(value)) return value.map(canonicalize);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.keys(value)
+        .sort()
+        .map((key) => [key, canonicalize(value[key])])
+    );
+  }
+  return value;
+}
+
+export function illinoisAssignmentSlice(repositoryPath, document) {
+  const rows = Array.isArray(document.tracks)
+    ? document.tracks
+    : Array.isArray(document.customPleadingSpecs)
+      ? document.customPleadingSpecs
+      : [];
+  const scoped = rows
+    .filter(
+      (row) =>
+        row.jurisdiction === "IL" &&
+        ASSIGNED_IL_TRACK_IDS.includes(row.trackId)
+    )
+    .sort((left, right) =>
+      `${left.trackId}:${left.componentId ?? ""}`.localeCompare(
+        `${right.trackId}:${right.componentId ?? ""}`
+      )
+    );
+  return { repositoryPath, rows: canonicalize(scoped) };
+}
+
+function illinoisSliceSha256(repositoryPath, document) {
+  return crypto
+    .createHash("sha256")
+    .update(JSON.stringify(illinoisAssignmentSlice(repositoryPath, document)))
+    .digest("hex");
+}
+
 for (const record of pins.controllingAuthority.legalDesignRecords) {
   const file = path.join(root, record.repositoryPath);
   ok(fs.existsSync(file), `The pinned legal-design record is absent: ${record.repositoryPath}`);
   if (fs.existsSync(file)) {
-    const actual = crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
-    ok(actual === record.sha256, `${record.repositoryPath}: pinned SHA-256 does not match the file on disk.`);
+    const document = JSON.parse(fs.readFileSync(file, "utf8"));
+    const actual = illinoisSliceSha256(record.repositoryPath, document);
+    ok(
+      typeof record.assignmentScopedSha256 === "string",
+      `${record.repositoryPath}: the pin records no Illinois assignment-scoped hash.`
+    );
+    ok(
+      actual === record.assignmentScopedSha256,
+      `${record.repositoryPath}: the Illinois assignment slice does not match its pin.`
+    );
+    // The slice must actually cover the assignment; an empty slice would make
+    // the hash above trivially stable and prove nothing.
+    const slice = illinoisAssignmentSlice(record.repositoryPath, document);
+    ok(
+      slice.rows.length > 0,
+      `${record.repositoryPath}: the Illinois assignment slice is empty.`
+    );
+    ok(
+      ASSIGNED_IL_TRACK_IDS.every((trackId) =>
+        slice.rows.some((row) => row.trackId === trackId)
+      ),
+      `${record.repositoryPath}: the Illinois assignment slice omits an assigned track.`
+    );
   }
 }
 for (const source of pins.primaryEnactedLaw) {
