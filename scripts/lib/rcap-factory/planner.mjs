@@ -141,6 +141,12 @@ const TERMINAL_INSTRUCTION =
   "Stop after focused validation and one commit containing only owned paths. " +
   "Do not regenerate global registries, stage broadly, deploy, or change packet_ready, " +
   "enabled-jurisdiction, launch, runtime, or promotion status.";
+const TN_ROUTE_INVENTORY_DECISION_COMMIT =
+  "952b83be3fe12a6e5fce29acc77a21532fce9a70";
+const TN_ROUTE_INVENTORY_DECISION_SHA256 =
+  "fbaef8de7c7f621688f10bdb6d249ad189d0b05253a654342239912d12d0c357";
+const TN_INTEGRATED_MEMO_SHA256 =
+  "a1c91f3d17115d87879905066b4f2b9732e717cbcdc6b063ec83502aa54f20e8";
 const TEMPLATE_HASH_WORKER_COMMIT =
   "e89416d74f3f5653abb4e561704d5874fa14ef24";
 const ARKANSAS_ACIC_WORKER_COMMIT =
@@ -1891,6 +1897,12 @@ export function buildFactoryPlan(options = {}) {
     });
   }
 
+  const tnRouteInventoryDecisionRecord =
+    `${FACTORY_DATA_DIR}/legal-design-decisions/tn-2026-route-inventory-addendum.json`;
+  const tnRouteInventoryDecided = fs.existsSync(
+    path.join(rootDir, tnRouteInventoryDecisionRecord)
+  );
+
   if (integratedNormalizations.has("TN")) {
     // The integrated Tennessee memo normalizes the nine slots its adopted
     // denominator covers. Current authority surfaced four further statutory
@@ -1905,7 +1917,12 @@ export function buildFactoryPlan(options = {}) {
       strategyFamily: "legal_design_adjudication",
       trackIds: [],
       dependencies: ["rcap-tn-legal-design-normalization"],
-      status: "ready",
+      // Closes on the presence of its committed decision record, not on an
+      // assertion in a commit message.
+      status: tnRouteInventoryDecided ? "completed" : "ready",
+      ...(tnRouteInventoryDecided
+        ? { completionCommit: TN_ROUTE_INVENTORY_DECISION_COMMIT }
+        : {}),
       expectedOutputs: [
         `${FACTORY_DATA_DIR}/legal-design-decisions/tn-2026-route-inventory-addendum.json`
       ],
@@ -1942,6 +1959,78 @@ export function buildFactoryPlan(options = {}) {
         "enable runtime, promote, or deploy. " +
         TERMINAL_INSTRUCTION
     });
+
+    if (tnRouteInventoryDecided) {
+      // The decision is integrated and controlling; TN.memo.json is still the
+      // nine-track design. Applying the decision means editing the memo, and the
+      // memo is worker-owned — so it gets its own worker rather than being
+      // amended during integration. This job owns exactly one path.
+      addJob({
+        lane: "legal_design_normalization",
+        jurisdiction: "TN",
+        jobId: "rcap-tn-2026-route-memo-amendment",
+        strategyFamily: "legal_design_normalization_amendment",
+        trackIds: [],
+        dependencies: [
+          "rcap-tn-2026-route-inventory-addendum",
+          "rcap-tn-legal-design-normalization"
+        ],
+        status: "ready",
+        expectedOutputs: ["data/record-clearing/legal-design-intake/TN.memo.json"],
+        ownedPaths: ["data/record-clearing/legal-design-intake/TN.memo.json"],
+        requiredInputs: [
+          tnRouteInventoryDecisionRecord,
+          "data/record-clearing/legal-design-intake/TN.memo.json",
+          "docs/record-clearing/normalization-readiness-research/tn-codification-authority.receipt.json",
+          FACTORY_INPUT_PATHS.authority,
+          FACTORY_INPUT_PATHS.normalizationReadiness
+        ],
+        participantPacketProofRequired: false,
+        model: "opus",
+        effort: "xhigh",
+        focusedValidation: [
+          "node scripts/rcap-factory-plan.mjs --check-job rcap-tn-2026-route-memo-amendment",
+          "node scripts/verify-rcap-legal-design-intake.mjs"
+        ],
+        commitSubject:
+          "feat(record-clearing): amend TN legal design for the 2026 routes",
+        executionNote:
+          "Read the integrated decision record at " +
+          `${tnRouteInventoryDecisionRecord} in full, at sha256 ` +
+          `${TN_ROUTE_INVENTORY_DECISION_SHA256}. Do not reconstruct the four routes from a ` +
+          "summary of it: the actor boundaries, filing vehicles and preserved questions are " +
+          "stated there and nowhere else. The memo you are amending is at sha256 " +
+          `${TN_INTEGRATED_MEMO_SHA256}, reviewed through 2026-08-05.`,
+        stopCondition:
+          "Apply the adopted 2026 route inventory to TN.memo.json and nothing else. Reconcile to " +
+          "13 source slots, 13 normalized nodes, 13 imported, 0 deferred, 11 custom_pleading, " +
+          "2 process_guidance, 0 official_pdf_fill and 0 composed tracks, adding exactly " +
+          "tn_illegal_voting, tn_post_pardon, tn_recovery_court and tn_arrest_no_court_record as " +
+          "relief tracks. Narrow tn_nonconviction_petition for the no-court-history population " +
+          "and route it to tn_arrest_no_court_record, carrying the participant question about a " +
+          "court file or prior action and the fee and clerk-certification distinctions. Add " +
+          "post-pardon and recovery-court routing to tn_eligible_conviction and tn_two_offense " +
+          "without changing the underlying two-offense mechanism. Every other existing track " +
+          "object stays substantively unchanged. " +
+          "For tn_illegal_voting, tn_post_pardon and tn_recovery_court the district attorney " +
+          "prepares the statutory petition and proposed order: generate only the participant's " +
+          "request to the district attorney and their controlled eligibility information, and do " +
+          "not characterize that artifact as the DA's petition or proposed order. For " +
+          "tn_arrest_no_court_record the participant prepares the operative section 40-32-109 " +
+          "petition; preserve the clerk search, clerk certification, the mandatory clerk fee, " +
+          "that no waiver was identified, that no TBI certificate applies, and the court's " +
+          "statutory exemption from the ordinary TBI process. " +
+          "Preserve the prior-expunction asymmetry as a typed release or legal-design question: " +
+          "subsections (a), (b) and (c) bar prior grants under (a), (b) and (c); (e) bars (a), " +
+          "(b), (c) and (e); (d) contains no bar and is named by none of them. Do not invent a " +
+          "reciprocal bar and do not resolve the asymmetry by implication. " +
+          "Keep every route runtime-disabled and packet_ready false. Own only TN.memo.json: do " +
+          "not touch the decision record, a shared registry, composed approvals, a source " +
+          "receipt, an authority record, the queue or projection, a blocker ledger, a factory " +
+          "plan, a runtime file, a migration or a deployment file. " +
+          TERMINAL_INSTRUCTION
+      });
+    }
   }
 
   if (integratedNormalizations.has("ND")) {
