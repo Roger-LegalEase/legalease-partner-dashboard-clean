@@ -1753,6 +1753,54 @@ export function buildFactoryPlan(options = {}) {
     });
   }
 
+  if (integratedNormalizations.has("VT")) {
+    // Vermont form 600-00228 is the fee-waiver application seven sealing and
+    // expungement tracks attach, and it is the single unresolved identity
+    // holding rcap-vt-acroform-fill. Its number is also in doubt against
+    // 600-00229, so this resolves the identity rather than assuming either.
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "VT",
+      jobId: "rcap-vt-600-00228-source-identity-resolution",
+      strategyFamily: "source_identity_resolution",
+      trackIds: [],
+      dependencies: ["rcap-vt-legal-design-normalization"],
+      status: "ready",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/vt-600-00228-source-identity-resolution.json`
+      ],
+      ownedPaths: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/vt-600-00228-source-identity-resolution.json`
+      ],
+      requiredInputs: [
+        "data/record-clearing/legal-design-intake/VT.memo.json",
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.sourceRelationships,
+        OFFICIAL_PDF_SOURCE_PROJECTION_PATH,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "codex",
+      effort: "high",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job rcap-vt-600-00228-source-identity-resolution"
+      ],
+      commitSubject:
+        "chore(record-clearing): resolve the Vermont 600-00228 source identity",
+      stopCondition:
+        "Establish for the Vermont fee-waiver application its official document number, official " +
+        "title, issuing authority, participant or outside-party role, current revision, statewide " +
+        "scope, official source URL, any replacement or supersession, media type, page count, " +
+        "whether a binary is publicly retrievable, its relationship to the seven affected Vermont " +
+        "tracks and components, and an exact terminal disposition. Settle the 600-00228 against " +
+        "600-00229 numbering question from the issuer's own publication rather than assuming " +
+        "either. Do not regenerate a global registry, implement a renderer, edit VT.memo.json, " +
+        "create a source receipt without exact bytes, publish an authority edition, or enable " +
+        "runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
   if (integratedNormalizations.has("NJ")) {
     // New Jersey's automated Clean Slate process does not yet exist. The
     // participant petition is the current route and is not held back by a system
@@ -2318,10 +2366,19 @@ export function buildFactoryPlan(options = {}) {
       TERMINAL_INSTRUCTION
   });
 
-  applyOfficialPdfAssignments({
+  const officialPdfAssignmentResult = applyOfficialPdfAssignments({
     rootDir,
     jobs,
     inputs,
+    sourceMaterializationFoundationJobId:
+      sourceMaterializationFoundation.jobId
+  });
+  addAuthorityBackedSourceMaterializationJobs({
+    rootDir,
+    addJob,
+    inputs,
+    unownedAssignableIdentities:
+      officialPdfAssignmentResult.unownedAssignableIdentities,
     sourceMaterializationFoundationJobId:
       sourceMaterializationFoundation.jobId
   });
@@ -4401,7 +4458,8 @@ function applyOfficialPdfAssignments({
         documentId: identity.officialDocument?.documentId ?? null,
         implementationFamily: identity.implementationFamily ?? null,
         trackIds: [...(identity.trackIds ?? [])],
-        blocker: "implementation_lane_owner_absent"
+        blocker: "implementation_lane_owner_absent",
+        identity
       });
       continue;
     }
@@ -4698,6 +4756,134 @@ function officialPdfOwnerScore(job, identity) {
   return 10;
 }
 
+/**
+ * Source-materialization owners for authority-manifested sources that no
+ * implementation job covers yet.
+ *
+ * The lifecycle used to be circular: the lane classifier wants a verified
+ * receipt before it will assign a renderer family, the receipt names the job
+ * that owns the source, and no such job exists until the lane is assigned. New
+ * Jersey's CN-10557 and New York's CPL 160.59 packet sat in that loop — exact,
+ * authority-manifested, externally verified, and unownable.
+ *
+ * This breaks it by making source materialization its own lifecycle stage:
+ *
+ *   exact authority identity -> source-materialization owner -> verified
+ *   receipt -> technical structure -> implementation-family owner
+ *
+ * The owner needs only an exact identity, an authority asset, a role, an
+ * archive path and expected bytes. It does not need a renderer, a field map, an
+ * implementation job, a private-corpus row or a packet proof. Once a receipt
+ * exists the job is retained as the historical materialization owner even after
+ * an implementation job starts consuming it, so provenance never moves.
+ */
+function addAuthorityBackedSourceMaterializationJobs({
+  rootDir,
+  addJob,
+  inputs,
+  unownedAssignableIdentities,
+  sourceMaterializationFoundationJobId
+}) {
+  const receiptDir = path.join(
+    rootDir,
+    "data/record-clearing/production-factory/source-materialization-receipts"
+  );
+  const ownedByReceipt = new Map();
+  if (fs.existsSync(receiptDir)) {
+    for (const name of fs.readdirSync(receiptDir).sort()) {
+      if (!name.endsWith(".json")) continue;
+      const receipt = JSON.parse(
+        fs.readFileSync(path.join(receiptDir, name), "utf8")
+      );
+      if (typeof receipt.materializationOwnerJobId === "string") {
+        ownedByReceipt.set(
+          receipt.provenance?.sourceIdentityKey ?? name.replace(/\.json$/u, ""),
+          receipt
+        );
+      }
+    }
+  }
+
+  const candidates = new Map();
+  for (const entry of unownedAssignableIdentities) {
+    if (!entry.identity?.exactSourceContract) continue;
+    candidates.set(entry.identityKey, entry.identity);
+  }
+  // A source whose receipt already names a materialization owner keeps that job
+  // even once an implementation job consumes the receipt.
+  for (const [identityKey] of ownedByReceipt) {
+    if (candidates.has(identityKey)) continue;
+    const identity = (
+      inputs.officialPdfSourceProjection.identities ?? []
+    ).find((candidate) => candidate.identityKey === identityKey);
+    if (identity?.exactSourceContract) candidates.set(identityKey, identity);
+  }
+
+  for (const [identityKey, identity] of [...candidates.entries()].sort(
+    ([left], [right]) => left.localeCompare(right)
+  )) {
+    const verification = inspectOfficialPdfMaterialization({
+      identity,
+      materializationRoot:
+        typeof process.env.RCAP_SOURCE_MATERIALIZATION_ROOT === "string" &&
+        process.env.RCAP_SOURCE_MATERIALIZATION_ROOT.trim() !== ""
+          ? process.env.RCAP_SOURCE_MATERIALIZATION_ROOT
+          : null,
+      ownerJobId: sourceMaterializationJobIdFor(identity),
+      rootDir
+    });
+    const input = officialPdfMaterializationInput(identity, verification);
+    const jobId = sourceMaterializationJobIdFor(identity);
+    const job = addJob({
+      lane: "platform_foundation",
+      jurisdiction: identity.jurisdiction,
+      jobId,
+      strategyFamily: "authority_backed_source_materialization",
+      trackIds: [],
+      executionScope: "captain",
+      status: verification.ready ? "completed" : "ready",
+      model: "opus",
+      effort: "high",
+      participantPacketProofRequired: false,
+      dependencies: [sourceMaterializationFoundationJobId],
+      expectedOutputs: [input.receiptOutput],
+      ownedPaths: [input.receiptOutput],
+      // The receipts directory stays forbidden to every worker. This captain
+      // job owns exactly one receipt inside it — its own — which is the whole
+      // point of giving a source a lifecycle owner.
+      forbiddenPaths: GLOBAL_WORKER_FORBIDDEN_PATHS.filter(
+        (candidate) =>
+          !input.receiptOutput.startsWith(candidate) &&
+          candidate !== input.receiptOutput
+      ),
+      requiredInputs: [
+        FACTORY_INPUT_PATHS.authority,
+        OFFICIAL_PDF_SOURCE_PROJECTION_PATH
+      ],
+      focusedValidation: [input.verificationCommand],
+      commitSubject:
+        `chore(record-clearing): materialize ${identity.jurisdiction} ` +
+        `${identity.officialDocument?.documentId ?? identityKey}`,
+      stopCondition:
+        `Materialize the exact authority asset for ${identityKey} into the sealed ` +
+        "portable source root and record its verified receipt. Extract only from the adopted " +
+        "authority archive; never from the private corpus, a repository capture or a similarly " +
+        "named file. Do not rebuild, recompress, flatten or rename the binary, do not commit it, " +
+        "do not assign a renderer family or field map, and do not enable runtime, promote, or " +
+        "deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+    job.sourceMaterializationInputs = [input];
+    job.integrationOwnedOutputs = sortedUnique([
+      ...(job.integrationOwnedOutputs ?? [])
+    ]);
+  }
+}
+
+function sourceMaterializationJobIdFor(identity) {
+  return `${identity.identityKey}-source-materialization`;
+}
+
 function officialPdfMaterializationInput(identity, verification) {
   const source = identity.exactSourceContract;
   const verificationCommand =
@@ -4938,7 +5124,17 @@ function inspectOfficialPdfMaterialization({
       source.materializationDestination ||
     receipt.locatorScheme !== "attorney-review-package" ||
     receipt.readOnlyTreatment !== "worker_read_only_no_modify" ||
-    receipt.assignmentJobId !== ownerJobId ||
+    // The job that materialized a source stays its historical owner. A later
+    // implementation job consumes the receipt without becoming that owner, so a
+    // receipt whose assignmentJobId names its own recorded materialization owner
+    // remains valid when ownership moves downstream. Without this, giving a
+    // source a lifecycle owner before an implementation job existed would
+    // invalidate the receipt the moment the implementation job appeared.
+    (receipt.assignmentJobId !== ownerJobId &&
+      !(
+        typeof receipt.materializationOwnerJobId === "string" &&
+        receipt.materializationOwnerJobId === receipt.assignmentJobId
+      )) ||
     !/^[0-9a-f]{40}$/u.test(receipt.assignmentBaseCommit ?? "") ||
     !SHA256_PATTERN.test(receipt.assignmentManifestSha256 ?? "") ||
     receipt.localVerificationBasis !== "freshly_verified_local_bytes" ||

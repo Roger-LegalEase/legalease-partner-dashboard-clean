@@ -806,14 +806,14 @@ await check("packet, source-materialization, and normalization readiness fail cl
   assert.ok(officialJobs.length > 0);
   // Regenerating the queue against the current integrated audit admitted eleven
   // more jurisdictions, so more jobs now carry exact identities.
-  assert.equal(officialJobs.length, 27);
+  assert.equal(officialJobs.length, 29);
   assert.equal(
     officialJobs.reduce(
       (total, job) =>
         total + job.officialPdfAssignment.identityKeys.length,
       0
     ),
-    71
+    73
   );
   assert.ok(
     officialJobs.every(
@@ -826,7 +826,7 @@ await check("packet, source-materialization, and normalization readiness fail cl
         (job) => job.officialPdfAssignment.identityKeys
       )
     ).size,
-    71
+    73
   );
   const marylandMaterializationOnly = officialJobs
     .flatMap(
@@ -839,7 +839,7 @@ await check("packet, source-materialization, and normalization readiness fail cl
     officialJobs.flatMap(
       (job) => job.officialPdfAssignment.newImplementationIdentityKeys
     ).length,
-    69
+    71
   );
   const officialProjection = readJson(
     "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json"
@@ -921,7 +921,14 @@ await check("packet, source-materialization, and normalization readiness fail cl
       receipt.schemaVersion,
       "rcap-source-materialization-result/v1"
     );
-    assert.equal(receipt.assignmentJobId, job.jobId);
+    // The job that materialized a source stays its owner. An implementation job
+    // consumes the receipt without inheriting that role, so a receipt naming its
+    // own recorded materialization owner is valid here too.
+    assert.ok(
+      receipt.assignmentJobId === job.jobId ||
+        receipt.materializationOwnerJobId === receipt.assignmentJobId,
+      `${receipt.assignmentJobId} owns neither ${job.jobId} nor itself`
+    );
     assert.equal(receipt.authorityEdition, source.authorityEdition);
     assert.equal(
       receipt.authorityArchiveSha256,
@@ -2237,6 +2244,117 @@ await check("counsel adoption is exact, hash-bound, and separate from engineerin
 // The inventory itself is deliberately still fourteen: it is hash-bound to the
 // controlling review and `expectedSourceIds` must keep reconciling to it
 // exactly. The adopted denominator sits beside it.
+
+// --- source-materialization ownership ----------------------------------------
+//
+// The lane classifier wants a verified receipt before assigning a renderer
+// family; a receipt names the job that owns the source; and no such job existed
+// until a lane was assigned. New Jersey's CN-10557 and New York's CPL 160.59
+// packet sat in that loop — exact, authority-manifested, externally verified and
+// unownable. Source materialization is now its own lifecycle stage, which is
+// what these cases hold in place.
+
+await check("archive-only sources get a materialization owner before a lane", () => {
+  const owners = plan.jobs.filter(
+    (job) => job.strategyFamily === "authority_backed_source_materialization"
+  );
+  const projection = readJson(
+    "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json"
+  );
+  const receiptDir = "data/record-clearing/production-factory/source-materialization-receipts";
+
+  // 1. A materialization owner needs no renderer family, field map,
+  //    implementation job, private-corpus row or packet proof.
+  for (const owner of owners) {
+    assert.equal(owner.executionScope, "captain");
+    assert.equal(owner.participantPacketProofRequired, false);
+    assert.equal(owner.officialPdfAssignment, undefined);
+    assert.equal(owner.regressionVerifier, undefined);
+    assert.equal(owner.sourceMaterializationInputs.length, 1);
+    // 2. It owns exactly its own receipt, and nothing else.
+    assert.deepEqual(owner.ownedPaths, [
+      owner.sourceMaterializationInputs[0].receiptOutput
+    ]);
+    assert.ok(owner.ownedPaths[0].startsWith(`${receiptDir}/`));
+  }
+
+  // 9. One identity cannot have two materialization owners.
+  const ownedIdentities = owners.flatMap((owner) =>
+    owner.sourceMaterializationInputs.map((input) => input.sourceIdentityKey)
+  );
+  assert.equal(new Set(ownedIdentities).size, ownedIdentities.length);
+
+  // 3/4. A verified receipt's structure decides the family: New Jersey's and
+  //      New York's packets are real AcroForms and reach the AcroForm lane,
+  //      while Utah's flat forms reach the overlay lane on the same rule.
+  const structureFor = (identityKey) =>
+    readJson(`${receiptDir}/${identityKey}.json`).sourceStructure;
+  const njStructure = structureFor("rcap-nj-cn-10557-814e1397cd");
+  assert.equal(njStructure.structuralClass, "clean_acroform");
+  assert.ok(njStructure.acroFormFieldCount > 0);
+  const utStructure = structureFor("rcap-ut-1002ex-b9b0bf75a8");
+  assert.equal(utStructure.structuralClass, "flat_pdf");
+  assert.equal(utStructure.acroFormFieldCount, 0);
+  const laneFor = (jurisdiction) =>
+    plan.jobs
+      .filter(
+        (job) =>
+          job.jurisdiction === jurisdiction &&
+          ["acroform_fill", "flat_pdf_overlay"].includes(job.lane) &&
+          (job.officialPdfAssignment?.identityKeys?.length ?? 0) > 0
+      )
+      .map((job) => job.lane);
+  assert.ok(laneFor("NJ").includes("acroform_fill"));
+  assert.ok(laneFor("UT").includes("flat_pdf_overlay"));
+
+  // 5. Neither packet is claimed field-mapped or renderer-selected merely for
+  //    being an AcroForm; that remains downstream implementation work.
+  assert.equal(njStructure.fieldMappingEstablished, false);
+  assert.equal(njStructure.rendererSelected, false);
+
+  // 7. Private-corpus absence is not a blocker: both packets are retained only
+  //    in the adopted archive and are nonetheless owned and receipted.
+  const registry = readJson("data/record-clearing/source-artifact-registry.json");
+  for (const documentId of ["CN-10557", "CPL-160.59-PRO-SE-PACKET"]) {
+    assert.equal(
+      (registry.artifacts ?? []).some((artifact) =>
+        String(artifact.sourcePath ?? "").includes(documentId)
+      ),
+      false,
+      `${documentId} is expected to have no private-corpus row`
+    );
+  }
+
+  // 8. Every eligible identity is partitioned exactly once.
+  const eligible = projection.identities.filter(
+    (identity) => identity.assignmentEligible
+  );
+  const implementationOwned = new Set(
+    plan.jobs.flatMap((job) => job.officialPdfAssignment?.identityKeys ?? [])
+  );
+  const materializationOwned = new Set(ownedIdentities);
+  for (const identity of eligible) {
+    const owners = [
+      implementationOwned.has(identity.identityKey),
+      materializationOwned.has(identity.identityKey)
+    ].filter(Boolean).length;
+    assert.ok(
+      owners >= 1,
+      `${identity.identityKey} has neither an implementation nor a materialization owner`
+    );
+  }
+
+  // 10. The receipt-backed implementation jobs that predate this change still
+  //     validate, including the Rhode Island receipt-first case.
+  const ri = plan.jobs.find((job) => job.jobId === "rcap-ri-acroform-fill");
+  assert.ok(
+    ri.sourceMaterializationInputs.every(
+      (input) => input.workerReadiness === "worker_ready"
+    )
+  );
+  const ak = plan.jobs.find((job) => job.jobId === "rcap-ak-acroform-fill");
+  assert.equal(ak.status, "completed");
+});
 
 await check("adopted source-slot denominators compile onto the assignment", () => {
   const readinessFor = (code) =>

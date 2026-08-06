@@ -766,18 +766,18 @@ const exactOfficialPdfChildren = factoryPlan.jobs.filter(
 const assignedOfficialPdfIdentityKeys = exactOfficialPdfChildren.flatMap(
   (child) => child.officialPdfAssignment.identityKeys
 );
-assert.equal(assignedOfficialPdfIdentityKeys.length, 71);
-assert.equal(new Set(assignedOfficialPdfIdentityKeys).size, 71);
+assert.equal(assignedOfficialPdfIdentityKeys.length, 73);
+assert.equal(new Set(assignedOfficialPdfIdentityKeys).size, 73);
 // Every eligible identity is either assigned to an owning implementation job or
 // explicitly recorded as having no lane to own it. New Jersey's CN-10557 and New
 // York's CPL 160.59 packet are the second case: the projection resolved them
 // from the adopted archive, while the lane classifier reads the private
 // repository corpus, which retains no row for them. The partition is asserted
 // exactly so neither an assignment nor a gap can go missing.
-const laneUnownedIdentityKeys = [
-  "rcap-nj-cn-10557-814e1397cd",
-  "rcap-ny-cpl-160-59-pro-se-packet-c8c5834eab"
-];
+// Both are now implementation-owned: a source-materialization owner receipted
+// each one first, which is what let the lane classifier see a verified
+// structure and assign a family.
+const laneUnownedIdentityKeys = [];
 assert.deepEqual(
   [...assignedOfficialPdfIdentityKeys, ...laneUnownedIdentityKeys].sort(),
   officialPdfSourceProjection.identities
@@ -797,7 +797,7 @@ assert.equal(
     (child) =>
       child.officialPdfAssignment.newImplementationIdentityKeys
   ).length,
-  69
+  71
 );
 assert.equal(
   exactOfficialPdfChildren.flatMap(
@@ -946,7 +946,14 @@ for (const child of exactOfficialPdfChildren) {
         receipt.schemaVersion,
         "rcap-source-materialization-result/v1"
       );
-      assert.equal(receipt.assignmentJobId, child.jobId);
+      // The job that materialized a source stays its owner. An implementation job
+      // consumes the receipt without inheriting that role, so a receipt naming its
+      // own recorded materialization owner is valid here too.
+      assert.ok(
+        receipt.assignmentJobId === child.jobId ||
+          receipt.materializationOwnerJobId === receipt.assignmentJobId,
+        `${receipt.assignmentJobId} owns neither ${child.jobId} nor itself`
+      );
       assert.equal(receipt.authorityEdition, input.authorityEdition);
       assert.equal(
         receipt.authorityArchiveSha256,
@@ -2681,7 +2688,7 @@ assert.equal(
   factoryPlan.jobClaims.claims.filter(
     (claim) => claim.ownerSession === "SESSION_E"
   ).length,
-  27
+  29
 );
 const reservedNextJobIds = new Set([
   ...productionPlan.routingReservations.sessionB.preferredFirstJobs,
