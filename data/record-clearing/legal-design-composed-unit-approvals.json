@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "note": "Approved composed-unit substance. Read on every batch-delta run and written only by --approve-composed-units. A composed route has no track-level renderer strategy, so this file is where its legal substance is pinned: which vehicle each unit files, which units are unresolved, which are available, and — for a sequential composition — what order the stages run in. Alternative-branch array order is deliberately not pinned; those branches are selected by a predicate, not by position.",
-  "approvedTracks": 36,
+  "approvedTracks": 48,
   "tracks": [
     {
       "jurisdiction": "AR",
@@ -1258,6 +1258,409 @@
         "sd-arrest-stage-2-ujs-motion-packet",
         "sd-arrest-stage-3-filing-service-and-notice-of-entry"
       ]
+    },
+    {
+      "jurisdiction": "TX",
+      "trackId": "tx_exp_acquittal",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "alternative",
+      "orderIsSubstantive": false,
+      "counselAuthoredProvenanceCount": 6,
+      "units": [
+        {
+          "unitId": "tx-acquittal-in-window-request",
+          "order": 1,
+          "outputStrategy": "custom_pleading",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "tx-acquittal-out-of-window-petition",
+          "order": 2,
+          "outputStrategy": "custom_pleading",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": null
+    },
+    {
+      "jurisdiction": "TX",
+      "trackId": "tx_nd_automatic_misdemeanor_deferred",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "alternative",
+      "orderIsSubstantive": false,
+      "counselAuthoredProvenanceCount": 8,
+      "units": [
+        {
+          "unitId": "tx-nd072-automatic-and-verification",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "unresolved",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "tx-nd072-recovery-letter",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": null
+    },
+    {
+      "jurisdiction": "TX",
+      "trackId": "tx_nd_veterans_reemployment",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "alternative",
+      "orderIsSubstantive": false,
+      "counselAuthoredProvenanceCount": 8,
+      "units": [
+        {
+          "unitId": "tx-nd0729-no-filing-route",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "unresolved",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "tx-nd0729-oca-petition",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": null
+    },
+    {
+      "jurisdiction": "UT",
+      "trackId": "ut_pet_acquittal",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "sequential",
+      "orderIsSubstantive": true,
+      "counselAuthoredProvenanceCount": 13,
+      "units": [
+        {
+          "unitId": "ut_pet_acquittal-bci-certificate",
+          "order": 1,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ut_pet_acquittal-court-petition",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": [
+        "ut_pet_acquittal-bci-certificate",
+        "ut_pet_acquittal-court-petition"
+      ]
+    },
+    {
+      "jurisdiction": "UT",
+      "trackId": "ut_pet_conviction",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "sequential",
+      "orderIsSubstantive": true,
+      "counselAuthoredProvenanceCount": 16,
+      "units": [
+        {
+          "unitId": "ut_pet_conviction-bci-certificate",
+          "order": 1,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ut_pet_conviction-court-petition",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": [
+        "ut_pet_conviction-bci-certificate",
+        "ut_pet_conviction-court-petition"
+      ]
+    },
+    {
+      "jurisdiction": "UT",
+      "trackId": "ut_pet_dismissed_with_prejudice",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "sequential",
+      "orderIsSubstantive": true,
+      "counselAuthoredProvenanceCount": 12,
+      "units": [
+        {
+          "unitId": "ut_pet_dismissed_with_prejudice-bci-certificate",
+          "order": 1,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ut_pet_dismissed_with_prejudice-court-petition",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": [
+        "ut_pet_dismissed_with_prejudice-bci-certificate",
+        "ut_pet_dismissed_with_prejudice-court-petition"
+      ]
+    },
+    {
+      "jurisdiction": "UT",
+      "trackId": "ut_pet_dismissed_without_prejudice",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "sequential",
+      "orderIsSubstantive": true,
+      "counselAuthoredProvenanceCount": 12,
+      "units": [
+        {
+          "unitId": "ut_pet_dismissed_without_prejudice-bci-certificate",
+          "order": 1,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ut_pet_dismissed_without_prejudice-court-petition",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": [
+        "ut_pet_dismissed_without_prejudice-bci-certificate",
+        "ut_pet_dismissed_without_prejudice-court-petition"
+      ]
+    },
+    {
+      "jurisdiction": "UT",
+      "trackId": "ut_pet_limitations",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "sequential",
+      "orderIsSubstantive": true,
+      "counselAuthoredProvenanceCount": 11,
+      "units": [
+        {
+          "unitId": "ut_pet_limitations-bci-certificate",
+          "order": 1,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ut_pet_limitations-court-petition",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": [
+        "ut_pet_limitations-bci-certificate",
+        "ut_pet_limitations-court-petition"
+      ]
+    },
+    {
+      "jurisdiction": "UT",
+      "trackId": "ut_pet_no_charges",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "sequential",
+      "orderIsSubstantive": true,
+      "counselAuthoredProvenanceCount": 11,
+      "units": [
+        {
+          "unitId": "ut_pet_no_charges-bci-certificate",
+          "order": 1,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ut_pet_no_charges-court-petition",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": [
+        "ut_pet_no_charges-bci-certificate",
+        "ut_pet_no_charges-court-petition"
+      ]
+    },
+    {
+      "jurisdiction": "UT",
+      "trackId": "ut_pet_special_certificate",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "sequential",
+      "orderIsSubstantive": true,
+      "counselAuthoredProvenanceCount": 12,
+      "units": [
+        {
+          "unitId": "ut_pet_special_certificate-bci-certificate",
+          "order": 1,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ut_pet_special_certificate-court-petition",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": [
+        "ut_pet_special_certificate-bci-certificate",
+        "ut_pet_special_certificate-court-petition"
+      ]
+    },
+    {
+      "jurisdiction": "VT",
+      "trackId": "vt_exp_deferred_sentence",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "alternative",
+      "orderIsSubstantive": false,
+      "counselAuthoredProvenanceCount": 5,
+      "units": [
+        {
+          "unitId": "vt-deferred-automatic-and-verification",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "unresolved",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "vt-deferred-written-request",
+          "order": 2,
+          "outputStrategy": "custom_pleading",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": null
+    },
+    {
+      "jurisdiction": "VT",
+      "trackId": "vt_seal_nonconviction",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "alternative",
+      "orderIsSubstantive": false,
+      "counselAuthoredProvenanceCount": 8,
+      "units": [
+        {
+          "unitId": "vt-nonconviction-automatic-and-verification",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "unresolved",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "vt-nonconviction-ordinary-petition",
+          "order": 3,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "vt-nonconviction-stipulated-petition",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": null
     },
     {
       "jurisdiction": "WV",

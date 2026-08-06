@@ -2147,7 +2147,10 @@ check("the corrected Rhode Island memo and approvals preserve one conditional ma
   // Session D wave 2 added WV's sequential DUI-deferral composition and SC's
   // alternative summary-court composition. Every earlier approval is preserved
   // value-identically; PA's pardon composition is still deliberately absent.
-  assert.equal(approvals.tracks.length, 36);
+  // Session D's final wave added Utah's seven sequential BCI-then-petition
+  // compositions, Vermont's two and Texas's three, all through the substantive
+  // gate on their own memo-declared units.
+  assert.equal(approvals.tracks.length, 48);
   const riApprovals = approvals.tracks.filter(
     (track) => track.jurisdiction === "RI"
   );
