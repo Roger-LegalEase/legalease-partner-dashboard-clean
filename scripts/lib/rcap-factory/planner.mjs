@@ -691,6 +691,51 @@ const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
       "scripts/verify-rcap-montana-guidance-implementation.mjs",
     verifierWorkerOwned: true,
     trackIds: ["mt_auto_nonconviction"]
+  },
+  {
+    jurisdiction: "NE",
+    completionCommit: "ac4f9f2b106c79e00461861920b210aa537f57f2",
+    modulePath: "src/lib/rcap/packets/jurisdictions/nebraska/guidance.ts",
+    verifierPath: "scripts/verify-rcap-nebraska-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: [
+      "ne-firearm-restoration-routing",
+      "ne-immigration-routing",
+      "ne-juvenile-sealing-routing",
+      "ne-nonconviction-auto",
+      "ne-out-of-jurisdiction-routing",
+      "ne-pardon-routing",
+      "ne-postconviction-routing"
+    ]
+  },
+  {
+    jurisdiction: "ND",
+    completionCommit: "16cb75fde862b6c8f88e4537ee5ce4a0a4e78ef0",
+    modulePath: "src/lib/rcap/packets/jurisdictions/north-dakota/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-north-dakota-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: [
+      "nd-dna-profile-removal-routing",
+      "nd-juvenile-records-routing",
+      "nd-nonconviction-auto-close-verify",
+      "nd-trafficking-vacatur-routing",
+      "nd-unconstitutional-arrest-expungement-routing"
+    ]
+  },
+  {
+    jurisdiction: "UT",
+    completionCommit: "4869d93aa5a1d56a5d4a395ad1b2bd8fabe2be7b",
+    modulePath: "src/lib/rcap/packets/jurisdictions/utah/guidance.ts",
+    verifierPath: "scripts/verify-rcap-utah-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: [
+      "ut_adj_reduction_402",
+      "ut_auto_clean_slate",
+      "ut_auto_nonconviction",
+      "ut_auto_traffic",
+      "ut_pet_appellate"
+    ]
   }
 ]);
 const COMPLETED_OFFICIAL_PDF_IMPLEMENTATIONS = Object.freeze([
@@ -3156,6 +3201,26 @@ function addGuidanceTypedStopChildren({ addJob }) {
         `${FACTORY_DATA_DIR}/guidance-specifications/mi-setaside-csc4-pre2015-adjudication.json`,
       reason:
         "Resolve the bespoke prior-record, age-at-offence, and continuing SORA questions before self-help guidance exists."
+    },
+    {
+      jurisdiction: "UT",
+      jobId: "rcap-ut-clean-slate-cutover-copy-adjudication",
+      // The tension reaches both automatic routes: 205(1)(a) governs the Clean
+      // Slate conviction route and 206(1)(a) the acquittal and dismissal route.
+      trackIds: ["ut_auto_clean_slate", "ut_auto_nonconviction"],
+      subjectSlug: "ut-clean-slate-cutover-copy",
+      dependency: "rcap-ut-guidance-implementation",
+      modulePath: "src/lib/rcap/packets/jurisdictions/utah/guidance.ts",
+      verifierPath: "scripts/verify-rcap-utah-guidance-implementation.mjs",
+      outputPath:
+        `${FACTORY_DATA_DIR}/guidance-specifications/ut-clean-slate-cutover-copy-adjudication.json`,
+      reason:
+        "Sections 77-40a-205(1)(a) and 77-40a-206(1)(a) still condition the court's order on a form " +
+        "submitted during the retired 1 October 2024 to 1 January 2026 window, and neither was conformed " +
+        "to the 77-40a-204(3) cutover that made identification court-initiated. The implemented sheets " +
+        "report current Utah Courts practice, state plainly that part of the statutory text has not been " +
+        "squared with it, and take no view on how it resolves. Settle the participant-facing copy for that " +
+        "unresolved tension before any further Utah automatic-route wording is treated as final."
     }
   ];
   for (const record of records) {
@@ -3164,7 +3229,7 @@ function addGuidanceTypedStopChildren({ addJob }) {
       strategyFamily: "legal_design_adjudication",
       jurisdiction: record.jurisdiction,
       jobId: record.jobId,
-      trackIds: [record.trackId],
+      trackIds: record.trackIds ?? [record.trackId],
       dependencies: [record.dependency],
       status: "blocked",
       expectedOutputs: [record.outputPath],
@@ -3187,7 +3252,7 @@ function addGuidanceTypedStopChildren({ addJob }) {
       model: "opus",
       effort: "xhigh",
       commitSubject:
-        `docs(record-clearing): adjudicate ${record.trackId} guidance`,
+        `docs(record-clearing): adjudicate ${record.subjectSlug ?? record.trackId} guidance`,
       stopCondition:
         `${record.reason} Preserve the typed stop and do not draft a packet, infer a legal ` +
         "conclusion, apply counsel adoption, enable runtime, promote, or deploy. " +
