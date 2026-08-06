@@ -50,6 +50,9 @@ tmp/review-inbox/*
 !tmp/review-inbox/all50/
 
 # Local official PDF forms - do not commit
+# Matches both a real directory and the convenience symlink some worktrees use
+# to reach the shared inventory; a trailing slash would match only the former.
+private
 private/
 *.zip
 data/record-clearing/pdf-inspection/latest-report.json
