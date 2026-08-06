@@ -1,0 +1,790 @@
+{
+ "schemaVersion": 1,
+ "specificationId": "tn-2026-route-inventory-addendum",
+ "jobId": "rcap-tn-2026-route-inventory-addendum",
+ "jurisdiction": "TN",
+ "jurisdictionName": "Tennessee",
+ "authorityVersion": "master-library/1.2",
+ "authorityEdition": "1.2",
+ "preparedOn": "2026-08-06",
+ "preparer": "Session D normalization worker, executing rcap-tn-2026-route-inventory-addendum",
+ "decisionSource": "The captain-adopted Tennessee codification authority chain, read against the integrated nine-slot Tennessee legal-design memo.",
+ "whatThisDocumentIs": "The route inventory addendum for Tennessee. The integrated Tennessee memo carries nine normalized routes, and that denominator was correct for the adopted mechanism inventory it was built against. While normalizing Tennessee, current authority surfaced four statutory record-clearing routes outside that inventory. A normalization worker may not move an adopted denominator, so the four were recorded as typed blockers on the memo rather than added to it. This document is the adjudication that closes those blockers. For each of the four it establishes a stable source ID, the governing subsection, the legal effect, the eligible population, the filing actor and the participant submission, the venue and destination, the packet strategy, the required participant inputs, the manual-completion and required-before-filing items, the post-generation handoffs, the typed self-help stops, the build and release blockers, and the relationship to the existing nine. It states the revised denominator and node count and identifies the one existing track that must be narrowed. It does not amend the integrated memo, which is what this job's stop condition reserves to integration.",
+ "scopeOfThisJob": {
+  "ownedPath": "data/record-clearing/production-factory/legal-design-decisions/tn-2026-route-inventory-addendum.json",
+  "memoAmended": false,
+  "memoAmendmentReserved": "The job's stop condition states: do not add a normalized route to the integrated Tennessee memo from this job. The four routes are therefore specified here in full, with the memo edits named precisely, and applied to data/record-clearing/legal-design-intake/TN.memo.json by Session A at integration.",
+  "tennesseeMechanismCompleteAssertion": false,
+  "tennesseeMechanismCompleteNote": "Tennessee is expressly NOT described as mechanism-complete. It becomes so only when this addendum is integrated and the memo carries all thirteen routes."
+ },
+ "authorityChain": {
+  "authorityReviewedThrough": "2026-08-05",
+  "receipt": {
+   "documentId": "TN-RECORD-CLEARING-CODIFICATION-PACKAGE-2026-08-05",
+   "officialTitle": "Tennessee Record-Clearing Codification Source Package",
+   "receiptPath": "docs/record-clearing/normalization-readiness-research/tn-codification-authority.receipt.json",
+   "authorityStatus": "verified_official_codification_plus_session_overlays",
+   "clearedBlockers": [
+    "codification_authority_unverified"
+   ]
+  },
+  "codifiedBase": {
+   "publicChapter": 608,
+   "bill": "SB1586 / HB1811",
+   "signedDate": "2026-03-25",
+   "effectiveDate": "2026-03-25",
+   "scope": "Codifies the general and permanent acts of the 2025 regular and extraordinary sessions, which is how the 2025 reorganization of Title 40 Chapter 32 enters the Code.",
+   "conflictRule": "The Code Bill's conflict rule requires the 2026 session acts to control over the printed reenactment, so where Public Chapters 719, 930 and 1061 differ from the codified base, the session acts govern."
+  },
+  "controllingOverlays": [
+   {
+    "publicChapter": 719,
+    "bill": "SB2197 / HB2452",
+    "effectiveDate": "2026-04-14",
+    "amends": "T.C.A. 40-32-107(d) and 40-32-108(d)(2)",
+    "appliesToThisAddendum": "Route 2. Broadens the post-pardon route and removes the rebuttable presumption for it."
+   },
+   {
+    "publicChapter": 930,
+    "bill": "HB0555 / SB0671",
+    "effectiveDate": "2026-07-01",
+    "applicationNote": "Applies to offenses committed on or after 2026-07-01",
+    "amends": "T.C.A. 40-32-107(a)(1)",
+    "appliesToThisAddendum": "Not directly. It relocates burglary within the (a)(1) class lists, which reaches the already-integrated tn_eligible_conviction and tn_two_offense and is already applied there. It reaches Routes 1, 2 and 4 not at all, and Route 3 only derivatively, because § 40-32-107(e)(1)(A)(i) requires the offence to be eligible under (a)(1)."
+   },
+   {
+    "publicChapter": 1061,
+    "bill": "SB1232 / HB1346",
+    "effectiveDate": "2026-07-01",
+    "applicationNote": "No offence-date limitation; applies on its effective date",
+    "amends": "Adds T.C.A. 40-32-107(e)",
+    "appliesToThisAddendum": "Route 3. It is the whole of Route 3."
+   }
+  ],
+  "reorganizationVehicleNote": "The reorganization that created T.C.A. §§ 40-32-106 through 40-32-110 was Public Chapter 268 of 2025, effective 2025-04-24, enacted as Senate Amendment SA0362. Public Chapter 608 is the vehicle by which that work enters the Code, so the codified text of §§ 40-32-107 and 40-32-109 relied on here comes through the adopted chain. Public Chapter 268 is named only as the origin of the codified text and its eighteen conforming cross-reference swaps, which are the sole officially authoritative old-to-new mapping."
+ },
+ "preservedInventory": {
+  "statement": "The integrated nine-slot Tennessee memo and its nine existing tracks are preserved unchanged by this job. No existing source ID is retired, renamed, merged, split or reassigned, and no existing track's strategy or node type changes. One existing track, tn_nonconviction_petition, requires narrowing at integration; that narrowing is specified below and is not performed here.",
+  "nodeCount": 9,
+  "tracks": [
+   {
+    "sourceId": "tn_acquittal_immediate",
+    "governing": "T.C.A. § 40-32-106, acquittal in open court",
+    "strategy": "process_guidance",
+    "preserved": true
+   },
+   {
+    "sourceId": "tn_nonconviction_petition",
+    "governing": "T.C.A. § 40-32-106(a)",
+    "strategy": "custom_pleading",
+    "preserved": true
+   },
+   {
+    "sourceId": "tn_mistaken_identity",
+    "governing": "T.C.A. § 40-32-106(a)(1)(H)",
+    "strategy": "custom_pleading",
+    "preserved": true
+   },
+   {
+    "sourceId": "tn_redaction",
+    "governing": "T.C.A. § 40-32-106(c)(2)",
+    "strategy": "custom_pleading",
+    "preserved": true
+   },
+   {
+    "sourceId": "tn_pretrial_diversion",
+    "governing": "T.C.A. § 40-32-106(d) with §§ 40-15-102 to 40-15-107",
+    "strategy": "custom_pleading",
+    "preserved": true
+   },
+   {
+    "sourceId": "tn_judicial_diversion",
+    "governing": "T.C.A. § 40-32-106(d) with § 40-35-313",
+    "strategy": "custom_pleading",
+    "preserved": true
+   },
+   {
+    "sourceId": "tn_eligible_conviction",
+    "governing": "T.C.A. § 40-32-107(a) with procedure at § 40-32-108",
+    "strategy": "custom_pleading",
+    "preserved": true
+   },
+   {
+    "sourceId": "tn_two_offense",
+    "governing": "T.C.A. § 40-32-107(b) with procedure at § 40-32-108",
+    "strategy": "custom_pleading",
+    "preserved": true
+   },
+   {
+    "sourceId": "tn_trafficking_40_32_105",
+    "governing": "T.C.A. § 40-32-105",
+    "strategy": "process_guidance",
+    "preserved": true
+   }
+  ]
+ },
+ "sharedProceduralSpine": {
+  "governing": "T.C.A. § 40-32-108",
+  "appliesTo": "Every § 40-32-107 route — subsections (a), (b), (c), (d) and (e) — each of which carries its own subdivision directing the petitioner to § 40-32-108. It does NOT apply to § 40-32-109, which contains no cross-reference to § 40-32-108 at all and supplies its own complete procedure.",
+  "petitionPreparedBy": "The office of the district attorney general. Section 40-32-108(e) provides that the petition and proposed order must be prepared by the office of the district attorney general and given to the petitioner to be filed with the clerk of the court. The petition is therefore a prosecutor instrument.",
+  "participantSubmission": "A written request to the office of the district attorney general for the conviction expungement packet, together with a supporting eligibility record. Both the Tennessee AOC and the TBI direct participants to request a conviction expungement packet from that office, which is the practical face of § 40-32-108(e).",
+  "filingStep": "Once the district attorney general's office prepares the petition and proposed order, the petitioner files them with the clerk of the convicting court under § 40-32-108(a) and pays the clerk's fee under T.C.A. § 8-21-401.",
+  "venue": "The convicting court, under § 40-32-108(a). The request goes to the district attorney general for that judicial district.",
+  "serviceAndTiming": "The clerk serves the petition on the district attorney general, who may submit recommendations within 60 days with a copy to the petitioner and may file evidence under seal which is confidential and not a public record. The court may not order sooner than 61 days after service, and before ruling must review the TBI certificate required by § 40-32-102(c). On denial no further petition may be filed for two years under § 40-32-108(d)(3).",
+  "tbiCertificate": "Required. Section 40-32-102(c)(3) provides that an order of expunction must not be entered unless the certificate is attached. The certificate is a court instrument completed by court staff and submitted to the TBI; LegalEase does not generate it, complete it, or assert it has been obtained.",
+  "packetStrategy": "custom_pleading",
+  "packetStrategyBasis": "Not official_pdf_fill, because no participant form exists: the Tennessee AOC publishes no expunction form of any kind, and TBI form BI-0333 is a court order carrying an approved-for-entry block with signature lines for defence, the district attorney general and the judge. Not process_guidance, because a genuine participant-facing written submission exists and its destination, addressee and operative content are all determined. The generated artifact is the request and the eligibility record, never the petition, the proposed order, the TBI certificate or the clerk's instrument."
+ },
+ "addedRoutes": [
+  {
+   "proposedSourceId": "tn_illegal_voting",
+   "mechanismName": "Expunction of a conviction for illegal registration or voting",
+   "governingSubsection": "T.C.A. § 40-32-107(c), with procedure at § 40-32-108",
+   "authorityBasis": "Codified through Public Chapter 608. Untouched by Public Chapters 719, 930 and 1061.",
+   "legalEffect": "Expunction of the conviction record. Under T.C.A. § 40-32-110 the petitioner is entitled to have all public records of the expunged conviction destroyed in the manner set out in the chapter, restoring the person in contemplation of law to the status occupied before arrest, indictment, information, trial and conviction.",
+   "eligiblePopulation": "A person convicted of illegal registration or voting under T.C.A. § 2-19-107, where fifteen years have elapsed since completion of the sentence, every sentence requirement has been fulfilled, the offence occurred prior to any conviction for an expunction-ineligible offence, and the person has not previously been granted expunction under § 40-32-107(a), (b) or (c).",
+   "distinguishingFeature": "The fifteen-year wait is the longest in the chapter — three times the misdemeanour and Class E felony period and half again the Class C and D felony period — and it attaches to a single named offence rather than to an offence class.",
+   "filingActor": "The participant petitions, but the petition itself is prepared by the office of the district attorney general under § 40-32-108(e).",
+   "participantSubmission": "A written request to the office of the district attorney general for the conviction expungement packet, together with a supporting eligibility record. Both the Tennessee AOC and the TBI direct participants to request a conviction expungement packet from that office, which is the practical face of § 40-32-108(e).",
+   "venue": "The convicting court, under § 40-32-108(a). The request goes to the district attorney general for that judicial district.",
+   "destination": {
+    "kind": "prosecutor",
+    "name": "The office of the district attorney general for the judicial district of the convicting court, then the clerk of that court",
+    "detail": "Once the district attorney general's office prepares the petition and proposed order, the petitioner files them with the clerk of the convicting court under § 40-32-108(a) and pays the clerk's fee under T.C.A. § 8-21-401."
+   },
+   "packetStrategy": "custom_pleading",
+   "packetStrategyBasis": "Not official_pdf_fill, because no participant form exists: the Tennessee AOC publishes no expunction form of any kind, and TBI form BI-0333 is a court order carrying an approved-for-entry block with signature lines for defence, the district attorney general and the judge. Not process_guidance, because a genuine participant-facing written submission exists and its destination, addressee and operative content are all determined. The generated artifact is the request and the eligibility record, never the petition, the proposed order, the TBI certificate or the clerk's instrument.",
+   "officialFormOrCustomPleading": "Custom pleading. No official participant form exists for any § 40-32-108 route: the Tennessee AOC publishes no expunction form, and no statewide district attorney petition or request form is published on any official site.",
+   "requiredParticipantInputs": [
+    "Convicting court and judicial district, and the docket or case number.",
+    "The exact T.C.A. section of conviction, taken from the judgment rather than from the offence label.",
+    "The date the offence was committed and the date of conviction, kept separately.",
+    "The date the entire sentence was completed, including imprisonment or probation, all release conditions, and every fine, restitution amount, court cost and other assessment.",
+    "Whether every fine, restitution amount, court cost and other assessment is paid in full.",
+    "Every other conviction anywhere, including federal and out-of-state convictions that would be ineligible in Tennessee.",
+    "Whether the person has previously been granted expunction under § 40-32-107(a), (b), (c) or (e).",
+    "The state control number referenced in T.C.A. § 8-4-115, taken from the TBI criminal history.",
+    "Confirmation that the conviction was under T.C.A. § 2-19-107 specifically, rather than another elections offence.",
+    "The date the sentence was completed, from which the fifteen-year period runs."
+   ],
+   "manualCompletionItems": [
+    "The offence-to-section mapping, taken from the judgment. The eligible lists are enumerated section by section and any borderline offence goes to review rather than being asserted.",
+    "The state control number, which the district attorney general's office needs to prepare the order and without which the order cannot be completed.",
+    "The participant's signature and date on the request to the district attorney general."
+   ],
+   "requiredBeforeFilingItems": [
+    "TBI criminal history, which supplies the state control number and establishes the no-other-conviction position.",
+    "Court disposition and judgment from the convicting court's clerk, which supplies the exact statutory section and the sentence-completion facts.",
+    "Proof that every fine, restitution amount, court cost and other assessment is paid in full. Outstanding amounts mean the sentence is not complete and the waiting-period clock has not started.",
+    "FBI Identity History Summary where the person has lived or been arrested outside Tennessee, because the no-other-conviction requirement reaches federal and out-of-state offences."
+   ],
+   "postGenerationHandoffs": [
+    "The district attorney general's office prepares the petition and the proposed order. LegalEase does not generate either.",
+    "The court completes and submits the § 40-32-102(c) request for certification to the TBI, and the order may not be entered without the certificate attached.",
+    "The district attorney general may submit recommendations within 60 days and may file evidence under seal.",
+    "Any contested hearing, and any indication the district attorney general's office will oppose."
+   ],
+   "typedSelfHelpStops": [
+    "The district attorney general's office declines to prepare the petition, or indicates it will oppose.",
+    "Any other conviction anywhere on the record, including federal and out-of-state convictions that would be ineligible in Tennessee.",
+    "Any unpaid court costs, fines, restitution or other assessments.",
+    "A previous expunction granted under § 40-32-107(a), (b) or (c), which closes these routes for life.",
+    "Any borderline offence whose exact section cannot be matched against the current eligible list.",
+    "Federal, military, tribal or out-of-state records, immigration consequences, and any security-clearance question.",
+    "Any question whether the conviction was under § 2-19-107 rather than another elections or fraud provision, since the route reaches only that section.",
+    "Any collateral question about restoration of voting rights, which is a separate remedy and is not what expunction under this subsection does."
+   ],
+   "buildBlockers": [],
+   "releaseBlockers": [
+    {
+     "blocker": "clerk_fee_amount_unknown",
+     "statement": "The amount of the clerk's fee under T.C.A. § 8-21-401, which § 40-32-108(a) imposes by reference. The current text of § 8-21-401 sits in the licensed Tennessee Code and was not retrievable from an official Tennessee source. No figure is quoted."
+    },
+    {
+     "blocker": "no_indigency_waiver_identified",
+     "statement": "No indigency or fee-waiver provision appears anywhere in §§ 40-32-106 through 40-32-110. None is asserted."
+    },
+    {
+     "blocker": "da_packet_practice_unknown",
+     "statement": "Whether a district attorney general's office will prepare a petition on request, how long it takes, and whether any office publishes a request form. Section 40-32-108(e) makes preparation that office's duty, but no statewide district attorney petition or request form is published on any official site and the practice interval is not established."
+    },
+    {
+     "blocker": "voting_rights_restoration_relationship_unknown",
+     "statement": "Whether and how expunction under § 40-32-107(c) interacts with restoration of voting rights under Tennessee's separate restoration machinery. Not established from the adopted authority chain, and not asserted. It matters because it is the outcome most participants on this route will actually be seeking."
+    }
+   ],
+   "relationshipToExistingNine": {
+    "summary": "A sibling of tn_eligible_conviction and tn_two_offense: same § 40-32-108 procedure, same DA-prepared petition, different eligibility subsection.",
+    "narrowsExistingTrack": false,
+    "replacesExistingTrack": false,
+    "detail": "It does not narrow either existing conviction track. Subsections (a), (b) and (c) are already mutually exclusive through their reciprocal lifetime bars — § 40-32-107(c)(1)(D) names this subsection (c), subsection (a) and subsection (b), and pointedly does not name subsection (d) — and the integrated memo already states that bar naming (a), (b) and (c) in the exclusions of both tn_eligible_conviction and tn_two_offense, so no correction is required there. What the addition supplies is a route for a population the existing nine cannot serve: a § 2-19-107 conviction is not on the (a)(1) eligible lists, so tn_eligible_conviction correctly excludes it today and a participant is currently told no when the answer is fifteen years."
+   }
+  },
+  {
+   "proposedSourceId": "tn_post_pardon",
+   "mechanismName": "Expunction of a pardoned conviction",
+   "governingSubsection": "T.C.A. § 40-32-107(d) as amended by Public Chapter 719, with procedure at § 40-32-108",
+   "authorityBasis": "Codified through Public Chapter 608 and then amended by Public Chapter 719, effective 2026-04-14. Public Chapter 719 Section 1 deleted from § 40-32-107(d)(1) the language 'was convicted of a nonviolent crime if the person', and Section 2 deleted and substituted § 40-32-107(d)(1)(A), replacing an open-textured judicial finding that the offence was a nonviolent crime with a closed list of excluded felonies. Public Chapter 719 Section 3 rewrote § 40-32-108(d)(2).",
+   "legalEffect": "Expunction of the pardoned conviction record, with the § 40-32-110 effect. The pardon by itself does not clear the record; it opens this route.",
+   "eligiblePopulation": "A person who received a pardon from the Governor following a positive vote of the Board of Parole recommending it, who petitions the convicting court, and whose conviction the judge finds was not for one of seven enumerated felonies, or an attempt, conspiracy, facilitation or solicitation to commit one of them: first degree murder under § 39-13-202; second degree murder under § 39-13-210; especially aggravated kidnapping under § 39-13-305; aggravated child abuse under § 39-15-402; especially aggravated robbery under § 39-13-403; commission of an act of terrorism under § 39-13-805; or a sexual offence for which the offender must register as a sexual offender or violent sexual offender under chapter 39, part 2 of title 40, or any sexual offence involving a minor.",
+   "distinguishingFeature": "This is the widest of the four additions and the only one Public Chapter 719 touches. Before the amendment the route was gated by a judicial finding that the offence was a nonviolent crime, which was open-textured and narrow in practice. After it, any pardoned conviction not on the closed seven-item list qualifies, which substantially broadens the eligible population. Critically, the route does not require the offence to be on the § 40-32-107(a)(1) eligible lists at all, so it reaches convictions that are permanently ineligible under every other subsection.",
+   "decisionStandard": "Public Chapter 719 Section 3 rewrote § 40-32-108(d)(2) so that the court weighs the interest of the petitioner against the best interests of justice and public safety; the rebuttable presumption that the petition should be granted is preserved only for petitioners eligible under § 40-32-107(a)(1)(A) to (E). A subsection (d) petitioner therefore gets no presumption, and the court instead considers whether the offence sought to be expunged was violent and any other relevant factors presented by the petitioner and the district attorney general. Violence moved from a jurisdictional bar to a merits consideration.",
+   "filingActor": "The participant petitions the convicting court, but the petition is prepared by the office of the district attorney general under § 40-32-108(e).",
+   "participantSubmission": "A written request to the office of the district attorney general for the conviction expungement packet, together with a supporting eligibility record. Both the Tennessee AOC and the TBI direct participants to request a conviction expungement packet from that office, which is the practical face of § 40-32-108(e). On this route the request and eligibility record also carry the pardon documentation and the Board of Parole recommendation.",
+   "venue": "The convicting court, under § 40-32-108(a). The request goes to the district attorney general for that judicial district.",
+   "destination": {
+    "kind": "prosecutor",
+    "name": "The office of the district attorney general for the judicial district of the convicting court, then the clerk of that court",
+    "detail": "Once the district attorney general's office prepares the petition and proposed order, the petitioner files them with the clerk of the convicting court under § 40-32-108(a) and pays the clerk's fee under T.C.A. § 8-21-401."
+   },
+   "packetStrategy": "custom_pleading",
+   "packetStrategyBasis": "Not official_pdf_fill, because no participant form exists: the Tennessee AOC publishes no expunction form of any kind, and TBI form BI-0333 is a court order carrying an approved-for-entry block with signature lines for defence, the district attorney general and the judge. Not process_guidance, because a genuine participant-facing written submission exists and its destination, addressee and operative content are all determined. The generated artifact is the request and the eligibility record, never the petition, the proposed order, the TBI certificate or the clerk's instrument.",
+   "officialFormOrCustomPleading": "Custom pleading. No official participant form exists. The pardon and the Board of Parole recommendation are outside instruments the participant obtains and attaches; neither is generated.",
+   "conditionsDeliberatelyAbsent": "Confirmed from the enacted text and material to the design: subsection (d) contains no waiting period, no sentence-completion checklist, no no-prior-expunction bar and no requirement that the offence predate a conviction for an expunction-ineligible offence. Those conditions appear in subsections (b) and (c) but not in (d). Its three requirements at (d)(1)(A), (B) and (C) are cumulative and exhaustive: the judicial finding against the seven-item exclusion list, a positive vote from the board of parole to receive a pardon, and receipt of a pardon by the governor. The eligibility screen for this route must therefore not import the (a) or (c) conditions, which would wrongly refuse petitioners the statute admits.",
+   "requiredParticipantInputs": [
+    "Convicting court and judicial district, and the docket or case number.",
+    "The exact T.C.A. section of conviction, taken from the judgment, tested against the seven excluded felony categories.",
+    "The state control number referenced in T.C.A. § 8-4-115, taken from the TBI criminal history.",
+    "Whether a pardon was received from the Governor, and its date.",
+    "Whether the board of parole returned a positive vote to receive a pardon, and the date of that vote.",
+    "Whether the offence was an attempt, conspiracy, facilitation or solicitation to commit one of the seven excluded felonies, which the list reaches expressly.",
+    "Whether the offence was a sexual offence requiring registration as a sexual offender or violent sexual offender under title 40, chapter 39, part 2, or any sexual offence involving a minor."
+   ],
+   "manualCompletionItems": [
+    "The offence-to-section mapping, taken from the judgment. The eligible lists are enumerated section by section and any borderline offence goes to review rather than being asserted.",
+    "The state control number, which the district attorney general's office needs to prepare the order and without which the order cannot be completed.",
+    "The participant's signature and date on the request to the district attorney general.",
+    "Anything the participant chooses to put before the court on whether the offence was violent, which after Public Chapter 719 is a merits factor rather than a bar. LegalEase prompts for the participant's own account and never argues it."
+   ],
+   "requiredBeforeFilingItems": [
+    "TBI criminal history, which supplies the state control number under T.C.A. § 8-4-115.",
+    "Court disposition and judgment from the convicting court's clerk, which supplies the exact statutory section the seven-item exclusion list is tested against.",
+    "The pardon document from the Governor.",
+    "The board of parole record showing the positive vote to receive a pardon."
+   ],
+   "postGenerationHandoffs": [
+    "The district attorney general's office prepares the petition and the proposed order. LegalEase does not generate either.",
+    "The court completes and submits the § 40-32-102(c) request for certification to the TBI, and the order may not be entered without the certificate attached.",
+    "The district attorney general may submit recommendations within 60 days and may file evidence under seal.",
+    "Any contested hearing, and any indication the district attorney general's office will oppose.",
+    "The pardon application itself, which is a clemency proceeding before the Board of Parole and the Governor and is outside the record-clearing product scope entirely."
+   ],
+   "typedSelfHelpStops": [
+    "The district attorney general's office declines to prepare the petition, or indicates it will oppose.",
+    "Any borderline offence whose exact section cannot be matched against the seven-item exclusion list.",
+    "Federal, military, tribal or out-of-state records, immigration consequences, and any security-clearance question.",
+    "Any case where the conviction may fall within one of the seven excluded felony categories, or within an attempt, conspiracy, facilitation or solicitation form of one.",
+    "Any case where the violence question is genuinely contested, since after Public Chapter 719 it is a merits factor the court weighs and arguing it is individualized advocacy.",
+    "Any participant who does not yet hold a pardon. The clemency application is a separate proceeding and is referred out."
+   ],
+   "buildBlockers": [],
+   "releaseBlockers": [
+    {
+     "blocker": "clerk_fee_amount_unknown",
+     "statement": "The amount of the clerk's fee under T.C.A. § 8-21-401, which § 40-32-108(a) imposes by reference. The current text of § 8-21-401 sits in the licensed Tennessee Code and was not retrievable from an official Tennessee source. No figure is quoted."
+    },
+    {
+     "blocker": "no_indigency_waiver_identified",
+     "statement": "No indigency or fee-waiver provision appears anywhere in §§ 40-32-106 through 40-32-110. None is asserted."
+    },
+    {
+     "blocker": "da_packet_practice_unknown",
+     "statement": "Whether a district attorney general's office will prepare a petition on request, how long it takes, and whether any office publishes a request form. Section 40-32-108(e) makes preparation that office's duty, but no statewide district attorney petition or request form is published on any official site and the practice interval is not established."
+    },
+    {
+     "blocker": "pc719_violence_weighing_practice_unknown",
+     "statement": "How Tennessee courts weigh whether the offence sought to be expunged was violent, now that Public Chapter 719 moved violence from a jurisdictional bar to a merits consideration for subsection (d) petitioners. The statutory change is confirmed; the practice is not established and it is the factor that decides these petitions."
+    },
+    {
+     "blocker": "pardon_route_no_presumption_disclosure",
+     "statement": "The packet must disclose that a subsection (d) petitioner gets no rebuttable presumption, unlike an (a)(1)(A) to (E) petitioner. That disclosure text has not been drafted or reviewed."
+    }
+   ],
+   "relationshipToExistingNine": {
+    "summary": "A sibling of tn_eligible_conviction on the same § 40-32-108 procedure, but reaching a population that track cannot: convictions that are not on the § 40-32-107(a)(1) eligible lists at all.",
+    "narrowsExistingTrack": false,
+    "replacesExistingTrack": false,
+    "routingAdditionRequired": true,
+    "detail": "tn_eligible_conviction correctly excludes any conviction not on the (a)(1) lists, and that exclusion stays. What must be added at integration is a routing cross-reference: a participant whose conviction is ineligible under (a) but who holds a pardon is not out of options, and today the integrated memo would stop them. The subsection (d) route does not require (a)(1) eligibility, so it is the only Tennessee route that reaches a pardoned Class A or B felony or a pardoned violent offence outside the seven exclusions. The reciprocal lifetime bar in (a), (b) and (c) does not name (d), so on the enacted text a prior (a), (b) or (c) expunction does not appear to close the pardon route and a prior (d) expunction does not appear to close the others — recorded below as an open question rather than relied on."
+   }
+  },
+  {
+   "proposedSourceId": "tn_recovery_court",
+   "mechanismName": "Expunction after completion of a certified recovery court programme, following a prior DUI conviction",
+   "governingSubsection": "T.C.A. § 40-32-107(e), with procedure at § 40-32-108",
+   "authorityBasis": "Added in its entirety by Public Chapter 1061, the Recovery Court Renewal Act, SB1232 / HB1346, effective 2026-07-01. Public Chapter 1061 Section 3 provides that the act takes effect July 1, 2026, the public welfare requiring it, and — unlike Public Chapter 930 — imposes no offence-date limitation, so it applies on its effective date to qualifying petitioners regardless of when the offence was committed.",
+   "legalEffect": "Expunction of one otherwise-eligible offence, with the § 40-32-110 effect. It does not expunge the DUI.",
+   "eligiblePopulation": "A person seeking expunction of an offence that is eligible for expunction under § 40-32-107(a)(1) and that occurred at least ten years after the person's conviction for an offence under T.C.A. § 55-10-401; who has fulfilled all requirements of the sentence for the offence being expunged, including payment of all fines, restitution, court costs and other assessments, completion of any term of imprisonment or probation, and meeting all conditions of supervised or unsupervised release; who has successfully completed a certified recovery court programme established under title 16; who has not previously been granted expunction under subsection (a), (b), (c) or (e); and who has not been convicted under § 55-10-401 more than one time.",
+   "distinguishingFeature": "This is a relief-from-the-DUI-bar route, not a DUI-expunction route, and reading it the other way would be the single most damaging error available on it. A DUI under § 55-10-401 is itself expunction-ineligible and appears in the § 40-32-107(a)(1)(D) misdemeanour exclusion list, and § 40-32-107(e)(3) provides that a court shall not grant an expunction under the subsection if the offence sought to be expunged involves a motor vehicle and the use of alcohol or a controlled substance, including but not limited to a violation of § 55-10-401. What subsection (e) does is let a person who carries one DUI conviction expunge a different, otherwise-eligible offence committed at least ten years after it — relief that § 40-32-107(a)(3)(A) would otherwise deny, because that provision requires the offence to have occurred prior to any conviction for an expunction-ineligible offence.",
+   "decisionStandard": "Subsection (e) is not named in the § 40-32-108(d)(2) rebuttable presumption, which reaches only petitioners eligible under § 40-32-107(a)(1)(A) to (E), and it is not reached by the violence-weighing sentence Public Chapter 719 added for subsection (d) petitioners. An (e) petitioner therefore falls into the bare default: the court weighs the interest of the petitioner against the best interests of justice and public safety.",
+   "filingActor": "The participant petitions. Subsection (e)(2) provides that a person seeking expunction pursuant to the subsection shall petition the court pursuant to § 40-32-108, so the petition is prepared by the office of the district attorney general under § 40-32-108(e).",
+   "participantSubmission": "A written request to the office of the district attorney general for the conviction expungement packet, together with a supporting eligibility record. Both the Tennessee AOC and the TBI direct participants to request a conviction expungement packet from that office, which is the practical face of § 40-32-108(e). On this route the request and eligibility record also carry the recovery court completion record and the DUI conviction history that establishes the ten-year interval.",
+   "venue": "The convicting court, under § 40-32-108(a). The request goes to the district attorney general for that judicial district.",
+   "destination": {
+    "kind": "prosecutor",
+    "name": "The office of the district attorney general for the judicial district of the convicting court, then the clerk of that court",
+    "detail": "Once the district attorney general's office prepares the petition and proposed order, the petitioner files them with the clerk of the convicting court under § 40-32-108(a) and pays the clerk's fee under T.C.A. § 8-21-401."
+   },
+   "packetStrategy": "custom_pleading",
+   "packetStrategyBasis": "Not official_pdf_fill, because no participant form exists: the Tennessee AOC publishes no expunction form of any kind, and TBI form BI-0333 is a court order carrying an approved-for-entry block with signature lines for defence, the district attorney general and the judge. Not process_guidance, because a genuine participant-facing written submission exists and its destination, addressee and operative content are all determined. The generated artifact is the request and the eligibility record, never the petition, the proposed order, the TBI certificate or the clerk's instrument.",
+   "officialFormOrCustomPleading": "Custom pleading. No official participant form exists. The certified recovery court completion record is an outside instrument the participant obtains and attaches; it is not generated.",
+   "requiredParticipantInputs": [
+    "Convicting court and judicial district, and the docket or case number.",
+    "The exact T.C.A. section of conviction, taken from the judgment rather than from the offence label.",
+    "The date the offence was committed and the date of conviction, kept separately.",
+    "The date the entire sentence was completed, including imprisonment or probation, all release conditions, and every fine, restitution amount, court cost and other assessment.",
+    "Whether every fine, restitution amount, court cost and other assessment is paid in full.",
+    "Every other conviction anywhere, including federal and out-of-state convictions that would be ineligible in Tennessee.",
+    "Whether the person has previously been granted expunction under § 40-32-107(a), (b), (c) or (e).",
+    "The state control number referenced in T.C.A. § 8-4-115, taken from the TBI criminal history.",
+    "Whether the person has a conviction under T.C.A. § 55-10-401, and how many. More than one closes the route under (e)(1)(E).",
+    "The date of the § 55-10-401 conviction, from which the ten-year interval runs.",
+    "The date the offence being expunged was committed, which must be at least ten years after that conviction.",
+    "Whether the offence being expunged is itself on the § 40-32-107(a)(1) eligible lists, which (e)(1)(A)(i) independently requires.",
+    "Whether the offence being expunged involves a motor vehicle and the use of alcohol or a controlled substance, which (e)(3) makes an absolute bar.",
+    "Whether the person successfully completed a certified recovery court programme established under title 16, and the date of completion."
+   ],
+   "manualCompletionItems": [
+    "The offence-to-section mapping, taken from the judgment. The eligible lists are enumerated section by section and any borderline offence goes to review rather than being asserted.",
+    "The state control number, which the district attorney general's office needs to prepare the order and without which the order cannot be completed.",
+    "The participant's signature and date on the request to the district attorney general."
+   ],
+   "requiredBeforeFilingItems": [
+    "TBI criminal history, which supplies the state control number and establishes the no-other-conviction position.",
+    "Court disposition and judgment from the convicting court's clerk, which supplies the exact statutory section and the sentence-completion facts.",
+    "Proof that every fine, restitution amount, court cost and other assessment is paid in full. Outstanding amounts mean the sentence is not complete and the waiting-period clock has not started.",
+    "FBI Identity History Summary where the person has lived or been arrested outside Tennessee, because the no-other-conviction requirement reaches federal and out-of-state offences.",
+    "The certified recovery court programme completion record, from the recovery court that certified the programme.",
+    "The judgment for the § 55-10-401 conviction, which fixes the date the ten-year interval runs from."
+   ],
+   "postGenerationHandoffs": [
+    "The district attorney general's office prepares the petition and the proposed order. LegalEase does not generate either.",
+    "The court completes and submits the § 40-32-102(c) request for certification to the TBI, and the order may not be entered without the certificate attached.",
+    "The district attorney general may submit recommendations within 60 days and may file evidence under seal.",
+    "Any contested hearing, and any indication the district attorney general's office will oppose."
+   ],
+   "typedSelfHelpStops": [
+    "The district attorney general's office declines to prepare the petition, or indicates it will oppose.",
+    "Any other conviction anywhere on the record, including federal and out-of-state convictions that would be ineligible in Tennessee.",
+    "Any unpaid court costs, fines, restitution or other assessments.",
+    "A previous expunction granted under § 40-32-107(a), (b) or (c), which closes these routes for life.",
+    "Any borderline offence whose exact section cannot be matched against the current eligible list.",
+    "Federal, military, tribal or out-of-state records, immigration consequences, and any security-clearance question.",
+    "The participant wants the DUI itself expunged. Subsection (e)(3) forbids it and the packet must say so rather than let the participant infer otherwise from the name of the act.",
+    "The offence being expunged involves a motor vehicle and the use of alcohol or a controlled substance, which is an absolute bar under (e)(3) even where every other condition is met.",
+    "More than one § 55-10-401 conviction, which closes the route under (e)(1)(E).",
+    "The ten-year interval between the DUI conviction and the offence being expunged cannot be established from the judgments."
+   ],
+   "buildBlockers": [],
+   "releaseBlockers": [
+    {
+     "blocker": "clerk_fee_amount_unknown",
+     "statement": "The amount of the clerk's fee under T.C.A. § 8-21-401, which § 40-32-108(a) imposes by reference. The current text of § 8-21-401 sits in the licensed Tennessee Code and was not retrievable from an official Tennessee source. No figure is quoted."
+    },
+    {
+     "blocker": "no_indigency_waiver_identified",
+     "statement": "No indigency or fee-waiver provision appears anywhere in §§ 40-32-106 through 40-32-110. None is asserted."
+    },
+    {
+     "blocker": "da_packet_practice_unknown",
+     "statement": "Whether a district attorney general's office will prepare a petition on request, how long it takes, and whether any office publishes a request form. Section 40-32-108(e) makes preparation that office's duty, but no statewide district attorney petition or request form is published on any official site and the practice interval is not established."
+    },
+    {
+     "blocker": "recovery_court_certification_identity",
+     "statement": "What document evidences successful completion of a certified recovery court programme established under title 16, which body issues it, and whether it is participant-facing. Not established from the adopted authority chain. The requirement is confirmed; the instrument is not."
+    },
+    {
+     "blocker": "e_to_abc_bar_asymmetry",
+     "statement": "Whether a prior expunction granted under subsection (e) bars a later petition under (a), (b) or (c). Subsection (e)(1)(D) bars an (e) petitioner who previously received expunction under (a), (b), (c) or (e), but the reciprocal bars in (a), (b) and (c) do not name (e). The asymmetry is in the enacted text of Public Chapter 1061 and cannot be resolved from it."
+    },
+    {
+     "blocker": "pc1061_no_presumption_disclosure",
+     "statement": "The packet must disclose that an (e) petitioner receives neither the (a)(1)(A) to (E) rebuttable presumption nor the subsection (d) violence-weighing direction, and falls into the bare statutory default. That disclosure text has not been drafted or reviewed."
+    }
+   ],
+   "relationshipToExistingNine": {
+    "summary": "The most consequential of the four for the existing memo. It is a targeted relief valve on a bar that tn_eligible_conviction correctly states today.",
+    "narrowsExistingTrack": false,
+    "replacesExistingTrack": false,
+    "routingAdditionRequired": true,
+    "detail": "tn_eligible_conviction applies § 40-32-107(a)(3)(A), under which the offence must have occurred prior to any conviction for an expunction-ineligible offence. A DUI under § 55-10-401 is expunction-ineligible, so a participant whose otherwise-eligible offence post-dates a DUI is correctly refused by tn_eligible_conviction today — and, with subsection (e) now in force, wrongly left without a route. The addition does not narrow tn_eligible_conviction and does not disturb its exclusion list; it requires a routing cross-reference so that a DUI-barred participant with recovery court completion and a ten-year interval is sent to subsection (e) rather than told no. It also adds one item to the existing tracks' screening: the reciprocal-bar question in tn_eligible_conviction and tn_two_offense currently asks about prior expunction under (a), (b) or (c), and an (e) grant should now be asked about too, subject to the bar asymmetry recorded above."
+   }
+  },
+  {
+   "proposedSourceId": "tn_arrest_no_court_record",
+   "mechanismName": "Expunction of an arrest record where the court has no history of the arrest",
+   "governingSubsection": "T.C.A. § 40-32-109, a complete and self-contained procedure",
+   "authorityBasis": "Codified through Public Chapter 608. Untouched by Public Chapters 719, 930 and 1061. Six subsections, (a) through (f), with no further subdivision numbering.",
+   "legalEffect": "Expunction of the arrest record, with the § 40-32-110 effect expressly applied by § 40-32-109(f): the petitioner is entitled to have all public records destroyed, is restored in contemplation of law to the status occupied before the arrest, must not suffer adverse effects or collateral disabilities by virtue of the offence, and is not guilty of perjury for failing to acknowledge the arrest in response to any inquiry.",
+   "eligiblePopulation": "A person whose arrest record exists but for whom the court with jurisdiction over the offence for which the person was arrested has no history of the arrest within the court's records. This is the participant whose arrest never produced a court file — the case that the § 40-32-106 route cannot reach, because that route runs to the court having jurisdiction in the previous action and here there is no previous action in that court's records.",
+   "distinguishingFeature": "This is the only one of the four additions that does NOT run through § 40-32-108, and it is the only Tennessee route in the entire chapter on which the participant writes the operative petition. Section 40-32-109 contains no cross-reference to § 40-32-108 of any kind, so § 40-32-108(e) — under which the office of the district attorney general must prepare the petition and proposed order — does not reach it. It also carries no waiting period, no 61-day pre-order clock, no rebuttable presumption and no two-year refiling bar, all of which live in § 40-32-108 alone. Section 40-32-109(a) uses the permissive 'may petition', where § 40-32-108(a) uses 'shall petition'.",
+   "filingActor": "The participant, directly. Section 40-32-109(a): a person may petition for expunction of the person's arrest record if the court with jurisdiction over the offence for which the person was arrested has no history of the person's arrest for the offence within the court's records. No prosecutor, clerk or court prepares the petition.",
+   "participantSubmission": "A petition for expunction of the person's own arrest record, written and filed by the participant. Section 40-32-109 prescribes no required contents, no verification, no affidavit and no form; the only substantive gate stated is the eligibility condition embedded in (a) itself.",
+   "venue": "The court with jurisdiction over the offence for which the person was arrested, per § 40-32-109(a). The section states that forum inside the eligibility clause rather than as a standalone filing directive, and supplies it by implication: it is the court whose records the clerk searches under (c) and whose clerk serves the district attorney general under (a). Service is on the district attorney general for that judicial district, which is the only express geographic anchor. There is no residence-based venue and no alternative forum.",
+   "destination": {
+    "kind": "court",
+    "name": "The court with jurisdiction over the offence for which the person was arrested, filed through its clerk",
+    "detail": "Upon filing, the clerk serves the petition on the district attorney general for that judicial district. Both the petitioner and the district attorney general may file evidence. The clerk's office searches the court's records and certifies to the court whether there is any history of the arrest. The court reviews the clerk's certification and all evidence, and may enter the order if it finds there is no history of the arrest within the court's record."
+   },
+   "packetStrategy": "custom_pleading",
+   "packetStrategyBasis": "Not official_pdf_fill: no participant form exists for this route, and the Tennessee Administrative Office of the Courts publishes no expunction form of any kind. Not process_guidance: the participant plainly files, and unlike every § 40-32-107 route the participant writes the petition rather than receiving one from the district attorney general. The statute supplies the vehicle, the court, the party served, the eligibility condition, the fee and the effect. It prescribes no contents, which is the classic condition for a controlled pleading rather than a reason to withhold one — the pleading is drafted to the statutory eligibility condition and to what the court must find under (d).",
+   "officialFormOrCustomPleading": "Custom pleading, and the strongest custom-pleading case in Tennessee. The clerk's certification under (c) is a clerk instrument and is never generated; the order under (d) is a court instrument and is never generated.",
+   "requiredParticipantInputs": [
+    "The offence for which the person was arrested, and the arresting agency.",
+    "The date of the arrest.",
+    "The county and the court with jurisdiction over that offence.",
+    "What the participant already knows about whether any court file exists — whether they were ever arraigned, ever appeared, ever received a court date or a case number.",
+    "The state control number referenced in T.C.A. § 8-4-115, taken from the TBI criminal history, and what the TBI history shows about the arrest.",
+    "Whether the arrest instead ended in a dismissal, no true bill, nolle prosequi, acquittal or release without charge that the court did record, which would route the participant to the free § 40-32-106 track instead.",
+    "Any evidence the participant wishes to file under (b) bearing on the absence of a court record."
+   ],
+   "manualCompletionItems": [
+    "The account of the arrest and of what the participant knows about the absence of any court record, which is the substance of the petition and is the participant's own.",
+    "The state control number, which the participant takes from their own TBI criminal history.",
+    "Any evidence the participant chooses to file under § 40-32-109(b). LegalEase names the kinds of material that bear on the point and never assembles, reviews or vouches for any of it.",
+    "The petitioner's signature and date on the petition."
+   ],
+   "requiredBeforeFilingItems": [
+    "TBI criminal history, which is what shows the arrest exists at all and supplies the state control number. Without it the participant cannot show there is an arrest record to expunge.",
+    "Whatever the participant can obtain from the arresting agency about the arrest.",
+    "Payment of the clerk's fee under T.C.A. § 8-21-401, which § 40-32-109(e) makes mandatory: a person petitioning under the section must be charged the appropriate clerk's fee. There is no indigency, waiver or without-cost provision in § 40-32-109, in express contrast to § 40-32-106(a)(1)."
+   ],
+   "postGenerationHandoffs": [
+    "The clerk's office searches the court's records and certifies to the court. That certification is a clerk instrument, it is filed either way because it certifies whether there is any history, and it is never generated or pre-empted.",
+    "The district attorney general is served by the clerk and may file evidence under (b).",
+    "The court reviews and decides. The grant is discretionary — the court may enter the order if it finds there is no history — so no packet may state that the order will issue.",
+    "No TBI certificate step arises: § 40-32-102(c)(1) expressly exempts the court from submitting a certificate where the expungement is pursuant to § 40-32-109, and § 40-32-109(d) directs the court to review only the clerk's certification and the evidence."
+   ],
+   "typedSelfHelpStops": [
+    "The court does in fact have a record of the arrest, which takes the participant out of this route entirely and into the § 40-32-106 analysis.",
+    "The district attorney general files evidence that the court does have a history of the arrest, which converts the matter into a contested question of fact.",
+    "The participant cannot establish from the TBI history that an arrest record exists at all.",
+    "The participant is seeking relief for a case that reached the court and was dismissed, no-true-billed, nolle prossed or acquitted, which is the free § 40-32-106 route and should not be paid for here.",
+    "Federal, military, tribal or out-of-state records, immigration consequences, and any security-clearance question."
+   ],
+   "buildBlockers": [],
+   "releaseBlockers": [
+    {
+     "blocker": "clerk_fee_amount_unknown",
+     "statement": "The amount of the clerk's fee under T.C.A. § 8-21-401, which § 40-32-109(e) imposes by reference. The current text of § 8-21-401 sits in the licensed Tennessee Code and was not retrievable from an official Tennessee source. No figure is quoted. This bites harder here than on the § 40-32-108 routes, because § 40-32-109 has no waiver provision at all."
+    },
+    {
+     "blocker": "no_waiver_provision",
+     "statement": "Section 40-32-109 contains no indigency, waiver or without-cost provision, in express contrast to § 40-32-106(a)(1). Whether any general court-cost waiver reaches it was not established and is not asserted."
+    },
+    {
+     "blocker": "no_prescribed_contents",
+     "statement": "The statute prescribes no contents for the petition, so the pleading is drafted to the eligibility condition in (a) and to the finding the court must make under (d). What individual clerks and courts in fact expect on a § 40-32-109 petition is not established, and no county practice was surveyed."
+    },
+    {
+     "blocker": "records_versus_record_variance",
+     "statement": "Section 40-32-109(c) says the clerk certifies whether there is any history within the court's 'records' while (d) directs the court to find there is no history within the court's 'record'. The variance is in the enacted text of both the governing amendment and the enrolled chapter and no erratum was located. It is reported without conclusion, but a pleading should not lean on the distinction."
+    },
+    {
+     "blocker": "diversion_carveback_attachment",
+     "statement": "The § 40-32-102(c)(1) certificate carve-out is drafted so that its diversion 'unless' clause attaches to both § 40-32-109 and § 40-32-106, although the diversion subject matter maps onto § 40-32-106. On the face of the text a § 40-32-109 expunction that somehow followed diversion would require a certificate. Reported as text; no conclusion drawn."
+    }
+   ],
+   "relationshipToExistingNine": {
+    "summary": "The direct procedural counterpart to tn_nonconviction_petition, and the route for the population that track cannot serve.",
+    "narrowsExistingTrack": true,
+    "replacesExistingTrack": false,
+    "routingAdditionRequired": true,
+    "detail": "tn_nonconviction_petition runs on § 40-32-106(a), whose petition goes to the court having jurisdiction in the previous action and which is free — the statute requires the records to be removed and destroyed without cost to the person. Its ground at § 40-32-106(a)(1)(C) reaches a person arrested and released without being charged, and that is exactly the participant most likely to find that no court file exists. Where the court has no history of the arrest, § 40-32-109 is the route and it is NOT free: § 40-32-109(e) makes a clerk's fee mandatory and provides no waiver. tn_nonconviction_petition should therefore be narrowed at integration, by an added exclusion and a routing cross-reference, so that a participant whose arrest produced no court record is sent to tn_arrest_no_court_record rather than filing a § 40-32-106 petition into a court that has nothing to act on. The difference is material to the participant in three ways: a different statutory vehicle, a fee where there was none, and a clerk's record search and certification step that has no analogue on the § 40-32-106 route. It is also the one narrowing this addendum identifies anywhere in the existing nine."
+   }
+  }
+ ],
+ "revisedDenominator": {
+  "priorSourceSlots": 9,
+  "priorNormalizedNodes": 9,
+  "addedSourceSlots": 4,
+  "revisedSourceSlots": 13,
+  "revisedNormalizedNodes": 13,
+  "mapping": "one to one",
+  "mergesEstablished": 0,
+  "splitsEstablished": 0,
+  "nonReliefNodesEstablished": 0,
+  "basis": "Each of the four added routes is a distinct statutory entitlement with its own eligible population, its own conditions and its own legal effect, and each produces relief in its own right under § 40-32-110. None is a routing, verification or supporting node, and the controlling authority establishes no merge and no split among them or with the existing nine. Thirteen slots therefore produce thirteen nodes. The count is the result of the analysis rather than a target imposed on it: it was tested for merges in the two places a merge was plausible and rejected in both. Routes 1, 2 and 3 share the § 40-32-108 procedure but are three separate definitions of eligible petitioner in three separate subsections with different populations, different conditions and different decision standards, so they are siblings rather than units of one mechanism. Route 4 and the existing tn_nonconviction_petition address adjacent populations but under different sections, with different vehicles, different fee treatment and a clerk certification step that exists on only one of them, so they are two mechanisms rather than one with alternative units.",
+  "nodeTypeDistribution": {
+   "relief_track": 13,
+   "routing_node": 0,
+   "supporting_action": 0,
+   "verification_node": 0,
+   "local_variant": 0
+  },
+  "strategyDistributionAfterIntegration": {
+   "custom_pleading": 11,
+   "process_guidance": 2,
+   "official_pdf_fill": 0,
+   "composed": 0,
+   "note": "Eleven custom pleadings and two process-guidance nodes. Tennessee has no official_pdf_fill route at all, because the Administrative Office of the Courts publishes no participant expunction form and the TBI instruments are court and agency instruments rather than participant filings."
+  },
+  "filingActorDistributionAfterIntegration": {
+   "participantWritesThePetition": [
+    "tn_nonconviction_petition",
+    "tn_mistaken_identity",
+    "tn_redaction",
+    "tn_pretrial_diversion",
+    "tn_judicial_diversion",
+    "tn_arrest_no_court_record"
+   ],
+   "districtAttorneyPreparesThePetition": [
+    "tn_eligible_conviction",
+    "tn_two_offense",
+    "tn_illegal_voting",
+    "tn_post_pardon",
+    "tn_recovery_court"
+   ],
+   "noParticipantFiling": [
+    "tn_acquittal_immediate",
+    "tn_trafficking_40_32_105"
+   ],
+   "note": "The addendum sharpens a distinction the integrated memo already drew but could not complete. Every § 40-32-107 route runs through § 40-32-108, whose subsection (e) makes the petition and proposed order a prosecutor instrument, so on those five the generated artifact is the participant's request to the district attorney general. Section 40-32-109 has no such provision and no cross-reference to § 40-32-108, so on Route 4 the participant writes the petition."
+  }
+ },
+ "existingTracksRequiringChange": [
+  {
+   "trackId": "tn_nonconviction_petition",
+   "changeType": "narrowing_plus_routing_cross_reference",
+   "narrowed": true,
+   "replaced": false,
+   "change": "Add an exclusion and a routing cross-reference. Exclusion: an arrest for which the court with jurisdiction has no history within its records, which § 40-32-106 cannot reach because its petition runs to the court having jurisdiction in the previous action. Routing: send that participant to tn_arrest_no_court_record. Add a participant question asking whether any court file exists — whether the person was ever arraigned, ever appeared, ever received a case number — because the two routes differ in vehicle, in fee and in procedure, and § 40-32-106(a)(1)(C) reaches a person arrested and released without being charged, who is precisely the person most likely to have no court file. Add the fee disclosure: § 40-32-106 is free and § 40-32-109 is not.",
+   "basis": "T.C.A. § 40-32-109(a) read against § 40-32-106(a)(1)."
+  },
+  {
+   "trackId": "tn_eligible_conviction",
+   "changeType": "routing_cross_reference_only",
+   "narrowed": false,
+   "replaced": false,
+   "change": "Add two routing cross-references and no change to the exclusion list. First, a participant whose conviction is not on the § 40-32-107(a)(1) eligible lists but who holds a gubernatorial pardon routes to tn_post_pardon rather than being refused, because subsection (d) imposes no (a)(1) eligibility requirement and no sentence-completion or predating condition at all. Second, a participant whose otherwise-eligible offence post-dates a DUI conviction, who has completed a certified recovery court programme and for whom ten years separate the two, routes to tn_recovery_court rather than being refused under § 40-32-107(a)(3)(A). Add the § 40-32-107(e) grant to the prior-expunction screening question, subject to the recorded bar asymmetry.",
+   "basis": "T.C.A. § 40-32-107(d) as amended by Public Chapter 719, and § 40-32-107(e) as added by Public Chapter 1061."
+  },
+  {
+   "trackId": "tn_two_offense",
+   "changeType": "routing_cross_reference_only",
+   "narrowed": false,
+   "replaced": false,
+   "change": "Add the § 40-32-107(e) grant to the prior-expunction screening question, subject to the recorded bar asymmetry. No change to the exclusion list: the reciprocal lifetime bar naming (a), (b) and (c) is already stated correctly, and § 40-32-107(c)(1)(D) confirms it names exactly those three.",
+   "basis": "T.C.A. § 40-32-107(c)(1)(D) and § 40-32-107(e)(1)(D)."
+  }
+ ],
+ "reciprocalBarMap": {
+  "statement": "The prior-expunction bars across the § 40-32-107 subsections are asymmetric on the enacted text, and the asymmetry is reported rather than resolved because it cannot be resolved from the text.",
+  "bars": [
+   {
+    "subsection": "(a)",
+    "barsPriorGrantUnder": [
+     "(a)",
+     "(b)",
+     "(c)"
+    ],
+    "doesNotName": [
+     "(d)",
+     "(e)"
+    ]
+   },
+   {
+    "subsection": "(b)",
+    "barsPriorGrantUnder": [
+     "(a)",
+     "(b)",
+     "(c)"
+    ],
+    "doesNotName": [
+     "(d)",
+     "(e)"
+    ]
+   },
+   {
+    "subsection": "(c)",
+    "barsPriorGrantUnder": [
+     "(a)",
+     "(b)",
+     "(c)"
+    ],
+    "doesNotName": [
+     "(d)",
+     "(e)"
+    ]
+   },
+   {
+    "subsection": "(d)",
+    "barsPriorGrantUnder": [],
+    "doesNotName": [
+     "(a)",
+     "(b)",
+     "(c)",
+     "(e)"
+    ],
+    "note": "Subsection (d) contains no prior-expunction bar at all."
+   },
+   {
+    "subsection": "(e)",
+    "barsPriorGrantUnder": [
+     "(a)",
+     "(b)",
+     "(c)",
+     "(e)"
+    ],
+    "doesNotName": [
+     "(d)"
+    ]
+   }
+  ],
+  "consequence": "On the face of the text a prior (e) grant bars a later (e) petition and, by (e)(1)(D), is itself barred by a prior (a), (b) or (c) grant — but (a), (b) and (c) do not name (e), so whether a prior (e) grant closes them is unresolved. Subsection (d) is outside every bar in both directions. This is carried as a release blocker on Routes 2 and 3 and on the two existing conviction tracks, and no screening question asserts a conclusion about it."
+ },
+ "requiredSourceAndFormIdentities": {
+  "statement": "No new official form identity is established by any of the four routes, and none is asserted. Tennessee publishes no participant expunction form: confirmed by direct inspection of both Administrative Office of the Courts form indices, whose complete inventories contain no expunction item.",
+  "instrumentsThatExistButAreNotParticipantFacing": [
+   {
+    "instrument": "TBI form BI-0333, Order for the Expungement of Criminal Offender Record, revision 04/2025",
+    "classification": "court order",
+    "treatment": "Never generated as a participant filing. It carries an approved-for-entry block with signature lines for defendant or defence counsel, the district attorney general and the judge."
+   },
+   {
+    "instrument": "The § 40-32-102(c)(1) request for certification",
+    "classification": "court certification completed by court staff and submitted to the TBI",
+    "treatment": "Never generated, completed or asserted. Required on Routes 1, 2 and 3. NOT required on Route 4: § 40-32-102(c)(1) expressly exempts the court where the expungement is pursuant to § 40-32-109."
+   },
+   {
+    "instrument": "The petition and proposed order under § 40-32-108(e)",
+    "classification": "prosecutor instrument",
+    "treatment": "Never generated. Prepared by the office of the district attorney general and given to the petitioner to file. Applies to Routes 1, 2 and 3 and not to Route 4."
+   },
+   {
+    "instrument": "The § 40-32-109(c) clerk certification of the court's record search",
+    "classification": "clerk instrument",
+    "treatment": "Never generated or pre-empted. The clerk's office searches the court's records and certifies to the court whether there is any history of the arrest. No published form for it was located."
+   }
+  ],
+  "outsideInstrumentsParticipantsObtain": [
+   "The pardon document from the Governor and the board of parole record of the positive vote, on Route 2.",
+   "The certified recovery court programme completion record, on Route 3.",
+   "The TBI criminal history, on every route, which supplies the state control number under T.C.A. § 8-4-115."
+  ]
+ },
+ "consolidatedBlockers": {
+  "buildBlockers": [],
+  "buildBlockerStatement": "None. For each of the four routes the governing mechanism, the filing vehicle, the filing actor, the destination, the venue, the operative content and the geographic scope are all determined from the adopted authority chain. Nothing is undetermined that would prevent a route being built.",
+  "releaseBlockerCount": 20,
+  "releaseBlockers": [
+   {
+    "route": "tn_illegal_voting",
+    "blocker": "clerk_fee_amount_unknown",
+    "statement": "The amount of the clerk's fee under T.C.A. § 8-21-401, which § 40-32-108(a) imposes by reference. The current text of § 8-21-401 sits in the licensed Tennessee Code and was not retrievable from an official Tennessee source. No figure is quoted."
+   },
+   {
+    "route": "tn_illegal_voting",
+    "blocker": "no_indigency_waiver_identified",
+    "statement": "No indigency or fee-waiver provision appears anywhere in §§ 40-32-106 through 40-32-110. None is asserted."
+   },
+   {
+    "route": "tn_illegal_voting",
+    "blocker": "da_packet_practice_unknown",
+    "statement": "Whether a district attorney general's office will prepare a petition on request, how long it takes, and whether any office publishes a request form. Section 40-32-108(e) makes preparation that office's duty, but no statewide district attorney petition or request form is published on any official site and the practice interval is not established."
+   },
+   {
+    "route": "tn_illegal_voting",
+    "blocker": "voting_rights_restoration_relationship_unknown",
+    "statement": "Whether and how expunction under § 40-32-107(c) interacts with restoration of voting rights under Tennessee's separate restoration machinery. Not established from the adopted authority chain, and not asserted. It matters because it is the outcome most participants on this route will actually be seeking."
+   },
+   {
+    "route": "tn_post_pardon",
+    "blocker": "clerk_fee_amount_unknown",
+    "statement": "The amount of the clerk's fee under T.C.A. § 8-21-401, which § 40-32-108(a) imposes by reference. The current text of § 8-21-401 sits in the licensed Tennessee Code and was not retrievable from an official Tennessee source. No figure is quoted."
+   },
+   {
+    "route": "tn_post_pardon",
+    "blocker": "no_indigency_waiver_identified",
+    "statement": "No indigency or fee-waiver provision appears anywhere in §§ 40-32-106 through 40-32-110. None is asserted."
+   },
+   {
+    "route": "tn_post_pardon",
+    "blocker": "da_packet_practice_unknown",
+    "statement": "Whether a district attorney general's office will prepare a petition on request, how long it takes, and whether any office publishes a request form. Section 40-32-108(e) makes preparation that office's duty, but no statewide district attorney petition or request form is published on any official site and the practice interval is not established."
+   },
+   {
+    "route": "tn_post_pardon",
+    "blocker": "pc719_violence_weighing_practice_unknown",
+    "statement": "How Tennessee courts weigh whether the offence sought to be expunged was violent, now that Public Chapter 719 moved violence from a jurisdictional bar to a merits consideration for subsection (d) petitioners. The statutory change is confirmed; the practice is not established and it is the factor that decides these petitions."
+   },
+   {
+    "route": "tn_post_pardon",
+    "blocker": "pardon_route_no_presumption_disclosure",
+    "statement": "The packet must disclose that a subsection (d) petitioner gets no rebuttable presumption, unlike an (a)(1)(A) to (E) petitioner. That disclosure text has not been drafted or reviewed."
+   },
+   {
+    "route": "tn_recovery_court",
+    "blocker": "clerk_fee_amount_unknown",
+    "statement": "The amount of the clerk's fee under T.C.A. § 8-21-401, which § 40-32-108(a) imposes by reference. The current text of § 8-21-401 sits in the licensed Tennessee Code and was not retrievable from an official Tennessee source. No figure is quoted."
+   },
+   {
+    "route": "tn_recovery_court",
+    "blocker": "no_indigency_waiver_identified",
+    "statement": "No indigency or fee-waiver provision appears anywhere in §§ 40-32-106 through 40-32-110. None is asserted."
+   },
+   {
+    "route": "tn_recovery_court",
+    "blocker": "da_packet_practice_unknown",
+    "statement": "Whether a district attorney general's office will prepare a petition on request, how long it takes, and whether any office publishes a request form. Section 40-32-108(e) makes preparation that office's duty, but no statewide district attorney petition or request form is published on any official site and the practice interval is not established."
+   },
+   {
+    "route": "tn_recovery_court",
+    "blocker": "recovery_court_certification_identity",
+    "statement": "What document evidences successful completion of a certified recovery court programme established under title 16, which body issues it, and whether it is participant-facing. Not established from the adopted authority chain. The requirement is confirmed; the instrument is not."
+   },
+   {
+    "route": "tn_recovery_court",
+    "blocker": "e_to_abc_bar_asymmetry",
+    "statement": "Whether a prior expunction granted under subsection (e) bars a later petition under (a), (b) or (c). Subsection (e)(1)(D) bars an (e) petitioner who previously received expunction under (a), (b), (c) or (e), but the reciprocal bars in (a), (b) and (c) do not name (e). The asymmetry is in the enacted text of Public Chapter 1061 and cannot be resolved from it."
+   },
+   {
+    "route": "tn_recovery_court",
+    "blocker": "pc1061_no_presumption_disclosure",
+    "statement": "The packet must disclose that an (e) petitioner receives neither the (a)(1)(A) to (E) rebuttable presumption nor the subsection (d) violence-weighing direction, and falls into the bare statutory default. That disclosure text has not been drafted or reviewed."
+   },
+   {
+    "route": "tn_arrest_no_court_record",
+    "blocker": "clerk_fee_amount_unknown",
+    "statement": "The amount of the clerk's fee under T.C.A. § 8-21-401, which § 40-32-109(e) imposes by reference. The current text of § 8-21-401 sits in the licensed Tennessee Code and was not retrievable from an official Tennessee source. No figure is quoted. This bites harder here than on the § 40-32-108 routes, because § 40-32-109 has no waiver provision at all."
+   },
+   {
+    "route": "tn_arrest_no_court_record",
+    "blocker": "no_waiver_provision",
+    "statement": "Section 40-32-109 contains no indigency, waiver or without-cost provision, in express contrast to § 40-32-106(a)(1). Whether any general court-cost waiver reaches it was not established and is not asserted."
+   },
+   {
+    "route": "tn_arrest_no_court_record",
+    "blocker": "no_prescribed_contents",
+    "statement": "The statute prescribes no contents for the petition, so the pleading is drafted to the eligibility condition in (a) and to the finding the court must make under (d). What individual clerks and courts in fact expect on a § 40-32-109 petition is not established, and no county practice was surveyed."
+   },
+   {
+    "route": "tn_arrest_no_court_record",
+    "blocker": "records_versus_record_variance",
+    "statement": "Section 40-32-109(c) says the clerk certifies whether there is any history within the court's 'records' while (d) directs the court to find there is no history within the court's 'record'. The variance is in the enacted text of both the governing amendment and the enrolled chapter and no erratum was located. It is reported without conclusion, but a pleading should not lean on the distinction."
+   },
+   {
+    "route": "tn_arrest_no_court_record",
+    "blocker": "diversion_carveback_attachment",
+    "statement": "The § 40-32-102(c)(1) certificate carve-out is drafted so that its diversion 'unless' clause attaches to both § 40-32-109 and § 40-32-106, although the diversion subject matter maps onto § 40-32-106. On the face of the text a § 40-32-109 expunction that somehow followed diversion would require a certificate. Reported as text; no conclusion drawn."
+   }
+  ]
+ },
+ "boundaryStatement": "This addendum specifies routes. It does not build them. No packet was implemented, no route was promoted, no source was promoted, no migration was run and nothing was deployed. No participant filing is invented anywhere in it. On Routes 1, 2 and 3 the operative petition and proposed order are prepared by the office of the district attorney general under § 40-32-108(e), and the generated artifact is the participant's request and eligibility record. On Route 4 the participant does write the petition, because § 40-32-109 contains no cross-reference to § 40-32-108 and no provision assigning preparation to anyone else — but the clerk's record search and certification under (c) and the court's order under (d) remain instruments of their own actors and neither is generated. The TBI certificate, the TBI expungement order, the district attorney's petition and the clerk's certification are each identified as instruments of their own actor and none is generated.",
+ "statusAssertions": {
+  "memoUnchanged": true,
+  "existingNineTracksUnchanged": true,
+  "frozenReadinessRecordsUnchanged": true,
+  "codificationReceiptUnchanged": true,
+  "packetReadyChanged": false,
+  "enabledJurisdictionsChanged": false,
+  "runtimeEnablementChanged": false,
+  "sourcePromotionChanged": false,
+  "statePromotionChanged": false,
+  "deploymentPerformed": false,
+  "integrationPerformed": false
+ },
+ "runtimeEffect": "none",
+ "productionEffect": "none",
+ "status": "tennessee_2026_route_inventory_specified_pending_integration"
+}
