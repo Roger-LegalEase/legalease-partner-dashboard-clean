@@ -272,6 +272,12 @@ export function materializeNormalizationResearchInputs({
       bundles,
       rootDir
     });
+  const codificationAuthorityAdoptionResults =
+    adoptCodificationAuthorityReceipts({
+      input: expanded,
+      bundles,
+      rootDir
+    });
   adoptLegalReviewMaterializationReceipts({
     input: expanded,
     bundles,
@@ -287,7 +293,168 @@ export function materializeNormalizationResearchInputs({
   expanded.adjudicationIngestionResults = adjudicationIngestionResults;
   expanded.counselStructureAdoptionResults =
     counselStructureAdoptionResults;
+  expanded.codificationAuthorityAdoptionResults =
+    codificationAuthorityAdoptionResults;
   return expanded;
+}
+
+/**
+ * Externally supplied codification authority.
+ *
+ * Tennessee's statewide blocker was not a legal-design question — it was that
+ * nobody had verified which enacted text is current. A codification package has
+ * now been supplied and its bytes verified, so the blocker is cleared by
+ * evidence rather than by assertion: the receipt is committed and hash-pinned,
+ * the package binary itself stays out of Git and read-only in the sealed
+ * external authority root, and the pins here must reproduce or nothing is
+ * adopted.
+ *
+ * Clearing this blocker makes Tennessee ready for a normalization worker. It
+ * decides no Tennessee legal-design question, normalizes nothing, and leaves
+ * every route runtime-disabled and not packet-ready.
+ */
+function adoptCodificationAuthorityReceipts({ input, bundles, rootDir }) {
+  const descriptors = input.codificationAuthorityAdoptionInputs ?? [];
+  if (!Array.isArray(descriptors)) {
+    throw new Error(
+      "normalization readiness codificationAuthorityAdoptionInputs must be an array."
+    );
+  }
+  const results = [];
+  for (const descriptor of descriptors) {
+    const receiptBytes = readRepositoryResearchFile(
+      rootDir,
+      descriptor.receiptPath
+    );
+    const manifestBytes = readRepositoryResearchFile(
+      rootDir,
+      descriptor.manifestPath
+    );
+    const receiptSha256 = sha256Bytes(receiptBytes);
+    const manifestSha256 = sha256Bytes(manifestBytes);
+    if (
+      receiptSha256 !== descriptor.receiptSha256 ||
+      receiptBytes.length !== descriptor.receiptByteCount ||
+      manifestSha256 !== descriptor.manifestSha256
+    ) {
+      throw new Error(
+        `${descriptor.jurisdiction} codification authority receipt bytes do not match the captain-owned pins.`
+      );
+    }
+    const receipt = JSON.parse(receiptBytes.toString("utf8"));
+    const manifest = JSON.parse(manifestBytes.toString("utf8"));
+    if (
+      receipt.schemaVersion !== "rcap-codification-authority-receipt/v1" ||
+      receipt.jurisdiction !== descriptor.jurisdiction ||
+      receipt.authorityStatus !== descriptor.authorityStatus ||
+      receipt.reviewedThrough !== descriptor.reviewedThrough ||
+      receipt.scope?.normalizationExecutionAuthorized !== false ||
+      receipt.scope?.packetReadyAuthorized !== false ||
+      receipt.scope?.runtimeEnablementAuthorized !== false ||
+      receipt.runtimeEffect !== "none" ||
+      receipt.productionEffect !== "none" ||
+      receipt.package?.committedToGit !== false ||
+      !SHA256_PATTERN.test(receipt.package?.expectedSha256 ?? "") ||
+      manifest.filePath !== descriptor.receiptPath ||
+      manifest.fileSha256 !== receiptSha256 ||
+      manifest.byteCount !== receiptBytes.length ||
+      manifest.packageSha256 !== receipt.package.expectedSha256
+    ) {
+      throw new Error(
+        `${descriptor.jurisdiction} codification authority receipt does not satisfy the adoption contract.`
+      );
+    }
+    const cleared = [...(receipt.clearedBlockers ?? [])].sort();
+    if (
+      cleared.length === 0 ||
+      cleared.some((blocker) => !READINESS_BLOCKER_ORDER.includes(blocker))
+    ) {
+      throw new Error(
+        `${descriptor.jurisdiction} codification authority receipt clears an unsupported blocker.`
+      );
+    }
+    const bundle = bundles.get(descriptor.jurisdiction);
+    if (!bundle) {
+      throw new Error(
+        `${descriptor.jurisdiction} codification authority receipt has no readiness bundle to adopt into.`
+      );
+    }
+
+    const clearedSet = new Set(cleared);
+    const authorityFlags = new Set(bundle.authorityRefreshFlags ?? []);
+    for (const blocker of clearedSet) authorityFlags.delete(blocker);
+    authorityFlags.add("codification_authority_verified");
+    // The ancillary current-text exports stay visible as open questions on the
+    // normalization job. They are source completeness, not the statewide
+    // codification question the package answered, so they must never be able to
+    // put the cleared blocker back.
+    const ancillaryQuestions = (
+      receipt.ancillarySourceCompletenessFollowUps ?? []
+    ).map(
+      (entry) =>
+        `${entry.citation}: current official text export is still outstanding; ` +
+        `carry it as a source-completeness follow-up during normalization. ` +
+        `[${entry.effect ?? "source_completeness_follow_up_only"}]`
+    );
+
+    // `reviewedThrough` stays bound to the controlling legal review asset and
+    // its ASOF revision — that pairing is hash-verified and is not what the
+    // codification package speaks to. The package's own currency is recorded
+    // separately, so both dates stay true instead of one overwriting the other.
+    bundles.set(descriptor.jurisdiction, {
+      ...bundle,
+      authorityReviewedThrough: receipt.reviewedThrough,
+      authorityRefreshFlags: [...authorityFlags].sort(),
+      adjudicationBlockers: (bundle.adjudicationBlockers ?? []).filter(
+        (blocker) => !clearedSet.has(blocker)
+      ),
+      openQuestions: [
+        ...new Set([...(bundle.openQuestions ?? []), ...ancillaryQuestions])
+      ].sort(),
+      codificationAuthority: {
+        schemaVersion: "rcap-codification-authority-evidence/v1",
+        receiptPath: descriptor.receiptPath,
+        receiptSha256,
+        manifestPath: descriptor.manifestPath,
+        manifestSha256,
+        receiptDate: receipt.receiptDate,
+        reviewedThrough: receipt.reviewedThrough,
+        authorityStatus: receipt.authorityStatus,
+        packageSha256: receipt.package.expectedSha256,
+        packageBytes: receipt.package.expectedBytes,
+        packagePageCount: receipt.package.expectedPageCount,
+        packagePortableLocator: receipt.package.portableLocator,
+        packageCommittedToGit: false,
+        codifiedBase: receipt.codifiedBase,
+        controllingOverlays: receipt.controllingOverlays,
+        componentCount: (receipt.components ?? []).length,
+        clearedBlockers: cleared,
+        ancillarySourceCompletenessFollowUps:
+          receipt.ancillarySourceCompletenessFollowUps ?? [],
+        normalizationExecutionAuthorized: false,
+        packetReadyAuthorized: false,
+        runtimeEffect: "none",
+        productionEffect: "none",
+        status: "codification_authority_verified_no_runtime_effect"
+      }
+    });
+
+    results.push({
+      jurisdiction: descriptor.jurisdiction,
+      receiptPath: descriptor.receiptPath,
+      receiptSha256,
+      receiptByteCount: receiptBytes.length,
+      manifestPath: descriptor.manifestPath,
+      manifestSha256,
+      reviewedThrough: receipt.reviewedThrough,
+      authorityStatus: receipt.authorityStatus,
+      clearedBlockers: cleared,
+      status: "codification_authority_receipt_adopted_no_runtime_effect"
+    });
+  }
+  return results.sort((left, right) =>
+    left.jurisdiction.localeCompare(right.jurisdiction)
+  );
 }
 
 function adoptLegalReviewMaterializationReceipts({
@@ -987,6 +1154,10 @@ function applyCounselStructureDetermination({
         : {})
     }
   };
+  nextBundle.sourceSlotAccounting = counselSourceSlotAccounting({
+    bundle,
+    determination
+  });
   if (bundle.jurisdiction === "WV") {
     nextBundle.reviewedThrough = determination.reviewedThrough;
     nextBundle.reviewDateEvidence = {
@@ -996,6 +1167,110 @@ function applyCounselStructureDetermination({
     };
   }
   return nextBundle;
+}
+
+/**
+ * The adopted source-slot denominator, compiled onto the job.
+ *
+ * `mechanismInventory` and `expectedSourceIds` are the hash-bound reviewed
+ * relief mechanisms and must keep reconciling to each other exactly — that is
+ * the gate proving the assignment's sources are the ones counsel's review
+ * actually enumerated, and it is not relaxed here. But counsel's adopted
+ * structure is wider than that inventory: Utah's adoption dispositions fifteen
+ * source slots against fourteen substantive relief mechanisms, and carries
+ * UT-COMMON as shared procedure besides. Compiling only the inventory handed a
+ * Session D worker a fourteen-slot assignment against an adopted fifteen-slot
+ * denominator, and dropped UT-COMMON from the compiled record entirely.
+ *
+ * So the adopted denominator is recorded here, beside the inventory rather than
+ * inside it. Every disposition counsel made is named and typed: which slots are
+ * substantive relief, which are non-relief nodes, and which are shared
+ * procedure that is neither a track nor a node. None of them becomes a relief
+ * mechanism, and none becomes a participant packet.
+ */
+function counselSourceSlotAccounting({ bundle, determination }) {
+  const reliefIds = determination.crosswalk
+    .filter(({ disposition }) => disposition === "standalone_relief_track")
+    .map(({ sourceId }) => sourceId)
+    .sort();
+  // `reliefContribution` distinguishes the two ways a slot can fail to be a
+  // standalone relief track. Utah's UT-ADJ-01 contributes no relief at all — it
+  // routes. Vermont's merged sealing slots do contribute, but into one shared
+  // mechanism rather than one each, which is why counsel's relief count exceeds
+  // the standalone tally there. Collapsing both into "not relief" would state
+  // something false about Vermont.
+  const nonStandaloneSlots = determination.crosswalk
+    .filter(({ disposition }) => disposition !== "standalone_relief_track")
+    .map(({ sourceId, disposition, bucket }) => ({
+      sourceId,
+      disposition,
+      ...(bucket ? { bucket } : {}),
+      standaloneReliefTrack: false,
+      reliefContribution: /merged/i.test(disposition)
+        ? "merged_into_adopted_relief_mechanism"
+        : "none",
+      routingNode: disposition === "routing_node",
+      participantPacket: false
+    }))
+    .sort((left, right) => (left.sourceId < right.sourceId ? -1 : 1));
+  // Shared procedure is stated once in a review and dispositioned by counsel as
+  // neither a track nor a node. It is recorded rather than silently dropped, so
+  // the compiled assignment shows what counsel decided about it.
+  const sharedProcedure = [
+    ...(determination.sharedProcedures ?? []),
+    ...(determination.sharedProcedureNodes ?? [])
+  ]
+    .map(({ sourceId, disposition }) => ({
+      sourceId,
+      disposition,
+      standaloneReliefTrack: false,
+      reliefContribution: "none",
+      normalizedNode: disposition !== "shared_procedure_not_track_or_node",
+      participantPacket: false
+    }))
+    .sort((left, right) => (left.sourceId < right.sourceId ? -1 : 1));
+
+  const accounting = {
+    schemaVersion: "rcap-normalization-source-slot-accounting/v1",
+    basis: "counsel_structure_adoption",
+    expectedSourceSlots: determination.authoritativeSourceSlots,
+    expectedSourceSlotIds: determination.crosswalk
+      .map(({ sourceId }) => sourceId)
+      .sort(),
+    substantiveReliefMechanisms:
+      determination.authoritativeSubstantiveReliefTracks,
+    substantiveReliefMechanismIds: reliefIds,
+    expectedNormalizedNodes: determination.authoritativeNormalizedNodes,
+    nonStandaloneSourceSlots: nonStandaloneSlots,
+    sharedProcedureDispositions: sharedProcedure,
+    reliefMechanismInventoryReconciles:
+      canonicalStringify(reliefIds) ===
+      canonicalStringify(
+        bundle.mechanismInventory.map(({ sourceId }) => sourceId).sort()
+      )
+  };
+
+  // The counts are counsel's, not recomputed from dispositions: an adoption may
+  // merge several slots into one mechanism (Vermont folds three no-conviction
+  // slots into a single alternative composition), so a slot-by-slot tally is not
+  // the adopted relief count. What must hold everywhere is that the enumerated
+  // crosswalk covers exactly the adopted slot count, and that no slot is both
+  // named non-relief and counted as relief.
+  const misclassified = [...nonStandaloneSlots, ...sharedProcedure].filter(
+    ({ sourceId }) => reliefIds.includes(sourceId)
+  );
+  if (
+    accounting.expectedSourceSlotIds.length !==
+      accounting.expectedSourceSlots ||
+    new Set(accounting.expectedSourceSlotIds).size !==
+      accounting.expectedSourceSlotIds.length ||
+    misclassified.length > 0
+  ) {
+    throw new Error(
+      `${bundle.jurisdiction} adopted source-slot accounting does not reconcile to the counsel structure.`
+    );
+  }
+  return accounting;
 }
 
 function counselQuestionWasResolved(jurisdiction, question) {
@@ -1457,6 +1732,26 @@ export function validateNormalizationReadinessInput({
     );
   }
 
+  const codificationDescriptors =
+    input.codificationAuthorityAdoptionInputs ?? [];
+  const codificationResults =
+    input.codificationAuthorityAdoptionResults ?? [];
+  if (!Array.isArray(codificationDescriptors)) {
+    issues.push("codificationAuthorityAdoptionInputs must be an array.");
+  } else if (
+    !Array.isArray(codificationResults) ||
+    codificationResults.length !== codificationDescriptors.length ||
+    codificationResults.some(
+      (result) =>
+        result?.status !==
+        "codification_authority_receipt_adopted_no_runtime_effect"
+    )
+  ) {
+    issues.push(
+      "every codification authority receipt must be hash-verified and adopted with no runtime effect."
+    );
+  }
+
   const claimValidation = validateFactoryJobClaims(claims);
   issues.push(...claimValidation.issues);
 
@@ -1869,6 +2164,18 @@ export function deriveNormalizationReadinessRecord({
         ? {
             counselStructureAdoption:
               bundle.counselStructureAdoption
+          }
+        : {}),
+      // The adopted denominator travels with the assignment. Without it a
+      // worker sees only the hash-bound relief inventory and has no compiled
+      // record of the slots counsel dispositioned as non-relief.
+      ...(bundle.sourceSlotAccounting
+        ? { sourceSlotAccounting: bundle.sourceSlotAccounting }
+        : {}),
+      ...(bundle.codificationAuthority
+        ? {
+            codificationAuthority: bundle.codificationAuthority,
+            authorityReviewedThrough: bundle.authorityReviewedThrough
           }
         : {}),
       readinessState:
