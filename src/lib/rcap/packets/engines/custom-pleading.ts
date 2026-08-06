@@ -109,13 +109,29 @@ export const CustomPleadingRenderer: PacketRenderer = {
     }
 
     writer.gap();
+    // The execution block is one unit. A signature rule stranded at the foot of
+    // a page, with the printed-name and capacity lines that identify the signer
+    // overleaf, reads as a complete signature line for the wrong document — so
+    // the rule and every line under it move together rather than the rule alone.
+    //
+    // Measured, not padded: an oversized block is left to ordinary pagination by
+    // keepTogether, which is why nothing here can produce a blank page.
+    const signatureLines = template.signatureBlock.map((line) => fill(line));
+    const executionBlockHeight =
+      (template.signatureLabel !== null ? LINE_HEIGHT * 2 : 0) +
+      signatureLines.reduce(
+        (total, line) => total + writer.measureTextHeight(line, { size: 10 }),
+        0
+      );
+    if (executionBlockHeight > 0) writer.keepTogether(executionBlockHeight);
+
     // A proposed order is signed by the court, not the petitioner. Emitting a
     // participant signature rule on one would invite the wrong person to sign.
     if (template.signatureLabel !== null) {
       writer.signatureLine(template.signatureLabel ?? "Signature");
     }
-    for (const line of template.signatureBlock) {
-      writer.write(fill(line), { size: 10 });
+    for (const line of signatureLines) {
+      writer.write(line, { size: 10 });
     }
 
     if (template.certificateOfService && template.certificateOfService.length > 0) {
