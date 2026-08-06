@@ -2966,6 +2966,26 @@ function addTrackLaneJobs({
   }
 }
 
+// Integrated custom-pleading workers. Each record pins the exact worker commit
+// whose module and focused verifier are carried into the integration branch. The
+// module and verifier stay worker-owned; the participant packet proof and the
+// review manifest are integration-owned.
+const COMPLETED_CUSTOM_PLEADING_IMPLEMENTATIONS = Object.freeze([
+  {
+    jurisdiction: "TX",
+    completionCommit: "4bce6e3d7aebb30a246af55bf6919bbdd2192999",
+    modulePath: "src/lib/rcap/packets/jurisdictions/texas/custom-pleading.ts",
+    verifierPath: "scripts/verify-rcap-texas-custom-pleading.mjs"
+  },
+  {
+    jurisdiction: "TN",
+    completionCommit: "50aec291f44526bdf86bf3e04d1fc9bd36241ad6",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/tennessee/custom-pleading.ts",
+    verifierPath: "scripts/verify-rcap-tennessee-custom-pleading.mjs"
+  }
+]);
+
 function implementationJobOverrides(lane, jurisdiction) {
   const completedOfficialPdf = COMPLETED_OFFICIAL_PDF_IMPLEMENTATIONS.find(
     (record) =>
@@ -2990,6 +3010,43 @@ function implementationJobOverrides(lane, jurisdiction) {
         "integrated with an integration-owned official-PDF proof. Preserve source immutability, " +
         "fixture variants, expected no-document outcomes, protected field ownership, and the " +
         "runtime-disabled boundary. Do not scaffold, execute, enable, promote, or deploy this job."
+    };
+  }
+  const completedCustomPleading = COMPLETED_CUSTOM_PLEADING_IMPLEMENTATIONS.find(
+    (record) =>
+      lane === "custom_pleading" && record.jurisdiction === jurisdiction
+  );
+  if (completedCustomPleading) {
+    const jobId = jobIdFor(jurisdiction, lane);
+    const workerOutputs = [
+      completedCustomPleading.modulePath,
+      completedCustomPleading.verifierPath
+    ];
+    return {
+      status: "completed",
+      completionCommit: completedCustomPleading.completionCommit,
+      model: "opus",
+      effort: "xhigh",
+      expectedOutputs: workerOutputs,
+      ownedPaths: workerOutputs,
+      integrationOwnedOutputs: [
+        `${PACKET_PROOF_DIR}/${jobId}.json`,
+        `${REVIEW_MANIFEST_DIR}/${jobId}.json`
+      ],
+      regressionVerifier: completedCustomPleading.verifierPath,
+      participantPacketProofRequired: true,
+      focusedValidation: [
+        `node scripts/rcap-factory-plan.mjs --check-job ${jobId}`,
+        `node ${completedCustomPleading.verifierPath}`
+      ],
+      commitSubject:
+        `feat(record-clearing): implement ${jurisdiction} custom pleading`,
+      stopCondition:
+        `Terminal completed child: source commit ${completedCustomPleading.completionCommit} ` +
+        "is integrated. Preserve the drafted pleading contents, actor boundaries, and typed " +
+        "stops. No document here is presented as an official form. Visual proof and hash-bound " +
+        "counsel adoption remain separate; runtime stays disabled. Do not scaffold, execute, " +
+        "regenerate, enable, promote, or deploy this job."
     };
   }
   if (lane === "custom_pleading" && jurisdiction === "IL") {

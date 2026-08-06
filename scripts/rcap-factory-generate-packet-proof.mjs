@@ -156,13 +156,20 @@ function parseSamples(stdout) {
     const table = line.match(
       /^\s+(\S+)\s+(?:\d+c\s+)?(\d+)p\s+([0-9a-f]{64})$/
     );
-    const match = colon ?? table;
+    // Labelled table form, emitted by the custom-pleading verifiers:
+    //   tx_exp_dismissed  3 components  7 pages  sha256=<64 hex>
+    const labelled = line.match(
+      /^\s+(\S+)\s+\d+\s+components?\s+(\d+)\s+pages?\s+sha256=([0-9a-f]{64})$/
+    );
+    const match = colon ?? table ?? labelled;
     if (!match) {
       const malformedColon =
         /^-\s+\S+:\s+\S+\s+pages?\s+\S+\s*$/.test(line);
       const malformedTable =
         /^\s+\S+\s+(?:\S+c\s+)?\S+p\s+\S+\s*$/.test(line);
-      if (malformedColon || malformedTable) {
+      const malformedLabelled =
+        /^\s+\S+\s+\S+\s+components?\s+\S+\s+pages?\s+sha256=\S*$/.test(line);
+      if (malformedColon || malformedTable || malformedLabelled) {
         fail(`Malformed packet result emitted by the verifier: ${line.trim()}`);
       }
       continue;

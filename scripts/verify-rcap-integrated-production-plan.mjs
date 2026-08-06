@@ -2165,7 +2165,7 @@ assert.equal(
   factoryPlan.trackReconciliation.representedExactlyOnce,
   normalizedTrackCount
 );
-assert.equal(factoryPlan.trackReconciliation.implementationComplete, 100);
+assert.equal(factoryPlan.trackReconciliation.implementationComplete, 119);
 assert.equal(
   factoryPlan.trackReconciliation.pendingProductionJob,
   normalizedTrackCount -
@@ -2780,8 +2780,8 @@ assert.deepEqual(
 );
 assert.equal(status.totals.tracks, normalizedTrackCount);
 assert.equal(status.totals.normalized, normalizedTrackCount);
-assert.equal(status.totals.implementationComplete, 50);
-assert.equal(status.totals.technicalProofPassed, 50);
+assert.equal(status.totals.implementationComplete, 69);
+assert.equal(status.totals.technicalProofPassed, 69);
 assert.equal(status.totals.visualProofPassed, 17);
 assert.equal(status.totals.legalRecommendationComplete, 19);
 assert.equal(status.totals.counselAdopted, 15);
