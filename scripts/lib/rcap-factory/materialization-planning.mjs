@@ -30,8 +30,25 @@ const CO_SOURCE_REQUIREMENTS_PATH =
 const CANONICAL_JOBS_ROOT = "planning/record-clearing-100-percent/jobs";
 const SHA256_PATTERN = /^[0-9a-f]{64}$/u;
 const SAFE_IDENTITY_FRAGMENT = /[^a-z0-9]+/gu;
+const SOURCE_ACQUISITION_DECISION_DIR =
+  "data/record-clearing/production-factory/source-acquisition";
+/**
+ * Row dispositions that establish an exact document identity.
+ *
+ * Everything else a completed decision can say — a revision it could not
+ * confirm, a half-retained set, a document already retained under another
+ * identity, a form retired into its parent — leaves the identity unresolved on
+ * purpose. A completed job is not the same as a positive finding, and a
+ * terminal negative must never be promoted into an assignment.
+ */
+const EXACT_IDENTITY_DECISIONS = new Set([
+  "acquired_by_automated_official_download_block_did_not_reproduce",
+  "acquired_public_official_download",
+  "retained_asset_identity_reconciled"
+]);
 const OFFICIAL_PDF_DISPOSITIONS = new Set([
   "exact_worker_assignable",
+  "identity_resolved_materialization_required",
   "unresolved_identity",
   "deliberately_excluded_commercial_license",
   "source_gated_identity",
@@ -39,6 +56,59 @@ const OFFICIAL_PDF_DISPOSITIONS = new Set([
   "role_mismatch",
   "legal_design_or_technical_policy_blocked"
 ]);
+
+/**
+ * Completed source-acquisition decisions, indexed by the component bindings
+ * they resolve.
+ *
+ * Component ids are the reliable join: a decision row may name its document
+ * under `documentId`, under `componentBoundFormId`, or not at all, but every
+ * row records the components it settles.
+ */
+function readCompletedSourceDecisions(rootDir) {
+  const byComponentId = new Map();
+  const directory = path.join(rootDir, SOURCE_ACQUISITION_DECISION_DIR);
+  if (!fs.existsSync(directory)) return byComponentId;
+  const files = fs
+    .readdirSync(directory)
+    .filter((name) => name.endsWith(".json"))
+    .sort();
+  for (const name of files) {
+    const decision = JSON.parse(
+      fs.readFileSync(path.join(directory, name), "utf8")
+    );
+    const rows = [
+      ...(decision.reconciliations ?? []),
+      ...(decision.acquisitions ?? [])
+    ];
+    for (const row of rows) {
+      const exact = EXACT_IDENTITY_DECISIONS.has(row.disposition);
+      const componentIds = [
+        ...(row.componentIds ?? []),
+        ...(row.sharedFormBinding?.componentIds ?? [])
+      ];
+      for (const componentId of componentIds) {
+        // First decision to claim a component wins, and files are read in a
+        // stable order, so this stays deterministic.
+        if (byComponentId.has(componentId)) continue;
+        byComponentId.set(componentId, {
+          decisionJobId: decision.jobId,
+          decisionFile: `${SOURCE_ACQUISITION_DECISION_DIR}/${name}`,
+          rowDisposition: row.disposition ?? null,
+          documentId:
+            row.documentId ?? row.componentBoundFormId ?? null,
+          exactIdentityEstablished: exact,
+          sha256: typeof row.sha256 === "string" ? row.sha256 : (row.retainedArtifact?.recordedSha256 ?? null),
+          sizeBytes: row.sizeBytes ?? row.retainedArtifact?.sizeBytes ?? null,
+          pageCount: row.pageCount ?? row.retainedArtifact?.pageCount ?? null,
+          resolvedRevision: row.resolvedRevision ?? row.currentRevision ?? null,
+          officialUrl: row.retrievedFromUrl ?? row.directOfficialUrl ?? null
+        });
+      }
+    }
+  }
+  return byComponentId;
+}
 
 export function buildLegalReviewMaterializationContract(rootDir) {
   const input = readJson(rootDir, NORMALIZATION_INPUT_PATH);
@@ -214,6 +284,7 @@ export function buildOfficialPdfSourceProjection(rootDir) {
   const normalizationInput = readJson(rootDir, NORMALIZATION_INPUT_PATH);
   const ksExclusion = readJson(rootDir, KS_COMMERCIAL_EXCLUSION_PATH);
   const coRequirements = readJson(rootDir, CO_SOURCE_REQUIREMENTS_PATH);
+  const decisionsByComponent = readCompletedSourceDecisions(rootDir);
   const excludedKansasIds = new Set(
     (ksExclusion.excludedDocuments ?? []).map((entry) => entry.documentId)
   );
@@ -248,7 +319,8 @@ export function buildOfficialPdfSourceProjection(rootDir) {
         jurisdiction,
         document,
         excludedKansasIds,
-        coRoleConflictIds
+        coRoleConflictIds,
+        decisionsByComponent
       });
       const requirement = document.exactSourceRequirement;
       const authorityAsset =
@@ -414,11 +486,28 @@ export function buildOfficialPdfSourceProjection(rootDir) {
           .length
       ])
   );
-  const queueTotals = reconciliation.queueCoverage?.totals ?? {};
+  // Reconcile to the queue this projection just consumed, not to the
+  // reconciliation record's cached copy of the queue's own totals. The
+  // reconciliation record is downstream of this projection — it asserts that
+  // every queue identity is dispositioned here — so reading its cached totals
+  // made the two mutually dependent and left both pinned to whichever queue was
+  // current when the record was last written.
+  const queueDocumentIdentities = (queue.families ?? []).reduce(
+    (total, family) => total + (family.documents ?? []).length,
+    0
+  );
+  const queueExactSourceRequirements = (queue.families ?? []).reduce(
+    (total, family) =>
+      total +
+      (family.documents ?? []).filter(
+        (document) => document.exactSourceRequirement
+      ).length,
+    0
+  );
   if (
-    identities.length !== queueTotals.documentIdentities ||
+    identities.length !== queueDocumentIdentities ||
     identities.filter((identity) => identity.exactSourceContract).length !==
-      queueTotals.exactSourceRequirements
+      queueExactSourceRequirements
   ) {
     throw new Error(
       "Official-PDF projection does not reconcile to the integrated production queue."
@@ -768,7 +857,8 @@ function officialPdfDisposition({
   jurisdiction,
   document,
   excludedKansasIds,
-  coRoleConflictIds
+  coRoleConflictIds,
+  decisionsByComponent
 }) {
   if (
     jurisdiction === "KS" &&
@@ -821,6 +911,25 @@ function officialPdfDisposition({
     ].includes(document.rendererLaneCandidate)
   ) {
     return "exact_worker_assignable";
+  }
+  // A completed acquisition decision that established this document's exact
+  // identity. It reaches here only when the adopted edition manifests no asset
+  // for it, so there is no canonical authority path and therefore no portable
+  // source contract to assign — the identity is settled, the bytes are not
+  // reachable through the materialization contract. Recording that distinctly
+  // keeps a resolved document from reading as though nobody had looked at it,
+  // without pretending a worker could be handed it.
+  //
+  // Reached only after every terminal negative above, so an exclusion, a local
+  // scope, a role mismatch, a policy block or a source gate still wins.
+  if (
+    (document.usageBindings ?? []).some(
+      (binding) =>
+        decisionsByComponent?.get(binding.componentId)
+          ?.exactIdentityEstablished === true
+    )
+  ) {
+    return "identity_resolved_materialization_required";
   }
   return "unresolved_identity";
 }

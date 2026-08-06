@@ -32,6 +32,11 @@ const counts = projection.coverage.countsByDisposition;
 const dispositionNames = [
   "deliberately_excluded_commercial_license",
   "exact_worker_assignable",
+  // A completed acquisition decision settled the document's identity, but the
+  // adopted edition manifests no asset for it, so there is no portable source
+  // contract to assign. Distinct from unresolved_identity, which means nobody
+  // has established what the document is.
+  "identity_resolved_materialization_required",
   "legal_design_or_technical_policy_blocked",
   "local_scope_identity",
   "role_mismatch",

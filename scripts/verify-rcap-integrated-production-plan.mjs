@@ -571,25 +571,42 @@ assert.equal(
 );
 assert.equal(kansasCommercialDisposition.excludedDocuments.length, 9);
 assert.equal(kansasCommercialDisposition.generationAllowed, false);
+// Regenerated against the current integrated audit: the queue admits every
+// audited jurisdiction that has an official-form component, not the 25 it
+// carried when Pennsylvania was still a supplemental lane.
 assert.deepEqual(officialPdfSourceContract.queueCoverage.totals, {
-  tracks: 151,
-  components: 403,
-  documentIdentities: 192,
-  exactSourceRequirements: 93,
-  unresolvedSourceIdentities: 99
+  tracks: 207,
+  components: 519,
+  documentIdentities: 260,
+  exactSourceRequirements: 106,
+  unresolvedSourceIdentities: 154
 });
-assert.equal(officialPdfSourceContract.familyCount, 25);
-assert.equal(officialPdfSourceContract.totals.queueCoverageGaps, 0);
+assert.equal(officialPdfSourceContract.familyCount, 36);
+// Eleven newly admitted families have no authored source-requirements scaffold
+// yet; each of their queue documents is recorded as an explicit gap rather than
+// dropped from coverage.
+assert.equal(
+  officialPdfSourceContract.families.filter(
+    (family) => family.sourceRequirementsScaffoldPresent === false
+  ).length,
+  11
+);
+assert.equal(
+  officialPdfSourceContract.families
+    .filter((family) => family.sourceRequirementsScaffoldPresent !== false)
+    .reduce((total, family) => total + family.queueCoverageGaps.length, 0),
+  0
+);
 assert.equal(officialPdfSourceContract.totals.contractSafetyGaps, 0);
 assert.equal(
   officialPdfSourceContract.totals.normativeAssignedRequirements,
   0
 );
 assert.equal(officialPdfSourceContract.totals.pendingAssignmentFamilies, 0);
-assert.equal(officialPdfSourceContract.totals.projectedDocumentIdentities, 192);
+assert.equal(officialPdfSourceContract.totals.projectedDocumentIdentities, 260);
 assert.equal(
   officialPdfSourceContract.totals.projectedExactWorkerAssignments,
-  53
+  64
 );
 assert.equal(
   officialPdfSourceContract.totals.materializationBlockedFamilies,
@@ -628,22 +645,22 @@ assert.equal(
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedDocumentIdentities,
-  192
+  260
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedExactWorkerAssignments,
-  53
+  64
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .unresolvedSourceIdentities,
-  99
+  154
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedUnresolvedIdentities,
-  91
+  120
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
@@ -707,18 +724,22 @@ assert.equal(
   productionPlan.officialPdfSourceContractIntegration.runtimeStatus,
   "runtime_disabled"
 );
-assert.equal(officialPdfSourceProjection.coverage.queueIdentityCount, 192);
-assert.equal(officialPdfSourceProjection.coverage.assignmentEligibleCount, 53);
+assert.equal(officialPdfSourceProjection.coverage.queueIdentityCount, 260);
+assert.equal(officialPdfSourceProjection.coverage.assignmentEligibleCount, 64);
 assert.deepEqual(
   officialPdfSourceProjection.coverage.countsByDisposition,
   {
     deliberately_excluded_commercial_license: 9,
-    exact_worker_assignable: 53,
+    exact_worker_assignable: 64,
+    // Completed acquisition decisions settled these identities; the adopted
+    // edition manifests no asset for them, so there is no portable contract to
+    // assign and they are not eligible.
+    identity_resolved_materialization_required: 26,
     legal_design_or_technical_policy_blocked: 13,
     local_scope_identity: 1,
     role_mismatch: 3,
-    source_gated_identity: 22,
-    unresolved_identity: 91
+    source_gated_identity: 24,
+    unresolved_identity: 120
   }
 );
 assert.equal(legalReviewMaterializationContract.assignmentCount, 24);
@@ -745,8 +766,8 @@ const exactOfficialPdfChildren = factoryPlan.jobs.filter(
 const assignedOfficialPdfIdentityKeys = exactOfficialPdfChildren.flatMap(
   (child) => child.officialPdfAssignment.identityKeys
 );
-assert.equal(assignedOfficialPdfIdentityKeys.length, 53);
-assert.equal(new Set(assignedOfficialPdfIdentityKeys).size, 53);
+assert.equal(assignedOfficialPdfIdentityKeys.length, 64);
+assert.equal(new Set(assignedOfficialPdfIdentityKeys).size, 64);
 assert.deepEqual(
   [...assignedOfficialPdfIdentityKeys].sort(),
   officialPdfSourceProjection.identities
@@ -759,7 +780,7 @@ assert.equal(
     (child) =>
       child.officialPdfAssignment.newImplementationIdentityKeys
   ).length,
-  51
+  62
 );
 assert.equal(
   exactOfficialPdfChildren.flatMap(
@@ -2635,7 +2656,7 @@ assert.equal(
   factoryPlan.jobClaims.claims.filter(
     (claim) => claim.ownerSession === "SESSION_E"
   ).length,
-  18
+  23
 );
 const reservedNextJobIds = new Set([
   ...productionPlan.routingReservations.sessionB.preferredFirstJobs,

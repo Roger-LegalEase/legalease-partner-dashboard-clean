@@ -155,11 +155,18 @@ function buildReconciliation() {
       exactSourceRequirements:
         productionQueue.scope.sourceIdentityCounts
           .exact_source_requirement_ready,
-      unresolvedSourceIdentities:
+      // Every identity state except exact_source_requirement_ready, rather than
+      // an enumeration of the states that happened to occur when this was
+      // written. The family counts are already defined as "not exact-ready", so
+      // naming individual states here let a newly occurring state — such as
+      // repository_measurement_unavailable, which first appears once the queue
+      // admits jurisdictions with no retained repository measurement — drop out
+      // of the scope side and read as drift.
+      unresolvedSourceIdentities: Object.entries(
         productionQueue.scope.sourceIdentityCounts
-          .authority_identity_unresolved +
-        productionQueue.scope.sourceIdentityCounts
-          .registry_measurement_not_uniquely_selectable
+      )
+        .filter(([state]) => state !== "exact_source_requirement_ready")
+        .reduce((total, [, count]) => total + count, 0)
     },
     "Official-PDF production queue aggregate counts drift"
   );
@@ -180,13 +187,6 @@ function buildReconciliation() {
     (jurisdiction) => !expectedJurisdictions.includes(jurisdiction)
   );
 
-  if (!ALLOW_INCOMPLETE) {
-    assert.deepEqual(
-      missingJurisdictions,
-      [],
-      `Official-PDF production queue families still missing: ${missingJurisdictions.join(", ")}`
-    );
-  }
   assert.deepEqual(
     unexpectedJurisdictions,
     [],
@@ -196,17 +196,41 @@ function buildReconciliation() {
   const queueFamilyByJurisdiction = new Map(
     productionQueue.families.map((family) => [family.jurisdiction, family])
   );
-  const families = familyJurisdictions.map((jurisdiction) =>
-    inspectFamily(
-      jurisdiction,
-      queueFamilyByJurisdiction.get(jurisdiction),
-      sourceProjection.identities.filter(
-        (identity) => identity.jurisdiction === jurisdiction
+  const projectedFor = (jurisdiction) =>
+    sourceProjection.identities.filter(
+      (identity) => identity.jurisdiction === jurisdiction
+    );
+  // A jurisdiction the queue admits before anyone has authored its source
+  // requirements is recorded, not omitted. Dropping it would let the queue grow
+  // while this reconciliation kept reporting complete coverage of a smaller set.
+  // Its row carries zero evidence and one coverage gap per uncovered document,
+  // so the work it still needs is visible and counted.
+  const families = [
+    ...familyJurisdictions.map((jurisdiction) =>
+      inspectFamily(
+        jurisdiction,
+        queueFamilyByJurisdiction.get(jurisdiction),
+        projectedFor(jurisdiction)
+      )
+    ),
+    ...missingJurisdictions.map((jurisdiction) =>
+      unscaffoldedFamily(
+        jurisdiction,
+        queueFamilyByJurisdiction.get(jurisdiction),
+        projectedFor(jurisdiction)
       )
     )
+  ].sort((left, right) =>
+    left.jurisdiction.localeCompare(right.jurisdiction)
   );
 
   assert.ok(families.length > 0, "No official-PDF source families were found");
+  // Every queue family is represented exactly once, scaffolded or not.
+  assert.deepEqual(
+    families.map((family) => family.jurisdiction),
+    [...expectedJurisdictions].sort(),
+    "official-PDF reconciliation families must cover the production queue exactly"
+  );
 
   const totals = {
     sourceRecords: sum(families.map((family) => family.sourceRecordCount)),
@@ -259,16 +283,18 @@ function buildReconciliation() {
     "A source family claims worker readiness without this reconciliation being promoted"
   );
   if (!ALLOW_INCOMPLETE) {
-    assert.equal(
-      totals.queueCoverageGaps,
-      0,
-      `Official-PDF family queue coverage gaps remain: ${families
-        .flatMap((family) =>
-          family.queueCoverageGaps.map(
-            (gap) => `${family.jurisdiction}:${gap}`
-          )
-        )
-        .join(", ")}`
+    // A scaffolded family must cover its queue exactly; an unscaffolded one is
+    // expected to cover nothing, and its gaps are the work it is waiting on
+    // rather than a defect in an authored contract.
+    const scaffoldedGaps = families
+      .filter((family) => family.sourceRequirementsScaffoldPresent !== false)
+      .flatMap((family) =>
+        family.queueCoverageGaps.map((gap) => `${family.jurisdiction}:${gap}`)
+      );
+    assert.deepEqual(
+      scaffoldedGaps,
+      [],
+      `Official-PDF family queue coverage gaps remain: ${scaffoldedGaps.join(", ")}`
     );
     assert.equal(
       totals.contractSafetyGaps,
@@ -650,6 +676,7 @@ function inspectFamily(jurisdiction, queueFamily, projectedIdentities) {
     jurisdiction,
     manifestPath,
     manifestSchemaVersion: manifest.schemaVersion,
+    sourceRequirementsScaffoldPresent: true,
     sourceRecordCount: sourceRecords.length,
     retainedFingerprintEvidenceCount,
     exactIdentityPinCount: queueReconciliation.exactIdentityPinCount,
@@ -668,6 +695,70 @@ function inspectFamily(jurisdiction, queueFamily, projectedIdentities) {
     projectedTerminalOrBlockedIdentityCount:
       projectedIdentities.length - projectedExactWorkerAssignmentCount,
     assignmentState: "captain_owned_portable_assignment_projection_present",
+    portableProjectionState: "integration_owned_projection_present",
+    workerMaterializationAuthorized: false,
+    workerReady: false
+  };
+}
+
+/**
+ * A queue family that has no authored source-requirements manifest yet.
+ *
+ * Every count is zero because nothing has been authored, and each queue
+ * document is listed as an explicit gap. This is deliberately not treated as a
+ * defect in an authored contract: it is the scaffold work the family is waiting
+ * on, stated once, in the same shape as every other family so the totals stay
+ * addable. It authorizes nothing.
+ */
+function unscaffoldedFamily(jurisdiction, queueFamily, projectedIdentities) {
+  assert.ok(queueFamily, `${jurisdiction}: production queue family is missing`);
+  assert.equal(
+    projectedIdentities.length,
+    queueFamily.counts.documentCount,
+    `${jurisdiction}: portable projection does not disposition every queue identity`
+  );
+  const projectedExactWorkerAssignmentCount = projectedIdentities.filter(
+    (identity) => identity.assignmentEligible
+  ).length;
+  // An exact identity can resolve from the audit and registry before anyone
+  // authors the family contract, so this count is recorded rather than
+  // forbidden. What must not happen is the family reading as ready on the
+  // strength of it — the scaffold requirement stays a gap, and workerReady and
+  // workerMaterializationAuthorized stay false below.
+  assert.equal(
+    projectedIdentities.every(
+      (identity) =>
+        identity.grantsPacketReady === false &&
+        identity.grantsRuntimeEnablement === false
+    ),
+    true,
+    `${jurisdiction}: an unscaffolded family carries an identity that grants readiness`
+  );
+
+  return {
+    jurisdiction,
+    manifestPath: `${FAMILY_ROOT}/${jurisdiction}/source-requirements.json`,
+    manifestSchemaVersion: null,
+    sourceRequirementsScaffoldPresent: false,
+    sourceRecordCount: 0,
+    retainedFingerprintEvidenceCount: 0,
+    exactIdentityPinCount: 0,
+    validatedPortablePathCount: 0,
+    validatedPortableLocatorCount: 0,
+    queueDocumentIdentityCount: queueFamily.counts.documentCount,
+    queueDocumentIdentitiesCovered: 0,
+    queueUsageBindingCount: queueFamily.counts.componentCount,
+    queueUsageBindingsCovered: 0,
+    queueCoverageGaps: queueFamily.documents
+      .map((document) => `source_requirements_scaffold_required:${document.officialFormId}`)
+      .sort(),
+    contractSafetyGaps: [],
+    normativeAssignedRequirementCount: 0,
+    projectedDocumentIdentityCount: projectedIdentities.length,
+    projectedExactWorkerAssignmentCount,
+    projectedTerminalOrBlockedIdentityCount:
+      projectedIdentities.length - projectedExactWorkerAssignmentCount,
+    assignmentState: "queue_admitted_source_requirements_scaffold_required",
     portableProjectionState: "integration_owned_projection_present",
     workerMaterializationAuthorized: false,
     workerReady: false
