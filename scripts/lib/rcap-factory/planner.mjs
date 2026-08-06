@@ -2149,7 +2149,7 @@ export function buildFactoryPlan(options = {}) {
       !isGeorgiaJailGuidanceSpecificationTrack(track) &&
       !isDcCustomPleadingStopTrack(track)
   );
-  const classifications = classifyOfficialPdfTracks(inputs, pendingTracks);
+  const classifications = classifyOfficialPdfTracks(inputs, pendingTracks, rootDir);
 
   addTrackLaneJobs({
     lane: "custom_pleading",
@@ -4209,7 +4209,7 @@ function isCanonicalNonImplementationTrack(track, canonicalParentRecords) {
   );
 }
 
-function classifyOfficialPdfTracks(inputs, tracks) {
+function classifyOfficialPdfTracks(inputs, tracks, rootDir) {
   const relationshipsByTrack = groupBy(
     inputs.sourceRelationships.relationships ?? [],
     (relationship) => `${relationship.jurisdiction}:${relationship.trackId}`
@@ -4223,6 +4223,51 @@ function classifyOfficialPdfTracks(inputs, tracks) {
     ),
     (artifact) => artifact.jurisdiction
   );
+  // Canonical source hierarchy for lane classification.
+  //
+  // A verified materialization receipt is the strongest evidence there is: its
+  // structure was measured on the exact byte the worker will read. It therefore
+  // outranks the private repository corpus, which is only an inventory of what
+  // happens to sit in this checkout — a document retained solely in the adopted
+  // authority archive has no corpus row at all, and letting that absence decide
+  // the lane is what stranded New Jersey's CN-10557 and New York's CPL 160.59
+  // packet with no owner despite both being exact, assignable identities.
+  //
+  // No inference from filename, folder or a similarly named private file. Where
+  // neither a receipt nor a recorded technical class exists, the track stays
+  // unclassified and the identity remains materialization-required rather than
+  // being guessed into a lane.
+  const receiptClassByTrack = new Map();
+  const receiptDir = path.join(
+    rootDir ?? process.cwd(),
+    "data/record-clearing/production-factory/source-materialization-receipts"
+  );
+  if (fs.existsSync(receiptDir)) {
+    for (const name of fs.readdirSync(receiptDir).sort()) {
+      if (!name.endsWith(".json")) continue;
+      const receipt = JSON.parse(
+        fs.readFileSync(path.join(receiptDir, name), "utf8")
+      );
+      const structuralClass = receipt.sourceStructure?.structuralClass;
+      if (
+        receipt.workerReady !== true ||
+        receipt.hashAndMediaVerified !== true ||
+        !["clean_acroform", "dirty_acroform", "flat_pdf", "scanned_pdf"].includes(
+          structuralClass
+        )
+      ) {
+        continue;
+      }
+      for (const binding of receipt.usageBindings ?? []) {
+        if (!binding.trackId) continue;
+        const key = `${receipt.jurisdiction}:${binding.trackId}`;
+        const classes = receiptClassByTrack.get(key) ?? new Set();
+        classes.add(structuralClass);
+        receiptClassByTrack.set(key, classes);
+      }
+    }
+  }
+
   const acroform = [];
   const overlay = [];
   const unclassified = [];
@@ -4230,9 +4275,10 @@ function classifyOfficialPdfTracks(inputs, tracks) {
   for (const track of tracks.filter(
     (entry) => entry.outputStrategy === "official_pdf_fill" && !isComposedTrack(entry)
   )) {
-    const relationships = relationshipsByTrack.get(`${track.jurisdiction}:${track.trackId}`) ?? [];
+    const trackKey = `${track.jurisdiction}:${track.trackId}`;
+    const relationships = relationshipsByTrack.get(trackKey) ?? [];
     const artifacts = artifactsByState.get(track.jurisdiction) ?? [];
-    const classes = new Set();
+    const classes = new Set(receiptClassByTrack.get(trackKey) ?? []);
     for (const relationship of relationships) {
       for (const artifact of artifacts) {
         if (relationshipMatchesArtifact(relationship, artifact)) {
@@ -4257,10 +4303,22 @@ function classifyOfficialPdfTracks(inputs, tracks) {
     }
   }
 
+  // Deduplicate defensively: a track reaching a lane twice would compile a
+  // second implementation job under the same id.
+  const dedupe = (list) => {
+    const seen = new Set();
+    return list.filter((track) => {
+      const key = `${track.jurisdiction}:${track.trackId}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  };
+
   return {
-    acroform: acroform.sort(compareTracks),
-    overlay: overlay.sort(compareTracks),
-    unclassified: unclassified.sort(compareTracks)
+    acroform: dedupe(acroform).sort(compareTracks),
+    overlay: dedupe(overlay).sort(compareTracks),
+    unclassified: dedupe(unclassified).sort(compareTracks)
   };
 }
 

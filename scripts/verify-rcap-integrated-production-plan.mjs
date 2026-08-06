@@ -2681,7 +2681,7 @@ assert.equal(
   factoryPlan.jobClaims.claims.filter(
     (claim) => claim.ownerSession === "SESSION_E"
   ).length,
-  26
+  27
 );
 const reservedNextJobIds = new Set([
   ...productionPlan.routingReservations.sessionB.preferredFirstJobs,

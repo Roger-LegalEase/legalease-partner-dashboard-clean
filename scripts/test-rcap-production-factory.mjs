@@ -806,7 +806,7 @@ await check("packet, source-materialization, and normalization readiness fail cl
   assert.ok(officialJobs.length > 0);
   // Regenerating the queue against the current integrated audit admitted eleven
   // more jurisdictions, so more jobs now carry exact identities.
-  assert.equal(officialJobs.length, 26);
+  assert.equal(officialJobs.length, 27);
   assert.equal(
     officialJobs.reduce(
       (total, job) =>
