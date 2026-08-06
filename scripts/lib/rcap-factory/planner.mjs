@@ -1876,6 +1876,8 @@ export function buildFactoryPlan(options = {}) {
   });
 
   addCompletedMarylandChild({ addJob });
+  addMarylandLegacyEvidenceMigrationJob({ addJob });
+  addOfficialPdfQueueRegenerationJob({ addJob });
   addCompletedGeorgiaChild({ addJob });
   addCompletedDcCustomPleadingChild({ addJob });
   addCompletedIllinoisCustomPleadingChild({ addJob });
@@ -3096,7 +3098,7 @@ function addCompletedIllinoisCustomPleadingChild({ addJob }) {
 }
 
 function addCompletedMarylandChild({ addJob }) {
-  addJob({
+  const job = addJob({
     lane: "acroform_fill",
     jurisdiction: "MD",
     jobId: "rcap-md-second-chance-shielding-completed",
@@ -3153,6 +3155,152 @@ function addCompletedMarylandChild({ addJob }) {
       "Do not scaffold, execute, regenerate, alter, or promote this Maryland engineering. Preserve its " +
       "technical, visual, final-PDF, and legal-recommendation proof while counsel adoption, staging, " +
       "and production remain outstanding."
+  });
+  // Maryland's engineering was completed under the implementation-tranche model,
+  // before official-PDF jobs carried an assignment, exact identity keys, a
+  // current proof and a review manifest. The historical completion is real and
+  // is not erased — but it is not the same thing as a job that is complete under
+  // the current factory evidence chain, and counting it as one overstates how
+  // many official-PDF implementations that chain has actually produced.
+  job.legacyCompletion = {
+    schemaVersion: "rcap-legacy-official-pdf-completion/v1",
+    evidenceModel: "implementation_tranche_2",
+    state: "legacy_completion_evidence_migration_required",
+    currentFactoryEvidenceChainComplete: false,
+    missingCurrentEvidence: [
+      "official_pdf_assignment",
+      "exact_identity_keys",
+      "current_official_pdf_proof",
+      "current_review_manifest"
+    ],
+    preservedHistoricalEvidence: [
+      "data/record-clearing/implementation-tranches/tranche-2.json",
+      "data/record-clearing/implementation-tranches/tranche-2-review-manifest.json",
+      "data/record-clearing/implementation-tranches/tranche-2-visual-review.json",
+      "data/record-clearing/implementation-tranches/tranche-2-legal-output-recommendation.json"
+    ],
+    migrationJobId: "rcap-md-legacy-official-pdf-evidence-migration",
+    packetReimplementationRequired: false
+  };
+  return job;
+}
+
+/**
+ * Captain-owned regeneration of the nationwide official-PDF queue and its
+ * portable source projection.
+ *
+ * Nothing owned these outputs. They were generated once, by hand, and then went
+ * stale for two days while the integrated audit moved underneath them — which is
+ * exactly how a queue ends up asserting that Pennsylvania cannot be in the audit
+ * it is built from. Giving them an owner makes regeneration a rerunnable step
+ * after every authority wave rather than a rediscovery.
+ *
+ * The job owns derived records only. It acquires nothing, normalizes nothing,
+ * implements no renderer, and holds no source binary.
+ */
+function addOfficialPdfQueueRegenerationJob({ addJob }) {
+  return addJob({
+    lane: "platform_foundation",
+    jurisdiction: "NATIONWIDE",
+    jobId: "rcap-nationwide-official-pdf-queue-projection-regeneration",
+    strategyFamily: "official_pdf_queue_projection_regeneration",
+    executionScope: "captain",
+    status: "completed",
+    model: "opus",
+    effort: "xhigh",
+    participantPacketProofRequired: false,
+    expectedOutputs: [
+      `${FACTORY_DATA_DIR}/official-pdf-production-queue.json`,
+      `${FACTORY_DATA_DIR}/official-pdf-source-assignment-projection.json`,
+      `${FACTORY_DATA_DIR}/official-pdf-source-contract-reconciliation.json`
+    ],
+    ownedPaths: [
+      `${FACTORY_DATA_DIR}/official-pdf-production-queue.json`,
+      `${FACTORY_DATA_DIR}/official-pdf-source-assignment-projection.json`,
+      `${FACTORY_DATA_DIR}/official-pdf-source-contract-reconciliation.json`
+    ],
+    // These three stay forbidden to every worker; the exemption is exactly the
+    // point of a captain-owned regeneration job, and it is scoped to the three
+    // records this job owns.
+    forbiddenPaths: GLOBAL_WORKER_FORBIDDEN_PATHS.filter(
+      (candidate) =>
+        ![
+          `${FACTORY_DATA_DIR}/official-pdf-production-queue.json`,
+          `${FACTORY_DATA_DIR}/official-pdf-source-assignment-projection.json`,
+          `${FACTORY_DATA_DIR}/official-pdf-source-contract-reconciliation.json`
+        ].includes(candidate)
+    ),
+    requiredInputs: [
+      FACTORY_INPUT_PATHS.trackSourceAudit,
+      FACTORY_INPUT_PATHS.repositoryAssetAudit,
+      FACTORY_INPUT_PATHS.sourceArtifacts,
+      FACTORY_INPUT_PATHS.sourceRelationships,
+      FACTORY_INPUT_PATHS.authority,
+      FACTORY_INPUT_PATHS.normalizationReadiness
+    ],
+    focusedValidation: [
+      "node scripts/generate-rcap-official-pdf-production-queue.mjs",
+      "node scripts/verify-rcap-official-pdf-production-queue.mjs",
+      "node scripts/verify-rcap-official-pdf-source-contract-reconciliation.mjs",
+      "node scripts/verify-rcap-materialization-planning.mjs"
+    ],
+    commitSubject:
+      "chore(record-clearing): regenerate the official-PDF queue and projection",
+    stopCondition:
+      "Regenerate the nationwide official-PDF production queue, its source-contract " +
+      "reconciliation and the portable source-assignment projection from the current " +
+      "integrated track-source audit, the completed source-acquisition decisions and the " +
+      "current authority and exclusion records. Fail closed when an upstream record is " +
+      "internally inconsistent. Do not acquire, download or commit a source binary, do not " +
+      "normalize legal design, do not implement a renderer, do not promote a blocked identity, " +
+      "and do not enable runtime, promote, or deploy. " +
+      TERMINAL_INSTRUCTION
+  });
+}
+
+/**
+ * Migrates Maryland's tranche-era completion evidence into the current
+ * official-PDF schema. The packet is not reimplemented — the engineering is
+ * done and its historical proof is preserved; what is missing is the modern
+ * assignment, identity keys, proof and review manifest that make a completion
+ * legible to the current factory.
+ */
+function addMarylandLegacyEvidenceMigrationJob({ addJob }) {
+  return addJob({
+    lane: "platform_foundation",
+    jurisdiction: "MD",
+    jobId: "rcap-md-legacy-official-pdf-evidence-migration",
+    strategyFamily: "legacy_completion_evidence_migration",
+    executionScope: "captain",
+    status: "blocked",
+    dependencies: ["rcap-md-second-chance-shielding-completed"],
+    model: "opus",
+    effort: "high",
+    participantPacketProofRequired: false,
+    expectedOutputs: [
+      `${FACTORY_DATA_DIR}/legal-design-decisions/md-legacy-official-pdf-evidence-migration.json`
+    ],
+    ownedPaths: [
+      `${FACTORY_DATA_DIR}/legal-design-decisions/md-legacy-official-pdf-evidence-migration.json`
+    ],
+    requiredInputs: [
+      "data/record-clearing/implementation-tranches/tranche-2.json",
+      "data/record-clearing/implementation-tranches/tranche-2-review-manifest.json",
+      `${FACTORY_DATA_DIR}/official-pdf-source-assignment-projection.json`,
+      FACTORY_INPUT_PATHS.sourceArtifacts
+    ],
+    focusedValidation: [
+      "node scripts/rcap-factory-plan.mjs --check-job rcap-md-legacy-official-pdf-evidence-migration"
+    ],
+    commitSubject:
+      "chore(record-clearing): migrate Maryland legacy official-PDF evidence",
+    stopCondition:
+      "Reconcile CC-DC-CR-148 and MDJ-008 to receipt-backed portable source paths and current " +
+      "source hashes, and produce the modern proof, review manifest and completion provenance " +
+      "the current official-PDF evidence chain requires. Preserve the historical tranche-2 " +
+      "record unchanged, do not reimplement the packet, do not rerun Maryland legal design, do " +
+      "not copy a source PDF into Git, and do not enable runtime, promote, or deploy. " +
+      TERMINAL_INSTRUCTION
   });
 }
 
@@ -4160,6 +4308,44 @@ function applyOfficialPdfAssignments({
       continue;
     }
     job.status = ready ? "ready" : "blocked";
+  }
+
+  // A route whose components are entirely custom pleading or process guidance
+  // has no official-form component anywhere in the audited queue, so it can
+  // never acquire an exact identity and would sit blocked in the official-PDF
+  // lane forever, reading as outstanding PDF work that does not exist. Those
+  // are marked not applicable to this lane rather than left as permanent
+  // blockers. A genuine official-PDF job missing an identity is untouched: it
+  // has queue components, and it stays blocked on them.
+  // The projection dispositions every queue document, so the tracks it names
+  // are exactly the tracks the audited queue carries an official-form component
+  // for — whatever that component's disposition turned out to be.
+  const queueComponentTracks = new Set(
+    (inputs.officialPdfSourceProjection?.identities ?? []).flatMap((identity) =>
+      (identity.trackIds ?? []).map(
+        (trackId) => `${identity.jurisdiction}:${trackId}`
+      )
+    )
+  );
+  for (const job of sourceJobs) {
+    if ((job.officialPdfAssignment?.identityKeys?.length ?? 0) > 0) continue;
+    if (job.status === "completed" || job.status === "cancelled") continue;
+    const hasQueueComponent = (job.trackIds ?? []).some((trackId) =>
+      queueComponentTracks.has(`${job.jurisdiction}:${trackId}`)
+    );
+    if (hasQueueComponent) continue;
+    job.status = "cancelled";
+    job.officialPdfAssignment = {
+      ...(job.officialPdfAssignment ?? {}),
+      assignmentState: "not_applicable_no_official_pdf_component",
+      assignmentBlockers: []
+    };
+    job.executionNote =
+      `${job.jobId} has no official-form component in the audited production ` +
+      "queue: every component on its tracks is a custom pleading or process " +
+      "guidance. It is not applicable to official-PDF implementation and is " +
+      "carried by the custom-pleading and guidance lanes instead. The route " +
+      "itself is unaffected; only this lane's claim on it is withdrawn.";
   }
 
   const assignedIdentityCount = [...rowsByOwner.values()].reduce(
