@@ -1490,28 +1490,8 @@ await check("packet, source-materialization, and normalization readiness fail cl
   // captain-equivalent commit; the rest are still awaiting a normalization
   // worker. The ready count is derived rather than hardcoded so landing a wave
   // moves both sides of the identity together.
-  const integratedNormalizations = [
-    "KY",
-    "NC",
-    "ND",
-    "NE",
-    "NH",
-    "NJ",
-    "NM",
-    "NY",
-    "RI",
-    "SC",
-    "SD",
-    "TN",
-    "TX",
-    "UT",
-    "VA",
-    "VT",
-    "WA",
-    "WI",
-    "WV",
-    "WY"
-  ];
+  // Every remaining normalization jurisdiction is now integrated.
+  const integratedNormalizations = [...REMAINING_NORMALIZATION_JURISDICTIONS];
   assert.deepEqual(
     otherNormalizations
       .filter((entry) => entry.status === "completed")
@@ -3639,7 +3619,7 @@ await check("dashboard reports all 51 and preserves the red launch posture", () 
   assert.deepEqual(status.readinessMetrics, {
     authorityCleared: trackSourceAudit.totals.tracksCleared,
     authorityBlocked: trackSourceAudit.totals.tracksBlocked,
-    sourcePinned: 68,
+    sourcePinned: 77,
     implementationProof: 17,
     finalDisposition: 0
   });

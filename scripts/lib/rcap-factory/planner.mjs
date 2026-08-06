@@ -145,6 +145,10 @@ const TN_ROUTE_INVENTORY_DECISION_COMMIT =
   "952b83be3fe12a6e5fce29acc77a21532fce9a70";
 const TN_ROUTE_INVENTORY_DECISION_SHA256 =
   "fbaef8de7c7f621688f10bdb6d249ad189d0b05253a654342239912d12d0c357";
+const TN_ROUTE_MEMO_AMENDMENT_COMMIT =
+  "de4015744197b0daf99bd453da2167b707a02695";
+const TN_AMENDED_MEMO_SHA256 =
+  "dfd8a621910fca5ed2fb57c2fc97784dc41699a57cf46d272946b8b6a64f1f48";
 const TN_INTEGRATED_MEMO_SHA256 =
   "a1c91f3d17115d87879905066b4f2b9732e717cbcdc6b063ec83502aa54f20e8";
 const TEMPLATE_HASH_WORKER_COMMIT =
@@ -328,7 +332,14 @@ const COMPLETED_NORMALIZATIONS = Object.freeze([
     subjectMismatchResolvedByCaptainEquivalentCommit: true,
     completionCommit: "6ebf62c3a42819125f5f038a00fabf9f9d38fb9f",
     memoSha256:
-      "a1c91f3d17115d87879905066b4f2b9732e717cbcdc6b063ec83502aa54f20e8"
+      "a1c91f3d17115d87879905066b4f2b9732e717cbcdc6b063ec83502aa54f20e8",
+    // The nine-track memo this job delivered was later amended to thirteen by
+    // rcap-tn-2026-route-memo-amendment, under the adopted 2026 route-inventory
+    // decision. Both hashes are real historical states of the same file, so both
+    // are recorded and either satisfies the on-disk check.
+    amendedByJobId: "rcap-tn-2026-route-memo-amendment",
+    amendedMemoSha256:
+      "dfd8a621910fca5ed2fb57c2fc97784dc41699a57cf46d272946b8b6a64f1f48"
   },
   // Session B wave 2. These four committed under the pinned subject, so they
   // integrate through the ordinary path.
@@ -371,6 +382,44 @@ const COMPLETED_NORMALIZATIONS = Object.freeze([
     completionCommit: "31e26aa7b6de3f279a9d677c186a9ad43accc57a",
     memoSha256:
       "560d30414b2615203cbe6767b69e8f7f3e7bc100123343e86f9c728f1b3cdf3e"
+  },
+  // The final ordinary normalization wave. With these four every state and the
+  // District of Columbia carries an integrated legal-design memo.
+  {
+    jurisdiction: "OR",
+    workerCommit: "f78dc2ebae1d8bdcfcc21adb4ece0d3a24f02cc9",
+    workerBranch:
+      "rcap-factory/rcap-or-legal-design-normalization-e99e15eb-745b85a2",
+    completionCommit: "81d4faf9bdc53cc8d25737e60be35dd512c241d8",
+    memoSha256:
+      "1dc9f4fab0f1e2572f192414f0a8d1fab4cc55e76c380c430828921b01dd450a"
+  },
+  {
+    jurisdiction: "OH",
+    workerCommit: "44e73b3a0e41022d68f8b8b44deaa5cc04fbbb99",
+    workerBranch:
+      "rcap-factory/rcap-oh-legal-design-normalization-fb610857-8118b1b3",
+    completionCommit: "dae284f17b6b0c5bd31810a7f6331957a9d5db53",
+    memoSha256:
+      "ed0323da7859f0b94a9e801fbe0b896dbb1a6261c8cdf02e4a505df433300df1"
+  },
+  {
+    jurisdiction: "NV",
+    workerCommit: "e69480b1bb3072ec8fa9435ee281f70d0c22e914",
+    workerBranch:
+      "rcap-factory/rcap-nv-legal-design-normalization-972fc317-34dc8759",
+    completionCommit: "eb79b1eacdbfc45c06eae10b98a0ce62210dbe15",
+    memoSha256:
+      "711b8df32c62507f6d4d711c9077630c873771e10631e0a9e5a48caaef788cc6"
+  },
+  {
+    jurisdiction: "OK",
+    workerCommit: "25a4a8966a2f3c012c1486fc37ee218f21cdca14",
+    workerBranch:
+      "rcap-factory/rcap-ok-legal-design-normalization-52006e83-20128515",
+    completionCommit: "5ef6b00d209f3a0c48fbd994de67e380a79e3c4e",
+    memoSha256:
+      "984994b2ede275028d8d1345738e673e369872fc226016257d367349ba86de1f"
   }
 ]);
 const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
@@ -1279,11 +1328,15 @@ export function buildFactoryPlan(options = {}) {
     const absoluteMemoPath = path.join(rootDir, memoPath);
     if (
       !fs.existsSync(absoluteMemoPath) ||
-      sha256File(absoluteMemoPath) !== record.memoSha256
+      ![record.memoSha256, record.amendedMemoSha256]
+        .filter(Boolean)
+        .includes(sha256File(absoluteMemoPath))
     ) {
       throw new Error(
         `${record.jurisdiction} completed normalization memo does not match ` +
-          `${record.memoSha256}.`
+          `${[record.memoSha256, record.amendedMemoSha256]
+            .filter(Boolean)
+            .join(" or ")}.`
       );
     }
     const normalizationReadiness =
@@ -1897,11 +1950,115 @@ export function buildFactoryPlan(options = {}) {
     });
   }
 
+  const stateReconciliationJobs = [
+    {
+      jurisdiction: "OR",
+      jobId: "rcap-or-same-episode-rule-source-reconciliation",
+      slug: "or-same-episode-rule-source-reconciliation",
+      subject:
+        "docs(record-clearing): reconcile the Oregon same-episode rule",
+      stop:
+        "Establish, from the governing statute and enrolled act, whether the same-episode rule " +
+        "operates as counsel's current treatment states or as the enacted text reads, identify " +
+        "the conflicting language exactly, and record the affected Oregon track IDs, the " +
+        "eligibility and screening impact, the packet impact, and whether the conflict is " +
+        "build-level or release-level. The worker deliberately did not override counsel; do not " +
+        "resolve the conflict by preferring one source because it is more convenient."
+    },
+    {
+      jurisdiction: "OR",
+      jobId: "rcap-or-2025-monetary-obligations-scope-reconciliation",
+      slug: "or-2025-monetary-obligations-scope-reconciliation",
+      subject:
+        "docs(record-clearing): reconcile the Oregon 2025 monetary-obligations scope",
+      stop:
+        "Establish the scope of the 2025 monetary-obligations relief from the enrolled act and " +
+        "current codified text: which obligations it reaches, which it does not, its effective " +
+        "date, the affected Oregon track IDs, the eligibility and screening impact, the packet " +
+        "impact, and whether the conflict is build-level or release-level."
+    },
+    {
+      jurisdiction: "OH",
+      jobId: "rcap-oh-automatic-sealing-current-law-reconciliation",
+      slug: "oh-automatic-sealing-current-law-reconciliation",
+      subject:
+        "docs(record-clearing): reconcile Ohio automatic sealing against current law",
+      stop:
+        "The SB 288 analysis did not establish the automatic-sealing route previously claimed, " +
+        "and absence from that analysis is not proof that no route exists. Determine from current " +
+        "Ohio law whether an automatic-sealing route exists, its governing provision, effective " +
+        "date, covered dispositions, and whether any participant submission exists at all; then " +
+        "state whether the affected Ohio track should remain, change strategy, narrow or defer, " +
+        "with its packet and screening impact. Keep the affected route fail-closed at the memo's " +
+        "chosen blocker level and do not hold unrelated Ohio routes."
+    },
+    {
+      jurisdiction: "OK",
+      jobId: "rcap-ok-sb-2030-current-text-and-currency",
+      slug: "ok-sb-2030-current-text-and-currency",
+      subject:
+        "chore(record-clearing): obtain the Oklahoma SB 2030 current text",
+      stop:
+        "Obtain the enrolled Senate Bill 2030 text and the current codified sections 18 and 19, " +
+        "which have changed repeatedly, and reconcile the effective date, the waiting periods, " +
+        "free-route eligibility, and the relationship between the free route and the petition " +
+        "route, with the screening and packet impact of each. SB 2030 preserves the right to " +
+        "petition: this is a source-currentness question and must not become a denial of the " +
+        "known petition routes, which remain participant-packet-capable. Do not declare any " +
+        "participant Clean Slate eligible from the unresolved screen, and do not state a settled " +
+        "waiting period where the current text is required to establish it."
+    }
+  ];
+  for (const entry of stateReconciliationJobs) {
+    if (!integratedNormalizations.has(entry.jurisdiction)) continue;
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: entry.jurisdiction,
+      jobId: entry.jobId,
+      strategyFamily: "legal_design_adjudication",
+      trackIds: [],
+      dependencies: [
+        `rcap-${entry.jurisdiction.toLowerCase()}-legal-design-normalization`
+      ],
+      status: "ready",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/${entry.slug}.json`
+      ],
+      ownedPaths: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/${entry.slug}.json`
+      ],
+      requiredInputs: [
+        `data/record-clearing/legal-design-intake/${entry.jurisdiction}.memo.json`,
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        `node scripts/rcap-factory-plan.mjs --check-job ${entry.jobId}`
+      ],
+      commitSubject: entry.subject,
+      stopCondition: `${entry.stop} Do not edit the state memo, regenerate a global registry, ` +
+        "implement a renderer, or enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
   const tnRouteInventoryDecisionRecord =
     `${FACTORY_DATA_DIR}/legal-design-decisions/tn-2026-route-inventory-addendum.json`;
   const tnRouteInventoryDecided = fs.existsSync(
     path.join(rootDir, tnRouteInventoryDecisionRecord)
   );
+  const tnMemoPath = path.join(
+    rootDir,
+    "data/record-clearing/legal-design-intake/TN.memo.json"
+  );
+  // The amendment is complete when the memo on disk is the amended blob, not
+  // when a commit says so.
+  const tnRouteMemoAmended =
+    fs.existsSync(tnMemoPath) &&
+    sha256File(tnMemoPath) === TN_AMENDED_MEMO_SHA256;
 
   if (integratedNormalizations.has("TN")) {
     // The integrated Tennessee memo normalizes the nine slots its adopted
@@ -1975,7 +2132,10 @@ export function buildFactoryPlan(options = {}) {
           "rcap-tn-2026-route-inventory-addendum",
           "rcap-tn-legal-design-normalization"
         ],
-        status: "ready",
+        status: tnRouteMemoAmended ? "completed" : "ready",
+        ...(tnRouteMemoAmended
+          ? { completionCommit: TN_ROUTE_MEMO_AMENDMENT_COMMIT }
+          : {}),
         expectedOutputs: ["data/record-clearing/legal-design-intake/TN.memo.json"],
         ownedPaths: ["data/record-clearing/legal-design-intake/TN.memo.json"],
         requiredInputs: [
@@ -2522,7 +2682,7 @@ export function buildFactoryPlan(options = {}) {
     });
   }
 
-  attachCanonicalParents(jobs, inputs.canonicalParentJobs);
+  attachCanonicalParents(jobs, inputs.canonicalParentJobs, inputs.normalizedTracks);
   const compiledJobClaims = buildCompiledJobClaims(
     inputs.jobClaims,
     jobs
@@ -3722,16 +3882,23 @@ const PARTNER_PRIORITY_STAGING_JURISDICTIONS = new Set([
   "IL"
 ]);
 
-function attachCanonicalParents(jobs, canonicalParentRecords) {
+function attachCanonicalParents(jobs, canonicalParentRecords, normalizedTracks) {
   const parents = canonicalParentRecords.map((record) => record.data);
   const parentById = new Map(parents.map((parent) => [parent.jobId, parent]));
   assertCanonicalParentPlan(parents);
+  const declaredOutputStrategyByTrackId = new Map(
+    (normalizedTracks?.tracks ?? []).map((track) => [
+      `${track.jurisdiction}:${track.trackId}`,
+      track.outputStrategy
+    ])
+  );
 
   for (const job of jobs) {
     const parentJobId = resolveCanonicalParentJobId(
       job,
       parents,
-      jobs
+      jobs,
+      declaredOutputStrategyByTrackId
     );
     if (!parentById.has(parentJobId)) {
       throw new Error(
@@ -3772,7 +3939,7 @@ function assertCanonicalParentPlan(parents) {
   }
 }
 
-function resolveCanonicalParentJobId(job, parents, jobs) {
+function resolveCanonicalParentJobId(job, parents, jobs, declaredOutputStrategyByTrackId) {
   if (job.jobId === "rcap-nationwide-track-promotion-contract") {
     return "F-03-track-promotion-contract";
   }
@@ -3840,7 +4007,12 @@ function resolveCanonicalParentJobId(job, parents, jobs) {
     return canonicalImplementationParentJobId(job, parents);
   }
   if (job.lane === "legal_output_review") {
-    return canonicalReviewParentJobId(job, parents, jobs);
+    return canonicalReviewParentJobId(
+      job,
+      parents,
+      jobs,
+      declaredOutputStrategyByTrackId
+    );
   }
   if (job.lane === "staging_promotion") {
     return PARTNER_PRIORITY_STAGING_JURISDICTIONS.has(job.jurisdiction)
@@ -3913,7 +4085,14 @@ function canonicalImplementationParentJobId(job, parents) {
   return candidates[0].parent.jobId;
 }
 
-function canonicalReviewParentJobId(job, parents, jobs) {
+const CANONICAL_IMPLEMENTATION_LANE_BY_OUTPUT_STRATEGY = Object.freeze({
+  custom_pleading: "implementation-pleading",
+  official_pdf_fill: "implementation-acroform",
+  process_guidance: "implementation-guidance",
+  composed: "implementation-composed"
+});
+
+function canonicalReviewParentJobId(job, parents, jobs, declaredOutputStrategyByTrackId = new Map()) {
   const scores = new Map();
   for (const parent of parents.filter((entry) =>
     String(entry.lane ?? "").startsWith("implementation-")
@@ -3950,6 +4129,27 @@ function canonicalReviewParentJobId(job, parents, jobs) {
       );
     }
     ranked = [...scores.entries()].sort(
+      ([leftId, leftCount], [rightId, rightCount]) =>
+        rightCount - leftCount || leftId.localeCompare(rightId)
+    );
+  }
+  if (ranked.length === 0) {
+    // A jurisdiction whose official-form components have no implementation job
+    // yet — because no receipt or corpus row has established their technical
+    // structure — still has output to review eventually. Fall back to the review
+    // family its own declared output strategies imply, rather than refusing to
+    // compile a plan because implementation has not started.
+    const declared = new Map();
+    for (const trackId of job.trackIds) {
+      const strategy = declaredOutputStrategyByTrackId.get(
+        `${job.jurisdiction}:${trackId}`
+      );
+      const lane = CANONICAL_IMPLEMENTATION_LANE_BY_OUTPUT_STRATEGY[strategy];
+      if (!lane) continue;
+      const reviewParent = REVIEW_PARENT_BY_IMPLEMENTATION_LANE[lane];
+      declared.set(reviewParent, (declared.get(reviewParent) ?? 0) + 1);
+    }
+    ranked = [...declared.entries()].sort(
       ([leftId, leftCount], [rightId, rightCount]) =>
         rightCount - leftCount || leftId.localeCompare(rightId)
     );

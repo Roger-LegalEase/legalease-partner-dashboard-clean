@@ -2278,16 +2278,18 @@ check("report-only writes nothing, while write mode still regenerates", () => {
       ])
     );
 
-  // A syntactically valid memo for a jurisdiction the tree has not imported.
-  // Report-only must notice it — the accepted count moves — and still write
-  // nothing. NV is used because no NV memo is committed; the probe is removed
-  // before this test returns whether it passes or throws.
-  const probe = path.join(intakeDir, "NV.memo.json");
-  assert.equal(fs.existsSync(probe), false, "NV.memo.json exists; pick an unimported probe jurisdiction");
+  // A memo file the intake run will pick up and refuse. Every real jurisdiction
+  // is now imported, so an unimported real code no longer exists; ZZ is not a
+  // jurisdiction, which makes it a probe that can never collide with one. It
+  // still proves the run saw a changed intake directory — the rejected count
+  // moves — and report-only must write nothing either way. Removed before this
+  // test returns, whether it passes or throws.
+  const probe = path.join(intakeDir, "ZZ.memo.json");
+  assert.equal(fs.existsSync(probe), false, "ZZ.memo.json must not be a committed memo");
 
   const before = digest();
   try {
-    fs.writeFileSync(probe, JSON.stringify(validMemo({}, { jurisdiction: "NV" })));
+    fs.writeFileSync(probe, JSON.stringify(validMemo({}, { jurisdiction: "ZZ" })));
     const stdout = execFileSync(
       process.execPath,
       ["scripts/rcap-legal-design-intake.mjs", "--report-only"],
@@ -2296,7 +2298,7 @@ check("report-only writes nothing, while write mode still regenerates", () => {
     // The probe really did reach the run, so byte-identity below is not the
     // trivial result of report-only having had nothing new to say.
     assert.match(stdout, /Report-only: nothing was written/);
-    assert.match(stdout, /Accepted: \d+\./);
+    assert.match(stdout, /Rejected: [1-9]\d*\./);
   } finally {
     fs.rmSync(probe, { force: true });
   }

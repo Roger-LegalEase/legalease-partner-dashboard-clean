@@ -575,13 +575,13 @@ assert.equal(kansasCommercialDisposition.generationAllowed, false);
 // audited jurisdiction that has an official-form component, not the 25 it
 // carried when Pennsylvania was still a supplemental lane.
 assert.deepEqual(officialPdfSourceContract.queueCoverage.totals, {
-  tracks: 257,
-  components: 717,
-  documentIdentities: 329,
-  exactSourceRequirements: 119,
-  unresolvedSourceIdentities: 210
+  tracks: 267,
+  components: 737,
+  documentIdentities: 332,
+  exactSourceRequirements: 120,
+  unresolvedSourceIdentities: 212
 });
-assert.equal(officialPdfSourceContract.familyCount, 43);
+assert.equal(officialPdfSourceContract.familyCount, 45);
 // Eleven newly admitted families have no authored source-requirements scaffold
 // yet; each of their queue documents is recorded as an explicit gap rather than
 // dropped from coverage.
@@ -589,7 +589,7 @@ assert.equal(
   officialPdfSourceContract.families.filter(
     (family) => family.sourceRequirementsScaffoldPresent === false
   ).length,
-  18
+  20
 );
 assert.equal(
   officialPdfSourceContract.families
@@ -603,7 +603,7 @@ assert.equal(
   0
 );
 assert.equal(officialPdfSourceContract.totals.pendingAssignmentFamilies, 0);
-assert.equal(officialPdfSourceContract.totals.projectedDocumentIdentities, 329);
+assert.equal(officialPdfSourceContract.totals.projectedDocumentIdentities, 332);
 assert.equal(
   officialPdfSourceContract.totals.projectedExactWorkerAssignments,
   73
@@ -645,7 +645,7 @@ assert.equal(
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedDocumentIdentities,
-  329
+  332
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
@@ -655,12 +655,12 @@ assert.equal(
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .unresolvedSourceIdentities,
-  210
+  212
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedUnresolvedIdentities,
-  176
+  178
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
@@ -724,7 +724,7 @@ assert.equal(
   productionPlan.officialPdfSourceContractIntegration.runtimeStatus,
   "runtime_disabled"
 );
-assert.equal(officialPdfSourceProjection.coverage.queueIdentityCount, 329);
+assert.equal(officialPdfSourceProjection.coverage.queueIdentityCount, 332);
 assert.equal(officialPdfSourceProjection.coverage.assignmentEligibleCount, 73);
 assert.deepEqual(
   officialPdfSourceProjection.coverage.countsByDisposition,
@@ -737,9 +737,9 @@ assert.deepEqual(
     identity_resolved_materialization_required: 26,
     legal_design_or_technical_policy_blocked: 13,
     local_scope_identity: 1,
-    role_mismatch: 3,
+    role_mismatch: 4,
     source_gated_identity: 28,
-    unresolved_identity: 176
+    unresolved_identity: 178
   }
 );
 assert.equal(legalReviewMaterializationContract.assignmentCount, 24);
@@ -1307,28 +1307,19 @@ assert.equal(
 );
 // Normalization waves already integrated from an exact worker memo blob through
 // a captain-equivalent commit. Everything else is still awaiting a worker.
-const INTEGRATED_NORMALIZATIONS = [
-  "KY",
-  "NC",
-  "ND",
-  "NE",
-  "NH",
-  "NJ",
-  "NM",
-  "NY",
-  "RI",
-  "SC",
-  "SD",
-  "TN",
-  "TX",
-  "UT",
-  "VA",
-  "VT",
-  "WA",
-  "WI",
-  "WV",
-  "WY"
-];
+// Every remaining normalization jurisdiction is integrated: nationwide
+// legal-design normalization is complete.
+const INTEGRATED_NORMALIZATIONS = remainingNormalizationJurisdictions();
+function remainingNormalizationJurisdictions() {
+  return factoryPlan.jobs
+    .filter(
+      (entry) =>
+        /-legal-design-normalization$/.test(entry.jobId) &&
+        entry.jurisdiction !== "PA"
+    )
+    .map((entry) => entry.jurisdiction)
+    .sort();
+}
 const remainingNormalizations = factoryPlan.jobs.filter(
   (entry) =>
     /-legal-design-normalization$/.test(entry.jobId) &&
@@ -1920,7 +1911,7 @@ assert.equal(
 assert.deepEqual(productionPlan.readinessMetrics.current, {
   authorityCleared: trackSourceAudit.totals.tracksCleared,
   authorityBlocked: trackSourceAudit.totals.tracksBlocked,
-  sourcePinned: 68,
+  sourcePinned: 77,
   implementationProof: 17,
   finalDisposition: 0
 });
@@ -2748,7 +2739,7 @@ const status = buildFactoryStatus({ rootDir: ROOT });
 assert.deepEqual(status.readinessMetrics, {
   authorityCleared: trackSourceAudit.totals.tracksCleared,
   authorityBlocked: trackSourceAudit.totals.tracksBlocked,
-  sourcePinned: 68,
+  sourcePinned: 77,
   implementationProof: 17,
   finalDisposition: 0
 });
@@ -2769,8 +2760,9 @@ assert.equal(
   )
     .length,
   // 40 before the Session D wave-2 and Session B wave-1 integrations, 51 after
-  // them, 55 once Session D's final wave landed, and 56 with Session B wave 2.
-  56
+  // them, 55 once Session D's final wave landed, 56 with Session B wave 2, and
+  // 65 once the final wave and the Tennessee amendment completed the nation.
+  65
 );
 assert.deepEqual(
   status.tracks
