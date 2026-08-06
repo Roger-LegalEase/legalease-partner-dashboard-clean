@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "question": "Can LegalEase prepare the participant-facing portion of the form or packet, leave external sections incomplete, and instruct the participant how to obtain the required signature, certificate, or document?",
   "note": "Candidates only. Nothing here is reclassified by this script or by engineering. Counsel answers the question; a yes produces a revised memo, a no leaves the track on process guidance. Tracks whose rationale includes negotiation, individualized advocacy, a contested evidentiary showing, or no participant filing existing are deliberately absent.",
-  "candidateCount": 5,
+  "candidateCount": 7,
   "candidates": [
     {
       "jurisdiction": "AK",
@@ -89,6 +89,42 @@
         "kind": "court",
         "name": "The convicting court",
         "detail": "Not offered as a packet. The participant is routed to counsel."
+      },
+      "participantFilingRequirements": [],
+      "manualCompletionItems": [],
+      "question": "Can LegalEase prepare the participant-facing portion of the form or packet, leave external sections incomplete, and instruct the participant how to obtain the required signature, certificate, or document?",
+      "answer": null
+    },
+    {
+      "jurisdiction": "ND",
+      "trackId": "nd-juvenile-records-routing",
+      "publicName": "Where to go about a North Dakota juvenile record",
+      "guidanceRationales": [
+        "another_entity_decides"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "No destination. This node routes rather than files",
+        "detail": "The node routes out of the adult-record scope this jurisdiction package covers. A full participant-facing early-destruction motion packet exists on the official host, so the route is legally capable of being built; guidance here is a scope decision."
+      },
+      "participantFilingRequirements": [
+        "Juvenile court file or final order"
+      ],
+      "manualCompletionItems": [],
+      "question": "Can LegalEase prepare the participant-facing portion of the form or packet, leave external sections incomplete, and instruct the participant how to obtain the required signature, certificate, or document?",
+      "answer": null
+    },
+    {
+      "jurisdiction": "NE",
+      "trackId": "ne-juvenile-sealing-routing",
+      "publicName": "Where to go about a Nebraska juvenile record",
+      "guidanceRationales": [
+        "another_entity_decides"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "No destination. This node routes rather than files",
+        "detail": "The node routes out of the adult-record scope of this package. A participant-facing motion and four official statewide forms exist, so this route is legally capable of being built; guidance here is a product-scope decision and not a capability finding."
       },
       "participantFilingRequirements": [],
       "manualCompletionItems": [],
@@ -570,6 +606,46 @@
       },
       "participantFilingRequirements": [
         "Certified limited criminal history from the Indiana State Police"
+      ],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "KY",
+      "trackId": "ky_automatic_nonconviction_expungement_verification",
+      "publicName": "Check whether your dismissed or acquitted Kentucky case already cleared itself",
+      "guidanceRationales": [
+        "no_participant_filing_exists",
+        "another_entity_decides"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "The court that entered the acquittal or the dismissal with prejudice",
+        "detail": "The Administrative Office of the Courts generates AOC-497.3 through the case management system and the judge signs it. The Clerks' Manual records that these require no filing fee and no action by the defendant. Standard distribution is to the defendant or their attorney, the county or Commonwealth's attorney, the Kentucky State Police, the arresting agency, the local jail and the local pretrial office; any other agency must be asked for within sixty days of the expungement."
+      },
+      "participantFilingRequirements": [
+        "Copy of the dismissal order or judgment of acquittal",
+        "Confirmation that the order of automatic expungement was entered"
+      ],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "KY",
+      "trackId": "ky_diversion_disposition_routing",
+      "publicName": "Work out what your diverted Kentucky case counts as",
+      "guidanceRationales": [
+        "no_participant_filing_exists",
+        "participant_obtains_record"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "No destination. This node routes rather than files",
+        "detail": "The dismissed-diverted designation attaches by operation of law on successful completion. The node reads the dismissal order and routes to ky_automatic_nonconviction_expungement_verification or ky_nonconviction_expungement, or to counsel where the order is silent."
+      },
+      "participantFilingRequirements": [
+        "The dismissal order",
+        "The diversion agreement"
       ],
       "manualCompletionItems": [],
       "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
@@ -1060,6 +1136,205 @@
       "manualCompletionItems": [
         "Any form for the automatic mechanism"
       ],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "NC",
+      "trackId": "nc_auto_146_a4",
+      "publicName": "Your dismissed North Carolina case may have cleared itself",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "North Carolina Administrative Office of the Courts and the clerk of superior court",
+        "detail": "Administered through the courts and the AOC. No petition, no fee and no form. For an automatic expunction under subsection (a4) the clerk is not required to transmit an expunction order to other entities, so agencies other than the court may still hold the record."
+      },
+      "participantFilingRequirements": [
+        "SBI criminal record check",
+        "Court file from the clerk of superior court",
+        "Copies of the charging documents, dismissal orders and judgments"
+      ],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "ND",
+      "trackId": "nd-nonconviction-auto-close-verify",
+      "publicName": "Check that your North Dakota nonconviction record closed on its own",
+      "guidanceRationales": [
+        "no_participant_filing_exists",
+        "another_entity_decides"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "The court that entered the order of nonconviction",
+        "detail": "The court closes the record on the expiration of sixty-one days. The official instructions state that the participant does not need to do anything."
+      },
+      "participantFilingRequirements": [
+        "The order of nonconviction",
+        "Public access search result at the sixty-one-day mark"
+      ],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "ND",
+      "trackId": "nd-trafficking-vacatur-routing",
+      "publicName": "Where to go if your conviction came from being trafficked",
+      "guidanceRationales": [
+        "individualized_advocacy",
+        "contested_evidentiary_showing"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "No destination. This node routes rather than files",
+        "detail": "The node routes to an attorney or a survivor legal clinic, which the controlling review makes an express handoff trigger. A participant-facing motion does exist under N.D.C.C. § 12.1-41-14(1) and no official form is published, so a custom pleading is legally available; guidance here is a scope decision by the review rather than a finding that no filing exists."
+      },
+      "participantFilingRequirements": [
+        "Official victim determination or documentation"
+      ],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "ND",
+      "trackId": "nd-dna-profile-removal-routing",
+      "publicName": "Where to go about a North Dakota DNA profile",
+      "guidanceRationales": [
+        "individualized_advocacy"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "No destination. This node routes rather than files",
+        "detail": "The node routes to counsel, which the controlling review makes an express handoff trigger for DNA matters. A participant-facing petition does exist under N.D.C.C. § 31-13-07(1) and no official form is published, so the route is legally capable of being built as a custom pleading."
+      },
+      "participantFilingRequirements": [
+        "Certified copy of the sealing order"
+      ],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "ND",
+      "trackId": "nd-unconstitutional-arrest-expungement-routing",
+      "publicName": "Where to go if you believe your arrest was unconstitutional",
+      "guidanceRationales": [
+        "individualized_advocacy",
+        "contested_evidentiary_showing"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "No destination. This node routes rather than files",
+        "detail": "The node routes to counsel. A participant-facing petition exists according to the official guide and no official form is published, but the controlling authority cannot be obtained from any official electronic source, so the route is not built."
+      },
+      "participantFilingRequirements": [
+        "Dismissal order or the decision overturning the conviction"
+      ],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "NE",
+      "trackId": "ne-nonconviction-auto",
+      "publicName": "Check whether your Nebraska non-conviction record came off the public record",
+      "guidanceRationales": [
+        "no_participant_filing_exists",
+        "another_entity_decides"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "The court and the criminal justice agencies holding the record",
+        "detail": "Section 29-3523(7) places the notification and sealing duties on the court and on the agencies. State v. Coble holds that section 29-3523 does not authorise a motion to make criminal history record information non-public and that the remedy is a separate action under § 29-3528, so filing a motion here invites a jurisdictional dismissal."
+      },
+      "participantFilingRequirements": [
+        "Nebraska State Patrol criminal history report",
+        "Nebraska court case search result"
+      ],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "NE",
+      "trackId": "ne-pardon-routing",
+      "publicName": "Where to go about a Nebraska pardon",
+      "guidanceRationales": [
+        "another_entity_decides",
+        "requires_negotiation"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "No destination. This node routes rather than files",
+        "detail": "The node routes to the Board of Pardons and, for a city ordinance violation in Lincoln or Omaha, to the mayoral pardon process those two cities operate. A participant-facing application exists, so this classification rests on the routing-node ground and on the review's express scope restriction, not on any absence of a filing."
+      },
+      "participantFilingRequirements": [],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "NE",
+      "trackId": "ne-firearm-restoration-routing",
+      "publicName": "Where to go about restoring firearm rights in Nebraska",
+      "guidanceRationales": [
+        "no_participant_filing_exists",
+        "another_entity_decides"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "No destination. This node routes rather than files",
+        "detail": "The node routes to the pardon node. No separate participant-facing instrument was identified, so guidance rests both on this being a routing node and on there being no participant filing to make."
+      },
+      "participantFilingRequirements": [],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "NE",
+      "trackId": "ne-out-of-jurisdiction-routing",
+      "publicName": "Where to go about a record from outside Nebraska",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "No destination. This node routes rather than files",
+        "detail": "The node routes out. Where the participant also holds Nebraska records, the intake is split and only the Nebraska ones are served."
+      },
+      "participantFilingRequirements": [],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "NE",
+      "trackId": "ne-immigration-routing",
+      "publicName": "Where to go if you have an immigration matter",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "No destination. This node routes rather than files",
+        "detail": "The node routes to immigration counsel before any set-aside packet is generated, because filing can surface a record."
+      },
+      "participantFilingRequirements": [],
+      "manualCompletionItems": [],
+      "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
+    },
+    {
+      "jurisdiction": "NE",
+      "trackId": "ne-postconviction-routing",
+      "publicName": "Where to go if you want your Nebraska conviction overturned",
+      "guidanceRationales": [
+        "individualized_advocacy",
+        "contested_evidentiary_showing"
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "No destination. This node routes rather than files",
+        "detail": "The node routes to counsel. A participant-facing verified motion does exist under the Postconviction Act, so this classification reflects a scope decision about remedy class rather than a finding that no filing exists."
+      },
+      "participantFilingRequirements": [],
+      "manualCompletionItems": [],
       "reason": "Carries a rationale that makes guidance the right output regardless of what we could prepare."
     },
     {

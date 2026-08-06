@@ -232,6 +232,46 @@ const COMPLETED_NORMALIZATIONS = Object.freeze([
     completionCommit: "8244dc1bf5c2bc24e0d6725e412dc01bfe308533",
     memoSha256:
       "edf0f86c7eee382f6c0666e3a400b4b41bb5ffadc3a51610c12aacd6fe93b2f8"
+  },
+  {
+    jurisdiction: "KY",
+    workerCommit: "d8b175f3595f7d46a84d66c56d9b48fdf3ca9be0",
+    workerBranch:
+      "rcap-factory/rcap-ky-legal-design-normalization-0196bfa8-392f602",
+    supersededWorkerBranch:
+      "rcap-factory/rcap-ky-legal-design-normalization-0196bfa8",
+    supersededWorkerCommit:
+      "c5d3a3031444b549984e0c7611a7d25963e9648f",
+    completionCommit: "9fbf2224ace529dac4939fb2bb3a5e0aa474b8d7",
+    memoSha256:
+      "2328bbcbf8eca7e74772761b22d79e9d99de75e8d50222c4f513e952bafeeb19"
+  },
+  {
+    jurisdiction: "NC",
+    workerCommit: "ea9c91e48de544f279227e2020fa6d999c0a914a",
+    workerBranch:
+      "rcap-factory/rcap-nc-legal-design-normalization-bfd75bf0-392f602",
+    supersededWorkerBranch:
+      "rcap-factory/rcap-nc-legal-design-normalization-bfd75bf0",
+    supersededWorkerCommit:
+      "c52fedc4050531ae45af839733a2075bf5bb6b2d",
+    completionCommit: "1f87de96d5d554298b81280d4ae96076b1ce9847",
+    memoSha256:
+      "9d9ce9f4ac2b4483dfc33e640873059d9d79755597017e819aa24f64893053c7"
+  },
+  {
+    jurisdiction: "ND",
+    workerCommit: "4f8c914858f0d91e993011f2978dee5344b89f7b",
+    completionCommit: "6be64021d57283bbbdcb431846810efb2bfb7740",
+    memoSha256:
+      "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0"
+  },
+  {
+    jurisdiction: "NE",
+    workerCommit: "218d0a0dd85636458381c9b6ec487c57f1f561e1",
+    completionCommit: "c36e048b95fbdff24b6397db9e009d8351863dda",
+    memoSha256:
+      "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb"
   }
 ]);
 const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
@@ -1003,6 +1043,16 @@ export function buildFactoryPlan(options = {}) {
     COMPLETED_NORMALIZATIONS.map(
       (record) => record.jurisdiction
     );
+  // Decision records live under legal-design-decisions, not under
+  // guidance-specifications: that directory has a strict authored
+  // process-guidance component contract, and legal-design intake rejects any
+  // file in it that is not one.
+  const paPardonAdjudicationRecord =
+    `${FACTORY_DATA_DIR}/legal-design-decisions/` +
+    "pa-pardon-composed-unit-approval-adjudication.json";
+  const paPardonAdjudicationClosed = fs.existsSync(
+    path.join(rootDir, paPardonAdjudicationRecord)
+  );
   const pennsylvaniaMemoPath =
     "data/record-clearing/legal-design-intake/PA.memo.json";
   const pennsylvaniaNormalizationComplete = fs.existsSync(
@@ -1150,6 +1200,15 @@ export function buildFactoryPlan(options = {}) {
       ? `Original worker ${record.originalWorkerCommit} was corrected by ` +
         `${record.correctionCommit}; the correction`
       : `Worker ${record.workerCommit}`;
+    // A job reissued under a rebuilt assignment leaves an earlier worker branch
+    // behind. That branch is preserved unrewritten for audit and must never be
+    // integrated, so the replacement relationship is recorded on the job rather
+    // than left to the branch names.
+    const supersessionNote = record.supersededWorkerCommit
+      ? ` Branch ${record.workerBranch} replaced ` +
+        `${record.supersededWorkerBranch} at ${record.supersededWorkerCommit}; ` +
+        "the superseded branch is preserved unchanged for audit and was not integrated."
+      : "";
     addJob({
       lane: "legal_design_normalization",
       jurisdiction: record.jurisdiction,
@@ -1193,7 +1252,8 @@ export function buildFactoryPlan(options = {}) {
       executionNote:
         `${workerProvenance} supplied the exact memo blob ` +
         `${record.memoSha256}; captain-equivalent commit ${record.completionCommit} ` +
-        "preserves that blob without stale shared generated outputs.",
+        "preserves that blob without stale shared generated outputs." +
+        supersessionNote,
       stopCondition:
         `Terminal completed child: ${workerProvenance.toLowerCase()} is represented by ` +
         `captain-equivalent commit ${record.completionCommit}. Preserve the exact memo blob and ` +
@@ -1278,13 +1338,12 @@ export function buildFactoryPlan(options = {}) {
       strategyFamily: "legal_design_adjudication",
       trackIds: ["pa_pardon_expungement"],
       dependencies: ["rcap-pa-legal-design-normalization"],
-      status: "blocked",
-      expectedOutputs: [
-        `${FACTORY_DATA_DIR}/guidance-specifications/pa-pardon-composed-unit-approval-adjudication.json`
-      ],
-      ownedPaths: [
-        `${FACTORY_DATA_DIR}/guidance-specifications/pa-pardon-composed-unit-approval-adjudication.json`
-      ],
+      // Counsel answered this adjudication on 2026-08-06 and the decision record
+      // is committed, so the job closes on the presence of that record rather
+      // than on an assertion in a commit message.
+      status: paPardonAdjudicationClosed ? "completed" : "blocked",
+      expectedOutputs: [paPardonAdjudicationRecord],
+      ownedPaths: [paPardonAdjudicationRecord],
       requiredInputs: [
         pennsylvaniaMemoPath,
         FACTORY_INPUT_PATHS.normalizedTracks,
@@ -1331,10 +1390,10 @@ export function buildFactoryPlan(options = {}) {
       dependencies: ["rcap-wv-legal-design-normalization"],
       status: "blocked",
       expectedOutputs: [
-        `${FACTORY_DATA_DIR}/guidance-specifications/wv-61-11-26-r-normalization-addendum.json`
+        `${FACTORY_DATA_DIR}/legal-design-decisions/wv-61-11-26-r-normalization-addendum.json`
       ],
       ownedPaths: [
-        `${FACTORY_DATA_DIR}/guidance-specifications/wv-61-11-26-r-normalization-addendum.json`
+        `${FACTORY_DATA_DIR}/legal-design-decisions/wv-61-11-26-r-normalization-addendum.json`
       ],
       requiredInputs: [
         "data/record-clearing/legal-design-intake/WV.memo.json",
@@ -1375,10 +1434,10 @@ export function buildFactoryPlan(options = {}) {
       dependencies: ["rcap-va-legal-design-normalization"],
       status: "blocked",
       expectedOutputs: [
-        `${FACTORY_DATA_DIR}/guidance-specifications/va-2026-2027-statutory-cutover.json`
+        `${FACTORY_DATA_DIR}/legal-design-decisions/va-2026-2027-statutory-cutover.json`
       ],
       ownedPaths: [
-        `${FACTORY_DATA_DIR}/guidance-specifications/va-2026-2027-statutory-cutover.json`
+        `${FACTORY_DATA_DIR}/legal-design-decisions/va-2026-2027-statutory-cutover.json`
       ],
       requiredInputs: [
         "data/record-clearing/legal-design-intake/VA.memo.json",
@@ -1423,10 +1482,10 @@ export function buildFactoryPlan(options = {}) {
       dependencies: ["rcap-va-legal-design-normalization"],
       status: "blocked",
       expectedOutputs: [
-        `${FACTORY_DATA_DIR}/guidance-specifications/va-cc-1201-source-identity-materialization.json`
+        `${FACTORY_DATA_DIR}/legal-design-decisions/va-cc-1201-source-identity-materialization.json`
       ],
       ownedPaths: [
-        `${FACTORY_DATA_DIR}/guidance-specifications/va-cc-1201-source-identity-materialization.json`
+        `${FACTORY_DATA_DIR}/legal-design-decisions/va-cc-1201-source-identity-materialization.json`
       ],
       requiredInputs: [
         "data/record-clearing/legal-design-intake/VA.memo.json",
@@ -1449,6 +1508,191 @@ export function buildFactoryPlan(options = {}) {
         "outside Va. Code section 19.2-392.2(A), do not adopt an unofficial mirror or aggregator " +
         "copy as authority, do not commit a source binary, and do not enable runtime, promote, or " +
         "deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  if (integratedNormalizations.has("NC")) {
+    // The integrated memo re-pins the G.S. 15A-145.8A youthful route from
+    // AOC-CR-296 to AOC-CR-293 Rev. 3/25, read at source on the official AOC
+    // host. AOC-CR-296 keeps its own role as the conditional district-attorney
+    // component and is not the youthful petition. AOC-CR-293 and its
+    // instructions still need a materialization contract, and that single
+    // outstanding source must not hold the rest of the North Carolina packet
+    // set, which is why this job is scoped to that document alone.
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "NC",
+      jobId: "rcap-nc-aoc-cr-293-source-materialization",
+      strategyFamily: "source_identity_resolution",
+      trackIds: ["nc_145_8a_youthful"],
+      dependencies: ["rcap-nc-legal-design-normalization"],
+      status: "blocked",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/nc-aoc-cr-293-source-materialization.json`
+      ],
+      ownedPaths: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/nc-aoc-cr-293-source-materialization.json`
+      ],
+      requiredInputs: [
+        "data/record-clearing/legal-design-intake/NC.memo.json",
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.sourceRelationships,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "codex",
+      effort: "high",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job rcap-nc-aoc-cr-293-source-materialization"
+      ],
+      commitSubject:
+        "chore(record-clearing): materialize North Carolina AOC-CR-293",
+      stopCondition:
+        "Establish the portable materialization contract for AOC-CR-293 Rev. 03/2025 and its " +
+        "instructions: official URL on the AOC host, content hash, byte count, media type, page " +
+        "count, revision stamp and role. Keep AOC-CR-296 pinned to its conditional " +
+        "district-attorney role and do not re-assign it to the youthful route. Do not hold any " +
+        "other North Carolina track on this document, do not commit a source binary, and do not " +
+        "enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  if (integratedNormalizations.has("NE")) {
+    // The evidence supports DC 6:7.1 as a civil, appeals and emancipation fee
+    // waiver. It does not establish it as a general criminal fee-waiver form,
+    // and applying it across every criminal packet on that assumption would put
+    // the wrong instrument in a participant's hands.
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "NE",
+      jobId: "rcap-ne-dc-6-7-1-fee-waiver-scope-correction",
+      strategyFamily: "legal_design_adjudication",
+      trackIds: [],
+      dependencies: ["rcap-ne-legal-design-normalization"],
+      status: "blocked",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/ne-dc-6-7-1-fee-waiver-scope-correction.json`
+      ],
+      ownedPaths: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/ne-dc-6-7-1-fee-waiver-scope-correction.json`
+      ],
+      requiredInputs: [
+        "data/record-clearing/legal-design-intake/NE.memo.json",
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.packetSetManifests,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "high",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job rcap-ne-dc-6-7-1-fee-waiver-scope-correction"
+      ],
+      commitSubject:
+        "docs(record-clearing): correct the Nebraska DC 6:7.1 fee-waiver scope",
+      stopCondition:
+        "Establish the actual scope of Nebraska form DC 6:7.1, whether a separate statewide " +
+        "criminal fee-waiver form exists, or whether no standardized criminal waiver exists at " +
+        "all, and identify every affected track and component. Do not apply a civil, appeals or " +
+        "emancipation waiver across criminal packets without controlling authority, do not " +
+        "silently resolve the classification, and do not enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  if (integratedNormalizations.has("KY")) {
+    // KY-12 record segregation is integrated and validates. That is not the same
+    // as being ratified: the composed route's two participant-initiated
+    // KRS 17.142 branches remain fail-closed pending an express ratification,
+    // and this record is where that stays visible instead of being implied by a
+    // route that merely passes validation.
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "KY",
+      jobId: "rcap-ky-17-142-segregation-ratification",
+      strategyFamily: "legal_design_adjudication",
+      trackIds: ["ky_criminal_record_segregation"],
+      dependencies: ["rcap-ky-legal-design-normalization"],
+      status: "blocked",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/ky-17-142-segregation-ratification.json`
+      ],
+      ownedPaths: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/ky-17-142-segregation-ratification.json`
+      ],
+      requiredInputs: [
+        "data/record-clearing/legal-design-intake/KY.memo.json",
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.packetSetManifests,
+        "data/record-clearing/legal-design-composed-unit-approvals.json",
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "high",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job rcap-ky-17-142-segregation-ratification"
+      ],
+      commitSubject:
+        "docs(record-clearing): ratify the Kentucky KRS 17.142 segregation route",
+      stopCondition:
+        "Record the counsel-authored provenance the two resolved units require, then ratify, or " +
+        "refuse, the two participant-initiated KRS 17.142 segregation branches on their " +
+        "own authority. Preserve AOC-497 as an order rather than a participant petition; " +
+        "AOC-496.5, AOC-497.3 and AOC-336 as clerk or system generated; the April 30, 2027 " +
+        "KRS 431.073 successor as future law that is not activated early; and the " +
+        "KRS 218A.275(12) disqualifying treatment. A route validating is not a legal approval. " +
+        "Do not enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  if (integratedNormalizations.has("ND")) {
+    // nd-deferred-imposition-records imports and validates, but its two units
+    // are marked resolved without counsel-authored provenance on the track, so
+    // the composed-unit approval gate refuses it. The memo is worker-owned and
+    // is not rewritten during integration; the route stays integrated and
+    // unapproved until the provenance the units assert is actually recorded.
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "ND",
+      jobId: "rcap-nd-deferred-imposition-unit-provenance-correction",
+      strategyFamily: "legal_design_adjudication",
+      trackIds: ["nd-deferred-imposition-records"],
+      dependencies: ["rcap-nd-legal-design-normalization"],
+      status: "blocked",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/nd-deferred-imposition-unit-provenance-correction.json`
+      ],
+      ownedPaths: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/nd-deferred-imposition-unit-provenance-correction.json`
+      ],
+      requiredInputs: [
+        "data/record-clearing/legal-design-intake/ND.memo.json",
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.packetSetManifests,
+        "data/record-clearing/legal-design-composed-unit-approvals.json",
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "high",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job rcap-nd-deferred-imposition-unit-provenance-correction"
+      ],
+      commitSubject:
+        "docs(record-clearing): correct North Dakota deferred-imposition unit provenance",
+      stopCondition:
+        "Record, from the controlling source, the counsel-authored provenance for " +
+        "nd_deferred_verify_automatic_seal and nd_deferred_dismissal_motion, or reclassify a unit " +
+        "that the source does not resolve. Preserve N.D.R.Crim.P. 32.1 as the rule implementing " +
+        "the deferred-imposition statutes rather than a second mechanism, the controlled custom " +
+        "pleadings where no statewide petition form exists, the mandatory proposed order, " +
+        "Admin. R. 41 section 4(a)(7), SFN 61663 as the pardon form, and nd_remote_access as " +
+        "official_pdf_fill. Do not approve the composition on an inference, and do not enable " +
+        "runtime, promote, or deploy. " +
         TERMINAL_INSTRUCTION
     });
   }

@@ -1,13 +1,9 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "data/record-clearing/legal-design-intake",
-  "jurisdictionsReceived": 35,
-  "jurisdictionsOutstanding": 16,
+  "jurisdictionsReceived": 39,
+  "jurisdictionsOutstanding": 12,
   "outstandingJurisdictions": [
-    "KY",
-    "NC",
-    "ND",
-    "NE",
     "NH",
     "NJ",
     "NM",
@@ -50,6 +46,34 @@
     {
       "jurisdiction": "CO",
       "trackId": "co_mistaken_identity_expungement"
+    },
+    {
+      "jurisdiction": "NC",
+      "trackId": "nc_targeted_statutes"
+    },
+    {
+      "jurisdiction": "NC",
+      "trackId": "nc-ls-1"
+    },
+    {
+      "jurisdiction": "NC",
+      "trackId": "nc-ls-2"
+    },
+    {
+      "jurisdiction": "NC",
+      "trackId": "nc-ls-3"
+    },
+    {
+      "jurisdiction": "NC",
+      "trackId": "nc-ls-4"
+    },
+    {
+      "jurisdiction": "NC",
+      "trackId": "nc-ls-5"
+    },
+    {
+      "jurisdiction": "NE",
+      "trackId": "ne-identity-theft-record-remedy"
     },
     {
       "jurisdiction": "PA",
@@ -164,7 +188,7 @@
     {
       "batch": "C_custom_pleading",
       "label": "Custom pleading",
-      "trackCount": 59,
+      "trackCount": 66,
       "tracks": [
         {
           "jurisdiction": "AZ",
@@ -1981,6 +2005,321 @@
           ]
         },
         {
+          "jurisdiction": "ND",
+          "trackId": "nd-seal-misdemeanor-conviction",
+          "publicName": "Ask a North Dakota court to seal a misdemeanor conviction",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 17,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): The filing fee for a Chapter 12-60.1 petition is not established. The statewide court fee schedule effective 1 July 2025, compiled under N.D.C.C. § 27-05.2-03, carries no line item for this petition or for any motion within an existing criminal case, and the official research guide tells the participant to contact the clerk to confirm the amount, if any. No fee figure may be shown to a participant until a clerk-level answer is obtained."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): The exclusion of impaired-driving offences from Chapter 12-60.1 appears only in the official ND Courts research guides and not in the statutory exclusions at N.D.C.C. § 12-60.1-02(2), which list only violence-or-intimidation felonies inside the firearm-disability period and registration offences. The routing to the separate § 39-08-01.6 seal follows the official guides, but the basis should be confirmed before release."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "ND",
+          "trackId": "nd-seal-felony-conviction",
+          "publicName": "Ask a North Dakota court to seal a felony conviction",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "A deferred imposition counts as a conviction for the firearm-disability computation, because N.D.C.C. § 62.1-02-01(2) defines conviction to include deferred imposition and suspended execution."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 17,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): The filing fee for a Chapter 12-60.1 petition is not established. The statewide court fee schedule effective 1 July 2025, compiled under N.D.C.C. § 27-05.2-03, carries no line item for this petition or for any motion within an existing criminal case, and the official research guide tells the participant to contact the clerk to confirm the amount, if any. No fee figure may be shown to a participant until a clerk-level answer is obtained."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): The exclusion of impaired-driving offences from Chapter 12-60.1 appears only in the official ND Courts research guides and not in the statutory exclusions at N.D.C.C. § 12-60.1-02(2), which list only violence-or-intimidation felonies inside the firearm-disability period and registration offences. The routing to the separate § 39-08-01.6 seal follows the official guides, but the basis should be confirmed before release."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "ND",
+          "trackId": "nd-seal-pardoned-conviction",
+          "publicName": "Ask a North Dakota court to seal a conviction the Governor has pardoned",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 19,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): The filing fee for a Chapter 12-60.1 petition is not established. The statewide court fee schedule effective 1 July 2025, compiled under N.D.C.C. § 27-05.2-03, carries no line item for this petition or for any motion within an existing criminal case, and the official research guide tells the participant to contact the clerk to confirm the amount, if any. No fee figure may be shown to a participant until a clerk-level answer is obtained."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (eligibility_branch): Whether the six findings in N.D.C.C. § 12-60.1-04(1), including reformation, must still be pleaded where a pardon is the ground. The structure of the chapter says they do: § 12-60.1-02 supplies grounds to file and § 12-60.1-04(1) governs whether the court may grant, with no pardon carve-out, and the official research guide lists the same six findings without exception. That is an inference from structure rather than an express provision, and it changes what the petition must argue."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "ND",
+          "trackId": "nd-dui-record-seal",
+          "publicName": "Ask a North Dakota court to seal a DUI record",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "A commercial driver licensed under N.D.C.C. § 39-06.2-10 is excluded, whether the licence is current or historical."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 14,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): N.D.C.C. § 39-08-01.6(1) says the court shall seal, and states no motion or petition trigger, whereas the neighbouring marijuana provision says expressly upon motion. The petition requirement therefore rests on the official ND Courts research guide rather than on the statutory text, and participant copy must not represent the petition as statutorily mandated."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): The exclusion of impaired-driving offences from Chapter 12-60.1 appears only in the official ND Courts research guides and not in the statutory exclusions at N.D.C.C. § 12-60.1-02(2), which list only violence-or-intimidation felonies inside the firearm-disability period and registration offences. The routing to the separate § 39-08-01.6 seal follows the official guides, but the basis should be confirmed before release."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "ND",
+          "trackId": "nd-marijuana-first-offense-seal",
+          "publicName": "Ask a North Dakota court to seal a first marijuana possession conviction",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (waiting_period): The two-year period has no anchor date on the face of the statute. The words are that the person is not subsequently convicted within two years of a further violation of this chapter, which is grammatically open between two years from the judgment and two years from the further violation. This is a genuine textual ambiguity rather than an unread statute, and it decides who qualifies."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): The official general expungement research guide describes this route as an expungement, while the statute says seal and the sealing guide treats it as sealing. The statute controls and participant copy must say seal, but the conflict between two official publications should be recorded."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NE",
+          "trackId": "ne-expunge-le-error",
+          "publicName": "Ask a Nebraska court to erase an arrest the police made by mistake",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [
+            {
+              "question": "Geographic scope correction. The review records this track as county-specific, which conflates venue with scope. Section 29-3523(9) is a statewide statute available in every county; only the venue rule is county-referenced.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "geographic_scope",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "https://nebraskalegislature.gov (Nebraska Legislature, official statutory channel)",
+                "sourceHeading": "Neb. Rev. Stat. § 29-3523(9)",
+                "sourceStatement": "The subsection is a statewide provision; the county reference goes to venue.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 12,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (venue): Whether venue is the district court of the county of arrest or any district court. The review states the county of arrest; the statutory text says only the district court. This must be closed before release."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (notice_or_service): Whether the county attorney is the named respondent, and the method and timing of service on a political subdivision. The review asserts the respondent; the statutory text does not."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Whether a summons or praecipe and a proposed order accompany the petition, which decides the packet component list."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (output_strategy): This recommendation overrides the controlling review's classification of the route as outside self-help scope. The review's grounds were a named respondent, a service requirement, an elevated burden and adversarial posture, all of which are post-filing conditions that the product model does not treat as generation blockers, and the mechanism, vehicle, destination, court level and geographic scope are all determined. The override must be counsel-confirmed before build."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NE",
+          "trackId": "ne-seal-enforcement",
+          "publicName": "Make an agency clear a Nebraska record that should already be sealed",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "A private background-check database is not reachable by this action. Route those participants out rather than filing."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Nebraska mandamus procedure was not surveyed. Whether an application and affidavit and an alternative writ are required decides the packet component list for the action."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (notice_or_service): The rule for service on a Nebraska state agency or political subdivision was not surveyed."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (legal_effect_or_warning): Whether relief is mandatory or discretionary. Mandamus lies to compel a ministerial duty and the § 29-3523(7) sealing duty is framed in mandatory terms, but the point was not settled."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (output_strategy): This recommendation overrides the controlling review's classification of the route as outside self-help scope. Venue is now settled on the statutory text, the vehicle is a separate civil action as State v. Coble directs, and drafting a separate civil action being attorney work is not one of the nine guidance rationales. The override must be counsel-confirmed."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
           "jurisdiction": "SC",
           "trackId": "sc_17_1_40_general_sessions",
           "publicName": "Clear a South Carolina General Sessions charge that did not end in a conviction",
@@ -3262,7 +3601,7 @@
     {
       "batch": "D_composed_or_process_guidance",
       "label": "Composed and process-guidance tracks",
-      "trackCount": 89,
+      "trackCount": 106,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -4762,6 +5101,177 @@
           ]
         },
         {
+          "jurisdiction": "KY",
+          "trackId": "ky_automatic_nonconviction_expungement_verification",
+          "publicName": "Check whether your dismissed or acquitted Kentucky case already cleared itself",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The automatic subsection does not reach dispositions before 15 July 2020. KRS 431.076(8) makes the rest of the section retroactive but excepts subsection (1)(a)."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "How reliably the automatic sweep runs across all one hundred and twenty counties. The Clerks' Manual directs the eligible-case list to be worked at least twice a month, which raises confidence, but the participant is still told to verify rather than assume.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "filing_process",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "Kentucky Circuit Court Clerks' Manual, July 2026 (official, kycourts.gov)",
+                "sourceHeading": "Section 39.9",
+                "sourceStatement": "The eligible-case list is generated from the case management system and worked at least twice a month.",
+                "normalizerInferred": true
+              }
+            },
+            {
+              "question": "Whether a dismissal with prejudice of some but not all charges triggers the subsection. The statute reaches an order dismissing all criminal charges in a case, so the packet treats a partial dismissal as outside the automatic route.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "eligibility_branch",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "Kentucky Legislative Research Commission, apps.legislature.ky.gov (official statutory channel)",
+                "sourceHeading": "KRS 431.076(1)(a)",
+                "sourceStatement": "The subsection reaches an order dismissing with prejudice all criminal charges in a case.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 5,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "KY",
+          "trackId": "ky_diversion_disposition_routing",
+          "publicName": "Work out what your diverted Kentucky case counts as",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Until the prejudice question is classified, no diverted participant may be told their case has already cleared automatically."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Whether current Administrative Office of the Courts diversion agreement forms still carry an expungement-waiver clause.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "eligibility_branch",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+                "sourceHeading": "KY-DIVERSION",
+                "sourceStatement": "Diversion agreements have historically contained expungement waivers."
+              }
+            }
+          ],
+          "participantActionCount": 5,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (eligibility_branch): Whether a dismissed-diverted disposition is a dismissal with prejudice for the purposes of the automatic expungement subsection. KRS 533.258(1) is silent on prejudice. Two points bear on it that the controlling review does not make: the diversion plea is to the same charge, so the KRS 431.076(1)(a) carve-out for a dismissal in exchange for a guilty plea to another charge is not triggered; and the Clerks' Manual records a distinct disposition code for dismissed-diverted, so diverted cases will not be swept into the automatic queue as a matter of system behaviour whatever the legal answer. The routing node is buildable today because it routes on the face of the order and escalates on silence, so this changes which branch is common rather than what is built."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "KY",
+          "trackId": "ky_criminal_record_segregation",
+          "publicName": "Ask agencies to file away the record of an arrest that went nowhere",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (output_strategy): The controlling review classifies this slot as an agency-level mechanism retained for completeness and expressly not a product track, and supplies no output strategy, filing actor or destination. The current official text of KRS 17.142 contains two participant-initiated routes, one of which is a court application on which relief is mandatory, so the product rule points the other way. Normalizing it as a buildable relief track is a departure from the review and must be ratified by counsel before anything is built."
+          ],
+          "scopeRestrictions": [
+            "Court records cannot be segregated. This route reaches law enforcement and other public agency records only.",
+            "Route to KRS 431.076 or KRS 431.078 first. KRS 17.142(4) sends records subject to those statutes there instead, which leaves withdrawn charges as the clearest residual use of this route."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "What practical scope survives KRS 17.142(4), which sends records subject to KRS 431.076 or KRS 431.078 to those statutes instead. The clearest residue is charges withdrawn, which KRS 431.076 does not name.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "eligibility_branch",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "Kentucky Legislative Research Commission, apps.legislature.ky.gov (official statutory channel)",
+                "sourceHeading": "KRS 17.142(4)",
+                "sourceStatement": "Records subject to the provisions of KRS 431.076 or 431.078 shall be sealed as provided in those statutes.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (output_strategy): The controlling review classifies this slot as an agency-level mechanism retained for completeness and expressly not a product track, and supplies no output strategy, filing actor or destination. The current official text of KRS 17.142 contains two participant-initiated routes, one of which is a court application on which relief is mandatory, so the product rule points the other way. Normalizing it as a buildable relief track is a departure from the review and must be ratified by counsel before anything is built."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): The static legal propositions both generated instruments would assert about the effect of segregation have not been ratified."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Whether any court filing fee attaches to a KRS 17.142(2) application. None was identified."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
           "jurisdiction": "LA",
           "trackId": "la-999-expedited-expungement",
           "publicName": "Free expedited clearing of an arrest from when you were seventeen",
@@ -6059,6 +6569,579 @@
             {
               "kind": "release_blocker",
               "statement": "Open question blocks release (legal_effect_or_warning): Whether an expunged Montana misdemeanour, a dismissed deferred imposition, or a removed non-conviction may lawfully be denied in response to a general inquiry. No Montana perjury shield or restoration provision was located in Title 46 chapter 18 part 11, § 46-18-204 or § 44-5-202. Until answered the packet says nothing about denial and treats the question as a hard self-help stop."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NC",
+          "trackId": "nc_auto_146_a4",
+          "publicName": "Your dismissed North Carolina case may have cleared itself",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Remove the record-destruction claim and replace it with G.S. 15A-151(a1) and 15A-151.5. (undetermined: legal_effect_or_warning)",
+            "Open question blocks the build (eligibility_branch): The full list of conditions in G.S. 15A-146(a4) was not read at the official source in this review, so the complete gate for automatic expunction is not encoded."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [
+            {
+              "question": "Whether dismissals under G.S. 15A-1008 before December 1, 2025 on the ground that the defendant was incapable to proceed are expungeable.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "eligibility_branch",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "TRACK 1 - AUTOMATIC EXPUNCTION OF DISMISSALS AND NOT-GUILTY FINDINGS / OPEN QUESTIONS",
+                "sourceStatement": "Whether dismissals under G.S. 15A-1008 before December 1, 2025 are expungeable. The School of Government calls this an open question. Nonblocking but real."
+              }
+            }
+          ],
+          "participantActionCount": 5,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Remove the record-destruction claim and replace it with G.S. 15A-151(a1) and 15A-151.5. (undetermined: legal_effect_or_warning)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): The full list of conditions in G.S. 15A-146(a4) was not read at the official source in this review, so the complete gate for automatic expunction is not encoded."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): What remedy exists where automatic expunction did not occur at all. The narrower case — the expunction ran but an agency still holds the record — is answered by the nc_auto_146_a4_agency_followup supporting action, which generates the participant's written request to that holder. The case where the expunction never ran remains open and is why this stays a release blocker."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "ND",
+          "trackId": "nd-nonconviction-auto-close-verify",
+          "publicName": "Check that your North Dakota nonconviction record closed on its own",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 5,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): What remedy exists where the court does not close the record at day sixty-one. Neither N.D.C.C. § 12-60.1-05 nor the official instructions nor the research guide identifies one, so the packet can tell the participant to contact the clerk but cannot tell them what to do if that fails."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): Whether the participant receives any notice that the record has been closed. Nothing in the statute or the official publications says so, which is why the packet builds the verification step around the public access search instead."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "ND",
+          "trackId": "nd-deferred-imposition-records",
+          "publicName": "Clear a North Dakota case where the court deferred your sentence",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Sealing here is the § 12.1-32-07.2(2) restricted-access regime, which is narrower than Chapter 12-60.1 sealing: it names a different access list and restricts records rather than prohibiting disclosure."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 14,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Whether a deferral order entered before 1 March 2019 on a felony carries the sixty-one-day seal term. The rule applied only in misdemeanor and infraction cases until that amendment, so a pre-2019 felony deferral may never have carried the term at all, which decides whether the verification unit or the motion unit applies."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (output_strategy): Whether this slot is better held as one composed node with an automatic branch and a fallback motion branch, or split into a verification node and a separate relief track. The substance is identical either way; the composed form is used here because the two branches are alternatives selected by whether the automatic term operated, and because they are one source slot."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "ND",
+          "trackId": "nd-trafficking-vacatur-routing",
+          "publicName": "Where to go if your conviction came from being trafficked",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 3,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): The Chapter 29-32.1 procedural overlay, which governs the motion, any hearing and any relief, has not been mapped."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (output_strategy): Whether this slot should be promoted to a buildable custom-pleading relief track. A participant-facing motion exists on the face of the statute and no official form controls, so the only obstacle is the controlling review's scope decision to route trafficking matters to counsel."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "ND",
+          "trackId": "nd-juvenile-records-routing",
+          "publicName": "Where to go about a North Dakota juvenile record",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Juvenile records are outside the adult scope of this jurisdiction package and are routed rather than served."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 3,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (output_strategy): Whether juvenile early destruction should be built as its own relief track. The statute, a complete official motion packet and hearing instructions all exist, so the only obstacle is scope. The controlling review carried no authority at all for this row, so the scope call should be re-made now that the authority is identified."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "ND",
+          "trackId": "nd-dna-profile-removal-routing",
+          "publicName": "Where to go about a North Dakota DNA profile",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 3,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): The State Crime Laboratory's process and address for receiving the certified order are not stated in N.D.C.C. § 31-13-07 or in the official expungement guide, so the handoff cannot be described precisely."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (output_strategy): Whether this slot should be promoted to a buildable custom-pleading relief track, given that a participant-facing petition exists and the controlling review cited no authority for the row at all."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "ND",
+          "trackId": "nd-unconstitutional-arrest-expungement-routing",
+          "publicName": "Where to go if you believe your arrest was unconstitutional",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "No unofficial mirror may be used to supply the standard. The decision must be obtained from the Supreme Court law library or an official reporter before this route is built."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 3,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): The controlling authority is not obtainable from any official electronic source. The official expungement guide states in terms that State v. Howe is not available at ndcourts.gov and is published in print in the North Western Reporter, and North Dakota Supreme Court opinions predating 1993 are not online. No verbatim standard can therefore be quoted from an official source, and unofficial mirrors are not permissible as controlling authority. The route stays a routing node until a certified print or official reporter copy is obtained."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NE",
+          "trackId": "ne-nonconviction-auto",
+          "publicName": "Check whether your Nebraska non-conviction record came off the public record",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [
+            {
+              "question": "Whether a dismissal after a deferred judgment where charges were filed falls under the immediate branch or the two-year diversion branch. The text reads as the immediate branch.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "waiting_period",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "https://nebraskalegislature.gov (Nebraska Legislature, official statutory channel)",
+                "sourceHeading": "Neb. Rev. Stat. § 29-3523(3)(c)",
+                "sourceStatement": "The immediate branch includes a case dismissed after a deferred judgment.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 6,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): The primary text of the deferred judgment and pretrial diversion statutes was not read at source, so neither section number may appear in participant-facing copy until it is verified."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NE",
+          "trackId": "ne-juvenile-sealing-routing",
+          "publicName": "Where to go about a Nebraska juvenile record",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Juvenile records are outside the adult scope of this package and are routed rather than served."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Neb. Rev. Stat. § 43-2,108.05 was amended by Laws 2025, LB530. The substantive change was not determined and should be read before this route is built.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "https://nebraskalegislature.gov (Nebraska Legislature, official statutory channel)",
+                "sourceHeading": "Neb. Rev. Stat. § 43-2,108.05, credit line",
+                "sourceStatement": "The section carries an amendment by Laws 2025, LB530.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 1,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (output_strategy): Whether juvenile sealing should be brought into scope as a full relief track. It is legally and operationally ready: a statute, four official statewide forms and published hearing instructions all exist. The only obstacle is that the review scoped it out and the participant model assumes an adult filer."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NE",
+          "trackId": "ne-pardon-routing",
+          "publicName": "Where to go about a Nebraska pardon",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The Board will not consider pardons for traffic violations, driving under the influence, or driving under suspension. Participants with those convictions cannot reach the pardoned-conviction sealing route at all."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 1,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (output_strategy): Whether preparation of the Board of Pardons application should come into scope. It is a participant-facing agency application, which the product model covers, and the review's exclusion is a scope restriction rather than a capability finding."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (governing_mechanism): Whether a mayoral pardon of a city ordinance violation in Lincoln or Omaha supports a motion to seal under Neb. Rev. Stat. § 29-3523(5). This local variant is not identified in the controlling review."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NE",
+          "trackId": "ne-firearm-restoration-routing",
+          "publicName": "Where to go about restoring firearm rights in Nebraska",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 1,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NE",
+          "trackId": "ne-out-of-jurisdiction-routing",
+          "publicName": "Where to go about a record from outside Nebraska",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Record jurisdiction is the first gate in the Nebraska intake and precedes every other question, so no participant is quoted a packet that cannot reach their record."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 1,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NE",
+          "trackId": "ne-immigration-routing",
+          "publicName": "Where to go if you have an immigration matter",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 1,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NE",
+          "trackId": "ne-postconviction-routing",
+          "publicName": "Where to go if you want your Nebraska conviction overturned",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 1,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (output_strategy): Whether post-conviction relief stays permanently outside the record-clearing product. It is a distinct remedy class and the recommendation is that it stays out."
             },
             {
               "kind": "source_gate",
@@ -7436,7 +8519,7 @@
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 181,
+      "trackCount": 205,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -12018,6 +13101,491 @@
           ]
         },
         {
+          "jurisdiction": "KY",
+          "trackId": "ky_expungement_certification",
+          "publicName": "Get the certification you need before asking to clear a conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [
+            {
+              "question": "Whether one certification supports petitions filed in more than one county within the 30-day window, or whether a separate certification is needed per county.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "filing_process",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx",
+                "sourceHeading": "Expungement Certification Process",
+                "sourceStatement": "Certification documents must be filed with the Circuit Court Clerk within 30 days of receipt.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 11,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): Whether the Administrative Office of the Courts waives the $40 certification fee on indigency, and on what criteria. AOC-RU-009 refers to an exemption of fees if applicable but the form and the AOC's published process do not state who qualifies or how to ask."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "KY",
+          "trackId": "ky_misdemeanor_expungement",
+          "publicName": "Clear a Kentucky misdemeanor, violation or traffic conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Offences against a jurisdiction other than Kentucky are outside the section."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Whether a single petition may reach more than one criminal case. The Clerks' Manual requires a separate petition per criminal case but directs that only one fee be collected where a circuit case has an underlying district case, so the fee rule and the petition rule differ.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "filing_process",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "Kentucky Circuit Court Clerks' Manual, July 2026 (official, kycourts.gov)",
+                "sourceHeading": "Sections 39.3.1 and 39.4.1",
+                "sourceStatement": "If charge(s) is in a circuit criminal case, only collect one fee. A separate fee is not required to expunge an underlying district criminal case.",
+                "normalizerInferred": true
+              }
+            },
+            {
+              "question": "Whether any county requires a proposed order to be tendered with the petition. Local rules of practice were not surveyed county by county and can add requirements.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "packet_components",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "KY__LEGAL-REVIEW__STATEWIDE__kentucky-record-clearing-legal-review__ASOF-2026-08-02__EN.md",
+                "sourceHeading": "LIMITATION #13, scope restriction",
+                "sourceStatement": "Local rules of practice were not surveyed county by county and are recorded as unresolved; local courts can require additional forms by local rule."
+              }
+            }
+          ],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): Whether the $50 refund on an unsuccessful petition is available at all. KRS 431.078(7) makes the first $50 non-refundable, the face of AOC-496 says the court shall refund $50.00, and the Clerks' Manual directs the clerk to refund the fee per the Accounting Manual. Participant-facing cost copy cannot be written until this is settled."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "KY",
+          "trackId": "ky_felony_vacatur_expungement",
+          "publicName": "Ask the court to vacate and clear a Kentucky Class D felony",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [
+            {
+              "question": "Whether an offence enumerated in KRS 431.073(1)(a) may instead be brought under the broader (1)(d) branch where the applicant prefers its findings.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "eligibility_branch",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "Kentucky Legislative Research Commission, apps.legislature.ky.gov (official statutory channel)",
+                "sourceHeading": "KRS 431.073(1)(a) and (1)(d)",
+                "sourceStatement": "The subsection sets out separate eligibility branches without stating whether they are mutually exclusive.",
+                "normalizerInferred": true
+              }
+            },
+            {
+              "question": "What the participant's position is where the conviction is vacated but the $250 is never paid, so the record is not expunged.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "legal_effect_or_warning",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "Kentucky Legislative Research Commission, apps.legislature.ky.gov (official statutory channel)",
+                "sourceHeading": "KRS 431.073(5) and (7)",
+                "sourceStatement": "The conviction is vacated on the order; the record is expunged upon payment of the fee in full.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): The enumerated Class D felony list in KRS 431.073(1)(a) changes on 30 April 2027. The Legislative Research Commission publishes two versions of the section: the current text effective until that date, and a successor enacted by 2026 Ky. Acts ch. 126 sec. 31 which adds KRS 286.13-150 to the list. The two texts are otherwise identical. The eligibility list must be date-parameterised before release, and the controlling review's statement that no future amendment exists is incorrect."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): At least one circuit clerk's published page states that $300 is due at filing, which does not match KRS 431.073(10) and (11). The packet must state the statutory position and warn that a local office may ask for the whole sum at once."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "KY",
+          "trackId": "ky_felony_expungement_after_pardon",
+          "publicName": "Clear a Kentucky felony the Governor has pardoned",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "This branch is for a full pardon only. A conditional pardon, a partial pardon or a commutation is not within KRS 431.073(1)(c)."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "The controlling review recorded as an open question whether a certification is required on the pardon basis. KRS 431.079(1) requires one on every petition or application seeking expungement of a conviction, with no pardon carve-out, and the Clerks' Manual applies the same rule. Recorded as closed on primary authority.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "packet_components",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "Kentucky Legislative Research Commission, apps.legislature.ky.gov (official statutory channel)",
+                "sourceHeading": "KRS 431.079(1)",
+                "sourceStatement": "Every petition or application filed seeking expungement of a conviction shall include a certification of eligibility.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Whether the pardon instrument is a full pardon is a legal reading of a document LegalEase does not see. The packet asks the participant what their document says and routes to counsel on anything other than a plain full pardon, but the characterisation should be reviewed before release."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "KY",
+          "trackId": "ky_nonconviction_expungement",
+          "publicName": "Clear a Kentucky case that ended without a conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [
+            {
+              "question": "Whether a dismissal with prejudice entered before 15 July 2020 uses the sixty-day condition on the petition branch. The statute reads that way through KRS 431.076(1)(b) and (2)(a) together with the retroactivity clause; clerk practice was not surveyed.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "waiting_period",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "Kentucky Legislative Research Commission, apps.legislature.ky.gov (official statutory channel)",
+                "sourceHeading": "KRS 431.076(1)(b), (2)(a) and (8)",
+                "sourceStatement": "The section is retroactive except for the automatic subsection.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Confirmation from the Administrative Office of the Courts of the intended completion of the AOC-497.2 eligibility checkboxes. The form instructs the filer to check all that apply and the five boxes describe mutually exclusive dispositions of a charge, so the disjunctive reading is the only workable one; the Clerks' Manual states the same periods disjunctively. Packet identity and the field map are settled and this does not stop the build."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): Some clerks attempt to charge a filing fee on this track. The Clerks' Manual records that there is none, and the packet must say so and tell the participant what to point to."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "KY",
+          "trackId": "ky_void_seal_controlled_substance",
+          "publicName": "Void and seal a first Kentucky drug possession conviction",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (eligibility_branch): KRS 218A.275(12) bars this relief to anyone who previously had a possession charge dismissed after a deferred prosecution under KRS 218A.14151. The controlling review does not record that bar, and it changes who receives a packet at all, so it must be encoded and confirmed before the route is built."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [
+            {
+              "question": "The scope of the KRS 27A.099 exception, which keeps some records outside the sealing order.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "legal_effect_or_warning",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "Kentucky Legislative Research Commission, apps.legislature.ky.gov (official statutory channel)",
+                "sourceHeading": "KRS 218A.275(9)",
+                "sourceStatement": "Records excepted under KRS 27A.099 are not sealed.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): KRS 218A.275(12) bars this relief to anyone who previously had a possession charge dismissed after a deferred prosecution under KRS 218A.14151. The controlling review does not record that bar, and it changes who receives a packet at all, so it must be encoded and confirmed before the route is built."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): The static legal propositions the generated motion asserts about the effect of voiding and sealing have not been ratified by counsel. The motion cannot go out until they are."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (governing_mechanism): KRS 218A.14151 deferred prosecution is an adjacent record-clearing mechanism the controlling review never identifies. AOC-333 is its sealing order and AOC-331 its participant-facing application. It is recorded here as an observation only; it is not a thirteenth source slot and is not normalized in this memo."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "KY",
+          "trackId": "ky_void_seal_marijuana_synthetic_salvia",
+          "publicName": "Void and seal a first Kentucky marijuana or synthetic drug possession conviction",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The offence list is fixed by KRS 218A.276(1) at marijuana, synthetic drugs and salvia possession."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "The scope of the KRS 27A.099 exception, which keeps some records outside the sealing order.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "legal_effect_or_warning",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "Kentucky Legislative Research Commission, apps.legislature.ky.gov (official statutory channel)",
+                "sourceHeading": "KRS 218A.276(9)",
+                "sourceStatement": "Records excepted under KRS 27A.099 are not sealed.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): The static legal propositions the generated motion asserts about the effect of voiding and sealing have not been ratified by counsel."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "KY",
+          "trackId": "ky_juvenile_record_expungement",
+          "publicName": "Clear a Kentucky juvenile record",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The section covers adjudications under KRS Chapters 630, 635 and 645 only. Chapter 620 and Chapter 640 matters are outside it."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "The controlling review describes four automatic sub-branches, but only the dismissal and not-delinquent branch appears in KRS 610.330(7); the others derive from the juvenile procedural rules rather than the statute.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "Kentucky Legislative Research Commission, apps.legislature.ky.gov (official statutory channel)",
+                "sourceHeading": "KRS 610.330(7)",
+                "sourceStatement": "The subsection provides for concurrent expungement on dismissal or a finding of not delinquent.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Whether juvenile records are within the Kentucky product scope at all. The controlling review places them outside the core adult scope. That is a product decision and not a legal obstacle, since a mandatory participant-facing petition exists and its identity is established, but nothing on this track ships until the decision is made."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): AOC-JV-30 collects the date of birth, sex, race and Social Security number of a person who was a minor at the time. Handling that under the participant data policy has to be signed off before the packet is offered."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "KY",
+          "trackId": "ky_protective_order_record_expungement",
+          "publicName": "Clear the record of a protective order case that was dismissed",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Whether civil protective-order records are within the Kentucky product scope. The controlling review scopes this slot out on the basis that it is not a criminal record, and assigns it no strategy, filing actor or destination. The mechanism, the official participant-facing form and the venue are all established, so this is a scope decision rather than a legal obstacle, but nothing ships until it is made."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The AOC-275.19 order binary was not separately retrieved from the official channel; its identity rests on the official Clerks' Manual. It should be retrieved before release."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
           "jurisdiction": "LA",
           "trackId": "la-976-arrest-no-conviction",
           "publicName": "Clear an arrest that did not end in a conviction",
@@ -14322,6 +15890,812 @@
             {
               "kind": "release_blocker",
               "statement": "Open question blocks release (packet_components): Whether CRISS enforces the 2023 form's photo-identification requirement for a Non-Conviction Removal request. The 2024 version drops it and lists only the court judgment. The packet includes photo identification by default, which is the fail-closed reading, pending confirmation."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NC",
+          "trackId": "nc_auto_146_a4_agency_followup",
+          "publicName": "Ask an agency to clear a record that already cleared in court",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): What remedy exists where the automatic expunction did not occur at all, as distinct from occurring but not reaching an agency. This node addresses only the second case. The review records the first as an open question and it is not answered here."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Whether AOC-G-260, the Application For Certificate Of Verification Of Prior Expunction Or Discharge, is available for an automatic expunction under G.S. 15A-146(a4), or only for a petitioned expunction or a discharge. The form was identified on the official channel but its text was not read, so the conditional component that uses it cannot be released until the answer is known."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Whether any North Carolina provision obliges a non-court record holder to act on a private request of this kind, or whether the request is purely voluntary from the holder's side. The answer changes what the packet may tell the participant to expect, though not what it generates."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NC",
+          "trackId": "nc_146_dismissal_petition",
+          "publicName": "Clear a North Carolina charge that was dismissed",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Remove the record-destruction claim and replace it with G.S. 15A-151(a1) and 15A-151.5. (undetermined: legal_effect_or_warning)",
+            "Design undetermined: Read 15A-146, 15A-145.8A and the Track 7 statutes. (undetermined: governing_mechanism)",
+            "Open question blocks the build (eligibility_branch): The full text of G.S. 15A-146(a) and (a1) was not read at the official source in this review. The statutory source is confirmed reachable at ncleg.gov as of 2026-08-05, but the text remains unread."
+          ],
+          "scopeRestrictions": [
+            "No reach to federal or out-of-state records."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Whether pre-December 2025 incapable-to-proceed dismissals are expungeable, given that AOC-CR-287 (Dec. 2025) states the exclusion without limiting it by date.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "eligibility_branch",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "TRACK 2 - PETITION TO EXPUNGE A DISMISSAL / OPEN QUESTIONS",
+                "sourceStatement": "Whether pre-December 2025 incapable-to-proceed dismissals are expungeable. Nonblocking."
+              }
+            }
+          ],
+          "participantActionCount": 14,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Remove the record-destruction claim and replace it with G.S. 15A-151(a1) and 15A-151.5. (undetermined: legal_effect_or_warning)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Read 15A-146, 15A-145.8A and the Track 7 statutes. (undetermined: governing_mechanism)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): The full text of G.S. 15A-146(a) and (a1) was not read at the official source in this review. The statutory source is confirmed reachable at ncleg.gov as of 2026-08-05, but the text remains unread."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NC",
+          "trackId": "nc_146_acquittal_petition",
+          "publicName": "Clear a North Carolina charge you were found not guilty of",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Remove the record-destruction claim and replace it with G.S. 15A-151(a1) and 15A-151.5. (undetermined: legal_effect_or_warning)",
+            "Open question blocks the build (eligibility_branch): The full text of G.S. 15A-146(a2) was not read at the official source in this review. The statutory source is confirmed reachable at ncleg.gov as of 2026-08-05, but the text remains unread."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Remove the record-destruction claim and replace it with G.S. 15A-151(a1) and 15A-151.5. (undetermined: legal_effect_or_warning)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): The full text of G.S. 15A-146(a2) was not read at the official source in this review. The statutory source is confirmed reachable at ncleg.gov as of 2026-08-05, but the text remains unread."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NC",
+          "trackId": "nc_145_5_misdemeanor",
+          "publicName": "Expunge a nonviolent North Carolina misdemeanor conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Obtain and encode the full nonviolent exclusion list before any generation. (undetermined: eligibility_branch)",
+            "Design undetermined: Verify the 2025 session law citation. (undetermined: waiting_period)",
+            "Open question blocks the build (eligibility_branch): The full text of G.S. 15A-145.5, including the complete enumerated exclusion list, was not read at the official source in this review. This is the single most important text to obtain for North Carolina. The statutory source is confirmed reachable at ncleg.gov as of 2026-08-05, but the text remains unread and the exclusion list is therefore not encoded.",
+            "Open question blocks the build (packet_components): Whether the good-character affidavits must come from named third parties, and how many are required."
+          ],
+          "scopeRestrictions": [
+            "The any-non-traffic-conviction bar on this track is absolute and must be screened against the SBI record, not participant recall.",
+            "DWI and Class A1 misdemeanors are categorically out.",
+            "Any non-traffic conviction anywhere bars the misdemeanor track."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Whether the grant is mandatory on the statutory findings or discretionary.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "legal_effect_or_warning",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "NC__LEGAL-REVIEW__STATEWIDE__north-carolina-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "TRACK 4 - NONVIOLENT MISDEMEANOR CONVICTIONS / OPEN QUESTIONS",
+                "sourceStatement": "Whether the grant is mandatory on the findings or discretionary. Unresolved."
+              }
+            }
+          ],
+          "participantActionCount": 23,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Obtain and encode the full nonviolent exclusion list before any generation. (undetermined: eligibility_branch)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Verify the 2025 session law citation. (undetermined: waiting_period)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): The full text of G.S. 15A-145.5, including the complete enumerated exclusion list, was not read at the official source in this review. This is the single most important text to obtain for North Carolina. The statutory source is confirmed reachable at ncleg.gov as of 2026-08-05, but the text remains unread and the exclusion list is therefore not encoded."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (packet_components): Whether the good-character affidavits must come from named third parties, and how many are required."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (waiting_period): The session law citation for the 2025 change reducing the one-misdemeanor waiting period from five years to three. The internal reference says S.L. 2025-71; the July 9, 2025 effective date is corroborated but the session law number is not."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NC",
+          "trackId": "nc_145_5_felony",
+          "publicName": "Expunge a nonviolent North Carolina felony conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Obtain and encode the full nonviolent exclusion list before any generation. (undetermined: eligibility_branch)",
+            "Open question blocks the build (eligibility_branch): The full text of G.S. 15A-145.5, including the complete enumerated exclusion list, was not read at the official source in this review. The statutory source is confirmed reachable at ncleg.gov as of 2026-08-05, but the text remains unread."
+          ],
+          "scopeRestrictions": [
+            "No reach to federal or out-of-state records."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 22,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Obtain and encode the full nonviolent exclusion list before any generation. (undetermined: eligibility_branch)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): The full text of G.S. 15A-145.5, including the complete enumerated exclusion list, was not read at the official source in this review. The statutory source is confirmed reachable at ncleg.gov as of 2026-08-05, but the text remains unread."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Whether the felony track carries the same absolute prior-conviction bar as the misdemeanor track. The internal reference states the rule as applying to the misdemeanor track only, which is the reading adopted by the review, but it must be confirmed against the statute."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NC",
+          "trackId": "nc_145_8a_youthful",
+          "publicName": "Clear a North Carolina conviction from when you were 16 or 17",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Read 15A-146, 15A-145.8A and the Track 7 statutes. (undetermined: governing_mechanism)",
+            "Open question blocks the build (eligibility_branch): The full text of G.S. 15A-145.8A was not read at the official source in this review. The statutory source is confirmed reachable at ncleg.gov as of 2026-08-05, but the text remains unread."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 17,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Read 15A-146, 15A-145.8A and the Track 7 statutes. (undetermined: governing_mechanism)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): The full text of G.S. 15A-145.8A was not read at the official source in this review. The statutory source is confirmed reachable at ncleg.gov as of 2026-08-05, but the text remains unread."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Whether the grant is truly mandatory on eligibility. The internal reference states that a judge must grant an eligible petition; the review did not verify it. If correct, this is the strongest conviction relief in the state."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): Edition 1.2 retains no asset under AOC-CR-293. The correct participant-facing petition for G.S. 15A-145.8A was retrieved from the official channel on 2026-08-06 at Rev. 3/25, together with its instructions sheet, so the identity and the revision are settled and no attended re-check is owed. What is outstanding is archival: the current official AOC-CR-293 and AOC-CR-293 Instructions binaries must be materialized into the authority archive under their own identity before this packet can be generated, and the retained AOC-CR-296 asset must be re-pinned to its true role as the district attorney petition under G.S. 15A-146(a2) rather than left standing as this track's petition."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "ND",
+          "trackId": "nd-nonconviction-close-petition",
+          "publicName": "Close the court record of a North Dakota case that ended without a conviction",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (correct_form): The official petition and order are captioned for district court only. The caption block reads In District Court with a judicial district line, and the signature block reads Judge of District Court, while N.D.C.C. § 12-60.1-05 and the official instructions both cover municipal court cases. A municipal petitioner has no compliant official form, so either the caption is adapted by hand or a municipal custom-pleading variant is needed. This decides what is built for the municipal branch."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): The official petition and order are captioned for district court only. The caption block reads In District Court with a judicial district line, and the signature block reads Judge of District Court, while N.D.C.C. § 12-60.1-05 and the official instructions both cover municipal court cases. A municipal petitioner has no compliant official form, so either the caption is adapted by hand or a municipal custom-pleading variant is needed. This decides what is built for the municipal branch."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): The Edition 1.2 retained instructions are at REV-2025-08-01 and are superseded by the official Rev Apr 2026 instructions. The current official bundle must be materialized into the archive with hashes before release."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "ND",
+          "trackId": "nd-prohibit-remote-public-access",
+          "publicName": "Ask a North Dakota court to take your dismissed case off the internet",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Route to the nonconviction close first. Since HB 1166 created N.D.C.C. § 12-60.1-05 this rule is the weaker option for most dismissed and acquitted cases."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Whether any equivalent route exists in municipal court. None was identified.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "venue",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "https://www.ndcourts.gov (North Dakota Supreme Court, official)",
+                "sourceHeading": "Prohibit Remote Public Access packet",
+                "sourceStatement": "The packet is drafted for district court.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): The ND Legal Self Help Center states on the packet that its forms are not official court forms and that judges and courts are not required to accept them. That disclosure must appear in release copy so the participant is not told the packet is guaranteed acceptance."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "ND",
+          "trackId": "nd-summary-marijuana-pardon",
+          "publicName": "Apply for North Dakota's summary marijuana pardon",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 14,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): The fax number on the face of SFN 61663 differs from the one published on the Department of Corrections and Rehabilitation web page. The form's number is used and the conflict is recorded."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (output_strategy): The controlling review states at Part 4 that LegalEase cannot complete any pardon application. That is a scope restriction rather than a legal or product-model bar: this is an official prescribed form with a defined destination and a participant-facing role, and Edition 1.2 retains it. The classification must be settled before the route ships, and if counsel affirms the restriction this node should be downgraded to a routing node."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "ND",
+          "trackId": "nd-regular-pardon",
+          "publicName": "Apply to the North Dakota Pardon Advisory Board",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 12,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): SFN 14859 is not retained in Edition 1.2. The current official binary must be materialized into the authority archive with a hash before this route can be generated."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (output_strategy): The same scope question as the summary application: the controlling review states that LegalEase cannot complete any pardon application."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NE",
+          "trackId": "ne-setaside-noncustodial",
+          "publicName": "Set aside a Nebraska conviction where you were not sent to jail",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The four mandatory-denial grounds in § 29-2264(3)(b) belong to the custodial branch and must not be screened against a subsection (2) petitioner."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Whether CC 6:11 is mandatory by rule or merely approved. No Nebraska Supreme Court rule making it mandatory was located, so it is treated as required.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "correct_form",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "https://nebraskajudicial.gov",
+                "sourceHeading": "Master Forms List",
+                "sourceStatement": "CC 6:11 is the published statewide petition to set aside a criminal conviction.",
+                "normalizerInferred": true
+              }
+            },
+            {
+              "question": "Whether the court transmits a set-aside order to the Nebraska State Patrol automatically, which decides what the packet tells a participant to expect on a later background check.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "legal_effect_or_warning",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "https://nebraskalegislature.gov (Nebraska Legislature, official statutory channel)",
+                "sourceHeading": "Neb. Rev. Stat. § 29-2264",
+                "sourceStatement": "The section states the effect of the order without providing for transmission to the State Patrol.",
+                "counselQuestion": "Does a Nebraska set-aside order reach the State Patrol criminal history record automatically?"
+              }
+            }
+          ],
+          "participantActionCount": 16,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): The filing fee for a petition or motion filed within an existing Nebraska criminal case is not established. The statewide Filing Fees and Court Costs schedule effective 1 July 2026 carries no line item for post-judgment petitions or motions within a criminal case. No fee figure may be displayed to a participant until a clerk-level answer is obtained from at least one county court and one district court."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): The fee-waiver branch has no fitting official form. DC 6:7.1's case-type box offers only Civil, Name change and Emancipation, and its official title is scoped to civil, appeals and emancipation matters, while a set-aside petition or sealing motion is filed in the existing criminal case. There is no county-court in forma pauperis application form at all: CC 8:1 is the order only. Neb. Rev. Stat. § 25-2301.01 nonetheless permits proceeding in forma pauperis in a civil or criminal case in any county or state court, so the mechanism exists and the form does not fit it. A custom affidavit and application under §§ 25-2301 to 25-2310 is the resolution rather than mis-scoping DC 6:7.1."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (notice_or_service): The certificate-of-service correction. The review records that a certificate or proof of service is not applicable. That is wrong for district court: page two of DC 1:15 is a participant-executed certificate of service mailed to the prosecutor, and the packet components and instructions are corrected accordingly."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NE",
+          "trackId": "ne-setaside-custodial",
+          "publicName": "Set aside a Nebraska conviction after a short jail sentence",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (eligibility_branch): Whether consecutive sentences that together exceed one year take a participant outside subsection (3). The judiciary's own eligibility questionnaire does not address aggregation, and the answer decides whether a packet is offered at all. Until it is answered the aggregation case is a hard stop."
+          ],
+          "scopeRestrictions": [
+            "The four mandatory denial grounds are absolute. The screen denies on any uncertainty rather than proceeding, because a wrong filing costs the participant two years."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 16,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): Whether consecutive sentences that together exceed one year take a participant outside subsection (3). The judiciary's own eligibility questionnaire does not address aggregation, and the answer decides whether a packet is offered at all. Until it is answered the aggregation case is a hard stop."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): The filing fee for a petition or motion filed within an existing Nebraska criminal case is not established. The statewide Filing Fees and Court Costs schedule effective 1 July 2026 carries no line item for post-judgment petitions or motions within a criminal case. No fee figure may be displayed to a participant until a clerk-level answer is obtained from at least one county court and one district court."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): The fee-waiver branch has no fitting official form. DC 6:7.1's case-type box offers only Civil, Name change and Emancipation, and its official title is scoped to civil, appeals and emancipation matters, while a set-aside petition or sealing motion is filed in the existing criminal case. There is no county-court in forma pauperis application form at all: CC 8:1 is the order only. Neb. Rev. Stat. § 25-2301.01 nonetheless permits proceeding in forma pauperis in a civil or criminal case in any county or state court, so the mechanism exists and the form does not fit it. A custom affidavit and application under §§ 25-2301 to 25-2310 is the resolution rather than mis-scoping DC 6:7.1."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Whether a motor vehicle offence under the Nebraska Rules of the Road reaches ordinance-level traffic offences, which would materially widen the mandatory-denial ground."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (waiting_period): Whether a prior denial was under subsection (3) or subsection (2), which decides whether the two-year refiling bar runs at all."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NE",
+          "trackId": "ne-seal-pre2017",
+          "publicName": "Ask a Nebraska court to seal a case that was dismissed before 2017",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Screen hard on the disposition date. Anything dismissed on or after 1 January 2017 is sealed automatically and free, and must be routed there rather than to this motion."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "No statewide proposed sealing order form exists. An exhaustive search of the Master Forms List returns none, so the choice is between filing nothing and drafting one. The packet files nothing and tells the participant the court drafts the order.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "packet_components",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "https://nebraskajudicial.gov",
+                "sourceHeading": "Master Forms List",
+                "sourceStatement": "No statewide proposed order to seal an adult criminal record is published.",
+                "normalizerInferred": true
+              }
+            },
+            {
+              "question": "CC 6:12's closing sentence asks for an order sealing the participant's conviction, which contradicts its own dismissal and acquittal checkboxes. The official text is used unaltered and the wording is flagged in participant instructions.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "participant_instructions",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "https://nebraskajudicial.gov/sites/default/files/CC-6-12.pdf",
+                "sourceHeading": "CC 6:12 Rev. 04/2024, closing paragraph",
+                "sourceStatement": "The closing sentence refers to sealing the above conviction while the checkboxes cover dismissal and acquittal.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 14,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): Which form is primary, CC 6:12 or CC 6:15.1. Both are live, current and not retired on the official host. CC 6:15.1 is the better statutory fit because its five checkboxes map onto the five qualifying dismissal reasons that § 29-3523(6) requires the court to find, whereas CC 6:12 records only the disposition type. Against that, the judiciary's own adult record sealing page links only CC 6:12, and CC 6:12 carries the later revision. CC 6:12 is built as primary because that is what the judiciary directs and what clerks will expect, with CC 6:15.1 held as a conditional alternate. This needs a clerk-level answer from more than one county."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): The filing fee for a petition or motion filed within an existing Nebraska criminal case is not established. The statewide Filing Fees and Court Costs schedule effective 1 July 2026 carries no line item for post-judgment petitions or motions within a criminal case. No fee figure may be displayed to a participant until a clerk-level answer is obtained from at least one county court and one district court."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): The fee-waiver branch has no fitting official form. DC 6:7.1's case-type box offers only Civil, Name change and Emancipation, and its official title is scoped to civil, appeals and emancipation matters, while a set-aside petition or sealing motion is filed in the existing criminal case. There is no county-court in forma pauperis application form at all: CC 8:1 is the order only. Neb. Rev. Stat. § 25-2301.01 nonetheless permits proceeding in forma pauperis in a civil or criminal case in any county or state court, so the mechanism exists and the form does not fit it. A custom affidavit and application under §§ 25-2301 to 25-2310 is the resolution rather than mis-scoping DC 6:7.1."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (eligibility_branch): Whether an absolute discharge under Neb. Rev. Stat. § 29-1207, the six-month speedy-trial rule, is a dismissal as a result of a hearing that is not the subject of a pending appeal for the second checkbox on CC 6:15.1."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NE",
+          "trackId": "ne-seal-pardoned",
+          "publicName": "Ask a Nebraska court to seal a conviction that has been pardoned",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "The Board will not consider pardons for traffic violations, driving under the influence, or driving under suspension, so participants with those convictions cannot reach this route at all."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 12,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): The filing fee for a petition or motion filed within an existing Nebraska criminal case is not established. The statewide Filing Fees and Court Costs schedule effective 1 July 2026 carries no line item for post-judgment petitions or motions within a criminal case. No fee figure may be displayed to a participant until a clerk-level answer is obtained from at least one county court and one district court."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (packet_components): The fee-waiver branch has no fitting official form. DC 6:7.1's case-type box offers only Civil, Name change and Emancipation, and its official title is scoped to civil, appeals and emancipation matters, while a set-aside petition or sealing motion is filed in the existing criminal case. There is no county-court in forma pauperis application form at all: CC 8:1 is the order only. Neb. Rev. Stat. § 25-2301.01 nonetheless permits proceeding in forma pauperis in a civil or criminal case in any county or state court, so the mechanism exists and the form does not fit it. A custom affidavit and application under §§ 25-2301 to 25-2310 is the resolution rather than mis-scoping DC 6:7.1."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (eligibility_branch): The scope of any cases related to such charges or conviction, which decides how far one motion reaches."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (governing_mechanism): Whether § 29-3523(5) reaches a mayoral pardon of a city ordinance violation. Lincoln and Omaha both operate mayoral pardon processes, which the review does not identify, and their effect under this subsection is untested."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NE",
+          "trackId": "ne-trafficking-setaside-and-seal",
+          "publicName": "Clear a Nebraska conviction that came from being trafficked",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (packet_components): Whether Neb. Rev. Stat. § 29-3005 requires notice to the prosecuting attorney. The section contains no notice requirement on its face, which is unusual for a motion with this effect, and the answer decides the packet component list for the first unit."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [
+            {
+              "question": "Definitional correction. The review cites the trafficking definitions to Neb. Rev. Stat. § 28-1356. That section is the racketeering penalty provision. The trafficking definitions are at § 28-830, with the offences at § 28-831.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "mechanical_translation",
+                "sourceFile": "https://nebraskalegislature.gov (Nebraska Legislature, official statutory channel)",
+                "sourceHeading": "Neb. Rev. Stat. § 28-830 and § 28-1356",
+                "sourceStatement": "Section 28-830 carries the human trafficking definitions; section 28-1356 is a racketeering penalty provision.",
+                "normalizerInferred": true
+              }
+            }
+          ],
+          "participantActionCount": 12,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (packet_components): Whether Neb. Rev. Stat. § 29-3005 requires notice to the prosecuting attorney. The section contains no notice requirement on its face, which is unusual for a motion with this effect, and the answer decides the packet component list for the first unit."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (output_strategy): This recommendation overrides the controlling review's classification of the route as attorney-supported rather than an automated packet. The review's grounds were high sensitivity and an evidence-heavy showing. Sensitivity is a design and safeguarding concern and the evidentiary showing is post-filing; relief on the first unit is mandatory once the finding is made. The override must be counsel-confirmed before release."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Impact unclassified, returned to counsel (governing_mechanism): Whether the trafficking route is within scope at all. The readiness record expressly declines to resolve it and directs that it not be resolved at that layer, so it must be settled here or above."
             },
             {
               "kind": "source_gate",

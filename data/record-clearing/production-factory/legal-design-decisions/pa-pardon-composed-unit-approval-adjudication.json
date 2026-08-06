@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "specificationId": "pa-pardon-composed-unit-approval-adjudication",
+  "jobId": "rcap-pa-pardon-composed-unit-approval-adjudication",
+  "jurisdiction": "PA",
+  "jurisdictionName": "Pennsylvania",
+  "trackId": "pa_pardon_expungement",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "preparedOn": "2026-08-06",
+  "preparer": "captain integration, recording an express counsel decision",
+  "decisionSource": "counsel disposition supplied by the LegalEase founder on 2026-08-06",
+  "whatThisDocumentIs": "The decision record that closes the Pennsylvania pardon composed-unit approval adjudication. The adjudication asked whether pa_pardon_expungement is composed and, if so, what its exact unit structure and substantive approval are. Counsel has now answered. This record states the approved structure, checks the integrated memo against it unit by unit, and is the explicit basis on which the composed-unit approval was added. The approval was not produced by a full-jurisdiction approval sweep.",
+  "approvedStructure": [
+    {
+      "point": 1,
+      "statement": "The pardon application itself remains outside direct product scope.",
+      "memoTreatment": "Carried as a scope_restriction limitation on pa_pardon_expungement: the Board of Pardons route is surfaced early at intake as a referral, because for most Pennsylvania felony convictions it is the only route to expungement, and the pardon application is not generated.",
+      "matches": true
+    },
+    {
+      "point": 2,
+      "statement": "An unconditional pardon enters automatic quarterly verification first.",
+      "memoTreatment": "Unit pa_pardon_automatic_route, output strategy process_guidance, order 1. The Board of Pardons transmits the record to the AOPC quarterly, the AOPC sends it to the court of common pleas, and the court orders expungement. Nothing is filed by the participant; the guidance explains the quarterly cycle and how to verify the record cleared.",
+      "matches": true
+    },
+    {
+      "point": 3,
+      "statement": "A conditional official-form fallback petition is available only where the automatic process has not cleared the record.",
+      "memoTreatment": "Unit pa_pardon_fallback_petition, output strategy official_pdf_fill, order 2. Available where the record still appears after the quarterly cycle has run; the participant petitions under Rule 790 on the strength of the unconditional pardon, using the retained statewide petition and blank order. The composition mode is alternative, so exactly one unit applies and the fallback is reached only on that condition.",
+      "matches": true
+    },
+    {
+      "point": 4,
+      "statement": "A conditional pardon routes to limited access rather than full expungement.",
+      "memoTreatment": "Carried as a participant_question limitation: intake asks whether the pardon was unconditional or conditional, because a conditional pardon routes to Clean Slate limited access under 18 Pa.C.S. section 9122.2(a)(4) rather than to expungement.",
+      "matches": true
+    }
+  ],
+  "unitStructureVerified": {
+    "compositionMode": "alternative",
+    "orderIsSubstantive": false,
+    "units": [
+      {
+        "unitId": "pa_pardon_automatic_route",
+        "order": 1,
+        "outputStrategy": "process_guidance",
+        "outputStrategyStatus": "resolved",
+        "packetIdentity": "identified",
+        "available": true
+      },
+      {
+        "unitId": "pa_pardon_fallback_petition",
+        "order": 2,
+        "outputStrategy": "official_pdf_fill",
+        "outputStrategyStatus": "resolved",
+        "packetIdentity": "identified",
+        "available": true
+      }
+    ],
+    "matchesApprovedDecision": true
+  },
+  "decision": "closed_counsel_approved",
+  "composedUnitApprovalAdded": true,
+  "composedUnitApprovalBasis": "This decision record. The approval entry reproduces the composed shape the integrated Pennsylvania memo declares, value-identically with every other approved entry preserved.",
+  "sweepProtection": "The full-jurisdiction approval command rewrites the approvals file wholesale from whatever composed shapes are present. It was therefore not used to add this entry. The entry was added deliberately, against this record, alongside the deliberate additions for the states integrated in the same wave, and no other pending composition was picked up.",
+  "boundaryStatement": "Approving the composed-unit substance pins which vehicle each unit files and which units are available. It is not legal-output approval, not counsel adoption of a generated packet, and not a runtime change.",
+  "preservedBlockers": [
+    "Every route-specific Pennsylvania source, legal-design, technical, visual and release blocker is preserved unchanged.",
+    "The separate Clean Slate correction adjudication (rcap-pa-clean-slate-correction-adjudication) is untouched by this decision and remains open."
+  ],
+  "statusAssertions": {
+    "packetReady": false,
+    "runtimeStatus": "runtime_disabled",
+    "jurisdictionEnabled": false,
+    "productionEnabled": false,
+    "legalOutputApproved": false,
+    "counselAdopted": false
+  },
+  "runtimeEffect": "none",
+  "productionEffect": "none"
+}

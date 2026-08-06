@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "note": "Approved composed-unit substance. Read on every batch-delta run and written only by --approve-composed-units. A composed route has no track-level renderer strategy, so this file is where its legal substance is pinned: which vehicle each unit files, which units are unresolved, which are available, and — for a sequential composition — what order the stages run in. Alternative-branch array order is deliberately not pinned; those branches are selected by a predicate, not by position.",
-  "approvedTracks": 34,
+  "approvedTracks": 36,
   "tracks": [
     {
       "jurisdiction": "AR",
@@ -872,6 +872,71 @@
         "mt-mmrta-serving-court-petition",
         "mt-mmrta-serving-criss-submission"
       ]
+    },
+    {
+      "jurisdiction": "NE",
+      "trackId": "ne-trafficking-setaside-and-seal",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "sequential",
+      "orderIsSubstantive": true,
+      "counselAuthoredProvenanceCount": 2,
+      "units": [
+        {
+          "unitId": "ne_trafficking_seal_motion",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": false,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ne_trafficking_setaside_motion",
+          "order": 1,
+          "outputStrategy": "custom_pleading",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": [
+        "ne_trafficking_setaside_motion",
+        "ne_trafficking_seal_motion"
+      ]
+    },
+    {
+      "jurisdiction": "PA",
+      "trackId": "pa_pardon_expungement",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "alternative",
+      "orderIsSubstantive": false,
+      "counselAuthoredProvenanceCount": 4,
+      "units": [
+        {
+          "unitId": "pa_pardon_automatic_route",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "pa_pardon_fallback_petition",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": null
     },
     {
       "jurisdiction": "RI",

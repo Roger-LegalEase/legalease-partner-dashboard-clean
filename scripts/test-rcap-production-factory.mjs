@@ -1308,7 +1308,9 @@ await check("packet, source-materialization, and normalization readiness fail cl
       entry.jobId ===
       "rcap-pa-pardon-composed-unit-approval-adjudication"
   );
-  assert.equal(paPardonApproval.status, "blocked");
+  // Counsel answered this on 2026-08-06 and the decision record is committed,
+  // so the adjudication is closed rather than pending.
+  assert.equal(paPardonApproval.status, "completed");
   assert.equal(
     paPardonApproval.strategyFamily,
     "legal_design_adjudication"
@@ -1474,7 +1476,20 @@ await check("packet, source-materialization, and normalization readiness fail cl
   // captain-equivalent commit; the rest are still awaiting a normalization
   // worker. The ready count is derived rather than hardcoded so landing a wave
   // moves both sides of the identity together.
-  const integratedNormalizations = ["RI", "SC", "SD", "VA", "WA", "WI", "WV", "WY"];
+  const integratedNormalizations = [
+    "KY",
+    "NC",
+    "ND",
+    "NE",
+    "RI",
+    "SC",
+    "SD",
+    "VA",
+    "WA",
+    "WI",
+    "WV",
+    "WY"
+  ];
   assert.deepEqual(
     otherNormalizations
       .filter((entry) => entry.status === "completed")
@@ -3416,7 +3431,7 @@ await check("dashboard reports all 51 and preserves the red launch posture", () 
   assert.deepEqual(status.readinessMetrics, {
     authorityCleared: trackSourceAudit.totals.tracksCleared,
     authorityBlocked: trackSourceAudit.totals.tracksBlocked,
-    sourcePinned: 54,
+    sourcePinned: 63,
     implementationProof: 17,
     finalDisposition: 0
   });

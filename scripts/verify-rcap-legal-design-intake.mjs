@@ -2147,7 +2147,7 @@ check("the corrected Rhode Island memo and approvals preserve one conditional ma
   // Session D wave 2 added WV's sequential DUI-deferral composition and SC's
   // alternative summary-court composition. Every earlier approval is preserved
   // value-identically; PA's pardon composition is still deliberately absent.
-  assert.equal(approvals.tracks.length, 34);
+  assert.equal(approvals.tracks.length, 36);
   const riApprovals = approvals.tracks.filter(
     (track) => track.jurisdiction === "RI"
   );
@@ -2160,14 +2160,89 @@ check("the corrected Rhode Island memo and approvals preserve one conditional ma
     approvals.tracks.some((track) => track.jurisdiction === "WI"),
     false
   );
+  // Pennsylvania's pardon composition is approved as of 2026-08-06, against its
+  // own decision record rather than by a full-jurisdiction approval sweep.
   assert.equal(
     approvals.tracks.some(
       (track) =>
         track.jurisdiction === "PA" &&
         track.trackId === "pa_pardon_expungement"
     ),
-    false
+    true
   );
+  // Kentucky and North Dakota are integrated but deliberately unapproved: their
+  // composed units are marked resolved without counsel-authored provenance, and
+  // the approval gate refuses that rather than inferring it.
+  for (const jurisdiction of ["KY", "ND"]) {
+    assert.equal(
+      approvals.tracks.some((track) => track.jurisdiction === jurisdiction),
+      false
+    );
+  }
+});
+
+// --- imported plus deferred accounts for every node ---------------------------
+//
+// Wave reports have carried aggregate figures that did not reconcile — a node
+// count quoted from a narrative rather than recomputed from the memos, so a
+// deferred route could be described as imported, or dropped from both sides and
+// noticed by nobody. The generated records are the answer to that, and this
+// asserts the identity across them: every node a memo declares is either
+// imported into the runtime registry or deferred to the research queue, exactly
+// once, and the two totals sum to the accounted total.
+
+check("imported nodes plus deferred nodes account for every declared node", () => {
+  const read = (name) =>
+    JSON.parse(fs.readFileSync(path.join(process.cwd(), `data/record-clearing/${name}`), "utf8"));
+  const registry = read("legal-design-track-registry.json");
+  const queue = read("legal-design-implementation-queue.json");
+  const research = read("legal-design-legal-research-queue.json");
+
+  const imported = registry.tracks.length;
+  const deferred = research.deferredTracks.length;
+
+  // Each generated record states the same two numbers; none may disagree.
+  assert.equal(registry.trackCount, imported);
+  assert.equal(research.deferredTrackCount, deferred);
+  assert.equal(queue.deferredTracks.length, deferred);
+  assert.equal(
+    queue.batches.reduce((total, batch) => total + batch.trackCount, 0),
+    imported,
+    "implementation batches must partition the imported tracks exactly once"
+  );
+
+  // Recount straight from the memo blobs, so the identity is anchored to the
+  // worker-owned input rather than to a derived record agreeing with itself.
+  const intakeDir = path.join(process.cwd(), "data/record-clearing/legal-design-intake");
+  const memoFiles = fs
+    .readdirSync(intakeDir)
+    .filter((name) => /^[A-Z]{2}\.memo\.json$/.test(name))
+    .sort();
+  const declared = memoFiles.reduce(
+    (total, name) =>
+      total + JSON.parse(fs.readFileSync(path.join(intakeDir, name), "utf8")).tracks.length,
+    0
+  );
+  assert.equal(
+    imported + deferred,
+    declared,
+    `imported ${imported} + deferred ${deferred} must equal ${declared} declared nodes`
+  );
+
+  // Neither side may claim the same node, and every memo must be represented.
+  const importedKeys = new Set(
+    registry.tracks.map((track) => `${track.jurisdiction}:${track.trackId}`)
+  );
+  const deferredKeys = new Set(
+    research.deferredTracks.map((track) => `${track.jurisdiction}:${track.trackId}`)
+  );
+  assert.equal(importedKeys.size, imported, "imported track keys must be unique");
+  assert.equal(deferredKeys.size, deferred, "deferred track keys must be unique");
+  for (const key of deferredKeys) {
+    assert.equal(importedKeys.has(key), false, `${key} is both imported and deferred`);
+  }
+  assert.equal(registry.jurisdictionsReceived, memoFiles.length);
+  assert.equal(queue.jurisdictionsReceived, memoFiles.length);
 });
 
 // --- report-only is byte-inert -----------------------------------------------

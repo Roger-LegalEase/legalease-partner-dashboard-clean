@@ -1263,6 +1263,10 @@ assert.equal(
 // Normalization waves already integrated from an exact worker memo blob through
 // a captain-equivalent commit. Everything else is still awaiting a worker.
 const INTEGRATED_NORMALIZATIONS = [
+  "KY",
+  "NC",
+  "ND",
+  "NE",
   "RI",
   "SC",
   "SD",
@@ -1863,7 +1867,7 @@ assert.equal(
 assert.deepEqual(productionPlan.readinessMetrics.current, {
   authorityCleared: trackSourceAudit.totals.tracksCleared,
   authorityBlocked: trackSourceAudit.totals.tracksBlocked,
-  sourcePinned: 54,
+  sourcePinned: 63,
   implementationProof: 17,
   finalDisposition: 0
 });
@@ -2691,7 +2695,7 @@ const status = buildFactoryStatus({ rootDir: ROOT });
 assert.deepEqual(status.readinessMetrics, {
   authorityCleared: trackSourceAudit.totals.tracksCleared,
   authorityBlocked: trackSourceAudit.totals.tracksBlocked,
-  sourcePinned: 54,
+  sourcePinned: 63,
   implementationProof: 17,
   finalDisposition: 0
 });
@@ -2711,9 +2715,10 @@ assert.equal(
       )
   )
     .length,
-  // 40 before Session D wave 2; wa_del_nonconviction and wv_common_nc_procedure
-  // pinned a source when their memos landed.
-  42
+  // 40 before the Session D wave-2 and Session B wave-1 integrations. The
+  // additions are wa_del_nonconviction, wv_common_nc_procedure, two Kentucky
+  // nodes, one North Dakota routing node and six Nebraska routing nodes.
+  51
 );
 assert.deepEqual(
   status.tracks
