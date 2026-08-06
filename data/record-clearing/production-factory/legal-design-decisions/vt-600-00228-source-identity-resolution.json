@@ -1,0 +1,386 @@
+{
+  "schemaVersion": 1,
+  "specificationId": "vt-600-00228-source-identity-resolution",
+  "jobId": "rcap-vt-600-00228-source-identity-resolution",
+  "jurisdiction": "VT",
+  "jurisdictionName": "Vermont",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "preparedOn": "2026-08-06",
+  "preparer": "Session F authority worker, executing rcap-vt-600-00228-source-identity-resolution",
+  "baseCommit": "5752e01e50f5be96e3c8dc58bc4af9c1d52ff124",
+  "decisionSource": "The issuer's own current publication: the Vermont Judiciary statewide forms library, its Application to Waive Filing Fees and Service Costs self-help page, and the form binary that page serves; read against the integrated Vermont legal-design memo, the regenerated track-source audit, the authoritative blocker ledger, the official-PDF source assignment projection, and the adopted Master Library Edition 1.2 authority asset.",
+  "whatThisDocumentIs": "The decision record that settles the Vermont fee-waiver application's source identity. Two questions were open. First, whether the controlling form number is 600-00228 or 600-00229, which the Vermont Judiciary's own materials answer inconsistently. Second, what the exact current document behind that number is. This record answers both from the issuer's publication rather than by assuming either number, states the document's role, revision, scope, official URL and exact measured bytes, records the supersession of an older revision that is still reachable at a legacy path, and names what remains before the Vermont official-PDF family can be called source-complete. It does not amend the integrated Vermont memo, does not create a source receipt, does not regenerate a registry or projection, and does not implement a renderer.",
+
+  "scopeOfThisJob": {
+    "ownedPath": "data/record-clearing/production-factory/legal-design-decisions/vt-600-00228-source-identity-resolution.json",
+    "memoAmended": false,
+    "sourceReceiptCreated": false,
+    "sourceBinaryCommitted": false,
+    "globalRegistryRegenerated": false,
+    "projectionRegenerated": false,
+    "rendererImplemented": false,
+    "authorityEditionPublished": false,
+    "runtimeOrPromotionChanged": false,
+    "legalDesignDenominatorReopened": false,
+    "note": "The job's stop condition reserves memo amendment, source receipts, registry regeneration and implementation to other owners. Everything this record establishes is stated here and applied elsewhere by Session A at integration."
+  },
+
+  "questionPresented": {
+    "blockingIdentityKey": "rcap-vt-600-00228-fb7ffbfd76",
+    "blockedImplementationJob": "rcap-vt-acroform-fill",
+    "priorProjectionDisposition": "unresolved_identity",
+    "priorPlaceholderIdentity": {
+      "documentId": "600-00228",
+      "documentRole": "FEE_WAIVER",
+      "officialTitle": "Application to Waive Filing Fees and Service Costs",
+      "revision": "REV-2026-04",
+      "canonicalAuthorityPath": null,
+      "expectedSha256": null,
+      "expectedBytes": null,
+      "pageCount": null,
+      "issuingAuthority": "not_recorded_in_integrated_source_contract",
+      "authorityStatus": "repository_measurement_unavailable",
+      "structuralClass": "pending_fresh_local_source_inspection"
+    },
+    "expectedRole": "fee_waiver_application",
+    "conflictAsReported": "The integrated Vermont memo records that the Judiciary's expungement narrative names the fee-waiver form 600-00229 while 600-00229 does not resolve at the Judiciary's document path and 600-00228 does. The memo carried the conflict without resolving it and read the 600-00228 footer as 11/2019. The Master Library manifest row, acquired against a request for 600-00229, asserts the current form is 600-00228 at revision 04/2026. This job settles the number, the revision, and the exact document."
+  },
+
+  "form600_00229": {
+    "documentId": "600-00229",
+    "exists": false,
+    "everExisted": "no_evidence_of_publication_at_any_time",
+    "terminalDisposition": "numbering_typo_confirmed",
+    "relationshipTo600_00228": "same_document_referenced_by_an_incorrect_number",
+    "notSeparateDocument": true,
+    "notPetitionAndOrderPair": true,
+    "notOldAndNewRevision": true,
+    "notRetiredAndReplacement": true,
+    "notLanguageVariant": true,
+    "notUnrelatedForm": true,
+    "evidence": [
+      {
+        "kind": "issuer_forms_library_search",
+        "url": "https://www.vtcourts.gov/forms-library?search_api_fulltext=600-00229",
+        "retrievedOn": "2026-08-06",
+        "httpStatus": 200,
+        "result": "No results matched the search criteria.",
+        "weight": "controlling"
+      },
+      {
+        "kind": "issuer_forms_library_search_control",
+        "url": "https://www.vtcourts.gov/forms-library?search_api_fulltext=600-00228",
+        "retrievedOn": "2026-08-06",
+        "httpStatus": 200,
+        "result": "Returns the single row 'Application to Waive Filing Fees and Service Costs' / '600-00228', whose download link is /sites/default/files/documents/600-00228 – Application to Waive Filing Fees & Service Costs_0.pdf. The same query shape therefore does return a result when the number exists, which is what makes the 600-00229 negative meaningful.",
+        "weight": "controlling"
+      },
+      {
+        "kind": "issuer_document_path_probe",
+        "url": "https://www.vtcourts.gov/sites/default/files/documents/600-00229.pdf",
+        "retrievedOn": "2026-08-06",
+        "httpStatus": 404,
+        "result": "Not found. The sibling probe of the same path shape for 600-00228 returns HTTP 200 with a PDF.",
+        "weight": "corroborating"
+      },
+      {
+        "kind": "official_archive_index",
+        "url": "http://web.archive.org/cdx/search/cdx?url=vermontjudiciary.org*&filter=urlkey:.*600-00229.*",
+        "retrievedOn": "2026-08-06",
+        "result": "Zero captures, on both vermontjudiciary.org and vtcourts.gov, for any URL containing 600-00229, across the whole index. The identical query for 600-00228 returns captures from 2020 through 2025 including an Arabic-language edition of the same form, so the index does cover this issuer and this form series. There is therefore no archived state in which 600-00229 was a published Vermont Judiciary document, which is what distinguishes a numbering error from a retired form.",
+        "weight": "corroborating"
+      },
+      {
+        "kind": "issuer_self_contradiction_resolved_by_issuer",
+        "url": "https://www.vtcourts.gov/criminal/expungement",
+        "retrievedOn": "2026-08-06",
+        "result": "The expungement narrative page is the sole official source of the 600-00229 number. Its exact prose is 'Application to Waive Filing Fees and Service Costs form (600-00229)'. The hyperlink on that same reference points to https://www.vermontjudiciary.org/self-help/application-waive-filing-fees-and-service-costs, which is the Judiciary's own fee-waiver page and which names the form (600-00228). The issuer's own link therefore resolves its own prose against itself: the narrative carries a stale or mistyped number and points at the correct document.",
+        "weight": "controlling"
+      }
+    ],
+    "conclusion": "600-00229 is not, and so far as the official record shows never has been, a published Vermont Judiciary form. It is an incorrect number appearing in the prose of one Judiciary narrative page, which itself links to the correct form. No Vermont track or component may be bound to 600-00229."
+  },
+
+  "form600_00228": {
+    "documentId": "600-00228",
+    "exists": true,
+    "terminalDisposition": "exact_identity_confirmed_current_binary_retrievable",
+    "officialTitle": "Application to Waive Filing Fees and Service Costs",
+    "printedTitleOnForm": "APPLICATION TO WAIVE FILING FEES AND SERVICE COSTS",
+    "printedFooterIdentity": "600-00228 – Application to Waive Filing Fees & Service Costs (04/2026)",
+    "issuer": {
+      "issuingAuthority": "Vermont Judiciary",
+      "issuingAuthorityBasis": "The form is published in the Vermont Judiciary statewide forms library and on the Judiciary's own self-help page. The form head reads STATE OF VERMONT / SUPERIOR COURT. The publishing footer of the serving site reads '© 2026 Vermont Judiciary'.",
+      "court": "Vermont Superior Court",
+      "issuerIsNotLocalCourt": true,
+      "issuerIsNotCommercialPublisher": true
+    },
+    "revision": {
+      "current": "04/2026",
+      "currentCode": "REV-2026-04",
+      "revisionBasis": "printed footer on both pages of the binary served by the issuer's own fee-waiver page and forms-library row",
+      "pdfCreationDate": "2025-03-10T14:26:56Z",
+      "pdfModDate": "2026-04-01T12:30:26Z",
+      "memoRecordedRevisionSuperseded": "11/2019",
+      "memoRevisionExplanation": "The integrated Vermont memo recorded 600-00228 as 11/2019. That reading is accurate for the binary at the legacy static path https://www.vtcourts.gov/sites/default/files/documents/600-00228.pdf, which still returns HTTP 200 and still carries the 11/2019 footer. It is not the current revision. The Judiciary's fee-waiver page and its forms-library row both point instead at the _0.pdf object, which carries the 04/2026 footer. The memo read a stale mirror rather than the issuer's current pointer."
+    },
+    "role": {
+      "role": "fee_waiver_application",
+      "actor": "participant",
+      "documentClass": "participant_completed_application",
+      "isParticipantPetition": false,
+      "isStipulation": false,
+      "isOrder": false,
+      "isNotice": false,
+      "isInstructions": false,
+      "isOutsidePartyDocument": false,
+      "roleBasis": "The document is completed and signed only by the applicant. Section 5 is headed 'Signatures and Declaration' and carries exactly one signature block, 'Applicant Signature', with 'Printed Name' beneath it. A full text extraction of both pages returns no order recital, no decretal language, no court-findings block, no judge or clerk signature line and no grant/deny disposition. It is therefore a participant instrument and must not be mapped into a petition slot, an order slot, a stipulation slot or an instructions slot.",
+      "roleSafetyChecks": {
+        "orderMappedIntoPetitionSlot": false,
+        "stipulationMappedIntoStandaloneReliefTrack": false,
+        "instructionsMappedIntoFillableSlot": false,
+        "oldFormMappedIntoCurrentSlotWithoutSupersessionEvidence": false,
+        "oneDocumentMappedToMultipleRolesOnTitleSimilarity": false
+      }
+    },
+    "scope": {
+      "statewide": true,
+      "statewideBasis": "The form is published in the Judiciary's statewide forms library rather than by a single unit, and its own two dropdown fields enumerate the whole state: Division offers Civil, Criminal, Environmental, Family, Judicial Bureau and Probate; Unit offers all fourteen Vermont counties — Addison, Bennington, Caledonia, Chittenden, Essex, Franklin, Grand Isle, Lamoille, Orange, Orleans, Rutland, Washington, Windsor and Windham. A single binary is used in every division and every unit.",
+      "isLocalCourtForm": false,
+      "coversCriminalDivision": true
+    },
+    "authorityLevel": {
+      "disposition": "controlling_issuer_published_statewide_application_not_mandated_by_number",
+      "waiverAuthority": "32 V.S.A. § 1431(h): 'Pursuant to Vermont Rules of Civil Procedure 3.1 or Vermont Rules of Appellate Procedure 24(a), part or all of the filing fee may be waived if the court finds that the applicant is unable to pay it. The clerk of the court or the clerk's designee shall establish the in forma pauperis fee in accordance with procedures and guidelines established by administrative order of the Supreme Court.'",
+      "waiverAuthoritySource": "https://legislature.vermont.gov/statutes/section/32/017/01431",
+      "waiverAuthorityRetrievedOn": "2026-08-06",
+      "formPrescribedByRuleNumber": false,
+      "issuerDirection": "The Judiciary's own fee-waiver page states: 'When you file a court case, you must either pay the filing fee or ask to have the fee waived. To ask to waive the fees, fill out and file the Application to Waive Filing Fees and Service Costs' and identifies it as (600-00228).",
+      "issuerFormsCaveat": "The Judiciary's about-court-forms page states 'There isn't a court form for everything' and contemplates drafted or adapted documents, so no Vermont form may be asserted as mandatory purely because the Judiciary publishes it.",
+      "conclusion": "The waiver right is conferred by rule, not by this form; the statute prescribes no form number. 600-00228 is the issuer's single published statewide instrument for exercising that right and is controlling as such. It is not established as mandatory by rule or administrative order, and this record does not assert that it is. Its use in the Vermont packets stays conditional exactly as the adopted design has it."
+    },
+    "officialSource": {
+      "controllingPage": "https://www.vtcourts.gov/self-help/application-waive-filing-fees-and-service-costs",
+      "controllingBinaryUrl": "https://www.vtcourts.gov/media/47",
+      "resolvedBinaryUrl": "https://www.vtcourts.gov/sites/default/files/documents/600-00228%20%E2%80%93%20Application%20to%20Waive%20Filing%20Fees%20%26%20Service%20Costs_0.pdf",
+      "formsLibraryRow": "https://www.vtcourts.gov/forms-library?search_api_fulltext=600-00228",
+      "canonicalHostNote": "https://www.vermontjudiciary.org/media/47 returns HTTP 301 to the www.vtcourts.gov host and delivers a byte-identical object. Both hostnames are the issuer's; vtcourts.gov is the serving host.",
+      "binaryPubliclyRetrievable": true,
+      "httpStatus": 200,
+      "retrievalDate": "2026-08-06",
+      "retrievalMethod": "direct HTTPS GET, no authentication, no automation workaround required"
+    },
+    "measuredBinary": {
+      "bytes": 2871072,
+      "sha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+      "mime": "application/pdf",
+      "pdfVersion": "1.6",
+      "pageCount": 2,
+      "encrypted": false,
+      "xfa": false,
+      "formStructure": "clean_acroform",
+      "acroFormFieldCount": 80,
+      "acroFormFieldBreakdown": {
+        "textFields": 72,
+        "dropdowns": 2,
+        "checkBoxes": 6
+      },
+      "flatPdf": false,
+      "javascriptPresent": true,
+      "producer": "Adobe PDF Library 24.5.197",
+      "creator": "Acrobat PDFMaker 24 for Word",
+      "pageSize": "612 x 792 pts (letter)",
+      "measurementBasis": "Measured on the binary retrieved live from the issuer on 2026-08-06 and independently on the adopted Master Library Edition 1.2 asset. The two are byte-identical.",
+      "rendererLaneImplication": "acroform_or_hybrid_candidate"
+    },
+    "adoptedAuthorityAssetCorrespondence": {
+      "workflowKey": "VT:600-00228:FEE_WAIVER:EN",
+      "assetClass": "supporting_process",
+      "documentRole": "FEE_WAIVER",
+      "canonicalRelativePath": "STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
+      "assetSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+      "assetBytes": 2871072,
+      "sourceArchiveIdentity": "Expungement_AI_RCAP_Master_Library_Edition_1_2.zip",
+      "sourceArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+      "byteIdenticalToLiveOfficialBinary": true,
+      "packetCandidateInAdoptedEdition": false,
+      "libraryManifestNote": "The Edition 1.2 Vermont state manifest already carries the finding this job was asked to confirm: 'Acquired against request: 600-00229 — Application to Waive Filing Fees and Service Costs. The current fee-waiver form is 600-00228 (04/2026), not 600-00229. Vermont's expungement page still says 600-00229, but its linked fee-waiver page and PDF identify the current form as 600-00228.' That row is a captured assertion by the acquiring pass; this record independently confirms it against the issuer and against the bytes, and the two agree exactly, including the 04/2026 revision, the two-page count and the eighty-field AcroForm structure."
+    }
+  },
+
+  "supersessionTreatment": {
+    "disposition": "prior_revision_of_the_same_form_superseded_legacy_path_still_resolvable",
+    "formNumberChanged": false,
+    "titleChanged": false,
+    "roleChanged": false,
+    "currentRevision": {
+      "revision": "04/2026",
+      "url": "https://www.vtcourts.gov/media/47",
+      "sha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+      "bytes": 2871072,
+      "pageCount": 2,
+      "acroFormFieldCount": 80
+    },
+    "supersededRevision": {
+      "revision": "11/2019",
+      "url": "https://www.vtcourts.gov/sites/default/files/documents/600-00228.pdf",
+      "httpStatus": 200,
+      "sha256": "40fb571156ab73707b418b503d0291d900e2d614cd2b8e2b605b30dd07f50191",
+      "bytes": 1391726,
+      "pageCount": 2,
+      "acroFormFieldCount": 129,
+      "encrypted": false,
+      "xfa": false,
+      "pdfCreationDate": "2019-11-22T20:14:32Z",
+      "treatment": "must_not_be_bound_as_current"
+    },
+    "trap": "The legacy static path still returns HTTP 200 and a well-formed AcroForm with a different and larger field count. Retained availability is not currency. Any binding, field map or fixture built against the 11/2019 object would be built against a superseded revision with an incompatible field set, and the mismatch would not surface as a retrieval failure. The controlling pointer is the issuer's fee-waiver page and forms-library row, both of which resolve to the _0.pdf object.",
+    "supersessionEvidence": "Both revisions carry the same printed form number and title, so the 04/2026 object is a revision of the same document rather than a different form. The issuer's current fee-waiver page and current forms-library row both link the 04/2026 object and neither links the legacy path."
+  },
+
+  "affectedTracksAndComponents": {
+    "trackCount": 7,
+    "componentCount": 7,
+    "role": "fee_waiver_application",
+    "outputStrategy": "official_pdf_fill",
+    "requirement": "conditional",
+    "bindings": [
+      {
+        "trackId": "vt_exp_decriminalized",
+        "componentId": "vt_exp_decriminalized-fee-waiver-application-3",
+        "conditionDescription": "Only where a fee is charged; on this track none is."
+      },
+      {
+        "trackId": "vt_seal_misdemeanor",
+        "componentId": "vt_seal_misdemeanor-fee-waiver-application-3",
+        "conditionDescription": "Only where a filing fee is charged."
+      },
+      {
+        "trackId": "vt_seal_felony",
+        "componentId": "vt_seal_felony-fee-waiver-application-3",
+        "conditionDescription": "Only where a filing fee is charged."
+      },
+      {
+        "trackId": "vt_seal_dui",
+        "componentId": "vt_seal_dui-fee-waiver-application-3",
+        "conditionDescription": "Only where a filing fee is charged. This is the one Vermont track on which the adopted design records that a fee applies, under 32 V.S.A. § 1431(e)."
+      },
+      {
+        "trackId": "vt_seal_nonconviction",
+        "componentId": "vt_seal_nonconviction-fee-waiver-application-5",
+        "conditionDescription": "Only where a filing fee is charged; on this track none is."
+      },
+      {
+        "trackId": "vt_seal_18_to_21",
+        "componentId": "vt_seal_18_to_21-fee-waiver-application-3",
+        "conditionDescription": "Only where a filing fee is charged."
+      },
+      {
+        "trackId": "vt_seal_pardon",
+        "componentId": "vt_seal_pardon-fee-waiver-application-3",
+        "conditionDescription": "Only where a filing fee is charged."
+      }
+    ],
+    "tracksWithoutThisComponent": [
+      "vt_exp_deferred_sentence",
+      "vt_seal_under_25",
+      "vt_diversion_post_charge",
+      "vt_diversion_pre_charge"
+    ],
+    "blockerLedgerRows": {
+      "mappingBlockerRowCount": 7,
+      "blockerType": "authority_role_mismatch",
+      "controllingLibraryRow": "VT:600-00228:FEE_WAIVER:EN",
+      "sourceProvenanceBlockerDedupeKey": "acquire:VT:600-00228",
+      "libraryGapRowDedupeKey": "library-gap:VT:form_or_source_gap:600-00229-application-to-waive-filing-fees-and-service-costs",
+      "libraryGapRowNote": "The Edition 1.2 blocker ledger already carries the 600-00229 row at impact 'resolved' with the required resolution 'Use the current form number already recorded in the master manifest.' This record supplies the evidence that closes it: the current number is 600-00228 and 600-00229 was never published.",
+      "roleMismatchNote": "The seven mapping-blocker rows are typed authority_role_mismatch because the component requires a fillable participant document while the adopted edition manifests the asset as assetClass supporting_process with packetCandidate false. The role recorded in this record — a participant-completed application — is the role the components require. The mismatch is a manifest classification question, not a role error in the legal design, and is named below as a residual rather than resolved here."
+    }
+  },
+
+  "normalizationPreserved": {
+    "sourceSlots": 14,
+    "substantiveTracks": 11,
+    "stipulationTreatment": "conditional procedure rather than a separate remedy",
+    "noConvictionAlternatives": "the three adopted composed alternatives inside vt_seal_nonconviction",
+    "denominatorReopened": false,
+    "note": "Nothing in this record adds, removes, splits, merges or re-roles a Vermont track, component or slot. The fee-waiver component keeps the same role, the same conditional requirement and the same official_pdf_fill strategy on the same seven tracks. Only the document identity behind it is now exact."
+  },
+
+  "requiredQuestions": [
+    { "n": 1, "q": "Does form 600-00228 exist?", "a": "Yes. It is a current Vermont Judiciary statewide form, present in the Judiciary forms library and publicly retrievable." },
+    { "n": 2, "q": "Does form 600-00229 exist?", "a": "No. The Judiciary forms library returns 'No results matched the search criteria', the document path returns HTTP 404, and the official archive index holds no capture of that number at any time on either Judiciary hostname." },
+    { "n": 3, "q": "What is the relationship between them?", "a": "A numbering typo. 600-00229 is an incorrect number for 600-00228, appearing only in the prose of the Judiciary's expungement narrative page, whose own hyperlink resolves to the fee-waiver page that names 600-00228. They are not separate documents, not a petition and order pair, not old and new revisions, not a retired form and its replacement, not language variants, and not unrelated forms." },
+    { "n": 4, "q": "Exact official title of each?", "a": "600-00228 is 'Application to Waive Filing Fees and Service Costs'; the printed footer uses the ampersand short form 'Application to Waive Filing Fees & Service Costs'. 600-00229 has no title because it has no document." },
+    { "n": 5, "q": "Which issuing body publishes each?", "a": "The Vermont Judiciary publishes 600-00228 for the Vermont Superior Court. No body publishes 600-00229." },
+    { "n": 6, "q": "Current revision date or code?", "a": "04/2026, recorded as REV-2026-04, read from the printed footer of both pages of the issuer-served binary. An 11/2019 revision of the same form remains reachable at a legacy static path and is superseded." },
+    { "n": 7, "q": "Role of each document?", "a": "600-00228 is a participant-completed fee-waiver application. It is not a petition, stipulation, order, notice, instruction sheet or outside-party document; its only signature block is the applicant's and it carries no order or findings language." },
+    { "n": 8, "q": "Is the form statewide?", "a": "Yes. It is in the statewide forms library and its own Division and Unit dropdowns enumerate all six divisions and all fourteen Vermont counties." },
+    { "n": 9, "q": "Which Vermont tracks and components use it?", "a": "Seven tracks and seven components, each in the fee_waiver_application role: vt_exp_decriminalized, vt_seal_misdemeanor, vt_seal_felony, vt_seal_dui, vt_seal_nonconviction, vt_seal_18_to_21 and vt_seal_pardon." },
+    { "n": 10, "q": "Is it mandatory, controlling, optional, or a drafting reference?", "a": "Controlling as the issuer's single published statewide instrument for a fee waiver, and conditional in use. The waiver right comes from V.R.C.P. 3.1 and V.R.A.P. 24(a) through 32 V.S.A. § 1431(h); no statute or rule prescribes the form by number, and the Judiciary's about-court-forms page declines to treat its forms as exhaustive. It is not asserted here as mandatory." },
+    { "n": 11, "q": "What official URL controls?", "a": "https://www.vtcourts.gov/self-help/application-waive-filing-fees-and-service-costs for the identity, and https://www.vtcourts.gov/media/47 for the binary, which resolves to the _0.pdf object. The legacy path /sites/default/files/documents/600-00228.pdf does not control." },
+    { "n": 12, "q": "Is the current binary publicly retrievable?", "a": "Yes. HTTP 200 by unauthenticated GET on 2026-08-06, with no automation workaround needed." },
+    { "n": 13, "q": "Bytes, SHA-256, MIME, page count, encryption, XFA, AcroForm field count or flat status?", "a": "2,871,072 bytes; SHA-256 263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654; application/pdf at PDF 1.6; 2 pages; not encrypted; no XFA; a clean AcroForm of 80 fields (72 text, 2 dropdown, 6 checkbox); not a flat PDF." },
+    { "n": 14, "q": "Does resolving this identity alone make rcap-vt-acroform-fill source-complete?", "a": "Not by itself, and this record does not claim it. 600-00228 is the only entry in that job's unresolvedOrTerminalIdentities, and its own two implementation identities, 200-00129 and 200-00132A, are already exact_source_requirement_ready with materialization receipts. But the projection derives unresolved_identity for this key from repository_measurement_unavailable, which is a mechanical consequence of the adopted edition manifesting the asset as supporting_process with packetCandidate false and of there being no repository candidate and no materialization receipt for it. The legal identity question is closed; the mechanical path from a resolved identity to an exact source contract is named in residualBlockers and belongs to Session A." }
+  ],
+
+  "terminalDisposition": "exact_identity_confirmed_current_binary_retrievable",
+  "terminalDispositionDetail": {
+    "600-00228": "exact_identity_confirmed_current_binary_retrievable",
+    "600-00229": "numbering_typo_confirmed",
+    "600-00228_prior_revision_11_2019": "superseded_by_current_revision_of_the_same_form",
+    "identityKeyResolved": "rcap-vt-600-00228-fb7ffbfd76",
+    "notUnresolvedIdentity": true,
+    "basis": "Both halves of the question are terminal on official evidence. The number is settled from the issuer's own forms library and its own cross-linked pages rather than by assumption; the document behind it is identified, dated, role-typed, scoped, and measured byte for byte from a live issuer retrieval that matches the adopted authority asset exactly."
+  },
+
+  "residualBlockers": [
+    {
+      "id": "vt-600-00228-manifest-class-and-measurement",
+      "scope": "VT 600-00228",
+      "blocks": "the projection moving rcap-vt-600-00228-fb7ffbfd76 off unresolved_identity",
+      "statement": "The adopted Edition 1.2 manifests VT:600-00228:FEE_WAIVER:EN as assetClass supporting_process with packetCandidate false, there is no repository candidate for it, and no source-materialization receipt exists. sourceIdentityState therefore evaluates to repository_measurement_unavailable regardless of how well the identity is known. The exact bytes, page count and field count needed are recorded in this document; converting them into an exact source contract requires a materialization receipt and a packet-candidate classification, neither of which this job owns.",
+      "owner": "Session A captain integration, with the authority-edition amendment path already described in data/record-clearing/production-factory/legal-design-decisions/authority-edition-amendment-handoff.json",
+      "thisJobMayNotResolve": true
+    },
+    {
+      "id": "vt-200-00130-identity",
+      "scope": "VT 200-00130 Petition to Seal Criminal History",
+      "blocks": "rcap-vt-flat-pdf-overlay and rcap-vt-composed-route, not rcap-vt-acroform-fill",
+      "statement": "rcap-vt-200-00130-b0ad96be1d is separately unresolved for the same mechanical reason — an authority asset exists at REV-2025-07 with SHA-256 ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed but there is no repository candidate — and it is the second entry in the Vermont family's unresolvedSourceIdentityCount of two. It is named here only so that the Vermont family is not read as source-complete once 600-00228 is closed. No current factory job owns it, and this job does not touch it.",
+      "owner": "unowned; report to Session A",
+      "thisJobMayNotResolve": true
+    },
+    {
+      "id": "vt-memo-revision-note",
+      "scope": "VT.memo.json",
+      "blocks": "nothing at runtime",
+      "statement": "The integrated memo records '600-00228 is 11/2019' and describes the fee-waiver form by title while declining to hard-code a number. The first is now known to describe a superseded revision reachable at a legacy path; the second is now unnecessary, because 600-00228 is confirmed and current. The memo also carries the 32 V.S.A. § 1431(e) dangling cross-reference to 13 V.S.A. § 7602(a)(1)(C) and the unanchored 25-or-older gloss as release blockers; this record confirms § 1431(e) still reads that way at source as of 2026-08-06 and does not disturb either blocker. Editing VT.memo.json is expressly outside this job.",
+      "owner": "Session A captain integration",
+      "thisJobMayNotResolve": true
+    }
+  ],
+
+  "expectedDownstreamEffect": {
+    "identityKey": "rcap-vt-600-00228-fb7ffbfd76",
+    "priorDisposition": "unresolved_identity",
+    "establishedDisposition": "exact_identity_confirmed_current_binary_retrievable",
+    "familyStatusClaimed": false,
+    "familyStatusNote": "This record does not assert that rcap-vt-acroform-fill, rcap-vt-flat-pdf-overlay, rcap-vt-composed-route or the Vermont official-PDF family is ready, worker-ready, packet-ready or enabled. Regenerating those statuses is Session A's, and no status field is written here.",
+    "onIntegration": [
+      "The Vermont fee-waiver component's document identity is exact: 600-00228, Application to Waive Filing Fees and Service Costs, Vermont Judiciary, revision 04/2026, statewide, participant-completed, 2 pages, clean AcroForm of 80 fields, SHA-256 263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654 at 2,871,072 bytes.",
+      "600-00229 is closed as a numbering error and must not be carried forward as an alternative identity, an acquisition target or a source gap. The Edition 1.2 blocker-ledger row keyed library-gap:VT:form_or_source_gap:600-00229-application-to-waive-filing-fees-and-service-costs now has its evidence.",
+      "The 11/2019 binary at the legacy static path is recorded as superseded and must not be bound; its field count of 129 differs from the current 80, so a binding built against it would fail silently rather than loudly.",
+      "rcap-vt-acroform-fill's single unresolved sibling identity is answered on the merits. What remains for it is mechanical: a materialization receipt and packet-candidate classification for the asset, per residual vt-600-00228-manifest-class-and-measurement.",
+      "The Vermont family still carries a second unresolved identity, 200-00130, which affects the overlay and composed lanes and has no current owner."
+    ]
+  },
+
+  "evidenceLimits": [
+    "No source binary is committed by this record. The form is recorded by official URL and by exact measured identity only.",
+    "legislature.vermont.gov presented an incomplete TLS chain from this environment, omitting the GlobalSign RSA OV SSL CA 2018 intermediate. The statute text was retrieved after supplying that intermediate from the certificate's own CA Issuers URI. This is an access condition, not a currency or authenticity finding, and the served certificate is validly issued to State of Vermont, Montpelier.",
+    "web.archive.org was not reachable through the page-fetch path in this environment; its CDX index was queried directly instead. The archive is used here only to test whether 600-00229 was ever published, never as authority for what the current form is.",
+    "No unofficial mirror, commercial form site, Justia or FindLaw page was used or consulted as controlling identity, and no conclusion rests on filename similarity."
+  ]
+}
