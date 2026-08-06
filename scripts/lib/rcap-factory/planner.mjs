@@ -272,6 +272,57 @@ const COMPLETED_NORMALIZATIONS = Object.freeze([
     completionCommit: "c36e048b95fbdff24b6397db9e009d8351863dda",
     memoSha256:
       "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb"
+  },
+  // Session D's final wave. Each of these four workers committed under
+  // `feat(legal-design): normalize <State>` while the factory pins
+  // `feat(record-clearing): normalize <XX> legal design`. A pushed worker commit
+  // is not amended, so the memo blob was carried into a captain-equivalent
+  // commit under the required subject. The mismatch is recorded rather than
+  // smoothed over: the claim is exact memo-blob equivalence, and the worker
+  // commit remains the immutable provenance.
+  {
+    jurisdiction: "UT",
+    workerCommit: "3396640ce4e4027d985e19fd40ec88b2155ce61e",
+    workerBranch:
+      "rcap-factory/rcap-ut-legal-design-normalization-1d3455e0-205aee43",
+    workerCommitSubject: "feat(legal-design): normalize Utah",
+    subjectMismatchResolvedByCaptainEquivalentCommit: true,
+    completionCommit: "2d575a5acc2fed8fb15f99da2b9417b43d9aecea",
+    memoSha256:
+      "cda96b6a4b448f51d03e29bbc32550ec6d9b9823d62383c9ef17802ebf08c52f"
+  },
+  {
+    jurisdiction: "VT",
+    workerCommit: "35632440dca30b1930b030076b90ae336d932c78",
+    workerBranch:
+      "rcap-factory/rcap-vt-legal-design-normalization-f5da9dd3-60ab765e",
+    workerCommitSubject: "feat(legal-design): normalize Vermont",
+    subjectMismatchResolvedByCaptainEquivalentCommit: true,
+    completionCommit: "0e712995b866b0379805ed9a90ca72e295d9eada",
+    memoSha256:
+      "d2ff010de0e1a862f49a287ee02cf11a9dfdc4bf28f553d65e660207b9b81817"
+  },
+  {
+    jurisdiction: "TX",
+    workerCommit: "885ca4d7b92e8a6224fa5c038137e8d35c8a32a4",
+    workerBranch:
+      "rcap-factory/rcap-tx-legal-design-normalization-4e32efbe-534b7cb3",
+    workerCommitSubject: "feat(legal-design): normalize Texas",
+    subjectMismatchResolvedByCaptainEquivalentCommit: true,
+    completionCommit: "3398a1e383b80ec27af0669cb7e170ef9c029e75",
+    memoSha256:
+      "f914dfdcdb52d94cc8142d04dac49ba73f2ad3cbbab41a6f98d367eec5bb97c3"
+  },
+  {
+    jurisdiction: "TN",
+    workerCommit: "9e62ce24ccf5194c9176945c95a145b5af962b6f",
+    workerBranch:
+      "rcap-factory/rcap-tn-legal-design-normalization-8fa40ddb-18688942",
+    workerCommitSubject: "feat(legal-design): normalize Tennessee",
+    subjectMismatchResolvedByCaptainEquivalentCommit: true,
+    completionCommit: "6ebf62c3a42819125f5f038a00fabf9f9d38fb9f",
+    memoSha256:
+      "a1c91f3d17115d87879905066b4f2b9732e717cbcdc6b063ec83502aa54f20e8"
   }
 ]);
 const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
@@ -1209,6 +1260,16 @@ export function buildFactoryPlan(options = {}) {
         `${record.supersededWorkerBranch} at ${record.supersededWorkerCommit}; ` +
         "the superseded branch is preserved unchanged for audit and was not integrated."
       : "";
+    // A worker that committed under the wrong subject cannot be amended once
+    // pushed, so the mismatch travels with the job rather than disappearing into
+    // a captain commit that looks ordinary.
+    const subjectNote = record.subjectMismatchResolvedByCaptainEquivalentCommit
+      ? ` Worker subject ${JSON.stringify(record.workerCommitSubject)} did not match the ` +
+        "factory-pinned subject, so the exact memo blob was carried into the " +
+        "captain-equivalent commit under the required subject; the claim is exact " +
+        "memo-blob equivalence, not Git commit equivalence, and the worker branch " +
+        "was not amended, rebased or force-pushed."
+      : "";
     addJob({
       lane: "legal_design_normalization",
       jurisdiction: record.jurisdiction,
@@ -1253,7 +1314,8 @@ export function buildFactoryPlan(options = {}) {
         `${workerProvenance} supplied the exact memo blob ` +
         `${record.memoSha256}; captain-equivalent commit ${record.completionCommit} ` +
         "preserves that blob without stale shared generated outputs." +
-        supersessionNote,
+        supersessionNote +
+        subjectNote,
       stopCondition:
         `Terminal completed child: ${workerProvenance.toLowerCase()} is represented by ` +
         `captain-equivalent commit ${record.completionCommit}. Preserve the exact memo blob and ` +
@@ -1645,6 +1707,59 @@ export function buildFactoryPlan(options = {}) {
         "KRS 431.073 successor as future law that is not activated early; and the " +
         "KRS 218A.275(12) disqualifying treatment. A route validating is not a legal approval. " +
         "Do not enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  if (integratedNormalizations.has("TN")) {
+    // The integrated Tennessee memo normalizes the nine slots its adopted
+    // denominator covers. Current authority surfaced four further statutory
+    // routes outside that denominator, and neither silently absorbing them into
+    // the nine nor dropping them is honest. They are carried here instead, so
+    // Tennessee is explicitly inventory-incomplete rather than quietly
+    // presented as mechanism-complete.
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "TN",
+      jobId: "rcap-tn-2026-route-inventory-addendum",
+      strategyFamily: "legal_design_adjudication",
+      trackIds: [],
+      dependencies: ["rcap-tn-legal-design-normalization"],
+      status: "ready",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/tn-2026-route-inventory-addendum.json`
+      ],
+      ownedPaths: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/tn-2026-route-inventory-addendum.json`
+      ],
+      requiredInputs: [
+        "data/record-clearing/legal-design-intake/TN.memo.json",
+        "docs/record-clearing/normalization-readiness-research/tn-codification-authority.receipt.json",
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.normalizationReadiness,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job rcap-tn-2026-route-inventory-addendum"
+      ],
+      commitSubject:
+        "docs(record-clearing): inventory the Tennessee 2026 statutory routes",
+      stopCondition:
+        "Establish, for each of the four routes outside the adopted nine-slot denominator — " +
+        "T.C.A. section 40-32-107(c) illegal voting; section 40-32-107(d) post-pardon as " +
+        "broadened by Public Chapter 719; section 40-32-107(e) the Recovery Court Renewal Act " +
+        "route added by Public Chapter 1061; and section 40-32-109 arrest-record expunction " +
+        "where no court history exists — a stable source ID, mechanism name, governing " +
+        "subsection, eligible population, legal effect, participant filing actor, venue, " +
+        "destination and packet strategy, together with its relationship to the existing nine " +
+        "tracks, whether any existing track must be narrowed or replaced, the revised " +
+        "source-slot denominator and node count, and the required source and form identities. " +
+        "Do not add a normalized route to the integrated Tennessee memo from this job, do not " +
+        "describe Tennessee as mechanism-complete until this addendum is integrated, and do not " +
+        "enable runtime, promote, or deploy. " +
         TERMINAL_INSTRUCTION
     });
   }

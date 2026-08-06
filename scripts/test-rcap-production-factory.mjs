@@ -806,14 +806,14 @@ await check("packet, source-materialization, and normalization readiness fail cl
   assert.ok(officialJobs.length > 0);
   // Regenerating the queue against the current integrated audit admitted eleven
   // more jurisdictions, so more jobs now carry exact identities.
-  assert.equal(officialJobs.length, 23);
+  assert.equal(officialJobs.length, 26);
   assert.equal(
     officialJobs.reduce(
       (total, job) =>
         total + job.officialPdfAssignment.identityKeys.length,
       0
     ),
-    64
+    71
   );
   assert.ok(
     officialJobs.every(
@@ -826,7 +826,7 @@ await check("packet, source-materialization, and normalization readiness fail cl
         (job) => job.officialPdfAssignment.identityKeys
       )
     ).size,
-    64
+    71
   );
   const marylandMaterializationOnly = officialJobs
     .flatMap(
@@ -839,7 +839,7 @@ await check("packet, source-materialization, and normalization readiness fail cl
     officialJobs.flatMap(
       (job) => job.officialPdfAssignment.newImplementationIdentityKeys
     ).length,
-    62
+    69
   );
   const officialProjection = readJson(
     "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json"
@@ -1491,7 +1491,11 @@ await check("packet, source-materialization, and normalization readiness fail cl
     "RI",
     "SC",
     "SD",
+    "TN",
+    "TX",
+    "UT",
     "VA",
+    "VT",
     "WA",
     "WI",
     "WV",
@@ -2277,7 +2281,9 @@ await check("adopted source-slot denominators compile onto the assignment", () =
   assert.equal(ut.mechanismInventory.length, 14);
   assert.deepEqual(ut.expectedSourceIds, slots.substantiveReliefMechanismIds);
   assert.equal(slots.reliefMechanismInventoryReconciles, true);
-  assert.equal(ut.readinessState, "ready_for_normalization");
+  // Utah has since been normalized and integrated; the adopted denominator it
+  // was assigned under must survive that, which is what the checks above prove.
+  assert.equal(ut.readinessState, "normalization_complete");
   assert.ok(ut.openQuestions.some((question) => /^UT-PET-10:/.test(question)));
 
   // Vermont merges slots into existing mechanisms — the three no-conviction
@@ -3511,7 +3517,7 @@ await check("dashboard reports all 51 and preserves the red launch posture", () 
   assert.deepEqual(status.readinessMetrics, {
     authorityCleared: trackSourceAudit.totals.tracksCleared,
     authorityBlocked: trackSourceAudit.totals.tracksBlocked,
-    sourcePinned: 63,
+    sourcePinned: 67,
     implementationProof: 17,
     finalDisposition: 0
   });

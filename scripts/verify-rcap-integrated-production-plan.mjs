@@ -575,13 +575,13 @@ assert.equal(kansasCommercialDisposition.generationAllowed, false);
 // audited jurisdiction that has an official-form component, not the 25 it
 // carried when Pennsylvania was still a supplemental lane.
 assert.deepEqual(officialPdfSourceContract.queueCoverage.totals, {
-  tracks: 207,
-  components: 519,
-  documentIdentities: 260,
-  exactSourceRequirements: 106,
-  unresolvedSourceIdentities: 154
+  tracks: 242,
+  components: 653,
+  documentIdentities: 303,
+  exactSourceRequirements: 117,
+  unresolvedSourceIdentities: 186
 });
-assert.equal(officialPdfSourceContract.familyCount, 36);
+assert.equal(officialPdfSourceContract.familyCount, 39);
 // Eleven newly admitted families have no authored source-requirements scaffold
 // yet; each of their queue documents is recorded as an explicit gap rather than
 // dropped from coverage.
@@ -589,7 +589,7 @@ assert.equal(
   officialPdfSourceContract.families.filter(
     (family) => family.sourceRequirementsScaffoldPresent === false
   ).length,
-  11
+  14
 );
 assert.equal(
   officialPdfSourceContract.families
@@ -603,10 +603,10 @@ assert.equal(
   0
 );
 assert.equal(officialPdfSourceContract.totals.pendingAssignmentFamilies, 0);
-assert.equal(officialPdfSourceContract.totals.projectedDocumentIdentities, 260);
+assert.equal(officialPdfSourceContract.totals.projectedDocumentIdentities, 303);
 assert.equal(
   officialPdfSourceContract.totals.projectedExactWorkerAssignments,
-  64
+  71
 );
 assert.equal(
   officialPdfSourceContract.totals.materializationBlockedFamilies,
@@ -645,22 +645,22 @@ assert.equal(
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedDocumentIdentities,
-  260
+  303
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedExactWorkerAssignments,
-  64
+  71
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .unresolvedSourceIdentities,
-  154
+  186
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedUnresolvedIdentities,
-  120
+  152
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
@@ -724,13 +724,13 @@ assert.equal(
   productionPlan.officialPdfSourceContractIntegration.runtimeStatus,
   "runtime_disabled"
 );
-assert.equal(officialPdfSourceProjection.coverage.queueIdentityCount, 260);
-assert.equal(officialPdfSourceProjection.coverage.assignmentEligibleCount, 64);
+assert.equal(officialPdfSourceProjection.coverage.queueIdentityCount, 303);
+assert.equal(officialPdfSourceProjection.coverage.assignmentEligibleCount, 71);
 assert.deepEqual(
   officialPdfSourceProjection.coverage.countsByDisposition,
   {
     deliberately_excluded_commercial_license: 9,
-    exact_worker_assignable: 64,
+    exact_worker_assignable: 71,
     // Completed acquisition decisions settled these identities; the adopted
     // edition manifests no asset for them, so there is no portable contract to
     // assign and they are not eligible.
@@ -738,8 +738,8 @@ assert.deepEqual(
     legal_design_or_technical_policy_blocked: 13,
     local_scope_identity: 1,
     role_mismatch: 3,
-    source_gated_identity: 24,
-    unresolved_identity: 120
+    source_gated_identity: 28,
+    unresolved_identity: 152
   }
 );
 assert.equal(legalReviewMaterializationContract.assignmentCount, 24);
@@ -766,8 +766,8 @@ const exactOfficialPdfChildren = factoryPlan.jobs.filter(
 const assignedOfficialPdfIdentityKeys = exactOfficialPdfChildren.flatMap(
   (child) => child.officialPdfAssignment.identityKeys
 );
-assert.equal(assignedOfficialPdfIdentityKeys.length, 64);
-assert.equal(new Set(assignedOfficialPdfIdentityKeys).size, 64);
+assert.equal(assignedOfficialPdfIdentityKeys.length, 71);
+assert.equal(new Set(assignedOfficialPdfIdentityKeys).size, 71);
 assert.deepEqual(
   [...assignedOfficialPdfIdentityKeys].sort(),
   officialPdfSourceProjection.identities
@@ -780,7 +780,7 @@ assert.equal(
     (child) =>
       child.officialPdfAssignment.newImplementationIdentityKeys
   ).length,
-  62
+  69
 );
 assert.equal(
   exactOfficialPdfChildren.flatMap(
@@ -1291,7 +1291,11 @@ const INTEGRATED_NORMALIZATIONS = [
   "RI",
   "SC",
   "SD",
+  "TN",
+  "TX",
+  "UT",
   "VA",
+  "VT",
   "WA",
   "WI",
   "WV",
@@ -1888,7 +1892,7 @@ assert.equal(
 assert.deepEqual(productionPlan.readinessMetrics.current, {
   authorityCleared: trackSourceAudit.totals.tracksCleared,
   authorityBlocked: trackSourceAudit.totals.tracksBlocked,
-  sourcePinned: 63,
+  sourcePinned: 67,
   implementationProof: 17,
   finalDisposition: 0
 });
@@ -2656,7 +2660,7 @@ assert.equal(
   factoryPlan.jobClaims.claims.filter(
     (claim) => claim.ownerSession === "SESSION_E"
   ).length,
-  23
+  26
 );
 const reservedNextJobIds = new Set([
   ...productionPlan.routingReservations.sessionB.preferredFirstJobs,
@@ -2716,7 +2720,7 @@ const status = buildFactoryStatus({ rootDir: ROOT });
 assert.deepEqual(status.readinessMetrics, {
   authorityCleared: trackSourceAudit.totals.tracksCleared,
   authorityBlocked: trackSourceAudit.totals.tracksBlocked,
-  sourcePinned: 63,
+  sourcePinned: 67,
   implementationProof: 17,
   finalDisposition: 0
 });
@@ -2736,10 +2740,9 @@ assert.equal(
       )
   )
     .length,
-  // 40 before the Session D wave-2 and Session B wave-1 integrations. The
-  // additions are wa_del_nonconviction, wv_common_nc_procedure, two Kentucky
-  // nodes, one North Dakota routing node and six Nebraska routing nodes.
-  51
+  // 40 before the Session D wave-2 and Session B wave-1 integrations, 51 after
+  // them, and 55 once Session D's final wave (UT, VT, TX, TN) landed.
+  55
 );
 assert.deepEqual(
   status.tracks
