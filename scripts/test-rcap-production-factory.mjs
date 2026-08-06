@@ -1488,6 +1488,10 @@ await check("packet, source-materialization, and normalization readiness fail cl
     "NC",
     "ND",
     "NE",
+    "NH",
+    "NJ",
+    "NM",
+    "NY",
     "RI",
     "SC",
     "SD",
@@ -3517,7 +3521,7 @@ await check("dashboard reports all 51 and preserves the red launch posture", () 
   assert.deepEqual(status.readinessMetrics, {
     authorityCleared: trackSourceAudit.totals.tracksCleared,
     authorityBlocked: trackSourceAudit.totals.tracksBlocked,
-    sourcePinned: 67,
+    sourcePinned: 68,
     implementationProof: 17,
     finalDisposition: 0
   });

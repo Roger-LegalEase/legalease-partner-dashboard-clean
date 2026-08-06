@@ -323,6 +323,48 @@ const COMPLETED_NORMALIZATIONS = Object.freeze([
     completionCommit: "6ebf62c3a42819125f5f038a00fabf9f9d38fb9f",
     memoSha256:
       "a1c91f3d17115d87879905066b4f2b9732e717cbcdc6b063ec83502aa54f20e8"
+  },
+  // Session B wave 2. These four committed under the pinned subject, so they
+  // integrate through the ordinary path.
+  {
+    jurisdiction: "NM",
+    workerCommit: "8be61c8284d7c79dac25e3cf6e9c3a3f86754826",
+    workerBranch:
+      "rcap-factory/rcap-nm-legal-design-normalization-ec78ec59-67f2f364",
+    supersededWorkerBranch:
+      "rcap-factory/rcap-nm-legal-design-normalization-ec78ec59",
+    supersededWorkerCommit:
+      "2c4324f810adff5af2e87c485c1a5be02b46f638",
+    completionCommit: "fdbea70575c255729719c86b48e7f33c1ac6f361",
+    memoSha256:
+      "94fe9d381be4e2b03e78397bb67a76c30c5005854d178606604689d19e002f25"
+  },
+  {
+    jurisdiction: "NH",
+    workerCommit: "1c56757f674e5558f8bcbdf53369dcc2bfba4949",
+    workerBranch:
+      "rcap-factory/rcap-nh-legal-design-normalization-519f8407-8839f534",
+    completionCommit: "aaf52e0265e3c8ded10aba2fc446b001fb761684",
+    memoSha256:
+      "6f85d27d53ecaaaff93fcacf069338bbb981123002636ee1e80fa98e41fe57c0"
+  },
+  {
+    jurisdiction: "NJ",
+    workerCommit: "b109c7a17d0c39456581c45e305e59349f3f43a9",
+    workerBranch:
+      "rcap-factory/rcap-nj-legal-design-normalization-537ab1ab-2e16374f",
+    completionCommit: "0a0749812b1434f020bb38a35f741f884dc8c704",
+    memoSha256:
+      "a8bd80789f88f4e81853fdbf195e5538c2cc76ea71a4838fe84bdb517c9e6d22"
+  },
+  {
+    jurisdiction: "NY",
+    workerCommit: "127561d3c5a86b72ec5db44f9e39eceb9783a162",
+    workerBranch:
+      "rcap-factory/rcap-ny-legal-design-normalization-650ebb05-ba9fd4ce",
+    completionCommit: "31e26aa7b6de3f279a9d677c186a9ad43accc57a",
+    memoSha256:
+      "560d30414b2615203cbe6767b69e8f7f3e7bc100123343e86f9c728f1b3cdf3e"
   }
 ]);
 const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
@@ -1707,6 +1749,96 @@ export function buildFactoryPlan(options = {}) {
         "KRS 431.073 successor as future law that is not activated early; and the " +
         "KRS 218A.275(12) disqualifying treatment. A route validating is not a legal approval. " +
         "Do not enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  if (integratedNormalizations.has("NJ")) {
+    // New Jersey's automated Clean Slate process does not yet exist. The
+    // participant petition is the current route and is not held back by a system
+    // that has not started; what is needed is a trigger to watch, so the packet
+    // is cut over when the automation actually becomes operative rather than on
+    // an announcement or an assumption.
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "NJ",
+      jobId: "rcap-nj-clean-slate-automation-currentness-monitor",
+      strategyFamily: "legal_design_adjudication",
+      trackIds: [],
+      dependencies: ["rcap-nj-legal-design-normalization"],
+      status: "blocked",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/nj-clean-slate-automation-currentness-monitor.json`
+      ],
+      ownedPaths: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/nj-clean-slate-automation-currentness-monitor.json`
+      ],
+      requiredInputs: [
+        "data/record-clearing/legal-design-intake/NJ.memo.json",
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "high",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job rcap-nj-clean-slate-automation-currentness-monitor"
+      ],
+      commitSubject:
+        "docs(record-clearing): monitor New Jersey Clean Slate automation",
+      stopCondition:
+        "Identify the controlling official trigger that establishes New Jersey's automated " +
+        "Clean Slate process as operative, and specify the legal-design, screening and packet " +
+        "cutover it requires. The current petition route stays active and must not be blocked " +
+        "by the future system; do not create a second remedy for automation that does not yet " +
+        "exist, do not treat an announcement as operation, and do not enable runtime, promote, " +
+        "or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  if (integratedNormalizations.has("NY")) {
+    // Two eligibility rules for CPL 160.57 that the sources do not agree on. The
+    // worker kept both rather than choosing, which is the right call: deleting
+    // either one on the strength of a targeted reading would silently change who
+    // is eligible. The route stays release-disabled until the controlling text
+    // settles it.
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "NY",
+      jobId: "rcap-ny-cpl-160-57-eligibility-source-reconciliation",
+      strategyFamily: "legal_design_adjudication",
+      trackIds: [],
+      dependencies: ["rcap-ny-legal-design-normalization"],
+      status: "blocked",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/ny-cpl-160-57-eligibility-source-reconciliation.json`
+      ],
+      ownedPaths: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/ny-cpl-160-57-eligibility-source-reconciliation.json`
+      ],
+      requiredInputs: [
+        "data/record-clearing/legal-design-intake/NY.memo.json",
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.packetSetManifests,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job rcap-ny-cpl-160-57-eligibility-source-reconciliation"
+      ],
+      commitSubject:
+        "docs(record-clearing): reconcile the New York CPL 160.57 eligibility sources",
+      stopCondition:
+        "Determine from the controlling current statutory text whether CPL 160.57 requires no " +
+        "pending felony charge in another jurisdiction, whether the life-sentence exclusion " +
+        "remains current, and whether the two are cumulative; identify the official source and " +
+        "effective date that control, the exact screening questions that change, and whether the " +
+        "answer affects eligibility, packet identity or release review only. Do not delete " +
+        "either rule on a targeted reading, keep only the affected route release-disabled, do " +
+        "not hold unrelated New York routes, and do not enable runtime, promote, or deploy. " +
         TERMINAL_INSTRUCTION
     });
   }
@@ -4154,6 +4286,7 @@ function applyOfficialPdfAssignments({
     process.env.RCAP_SOURCE_MATERIALIZATION_ROOT.trim() !== ""
       ? process.env.RCAP_SOURCE_MATERIALIZATION_ROOT
       : null;
+  const unownedAssignableIdentities = [];
   const sourceJobs = jobs.filter(
     (job) =>
       ["acroform_fill", "flat_pdf_overlay", "composed_route"].includes(
@@ -4197,9 +4330,22 @@ function applyOfficialPdfAssignments({
         .sort((left, right) => left.jobId.localeCompare(right.jobId));
     }
     if (candidates.length === 0) {
-      throw new Error(
-        `${identity.identityKey} has no canonical official-PDF child owner.`
-      );
+      // The source projection resolved this identity from the adopted authority
+      // archive, but no official-PDF implementation job covers its tracks: the
+      // lane classifier reads the private repository corpus, which holds no row
+      // for a document retained only in the archive. That is a real gap in the
+      // implementation lane, not in the source, so it is recorded as a typed
+      // blocker on the identity rather than crashing the plan or inventing a
+      // lane owner for it.
+      unownedAssignableIdentities.push({
+        identityKey: identity.identityKey,
+        jurisdiction: identity.jurisdiction,
+        documentId: identity.officialDocument?.documentId ?? null,
+        implementationFamily: identity.implementationFamily ?? null,
+        trackIds: [...(identity.trackIds ?? [])],
+        blocker: "implementation_lane_owner_absent"
+      });
+      continue;
     }
     const owner = candidates[0];
     rowsByOwner.get(owner.jobId).push(identity);
@@ -4467,12 +4613,25 @@ function applyOfficialPdfAssignments({
     (total, rows) => total + rows.length,
     0
   );
-  if (assignedIdentityCount !== assignmentRows.length) {
+  // Every eligible identity is either assigned to an owning job or explicitly
+  // recorded as having no implementation lane to own it. The partition must be
+  // exact: an identity that is neither would be silently dropped, which is the
+  // failure this check exists to prevent.
+  if (
+    assignedIdentityCount + unownedAssignableIdentities.length !==
+    assignmentRows.length
+  ) {
     throw new Error(
-      `Official-PDF child assignments cover ${assignedIdentityCount} of ` +
+      `Official-PDF child assignments cover ${assignedIdentityCount} assigned plus ` +
+        `${unownedAssignableIdentities.length} lane-unowned of ` +
         `${assignmentRows.length} eligible implementation identities.`
     );
   }
+  return {
+    unownedAssignableIdentities: unownedAssignableIdentities.sort((left, right) =>
+      left.identityKey.localeCompare(right.identityKey)
+    )
+  };
 }
 
 function officialPdfOwnerScore(job, identity) {

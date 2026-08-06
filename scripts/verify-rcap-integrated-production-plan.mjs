@@ -575,13 +575,13 @@ assert.equal(kansasCommercialDisposition.generationAllowed, false);
 // audited jurisdiction that has an official-form component, not the 25 it
 // carried when Pennsylvania was still a supplemental lane.
 assert.deepEqual(officialPdfSourceContract.queueCoverage.totals, {
-  tracks: 242,
-  components: 653,
-  documentIdentities: 303,
-  exactSourceRequirements: 117,
-  unresolvedSourceIdentities: 186
+  tracks: 257,
+  components: 717,
+  documentIdentities: 329,
+  exactSourceRequirements: 119,
+  unresolvedSourceIdentities: 210
 });
-assert.equal(officialPdfSourceContract.familyCount, 39);
+assert.equal(officialPdfSourceContract.familyCount, 43);
 // Eleven newly admitted families have no authored source-requirements scaffold
 // yet; each of their queue documents is recorded as an explicit gap rather than
 // dropped from coverage.
@@ -589,7 +589,7 @@ assert.equal(
   officialPdfSourceContract.families.filter(
     (family) => family.sourceRequirementsScaffoldPresent === false
   ).length,
-  14
+  18
 );
 assert.equal(
   officialPdfSourceContract.families
@@ -603,10 +603,10 @@ assert.equal(
   0
 );
 assert.equal(officialPdfSourceContract.totals.pendingAssignmentFamilies, 0);
-assert.equal(officialPdfSourceContract.totals.projectedDocumentIdentities, 303);
+assert.equal(officialPdfSourceContract.totals.projectedDocumentIdentities, 329);
 assert.equal(
   officialPdfSourceContract.totals.projectedExactWorkerAssignments,
-  71
+  73
 );
 assert.equal(
   officialPdfSourceContract.totals.materializationBlockedFamilies,
@@ -645,22 +645,22 @@ assert.equal(
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedDocumentIdentities,
-  303
+  329
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedExactWorkerAssignments,
-  71
+  73
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .unresolvedSourceIdentities,
-  186
+  210
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedUnresolvedIdentities,
-  152
+  176
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
@@ -724,13 +724,13 @@ assert.equal(
   productionPlan.officialPdfSourceContractIntegration.runtimeStatus,
   "runtime_disabled"
 );
-assert.equal(officialPdfSourceProjection.coverage.queueIdentityCount, 303);
-assert.equal(officialPdfSourceProjection.coverage.assignmentEligibleCount, 71);
+assert.equal(officialPdfSourceProjection.coverage.queueIdentityCount, 329);
+assert.equal(officialPdfSourceProjection.coverage.assignmentEligibleCount, 73);
 assert.deepEqual(
   officialPdfSourceProjection.coverage.countsByDisposition,
   {
     deliberately_excluded_commercial_license: 9,
-    exact_worker_assignable: 71,
+    exact_worker_assignable: 73,
     // Completed acquisition decisions settled these identities; the adopted
     // edition manifests no asset for them, so there is no portable contract to
     // assign and they are not eligible.
@@ -739,7 +739,7 @@ assert.deepEqual(
     local_scope_identity: 1,
     role_mismatch: 3,
     source_gated_identity: 28,
-    unresolved_identity: 152
+    unresolved_identity: 176
   }
 );
 assert.equal(legalReviewMaterializationContract.assignmentCount, 24);
@@ -768,13 +768,30 @@ const assignedOfficialPdfIdentityKeys = exactOfficialPdfChildren.flatMap(
 );
 assert.equal(assignedOfficialPdfIdentityKeys.length, 71);
 assert.equal(new Set(assignedOfficialPdfIdentityKeys).size, 71);
+// Every eligible identity is either assigned to an owning implementation job or
+// explicitly recorded as having no lane to own it. New Jersey's CN-10557 and New
+// York's CPL 160.59 packet are the second case: the projection resolved them
+// from the adopted archive, while the lane classifier reads the private
+// repository corpus, which retains no row for them. The partition is asserted
+// exactly so neither an assignment nor a gap can go missing.
+const laneUnownedIdentityKeys = [
+  "rcap-nj-cn-10557-814e1397cd",
+  "rcap-ny-cpl-160-59-pro-se-packet-c8c5834eab"
+];
 assert.deepEqual(
-  [...assignedOfficialPdfIdentityKeys].sort(),
+  [...assignedOfficialPdfIdentityKeys, ...laneUnownedIdentityKeys].sort(),
   officialPdfSourceProjection.identities
     .filter((identity) => identity.assignmentEligible)
     .map((identity) => identity.identityKey)
     .sort()
 );
+for (const identityKey of laneUnownedIdentityKeys) {
+  assert.equal(
+    assignedOfficialPdfIdentityKeys.includes(identityKey),
+    false,
+    `${identityKey} must not be assigned while no implementation lane owns it`
+  );
+}
 assert.equal(
   exactOfficialPdfChildren.flatMap(
     (child) =>
@@ -1288,6 +1305,10 @@ const INTEGRATED_NORMALIZATIONS = [
   "NC",
   "ND",
   "NE",
+  "NH",
+  "NJ",
+  "NM",
+  "NY",
   "RI",
   "SC",
   "SD",
@@ -1892,7 +1913,7 @@ assert.equal(
 assert.deepEqual(productionPlan.readinessMetrics.current, {
   authorityCleared: trackSourceAudit.totals.tracksCleared,
   authorityBlocked: trackSourceAudit.totals.tracksBlocked,
-  sourcePinned: 67,
+  sourcePinned: 68,
   implementationProof: 17,
   finalDisposition: 0
 });
@@ -2720,7 +2741,7 @@ const status = buildFactoryStatus({ rootDir: ROOT });
 assert.deepEqual(status.readinessMetrics, {
   authorityCleared: trackSourceAudit.totals.tracksCleared,
   authorityBlocked: trackSourceAudit.totals.tracksBlocked,
-  sourcePinned: 67,
+  sourcePinned: 68,
   implementationProof: 17,
   finalDisposition: 0
 });
@@ -2741,8 +2762,8 @@ assert.equal(
   )
     .length,
   // 40 before the Session D wave-2 and Session B wave-1 integrations, 51 after
-  // them, and 55 once Session D's final wave (UT, VT, TX, TN) landed.
-  55
+  // them, 55 once Session D's final wave landed, and 56 with Session B wave 2.
+  56
 );
 assert.deepEqual(
   status.tracks
