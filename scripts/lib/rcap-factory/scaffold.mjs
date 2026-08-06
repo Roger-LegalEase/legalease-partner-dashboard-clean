@@ -56,7 +56,7 @@ export function buildScaffoldPlan({ rootDir, job, authorityVersion, model = job?
   assertRoot(rootDir);
 
   const scaffoldBaseCommit = currentHead(rootDir);
-  const scaffoldKey = scaffoldKeyFor(job.jobId);
+  const scaffoldKey = scaffoldKeyFor(job.jobId, { job, model });
   const worktreePath = `tmp/rcap-factory/worktrees/${scaffoldKey}`;
   const workspacePath = `tmp/rcap-factory/jobs/${scaffoldKey}`;
   const branch = `rcap-factory/${scaffoldKey}`;
@@ -245,7 +245,63 @@ export function assertScaffoldableJob(job, options = {}) {
   }
 }
 
-export function scaffoldKeyFor(jobId) {
+/**
+ * Fields whose value is a lifecycle fact about a job rather than part of the
+ * contract handed to a worker. They are deliberately outside the branch
+ * fingerprint: `status` and `completionCommit` move as the job is worked, and
+ * `baseCommit` is the planning HEAD, so including either would rename a branch
+ * out from under a worker every time the captain committed anything.
+ *
+ * Everything else — lane, trackIds, ownedPaths, forbiddenPaths, expectedOutputs,
+ * focusedValidation, normalizationReadiness, officialPdfAssignment, model — is
+ * assignment substance and does move the key.
+ */
+const BRANCH_IDENTITY_EXCLUDED_FIELDS = new Set([
+  "baseCommit",
+  "completionCommit",
+  "status"
+]);
+
+/**
+ * The canonical fingerprint of what a worker was actually assigned.
+ *
+ * This does not touch `assignedJobSha256`, which stays `canonicalSha256` over
+ * the whole ordered manifest and remains the marker's immutability seal. This
+ * is a second, narrower digest used only for branch identity, so that reissuing
+ * the same job under a changed assignment produces a distinct branch instead of
+ * colliding with the branch the previous worker already pushed.
+ */
+export function assignmentFingerprint(job, model = job?.model) {
+  if (!job || typeof job !== "object" || Array.isArray(job)) {
+    throw new Error("An assignment fingerprint needs a job manifest object.");
+  }
+  // Deliberately not routed through orderedJobManifest: that asserts the job is
+  // still eligible to be prompted, and branch identity has to be computable for
+  // a blocked, completed or cancelled job too — the integration planner resolves
+  // branches for jobs in every state. canonicalSha256 sorts keys recursively, so
+  // dropping the explicit field order changes nothing about the digest.
+  return canonicalSha256(
+    Object.fromEntries(
+      Object.entries({ ...job, model }).filter(
+        ([field]) => !BRANCH_IDENTITY_EXCLUDED_FIELDS.has(field)
+      )
+    )
+  );
+}
+
+/**
+ * Worker branch key.
+ *
+ * Keyed on the job alone this collided: rebuild an assignment for the same job
+ * and the new worker was handed the branch name the previous worker's commit
+ * already occupied, which is why Kentucky, North Carolina and New Mexico needed
+ * hand-suffixed replacement branches. With an assignment supplied the key
+ * carries the assignment fingerprint too, so a changed assignment is a new
+ * branch and the old one is left untouched for audit. Called with no assignment
+ * it returns the legacy key unchanged, which is what keeps branches scaffolded
+ * before this change resolvable.
+ */
+export function scaffoldKeyFor(jobId, assignment) {
   const slug =
     String(jobId)
       .toLowerCase()
@@ -253,7 +309,17 @@ export function scaffoldKeyFor(jobId) {
       .replace(/^-+|-+$/g, "")
       .slice(0, 64) || "job";
   const digest = createHash("sha256").update(String(jobId)).digest("hex").slice(0, 8);
-  return `${slug}-${digest}`;
+  if (assignment === undefined || assignment === null) return `${slug}-${digest}`;
+  const fingerprint =
+    typeof assignment === "string"
+      ? assignment
+      : assignmentFingerprint(assignment.job ?? assignment, assignment.model);
+  if (!/^[0-9a-f]{64}$/.test(fingerprint)) {
+    throw new Error(
+      `${jobId}: worker branch identity needs a canonical assignment fingerprint.`
+    );
+  }
+  return `${slug}-${digest}-${fingerprint.slice(0, 8)}`;
 }
 
 function scaffoldManifestFor(plan) {

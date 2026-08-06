@@ -31,8 +31,10 @@ import {
   canonicalStringify
 } from "./lib/rcap-factory/canonical-json.mjs";
 import {
+  assignmentFingerprint,
   buildScaffoldPlan,
-  buildWorktreeJobMarker
+  buildWorktreeJobMarker,
+  scaffoldKeyFor
 } from "./lib/rcap-factory/scaffold.mjs";
 import {
   inspectPdfBytes
@@ -1470,7 +1472,7 @@ await check("packet, source-materialization, and normalization readiness fail cl
   );
   assert.equal(
     otherNormalizations.filter((entry) => entry.status === "ready").length,
-    REMAINING_NORMALIZATION_JURISDICTIONS.length - 5
+    REMAINING_NORMALIZATION_JURISDICTIONS.length - 4
   );
   assert.deepEqual(
     otherNormalizations
@@ -1479,11 +1481,14 @@ await check("packet, source-materialization, and normalization readiness fail cl
       .sort(),
     ["RI", "SD", "WI", "WY"]
   );
+  // Tennessee's codification-authority blocker is cleared by the verified
+  // package receipt, so no normalization job is left blocked on state-specific
+  // authority.
   assert.deepEqual(
     otherNormalizations
       .filter((entry) => entry.status === "blocked")
       .map((entry) => entry.jurisdiction),
-    ["TN"]
+    []
   );
   assert.deepEqual(
     otherNormalizations.map((entry) => entry.jurisdiction).sort(),
@@ -1495,8 +1500,6 @@ await check("packet, source-materialization, and normalization readiness fail cl
     const expectedState =
       ["RI", "SD", "WI", "WY"].includes(entry.jurisdiction)
         ? "normalization_complete"
-        : entry.jurisdiction === "TN"
-        ? "codification_authority_unverified"
         : "ready_for_normalization";
     assert.equal(
       readiness.readinessState,
@@ -1519,12 +1522,7 @@ await check("packet, source-materialization, and normalization readiness fail cl
       new Set(readiness.expectedSourceIds).size,
       readiness.expectedSourceIds.length
     );
-    assert.deepEqual(
-      readiness.readinessBlockers,
-      entry.jurisdiction === "TN"
-        ? ["codification_authority_unverified"]
-        : []
-    );
+    assert.deepEqual(readiness.readinessBlockers, []);
     assert.equal(
       readiness.reviewMaterialization.materializationState,
       "binary_hash_verified"
@@ -1830,11 +1828,10 @@ await check("packet, source-materialization, and normalization readiness fail cl
     expectedJurisdictions: 24,
     representedExactlyOnce: 24,
     bundlesReceived: 24,
-    readyForNormalization: 23,
-    blocked: 1,
+    readyForNormalization: 24,
+    blocked: 0,
     byReadinessState: {
-      codification_authority_unverified: 1,
-      ready_for_normalization: 23
+      ready_for_normalization: 24
     }
   });
   const readinessFoundation = plan.jobs.find(
@@ -2190,6 +2187,100 @@ await check("counsel adoption is exact, hash-bound, and separate from engineerin
   );
 });
 
+// --- adopted source-slot denominator ------------------------------------------
+//
+// Utah's adoption dispositions fifteen source slots against fourteen
+// substantive relief mechanisms, and separately carries UT-COMMON as shared
+// procedure. Compilation used to emit only the hash-bound relief inventory, so
+// the Session D worker would have received a fourteen-slot assignment against a
+// fifteen-slot denominator, with UT-COMMON absent from the compiled record.
+//
+// The inventory itself is deliberately still fourteen: it is hash-bound to the
+// controlling review and `expectedSourceIds` must keep reconciling to it
+// exactly. The adopted denominator sits beside it.
+
+await check("adopted source-slot denominators compile onto the assignment", () => {
+  const readinessFor = (code) =>
+    plan.jobs.find((job) => job.jobId === `rcap-${code}-legal-design-normalization`)
+      ?.normalizationReadiness;
+
+  const ut = readinessFor("ut");
+  assert.ok(ut, "Utah normalization job is absent from the plan");
+  const slots = ut.sourceSlotAccounting;
+  assert.ok(slots, "Utah assignment carries no adopted source-slot accounting");
+
+  // The three adopted counts, exactly.
+  assert.equal(slots.expectedSourceSlots, 15);
+  assert.equal(slots.substantiveReliefMechanisms, 14);
+  assert.equal(slots.expectedNormalizedNodes, 15);
+  assert.equal(slots.expectedSourceSlotIds.length, 15);
+
+  // UT-ADJ-01 is present, is the routing node, and is not relief or a packet.
+  const adj = [...slots.nonStandaloneSourceSlots, ...slots.sharedProcedureDispositions].find(
+    (entry) => entry.sourceId === "UT-ADJ-01"
+  );
+  assert.ok(adj, "UT-ADJ-01 was dropped from the compiled source-slot accounting");
+  assert.equal(adj.disposition, "routing_node");
+  assert.equal(adj.routingNode, true);
+  assert.equal(adj.standaloneReliefTrack, false);
+  assert.equal(adj.reliefContribution, "none");
+  assert.equal(adj.participantPacket, false);
+  assert.equal(slots.substantiveReliefMechanismIds.includes("UT-ADJ-01"), false);
+  assert.ok(slots.expectedSourceSlotIds.includes("UT-ADJ-01"));
+
+  // UT-COMMON is recorded as shared procedure: not a track, not a node, not a
+  // packet, and never counted as relief.
+  const common = slots.sharedProcedureDispositions.find(
+    (entry) => entry.sourceId === "UT-COMMON"
+  );
+  assert.ok(common, "UT-COMMON was omitted from the compiled source-slot accounting");
+  assert.equal(common.disposition, "shared_procedure_not_track_or_node");
+  assert.equal(common.standaloneReliefTrack, false);
+  assert.equal(common.reliefContribution, "none");
+  assert.equal(common.normalizedNode, false);
+  assert.equal(common.participantPacket, false);
+  assert.equal(slots.substantiveReliefMechanismIds.includes("UT-COMMON"), false);
+
+  // The hash-bound inventory is untouched, and Utah's existing route question
+  // survives the repair.
+  assert.equal(ut.mechanismInventory.length, 14);
+  assert.deepEqual(ut.expectedSourceIds, slots.substantiveReliefMechanismIds);
+  assert.equal(slots.reliefMechanismInventoryReconciles, true);
+  assert.equal(ut.readinessState, "ready_for_normalization");
+  assert.ok(ut.openQuestions.some((question) => /^UT-PET-10:/.test(question)));
+
+  // Vermont merges slots into existing mechanisms — the three no-conviction
+  // sealing branches into one alternative composition, and the stipulation into
+  // the applicable post-conviction petitions — so its standalone tally is below
+  // its adopted relief count on purpose. Those slots must not be mislabelled as
+  // contributing no relief, which is the mistake that would turn a merge into a
+  // dropped mechanism.
+  const vt = readinessFor("vt").sourceSlotAccounting;
+  assert.equal(vt.expectedSourceSlots, 14);
+  assert.equal(vt.substantiveReliefMechanisms, 11);
+  assert.deepEqual(
+    vt.nonStandaloneSourceSlots
+      .filter(
+        (entry) => entry.reliefContribution === "merged_into_adopted_relief_mechanism"
+      )
+      .map((entry) => entry.sourceId),
+    ["VT-SEAL-04", "VT-SEAL-05", "VT-SEAL-06", "VT-SEAL-07"]
+  );
+  assert.equal(vt.nonStandaloneSourceSlots.every((entry) => entry.routingNode === false), true);
+
+  // West Virginia's two shared-procedure entries are nodes, unlike UT-COMMON.
+  const wv = readinessFor("wv").sourceSlotAccounting;
+  assert.equal(wv.expectedSourceSlots, 10);
+  assert.equal(wv.substantiveReliefMechanisms, 10);
+  assert.equal(wv.expectedNormalizedNodes, 12);
+  assert.deepEqual(
+    wv.sharedProcedureDispositions.map((entry) => entry.sourceId),
+    ["WV-COMMON-CONV", "WV-COMMON-NC"]
+  );
+  assert.ok(wv.sharedProcedureDispositions.every((entry) => entry.normalizedNode === true));
+  assert.ok(wv.sharedProcedureDispositions.every((entry) => entry.participantPacket === false));
+});
+
 await check("overlap and owned/forbidden conflicts fail closed", () => {
   const overlapping = structuredClone(plan);
   const active = overlapping.jobs.filter((entry) =>
@@ -2385,6 +2476,93 @@ await check("scaffold is deterministic, isolated, and dry-run by default", () =>
   assert.equal(help.status, 0, help.stderr);
   assert.match(help.stdout, /complete linked Git worktree/);
   assert.match(help.stdout, /not the checkout or disposable output/);
+});
+
+// --- worker branch identity ---------------------------------------------------
+//
+// The branch key used to be sha256(jobId) alone, so reissuing a job under a
+// rebuilt assignment aimed the new worker at the branch the previous worker's
+// commit already occupied. Kentucky, North Carolina and New Mexico all needed a
+// hand-suffixed replacement branch because of it. The key now carries the
+// canonical assignment fingerprint as well, which makes a changed assignment a
+// different branch and leaves the superseded one in place, unrewritten.
+
+await check("worker branch identity follows the assignment, not just the job", () => {
+  const job = plan.jobs.find((entry) => entry.status === "ready") ?? plan.jobs[0];
+  const options = {
+    rootDir: ROOT,
+    job,
+    authorityVersion: plan.authorityVersion,
+    model: job.model
+  };
+
+  // 1. Same job, same assignment: one stable name, however often it is compiled.
+  const first = buildScaffoldPlan(options);
+  const second = buildScaffoldPlan(options);
+  assert.equal(first.branch, second.branch);
+  assert.equal(
+    first.branch,
+    `rcap-factory/${scaffoldKeyFor(job.jobId, { job, model: job.model })}`
+  );
+
+  // The baseline alone must not be the key: the same assignment planned at a
+  // different HEAD is still the same assignment and keeps the same branch.
+  const rebased = structuredClone(job);
+  rebased.baseCommit = "0".repeat(40);
+  assert.equal(
+    scaffoldKeyFor(rebased.jobId, { job: rebased, model: rebased.model }),
+    scaffoldKeyFor(job.jobId, { job, model: job.model })
+  );
+  // Nor may lifecycle movement rename a branch out from under a live worker.
+  const advanced = structuredClone(job);
+  advanced.status = "completed";
+  advanced.completionCommit = "1".repeat(40);
+  assert.equal(
+    scaffoldKeyFor(advanced.jobId, { job: advanced, model: advanced.model }),
+    first.branch.slice("rcap-factory/".length)
+  );
+
+  // 2. Same job, changed assignment: a distinct branch.
+  const reissued = structuredClone(job);
+  reissued.trackIds = [...(reissued.trackIds ?? []), "reissued-track"];
+  const replacement = buildScaffoldPlan({ ...options, job: reissued });
+  assert.notEqual(replacement.branch, first.branch);
+  assert.notEqual(
+    assignmentFingerprint(reissued, reissued.model),
+    assignmentFingerprint(job, job.model)
+  );
+
+  // 3. Both names remain available at once, so the superseded branch is
+  //    preserved rather than force-pushed or deleted to make room.
+  assert.ok(first.branch.startsWith(`rcap-factory/`));
+  assert.ok(replacement.branch.startsWith(`rcap-factory/`));
+  assert.equal(new Set([first.branch, replacement.branch]).size, 2);
+  assert.equal(first.worktreePath === replacement.worktreePath, false);
+  assert.equal(first.workspacePath === replacement.workspacePath, false);
+
+  // 4. Broadening the assignment is still a different assignment, so it cannot
+  //    reuse the narrower assignment's branch and quietly inherit its claim.
+  const broadened = structuredClone(job);
+  broadened.ownedPaths = [...broadened.ownedPaths, "data/record-clearing/"];
+  assert.notEqual(
+    scaffoldKeyFor(broadened.jobId, { job: broadened, model: broadened.model }),
+    scaffoldKeyFor(job.jobId, { job, model: job.model })
+  );
+
+  // 5. The legacy job-only key is still derivable, which is how branches
+  //    scaffolded before this change stay resolvable, and it is never what a
+  //    new scaffold produces.
+  const legacy = scaffoldKeyFor(job.jobId);
+  assert.match(legacy, /^[a-z0-9-]+-[0-9a-f]{8}$/);
+  assert.notEqual(`rcap-factory/${legacy}`, first.branch);
+  assert.ok(first.branch.endsWith(assignmentFingerprint(job, job.model).slice(0, 8)));
+
+  // 6. A fingerprint that is not a canonical digest is refused outright rather
+  //    than silently producing a branch nobody can reproduce.
+  assert.throws(
+    () => scaffoldKeyFor(job.jobId, "not-a-digest"),
+    /canonical assignment fingerprint/
+  );
 });
 
 await check("official-PDF scaffold marker is exact, portable, and cannot broaden", () => {

@@ -400,9 +400,20 @@ export function validateIntegrationCommand(commandEntry) {
 }
 
 function inspectWorkerBranch(rootDir, job) {
-  const branch = `rcap-factory/${scaffoldKeyFor(job.jobId)}`;
+  // Resolve the assignment-aware branch first. A job scaffolded before worker
+  // branches carried an assignment fingerprint still lives under the legacy
+  // job-only key, so that name is accepted as a fallback rather than reported
+  // missing — but only when no assignment-aware branch exists, so a reissued
+  // assignment can never be silently satisfied by the previous worker's branch.
+  const branch = `rcap-factory/${scaffoldKeyFor(job.jobId, { job, model: job.model })}`;
+  const legacyBranch = `rcap-factory/${scaffoldKeyFor(job.jobId)}`;
   const blockers = [];
-  if (!gitRefExists(rootDir, `refs/heads/${branch}`)) {
+  const resolved = gitRefExists(rootDir, `refs/heads/${branch}`)
+    ? branch
+    : gitRefExists(rootDir, `refs/heads/${legacyBranch}`)
+      ? legacyBranch
+      : null;
+  if (!resolved) {
     return {
       jobId: job.jobId,
       jurisdiction: job.jurisdiction,
@@ -415,14 +426,14 @@ function inspectWorkerBranch(rootDir, job) {
     };
   }
 
-  const cherry = gitLines(rootDir, ["cherry", "HEAD", branch]);
+  const cherry = gitLines(rootDir, ["cherry", "HEAD", resolved]);
   const pending = cherry
     .filter((line) => line.startsWith("+ "))
     .map((line) => line.slice(2).trim());
   const equivalent = cherry
     .filter((line) => line.startsWith("- "))
     .map((line) => line.slice(2).trim());
-  const branchTip = gitOneLine(rootDir, ["rev-parse", branch]);
+  const branchTip = gitOneLine(rootDir, ["rev-parse", resolved]);
   const alreadyIntegrated = pending.length === 0 && equivalent.length > 0;
   const commit = alreadyIntegrated
     ? equivalent[equivalent.length - 1]
@@ -481,7 +492,10 @@ function inspectWorkerBranch(rootDir, job) {
   return {
     jobId: job.jobId,
     jurisdiction: job.jurisdiction,
-    branch,
+    branch: resolved,
+    assignmentBranch: branch,
+    branchIdentity:
+      resolved === branch ? "assignment_keyed" : "legacy_job_keyed",
     commit,
     commitSubject,
     alreadyIntegrated,
