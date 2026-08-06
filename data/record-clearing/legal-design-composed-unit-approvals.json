@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "note": "Approved composed-unit substance. Read on every batch-delta run and written only by --approve-composed-units. A composed route has no track-level renderer strategy, so this file is where its legal substance is pinned: which vehicle each unit files, which units are unresolved, which are available, and — for a sequential composition — what order the stages run in. Alternative-branch array order is deliberately not pinned; those branches are selected by a predicate, not by position.",
-  "approvedTracks": 26,
+  "approvedTracks": 32,
   "tracks": [
     {
       "jurisdiction": "AR",
@@ -872,6 +872,251 @@
         "mt-mmrta-serving-court-petition",
         "mt-mmrta-serving-criss-submission"
       ]
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_deferred_sentence",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "sequential",
+      "orderIsSubstantive": true,
+      "counselAuthoredProvenanceCount": 17,
+      "units": [
+        {
+          "unitId": "ri-deferred-sentence-stage-1-bci-and-docket",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ri-deferred-sentence-stage-2-court-motion-and-affidavit",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ri-deferred-sentence-stage-3-notice-hearing-and-certified-copies",
+          "order": 3,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": [
+        "ri-deferred-sentence-stage-1-bci-and-docket",
+        "ri-deferred-sentence-stage-2-court-motion-and-affidavit",
+        "ri-deferred-sentence-stage-3-notice-hearing-and-certified-copies"
+      ]
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_first_offender_felony",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "sequential",
+      "orderIsSubstantive": true,
+      "counselAuthoredProvenanceCount": 16,
+      "units": [
+        {
+          "unitId": "ri-first-offender-felony-stage-1-bci-and-docket",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ri-first-offender-felony-stage-2-court-motion-and-affidavit",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ri-first-offender-felony-stage-3-notice-hearing-and-certified-copies",
+          "order": 3,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": [
+        "ri-first-offender-felony-stage-1-bci-and-docket",
+        "ri-first-offender-felony-stage-2-court-motion-and-affidavit",
+        "ri-first-offender-felony-stage-3-notice-hearing-and-certified-copies"
+      ]
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_first_offender_misdemeanor",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "sequential",
+      "orderIsSubstantive": true,
+      "counselAuthoredProvenanceCount": 16,
+      "units": [
+        {
+          "unitId": "ri-first-offender-misdemeanor-stage-1-bci-and-docket",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ri-first-offender-misdemeanor-stage-2-court-motion-and-affidavit",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ri-first-offender-misdemeanor-stage-3-notice-hearing-and-certified-copies",
+          "order": 3,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": [
+        "ri-first-offender-misdemeanor-stage-1-bci-and-docket",
+        "ri-first-offender-misdemeanor-stage-2-court-motion-and-affidavit",
+        "ri-first-offender-misdemeanor-stage-3-notice-hearing-and-certified-copies"
+      ]
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_marijuana",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "sequential",
+      "orderIsSubstantive": true,
+      "counselAuthoredProvenanceCount": 11,
+      "units": [
+        {
+          "unitId": "ri-marijuana-automatic-verification",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ri-marijuana-expedited-written-request",
+          "order": 2,
+          "outputStrategy": "custom_pleading",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": [
+        "ri-marijuana-automatic-verification",
+        "ri-marijuana-expedited-written-request"
+      ]
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_multiple_misdemeanors",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "sequential",
+      "orderIsSubstantive": true,
+      "counselAuthoredProvenanceCount": 19,
+      "units": [
+        {
+          "unitId": "ri-multiple-misdemeanors-stage-1-bci-and-docket",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ri-multiple-misdemeanors-stage-2-court-motion-and-affidavit",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ri-multiple-misdemeanors-stage-3-notice-hearing-and-certified-copies",
+          "order": 3,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": [
+        "ri-multiple-misdemeanors-stage-1-bci-and-docket",
+        "ri-multiple-misdemeanors-stage-2-court-motion-and-affidavit",
+        "ri-multiple-misdemeanors-stage-3-notice-hearing-and-certified-copies"
+      ]
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_nonconviction_sealing",
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "alternative",
+      "orderIsSubstantive": false,
+      "counselAuthoredProvenanceCount": 8,
+      "units": [
+        {
+          "unitId": "ri-nonconviction-motion-to-seal",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        },
+        {
+          "unitId": "ri-nonconviction-verify-automatic-sealing",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "available": true,
+          "unresolved": false,
+          "parentUnitId": null
+        }
+      ],
+      "sequence": null
     },
     {
       "jurisdiction": "SD",

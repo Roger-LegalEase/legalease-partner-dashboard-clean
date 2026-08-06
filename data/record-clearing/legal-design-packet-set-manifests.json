@@ -29906,6 +29906,1434 @@
       ]
     },
     {
+      "jurisdiction": "RI",
+      "trackId": "ri_first_offender_misdemeanor",
+      "packetSetId": "ri_first_offender_misdemeanor-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ri_first_offender_misdemeanor-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DC-33",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "order": 1
+        },
+        {
+          "componentId": "ri_first_offender_misdemeanor-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DC-33-ORDER",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "order": 2
+        },
+        {
+          "componentId": "ri_first_offender_misdemeanor-notice-package-3",
+          "role": "notice_package",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "ri_first_offender_misdemeanor-filing-instructions-4",
+          "role": "filing_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "ri_first_offender_misdemeanor-certified-copy-delivery-checklist-5",
+          "role": "certified_copy_delivery_checklist",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 5
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+          "obtainedFrom": "Rhode Island Department of Attorney General, Bureau of Criminal Identification",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is your BCI number, as it appears on your Rhode Island criminal history?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court docket showing counts, charges and dispositions. Ask the clerk of the court where the case occurred for the docket, which shows the case number, every count, the charges and the dispositions the form requires.",
+          "obtainedFrom": "Clerk of the District, Superior or Family Court where the case occurred",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What were the charges, and how did each one end?\" against Court docket showing counts, charges and dispositions, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that sentence and probation are complete. Ask the clerk or the probation department for documentation showing the sentence, including any probation, is complete. The waiting period runs from completion of sentence, not from conviction, and probation can push that date years out.",
+          "obtainedFrom": "Clerk of the sentencing court, or the probation department",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did you finish your sentence, including any probation?\" against Proof that sentence and probation are complete, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that financial obligations are paid, waived or reduced by court order. Ask the clerk for a record showing fines, fees, costs, assessments and restitution are satisfied, or the court order waiving or reducing them.",
+          "obtainedFrom": "Clerk of the sentencing court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have all court fines, fees, costs, assessments and restitution been paid, or waived or reduced by court order?\" against Proof that financial obligations are paid, waived or reduced by court order, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature on the affidavit — Motion to Expunge or Seal Record and Affidavit, affidavit signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Hearing date and time — Motion, caption or hearing line.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge's signature and date of entry — Proposed order, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion of good moral character or rehabilitation — Motion, grounds.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Delivery of the three certified copies — Not in the packet; named in the back-end checklist.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs the affidavit before a notary or a clerk. This is a sworn document and the signature must be witnessed in person.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required. The affidavit must be signed before a notary or a clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Unresolved. No filing fee for a Chapter 12-1.3 motion is stated in the controlling review or located in the Judiciary materials. Do not quote a price until it is confirmed.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not stated for the motion itself. Court-imposed financial obligations on the underlying case may be waived or reduced by court order, and that waiver or reduction satisfies the eligibility condition.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the Attorney General and the charging police department at least ten days before the hearing. After a grant, the petitioner delivers certified copies of the order to the Attorney General's BCI unit and the charging police department.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the correct court's Motion to Expunge or Seal Record and Affidavit, with the proposed order, with the clerk of the court where the conviction occurred. The clerk fills in the hearing date.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+        "Check your answer to \"What is your BCI number, as it appears on your Rhode Island criminal history?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
+        "Obtain Court docket showing counts, charges and dispositions. Ask the clerk of the court where the case occurred for the docket, which shows the case number, every count, the charges and the dispositions the form requires.",
+        "Check your answer to \"What were the charges, and how did each one end?\" against Court docket showing counts, charges and dispositions, and correct the packet if they disagree.",
+        "Obtain Proof that sentence and probation are complete. Ask the clerk or the probation department for documentation showing the sentence, including any probation, is complete. The waiting period runs from completion of sentence, not from conviction, and probation can push that date years out.",
+        "Check your answer to \"On what date did you finish your sentence, including any probation?\" against Proof that sentence and probation are complete, and correct the packet if they disagree.",
+        "Obtain Proof that financial obligations are paid, waived or reduced by court order. Ask the clerk for a record showing fines, fees, costs, assessments and restitution are satisfied, or the court order waiving or reducing them.",
+        "Check your answer to \"Have all court fines, fees, costs, assessments and restitution been paid, or waived or reduced by court order?\" against Proof that financial obligations are paid, waived or reduced by court order, and correct the packet if they disagree.",
+        "Petitioner's signature on the affidavit — Motion to Expunge or Seal Record and Affidavit, affidavit signature block.",
+        "Hearing date and time — Motion, caption or hearing line.",
+        "Judge's signature and date of entry — Proposed order, signature block.",
+        "Any assertion of good moral character or rehabilitation — Motion, grounds.",
+        "Delivery of the three certified copies — Not in the packet; named in the back-end checklist.",
+        "The petitioner signs the affidavit before a notary or a clerk. This is a sworn document and the signature must be witnessed in person.",
+        "Required. The affidavit must be signed before a notary or a clerk.",
+        "Unresolved. No filing fee for a Chapter 12-1.3 motion is stated in the controlling review or located in the Judiciary materials. Do not quote a price until it is confirmed.",
+        "Not stated for the motion itself. Court-imposed financial obligations on the underlying case may be waived or reduced by court order, and that waiver or reduction satisfies the eligibility condition."
+      ]
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_first_offender_felony",
+      "packetSetId": "ri_first_offender_felony-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ri_first_offender_felony-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Superior-55",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "order": 1
+        },
+        {
+          "componentId": "ri_first_offender_felony-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Superior-55-ORDER",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "order": 2
+        },
+        {
+          "componentId": "ri_first_offender_felony-notice-package-3",
+          "role": "notice_package",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "ri_first_offender_felony-filing-instructions-4",
+          "role": "filing_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "ri_first_offender_felony-certified-copy-delivery-checklist-5",
+          "role": "certified_copy_delivery_checklist",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 5
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+          "obtainedFrom": "Rhode Island Department of Attorney General, Bureau of Criminal Identification",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is your BCI number, as it appears on your Rhode Island criminal history?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court docket showing counts, charges and dispositions. Ask the clerk of the court where the case occurred for the docket, which shows the case number, every count, the charges and the dispositions the form requires.",
+          "obtainedFrom": "Clerk of the District, Superior or Family Court where the case occurred",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What were the charges, and how did each one end?\" against Court docket showing counts, charges and dispositions, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that sentence and probation are complete. Ask the clerk or the probation department for documentation showing the sentence, including any probation, is complete. The waiting period runs from completion of sentence, not from conviction, and probation can push that date years out.",
+          "obtainedFrom": "Clerk of the sentencing court, or the probation department",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did you finish your sentence, including any probation?\" against Proof that sentence and probation are complete, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that financial obligations are paid, waived or reduced by court order. Ask the clerk for a record showing fines, fees, costs, assessments and restitution are satisfied, or the court order waiving or reducing them.",
+          "obtainedFrom": "Clerk of the sentencing court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have all court fines, fees, costs, assessments and restitution been paid, or waived or reduced by court order?\" against Proof that financial obligations are paid, waived or reduced by court order, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature on the affidavit — Motion to Expunge or Seal Record and Affidavit, affidavit signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Hearing date and time — Motion, caption or hearing line.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge's signature and date of entry — Proposed order, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion of good moral character or rehabilitation — Motion, grounds.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Delivery of the three certified copies — Not in the packet; named in the back-end checklist.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs the affidavit before a notary or a clerk. This is a sworn document and the signature must be witnessed in person.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required. The affidavit must be signed before a notary or a clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Unresolved. No filing fee for a Chapter 12-1.3 motion is stated in the controlling review or located in the Judiciary materials. Do not quote a price until it is confirmed.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not stated for the motion itself. Court-imposed financial obligations on the underlying case may be waived or reduced by court order, and that waiver or reduction satisfies the eligibility condition.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the Attorney General and the charging police department at least ten days before the hearing. After a grant, the petitioner delivers certified copies of the order to the Attorney General's BCI unit and the charging police department.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the correct court's Motion to Expunge or Seal Record and Affidavit, with the proposed order, with the clerk of the court where the conviction occurred. The clerk fills in the hearing date.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+        "Check your answer to \"What is your BCI number, as it appears on your Rhode Island criminal history?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
+        "Obtain Court docket showing counts, charges and dispositions. Ask the clerk of the court where the case occurred for the docket, which shows the case number, every count, the charges and the dispositions the form requires.",
+        "Check your answer to \"What were the charges, and how did each one end?\" against Court docket showing counts, charges and dispositions, and correct the packet if they disagree.",
+        "Obtain Proof that sentence and probation are complete. Ask the clerk or the probation department for documentation showing the sentence, including any probation, is complete. The waiting period runs from completion of sentence, not from conviction, and probation can push that date years out.",
+        "Check your answer to \"On what date did you finish your sentence, including any probation?\" against Proof that sentence and probation are complete, and correct the packet if they disagree.",
+        "Obtain Proof that financial obligations are paid, waived or reduced by court order. Ask the clerk for a record showing fines, fees, costs, assessments and restitution are satisfied, or the court order waiving or reducing them.",
+        "Check your answer to \"Have all court fines, fees, costs, assessments and restitution been paid, or waived or reduced by court order?\" against Proof that financial obligations are paid, waived or reduced by court order, and correct the packet if they disagree.",
+        "Petitioner's signature on the affidavit — Motion to Expunge or Seal Record and Affidavit, affidavit signature block.",
+        "Hearing date and time — Motion, caption or hearing line.",
+        "Judge's signature and date of entry — Proposed order, signature block.",
+        "Any assertion of good moral character or rehabilitation — Motion, grounds.",
+        "Delivery of the three certified copies — Not in the packet; named in the back-end checklist.",
+        "The petitioner signs the affidavit before a notary or a clerk. This is a sworn document and the signature must be witnessed in person.",
+        "Required. The affidavit must be signed before a notary or a clerk.",
+        "Unresolved. No filing fee for a Chapter 12-1.3 motion is stated in the controlling review or located in the Judiciary materials. Do not quote a price until it is confirmed.",
+        "Not stated for the motion itself. Court-imposed financial obligations on the underlying case may be waived or reduced by court order, and that waiver or reduction satisfies the eligibility condition."
+      ]
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_multiple_misdemeanors",
+      "packetSetId": "ri_multiple_misdemeanors-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ri_multiple_misdemeanors-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DC-33",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "order": 1
+        },
+        {
+          "componentId": "ri_multiple_misdemeanors-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DC-33-ORDER",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "order": 2
+        },
+        {
+          "componentId": "ri_multiple_misdemeanors-notice-package-3",
+          "role": "notice_package",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "ri_multiple_misdemeanors-filing-instructions-4",
+          "role": "filing_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "ri_multiple_misdemeanors-certified-copy-delivery-checklist-5",
+          "role": "certified_copy_delivery_checklist",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 5
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+          "obtainedFrom": "Rhode Island Department of Attorney General, Bureau of Criminal Identification",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is your BCI number, as it appears on your Rhode Island criminal history?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court docket showing counts, charges and dispositions. Ask the clerk of the court where the case occurred for the docket, which shows the case number, every count, the charges and the dispositions the form requires.",
+          "obtainedFrom": "Clerk of the District, Superior or Family Court where the case occurred",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What were the charges, and how did each one end?\" against Court docket showing counts, charges and dispositions, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that sentence and probation are complete. Ask the clerk or the probation department for documentation showing the sentence, including any probation, is complete. The waiting period runs from completion of sentence, not from conviction, and probation can push that date years out.",
+          "obtainedFrom": "Clerk of the sentencing court, or the probation department",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did you finish your sentence, including any probation?\" against Proof that sentence and probation are complete, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that financial obligations are paid, waived or reduced by court order. Ask the clerk for a record showing fines, fees, costs, assessments and restitution are satisfied, or the court order waiving or reducing them.",
+          "obtainedFrom": "Clerk of the sentencing court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have all court fines, fees, costs, assessments and restitution been paid, or waived or reduced by court order?\" against Proof that financial obligations are paid, waived or reduced by court order, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature on the affidavit — Motion to Expunge or Seal Record and Affidavit, affidavit signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Hearing date and time — Motion, caption or hearing line.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge's signature and date of entry — Proposed order, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion of good moral character or rehabilitation — Motion, grounds.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Delivery of the three certified copies — Not in the packet; named in the back-end checklist.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs the affidavit before a notary or a clerk. This is a sworn document and the signature must be witnessed in person.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required. The affidavit must be signed before a notary or a clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Unresolved. No filing fee for a Chapter 12-1.3 motion is stated in the controlling review or located in the Judiciary materials. Do not quote a price until it is confirmed.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not stated for the motion itself. Court-imposed financial obligations on the underlying case may be waived or reduced by court order, and that waiver or reduction satisfies the eligibility condition.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the Attorney General and the charging police department at least ten days before the hearing. After a grant, the petitioner delivers certified copies of the order to the Attorney General's BCI unit and the charging police department.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the correct court's Motion to Expunge or Seal Record and Affidavit, with the proposed order, with the clerk of the court where the conviction occurred. The clerk fills in the hearing date.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+        "Check your answer to \"What is your BCI number, as it appears on your Rhode Island criminal history?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
+        "Obtain Court docket showing counts, charges and dispositions. Ask the clerk of the court where the case occurred for the docket, which shows the case number, every count, the charges and the dispositions the form requires.",
+        "Check your answer to \"What were the charges, and how did each one end?\" against Court docket showing counts, charges and dispositions, and correct the packet if they disagree.",
+        "Obtain Proof that sentence and probation are complete. Ask the clerk or the probation department for documentation showing the sentence, including any probation, is complete. The waiting period runs from completion of sentence, not from conviction, and probation can push that date years out.",
+        "Check your answer to \"On what date did you finish your sentence, including any probation?\" against Proof that sentence and probation are complete, and correct the packet if they disagree.",
+        "Obtain Proof that financial obligations are paid, waived or reduced by court order. Ask the clerk for a record showing fines, fees, costs, assessments and restitution are satisfied, or the court order waiving or reducing them.",
+        "Check your answer to \"Have all court fines, fees, costs, assessments and restitution been paid, or waived or reduced by court order?\" against Proof that financial obligations are paid, waived or reduced by court order, and correct the packet if they disagree.",
+        "Petitioner's signature on the affidavit — Motion to Expunge or Seal Record and Affidavit, affidavit signature block.",
+        "Hearing date and time — Motion, caption or hearing line.",
+        "Judge's signature and date of entry — Proposed order, signature block.",
+        "Any assertion of good moral character or rehabilitation — Motion, grounds.",
+        "Delivery of the three certified copies — Not in the packet; named in the back-end checklist.",
+        "The petitioner signs the affidavit before a notary or a clerk. This is a sworn document and the signature must be witnessed in person.",
+        "Required. The affidavit must be signed before a notary or a clerk.",
+        "Unresolved. No filing fee for a Chapter 12-1.3 motion is stated in the controlling review or located in the Judiciary materials. Do not quote a price until it is confirmed.",
+        "Not stated for the motion itself. Court-imposed financial obligations on the underlying case may be waived or reduced by court order, and that waiver or reduction satisfies the eligibility condition."
+      ]
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_deferred_sentence",
+      "packetSetId": "ri_deferred_sentence-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ri_deferred_sentence-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DC-33",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "order": 1
+        },
+        {
+          "componentId": "ri_deferred_sentence-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DC-33-ORDER",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "order": 2
+        },
+        {
+          "componentId": "ri_deferred_sentence-notice-package-3",
+          "role": "notice_package",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "ri_deferred_sentence-filing-instructions-4",
+          "role": "filing_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "ri_deferred_sentence-certified-copy-delivery-checklist-5",
+          "role": "certified_copy_delivery_checklist",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 5
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+          "obtainedFrom": "Rhode Island Department of Attorney General, Bureau of Criminal Identification",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is your BCI number, as it appears on your Rhode Island criminal history?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court docket showing counts, charges and dispositions. Ask the clerk of the court where the case occurred for the docket, which shows the case number, every count, the charges and the dispositions the form requires.",
+          "obtainedFrom": "Clerk of the District, Superior or Family Court where the case occurred",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What were the charges, and how did each one end?\" against Court docket showing counts, charges and dispositions, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that sentence and probation are complete. Ask the clerk or the probation department for documentation showing the sentence, including any probation, is complete. The waiting period runs from completion of sentence, not from conviction, and probation can push that date years out.",
+          "obtainedFrom": "Clerk of the sentencing court, or the probation department",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did you finish your sentence, including any probation?\" against Proof that sentence and probation are complete, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that financial obligations are paid, waived or reduced by court order. Ask the clerk for a record showing fines, fees, costs, assessments and restitution are satisfied, or the court order waiving or reducing them.",
+          "obtainedFrom": "Clerk of the sentencing court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have all court fines, fees, costs, assessments and restitution been paid, or waived or reduced by court order?\" against Proof that financial obligations are paid, waived or reduced by court order, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain The deferral agreement and the order showing completion of the deferred sentence. Ask the clerk for the deferral agreement and the final order. Any participant who says 'it was deferred so it went away' needs the final order checked, because a deferred sentence is not an automatic expungement.",
+          "obtainedFrom": "Clerk of the court that entered the deferred sentence",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Did you complete every term of the deferral agreement, including all fines, fees, costs, assessments and restitution?\" against The deferral agreement and the order showing completion of the deferred sentence, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature on the affidavit — Motion to Expunge or Seal Record and Affidavit, affidavit signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Hearing date and time — Motion, caption or hearing line.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge's signature and date of entry — Proposed order, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion of good moral character or rehabilitation — Motion, grounds.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Delivery of the three certified copies — Not in the packet; named in the back-end checklist.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs the affidavit before a notary or a clerk. This is a sworn document and the signature must be witnessed in person.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required. The affidavit must be signed before a notary or a clerk.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Unresolved. No filing fee for a Chapter 12-1.3 motion is stated in the controlling review or located in the Judiciary materials. Do not quote a price until it is confirmed.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not stated for the motion itself. Court-imposed financial obligations on the underlying case may be waived or reduced by court order, and that waiver or reduction satisfies the eligibility condition.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the Attorney General and the charging police department at least ten days before the hearing. After a grant, the petitioner delivers certified copies of the order to the Attorney General's BCI unit and the charging police department.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the correct court's Motion to Expunge or Seal Record and Affidavit, with the proposed order, with the clerk of the court where the conviction occurred. The clerk fills in the hearing date.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is where the BCI number the court form requires comes from, and it is also how you check whether the record has already cleared automatically. LegalEase cannot make this request for you.",
+        "Check your answer to \"What is your BCI number, as it appears on your Rhode Island criminal history?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
+        "Obtain Court docket showing counts, charges and dispositions. Ask the clerk of the court where the case occurred for the docket, which shows the case number, every count, the charges and the dispositions the form requires.",
+        "Check your answer to \"What were the charges, and how did each one end?\" against Court docket showing counts, charges and dispositions, and correct the packet if they disagree.",
+        "Obtain Proof that sentence and probation are complete. Ask the clerk or the probation department for documentation showing the sentence, including any probation, is complete. The waiting period runs from completion of sentence, not from conviction, and probation can push that date years out.",
+        "Check your answer to \"On what date did you finish your sentence, including any probation?\" against Proof that sentence and probation are complete, and correct the packet if they disagree.",
+        "Obtain Proof that financial obligations are paid, waived or reduced by court order. Ask the clerk for a record showing fines, fees, costs, assessments and restitution are satisfied, or the court order waiving or reducing them.",
+        "Check your answer to \"Have all court fines, fees, costs, assessments and restitution been paid, or waived or reduced by court order?\" against Proof that financial obligations are paid, waived or reduced by court order, and correct the packet if they disagree.",
+        "Obtain The deferral agreement and the order showing completion of the deferred sentence. Ask the clerk for the deferral agreement and the final order. Any participant who says 'it was deferred so it went away' needs the final order checked, because a deferred sentence is not an automatic expungement.",
+        "Check your answer to \"Did you complete every term of the deferral agreement, including all fines, fees, costs, assessments and restitution?\" against The deferral agreement and the order showing completion of the deferred sentence, and correct the packet if they disagree.",
+        "Petitioner's signature on the affidavit — Motion to Expunge or Seal Record and Affidavit, affidavit signature block.",
+        "Hearing date and time — Motion, caption or hearing line.",
+        "Judge's signature and date of entry — Proposed order, signature block.",
+        "Any assertion of good moral character or rehabilitation — Motion, grounds.",
+        "Delivery of the three certified copies — Not in the packet; named in the back-end checklist.",
+        "The petitioner signs the affidavit before a notary or a clerk. This is a sworn document and the signature must be witnessed in person.",
+        "Required. The affidavit must be signed before a notary or a clerk.",
+        "Unresolved. No filing fee for a Chapter 12-1.3 motion is stated in the controlling review or located in the Judiciary materials. Do not quote a price until it is confirmed.",
+        "Not stated for the motion itself. Court-imposed financial obligations on the underlying case may be waived or reduced by court order, and that waiver or reduction satisfies the eligibility condition."
+      ]
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_nonconviction_sealing",
+      "packetSetId": "ri_nonconviction_sealing-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ri_nonconviction_sealing-status-verification-instructions-1",
+          "role": "status_verification_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "ri_nonconviction_sealing-primary-filing-2",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Prepared only where verification establishes that no automatic or administrative sealing route reaches the record.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DC-33",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "order": 2
+        },
+        {
+          "componentId": "ri_nonconviction_sealing-notice-package-3",
+          "role": "notice_package",
+          "requirement": "conditional",
+          "conditionDescription": "Applies where a motion to seal is filed.",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "ri_nonconviction_sealing-escalation-instructions-4",
+          "role": "escalation_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is how you find out whether the record has already sealed, which decides whether anything needs to be filed.",
+          "obtainedFrom": "Rhode Island Department of Attorney General, Bureau of Criminal Identification",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Does the case still appear on your BCI criminal history record?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court docket showing the non-conviction disposition. Ask the clerk for the docket and the dismissal or acquittal entry, which establishes which sealing route applies and whether it was a Rule 48(a) dismissal.",
+          "obtainedFrom": "Clerk of the court where the case occurred",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the case end — acquittal, dismissal, no true bill, no information, or another outcome that was not a conviction?\" against Court docket showing the non-conviction disposition, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature on the affidavit — Motion to Expunge or Seal Record and Affidavit, affidavit signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Hearing date and time — Motion, hearing line.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge's signature and date of entry — Proposed order, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The automatic or administrative sealing itself — Not in the packet; named in the verification instructions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "Where a motion is filed, the participant signs the affidavit before a notary or clerk. Where sealing is automatic, no signature is required.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required where a motion to seal is filed. Not applicable to automatic or administrative sealing.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Unresolved for a motion to seal. No fee is stated for automatic or administrative sealing.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none identified",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Serve the Attorney General and the charging police department at least ten days before the hearing, where a motion is filed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Where verification establishes that no automatic or administrative route applies, file the court's Motion to Expunge or Seal Record with the SEAL election, with the clerk of the court where the case occurred. Where an automatic or administrative route does apply, nothing is filed.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is how you find out whether the record has already sealed, which decides whether anything needs to be filed.",
+        "Check your answer to \"Does the case still appear on your BCI criminal history record?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
+        "Obtain Court docket showing the non-conviction disposition. Ask the clerk for the docket and the dismissal or acquittal entry, which establishes which sealing route applies and whether it was a Rule 48(a) dismissal.",
+        "Check your answer to \"How did the case end — acquittal, dismissal, no true bill, no information, or another outcome that was not a conviction?\" against Court docket showing the non-conviction disposition, and correct the packet if they disagree.",
+        "Petitioner's signature on the affidavit — Motion to Expunge or Seal Record and Affidavit, affidavit signature block.",
+        "Hearing date and time — Motion, hearing line.",
+        "Judge's signature and date of entry — Proposed order, signature block.",
+        "The automatic or administrative sealing itself — Not in the packet; named in the verification instructions.",
+        "Where a motion is filed, the participant signs the affidavit before a notary or clerk. Where sealing is automatic, no signature is required.",
+        "Required where a motion to seal is filed. Not applicable to automatic or administrative sealing.",
+        "Unresolved for a motion to seal. No fee is stated for automatic or administrative sealing.",
+        "none identified"
+      ]
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_filed_complaints",
+      "packetSetId": "ri_filed_complaints-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ri_filed_complaints-eligibility-and-timing-analysis-1",
+          "role": "eligibility_and_timing_analysis",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "ri_filed_complaints-status-verification-instructions-2",
+          "role": "status_verification_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "ri_filed_complaints-escalation-instructions-3",
+          "role": "escalation_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court docket showing the complaint was placed on file. Ask the clerk for the docket showing the complaint was placed on file and the filing date.",
+          "obtainedFrom": "Clerk of the court where the complaint was filed",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date was the complaint placed on file?\" against Court docket showing the complaint was placed on file, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit.",
+          "obtainedFrom": "Rhode Island Department of Attorney General, Bureau of Criminal Identification",
+          "requirement": "conditional",
+          "conditionDescription": "Used to confirm the automatic expungement took effect.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Does the complaint still appear on your BCI criminal history record?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Used to confirm the automatic expungement took effect.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "No participant document is produced on this track — Not applicable; the packet is guidance only.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "none",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"On what date was the complaint placed on file?\" against Court docket showing the complaint was placed on file, and correct the packet if they disagree.",
+        "Check your answer to \"Does the complaint still appear on your BCI criminal history record?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
+        "No participant document is produced on this track — Not applicable; the packet is guidance only."
+      ]
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_marijuana",
+      "packetSetId": "ri_marijuana-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ri_marijuana-status-verification-instructions-1",
+          "role": "status_verification_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "ri_marijuana-legal-effect-explanation-2",
+          "role": "legal_effect_explanation",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "ri_marijuana-expedited-request-instructions-3",
+          "role": "expedited_request_instructions",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only where verification shows the record has not cleared.",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "ri_marijuana-primary-filing-4",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Generated only where the verification stage establishes that the automatic § 12-1.3-5 expungement did not reach the record, on the participant's own confirmation from their BCI criminal history.",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "ri_marijuana-filing-instructions-5",
+          "role": "filing_instructions",
+          "requirement": "conditional",
+          "conditionDescription": "Accompanies the expedited written request.",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 5
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit. This is how you confirm the marijuana record has already been expunged.",
+          "obtainedFrom": "Rhode Island Department of Attorney General, Bureau of Criminal Identification",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Does the marijuana case still appear on your BCI criminal history record?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "No participant document is produced in the ordinary case — Not applicable; the packet is verification guidance.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Distribution of the expungement order — Not in the packet.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Participant's signature and the date on the expedited written request — Expedited written request, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "None in the ordinary case. The expedited written request is signed by the participant.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none. Eligible marijuana-related fines, fees and costs are waived, and anyone who was incarcerated for misdemeanor or felony marijuana possession has all court costs waived with respect to expungement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Automatic for eligible marijuana-related amounts, and all court costs are waived for anyone incarcerated for marijuana possession under § 12-1.3-5(e).",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "none. Under § 12-1.3-5(f) the court sends the order to the Attorney General, the arresting agency and any other agency known to hold records.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Nothing is filed in the ordinary case. Where the participant confirms the record did not clear, the signed expedited written request under § 12-1.3-5 is sent to the court in which the marijuana case was heard.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Does the marijuana case still appear on your BCI criminal history record?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
+        "No participant document is produced in the ordinary case — Not applicable; the packet is verification guidance.",
+        "Distribution of the expungement order — Not in the packet.",
+        "Participant's signature and the date on the expedited written request — Expedited written request, signature block.",
+        "None in the ordinary case. The expedited written request is signed by the participant.",
+        "none. Eligible marijuana-related fines, fees and costs are waived, and anyone who was incarcerated for misdemeanor or felony marijuana possession has all court costs waived with respect to expungement.",
+        "Automatic for eligible marijuana-related amounts, and all court costs are waived for anyone incarcerated for marijuana possession under § 12-1.3-5(e)."
+      ]
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_decriminalized",
+      "packetSetId": "ri_decriminalized-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ri_decriminalized-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DC-33",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "order": 1
+        },
+        {
+          "componentId": "ri_decriminalized-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DC-33-ORDER",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "order": 2
+        },
+        {
+          "componentId": "ri_decriminalized-decriminalization-affidavit-3",
+          "role": "decriminalization_affidavit",
+          "requirement": "conditional",
+          "conditionDescription": "Prepared where the court requires the petitioner to demonstrate that the prior conviction would qualify as a decriminalized offence under current law.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DC-33-AFFIDAVIT",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "order": 3
+        },
+        {
+          "componentId": "ri_decriminalized-filing-instructions-4",
+          "role": "filing_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit; the BCI number is required on the court form.",
+          "obtainedFrom": "Rhode Island Department of Attorney General, Bureau of Criminal Identification",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What is your BCI number, as it appears on your Rhode Island criminal history?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court docket and judgment showing the conviction and the original sentence. Ask the clerk for the docket and judgment, which show the offence charged and the conditions of the original sentence.",
+          "obtainedFrom": "Clerk of the court where the conviction occurred",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the offence, as written on the court record?\" against Court docket and judgment showing the conviction and the original sentence, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that fines, fees and costs are paid in full. Ask the clerk for a record showing the balance is zero. The no-cost expungement is conditioned on this.",
+          "obtainedFrom": "Clerk of the sentencing court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have all fines, fees and costs related to the conviction been paid in full?\" against Proof that fines, fees and costs are paid in full, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature on the affidavit — Motion and affidavit, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion that the offence has in fact been decriminalized — Motion, grounds, and the decriminalization affidavit.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Hearing date and time — Motion, hearing line.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge's signature and date of entry — Proposed order, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs the affidavit before a notary or clerk, and any decriminalization affidavit the court requires.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required for the affidavit.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No cost to the petitioner. Where the conditions of the original sentence are complete and all fines, fees and costs related to the conviction are paid in full, the court orders the expungement without cost.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "Not applicable; the statute makes this route no-cost where its conditions are met.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Notice to the Attorney General and the charging police department on the ordinary Chapter 12-1.3 terms, at least ten days before the hearing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the correct court's Motion to Expunge or Seal Record with the proposed order, with the clerk of the court where the conviction occurred.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Rhode Island BCI criminal history record. Request your criminal history from the Attorney General's BCI unit; the BCI number is required on the court form.",
+        "Check your answer to \"What is your BCI number, as it appears on your Rhode Island criminal history?\" against Rhode Island BCI criminal history record, and correct the packet if they disagree.",
+        "Obtain Court docket and judgment showing the conviction and the original sentence. Ask the clerk for the docket and judgment, which show the offence charged and the conditions of the original sentence.",
+        "Check your answer to \"What was the offence, as written on the court record?\" against Court docket and judgment showing the conviction and the original sentence, and correct the packet if they disagree.",
+        "Obtain Proof that fines, fees and costs are paid in full. Ask the clerk for a record showing the balance is zero. The no-cost expungement is conditioned on this.",
+        "Check your answer to \"Have all fines, fees and costs related to the conviction been paid in full?\" against Proof that fines, fees and costs are paid in full, and correct the packet if they disagree.",
+        "Petitioner's signature on the affidavit — Motion and affidavit, signature block.",
+        "Any assertion that the offence has in fact been decriminalized — Motion, grounds, and the decriminalization affidavit.",
+        "Hearing date and time — Motion, hearing line.",
+        "Judge's signature and date of entry — Proposed order, signature block.",
+        "The petitioner signs the affidavit before a notary or clerk, and any decriminalization affidavit the court requires.",
+        "Required for the affidavit.",
+        "No cost to the petitioner. Where the conditions of the original sentence are complete and all fines, fees and costs related to the conviction are paid in full, the court orders the expungement without cost.",
+        "Not applicable; the statute makes this route no-cost where its conditions are met."
+      ]
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_commercial_sexual_activity",
+      "packetSetId": "ri_commercial_sexual_activity-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "ri_commercial_sexual_activity-route-detection-1",
+          "role": "route_detection",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "ri_commercial_sexual_activity-referral-instructions-2",
+          "role": "referral_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court docket and judgment for the underlying matter. Your attorney or survivor legal service will advise what to obtain. Do not send documents to LegalEase.",
+          "obtainedFrom": "Clerk of the court where the case occurred",
+          "requirement": "conditional",
+          "conditionDescription": "Obtained with the referral partner, not through LegalEase.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "The § 11-34.1-5 motion and any supporting showing — Not in the packet.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs any motion prepared with their attorney or survivor legal service.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "Required for any sworn affidavit, handled by the referral partner.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none identified",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none identified",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Handled by the referral partner.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "The motion is filed by the participant's attorney or survivor legal service in the court where the underlying matter occurred. LegalEase does not file it.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "The § 11-34.1-5 motion and any supporting showing — Not in the packet.",
+        "The participant signs any motion prepared with their attorney or survivor legal service.",
+        "Required for any sworn affidavit, handled by the referral partner.",
+        "none identified",
+        "none identified"
+      ]
+    },
+    {
       "jurisdiction": "SD",
       "trackId": "sd_arrest_expungement",
       "packetSetId": "sd_arrest_expungement-set",
@@ -30437,6 +31865,927 @@
         "Check your answer to \"Was the pardon granted after an application to the South Dakota Board of Pardons and Paroles?\" against The pardon document and any Board of Pardons and Paroles decision, and correct the packet if they disagree.",
         "The pardon application to the Board of Pardons and Paroles — Not in the packet; named in the referral instructions.",
         "The Governor's sealing order — Not in the packet."
+      ]
+    },
+    {
+      "jurisdiction": "WI",
+      "trackId": "wi_exp_certificate_of_discharge",
+      "packetSetId": "wi_exp_certificate_of_discharge-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "wi_exp_certificate_of_discharge-eligibility-verification-1",
+          "role": "eligibility_verification",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "wi_exp_certificate_of_discharge-completion-verification-2",
+          "role": "completion_verification",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "wi_exp_certificate_of_discharge-status-verification-instructions-3",
+          "role": "status_verification_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "wi_exp_certificate_of_discharge-legal-effect-explanation-4",
+          "role": "legal_effect_explanation",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Judgment of conviction, or the sentencing transcript or minutes. Ask the clerk of circuit court for the judgment of conviction and, if the judgment is silent, the sentencing transcript or minutes. This is where the at-sentencing expungement order appears.",
+          "obtainedFrom": "Clerk of circuit court for the county of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Did the judge order at your sentencing that the record would be expunged once you completed your sentence?\" against Judgment of conviction, or the sentencing transcript or minutes, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof of discharge from probation or confinement. Ask the supervising agent or the detaining authority for the discharge documentation showing the sentence terms were completed and probation was not revoked.",
+          "obtainedFrom": "The Department of Corrections or the detaining authority",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did you finish your sentence, including any probation?\" against Proof of discharge from probation or confinement, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Wisconsin DOJ criminal history record. Request a background check through the Wisconsin DOJ. There is a fee for the background check itself.",
+          "obtainedFrom": "Wisconsin Department of Justice, Crime Information Bureau",
+          "requirement": "conditional",
+          "conditionDescription": "Recommended so the participant sees what remains after the court record clears.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "The certificate of discharge — Not in the packet; named in the verification and follow-up instructions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion that the sentencing court ordered expungement — Verification checklist.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion of successful completion where probation was involved — Verification checklist.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date on any follow-up request — Follow-up request letter, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs any written follow-up request to the supervising or detaining authority. Nothing else requires a signature.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none for the certificate. A Wisconsin DOJ background check, where obtained, is fee-based.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "none. Nothing is filed by the participant on this track; the certificate of discharge is issued by the detaining or probationary authority and forwarded to the court of record.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Judgment of conviction, or the sentencing transcript or minutes. Ask the clerk of circuit court for the judgment of conviction and, if the judgment is silent, the sentencing transcript or minutes. This is where the at-sentencing expungement order appears.",
+        "Check your answer to \"Did the judge order at your sentencing that the record would be expunged once you completed your sentence?\" against Judgment of conviction, or the sentencing transcript or minutes, and correct the packet if they disagree.",
+        "Obtain Proof of discharge from probation or confinement. Ask the supervising agent or the detaining authority for the discharge documentation showing the sentence terms were completed and probation was not revoked.",
+        "Check your answer to \"On what date did you finish your sentence, including any probation?\" against Proof of discharge from probation or confinement, and correct the packet if they disagree.",
+        "The certificate of discharge — Not in the packet; named in the verification and follow-up instructions.",
+        "Any assertion that the sentencing court ordered expungement — Verification checklist.",
+        "Any assertion of successful completion where probation was involved — Verification checklist.",
+        "Signature and date on any follow-up request — Follow-up request letter, signature block.",
+        "The participant signs any written follow-up request to the supervising or detaining authority. Nothing else requires a signature.",
+        "none for the certificate. A Wisconsin DOJ background check, where obtained, is fee-based."
+      ]
+    },
+    {
+      "jurisdiction": "WI",
+      "trackId": "wi_exp_certificate_of_discharge_followup",
+      "packetSetId": "wi_exp_certificate_of_discharge_followup-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "wi_exp_certificate_of_discharge_followup-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "wi_exp_certificate_of_discharge_followup-status-request-2",
+          "role": "status_request",
+          "requirement": "conditional",
+          "conditionDescription": "Used where the participant wants only to know whether the certificate has issued, rather than to ask that it be issued.",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "wi_exp_certificate_of_discharge_followup-filing-instructions-3",
+          "role": "filing_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Judgment of conviction, or the sentencing transcript or minutes. Ask the clerk of circuit court for the judgment of conviction and, where it is silent, the sentencing transcript or minutes.",
+          "obtainedFrom": "Clerk of circuit court for the county of conviction",
+          "requirement": "conditional",
+          "conditionDescription": "Useful to enclose so the authority can see that expungement was ordered at sentencing.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Did the judge order at your sentencing that the record would be expunged once you completed your sentence?\" against Judgment of conviction, or the sentencing transcript or minutes, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Useful to enclose so the authority can see that expungement was ordered at sentencing.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof of discharge from probation or confinement. Ask the supervising agent or the detaining authority for the discharge documentation showing the sentence terms were completed.",
+          "obtainedFrom": "The Department of Corrections or the detaining authority",
+          "requirement": "conditional",
+          "conditionDescription": "Useful to enclose where the participant already holds it.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did you finish your sentence, including any probation?\" against Proof of discharge from probation or confinement, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Useful to enclose where the participant already holds it.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Participant's signature and the date sent — Request letter, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The certificate of discharge itself — Not in the packet.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion that the sentence was successfully completed — Request letter, completion paragraph.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The current mailing address of the supervising authority — Request letter, addressee block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs and dates the request in their own name.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "none. Ordinary mail or the authority's stated correspondence channel is sufficient; there is no service requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Not a court filing. Send the written request to the supervising or detaining authority. Confirm with the clerk of circuit court first that no certificate was received, and keep a copy and a record of the date sent.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Did the judge order at your sentencing that the record would be expunged once you completed your sentence?\" against Judgment of conviction, or the sentencing transcript or minutes, and correct the packet if they disagree.",
+        "Check your answer to \"On what date did you finish your sentence, including any probation?\" against Proof of discharge from probation or confinement, and correct the packet if they disagree.",
+        "Participant's signature and the date sent — Request letter, signature block.",
+        "The certificate of discharge itself — Not in the packet.",
+        "Any assertion that the sentence was successfully completed — Request letter, completion paragraph.",
+        "The current mailing address of the supervising authority — Request letter, addressee block.",
+        "The participant signs and dates the request in their own name."
+      ]
+    },
+    {
+      "jurisdiction": "WI",
+      "trackId": "wi_exp_cr266",
+      "packetSetId": "wi_exp_cr266-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "wi_exp_cr266-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-266",
+          "officialSourceUrl": "https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=CR-266",
+          "order": 1
+        },
+        {
+          "componentId": "wi_exp_cr266-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-267",
+          "officialSourceUrl": "https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=CR-267",
+          "order": 2
+        },
+        {
+          "componentId": "wi_exp_cr266-filing-instructions-3",
+          "role": "filing_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Judgment of conviction, or the sentencing transcript or minutes. Ask the clerk of circuit court for the judgment of conviction, and the sentencing transcript or minutes where the judgment is silent. This is the document that proves the expungement was ordered at sentencing.",
+          "obtainedFrom": "Clerk of circuit court for the county of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Did the judge order at your sentencing that the record would be expunged once you completed your sentence?\" against Judgment of conviction, or the sentencing transcript or minutes, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that the sentence was completed. Ask the clerk for records showing any fine, costs or other sentence terms were satisfied.",
+          "obtainedFrom": "Clerk of circuit court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"On what date did you finish the sentence?\" against Proof that the sentence was completed, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Petitioner's signature and date — CR-266, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Judge's signature and date of entry — CR-267, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion that the sentencing court ordered expungement — CR-266, grounds.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any benefit-and-no-harm assertion — CR-266, grounds.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs CR-266.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "Not confirmed. Because the filing is made in the existing criminal case rather than opening a new civil action, a filing fee may not apply. Verify with the clerk before quoting a price.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none identified",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "none identified beyond ordinary circuit court practice.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File CR-266 with the proposed CR-267 order in the existing circuit court criminal case in the county of conviction.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Judgment of conviction, or the sentencing transcript or minutes. Ask the clerk of circuit court for the judgment of conviction, and the sentencing transcript or minutes where the judgment is silent. This is the document that proves the expungement was ordered at sentencing.",
+        "Check your answer to \"Did the judge order at your sentencing that the record would be expunged once you completed your sentence?\" against Judgment of conviction, or the sentencing transcript or minutes, and correct the packet if they disagree.",
+        "Obtain Proof that the sentence was completed. Ask the clerk for records showing any fine, costs or other sentence terms were satisfied.",
+        "Check your answer to \"On what date did you finish the sentence?\" against Proof that the sentence was completed, and correct the packet if they disagree.",
+        "Petitioner's signature and date — CR-266, signature block.",
+        "Judge's signature and date of entry — CR-267, signature block.",
+        "Any assertion that the sentencing court ordered expungement — CR-266, grounds.",
+        "Any benefit-and-no-harm assertion — CR-266, grounds.",
+        "The petitioner signs CR-266.",
+        "Not confirmed. Because the filing is made in the existing criminal case rather than opening a new civil action, a filing fee may not apply. Verify with the clerk before quoting a price.",
+        "none identified"
+      ]
+    },
+    {
+      "jurisdiction": "WI",
+      "trackId": "wi_exp_942_08_mandatory",
+      "packetSetId": "wi_exp_942_08_mandatory-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "wi_exp_942_08_mandatory-eligibility-verification-1",
+          "role": "eligibility_verification",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "wi_exp_942_08_mandatory-status-verification-instructions-2",
+          "role": "status_verification_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "wi_exp_942_08_mandatory-escalation-instructions-3",
+          "role": "escalation_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Judgment of conviction, or the sentencing transcript or minutes. Ask the clerk of circuit court for the judgment of conviction and, where it is silent, the sentencing transcript or minutes. This establishes both the offence charged and whether the mandatory expungement order was entered.",
+          "obtainedFrom": "Clerk of circuit court for the county of conviction",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Did the judge order at your sentencing that the record would be expunged once you completed your sentence?\" against Judgment of conviction, or the sentencing transcript or minutes, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The certificate of discharge, or a CR-266 filing where execution runs that way — Not in the packet; named in the verification instructions and handled on the corresponding execution track.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion that the mandatory order should have been entered — Escalation instructions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none identified",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "none on this track. Execution runs through the certificate of discharge or through a CR-266 filing on the corresponding track.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Did the judge order at your sentencing that the record would be expunged once you completed your sentence?\" against Judgment of conviction, or the sentencing transcript or minutes, and correct the packet if they disagree.",
+        "The certificate of discharge, or a CR-266 filing where execution runs that way — Not in the packet; named in the verification instructions and handled on the corresponding execution track.",
+        "Any assertion that the mandatory order should have been entered — Escalation instructions.",
+        "none identified"
+      ]
+    },
+    {
+      "jurisdiction": "WI",
+      "trackId": "wi_exp_trafficking_2m",
+      "packetSetId": "wi_exp_trafficking_2m-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "wi_exp_trafficking_2m-route-detection-1",
+          "role": "route_detection",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "wi_exp_trafficking_2m-referral-instructions-2",
+          "role": "referral_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Certified records of federal or state court proceedings. Your attorney or legal aid provider will advise what to obtain. Do not send documents to LegalEase.",
+          "obtainedFrom": "The clerk of the relevant court",
+          "requirement": "conditional",
+          "conditionDescription": "Named because § 973.015(2m)(c) lists it as evidence the motion may include. The referral partner decides what is used.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Approval notices, law enforcement certifications or similar documents from federal immigration proceedings. Your attorney or legal aid provider will advise. Do not send documents to LegalEase.",
+          "obtainedFrom": "The relevant federal agency",
+          "requirement": "conditional",
+          "conditionDescription": "Named because § 973.015(2m)(c)2 lists it as evidence the motion may include.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "The § 973.015(2m) motion and its statement of facts — Not in the packet.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs the motion prepared with their attorney or legal aid provider.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "none identified",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none identified",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none identified",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Service on the district attorney, handled by the referral partner.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "The motion is filed by the participant's attorney or legal aid provider in the circuit court of the underlying matter, and must comply with Wis. Stat. § 971.30. LegalEase does not file it.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "The § 973.015(2m) motion and its statement of facts — Not in the packet.",
+        "The participant signs the motion prepared with their attorney or legal aid provider.",
+        "none identified",
+        "none identified",
+        "none identified"
+      ]
+    },
+    {
+      "jurisdiction": "WI",
+      "trackId": "wi_nc_doj_fingerprint_removal",
+      "packetSetId": "wi_nc_doj_fingerprint_removal-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "wi_nc_doj_fingerprint_removal-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DJ-LE-250B",
+          "officialSourceUrl": "https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-history-documents-forms.aspx",
+          "order": 1
+        },
+        {
+          "componentId": "wi_nc_doj_fingerprint_removal-arrest-event-mapping-2",
+          "role": "arrest_event_mapping",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "wi_nc_doj_fingerprint_removal-disposition-documentation-package-3",
+          "role": "disposition_documentation_package",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "wi_nc_doj_fingerprint_removal-filing-instructions-4",
+          "role": "filing_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Wisconsin DOJ criminal history record. Request a background check through the Wisconsin DOJ system. This is the record that shows the arrest event and every charge tied to the fingerprint card, and it is the document the all-charges-cleared screen must be run against. The background check is fee-based.",
+          "obtainedFrom": "Wisconsin Department of Justice, Crime Information Bureau",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What were ALL of the charges from that arrest, and how did each one end?\" against Wisconsin DOJ criminal history record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Disposition or non-prosecution documentation for every charge in the arrest event. Ask the clerk of circuit court for the dismissal order, judgment of acquittal or docket entry for each charge; where no charges were filed, ask the district attorney's office to confirm in writing.",
+          "obtainedFrom": "Clerk of circuit court, or the district attorney's office",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did it end — released without charge, no charges filed, found not guilty, or charges dismissed?\" against Disposition or non-prosecution documentation for every charge in the arrest event, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Fingerprints taken by a fingerprint technician. DJ-LE-250B requires fingerprints. Have them taken by a fingerprint technician and submit them with the request. LegalEase cannot complete this step.",
+          "obtainedFrom": "A law enforcement agency or commercial fingerprinting service",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Were you fingerprinted at the time of the arrest?\" against Fingerprints taken by a fingerprint technician, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Fingerprint capture — DJ-LE-250B, fingerprint requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Participant's signature and date — DJ-LE-250B, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The DOJ determination, and any DOJ-to-FBI transmission — Not in the packet; named in the filing instructions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs DJ-LE-250B.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "none identified",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No fee for the removal request, per Wisconsin DOJ. The DOJ background check that must precede it is fee-based.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "Submit DJ-LE-250B with fingerprints and supporting disposition documentation to the Wisconsin DOJ Crime Information Bureau. This is an agency request, not a court filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Wisconsin DOJ criminal history record. Request a background check through the Wisconsin DOJ system. This is the record that shows the arrest event and every charge tied to the fingerprint card, and it is the document the all-charges-cleared screen must be run against. The background check is fee-based.",
+        "Check your answer to \"What were ALL of the charges from that arrest, and how did each one end?\" against Wisconsin DOJ criminal history record, and correct the packet if they disagree.",
+        "Obtain Disposition or non-prosecution documentation for every charge in the arrest event. Ask the clerk of circuit court for the dismissal order, judgment of acquittal or docket entry for each charge; where no charges were filed, ask the district attorney's office to confirm in writing.",
+        "Check your answer to \"How did it end — released without charge, no charges filed, found not guilty, or charges dismissed?\" against Disposition or non-prosecution documentation for every charge in the arrest event, and correct the packet if they disagree.",
+        "Obtain Fingerprints taken by a fingerprint technician. DJ-LE-250B requires fingerprints. Have them taken by a fingerprint technician and submit them with the request. LegalEase cannot complete this step.",
+        "Check your answer to \"Were you fingerprinted at the time of the arrest?\" against Fingerprints taken by a fingerprint technician, and correct the packet if they disagree.",
+        "Fingerprint capture — DJ-LE-250B, fingerprint requirement.",
+        "Participant's signature and date — DJ-LE-250B, signature block.",
+        "The DOJ determination, and any DOJ-to-FBI transmission — Not in the packet; named in the filing instructions.",
+        "The participant signs DJ-LE-250B.",
+        "none identified",
+        "No fee for the removal request, per Wisconsin DOJ. The DOJ background check that must precede it is fee-based."
+      ]
+    },
+    {
+      "jurisdiction": "WI",
+      "trackId": "wi_nc_doj_challenge",
+      "packetSetId": "wi_nc_doj_challenge-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "wi_nc_doj_challenge-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DJ-LE-247",
+          "officialSourceUrl": "https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-history-documents-forms.aspx",
+          "order": 1
+        },
+        {
+          "componentId": "wi_nc_doj_challenge-record-discrepancy-analysis-2",
+          "role": "record_discrepancy_analysis",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "wi_nc_doj_challenge-filing-instructions-3",
+          "role": "filing_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Wisconsin DOJ criminal history record. Request a background check through the Wisconsin DOJ system. This is the record being challenged, so it must be in hand.",
+          "obtainedFrom": "Wisconsin Department of Justice, Crime Information Bureau",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you obtained a copy of your Wisconsin DOJ criminal history record?\" against Wisconsin DOJ criminal history record, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court record showing the correct disposition. Ask the clerk of circuit court for the judgment, dismissal order or docket entry that shows what actually happened.",
+          "obtainedFrom": "Clerk of circuit court",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the actual outcome of the case?\" against Court record showing the correct disposition, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Participant's signature and date — DJ-LE-247, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The DOJ determination on the challenge — Not in the packet.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs DJ-LE-247.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "none identified",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No fee identified for the challenge itself. The DOJ background check that must precede it is fee-based.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "Submit DJ-LE-247 to the Wisconsin DOJ Crime Information Bureau with documentation showing what the record should say.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Wisconsin DOJ criminal history record. Request a background check through the Wisconsin DOJ system. This is the record being challenged, so it must be in hand.",
+        "Check your answer to \"Have you obtained a copy of your Wisconsin DOJ criminal history record?\" against Wisconsin DOJ criminal history record, and correct the packet if they disagree.",
+        "Obtain Court record showing the correct disposition. Ask the clerk of circuit court for the judgment, dismissal order or docket entry that shows what actually happened.",
+        "Check your answer to \"What was the actual outcome of the case?\" against Court record showing the correct disposition, and correct the packet if they disagree.",
+        "Participant's signature and date — DJ-LE-247, signature block.",
+        "The DOJ determination on the challenge — Not in the packet.",
+        "The participant signs DJ-LE-247.",
+        "none identified",
+        "No fee identified for the challenge itself. The DOJ background check that must precede it is fee-based."
+      ]
+    },
+    {
+      "jurisdiction": "WI",
+      "trackId": "wi_def_961_47",
+      "packetSetId": "wi_def_961_47-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "wi_def_961_47-status-verification-instructions-1",
+          "role": "status_verification_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 1
+        },
+        {
+          "componentId": "wi_def_961_47-legal-effect-explanation-2",
+          "role": "legal_effect_explanation",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "wi_def_961_47-handoff-to-doj-removal-3",
+          "role": "handoff_to_doj_removal",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Form CR-214, Judgment Deferred Under 961.47, and the order of discharge and dismissal. Ask the clerk of circuit court for the deferred judgment record and the order discharging you and dismissing the case. These establish the non-conviction status that unlocks the DOJ removal route.",
+          "obtainedFrom": "Clerk of circuit court",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Did the court discharge you and dismiss the case?\" against Form CR-214, Judgment Deferred Under 961.47, and the order of discharge and dismissal, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Wisconsin DOJ criminal history record. Request a background check through the Wisconsin DOJ system.",
+          "obtainedFrom": "Wisconsin Department of Justice, Crime Information Bureau",
+          "requirement": "conditional",
+          "conditionDescription": "Needed before the DOJ fingerprint removal handoff, to map the arrest event.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "Form CR-214 and the order of discharge and dismissal — Not in the packet; named in the verification instructions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The accused must consent to the deferral, which happens in the criminal case with defence counsel, not through LegalEase.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none identified",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "file",
+          "description": "none by the participant. The deferral and the discharge and dismissal are both entered by the court.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Check your answer to \"Did the court discharge you and dismiss the case?\" against Form CR-214, Judgment Deferred Under 961.47, and the order of discharge and dismissal, and correct the packet if they disagree.",
+        "Form CR-214 and the order of discharge and dismissal — Not in the packet; named in the verification instructions.",
+        "The accused must consent to the deferral, which happens in the criminal case with defence counsel, not through LegalEase.",
+        "none identified"
       ]
     },
     {

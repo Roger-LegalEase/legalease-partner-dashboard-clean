@@ -1141,6 +1141,36 @@ await check("packet, source-materialization, and normalization readiness fail cl
         memoSha256:
           "8d088d48642f09802aa1582be9924642a36026e3721b7aa2de2c33aecac31ae7"
       }
+    ],
+    [
+      "rcap-wi-legal-design-normalization",
+      {
+        originalWorkerCommit:
+          "2180f1f5015f324aa92168fe43f13584209efe29",
+        correctionCommit:
+          "a592809c0bf0fc5814aa6e2fd7c966f8b1e1a5b5",
+        workerCommit:
+          "a592809c0bf0fc5814aa6e2fd7c966f8b1e1a5b5",
+        completionCommit:
+          "589db2c8c48114934b1ae58c7c8e096906889d35",
+        memoSha256:
+          "028ac578608bf73db912e355a18824d2100a2e3e8052d9ef3040d437dbf08c28"
+      }
+    ],
+    [
+      "rcap-ri-legal-design-normalization",
+      {
+        originalWorkerCommit:
+          "07c675237a275971555250e4a33c7995d7d372de",
+        correctionCommit:
+          "51d0ec038b9ae1193dc6860d372a8c52b22a9a0b",
+        workerCommit:
+          "51d0ec038b9ae1193dc6860d372a8c52b22a9a0b",
+        completionCommit:
+          "2f091c7e1e60b317a225e6f53f201f79019c05f0",
+        memoSha256:
+          "918bdea81d68d75e072b8034dc22ba2cce0d6c86451c9ebdc3607b1225cfd62f"
+      }
     ]
   ]);
   for (const [jobId, expected] of completedSessionDNormalizations) {
@@ -1174,6 +1204,18 @@ await check("packet, source-materialization, and normalization readiness fail cl
       new RegExp(expected.memoSha256),
       jobId
     );
+    if (expected.correctionCommit) {
+      assert.match(
+        normalization.executionNote,
+        new RegExp(expected.originalWorkerCommit),
+        jobId
+      );
+      assert.match(
+        normalization.executionNote,
+        new RegExp(expected.correctionCommit),
+        jobId
+      );
+    }
     assert.equal(
       plan.jobClaims.claims.some(
         (claim) =>
@@ -1202,46 +1244,24 @@ await check("packet, source-materialization, and normalization readiness fail cl
     ).parentJobId,
     "NEW-06-guidance-routes"
   );
-  for (const correction of [
-    {
-      jobId: "rcap-wi-legal-design-normalization",
-      workerCommit:
-        "2180f1f5015f324aa92168fe43f13584209efe29",
-      memoSha256:
-        "dcee6fbc60b4be26e3eb02d1c823be4fb481065ff7f0b5fd2016fba31cc2d9fd",
-      trackId: "wi_exp_certificate_of_discharge"
-    },
-    {
-      jobId: "rcap-ri-legal-design-normalization",
-      workerCommit:
-        "07c675237a275971555250e4a33c7995d7d372de",
-      memoSha256:
-        "6e5a3c34428cecb8d0c52158a2e82f07dc0d85bbe3ea1c39087ddb50e9dfdb06",
-      trackId: "ri_marijuana"
-    }
-  ]) {
-    const job = plan.jobs.find(
-      (entry) => entry.jobId === correction.jobId
-    );
-    assert.equal(job.status, "ready", correction.jobId);
-    assert.match(job.executionNote, /correction_required/);
-    assert.match(
-      job.executionNote,
-      new RegExp(correction.workerCommit)
-    );
-    assert.match(
-      job.executionNote,
-      new RegExp(correction.memoSha256)
-    );
-    assert.match(
-      job.stopCondition,
-      new RegExp(correction.trackId)
-    );
-    assert.match(
-      job.stopCondition,
-      /Do not integrate the rejected memo unchanged/
-    );
-  }
+  assert.equal(
+    plan.jobs.find(
+      (entry) => entry.jobId === "rcap-wi-custom-pleading"
+    ).parentJobId,
+    "NEW-02-custom-pleading-families"
+  );
+  assert.equal(
+    plan.jobs.find(
+      (entry) => entry.jobId === "rcap-ri-composed-route"
+    ).parentJobId,
+    "NEW-05-composed-routes"
+  );
+  assert.equal(
+    plan.jobs.find(
+      (entry) => entry.jobId === "rcap-ri-guidance-implementation"
+    ).parentJobId,
+    "NEW-06-guidance-routes"
+  );
 
   const pa = plan.jobs.find(
     (entry) => entry.jobId === "rcap-pa-legal-design-normalization"
@@ -1450,14 +1470,14 @@ await check("packet, source-materialization, and normalization readiness fail cl
   );
   assert.equal(
     otherNormalizations.filter((entry) => entry.status === "ready").length,
-    REMAINING_NORMALIZATION_JURISDICTIONS.length - 3
+    REMAINING_NORMALIZATION_JURISDICTIONS.length - 5
   );
   assert.deepEqual(
     otherNormalizations
       .filter((entry) => entry.status === "completed")
       .map((entry) => entry.jurisdiction)
       .sort(),
-    ["SD", "WY"]
+    ["RI", "SD", "WI", "WY"]
   );
   assert.deepEqual(
     otherNormalizations
@@ -1473,7 +1493,7 @@ await check("packet, source-materialization, and normalization readiness fail cl
     const readiness = entry.normalizationReadiness;
     assert.equal(readiness.jurisdiction, entry.jurisdiction);
     const expectedState =
-      ["SD", "WY"].includes(entry.jurisdiction)
+      ["RI", "SD", "WI", "WY"].includes(entry.jurisdiction)
         ? "normalization_complete"
         : entry.jurisdiction === "TN"
         ? "codification_authority_unverified"
@@ -3209,7 +3229,7 @@ await check("dashboard reports all 51 and preserves the red launch posture", () 
   assert.deepEqual(status.readinessMetrics, {
     authorityCleared: trackSourceAudit.totals.tracksCleared,
     authorityBlocked: trackSourceAudit.totals.tracksBlocked,
-    sourcePinned: 48,
+    sourcePinned: 52,
     implementationProof: 17,
     finalDisposition: 0
   });

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "data/record-clearing/legal-design-intake",
-  "jurisdictionsReceived": 29,
-  "jurisdictionsOutstanding": 22,
+  "jurisdictionsReceived": 31,
+  "jurisdictionsOutstanding": 20,
   "outstandingJurisdictions": [
     "KY",
     "NC",
@@ -16,7 +16,6 @@
     "OH",
     "OK",
     "OR",
-    "RI",
     "SC",
     "TN",
     "TX",
@@ -24,7 +23,6 @@
     "VA",
     "VT",
     "WA",
-    "WI",
     "WV"
   ],
   "rejectedMemos": [],
@@ -62,12 +60,20 @@
       "trackId": "pa_clean_slate_correction"
     },
     {
+      "jurisdiction": "RI",
+      "trackId": "ri_reclassified_felony"
+    },
+    {
       "jurisdiction": "SD",
       "trackId": "sd_23a_27_53_drug"
     },
     {
       "jurisdiction": "SD",
       "trackId": "sd_23_6_8_1_destruction"
+    },
+    {
+      "jurisdiction": "WI",
+      "trackId": "wi_def_prosecution_agreement"
     }
   ],
   "batches": [
@@ -162,7 +168,7 @@
     {
       "batch": "C_custom_pleading",
       "label": "Custom pleading",
-      "trackCount": 40,
+      "trackCount": 41,
       "tracks": [
         {
           "jurisdiction": "AZ",
@@ -1979,6 +1985,56 @@
           ]
         },
         {
+          "jurisdiction": "WI",
+          "trackId": "wi_exp_certificate_of_discharge_followup",
+          "publicName": "Ask for the certificate that completes your expungement",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "This is a supporting action on the certificate-of-discharge slot, not a second substantive record-clearing remedy. It produces correspondence that supports implementation of an expungement the court already ordered; it does not itself change legal status."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Neither the statute nor any Wisconsin rule prescribes the contents of a request for issuance of a certificate of discharge, and no official participant form was identified. The letter is therefore drafted from controlled participant facts. This is recorded as a scope note rather than a build blocker: the mechanism, the destination, the required content and the statewide scope are all known.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "correct_form",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "PART 2.1 / Gaps in the form set",
+                "sourceStatement": "no form was identified for the section 973.015(2m) trafficking survivor motion, or for any certificate of discharge follow-up."
+              }
+            }
+          ],
+          "participantActionCount": 11,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (participant_instructions): What recourse does a participant have where the supervising or detaining authority does not respond to the request, or declines to issue the certificate of discharge that § 973.015(1m)(b) says it shall issue? The statute sets no deadline for issuance or forwarding and identifies no remedy, so the packet can ask but cannot say what follows a refusal."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
           "jurisdiction": "WY",
           "trackId": "wy_nc_1401",
           "publicName": "Clear an arrest or dismissed charge",
@@ -2230,7 +2286,7 @@
     {
       "batch": "D_composed_or_process_guidance",
       "label": "Composed and process-guidance tracks",
-      "trackCount": 73,
+      "trackCount": 80,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -5169,6 +5225,183 @@
           ]
         },
         {
+          "jurisdiction": "RI",
+          "trackId": "ri_filed_complaints",
+          "publicName": "A complaint that was placed on file",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [
+            {
+              "question": "Counsel recorded §§ 12-10-12 among the statutes not read at source, as a build blocker. The section's official history line has now been read and its most recent amendment is P.L. 2023 ch. 231 § 1 and ch. 232 § 1, effective 23 June 2023; the operative text was not read subsection by subsection.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "PART 2.2 Official documents identified and needed for the form library",
+                "sourceStatement": "§§ 12-1-12, 12-1-12.1, 12-10-12, 12-19-19, 11-34.1-5 | Rhode Island General Assembly | Build blocker",
+                "counselQuestion": "Does reading the § 12-10-12 history line and effective date satisfy any part of the build blocker, or must the full operative text be read first?"
+              }
+            }
+          ],
+          "participantActionCount": 6,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_marijuana",
+          "publicName": "Check that an old marijuana possession record has been cleared",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Never say that all marijuana cases are automatically expunged. Possession-only and decriminalized are the conditions."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Does the § 12-1.3-5 expedited-request procedure remain open now that the initial statewide effort is complete?",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "filing_process",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "UNRESOLVED QUESTION IMPACT / Nonblocking research notes / 3",
+                "sourceStatement": "Whether the marijuana expedited-request procedure remains open."
+              }
+            },
+            {
+              "question": "The § 12-1.3-5 effective date is confirmed at source: P.L. 2022 ch. 31 § 8 and ch. 32 § 8, effective 25 May 2022, matching the Cannabis Act date the review states, with a further amendment at P.L. 2022 ch. 234 art. 2 § 4 effective 28 June 2022 that the review does not mention.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "TRACK 8 / Controlling statute",
+                "sourceStatement": "§ 12-1.3-5, enacted by the Rhode Island Cannabis Act effective May 25, 2022, with the underlying legalisation thresholds at § 21-28.11-22.",
+                "counselQuestion": "Does the P.L. 2022 ch. 234 art. 2 § 4 amendment, effective 28 June 2022, change anything in the marijuana track's design?"
+              }
+            },
+            {
+              "question": "Structure note: ri_marijuana is normalized as ONE relief mechanism with a sequential composition — automatic verification, then a conditional participant-signed expedited request — because both paths seek the same statutory legal effect under § 12-1.3-5. No separate relief track was created and the source slot is still accounted exactly once. The node type moved from completed_or_verification to relief_track because the route now carries a participant submission path rather than verification alone.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "TRACK 8 / Mechanism",
+                "sourceStatement": "a person with a prior civil violation, misdemeanor conviction or felony conviction for possession only of a marijuana offense since decriminalized is entitled to automatic expungement, notwithstanding the general Chapter 12-1.3 rules. Records were to be expunged before July 1, 2024, on a timeline set by the chief justice, with an expedited procedure available on written request.",
+                "counselQuestion": "Confirm that the expedited written request is a stage of the same § 12-1.3-5 mechanism rather than an independent remedy, and that a sequential composition correctly states it."
+              }
+            }
+          ],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): What happens after the court denies an expedited § 12-1.3-5 written request, or does not respond to it? The statute makes the expedited procedure available on written request but identifies no timeline, no remedy for non-response and no appeal route, so the packet can make the request but cannot tell the participant what follows a denial."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_commercial_sexual_activity",
+          "publicName": "Clear a record connected to commercial sexual activity",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "Outside the current LegalEase self-help scope. Detect, explain and refer to a survivor legal service; do not generate a packet."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Which subsection of Chapter 12-1.3 provides the additional conviction relief for survivors of human trafficking that the Collateral Consequences Resource Center profile describes? The statutory subsection is unresolved and this is separate from the § 11-34.1-5 route.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE",
+                "sourceStatement": "Human-trafficking survivor relief | The CCRC profile states Chapter 12-1.3 provides additional conviction relief for survivors of human trafficking. Statutory subsection unresolved. Attorney or survivor-clinic escalation."
+              }
+            },
+            {
+              "question": "effectiveFrom for § 11-34.1-5 is an approximation. The official history line is P.L. 2009 ch. 185 § 3 and ch. 186 § 3, with no dated effective clause; the date recorded is the mid-year session convention rather than a sourced effective date.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "TRACK 10 / Controlling statute",
+                "sourceStatement": "Controlling statute: § 11-34.1-5.",
+                "counselQuestion": "What effectiveFrom should § 11-34.1-5 carry, given P.L. 2009 ch. 185 and ch. 186 state no dated effective clause?"
+              }
+            }
+          ],
+          "participantActionCount": 8,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
           "jurisdiction": "SD",
           "trackId": "sd_diversion",
           "publicName": "Clear a record after completing a diversion program",
@@ -5420,6 +5653,264 @@
               "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
             }
           ]
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_exp_certificate_of_discharge",
+          "publicName": "Complete an expungement the judge already ordered",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (eligibility_branch): Can a criminal OWI conviction be expunged under § 973.015? Practitioner commentary says intoxicated driving offences may not be expunged, while the only OWI-adjacent text in the eligibility provision is the DOT records carve-out, which preserves the driving record rather than barring court-record expungement. The two readings produce opposite answers and OWI is high volume."
+          ],
+          "scopeRestrictions": [
+            "Adult expungement must have been ordered at sentencing. This is the first screening question, and where the answer is no the participant should be told immediately, told why, and pivoted to DOJ record correction, fair employment protections and a pardon referral rather than run through a long intake to reach a dead end.",
+            "Do not charge petition-level pricing on this track. The realistic work is verification and a follow-up letter, and for the large majority of Wisconsin adults with a conviction there is nothing to sell at all, which should be said quickly and kindly."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "What does § 973.015(1b) provide? Referenced in the 2025 budget draft and not read.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 6",
+                "sourceStatement": "What does section 973.015(1b) provide? Referenced in the budget draft, not read. Nonblocking research note."
+              }
+            },
+            {
+              "question": "Will expungement reform pass in the 2027 session? Six consecutive attempts have failed, including the 2025 budget proposal that would have removed the age cap, created a post-sentencing petition, limited each person to one lifetime expungement and charged a $100 fee for a second petition. If it passes, Wisconsin changes from a marginal jurisdiction to a significant one overnight.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 9",
+                "sourceStatement": "Will reform pass in the 2027 session? Six consecutive attempts have failed ... Nonblocking, with a standing monitor."
+              }
+            },
+            {
+              "question": "Currentness confirmed and advanced. The review relied on statutes certified through 2025 Wis. Act 170 and in effect on 2026-05-22. As read on 2026-08-05 the statutes are certified through 2025 Wis. Act 247 and in effect on 2026-08-05, and § 973.015 is textually unchanged, with its history line ending at 2015 Wis. Act 366. Counsel's 'nothing has changed' finding holds on a later certification date.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "HEADLINE FINDING",
+                "sourceStatement": "Nothing has changed. The statutes as published are current through 2025 Wis. Act 170 and in effect on 2026-05-22, and section 973.015 still reads that way.",
+                "counselQuestion": "Should the reviewed-through date for Wisconsin be advanced to the 2025 Wis. Act 247 certification, given the text is unchanged?"
+              }
+            },
+            {
+              "question": "Source-slot disposition: WI-EXP-01 is split into two normalized nodes — this process_guidance relief track for the authority-issued certificate, and the wi_exp_certificate_of_discharge_followup supporting action for the participant's written request. The slot is still accounted exactly once; the split adds a supporting node, not a second substantive remedy. Wisconsin therefore normalizes 8 source slots to 9 nodes.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "packet_components",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "WI-EXP-01 / How relief actually happens",
+                "sourceStatement": "on successful completion, the detaining or probationary authority issues a certificate of discharge and forwards it to the court. That certificate has the effect of expunging the record. There is no petition and no separate court motion in the ordinary case",
+                "counselQuestion": "Confirm that splitting WI-EXP-01 into an authority-issued guidance track plus a participant supporting-action letter correctly states the route, and that the letter is not to be counted as a separate relief mechanism."
+              }
+            }
+          ],
+          "participantActionCount": 12,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): Can a criminal OWI conviction be expunged under § 973.015? Practitioner commentary says intoxicated driving offences may not be expunged, while the only OWI-adjacent text in the eligibility provision is the DOT records carve-out, which preserves the driving record rather than barring court-record expungement. The two readings produce opposite answers and OWI is high volume."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Does current § 973.015 contain a subsection (4) providing that an expunged record is not a conviction for employment or licensing purposes? The 2025 budget draft contained such a provision and the budget expungement package was stripped; whether the language was new or an amendment to existing text was not resolved. It determines what the product may tell a participant about answering employment and licensing questions."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_exp_942_08_mandatory",
+          "publicName": "Mandatory expungement for an under-18 invasion of privacy offence",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "This track uses a different age threshold from the general rule — under 18, not under 25 — and it is the only place in § 973.015 where the sentencing court has no discretion."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Section 973.015 was not read in full at source, including subsections (1b), (2m) and any subsection (4). Subsections (1m) and (2m) have now been read; (1b) and any (4) have not.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "PART 2.4 Not reviewed at source in this pass / 1",
+                "sourceStatement": "Section 973.015 in full, including subsections (1b), (2m), and any subsection (4)"
+              }
+            }
+          ],
+          "participantActionCount": 6,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (legal_effect_or_warning): Does current § 973.015 contain a subsection (4) providing that an expunged record is not a conviction for employment or licensing purposes? It determines what may be told to a participant about answering employment and licensing questions."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_exp_trafficking_2m",
+          "publicName": "Clear a prostitution record that resulted from trafficking",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (correct_form): No official form was identified for the § 973.015(2m) trafficking survivor motion, and none was located in the circuit court form set. If the track is later brought in scope, the specification must be built with a survivor-services partner and the factual showing must remain participant-authored."
+          ],
+          "scopeRestrictions": [
+            "The trauma rule governs: ask only whether the case was connected to trafficking, coercion, exploitation, or someone forcing or directing what happened, and route to review. Do not ask for details and do not generate the factual showing."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "The review recorded the § 973.015(2m) requirements from the internal reference rather than from the statute. The subsection has now been read at source and matches, and it additionally specifies that the motion must comply with Wis. Stat. § 971.30 and may state the reason the person did not previously raise an affirmative defence under § 939.46.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "filing_process",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "WI-EXP-04 / Requirements per the reference",
+                "sourceStatement": "Requirements per the reference: the person was a trafficking victim for commercial sex; the section 944.30 violation resulted from that trafficking; the motion includes supporting facts",
+                "counselQuestion": "Should the § 971.30 compliance requirement and the § 939.46 affirmative-defence explanation be added to the referral briefing for the survivor-services partner?"
+              }
+            }
+          ],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): No official form was identified for the § 973.015(2m) trafficking survivor motion, and none was located in the circuit court form set. If the track is later brought in scope, the specification must be built with a survivor-services partner and the factual showing must remain participant-authored."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_def_961_47",
+          "publicName": "Drug possession first-offence conditional discharge",
+          "outputStrategy": "process_guidance",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (governing_mechanism): Counsel flagged as a build blocker whether § 961.47 contains its own expungement provision, or whether completion simply produces a non-conviction that routes to DOJ removal. The section has now been read in full at the official Wisconsin Legislature publication: subsections (1) and (2) contain no expungement provision of any kind. Completion produces a discharge and dismissal without adjudication of guilt that is not a conviction, and nothing more. The routing into the DOJ fingerprint removal track is therefore the correct and only model. Reading the section also supplied two facts the review did not carry: only one discharge and dismissal is available per person, and the clerk must notify the Department of Justice within 20 days after probation is granted."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [
+            {
+              "question": "The review names this mechanism a 'first-offender deferred judgment'. Its official caption is 'Conditional discharge for possession or attempted possession as first offense', and the statute's operative language is deferral of further proceedings and later discharge and dismissal.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "participant_instructions",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "WI-DEF-01",
+                "sourceStatement": "WI-DEF-01: First-offender deferred judgment for controlled substance possession",
+                "counselQuestion": "Should participant-facing copy use the statutory term 'conditional discharge' rather than 'deferred judgment', given form CR-214 is captioned 'Judgment Deferred Under 961.47'?"
+              }
+            },
+            {
+              "question": "effectiveFrom records 1996-07-09, the day after publication of 1995 Wisconsin Act 448 (published 8 July 1996), which is the most recent act in the § 961.47 history line and which renumbered the section into the 1995 statutes. The substantive mechanism originates in 1971 c. 219.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "PART 2.4 Not reviewed at source in this pass / 3",
+                "sourceStatement": "Section 961.47 in full, including whether it contains its own expungement provision",
+                "counselQuestion": "Should effectiveFrom carry the 1971 original enactment or the 1996 renumbering that produced the current section?"
+              }
+            }
+          ],
+          "participantActionCount": 7,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (governing_mechanism): Counsel flagged as a build blocker whether § 961.47 contains its own expungement provision, or whether completion simply produces a non-conviction that routes to DOJ removal. The section has now been read in full at the official Wisconsin Legislature publication: subsections (1) and (2) contain no expungement provision of any kind. Completion produces a discharge and dismissal without adjudication of guilt that is not a conviction, and nothing more. The routing into the DOJ fingerprint removal track is therefore the correct and only model. Reading the section also supplied two facts the review did not carry: only one discharge and dismissal is available per person, and the clerk must notify the Department of Justice within 20 days after probation is granted."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
         }
       ]
     },
@@ -5555,7 +6046,7 @@
     {
       "batch": "F_source_problem",
       "label": "Missing, encrypted, XFA, stale or conflicting sources",
-      "trackCount": 150,
+      "trackCount": 159,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -12648,6 +13139,404 @@
           ]
         },
         {
+          "jurisdiction": "RI",
+          "trackId": "ri_first_offender_misdemeanor",
+          "publicName": "Clear a single misdemeanor conviction",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Acquire DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form. No Rhode Island forms were supplied in the archive, though all four are identified by name and number. (undetermined: correct_form)",
+            "Open question blocks the build (correct_form): The current revision dates for DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form were not confirmed, and no Rhode Island forms were supplied in the archive.",
+            "Open question blocks the build (eligibility_branch): Which offences has the General Assembly reclassified from felony to misdemeanor? A maintained list is needed before the § 12-1.3-1(5) overlay is usable, and the question is not answerable from the docket alone."
+          ],
+          "scopeRestrictions": [
+            "A person convicted of a crime of violence is barred from conviction expungement.",
+            "Disclosure survives expungement for law enforcement agency employment, bar admission and bar character, fitness and disciplinary matters, teaching certificates, coaching certificates, early childhood education operators and employees, certain law enforcement charging or sentencing uses, and court order. Never tell a participant they may deny the conviction in any context without stating these exceptions.",
+            "Prior probation defeats first-offender status, not only a prior conviction."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "effectiveFrom for § 12-1.3-2 is an approximation. The most recent amending public law in the official history line is P.L. 2018, ch. 247, § 1, and Rhode Island acts of that kind take effect upon passage; the passage date is not carried on the official statute or public-law pages, so the date recorded here is the mid-year session convention rather than a sourced effective date.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "Primary authority",
+                "sourceStatement": "R.I. Gen. Laws Chapter 12-1.3, in particular §§ 12-1.3-1, 12-1.3-2, 12-1.3-3 and 12-1.3-5 as published by the Rhode Island Legislature",
+                "counselQuestion": "What effectiveFrom should § 12-1.3-2 carry, given the last amending act (P.L. 2018, ch. 247, § 1) states no dated effective clause?"
+              }
+            }
+          ],
+          "participantActionCount": 19,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Acquire DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form. No Rhode Island forms were supplied in the archive, though all four are identified by name and number. (undetermined: correct_form)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): The current revision dates for DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form were not confirmed, and no Rhode Island forms were supplied in the archive."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): Which offences has the General Assembly reclassified from felony to misdemeanor? A maintained list is needed before the § 12-1.3-1(5) overlay is usable, and the question is not answerable from the docket alone."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): What is the filing fee for a Chapter 12-1.3 motion? It is not stated in the controlling review and was not located in the Judiciary materials."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (waiting_period): Are the five and ten year periods measured from completion of sentence, as a lookback before filing, or both? The controlling review states both framings in different places and the engine needs to know which is which."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_first_offender_felony",
+          "publicName": "Clear a single felony conviction",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Acquire DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form. No Rhode Island forms were supplied in the archive, though all four are identified by name and number. (undetermined: correct_form)",
+            "Open question blocks the build (correct_form): The current revision dates for DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form were not confirmed, and no Rhode Island forms were supplied in the archive.",
+            "Open question blocks the build (eligibility_branch): Which offences has the General Assembly reclassified from felony to misdemeanor? A maintained list is needed before the § 12-1.3-1(5) overlay is usable, and the question is not answerable from the docket alone."
+          ],
+          "scopeRestrictions": [
+            "A person convicted of a crime of violence is barred from conviction expungement.",
+            "Disclosure survives expungement for law enforcement agency employment, bar admission and bar character, fitness and disciplinary matters, teaching certificates, coaching certificates, early childhood education operators and employees, certain law enforcement charging or sentencing uses, and court order. Never tell a participant they may deny the conviction in any context without stating these exceptions.",
+            "Prior probation defeats first-offender status, not only a prior conviction."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "effectiveFrom for § 12-1.3-2 is an approximation. The most recent amending public law in the official history line is P.L. 2018, ch. 247, § 1, and Rhode Island acts of that kind take effect upon passage; the passage date is not carried on the official statute or public-law pages, so the date recorded here is the mid-year session convention rather than a sourced effective date.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "Primary authority",
+                "sourceStatement": "R.I. Gen. Laws Chapter 12-1.3, in particular §§ 12-1.3-1, 12-1.3-2, 12-1.3-3 and 12-1.3-5 as published by the Rhode Island Legislature",
+                "counselQuestion": "What effectiveFrom should § 12-1.3-2 carry, given the last amending act (P.L. 2018, ch. 247, § 1) states no dated effective clause?"
+              }
+            }
+          ],
+          "participantActionCount": 19,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Acquire DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form. No Rhode Island forms were supplied in the archive, though all four are identified by name and number. (undetermined: correct_form)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): The current revision dates for DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form were not confirmed, and no Rhode Island forms were supplied in the archive."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): Which offences has the General Assembly reclassified from felony to misdemeanor? A maintained list is needed before the § 12-1.3-1(5) overlay is usable, and the question is not answerable from the docket alone."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): What is the filing fee for a Chapter 12-1.3 motion? It is not stated in the controlling review and was not located in the Judiciary materials."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (waiting_period): Are the five and ten year periods measured from completion of sentence, as a lookback before filing, or both? The controlling review states both framings in different places and the engine needs to know which is which."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_multiple_misdemeanors",
+          "publicName": "Clear more than one misdemeanor conviction",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Acquire DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form. No Rhode Island forms were supplied in the archive, though all four are identified by name and number. (undetermined: correct_form)",
+            "Open question blocks the build (correct_form): The current revision dates for DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form were not confirmed, and no Rhode Island forms were supplied in the archive.",
+            "Open question blocks the build (eligibility_branch): Which offences has the General Assembly reclassified from felony to misdemeanor? A maintained list is needed before the § 12-1.3-1(5) overlay is usable, and the question is not answerable from the docket alone."
+          ],
+          "scopeRestrictions": [
+            "A person convicted of a crime of violence is barred from conviction expungement.",
+            "Disclosure survives expungement for law enforcement agency employment, bar admission and bar character, fitness and disciplinary matters, teaching certificates, coaching certificates, early childhood education operators and employees, certain law enforcement charging or sentencing uses, and court order. Never tell a participant they may deny the conviction in any context without stating these exceptions.",
+            "Prior probation defeats first-offender status, not only a prior conviction."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "effectiveFrom for § 12-1.3-2 is an approximation. The most recent amending public law in the official history line is P.L. 2018, ch. 247, § 1, and Rhode Island acts of that kind take effect upon passage; the passage date is not carried on the official statute or public-law pages, so the date recorded here is the mid-year session convention rather than a sourced effective date.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "Primary authority",
+                "sourceStatement": "R.I. Gen. Laws Chapter 12-1.3, in particular §§ 12-1.3-1, 12-1.3-2, 12-1.3-3 and 12-1.3-5 as published by the Rhode Island Legislature",
+                "counselQuestion": "What effectiveFrom should § 12-1.3-2 carry, given the last amending act (P.L. 2018, ch. 247, § 1) states no dated effective clause?"
+              }
+            }
+          ],
+          "participantActionCount": 19,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Acquire DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form. No Rhode Island forms were supplied in the archive, though all four are identified by name and number. (undetermined: correct_form)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): The current revision dates for DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form were not confirmed, and no Rhode Island forms were supplied in the archive."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): Which offences has the General Assembly reclassified from felony to misdemeanor? A maintained list is needed before the § 12-1.3-1(5) overlay is usable, and the question is not answerable from the docket alone."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Does 'fewer than six' mean up to five, and does the count include convictions the person is not seeking to expunge? Both readings change who qualifies."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Does the § 12-1.3-1(5) reclassification lift the no-felony-conviction bar in the multiple-misdemeanor route, or does it only recharacterise the target offence?"
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): What is the filing fee for a Chapter 12-1.3 motion? It is not stated in the controlling review and was not located in the Judiciary materials."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (waiting_period): Are the five and ten year periods measured from completion of sentence, as a lookback before filing, or both? The controlling review states both framings in different places and the engine needs to know which is which."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_deferred_sentence",
+          "publicName": "Clear a record after completing a deferred sentence",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Acquire DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form. No Rhode Island forms were supplied in the archive, though all four are identified by name and number. (undetermined: correct_form)",
+            "Open question blocks the build (correct_form): The current revision dates for DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form were not confirmed, and no Rhode Island forms were supplied in the archive.",
+            "Open question blocks the build (eligibility_branch): Which offences has the General Assembly reclassified from felony to misdemeanor? A maintained list is needed before the § 12-1.3-1(5) overlay is usable, and the question is not answerable from the docket alone."
+          ],
+          "scopeRestrictions": [
+            "A person convicted of a crime of violence is barred from conviction expungement.",
+            "Disclosure survives expungement for law enforcement agency employment, bar admission and bar character, fitness and disciplinary matters, teaching certificates, coaching certificates, early childhood education operators and employees, certain law enforcement charging or sentencing uses, and court order. Never tell a participant they may deny the conviction in any context without stating these exceptions.",
+            "Prior probation defeats first-offender status, not only a prior conviction."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "effectiveFrom for § 12-19-19 is an approximation. The most recent amending public law in the official history line is P.L. 2017, ch. 351, § 1, and Rhode Island acts of that kind take effect upon passage; the passage date is not carried on the official statute or public-law pages, so the date recorded here is the mid-year session convention rather than a sourced effective date.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "Primary authority",
+                "sourceStatement": "R.I. Gen. Laws Chapter 12-1.3, in particular §§ 12-1.3-1, 12-1.3-2, 12-1.3-3 and 12-1.3-5 as published by the Rhode Island Legislature",
+                "counselQuestion": "What effectiveFrom should § 12-19-19 carry, given the last amending act (P.L. 2017, ch. 351, § 1) states no dated effective clause?"
+              }
+            }
+          ],
+          "participantActionCount": 21,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Acquire DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form. No Rhode Island forms were supplied in the archive, though all four are identified by name and number. (undetermined: correct_form)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): The current revision dates for DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form were not confirmed, and no Rhode Island forms were supplied in the archive."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): Which offences has the General Assembly reclassified from felony to misdemeanor? A maintained list is needed before the § 12-1.3-1(5) overlay is usable, and the question is not answerable from the docket alone."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): What is the filing fee for a Chapter 12-1.3 motion? It is not stated in the controlling review and was not located in the Judiciary materials."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (waiting_period): Are the five and ten year periods measured from completion of sentence, as a lookback before filing, or both? The controlling review states both framings in different places and the engine needs to know which is which."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_nonconviction_sealing",
+          "publicName": "Seal a case that did not end in conviction",
+          "outputStrategy": null,
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Establish the scope of the broader automatic expungement programme reported to have begun in 2024. Until it is established, the product cannot know which non-conviction records clear themselves. (undetermined: governing_mechanism)",
+            "Open question blocks the build (packet_components): The Judiciary's expungement instructions and any automatic-expungement programme guidance were not obtained."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 14,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Establish the scope of the broader automatic expungement programme reported to have begun in 2024. Until it is established, the product cannot know which non-conviction records clear themselves. (undetermined: governing_mechanism)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (packet_components): The Judiciary's expungement instructions and any automatic-expungement programme guidance were not obtained."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): What is the scope and status of the broader automatic expungement programme? Secondary reporting indicates the Judiciary began automatically clearing acquittals, dismissals and no-file decisions in 2024, processing more than 12,000 records in the first year, with the rollout continuing. If accurate this is broader than the Rule 48(a) rule and changes whether a motion is needed at all — the product should not be filing motions for records that clear themselves."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): What does a participant do where automatic sealing did not occur?"
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_decriminalized",
+          "publicName": "Clear a conviction for something that is no longer a crime",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: Acquire DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form. No Rhode Island forms were supplied in the archive. (undetermined: correct_form)",
+            "Open question blocks the build (correct_form): The current revision dates for the Judiciary's expungement forms were not confirmed and no Rhode Island forms were supplied in the archive."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [],
+          "participantActionCount": 16,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: Acquire DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form. No Rhode Island forms were supplied in the archive. (undetermined: correct_form)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): The current revision dates for the Judiciary's expungement forms were not confirmed and no Rhode Island forms were supplied in the archive."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (governing_mechanism): How does the decriminalized-offence route interact with the § 12-1.3-1(5) reclassification overlay? Decriminalization and reclassification are distinct mechanisms with different consequences and a participant may have either."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
           "jurisdiction": "SD",
           "trackId": "sd_arrest_expungement",
           "publicName": "Expunge a South Dakota arrest record",
@@ -12733,6 +13622,199 @@
             {
               "kind": "release_blocker",
               "statement": "Open question blocks release (filing_process): Is the $72 filing fee current?"
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_exp_cr266",
+          "publicName": "Ask the court to carry out an expungement it already ordered",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Design undetermined: The Class H and Class I felony exclusions under § 973.015(1m)(a)3 are not encoded. They turn on lifetime prior-felony history, whether the felony is a violent offense as defined in § 301.048(2)(bm), and enumerated statutory violations. (undetermined: eligibility_branch)",
+            "Open question blocks the build (correct_form): Current revision dates of CR-266 and CR-267 were not confirmed, and the full circuit court form index filtered to the CR and JD series was not pulled.",
+            "Open question blocks the build (eligibility_branch): Can a criminal OWI conviction be expunged under § 973.015? The two available readings produce opposite answers and OWI is high volume."
+          ],
+          "scopeRestrictions": [
+            "Adult expungement must have been ordered at sentencing, and that is the first screening question before this track is offered at all."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "Do any of Wisconsin's 72 counties impose local practice requirements on CR-266 filings? Wisconsin uses statewide circuit court forms and no county variation was identified, but this was not tested across the counties.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "geographic_scope",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 8",
+                "sourceStatement": "Do any of Wisconsin's 72 counties impose local practice requirements on CR-266 filings? Nonblocking research note."
+              }
+            },
+            {
+              "question": "effectiveFrom records 2016-04-21, the day after publication of 2015 Wisconsin Act 366 (enacted 19 April 2016, published 20 April 2016), which is the most recent act in the § 973.015 history line and which amended § 973.015(1m)(a)3.a.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "CONSOLIDATED PRIMARY SOURCES",
+                "sourceStatement": "Wis. Stat. section 973.015, Special disposition | Wisconsin Legislature | statutes updated through 2025 Wis. Act 170, in effect 2026-05-22",
+                "counselQuestion": "Should effectiveFrom carry the date the current operative text took effect (2016-04-21) or the original 1975 enactment?"
+              }
+            }
+          ],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Design undetermined: The Class H and Class I felony exclusions under § 973.015(1m)(a)3 are not encoded. They turn on lifetime prior-felony history, whether the felony is a violent offense as defined in § 301.048(2)(bm), and enumerated statutory violations. (undetermined: eligibility_branch)"
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): Current revision dates of CR-266 and CR-267 were not confirmed, and the full circuit court form index filtered to the CR and JD series was not pulled."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (eligibility_branch): Can a criminal OWI conviction be expunged under § 973.015? The two available readings produce opposite answers and OWI is high volume."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (filing_process): Is there a filing fee for a CR-266 petition? It is filed in the existing criminal case, which suggests not, but this was not confirmed. It determines pricing."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_nc_doj_fingerprint_removal",
+          "publicName": "Remove a non-conviction arrest from your state criminal record",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (correct_form): Current revision dates of DJ-LE-250B and DJ-LE-247, the fingerprint submission requirements, and the current DOJ background check fee through the WORCS system were not confirmed. The background check is the record the participant needs first."
+          ],
+          "scopeRestrictions": [],
+          "openLegalQuestions": [
+            {
+              "question": "What is the current DOJ background check fee through WORCS? It should be read live at intake rather than pinned.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "filing_process",
+              "provenance": {
+                "classificationBasis": "explicit_state_addendum",
+                "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 7",
+                "sourceStatement": "What is the current DOJ background check fee through WORCS? Nonblocking, and it should be read live at intake."
+              }
+            },
+            {
+              "question": "Section 165.84 was not read in full at source. Its history shows it was amended by 2015 Wis. Act 366, the same act that last amended § 973.015, and effectiveFrom records that act's effective date of 2016-04-21.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "PART 2.4 Not reviewed at source in this pass / 4",
+                "sourceStatement": "Section 165.84 in full",
+                "counselQuestion": "Is § 165.84 the correct statutory anchor for the DOJ fingerprint removal process, and should effectiveFrom track its amendment history?"
+              }
+            }
+          ],
+          "participantActionCount": 13,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): Current revision dates of DJ-LE-250B and DJ-LE-247, the fingerprint submission requirements, and the current DOJ background check fee through the WORCS system were not confirmed. The background check is the record the participant needs first."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_nc_doj_challenge",
+          "publicName": "Fix a mistake or a missing outcome on your criminal record",
+          "outputStrategy": "official_pdf_fill",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [
+            "Open question blocks the build (correct_form): The current revision date of DJ-LE-247 was not confirmed."
+          ],
+          "scopeRestrictions": [
+            "Offer this route to participants who have no expungement route at all. Together with the section 111.335 fair employment protections it is the substantive answer for the majority of Wisconsin participants."
+          ],
+          "openLegalQuestions": [
+            {
+              "question": "No statute was pinned for the DOJ record challenge process itself; the controlling authority is the DOJ Crime Information Bureau procedure, with § 165.84 as the underlying criminal-history records authority. effectiveFrom therefore tracks § 165.84's most recent amendment.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "governing_mechanism",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "WI-NC-02 / Controlling authority",
+                "sourceStatement": "Controlling authority: Wisconsin DOJ Crime Information Bureau record challenge process",
+                "counselQuestion": "Is there a statutory or administrative-rule anchor for the DOJ record challenge process that should be pinned instead of § 165.84?"
+              }
+            }
+          ],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "legal_design_blocker",
+              "statement": "Open question blocks the build (correct_form): The current revision date of DJ-LE-247 was not confirmed."
             },
             {
               "kind": "source_gate",

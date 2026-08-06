@@ -3,25 +3,25 @@
   "authorityEdition": "1.2",
   "note": "One authority result per packet component. An official-form component must reach one retained asset by workflow key or document ID with a matching SHA-256, correct role and correct language. A custom-pleading component is not failed for lacking an official binary, and a process-guidance component is not failed for lacking a packet form: the adopted memorandum makes both legitimate by design. No legal-design conclusion is changed here.",
   "totals": {
-    "jurisdictionsAudited": 29,
-    "tracksAudited": 268,
-    "tracksCleared": 94,
-    "tracksBlocked": 174,
+    "jurisdictionsAudited": 31,
+    "tracksAudited": 285,
+    "tracksCleared": 98,
+    "tracksBlocked": 187,
     "tracksWithoutRetainedLegalReview": 0,
-    "componentsAudited": 745,
-    "officialPdfComponents": 409,
+    "componentsAudited": 808,
+    "officialPdfComponents": 425,
     "officialPdfComponentsByResult": {
       "authority_hash_conflict": 4,
-      "authority_mapped_packet_candidate": 167,
+      "authority_mapped_packet_candidate": 175,
       "authority_mapped_source_gated": 51,
-      "authority_role_mismatch": 12,
-      "authority_unmanifested_source": 175
+      "authority_role_mismatch": 14,
+      "authority_unmanifested_source": 181
     },
     "officialPdfComponentsWithPinnedSha": 86,
-    "customPleadingComponents": 162,
-    "processGuidanceComponents": 174,
-    "composedTracks": 27,
-    "composedUnits": 60
+    "customPleadingComponents": 165,
+    "processGuidanceComponents": 218,
+    "composedTracks": 33,
+    "composedUnits": 76
   },
   "tracks": [
     {
@@ -23417,6 +23417,1215 @@
       "units": []
     },
     {
+      "jurisdiction": "RI",
+      "trackId": "ri_first_offender_misdemeanor",
+      "outputStrategy": null,
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [
+        "Design undetermined: Acquire DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form. No Rhode Island forms were supplied in the archive, though all four are identified by name and number. (undetermined: correct_form)",
+        "Open question blocks the build (correct_form): The current revision dates for DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form were not confirmed, and no Rhode Island forms were supplied in the archive.",
+        "Open question blocks the build (eligibility_branch): Which offences has the General Assembly reclassified from felony to misdemeanor? A maintained list is needed before the § 12-1.3-1(5) overlay is usable, and the question is not answerable from the docket alone."
+      ],
+      "components": [
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_first_offender_misdemeanor",
+          "componentId": "ri_first_offender_misdemeanor-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DC-33",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "RI",
+            "workflowKey": "RI:DC-33:PACKET:EN",
+            "documentId": "DC-33",
+            "documentRole": "PACKET",
+            "officialTitle": "District Court Motion, Affidavit, and Instructions to Expunge or Seal Record",
+            "revision": "REV-2025-02",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+            "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate RI:DC-33:PACKET:EN.",
+            "The track source relationship pins no SHA-256, so the mapping does not yet meet the edition's matching-hash requirement."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_first_offender_misdemeanor",
+          "componentId": "ri_first_offender_misdemeanor-proposed-order-2",
+          "role": "proposed_order",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DC-33-ORDER",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": null,
+          "result": "authority_unmanifested_source",
+          "reasons": [
+            "No retained Edition 1.2 asset for RI document ID DC-33-ORDER. Any candidate rows recorded here are secondary evidence for a future edition, not a mapping."
+          ],
+          "requiresPacketBinary": true,
+          "candidateLibraryEvidence": [
+            {
+              "workflowKey": "RI:DC-33:PACKET:EN",
+              "assetClass": "packet_form",
+              "officialTitle": "District Court Motion, Affidavit, and Instructions to Expunge or Seal Record",
+              "revision": "REV-2025-02",
+              "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+              "evidenceOnly": true
+            }
+          ]
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_first_offender_misdemeanor",
+          "componentId": "ri_first_offender_misdemeanor-notice-package-3",
+          "role": "notice_package",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_first_offender_misdemeanor",
+          "componentId": "ri_first_offender_misdemeanor-filing-instructions-4",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_first_offender_misdemeanor",
+          "componentId": "ri_first_offender_misdemeanor-certified-copy-delivery-checklist-5",
+          "role": "certified_copy_delivery_checklist",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "ri_first_offender_misdemeanor: the controlling review retains an open legal-design blocker — Design undetermined: Acquire DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form. No Rhode Island forms were supplied in the archive, though all four are identified by name and number. (undetermined: correct_form)",
+        "ri_first_offender_misdemeanor: the controlling review retains an open legal-design blocker — Open question blocks the build (correct_form): The current revision dates for DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form were not confirmed, and no Rhode Island forms were supplied in the archive.",
+        "ri_first_offender_misdemeanor: the controlling review retains an open legal-design blocker — Open question blocks the build (eligibility_branch): Which offences has the General Assembly reclassified from felony to misdemeanor? A maintained list is needed before the § 12-1.3-1(5) overlay is usable, and the question is not answerable from the docket alone.",
+        "ri_first_offender_misdemeanor-primary-filing-1: no SHA-256 pinned for the mapped asset.",
+        "ri_first_offender_misdemeanor-proposed-order-2: authority_unmanifested_source."
+      ],
+      "declaredOutputStrategy": "composed",
+      "compositionMode": "sequential",
+      "legalReviewAsset": "STATES/RI/01_LEGAL_REVIEW/RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": [
+        {
+          "unitId": "ri-first-offender-misdemeanor-stage-1-bci-and-docket",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": false
+        },
+        {
+          "unitId": "ri-first-offender-misdemeanor-stage-2-court-motion-and-affidavit",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": true
+        },
+        {
+          "unitId": "ri-first-offender-misdemeanor-stage-3-notice-hearing-and-certified-copies",
+          "order": 3,
+          "outputStrategy": "process_guidance",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": false
+        }
+      ]
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_first_offender_felony",
+      "outputStrategy": null,
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [
+        "Design undetermined: Acquire DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form. No Rhode Island forms were supplied in the archive, though all four are identified by name and number. (undetermined: correct_form)",
+        "Open question blocks the build (correct_form): The current revision dates for DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form were not confirmed, and no Rhode Island forms were supplied in the archive.",
+        "Open question blocks the build (eligibility_branch): Which offences has the General Assembly reclassified from felony to misdemeanor? A maintained list is needed before the § 12-1.3-1(5) overlay is usable, and the question is not answerable from the docket alone."
+      ],
+      "components": [
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_first_offender_felony",
+          "componentId": "ri_first_offender_felony-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Superior-55",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "RI",
+            "workflowKey": "RI:SUPERIOR-55:PACKET:EN",
+            "documentId": "SUPERIOR-55",
+            "documentRole": "PACKET",
+            "officialTitle": "Superior Court Motion, Affidavit, and Instructions to Expunge or Seal Record - Felony",
+            "revision": "REV-2025-02",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/RI/02_PACKET_FORMS/RI__FORM__SUPERIOR-55__superior-court-motion-affidavit-and-instructions-to-expunge-or-seal-record-felony__REV-2025-02__EN.pdf",
+            "sha256": "e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate RI:SUPERIOR-55:PACKET:EN.",
+            "The track source relationship pins no SHA-256, so the mapping does not yet meet the edition's matching-hash requirement."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_first_offender_felony",
+          "componentId": "ri_first_offender_felony-proposed-order-2",
+          "role": "proposed_order",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "Superior-55-ORDER",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": null,
+          "result": "authority_unmanifested_source",
+          "reasons": [
+            "No retained Edition 1.2 asset for RI document ID Superior-55-ORDER. Any candidate rows recorded here are secondary evidence for a future edition, not a mapping."
+          ],
+          "requiresPacketBinary": true,
+          "candidateLibraryEvidence": [
+            {
+              "workflowKey": "RI:SUPERIOR-27:PACKET:EN",
+              "assetClass": "packet_form",
+              "officialTitle": "Superior Court Motion, Affidavit, and Instructions to Expunge or Seal Record - Misdemeanor",
+              "revision": "REV-2025-07",
+              "sha256": "6a948b731d63dba93061f95786359c5ccd7df6b5eb5c88791c5efc29aafe1119",
+              "evidenceOnly": true
+            },
+            {
+              "workflowKey": "RI:SUPERIOR-55:PACKET:EN",
+              "assetClass": "packet_form",
+              "officialTitle": "Superior Court Motion, Affidavit, and Instructions to Expunge or Seal Record - Felony",
+              "revision": "REV-2025-02",
+              "sha256": "e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca",
+              "evidenceOnly": true
+            }
+          ]
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_first_offender_felony",
+          "componentId": "ri_first_offender_felony-notice-package-3",
+          "role": "notice_package",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_first_offender_felony",
+          "componentId": "ri_first_offender_felony-filing-instructions-4",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_first_offender_felony",
+          "componentId": "ri_first_offender_felony-certified-copy-delivery-checklist-5",
+          "role": "certified_copy_delivery_checklist",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "ri_first_offender_felony: the controlling review retains an open legal-design blocker — Design undetermined: Acquire DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form. No Rhode Island forms were supplied in the archive, though all four are identified by name and number. (undetermined: correct_form)",
+        "ri_first_offender_felony: the controlling review retains an open legal-design blocker — Open question blocks the build (correct_form): The current revision dates for DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form were not confirmed, and no Rhode Island forms were supplied in the archive.",
+        "ri_first_offender_felony: the controlling review retains an open legal-design blocker — Open question blocks the build (eligibility_branch): Which offences has the General Assembly reclassified from felony to misdemeanor? A maintained list is needed before the § 12-1.3-1(5) overlay is usable, and the question is not answerable from the docket alone.",
+        "ri_first_offender_felony-primary-filing-1: no SHA-256 pinned for the mapped asset.",
+        "ri_first_offender_felony-proposed-order-2: authority_unmanifested_source."
+      ],
+      "declaredOutputStrategy": "composed",
+      "compositionMode": "sequential",
+      "legalReviewAsset": "STATES/RI/01_LEGAL_REVIEW/RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": [
+        {
+          "unitId": "ri-first-offender-felony-stage-1-bci-and-docket",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": false
+        },
+        {
+          "unitId": "ri-first-offender-felony-stage-2-court-motion-and-affidavit",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": true
+        },
+        {
+          "unitId": "ri-first-offender-felony-stage-3-notice-hearing-and-certified-copies",
+          "order": 3,
+          "outputStrategy": "process_guidance",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": false
+        }
+      ]
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_multiple_misdemeanors",
+      "outputStrategy": null,
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [
+        "Design undetermined: Acquire DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form. No Rhode Island forms were supplied in the archive, though all four are identified by name and number. (undetermined: correct_form)",
+        "Open question blocks the build (correct_form): The current revision dates for DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form were not confirmed, and no Rhode Island forms were supplied in the archive.",
+        "Open question blocks the build (eligibility_branch): Which offences has the General Assembly reclassified from felony to misdemeanor? A maintained list is needed before the § 12-1.3-1(5) overlay is usable, and the question is not answerable from the docket alone."
+      ],
+      "components": [
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_multiple_misdemeanors",
+          "componentId": "ri_multiple_misdemeanors-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DC-33",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "RI",
+            "workflowKey": "RI:DC-33:PACKET:EN",
+            "documentId": "DC-33",
+            "documentRole": "PACKET",
+            "officialTitle": "District Court Motion, Affidavit, and Instructions to Expunge or Seal Record",
+            "revision": "REV-2025-02",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+            "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate RI:DC-33:PACKET:EN.",
+            "The track source relationship pins no SHA-256, so the mapping does not yet meet the edition's matching-hash requirement."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_multiple_misdemeanors",
+          "componentId": "ri_multiple_misdemeanors-proposed-order-2",
+          "role": "proposed_order",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DC-33-ORDER",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": null,
+          "result": "authority_unmanifested_source",
+          "reasons": [
+            "No retained Edition 1.2 asset for RI document ID DC-33-ORDER. Any candidate rows recorded here are secondary evidence for a future edition, not a mapping."
+          ],
+          "requiresPacketBinary": true,
+          "candidateLibraryEvidence": [
+            {
+              "workflowKey": "RI:DC-33:PACKET:EN",
+              "assetClass": "packet_form",
+              "officialTitle": "District Court Motion, Affidavit, and Instructions to Expunge or Seal Record",
+              "revision": "REV-2025-02",
+              "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+              "evidenceOnly": true
+            }
+          ]
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_multiple_misdemeanors",
+          "componentId": "ri_multiple_misdemeanors-notice-package-3",
+          "role": "notice_package",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_multiple_misdemeanors",
+          "componentId": "ri_multiple_misdemeanors-filing-instructions-4",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_multiple_misdemeanors",
+          "componentId": "ri_multiple_misdemeanors-certified-copy-delivery-checklist-5",
+          "role": "certified_copy_delivery_checklist",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "ri_multiple_misdemeanors: the controlling review retains an open legal-design blocker — Design undetermined: Acquire DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form. No Rhode Island forms were supplied in the archive, though all four are identified by name and number. (undetermined: correct_form)",
+        "ri_multiple_misdemeanors: the controlling review retains an open legal-design blocker — Open question blocks the build (correct_form): The current revision dates for DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form were not confirmed, and no Rhode Island forms were supplied in the archive.",
+        "ri_multiple_misdemeanors: the controlling review retains an open legal-design blocker — Open question blocks the build (eligibility_branch): Which offences has the General Assembly reclassified from felony to misdemeanor? A maintained list is needed before the § 12-1.3-1(5) overlay is usable, and the question is not answerable from the docket alone.",
+        "ri_multiple_misdemeanors-primary-filing-1: no SHA-256 pinned for the mapped asset.",
+        "ri_multiple_misdemeanors-proposed-order-2: authority_unmanifested_source."
+      ],
+      "declaredOutputStrategy": "composed",
+      "compositionMode": "sequential",
+      "legalReviewAsset": "STATES/RI/01_LEGAL_REVIEW/RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": [
+        {
+          "unitId": "ri-multiple-misdemeanors-stage-1-bci-and-docket",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": false
+        },
+        {
+          "unitId": "ri-multiple-misdemeanors-stage-2-court-motion-and-affidavit",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": true
+        },
+        {
+          "unitId": "ri-multiple-misdemeanors-stage-3-notice-hearing-and-certified-copies",
+          "order": 3,
+          "outputStrategy": "process_guidance",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": false
+        }
+      ]
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_deferred_sentence",
+      "outputStrategy": null,
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [
+        "Design undetermined: Acquire DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form. No Rhode Island forms were supplied in the archive, though all four are identified by name and number. (undetermined: correct_form)",
+        "Open question blocks the build (correct_form): The current revision dates for DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form were not confirmed, and no Rhode Island forms were supplied in the archive.",
+        "Open question blocks the build (eligibility_branch): Which offences has the General Assembly reclassified from felony to misdemeanor? A maintained list is needed before the § 12-1.3-1(5) overlay is usable, and the question is not answerable from the docket alone."
+      ],
+      "components": [
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_deferred_sentence",
+          "componentId": "ri_deferred_sentence-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DC-33",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "RI",
+            "workflowKey": "RI:DC-33:PACKET:EN",
+            "documentId": "DC-33",
+            "documentRole": "PACKET",
+            "officialTitle": "District Court Motion, Affidavit, and Instructions to Expunge or Seal Record",
+            "revision": "REV-2025-02",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+            "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate RI:DC-33:PACKET:EN.",
+            "The track source relationship pins no SHA-256, so the mapping does not yet meet the edition's matching-hash requirement."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_deferred_sentence",
+          "componentId": "ri_deferred_sentence-proposed-order-2",
+          "role": "proposed_order",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DC-33-ORDER",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": null,
+          "result": "authority_unmanifested_source",
+          "reasons": [
+            "No retained Edition 1.2 asset for RI document ID DC-33-ORDER. Any candidate rows recorded here are secondary evidence for a future edition, not a mapping."
+          ],
+          "requiresPacketBinary": true,
+          "candidateLibraryEvidence": [
+            {
+              "workflowKey": "RI:DC-33:PACKET:EN",
+              "assetClass": "packet_form",
+              "officialTitle": "District Court Motion, Affidavit, and Instructions to Expunge or Seal Record",
+              "revision": "REV-2025-02",
+              "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+              "evidenceOnly": true
+            }
+          ]
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_deferred_sentence",
+          "componentId": "ri_deferred_sentence-notice-package-3",
+          "role": "notice_package",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_deferred_sentence",
+          "componentId": "ri_deferred_sentence-filing-instructions-4",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_deferred_sentence",
+          "componentId": "ri_deferred_sentence-certified-copy-delivery-checklist-5",
+          "role": "certified_copy_delivery_checklist",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "ri_deferred_sentence: the controlling review retains an open legal-design blocker — Design undetermined: Acquire DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form. No Rhode Island forms were supplied in the archive, though all four are identified by name and number. (undetermined: correct_form)",
+        "ri_deferred_sentence: the controlling review retains an open legal-design blocker — Open question blocks the build (correct_form): The current revision dates for DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form were not confirmed, and no Rhode Island forms were supplied in the archive.",
+        "ri_deferred_sentence: the controlling review retains an open legal-design blocker — Open question blocks the build (eligibility_branch): Which offences has the General Assembly reclassified from felony to misdemeanor? A maintained list is needed before the § 12-1.3-1(5) overlay is usable, and the question is not answerable from the docket alone.",
+        "ri_deferred_sentence-primary-filing-1: no SHA-256 pinned for the mapped asset.",
+        "ri_deferred_sentence-proposed-order-2: authority_unmanifested_source."
+      ],
+      "declaredOutputStrategy": "composed",
+      "compositionMode": "sequential",
+      "legalReviewAsset": "STATES/RI/01_LEGAL_REVIEW/RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": [
+        {
+          "unitId": "ri-deferred-sentence-stage-1-bci-and-docket",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": false
+        },
+        {
+          "unitId": "ri-deferred-sentence-stage-2-court-motion-and-affidavit",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": true
+        },
+        {
+          "unitId": "ri-deferred-sentence-stage-3-notice-hearing-and-certified-copies",
+          "order": 3,
+          "outputStrategy": "process_guidance",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": false
+        }
+      ]
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_nonconviction_sealing",
+      "outputStrategy": null,
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [
+        "Design undetermined: Establish the scope of the broader automatic expungement programme reported to have begun in 2024. Until it is established, the product cannot know which non-conviction records clear themselves. (undetermined: governing_mechanism)",
+        "Open question blocks the build (packet_components): The Judiciary's expungement instructions and any automatic-expungement programme guidance were not obtained."
+      ],
+      "components": [
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_nonconviction_sealing",
+          "componentId": "ri_nonconviction_sealing-status-verification-instructions-1",
+          "role": "status_verification_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_nonconviction_sealing",
+          "componentId": "ri_nonconviction_sealing-primary-filing-2",
+          "role": "primary_filing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DC-33",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "RI",
+            "workflowKey": "RI:DC-33:PACKET:EN",
+            "documentId": "DC-33",
+            "documentRole": "PACKET",
+            "officialTitle": "District Court Motion, Affidavit, and Instructions to Expunge or Seal Record",
+            "revision": "REV-2025-02",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+            "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate RI:DC-33:PACKET:EN.",
+            "The track source relationship pins no SHA-256, so the mapping does not yet meet the edition's matching-hash requirement."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_nonconviction_sealing",
+          "componentId": "ri_nonconviction_sealing-notice-package-3",
+          "role": "notice_package",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_nonconviction_sealing",
+          "componentId": "ri_nonconviction_sealing-escalation-instructions-4",
+          "role": "escalation_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "ri_nonconviction_sealing: the controlling review retains an open legal-design blocker — Design undetermined: Establish the scope of the broader automatic expungement programme reported to have begun in 2024. Until it is established, the product cannot know which non-conviction records clear themselves. (undetermined: governing_mechanism)",
+        "ri_nonconviction_sealing: the controlling review retains an open legal-design blocker — Open question blocks the build (packet_components): The Judiciary's expungement instructions and any automatic-expungement programme guidance were not obtained.",
+        "ri_nonconviction_sealing-primary-filing-2: no SHA-256 pinned for the mapped asset."
+      ],
+      "declaredOutputStrategy": "composed",
+      "compositionMode": "alternative",
+      "legalReviewAsset": "STATES/RI/01_LEGAL_REVIEW/RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": [
+        {
+          "unitId": "ri-nonconviction-verify-automatic-sealing",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": false
+        },
+        {
+          "unitId": "ri-nonconviction-motion-to-seal",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": true
+        }
+      ]
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_filed_complaints",
+      "outputStrategy": "process_guidance",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_filed_complaints",
+          "componentId": "ri_filed_complaints-eligibility-and-timing-analysis-1",
+          "role": "eligibility_and_timing_analysis",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_filed_complaints",
+          "componentId": "ri_filed_complaints-status-verification-instructions-2",
+          "role": "status_verification_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_filed_complaints",
+          "componentId": "ri_filed_complaints-escalation-instructions-3",
+          "role": "escalation_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": true,
+      "blockingReasons": [],
+      "declaredOutputStrategy": "process_guidance",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/RI/01_LEGAL_REVIEW/RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_marijuana",
+      "outputStrategy": null,
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_marijuana",
+          "componentId": "ri_marijuana-status-verification-instructions-1",
+          "role": "status_verification_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_marijuana",
+          "componentId": "ri_marijuana-legal-effect-explanation-2",
+          "role": "legal_effect_explanation",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_marijuana",
+          "componentId": "ri_marijuana-expedited-request-instructions-3",
+          "role": "expedited_request_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_marijuana",
+          "componentId": "ri_marijuana-primary-filing-4",
+          "role": "primary_filing",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_marijuana",
+          "componentId": "ri_marijuana-filing-instructions-5",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": true,
+      "blockingReasons": [],
+      "declaredOutputStrategy": "composed",
+      "compositionMode": "sequential",
+      "legalReviewAsset": "STATES/RI/01_LEGAL_REVIEW/RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": [
+        {
+          "unitId": "ri-marijuana-automatic-verification",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": false
+        },
+        {
+          "unitId": "ri-marijuana-expedited-written-request",
+          "order": 2,
+          "outputStrategy": "custom_pleading",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": false
+        }
+      ]
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_decriminalized",
+      "outputStrategy": "official_pdf_fill",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [
+        "Design undetermined: Acquire DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form. No Rhode Island forms were supplied in the archive. (undetermined: correct_form)",
+        "Open question blocks the build (correct_form): The current revision dates for the Judiciary's expungement forms were not confirmed and no Rhode Island forms were supplied in the archive."
+      ],
+      "components": [
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_decriminalized",
+          "componentId": "ri_decriminalized-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DC-33",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "RI",
+            "workflowKey": "RI:DC-33:PACKET:EN",
+            "documentId": "DC-33",
+            "documentRole": "PACKET",
+            "officialTitle": "District Court Motion, Affidavit, and Instructions to Expunge or Seal Record",
+            "revision": "REV-2025-02",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+            "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate RI:DC-33:PACKET:EN.",
+            "The track source relationship pins no SHA-256, so the mapping does not yet meet the edition's matching-hash requirement."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_decriminalized",
+          "componentId": "ri_decriminalized-proposed-order-2",
+          "role": "proposed_order",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DC-33-ORDER",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": null,
+          "result": "authority_unmanifested_source",
+          "reasons": [
+            "No retained Edition 1.2 asset for RI document ID DC-33-ORDER. Any candidate rows recorded here are secondary evidence for a future edition, not a mapping."
+          ],
+          "requiresPacketBinary": true,
+          "candidateLibraryEvidence": [
+            {
+              "workflowKey": "RI:DC-33:PACKET:EN",
+              "assetClass": "packet_form",
+              "officialTitle": "District Court Motion, Affidavit, and Instructions to Expunge or Seal Record",
+              "revision": "REV-2025-02",
+              "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+              "evidenceOnly": true
+            }
+          ]
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_decriminalized",
+          "componentId": "ri_decriminalized-decriminalization-affidavit-3",
+          "role": "decriminalization_affidavit",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DC-33-AFFIDAVIT",
+          "officialSourceUrl": "https://www.courts.ri.gov/Pages/forms.aspx",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": null,
+          "result": "authority_unmanifested_source",
+          "reasons": [
+            "No retained Edition 1.2 asset for RI document ID DC-33-AFFIDAVIT. Any candidate rows recorded here are secondary evidence for a future edition, not a mapping."
+          ],
+          "requiresPacketBinary": true,
+          "candidateLibraryEvidence": [
+            {
+              "workflowKey": "RI:DC-33:PACKET:EN",
+              "assetClass": "packet_form",
+              "officialTitle": "District Court Motion, Affidavit, and Instructions to Expunge or Seal Record",
+              "revision": "REV-2025-02",
+              "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+              "evidenceOnly": true
+            }
+          ]
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_decriminalized",
+          "componentId": "ri_decriminalized-filing-instructions-4",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process-guidance component has no guidance specification in this repository."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": false
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "ri_decriminalized: the controlling review retains an open legal-design blocker — Design undetermined: Acquire DC-33, Superior-55, the Superior Court misdemeanor version and the Family Court form. No Rhode Island forms were supplied in the archive. (undetermined: correct_form)",
+        "ri_decriminalized: the controlling review retains an open legal-design blocker — Open question blocks the build (correct_form): The current revision dates for the Judiciary's expungement forms were not confirmed and no Rhode Island forms were supplied in the archive.",
+        "ri_decriminalized-primary-filing-1: no SHA-256 pinned for the mapped asset.",
+        "ri_decriminalized-proposed-order-2: authority_unmanifested_source.",
+        "ri_decriminalized-decriminalization-affidavit-3: authority_unmanifested_source.",
+        "ri_decriminalized-filing-instructions-4: process_guidance component has no governing specification in this repository."
+      ],
+      "declaredOutputStrategy": "official_pdf_fill",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/RI/01_LEGAL_REVIEW/RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "RI",
+      "trackId": "ri_commercial_sexual_activity",
+      "outputStrategy": "process_guidance",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_commercial_sexual_activity",
+          "componentId": "ri_commercial_sexual_activity-route-detection-1",
+          "role": "route_detection",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "RI",
+          "trackId": "ri_commercial_sexual_activity",
+          "componentId": "ri_commercial_sexual_activity-referral-instructions-2",
+          "role": "referral_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": true,
+      "blockingReasons": [],
+      "declaredOutputStrategy": "process_guidance",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/RI/01_LEGAL_REVIEW/RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
       "jurisdiction": "SD",
       "trackId": "sd_arrest_expungement",
       "outputStrategy": null,
@@ -24007,6 +25216,707 @@
       "declaredOutputStrategy": "process_guidance",
       "compositionMode": null,
       "legalReviewAsset": "STATES/SD/01_LEGAL_REVIEW/SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "WI",
+      "trackId": "wi_exp_certificate_of_discharge",
+      "outputStrategy": "process_guidance",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [
+        "Open question blocks the build (eligibility_branch): Can a criminal OWI conviction be expunged under § 973.015? Practitioner commentary says intoxicated driving offences may not be expunged, while the only OWI-adjacent text in the eligibility provision is the DOT records carve-out, which preserves the driving record rather than barring court-record expungement. The two readings produce opposite answers and OWI is high volume."
+      ],
+      "components": [
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_exp_certificate_of_discharge",
+          "componentId": "wi_exp_certificate_of_discharge-eligibility-verification-1",
+          "role": "eligibility_verification",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_exp_certificate_of_discharge",
+          "componentId": "wi_exp_certificate_of_discharge-completion-verification-2",
+          "role": "completion_verification",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_exp_certificate_of_discharge",
+          "componentId": "wi_exp_certificate_of_discharge-status-verification-instructions-3",
+          "role": "status_verification_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_exp_certificate_of_discharge",
+          "componentId": "wi_exp_certificate_of_discharge-legal-effect-explanation-4",
+          "role": "legal_effect_explanation",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "wi_exp_certificate_of_discharge: the controlling review retains an open legal-design blocker — Open question blocks the build (eligibility_branch): Can a criminal OWI conviction be expunged under § 973.015? Practitioner commentary says intoxicated driving offences may not be expunged, while the only OWI-adjacent text in the eligibility provision is the DOT records carve-out, which preserves the driving record rather than barring court-record expungement. The two readings produce opposite answers and OWI is high volume."
+      ],
+      "declaredOutputStrategy": "process_guidance",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/WI/01_LEGAL_REVIEW/WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "WI",
+      "trackId": "wi_exp_certificate_of_discharge_followup",
+      "outputStrategy": "custom_pleading",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_exp_certificate_of_discharge_followup",
+          "componentId": "wi_exp_certificate_of_discharge_followup-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_exp_certificate_of_discharge_followup",
+          "componentId": "wi_exp_certificate_of_discharge_followup-status-request-2",
+          "role": "status_request",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_exp_certificate_of_discharge_followup",
+          "componentId": "wi_exp_certificate_of_discharge_followup-filing-instructions-3",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process-guidance component has no guidance specification in this repository."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": false
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "wi_exp_certificate_of_discharge_followup-filing-instructions-3: process_guidance component has no governing specification in this repository."
+      ],
+      "declaredOutputStrategy": "custom_pleading",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/WI/01_LEGAL_REVIEW/WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "WI",
+      "trackId": "wi_exp_cr266",
+      "outputStrategy": "official_pdf_fill",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [
+        "Design undetermined: The Class H and Class I felony exclusions under § 973.015(1m)(a)3 are not encoded. They turn on lifetime prior-felony history, whether the felony is a violent offense as defined in § 301.048(2)(bm), and enumerated statutory violations. (undetermined: eligibility_branch)",
+        "Open question blocks the build (correct_form): Current revision dates of CR-266 and CR-267 were not confirmed, and the full circuit court form index filtered to the CR and JD series was not pulled.",
+        "Open question blocks the build (eligibility_branch): Can a criminal OWI conviction be expunged under § 973.015? The two available readings produce opposite answers and OWI is high volume."
+      ],
+      "components": [
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_exp_cr266",
+          "componentId": "wi_exp_cr266-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-266",
+          "officialSourceUrl": "https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=CR-266",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "WI",
+            "workflowKey": "WI:CR-266:PETITION:EN",
+            "documentId": "CR-266",
+            "documentRole": "PETITION",
+            "officialTitle": "CR-266, 05/24 Petition to Expunge Criminal Court Record of Conviction (Non-Probation/Non-Incarceration)",
+            "revision": "REV-2024-05",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/WI/02_PACKET_FORMS/WI__FORM__CR-266__cr-266-05-24-petition-to-expunge-criminal-court-record-of-conviction-non-probation-non-inc__REV-2024-05__EN.pdf",
+            "sha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate WI:CR-266:PETITION:EN.",
+            "The track source relationship pins no SHA-256, so the mapping does not yet meet the edition's matching-hash requirement."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_exp_cr266",
+          "componentId": "wi_exp_cr266-proposed-order-2",
+          "role": "proposed_order",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CR-267",
+          "officialSourceUrl": "https://www.wicourts.gov/forms1/circuit/ccform.jsp?FormNumber=CR-267",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "WI",
+            "workflowKey": "WI:CR-267:ORDER:EN",
+            "documentId": "CR-267",
+            "documentRole": "ORDER",
+            "officialTitle": "CR-267, 02/15 Order on Petition to Expunge Court Record of Conviction (Non-Probation/Non-Incarceration)",
+            "revision": "REV-2024-05",
+            "language": "EN",
+            "assetClass": "packet_form",
+            "canonicalRelativePath": "STATES/WI/02_PACKET_FORMS/WI__FORM__CR-267__cr-267-02-15-order-on-petition-to-expunge-court-record-of-conviction-non-probation-non-inc__REV-2024-05__EN.pdf",
+            "sha256": "2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+            "packetCandidate": true,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_mapped_packet_candidate",
+          "reasons": [
+            "Mapped to retained packet-form candidate WI:CR-267:ORDER:EN.",
+            "The track source relationship pins no SHA-256, so the mapping does not yet meet the edition's matching-hash requirement."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_exp_cr266",
+          "componentId": "wi_exp_cr266-filing-instructions-3",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process-guidance component has no guidance specification in this repository."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": false
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "wi_exp_cr266: the controlling review retains an open legal-design blocker — Design undetermined: The Class H and Class I felony exclusions under § 973.015(1m)(a)3 are not encoded. They turn on lifetime prior-felony history, whether the felony is a violent offense as defined in § 301.048(2)(bm), and enumerated statutory violations. (undetermined: eligibility_branch)",
+        "wi_exp_cr266: the controlling review retains an open legal-design blocker — Open question blocks the build (correct_form): Current revision dates of CR-266 and CR-267 were not confirmed, and the full circuit court form index filtered to the CR and JD series was not pulled.",
+        "wi_exp_cr266: the controlling review retains an open legal-design blocker — Open question blocks the build (eligibility_branch): Can a criminal OWI conviction be expunged under § 973.015? The two available readings produce opposite answers and OWI is high volume.",
+        "wi_exp_cr266-primary-filing-1: no SHA-256 pinned for the mapped asset.",
+        "wi_exp_cr266-proposed-order-2: no SHA-256 pinned for the mapped asset.",
+        "wi_exp_cr266-filing-instructions-3: process_guidance component has no governing specification in this repository."
+      ],
+      "declaredOutputStrategy": "official_pdf_fill",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/WI/01_LEGAL_REVIEW/WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "WI",
+      "trackId": "wi_exp_942_08_mandatory",
+      "outputStrategy": "process_guidance",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [],
+      "components": [
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_exp_942_08_mandatory",
+          "componentId": "wi_exp_942_08_mandatory-eligibility-verification-1",
+          "role": "eligibility_verification",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_exp_942_08_mandatory",
+          "componentId": "wi_exp_942_08_mandatory-status-verification-instructions-2",
+          "role": "status_verification_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_exp_942_08_mandatory",
+          "componentId": "wi_exp_942_08_mandatory-escalation-instructions-3",
+          "role": "escalation_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": true,
+      "blockingReasons": [],
+      "declaredOutputStrategy": "process_guidance",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/WI/01_LEGAL_REVIEW/WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "WI",
+      "trackId": "wi_exp_trafficking_2m",
+      "outputStrategy": "process_guidance",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [
+        "Open question blocks the build (correct_form): No official form was identified for the § 973.015(2m) trafficking survivor motion, and none was located in the circuit court form set. If the track is later brought in scope, the specification must be built with a survivor-services partner and the factual showing must remain participant-authored."
+      ],
+      "components": [
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_exp_trafficking_2m",
+          "componentId": "wi_exp_trafficking_2m-route-detection-1",
+          "role": "route_detection",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_exp_trafficking_2m",
+          "componentId": "wi_exp_trafficking_2m-referral-instructions-2",
+          "role": "referral_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "wi_exp_trafficking_2m: the controlling review retains an open legal-design blocker — Open question blocks the build (correct_form): No official form was identified for the § 973.015(2m) trafficking survivor motion, and none was located in the circuit court form set. If the track is later brought in scope, the specification must be built with a survivor-services partner and the factual showing must remain participant-authored."
+      ],
+      "declaredOutputStrategy": "process_guidance",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/WI/01_LEGAL_REVIEW/WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "WI",
+      "trackId": "wi_nc_doj_fingerprint_removal",
+      "outputStrategy": "official_pdf_fill",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [
+        "Open question blocks the build (correct_form): Current revision dates of DJ-LE-250B and DJ-LE-247, the fingerprint submission requirements, and the current DOJ background check fee through the WORCS system were not confirmed. The background check is the record the participant needs first."
+      ],
+      "components": [
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_nc_doj_fingerprint_removal",
+          "componentId": "wi_nc_doj_fingerprint_removal-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DJ-LE-250B",
+          "officialSourceUrl": "https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-history-documents-forms.aspx",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "WI",
+            "workflowKey": "WI:DJ-LE-250B:RECORD_REQUEST:EN",
+            "documentId": "DJ-LE-250B",
+            "documentRole": "RECORD_REQUEST",
+            "officialTitle": "Fingerprint Record Removal Request",
+            "revision": "REV-UNKNOWN",
+            "language": "EN",
+            "assetClass": "supporting_process",
+            "canonicalRelativePath": "STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-250B__fingerprint-record-removal-request__REV-UNKNOWN__EN.pdf",
+            "sha256": "3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+            "packetCandidate": false,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_role_mismatch",
+          "reasons": [
+            "Mapped to a retained supporting_process asset, which cannot fill a primary_filing component. Instructions and supporting-process assets are assembled around a packet; they do not replace one."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_nc_doj_fingerprint_removal",
+          "componentId": "wi_nc_doj_fingerprint_removal-arrest-event-mapping-2",
+          "role": "arrest_event_mapping",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process-guidance component has no guidance specification in this repository."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": false
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_nc_doj_fingerprint_removal",
+          "componentId": "wi_nc_doj_fingerprint_removal-disposition-documentation-package-3",
+          "role": "disposition_documentation_package",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process-guidance component has no guidance specification in this repository."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": false
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_nc_doj_fingerprint_removal",
+          "componentId": "wi_nc_doj_fingerprint_removal-filing-instructions-4",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process-guidance component has no guidance specification in this repository."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": false
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "wi_nc_doj_fingerprint_removal: the controlling review retains an open legal-design blocker — Open question blocks the build (correct_form): Current revision dates of DJ-LE-250B and DJ-LE-247, the fingerprint submission requirements, and the current DOJ background check fee through the WORCS system were not confirmed. The background check is the record the participant needs first.",
+        "wi_nc_doj_fingerprint_removal-primary-filing-1: authority_role_mismatch.",
+        "wi_nc_doj_fingerprint_removal-arrest-event-mapping-2: process_guidance component has no governing specification in this repository.",
+        "wi_nc_doj_fingerprint_removal-disposition-documentation-package-3: process_guidance component has no governing specification in this repository.",
+        "wi_nc_doj_fingerprint_removal-filing-instructions-4: process_guidance component has no governing specification in this repository."
+      ],
+      "declaredOutputStrategy": "official_pdf_fill",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/WI/01_LEGAL_REVIEW/WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "WI",
+      "trackId": "wi_nc_doj_challenge",
+      "outputStrategy": "official_pdf_fill",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [
+        "Open question blocks the build (correct_form): The current revision date of DJ-LE-247 was not confirmed."
+      ],
+      "components": [
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_nc_doj_challenge",
+          "componentId": "wi_nc_doj_challenge-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "DJ-LE-247",
+          "officialSourceUrl": "https://www.wisdoj.gov/Pages/CriminalJusticeServices/criminal-history-documents-forms.aspx",
+          "repositoryMappingStatus": "not_mapped",
+          "corpusState": "unchecked",
+          "sha256Verified": false,
+          "asset": {
+            "libraryEdition": "1.2",
+            "jurisdictionCode": "WI",
+            "workflowKey": "WI:DJ-LE-247:RECORD_REQUEST:EN",
+            "documentId": "DJ-LE-247",
+            "documentRole": "RECORD_REQUEST",
+            "officialTitle": "Wisconsin Criminal History Record Challenge Form",
+            "revision": "REV-UNKNOWN",
+            "language": "EN",
+            "assetClass": "supporting_process",
+            "canonicalRelativePath": "STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-247__wisconsin-criminal-history-record-challenge-form__REV-UNKNOWN__EN.pdf",
+            "sha256": "ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+            "packetCandidate": false,
+            "generationAllowed": false,
+            "runtimeStatus": "runtime_disabled"
+          },
+          "result": "authority_role_mismatch",
+          "reasons": [
+            "Mapped to a retained supporting_process asset, which cannot fill a primary_filing component. Instructions and supporting-process assets are assembled around a packet; they do not replace one."
+          ],
+          "requiresPacketBinary": true
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_nc_doj_challenge",
+          "componentId": "wi_nc_doj_challenge-record-discrepancy-analysis-2",
+          "role": "record_discrepancy_analysis",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process-guidance component has no guidance specification in this repository."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": false
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_nc_doj_challenge",
+          "componentId": "wi_nc_doj_challenge-filing-instructions-3",
+          "role": "filing_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process-guidance component has no guidance specification in this repository."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": false
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "wi_nc_doj_challenge: the controlling review retains an open legal-design blocker — Open question blocks the build (correct_form): The current revision date of DJ-LE-247 was not confirmed.",
+        "wi_nc_doj_challenge-primary-filing-1: authority_role_mismatch.",
+        "wi_nc_doj_challenge-record-discrepancy-analysis-2: process_guidance component has no governing specification in this repository.",
+        "wi_nc_doj_challenge-filing-instructions-3: process_guidance component has no governing specification in this repository."
+      ],
+      "declaredOutputStrategy": "official_pdf_fill",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/WI/01_LEGAL_REVIEW/WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "units": []
+    },
+    {
+      "jurisdiction": "WI",
+      "trackId": "wi_def_961_47",
+      "outputStrategy": "process_guidance",
+      "legalReviewRetained": true,
+      "pendingAuthorityReconciliation": null,
+      "openLegalDesignBlockers": [
+        "Open question blocks the build (governing_mechanism): Counsel flagged as a build blocker whether § 961.47 contains its own expungement provision, or whether completion simply produces a non-conviction that routes to DOJ removal. The section has now been read in full at the official Wisconsin Legislature publication: subsections (1) and (2) contain no expungement provision of any kind. Completion produces a discharge and dismissal without adjudication of guilt that is not a conviction, and nothing more. The routing into the DOJ fingerprint removal track is therefore the correct and only model. Reading the section also supplied two facts the review did not carry: only one discharge and dismissal is available per person, and the clerk must notify the Department of Justice within 20 days after probation is granted."
+      ],
+      "components": [
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_def_961_47",
+          "componentId": "wi_def_961_47-status-verification-instructions-1",
+          "role": "status_verification_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_def_961_47",
+          "componentId": "wi_def_961_47-legal-effect-explanation-2",
+          "role": "legal_effect_explanation",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "WI",
+          "trackId": "wi_def_961_47",
+          "componentId": "wi_def_961_47-handoff-to-doj-removal-3",
+          "role": "handoff_to_doj_removal",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        }
+      ],
+      "cleared": false,
+      "blockingReasons": [
+        "wi_def_961_47: the controlling review retains an open legal-design blocker — Open question blocks the build (governing_mechanism): Counsel flagged as a build blocker whether § 961.47 contains its own expungement provision, or whether completion simply produces a non-conviction that routes to DOJ removal. The section has now been read in full at the official Wisconsin Legislature publication: subsections (1) and (2) contain no expungement provision of any kind. Completion produces a discharge and dismissal without adjudication of guilt that is not a conviction, and nothing more. The routing into the DOJ fingerprint removal track is therefore the correct and only model. Reading the section also supplied two facts the review did not carry: only one discharge and dismissal is available per person, and the clerk must notify the Department of Justice within 20 days after probation is granted."
+      ],
+      "declaredOutputStrategy": "process_guidance",
+      "compositionMode": null,
+      "legalReviewAsset": "STATES/WI/01_LEGAL_REVIEW/WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
       "units": []
     },
     {

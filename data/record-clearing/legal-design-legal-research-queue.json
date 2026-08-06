@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "note": "Deferred, not missing. Counsel has not identified the governing mechanism, whether the route exists, the correct output strategy, or the legally accepted filing vehicle. No strategy is invented to make the record importable. These tracks are absent from runtime resolution and unreachable; they are not runtime_disabled, because they were never registered.",
-  "deferredTrackCount": 10,
+  "deferredTrackCount": 12,
   "deferredTracks": [
     {
       "jurisdiction": "AK",
@@ -683,6 +683,128 @@
       ]
     },
     {
+      "jurisdiction": "RI",
+      "trackId": "ri_reclassified_felony",
+      "publicName": "A felony that is now a misdemeanor",
+      "outputStrategy": null,
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "runtimeRegistration": "none",
+      "runtimeReachable": false,
+      "legalDesignStatus": "legal_research_required",
+      "legalDesignRationale": "Additional research required, as counsel decided, and high value: it converts ineligible participants into eligible ones. Reading § 12-1.3-1(5) at the official source closed counsel's first build blocker — the definition and the 26 June 2024 effective date are confirmed verbatim — but the two questions that make the overlay usable remain open: which offences the General Assembly has actually reclassified, which needs a maintained list, and whether reclassification lifts the no-felony-conviction bar in the multiple-misdemeanor route or only recharacterises the target offence. The track is deferred, absent from runtime resolution and unreachable, with counsel's structure preserved and the statutory confirmation recorded.",
+      "authority": [
+        "R.I. Gen. Laws § 12-1.3-1(5)",
+        "R.I. Gen. Laws § 12-1.3-2"
+      ],
+      "mechanism": "Section 12-1.3-1(5) provides that 'misdemeanor' includes, but is not limited to, those crimes previously classified as felonies under law at the time the original sentence was imposed but reclassified by the general assembly as a misdemeanor in the interim, prior to the time the motion to expunge is brought. A participant whose old conviction was a felony when imposed but is a misdemeanor today is therefore treated as a misdemeanant for expungement purposes, which moves them from the ten-year felony wait to the five-year misdemeanor wait and may make them eligible for the multiple-misdemeanor route they would otherwise be excluded from by the no-felony-conviction condition. This is an overlay on the first-offender misdemeanor and multiple-misdemeanor routes rather than a standalone remedy, and it is separated here because it has its own authority, its own effective date and its own factual test.",
+      "destination": {
+        "kind": "court",
+        "name": "The Rhode Island court where the conviction occurred",
+        "detail": "The overlay changes which waiting period and which route apply. It does not create a separate filing destination."
+      },
+      "unresolvedQuestions": [
+        {
+          "question": "Counsel flagged as a build blocker the full text of § 12-1.3-1(5) as amended and the H8342 (2024) effective date. Both have now been read at the official Rhode Island General Assembly publication. The definition reads verbatim: 'Misdemeanor includes, but is not limited to, those crimes previously classified as felonies under law at the time the original sentence was imposed but reclassified by the general assembly as a misdemeanor in the interim, prior to the time the motion to expunge is brought.' The official history line records the amendment as P.L. 2024 ch. 386 § 1 and P.L. 2024 ch. 387 § 1, each effective 26 June 2024.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 4 / Open questions / 1",
+            "sourceStatement": "Full text of § 12-1.3-1(5) as amended, and the H8342 effective date. Build blocker.",
+            "counselQuestion": "The definition and the 26 June 2024 effective date now read at source. Does counsel accept this build blocker as closed, leaving only the reclassified-offence list and the multiple-misdemeanor bar question?"
+          }
+        },
+        {
+          "question": "Which offences has the General Assembly reclassified from felony to misdemeanor? A maintained list is needed, and this is the work that makes the overlay usable.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 4 / Open questions / 2",
+            "sourceStatement": "Which offenses the General Assembly has reclassified, which needs a maintained list. Build blocker, and this is the work that makes the overlay usable."
+          }
+        },
+        {
+          "question": "Does the reclassification also lift the no-felony-conviction bar in the multiple-misdemeanor route, or does it only recharacterise the target offence?",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 4 / Open questions / 3",
+            "sourceStatement": "Whether the reclassification also lifts the no-felony-conviction bar in the multiple-misdemeanor route, or only recharacterises the target offense. Release blocker."
+          }
+        },
+        {
+          "question": "How does the reclassification overlay interact with the decriminalized-offence route? The two are distinct mechanisms with different consequences and a participant may have either.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 9 / Open questions",
+            "sourceStatement": "how this interacts with Track 4, since decriminalization and reclassification are distinct and a participant may have either. Release blocker."
+          }
+        }
+      ],
+      "deferralReasons": [
+        {
+          "statement": "Build the list of offences the General Assembly has reclassified from felony to misdemeanor. Without it the overlay cannot be applied to any participant.",
+          "affectedElement": "eligibility_branch"
+        },
+        {
+          "statement": "The output strategy is undetermined. The overlay's effect on the underlying routes is not settled, so no concrete strategy may stand in for it.",
+          "affectedElement": "output_strategy"
+        }
+      ],
+      "requiredLegalResearch": [
+        "Counsel flagged as a build blocker the full text of § 12-1.3-1(5) as amended and the H8342 (2024) effective date. Both have now been read at the official Rhode Island General Assembly publication. The definition reads verbatim: 'Misdemeanor includes, but is not limited to, those crimes previously classified as felonies under law at the time the original sentence was imposed but reclassified by the general assembly as a misdemeanor in the interim, prior to the time the motion to expunge is brought.' The official history line records the amendment as P.L. 2024 ch. 386 § 1 and P.L. 2024 ch. 387 § 1, each effective 26 June 2024.",
+        "Which offences has the General Assembly reclassified from felony to misdemeanor? A maintained list is needed, and this is the work that makes the overlay usable."
+      ],
+      "provenance": [
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "LIMITATIONS, CLASSIFIED",
+          "sourceStatement": "Read H8342 (2024) and build the reclassified-offense list | Legal-design blocker"
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "Track summary",
+          "sourceStatement": "4. Reclassified felony treated as a misdemeanor | § 12-1.3-1(5), H8342 (2024) | Overlay on Tracks 1 and 3 | Additional research required"
+        },
+        {
+          "classificationBasis": "counsel_confirmation_required",
+          "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "TRACK 4 / Open questions / 1",
+          "sourceStatement": "Full text of § 12-1.3-1(5) as amended, and the H8342 effective date. Build blocker.",
+          "counselQuestion": "The definition and the 26 June 2024 effective date now read at source. Does counsel accept this build blocker as closed, leaving only the reclassified-offence list and the multiple-misdemeanor bar question?"
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "TRACK 4 / Open questions / 2",
+          "sourceStatement": "Which offenses the General Assembly has reclassified, which needs a maintained list. Build blocker, and this is the work that makes the overlay usable."
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "TRACK 4 / Open questions / 3",
+          "sourceStatement": "Whether the reclassification also lifts the no-felony-conviction bar in the multiple-misdemeanor route, or only recharacterises the target offense. Release blocker."
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "RI__LEGAL-REVIEW__STATEWIDE__rhode-island-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "TRACK 9 / Open questions",
+          "sourceStatement": "how this interacts with Track 4, since decriminalization and reclassification are distinct and a participant may have either. Release blocker."
+        }
+      ]
+    },
+    {
       "jurisdiction": "SD",
       "trackId": "sd_23a_27_53_drug",
       "publicName": "Drug-offence deferred sentencing and dismissal",
@@ -900,6 +1022,113 @@
           "sourceHeading": "TRACK 7 / Controlling statute",
           "sourceStatement": "Controlling statute: SDCL § 23-6-8.1.",
           "counselQuestion": "Is the South Dakota July 1 default the right effectiveFrom where the session law states no express effective date?"
+        }
+      ]
+    },
+    {
+      "jurisdiction": "WI",
+      "trackId": "wi_def_prosecution_agreement",
+      "publicName": "Charges dismissed under a deferred prosecution agreement",
+      "outputStrategy": null,
+      "outputStrategyStatus": "unresolved",
+      "packetIdentity": "unresolved",
+      "runtimeRegistration": "none",
+      "runtimeReachable": false,
+      "legalDesignStatus": "legal_research_required",
+      "legalDesignRationale": "Additional research required, as counsel decided. Reading § 967.055(3) at source sharpened the exclusion from a general 'OWI offense' bar into a specific enumerated list, but it did not identify the general adult deferred prosecution authority, did not establish whether dismissal terms vary across county programmes, and did not establish whether the resulting record clears the DOJ all-charges-cleared screen. The track is deferred, absent from runtime resolution and unreachable, with counsel's structure preserved.",
+      "authority": [
+        "Wis. Stat. § 967.055(3)",
+        "Wis. Stat. § 346.63(1)",
+        "Wis. Stat. § 346.63(2)",
+        "Wis. Stat. § 940.09"
+      ],
+      "mechanism": "Wisconsin prosecutors run deferred prosecution programmes at county level. A charge dismissed under such an agreement is a non-conviction and routes to DOJ fingerprint removal. Section 967.055(3) provides that a prosecutor may not place a person in a deferred prosecution programme where the person is accused of or charged with a violation of § 346.63(1) or (5) or a local ordinance in conformity therewith, a violation of § 346.63(2) or (6), or a violation of § 940.09 where the offense involved the use of a vehicle. The general adult deferred prosecution authority was not pinned, and dismissal terms may vary by county programme.",
+      "destination": {
+        "kind": "prosecutor",
+        "name": "The county district attorney administering the deferred prosecution programme",
+        "detail": "Programmes are run at county level and dismissal terms may vary. Whether the resulting record clears the DOJ all-charges-cleared screen is not established."
+      },
+      "unresolvedQuestions": [
+        {
+          "question": "What is the general adult deferred prosecution authority in Wisconsin, and do dismissal terms vary by county programme? The governing statute for adult deferred prosecution agreements generally was not pinned in this pass.",
+          "impact": "build_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 3",
+            "sourceStatement": "What is the general adult deferred prosecution authority in Wisconsin, and do dismissal terms vary by county program? Build blocker for WI-DEF-02."
+          }
+        },
+        {
+          "question": "Does a charge dismissed under a deferred prosecution agreement clear the DOJ all-charges-cleared screen for fingerprint removal?",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "WI-DEF-02 / Legal-design decision",
+            "sourceStatement": "Additional research required. Identify the general adult deferred prosecution authority, confirm whether dismissal terms vary by county program, and confirm whether the resulting record clears the DOJ all-charges-cleared screen."
+          }
+        },
+        {
+          "question": "The review describes § 967.055(3) as barring placement in a deferred prosecution programme where the person is accused of or charged with 'an OWI offense'. The subsection has now been read at source and the bar is a specific enumerated list: § 346.63(1) or (5) or a local ordinance in conformity therewith; § 346.63(2) or (6); and § 940.09 where the offense involved the use of a vehicle. The narrower statutory formulation should replace the general description.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "WI-DEF-02 / Controlling authority",
+            "sourceStatement": "county deferred prosecution programs, with Wis. Stat. section 967.055(3) barring placement in a deferred prosecution program where the person is accused of or charged with an OWI offense",
+            "counselQuestion": "Should the enumerated § 967.055(3) list replace the general 'OWI offense' description in the routing logic?"
+          }
+        }
+      ],
+      "deferralReasons": [
+        {
+          "statement": "The general adult deferred prosecution authority is not identified, and county programme variation is not established.",
+          "affectedElement": "governing_mechanism"
+        },
+        {
+          "statement": "The output strategy is undetermined while the governing authority and the DOJ screen interaction are unresolved.",
+          "affectedElement": "output_strategy"
+        }
+      ],
+      "requiredLegalResearch": [
+        "What is the general adult deferred prosecution authority in Wisconsin, and do dismissal terms vary by county programme? The governing statute for adult deferred prosecution agreements generally was not pinned in this pass.",
+        "Does a charge dismissed under a deferred prosecution agreement clear the DOJ all-charges-cleared screen for fingerprint removal?"
+      ],
+      "provenance": [
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "LIMITATION CLASSIFICATION / 12",
+          "sourceStatement": "Deferred prosecution agreements absent from the reference | Legal-design blocker until researched"
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "PART 5 / 2",
+          "sourceStatement": "Every mechanism has a proposed output strategy. Confirmed, except WI-DEF-02, which is unresolved."
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 3",
+          "sourceStatement": "What is the general adult deferred prosecution authority in Wisconsin, and do dismissal terms vary by county program? Build blocker for WI-DEF-02."
+        },
+        {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "WI-DEF-02 / Legal-design decision",
+          "sourceStatement": "Additional research required. Identify the general adult deferred prosecution authority, confirm whether dismissal terms vary by county program, and confirm whether the resulting record clears the DOJ all-charges-cleared screen."
+        },
+        {
+          "classificationBasis": "counsel_confirmation_required",
+          "sourceFile": "WI__LEGAL-REVIEW__STATEWIDE__wisconsin-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "sourceHeading": "WI-DEF-02 / Controlling authority",
+          "sourceStatement": "county deferred prosecution programs, with Wis. Stat. section 967.055(3) barring placement in a deferred prosecution program where the person is accused of or charged with an OWI offense",
+          "counselQuestion": "Should the enumerated § 967.055(3) list replace the general 'OWI offense' description in the routing logic?"
         }
       ]
     }

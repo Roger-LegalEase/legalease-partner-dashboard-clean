@@ -1272,13 +1272,13 @@ assert.ok(
       const expectedStatus =
         entry.jurisdiction === "TN"
           ? "blocked"
-          : ["SD", "WY"].includes(entry.jurisdiction)
+          : ["RI", "SD", "WI", "WY"].includes(entry.jurisdiction)
           ? "completed"
           : "ready";
       const expectedReadinessState =
         entry.jurisdiction === "TN"
           ? "codification_authority_unverified"
-          : ["SD", "WY"].includes(entry.jurisdiction)
+          : ["RI", "SD", "WI", "WY"].includes(entry.jurisdiction)
           ? "normalization_complete"
           : "ready_for_normalization";
       return (
@@ -1678,11 +1678,28 @@ const dynamicallyResolvedTrackKeys = normalizedKeys.filter(
   (trackKey) => !staticCanonicalTrackKeys.has(trackKey)
 );
 assert.deepEqual(dynamicallyResolvedTrackKeys, [
+  "RI:ri_commercial_sexual_activity",
+  "RI:ri_decriminalized",
+  "RI:ri_deferred_sentence",
+  "RI:ri_filed_complaints",
+  "RI:ri_first_offender_felony",
+  "RI:ri_first_offender_misdemeanor",
+  "RI:ri_marijuana",
+  "RI:ri_multiple_misdemeanors",
+  "RI:ri_nonconviction_sealing",
   "SD:sd_23a_3_34_auto",
   "SD:sd_arrest_expungement",
   "SD:sd_diversion",
   "SD:sd_pardon_24_14_11",
   "SD:sd_sis_sealing",
+  "WI:wi_def_961_47",
+  "WI:wi_exp_942_08_mandatory",
+  "WI:wi_exp_certificate_of_discharge",
+  "WI:wi_exp_certificate_of_discharge_followup",
+  "WI:wi_exp_cr266",
+  "WI:wi_exp_trafficking_2m",
+  "WI:wi_nc_doj_challenge",
+  "WI:wi_nc_doj_fingerprint_removal",
   "WY:wy_fel_1502",
   "WY:wy_misd_1501",
   "WY:wy_nc_1401"
@@ -1843,7 +1860,7 @@ assert.equal(
 assert.deepEqual(productionPlan.readinessMetrics.current, {
   authorityCleared: trackSourceAudit.totals.tracksCleared,
   authorityBlocked: trackSourceAudit.totals.tracksBlocked,
-  sourcePinned: 48,
+  sourcePinned: 52,
   implementationProof: 17,
   finalDisposition: 0
 });
@@ -2671,7 +2688,7 @@ const status = buildFactoryStatus({ rootDir: ROOT });
 assert.deepEqual(status.readinessMetrics, {
   authorityCleared: trackSourceAudit.totals.tracksCleared,
   authorityBlocked: trackSourceAudit.totals.tracksBlocked,
-  sourcePinned: 48,
+  sourcePinned: 52,
   implementationProof: 17,
   finalDisposition: 0
 });
@@ -2691,7 +2708,7 @@ assert.equal(
       )
   )
     .length,
-  36
+  40
 );
 assert.deepEqual(
   status.tracks

@@ -15,6 +15,7 @@
 import { register, createRequire } from "node:module";
 import { execFileSync } from "node:child_process";
 import assert from "node:assert/strict";
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -1989,6 +1990,181 @@ check("every committed Batch 1 composed route matches its approved unit substanc
       }
     }
   }
+});
+
+check("the corrected Wisconsin memo preserves the packet-capable supporting-action split", () => {
+  const memoPath = path.join(
+    process.cwd(),
+    "data/record-clearing/legal-design-intake/WI.memo.json"
+  );
+  const memoBytes = fs.readFileSync(memoPath);
+  assert.equal(
+    crypto.createHash("sha256").update(memoBytes).digest("hex"),
+    "028ac578608bf73db912e355a18824d2100a2e3e8052d9ef3040d437dbf08c28"
+  );
+  const memo = JSON.parse(memoBytes);
+  assert.equal(validateLegalDesignMemo(memo).ok, true);
+  assert.equal(memo.tracks.length, 9);
+  assert.equal(
+    memo.tracks.filter((track) => track.nodeType === "relief_track").length,
+    8
+  );
+  assert.equal(
+    memo.tracks.filter((track) => track.nodeType === "supporting_action").length,
+    1
+  );
+  assert.match(
+    memo._sourceSlotAccounting,
+    /Eight review source slots, each accounted for exactly once, normalized to NINE nodes through one explicit split/
+  );
+
+  const strategies = memo.tracks.reduce((counts, track) => {
+    const strategy = track.outputStrategy ?? "deferred";
+    counts[strategy] = (counts[strategy] ?? 0) + 1;
+    return counts;
+  }, {});
+  assert.deepEqual(strategies, {
+    process_guidance: 4,
+    custom_pleading: 1,
+    official_pdf_fill: 3,
+    deferred: 1
+  });
+
+  const underlying = memo.tracks.find(
+    (track) => track.trackId === "wi_exp_certificate_of_discharge"
+  );
+  const followup = memo.tracks.find(
+    (track) =>
+      track.trackId === "wi_exp_certificate_of_discharge_followup"
+  );
+  assert.equal(underlying.nodeType, "relief_track");
+  assert.equal(underlying.outputStrategy, "process_guidance");
+  assert.equal(followup.nodeType, "supporting_action");
+  assert.equal(followup.supportsTrackId, underlying.trackId);
+  assert.equal(followup.outputStrategy, "custom_pleading");
+  assert.equal(followup.packetIdentity, "identified");
+  assert.equal(followup.destination.kind, "agency");
+  assert.match(followup.destination.name, /clerk of circuit court/i);
+  assert.equal(
+    followup.unresolvedQuestions.filter(
+      (question) => question.impact === "release_blocker"
+    ).length,
+    1
+  );
+  assert.equal(
+    followup.unresolvedQuestions.filter(
+      (question) =>
+        question.impact === "nonblocking_research_note" &&
+        question.affectedElement === "correct_form"
+    ).length,
+    1
+  );
+});
+
+check("the corrected Rhode Island memo and approvals preserve one conditional marijuana mechanism", () => {
+  const memoPath = path.join(
+    process.cwd(),
+    "data/record-clearing/legal-design-intake/RI.memo.json"
+  );
+  const memoBytes = fs.readFileSync(memoPath);
+  assert.equal(
+    crypto.createHash("sha256").update(memoBytes).digest("hex"),
+    "918bdea81d68d75e072b8034dc22ba2cce0d6c86451c9ebdc3607b1225cfd62f"
+  );
+  const memo = JSON.parse(memoBytes);
+  assert.equal(validateLegalDesignMemo(memo).ok, true);
+  assert.equal(memo.tracks.length, 10);
+  assert.ok(memo.tracks.every((track) => track.nodeType === "relief_track"));
+  assert.match(
+    memo._sourceSlotAccounting,
+    /Ten review source slots, each accounted for exactly once, 1:1, with no splits/
+  );
+
+  const strategies = memo.tracks.reduce((counts, track) => {
+    const strategy = track.outputStrategy ?? "deferred";
+    counts[strategy] = (counts[strategy] ?? 0) + 1;
+    return counts;
+  }, {});
+  assert.deepEqual(strategies, {
+    composed: 6,
+    deferred: 1,
+    process_guidance: 2,
+    official_pdf_fill: 1
+  });
+  assert.equal(
+    memo.tracks
+      .filter((track) => track.outputStrategy === "composed")
+      .reduce((count, track) => count + track.units.length, 0),
+    16
+  );
+
+  const marijuanaTracks = memo.tracks.filter(
+    (track) => track.trackId === "ri_marijuana"
+  );
+  assert.equal(marijuanaTracks.length, 1);
+  const marijuana = marijuanaTracks[0];
+  assert.equal(marijuana.compositionMode, "sequential");
+  assert.deepEqual(
+    marijuana.units.map((unit) => ({
+      unitId: unit.unitId,
+      order: unit.order,
+      outputStrategy: unit.outputStrategy
+    })),
+    [
+      {
+        unitId: "ri-marijuana-automatic-verification",
+        order: 1,
+        outputStrategy: "process_guidance"
+      },
+      {
+        unitId: "ri-marijuana-expedited-written-request",
+        order: 2,
+        outputStrategy: "custom_pleading"
+      }
+    ]
+  );
+  assert.match(marijuana.units[0].description, /Nothing is filed at this stage/);
+  assert.match(
+    marijuana.units[1].description,
+    /only where the participant confirms from their BCI record/
+  );
+  assert.equal(
+    marijuana.unresolvedQuestions.filter(
+      (question) => question.impact === "release_blocker"
+    ).length,
+    1
+  );
+
+  const approvals = JSON.parse(
+    fs.readFileSync(
+      path.join(
+        process.cwd(),
+        "data/record-clearing/legal-design-composed-unit-approvals.json"
+      ),
+      "utf8"
+    )
+  );
+  assert.equal(approvals.tracks.length, 32);
+  const riApprovals = approvals.tracks.filter(
+    (track) => track.jurisdiction === "RI"
+  );
+  assert.equal(riApprovals.length, 6);
+  assert.equal(
+    riApprovals.reduce((count, track) => count + track.units.length, 0),
+    16
+  );
+  assert.equal(
+    approvals.tracks.some((track) => track.jurisdiction === "WI"),
+    false
+  );
+  assert.equal(
+    approvals.tracks.some(
+      (track) =>
+        track.jurisdiction === "PA" &&
+        track.trackId === "pa_pardon_expungement"
+    ),
+    false
+  );
 });
 
 console.log("RCAP legal-design intake verifier passed.");

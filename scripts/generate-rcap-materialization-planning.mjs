@@ -18,6 +18,7 @@ import {
   officialPdfProofPathFor,
   verifyOfficialPdfImplementationProof
 } from "./lib/rcap-factory/official-pdf-proof.mjs";
+import { buildFactoryStatus } from "./rcap-factory-status.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const write = process.argv.includes("--write");
@@ -82,6 +83,7 @@ const factoryPlan = buildFactoryPlan({
   rootDir: ROOT,
   ...(!write ? { baseCommit: recordedFactoryBase } : {})
 });
+const factoryStatus = buildFactoryStatus({ rootDir: ROOT });
 const byStatus = tally(factoryPlan.jobs, (job) => job.status);
 const byLane = Object.fromEntries(
   factoryPlan.lanes.map((lane) => [lane.lane, lane.jobIds.length])
@@ -369,12 +371,17 @@ const expectedFactoryQueue = {
 };
 const expectedReadinessMetrics = {
   ...productionPlan.readinessMetrics,
+  definitions: {
+    ...productionPlan.readinessMetrics.definitions,
+    sourcePinned:
+      "Tracks satisfying the repository's source-pinning milestone, counted independently " +
+      "of authority clearance. This count is regenerated from the current track/source " +
+      "relationships and authority blockers; it does not imply implementation, packet " +
+      "availability, promotion, or runtime enablement."
+  },
   current: {
     ...productionPlan.readinessMetrics.current,
-    authorityCleared:
-      factoryPlan.sourceSummary.authority.clearedTracks,
-    authorityBlocked:
-      factoryPlan.sourceSummary.authority.blockedTracks
+    ...factoryStatus.readinessMetrics
   }
 };
 const expectedOfficial = {

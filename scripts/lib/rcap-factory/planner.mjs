@@ -177,28 +177,28 @@ const COMPLETED_SESSION_D_NORMALIZATIONS = Object.freeze([
     completionCommit: "307a05d8279dbe43992b70ff65c4501e319fcb99",
     memoSha256:
       "8d088d48642f09802aa1582be9924642a36026e3721b7aa2de2c33aecac31ae7"
-  }
-]);
-const SESSION_D_NORMALIZATION_CORRECTIONS = Object.freeze([
+  },
   {
     jurisdiction: "WI",
-    workerCommit: "2180f1f5015f324aa92168fe43f13584209efe29",
+    originalWorkerCommit:
+      "2180f1f5015f324aa92168fe43f13584209efe29",
+    correctionCommit:
+      "a592809c0bf0fc5814aa6e2fd7c966f8b1e1a5b5",
+    workerCommit: "a592809c0bf0fc5814aa6e2fd7c966f8b1e1a5b5",
+    completionCommit: "589db2c8c48114934b1ae58c7c8e096906889d35",
     memoSha256:
-      "dcee6fbc60b4be26e3eb02d1c823be4fb481065ff7f0b5fd2016fba31cc2d9fd",
-    trackId: "wi_exp_certificate_of_discharge",
-    correction:
-      "Model the participant-authored certificate follow-up letter as a generatable supporting " +
-      "or correction-correspondence action while preserving administrative issuance and verification guidance."
+      "028ac578608bf73db912e355a18824d2100a2e3e8052d9ef3040d437dbf08c28"
   },
   {
     jurisdiction: "RI",
-    workerCommit: "07c675237a275971555250e4a33c7995d7d372de",
+    originalWorkerCommit:
+      "07c675237a275971555250e4a33c7995d7d372de",
+    correctionCommit:
+      "51d0ec038b9ae1193dc6860d372a8c52b22a9a0b",
+    workerCommit: "51d0ec038b9ae1193dc6860d372a8c52b22a9a0b",
+    completionCommit: "2f091c7e1e60b317a225e6f53f201f79019c05f0",
     memoSha256:
-      "6e5a3c34428cecb8d0c52158a2e82f07dc0d85bbe3ea1c39087ddb50e9dfdb06",
-    trackId: "ri_marijuana",
-    correction:
-      "Preserve automatic-relief verification guidance and separately disposition the " +
-      "participant-signed expedited written request as a supporting or correction action."
+      "918bdea81d68d75e072b8034dc22ba2cce0d6c86451c9ebdc3607b1225cfd62f"
   }
 ]);
 const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
@@ -1113,6 +1113,10 @@ export function buildFactoryPlan(options = {}) {
         `${record.jurisdiction} completed normalization lacks readiness or review materialization.`
       );
     }
+    const workerProvenance = record.correctionCommit
+      ? `Original worker ${record.originalWorkerCommit} was corrected by ` +
+        `${record.correctionCommit}; the correction`
+      : `Worker ${record.workerCommit}`;
     addJob({
       lane: "legal_design_normalization",
       jurisdiction: record.jurisdiction,
@@ -1154,11 +1158,11 @@ export function buildFactoryPlan(options = {}) {
         "node scripts/verify-rcap-legal-design-intake.mjs"
       ],
       executionNote:
-        `Worker ${record.workerCommit} supplied the exact memo blob ` +
+        `${workerProvenance} supplied the exact memo blob ` +
         `${record.memoSha256}; captain-equivalent commit ${record.completionCommit} ` +
         "preserves that blob without stale shared generated outputs.",
       stopCondition:
-        `Terminal completed child: worker ${record.workerCommit} is represented by ` +
+        `Terminal completed child: ${workerProvenance.toLowerCase()} is represented by ` +
         `captain-equivalent commit ${record.completionCommit}. Preserve the exact memo blob and ` +
         "data-derived blockers; do not normalize it again, enable runtime, promote, or deploy."
     });
@@ -1275,10 +1279,6 @@ export function buildFactoryPlan(options = {}) {
   for (const jurisdiction of outstanding) {
     if (jurisdiction === "PA" && pennsylvaniaNormalizationComplete) continue;
     const normalizationReadiness = normalizationReadinessRecords.get(jurisdiction);
-    const correctionRequired =
-      SESSION_D_NORMALIZATION_CORRECTIONS.find(
-        (record) => record.jurisdiction === jurisdiction
-      );
     const readinessStatus =
       normalizationReadiness.readinessState === "normalization_complete"
         ? "completed"
@@ -1326,19 +1326,7 @@ export function buildFactoryPlan(options = {}) {
           "legal_design_normalization"
         )}`,
         normalizationReadiness.reviewMaterialization.verificationCommand
-      ],
-      executionNote: correctionRequired
-        ? `Worker ${correctionRequired.workerCommit} is correction_required; memo ` +
-          `${correctionRequired.memoSha256} was not integrated. ` +
-          `${correctionRequired.trackId}: ${correctionRequired.correction}`
-        : undefined,
-      stopCondition: correctionRequired
-        ? `Correct only ${correctionRequired.trackId}. ${correctionRequired.correction} ` +
-          "Preserve all other exact worker memo content and source accounting. Do not integrate " +
-          "the rejected memo unchanged, normalize another jurisdiction, enable runtime, promote, " +
-          "or deploy. " +
-          TERMINAL_INSTRUCTION
-        : undefined
+      ]
     });
   }
 
