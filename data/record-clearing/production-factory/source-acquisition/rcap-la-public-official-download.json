@@ -1,0 +1,537 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-la-public-official-download",
+  "parentJobId": "AUTH-05-acquisition-campaign-tier-2",
+  "jurisdiction": "LA",
+  "lane": "source_acquisition",
+  "strategyFamily": "public_official_download",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "c7d961084ea8830dc7062db3591c5fe0490ba33c",
+  "generatedOn": "2026-08-07",
+  "acquisitionIds": [
+    "acquire:LA:la-ccrp-art-993",
+    "acquire:LA:la-ccrp-art-995",
+    "acquire:LA:la-ccrp-art-998"
+  ],
+  "downloadedSourceCount": 3,
+  "generatedFrom": [
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/production-factory/official-pdf-families/LA/source-requirements.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/acquisition-campaign.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/unresolved.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-05-acquisition-campaign-tier-2.json"
+  ],
+  "method": {
+    "description": "Retrieved the three assigned official sources directly from the issuing authority, the Louisiana State Legislature, at the exact article URLs recorded in the acquisition intelligence, plus the controlling article that governs which forms may be used. Extracted each article's form text, hashed it, and read the Acts credit line off the issuer's own page. Compared the result against the identity Edition 1.2 pins for each document.",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "authenticationUsed": false,
+    "sourcesRetrieved": 3,
+    "controllingAuthorityPagesRetrieved": 1,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "binaryDeposition": "The retrieved article pages were written to temporary storage outside the repository for verification and are NOT committed. No file entered version control, no materialization destination was written, and no source-materialization receipt was created. This job's ownedPaths are limited to this single production-factory JSON file.",
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "memoAltered": false,
+    "thirdPartySubstituteUsed": false,
+    "retrievalAgent": "curl over HTTPS, Chrome 126 user-agent string, redirects followed, 45s timeout",
+    "retrievalDate": "2026-08-07",
+    "byteVerificationMethod": "fresh_https_get_of_issuer_page_then_sha256_of_page_and_of_extracted_article_text",
+    "extractionProcedure": "For arts. 986, 993 and 998 the article body was taken as the balanced <div id=\"WPMainDoc\"> subtree of the response. For art. 995 the body is not wrapped in that div and was taken from the ctl00_PageBody_LabelDocument span. In both cases <br> and </p> were converted to newlines, remaining tags stripped, HTML entities unescaped, runs of spaces and non-breaking spaces collapsed to one space, and runs of three or more newlines collapsed to two, then leading and trailing whitespace trimmed.",
+    "digestCaveat": "retrievedPageSha256 is NOT a stable identity. legis.la.gov is an ASP.NET WebForms application and every response carries a fresh __VIEWSTATE, so the whole-page digest changes between requests of the same unchanged article. It is recorded as a provenance fact about this single retrieval. normalizedTextSha256 is stable across retrievals for unchanged text, but it is a digest of an extraction performed by this job under the procedure above; it is a working provenance digest, not a pinned authority identity, and it must not be adopted as an edition identity without an independent extraction."
+  },
+  "controllingAuthority": {
+    "article": "La. C.Cr.P. art. 986 — Forms for the expungement of records",
+    "url": "https://www.legis.la.gov/legis/Law.aspx?d=919679",
+    "retrievalDate": "2026-08-07",
+    "httpStatus": 200,
+    "retrievedPageBytes": 25744,
+    "retrievedPageSha256": "5a203ef4be740a655e3d60f7e1a44b1f06b30928f70d5421d35fa2f4539a5410",
+    "normalizedTextSha256": "3c60f8e2e873e5c366ffd811ef5156bf3c84f2684c9deaea7bac05d53a8897d6",
+    "actsCreditLine": "Acts 2014, No. 145, §1; Acts 2015, No. 200, §1; Acts 2023, No. 342, §1.",
+    "operativeTextVerbatim": {
+      "A": "Only the forms provided for in Articles 987, 988, 989, 990, 991, 992, 993, 994, 995, and 998 shall be used for filing motions to expunge a record of an arrest which did not result in a conviction, for the expungement of a record of arrest and conviction of a misdemeanor or felony offense, or for an interim motion to expunge a felony offense which resulted in a misdemeanor conviction.",
+      "B": "Supplemental forms may be added to any petition as long as they adhere to the form provided for in Article 993 of this Code.",
+      "C": "The clerk of court for any court in the state of Louisiana having criminal jurisdiction may amend any of the forms provided for in Articles 987, 988, 989, 990, 991, 992, 993, 994, 995, and 998 to provide the appropriate name of the court ordering an expungement of records."
+    },
+    "whatThisEstablishes": [
+      "There is no issuing forms office in Louisiana for this family. The statutory text IS the form, and art. 986(A) makes it mandatory and exclusive.",
+      "Scope is statewide and the only permitted local variation is the court's name, under art. 986(C). No parish, city or district may substitute its own version.",
+      "Art. 993 governs supplemental sheets: a supplemental form is permitted only if it adheres to the art. 993 form.",
+      "Art. 998 is inside the exclusive list, added when Acts 2023 No. 342 amended art. 986 and enacted art. 998 in the same act."
+    ]
+  },
+  "acquisitions": [
+    {
+      "acquisitionId": "acquire:LA:la-ccrp-art-993",
+      "identityKey": "LA:LA-CCRP-ART-993:FORM:EN",
+      "officialDocumentId": "LA-CCRP-ART-993",
+      "statutoryHeading": "Art. 993. Supplemental forms to be used",
+      "formFaceCaption": "SUPPLEMENTAL SHEET",
+      "officialTitleAsRecorded": "Article 993 - Supplemental Sheet",
+      "titleCorrection": {
+        "required": true,
+        "recorded": "Article 993 - Supplemental Sheet",
+        "issuerHeading": "Art. 993. Supplemental forms to be used",
+        "note": "Both strings are real. 'Supplemental Sheet' is the caption printed on the face of the form inside the article; 'Supplemental forms to be used' is the statutory heading of the article itself. The edition should carry the statutory heading as the official title and the caption as the form-face caption, exactly as it does for the six sibling articles."
+      },
+      "issuer": "Louisiana State Legislature",
+      "issuingOffice": "Louisiana Laws database, legis.la.gov. There is no issuing forms office; art. 986 makes the statutory text itself the mandatory form.",
+      "legalRole": "continuation — supplemental sheet attached to the motion for expungement",
+      "participantFacing": true,
+      "signatory": "none on the sheet itself",
+      "signatoryNote": "The supplemental sheet carries no signature block. It is filed as an attachment to the motion, which the mover or their counsel signs.",
+      "mandatoryOptionalConditional": "conditional_but_form-mandatory_when_used",
+      "mandatoryBasis": "Art. 986(B): a supplemental form may be added to any petition only if it adheres to the art. 993 form. The sheet is used when the charges do not fit the motion; when it is used, its form is prescribed.",
+      "currentRevision": "Acts 2014, No. 145, §1; Acts 2018, No. 711, §1; Acts 2020, No. 73, §1.",
+      "currentRevisionNormalized": "ACTS-2020-73",
+      "currentRevisionEvidence": "Acts credit line read first-hand off the foot of the article on the Legislature's own page on 2026-08-07, byte-for-byte identical to the credit line recorded from the 2026-08-03 read. Two independent retrievals four days apart agree.",
+      "priorRevision": "Acts 2018, No. 711, §1 was the preceding amendment; Acts 2014, No. 145, §1 enacted the article.",
+      "supersession": "none — no amending act later than Acts 2020 No. 73 appears in the credit line",
+      "scope": "statewide",
+      "scopeBasis": "Art. 986(A) and (C). Mandatory in every Louisiana court with criminal jurisdiction; the only permitted amendment is the court's name.",
+      "officialLandingPage": "https://www.legis.la.gov/legis/Law.aspx?d=919679",
+      "officialSourceUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919688",
+      "officialPrintableUrl": "https://www.legis.la.gov/legis/LawPrint.aspx?d=919688",
+      "retrieved": true,
+      "retrievalDate": "2026-08-07",
+      "httpStatus": 200,
+      "mimeType": "text/html; charset=utf-8",
+      "retrievedPageBytes": 273699,
+      "retrievedPageSha256": "ce3306535f8890a3100d27e3f58d7b23bccc74fe1c2937dff7dc1197e35e2811",
+      "normalizedTextChars": 7482,
+      "normalizedTextSha256": "4b8d8b3cd32cf9692e5006162939145bc6de7c3a310cc9d6bbccab342577d6f0",
+      "pages": null,
+      "encryption": null,
+      "xfa": null,
+      "logicalFields": null,
+      "terminalFields": null,
+      "widgets": null,
+      "structuralClass": "statutory_html_text_no_issuer_binary",
+      "structureNote": "The issuer publishes no PDF, DOCX or fillable artifact for this article. Both the article page and the Legislature's own 'Printable Version' at LawPrint.aspx return Content-Type text/html. There is no AcroForm, no XFA, no page count and no field inventory to measure, because there is no binary to measure them on.",
+      "formStructureObserved": {
+        "sheetCount": 1,
+        "sections": [
+          "____ Yes ____ No  ARRESTS THAT DID NOT RESULT IN CONVICTION",
+          "____ Yes ____ No  MISDEMEANOR CONVICTIONS",
+          "____ Yes ____ No  FELONY CONVICTIONS"
+        ],
+        "finding": "Art. 993 is ONE supplemental sheet carrying exactly three Yes/No sections, confirmed first-hand: the string 'Yes ____ No' occurs exactly three times in the article text. It is not three separate forms.",
+        "whyItMatters": "The Louisiana Supreme Court's city and parish packet splits the sheet into three fillable variants. That is a rendering convention of a non-mandatory packet, not the statute. A field map keyed on three documents where the statute has one will misrepresent the filing."
+      },
+      "affectedTracks": [
+        "la-976-arrest-no-conviction",
+        "la-977-misdemeanor-conviction",
+        "la-978-felony-conviction",
+        "la-985-expungement-by-redaction"
+      ],
+      "affectedComponents": [
+        "la-976-arrest-no-conviction-continuation-5",
+        "la-977-misdemeanor-conviction-continuation-5",
+        "la-978-felony-conviction-continuation-5",
+        "la-985-expungement-by-redaction-continuation-5"
+      ],
+      "editionPinComparison": {
+        "editionWorkflowKey": "LA:LA-CCRP-ART-993:FORM:EN",
+        "editionAssetClass": "source_gated",
+        "editionRevision": "SOURCE-2026-07-31",
+        "editionCanonicalPath": "STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-993__article-993-supplemental-sheet__SOURCE-2026-07-31__EN.pdf",
+        "editionExpectedSha256": "0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
+        "editionExpectedBytes": 81977,
+        "editionExpectedMediaType": "application/pdf",
+        "editionExpectedTechnicalClass": "flat_pdf",
+        "editionExpectedFieldCount": 0,
+        "comparisonResult": "revision_label_is_not_an_issuer_revision",
+        "comparisonDetail": "The pinned bytes could not be compared: the held copy lives under private/, which is untracked and absent from this worktree, and this job is not authorized to materialize it. What can be established is that the pinned revision label is wrong in kind. SOURCE-2026-07-31 is a capture date. The issuer has no revision numbering and no form-face date; its only versioning mechanism is the Acts credit line, which is what the six sibling LA articles are pinned on."
+      },
+      "terminalDisposition": "identity_resolved_authority_edition_amendment_required"
+    },
+    {
+      "acquisitionId": "acquire:LA:la-ccrp-art-995",
+      "identityKey": "LA:LA-CCRP-ART-995:ORDER:EN",
+      "officialDocumentId": "LA-CCRP-ART-995",
+      "statutoryHeading": "Art. 995. Order of interim expungement form to be used",
+      "formFaceCaption": "ORDER OF EXPUNGEMENT OF INTERIM ARREST RECORD",
+      "officialTitleAsRecorded": "Article 995 - Order of Expungement of Interim Arrest Record",
+      "titleCorrection": {
+        "required": true,
+        "recorded": "Article 995 - Order of Expungement of Interim Arrest Record",
+        "issuerHeading": "Art. 995. Order of interim expungement form to be used",
+        "note": "The recorded title is the caption printed on the face of the form. Contrary to the acquisition-intelligence note, that caption is NOT the Louisiana Supreme Court packet's invention: the string 'ORDER OF EXPUNGEMENT OF INTERIM ARREST RECORD' appears verbatim inside the statutory form at art. 995, read first-hand on 2026-08-07. Both strings are authentic; they are the article heading and the form caption respectively, and the edition should carry both in their proper fields."
+      },
+      "issuer": "Louisiana State Legislature",
+      "issuingOffice": "Louisiana Laws database, legis.la.gov. There is no issuing forms office; art. 986 makes the statutory text itself the mandatory form.",
+      "legalRole": "proposed_order — the order the court signs granting or denying an interim expungement",
+      "participantFacing": true,
+      "participantFacingQualifier": "The mover submits it as a proposed order. The mover does not sign it.",
+      "signatory": "JUDGE",
+      "signatoryBasis": "The form ends 'THUS ORDERED AND SIGNED this ____ day of _________________________, 20 ______ at _________________________, Louisiana.' above a signature rule captioned 'JUDGE'.",
+      "judgeOnlyFieldsNote": "The disposition fields — the granted/denied election, the reasons-for-denial checkboxes, the date, place and judge's signature — are court-completed and must be left blank by any generator.",
+      "mandatoryOptionalConditional": "mandatory",
+      "mandatoryBasis": "Art. 986(A): only the art. 995 form shall be used for this order.",
+      "currentRevision": "Acts 2014, No. 145, §1.",
+      "currentRevisionNormalized": "ACTS-2014-145",
+      "currentRevisionEvidence": "Acts credit line read first-hand off the foot of the article on 2026-08-07, identical to the credit line recorded from the 2026-08-03 read.",
+      "priorRevision": null,
+      "priorRevisionNote": "None. Acts 2014 No. 145 §1 enacted the article and no later act appears in the credit line.",
+      "supersession": "none",
+      "scope": "statewide",
+      "scopeBasis": "Art. 986(A) and (C).",
+      "officialLandingPage": "https://www.legis.la.gov/legis/Law.aspx?d=919679",
+      "officialSourceUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919691",
+      "officialPrintableUrl": "https://www.legis.la.gov/legis/LawPrint.aspx?d=919691",
+      "retrieved": true,
+      "retrievalDate": "2026-08-07",
+      "httpStatus": 200,
+      "mimeType": "text/html; charset=utf-8",
+      "retrievedPageBytes": 33620,
+      "retrievedPageSha256": "89ecb2f48e176ceb4d18aa6c571616d1b430932a01ebc51add386e5370f91424",
+      "normalizedTextChars": 1678,
+      "normalizedTextSha256": "9d134a912c29f6595caa62c6c2cbd991b354e1869cc09cd5d54ef09ad00fa66e",
+      "pages": null,
+      "encryption": null,
+      "xfa": null,
+      "logicalFields": null,
+      "terminalFields": null,
+      "widgets": null,
+      "structuralClass": "statutory_html_text_no_issuer_binary",
+      "structureNote": "As for art. 993: the issuer publishes HTML only, including from its own Printable Version endpoint.",
+      "affectedTracks": [
+        "la-985-1-interim-expungement"
+      ],
+      "affectedComponents": [
+        "la-985-1-interim-expungement-proposed-order-2"
+      ],
+      "editionPinComparison": {
+        "editionWorkflowKey": "LA:LA-CCRP-ART-995:ORDER:EN",
+        "editionAssetClass": "source_gated",
+        "editionRevision": "SOURCE-2026-07-31",
+        "editionCanonicalPath": "STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-995__article-995-order-of-expungement-of-interim-arrest-record__SOURCE-2026-07-31__EN.pdf",
+        "editionExpectedSha256": "b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39",
+        "editionExpectedBytes": 81451,
+        "editionExpectedMediaType": "application/pdf",
+        "editionExpectedTechnicalClass": "flat_pdf",
+        "editionExpectedFieldCount": 0,
+        "comparisonResult": "revision_label_is_not_an_issuer_revision",
+        "comparisonDetail": "Same finding as art. 993. Bytes not compared; the held copy is under private/ and absent."
+      },
+      "terminalDisposition": "identity_resolved_authority_edition_amendment_required"
+    },
+    {
+      "acquisitionId": "acquire:LA:la-ccrp-art-998",
+      "identityKey": "LA:LA-CCRP-ART-998:MOTION:EN",
+      "officialDocumentId": "LA-CCRP-ART-998",
+      "statutoryHeading": "Art. 998. Motion for expungement form to be used for certain misdemeanor convictions",
+      "formFaceCaption": "MOTION FOR EXPUNGEMENT FOR MISDEMEANOR CONVICTION FOR A FIRST OFFENSE POSSESSION OF MARIJUANA",
+      "officialTitleAsRecorded": "Article 998 - Motion for Expungement for Misdemeanor Conviction for a First-Offense Possession of Marijuana",
+      "titleCorrection": {
+        "required": true,
+        "recorded": "Article 998 - Motion for Expungement for Misdemeanor Conviction for a First-Offense Possession of Marijuana",
+        "issuerHeading": "Art. 998. Motion for expungement form to be used for certain misdemeanor convictions",
+        "note": "The recorded title is the form-face caption, and it also introduces a hyphen the statute does not print: the form face reads 'FIRST OFFENSE POSSESSION OF MARIJUANA', not 'First-Offense'. Minor, but it is the kind of drift that defeats an exact-string match later."
+      },
+      "issuer": "Louisiana State Legislature",
+      "issuingOffice": "Louisiana Laws database, legis.la.gov. There is no issuing forms office; art. 986 makes the statutory text itself the mandatory form.",
+      "legalRole": "primary_filing — the mover's motion for expungement",
+      "participantFacing": true,
+      "signatory": "participant, or counsel where represented",
+      "signatoryBasis": "The form provides an attorney signature block and, under the heading 'If not represented by counsel:', a block captioned 'Signature of Mover/Defendant' with name, address, city/state/ZIP and telephone lines.",
+      "mandatoryOptionalConditional": "mandatory",
+      "mandatoryBasis": "Art. 986(A), as amended by Acts 2023 No. 342 to add art. 998 to the exclusive list.",
+      "currentRevision": "Acts 2023, No. 342, §1.",
+      "currentRevisionNormalized": "ACTS-2023-342",
+      "currentRevisionEvidence": "Acts credit line read first-hand off the foot of the article on 2026-08-07, identical to the credit line recorded from the 2026-08-03 read. Corroborated by art. 986's own credit line, which carries the same Acts 2023 No. 342 as its most recent amendment — the act that both created art. 998 and added it to the permitted-forms list.",
+      "priorRevision": null,
+      "priorRevisionNote": "None. The article was enacted by Acts 2023 No. 342 §1 and has not been amended.",
+      "supersession": "none",
+      "scope": "statewide",
+      "scopeBasis": "Art. 986(A) and (C).",
+      "officialLandingPage": "https://www.legis.la.gov/legis/Law.aspx?d=919679",
+      "officialSourceUrl": "https://www.legis.la.gov/legis/Law.aspx?d=1335832",
+      "officialPrintableUrl": "https://www.legis.la.gov/legis/LawPrint.aspx?d=1335832",
+      "retrieved": true,
+      "retrievalDate": "2026-08-07",
+      "httpStatus": 200,
+      "mimeType": "text/html; charset=utf-8",
+      "retrievedPageBytes": 68103,
+      "retrievedPageSha256": "ad4e427c0d1ccde225b31e7364c43dec0254b5cd4c770a0ddea55237bd3475ec",
+      "normalizedTextChars": 3325,
+      "normalizedTextSha256": "0bf3b2169f662ff0f1b6b4a42278361d6b157112414287305513952ad1c8b30f",
+      "pages": null,
+      "encryption": null,
+      "xfa": null,
+      "logicalFields": null,
+      "terminalFields": null,
+      "widgets": null,
+      "structuralClass": "statutory_html_text_no_issuer_binary",
+      "structureNote": "As for arts. 993 and 995. Additionally, art. 998 is absent entirely from the Louisiana Supreme Court city and parish packet, so no fillable version of it exists anywhere official. The statute is the only source.",
+      "affectedTracks": [
+        "la-977d-marijuana-first-offense"
+      ],
+      "affectedComponents": [
+        "la-977d-marijuana-first-offense-primary-filing-1"
+      ],
+      "editionPinComparison": {
+        "editionWorkflowKey": "LA:LA-CCRP-ART-998:MOTION:EN",
+        "editionAssetClass": "source_gated",
+        "editionRevision": "SOURCE-2026-07-31",
+        "editionCanonicalPath": "STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-998__article-998-motion-for-expungement-for-misdemeanor-conviction-for-a-first-offense-possessi__SOURCE-2026-07-31__EN.pdf",
+        "editionExpectedSha256": "8625ccd4043e2045832f647331984372390c74d1e5e10166e40b305c1d445fb4",
+        "editionExpectedBytes": 92697,
+        "editionExpectedMediaType": "application/pdf",
+        "editionExpectedTechnicalClass": "flat_pdf",
+        "editionExpectedFieldCount": 0,
+        "comparisonResult": "revision_label_is_not_an_issuer_revision",
+        "comparisonDetail": "Same finding as arts. 993 and 995. Bytes not compared; the held copy is under private/ and absent."
+      },
+      "terminalDisposition": "identity_resolved_authority_edition_amendment_required"
+    }
+  ],
+  "revisionLabelFinding": {
+    "headline": "SOURCE-2026-07-31 is a capture date, not an issuer revision. The currentness question as posed cannot be answered because it asks about a value the issuer never published.",
+    "recordedQuestion": "The source-acquisition queue asks, on all six affected rows, 'Confirm SOURCE-2026-07-31 is still the issuer's current revision.'",
+    "why": "The Louisiana State Legislature does not version these articles by revision number or form-face date. Their only versioning mechanism is the Acts credit line printed at the foot of the article. SOURCE-2026-07-31 records when a copy was taken, which says nothing about what the issuer published.",
+    "correctedRevisionIdentity": {
+      "LA-CCRP-ART-993": "ACTS-2020-73",
+      "LA-CCRP-ART-995": "ACTS-2014-145",
+      "LA-CCRP-ART-998": "ACTS-2023-342"
+    },
+    "corroboratedBySiblingConvention": "Edition 1.2 already pins the six sibling articles in this family on exactly this basis: art. 987 ACTS-2014-145, art. 988 ACTS-2015-200, art. 989 ACTS-2020-73, art. 991 ACTS-2014-145, art. 992 ACTS-2024-580, art. 994 ACTS-2018-711. Only these three carry a capture-date label, and only these three are classed source_gated rather than packet_form.",
+    "currentnessAnswered": true,
+    "currentnessAnswer": "As of 2026-08-07 the Legislature publishes each of the three articles with the Acts credit line recorded above, and each credit line is byte-identical to the one read on 2026-08-03. No later amending act appears for any of them. The text is current.",
+    "whatIsNotEstablished": "That the held source-gated PDF's bytes reproduce that current text. The held copies are under private/, absent from this worktree, and this job is not authorized to materialize them. Text currentness is established; held-copy fidelity is not."
+  },
+  "assetClassFinding": {
+    "observation": "Six articles in this family are retained by Edition 1.2 as HTML packet_form assets under STATES/LA/02_PACKET_FORMS/. The three assigned here are retained as source_gated flat PDFs under STATES/LA/05_SOURCE_GATED/, at fieldCount 0.",
+    "issuerFact": "The issuer publishes no PDF for any article in this family. Confirmed first-hand on 2026-08-07: Law.aspx returns text/html for all four articles retrieved, and the Legislature's own Printable Version endpoint LawPrint.aspx also returns text/html for all three assigned articles.",
+    "consequence": "The pinned PDFs cannot be issuer-published binaries. Whatever their provenance, they are a rendering of the issuer's HTML, not an artifact the Legislature distributes.",
+    "resolvedHere": false,
+    "whyNotResolved": "Whether Edition 1.3 should realign these three onto the sibling HTML packet_form convention, or keep a rendered PDF as a source_gated asset, is an edition-composition decision. This job records the inconsistency and its cause; it does not decide it and cannot, since it may not publish or amend an edition.",
+    "handoffTo": "rcap-nationwide-master-library-edition-1-3-publication"
+  },
+  "implementationLaneObservation": {
+    "observation": "rcap-la-flat-pdf-overlay is a flat_pdf_overlay job whose six tracks depend on this family. The overlay lane assignment follows from the three pinned flat PDFs. The other six articles the same tracks depend on are HTML.",
+    "question": "Whether an overlay renderer is the right engine for a family whose issuer publishes only statutory text.",
+    "resolvedHere": false,
+    "why": "Form identity and implementation lane are different questions and this job owns only the first. Recording that the issuer publishes no binary is an identity fact; choosing a renderer is not this job's to make and is not made.",
+    "doNotInfer": "Nothing here reassigns rcap-la-flat-pdf-overlay to another lane or authorizes a renderer change."
+  },
+  "doNotSubstitute": [
+    {
+      "source": "Louisiana Supreme Court, Uniform Forms for City & Parish Courts",
+      "url": "https://www.lasc.org/rules/City_Parish/Uniform_Forms_for_City_Parish_Courts.pdf",
+      "observedOn": "2026-08-07",
+      "httpStatus": 200,
+      "contentType": "application/pdf",
+      "contentLength": 902175,
+      "downloaded": false,
+      "negativeFinding": "This packet contains fillable supplemental sheets and an interim-expungement order and is an official Louisiana Supreme Court publication, so it is tempting. It must not be substituted for the statutory forms. It is expressly non-mandatory and limited to city and parish courts, while art. 986(A) makes the statutory forms exclusive statewide and art. 986(C) permits only the court's name to be amended. It also splits the single art. 993 supplemental sheet into three fillable variants and omits art. 998 entirely. Availability in PDF is not authority."
+    },
+    {
+      "documentPair": "art. 989 vs art. 998",
+      "negativeFinding": "Both are 'Motion for Expungement' forms and both are primary filings. Art. 989 is the general motion used by la-976, la-977, la-978 and la-985-expungement-by-redaction; art. 998 is the narrow first-offense-marijuana misdemeanor motion used only by la-977d. They must not be interchanged."
+    },
+    {
+      "documentPair": "art. 991 / art. 992 vs art. 995",
+      "negativeFinding": "All three are orders. Arts. 991 and 992 are the order forms for the general expungement tracks; art. 995 is the order of expungement of an interim arrest record and belongs only to la-985-1-interim-expungement. Role identity is not enough — the order must match its motion."
+    },
+    {
+      "documentPair": "art. 994 vs art. 995",
+      "negativeFinding": "Adjacent numbers in the same interim-expungement track. Art. 994 is the motion for interim expungement (primary_filing); art. 995 is its order (proposed_order). Motion and order must never be swapped."
+    },
+    {
+      "documentId": "art. 990",
+      "negativeFinding": "Art. 990 is inside the art. 986(A) exclusive list but is bound to no component in any assigned track. Its presence in the statutory list is not a reason to bind it."
+    },
+    {
+      "sourceClass": "commercial and third-party form vendors",
+      "negativeFinding": "Louisiana expungement forms are republished as fillable derivatives by commercial vendors and parish clerk sites. None is a controlling source. Art. 986(A) admits only the statutory forms, and no derivative may establish text, revision or scope."
+    },
+    {
+      "sourceClass": "whole-page digests of legis.la.gov",
+      "negativeFinding": "retrievedPageSha256 must not be pinned as an identity. The __VIEWSTATE token changes on every request, so a second retrieval of unchanged text yields a different page digest. Treating a page digest as an identity would manufacture a false supersession on the next check."
+    }
+  ],
+  "license": {
+    "status": "no_restriction_identified_permission_not_established",
+    "restrictionFound": false,
+    "restrictionFoundNote": "These are the enacted text of the Louisiana Code of Criminal Procedure, published by the Legislature on its own Louisiana Laws database without authentication or fee. No redistribution or commercial-use restriction was located on the article pages or the database.",
+    "permissionEstablished": false,
+    "permissionEstablishedNote": "Absence of a located restriction is not permission, and free public availability is expressly not permission. The queue carries the commercial-use question as unresolved for all six affected rows and this job does not close it.",
+    "commercialExclusionApplied": false,
+    "reopenCondition": "Closed by counsel confirmation on the reuse of Louisiana enacted statutory text in a paid packet, or by a published Legislature reuse policy. Publisher contact was not assigned to this job and none was made.",
+    "publisherContacted": false
+  },
+  "implementationFamilyRelationship": {
+    "familyId": "rcap-la-official-pdf-family",
+    "dependentFactoryJobs": [
+      {
+        "jobId": "rcap-la-flat-pdf-overlay",
+        "lane": "flat_pdf_overlay",
+        "trackIds": [
+          "la-976-arrest-no-conviction",
+          "la-977-misdemeanor-conviction",
+          "la-977d-marijuana-first-offense",
+          "la-978-felony-conviction",
+          "la-985-1-interim-expungement",
+          "la-985-expungement-by-redaction"
+        ],
+        "effectOfThisJob": "Satisfies this job's dependency edge only."
+      }
+    ],
+    "affectedTracks": [
+      "la-976-arrest-no-conviction",
+      "la-977-misdemeanor-conviction",
+      "la-977d-marijuana-first-offense",
+      "la-978-felony-conviction",
+      "la-985-1-interim-expungement",
+      "la-985-expungement-by-redaction"
+    ],
+    "affectedComponents": [
+      "la-976-arrest-no-conviction-continuation-5",
+      "la-977-misdemeanor-conviction-continuation-5",
+      "la-977d-marijuana-first-offense-primary-filing-1",
+      "la-978-felony-conviction-continuation-5",
+      "la-985-1-interim-expungement-proposed-order-2",
+      "la-985-expungement-by-redaction-continuation-5"
+    ],
+    "familyReadinessStatement": "The LA family is not ready and this job does not assert that it is. The family contract records 9 documents, 3 exact identity pins and 6 unresolved identities, with aggregateState=authority_manifestation_and_captain_projection_required, workerReady=false and captainProjectedSources=0. The six sibling articles this family also needs — 987, 988, 989, 991, 992 and 994 — all read identityBindingStatus=registry_measurement_not_uniquely_selectable and are outside this assignment. No LA source-materialization receipt exists and no LA document is present in the materialized source root. Every affected track stays fail-closed."
+  },
+  "terminalDisposition": "identity_resolved_authority_edition_amendment_required",
+  "terminalDispositionDetail": {
+    "why": "The narrowest accurate disposition for all three. Identity is fully resolved: exact issuer, statutory heading, form-face caption, legal role, signatory, mandatory status, statewide scope and current text, all read first-hand from the issuing authority today and agreeing with an independent read four days earlier. It is not exact_identity_confirmed_current_binary_retrievable, because the issuer publishes no binary at all. It is not superseded_by_current_revision — nothing is superseded. It is not deliberately_excluded_commercial_license — no restriction exists. What remains is that the adopted edition pins these three on a capture date rather than on the issuer's Acts credit line, and classes them differently from their six siblings; correcting that is an authority-edition amendment.",
+    "perAcquisition": {
+      "acquire:LA:la-ccrp-art-993": "identity_resolved_authority_edition_amendment_required",
+      "acquire:LA:la-ccrp-art-995": "identity_resolved_authority_edition_amendment_required",
+      "acquire:LA:la-ccrp-art-998": "identity_resolved_authority_edition_amendment_required"
+    }
+  },
+  "residualBlockers": [
+    {
+      "id": "la-held-copy-fidelity",
+      "question": "Do the three pinned source_gated PDFs reproduce the current statutory text?",
+      "status": "open",
+      "owner": "Session A captain (materialization after integration)",
+      "why": "The held copies are under private/, untracked and absent from this worktree, and this job may not materialize a source. Text currentness is established; held-copy fidelity is not.",
+      "reopenCondition": "Closed when the pinned bytes are materialized and their rendered text is compared against the current article text at the URLs recorded here."
+    },
+    {
+      "id": "la-edition-revision-and-asset-class",
+      "question": "Realigning the three articles' revision labels onto their Acts credit lines, and reconciling source_gated PDF against the sibling packet_form HTML convention.",
+      "status": "handed_off",
+      "owner": "rcap-nationwide-master-library-edition-1-3-publication",
+      "why": "Edition 1.2 is immutable and this job may not publish or amend an edition."
+    },
+    {
+      "id": "la-six-sibling-identities",
+      "question": "Arts. 987, 988, 989, 991, 992 and 994 all read identityBindingStatus=registry_measurement_not_uniquely_selectable.",
+      "status": "open_and_outside_this_job",
+      "owner": "LA family owner",
+      "why": "Outside this assignment. Noted because the same six tracks depend on them, so resolving the three assigned articles does not clear any track on its own."
+    },
+    {
+      "id": "la-renderer-lane",
+      "question": "Whether a flat-PDF overlay is the right engine for a family the issuer publishes only as statutory text.",
+      "status": "open",
+      "owner": "implementation lane",
+      "why": "A renderer decision, not an authority decision. Recorded, not made."
+    },
+    {
+      "id": "la-commercial-use",
+      "question": "Whether LegalEase may reproduce Louisiana enacted statutory forms in a paid packet.",
+      "status": "unresolved",
+      "owner": "counsel / licence owner",
+      "why": "No restriction located, which is not permission. Carried on all six queue rows and not assigned to this job."
+    },
+    {
+      "id": "la-993-single-sheet-field-map",
+      "question": "Any field or ownership map for art. 993 must key on one sheet with three Yes/No sections.",
+      "status": "advisory",
+      "owner": "implementation lane",
+      "why": "The Louisiana Supreme Court packet's three-variant split is a rendering convention of a non-mandatory packet and will produce a wrong denominator if used as the model."
+    }
+  ],
+  "edition13Impact": {
+    "publicationJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+    "dependencySatisfied": "rcap-la-public-official-download",
+    "editionAmendmentRequired": true,
+    "requiresNewBytes": false,
+    "requiresNewBytesConditional": true,
+    "requiresNewBytesNote": "No bytes are supplied by this job and none are required for the revision and metadata corrections below. New bytes become necessary only if Edition 1.3 realigns these three articles onto the sibling HTML packet_form convention, which is a composition decision this job does not make. The article text retrieved here was written to temporary storage for verification only and is expressly not offered for adoption.",
+    "requiresMetadataCorrection": true,
+    "requiresRoleCorrection": false,
+    "requiresRoleCorrectionNote": "The roles Edition 1.2 assigns are correct and confirmed first-hand: art. 993 FORM/continuation, art. 995 ORDER/proposed_order, art. 998 MOTION/primary_filing.",
+    "requiresScopeCorrection": false,
+    "requiresScopeCorrectionNote": "Scope is statewide and the edition does not record it otherwise.",
+    "requiresRevisionCorrection": true,
+    "requiresLicenseDisposition": false,
+    "amendmentHandoffItems": [
+      {
+        "item": "Revision identity correction, LA-CCRP-ART-993",
+        "manifestRow": "LA:LA-CCRP-ART-993:FORM:EN",
+        "from": "SOURCE-2026-07-31",
+        "to": "ACTS-2020-73",
+        "kind": "revision_correction",
+        "evidence": "Acts 2014, No. 145, §1; Acts 2018, No. 711, §1; Acts 2020, No. 73, §1 — read first-hand from legis.la.gov on 2026-08-07."
+      },
+      {
+        "item": "Revision identity correction, LA-CCRP-ART-995",
+        "manifestRow": "LA:LA-CCRP-ART-995:ORDER:EN",
+        "from": "SOURCE-2026-07-31",
+        "to": "ACTS-2014-145",
+        "kind": "revision_correction",
+        "evidence": "Acts 2014, No. 145, §1 — read first-hand from legis.la.gov on 2026-08-07."
+      },
+      {
+        "item": "Revision identity correction, LA-CCRP-ART-998",
+        "manifestRow": "LA:LA-CCRP-ART-998:MOTION:EN",
+        "from": "SOURCE-2026-07-31",
+        "to": "ACTS-2023-342",
+        "kind": "revision_correction",
+        "evidence": "Acts 2023, No. 342, §1 — read first-hand from legis.la.gov on 2026-08-07, corroborated by the same act appearing as the most recent amendment in art. 986's credit line."
+      },
+      {
+        "item": "Official title fields for all three articles",
+        "manifestRows": [
+          "LA:LA-CCRP-ART-993:FORM:EN",
+          "LA:LA-CCRP-ART-995:ORDER:EN",
+          "LA:LA-CCRP-ART-998:MOTION:EN"
+        ],
+        "kind": "metadata_correction",
+        "detail": "Each row currently carries the form-face caption in the officialTitle field. Carry the statutory heading as officialTitle and the caption as the form-face caption, matching the six sibling articles. Also drop the non-statutory hyphen in 'First-Offense' for art. 998.",
+        "evidence": "Statutory headings and form-face captions recorded per acquisition above."
+      },
+      {
+        "item": "Asset-class inconsistency in the LA statutory form family",
+        "manifestRows": [
+          "LA:LA-CCRP-ART-993:FORM:EN",
+          "LA:LA-CCRP-ART-995:ORDER:EN",
+          "LA:LA-CCRP-ART-998:MOTION:EN"
+        ],
+        "kind": "metadata_correction",
+        "detail": "These three are the only members of a nine-article family classed source_gated with a .pdf canonical path; the other six are packet_form with .html. The issuer publishes no PDF for any of them. Recorded for the edition owner to reconcile; not decided here.",
+        "evidence": "See assetClassFinding."
+      }
+    ],
+    "edition12Treatment": "immutable_unchanged",
+    "publicationPerformed": false
+  },
+  "expectedDownstreamEffect": "The three assigned Louisiana acquisitions move from source-gated with an unanswerable currentness question to fully identified, with issuer, statutory heading, form-face caption, role, signatory, mandatory status and statewide scope established from the issuing authority, and with the currentness question answered on the only versioning mechanism these documents have. The dependency edge into rcap-la-flat-pdf-overlay clears. The family does not become implementable: six sibling identities in the same family remain unresolved, no LA materialization receipt exists, and the held copies' fidelity to the current text is untested. No packet becomes generatable, no runtime is enabled, and no track changes promotion state.",
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "memoEdited": false,
+    "editionPublished": false
+  }
+}
