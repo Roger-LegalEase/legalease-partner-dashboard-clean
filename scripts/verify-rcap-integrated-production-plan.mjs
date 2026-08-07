@@ -646,7 +646,7 @@ assert.equal(
     (family) => family.workerReady === true
   ).length
 );
-assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 66);
+assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 70);
 assert.equal(
   officialPdfSourceContract.verifierBoundary.packetWorkerMaterializationPaths,
   0

@@ -862,7 +862,46 @@ try {
             receipt.schemaVersion,
             "rcap-source-materialization-result/v1"
           );
-          assert.equal(receipt.assignmentJobId, job.jobId);
+          // Owner and consumer are distinct roles. The receipt records who
+          // materialized the source; the job iterating here may be that owner
+          // or the implementation the receipt names as its consumer, and
+          // nothing else. New Jersey's CN-10557 is the case: a dedicated
+          // source-materialization job owns the receipt and rcap-nj-acroform-fill
+          // consumes it. Asserting the receipt was written by whichever job is
+          // reading it collapsed the two roles and failed a correct plan.
+          // A receipt written before the owner field existed is owned by the
+          // job that wrote it, which is exactly what assignmentJobId records.
+          const receiptOwnerJobId =
+            receipt.materializationOwnerJobId ?? receipt.assignmentJobId;
+          assert.equal(
+            receiptOwnerJobId,
+            source.materializationOwnerJobId,
+            `${job.jobId}:${source.documentId}:owner`
+          );
+          // A receipt names its consumer only once one exists. Where it names
+          // one, that is the only implementation allowed to read it; where it
+          // does not, the consumer is being bound now and the owner check is
+          // what constrains. Either way an unassigned implementation cannot
+          // reach it, because the plan gives the source only to the job the
+          // projection assigns it to.
+          const receiptConsumerJobId =
+            typeof receipt.downstreamImplementationConsumerJobId === "string"
+              ? receipt.downstreamImplementationConsumerJobId
+              : null;
+          if (receiptConsumerJobId !== null) {
+            assert.equal(
+              receiptConsumerJobId,
+              source.downstreamImplementationConsumerJobId,
+              `${job.jobId}:${source.documentId}:consumer`
+            );
+          }
+          assert.ok(
+            [receiptOwnerJobId, receiptConsumerJobId ?? job.jobId].includes(
+              job.jobId
+            ),
+            `${job.jobId} consumes a receipt it is neither owner nor assigned consumer of`
+          );
+          assert.equal(receipt.assignmentJobId, receiptOwnerJobId);
           assert.equal(receipt.authorityEdition, source.authorityEdition);
           assert.equal(
             receipt.authorityArchiveSha256,

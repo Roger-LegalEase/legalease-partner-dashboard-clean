@@ -4643,6 +4643,80 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
     });
   }
 
+  // --- New York MRTA source materialization ---------------------------
+  //
+  // The bytes are not in doubt. The adopted edition holds this exact file at
+  // 272,798 bytes and the digest the source decision measured, so the binary
+  // ties to the retained asset with certainty.
+  //
+  // What is in doubt is everything the edition says about it. The identity
+  // still disposition as unresolved in the source-assignment projection,
+  // because the edition records the wrong title — dropping "Expunged" and
+  // spelling "Marijuana" for the issuer's "Marihuana" — and REV-UNKNOWN for a
+  // form whose edition is datable. Writing a receipt against that today would
+  // mean minting an exact source contract the authority layer has not issued,
+  // which is the one thing the materialization boundary exists to prevent. It
+  // waits for the Edition 1.3 metadata correction, which needs no new bytes.
+  if (present(nyMrtaSource)) {
+    addJob({
+      lane: "source_acquisition",
+      jurisdiction: "NY",
+      jobId: "rcap-ny-mrta-destruction-request-source-materialization",
+      strategyFamily: "source_identity_resolution",
+      reconciliationIds: [
+        "materialization:NY:MRTA-DESTRUCTION-REQUEST:application"
+      ],
+      downloadedSourceCount: 0,
+      // Not a dependency edge on the edition job: that job depends on every
+      // authority job, so naming it here would close a cycle. The edition
+      // prerequisite is a gate on doing the work, recorded in the stop
+      // condition, and the status is pinned blocked rather than derived.
+      dependencies: [
+        "rcap-ny-mrta-destruction-request-source-identity-resolution"
+      ],
+      status: "blocked",
+      executionNote:
+        "Blocked on the Edition 1.3 metadata correction for " +
+        "NY:MRTA-DESTRUCTION-REQUEST:APPLICATION:EN. The retained bytes are already the " +
+        "issuer's current bytes; only the title, revision label, canonical path and issuer " +
+        "metadata are wrong, and no new binary is required.",
+      expectedOutputs: [
+        acquisitionPath(
+          "rcap-ny-mrta-destruction-request-source-materialization"
+        )
+      ],
+      requiredInputs: [
+        nyMrtaSource,
+        FACTORY_INPUT_PATHS.authority,
+        OFFICIAL_PDF_SOURCE_PROJECTION_PATH
+      ],
+      model: "codex",
+      effort: "xhigh",
+      commitSubject:
+        "chore(record-clearing): materialize the NY MRTA destruction request",
+      stopCondition:
+        "Materialize NY:MRTA-DESTRUCTION-REQUEST:APPLICATION:EN through the portable authority " +
+        "archive only, at the pinned identity: 272798 bytes, sha256 " +
+        "55c8ec044ecd2adf30508b6a2403c690fc441419d6fba0ccc657eba182298544, application/pdf, " +
+        "PDF 1.7, one page at 612 by 792 points, rotation 0, unencrypted, no XFA, clean " +
+        "AcroForm. Verify the bytes and digest, verify the PDF structure, write the file at " +
+        "mode 0444 under sealed 0555 directories, create the canonical receipt, then re-read " +
+        "and re-hash the external copy. Do not commit the PDF. " +
+        "Any field or ownership map keys on the 33 terminal field names, never on the 44 " +
+        "widgets: seven fields carry more than one widget — the six-way court-type election and " +
+        "six clerk Yes/No pairs — and keying on 44 writes eleven values twice. Of the 33, 25 " +
+        "are participant-side; the six clerk-only fields and the two UI buttons are never " +
+        "written. " +
+        "Do not proceed while the Edition 1.3 metadata correction is outstanding. The edition " +
+        "holds the right bytes under the wrong title and revision label, the identity still " +
+        "disposition as unresolved in the source-assignment projection, and a receipt written " +
+        "against that would assert an exact source contract the authority layer has not issued. " +
+        "Do not create a completed official-PDF implementation, and do not enable runtime, " +
+        "promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
   // --- Nevada ---------------------------------------------------------
   //
   // The Nevada guidance worker stopped rather than guessing, and it was right
@@ -6723,7 +6797,10 @@ function applyOfficialPdfAssignments({
         ownerJobId: job.jobId,
         rootDir
       });
-      return officialPdfMaterializationInput(identity, verification);
+      return officialPdfMaterializationInput(identity, verification, {
+        consumerJobId: job.jobId,
+        rootDir
+      });
     });
     const relatedBlocked = inputs.officialPdfSourceProjection.identities
       .filter(
@@ -7109,8 +7186,34 @@ function sourceMaterializationJobIdFor(identity) {
   return `${identity.identityKey}-source-materialization`;
 }
 
-function officialPdfMaterializationInput(identity, verification) {
+function officialPdfMaterializationInput(
+  identity,
+  verification,
+  { consumerJobId = null, rootDir = null } = {}
+) {
   const source = identity.exactSourceContract;
+  // Who materialized the source and who is allowed to read it are two
+  // different jobs. A dedicated source-materialization job can own a receipt
+  // before any implementation exists, and the implementation later consumes it
+  // without becoming its owner. Carrying both on the input is what lets a
+  // consumer be checked against the receipt without the receipt having to
+  // claim the consumer wrote it.
+  const receiptOutput = sourceMaterializationReceiptPath(identity.identityKey);
+  let materializationOwnerJobId = consumerJobId;
+  if (rootDir) {
+    try {
+      const receipt = JSON.parse(
+        fs.readFileSync(path.join(rootDir, receiptOutput), "utf8")
+      );
+      if (typeof receipt.materializationOwnerJobId === "string") {
+        materializationOwnerJobId = receipt.materializationOwnerJobId;
+      } else if (typeof receipt.assignmentJobId === "string") {
+        materializationOwnerJobId = receipt.assignmentJobId;
+      }
+    } catch {
+      // No receipt yet: the consuming job is the prospective owner.
+    }
+  }
   const verificationCommand =
     "node scripts/verify-rcap-materialized-source.mjs " +
     `--source-identity-key ${identity.identityKey} ` +
@@ -7118,6 +7221,8 @@ function officialPdfMaterializationInput(identity, verification) {
   return {
     sourceIdentityKey: identity.identityKey,
     documentId: identity.officialDocument.documentId,
+    materializationOwnerJobId,
+    downstreamImplementationConsumerJobId: consumerJobId,
     authorityEdition: source.authorityEdition,
     authorityArchiveSha256: source.sourceArchiveSha256,
     jurisdiction: identity.jurisdiction,
