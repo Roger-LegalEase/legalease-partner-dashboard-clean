@@ -19208,7 +19208,7 @@
           "role": "continuation",
           "requirement": "conditional",
           "conditionDescription": "Used only where the arrest carries more charges or counts than the Article 989 motion's own fields hold.",
-          "outputStrategy": "official_pdf_fill",
+          "outputStrategy": "custom_pleading",
           "officialFormId": "LA-CCRP-ART-993",
           "officialSourceUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919688",
           "order": 5
@@ -19442,7 +19442,7 @@
           "role": "continuation",
           "requirement": "conditional",
           "conditionDescription": "Used only where the arrest carries more charges or counts than the Article 989 motion's own fields hold.",
-          "outputStrategy": "official_pdf_fill",
+          "outputStrategy": "custom_pleading",
           "officialFormId": "LA-CCRP-ART-993",
           "officialSourceUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919688",
           "order": 5
@@ -19655,7 +19655,7 @@
           "role": "primary_filing",
           "requirement": "required",
           "conditionDescription": null,
-          "outputStrategy": "official_pdf_fill",
+          "outputStrategy": "custom_pleading",
           "officialFormId": "LA-CCRP-ART-998",
           "officialSourceUrl": "https://www.legis.la.gov/legis/Law.aspx?d=1335832",
           "order": 1
@@ -19884,7 +19884,7 @@
           "role": "continuation",
           "requirement": "conditional",
           "conditionDescription": "Used only where the arrest carries more charges or counts than the Article 989 motion's own fields hold.",
-          "outputStrategy": "official_pdf_fill",
+          "outputStrategy": "custom_pleading",
           "officialFormId": "LA-CCRP-ART-993",
           "officialSourceUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919688",
           "order": 5
@@ -20116,7 +20116,7 @@
           "role": "proposed_order",
           "requirement": "required",
           "conditionDescription": null,
-          "outputStrategy": "official_pdf_fill",
+          "outputStrategy": "custom_pleading",
           "officialFormId": "LA-CCRP-ART-995",
           "officialSourceUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919691",
           "order": 2
@@ -20325,7 +20325,7 @@
           "role": "continuation",
           "requirement": "conditional",
           "conditionDescription": "Used only where the arrest carries more charges or counts than the Article 989 motion's own fields hold.",
-          "outputStrategy": "official_pdf_fill",
+          "outputStrategy": "custom_pleading",
           "officialFormId": "LA-CCRP-ART-993",
           "officialSourceUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919688",
           "order": 5
@@ -39277,7 +39277,7 @@
           "conditionDescription": "Generated only where the participant asks for destruction. Nothing is destroyed unless they ask, so the request is never produced at the outset.",
           "outputStrategy": "official_pdf_fill",
           "officialFormId": "MRTA-DESTRUCTION-REQUEST",
-          "officialSourceUrl": null,
+          "officialSourceUrl": "https://www.nycourts.gov/FORMS/destroy-expunged-marihuana-conviction/index.shtml",
           "order": 2
         },
         {
@@ -39333,19 +39333,25 @@
         },
         {
           "kind": "complete_field",
-          "description": "Signing, dating and sending the destruction request — Application to destroy a marijuana conviction record, signature and date block, and its submission instructions.",
+          "description": "Signing, dating and submitting the destruction request to the court of conviction — Application to destroy expunged marihuana conviction record, DEFENDANT'S AFFIRMATION block, and its submission instructions.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "A separate application for each additional court of conviction — One completed application per court, with its own signature and date.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "sign",
-          "description": "The participant, or their designated agent, signs and dates the destruction request. No notarization identified. Nothing is signed for the automatic expungement, which requires no participant document at all.",
+          "description": "The defendant signs the destruction request personally. The current form's execution block is captioned DEFENDANT'S AFFIRMATION, made under penalties of perjury, above a single rule captioned Defendant Signature; it carries no attorney signature line and no agent signature line. CPL § 160.50(5)(b)(i) permits a designated agent to make the request, and the issuer's instructions say an attorney may submit the application, but submitting and signing are different acts and the current form provides a line only for the defendant. LegalEase must not produce an agent-signed version of this form while that is unresolved. Nothing is signed for the automatic expungement, which requires no participant document at all.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "notarize",
-          "description": "none identified.",
+          "description": "None where the applicant submits in person with a valid government-issued photo identification. The issuer's instructions require the application to be notarized where an attorney submits it, and treat notarization as the identity proof where it is sent through EDDS or by mail. The requirement follows the submission method rather than the instrument.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
@@ -39364,7 +39370,7 @@
         },
         {
           "kind": "file",
-          "description": "Nothing is filed in a court. The vacatur, dismissal and expungement happen by operation of law under CPL § 160.50(5)(a). Destruction is not automatic: under § 160.50(5)(b)(i) the records are destroyed upon the written request of the individual whose case has been expunged, or their designated agent, and that signed request is sent to the Office of Court Administration.",
+          "description": "Nothing is filed for the automatic stage. The vacatur, dismissal and expungement happen by operation of law under CPL § 160.50(5)(a) and no participant document exists for them. The destruction stage is a participant submission to a court: under § 160.50(5)(b)(i) the records are destroyed upon the written request of the individual whose case has been expunged, or their designated agent, and the signed application is submitted to the court in which the person was convicted — one application per court — through that court's Electronic Document Delivery System, by regular first-class mail, or in person. There is no application fee.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
@@ -39372,9 +39378,10 @@
       "requiredBeforeFiling": [
         "Check your answer to \"For the marijuana case: the county, court, docket number, the charge, and when it was decided?\" against DCJS Record Review, and correct the packet if they disagree.",
         "No participant document is produced for the automatic expungement itself — Not applicable; that stage of the packet is verification guidance.",
-        "Signing, dating and sending the destruction request — Application to destroy a marijuana conviction record, signature and date block, and its submission instructions.",
-        "The participant, or their designated agent, signs and dates the destruction request. No notarization identified. Nothing is signed for the automatic expungement, which requires no participant document at all.",
-        "none identified.",
+        "Signing, dating and submitting the destruction request to the court of conviction — Application to destroy expunged marihuana conviction record, DEFENDANT'S AFFIRMATION block, and its submission instructions.",
+        "A separate application for each additional court of conviction — One completed application per court, with its own signature and date.",
+        "The defendant signs the destruction request personally. The current form's execution block is captioned DEFENDANT'S AFFIRMATION, made under penalties of perjury, above a single rule captioned Defendant Signature; it carries no attorney signature line and no agent signature line. CPL § 160.50(5)(b)(i) permits a designated agent to make the request, and the issuer's instructions say an attorney may submit the application, but submitting and signing are different acts and the current form provides a line only for the defendant. LegalEase must not produce an agent-signed version of this form while that is unresolved. Nothing is signed for the automatic expungement, which requires no participant document at all.",
+        "None where the applicant submits in person with a valid government-issued photo identification. The issuer's instructions require the application to be notarized where an attorney submits it, and treat notarization as the identity proof where it is sent through EDDS or by mail. The requirement follows the submission method rather than the instrument.",
         "None identified for the destruction request. The DCJS Record Review carries its own fee.",
         "not applicable."
       ]
@@ -42343,8 +42350,8 @@
           "order": 1
         },
         {
-          "componentId": "ok_clean_slate-removal-risk-disclosure-2",
-          "role": "removal_risk_disclosure",
+          "componentId": "ok_clean_slate-scope-disclosure-2",
+          "role": "scope_disclosure",
           "requirement": "required",
           "conditionDescription": null,
           "outputStrategy": "process_guidance",
@@ -42404,7 +42411,7 @@
         },
         {
           "kind": "file",
-          "description": "Nothing is filed on this track and nothing can be. The participant is routed to the petition tracks in the meantime.",
+          "description": "Nothing is filed on this track and nothing can be. The route operates on the State's own records when it operates. The participant is routed to the petition tracks in the meantime, which § 19d(G) expressly preserves.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
@@ -42482,7 +42489,7 @@
         },
         {
           "kind": "pay_fee",
-          "description": "None for this route. The petition alternative carries a $150 OSBI processing fee for an arrest-record expungement; a court-record expungement is free.",
+          "description": "None for this route: 22 O.S. § 19d sets no fee for an expedited request. The petition alternative carries a $150 OSBI processing fee for an arrest-record expungement; a court-record expungement is free.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
@@ -42495,7 +42502,7 @@
         },
         {
           "kind": "file",
-          "description": "Nothing is filed on this track and nothing can be. The participant is routed to the petition tracks in the meantime.",
+          "description": "Nothing is filed on this track and nothing can be. When the portal exists the request is submitted to the Bureau rather than filed in a court. The participant is routed to the petition tracks in the meantime, which § 19d(G) expressly preserves.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
@@ -42504,7 +42511,7 @@
         "Check your answer to \"Is your need urgent, or could you wait to see whether a free route opens?\" against OSBI criminal history record, and correct the packet if they disagree.",
         "not applicable. Nothing is generated for the participant to sign.",
         "none required.",
-        "None for this route. The petition alternative carries a $150 OSBI processing fee for an arrest-record expungement; a court-record expungement is free.",
+        "None for this route: 22 O.S. § 19d sets no fee for an expedited request. The petition alternative carries a $150 OSBI processing fee for an arrest-record expungement; a court-record expungement is free.",
         "not applicable."
       ]
     },

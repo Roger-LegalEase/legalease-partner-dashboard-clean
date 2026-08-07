@@ -600,11 +600,15 @@ assert.equal(kansasCommercialDisposition.generationAllowed, false);
 // Regenerated against the current integrated audit: the queue admits every
 // audited jurisdiction that has an official-form component, not the 25 it
 // carried when Pennsylvania was still a supplemental lane.
+// Louisiana's three statutory articles left the official-PDF lane when the
+// output-strategy correction moved their six components to custom pleading:
+// the Legislature publishes them only as HTML, so they were never official-PDF
+// sources. Their genuine PDF siblings stay.
 assert.deepEqual(officialPdfSourceContract.queueCoverage.totals, {
   tracks: 267,
-  components: 737,
-  documentIdentities: 332,
-  exactSourceRequirements: 122,
+  components: 731,
+  documentIdentities: 329,
+  exactSourceRequirements: 119,
   unresolvedSourceIdentities: 210
 });
 assert.equal(officialPdfSourceContract.familyCount, 45);
@@ -629,7 +633,7 @@ assert.equal(
   0
 );
 assert.equal(officialPdfSourceContract.totals.pendingAssignmentFamilies, 0);
-assert.equal(officialPdfSourceContract.totals.projectedDocumentIdentities, 332);
+assert.equal(officialPdfSourceContract.totals.projectedDocumentIdentities, 329);
 assert.equal(
   officialPdfSourceContract.totals.projectedExactWorkerAssignments,
   74
@@ -671,7 +675,7 @@ assert.equal(
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedDocumentIdentities,
-  332
+  329
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
@@ -750,7 +754,7 @@ assert.equal(
   productionPlan.officialPdfSourceContractIntegration.runtimeStatus,
   "runtime_disabled"
 );
-assert.equal(officialPdfSourceProjection.coverage.queueIdentityCount, 332);
+assert.equal(officialPdfSourceProjection.coverage.queueIdentityCount, 329);
 assert.equal(officialPdfSourceProjection.coverage.assignmentEligibleCount, 74);
 assert.deepEqual(
   officialPdfSourceProjection.coverage.countsByDisposition,
@@ -767,7 +771,10 @@ assert.deepEqual(
     legal_design_or_technical_policy_blocked: 13,
     local_scope_identity: 1,
     role_mismatch: 5,
-    source_gated_identity: 28,
+    // Three fewer: Louisiana's arts. 993, 995 and 998 were source-gated PDF
+    // captures of statutory text the issuer publishes only as HTML. They left
+    // the official-PDF lane with their six components.
+    source_gated_identity: 25,
     unresolved_identity: 176
   }
 );

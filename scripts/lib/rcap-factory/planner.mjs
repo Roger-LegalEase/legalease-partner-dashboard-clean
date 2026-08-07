@@ -161,6 +161,8 @@ const NY_MRTA_PACKET_CAPABILITY_COMPLETION_COMMIT =
   "4dc1f8cdfb4af51ab0a6006862cddbdafb50295d";
 const NY_AMENDED_MEMO_SHA256 =
   "28ccada5d1b5fa1dff73d6a44f4ec7e7521b46272317852f17c653550c9cc7b6";
+const NY_DESTINATION_MEMO_SHA256 =
+  "fcf1ac52c65f70db988f949fe4d95336781b024066ec7edc408641f627789c10";
 const NY_MRTA_COMPOSED_TRACK_ID = "ny_mrta_marijuana";
 const NY_MRTA_DESTRUCTION_REQUEST_FORM_ID = "MRTA-DESTRUCTION-REQUEST";
 const SC_SOLICITOR_DELIVERABLE_DECISION_ID =
@@ -443,7 +445,24 @@ const COMPLETED_NORMALIZATIONS = Object.freeze([
     amendedByWorkerBranch:
       "rcap-factory/rcap-ny-mrta-destruction-request-packet-capability-correction-65c45a61-e68b4341",
     amendmentCompletionCommit: NY_MRTA_PACKET_CAPABILITY_COMPLETION_COMMIT,
-    amendedMemoSha256: NY_AMENDED_MEMO_SHA256
+    amendedMemoSha256: NY_AMENDED_MEMO_SHA256,
+    // Second amendment. The MRTA source decision established that the
+    // destruction request is filed with the court of conviction, one
+    // application per court, and that the court forwards the matter onward.
+    // The memo had recorded the Office of Court Administration as the
+    // destination and said nothing was filed in a court on either stage, so a
+    // packet built on it would have sent a person to the wrong place.
+    // rcap-ny-mrta-destruction-request-destination-memo-correction corrected
+    // that and nothing else. All three hashes are real historical states of
+    // the same file.
+    secondAmendedByJobId:
+      "rcap-ny-mrta-destruction-request-destination-memo-correction",
+    secondAmendedByWorkerCommit:
+      "37630009b7d46a28418dfad681e28272efb24011",
+    secondAmendedByWorkerBranch:
+      "rcap-factory/rcap-ny-mrta-destruction-request-destination-memo-correction-9f1b58d7-1dc16479",
+    secondAmendmentCompletionCommit: "5f5cf3def0b9cbc1e88084cc261bd60abaf48675",
+    secondAmendedMemoSha256: NY_DESTINATION_MEMO_SHA256
   },
   // The final ordinary normalization wave. With these four every state and the
   // District of Columbia carries an integrated legal-design memo.
@@ -481,7 +500,24 @@ const COMPLETED_NORMALIZATIONS = Object.freeze([
       "rcap-factory/rcap-ok-legal-design-normalization-52006e83-20128515",
     completionCommit: "5ef6b00d209f3a0c48fbd994de67e380a79e3c4e",
     memoSha256:
-      "984994b2ede275028d8d1345738e673e369872fc226016257d367349ba86de1f"
+      "984994b2ede275028d8d1345738e673e369872fc226016257d367349ba86de1f",
+    // The memo this job delivered recorded that the enrolled Senate Bill 2030
+    // text and its effective date could not be obtained, and it built the
+    // clean-slate design on the premise that the amendment might have narrowed
+    // the eligible set. The current-law decision closed both: the act is
+    // O.S.L. 2026, c. 282, effective 1 July 2026, sections 18b and 19d now
+    // carry eligibility and the automatic process, section 19d(G) preserves
+    // the petition route, and the eligible set widened rather than narrowed.
+    // rcap-ok-sb-2030-current-law-memo-correction applied that to
+    // ok_clean_slate and ok_osbi_portal alone. Both hashes are real historical
+    // states of the same file, so either satisfies the on-disk check.
+    amendedByJobId: "rcap-ok-sb-2030-current-law-memo-correction",
+    amendedByWorkerCommit: "7d0f65327effc06ea42603aa7c1d312ee1b1bc48",
+    amendedByWorkerBranch:
+      "rcap-factory/rcap-ok-sb-2030-current-law-memo-correction-394ecefb-0b09bdd2",
+    amendmentCompletionCommit: "5f5cf3def0b9cbc1e88084cc261bd60abaf48675",
+    amendedMemoSha256:
+      "4e0380c9738cb9c9be3747e125990d79c483afc2c31a99ac29e638ad8c94c385"
   }
 ]);
 const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
@@ -952,6 +988,13 @@ const COMPLETED_GUIDANCE_TRACKS = new Set(
  * Kept beside the completion-commit map so a decision's provenance is one
  * lookup rather than an archaeology exercise across commit messages.
  */
+const MEMO_CORRECTION_COMPLETION_COMMITS = Object.freeze({
+  "rcap-ok-sb-2030-current-law-memo-correction": "5f5cf3def0b9cbc1e88084cc261bd60abaf48675",
+  "rcap-ny-mrta-destruction-request-destination-memo-correction":
+    "5f5cf3def0b9cbc1e88084cc261bd60abaf48675",
+  "rcap-la-arts-993-995-998-output-strategy-memo-correction":
+    "5f5cf3def0b9cbc1e88084cc261bd60abaf48675"
+});
 const WAVE_WORKER_BRANCHES = Object.freeze({
   "rcap-ok-sb-2030-current-text-and-currency":
     "rcap-factory/rcap-ok-sb-2030-current-text-and-currency-0d923f06-3494a6f1",
@@ -962,7 +1005,13 @@ const WAVE_WORKER_BRANCHES = Object.freeze({
   "rcap-co-jdf-family-commercial-license":
     "rcap-factory/rcap-co-jdf-family-commercial-license-746756c2-c456b710",
   "rcap-la-arts-993-995-998-html-source-output-strategy-adjudication":
-    "rcap-factory/rcap-la-arts-993-995-998-html-source-output-strategy-adjudicatio-eb9b6396-b289e8a2"
+    "rcap-factory/rcap-la-arts-993-995-998-html-source-output-strategy-adjudicatio-eb9b6396-b289e8a2",
+  "rcap-la-arts-993-995-998-html-authority-asset-capture":
+    "rcap-factory/rcap-la-arts-993-995-998-html-authority-asset-capture-f485eec1-1ed101bf",
+  "rcap-hi-in-repo-identity-reconciliation-hcjdc-159":
+    "rcap-factory/rcap-hi-in-repo-identity-reconciliation-hcjdc-159-ebf47315-c9cce424",
+  "rcap-fl-source-identity-resolution-rule-3-989-continuation":
+    "rcap-factory/rcap-fl-source-identity-resolution-rule-3-989-continuation-5df99664-df05ce06"
 });
 const WAVE_WORKER_COMMITS = Object.freeze({
   "rcap-ok-sb-2030-current-text-and-currency":
@@ -974,7 +1023,13 @@ const WAVE_WORKER_COMMITS = Object.freeze({
   "rcap-co-jdf-family-commercial-license":
     "dab225425903abd07b786601e21a7b30fa0765da",
   "rcap-la-arts-993-995-998-html-source-output-strategy-adjudication":
-    "6583072d8d273a564d76917c174936026b11d448"
+    "6583072d8d273a564d76917c174936026b11d448",
+  "rcap-la-arts-993-995-998-html-authority-asset-capture":
+    "1fd2f13bde646aa3a4385579473f3996cc04906e",
+  "rcap-hi-in-repo-identity-reconciliation-hcjdc-159":
+    "552aae83e2755f82990bf7c64fd0b64ef578ee73",
+  "rcap-fl-source-identity-resolution-rule-3-989-continuation":
+    "22d3ff3e88641fd3c9c9807a0349c4c051237ec2"
 });
 const COMPLETED_AUTHORITY_JOB_COMMITS = new Map([
   [
@@ -1052,6 +1107,18 @@ const COMPLETED_AUTHORITY_JOB_COMMITS = new Map([
   [
     "rcap-la-arts-993-995-998-html-source-output-strategy-adjudication",
     "bf06ee8f97e18f61c2cc7159c8244caa8085efa1"
+  ],
+  [
+    "rcap-la-arts-993-995-998-html-authority-asset-capture",
+    "5f5cf3def0b9cbc1e88084cc261bd60abaf48675"
+  ],
+  [
+    "rcap-hi-in-repo-identity-reconciliation-hcjdc-159",
+    "5f5cf3def0b9cbc1e88084cc261bd60abaf48675"
+  ],
+  [
+    "rcap-fl-source-identity-resolution-rule-3-989-continuation",
+    "5f5cf3def0b9cbc1e88084cc261bd60abaf48675"
   ]
 ]);
 const NO_DOWNLOAD_AUTHORITY_FAMILIES = new Set([
@@ -1633,13 +1700,25 @@ export function buildFactoryPlan(options = {}) {
     const absoluteMemoPath = path.join(rootDir, memoPath);
     if (
       !fs.existsSync(absoluteMemoPath) ||
-      ![record.memoSha256, record.amendedMemoSha256]
+      // Every recorded historical state of the same file is acceptable. A memo
+      // can be amended more than once — New York was corrected for packet
+      // capability and then again for the filing destination — and each hash
+      // stays on the record rather than the latest overwriting the last.
+      ![
+        record.memoSha256,
+        record.amendedMemoSha256,
+        record.secondAmendedMemoSha256
+      ]
         .filter(Boolean)
         .includes(sha256File(absoluteMemoPath))
     ) {
       throw new Error(
         `${record.jurisdiction} completed normalization memo does not match ` +
-          `${[record.memoSha256, record.amendedMemoSha256]
+          `${[
+            record.memoSha256,
+            record.amendedMemoSha256,
+            record.secondAmendedMemoSha256
+          ]
             .filter(Boolean)
             .join(" or ")}.`
       );
@@ -2367,9 +2446,16 @@ export function buildFactoryPlan(options = {}) {
   );
   // The amendment is complete when the memo on disk is the amended blob, not
   // when a commit says so.
+  // The packet-capability correction stays complete once its successor
+  // destination correction lands on top of it.
   const nyMrtaPacketCapabilityCorrected =
     fs.existsSync(nyMemoPath) &&
-    sha256File(nyMemoPath) === NY_AMENDED_MEMO_SHA256;
+    [NY_AMENDED_MEMO_SHA256, NY_DESTINATION_MEMO_SHA256].includes(
+      sha256File(nyMemoPath)
+    );
+  const nyMrtaDestinationCorrected =
+    fs.existsSync(nyMemoPath) &&
+    sha256File(nyMemoPath) === NY_DESTINATION_MEMO_SHA256;
   const nyMrtaSourceIdentityResolved = fs.existsSync(
     path.join(
       rootDir,
@@ -4264,6 +4350,37 @@ function okGuidanceCorrectionRequired(inputs, rootDir) {
 }
 
 function addWaveCorrectionAssignments({ addJob, rootDir }) {
+  // A memo correction is complete when the corrected blob is on disk, and an
+  // authority job when its decision record is. Neither closes on a commit
+  // asserting it.
+  const memoCorrected = (code, sha) => {
+    const absolute = path.join(
+      rootDir,
+      `data/record-clearing/legal-design-intake/${code}.memo.json`
+    );
+    return fs.existsSync(absolute) && sha256File(absolute) === sha;
+  };
+  const completionOf = (jobId) =>
+    COMPLETED_AUTHORITY_JOB_COMMITS.has(jobId) &&
+    fs.existsSync(
+      path.join(rootDir, `${FACTORY_DATA_DIR}/source-acquisition/${jobId}.json`)
+    )
+      ? {
+          status: "completed",
+          workerBranch: WAVE_WORKER_BRANCHES[jobId],
+          workerCommit: WAVE_WORKER_COMMITS[jobId],
+          completionCommit: COMPLETED_AUTHORITY_JOB_COMMITS.get(jobId)
+        }
+      : { status: "ready" };
+  const memoCompletionOf = (jobId, code, sha, workerBranch, workerCommit) =>
+    memoCorrected(code, sha)
+      ? {
+          status: "completed",
+          workerBranch,
+          workerCommit,
+          completionCommit: MEMO_CORRECTION_COMPLETION_COMMITS[jobId]
+        }
+      : { status: "ready" };
   const memoPath = (code) =>
     `data/record-clearing/legal-design-intake/${code}.memo.json`;
   const decisionPath = (slug) =>
@@ -4291,7 +4408,13 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
         "rcap-ok-legal-design-normalization",
         "rcap-ok-sb-2030-current-text-and-currency"
       ],
-      status: "ready",
+      ...memoCompletionOf(
+        "rcap-ok-sb-2030-current-law-memo-correction",
+        "OK",
+        "4e0380c9738cb9c9be3747e125990d79c483afc2c31a99ac29e638ad8c94c385",
+        "rcap-factory/rcap-ok-sb-2030-current-law-memo-correction-394ecefb-0b09bdd2",
+        "7d0f65327effc06ea42603aa7c1d312ee1b1bc48"
+      ),
       expectedOutputs: [memoPath("OK")],
       ownedPaths: [memoPath("OK")],
       requiredInputs: [
@@ -4457,7 +4580,13 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
         NY_MRTA_PACKET_CAPABILITY_JOB_ID,
         "rcap-ny-mrta-destruction-request-source-identity-resolution"
       ],
-      status: "ready",
+      ...memoCompletionOf(
+        "rcap-ny-mrta-destruction-request-destination-memo-correction",
+        "NY",
+        "fcf1ac52c65f70db988f949fe4d95336781b024066ec7edc408641f627789c10",
+        "rcap-factory/rcap-ny-mrta-destruction-request-destination-memo-correction-9f1b58d7-1dc16479",
+        "37630009b7d46a28418dfad681e28272efb24011"
+      ),
       expectedOutputs: [memoPath("NY")],
       ownedPaths: [memoPath("NY")],
       requiredInputs: [
@@ -4564,7 +4693,13 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
         "rcap-la-public-official-download",
         "rcap-la-arts-993-995-998-html-source-output-strategy-adjudication"
       ],
-      status: "ready",
+      ...memoCompletionOf(
+        "rcap-la-arts-993-995-998-output-strategy-memo-correction",
+        "LA",
+        "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10",
+        "rcap-factory/rcap-la-arts-993-995-998-output-strategy-memo-correction-6c19814d-125d3ccb",
+        "f42f75fbae4df78fe4a0879c9e84989e1d9df64c"
+      ),
       expectedOutputs: [memoPath("LA")],
       ownedPaths: [memoPath("LA")],
       requiredInputs: [
@@ -4614,7 +4749,7 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
       dependencies: [
         "rcap-la-arts-993-995-998-html-source-output-strategy-adjudication"
       ],
-      status: "ready",
+      ...completionOf("rcap-la-arts-993-995-998-html-authority-asset-capture"),
       expectedOutputs: [
         acquisitionPath("rcap-la-arts-993-995-998-html-authority-asset-capture")
       ],
