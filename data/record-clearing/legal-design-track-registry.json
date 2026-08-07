@@ -153818,13 +153818,17 @@
       "trackId": "ny_mrta_marijuana",
       "legalName": "Marijuana Conviction Expungement and Destruction under the Marihuana Regulation and Taxation Act, with CPL § 160.50",
       "publicName": "New York marijuana records are actually destroyed",
-      "mechanism": "Convictions for unlawful possession of marijuana and fifth-degree criminal possession of marijuana are expunged and the records destroyed. This is the only true erasure in New York; every other track seals. Relief is automatic with no waiting period and nothing to file, and the Office of Court Administration publishes an application to destroy a marijuana conviction record for a participant who wants destruction confirmed or effected. Expunged marijuana convictions do not count toward the two-conviction limit on the discretionary sealing petition, which can move a participant from ineligible to eligible there. The MRTA provisions were not read at source and the review cites the Act generically rather than to a section.",
+      "mechanism": "Convictions for the marijuana offences described in CPL § 160.50(3)(k) are vacated, dismissed and expunged by operation of law under § 160.50(5)(a). That stage is automatic: there is no waiting period, no motion, no fee and nothing for the participant to file, and under § 160.50(5)(b)(i) the chief administrator of the courts notifies the Division of Criminal Justice Services and the heads of all appropriate police departments, district attorneys' offices and other law enforcement agencies, who mark the records as expunged. Destruction is a second and distinct stage and is not automatic: § 160.50(5)(b)(i) provides that upon the written request of the individual whose case has been expunged, or their designated agent, such records shall be destroyed, and the Office of Court Administration publishes an application for that request. Section 160.50(5)(b)(ii) describes what the subdivision requires as automatic vacatur, dismissal and expungement including record destruction if requested, which places the participant's request inside the same statutory mechanism rather than beside it. This is the only true erasure in New York; every other track seals. Expunged marijuana convictions do not count toward the two-conviction limit on the discretionary sealing petition, which can move a participant from ineligible to eligible there. The Marihuana Regulation and Taxation Act chapter-law citation is still not pinned and the review cites the Act generically rather than to a section.",
       "authority": [
         "Marihuana Regulation and Taxation Act",
         "N.Y. Crim. Proc. Law § 160.50",
+        "N.Y. Crim. Proc. Law § 160.50(3)(k)",
+        "N.Y. Crim. Proc. Law § 160.50(5)(a)",
+        "N.Y. Crim. Proc. Law § 160.50(5)(b)(i)",
+        "N.Y. Crim. Proc. Law § 160.50(5)(b)(ii)",
         "N.Y. Crim. Proc. Law § 160.59"
       ],
-      "reviewedAsOf": "2026-08-06",
+      "reviewedAsOf": "2026-08-07",
       "effectiveFrom": "2026-08-01",
       "effectiveTo": null,
       "recordTypes": [
@@ -153842,20 +153846,45 @@
       "waitingPeriods": [
         {
           "condition": "Qualifying marijuana conviction",
-          "duration": "none. Relief is automatic"
+          "duration": "none. The vacatur, dismissal and expungement are automatic"
+        },
+        {
+          "condition": "Destruction of the expunged records",
+          "duration": "none, but it is not automatic: it happens only on the participant's written request under CPL § 160.50(5)(b)(i)"
         }
       ],
-      "outputStrategy": "process_guidance",
-      "outputStrategyDeclared": "process_guidance",
-      "compositionMode": null,
-      "units": [],
+      "outputStrategy": null,
+      "outputStrategyDeclared": "composed",
+      "compositionMode": "sequential",
+      "units": [
+        {
+          "unitId": "ny-mrta-automatic-expungement",
+          "order": 1,
+          "label": "The automatic vacatur, dismissal and expungement, and how to check it",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "The default stage, and the one that runs first. Under CPL § 160.50(5)(a) a conviction for an offence described in § 160.50(3)(k) is vacated and dismissed and all records of it expunged, by operation of law. Nothing is filed, no motion is made, no fee is charged and the participant does nothing to obtain it: under § 160.50(5)(b)(i) the chief administrator of the courts notifies the Division of Criminal Justice Services and the heads of all appropriate police departments, district attorneys' offices and other law enforcement agencies, and those holders mark the record as expunged. No participant filing exists at this stage and none is generated. The guidance explains what expungement means, that the courts do not send a notice when it happens, how to check through a DCJS Record Review, why an absence in that report is consistent with expungement rather than proof of destruction, and the separate § 160.50(5)(b)(ii)(B) route where court records cannot be located or the expungement has not been reflected. Where the participant wants nothing beyond expungement, the route ends here.",
+          "available": true
+        },
+        {
+          "unitId": "ny-mrta-destruction-request",
+          "order": 2,
+          "label": "Participant-signed request that the expunged records be destroyed",
+          "outputStrategy": "official_pdf_fill",
+          "outputStrategyStatus": "resolved",
+          "packetIdentity": "identified",
+          "description": "The conditional stage, reached only where the participant asks for destruction. It is not a chase of a failed automatic process and does not assert that anything went wrong: destruction is simply never automatic. CPL § 160.50(5)(b)(i) provides that upon the written request of the individual whose case has been expunged, or their designated agent, such records shall be destroyed, and § 160.50(5)(b)(ii) describes what the subdivision requires as automatic vacatur, dismissal and expungement including record destruction if requested. The request is therefore a conditional unit of the same statutory mechanism rather than a second remedy, and its precondition is that the case has already been expunged. The instrument is the Office of Court Administration's application to destroy a marijuana conviction record, retained in Edition 1.2 at MRTA-DESTRUCTION-REQUEST, which the participant signs, dates and sends to the Office of Court Administration rather than filing in a court. LegalEase prepares the participant's portion from their own answers; it does not certify eligibility, does not certify that the expungement occurred, does not advise whether to ask for destruction and does not submit the request. The unit is never offered at the outset.",
+          "available": true
+        }
+      ],
       "geographicScope": "statewide",
       "geographyKeys": [],
-      "venue": "No venue for the automatic relief. The Office of Court Administration receives a destruction request.",
+      "venue": "No venue for the automatic relief, which happens by operation of law. Nothing is filed in a court on either stage. The Office of Court Administration receives the destruction request.",
       "destination": {
         "kind": "agency",
         "name": "Office of Court Administration",
-        "detail": "The expungement and destruction happen by operation of law. A participant who wants destruction confirmed or effected may use the Office of Court Administration's application to destroy a marijuana conviction record, which Edition 1.2 retains at MRTA-DESTRUCTION-REQUEST. Nothing is filed in a court."
+        "detail": "The vacatur, dismissal and expungement happen by operation of law under CPL § 160.50(5)(a), and the chief administrator of the courts notifies the record-holding agencies. Destruction is not automatic: under § 160.50(5)(b)(i) the records are destroyed upon the written request of the individual whose case has been expunged, or their designated agent. A participant who wants destruction uses the Office of Court Administration's application to destroy a marijuana conviction record, which Edition 1.2 retains at MRTA-DESTRUCTION-REQUEST, and sends it to the Office of Court Administration. Nothing is filed in a court on either stage."
       },
       "packetSet": {
         "packetSetId": "ny_mrta_marijuana-set",
@@ -153874,8 +153903,8 @@
           {
             "componentId": "ny_mrta_marijuana-destruction-request-instructions-2",
             "role": "destruction_request_instructions",
-            "requirement": "required",
-            "conditionDescription": null,
+            "requirement": "conditional",
+            "conditionDescription": "Generated only where the participant asks for destruction. Nothing is destroyed unless they ask, so the request is never produced at the outset.",
             "outputStrategy": "official_pdf_fill",
             "officialFormId": "MRTA-DESTRUCTION-REQUEST",
             "officialSourceUrl": null,
@@ -153928,13 +153957,19 @@
           },
           {
             "kind": "complete_field",
-            "description": "Signing and sending the destruction request — Application to destroy a marijuana conviction record.",
+            "description": "No participant document is produced for the automatic expungement itself — Not applicable; that stage of the packet is verification guidance.",
+            "requirement": "required",
+            "requiredBeforeFiling": true
+          },
+          {
+            "kind": "complete_field",
+            "description": "Signing, dating and sending the destruction request — Application to destroy a marijuana conviction record, signature and date block, and its submission instructions.",
             "requirement": "required",
             "requiredBeforeFiling": true
           },
           {
             "kind": "sign",
-            "description": "The participant signs the destruction request. No notarization identified.",
+            "description": "The participant, or their designated agent, signs and dates the destruction request. No notarization identified. Nothing is signed for the automatic expungement, which requires no participant document at all.",
             "requirement": "required",
             "requiredBeforeFiling": true
           },
@@ -153959,21 +153994,28 @@
           },
           {
             "kind": "file",
-            "description": "Nothing is filed in a court. The expungement and destruction happen by operation of law, and a destruction request may be sent to the Office of Court Administration.",
+            "description": "Nothing is filed in a court. The vacatur, dismissal and expungement happen by operation of law under CPL § 160.50(5)(a). Destruction is not automatic: under § 160.50(5)(b)(i) the records are destroyed upon the written request of the individual whose case has been expunged, or their designated agent, and that signed request is sent to the Office of Court Administration.",
             "requirement": "required",
             "requiredBeforeFiling": false
           }
         ],
         "requiredBeforeFiling": [
           "Check your answer to \"For the marijuana case: the county, court, docket number, the charge, and when it was decided?\" against DCJS Record Review, and correct the packet if they disagree.",
-          "Signing and sending the destruction request — Application to destroy a marijuana conviction record.",
-          "The participant signs the destruction request. No notarization identified.",
+          "No participant document is produced for the automatic expungement itself — Not applicable; that stage of the packet is verification guidance.",
+          "Signing, dating and sending the destruction request — Application to destroy a marijuana conviction record, signature and date block, and its submission instructions.",
+          "The participant, or their designated agent, signs and dates the destruction request. No notarization identified. Nothing is signed for the automatic expungement, which requires no participant document at all.",
           "none identified.",
           "None identified for the destruction request. The DCJS Record Review carries its own fee.",
           "not applicable."
         ]
       },
       "officialSources": [
+        {
+          "title": "N.Y. Criminal Procedure Law § 160.50, subdivision three paragraph (k) and subdivision five, New York State Senate published statutes",
+          "url": "https://www.nysenate.gov/legislation/laws/CPL/160.50",
+          "retrievedOn": "2026-08-07",
+          "sha256": null
+        },
         {
           "title": "New York State's Clean Slate Act, New York Courts, Criminal History Record Search",
           "url": "https://www.nycourts.gov/criminal-history-record-search/new-york-states-clean-slate-act",
@@ -153988,12 +154030,12 @@
         }
       ],
       "rules": {
-        "filing": "Nothing is filed in a court. The expungement and destruction happen by operation of law, and a destruction request may be sent to the Office of Court Administration.",
+        "filing": "Nothing is filed in a court. The vacatur, dismissal and expungement happen by operation of law under CPL § 160.50(5)(a). Destruction is not automatic: under § 160.50(5)(b)(i) the records are destroyed upon the written request of the individual whose case has been expunged, or their designated agent, and that signed request is sent to the Office of Court Administration.",
         "fees": "None identified for the destruction request. The DCJS Record Review carries its own fee.",
         "feeWaiver": "not applicable.",
         "notice": "none by the participant.",
         "service": "none.",
-        "participantSignature": "The participant signs the destruction request. No notarization identified.",
+        "participantSignature": "The participant, or their designated agent, signs and dates the destruction request. No notarization identified. Nothing is signed for the automatic expungement, which requires no participant document at all.",
         "notarization": "none identified."
       },
       "generationRequirements": [
@@ -154016,9 +154058,39 @@
         },
         {
           "key": "mjWantsDestructionRequest",
-          "question": "Do you want to ask the Office of Court Administration to confirm or carry out the destruction?",
+          "question": "Do you want to ask the Office of Court Administration to destroy the records of this case? Expungement already happened on its own; destruction only happens if you ask for it.",
           "requirement": "conditional",
-          "conditionDescription": "Asked so the destruction request is prepared only where the participant wants it."
+          "conditionDescription": "Asked so the destruction request is prepared only where the participant wants it. It is the gate on the whole second stage."
+        },
+        {
+          "key": "mjExpungementAlreadyHappened",
+          "question": "After checking your own record, can you confirm the marijuana case has already been expunged?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only before the destruction request is prepared, because CPL § 160.50(5)(b)(i) lets only the individual whose case has been expunged make the request. The participant confirms it from their own record; LegalEase does not certify that the expungement occurred."
+        },
+        {
+          "key": "mjRequesterName",
+          "question": "What is your full legal name, and any other name the case was under?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only for the destruction request, which must identify the person whose case was expunged."
+        },
+        {
+          "key": "mjRequesterDateOfBirth",
+          "question": "What is your date of birth?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only for the destruction request, because it is how the court system locates the record."
+        },
+        {
+          "key": "mjRequesterSigner",
+          "question": "Will you sign the request yourself, or is someone acting as your designated agent?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only for the destruction request. CPL § 160.50(5)(b)(i) allows the individual or their designated agent to make it, and the signature block has to match."
+        },
+        {
+          "key": "mjReturnContact",
+          "question": "What postal address, phone number or email should the Office of Court Administration use to reply to you?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only for the destruction request, so any reply reaches the participant."
         }
       ],
       "participantFilingRequirements": [
@@ -154033,23 +154105,40 @@
       ],
       "manualCompletionItems": [
         {
-          "item": "Signing and sending the destruction request",
-          "whereInPacket": "Application to destroy a marijuana conviction record",
-          "why": "The request is the participant's own and goes to the Office of Court Administration, not to a court. LegalEase completes the participant's portion and does not submit it."
+          "item": "No participant document is produced for the automatic expungement itself",
+          "whereInPacket": "Not applicable; that stage of the packet is verification guidance",
+          "why": "The vacatur, dismissal and expungement happen by operation of law under CPL § 160.50(5)(a). The participant does not petition for what the State already did, and nothing is generated for filing."
+        },
+        {
+          "item": "Signing, dating and sending the destruction request",
+          "whereInPacket": "Application to destroy a marijuana conviction record, signature and date block, and its submission instructions",
+          "why": "CPL § 160.50(5)(b)(i) conditions destruction on the written request of the individual whose case has been expunged, or their designated agent, so the request is the participant's own and must carry their signature and date. It goes to the Office of Court Administration, not to a court. LegalEase completes the participant's portion and does not submit it."
         }
       ],
       "selfHelpBoundaries": [
-        "Any marijuana offence outside the two covered categories.",
-        "Mixed cases with non-marijuana charges.",
-        "Verification that destruction actually occurred, which by definition leaves nothing to point to.",
-        "Immigration exposure. Sealing does not remove immigration consequences and sealed records remain reachable by immigration authorities.",
-        "Firearms licensing goals.",
-        "Federal and out-of-state convictions, which New York sealing does not reach."
+        "Any marijuana offence outside the two covered categories. LegalEase does not decide whether an uncovered offence qualifies. Next step: a New York criminal defence lawyer or a public defender record-clearing project, and check the CPL § 160.59 discretionary sealing route separately.",
+        "Mixed cases with non-marijuana charges. The marijuana remedy does not reach the other counts. Next step: the same referral, and check the CPL § 160.59 route for the counts this section leaves in place.",
+        "Verification that destruction actually occurred, which by definition leaves nothing to point to. LegalEase cannot confirm that anything was destroyed. Next step: tell the participant what an absence in a DCJS Record Review does and does not prove, and direct any status question about their own request to the Office of Court Administration.",
+        "Immigration exposure. Sealing does not remove immigration consequences and sealed records remain reachable by immigration authorities. Next step: a New York immigration attorney, before any request is signed or sent.",
+        "Firearms licensing goals. Next step: a New York firearms-licensing attorney; the marijuana expungement does not answer the licensing question.",
+        "Federal and out-of-state convictions, which New York sealing does not reach. Next step: counsel in the convicting jurisdiction.",
+        "Any dispute about whether the conviction is one CPL § 160.50(3)(k) reaches, or about whether the case has in fact been expunged. LegalEase does not determine eligibility and does not certify that the automatic expungement happened. Next step: the participant confirms from their own record, and where the dispute survives that, a New York criminal defence lawyer or a public defender record-clearing project.",
+        "The participant cannot identify the court, docket number or charge for the case. A request cannot name a record that has not been identified. Next step: request a DCJS Record Review, or ask the clerk of the court of conviction for the case identifiers, before the request is prepared.",
+        "Source or revision uncertainty on the official application. The instrument retained at MRTA-DESTRUCTION-REQUEST carries no recorded revision and no official source URL, and LegalEase does not substitute a local or unofficial form. Next step: the official-PDF implementation owner obtains the current Office of Court Administration application and records its identity and revision before any participant copy exists.",
+        "A request for anything other than destruction of an expunged New York marijuana conviction record — resentencing, vacatur of a conviction the automatic route does not reach, or relief on a federal, out-of-state, military or tribal record. Next step: a New York criminal defence lawyer, or counsel in the convicting jurisdiction.",
+        "The Office of Court Administration denies the destruction request or does not respond. CPL § 160.50(5) sets no timeline, names no remedy for non-response and gives no appeal route for the request. Next step: a New York criminal defence lawyer or a public defender record-clearing project. Do not re-send the request as though a remedy had been established.",
+        "Court records for the case cannot be located, or the vacatur, dismissal and expungement has not been reflected. This is the CPL § 160.50(5)(b)(ii)(B) route and not the destruction request. Next step: the participant or their attorney presents a DCJS fingerprint record, a copy of a court disposition record or other relevant court record to an appropriate court employee, after which the chief administrator of the courts or their designee must assure completion promptly and in any event within thirty days.",
+        "Destruction is irreversible and is not the same as expungement. An expunged conviction is already excluded from a Division of Criminal Justice Services criminal history report, and the statute itself contemplates that a person whose court records have been destroyed may later need to present a fingerprint record or a disposition record to have the relief assured. Say that plainly before the participant signs. LegalEase prepares the request the participant asks for; it does not advise whether to ask for destruction.",
+        "After the participant signs and sends the destruction request, the Office of Court Administration and the record holders act. The chief administrator of the courts notifies the Division of Criminal Justice Services and the heads of all appropriate police departments, district attorneys' offices and other law enforcement agencies, and those holders mark the records as expunged and, on request, destroy them. The participant notifies no agency, serves nobody and delivers no certified copies, and LegalEase does not submit the request."
       ],
-      "postGenerationHandoffs": [],
+      "postGenerationHandoffs": [
+        "After the participant signs and sends the destruction request, the Office of Court Administration and the record holders act. The chief administrator of the courts notifies the Division of Criminal Justice Services and the heads of all appropriate police departments, district attorneys' offices and other law enforcement agencies, and those holders mark the records as expunged and, on request, destroy them. The participant notifies no agency, serves nobody and delivers no certified copies, and LegalEase does not submit the request."
+      ],
       "packetInstructions": [
         "Expunged marijuana convictions do not count toward the two-conviction limit under CPL 160.59. That is a genuinely valuable rule and should be encoded, because it can move a participant from ineligible to eligible for a discretionary petition.",
-        "Never state that a record is already sealed; verify through DCJS"
+        "Never state that a record is already sealed; verify through DCJS",
+        "Destruction is not automatic. Records of an expunged marijuana conviction are destroyed only upon the written request of the individual whose case has been expunged, or their designated agent. Never tell a participant that their marijuana records have been destroyed, and never present the request as confirming or chasing relief that failed.",
+        "Where court records cannot be located, or the vacatur, dismissal and expungement has not been reflected, the route is CPL § 160.50(5)(b)(ii)(B) and not the destruction request: the person or their attorney presents a Division of Criminal Justice Services fingerprint record, a copy of a court disposition record or other relevant court record to an appropriate court employee, and the chief administrator of the courts or their designee shall assure completion promptly and in any event within thirty days."
       ],
       "participantQuestions": [],
       "scopeRestrictions": [
@@ -154060,7 +154149,7 @@
       ],
       "buildBlockers": [
         {
-          "question": "The MRTA provisions were not read at source and the review cites the Act generically rather than to a section. Pin the statutory citation for the expungement and destruction remedy.",
+          "question": "The operative provision is now pinned for this track: CPL § 160.50(5)(a) directs the automatic vacatur, dismissal and expungement, § 160.50(5)(b)(i) conditions destruction on the written request of the individual whose case has been expunged or their designated agent, and the covered offences are those described in § 160.50(3)(k). What is still unpinned is the Marihuana Regulation and Taxation Act chapter-law citation the review asks for, and the full current content of § 160.50(3)(k) as that Act amended it.",
           "impact": "build_blocker",
           "affectedElement": "governing_mechanism",
           "provenance": {
@@ -154073,7 +154162,7 @@
       ],
       "releaseBlockers": [
         {
-          "question": "The mechanics and current status of the Office of Court Administration destruction request, including what the participant receives back and how long it takes. Edition 1.2 retains the application itself, which settles the instrument but not the procedure around it.",
+          "question": "The mechanics and current status of the Office of Court Administration destruction request: where the participant sends it, what they receive back and how long it takes. CPL § 160.50(5)(b)(i) names no recipient, no timeline and no remedy for non-response, and § 160.50(5)(b)(ii)(B) names an appropriate court employee only for the separate route where records cannot be located. Edition 1.2 retains the application itself, which settles the instrument but not the procedure around it.",
           "impact": "release_blocker",
           "affectedElement": "participant_instructions",
           "provenance": {
@@ -154093,23 +154182,70 @@
             "sourceHeading": "TRACK 3, Open questions",
             "sourceStatement": "Whether records already destroyed can be confirmed at all, since destruction by definition leaves nothing to point to. Unresolved and worth thinking through for participant expectations."
           }
+        },
+        {
+          "question": "The official application retained at MRTA-DESTRUCTION-REQUEST carries revision REV-UNKNOWN and no official source URL, and no current Office of Court Administration publication of it was located at an official channel on 2026-08-07. The instrument's legal role is established by CPL § 160.50(5)(b)(i); its exact official title, form number, issuer imprint and current revision are not. No local or unofficial form may be substituted, and no binary was acquired or materialized by this correction.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "NY__LEGAL-REVIEW__STATEWIDE__new-york-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "PART 2.2, Documents not supplied",
+            "sourceStatement": "MRTA marijuana destruction request to OCA | Office of Court Administration | Build blocker for Track 3",
+            "counselQuestion": "Is the Edition 1.2 asset retained at MRTA-DESTRUCTION-REQUEST the current Office of Court Administration application to destroy a marijuana conviction record, and what are its official title, form number and revision?"
+          }
+        },
+        {
+          "question": "Scope divergence. The controlling review states the covered dispositions as convictions for unlawful possession of marijuana and fifth-degree criminal possession of marijuana, and the design records those two categories. CPL § 160.50(3)(k) as read at the New York State Senate's published-statutes channel on 2026-08-07 appears to reach more than those two, and the Unified Court System's own public guidance describes the automatic expungement in broader terms. The eligibility fields on this track are left exactly as counsel recorded them and the divergence is returned rather than decided, because under-inclusive screening would tell an eligible participant they are not covered.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "NY__LEGAL-REVIEW__STATEWIDE__new-york-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 3, Eligible dispositions",
+            "sourceStatement": "convictions for unlawful possession of marijuana and fifth-degree criminal possession of marijuana.",
+            "counselQuestion": "Does the marijuana track's eligibility follow CPL § 160.50(3)(k) as amended, in which case the two named categories are under-inclusive, or is the narrower statement deliberate?"
+          }
         }
       ],
       "awaitingCounselClassification": [],
-      "openLegalQuestions": [],
-      "counselConfirmationRequired": false,
-      "counselQuestions": [],
+      "openLegalQuestions": [
+        {
+          "question": "Structure note: ny_mrta_marijuana is normalized as ONE relief mechanism under CPL § 160.50(5) with a sequential composition — the automatic vacatur, dismissal and expungement as guidance, then the conditional participant-signed destruction request on the official Office of Court Administration application. It is not a supporting action, because the request is not a correction or follow-up for an automatic process that failed: destruction is never automatic, and the statute supplies a separate route at § 160.50(5)(b)(ii)(B) for the case where the automatic relief has not been reflected. No separate relief track was created, the source slot is still accounted exactly once, and the sixteen review slots still normalize to sixteen nodes.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "NY__LEGAL-REVIEW__STATEWIDE__new-york-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 3, Output strategy",
+            "sourceStatement": "process_guidance, with an optional request to the Office of Court Administration to confirm or effect destruction.",
+            "counselQuestion": "Confirm that the participant-signed destruction request is a conditional stage of the same CPL § 160.50(5) mechanism rather than an independent remedy or a supporting action, and that a sequential composition correctly states it."
+          }
+        }
+      ],
+      "counselConfirmationRequired": true,
+      "counselQuestions": [
+        "Is the Edition 1.2 asset retained at MRTA-DESTRUCTION-REQUEST the current Office of Court Administration application to destroy a marijuana conviction record, and what are its official title, form number and revision?",
+        "Does the marijuana track's eligibility follow CPL § 160.50(3)(k) as amended, in which case the two named categories are under-inclusive, or is the narrower statement deliberate?",
+        "Confirm that the participant-signed destruction request is a conditional stage of the same CPL § 160.50(5) mechanism rather than an independent remedy or a supporting action, and that a sequential composition correctly states it."
+      ],
       "selfHelpStopConditions": [
-        "Any marijuana offence outside the two covered categories.",
-        "Mixed cases with non-marijuana charges.",
-        "Verification that destruction actually occurred, which by definition leaves nothing to point to.",
-        "Immigration exposure. Sealing does not remove immigration consequences and sealed records remain reachable by immigration authorities.",
-        "Firearms licensing goals.",
-        "Federal and out-of-state convictions, which New York sealing does not reach."
+        "Any marijuana offence outside the two covered categories. LegalEase does not decide whether an uncovered offence qualifies. Next step: a New York criminal defence lawyer or a public defender record-clearing project, and check the CPL § 160.59 discretionary sealing route separately.",
+        "Mixed cases with non-marijuana charges. The marijuana remedy does not reach the other counts. Next step: the same referral, and check the CPL § 160.59 route for the counts this section leaves in place.",
+        "Verification that destruction actually occurred, which by definition leaves nothing to point to. LegalEase cannot confirm that anything was destroyed. Next step: tell the participant what an absence in a DCJS Record Review does and does not prove, and direct any status question about their own request to the Office of Court Administration.",
+        "Immigration exposure. Sealing does not remove immigration consequences and sealed records remain reachable by immigration authorities. Next step: a New York immigration attorney, before any request is signed or sent.",
+        "Firearms licensing goals. Next step: a New York firearms-licensing attorney; the marijuana expungement does not answer the licensing question.",
+        "Federal and out-of-state convictions, which New York sealing does not reach. Next step: counsel in the convicting jurisdiction.",
+        "Any dispute about whether the conviction is one CPL § 160.50(3)(k) reaches, or about whether the case has in fact been expunged. LegalEase does not determine eligibility and does not certify that the automatic expungement happened. Next step: the participant confirms from their own record, and where the dispute survives that, a New York criminal defence lawyer or a public defender record-clearing project.",
+        "The participant cannot identify the court, docket number or charge for the case. A request cannot name a record that has not been identified. Next step: request a DCJS Record Review, or ask the clerk of the court of conviction for the case identifiers, before the request is prepared.",
+        "Source or revision uncertainty on the official application. The instrument retained at MRTA-DESTRUCTION-REQUEST carries no recorded revision and no official source URL, and LegalEase does not substitute a local or unofficial form. Next step: the official-PDF implementation owner obtains the current Office of Court Administration application and records its identity and revision before any participant copy exists.",
+        "A request for anything other than destruction of an expunged New York marijuana conviction record — resentencing, vacatur of a conviction the automatic route does not reach, or relief on a federal, out-of-state, military or tribal record. Next step: a New York criminal defence lawyer, or counsel in the convicting jurisdiction.",
+        "The Office of Court Administration denies the destruction request or does not respond. CPL § 160.50(5) sets no timeline, names no remedy for non-response and gives no appeal route for the request. Next step: a New York criminal defence lawyer or a public defender record-clearing project. Do not re-send the request as though a remedy had been established.",
+        "Court records for the case cannot be located, or the vacatur, dismissal and expungement has not been reflected. This is the CPL § 160.50(5)(b)(ii)(B) route and not the destruction request. Next step: the participant or their attorney presents a DCJS fingerprint record, a copy of a court disposition record or other relevant court record to an appropriate court employee, after which the chief administrator of the courts or their designee must assure completion promptly and in any event within thirty days."
       ],
       "unresolvedQuestions": [
         {
-          "question": "The MRTA provisions were not read at source and the review cites the Act generically rather than to a section. Pin the statutory citation for the expungement and destruction remedy.",
+          "question": "The operative provision is now pinned for this track: CPL § 160.50(5)(a) directs the automatic vacatur, dismissal and expungement, § 160.50(5)(b)(i) conditions destruction on the written request of the individual whose case has been expunged or their designated agent, and the covered offences are those described in § 160.50(3)(k). What is still unpinned is the Marihuana Regulation and Taxation Act chapter-law citation the review asks for, and the full current content of § 160.50(3)(k) as that Act amended it.",
           "impact": "build_blocker",
           "affectedElement": "governing_mechanism",
           "provenance": {
@@ -154120,7 +154256,7 @@
           }
         },
         {
-          "question": "The mechanics and current status of the Office of Court Administration destruction request, including what the participant receives back and how long it takes. Edition 1.2 retains the application itself, which settles the instrument but not the procedure around it.",
+          "question": "The mechanics and current status of the Office of Court Administration destruction request: where the participant sends it, what they receive back and how long it takes. CPL § 160.50(5)(b)(i) names no recipient, no timeline and no remedy for non-response, and § 160.50(5)(b)(ii)(B) names an appropriate court employee only for the separate route where records cannot be located. Edition 1.2 retains the application itself, which settles the instrument but not the procedure around it.",
           "impact": "release_blocker",
           "affectedElement": "participant_instructions",
           "provenance": {
@@ -154139,6 +154275,42 @@
             "sourceFile": "NY__LEGAL-REVIEW__STATEWIDE__new-york-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
             "sourceHeading": "TRACK 3, Open questions",
             "sourceStatement": "Whether records already destroyed can be confirmed at all, since destruction by definition leaves nothing to point to. Unresolved and worth thinking through for participant expectations."
+          }
+        },
+        {
+          "question": "The official application retained at MRTA-DESTRUCTION-REQUEST carries revision REV-UNKNOWN and no official source URL, and no current Office of Court Administration publication of it was located at an official channel on 2026-08-07. The instrument's legal role is established by CPL § 160.50(5)(b)(i); its exact official title, form number, issuer imprint and current revision are not. No local or unofficial form may be substituted, and no binary was acquired or materialized by this correction.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "NY__LEGAL-REVIEW__STATEWIDE__new-york-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "PART 2.2, Documents not supplied",
+            "sourceStatement": "MRTA marijuana destruction request to OCA | Office of Court Administration | Build blocker for Track 3",
+            "counselQuestion": "Is the Edition 1.2 asset retained at MRTA-DESTRUCTION-REQUEST the current Office of Court Administration application to destroy a marijuana conviction record, and what are its official title, form number and revision?"
+          }
+        },
+        {
+          "question": "Scope divergence. The controlling review states the covered dispositions as convictions for unlawful possession of marijuana and fifth-degree criminal possession of marijuana, and the design records those two categories. CPL § 160.50(3)(k) as read at the New York State Senate's published-statutes channel on 2026-08-07 appears to reach more than those two, and the Unified Court System's own public guidance describes the automatic expungement in broader terms. The eligibility fields on this track are left exactly as counsel recorded them and the divergence is returned rather than decided, because under-inclusive screening would tell an eligible participant they are not covered.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "NY__LEGAL-REVIEW__STATEWIDE__new-york-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 3, Eligible dispositions",
+            "sourceStatement": "convictions for unlawful possession of marijuana and fifth-degree criminal possession of marijuana.",
+            "counselQuestion": "Does the marijuana track's eligibility follow CPL § 160.50(3)(k) as amended, in which case the two named categories are under-inclusive, or is the narrower statement deliberate?"
+          }
+        },
+        {
+          "question": "Structure note: ny_mrta_marijuana is normalized as ONE relief mechanism under CPL § 160.50(5) with a sequential composition — the automatic vacatur, dismissal and expungement as guidance, then the conditional participant-signed destruction request on the official Office of Court Administration application. It is not a supporting action, because the request is not a correction or follow-up for an automatic process that failed: destruction is never automatic, and the statute supplies a separate route at § 160.50(5)(b)(ii)(B) for the case where the automatic relief has not been reflected. No separate relief track was created, the source slot is still accounted exactly once, and the sixteen review slots still normalize to sixteen nodes.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "output_strategy",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "NY__LEGAL-REVIEW__STATEWIDE__new-york-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "sourceHeading": "TRACK 3, Output strategy",
+            "sourceStatement": "process_guidance, with an optional request to the Office of Court Administration to confirm or effect destruction.",
+            "counselQuestion": "Confirm that the participant-signed destruction request is a conditional stage of the same CPL § 160.50(5) mechanism rather than an independent remedy or a supporting action, and that a sequential composition correctly states it."
           }
         }
       ],
@@ -154219,6 +154391,50 @@
             "sourceHeading": "LIMITATIONS, CLASSIFIED",
             "sourceStatement": "Never state that a record is already sealed; verify through DCJS | Packet instruction"
           }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Destruction is not automatic. Records of an expunged marijuana conviction are destroyed only upon the written request of the individual whose case has been expunged, or their designated agent. Never tell a participant that their marijuana records have been destroyed, and never present the request as confirming or chasing relief that failed.",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "https://www.nysenate.gov/legislation/laws/CPL/160.50",
+            "sourceHeading": "CPL § 160.50(5)(b)(i), duties of certain state officials and law enforcement agencies",
+            "sourceStatement": "Upon the written request of the individual whose case has been expunged or their designated agent, such records shall be destroyed.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "classification": "post_generation_handoff",
+          "statement": "After the participant signs and sends the destruction request, the Office of Court Administration and the record holders act. The chief administrator of the courts notifies the Division of Criminal Justice Services and the heads of all appropriate police departments, district attorneys' offices and other law enforcement agencies, and those holders mark the records as expunged and, on request, destroy them. The participant notifies no agency, serves nobody and delivers no certified copies, and LegalEase does not submit the request.",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "https://www.nysenate.gov/legislation/laws/CPL/160.50",
+            "sourceHeading": "CPL § 160.50(5)(b)(i), notification and marking",
+            "sourceStatement": "the chief administrator of the courts shall promptly notify the commissioner of the division of criminal justice services and the heads of all appropriate police departments, district attorney's offices and other law enforcement agencies of all convictions that have been vacated and dismissed pursuant to paragraph (a) of this subdivision",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Where court records cannot be located, or the vacatur, dismissal and expungement has not been reflected, the route is CPL § 160.50(5)(b)(ii)(B) and not the destruction request: the person or their attorney presents a Division of Criminal Justice Services fingerprint record, a copy of a court disposition record or other relevant court record to an appropriate court employee, and the chief administrator of the courts or their designee shall assure completion promptly and in any event within thirty days.",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "https://www.nysenate.gov/legislation/laws/CPL/160.50",
+            "sourceHeading": "CPL § 160.50(5)(b)(ii)(B), records not located or not updated",
+            "sourceStatement": "where court records relevant to such matter cannot be located or have been destroyed, and a person or the person's attorney presents to an appropriate court employee a fingerprint record of the New York state division of criminal justice services, or a copy of a court disposition record or other relevant court record ... then promptly, and in any event within thirty days after such notice to such court employee, the chief administrator of the courts or his or her designee shall assure that such vacatur, dismissal, and expungement, including record destruction if requested, have been completed",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "classification": "self_help_boundary",
+          "statement": "Destruction is irreversible and is not the same as expungement. An expunged conviction is already excluded from a Division of Criminal Justice Services criminal history report, and the statute itself contemplates that a person whose court records have been destroyed may later need to present a fingerprint record or a disposition record to have the relief assured. Say that plainly before the participant signs. LegalEase prepares the request the participant asks for; it does not advise whether to ask for destruction.",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "https://www.nysenate.gov/legislation/laws/CPL/160.50",
+            "sourceHeading": "CPL § 160.50(5)(b)(ii)(A)(1) and (B), consequences of destruction",
+            "sourceStatement": "when the division of criminal justice services conducts a search of its criminal history records ... and returns a report thereon, all references to a conviction for an offense described in paragraph (k) of subdivision three of this section shall be excluded from such report",
+            "normalizerInferred": true
+          }
         }
       ],
       "legalStatus": "legal_review_pending",
@@ -154226,7 +154442,7 @@
       "implementationQueue": "F_source_problem",
       "legalDesignBlockers": [
         "Design undetermined: Pin the MRTA statutory citations (undetermined: governing_mechanism)",
-        "Open question blocks the build (governing_mechanism): The MRTA provisions were not read at source and the review cites the Act generically rather than to a section. Pin the statutory citation for the expungement and destruction remedy."
+        "Open question blocks the build (governing_mechanism): The operative provision is now pinned for this track: CPL § 160.50(5)(a) directs the automatic vacatur, dismissal and expungement, § 160.50(5)(b)(i) conditions destruction on the written request of the individual whose case has been expunged or their designated agent, and the covered offences are those described in § 160.50(3)(k). What is still unpinned is the Marihuana Regulation and Taxation Act chapter-law citation the review asks for, and the full current content of § 160.50(3)(k) as that Act amended it."
       ],
       "blockers": [
         {
@@ -154247,15 +154463,23 @@
         },
         {
           "kind": "legal_design_blocker",
-          "statement": "Open question blocks the build (governing_mechanism): The MRTA provisions were not read at source and the review cites the Act generically rather than to a section. Pin the statutory citation for the expungement and destruction remedy."
+          "statement": "Open question blocks the build (governing_mechanism): The operative provision is now pinned for this track: CPL § 160.50(5)(a) directs the automatic vacatur, dismissal and expungement, § 160.50(5)(b)(i) conditions destruction on the written request of the individual whose case has been expunged or their designated agent, and the covered offences are those described in § 160.50(3)(k). What is still unpinned is the Marihuana Regulation and Taxation Act chapter-law citation the review asks for, and the full current content of § 160.50(3)(k) as that Act amended it."
         },
         {
           "kind": "release_blocker",
-          "statement": "Open question blocks release (participant_instructions): The mechanics and current status of the Office of Court Administration destruction request, including what the participant receives back and how long it takes. Edition 1.2 retains the application itself, which settles the instrument but not the procedure around it."
+          "statement": "Open question blocks release (participant_instructions): The mechanics and current status of the Office of Court Administration destruction request: where the participant sends it, what they receive back and how long it takes. CPL § 160.50(5)(b)(i) names no recipient, no timeline and no remedy for non-response, and § 160.50(5)(b)(ii)(B) names an appropriate court employee only for the separate route where records cannot be located. Edition 1.2 retains the application itself, which settles the instrument but not the procedure around it."
         },
         {
           "kind": "release_blocker",
           "statement": "Open question blocks release (participant_instructions): Whether records already destroyed can be confirmed at all, since destruction by definition leaves nothing to point to. This matters for what the packet may promise a participant who wants proof."
+        },
+        {
+          "kind": "release_blocker",
+          "statement": "Open question blocks release (correct_form): The official application retained at MRTA-DESTRUCTION-REQUEST carries revision REV-UNKNOWN and no official source URL, and no current Office of Court Administration publication of it was located at an official channel on 2026-08-07. The instrument's legal role is established by CPL § 160.50(5)(b)(i); its exact official title, form number, issuer imprint and current revision are not. No local or unofficial form may be substituted, and no binary was acquired or materialized by this correction."
+        },
+        {
+          "kind": "release_blocker",
+          "statement": "Open question blocks release (eligibility_branch): Scope divergence. The controlling review states the covered dispositions as convictions for unlawful possession of marijuana and fifth-degree criminal possession of marijuana, and the design records those two categories. CPL § 160.50(3)(k) as read at the New York State Senate's published-statutes channel on 2026-08-07 appears to reach more than those two, and the Unified Court System's own public guidance describes the automatic expungement in broader terms. The eligibility fields on this track are left exactly as counsel recorded them and the divergence is returned rather than decided, because under-inclusive screening would tell an eligible participant they are not covered."
         },
         {
           "kind": "source_gate",

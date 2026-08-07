@@ -20509,14 +20509,14 @@
           "jurisdiction": "NY",
           "trackId": "ny_mrta_marijuana",
           "publicName": "New York marijuana records are actually destroyed",
-          "outputStrategy": "process_guidance",
+          "outputStrategy": null,
           "geographicScope": "statewide",
           "legalDesignStatus": "legal_design_approved_with_limitations",
           "legalStatus": "legal_review_pending",
           "runtimeStatus": "runtime_disabled",
           "legalDesignBlockers": [
             "Design undetermined: Pin the MRTA statutory citations (undetermined: governing_mechanism)",
-            "Open question blocks the build (governing_mechanism): The MRTA provisions were not read at source and the review cites the Act generically rather than to a section. Pin the statutory citation for the expungement and destruction remedy."
+            "Open question blocks the build (governing_mechanism): The operative provision is now pinned for this track: CPL § 160.50(5)(a) directs the automatic vacatur, dismissal and expungement, § 160.50(5)(b)(i) conditions destruction on the written request of the individual whose case has been expunged or their designated agent, and the covered offences are those described in § 160.50(3)(k). What is still unpinned is the Marihuana Regulation and Taxation Act chapter-law citation the review asks for, and the full current content of § 160.50(3)(k) as that Act amended it."
           ],
           "scopeRestrictions": [
             "Sealing is not expungement except for marijuana",
@@ -20524,8 +20524,21 @@
             "Enumerated access exceptions, including vulnerable-population checks, NYSED, transportation network companies, police and peace officer employment, and firearms licensing",
             "No reach to federal or out-of-state records, and no immigration effect"
           ],
-          "openLegalQuestions": [],
-          "participantActionCount": 8,
+          "openLegalQuestions": [
+            {
+              "question": "Structure note: ny_mrta_marijuana is normalized as ONE relief mechanism under CPL § 160.50(5) with a sequential composition — the automatic vacatur, dismissal and expungement as guidance, then the conditional participant-signed destruction request on the official Office of Court Administration application. It is not a supporting action, because the request is not a correction or follow-up for an automatic process that failed: destruction is never automatic, and the statute supplies a separate route at § 160.50(5)(b)(ii)(B) for the case where the automatic relief has not been reflected. No separate relief track was created, the source slot is still accounted exactly once, and the sixteen review slots still normalize to sixteen nodes.",
+              "impact": "nonblocking_research_note",
+              "affectedElement": "output_strategy",
+              "provenance": {
+                "classificationBasis": "counsel_confirmation_required",
+                "sourceFile": "NY__LEGAL-REVIEW__STATEWIDE__new-york-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+                "sourceHeading": "TRACK 3, Output strategy",
+                "sourceStatement": "process_guidance, with an optional request to the Office of Court Administration to confirm or effect destruction.",
+                "counselQuestion": "Confirm that the participant-signed destruction request is a conditional stage of the same CPL § 160.50(5) mechanism rather than an independent remedy or a supporting action, and that a sequential composition correctly states it."
+              }
+            }
+          ],
+          "participantActionCount": 9,
           "blockers": [
             {
               "kind": "output_review_gate",
@@ -20545,15 +20558,23 @@
             },
             {
               "kind": "legal_design_blocker",
-              "statement": "Open question blocks the build (governing_mechanism): The MRTA provisions were not read at source and the review cites the Act generically rather than to a section. Pin the statutory citation for the expungement and destruction remedy."
+              "statement": "Open question blocks the build (governing_mechanism): The operative provision is now pinned for this track: CPL § 160.50(5)(a) directs the automatic vacatur, dismissal and expungement, § 160.50(5)(b)(i) conditions destruction on the written request of the individual whose case has been expunged or their designated agent, and the covered offences are those described in § 160.50(3)(k). What is still unpinned is the Marihuana Regulation and Taxation Act chapter-law citation the review asks for, and the full current content of § 160.50(3)(k) as that Act amended it."
             },
             {
               "kind": "release_blocker",
-              "statement": "Open question blocks release (participant_instructions): The mechanics and current status of the Office of Court Administration destruction request, including what the participant receives back and how long it takes. Edition 1.2 retains the application itself, which settles the instrument but not the procedure around it."
+              "statement": "Open question blocks release (participant_instructions): The mechanics and current status of the Office of Court Administration destruction request: where the participant sends it, what they receive back and how long it takes. CPL § 160.50(5)(b)(i) names no recipient, no timeline and no remedy for non-response, and § 160.50(5)(b)(ii)(B) names an appropriate court employee only for the separate route where records cannot be located. Edition 1.2 retains the application itself, which settles the instrument but not the procedure around it."
             },
             {
               "kind": "release_blocker",
               "statement": "Open question blocks release (participant_instructions): Whether records already destroyed can be confirmed at all, since destruction by definition leaves nothing to point to. This matters for what the packet may promise a participant who wants proof."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (correct_form): The official application retained at MRTA-DESTRUCTION-REQUEST carries revision REV-UNKNOWN and no official source URL, and no current Office of Court Administration publication of it was located at an official channel on 2026-08-07. The instrument's legal role is established by CPL § 160.50(5)(b)(i); its exact official title, form number, issuer imprint and current revision are not. No local or unofficial form may be substituted, and no binary was acquired or materialized by this correction."
+            },
+            {
+              "kind": "release_blocker",
+              "statement": "Open question blocks release (eligibility_branch): Scope divergence. The controlling review states the covered dispositions as convictions for unlawful possession of marijuana and fifth-degree criminal possession of marijuana, and the design records those two categories. CPL § 160.50(3)(k) as read at the New York State Senate's published-statutes channel on 2026-08-07 appears to reach more than those two, and the Unified Court System's own public guidance describes the automatic expungement in broader terms. The eligibility fields on this track are left exactly as counsel recorded them and the divergence is returned rather than decided, because under-inclusive screening would tell an eligible participant they are not covered."
             },
             {
               "kind": "source_gate",

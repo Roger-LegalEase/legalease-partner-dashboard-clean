@@ -20,8 +20,8 @@
     "officialPdfComponentsWithPinnedSha": 106,
     "customPleadingComponents": 345,
     "processGuidanceComponents": 690,
-    "composedTracks": 50,
-    "composedUnits": 111
+    "composedTracks": 51,
+    "composedUnits": 113
   },
   "tracks": [
     {
@@ -34611,12 +34611,12 @@
     {
       "jurisdiction": "NY",
       "trackId": "ny_mrta_marijuana",
-      "outputStrategy": "process_guidance",
+      "outputStrategy": null,
       "legalReviewRetained": true,
       "pendingAuthorityReconciliation": null,
       "openLegalDesignBlockers": [
         "Design undetermined: Pin the MRTA statutory citations (undetermined: governing_mechanism)",
-        "Open question blocks the build (governing_mechanism): The MRTA provisions were not read at source and the review cites the Act generically rather than to a section. Pin the statutory citation for the expungement and destruction remedy."
+        "Open question blocks the build (governing_mechanism): The operative provision is now pinned for this track: CPL § 160.50(5)(a) directs the automatic vacatur, dismissal and expungement, § 160.50(5)(b)(i) conditions destruction on the written request of the individual whose case has been expunged or their designated agent, and the covered offences are those described in § 160.50(3)(k). What is still unpinned is the Marihuana Regulation and Taxation Act chapter-law citation the review asks for, and the full current content of § 160.50(3)(k) as that Act amended it."
       ],
       "components": [
         {
@@ -34741,13 +34741,30 @@
       "cleared": false,
       "blockingReasons": [
         "ny_mrta_marijuana: the controlling review retains an open legal-design blocker — Design undetermined: Pin the MRTA statutory citations (undetermined: governing_mechanism)",
-        "ny_mrta_marijuana: the controlling review retains an open legal-design blocker — Open question blocks the build (governing_mechanism): The MRTA provisions were not read at source and the review cites the Act generically rather than to a section. Pin the statutory citation for the expungement and destruction remedy.",
+        "ny_mrta_marijuana: the controlling review retains an open legal-design blocker — Open question blocks the build (governing_mechanism): The operative provision is now pinned for this track: CPL § 160.50(5)(a) directs the automatic vacatur, dismissal and expungement, § 160.50(5)(b)(i) conditions destruction on the written request of the individual whose case has been expunged or their designated agent, and the covered offences are those described in § 160.50(3)(k). What is still unpinned is the Marihuana Regulation and Taxation Act chapter-law citation the review asks for, and the full current content of § 160.50(3)(k) as that Act amended it.",
         "ny_mrta_marijuana-destruction-request-instructions-2: no SHA-256 pinned for the mapped asset."
       ],
-      "declaredOutputStrategy": "process_guidance",
-      "compositionMode": null,
+      "declaredOutputStrategy": "composed",
+      "compositionMode": "sequential",
       "legalReviewAsset": "STATES/NY/01_LEGAL_REVIEW/NY__LEGAL-REVIEW__STATEWIDE__new-york-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-      "units": []
+      "units": [
+        {
+          "unitId": "ny-mrta-automatic-expungement",
+          "order": 1,
+          "outputStrategy": "process_guidance",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": false
+        },
+        {
+          "unitId": "ny-mrta-destruction-request",
+          "order": 2,
+          "outputStrategy": "official_pdf_fill",
+          "available": true,
+          "approvalPinned": true,
+          "requiresPacketBinary": true
+        }
+      ]
     },
     {
       "jurisdiction": "NY",

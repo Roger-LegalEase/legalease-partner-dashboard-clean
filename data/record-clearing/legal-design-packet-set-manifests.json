@@ -39273,8 +39273,8 @@
         {
           "componentId": "ny_mrta_marijuana-destruction-request-instructions-2",
           "role": "destruction_request_instructions",
-          "requirement": "required",
-          "conditionDescription": null,
+          "requirement": "conditional",
+          "conditionDescription": "Generated only where the participant asks for destruction. Nothing is destroyed unless they ask, so the request is never produced at the outset.",
           "outputStrategy": "official_pdf_fill",
           "officialFormId": "MRTA-DESTRUCTION-REQUEST",
           "officialSourceUrl": null,
@@ -39327,13 +39327,19 @@
         },
         {
           "kind": "complete_field",
-          "description": "Signing and sending the destruction request — Application to destroy a marijuana conviction record.",
+          "description": "No participant document is produced for the automatic expungement itself — Not applicable; that stage of the packet is verification guidance.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signing, dating and sending the destruction request — Application to destroy a marijuana conviction record, signature and date block, and its submission instructions.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "sign",
-          "description": "The participant signs the destruction request. No notarization identified.",
+          "description": "The participant, or their designated agent, signs and dates the destruction request. No notarization identified. Nothing is signed for the automatic expungement, which requires no participant document at all.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
@@ -39358,15 +39364,16 @@
         },
         {
           "kind": "file",
-          "description": "Nothing is filed in a court. The expungement and destruction happen by operation of law, and a destruction request may be sent to the Office of Court Administration.",
+          "description": "Nothing is filed in a court. The vacatur, dismissal and expungement happen by operation of law under CPL § 160.50(5)(a). Destruction is not automatic: under § 160.50(5)(b)(i) the records are destroyed upon the written request of the individual whose case has been expunged, or their designated agent, and that signed request is sent to the Office of Court Administration.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
       ],
       "requiredBeforeFiling": [
         "Check your answer to \"For the marijuana case: the county, court, docket number, the charge, and when it was decided?\" against DCJS Record Review, and correct the packet if they disagree.",
-        "Signing and sending the destruction request — Application to destroy a marijuana conviction record.",
-        "The participant signs the destruction request. No notarization identified.",
+        "No participant document is produced for the automatic expungement itself — Not applicable; that stage of the packet is verification guidance.",
+        "Signing, dating and sending the destruction request — Application to destroy a marijuana conviction record, signature and date block, and its submission instructions.",
+        "The participant, or their designated agent, signs and dates the destruction request. No notarization identified. Nothing is signed for the automatic expungement, which requires no participant document at all.",
         "none identified.",
         "None identified for the destruction request. The DCJS Record Review carries its own fee.",
         "not applicable."
