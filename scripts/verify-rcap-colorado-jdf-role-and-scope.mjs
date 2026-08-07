@@ -130,8 +130,14 @@ check("no unrelated Colorado scope row moved", () => {
   // The correction is keyed to one artifact id. Every other Colorado row keeps
   // whatever the scanner gave it, including the ten that remain court-specific:
   // a general rule about service blocks would have rescoped all of them.
+  // Scoped to Colorado. Other jurisdictions carry their own corrections — the
+  // Hawaii HCJDC application hit the same false positive — and this regression
+  // is about Colorado not being rescoped by side effect, not about being the
+  // only correction in the repository.
   const corrected = registry.artifacts.filter(
-    (artifact) => artifact.geographicScopeCorrectionBasis !== undefined
+    (artifact) =>
+      artifact.jurisdiction === "CO" &&
+      artifact.geographicScopeCorrectionBasis !== undefined
   );
   assert.deepEqual(
     corrected.map((artifact) => artifact.artifactId),
