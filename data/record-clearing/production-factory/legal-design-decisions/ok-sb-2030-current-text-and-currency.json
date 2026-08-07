@@ -1,0 +1,412 @@
+{
+  "schemaVersion": 1,
+  "specificationId": "ok-sb-2030-current-text-and-currency",
+  "jobId": "rcap-ok-sb-2030-current-text-and-currency",
+  "jurisdiction": "OK",
+  "jurisdictionName": "Oklahoma",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "preparedOn": "2026-08-07",
+  "preparer": "Session D legal-design worker, executing rcap-ok-sb-2030-current-text-and-currency",
+  "baseCommit": "0f856532d40eef7528f1657da70ef825e6476fee",
+  "decisionSource": "The enrolled text of Senate Bill 2030 published by the Oklahoma Legislature, the Legislature's own bill-status record for that measure, and the codified text and historical note of 22 O.S. § 18 published by the Oklahoma State Courts Network; read against the integrated Oklahoma legal-design memo, the normalized track registry, the authoritative blocker ledger, the integrated Oklahoma custom-pleading implementation, and the completed but unintegrated Oklahoma guidance worker branch.",
+  "whatThisDocumentIs": "The decision record that closes Oklahoma's Senate Bill 2030 currency question. The integrated Oklahoma memo carries three legal-design blockers and two open questions that all reduce to one thing: the enrolled text of the bill was never obtained, so its effective date, the records it removed from automatic eligibility, the records it makes sealable without petition, and the portal procedures were all unknown. This record obtains the enrolled text, states the enactment identity, the chapter, the effective date and the phased operative dates, sets out exactly what changed in 22 O.S. §§ 18 and 19 and what was newly created at §§ 18b and 19d, and states the consequence for every affected Oklahoma track and for both Oklahoma implementations. It amends no memo, regenerates no registry, implements nothing, edits no worker branch, and asserts no counsel approval.",
+  "scopeOfThisJob": {
+    "ownedPath": "data/record-clearing/production-factory/legal-design-decisions/ok-sb-2030-current-text-and-currency.json",
+    "memoAmended": false,
+    "memoSha256AtDecision": "984994b2ede275028d8d1345738e673e369872fc226016257d367349ba86de1f",
+    "globalRegistryRegenerated": false,
+    "sourceReceiptCreated": false,
+    "sourceBinaryCommitted": false,
+    "rendererImplemented": false,
+    "workerBranchEdited": false,
+    "runtimeOrPromotionChanged": false,
+    "note": "The job's stop condition reserves memo amendment, registry regeneration and implementation to other owners. The enrolled bill was read from the Legislature's published PDF for research; no binary was committed to this repository. Everything this record establishes is applied elsewhere by Session A at integration."
+  },
+  "questionPresented": {
+    "openBlockersInIntegratedMemo": [
+      "Read §§ 18 and 19 as amended by SB 2030 | legal_design_blocker | eligibility_branch",
+      "Identify which records SB 2030 removed from automatic eligibility | legal_design_blocker | eligibility_branch",
+      "Determine whether the OSBI expedited request portal has launched | legal_design_blocker | governing_mechanism"
+    ],
+    "openQuestionsInIntegratedMemo": [
+      "The text of 22 O.S. §§ 18 and 19 as amended by Senate Bill 2030 ... The bill information record was located at the Oklahoma Legislature on 2026-08-06 but the enrolled text was not obtained from that channel. | build_blocker | governing_mechanism",
+      "Senate Bill 2030's effective date, which the review records as a legal-design blocker and which was not obtained. | release_blocker | governing_mechanism",
+      "Whether the Oklahoma State Bureau of Investigation has launched the expedited request portal. | release_blocker | governing_mechanism"
+    ],
+    "whyItMatteredBeyondTwoTracks": "The memo records this as the state's top research item and says it governs both the automatic nodes and every petition track, because §§ 18 and 19 are the petition routes' own authority and had been amended in three consecutive years."
+  },
+  "controllingSources": [
+    {
+      "kind": "enrolled_bill_text",
+      "citation": "Enrolled Senate Bill No. 2030, by Pugh and Rader of the Senate and Miller of the House",
+      "issuer": "Oklahoma Legislature",
+      "url": "https://www.oklegislature.gov/cf_pdf/2025-26%20ENR/SB/SB2030%20ENR.PDF",
+      "retrievedOn": "2026-08-07",
+      "weight": "controlling",
+      "note": "The final enrolled version, 18 pages, carrying Sections 1 through 7 and the Senate and House passage attestations. This is the text that was presented to and approved by the Governor."
+    },
+    {
+      "kind": "official_bill_status",
+      "citation": "Senate Bill 2030, 2026 session, bill information record",
+      "issuer": "Oklahoma Legislature",
+      "url": "https://www.oklegislature.gov/BillInfo.aspx?Bill=SB2030&Session=2600",
+      "retrievedOn": "2026-08-07",
+      "weight": "controlling",
+      "note": "Records the emergency vote in each chamber and the Governor's approval. Does not display a chapter number or an effective date."
+    },
+    {
+      "kind": "codified_statute",
+      "citation": "22 O.S. § 18, Expungement of criminal records, with its historical note",
+      "issuer": "Oklahoma State Courts Network",
+      "url": "https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=440214",
+      "retrievedOn": "2026-08-07",
+      "weight": "controlling",
+      "note": "The codified section as it now reads. Its historical note supplies the chapter number and effective date that neither the enrolled text nor the status page carries, and its subsection lettering independently confirms which subsection the act removed."
+    },
+    {
+      "kind": "agency_implementation_page",
+      "citation": "Criminal History Record Expungement, Oklahoma State Bureau of Investigation",
+      "issuer": "Oklahoma State Bureau of Investigation",
+      "url": "https://oklahoma.gov/osbi/services/information-services-division/disposition-services-unit/criminal-history-record-expungement.html",
+      "retrievedOn": "2026-08-07",
+      "pageLastUpdated": "2026-07-23",
+      "weight": "corroborating",
+      "note": "Read for operational status only. The page post-dates the act's effective date and still describes no portal and no operating automatic route, and still states the fee position: expunging a court record is free, expunging an arrest record carries a $150 processing fee."
+    }
+  ],
+  "sourcesExpresslyNotUsed": "No news article, private legal summary, aggregator or search snippet was treated as the statutory text, the enactment status or the effective date. A commercial statute mirror surfaced during retrieval and was not read as authority.",
+  "billIdentity": {
+    "measure": "Senate Bill 2030",
+    "session": "Oklahoma Legislature, 2026 session (session code 2600)",
+    "authors": "Senators Pugh and Rader; Representative Miller as principal House author",
+    "longTitleSubject": "Expungement of criminal records",
+    "enacted": true,
+    "chapter": "O.S.L. 2026, c. 282",
+    "chapterSource": "The historical note to the codified 22 O.S. § 18 at the Oklahoma State Courts Network, which reads in relevant part: \"Amendment by Laws 2024, c. 259, § 1, amended by Laws 2026, SB 2030, c. 282, § 1, emerg. eff. July 1, 2026.\" The Legislature's bill-status page does not display a chapter number.",
+    "passage": {
+      "senateMeasure": "Ayes 45, Nays 0, 03/25/2026",
+      "senateEmergency": "Ayes 44, Nays 1, 03/25/2026",
+      "houseMeasureAndEmergency": "Ayes 87, Nays 2, 05/04/2026",
+      "approvedByGovernor": "2026-05-11"
+    },
+    "effectiveDate": "2026-07-01",
+    "effectiveDateBasis": "Section 6 of the act reads: \"This act shall become effective July 1, 2026.\" Section 7 declares an emergency: \"It being immediately necessary for the preservation of the public peace, health or safety, an emergency is hereby declared to exist, by reason whereof this act shall take effect and be in full force from and after its passage and approval.\" The emergency was adopted in both chambers. The codifier resolves the two clauses as one date and records the amendment as \"emerg. eff. July 1, 2026\", which is the date stated here.",
+    "inForceOnPreparedDate": true,
+    "residualEffectiveDateNote": "Both candidate dates — approval on 2026-05-11 and the stated 2026-07-01 — precede this record's preparation date, so the act is in force on either reading and nothing in this record turns on the difference. The codified note is followed."
+  },
+  "actStructure": [
+    {
+      "section": "Section 1",
+      "kind": "AMENDATORY",
+      "target": "22 O.S. 2021, Section 18, as last amended by Section 1, Chapter 259, O.S.L. 2024 (22 O.S. Supp. 2025, Section 18)"
+    },
+    {
+      "section": "Section 2",
+      "kind": "NEW LAW",
+      "target": "22 O.S. § 18b"
+    },
+    {
+      "section": "Section 3",
+      "kind": "AMENDATORY",
+      "target": "22 O.S. 2021, Section 19, as last amended by Section 1, Chapter 292, O.S.L. 2025 (22 O.S. Supp. 2025, Section 19)"
+    },
+    {
+      "section": "Section 4",
+      "kind": "NEW LAW",
+      "target": "22 O.S. § 19d"
+    },
+    {
+      "section": "Section 5",
+      "kind": "REPEALER",
+      "target": "22 O.S. 2021, Section 18, as last amended by Section 12, Chapter 452, O.S.L. 2024 (22 O.S. Supp. 2025, Section 18)",
+      "note": "A conforming repeal of a duplicate Section 18 created by two 2024 acts amending the same section. It removes a duplicate, not a remedy."
+    },
+    {
+      "section": "Section 6",
+      "kind": "EFFECTIVE DATE",
+      "target": "July 1, 2026"
+    },
+    {
+      "section": "Section 7",
+      "kind": "EMERGENCY",
+      "target": "Effective from and after passage and approval"
+    }
+  ],
+  "sectionsNotTouched": {
+    "22 O.S. § 19a": "Not amended, repealed or referenced as amended by Senate Bill 2030. The act's caption names Sections 18 and 19 only, and creates Sections 18b and 19d.",
+    "22 O.S. § 991c": "Not amended by Senate Bill 2030. The deferred-sentence route and the Bureau's position that a § 991c order does not remove the arrest record are unaffected.",
+    "22 O.S. § 60.18": "Not amended by Senate Bill 2030."
+  },
+  "whatChangedInSection18": {
+    "removed": [
+      {
+        "provision": "22 O.S. § 18(C) as it stood before this act",
+        "text": "\"Beginning three (3) years after November 1, 2022, and subject to the availability of funds, individuals with clean slate eligible arrest records shall be eligible to have their arrest records sealed automatically\", together with its definition of \"clean slate eligible arrest record\" by reference to the paragraphs of subsection A.",
+        "confirmation": "The codified 22 O.S. § 18 now runs A, B, C, D, where C is the same-transaction rule for paragraphs 10 to 13 and D is the partial-sealing rule. No subsection about a clean slate eligible arrest record appears. This is the removal the act's caption describes as \"removing eligibility for automatic expungement of certain records\".",
+        "consequence": "The pre-existing automatic route — arrest records only, on a trigger that had already arrived on 1 November 2025 subject to funds — no longer exists. It is replaced prospectively by §§ 18b and 19d, whose operative dates are later."
+      }
+    ],
+    "added": [
+      {
+        "provision": "22 O.S. § 18(A)(15)",
+        "text": "\"The person has been charged or arrested or is the subject of an arrest warrant for a crime that was committed by another person who has appropriated or used the person's name or other identification without the person's consent or authorization\".",
+        "consequence": "The identity-theft category now has an express home in the petition section itself. The former paragraph 15, the reclassified-felony category, becomes paragraph 16."
+      }
+    ],
+    "renumbered": [
+      "Former subsection D, the same-transaction rule for paragraphs 10, 11, 12 and 13, becomes subsection C.",
+      "Former subsection E, the partial-sealing and admissibility rule, becomes subsection D.",
+      "Former paragraph (A)(15), the reclassified-felony category, becomes paragraph (A)(16). Section 19d(A) refers to it by its new number."
+    ],
+    "unchangedInSubstance": "The sixteen petition categories otherwise carry forward, including every waiting period the Oklahoma petition tracks depend on: one year for a dismissed misdemeanor deferred judgment, five years for a dismissed nonviolent-felony deferred judgment, five years after the end of the last misdemeanor sentence, five years after completion of a nonviolent felony sentence, ten years after completion of a felony sentence for not more than two felonies, and ten years after dismissal for not more than two deferred felony charges."
+  },
+  "whatChangedInSection19": {
+    "removed": [
+      "Former subsection B, the whole automatic-expungement process for a clean slate eligible arrest record: the Bureau's monthly identification, the monthly list to the prosecuting and arresting agencies, the forty-five-day objection window with its three grounds, the annual report of cases not expunged, and the transmission to the courts for a signed order.",
+      "Former subsection C, which preserved the right to petition where automatic expungement had not occurred and barred a cause of action for the Bureau's failure to identify a record.",
+      "Former subsection D, which preserved the right to request unsealing after an automatic expungement."
+    ],
+    "reEnactedElsewhere": "All three concepts reappear, materially expanded, in the new Section 19d: the process at § 19d(E), the petition preservation at § 19d(G), the no-cause-of-action rule at § 19d(H), and the unsealing preservation at § 19d(I).",
+    "renumbering": "With former B, C and D removed, the surviving subsections shift up by three letters from former E onward: E becomes B, F becomes C, G becomes D, H becomes E, I becomes F, J becomes G, K becomes H, L becomes I, M becomes J, N becomes K, O becomes L, P becomes M, Q becomes N, R becomes O, S becomes P, T becomes Q.",
+    "renumberingCorroboration": "Two cross-references inside the newly enacted Section 19d pin the mapping independently of the amendatory markup. Section 19d(E)(6) directs that an appeal follow \"the process provided for in subsection D of Section 19\", which is the sealing-order and appeal subsection, formerly G. Section 19d(I) preserves unsealing \"in accordance with subsection M of Section 19\", which is the unsealing subsection, formerly P. Both are consistent with a three-letter shift and with no other shift.",
+    "citationConsequence": "The ten-year obliteration rule — a sealed record not unsealed within ten years of the order may be obliterated or destroyed — moves from § 19(O) to § 19(L). The integrated Oklahoma memo and the integrated Oklahoma custom-pleading implementation both cite it as § 19(N). Under the section as amended, subsection N is the impeachment and character-evidence rule, so the existing citation now points at a different rule. This is the one citation error this record found in participant-facing text.",
+    "unchanged": "Subsection A, the petition right itself, is not disturbed: \"Any person qualified under Section 18 of this title may petition the district court of the district in which the arrest information pertaining to the person is located for the sealing of all or any part of the record, including court records, except basic identification information.\""
+  },
+  "newSection18b": {
+    "citation": "22 O.S. § 18b",
+    "definesCleanSlateEligibleRecord": {
+      "temporalFloor": "A record arising on or after January 1, 1980.",
+      "categories": [
+        "Records described in § 18(A) paragraphs 1, 2, 3, 4, 6 or 15 — acquittal, reversal with dismissal, DNA innocence, full pardon, pardon for an offence committed under eighteen, and the new identity-theft category.",
+        "Records described in § 18(A) paragraph 5 where the prosecuting agency declined to file charges and the record is an Oklahoma single-source record.",
+        "Records described in § 18(A) paragraphs 7 or 8 where the record is an Oklahoma single-source record.",
+        "A felony conviction under paragraph 1 of subsection A of 63 O.S. § 2-402, where the person is not currently serving a sentence in this state, at least five years have passed since the end of the last felony or misdemeanor sentence, and the record is a single-source record.",
+        "A misdemeanor conviction where the person has not been convicted of a felony, no felony or misdemeanor charges are pending, five years have passed since the end of the last misdemeanor sentence, and the record is a single-source record."
+      ],
+      "expungementDefinition": "Section 18b defines expungement for its own purposes as the sealing of criminal records and any public civil record arising from the same arrest, transaction or occurrence, \"including court records\". The repealed § 18(C) route reached arrest records only.",
+      "singleSourceRecord": "A criminal history record from this state consisting of an Oklahoma arrest record only, containing no out-of-state arrest, no federal arrest, and no National Sex Offender Registry or NCIC wanted or warrant entry."
+    },
+    "operativeGrant": {
+      "text": "\"Beginning on the effective date of this act and subject to the availability of funds, individuals with clean slate eligible records shall be eligible to have their records sealed without filing a court petition.\"",
+      "reading": "This confers eligibility, expressly conditioned on appropriation. It does not by itself put a process in operation; the process is Section 19d and is deadline-driven."
+    },
+    "bureauMeasurementRule": "Section 18b(C): in deciding whether the waiting periods are met the Bureau shall consider only records in its possession and shall deem sentences to have ended based on the imposed sentence length information in its possession.",
+    "sealingLevel": "Section 18b(D): records expunged under this section are partially sealed — unavailable to the public, still available to law enforcement for law enforcement purposes. This is not full sealing, and the distinction the memo already records as a scope restriction survives and now attaches to the clean-slate route itself.",
+    "admissibility": "Section 18b(E): records expunged under this section remain admissible in a subsequent criminal prosecution to prove a prior conviction or prior deferred judgment, without a court order unsealing them."
+  },
+  "newSection19d": {
+    "citation": "22 O.S. § 19d",
+    "portal": {
+      "duty": "\"By November 1, 2026, the Oklahoma State Bureau of Investigation shall establish and maintain a publicly accessible online portal for individuals to submit an expedited expungement request for clean slate eligible records as defined in Section 2 of this act, or records eligible under paragraph 16 of Section 18 of Title 22.\"",
+      "deadline": "2026-11-01",
+      "deadlineArrivedOnPreparedDate": false,
+      "whatTheRequestRequires": "Section 19d(B): only sufficient personal identification information for the Bureau to locate the record, plus contact information including an electronic mail address or phone number for notification.",
+      "reviewSequence": "Section 19d(C): the Bureau reviews the record; if eligible on Bureau records it solicits review by the arresting and prosecuting agencies; on confirmation it sends a request to the district court; if the court approves it issues an order to the Bureau and other record-holding agencies; if any party finds the record ineligible the Bureau sends the individual a written or electronic notice of rejection stating the reasons; on sealing, the Bureau notifies the individual.",
+      "participantAction": "A submission by the individual. This is the only participant-initiated step Senate Bill 2030 creates, and it is the reason the portal is worth monitoring rather than ignoring: it is a request an individual makes rather than a petition a court decides, and it carries no fee in the statute.",
+      "statusOnPreparedDate": "No portal is published. The Bureau's own expungement page, last updated 2026-07-23 and therefore after the act took effect, describes no portal and gives an email address and telephone number for enquiries. The statutory deadline has not yet arrived, so this is a duty not yet due rather than a duty breached."
+    },
+    "automaticProcess": {
+      "beginBy": "2026-11-01 is the portal date; the automatic process has its own date. Section 19d(D): \"On or before November 1, 2027, the Bureau shall begin implementing the automatic process to identify and submit clean slate eligible records for sealing without receiving a request.\"",
+      "completeBy": "\"All electronic records that are eligible for expungement through the automated clean slate process on or after November 1, 2027, shall be identified and expunged through the automated clean slate process before November 1, 2029, in accordance with a schedule to be determined by the Bureau.\"",
+      "annualReport": "Beginning in 2027 the Bureau shall publish and electronically submit to the Legislature an annual report of the number of records identified and sealed through the expedited and automatic processes.",
+      "mechanics": "Section 19d(E): monthly identification from the criminal history repository; notice to the arresting and prosecuting agencies; a forty-five-day window in which the prosecuting agency, arresting agency or Bureau may object in writing on one of three grounds — that the record does not meet the definition, that court-ordered restitution to the victim is unpaid, or a reasonable belief grounded in supporting facts that the individual is continuing to engage in criminal activity; an unobjected list to the courts for signed orders; and, where an agency objects, a discretionary court hearing at which the court may order the record expunged if it finds the objection insufficiently grounded.",
+      "orderIdentity": "Section 19d(F): orders carry an 'AE' prefix identifying an automated or expedited expungement followed by the year notification is received, are not public records, and are transmitted electronically to the Bureau.",
+      "rulemaking": "Section 19d(E)(7): the Bureau and the Supreme Court may promulgate rules governing the process."
+    },
+    "petitionPreserved": {
+      "text": "\"Nothing in this section precludes an individual from filing a petition with the district court pursuant to Section 19 of Title 22 of the Oklahoma Statutes for expungement of clean slate eligible records.\"",
+      "citation": "22 O.S. § 19d(G)",
+      "effect": "The right to petition is expressly preserved by the current text, not merely by inference. Nothing in this record may be read as narrowing it."
+    },
+    "noCauseOfAction": "Section 19d(H): an individual has no cause of action for damages if the Bureau fails to identify an arrest record as eligible.",
+    "unsealingPreserved": "Section 19d(I): an expungement under this section does not preclude requesting unsealing under § 19(M).",
+    "noDestruction": "Section 19d(J)(1): nothing in the section authorizes physical destruction of any criminal justice record."
+  },
+  "determination": {
+    "1_wasSb2030Enacted": "Yes. Approved by the Governor on 2026-05-11 after passage in both chambers, and codified as Laws 2026, c. 282.",
+    "2_finalText": "The enrolled text published by the Oklahoma Legislature, obtained 2026-08-07. The memo's statement that the enrolled text was not obtained from that channel is superseded.",
+    "3_chapterOrAct": "O.S.L. 2026, c. 282.",
+    "4_effectiveDate": "July 1, 2026, as recorded by the codifier. In force on the date of this record.",
+    "5_delayedConditionalOrPhased": "Yes, in three ways. Eligibility under § 18b(B) is expressly \"subject to the availability of funds\". The portal duty is due by 2026-11-01. The automatic process must begin by 2027-11-01 and must reach all then-eligible electronic records before 2029-11-01.",
+    "6_whichProvisionsChanged": "22 O.S. § 18 amended; 22 O.S. § 19 amended; 22 O.S. § 18b created; 22 O.S. § 19d created; a duplicate 22 O.S. § 18 repealed. 22 O.S. §§ 19a, 60.18 and 991c were not touched.",
+    "7_recordsAddedOrRemovedFromAutomaticOrNoCostRelief": "Both directions, and the net is not what the memo assumed. Removed: the § 18(C) automatic route for clean slate eligible arrest records, whose own trigger had already passed, together with its § 19(B) machinery. Added: a broader § 18b definition that reaches records rather than arrest records only, expressly including court records, adds a temporal floor of 1 January 1980, adds the new identity-theft category, and adds two conviction categories the previous automatic route did not reach at all — a 63 O.S. § 2-402(A)(1) felony after five years on a single-source record, and a misdemeanor conviction after five years on a single-source record. Also added: an expedited request portal that did not previously exist. The honest summary is that the eligible set was widened and the operative date was pushed back.",
+    "8_functioningAutomaticCleanSlateRoute": "No. No automatic sealing is operating in Oklahoma today. The statute requires the Bureau to begin implementing the automatic process on or before 2027-11-01.",
+    "9_onlyFutureAdministrativeEligibility": "Substantially yes. Section 18b(B) confers eligibility from the effective date but conditions it on the availability of funds, and every operative step is placed behind a later deadline. Present eligibility, future administration, is the accurate statement.",
+    "10_isParticipantActionRequired": "For the automatic process, no: it operates without receiving a request. For the expedited route, yes: the individual submits a request through the portal. No portal exists to submit to on the date of this record.",
+    "11_osbiRequestPortalOrVerificationStep": "No portal or request step is available. The only step available to a participant today is the one the memo already records: obtain your own OSBI criminal history record to see what the State actually holds. That is a verification step, not a relief step.",
+    "12_petitionRouteUnderSections18And19": "Open and expressly preserved by § 19d(G). The petition remains the only route by which an Oklahoma participant can obtain relief today, and this record must not be read as narrowing it.",
+    "13_affectedNormalizedTracks": "ok_clean_slate and ok_osbi_portal materially; the seven §§ 18 and 19 petition tracks and ok_991c_deferred confirmatorily.",
+    "16_confirmedVersusUnresolved": "Confirmed: enactment, chapter, effective date, the full text of both amended sections and both new sections, the phased dates, the eligible set, the removal of the old route, the preservation of the petition right, and the absence of any operating automatic route or portal. Unresolved: whether the funds on which § 18b(B) is conditioned have been appropriated, whether the Bureau will meet the 2026-11-01 portal deadline, what the portal's published procedure will require in practice, and whether the Bureau or the Supreme Court has promulgated rules under § 19d(E)(7).",
+    "17_isEnrolledTextStillUnavailable": "No. It was obtained from the Legislature's own publication and is quoted throughout this record."
+  },
+  "affectedTracks": [
+    {
+      "trackId": "ok_clean_slate",
+      "currentStrategy": "process_guidance",
+      "strategyChanges": false,
+      "disposition": "Strategy and node type are correct and unchanged. What changes is the content and the blocker set.",
+      "requiredMemoChanges": [
+        "controllingAuthority.citations: add 22 O.S. § 18b and 22 O.S. § 19d. The automatic process no longer lives in §§ 18 and 19; § 18(C) was repealed and the § 19(B) machinery was removed to § 19d.",
+        "controllingAuthority.summary: replace the narrative attributed to the review with the enacted position — automatic sealing under §§ 18b and 19d, eligibility from 2026-07-01 subject to the availability of funds, the Bureau to begin implementing the automatic process on or before 2027-11-01, and all then-eligible electronic records to be expunged before 2029-11-01.",
+        "waitingPeriods: state 2027-11-01 and 2029-11-01 exactly, and add the 2026-11-01 portal date on ok_osbi_portal.",
+        "exclusions: the second entry, \"Any record SB 2030 removed from automatic eligibility, which is not yet identified\", is now identified and should be replaced with the § 18(C) repeal, stated as a removal of the earlier arrest-record-only route rather than as an unknown risk to the participant's category.",
+        "components: the removal_risk_disclosure component's premise has closed. Its honest replacement is a scope disclosure — that the clean-slate route seals partially rather than fully under § 18b(D), that it reaches only single-source records in several categories, and that it is subject to the availability of funds.",
+        "unresolvedQuestions: the build_blocker on the amended text closes; the release_blocker on the effective date closes; the release_blocker on whether the portal has launched narrows to a dated monitor against 2026-11-01. Appropriation and rulemaking become new nonblocking monitors.",
+        "legalDesignDecision.limitations: the three legal_design_blockers close. \"Read §§ 18 and 19 as amended\" and \"Identify which records SB 2030 removed from automatic eligibility\" are answered here; \"Determine whether the OSBI expedited request portal has launched\" is answered in the negative with a statutory deadline that has not arrived."
+      ]
+    },
+    {
+      "trackId": "ok_osbi_portal",
+      "currentStrategy": "process_guidance",
+      "strategyChanges": false,
+      "disposition": "Correct today and worth keeping under a dated monitor rather than a general one.",
+      "requiredMemoChanges": [
+        "controllingAuthority.citations: add 22 O.S. § 19d, which is where the portal duty actually sits.",
+        "Record the 2026-11-01 statutory deadline, the § 19d(B) submission contents, and the § 19d(C) review sequence including the written notice of rejection with reasons.",
+        "Record that the portal request is a participant submission with no statutory fee, which is the packet-relevant fact if and when it launches.",
+        "Keep the route unbuilt. There is no published procedure and no form, so nothing can be prepared."
+      ],
+      "futurePacketCapabilityNote": "If the portal launches as § 19d(B) describes it — personal identifying information and contact details only — the resulting participant submission may become packet-capable work rather than guidance. That is a question for the owner of the Oklahoma design after the portal exists, and nothing in this record decides it."
+    },
+    {
+      "trackIds": [
+        "ok_18_19_nonconviction",
+        "ok_18_19_deferred_dismissal",
+        "ok_18_19_misdemeanor_conviction",
+        "ok_18_19_felony_conviction",
+        "ok_18_19_pardon",
+        "ok_identity_theft",
+        "ok_vpo_60_18"
+      ],
+      "currentStrategy": "custom_pleading",
+      "strategyChanges": false,
+      "disposition": "Confirmed correct. The petition right is expressly preserved by § 19d(G), and none of the seven routes is narrowed by the act.",
+      "requiredMemoChanges": [
+        "waitingPeriods: the recorded value \"unresolved pending the text as amended by SB 2030\" can now be resolved. The § 18(A) periods are set out in this record and are unchanged by the act.",
+        "ok_identity_theft is strengthened rather than disturbed: the category now has an express home at § 18(A)(15).",
+        "Every citation to a § 18 paragraph number must be re-checked against the new numbering, in which the reclassified-felony category is paragraph 16.",
+        "Correct the ten-year obliteration citation from § 19(N) to § 19(L) wherever the memo carries it."
+      ]
+    },
+    {
+      "trackId": "ok_991c_deferred",
+      "currentStrategy": "custom_pleading",
+      "strategyChanges": false,
+      "disposition": "Unaffected. Section 991c was not amended by Senate Bill 2030, and the Bureau's position that a § 991c order does not remove the arrest record is undisturbed."
+    }
+  ],
+  "implementationImpact": {
+    "oklahomaGuidanceWorker": {
+      "branch": "rcap-factory/rcap-ok-guidance-implementation-916e92d6-6122f3ae",
+      "workerCommit": "2608a5f354dc8648fdbdf96c14e262d6028743ad",
+      "moduleBlob": "158d3a6de4e082b1e14d01dc9d7138ceb5dd07a6",
+      "integratedAtBaseCommit": false,
+      "classification": "worker_copy_requires_narrow_captain_correction",
+      "whyNotMateriallyInvalidated": "Nothing structural is wrong. Both tracks remain process_guidance, no participant filing exists on either, no packet is prepared, both typed stops still resolve the same way — there is no operating automatic route and no portal to use — and the packet's central posture, that a participant should use the petition routes rather than wait, is confirmed by § 19d(G) rather than undermined. No route changes strategy and no deliverable is withdrawn.",
+      "whyNotAlreadyCurrent": "The packet's honesty depends on statements that have stopped being true. It tells the participant four times that the enrolled text and the effective date were not obtained, and it builds an entire sheet on the premise that which records were removed from automatic eligibility has not been identified. Both premises are now closed, and the sheet built on the second one now over-warns: the eligible set was widened, not narrowed against the participant. The packet also omits the nearest and most actionable date in the statute.",
+      "exactParticipantFacingSentencesAffected": [
+        {
+          "anchor": "the limits-of-this-page disclosure",
+          "current": "\"Now the limits of this page, stated rather than buried. The enrolled text of sections 18 and 19 as amended by Senate Bill 2030 was not obtained, so which records the amendment removed from automatic eligibility, which records it makes sealable without a petition, and what the portal procedures will require are all unknown here. The bill's effective date was not obtained either. Nothing on this page fills those gaps with a guess.\"",
+          "problem": "All four stated unknowns are now known. Retained as written, the packet understates what LegalEase can tell the participant.",
+          "correction": "Replace with the enacted position: the act took effect 1 July 2026 as Laws 2026, c. 282; the automatic process is at 22 O.S. § 19d and eligibility at § 18b; what remains genuinely unknown is whether the funds § 18b(B) is conditioned on have been appropriated and what the portal procedure will require once published."
+        },
+        {
+          "anchor": "the authority list",
+          "current": "\"Senate Bill 2030, Oklahoma Legislature 2026 session, bill information record located at the Oklahoma Legislature on 6 August 2026. The enrolled text was not obtained from that channel.\" and \"22 O.S. § 18 and 22 O.S. § 19, expungement of criminal records, as amended by Senate Bill 2030.\"",
+          "problem": "The first sentence is stale. The second cites the wrong sections for the automatic route: § 18(C) was repealed and the process now sits at §§ 18b and 19d.",
+          "correction": "Cite the enrolled text with its retrieval date, Laws 2026, c. 282, and 22 O.S. §§ 18, 18b, 19 and 19d."
+        },
+        {
+          "anchor": "the eligibility-boundary disclosure",
+          "current": "\"Whether a particular record qualifies is an individualised legal judgment, and on these two routes it is doubly so: which records Senate Bill 2030 removed from automatic eligibility is not yet identified.\"",
+          "problem": "The clause after the colon is closed. The boundary statement before it remains correct and should survive.",
+          "correction": "Keep the boundary; replace the clause with the § 18b(A) categories and the single-source limitation, which is the real reason a participant cannot self-assess."
+        },
+        {
+          "anchor": "typed stop relying_on_automatic_sealing_that_is_not_operating",
+          "current": "\"Worse, Senate Bill 2030 removed some records from automatic eligibility altogether and which ones has not been identified — so the wait may be for something that never arrives for your record.\"",
+          "problem": "This is the one place where the stale premise produces a materially misleading statement. What the act removed was the earlier arrest-record-only route, and it replaced that route with a wider one. A participant reading this is warned that their category may have been cut when the more likely position is the opposite.",
+          "correction": "Keep the stop — the reason to act is still sound, because nothing is operating until at least 1 November 2027 and completion is not required until 1 November 2029. Replace the removal clause with the accurate reason to act: the route seals partially rather than fully under § 18b(D), several categories reach only single-source records, and eligibility is subject to the availability of funds."
+        },
+        {
+          "anchor": "typed stop no_expedited_request_portal_is_published_to_use",
+          "current": "\"Whether it has launched is evidenced by the Bureau's own expungement page not mentioning it, and that is evidence rather than confirmation.\"",
+          "problem": "The stop's outcome is right and its evidential caution is good practice, but it omits the statutory deadline, which is the single most actionable fact available to an Oklahoma participant today.",
+          "correction": "Add that § 19d(A) requires the Bureau to establish the portal by 1 November 2026, that the date has not yet arrived, and that the Bureau's page was last updated 23 July 2026 and still shows no portal."
+        },
+        {
+          "anchor": "the mechanism description and the monitoring sheet",
+          "current": "\"Automatic sealing under 22 O.S. §§ 18 and 19, as amended by Senate Bill 2030\" and the monitoring sheet's dates.",
+          "problem": "Wrong sections for the mechanism, and the monitoring sheet lists 1 November 2027 and November 2029 but not the nearer 1 November 2026 portal date.",
+          "correction": "Cite §§ 18b and 19d, and add 1 November 2026 as the first date to watch. Also correct the comment typo \"to be seved by November 2029\" and state the completion date as before 1 November 2029."
+        }
+      ],
+      "instructionToCaptain": "The corrections above are copy and citation only, inside a module the worker owns. This record does not edit the worker branch and no edit was made to it. Session A should decide whether to take the branch and apply the corrections at integration, or return the job for a narrow copy revision against this record."
+    },
+    "oklahomaCustomPleading": {
+      "path": "src/lib/rcap/packets/jurisdictions/oklahoma/custom-pleading.ts",
+      "blobAtBaseCommit": "9fccb9979dbcac35505485d147d43b532d88c57a",
+      "integratedAtBaseCommit": true,
+      "classification": "remains_legally_correct",
+      "whyItSurvived": "The module was built not to depend on the answer. It states expressly that the category paragraph numbers are not stable and are not asserted, it screens on the description of the category rather than on a paragraph number, it never states a waiting period, and its petition describes the offence in the words used on the record so that the court, the prosecuting agency and the Bureau can match it against the section as it now reads. Every one of those decisions is vindicated by an amendment that renumbered both the paragraphs of § 18 and the subsections of § 19.",
+      "narrowCorrectionsAvailable": [
+        "The typed screen currently reads \"Its enrolled text has not been read, so LegalEase cannot tell you whether your record is one of them. Ask the Oklahoma State Bureau of Investigation before you pay for a petition you may not need.\" The text has now been read. The screen should survive — telling a participant to check before paying is right — but its reason should become the accurate one: the sealing-without-petition route exists under § 18b but nothing is operating until at least 1 November 2027, and the portal is not due until 1 November 2026.",
+        "The petition paragraph \"Senate Bill 2030, enacted in 2026, amended 22 O.S. §§ 18 and 19. It provides for the sealing of certain records without a petition, requires the Oklahoma State Bureau of Investigation to establish a request portal, and preserves the right to petition\" is accurate and may stand. It can be strengthened by naming §§ 18b and 19d and by citing § 19d(G) for the preservation.",
+        "The ten-year obliteration citation must move from § 19(N) to § 19(L). This appears in participant-facing petition text and is the one substantive citation error found."
+      ],
+      "notARegression": "None of these makes the implemented petition wrong or unfileable. The petition asserts no category and no period, so no generated document becomes inaccurate."
+    },
+    "noImplementationPerformed": "This job implemented nothing, edited no module, edited no worker branch, and generated no proof or review manifest."
+  },
+  "packetBoundaryCompliance": {
+    "noParticipantDenial": "Nothing here denies any participant a route. The petition routes are confirmed open by the current text of § 19(A) and § 19d(G).",
+    "petitionRouteNotRemoved": "The petition route is expressly preserved and is stated as preserved.",
+    "automaticReliefNotAssertedAsOperating": "No automatic relief is stated to be operating. The opposite is stated, on the statute's own deadlines.",
+    "portalNotAssertedToDetermineEligibility": "The portal is described as a request channel reviewed by the Bureau, the arresting and prosecuting agencies and the district court. It is not stated to determine eligibility, and the court remains the body that orders expungement.",
+    "noHardCodedWaitingPeriodBeyondEnactedText": "Every period stated here is quoted from the enacted text: one, five and ten years in § 18(A); five years in the two new § 18b conviction categories; forty-five days for agency objection; thirty days of notice for an objection hearing; ten years for obliteration."
+  },
+  "terminalDisposition": "resolved_current_law_established",
+  "terminalDispositionDetail": "The enrolled text of Senate Bill 2030 was obtained from the Oklahoma Legislature and the enactment, chapter and effective date were confirmed from the codifier's own historical note. Oklahoma has no operating automatic Clean Slate route and no expedited request portal today; it has statutory eligibility from 1 July 2026 subject to the availability of funds, a portal duty due 1 November 2026, an automatic process the Bureau must begin implementing by 1 November 2027 and complete for then-eligible electronic records before 1 November 2029, and an expressly preserved right to petition. The memo's three legal-design blockers and its build blocker on the amended text are answered. Two Oklahoma tracks need content and citation corrections and neither changes strategy; the guidance worker needs a narrow copy correction; the integrated custom pleading needs one citation correction and remains legally correct.",
+  "residualBlockers": [
+    {
+      "item": "Appropriation",
+      "statement": "Section 18b(B) conditions eligibility on the availability of funds. Whether funds have been appropriated was not determined and is not determinable from the act.",
+      "impact": "release_blocker",
+      "affectedElement": "governing_mechanism"
+    },
+    {
+      "item": "Portal delivery",
+      "statement": "Whether the Bureau establishes the § 19d(A) portal by 1 November 2026, and what its published procedure requires.",
+      "impact": "release_blocker",
+      "affectedElement": "filing_process",
+      "monitorDate": "2026-11-01"
+    },
+    {
+      "item": "Rulemaking",
+      "statement": "Whether the Bureau or the Supreme Court has promulgated rules under § 19d(E)(7).",
+      "impact": "nonblocking_research_note",
+      "affectedElement": "filing_process"
+    },
+    {
+      "item": "Codified verification of §§ 18b, 19 and 19d",
+      "statement": "The codified 22 O.S. § 18 was read at the Oklahoma State Courts Network and confirmed the repeal of the clean-slate subsection, the chapter and the effective date. The corresponding codified pages for §§ 18b, 19 and 19d could not be retrieved on 2026-08-07 because the site returned an automated-traffic verification page. The subsection re-lettering of § 19 stated here is derived from the enrolled amendatory text and corroborated by two cross-references inside § 19d, and no commercial mirror was substituted. Before the § 19(N) to § 19(L) correction is written into participant-facing text, it should be confirmed against the codified section.",
+      "impact": "nonblocking_research_note",
+      "affectedElement": "governing_mechanism"
+    }
+  ],
+  "requiredCaptainFollowUp": [
+    "Apply the ok_clean_slate and ok_osbi_portal memo changes recorded here, through whichever owner holds OK.memo.json. This record does not amend it.",
+    "Decide the disposition of rcap-ok-guidance-implementation at 2608a5f354dc8648fdbdf96c14e262d6028743ad against the classification worker_copy_requires_narrow_captain_correction.",
+    "Schedule the 2026-11-01 portal monitor and the 2027-11-01 automatic-process monitor as source-currentness items.",
+    "Correct the § 19(N) to § 19(L) citation in the integrated Oklahoma custom-pleading module and in the Oklahoma memo, after codified confirmation."
+  ],
+  "runtimeEffect": {
+    "runtimeEnabled": false,
+    "packetReady": false,
+    "routePromoted": false,
+    "migrationOrDeployment": false,
+    "note": "This record establishes current law. It enables nothing, promotes nothing and changes no runtime status. Every Oklahoma route remains runtime-disabled."
+  }
+}

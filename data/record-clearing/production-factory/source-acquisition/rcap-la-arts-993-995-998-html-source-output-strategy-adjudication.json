@@ -1,0 +1,454 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-la-arts-993-995-998-html-source-output-strategy-adjudication",
+  "parentJobId": "AUTH-05-acquisition-campaign-tier-2",
+  "jurisdiction": "LA",
+  "lane": "source_acquisition",
+  "strategyFamily": "not_required_design_reconciliation",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "0f856532d40eef7528f1657da70ef825e6476fee",
+  "generatedOn": "2026-08-07",
+  "reconciliationIds": [
+    "lane:LA:ARTS-993-995-998:html-output-strategy"
+  ],
+  "downloadedSourceCount": 0,
+  "generatedFrom": [
+    "data/record-clearing/legal-design-intake/LA.memo.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/master-library/authority.json",
+    "data/record-clearing/production-factory/official-pdf-families/LA/source-requirements.json",
+    "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-la-public-official-download.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-05-acquisition-campaign-tier-2.json",
+    "src/lib/rcap/packets/engines/custom-pleading.ts",
+    "src/lib/rcap/packets/engines/pleading-templates.ts",
+    "src/lib/rcap/packets/engines/types.ts",
+    "src/lib/rcap/packets/types.ts"
+  ],
+  "method": {
+    "description": "Output-strategy adjudication for the three Louisiana statutory forms the Legislature publishes only as HTML. The controlling authority findings were taken as settled from the integrated decision rcap-la-public-official-download and were not reopened. What this job adds is the mapping from those findings to a strategy this repository actually supports, established by reading the factory's own closed strategy union, its renderer contract and its pleading-template shape rather than by assuming a capability.",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "binariesDownloaded": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "sourcesRetrieved": 0,
+    "sourcesRetrievedNote": "No retrieval was needed or performed. The official text, URLs, MIME types, revisions and structure were established first-hand by the dependency job on 2026-08-07 and are reproduced here as settled findings.",
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "memoAltered": false,
+    "rendererImplemented": false,
+    "rendererInvented": false,
+    "priorFindingsReopened": false,
+    "localPacketUsed": false
+  },
+  "settledFindingsRelieduponNotReopened": {
+    "source": "data/record-clearing/production-factory/source-acquisition/rcap-la-public-official-download.json",
+    "integratedAt": "19c137d feat(record-clearing): integrate LA official-source decision",
+    "findings": [
+      "Issuer: Louisiana State Legislature. There is no issuing forms office; the statutory text itself is the form.",
+      "Official source: Law.aspx per article, with the Legislature's own LawPrint.aspx printable version. Both return Content-Type text/html.",
+      "No official PDF, DOCX or fillable binary exists for any of the three articles.",
+      "Art. 986(A) makes the statutory forms exclusive statewide; art. 986(C) permits only the court-name variation; art. 986(B) permits a supplemental form only if it adheres to the art. 993 form.",
+      "The Louisiana Supreme Court city and parish packet is non-mandatory, limited to city and parish courts, and is not a statewide substitute.",
+      "Revisions of record: art. 993 ACTS-2020-73; art. 995 ACTS-2014-145; art. 998 ACTS-2023-342. SOURCE-2026-07-31 is a capture date, not an issuer revision.",
+      "Art. 993 is ONE statutory sheet carrying exactly three Yes/No sections. The packet's three-variant split is a rendering convention of a non-mandatory packet and is the wrong denominator.",
+      "The existing flat-PDF classification of these three is unsupported, because the pinned PDFs cannot be issuer-published binaries."
+    ]
+  },
+  "questionsResolved": [
+    {
+      "question": "Are arts. 993, 995 and 998 legally prescribed forms?",
+      "answer": "Yes. Art. 986(A) provides that 'Only the forms provided for in Articles 987, 988, 989, 990, 991, 992, 993, 994, 995, and 998 shall be used' for the filings it lists. The form is the statutory text, and its use is mandatory and exclusive."
+    },
+    {
+      "question": "Must their wording be reproduced verbatim?",
+      "answer": "Yes, subject to one exception. Art. 986(A)'s exclusivity plus art. 986(C)'s single permitted amendment together mean the prescribed wording is the form. Anything that is not the court-name amendment is not a permitted variation."
+    },
+    {
+      "question": "What variation is permitted?",
+      "answer": "Exactly one: art. 986(C) permits a clerk of court of any Louisiana court with criminal jurisdiction to amend the forms 'to provide the appropriate name of the court ordering an expungement of records'. Nothing else — not headings, not ordering, not wording, not the election structure."
+    },
+    {
+      "question": "Is the participant the filing actor?",
+      "answer": "Yes for arts. 998 and 993, and yes as the submitting party for art. 995. Art. 998 carries an attorney signature block and, under 'If not represented by counsel:', a block captioned 'Signature of Mover/Defendant'. Art. 993 is filed as an attachment to the motion the mover signs. Art. 995 is the proposed order the mover submits for the judge to sign; the mover files it, the court executes it."
+    },
+    {
+      "question": "Does each article constitute a separate filing?",
+      "answer": "No. Art. 998 is a standalone primary filing. Art. 993 is a conditional supplemental sheet attached to a motion, not a filing of its own. Art. 995 is a proposed order submitted with the art. 994 interim motion. They are three components of two filings, and each is a separate rendered document within its packet."
+    },
+    {
+      "question": "Does the official HTML page contain the complete operative form?",
+      "answer": "Yes. The dependency job extracted each article's full form text from the Legislature's own page, including caption, body, election structure, signature blocks and the Acts credit line, and the Legislature's Printable Version endpoint serves the same content. Nothing operative is carried in a separate artifact, because no separate artifact exists."
+    },
+    {
+      "question": "Can a controlled custom pleading preserve the statutory form without falsely claiming to be an official PDF?",
+      "answer": "Yes, and this is the decisive point. The custom-pleading renderer records sourceIdentity as the approved template ID and sourceSha256 as null, and its RenderResult is explicitly a generated document rather than a filled official source. A rendering therefore cannot be mistaken for, or recorded as, an official binary. It reproduces the statutory words while being honest about what it is."
+    },
+    {
+      "question": "Does the existing custom-pleading renderer support the required layout and Yes/No sections?",
+      "answer": "Partly, and the gap is a template-authoring and review constraint rather than a missing capability. See rendererCapabilityAssessment."
+    },
+    {
+      "question": "Is any existing HTML-source renderer governed and production-ready?",
+      "answer": "No. None exists at all. See factorySupportedStrategies."
+    },
+    {
+      "question": "Is the current flat-PDF-overlay family cancelled, replaced, or held?",
+      "answer": "Held. See flatOverlayConsequence — cancelling it is a captain act and depends on six sibling articles outside this assignment."
+    }
+  ],
+  "factorySupportedStrategies": {
+    "closedUnion": [
+      "custom_pleading",
+      "official_pdf_fill",
+      "process_guidance"
+    ],
+    "authority": "src/lib/rcap/packets/types.ts declares `export type OutputStrategy = \"custom_pleading\" | \"official_pdf_fill\" | \"process_guidance\";` under the comment 'The three approved output strategies. There is no fourth and no default.', and re-exports the same three at runtime as OUTPUT_STRATEGIES so that every guard asking 'is this a renderer strategy?' asks it of one list.",
+    "rendererStrategies": [
+      "custom_pleading",
+      "acroform_fill",
+      "coordinate_overlay",
+      "unsupported_pending_conversion",
+      "process_guidance"
+    ],
+    "templateKinds": [
+      "custom_pleading",
+      "process_guidance"
+    ],
+    "templateKindsAuthority": "src/lib/rcap/packets/template-hash.ts declares `export type TemplateKind = \"custom_pleading\" | \"process_guidance\";`",
+    "htmlSourceRendererExists": false,
+    "htmlSourceRendererEvidence": "No member of OutputStrategy, RendererStrategy or TemplateKind names an HTML source. The engines directory contains custom-pleading, official-pdf, process-guidance, pdf-layout and template packs, and nothing that consumes HTML. The renderer failure vocabulary in engines/types.ts includes unsupported_source_format, which is what an HTML source would produce today.",
+    "officialFormReferenceIsNotAStrategy": "The string official_form_reference appears eleven times in the corpus, all of them in SC.memo.json as a component ROLE. It is not an output strategy and must not be selected as one.",
+    "consequenceForThisFamily": "official_pdf_fill is unavailable because there is no official PDF; a supported official-HTML document strategy is unavailable because none exists; process_guidance is unavailable because a participant submission exists. One strategy remains, and it remains because the evidence excludes the other two rather than because it was preferred."
+  },
+  "selectedOutputStrategy": {
+    "strategy": "custom_pleading",
+    "appliesTo": [
+      "LA-CCRP-ART-993",
+      "LA-CCRP-ART-995",
+      "LA-CCRP-ART-998"
+    ],
+    "characterisation": "A controlled custom pleading whose approved template content is the Legislature's own prescribed text, with the art. 986(C) court name as the only variable caption element and participant facts filling the statutory blanks.",
+    "whyNotOfficialPdfFill": "official_pdf_fill requires an official source binary. The official-pdf engine resolves an official source path and hashes it; with no issuer PDF it can only fail with source_missing or unsupported_source_format. Pinning the existing capture PDF instead would bind the packet to bytes the Legislature never published.",
+    "whyNotProcessGuidance": "process_guidance is for tracks with no participant submission. Art. 998 is a motion the mover signs and files, art. 993 is an attachment to such a motion, and art. 995 is a proposed order the mover submits. isFilingPacket in packets/resolve.ts is defined as outputStrategy !== 'process_guidance', so choosing guidance here would additionally mark a genuine filing packet as not a filing.",
+    "whyNotAnHtmlStrategy": "There is nothing to select. Naming one would be inventing a renderer, which the assignment forbids.",
+    "whatThisIsNot": [
+      "It is not a claim that the custom-pleading renderer may now render these three. No template exists, none is counsel-approved, and no implementation job is authorised by this record.",
+      "It is not a relabelling of an official form as LegalEase work product. The template content is the statute's own words and must be attributed to the statute, with the article number and Acts credit carried on the face of the rendering.",
+      "It is not a substitute for the official source. The Legislature's article pages remain the authority of record for the text."
+    ],
+    "distinctiveRiskOfThisCustomPleading": "The usual custom pleading carries LegalEase-authored language and counsel approves the drafting. Here counsel approves something different: fidelity to prescribed statutory text under an exclusivity statute. The review question becomes 'does this rendering reproduce the statutory form', not 'is this language sound'. That difference must be stated in the template's approval record, because a reviewer applying the ordinary drafting standard would be reviewing the wrong thing."
+  },
+  "rendererCapabilityAssessment": {
+    "engine": "src/lib/rcap/packets/engines/custom-pleading.ts, CustomPleadingRenderer, version custom-pleading/1.0.0",
+    "governed": true,
+    "governedEvidence": "It implements the shared PacketRenderer contract, fails closed through PacketRenderError with a declared failure vocabulary, and is already carried in production template packs for seven jurisdictions — DC, IL, NV, OK, SC, TN and TX.",
+    "readsAnOfficialSourceAtRenderTime": false,
+    "readsAnOfficialSourceAtRenderTimeEvidence": "It sets sourceIdentity to template.templateId and sourceSha256 to null. RenderInput carries component, jurisdiction, geography, participant facts and rootDir; the pleading path resolves a registered template, not a source binary.",
+    "templateShape": {
+      "declaredIn": "src/lib/rcap/packets/engines/pleading-templates.ts",
+      "fields": [
+        "caption { courtLine, partyBlockLeft, partyBlockRight }",
+        "title",
+        "preamble?",
+        "sections: [{ heading?, numbered?, paragraphs: string[] }]",
+        "prayer: string[]",
+        "verification?",
+        "signatureLabel?: string | null",
+        "signatureBlock: string[]",
+        "certificateOfService?: string[]"
+      ]
+    },
+    "supports": [
+      {
+        "requirement": "Court-name variation and nothing else (art. 986(C))",
+        "supported": true,
+        "how": "caption.courtLine is a per-template property. It is the natural and only place a court name varies, which matches the statute's single permitted amendment exactly."
+      },
+      {
+        "requirement": "A proposed order the judge signs, with judicial fields left blank (art. 995)",
+        "supported": true,
+        "how": "signatureLabel accepts null, documented in the engine as 'null suppresses the rule entirely, which is correct for a proposed order: the court signs it'. This is a first-class case in the engine, not a workaround."
+      },
+      {
+        "requirement": "A participant or counsel signature block (art. 998)",
+        "supported": true,
+        "how": "signatureLabel plus signatureBlock carry both the represented and unrepresented blocks the statute prints."
+      },
+      {
+        "requirement": "Participant facts filling the statutory blanks",
+        "supported": true,
+        "how": "fillTemplate substitutes facts and returns a missing-key set the renderer surfaces as warnings rather than silently emitting an empty value."
+      },
+      {
+        "requirement": "Fail closed rather than truncate",
+        "supported": true,
+        "how": "content_overflow is a declared PacketRenderFailureCode, so an oversized rendering errors instead of losing statutory text."
+      },
+      {
+        "requirement": "Service list (art. 995 'PLEASE SERVE:' block)",
+        "supported": true,
+        "how": "certificateOfService carries an ordered list of lines."
+      }
+    ],
+    "constraints": [
+      {
+        "constraint": "No structured election or checkbox primitive",
+        "detail": "Art. 993's three '____ Yes ____ No' section elections and its '( )' option lists, and art. 998's Part I and Part II data blocks, have no first-class representation. A section's paragraphs are plain strings, so the statutory characters can be carried literally, but the renderer has no notion that they are elections.",
+        "severity": "template_authoring_and_review_constraint_not_a_capability_gap",
+        "why": "The statute prescribes words and blanks, not typography. Literal reproduction of the prescribed characters is faithful to what art. 986 makes mandatory. Whether a given rendering reads as the statutory sheet is a visual-review question and is not certified here."
+      },
+      {
+        "constraint": "Section numbering is all-or-nothing",
+        "detail": "numbered is a boolean on a section and numbers that section's paragraphs. Art. 993's repeated 'NO. ___ La. Rev. Stat. Ann. § _______' charge blocks are not sequentially numbered allegations, so numbered must be left off for these templates. Setting it would inject enumeration the statute does not have, which is an unpermitted variation."
+      },
+      {
+        "constraint": "No repeating-entry primitive",
+        "detail": "Art. 993 repeats its charge block several times within each of its three sections. Each repetition must be authored literally in the template rather than generated, so the sheet's capacity is fixed at whatever the template carries. If a participant has more charges than the template's repetitions, the packet must stop rather than silently drop a charge."
+      },
+      {
+        "constraint": "Headings can strand from their section content at a page boundary",
+        "detail": "The renderer keeps execution blocks together but does not guarantee a heading stays with the body that follows it. For a three-section statutory sheet whose section captions carry the Yes/No election, a stranded caption is a fidelity risk.",
+        "severity": "known_renderer_limitation_a_worker_cannot_fix_in_a_template",
+        "handling": "It must be surfaced in the implementation job and confirmed by visual review, not assumed away."
+      },
+      {
+        "constraint": "No table or column layout",
+        "detail": "Art. 998's Part I identity block prints as labelled lines rather than a grid, so this is not fatal, but any template author expecting column alignment will not get it."
+      }
+    ],
+    "overallVerdict": "The engine can carry all three articles. Every constraint above is about how a template must be authored and reviewed, not about a missing renderer. No new renderer is required and none is proposed."
+  },
+  "affectedTracksAndComponents": [
+    {
+      "documentId": "LA-CCRP-ART-993",
+      "role": "continuation",
+      "requirement": "conditional",
+      "tracks": [
+        "la-976-arrest-no-conviction",
+        "la-977-misdemeanor-conviction",
+        "la-978-felony-conviction",
+        "la-985-expungement-by-redaction"
+      ],
+      "components": [
+        "la-976-arrest-no-conviction-continuation-5",
+        "la-977-misdemeanor-conviction-continuation-5",
+        "la-978-felony-conviction-continuation-5",
+        "la-985-expungement-by-redaction-continuation-5"
+      ],
+      "currentMemoOutputStrategy": "official_pdf_fill",
+      "requiredOutputStrategy": "custom_pleading"
+    },
+    {
+      "documentId": "LA-CCRP-ART-995",
+      "role": "proposed_order",
+      "requirement": "required",
+      "tracks": [
+        "la-985-1-interim-expungement"
+      ],
+      "components": [
+        "la-985-1-interim-expungement-proposed-order-2"
+      ],
+      "currentMemoOutputStrategy": "official_pdf_fill",
+      "requiredOutputStrategy": "custom_pleading",
+      "signatoryConstraint": "Judge. signatureLabel must be null and every decretal election, the granted/denied choice, the reasons-for-denial checkboxes, the date, the place and the judge's signature must render blank."
+    },
+    {
+      "documentId": "LA-CCRP-ART-998",
+      "role": "primary_filing",
+      "requirement": "required",
+      "tracks": [
+        "la-977d-marijuana-first-offense"
+      ],
+      "components": [
+        "la-977d-marijuana-first-offense-primary-filing-1"
+      ],
+      "currentMemoOutputStrategy": "official_pdf_fill",
+      "requiredOutputStrategy": "custom_pleading",
+      "signatoryConstraint": "Participant, or counsel where represented. Both signature blocks the statute prints must be carried."
+    }
+  ],
+  "affectedTrackCount": 6,
+  "affectedComponentCount": 6,
+  "legalDesignBoundaryPreserved": {
+    "statewideExclusivity": "preserved — art. 986(A) exclusivity is the reason a custom pleading must reproduce the statutory text rather than paraphrase it",
+    "exactStatutoryText": "preserved — the template content is the Legislature's own words",
+    "courtNameVariationOnly": "preserved — caption.courtLine is the single variable, matching art. 986(C)",
+    "participantOutsidePartyRoleSeparation": "preserved — art. 995 judicial fields blank with signatureLabel null; art. 998 mover and counsel blocks distinct; the art. 988 fee-exemption certification remains the district attorney's and is untouched by this decision",
+    "noLocalFormSubstitution": "preserved — the Louisiana Supreme Court city and parish packet is excluded and is not used anywhere in this record",
+    "noInventedPdf": "preserved — the rendering is a generated document with sourceSha256 null and is never recorded as an official binary",
+    "runtimeDisabled": "preserved — nothing here enables runtime or changes packet_ready"
+  },
+  "requiredMemoCorrection": {
+    "required": true,
+    "file": "data/record-clearing/legal-design-intake/LA.memo.json",
+    "performedByThisJob": false,
+    "whyNotPerformed": "LA.memo.json is not among this job's owned paths and the assignment expressly forbids editing it.",
+    "ownerJob": "a dedicated Session D Louisiana memo-correction child job, to be created by Session A",
+    "exactCorrections": [
+      {
+        "target": "la-977d-marijuana-first-offense, component primary_filing (officialFormId LA-CCRP-ART-998)",
+        "from": "outputStrategy: official_pdf_fill",
+        "to": "outputStrategy: custom_pleading",
+        "note": "Keep the article citation in the component note. The component stops asserting an official PDF that does not exist."
+      },
+      {
+        "target": "la-985-1-interim-expungement, component proposed_order (officialFormId LA-CCRP-ART-995)",
+        "from": "outputStrategy: official_pdf_fill",
+        "to": "outputStrategy: custom_pleading",
+        "note": "Carry forward the existing 'Judicial fields blank' constraint; it becomes signatureLabel null plus blank decretal elections."
+      },
+      {
+        "target": "la-976-arrest-no-conviction, la-977-misdemeanor-conviction, la-978-felony-conviction and la-985-expungement-by-redaction, each component continuation (officialFormId LA-CCRP-ART-993)",
+        "from": "outputStrategy: official_pdf_fill",
+        "to": "outputStrategy: custom_pleading",
+        "note": "Four components, one document. Keep the existing art. 986(B) adherence note and add that the sheet is one statutory sheet with three Yes/No sections, so a template must not be split into three."
+      }
+    ],
+    "validatorConsequence": "validate.ts requires an officialFormId on an official_pdf_fill component and normalize.ts and master-library-authority.ts route official_pdf_fill components into the official-PDF authority path, which expects a retrievable binary. Leaving the three as official_pdf_fill keeps six components pointed at a PDF the issuer does not publish. The officialFormId should be retained as the identity of the prescribed statutory form even after the strategy changes, so the binding to arts. 993, 995 and 998 is not lost.",
+    "trackLevelOutputStrategyNotChanged": "All six tracks keep track-level outputStrategy official_pdf_fill, because each still contains genuinely official_pdf_fill components — arts. 989, 991, 992, 994 and 988. This correction is at component level only. Do not convert a track wholesale.",
+    "notInScopeOfTheCorrection": "The six sibling articles are not touched. Their identity is still registry_measurement_not_uniquely_selectable and their strategy is a separate adjudication."
+  },
+  "flatOverlayConsequence": {
+    "jobId": "rcap-la-flat-pdf-overlay",
+    "disposition": "must_remain_blocked_not_cancelled_by_this_job",
+    "why": "For the three assigned articles a coordinate overlay is unsupportable: an overlay draws onto a flat PDF page, and the issuer publishes no PDF. But rcap-la-flat-pdf-overlay spans six tracks that also depend on arts. 987, 988, 989, 991, 992 and 994, none of which is in this assignment and each of which still reads identityBindingStatus registry_measurement_not_uniquely_selectable in the LA family contract. This job cannot certify that no article in that job needs an overlay, so cancelling it here would be a claim beyond the evidence.",
+    "observationOfferedToTheCaptainNotAdjudicated": "The six sibling articles are retained by Edition 1.2 at .html canonical paths under STATES/LA/02_PACKET_FORMS with assetClass packet_form, which is the same HTML-only shape as the three assigned articles. If a sibling adjudication reaches the same result, no member of the LA family would be an overlay candidate and the job would have nothing left to do.",
+    "cancellationCondition": "Cancel rcap-la-flat-pdf-overlay only after a sibling adjudication resolves arts. 987, 988, 989, 991, 992 and 994. Until then it stays blocked.",
+    "doNotReassignHere": "This record does not move any track into another implementation job and does not authorise one."
+  },
+  "customPleadingJobConsequence": {
+    "newJobShouldExist": true,
+    "whatItWouldBe": "A Louisiana custom-pleading implementation job covering the three statutory templates and the six components that consume them.",
+    "createdByThisJob": false,
+    "createdByThisJobWhy": "Creating or cancelling a compiled job is a captain act. This record states the need and its preconditions.",
+    "preconditionsBeforeItCanBeCreated": [
+      "The Session D memo correction above must land, so the six components declare custom_pleading.",
+      "Edition 1.3 must retain the three articles as HTML assets, so the template text has an authority of record with pinned bytes.",
+      "Counsel must approve each template against the fidelity standard described in selectedOutputStrategy.distinctiveRiskOfThisCustomPleading, not the ordinary drafting standard."
+    ],
+    "readiness": "Not ready, and this record does not claim otherwise. No template exists, none is approved, and every template in the registry declares on its face that it is not counsel-approved."
+  },
+  "edition13Impact": {
+    "publicationJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+    "dependencySatisfied": "rcap-la-arts-993-995-998-html-source-output-strategy-adjudication",
+    "editionAmendmentRequired": true,
+    "requiresNewBytes": true,
+    "requiresRetainedHtmlAssets": true,
+    "requiresNewBytesDetail": "Yes, and this job converts the conditional finding recorded by the dependency job into a definite one. Because the selected strategy draws its template text from the statute rather than from a binary, the edition must retain the statutory text itself as the authority of record. The three articles should be retained as HTML packet_form assets under STATES/LA/02_PACKET_FORMS at ACTS-based revisions, exactly as their six siblings already are, replacing the source_gated PDF capture rows.",
+    "requiresMetadataCorrection": true,
+    "requiresRevisionCorrection": true,
+    "requiresRoleCorrection": false,
+    "requiresScopeCorrection": false,
+    "requiresLicenseDisposition": false,
+    "amendmentHandoffItems": [
+      {
+        "item": "Asset-class realignment for the three articles",
+        "manifestRows": [
+          "LA:LA-CCRP-ART-993:FORM:EN",
+          "LA:LA-CCRP-ART-995:ORDER:EN",
+          "LA:LA-CCRP-ART-998:MOTION:EN"
+        ],
+        "kind": "metadata_correction_plus_new_bytes",
+        "from": "assetClass source_gated, .pdf canonical path under STATES/LA/05_SOURCE_GATED, capture-date revision",
+        "to": "assetClass packet_form, .html canonical path under STATES/LA/02_PACKET_FORMS, Acts-based revision",
+        "detail": "The dependency job recorded this as conditional on the output-strategy decision. The decision is now made and the condition is met."
+      }
+    ],
+    "revisionCorrectionsCarriedForward": {
+      "LA-CCRP-ART-993": "ACTS-2020-73",
+      "LA-CCRP-ART-995": "ACTS-2014-145",
+      "LA-CCRP-ART-998": "ACTS-2023-342",
+      "note": "Already handed off by the dependency job. Restated here because the asset-class change touches the same rows and the two corrections must be applied together."
+    },
+    "edition12Treatment": "immutable_unchanged",
+    "publicationPerformed": false
+  },
+  "sourceMaterializationConsequence": {
+    "pdfMaterializationApplies": false,
+    "why": "The custom-pleading renderer reads no official source at render time. It resolves a registered template and reports sourceSha256 null. There is therefore no binary for a packet to bind at generation, and the existing source-gated PDF pins for these three articles have no consumer under the selected strategy.",
+    "whatReplacesIt": "Edition-retained HTML text as the authority of record for the template's content, pinned by SHA-256 in the successor edition. That is an edition act, not a materialization receipt.",
+    "existingPdfPinsDisposition": "The three source_gated PDF pins should not be materialized for this purpose. This job does not delete or amend them; it records that they have no consumer under the selected strategy and refers them to the Edition 1.3 amendment above.",
+    "receiptsCreatedByThisJob": 0
+  },
+  "terminalDisposition": "custom_pleading_required_from_official_html_source",
+  "terminalDispositionDetail": {
+    "why": "The narrowest result the evidence supports. It is not supported_html_source_renderer_required, because no such renderer exists and naming one would be inventing a capability. It is not process_guidance_only, because a participant submission exists and marking a filing packet as guidance would be wrong in law and in the code. It is not unresolved_with_named_factory_capability_gap, because there is no capability gap: the custom-pleading engine can carry all three articles today and every constraint found is about authoring and reviewing a template. It is not output_strategy_requires_legal_design_memo_correction as the primary result, because that describes the consequence rather than the decision — the memo correction is required and is recorded, but the adjudicated answer is the strategy itself.",
+    "secondaryDisposition": "output_strategy_requires_legal_design_memo_correction",
+    "secondaryDispositionNote": "Recorded as a subordinate consequence so the memo correction is not lost. See requiredMemoCorrection."
+  },
+  "residualBlockers": [
+    {
+      "id": "la-memo-component-strategy-correction",
+      "question": "Six LA components still declare official_pdf_fill for documents with no official PDF.",
+      "status": "handed_off",
+      "owner": "dedicated Session D Louisiana memo-correction child job, created by Session A",
+      "why": "LA.memo.json is a forbidden path for this job."
+    },
+    {
+      "id": "la-edition-html-retention",
+      "question": "Edition 1.3 must retain arts. 993, 995 and 998 as HTML packet_form assets at Acts revisions.",
+      "status": "handed_off",
+      "owner": "rcap-nationwide-master-library-edition-1-3-publication",
+      "why": "Edition 1.2 is immutable and this job may not publish or amend an edition."
+    },
+    {
+      "id": "la-custom-pleading-templates",
+      "question": "No pleading template exists for any of the three articles, and none is counsel-approved.",
+      "status": "open",
+      "owner": "a Louisiana custom-pleading implementation job Session A must create",
+      "why": "Template authoring is implementation, which this lane does not perform."
+    },
+    {
+      "id": "la-993-repetition-capacity",
+      "question": "How many charge blocks each art. 993 section template must carry, and what the packet does when a participant exceeds them.",
+      "status": "open",
+      "owner": "implementation lane, with legal design",
+      "why": "The renderer has no repeating-entry primitive, so capacity is fixed at authoring time. The answer must be 'stop', never 'drop a charge'."
+    },
+    {
+      "id": "la-heading-strand-fidelity",
+      "question": "Whether art. 993's three section captions can strand from their election bodies at a page boundary.",
+      "status": "open",
+      "owner": "implementation lane, confirmed by visual review",
+      "why": "A known renderer limitation that a template author cannot fix. It must be observed in a proof, not assumed away."
+    },
+    {
+      "id": "la-sibling-article-strategies",
+      "question": "The output strategy for arts. 987, 988, 989, 991, 992 and 994.",
+      "status": "open_and_outside_this_job",
+      "owner": "LA family owner",
+      "why": "Outside this assignment. It also gates whether rcap-la-flat-pdf-overlay can be cancelled."
+    },
+    {
+      "id": "la-commercial-use",
+      "question": "Whether LegalEase may reproduce Louisiana enacted statutory text in a paid packet.",
+      "status": "unresolved",
+      "owner": "counsel",
+      "why": "Carried unchanged from the dependency job. It bears directly on a custom pleading whose content is the statute's own words."
+    }
+  ],
+  "expectedDownstreamEffect": "The three Louisiana statutory forms acquire a supported output strategy, chosen by elimination against the factory's own closed union rather than by assumption, and the unsupported flat-PDF classification stops being the operative plan for them. Six components across six tracks are identified for a component-level memo correction, which a dedicated Session D child job owns. Edition 1.3 gains a definite requirement to retain the three articles as HTML at Acts revisions. rcap-la-flat-pdf-overlay stays blocked pending the sibling adjudication. No implementation job is created, no template exists, no renderer was written or invented, no packet becomes generatable, no runtime is enabled and no track changes promotion state.",
+  "sessionAFollowUp": [
+    "Create the dedicated Session D Louisiana memo-correction child job for the six components listed in requiredMemoCorrection.",
+    "Carry the Edition 1.3 amendment items in edition13Impact, applying the asset-class and revision corrections together.",
+    "Hold rcap-la-flat-pdf-overlay blocked; do not cancel until arts. 987, 988, 989, 991, 992 and 994 are adjudicated.",
+    "Create a Louisiana custom-pleading implementation job only after the memo correction and the edition retention land."
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "sourcesMaterialized": 0,
+    "memoEdited": false,
+    "editionPublished": false,
+    "rendererImplemented": false,
+    "implementationJobCreated": false
+  }
+}
