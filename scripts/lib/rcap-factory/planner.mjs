@@ -157,6 +157,10 @@ const SC_SOLICITOR_DELIVERABLE_MEMO_CORRECTION_JOB_ID =
   "rcap-sc-solicitor-deliverable-memo-correction";
 const SC_INTEGRATED_MEMO_SHA256 =
   "1cb55c352a0ec365439dac7b1bacbeb154466d55d976c53d537dd25f654a5e64";
+const SC_MEMO_CORRECTION_COMMIT =
+  "f38ce5b039b065b032e01ae45acb10e6c0c73454";
+const VT_MEMO_CORRECTION_COMMIT =
+  "343f91f4a839cde32c0a423fa434c416e368aac2";
 const VT_600_00228_IDENTITY_COMMIT =
   "4d882023c10b9520facda87acad1c147937c7f65";
 const VT_600_00228_DECISION_SHA256 =
@@ -239,7 +243,16 @@ const COMPLETED_NORMALIZATIONS = Object.freeze([
     workerCommit: "d0f6d52dabb5dd2de1f3875fb33ffcfae75e8a86",
     completionCommit: "e6d915c1dee80918ffdac3e1848140350768246b",
     memoSha256:
-      "1cb55c352a0ec365439dac7b1bacbeb154466d55d976c53d537dd25f654a5e64"
+      "1cb55c352a0ec365439dac7b1bacbeb154466d55d976c53d537dd25f654a5e64",
+    // The memo this job delivered carried the solicitor-route deliverable
+    // question as an open release blocker on all eleven tracks, even though the
+    // same memo had already answered it by setting custom_pleading on every one
+    // of them. rcap-sc-solicitor-deliverable-memo-correction removed the stale
+    // question under the adopted deliverable determination. Both hashes are real
+    // historical states of the same file, so either satisfies the on-disk check.
+    amendedByJobId: "rcap-sc-solicitor-deliverable-memo-correction",
+    amendedMemoSha256:
+      "8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f"
   },
   {
     jurisdiction: "VA",
@@ -322,7 +335,15 @@ const COMPLETED_NORMALIZATIONS = Object.freeze([
     subjectMismatchResolvedByCaptainEquivalentCommit: true,
     completionCommit: "0e712995b866b0379805ed9a90ca72e295d9eada",
     memoSha256:
-      "d2ff010de0e1a862f49a287ee02cf11a9dfdc4bf28f553d65e660207b9b81817"
+      "d2ff010de0e1a862f49a287ee02cf11a9dfdc4bf28f553d65e660207b9b81817",
+    // The memo this job delivered bound all seven fee-waiver components to the
+    // superseded 11/2019 object and still carried the 600-00229 numbering typo.
+    // rcap-vt-600-00228-current-revision-memo-correction rebound them to the
+    // current 04/2026 revision under the adopted identity decision. Both hashes
+    // are real historical states of the same file.
+    amendedByJobId: "rcap-vt-600-00228-current-revision-memo-correction",
+    amendedMemoSha256:
+      "4bcd3fa16e73781234c2ebaabbd24e20dc25967049a86c66b6064aaa25fab079"
   },
   {
     jurisdiction: "TX",
@@ -1942,7 +1963,8 @@ export function buildFactoryPlan(options = {}) {
         "rcap-vt-600-00228-source-identity-resolution",
         "rcap-vt-legal-design-normalization"
       ],
-      status: "ready",
+      status: "completed",
+      completionCommit: VT_MEMO_CORRECTION_COMMIT,
       expectedOutputs: ["data/record-clearing/legal-design-intake/VT.memo.json"],
       ownedPaths: ["data/record-clearing/legal-design-intake/VT.memo.json"],
       requiredInputs: [
@@ -2064,7 +2086,8 @@ export function buildFactoryPlan(options = {}) {
       strategyFamily: "legal_design_normalization_amendment",
       trackIds: [],
       dependencies: ["rcap-sc-legal-design-normalization"],
-      status: "ready",
+      status: "completed",
+      completionCommit: SC_MEMO_CORRECTION_COMMIT,
       expectedOutputs: ["data/record-clearing/legal-design-intake/SC.memo.json"],
       ownedPaths: ["data/record-clearing/legal-design-intake/SC.memo.json"],
       requiredInputs: [
@@ -3122,7 +3145,7 @@ function addTrackLaneJobs({
             )
         )
       : [];
-    const overrides = implementationJobOverrides(lane, jurisdiction);
+    const overrides = implementationJobOverrides(lane, jurisdiction, inputs);
     const state = (inputs.allStateBuildStatus.states ?? []).find(
       (candidate) => candidate.code === jurisdiction
     );
@@ -3198,7 +3221,23 @@ const COMPLETED_CUSTOM_PLEADING_IMPLEMENTATIONS = Object.freeze([
   }
 ]);
 
-function implementationJobOverrides(lane, jurisdiction) {
+// The deliverable-identity question South Carolina's custom-pleading job waits
+// on is a real property of the normalized design, so readiness is read from it
+// rather than pinned to a memo hash or asserted by hand. Zero unresolved
+// output-strategy questions across the assigned tracks means the correction
+// landed; one means it did not, whatever any status field claims.
+function unresolvedOutputStrategyQuestionCount(inputs, jurisdiction, lane) {
+  return (inputs?.normalizedTracks?.tracks ?? [])
+    .filter(
+      (track) =>
+        track.jurisdiction === jurisdiction && track.outputStrategy === lane
+    )
+    .flatMap((track) => track.unresolvedQuestions ?? [])
+    .filter((question) => question.affectedElement === "output_strategy")
+    .length;
+}
+
+function implementationJobOverrides(lane, jurisdiction, inputs) {
   const completedOfficialPdf = COMPLETED_OFFICIAL_PDF_IMPLEMENTATIONS.find(
     (record) =>
       record.lane === lane && record.jurisdiction === jurisdiction
@@ -3265,28 +3304,59 @@ function implementationJobOverrides(lane, jurisdiction) {
     // Scaffolding this job while the memo still asks whether LegalEase may
     // pre-fill the prescribed order form would hand a worker eleven tracks
     // whose deliverable identity reads as undecided, which is exactly why the
-    // first attempt stopped without a commit. It stays dependency-incomplete
-    // until the corrected memo and the regenerated specifications carry zero
-    // unresolved deliverable-identity questions.
+    // first attempt stopped without a commit. Readiness is derived from the
+    // normalized design itself, not from a status field: the gate lifts only
+    // when the assigned tracks carry no unresolved output-strategy question.
+    const openDeliverableQuestions = unresolvedOutputStrategyQuestionCount(
+      inputs,
+      "SC",
+      "custom_pleading"
+    );
+    if (openDeliverableQuestions > 0) {
+      return {
+        status: "blocked",
+        dependencies: [SC_SOLICITOR_DELIVERABLE_MEMO_CORRECTION_JOB_ID],
+        model: "opus",
+        effort: "xhigh",
+        executionNote:
+          "Do not scaffold or execute until " +
+          `${SC_SOLICITOR_DELIVERABLE_MEMO_CORRECTION_JOB_ID} is complete. The controlling ` +
+          "determination is recorded at " +
+          `${FACTORY_DATA_DIR}/legal-design-decisions/` +
+          `${SC_SOLICITOR_DELIVERABLE_DECISION_ID}.json; the memo has not yet been corrected ` +
+          "against it.",
+        stopCondition:
+          `Blocked on the solicitor-deliverable memo correction. ${openDeliverableQuestions} ` +
+          "assigned tracks still carry a release_blocker question on output_strategy asking " +
+          "whether LegalEase may pre-fill the prescribed expungement order form. The answer is " +
+          "recorded and is no; the memo has not yet been corrected to say so. Do not scaffold, " +
+          "do not create an implementation branch, do not resolve the question inside an " +
+          "implementation, and do not enable runtime, promote, or deploy. " +
+          TERMINAL_INSTRUCTION
+      };
+    }
     return {
-      status: "blocked",
-      dependencies: [SC_SOLICITOR_DELIVERABLE_MEMO_CORRECTION_JOB_ID],
       model: "opus",
       effort: "xhigh",
       executionNote:
-        "Do not scaffold or execute until " +
-        `${SC_SOLICITOR_DELIVERABLE_MEMO_CORRECTION_JOB_ID} is complete. The controlling ` +
-        "determination is recorded at " +
+        "The controlling deliverable determination is recorded at " +
         `${FACTORY_DATA_DIR}/legal-design-decisions/` +
-        `${SC_SOLICITOR_DELIVERABLE_DECISION_ID}.json; the memo has not yet been corrected ` +
-        "against it.",
+        `${SC_SOLICITOR_DELIVERABLE_DECISION_ID}.json and the memo is corrected against it, so ` +
+        "the eleven assigned tracks carry no unresolved output-strategy question. Generate the " +
+        "participant deliverable the determination names and nothing else.",
       stopCondition:
-        "Blocked on the solicitor-deliverable memo correction. All eleven assigned tracks still " +
-        "carry a release_blocker question on output_strategy asking whether LegalEase may " +
-        "pre-fill the prescribed expungement order form. The answer is recorded and is no; the " +
-        "memo has not yet been corrected to say so. Do not scaffold, do not create an " +
-        "implementation branch, do not resolve the question inside an implementation, and do not " +
-        "enable runtime, promote, or deploy. " +
+        "Generate, for each of the eleven solicitor-office routes, a controlled application or " +
+        "request package directed to the solicitor's office. Do not generate the solicitor's " +
+        "statutory expungement order and do not portray any generated document as the " +
+        "participant's filing of it: SCCA 223A1, SCCA 223C and analogous prescribed order " +
+        "instruments remain solicitor and court documents, and the solicitor's office obtains " +
+        "and completes the blank order form under section 17-22-930. Leave every solicitor, " +
+        "attestor, clerk and court field blank. SCCA 223E is the participant-facing official " +
+        "application only on the unfingerprinted section 17-22-950(B) branch and belongs to no " +
+        "solicitor route. Do not invent a participant-facing official form. Preserve the " +
+        "single-incident fee question, the same-incident aggregation question, multi-county " +
+        "venue and the H.3730 and H.428 monitor. Keep every route runtime-disabled and " +
+        "packet_ready false. " +
         TERMINAL_INSTRUCTION
     };
   }
