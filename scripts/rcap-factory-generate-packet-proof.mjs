@@ -93,19 +93,98 @@ if (verification.status !== 0) {
   fail(`${job.regressionVerifier} failed; packet proof was not written.`);
 }
 
+// Canonical samples are the legal coverage: one final assembled packet for each
+// assigned track, no more and no fewer. A regression variant is extra technical
+// evidence for a conditional branch of a track that already has a canonical
+// sample — Oklahoma's reclassified felony, Nevada's acquitted non-conviction,
+// South Dakota's teaching-licence sheet. Counting a variant as a track would
+// claim legal coverage the design does not have, so variants are partitioned
+// out of track coverage and counted only as fixtures and pages.
 const samples = parseSamples(verification.stdout ?? "");
+const canonicalSamples = samples.filter(
+  (sample) => sample.sampleRole === "canonical"
+);
+const variantSamples = samples.filter(
+  (sample) => sample.sampleRole === "variant"
+);
+const assignedTrackIds = new Set(job.trackIds);
 const expectedTrackIds = [...job.trackIds].sort();
-const actualTrackIds = samples.map((sample) => sample.trackId).sort();
+const canonicalTrackIds = canonicalSamples.map((sample) => sample.trackId).sort();
+
 if (
-  samples.length !== expectedTrackIds.length ||
-  new Set(actualTrackIds).size !== actualTrackIds.length ||
-  JSON.stringify(actualTrackIds) !== JSON.stringify(expectedTrackIds)
+  canonicalSamples.length !== expectedTrackIds.length ||
+  new Set(canonicalTrackIds).size !== canonicalTrackIds.length ||
+  JSON.stringify(canonicalTrackIds) !== JSON.stringify(expectedTrackIds)
 ) {
   fail(
-    `${job.regressionVerifier} emitted ${samples.length} packet hashes for ` +
-      `${job.trackIds.length} assigned tracks.`
+    `${job.regressionVerifier} emitted ${canonicalSamples.length} canonical ` +
+      `packet hashes for ${job.trackIds.length} assigned tracks; each assigned ` +
+      "track needs exactly one canonical final packet."
   );
 }
+for (const variant of variantSamples) {
+  if (!assignedTrackIds.has(variant.trackId)) {
+    fail(
+      `${variant.fixtureId ?? variant.trackId} is a variant of ${variant.trackId}, ` +
+        "which this job is not assigned."
+    );
+  }
+  if (!canonicalTrackIds.includes(variant.trackId)) {
+    fail(
+      `${variant.fixtureId ?? variant.trackId} is a variant of ${variant.trackId}, ` +
+        "which has no canonical sample."
+    );
+  }
+}
+// Two variants of one track that render the same bytes prove the same thing
+// twice and cannot be told apart in review.
+const variantFingerprints = variantSamples.map(
+  (variant) => `${variant.trackId}|${variant.assembledSha256}`
+);
+if (new Set(variantFingerprints).size !== variantFingerprints.length) {
+  fail(
+    `${job.regressionVerifier} emitted indistinguishable duplicate variants.`
+  );
+}
+
+// A job with no variants writes exactly the record it always wrote, so every
+// existing one-sample-per-track proof stays valid without regeneration.
+const variantEvidence =
+  variantSamples.length > 0
+    ? {
+        canonicalPacketCount: canonicalSamples.length,
+        variantPacketCount: variantSamples.length,
+        technicalFixtureCount: samples.length,
+        technicalFixturePageCount: samples.reduce(
+          (total, sample) => total + sample.assembledPageCount,
+          0
+        )
+      }
+    : {};
+const samplePackets =
+  variantSamples.length > 0
+    ? samples.map((sample) => ({
+        trackId: sample.trackId,
+        ...(sample.fixtureId ? { fixtureId: sample.fixtureId } : {}),
+        sampleRole: sample.sampleRole,
+        ...(sample.sampleRole === "variant"
+          ? {
+              variantOfTrackId: sample.trackId,
+              ...(sample.variantPurpose
+                ? { variantPurpose: sample.variantPurpose }
+                : {})
+            }
+          : {}),
+        assembledFileName: sample.assembledFileName,
+        assembledSha256: sample.assembledSha256,
+        assembledPageCount: sample.assembledPageCount
+      }))
+    : samples.map((sample) => ({
+        trackId: sample.trackId,
+        assembledFileName: sample.assembledFileName,
+        assembledSha256: sample.assembledSha256,
+        assembledPageCount: sample.assembledPageCount
+      }));
 
 const proof = {
   schemaVersion: "rcap-participant-packet-proof/v1",
@@ -123,12 +202,15 @@ const proof = {
     path: relativePath,
     sha256: fileSha256(path.join(ROOT, relativePath))
   })),
-  finalPdfCount: samples.length,
-  assembledPageCount: samples.reduce(
+  // Final track coverage counts canonical samples only. Variants are recorded
+  // beside them, never inside them.
+  finalPdfCount: canonicalSamples.length,
+  assembledPageCount: canonicalSamples.reduce(
     (total, sample) => total + sample.assembledPageCount,
     0
   ),
-  samplePackets: samples,
+  ...variantEvidence,
+  samplePackets,
   deterministic: true,
   generatedPacketBytesTracked: false,
   runtimeStatus: "runtime_disabled",
@@ -147,9 +229,28 @@ console.log(
   `${proof.finalPdfCount} packet(s), ${proof.assembledPageCount} page(s)`
 );
 
+/**
+ * Reads the result rows a focused verifier prints.
+ *
+ * A verifier that renders regression variants states each row's role itself, so
+ * the canonical/variant partition is derived from the verifier that rendered
+ * the bytes rather than guessed downstream from a fixture-id suffix. A verifier
+ * that emits one packet per track says nothing about roles, and every one of
+ * its rows is canonical — which is what the older formats below mean.
+ */
 function parseSamples(stdout) {
   const samples = [];
   for (const line of stdout.split(/\r?\n/)) {
+    // Role-bearing custom-pleading form:
+    //   ok-felony-reclassified-2  ok_18_19_felony_conviction  variant  2 components  6 pages  sha256=<64 hex>
+    const roleLabelled = line.match(
+      /^\s+(\S+)\s+(\S+)\s+(canonical|variant)\s+\d+\s+components?\s+(\d+)\s+pages?\s+sha256=([0-9a-f]{64})$/
+    );
+    // Role-bearing guidance form:
+    //   sd_sis_sealing  variant  12p  <64 hex>
+    const roleTable = line.match(
+      /^\s+(\S+)\s+(canonical|variant)\s+(\d+)p\s+([0-9a-f]{64})$/
+    );
     const colon = line.match(
       /^-\s+(\S+):\s+(\d+)\s+pages\s+([0-9a-f]{64})$/
     );
@@ -161,32 +262,72 @@ function parseSamples(stdout) {
     const labelled = line.match(
       /^\s+(\S+)\s+\d+\s+components?\s+(\d+)\s+pages?\s+sha256=([0-9a-f]{64})$/
     );
-    const match = colon ?? table ?? labelled;
-    if (!match) {
+
+    let parsed = null;
+    if (roleLabelled) {
+      parsed = {
+        fixtureId: roleLabelled[1],
+        trackId: roleLabelled[2],
+        sampleRole: roleLabelled[3],
+        assembledPageCount: Number(roleLabelled[4]),
+        assembledSha256: roleLabelled[5]
+      };
+    } else if (roleTable) {
+      parsed = {
+        fixtureId: null,
+        trackId: roleTable[1],
+        sampleRole: roleTable[2],
+        assembledPageCount: Number(roleTable[3]),
+        assembledSha256: roleTable[4]
+      };
+    } else if (colon ?? table ?? labelled) {
+      const match = colon ?? table ?? labelled;
+      parsed = {
+        fixtureId: null,
+        trackId: match[1],
+        sampleRole: "canonical",
+        assembledPageCount: Number(match[2]),
+        assembledSha256: match[3]
+      };
+    }
+
+    if (!parsed) {
       const malformedColon =
         /^-\s+\S+:\s+\S+\s+pages?\s+\S+\s*$/.test(line);
       const malformedTable =
         /^\s+\S+\s+(?:\S+c\s+)?\S+p\s+\S+\s*$/.test(line);
       const malformedLabelled =
         /^\s+\S+\s+\S+\s+components?\s+\S+\s+pages?\s+sha256=\S*$/.test(line);
-      if (malformedColon || malformedTable || malformedLabelled) {
+      const malformedRole =
+        /^\s+\S+\s+(?:\S+\s+)?(?:canonical|variant)\s+\S+/.test(line);
+      if (
+        malformedColon ||
+        malformedTable ||
+        malformedLabelled ||
+        malformedRole
+      ) {
         fail(`Malformed packet result emitted by the verifier: ${line.trim()}`);
       }
       continue;
     }
-    const assembledPageCount = Number(match[2]);
-    if (!Number.isInteger(assembledPageCount) || assembledPageCount < 1) {
-      fail(`Invalid page count emitted for ${match[1]}.`);
+    if (
+      !Number.isInteger(parsed.assembledPageCount) ||
+      parsed.assembledPageCount < 1
+    ) {
+      fail(`Invalid page count emitted for ${parsed.fixtureId ?? parsed.trackId}.`);
     }
     samples.push({
-      trackId: match[1],
-      assembledFileName: `${match[1]}-technical-fixture.pdf`,
-      assembledSha256: match[3],
-      assembledPageCount
+      ...parsed,
+      assembledFileName: `${parsed.fixtureId ?? parsed.trackId}-technical-fixture.pdf`
     });
   }
-  return samples.sort((left, right) =>
-    left.trackId.localeCompare(right.trackId)
+  // Canonical rows sort by track so an unvarying job keeps its existing order;
+  // a variant sorts immediately after the canonical sample it belongs to.
+  return samples.sort(
+    (left, right) =>
+      left.trackId.localeCompare(right.trackId) ||
+      left.sampleRole.localeCompare(right.sampleRole) ||
+      (left.fixtureId ?? "").localeCompare(right.fixtureId ?? "")
   );
 }
 

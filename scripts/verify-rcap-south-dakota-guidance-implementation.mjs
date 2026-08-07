@@ -446,7 +446,13 @@ const PER_TRACK = {
 
 const samples = [];
 
-async function renderTrack(track, extraFacts, label, expectedComponents) {
+async function renderTrack(
+  track,
+  extraFacts,
+  label,
+  expectedComponents,
+  sampleRole = "canonical"
+) {
   const facts = deriveSouthDakotaGuidanceFacts(track.trackId, { ...BASE, ...(extraFacts ?? {}) });
   const resolved = resolvePacket({
     jurisdiction: "SD",
@@ -526,6 +532,13 @@ async function renderTrack(track, extraFacts, label, expectedComponents) {
 
   samples.push({
     label,
+    // The teaching-licence rendering is a regression variant of the canonical
+    // sd_sis_sealing packet, not a fifth assigned track. Saying so in the row
+    // keeps the packet proof's canonical coverage derived from this verifier
+    // rather than parsed out of a display label downstream.
+    trackId: track.trackId,
+    sampleRole,
+    variantOfTrackId: sampleRole === "variant" ? track.trackId : null,
     fileName: assembled.fileName,
     sha256: assembled.sha256,
     pageCount: assembled.pageCount,
@@ -549,7 +562,13 @@ for (const track of SOUTH_DAKOTA_GUIDANCE_TRACKS) {
 
 for (const fixture of CONDITIONAL_FIXTURES) {
   const track = SOUTH_DAKOTA_GUIDANCE_TRACKS.find((t) => t.trackId === fixture.trackId);
-  const text = await renderTrack(track, fixture.facts, fixture.label, fixture.expectedComponents);
+  const text = await renderTrack(
+    track,
+    fixture.facts,
+    fixture.label,
+    fixture.expectedComponents,
+    "variant"
+  );
   ok(
     /Teaching licensure and a sealed South Dakota record/i.test(text),
     `${fixture.label}: the conditional teaching-licence sheet did not render.`
@@ -596,7 +615,9 @@ if (failures.length > 0) {
 console.log("South Dakota guidance verification passed.");
 for (const l of checks) console.log(l);
 for (const s of samples) {
-  console.log(`   ${s.label.padEnd(42)} ${String(s.pageCount).padStart(2)}p  ${s.sha256}`);
+  console.log(
+    `   ${s.trackId.padEnd(20)} ${s.sampleRole.padEnd(9)} ${String(s.pageCount).padStart(2)}p  ${s.sha256}`
+  );
 }
 console.log("6. No track promoted, no jurisdiction enabled, packet readiness remains 0.");
 

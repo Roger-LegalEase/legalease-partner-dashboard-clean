@@ -974,6 +974,12 @@ for (const fixture of FIXTURES) {
   results.push({
     fixtureId: fixture.fixtureId,
     trackId: fixture.trackId,
+    // The fixture table already records which canonical fixture a regression
+    // variant belongs to. Emitting it makes the packet proof's canonical and
+    // variant partition derived from this verifier rather than inferred from a
+    // fixture-id suffix downstream.
+    sampleRole: fixture.variantOf ? "variant" : "canonical",
+    variantOf: fixture.variantOf ?? null,
     components: assemblyComponents.length,
     pages: assembled.pageCount,
     sha256: assembled.sha256
@@ -1073,6 +1079,6 @@ for (const line of checks) console.log(line);
 console.log("\nPer-fixture packets:");
 for (const result of results.sort((a, b) => a.fixtureId.localeCompare(b.fixtureId))) {
   console.log(
-    `  ${result.fixtureId.padEnd(36)} ${result.trackId.padEnd(32)} ${String(result.components).padStart(2)} components  ${String(result.pages).padStart(2)} pages  sha256=${result.sha256}`
+    `  ${result.fixtureId.padEnd(36)} ${result.trackId.padEnd(32)} ${result.sampleRole.padEnd(9)} ${String(result.components).padStart(2)} components  ${String(result.pages).padStart(2)} pages  sha256=${result.sha256}`
   );
 }
