@@ -649,7 +649,7 @@ await check("all normalized tracks reconcile exactly once and completed tranches
     reconciliation.representedExactlyOnce,
     normalizedTrackCount
   );
-  assert.equal(reconciliation.implementationComplete, 119);
+  assert.equal(reconciliation.implementationComplete, 124);
   assert.equal(
     reconciliation.pendingProductionJob,
     normalizedTrackCount - reconciliation.implementationComplete
@@ -3626,8 +3626,8 @@ await check("dashboard reports all 51 and preserves the red launch posture", () 
   assert.equal(status.totals.jurisdictions, 51);
   assert.equal(status.totals.tracks, normalizedRegistry.trackCount);
   assert.equal(status.totals.normalized, normalizedRegistry.trackCount);
-  assert.equal(status.totals.implementationComplete, 69);
-  assert.equal(status.totals.technicalProofPassed, 69);
+  assert.equal(status.totals.implementationComplete, 74);
+  assert.equal(status.totals.technicalProofPassed, 74);
   assert.equal(status.totals.visualProofPassed, 17);
   assert.equal(status.totals.legalRecommendationComplete, 19);
   assert.equal(status.totals.counselAdopted, 15);

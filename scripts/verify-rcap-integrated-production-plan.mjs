@@ -1074,6 +1074,16 @@ const completedOfficialPdfExpectations = new Map([
       renderedPages: 4,
       expectedNoDocumentBranches: 0
     }
+  ],
+  [
+    "rcap-nj-acroform-fill",
+    {
+      commit: "0e4f3251477d6c368f9b672904c50ba67152d004",
+      tracks: 5,
+      positiveRenderedFixtures: 7,
+      renderedPages: 301,
+      expectedNoDocumentBranches: 0
+    }
   ]
 ]);
 let officialPdfPositiveRenderedFixtures = 0;
@@ -1146,10 +1156,10 @@ assert.deepEqual(
   productionPlan.officialPdfImplementationProofReconciliation,
   {
     schemaVersion: "rcap-official-pdf-implementation-proof/v1",
-    completedOfficialPdfJobsRequiringProof: 3,
-    proofsPresentAndVerified: 3,
+    completedOfficialPdfJobsRequiringProof: 4,
+    proofsPresentAndVerified: 4,
     completedJobIds: [...completedOfficialPdfExpectations.keys()].sort(),
-    assignedTracks: 5,
+    assignedTracks: 10,
     positiveRenderedFixtures: officialPdfPositiveRenderedFixtures,
     renderedPages: officialPdfRenderedPages,
     expectedNoDocumentBranches: officialPdfExpectedNoDocumentBranches,
