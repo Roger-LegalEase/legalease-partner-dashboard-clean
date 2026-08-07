@@ -5116,6 +5116,50 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
     });
   }
 
+  // Edition 1.3 must admit the Hawaii application before it can be
+  // materialized, and a renderer for a zero-field flat PDF keys on page
+  // geometry — which nobody has measured. The identity decision was barred
+  // from opening the binary and said so rather than recording zeros.
+  if (present(hiHcjdcDecision)) {
+    addJob({
+      lane: "source_acquisition",
+      jurisdiction: "HI",
+      jobId: "rcap-hi-hcjdc-159b-technical-structure-and-edition-asset",
+      strategyFamily: "source_identity_resolution",
+      reconciliationIds: ["structure:HI:HCJDC-159B:geometry-and-edition-asset"],
+      downloadedSourceCount: 0,
+      dependencies: ["rcap-hi-in-repo-identity-reconciliation-hcjdc-159"],
+      status: "ready",
+      expectedOutputs: [
+        acquisitionPath("rcap-hi-hcjdc-159b-technical-structure-and-edition-asset")
+      ],
+      requiredInputs: [
+        hiHcjdcDecision,
+        FACTORY_INPUT_PATHS.authority,
+        FACTORY_INPUT_PATHS.sourceArtifacts
+      ],
+      model: "codex",
+      effort: "xhigh",
+      commitSubject:
+        "docs(record-clearing): measure the Hawaii HCJDC 159(b) structure",
+      stopCondition:
+        "Measure what the identity decision was barred from opening: the widget annotation " +
+        "count, the page dimensions and the page rotation of HCJDC 159(b), at 181711 bytes and " +
+        "sha256 1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a. It is a flat " +
+        "PDF with zero form fields, so there is no field map to build and a renderer for it " +
+        "would be an overlay keyed on exactly that geometry. " +
+        "Record the complete Edition 1.3 asset row the successor edition needs: canonical " +
+        "identity HCJDC 159(b), title Expungement Application, issuer the Hawaii Criminal " +
+        "Justice Data Center, revision REV-2026-06-03, participant primary filing, statewide " +
+        "scope, byte count, digest, flat-PDF class, source URL, and the supersession of the " +
+        "11/15/2019 revision. " +
+        "Do not record an unmeasured value as zero, do not write a materialization receipt " +
+        "before the edition admits the asset, do not publish or amend an edition, and do not " +
+        "enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
   // --- Florida --------------------------------------------------------
   //
   // FL-RULE-3.989-CONTINUATION names nothing. Rule 3.989 has four forms and no
