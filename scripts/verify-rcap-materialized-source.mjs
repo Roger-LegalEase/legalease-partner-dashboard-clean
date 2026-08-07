@@ -915,6 +915,12 @@ export async function loadAssignedMaterializationRequirement({
  * The captain verifies an already committed receipt without recreating a
  * worker-local scaffold marker. The receipt remains the identity authority;
  * CLI values are assertions and the current job ID must match its assignment.
+ *
+ * A source acquired under its own materialization job records that owner in
+ * assignmentJobId and names the one implementation job authorised to read it
+ * in downstreamImplementationConsumerJobId. Either of those two receipt-named
+ * jobs may assert the identity; every other job still fails closed, so this
+ * recognises the two-job source lifecycle without widening who may verify.
  */
 export function loadCaptainMaterializationRequirement({
   rootDir = REPOSITORY_ROOT,
@@ -940,13 +946,17 @@ export function loadCaptainMaterializationRequirement({
     );
   }
   const receipt = JSON.parse(fs.readFileSync(absoluteReceipt, "utf8"));
+  const receiptNamedJobs = [
+    receipt.assignmentJobId,
+    receipt.downstreamImplementationConsumerJobId
+  ].filter((jobId) => typeof jobId === "string" && jobId.length > 0);
   if (
     receipt.provenance?.sourceIdentityKey !== sourceIdentityKey ||
     receipt.actualSha256 !== expectedSha256 ||
     receipt.actualBytes !== expectedBytes ||
     receipt.expectedSha256 !== expectedSha256 ||
     receipt.expectedBytes !== expectedBytes ||
-    receipt.assignmentJobId !== assignmentJobId ||
+    !receiptNamedJobs.includes(assignmentJobId) ||
     receipt.ready !== true ||
     receipt.workerReady !== true
   ) {
