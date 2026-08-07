@@ -151,6 +151,12 @@ const TN_AMENDED_MEMO_SHA256 =
   "dfd8a621910fca5ed2fb57c2fc97784dc41699a57cf46d272946b8b6a64f1f48";
 const TN_INTEGRATED_MEMO_SHA256 =
   "a1c91f3d17115d87879905066b4f2b9732e717cbcdc6b063ec83502aa54f20e8";
+const VT_600_00228_IDENTITY_COMMIT =
+  "4d882023c10b9520facda87acad1c147937c7f65";
+const VT_600_00228_DECISION_SHA256 =
+  "34b8da62d143cfe9658d73b752ca85c516da5cbe83d3ddf4cb734b7df36fde8b";
+const VT_INTEGRATED_MEMO_SHA256 =
+  "d2ff010de0e1a862f49a287ee02cf11a9dfdc4bf28f553d65e660207b9b81817";
 const TEMPLATE_HASH_WORKER_COMMIT =
   "e89416d74f3f5653abb4e561704d5874fa14ef24";
 const ARKANSAS_ACIC_WORKER_COMMIT =
@@ -1875,7 +1881,8 @@ export function buildFactoryPlan(options = {}) {
       strategyFamily: "source_identity_resolution",
       trackIds: [],
       dependencies: ["rcap-vt-legal-design-normalization"],
-      status: "ready",
+      status: "completed",
+      completionCommit: VT_600_00228_IDENTITY_COMMIT,
       expectedOutputs: [
         `${FACTORY_DATA_DIR}/legal-design-decisions/vt-600-00228-source-identity-resolution.json`
       ],
@@ -1907,6 +1914,130 @@ export function buildFactoryPlan(options = {}) {
         "either. Do not regenerate a global registry, implement a renderer, edit VT.memo.json, " +
         "create a source receipt without exact bytes, publish an authority edition, or enable " +
         "runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+
+    // The identity decision is integrated and controlling, and the memo's
+    // 11/2019 note turned out not to be a stray historical remark. All seven
+    // fee-waiver components bind officialSourceUrl to
+    // /sites/default/files/documents/600-00228.pdf, which is exactly the
+    // superseded legacy object, and seven participant-facing feeWaiver
+    // paragraphs plus one sourceStatement still carry the resolved 600-00229
+    // question to the participant. That is an implementation-controlling
+    // binding and participant-facing copy, so the memo gets its own worker
+    // rather than being edited during integration. This job owns one path.
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "VT",
+      jobId: "rcap-vt-600-00228-current-revision-memo-correction",
+      strategyFamily: "legal_design_normalization_amendment",
+      trackIds: [],
+      dependencies: [
+        "rcap-vt-600-00228-source-identity-resolution",
+        "rcap-vt-legal-design-normalization"
+      ],
+      status: "ready",
+      expectedOutputs: ["data/record-clearing/legal-design-intake/VT.memo.json"],
+      ownedPaths: ["data/record-clearing/legal-design-intake/VT.memo.json"],
+      requiredInputs: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/vt-600-00228-source-identity-resolution.json`,
+        "data/record-clearing/legal-design-intake/VT.memo.json",
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.sourceRelationships
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "high",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job rcap-vt-600-00228-current-revision-memo-correction",
+        "node scripts/verify-rcap-legal-design-intake.mjs",
+        "node scripts/verify-rcap-vt-600-00228-source-contract.mjs"
+      ],
+      commitSubject:
+        "feat(record-clearing): correct the Vermont fee-waiver source revision",
+      executionNote:
+        "Read the integrated decision record at " +
+        `${FACTORY_DATA_DIR}/legal-design-decisions/` +
+        `vt-600-00228-source-identity-resolution.json in full, at sha256 ` +
+        `${VT_600_00228_DECISION_SHA256}. The memo you are amending is at sha256 ` +
+        `${VT_INTEGRATED_MEMO_SHA256}. The current binary is 2,871,072 bytes, sha256 ` +
+        "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654, 2 pages, a clean " +
+        "AcroForm of 80 fields, revision 04/2026. The 11/2019 object the memo currently links " +
+        "is 1,391,726 bytes with an incompatible 129-field structure and still returns HTTP 200.",
+      stopCondition:
+        "Apply the adopted 600-00228 identity to VT.memo.json and nothing else. Change exactly " +
+        "three things: the 600-00228 revision treatment from 11/2019 to 04/2026, including the " +
+        "officialSourceUrl on all seven fee-waiver components, which currently points at the " +
+        "superseded /sites/default/files/documents/600-00228.pdf object rather than the " +
+        "issuer's current pointer; the removal of the nonexistent 600-00229 identity from the " +
+        "seven feeWaiver paragraphs, the vt_seal_dui sourceStatement and the authority " +
+        "confirmation note, since it is a confirmed numbering typo and not an open discrepancy " +
+        "to hand a participant; and the document's classification as a conditional " +
+        "participant-completed fee-waiver application. " +
+        "Preserve 14 source slots, 11 substantive tracks, every adopted merge, the stipulation " +
+        "treatment as conditional procedure rather than a separate remedy, the three composed " +
+        "alternatives inside vt_seal_nonconviction, and all unrelated Vermont substance. Do not " +
+        "disturb the 32 V.S.A. section 1431(e) dangling cross-reference to 13 V.S.A. section " +
+        "7602(a)(1)(C) or the unanchored 25-or-older gloss: both remain open release blockers. " +
+        "Do not assert the form is mandatory, do not add a track, component or slot, do not " +
+        "re-role the fee-waiver component, and do not make it unconditional. Own only " +
+        "VT.memo.json: do not touch the decision record, a shared registry, a source receipt, " +
+        "an authority record, the queue or projection, a blocker ledger, a factory plan, a " +
+        "runtime file, a migration or a deployment file. Keep every route runtime-disabled and " +
+        "packet_ready false. " +
+        TERMINAL_INSTRUCTION
+    });
+
+    // Vermont's second unresolved identity. It is not the fee waiver's sibling
+    // and it does not hold rcap-vt-acroform-fill: the live family contract
+    // binds 200-00129 and 200-00132A there, and 200-00130 appears only on the
+    // overlay and composed lanes. It is named separately so the Vermont family
+    // is not read as source-complete once 600-00228 closes.
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "VT",
+      jobId: "rcap-vt-200-00130-source-identity-resolution",
+      strategyFamily: "source_identity_resolution",
+      trackIds: [],
+      dependencies: ["rcap-vt-legal-design-normalization"],
+      status: "ready",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/vt-200-00130-source-identity-resolution.json`
+      ],
+      ownedPaths: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/vt-200-00130-source-identity-resolution.json`
+      ],
+      requiredInputs: [
+        "data/record-clearing/legal-design-intake/VT.memo.json",
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.sourceRelationships,
+        OFFICIAL_PDF_SOURCE_PROJECTION_PATH,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "codex",
+      effort: "high",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job rcap-vt-200-00130-source-identity-resolution"
+      ],
+      commitSubject:
+        "chore(record-clearing): resolve the Vermont 200-00130 source identity",
+      stopCondition:
+        "Establish for Vermont 200-00130 its official form number, official title, issuing " +
+        "authority, participant or outside-party role, current revision, statewide scope, " +
+        "official source URL, any replacement or supersession, whether a binary is publicly " +
+        "retrievable, its bytes, SHA-256, media type, page count, AcroForm or flat-PDF " +
+        "structure, the affected tracks and components, and an exact terminal disposition. The " +
+        "adopted edition manifests an asset at REV-2025-07 with SHA-256 " +
+        "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed and there is no " +
+        "private-corpus candidate; confirm or refute that identity against the issuer rather " +
+        "than adopting the manifest row. Read the Judiciary's own naming against the PDFs: the " +
+        "integrated memo records 200-00130 as the sealing petition and 200-00129 as the " +
+        "expungement petition, with the narrative text as the stale artefact. Do not conflate " +
+        "it with instructions sheet 200-00130A, do not treat it as a sibling or alternative of " +
+        "600-00228, and do not hold rcap-vt-acroform-fill on it. Do not edit VT.memo.json, " +
+        "regenerate a global registry, create a source receipt without exact bytes, commit a " +
+        "source binary, publish an authority edition, or enable runtime, promote, or deploy. " +
         TERMINAL_INSTRUCTION
     });
   }

@@ -663,7 +663,7 @@ assert.equal(
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedUnresolvedIdentities,
-  178
+  177
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
@@ -734,15 +734,18 @@ assert.deepEqual(
   {
     deliberately_excluded_commercial_license: 9,
     exact_worker_assignable: 73,
-    // Completed acquisition decisions settled these identities; the adopted
-    // edition manifests no asset for them, so there is no portable contract to
-    // assign and they are not eligible.
-    identity_resolved_materialization_required: 26,
+    // Completed acquisition decisions settled these identities. For all but one
+    // the adopted edition manifests no asset, so there is no portable contract
+    // to assign. Vermont's 600-00228 is the exception: the edition retains the
+    // exact bytes but classes them supporting_process with packetCandidate
+    // false and records no byte count, which withholds the contract just the
+    // same. None of them is eligible.
+    identity_resolved_materialization_required: 27,
     legal_design_or_technical_policy_blocked: 13,
     local_scope_identity: 1,
     role_mismatch: 4,
     source_gated_identity: 28,
-    unresolved_identity: 178
+    unresolved_identity: 177
   }
 );
 assert.equal(legalReviewMaterializationContract.assignmentCount, 24);

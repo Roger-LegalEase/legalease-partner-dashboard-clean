@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "rcap-source-acquisition-decision/v1",
+  "jobId": "rcap-vt-600-00228-source-identity-resolution",
+  "parentJobId": "AUTH-06-source-gate-clearance",
+  "jurisdiction": "VT",
+  "lane": "source_acquisition",
+  "strategyFamily": "source_identity_resolution",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "5752e01e50f5be96e3c8dc58bc4af9c1d52ff124",
+  "generatedOn": "2026-08-07",
+  "acquisitionIds": ["acquire:VT:600-00228"],
+  "downloadedSourceCount": 0,
+  "method": "The completed source-identity worker read the issuer's own current publication and measured the binary it serves, then measured the adopted Master Library Edition 1.2 asset and found the two byte-identical. This record carries that finding into the acquisition machinery so the identity stops reading as unresolved. It performs no download: the exact bytes are already retained in the adopted edition.",
+  "generatedFrom": [
+    "data/record-clearing/production-factory/legal-design-decisions/vt-600-00228-source-identity-resolution.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json"
+  ],
+  "reconciliations": [
+    {
+      "acquisitionId": "acquire:VT:600-00228",
+      "documentId": "600-00228",
+      "officialTitle": "Application to Waive Filing Fees and Service Costs",
+      "documentRole": "fee_waiver_application",
+      "issuingBody": "Vermont Judiciary",
+      "issuingOffice": "Vermont Superior Court",
+      "currentRevision": "REV-2026-04",
+      "revisionEvidence": "Printed footer on both pages of the binary the issuer's own fee-waiver page and forms-library row serve: '600-00228 – Application to Waive Filing Fees & Service Costs (04/2026)'. Measured 2,871,072 bytes, SHA-256 263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654, PDF 1.6, 2 pages, not encrypted, no XFA, clean AcroForm of 80 fields (72 text, 2 dropdown, 6 checkbox). Byte-identical to the adopted Edition 1.2 asset VT:600-00228:FEE_WAIVER:EN.",
+      "officialIndexUrl": "https://www.vtcourts.gov/forms-library?search_api_fulltext=600-00228",
+      "directOfficialUrl": "https://www.vtcourts.gov/media/47",
+      "sourceIdentityConfidence": "document_identity_and_issuer_confirmed",
+      "binaryAvailability": "held_and_confirmed_current",
+      "disposition": "retained_asset_identity_reconciled",
+      "redundantDownloadAvoided": true,
+      "resolvedRevision": "REV-2026-04",
+      "sha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+      "sizeBytes": 2871072,
+      "pageCount": 2,
+      "retainedArtifact": {
+        "artifactId": "vt-600-00228-application-to-waive-filing-fees-and-service-costs",
+        "fileName": "VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
+        "retentionLocation": "adopted_master_library_edition_1_2_archive",
+        "archiveRelativePath": "STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
+        "sourceArchiveIdentity": "Expungement_AI_RCAP_Master_Library_Edition_1_2.zip",
+        "sourceArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+        "recordedSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+        "archiveEntrySha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+        "archiveEntryBytes": 2871072,
+        "hashState": "match",
+        "presence": "present_in_adopted_edition_absent_from_private_corpus",
+        "sizeBytes": 2871072,
+        "pageCount": 2,
+        "fieldCount": 80,
+        "technicalClass": "clean_acroform",
+        "encrypted": false,
+        "xfa": false,
+        "privateCorpusRow": null,
+        "privateCorpusNote": "The Vermont private-corpus folder holds only an HTML capture of the fee-waiver page, application-waive-filing-fees-and-service-costs.html, which the repository audit classifies not_a_workflow_asset. There is no private-corpus PDF for this document and none is required: the adopted edition retains the exact bytes."
+      },
+      "supersededRevision": {
+        "revision": "11/2019",
+        "url": "https://www.vtcourts.gov/sites/default/files/documents/600-00228.pdf",
+        "httpStatus": 200,
+        "sha256": "40fb571156ab73707b418b503d0291d900e2d614cd2b8e2b605b30dd07f50191",
+        "sizeBytes": 1391726,
+        "pageCount": 2,
+        "fieldCount": 129,
+        "disposition": "superseded_by_current_revision_of_the_same_form",
+        "treatment": "must_not_be_bound_as_current",
+        "note": "The legacy static path still returns HTTP 200 and a well-formed AcroForm with an incompatible 129-field structure. Retained availability is not currency."
+      },
+      "sharedFormBinding": {
+        "note": "600-00228 is one official form consumed by seven components in the fee_waiver_application role, each conditional on a fee actually being charged. This is a one-to-many binding, not seven acquisitions.",
+        "trackCount": 7,
+        "componentCount": 7,
+        "trackIds": [
+          "vt_exp_decriminalized",
+          "vt_seal_18_to_21",
+          "vt_seal_dui",
+          "vt_seal_felony",
+          "vt_seal_misdemeanor",
+          "vt_seal_nonconviction",
+          "vt_seal_pardon"
+        ],
+        "componentIds": [
+          "vt_exp_decriminalized-fee-waiver-application-3",
+          "vt_seal_18_to_21-fee-waiver-application-3",
+          "vt_seal_dui-fee-waiver-application-3",
+          "vt_seal_felony-fee-waiver-application-3",
+          "vt_seal_misdemeanor-fee-waiver-application-3",
+          "vt_seal_nonconviction-fee-waiver-application-5",
+          "vt_seal_pardon-fee-waiver-application-3"
+        ]
+      }
+    }
+  ],
+  "closedIdentities": [
+    {
+      "documentId": "600-00229",
+      "disposition": "numbering_typo_confirmed",
+      "exists": false,
+      "acquisitionTarget": false,
+      "sourceGap": false,
+      "componentIds": [],
+      "libraryGapRowDedupeKey": "library-gap:VT:form_or_source_gap:600-00229-application-to-waive-filing-fees-and-service-costs",
+      "note": "Not a document. The Judiciary forms library returns no result for the number, its document path returns HTTP 404, and the official archive index holds no capture of it at any time on either Judiciary hostname. It appears only in the prose of the Judiciary's expungement narrative page, whose own hyperlink resolves to the fee-waiver page naming 600-00228. It must not be carried forward as an alternative identity, an acquisition target, a source gap, or an unresolved sibling."
+    }
+  ],
+  "unresolved": [],
+  "gates": {
+    "editionPublished": false,
+    "editionAmendmentRequired": true,
+    "editionAmendmentScope": "The adopted Edition 1.2 manifests VT:600-00228:FEE_WAIVER:EN as assetClass supporting_process with packetCandidate false and records no byte count, and the seven component relationships are typed authority_role_mismatch for that reason. The identity is settled; making it worker-assignable requires the successor edition to carry the measurement and to classify a participant-completed fillable application as a packet candidate. That is an edition amendment, and this record does not perform one.",
+    "sourceMaterialized": false,
+    "sourceReceiptCreated": false,
+    "sourceBinaryCommitted": false,
+    "rendererAssigned": false,
+    "fieldMapEstablished": false,
+    "runtimeStatus": "runtime_disabled",
+    "productionEnabled": false
+  }
+}

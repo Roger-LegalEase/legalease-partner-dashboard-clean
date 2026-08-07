@@ -4,7 +4,7 @@
   "preparedBy": "captain integration",
   "adoptedAuthorityEdition": "master-library/1.2",
   "adoptedArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
-  "whatThisIs": "The exact official-source identities a completed source-acquisition decision has already settled, which the adopted Master Library edition does not retain. They are not unresolved: the document, issuer, role and in most cases the exact bytes are established. They are not materializable either, because materialization runs only through the portable authority archive and these documents have no canonical archive entry. Closing that gap is an authority-edition amendment, not an acquisition and not a normalization.",
+  "whatThisIs": "The exact official-source identities a completed source-acquisition decision has already settled, which the adopted Master Library edition does not retain. They are not unresolved: the document, issuer, role and in most cases the exact bytes are established. They are not materializable either, because materialization runs only through the portable authority archive and these documents have no canonical archive entry. Closing that gap is an authority-edition amendment, not an acquisition and not a normalization. One row, Vermont's 600-00228, is retained in the adopted edition and is nonetheless withheld from assignment by that edition's own classification of it. It is recorded here because the remedy is the same amendment path, not because the bytes are missing; editionAmendmentKind distinguishes the two cases.",
   "requiredSequence": [
     "author canonical manifest rows for each identity",
     "record edition checksums",
@@ -19,7 +19,7 @@
     "publishing an edition inside a materialization pass"
   ],
   "editionPublishedInThisPass": false,
-  "identityCount": 26,
+  "identityCount": 27,
   "identities": [
     {
       "identityKey": "rcap-ak-dps-request-to-seal-crim-info-885a79307b",
@@ -721,6 +721,60 @@
       "knownRevision": "06/2026",
       "officialUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/9cb2130f-056d-4962-a6e7-a592b4f4b4bb/EXP-AD%20Additional%20Cases%20Expungement.pdf",
       "binaryLocation": "acquired_not_retained_in_adopted_edition"
+    },
+    {
+      "identityKey": "rcap-vt-600-00228-fb7ffbfd76",
+      "jurisdiction": "VT",
+      "documentId": "600-00228",
+      "queueOfficialFormId": "600-00228",
+      "disposition": "identity_resolved_materialization_required",
+      "identityResolved": true,
+      "manifestedInAdoptedEdition": true,
+      "portable": true,
+      "eligibleForMaterialization": false,
+      "editionAmendmentRequired": true,
+      "editionAmendmentKind": "reclassification_and_measurement_of_a_retained_entry",
+      "editionAmendmentDetail": "Unlike every other row here, the adopted edition does retain this entry, byte-identical to the issuer's current binary, at STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf. What the successor edition must change is the manifest row, not the archive: VT:600-00228:FEE_WAIVER:EN carries assetClass supporting_process, packetCandidate false, and no byte count, so the queue derives repository_measurement_unavailable and the seven component relationships are typed authority_role_mismatch. A participant-completed fillable statewide application is a packet candidate; classifying it as supporting process is what withholds the exact source contract. Recording the measurement and the classification in the successor edition is the whole of the remaining work.",
+      "trackIds": [
+        "vt_exp_decriminalized",
+        "vt_seal_18_to_21",
+        "vt_seal_dui",
+        "vt_seal_felony",
+        "vt_seal_misdemeanor",
+        "vt_seal_nonconviction",
+        "vt_seal_pardon"
+      ],
+      "componentIds": [
+        "vt_exp_decriminalized-fee-waiver-application-3",
+        "vt_seal_18_to_21-fee-waiver-application-3",
+        "vt_seal_dui-fee-waiver-application-3",
+        "vt_seal_felony-fee-waiver-application-3",
+        "vt_seal_misdemeanor-fee-waiver-application-3",
+        "vt_seal_nonconviction-fee-waiver-application-5",
+        "vt_seal_pardon-fee-waiver-application-3"
+      ],
+      "resolvingDecisionJobId": "rcap-vt-600-00228-source-identity-resolution",
+      "resolvingDecisionRecord": "data/record-clearing/production-factory/source-acquisition/rcap-vt-600-00228-source-identity-resolution.json",
+      "supportingLegalDesignDecision": "data/record-clearing/production-factory/legal-design-decisions/vt-600-00228-source-identity-resolution.json",
+      "decisionRowDisposition": "retained_asset_identity_reconciled",
+      "knownSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+      "knownBytes": 2871072,
+      "knownRevision": "REV-2026-04",
+      "officialUrl": "https://www.vtcourts.gov/media/47",
+      "binaryLocation": "retained_in_adopted_edition_manifest_class_withholds_contract",
+      "blocksJobs": [
+        "rcap-vt-acroform-fill",
+        "rcap-vt-flat-pdf-overlay",
+        "rcap-vt-composed-route"
+      ],
+      "supersededRevisionMustNotBeBound": {
+        "revision": "11/2019",
+        "sha256": "40fb571156ab73707b418b503d0291d900e2d614cd2b8e2b605b30dd07f50191",
+        "bytes": 1391726,
+        "acroFormFieldCount": 129,
+        "url": "https://www.vtcourts.gov/sites/default/files/documents/600-00228.pdf",
+        "stillReturnsHttp200": true
+      }
     }
   ],
   "runtimeEffect": "none",
