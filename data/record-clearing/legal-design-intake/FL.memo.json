@@ -104,20 +104,14 @@
           "role": "proposed_order",
           "requirement": "required",
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "FL-RULE-3.989-ORDER"
+          "officialFormId": "FL-RULE-3.989-ORDER",
+          "notes": "The Rule 3.989(b) Order to Expunge. Where the participant has additional arrests that directly relate to the original arrest, the order text is the operative mechanism and carries a repeatable order-data requirement: under § 943.0585(4)(c), Fla. Stat., mirrored verbatim for sealing at § 943.059(4)(c), the court may expunge more than one arrest only if the additional arrests directly relate to the original arrest, that intent must be specified in the order, and \"[a] criminal justice agency may not expunge any record pertaining to such additional arrests if the order to expunge does not articulate the intention of the court to expunge a record pertaining to more than one arrest.\" Rule 3.989(b) provides no blank for it, so each additional directly related arrest is a repeated data item drafted into the body of the proposed order rather than an attachment, a continuation page or a second form."
         },
         {
           "role": "certificate_of_service",
           "requirement": "required",
           "outputStrategy": "custom_pleading",
           "notes": "Certificate of service on three recipients."
-        },
-        {
-          "role": "continuation",
-          "requirement": "conditional",
-          "conditionDescription": "For multiple charges, and for local circuit cover sheets or packet forms.",
-          "outputStrategy": "official_pdf_fill",
-          "officialFormId": "FL-RULE-3.989-CONTINUATION"
         }
       ],
       "participantInputs": [
@@ -160,6 +154,12 @@
           "key": "circuitOfArrest",
           "question": "In which county and judicial circuit did the arrest happen?",
           "requirement": "required"
+        },
+        {
+          "key": "additionalDirectlyRelatedArrests",
+          "question": "Are there any other arrests you want expunged that arose directly from the same events as this one? For each, what was the arresting agency, the date of arrest, the case number and the charges?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where the participant reports more than one arrest, because § 943.0585(4)(c) limits expunction to one arrest or one incident unless the additional arrests directly relate to the original arrest and the order says so. The answer is repeated once per additional arrest in the body of the proposed order. LegalEase asks and drafts; it does not decide whether the arrests directly relate, and it obtains no record."
         }
       ],
       "supportingDocuments": [
@@ -242,6 +242,7 @@
         "Any immigration matter.",
         "Anything the participant wants to argue rather than assert."
       ],
+      "_continuationComponentRescope": "The component formerly at fl-expunction-continuation-6, which was bound to a continuation identity formed by suffixing the role word onto the Rule 3.989 number, has been retired. That identity is deliberately not reproduced here, so that no literal of it survives in this memo for a component binding, a relationship row or an acceptance check to match on; it is recorded in full in the integrated source-identity decision rcap-fl-source-identity-resolution-rule-3-989-continuation. The identity named no document: Fla. R. Crim. P. 3.989 prescribes four forms and only four — (a) Sworn Statement in Support of Petition, (b) Order to Expunge, (c) Order to Seal and (d) Petition to Expunge or Seal — and contains no continuation, attachment, additional-page or more-space construct anywhere in its text. The rule was last amended by the Supreme Court of Florida on 19 December 2019 in In re: Amendments to Florida Rules of Criminal Procedure 3.692 and 3.989, 286 So. 3d 214 (Fla. 2019), and no later amendment touches it. The identifier was a normalization artefact formed by suffixing a role word onto a rule number. This is a re-scope, not the deletion of a route: the relief mechanism, the track and the node are unchanged, and the component carried two distinct needs which are now each represented where they belong. The first, additional arrests that directly relate to the original arrest, is an order-drafting requirement under § 943.0585(4)(c) and § 943.059(4)(c) and has been merged into the existing Rule 3.989(b) proposed-order component as a controlled repeatable order-data requirement, with the participant input the drafting needs. The second, local circuit cover sheets and packet forms, is local packet variation, which this track's geography record already contemplates at scope 'circuit' with all twenty circuit keys and the venue note that local packet variation exists across 20 circuits and 67 counties, and which remains recorded as a release blocker in unresolvedQuestions. No second official form was created, no rule text was converted into an official PDF, no local form dependency was introduced and no continuation page was invented. FDLE Form 40-021 is untouched and remains a separate pre-court agency application at fl-expunction-primary-filing-1; it is not the missing continuation, and its two 1-to-8 repeating blocks are multiple charges within one arrest, not multiple cases across a continuation sheet. Participant, court, prosecutor, clerk and FDLE roles are unchanged. The separate Rule 3.989(a) currentness question — whether the identity FL-RULE-3.989-AFFIDAVIT is stale now that subdivision (a) is titled 'Sworn Statement in Support of Petition' — is not reached, not resolved and not disturbed here.",
       "unresolvedQuestions": [
         {
           "question": "Current authoritative copies of the applicable FDLE applications and Florida Rule 3.989 forms must pass source and legal-output approval before runtime release.",
