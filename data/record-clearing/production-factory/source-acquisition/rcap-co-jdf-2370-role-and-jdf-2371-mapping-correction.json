@@ -1,0 +1,399 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-co-jdf-2370-role-and-jdf-2371-mapping-correction",
+  "parentJobId": "AUTH-01-in-repo-authority-pinning",
+  "jurisdiction": "CO",
+  "lane": "source_acquisition",
+  "strategyFamily": "source_identity_resolution",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "c7d961084ea8830dc7062db3591c5fe0490ba33c",
+  "generatedOn": "2026-08-07",
+  "reconciliationIds": [
+    "mapping:CO:JDF-2371:motion",
+    "role:CO:JDF-2370:instructions"
+  ],
+  "downloadedSourceCount": 0,
+  "generatedFrom": [
+    "data/rcap-all50/nationwide-source-inventory.json",
+    "data/record-clearing/legal-design-intake/CO.memo.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/master-library/track-source-audit.json",
+    "data/record-clearing/production-factory/official-pdf-families/CO/source-requirements.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-co-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-01-in-repo-authority-pinning.json"
+  ],
+  "method": {
+    "description": "Role and mapping resolution for the Colorado conduct-no-longer-prohibited form set (C.R.S. § 24-72-711). The two assigned reconciliation questions were answered from the form-face evidence already recorded in this repository — official titles, form-face revision strings, roles, byte identities and technical structure carried by the source-artifact registry, the repository asset audit, the nationwide source inventory and the adopted Edition 1.2 asset rows — corroborated against the Colorado Judicial Branch's own published form index. No binary was downloaded, extracted, materialized, copied or reconstructed; no receipt was written; Edition 1.2 was not mutated; no component was rebound; no legal conclusion was drawn.",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "authenticationUsed": false,
+    "binariesDownloaded": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "binaryDeposition": "No binary was retrieved or deposited. This job's ownedPaths are limited to this single production-factory JSON file.",
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "componentRebound": false,
+    "memoAltered": false,
+    "byteVerificationMethod": "edition_and_registry_recorded_sha256_not_remeasured",
+    "byteVerificationNote": "Both documents read presence=missing in the working tree at their pre-batch-1 inventory paths and are held only under private/, which is untracked. The SHA-256 and byte values reproduced below are the digests the adopted Edition 1.2 asset rows and the source-artifact registry already carry, and they agree with each other exactly. They are reproduced as identity of record, not as a fresh byte measurement of an issuer-served file.",
+    "officialCorroborationMethod": "official_form_index_and_issuer_publication_paths_only_no_binary_fetch"
+  },
+  "assignedQuestions": [
+    {
+      "reconciliationId": "role:CO:JDF-2370:instructions",
+      "question": "What is the legal role of the document the adopted edition retains as CO:JDF-2370, and can it satisfy the primary_filing component it is currently bound to?",
+      "answer": "JDF 2370 is the issuer's guide — instructions. It cannot satisfy a primary_filing component. The existing binding is a role mismatch and is confirmed as such."
+    },
+    {
+      "reconciliationId": "mapping:CO:JDF-2371:motion",
+      "question": "Which retained Colorado document carries the primary_filing (motion) role for the conduct-no-longer-prohibited track, and is it the presently unbound JDF 2371?",
+      "answer": "JDF 2371 is the motion. It is retained by adopted Edition 1.2 as CO:JDF-2371:MOTION:EN at pinned bytes, is bound to no component anywhere in the track-source relationships, and is the document that carries the primary_filing role for co_decriminalized_conduct_seal."
+    }
+  ],
+  "identities": [
+    {
+      "reconciliationId": "role:CO:JDF-2370:instructions",
+      "identityKey": "CO:JDF-2370:INSTRUCTIONS:EN",
+      "officialDocumentId": "JDF-2370",
+      "officialTitle": "Guide to Sealing Conviction Records - Conduct No Longer Prohibited",
+      "issuer": "Colorado Judicial Branch (Colorado Judicial Department form, published by the State Court Administrator's Office)",
+      "issuerFormSeries": "JDF (Judicial Department Form)",
+      "legalRole": "INSTRUCTIONS",
+      "assetClass": "instructions",
+      "roleVerdict": "instructions_confirmed",
+      "participantFacing": true,
+      "participantFacingQualifier": "Read-only guidance handed to the participant. It is never itself a filing artifact; the registry records runtimeEligibility=ineligible_never_a_participant_filing_artifact.",
+      "signatory": "none",
+      "signatureBlockPresent": false,
+      "currentRevisionOfRecord": "REV-2025-07-01",
+      "formFaceRevisionText": "R: July 1, 2025",
+      "priorRevision": null,
+      "scope": "statewide",
+      "scopeBasis": "Colorado Judicial Department form published centrally by the Colorado Judicial Branch for use in every judicial district; the adopted CO legal-design memo records geography.scope=statewide for the track this document serves.",
+      "officialLandingPage": "https://www.coloradojudicial.gov/self-help/seal-my-case",
+      "officialBinarySource": "https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF2370.pdf",
+      "officialBinaryRetrievedInThisJob": false,
+      "retrievalDateOfRecord": "2026-07-31",
+      "bytes": 614271,
+      "sha256": "cc0b5737ef0598f9e667e50b00aecbd95f53fdb9aa2bc546f8aaa910da480149",
+      "mimeType": "application/pdf",
+      "pages": 2,
+      "encrypted": false,
+      "xfa": false,
+      "logicalFields": 6,
+      "terminalFields": null,
+      "widgets": null,
+      "structuralClass": "clean_acroform",
+      "technicalMeasurementBasis": "adopted_master_asset_manifest_and_source_artifact_registry_historical_measurement",
+      "technicalMeasurementCaveat": "Terminal-field and widget counts were never separately recorded for this document. The value 6 is a logical AcroForm field count. Do not treat 6 as a widget count and do not derive a field-map denominator from it; this document is instructions and needs no field map.",
+      "canonicalAuthorityPath": "STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-2370__guide-to-sealing-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+      "editionRetention": "retained_by_adopted_edition_1_2",
+      "materializationState": "not_materialized_no_receipt",
+      "terminalDisposition": "role_mismatch"
+    },
+    {
+      "reconciliationId": "mapping:CO:JDF-2371:motion",
+      "identityKey": "CO:JDF-2371:MOTION:EN",
+      "officialDocumentId": "JDF-2371",
+      "officialTitle": "Motion to Seal Conviction Records - Conduct No Longer Prohibited",
+      "issuerIndexTitle": "JDF 2371 - Motion to Seal Conviction Records (no longer unlawful)",
+      "issuer": "Colorado Judicial Branch (Colorado Judicial Department form, published by the State Court Administrator's Office)",
+      "issuerFormSeries": "JDF (Judicial Department Form)",
+      "legalRole": "MOTION",
+      "assetClass": "packet_form",
+      "roleVerdict": "primary_filing_carrier_confirmed",
+      "participantFacing": true,
+      "participantFacingQualifier": "The participant completes and files this motion in the existing criminal case. The registry classifies it role='participant court form'.",
+      "signatory": "participant (the movant signs their own motion)",
+      "signatureBlockPresent": true,
+      "signatoryBasis": "The adopted CO legal-design memo records rules.participantSignature='The movant signs their own motion.' and a manual completion item for the movant's signature and date on this form set.",
+      "currentRevisionOfRecord": "REV-2025-07-01",
+      "formFaceRevisionText": "R: July 1, 2025",
+      "priorRevision": null,
+      "priorRevisionNote": "None. The Colorado Judicial Branch's July 2025 forms blotter records JDF 2370, JDF 2371 and JDF 2374 as new forms first released 1 July 2025 under HB24-1133; there is no earlier revision of this form to be superseded by.",
+      "scope": "statewide",
+      "scopeBasis": "Colorado Judicial Department form published centrally by the Colorado Judicial Branch for use in every judicial district, under a statute of statewide application (C.R.S. § 24-72-711). The adopted CO legal-design memo records geography.scope=statewide with venue 'the court where the conviction records are located'.",
+      "officialLandingPage": "https://www.coloradojudicial.gov/self-help/seal-my-case",
+      "officialBinarySource": "https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF2371.pdf",
+      "officialBinaryAlternateLocator": "https://www.coloradojudicial.gov/media/17969",
+      "officialBinaryRetrievedInThisJob": false,
+      "retrievalDateOfRecord": "2026-07-31",
+      "bytes": 669287,
+      "sha256": "642558b85e3f3df8c15808369685bbe56398523c7794b6a949d20fd7b4f8b6d6",
+      "mimeType": "application/pdf",
+      "pages": null,
+      "pagesNote": "Page count was never recorded for this document in any retained registry row, and no binary was opened in this job. It is unmeasured, not zero.",
+      "encrypted": false,
+      "xfa": false,
+      "logicalFields": 51,
+      "terminalFields": null,
+      "widgets": null,
+      "structuralClass": "clean_acroform",
+      "technicalMeasurementBasis": "source_artifact_registry_historical_measurement_requires_reinspection",
+      "technicalMeasurementCaveat": "51 is the historically recorded AcroForm field count. Terminal-field and widget counts were never separately recorded, so the terminal/widget split is unknown. A field or ownership map must be keyed on re-inspected terminal field names at materialization time, not on the number 51.",
+      "canonicalAuthorityPath": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-2371__motion-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+      "editionRetention": "retained_by_adopted_edition_1_2",
+      "editionRetentionEvidence": "The adopted Edition 1.2 archive (sha256 7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd) carries this canonical path at 669287 bytes, and the repository asset audit records status=manifested_packet_form with reason 'Exact SHA-256 match to retained packet_form CO:JDF-2371:MOTION:EN.'",
+      "materializationState": "not_materialized_no_receipt",
+      "terminalDisposition": "exact_identity_confirmed_materialization_required"
+    }
+  ],
+  "roleAndMappingResolution": {
+    "trackId": "co_decriminalized_conduct_seal",
+    "trackLegalName": "Motion to Seal, Conduct No Longer Prohibited, C.R.S. § 24-72-711",
+    "statutoryBasis": "C.R.S. § 24-72-711, effective July 1, 2025, added by HB24-1133",
+    "formSetOfRecord": [
+      {
+        "documentId": "JDF-2370",
+        "role": "INSTRUCTIONS",
+        "componentItServes": "none (guidance asset assembled around the packet)"
+      },
+      {
+        "documentId": "JDF-2371",
+        "role": "MOTION",
+        "componentItServes": "co_decriminalized_conduct_seal-primary-filing-1"
+      },
+      {
+        "documentId": "JDF-2374",
+        "role": "ORDER",
+        "componentItServes": "co_decriminalized_conduct_seal-proposed-order-2"
+      }
+    ],
+    "defectConfirmed": {
+      "componentId": "co_decriminalized_conduct_seal-primary-filing-1",
+      "requiredComponentRole": "primary_filing",
+      "currentlyBoundDocumentId": "JDF-2370",
+      "currentlyBoundDocumentRole": "INSTRUCTIONS",
+      "defect": "authority_role_mismatch",
+      "why": "A guide cannot satisfy a primary_filing component. The track-source audit records result=authority_role_mismatch with the reason 'Mapped to a retained instructions asset, which cannot fill a primary_filing component.'",
+      "notAnAcquisitionGap": true,
+      "notAnAcquisitionGapWhy": "Every member of the set is already retained by the adopted edition at pinned bytes. Nothing has to be obtained from the Colorado Judicial Branch to close this row; the dependency job rcap-co-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition established this and it is confirmed here."
+    },
+    "correctBinding": {
+      "componentId": "co_decriminalized_conduct_seal-primary-filing-1",
+      "documentId": "JDF-2371",
+      "workflowKey": "CO:JDF-2371:MOTION:EN",
+      "sha256": "642558b85e3f3df8c15808369685bbe56398523c7794b6a949d20fd7b4f8b6d6",
+      "bytes": 669287,
+      "jdf2370Treatment": "Retain JDF 2370 as the track's instructions asset. It is not deleted, not retired and not demoted below instructions; it simply stops standing in for the motion.",
+      "jdf2374Treatment": "Unchanged. JDF 2374 is already correctly bound to co_decriminalized_conduct_seal-proposed-order-2 as the ORDER."
+    },
+    "evidence": [
+      "Adopted Edition 1.2 retains three distinct assets for this statutory family and assigns each a distinct role: CO:JDF-2370:INSTRUCTIONS:EN (assetClass instructions), CO:JDF-2371:MOTION:EN (assetClass packet_form) and CO:JDF-2374:ORDER:EN (assetClass packet_form). The roles are carried by the edition rows themselves, not inferred from filenames.",
+      "The recorded form-face evidence separates the two documents on title and on structure. JDF 2370's face title is 'Guide to Sealing Conviction Records - Conduct No Longer Prohibited' and it carries 6 logical AcroForm fields across 2 pages — a guide with a handful of caption fields. JDF 2371's face title is 'Motion to Seal Conviction Records - Conduct No Longer Prohibited' and it carries 51 logical AcroForm fields — a completable filing. A 6-field guide cannot receive the participant data a 51-field motion collects.",
+      "Both documents carry the identical form-face revision string 'R: July 1, 2025', so the pair is co-revised and the role difference is not a revision artefact.",
+      "The source-artifact registry independently classifies the two by role: JDF 2370 role='official guide', sourceTreatment='reference_only', packageTier='reference-only', runtimeEligibility='ineligible_never_a_participant_filing_artifact'; JDF 2371 role='participant court form', sourceTreatment='form_candidate', packageTier='forms'.",
+      "JDF 2371 is bound to no component anywhere in data/record-clearing/legal-design-track-source-relationships.json. The only two CO relationships for this track bind primary-filing-1 to JDF-2370 and proposed-order-2 to JDF-2374, so the motion is orphaned while the guide is over-bound.",
+      "The adopted CO legal-design memo already records, as a note on the primary_filing component, 'The conduct-no-longer-prohibited set is JDF 2370, 2371 and 2374.' The memo names the set; the edition resolves which member carries which role. This job reads the memo as corroboration and does not alter it.",
+      "The issuer's own published form index corroborates the split: the Colorado Judicial Branch publishes JDF 2370 as the Guide, JDF 2371 as the Motion and JDF 2374 as the Order at https://www.coloradojudicial.gov/sites/default/files/2025-07/, and its July 2025 forms blotter records all three as new forms released 1 July 2025 in response to HB24-1133."
+    ],
+    "confidence": "high"
+  },
+  "scopeFinding": {
+    "question": "Is JDF 2371 a statewide Colorado form or a county-local form?",
+    "verdict": "statewide_scope_confirmed",
+    "why": "JDF is the Colorado Judicial Department form series. The forms are drafted and published centrally by the Colorado Judicial Branch for use in every judicial district and are served from a single statewide index, not from any district or county court site. The statute they implement, C.R.S. § 24-72-711, applies statewide, and the adopted CO legal-design memo records geography.scope=statewide for this track.",
+    "contradictedRegistryFlag": {
+      "registryPath": "data/record-clearing/source-artifact-registry.json",
+      "artifactId": "jdf-2371-motion-to-seal-conviction-records-conduct-no-longer-prohibited-rev-2025-07-01",
+      "recordedGeographicScope": "court_specific",
+      "recordedCurrency": "local_only",
+      "recordedGeographicMarkers": [
+        "service_city_state_zip"
+      ],
+      "disposition": "heuristic_scanner_artefact_superseded_by_this_finding",
+      "explanation": "The court_specific classification is driven entirely by the single marker service_city_state_zip — a certificate-of-service address block containing city, state and ZIP fields. Every Colorado motion that must be served on the district attorney carries that block, including statewide JDF forms. The marker evidences a service block, not a county-specific form. The sibling guide JDF 2370, which has no service block, was scored statewide by the same scanner, which is the tell.",
+      "correctionOwner": "registry owner (data/record-clearing/source-artifact-registry.json is a forbiddenPath for this job)",
+      "correctionRequired": "Set geographicScope=statewide and currency to a non-local value for this artifact row. Recorded as a handoff, not applied."
+    },
+    "doNotInfer": "This finding resolves the scope of JDF 2371 only. It does not resolve where a participant files, which remains the court holding the conviction records, and it does not convert any local-scope finding elsewhere in the Colorado backlog."
+  },
+  "doNotSubstitute": [
+    {
+      "documentId": "JDF-2370",
+      "officialTitle": "Guide to Sealing Conviction Records - Conduct No Longer Prohibited",
+      "negativeFinding": "Must not be bound to co_decriminalized_conduct_seal-primary-filing-1 or to any other primary_filing component. It is the issuer's guide, not a filing. This is the defect being corrected, not an alternative to the correction."
+    },
+    {
+      "documentId": "JDF-2374",
+      "officialTitle": "Order to Seal Conviction Records - Conduct No Longer Prohibited",
+      "negativeFinding": "Must not be substituted for the motion. It is the court-generated order for the same statutory family, signed by the judge, and is already correctly bound to the proposed_order component. Petition/motion and order are distinct roles here."
+    },
+    {
+      "documentId": "JDF-612",
+      "officialTitle": "Motion to Seal Conviction Records - District or County Court Conviction",
+      "negativeFinding": "A similarly titled statewide Colorado motion for a different statutory route. Its title differs from JDF 2371's only in the trailing qualifier. It must not be substituted for JDF 2371 and it is separately bound to co_motion_seal_conviction-primary-filing-1. Title similarity is not identity."
+    },
+    {
+      "documentId": "JDF-641",
+      "officialTitle": "Motion to Seal Multiple Conviction Records",
+      "negativeFinding": "A distinct statewide motion for the multiple-conviction route, separately bound to co_multiple_conviction_seal-primary-filing-1. Must not be substituted for JDF 2371."
+    },
+    {
+      "documentId": "JDF-680",
+      "officialTitle": "Motion to Seal Conviction Records - Pardoned",
+      "negativeFinding": "A distinct statewide motion for the pardon route, separately bound to co_pardoned_conviction_seal-primary-filing-1. Must not be substituted for JDF 2371."
+    },
+    {
+      "documentId": "JDF-2373",
+      "negativeFinding": "No document numbered JDF 2373 appears in the issuer's published conduct-no-longer-prohibited set or in the adopted edition. The set is 2370, 2371 and 2374; the gap at 2373 is not evidence of a missing member and must not be filled by inference."
+    },
+    {
+      "sourceClass": "commercial derivative",
+      "negativeFinding": "Third-party sites republish Colorado JDF forms as free print-only or paid interactive derivatives. None is a controlling source for this identity and none may be used to establish the current revision or the bytes. Only the Colorado Judicial Branch's own publication controls."
+    }
+  ],
+  "supersession": {
+    "status": "no_supersession_found",
+    "jdf2370": "REV-2025-07-01 stands as the revision of record. No superseding revision was found and no earlier revision of this form exists to be superseded.",
+    "jdf2371": "REV-2025-07-01 stands as the revision of record. The issuer's July 2025 forms blotter records the form as newly created on 1 July 2025 under HB24-1133, so there is no prior revision.",
+    "supersededRevisionRejected": null,
+    "currentnessCaveat": "This job did not prove that the issuer's live bytes today equal the retained bytes. See residualBlockers."
+  },
+  "license": {
+    "status": "unresolved_and_outside_this_assignment",
+    "recordedQuestion": "The source-acquisition queue carries commercialUseQuestion: 'The publisher's licensing and commercial-use terms for this document are unresolved.' for acquire:CO:jdf-2370.",
+    "reproductionInPaidPacketDetermined": false,
+    "note": "Public availability of the JDF series on the Colorado Judicial Branch site is not permission. This job neither establishes nor excludes a licence and makes no commercial-use finding; the question is carried forward unchanged for the CO family's licence owner.",
+    "commercialExclusionApplied": false
+  },
+  "implementationFamilyRelationship": {
+    "familyId": "co-statewide-jdf-official-form-family",
+    "implementationJobId": "IMP-OF-04-co-jdf-family",
+    "dependentFactoryJobs": [
+      {
+        "jobId": "rcap-co-acroform-fill",
+        "lane": "acroform_fill",
+        "trackIds": [
+          "co_clean_slate",
+          "co_decriminalized_conduct_seal",
+          "co_motion_seal_conviction",
+          "co_motion_seal_nonconviction",
+          "co_multiple_conviction_seal",
+          "co_petition_seal_arrest"
+        ],
+        "effectOfThisJob": "Satisfies this job's dependency edge. It does not by itself make the family implementable — see familyReadinessStatement."
+      },
+      {
+        "jobId": "rcap-co-flat-pdf-overlay",
+        "lane": "flat_pdf_overlay",
+        "trackIds": [
+          "co_municipal_conviction_seal",
+          "co_pardoned_conviction_seal"
+        ],
+        "effectOfThisJob": "Satisfies this job's dependency edge. It does not by itself make the family implementable — see familyReadinessStatement."
+      }
+    ],
+    "affectedComponents": [
+      "co_decriminalized_conduct_seal-primary-filing-1"
+    ],
+    "affectedTracks": [
+      "co_decriminalized_conduct_seal"
+    ],
+    "familyReadinessStatement": "Neither CO family is ready and this job does not assert that either is. Both remain fail-closed on conditions this job does not own: the component remap must be applied by AUTH-02; CO:JDF-2371:MOTION:EN has no materialization receipt and cannot be read by an implementation worker until the captain materializes it; the co_petition_seal_arrest track still carries the unresolved JDF-417-ORDER identity; the co_municipal_conviction_seal track still carries the unresolved JDF-684 denial-order/grant-order role conflict; and co_decriminalized_conduct_seal still carries an open legal-design eligibility_branch build blocker."
+  },
+  "resolutionRequired": {
+    "kind": "component_remap_and_registry_metadata_correction",
+    "performedByThisJob": false,
+    "notPerformedRationale": "Applying the rebinding writes data/record-clearing/legal-design-track-source-relationships.json and correcting the scope flag writes data/record-clearing/source-artifact-registry.json. Both are forbiddenPaths for this job. This job establishes the authority answer and stops at the boundary.",
+    "handoffTo": "AUTH-02-component-remap-corrections",
+    "recommendedCorrections": [
+      "Rebind co_decriminalized_conduct_seal-primary-filing-1 from JDF-2370 to JDF-2371 (CO:JDF-2371:MOTION:EN), pinning sha256 642558b85e3f3df8c15808369685bbe56398523c7794b6a949d20fd7b4f8b6d6.",
+      "Retain JDF-2370 as the track's instructions asset rather than as its primary filing.",
+      "Leave co_decriminalized_conduct_seal-proposed-order-2 bound to JDF-2374 unchanged.",
+      "Correct the source-artifact-registry row for jdf-2371-motion-to-seal-conviction-records-conduct-no-longer-prohibited-rev-2025-07-01 from geographicScope=court_specific / currency=local_only to statewide, per scopeFinding.",
+      "Close acquire:CO:jdf-2370 without acquisition; the row is a mapping defect, not a download."
+    ],
+    "memoEditRequired": false,
+    "memoEditRationale": "No legal-design memo edit is required for this correction to stand. The memo already names the three-form set on the primary_filing component, so binding JDF 2371 is consistent with the memo rather than a change to it. The memo's manualCompletionItems entry locates the movant's signature at 'JDF 2370, signature block', which reads on the set rather than on the guide; it is a cosmetic wording artefact, it does not affect any legal conclusion, and correcting it is optional and owned by the legal-design lane. This job did not alter the memo."
+  },
+  "terminalDisposition": "exact_identity_confirmed_materialization_required",
+  "terminalDispositionDetail": {
+    "role:CO:JDF-2370:instructions": "role_mismatch",
+    "mapping:CO:JDF-2371:motion": "exact_identity_confirmed_materialization_required",
+    "scope": "statewide_scope_confirmed",
+    "why": "Both identities are positively established with exact title, issuer, role, revision and byte identity, so neither reconciliation may remain unresolved_identity. JDF 2370's binding is a confirmed role mismatch. JDF 2371's identity is exact and its bytes are already retained by the adopted edition, but no materialization receipt exists for it, so the narrowest accurate disposition is materialization-required rather than current-binary-retrievable."
+  },
+  "residualBlockers": [
+    {
+      "id": "co-2371-remap-application",
+      "question": "Applying the rebinding of co_decriminalized_conduct_seal-primary-filing-1 to JDF-2371.",
+      "status": "handed_off",
+      "owner": "AUTH-02-component-remap-corrections",
+      "why": "The relationship file is a forbiddenPath for this job."
+    },
+    {
+      "id": "co-2371-materialization",
+      "question": "CO:JDF-2371:MOTION:EN has no source-materialization receipt and is absent from the materialized source root.",
+      "status": "open",
+      "owner": "Session A captain (materialization after integration)",
+      "why": "This job is a decision-only worker and is expressly barred from materializing a source or writing a receipt. The bytes exist in the adopted Edition 1.2 archive at STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-2371__motion-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf, 669287 bytes, sha256 642558b8…f8b6d6.",
+      "reopenCondition": "Closed when a materialization receipt for this identity verifies against those bytes."
+    },
+    {
+      "id": "co-jdf-family-currentness",
+      "question": "Is REV-2025-07-01 still the Colorado Judicial Branch's live revision, and do the issuer's bytes today still equal the retained bytes?",
+      "status": "partially_corroborated_not_proven",
+      "why": "The issuer's published form index and its July 2025 forms blotter corroborate that REV-2025-07-01 (form-face 'R: July 1, 2025') is the revision the Colorado Judicial Branch released for JDF 2370, 2371 and 2374, and the forms are still served from the 2025-07 publication path. That is revision corroboration only. This job did not and could not compare live bytes: coloradojudicial.gov returned HTTP 403 to every automated request made here, and this job is barred from downloading a binary in any event.",
+      "doNotInfer": "Do not read this job as having confirmed currentness. A 403 is an access fact, not a finding about the form.",
+      "reopenCondition": "Closed by an attended retrieval that measures the live issuer bytes against sha256 642558b8…f8b6d6 and cc0b5737…480149."
+    },
+    {
+      "id": "co-jdf-commercial-use",
+      "question": "The Colorado Judicial Branch's licensing and commercial-use terms for the JDF form family.",
+      "status": "unresolved",
+      "owner": "CO family licence owner",
+      "why": "Carried in the source-acquisition queue as commercialUseQuestion and outside this assignment."
+    },
+    {
+      "id": "co-711-eligibility-branch",
+      "question": "Which offence categories qualify under C.R.S. § 24-72-711.",
+      "status": "unresolved",
+      "owner": "legal-design lane",
+      "why": "Recorded in the track audit as an open eligibility_branch build blocker on this exact track. It is a legal question, outside this job's scope, and is neither answered nor narrowed here. co_decriminalized_conduct_seal stays fail-closed on it regardless of this mapping correction."
+    },
+    {
+      "id": "co-registry-scope-metadata",
+      "question": "The source-artifact-registry still records JDF 2371 as court_specific / local_only.",
+      "status": "handed_off",
+      "owner": "registry owner",
+      "why": "Forbidden path for this job. See scopeFinding.contradictedRegistryFlag."
+    }
+  ],
+  "edition13Impact": {
+    "publicationJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+    "dependencySatisfied": "rcap-co-jdf-2370-role-and-jdf-2371-mapping-correction",
+    "editionAmendmentRequired": false,
+    "requiresNewBytes": false,
+    "requiresMetadataCorrection": false,
+    "requiresRoleCorrection": false,
+    "requiresScopeCorrection": false,
+    "requiresRevisionCorrection": false,
+    "requiresLicenseDisposition": false,
+    "whyNoAmendment": "The adopted Edition 1.2 rows for both documents are already correct. CO:JDF-2370:INSTRUCTIONS:EN is correctly typed as instructions and CO:JDF-2371:MOTION:EN is correctly typed as a packet_form motion, both at the correct revision and at bytes this job confirms against two independent recorded measurements. The defect was never in the edition; it was in the repository-side component-to-document mapping and in a heuristic scope flag on a registry row. Neither is edition content. This job therefore contributes a satisfied dependency to the Edition 1.3 publication gate and adds nothing to the amendment handoff.",
+    "manifestRowsRead": [
+      "CO:JDF-2370:INSTRUCTIONS:EN",
+      "CO:JDF-2371:MOTION:EN",
+      "CO:JDF-2374:ORDER:EN"
+    ],
+    "edition12Treatment": "immutable_unchanged",
+    "publicationPerformed": false
+  },
+  "expectedDownstreamEffect": "Once AUTH-02 applies the remap and the captain materializes CO:JDF-2371:MOTION:EN, co_decriminalized_conduct_seal stops failing on authority_role_mismatch and its primary_filing component resolves to a 51-field statewide AcroForm motion suitable for the acroform_fill renderer. The dependency edges into rcap-co-acroform-fill and rcap-co-flat-pdf-overlay clear. Neither family becomes implementable on that alone; both remain fail-closed on the residual blockers listed above. No packet becomes generatable, no runtime is enabled and no track changes promotion state as a result of this decision.",
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "memoEdited": false,
+    "editionPublished": false
+  }
+}
