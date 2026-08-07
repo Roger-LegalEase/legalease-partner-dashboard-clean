@@ -93,13 +93,16 @@ import {
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(SCRIPT_DIR, "..");
 const EXPECTED_BASE = "8df94fbaa66c06bf0ba677ee4f5fb417ad08cdc8";
-// Advanced to the commit that carries the authorized Colorado JDF 2371 scope
-// correction, which is the only protected-path change between the previous
-// base and this one. The guard still refuses any later change to a protected
-// path; it does not refuse a correction an integrated authority decision
-// established and a captain commit recorded.
+// Advanced to the commit that carries the authorized Hawaii HCJDC scope
+// correction. source-artifact-registry.json is again the only protected-path
+// change between the previous base and this one, and it is the same false
+// positive the Colorado correction addressed: a scope heuristic reading a
+// mailing address as a court-specific marker, this time on a document that is
+// not a court form at all. The guard still refuses any later change to a
+// protected path; it does not refuse a correction an integrated authority
+// decision established and a captain commit recorded.
 const AUTHORIZED_INTEGRATED_CONTENT_BASE =
-  "2b33655e41f9d894a1cd7ed81cb2adf862eac778";
+  "4a6c2b2f3edb02fa2acdd5dd84530a00444e4ef2";
 const results = [];
 const failures = [];
 
