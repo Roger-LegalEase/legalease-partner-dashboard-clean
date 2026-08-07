@@ -1,56 +1,73 @@
 // Oklahoma process guidance — two routes, neither of which is operating yet.
 //
 // Both assigned tracks are status disclosures. Their honest deliverable is to
-// tell a participant that a thing they may have heard about is not running, why
-// waiting for it could cost them, and what is open in the meantime. The design
-// records the position in terms on both: nothing is filed and *nothing can be*.
+// tell a participant that a thing they may have heard about is not running,
+// what the law actually says, and what is open in the meantime. The adopted
+// packet sets record the position in terms on both: nothing is filed and
+// *nothing can be*.
 //
-//   - `ok_clean_slate` is Oklahoma's automatic sealing under 22 O.S. §§ 18 and
-//     19 as amended by Senate Bill 2030. The bill sets the Oklahoma State
-//     Bureau of Investigation a deadline of 1 November 2027 to begin sealing
-//     through Clean Slate, and requires records that are Clean Slate eligible
-//     as of November 2027 to be seved by November 2029. As of the design's
-//     reading the OSBI expungement page does not state that automatic sealing
-//     is operational. So the route exists on paper and not yet in practice.
-//   - `ok_osbi_portal` is the expedited expungement request portal the same
-//     bill requires OSBI to establish and maintain. The design records it as
-//     not yet available, and the OSBI expungement page does not mention one.
-//     It matters more than its size suggests: if it launches, a meaningful
-//     share of participants may get relief without paying for a petition.
+//   - `ok_clean_slate` is sealing without a petition under 22 O.S. § 18b, with
+//     the process at 22 O.S. § 19d, both created by Senate Bill 2030. The Act
+//     is Laws 2026, c. 282 and took effect on 1 July 2026. Eligibility exists
+//     from that date and is expressly subject to the availability of funds;
+//     the administration does not, because § 19d(D) allows the Bureau until
+//     1 November 2027 to begin and until 1 November 2029 to finish the
+//     electronic records eligible by then. So the route exists in law and not
+//     yet in practice.
+//   - `ok_osbi_portal` is the expedited expungement request portal § 19d(A)
+//     requires the Oklahoma State Bureau of Investigation to establish and
+//     maintain by 1 November 2026. None is published. It matters more than its
+//     size suggests: the statute sets no fee for a request, so if the portal
+//     arrives a share of participants may reach relief without paying for a
+//     petition.
+//
+// This module is the correction of the integrated Oklahoma guidance
+// implementation against the current-law decision at
+// `data/record-clearing/production-factory/legal-design-decisions/ok-sb-2030-current-text-and-currency.json`
+// and the corrected `OK.memo.json`. Nothing structural moved: two tracks, six
+// components, the same typed stops with the same destinations, the same
+// runtime-disabled posture. What changed is copy that had stopped being true.
+// The parent packet said four times that the enrolled text and the effective
+// date had not been obtained, and built a whole sheet on the premise that
+// which records the Act removed from automatic eligibility was unidentified.
+// Both premises are closed, and the second one was the wrong way round.
 //
 // What both sheets have to carry, and why:
 //
-//   - **The removal risk.** SB 2030 does not only add: the review records that
-//     it *removes* eligibility for automatic expungement of certain records and
-//     removes certain automatic-expungement procedures. Which records were
-//     removed is not yet identified. So a participant who waits for automatic
-//     sealing may be waiting for something that will never reach their record,
-//     and the design gives that its own component.
-//   - **The right to petition is expressly preserved.** That is the practical
-//     answer to the first point: the petition routes are open now, they are
-//     owned by other jobs, and nothing here discourages using them.
-//   - **Full and partial sealing are different outcomes.** A fully sealed
-//     record is unavailable to the public *and* to law enforcement, with OSBI
-//     retaining it for research and statistical purposes. A partially sealed
-//     record is hidden from the public but remains available to law
-//     enforcement. The design calls that distinction outcome-changing.
+//   - **Eligibility and administration are different things.** § 18b(B)
+//     confers eligibility from the effective date "subject to the availability
+//     of funds"; § 19d sets the machinery and its deadlines. A participant who
+//     hears "Oklahoma clears records automatically" is hearing half of the
+//     first and none of the second.
+//   - **The Act widened the eligible set rather than narrowing it.** What was
+//     repealed was the earlier § 18(C) route, which reached arrest records
+//     only. § 18b reaches records including court records, carries a floor of
+//     1 January 1980, and adds two conviction categories the repealed route
+//     never touched. The honest reason to look at a petition is the timetable,
+//     the funding condition and the partial sealing — not a lost category.
+//   - **The right to petition is expressly preserved**, by § 19d(G) in terms.
+//   - **This route seals partially.** § 18b(D) leaves the record available to
+//     law enforcement for law enforcement purposes and § 18b(E) leaves it
+//     admissible to prove a prior conviction or deferred judgment without an
+//     unsealing order. A participant who needs a record law enforcement cannot
+//     see is not served by this route.
 //   - **Sealing is not destruction, and it is not permanent either way.**
-//     Section 19 does not authorise physical destruction; a sealed record may
-//     be unsealed on changed conditions or a compelling reason; and under
-//     § 19(N) a sealed record not unsealed within ten years may be obliterated
-//     or destroyed. All three are stated together, because any one alone
-//     misleads.
+//     § 19d(J)(1) says nothing in that section authorises physical
+//     destruction; a sealed record may be unsealed on changed conditions or a
+//     compelling reason; and § 19 carries a ten-year long-stop after which a
+//     sealed record may be obliterated or destroyed. Senate Bill 2030 moved
+//     the subsection lettering in § 19 and the codified section could not be
+//     retrieved to confirm it, so that rule is described rather than cited to
+//     a letter.
 //   - **Tribal records.** Post-McGirt these are a live Oklahoma issue and the
-//     design makes them an explicit escalation rather than a footnote to the
-//     ordinary out-of-state stop.
+//     adopted design makes them an explicit escalation rather than a footnote
+//     to the ordinary out-of-state stop.
 //
-// And what the design leaves open, which no sheet here closes: the enrolled
-// text of §§ 18 and 19 as amended was not obtained, so which records SB 2030
-// removed from automatic eligibility, which it makes sealable without petition,
-// and what the portal procedures require are all unknown; the bill's effective
-// date was not obtained; and whether the portal has in fact launched is
-// evidenced but not established. Every one of those is stated on the page as
-// unknown rather than guessed at.
+// What is still open, and is stated on the page as open: whether the funds
+// § 18b(B) conditions eligibility on have been appropriated; what the § 19d(A)
+// portal will require once it is published; whether rules have been made under
+// § 19d(E)(7); and codified confirmation of §§ 18b, 19 and 19d, which the
+// Oklahoma State Courts Network would not serve.
 //
 // No conditional component and no fact placeholder appears in this family: the
 // adopted packet sets make all six components required, and no template
@@ -80,9 +97,25 @@ const OK_LEGAL_HELP =
 const NOT_A_REPORT_ON_YOUR_CASE =
   "This page describes where a process stands. It does not tell you what has happened to your own record, and LegalEase has not looked. Nothing here is a decision about whether your record qualifies.";
 
+/** The enacted position, stated on the Act rather than on a bill record. */
+const THE_ACT_AS_ENACTED =
+  "Start with what the law actually is, because most accounts of this are working from a bill rather than from the Act. Senate Bill 2030 was approved by the Governor on 11 May 2026, it is codified as Laws 2026, c. 282, and it took effect on 1 July 2026. It amends 22 O.S. sections 18 and 19 and it creates two new sections: section 18b, which says which records are clean slate eligible, and section 19d, which says how the Oklahoma State Bureau of Investigation is to seal them. Everything on this page is written from that enacted text.";
+
 /** Oklahoma says expungement and in most adult contexts means sealing. */
 const EXPUNGEMENT_MEANS_SEALING =
   "One word to get straight before anything else. Oklahoma says expungement, but in most adult contexts what it means is sealing. That is not a quibble: it changes what you can expect at the end, and it is why this packet uses the word sealing where the outcome is sealing.";
+
+/** Eligibility exists; the administration of it does not. */
+const ELIGIBILITY_IS_NOT_ADMINISTRATION =
+  "Now the distinction that the whole of this route turns on. Statutory eligibility and an operating process are two different things, and only the first of them exists today. Section 18b(B) of Title 22 says that beginning on the effective date of the Act, and subject to the availability of funds, individuals with clean slate eligible records are eligible to have their records sealed without filing a court petition. That is a grant of eligibility. The machinery that would act on it is section 19d, and section 19d is on a timetable that has not run yet.";
+
+/** The funding condition, which sits on top of everything else here. */
+const FUNDING_IS_A_CONDITION =
+  "One condition sits on top of all of it. Section 18b(B) confers that eligibility subject to the availability of funds, and whether funds have been appropriated for the work has not been established here. So nobody can tell you today that this route will reach your record, and this packet does not.";
+
+/** The statute's three dates, in the order a participant meets them. */
+const THE_THREE_DATES =
+  "Three dates come out of section 19d, and they are worth having in the right order. By 1 November 2026 the Bureau must establish and maintain a publicly accessible online portal for expedited expungement requests. On or before 1 November 2027 the Bureau must begin implementing the automatic process that identifies and submits clean slate eligible records for sealing without anybody asking. And all electronic records eligible through that automatic process on or after 1 November 2027 must be identified and expunged before 1 November 2029, on a schedule the Bureau sets. Those are the statute's deadlines for the Bureau. They are not predictions about your record and they are not a queue position.";
 
 /** Full versus partial sealing. The design calls this outcome-changing. */
 const FULL_VERSUS_PARTIAL_SEALING =
@@ -90,19 +123,19 @@ const FULL_VERSUS_PARTIAL_SEALING =
 
 /** Sealing is not destruction — and is not necessarily permanent either. */
 const SEALING_IS_NOT_DESTRUCTION =
-  "Sealing is not destruction. Title 22 section 19 does not authorise physical destruction of the record, and a sealed record can be unsealed on changed conditions or for a compelling reason. There is a long-stop the other way as well: under section 19(N) a sealed record that has not been unsealed within ten years may be obliterated or destroyed. All three of those are true at once, and any one of them on its own gives a misleading picture.";
+  "Sealing is not destruction. Section 19d(J)(1) says in terms that nothing in that section authorises the physical destruction of any criminal justice record, and a sealed record can be unsealed on changed conditions or for a compelling reason. There is a long-stop the other way as well: section 19 of Title 22 provides that a sealed record which has not been unsealed within ten years of the order may be obliterated or destroyed. Senate Bill 2030 moved the subsection lettering in section 19, and the codified section could not be read to confirm where that rule now sits, so it is described here rather than cited to a letter. All three of those are true at once, and any one of them on its own gives a misleading picture.";
 
 /** The right to petition is expressly preserved. The practical answer. */
 const PETITION_ROUTE_REMAINS_OPEN =
-  "The important practical point on this route: Senate Bill 2030 expressly preserves the right to petition. The petition routes are open now. They are not what this packet prepares, but nothing here is a reason to wait instead of using them.";
+  "The important practical point on this route, and it is in the statute rather than inferred from it. Section 19d(G) reads that nothing in that section precludes an individual from filing a petition with the district court under section 19 of Title 22 for expungement of clean slate eligible records. The petition routes are open now. They are not what this packet prepares, but nothing here is a reason to wait instead of using them.";
 
 /** Nothing is filed on either route, and nothing can be. */
 const NOTHING_CAN_BE_FILED =
   "Nothing is filed on this route and nothing can be, because there is nowhere to file it. LegalEase generates no petition, motion, application or request here. What this page does is tell you where the process actually stands, so that you can decide what to do with that.";
 
-/** What the design does not know, said plainly on both routes. */
+/** The limits of this page, stated rather than buried. */
 const WHAT_IS_NOT_KNOWN =
-  "Now the limits of this page, stated rather than buried. The enrolled text of sections 18 and 19 as amended by Senate Bill 2030 was not obtained, so which records the amendment removed from automatic eligibility, which records it makes sealable without a petition, and what the portal procedures will require are all unknown here. The bill's effective date was not obtained either. Nothing on this page fills those gaps with a guess.";
+  "Now the limits of this page, stated rather than buried. The enrolled text of Senate Bill 2030 has been read and so has the codified section 18, which is where the chapter number and the effective date come from. What remains genuinely open is narrower than it was, and it is this. Whether funds have been appropriated for the work that section 18b(B) conditions eligibility on has not been established. What the portal will require in practice is not published, because the portal is not published. Whether the Bureau or the Supreme Court has made rules under section 19d(E)(7) could not be established, and none was found. And the codified text of sections 18b, 19 and 19d could not be retrieved from the Oklahoma State Courts Network, which returned an automated-traffic challenge, so this page describes the subsection rules rather than pinning each one to a letter. Nothing here fills any of that with a guess.";
 
 const OK_CANNOT_PERFORM: readonly string[] = [
   "LegalEase cannot seal, expunge or remove anything, and cannot make the Oklahoma State Bureau of Investigation, a court or a clerk act.",
@@ -110,13 +143,15 @@ const OK_CANNOT_PERFORM: readonly string[] = [
   "LegalEase cannot tell you that a record has been sealed. Only your own criminal history record from the Bureau shows that, and you are the one who reads it.",
   "LegalEase does not obtain, hold, inspect or authenticate your criminal record. You request your own copy and you read it.",
   "LegalEase has not contacted the Bureau, any court, clerk or agency about your case, and has not filed anything for you.",
-  "LegalEase cannot tell you when the automatic route or the portal will start working. The dates on this page are the statute's deadlines, not predictions."
+  "LegalEase cannot tell you when the automatic process or the portal will start working. The dates on this page are the statute's deadlines for the Bureau, not predictions."
 ];
 
 const OK_SOURCES: readonly string[] = [
-  "Criminal History Record Expungement, Oklahoma State Bureau of Investigation, read on 6 August 2026.",
-  "Senate Bill 2030, Oklahoma Legislature 2026 session, bill information record located at the Oklahoma Legislature on 6 August 2026. The enrolled text was not obtained from that channel.",
-  "22 O.S. § 18 and 22 O.S. § 19, expungement of criminal records, as amended by Senate Bill 2030."
+  "Enrolled Senate Bill No. 2030, Oklahoma Legislature 2026 session, enacted as Laws 2026, c. 282, obtained from the Oklahoma Legislature on 7 August 2026.",
+  "22 O.S. § 18, expungement of criminal records, as codified after Senate Bill 2030 and read at the Oklahoma State Courts Network on 7 August 2026. Its historical note records the amendment as Laws 2026, SB 2030, c. 282, § 1, emerg. eff. July 1, 2026.",
+  "22 O.S. § 18b, clean slate eligible records, and 22 O.S. § 19d, the expedited request portal and the automatic process, both created by Senate Bill 2030.",
+  "22 O.S. § 19, petition to the district court for sealing, as amended by Senate Bill 2030.",
+  "Criminal History Record Expungement, Oklahoma State Bureau of Investigation, page last updated 23 July 2026 and read on 7 August 2026."
 ];
 
 // ---------------------------------------------------------------------------
@@ -194,7 +229,7 @@ function branch<T>(
 }
 
 const ADVICE_STOP =
-  "Whether a particular record qualifies is an individualised legal judgment, and on these two routes it is doubly so: which records Senate Bill 2030 removed from automatic eligibility is not yet identified. This guidance explains where the process stands; it does not decide eligibility.";
+  "Whether a particular record qualifies is an individualised legal judgment, and on these two routes it is a hard one. Eligibility under 22 O.S. section 18b turns on which category the record falls into, on a floor of 1 January 1980, and — for several of the categories — on the record being an Oklahoma single-source record, which means an Oklahoma arrest record carrying no out-of-state arrest, no federal arrest and no National Sex Offender Registry or NCIC wanted or warrant entry. That last condition is about the shape of your whole record rather than about the one case you are asking about, which is exactly why a page cannot answer it. This guidance explains where the process stands; it does not decide eligibility.";
 
 const OUT_OF_JURISDICTION_STOP =
   "Oklahoma's sealing law reaches Oklahoma state records. It does not reach a federal, military or out-of-state record, and neither of these two Oklahoma routes touches one.";
@@ -285,7 +320,7 @@ export function deriveOklahomaGuidanceFacts(
       throw new OklahomaGuidanceStopError(
         trackId,
         "relying_on_automatic_sealing_that_is_not_operating",
-        "Waiting for Oklahoma's automatic sealing instead of filing is the one decision this page exists to prevent. It is not operating yet: the Bureau has until 1 November 2027 to begin, and records eligible as of November 2027 need not be sealed until November 2029. Worse, Senate Bill 2030 removed some records from automatic eligibility altogether and which ones has not been identified — so the wait may be for something that never arrives for your record.",
+        "Waiting for Oklahoma's clean slate sealing instead of filing is the one decision this page exists to prevent. Eligibility exists in the statute from 1 July 2026, but the process that would act on it does not: section 19d(D) gives the Bureau until 1 November 2027 to begin and until 1 November 2029 to finish the electronic records eligible by then, and section 18b(B) makes the eligibility itself subject to the availability of funds. What the route produces when it does run is partial sealing under section 18b(D), which leaves the record available to law enforcement. So waiting is a wait for a process that is not running, for an outcome that may not be the one you need.",
         "the Oklahoma petition routes, which are open now and which the bill expressly preserves, and " + OK_LEGAL_HELP,
         "Go back to the Oklahoma intake and ask about the petition routes. Decide to wait only after somebody has looked at your actual record and told you what waiting would be for."
       );
@@ -299,7 +334,7 @@ export function deriveOklahomaGuidanceFacts(
       throw new OklahomaGuidanceStopError(
         trackId,
         "no_expedited_request_portal_is_published_to_use",
-        "There is no portal to use. Senate Bill 2030 requires the Bureau to establish and maintain a request portal with procedures for reviewing expedited expungement requests, but as things stand none is published and nothing can be submitted through one. Whether it has launched is evidenced by the Bureau's own expungement page not mentioning it, and that is evidence rather than confirmation.",
+        "There is no portal to use. Section 19d(A) of Title 22 requires the Bureau to establish and maintain a publicly accessible online portal for expedited expungement requests by 1 November 2026. That date has not arrived, so this is a duty that is not yet due rather than one that has been missed — and as things stand none is published and nothing can be sent through one. The Bureau's own expungement page, last updated 23 July 2026 and therefore after the Act took effect, describes none. That is strong evidence rather than formal confirmation.",
         "the Oklahoma petition routes, which are open now, and " + OK_LEGAL_HELP,
         "Ask about the petition routes, and ask whoever you speak to whether the portal has appeared since this was written. If somebody points you at one, ask where the procedure is published."
       );
@@ -378,16 +413,16 @@ function sheet(input: SheetInput): GuidanceTemplate {
 const OSBI = {
   name: "The Oklahoma State Bureau of Investigation",
   detail:
-    "The Bureau holds the state criminal history record and will release your own copy to you. It is also the body Senate Bill 2030 makes responsible for the automatic sealing and for the request portal. Nothing is submitted to it on this route, and LegalEase contacts it about nothing."
+    "The Bureau holds the state criminal history record and will release your own copy to you. Sections 18b and 19d of Title 22 also make it the body responsible for the sealing without a petition and for the request portal. Nothing is submitted to it on this route, and LegalEase contacts it about nothing."
 };
 
 export const OKLAHOMA_GUIDANCE_TEMPLATES: Readonly<Record<string, GuidanceTemplate>> = {
   // ---- ok_clean_slate -------------------------------------------------------
   "ok-clean-slate-status-disclosure": sheet({
     templateId: "ok-clean-slate-status-disclosure",
-    mechanismName: "Oklahoma's automatic record sealing, and where it actually stands",
+    mechanismName: "Oklahoma's clean slate sealing without a petition, and where it stands",
     whyNotAFiling:
-      "Nothing is filed by you and nothing can be. Automatic sealing under 22 O.S. §§ 18 and 19, as amended by Senate Bill 2030, is something the Oklahoma State Bureau of Investigation does — and as things stand it is not doing it yet. There is no application, no form and no queue to join, so LegalEase generates nothing here.",
+      "Nothing is filed by you and nothing can be. Sealing without a petition under 22 O.S. section 18b, run through the process in 22 O.S. section 19d, is something the Oklahoma State Bureau of Investigation does on the State's own records — and as things stand it is not doing it yet. There is no application, no form and no queue to join, so LegalEase generates nothing here.",
     processType: "agency",
     prerequisites: [
       "The record is an Oklahoma state record.",
@@ -406,23 +441,25 @@ export const OKLAHOMA_GUIDANCE_TEMPLATES: Readonly<Record<string, GuidanceTempla
     destination: OSBI,
     sequence: [
       NOT_A_REPORT_ON_YOUR_CASE,
-      "The position, stated plainly. Senate Bill 2030, passed in May 2026, amends 22 O.S. §§ 18 and 19 and sets the Bureau a deadline of 1 November 2027 to begin sealing records through Clean Slate. Records that are Clean Slate eligible as of November 2027 must be sealed by November 2029.",
-      "As things stand, the Bureau's own expungement page refers to Clean Slate eligibility by category and links to a Clean Slate page, and does not state that automatic sealing is operational. So this is a route that exists on paper and not yet in practice.",
-      "Those two dates are the statute's deadlines for the Bureau. They are not predictions about your record and they are not a queue position. Nobody can tell you today when a particular record will be reached.",
+      THE_ACT_AS_ENACTED,
+      ELIGIBILITY_IS_NOT_ADMINISTRATION,
+      THE_THREE_DATES,
+      FUNDING_IS_A_CONDITION,
       EXPUNGEMENT_MEANS_SEALING,
-      "What the bill does beyond the deadlines, as the review records it: it provides for eligibility for sealing of certain records without a petition to the court, and it adds annual reporting, objection procedures and rulemaking authority for the Bureau and for the Supreme Court.",
-      "And the part that matters most to you, which the next sheet is entirely about: it also removes eligibility for automatic expungement of certain records, and removes certain automatic-expungement procedures.",
+      "What the process looks like when it does run, so that you can recognise it. Section 19d(E) has the Bureau identify eligible records from its repository each month, notify the arresting and prosecuting agencies, and wait forty-five days during which those agencies or the Bureau may object in writing on one of three grounds. Where nobody objects the Bureau sends the courts a list and a signed expungement order issues; where somebody does object, the court may set the objection down for hearing and may still order the record sealed if it finds the objection is not sufficiently grounded. Every step in that is the State's own machinery. None of it is a step you take, and none of it is a step you can start.",
+      "One more thing worth knowing before you read the next sheet: an order made this way carries an 'AE' prefix identifying it as an automated or expedited expungement, and it is not a public record.",
       PETITION_ROUTE_REMAINS_OPEN,
       WHAT_IS_NOT_KNOWN,
       NOTHING_CAN_BE_FILED
     ],
     expectedNextStage:
-      "The next sheet in this packet is about the risk in waiting: which records the amendment removed from automatic eligibility has not been identified, and that is a reason to look at the petition routes rather than to sit tight.",
+      "The next sheet in this packet is about what this route reaches and what it does not, which is the half most accounts get wrong in both directions. The last sheet sets out what to watch and when.",
     canPrepare: [
-      "This account of where Oklahoma's automatic sealing actually stands and of what the statute's deadlines are.",
-      "The removal-risk sheet that follows it in this packet.",
+      "This account of where Oklahoma's sealing without a petition actually stands, written from the enacted text rather than from a bill record.",
+      "The scope sheet that follows it in this packet, which sets out what the route reaches and what it leaves untouched.",
+      "A description of the process the statute lays down, so that you can tell an official step from something somebody has invented.",
       "The monitoring sheet, which sets out what to watch and when to check again.",
-      "A plain statement of what is not known here, so that you are not relying on a confident answer nobody has."
+      "A plain statement of what is still open, so that you are not relying on a confident answer nobody has."
     ],
     escalations: [
       "You have been told your record will be cleared automatically on a particular date.",
@@ -431,14 +468,14 @@ export const OKLAHOMA_GUIDANCE_TEMPLATES: Readonly<Record<string, GuidanceTempla
     ]
   }),
 
-  "ok-clean-slate-removal-risk-disclosure": sheet({
-    templateId: "ok-clean-slate-removal-risk-disclosure",
-    mechanismName: "The risk in waiting: what Senate Bill 2030 took out",
+  "ok-clean-slate-scope-disclosure": sheet({
+    templateId: "ok-clean-slate-scope-disclosure",
+    mechanismName: "What the clean slate route reaches, and what it leaves untouched",
     whyNotAFiling:
-      "This page is a warning and a comparison. Nothing on it is filed, and there is nothing on this route that could be filed.",
+      "This page describes the boundaries of a route and compares it with the one that is open. Nothing on it is filed, and there is nothing on this route that could be filed.",
     processType: "agency",
     prerequisites: [
-      "You have read the sheet before this one and know that automatic sealing is not operating yet.",
+      "You have read the sheet before this one and know that the process is not running yet.",
       "You are deciding whether to wait for it or to look at the petition routes."
     ],
     documentsToObtain: [
@@ -447,36 +484,39 @@ export const OKLAHOMA_GUIDANCE_TEMPLATES: Readonly<Record<string, GuidanceTempla
     gather: [
       "Every Oklahoma case on your record, with the county, the court and how it ended.",
       "Whether the arrest record or the court record is the one causing you the problem, because they are treated differently and cost differently.",
+      "Whether your record shows any arrest outside Oklahoma, because that changes which categories can reach it.",
       "Any date of your own that the timing has to work against."
     ],
     destination: {
       name: "No destination. This sheet is a decision aid rather than a step",
       detail:
-        "Nothing here is sent anywhere. It exists because the choice between waiting and filing is the participant's to make, and making it well needs one fact most summaries leave out."
+        "Nothing here is sent anywhere. It exists because the choice between waiting and petitioning is the participant's to make, and making it well needs the shape of the route rather than a headline about it."
     },
     sequence: [
-      "Here is the fact most summaries leave out. Senate Bill 2030 does not only add to automatic sealing. The review records that it removes eligibility for automatic expungement of certain records, and removes certain automatic-expungement procedures.",
-      "Which records were removed has not been identified. That is not a hedge — the enrolled text of the amended sections was not obtained, and identifying the removed categories is recorded as the top outstanding research item.",
-      "So the risk in waiting is not simply that it is slow. It is that your record may be in a category that was taken out, in which case waiting produces nothing at all, and you will not find that out by waiting.",
-      "Against that, the reassurance that actually matters: Senate Bill 2030 expressly preserves the right to petition. The petition routes are open today, and they do not depend on any of this.",
-      "So the practical shape of the decision is this. If your need has a date on it — a job, a licence, a housing application — the petition route is the one that can be made to happen. If it does not, waiting costs nothing except time, provided you understand you may be waiting for something that never comes.",
-      "One cost difference worth knowing before you choose. On the petition side an arrest-record expungement carries a $150 processing fee charged by the Bureau, while a court-record expungement is free of that fee. Which of the two you actually need is worth establishing before you price anything.",
+      "First, correct a thing you have probably been told the wrong way round. Senate Bill 2030 did not shrink the set of records that can be sealed without a petition. What it repealed was the earlier route, which reached arrest records only, and what it put in its place at section 18b is wider: it reaches records rather than arrest records alone, court records expressly included, and it adds two conviction categories the old route never touched at all.",
+      "So the reason to look at a petition is not a lost category. It is the timetable, the funding condition and the kind of sealing this route produces, which are the next three things on this page.",
+      "What section 18b actually reaches. There is a floor: the record must arise on or after 1 January 1980. Above that floor sit the acquittal, reversal-with-dismissal, DNA-innocence and full-pardon categories, the pardon for an offence committed before the age of eighteen, and the identity-theft category the same Act added to section 18. Then come three categories that reach only an Oklahoma single-source record: a record where the prosecuting agency declined to file charges, and two further section 18 categories. And then the two new ones: a felony under paragraph 1 of subsection A of 63 O.S. section 2-402 where you are not currently serving a sentence in this state, at least five years have passed since the end of your last felony or misdemeanour sentence, and the record is single-source; and a misdemeanour conviction where you have no felony conviction, nothing is pending, five years have passed since the end of your last misdemeanour sentence, and the record is single-source.",
+      "Single-source is the condition that catches people out, so here it is in full. A single-source record means an Oklahoma criminal history record consisting of an Oklahoma arrest record only — no out-of-state arrest on it, no federal arrest, and no National Sex Offender Registry or NCIC wanted or warrant entry. That is a fact about your whole record rather than about the case you care about, which is why a record that looks eligible on its face may not be.",
+      "There is also a measurement rule that is easy to miss. In deciding whether those waiting periods are met the Bureau considers only the records in its own possession, and treats sentences as having ended on the sentence-length information it holds. If its record of a sentence is wrong or incomplete, the arithmetic it does will follow its record rather than yours.",
+      "Now the limit that changes what the route is worth. Sealing under this route is partial. Section 18b(D) makes the record unavailable to the public but leaves it available to law enforcement for law enforcement purposes, and section 18b(E) leaves it admissible in a later criminal prosecution to prove a prior conviction or a prior deferred judgment, without any order unsealing it first.",
       FULL_VERSUS_PARTIAL_SEALING,
-      "That distinction bears on the choice too. Ask whoever advises you which of the two outcomes a particular route would produce for your record, because they are not the same result.",
+      "Put those together and the practical question becomes a sharp one. If what you need is a record that law enforcement cannot see, this route does not produce it, and the thing to ask about is whether a petition category under section 18 would.",
+      "One cost difference worth knowing before you choose. On the petition side an arrest-record expungement carries a $150 processing fee charged by the Bureau, and local law enforcement agencies may charge their own on top; a court-record expungement is free of that fee. Which of the two you actually need is worth establishing before you price anything.",
       NOT_A_REPORT_ON_YOUR_CASE,
       NOTHING_CAN_BE_FILED
     ],
     expectedNextStage:
-      "You leave this sheet with the decision framed honestly: what waiting risks, what petitioning costs, and which of the two outcomes each would produce. The last sheet sets out what to watch.",
+      "You leave this sheet knowing what the route reaches, what kind of sealing it produces, and what a petition would cost instead. The last sheet sets out what to watch and when.",
     canPrepare: [
-      "This account of what the amendment removed and of why that changes the decision.",
-      "The comparison between waiting and petitioning, with the cost difference stated.",
-      "A written statement of the two options and what each costs, which is what you want in front of you when you decide.",
-      "The explanation of full versus partial sealing, which changes what either route is worth.",
+      "This account of what the clean slate route reaches and of the conditions that narrow it.",
+      "The correction to the common claim that the Act took categories away, which is the wrong way round.",
+      "The explanation of partial sealing, which is what changes whether either route is worth using for your purpose.",
+      "The comparison between waiting and petitioning, with the fee difference stated.",
       "The monitoring sheet that follows it in this packet."
     ],
     escalations: [
-      "You need to know whether your category was removed from automatic eligibility.",
+      "You cannot tell whether your record is a single-source record.",
+      "You need a record that law enforcement cannot see, rather than one hidden from the public.",
       "You have a date of your own and need to know whether waiting can meet it.",
       "You cannot tell whether it is the arrest record or the court record that is causing the problem."
     ]
@@ -497,7 +537,7 @@ export const OKLAHOMA_GUIDANCE_TEMPLATES: Readonly<Record<string, GuidanceTempla
     ],
     gather: [
       "The date of each criminal history record you obtain, and what it showed.",
-      "Anything you are told about Clean Slate by an official source, and the date you were told it.",
+      "Anything you are told about clean slate sealing by an official source, and the date you were told it.",
       "Whether your own circumstances change in a way that affects a petition route."
     ],
     destination: {
@@ -506,26 +546,28 @@ export const OKLAHOMA_GUIDANCE_TEMPLATES: Readonly<Record<string, GuidanceTempla
         "Nothing here is sent anywhere. It exists so that checking back is a plan rather than an anxiety."
     },
     sequence: [
-      "The first thing to watch is the Bureau itself. It has until 1 November 2027 to begin sealing through Clean Slate, and records eligible as of November 2027 must be sealed by November 2029. When the Bureau's own pages begin to say that the automatic route has started, that is the change worth acting on.",
-      "The second thing to watch is your own record. Obtain a criminal history record from the Bureau and keep it dated. Obtain another later and compare the two. That comparison is the only reliable evidence of whether anything moved, and two dated copies are worth considerably more than one.",
-      "The third is the amended text itself. Which records Senate Bill 2030 removed from automatic eligibility has not been identified, and when it is, that answer may change whether waiting is sensible for you specifically.",
-      "What not to do in the meantime. Do not tell an employer, a landlord or a licensing body that a record is sealed because a deadline has passed or because you were told the record qualifies. Until your criminal history record shows it, it is not something you can stand behind.",
-      "And do not treat the deadlines as a reason to stop asking. The right to petition is expressly preserved, and a petition does not become unavailable because an automatic route exists on paper.",
+      "The nearest date is not the one most accounts lead with. Section 19d(A) requires the Bureau to establish and maintain an online portal for expedited expungement requests by 1 November 2026, and that is the first thing that can visibly change. The automatic process itself comes later: the Bureau must begin implementing it on or before 1 November 2027, and the electronic records eligible through it on or after that date must be identified and expunged before 1 November 2029.",
+      "The second thing to watch is the Bureau's own reporting. From 2027 it must publish an annual report, and electronically submit it to the Legislature, of the number of records identified and sealed through the expedited and the automatic processes. A published count is the difference between a route existing on paper and a route doing something.",
+      "The third is the money. Section 18b(B) makes the eligibility subject to the availability of funds, so an appropriation reaching this work is a real change in the answer rather than an administrative footnote.",
+      "The fourth is rulemaking. Section 19d(E)(7) allows the Bureau and the Supreme Court to make rules governing the process, and none has been found. Rules, when they appear, are where the practical detail will be.",
+      "And the fifth is your own record. Obtain a criminal history record from the Bureau and keep it dated. Obtain another later and compare the two. That comparison is the only reliable evidence of whether anything moved, and two dated copies are worth considerably more than one.",
+      "What not to do in the meantime. Do not tell an employer, a landlord or a licensing body that a record is sealed because a deadline has passed or because somebody said the record qualifies. Until your criminal history record shows it, it is not something you can stand behind.",
+      "And do not treat the deadlines as a reason to stop asking. The right to petition is expressly preserved, and a petition does not become unavailable because another route exists in the statute.",
       SEALING_IS_NOT_DESTRUCTION,
       "That last point is worth carrying into any conversation about what sealing is worth: it is not erasure, it is not necessarily permanent, and it has a ten-year long-stop in the other direction.",
       WHAT_IS_NOT_KNOWN,
       NOT_A_REPORT_ON_YOUR_CASE
     ],
     expectedNextStage:
-      "You leave this packet knowing where the automatic route stands, what waiting risks, what the alternative costs, and what to check and when.",
+      "You leave this packet knowing where the clean slate route stands, what it reaches, what waiting risks, what the alternative costs, and what to check and when.",
     canPrepare: [
-      "This account of what to watch and of what each change would mean.",
+      "This account of what to watch, in the order the dates actually fall, and of what each change would mean.",
       "The value of holding two dated criminal history records rather than one.",
       "The explanation of what sealing is and is not, including the ten-year long-stop.",
       "The two sheets before this one."
     ],
     escalations: [
-      "The Bureau's pages begin to say the automatic route has started and you want to know what it means for you.",
+      "The Bureau's pages begin to say the automatic process has started and you want to know what it means for you.",
       "A deadline in the statute passes and nothing has changed on your record.",
       "You have been asked to confirm in writing that a record is sealed."
     ]
@@ -534,9 +576,9 @@ export const OKLAHOMA_GUIDANCE_TEMPLATES: Readonly<Record<string, GuidanceTempla
   // ---- ok_osbi_portal -------------------------------------------------------
   "ok-portal-status-disclosure": sheet({
     templateId: "ok-portal-status-disclosure",
-    mechanismName: "Oklahoma's free expungement request portal, and where it actually stands",
+    mechanismName: "Oklahoma's free expungement request portal, and where it stands",
     whyNotAFiling:
-      "Nothing is filed and nothing can be. Senate Bill 2030 requires the Oklahoma State Bureau of Investigation to establish and maintain a portal for expedited expungement requests, but no portal is published, so there is nothing to submit and nowhere to submit it. LegalEase generates nothing here.",
+      "Nothing is filed and nothing can be. Section 19d(A) of Title 22 requires the Oklahoma State Bureau of Investigation to establish and maintain a portal for expedited expungement requests by 1 November 2026, but none is published, so there is nothing to send and nowhere to send it. LegalEase generates nothing here.",
     processType: "portal",
     prerequisites: [
       "The record is an Oklahoma state record.",
@@ -555,11 +597,14 @@ export const OKLAHOMA_GUIDANCE_TEMPLATES: Readonly<Record<string, GuidanceTempla
     destination: OSBI,
     sequence: [
       NOT_A_REPORT_ON_YOUR_CASE,
-      "The position, stated plainly. Senate Bill 2030 requires the Bureau to establish and maintain a request portal, with procedures for the review of expedited expungement requests. As things stand no such portal is published, and the Bureau's own expungement page does not mention one.",
-      "That last point is evidence rather than confirmation. The Bureau's expungement page was read and does not mention a portal; a Clean Slate page linked from it was not read. So the honest statement is that there is no published portal to use, and that whether one has quietly launched has not been established.",
-      "Which means there is nothing on this route to submit today, and nothing this packet can prepare for it.",
-      "Why the portal matters more than its size suggests, and why it is worth a sheet at all: if it launches, a meaningful share of people may be able to get relief without paying for a petition. That is a real difference in access, not an administrative detail.",
+      THE_ACT_AS_ENACTED,
+      "The position on the portal, stated plainly and with its date. Section 19d(A) requires the Bureau to establish and maintain a publicly accessible online portal by 1 November 2026, through which an individual may make an expedited expungement request for a clean slate eligible record. That date has not arrived. So this is a duty that is not yet due, rather than one that has been missed, and there is nothing on this route to send today.",
+      "As things stand no such portal is published. The Bureau's own criminal history record expungement page was last updated on 23 July 2026 — after the Act took effect — and it describes no portal, giving an email address and a telephone number for enquiries instead. That is strong evidence rather than formal confirmation, and it is put that way deliberately: a page that does not mention a thing is not the same as an official statement that the thing does not exist.",
+      "What the request will consist of when there is somewhere to make it, because it is unusually light. Section 19d(B) says a request may require only enough personal identification information for the Bureau to find the record, plus contact details — an email address or a phone number — so that you can be notified. No filing, no pleading, and the statute sets no fee.",
+      "What happens to it after that is not yours to drive either. Under section 19d(C) the Bureau reviews the record; if it looks eligible on the Bureau's own records it asks the arresting and prosecuting agencies to review it; on their confirmation it sends a request to the district court; and if the court approves, an order issues to the Bureau and the other agencies holding the record. If any of them finds the record ineligible, the Bureau sends you a written or electronic notice of rejection stating the reasons.",
+      "Why the portal matters more than its size suggests, and why it is worth a sheet at all: the statute sets no fee for a request, so if it arrives, a meaningful share of people may reach relief without paying for a petition. That is a real difference in access, not an administrative detail.",
       EXPUNGEMENT_MEANS_SEALING,
+      FUNDING_IS_A_CONDITION,
       PETITION_ROUTE_REMAINS_OPEN,
       WHAT_IS_NOT_KNOWN,
       NOTHING_CAN_BE_FILED
@@ -567,10 +612,11 @@ export const OKLAHOMA_GUIDANCE_TEMPLATES: Readonly<Record<string, GuidanceTempla
     expectedNextStage:
       "The next sheet is the cost comparison, which is the decision this route actually turns on: whether to pay for a petition now or wait to see whether a free route opens.",
     canPrepare: [
-      "This account of where the portal stands and of what the statute requires of the Bureau.",
+      "This account of where the portal stands, with the statutory deadline the Bureau is working to.",
+      "The description of what a request would consist of and who reviews it, taken from the statute.",
       "The cost comparison that follows it in this packet.",
       "The monitoring sheet, which sets out what to watch and when to check again.",
-      "A plain statement of what is not known here, so that you are not relying on a confident answer nobody has."
+      "A plain statement of what is still open, so that you are not relying on a confident answer nobody has."
     ],
     escalations: [
       "Somebody has pointed you at a portal and you want to know whether it is the one the statute requires.",
@@ -596,7 +642,7 @@ export const OKLAHOMA_GUIDANCE_TEMPLATES: Readonly<Record<string, GuidanceTempla
       "Whether the arrest record or the court record is the one causing you the problem.",
       "Whether your need has a date on it, and what that date is.",
       "What a petition would cost you in total, including anything a lawyer or clinic would charge.",
-      "Whether you qualify for help from a legal aid office or a clinic, which changes the arithmetic."
+      "Whether a legal aid office or a clinic would take the work on for you, which changes the arithmetic."
     ],
     destination: {
       name: "No destination. This sheet is a decision aid rather than a step",
@@ -604,12 +650,12 @@ export const OKLAHOMA_GUIDANCE_TEMPLATES: Readonly<Record<string, GuidanceTempla
         "Nothing here is sent anywhere. The decision is yours to make, and it is made better with the numbers in front of you than with a general sense that one route is cheaper."
     },
     sequence: [
-      "Start with which record you actually need cleared, because the costs differ. On the petition side an arrest-record expungement carries a $150 processing fee charged by the Bureau. A court-record expungement is free of that fee.",
+      "Start with which record you actually need cleared, because the costs differ. On the petition side an arrest-record expungement carries a $150 processing fee charged by the Bureau, and local law enforcement agencies may charge their own on top. A court-record expungement is free of that fee.",
       "So the participant for whom a free portal would matter most is the one who needs the arrest record cleared. If that is you, this decision is worth taking slowly.",
-      "Now the two things that make waiting a real gamble rather than a free option. There is no published portal and no published date for one. And Senate Bill 2030 removed certain records from automatic eligibility, without it yet being identified which.",
-      "So waiting is not simply cheaper. It is cheaper only if the route arrives and reaches your record, and neither of those is established.",
-      "Set that against the thing that is certain: the right to petition is expressly preserved and is available now.",
-      "The honest framing of the choice, and it is genuinely yours to make. If your need has a date on it, pay for the route that exists. If it does not, and the fee is the obstacle, waiting is a reasonable bet provided you know it is a bet.",
+      "Now the three things that make waiting a real gamble rather than a free option. The portal is not published, and although the statute puts a date on it — 1 November 2026 — it provides no remedy to anybody if that date passes without one. The eligibility the route runs on is expressly subject to the availability of funds. And what it produces is partial sealing, which leaves the record available to law enforcement.",
+      "So waiting is not simply cheaper. It is cheaper only if the route arrives, reaches your record, and produces the outcome you actually need, and none of those three is established today.",
+      "Set that against the thing that is certain: the right to petition is expressly preserved by section 19d(G) and is available now.",
+      "The honest framing of the choice, and it is genuinely yours to make. If your need has a date on it, pay for the route that exists. If it does not, and the fee is the obstacle, waiting is a reasonable bet provided you know it is a bet and you have given yourself a date to review it.",
       "One thing to do either way, because it costs nothing and improves both branches: ask a legal aid office or an expungement clinic whether they would take it on. That can change the arithmetic more than the portal would.",
       FULL_VERSUS_PARTIAL_SEALING,
       NOT_A_REPORT_ON_YOUR_CASE,
@@ -620,6 +666,7 @@ export const OKLAHOMA_GUIDANCE_TEMPLATES: Readonly<Record<string, GuidanceTempla
     canPrepare: [
       "This comparison, with the fee difference between the two kinds of expungement stated.",
       "The account of what makes waiting a bet rather than a free option.",
+      "A statement of what the statute does and does not guarantee about the portal, so that the bet is made with the odds visible.",
       "The suggestion worth taking either way, which is to ask whether a clinic would take it on.",
       "The monitoring sheet that follows it in this packet."
     ],
@@ -634,7 +681,7 @@ export const OKLAHOMA_GUIDANCE_TEMPLATES: Readonly<Record<string, GuidanceTempla
     templateId: "ok-portal-monitoring-disclosure",
     mechanismName: "What to watch for the portal, and when to check again",
     whyNotAFiling:
-      "This page sets expectations against a statutory requirement that has not yet produced anything. Nothing on it is filed and nothing on it is generated for you to sign.",
+      "This page sets expectations against a statutory duty that has not yet produced anything. Nothing on it is filed and nothing on it is generated for you to sign.",
     processType: "portal",
     prerequisites: [
       "You have read the two sheets before this one in the packet.",
@@ -653,12 +700,18 @@ export const OKLAHOMA_GUIDANCE_TEMPLATES: Readonly<Record<string, GuidanceTempla
       detail:
         "Nothing here is sent anywhere. It exists so that watching for the portal is a plan with a review date rather than an indefinite wait."
     },
+    noticeOrService: [
+      "There is nobody for you to notify and nothing to serve.",
+      "Nobody is required to write and tell you when a record has been sealed, or when this route starts working, which is why this packet tells you to check your own record.",
+      "If the portal does arrive, the statute has the Bureau notify you rather than the other way round: a written or electronic notice of rejection if a reviewing body finds the record ineligible, and a notification when a record is sealed."
+    ],
     sequence: [
-      "The first thing to watch is the Bureau's own expungement pages. The portal is required by statute, so if it launches that is where it will be described. A portal you hear about anywhere else is worth checking against that page before you use it.",
-      "Be careful here, and this is the practical warning on this sheet. A free government route is exactly the shape that paid intermediaries imitate. If something asks you to pay to submit an expedited request, that is a reason to stop and check where the procedure is published.",
+      "Give the wait a date, because the statute already has. Section 19d(A) puts the portal deadline at 1 November 2026, so that is the first date to check against rather than an open horizon. The Bureau's own expungement and clean slate pages are where it would be described if it arrives.",
+      "Be careful here, and this is the practical warning on this sheet. A free government route is exactly the shape that paid intermediaries imitate. If something asks you to pay to submit an expedited request, that is a reason to stop and check where the procedure is published. A portal you hear about anywhere other than the Bureau's own pages is worth checking against them before you use it.",
       "The second thing to watch is your own record. Obtain a criminal history record from the Bureau and keep it dated; obtain another later and compare. That is the only reliable evidence of whether anything has moved.",
-      "The third is the automatic sealing route running alongside this one. The Bureau has until 1 November 2027 to begin sealing through Clean Slate, and records eligible as of November 2027 must be sealed by November 2029. Those dates bear on the portal question because both are the same body's obligations under the same bill.",
-      "Give yourself a review date rather than an open-ended wait. If your circumstances change — a job, a licence, a housing application — the answer changes with them, and the petition route is the one that can be made to happen on a date.",
+      "The third is the automatic process running alongside this one, because both are the same body's obligations under the same Act. The Bureau must begin implementing it on or before 1 November 2027, and the electronic records eligible through it on or after that date must be identified and expunged before 1 November 2029. From 2027 the Bureau must also publish an annual report, and submit it to the Legislature, of what the expedited and automatic processes have actually sealed.",
+      "The fourth is rulemaking. Section 19d(E)(7) allows the Bureau and the Supreme Court to make rules for the process, and none has been found; when rules appear, that is where the practical detail about the portal will be.",
+      "And if your circumstances change — a job, a licence, a housing application — the answer changes with them, and the petition route is the one that can be made to happen on a date of your choosing.",
       SEALING_IS_NOT_DESTRUCTION,
       WHAT_IS_NOT_KNOWN,
       "None of that is a reason to do nothing. It is a reason to know what you are waiting for, and to have decided in advance what would make you stop waiting.",
@@ -667,7 +720,7 @@ export const OKLAHOMA_GUIDANCE_TEMPLATES: Readonly<Record<string, GuidanceTempla
     expectedNextStage:
       "You leave this packet knowing where the portal stands, what a petition would cost instead, what to watch, and what would make waiting the wrong choice.",
     canPrepare: [
-      "This account of what to watch and where to check it.",
+      "This account of what to watch and where to check it, with the statutory date to check against.",
       "The warning about paid intermediaries imitating a free government route.",
       "The suggestion to set yourself a review date rather than waiting open-endedly.",
       "The explanation of what sealing is and is not, including the ten-year long-stop.",
@@ -815,8 +868,9 @@ export const OKLAHOMA_GUIDANCE_TRACKS: readonly ReliefTrack[] = [
   oklahomaTrack({
     trackId: "ok_clean_slate",
     publicName: "Oklahoma's automatic record sealing, and where it stands",
-    mechanism: "status_disclosure_and_routing_for_automatic_sealing_that_is_not_yet_operating",
-    authority: "22 O.S. § 18, 22 O.S. § 19 and Senate Bill 2030 (2026)",
+    mechanism: "status_disclosure_and_routing_for_clean_slate_sealing_that_is_not_yet_administered",
+    authority:
+      "22 O.S. § 18b and 22 O.S. § 19d, as enacted by Senate Bill 2030, Laws 2026, c. 282, with 22 O.S. §§ 18 and 19 as amended by the same Act",
     recordTypes: ["arrest", "charge", "conviction", "court_record"],
     dispositions: ["convicted", "dismissed", "acquitted"],
     components: [
@@ -825,8 +879,8 @@ export const OKLAHOMA_GUIDANCE_TRACKS: readonly ReliefTrack[] = [
         templateId: "ok-clean-slate-status-disclosure"
       },
       {
-        componentId: "ok_clean_slate-removal-risk-disclosure-2",
-        templateId: "ok-clean-slate-removal-risk-disclosure"
+        componentId: "ok_clean_slate-scope-disclosure-2",
+        templateId: "ok-clean-slate-scope-disclosure"
       },
       {
         componentId: "ok_clean_slate-monitoring-disclosure-3",
@@ -859,18 +913,19 @@ export const OKLAHOMA_GUIDANCE_TRACKS: readonly ReliefTrack[] = [
       }
     ],
     assembledPacketName: "oklahoma-clean-slate-status",
-    assembledPacketTitle: "Oklahoma automatic sealing — where it stands and what waiting risks",
+    assembledPacketTitle: "Oklahoma clean slate sealing — where it stands and what it reaches",
     customerDeliverableDescription:
-      "Tells an Oklahoma participant the true status of automatic sealing: Senate Bill 2030 gives the Bureau until 1 November 2027 to begin and until November 2029 to finish the eligible back catalogue, and the Bureau's own pages do not yet say it is operating. Surfaces the risk the summaries omit — that the same bill removed certain records from automatic eligibility and which ones has not been identified — sets the cost of the preserved petition alternative against it, explains full versus partial sealing, and gives a monitoring plan. Nothing is filed and nothing can be.",
+      "Tells an Oklahoma participant the true status of sealing without a petition: Senate Bill 2030 is Laws 2026, c. 282 and took effect on 1 July 2026, so statutory eligibility exists under 22 O.S. § 18b(B) subject to the availability of funds, while the § 19d administration does not — the Bureau has until 1 November 2027 to begin and until 1 November 2029 to finish the electronic records eligible by then, and the § 19d(A) portal is not due until 1 November 2026. Corrects the widespread misreading that the Act narrowed eligibility, sets out what § 18b actually reaches including the single-source condition and the 1 January 1980 floor, explains that § 18b(D) seals only partially, prices the preserved petition alternative against it, and gives a monitoring plan. Nothing is filed and nothing can be.",
     notes:
-      "Process guidance only, and a status disclosure rather than a route to use. Nothing is filed on this track and nothing can be; never generate an application or a request. The enrolled text of §§ 18 and 19 as amended, the bill's effective date, and which records lost automatic eligibility are all preserved as unknown."
+      "Process guidance only, and a status disclosure rather than a route to use. Nothing is filed on this track and nothing can be; never generate an application or a request. Eligibility is funding-conditioned under § 18b(B) and no participant is told they qualify. The petition right preserved by § 19d(G) is the actionable alternative."
   }),
 
   oklahomaTrack({
     trackId: "ok_osbi_portal",
     publicName: "Oklahoma's free expungement request portal, and where it stands",
     mechanism: "status_disclosure_and_cost_comparison_for_a_request_portal_that_is_not_yet_published",
-    authority: "22 O.S. § 18, 22 O.S. § 19 and Senate Bill 2030 (2026)",
+    authority:
+      "22 O.S. § 19d and 22 O.S. § 18b, as enacted by Senate Bill 2030, Laws 2026, c. 282, with 22 O.S. §§ 18 and 19 as amended by the same Act",
     recordTypes: ["arrest", "charge", "conviction", "court_record"],
     dispositions: ["convicted", "dismissed", "acquitted"],
     components: [
@@ -893,7 +948,7 @@ export const OKLAHOMA_GUIDANCE_TRACKS: readonly ReliefTrack[] = [
       },
       {
         key: "wantsToUseThePortalNow",
-        label: "Do you want to submit a request through the expedited portal now?",
+        label: "Do you want to send a request through the expedited portal now?",
         required: true
       },
       {
@@ -910,8 +965,8 @@ export const OKLAHOMA_GUIDANCE_TRACKS: readonly ReliefTrack[] = [
     assembledPacketName: "oklahoma-osbi-portal-status",
     assembledPacketTitle: "Oklahoma expedited request portal — where it stands and what it would save",
     customerDeliverableDescription:
-      "Tells an Oklahoma participant that the expedited expungement request portal Senate Bill 2030 requires is not published and that nothing can be submitted through one, distinguishes evidence from confirmation on that point, and then does the thing that actually matters: sets the $150 arrest-record processing fee against a free court-record expungement so the participant can decide for themselves whether to pay now or wait. Adds a monitoring plan and a warning about paid intermediaries imitating a free government route. Nothing is filed and nothing can be.",
+      "Tells an Oklahoma participant that the expedited expungement request portal 22 O.S. § 19d(A) requires by 1 November 2026 is not published and that nothing can be sent through one, distinguishes evidence from confirmation on that point, sets out what § 19d(B) and (C) say a request would consist of and who reviews it, and then does the thing that actually matters: sets the $150 arrest-record processing fee against a free court-record expungement and a statutory request that carries no fee, so the participant can decide for themselves whether to pay now or wait. Adds a monitoring plan and a warning about paid intermediaries imitating a free government route. Nothing is filed and nothing can be.",
     notes:
-      "Process guidance only, and a status disclosure rather than a route to use. No portal is published; never suggest a request can be submitted, and never generate one. Whether the portal has launched is evidenced by the Bureau's page not mentioning it, which is stated as evidence rather than confirmation."
+      "Process guidance only, and a status disclosure rather than a route to use. No portal is published; never suggest a request can be sent, and never generate one. The 1 November 2026 deadline in § 19d(A) has not arrived, so the duty is not yet due rather than breached, and the Bureau's page not mentioning a portal is stated as evidence rather than confirmation."
   })
 ];
