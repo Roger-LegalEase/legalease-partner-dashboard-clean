@@ -76,7 +76,23 @@ export const CustomPleadingRenderer: PacketRenderer = {
 
     for (const section of template.sections) {
       if (section.heading) {
-        writer.write(fill(section.heading), { font: "bold", size: 11 });
+        // A heading alone at the foot of a page, with the section it names
+        // starting overleaf, reads as a heading for whatever the reader sees
+        // next. The heading, the gap under it and the first line of the section
+        // move together, so a heading is never the last thing on a page.
+        //
+        // One line, not the whole first paragraph: reserving a long paragraph
+        // would push headings forward for no reason and could leave most of a
+        // page empty. Measured, not padded — an oversized reservation is
+        // declined by keepTogether and left to ordinary pagination, which is why
+        // this cannot produce a blank page.
+        const headingText = fill(section.heading);
+        const headingHeight = writer.measureTextHeight(headingText, {
+          font: "bold",
+          size: 11
+        });
+        writer.keepTogether(headingHeight + LINE_HEIGHT / 2 + LINE_HEIGHT);
+        writer.write(headingText, { font: "bold", size: 11 });
         writer.gap(LINE_HEIGHT / 2);
       }
       let index = 1;
