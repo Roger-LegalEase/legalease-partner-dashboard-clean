@@ -360,7 +360,7 @@ const completedGuidanceJobs = factoryPlan.jobs.filter(
     entry.lane === "guidance_implementation" &&
     entry.participantPacketProofRequired === true
 );
-assert.equal(completedGuidanceJobs.length, 24);
+assert.equal(completedGuidanceJobs.length, 27);
 const expectedGuidanceCompletions = new Map([
   ["rcap-ak-guidance-implementation", ["36509c7377c5653db07fd5c43b3948aad079164a", 4]],
   ["rcap-ca-guidance-implementation", ["26b4661089849a67eb99bfae6598ba101f75cbbc", 3]],
@@ -385,7 +385,10 @@ const expectedGuidanceCompletions = new Map([
   ["rcap-mt-guidance-implementation", ["96dfa91f92a967b30b2dec6d94818131f20e022b", 1]],
   ["rcap-nd-guidance-implementation", ["16cb75fde862b6c8f88e4537ee5ce4a0a4e78ef0", 5]],
   ["rcap-ne-guidance-implementation", ["ac4f9f2b106c79e00461861920b210aa537f57f2", 7]],
-  ["rcap-ut-guidance-implementation", ["4869d93aa5a1d56a5d4a395ad1b2bd8fabe2be7b", 5]]
+  ["rcap-ut-guidance-implementation", ["4869d93aa5a1d56a5d4a395ad1b2bd8fabe2be7b", 5]],
+  ["rcap-va-guidance-implementation", ["e6367e3ee4a41a1d6baa4dc2294c699c0f23c5f0", 5]],
+  ["rcap-sd-guidance-implementation", ["c5ce6d306c60321d029eaba20cb95616eabe695a", 4]],
+  ["rcap-wi-guidance-implementation", ["1ba6e2e720b60809ce59e9c5b6137f7b3fa91b03", 4]]
 ]);
 let verifiedGuidancePacketCount = 0;
 let verifiedGuidancePageCount = 0;
@@ -401,15 +404,31 @@ for (const child of completedGuidanceJobs) {
   assert.equal(proof.jobId, child.jobId);
   assert.equal(proof.parentJobId, child.parentJobId);
   assert.equal(proof.completionCommit, child.completionCommit);
+  // Canonical samples are the legal coverage; South Dakota's teaching-licence
+  // rendering is a regression variant of sd_sis_sealing and is not a fifth
+  // track. A proof written before variants existed carries no role at all and
+  // is canonical throughout.
+  const canonicalPackets = proof.samplePackets.filter(
+    (packet) => (packet.sampleRole ?? "canonical") === "canonical"
+  );
+  const variantPackets = proof.samplePackets.filter(
+    (packet) => packet.sampleRole === "variant"
+  );
   assert.equal(proof.finalPdfCount, child.trackIds.length);
-  assert.equal(proof.samplePackets.length, child.trackIds.length);
+  assert.equal(canonicalPackets.length, child.trackIds.length);
   assert.deepEqual(
-    proof.samplePackets.map((packet) => packet.trackId).sort(),
+    canonicalPackets.map((packet) => packet.trackId).sort(),
     [...child.trackIds].sort(),
     child.jobId
   );
+  for (const variant of variantPackets) {
+    assert.ok(
+      child.trackIds.includes(variant.variantOfTrackId ?? variant.trackId),
+      `${child.jobId}: variant of an unassigned track`
+    );
+  }
   assert.equal(
-    proof.samplePackets.reduce(
+    canonicalPackets.reduce(
       (total, packet) => total + packet.assembledPageCount,
       0
     ),
@@ -428,15 +447,15 @@ for (const child of completedGuidanceJobs) {
   verifiedGuidancePacketCount += proof.finalPdfCount;
   verifiedGuidancePageCount += proof.assembledPageCount;
 }
-assert.equal(verifiedGuidancePacketCount, 76);
-assert.equal(verifiedGuidancePageCount, 231);
+assert.equal(verifiedGuidancePacketCount, 89);
+assert.equal(verifiedGuidancePageCount, 352);
 assert.deepEqual(productionPlan.participantPacketProofReconciliation, {
   schemaVersion: "rcap-participant-packet-proof/v1",
-  completedGuidanceJobsRequiringProof: 24,
-  proofsPresentAndVerified: 24,
-  assignedTracks: 76,
-  finalPackets: 76,
-  assembledPages: 231,
+  completedGuidanceJobsRequiringProof: 27,
+  proofsPresentAndVerified: 27,
+  assignedTracks: 89,
+  finalPackets: 89,
+  assembledPages: 352,
   proofDirectory: "data/record-clearing/production-factory/packet-proofs",
   evidenceSource:
     "Each integration-owned proof is generated from its committed regression verifier output; worker-authored proof assertions are not accepted.",
@@ -476,8 +495,8 @@ assert.deepEqual(productionPlan.guidanceLaneReconciliation, {
   workerImplementationStatus:
     guidanceImplementationPoolExhausted ? "complete" : "incomplete",
   technicalPacketProofStatus: "complete",
-  finalPackets: 76,
-  assembledPages: 231,
+  finalPackets: 89,
+  assembledPages: 352,
   blockedAdjudications: currentGuidanceAdjudicationJobs.filter(
     (entry) => entry.status === "blocked"
   ).length,
@@ -2178,7 +2197,7 @@ assert.equal(
   factoryPlan.trackReconciliation.representedExactlyOnce,
   normalizedTrackCount
 );
-assert.equal(factoryPlan.trackReconciliation.implementationComplete, 124);
+assert.equal(factoryPlan.trackReconciliation.implementationComplete, 151);
 assert.equal(
   factoryPlan.trackReconciliation.pendingProductionJob,
   normalizedTrackCount -
@@ -2793,8 +2812,8 @@ assert.deepEqual(
 );
 assert.equal(status.totals.tracks, normalizedTrackCount);
 assert.equal(status.totals.normalized, normalizedTrackCount);
-assert.equal(status.totals.implementationComplete, 74);
-assert.equal(status.totals.technicalProofPassed, 74);
+assert.equal(status.totals.implementationComplete, 101);
+assert.equal(status.totals.technicalProofPassed, 101);
 assert.equal(status.totals.visualProofPassed, 17);
 assert.equal(status.totals.legalRecommendationComplete, 19);
 assert.equal(status.totals.counselAdopted, 15);

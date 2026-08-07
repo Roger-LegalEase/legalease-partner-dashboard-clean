@@ -649,7 +649,7 @@ await check("all normalized tracks reconcile exactly once and completed tranches
     reconciliation.representedExactlyOnce,
     normalizedTrackCount
   );
-  assert.equal(reconciliation.implementationComplete, 124);
+  assert.equal(reconciliation.implementationComplete, 151);
   assert.equal(
     reconciliation.pendingProductionJob,
     normalizedTrackCount - reconciliation.implementationComplete
@@ -3380,7 +3380,7 @@ await check("completed guidance packet proofs are exact and review-consumable", 
       entry.lane === "guidance_implementation" &&
       entry.participantPacketProofRequired === true
   );
-  assert.equal(completedGuidance.length, 24);
+  assert.equal(completedGuidance.length, 27);
   for (const job of completedGuidance) {
     const proofPath =
       `data/record-clearing/production-factory/packet-proofs/${job.jobId}.json`;
@@ -3396,26 +3396,53 @@ await check("completed guidance packet proofs are exact and review-consumable", 
     assert.equal(proof.jurisdiction, job.jurisdiction);
     assert.equal(proof.completionCommit, job.completionCommit);
     assert.equal(proof.authorityEdition, plan.authorityEdition);
+    // Canonical samples are the legal coverage. A regression variant — South
+    // Dakota's teaching-licence sheet is the one here — is extra technical
+    // evidence for a branch of a track that already has a canonical sample, and
+    // must not read as an extra track. A proof written before variants existed
+    // carries no role and is canonical throughout.
+    const canonicalPackets = proof.samplePackets.filter(
+      (packet) => (packet.sampleRole ?? "canonical") === "canonical"
+    );
+    const variantPackets = proof.samplePackets.filter(
+      (packet) => packet.sampleRole === "variant"
+    );
     assert.equal(proof.finalPdfCount, job.trackIds.length);
-    assert.equal(proof.samplePackets.length, job.trackIds.length);
+    assert.equal(canonicalPackets.length, job.trackIds.length);
     assert.deepEqual(
-      proof.samplePackets.map((packet) => packet.trackId).sort(),
+      canonicalPackets.map((packet) => packet.trackId).sort(),
       [...job.trackIds].sort(),
       job.jobId
     );
     assert.equal(
-      new Set(proof.samplePackets.map((packet) => packet.trackId)).size,
+      new Set(canonicalPackets.map((packet) => packet.trackId)).size,
       job.trackIds.length,
       job.jobId
     );
+    for (const variant of variantPackets) {
+      assert.ok(
+        job.trackIds.includes(variant.variantOfTrackId ?? variant.trackId),
+        `${job.jobId}: variant of an unassigned track`
+      );
+    }
     assert.equal(
-      proof.samplePackets.reduce(
+      canonicalPackets.reduce(
         (total, packet) => total + packet.assembledPageCount,
         0
       ),
       proof.assembledPageCount,
       job.jobId
     );
+    if (variantPackets.length > 0) {
+      assert.equal(
+        proof.samplePackets.reduce(
+          (total, packet) => total + packet.assembledPageCount,
+          0
+        ),
+        proof.technicalFixturePageCount,
+        job.jobId
+      );
+    }
     assert.ok(
       proof.samplePackets.every(
         (packet) =>
@@ -3626,8 +3653,8 @@ await check("dashboard reports all 51 and preserves the red launch posture", () 
   assert.equal(status.totals.jurisdictions, 51);
   assert.equal(status.totals.tracks, normalizedRegistry.trackCount);
   assert.equal(status.totals.normalized, normalizedRegistry.trackCount);
-  assert.equal(status.totals.implementationComplete, 74);
-  assert.equal(status.totals.technicalProofPassed, 74);
+  assert.equal(status.totals.implementationComplete, 101);
+  assert.equal(status.totals.technicalProofPassed, 101);
   assert.equal(status.totals.visualProofPassed, 17);
   assert.equal(status.totals.legalRecommendationComplete, 19);
   assert.equal(status.totals.counselAdopted, 15);

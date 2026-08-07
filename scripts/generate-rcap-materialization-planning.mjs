@@ -556,9 +556,19 @@ function buildParticipantPacketProofReconciliation(factoryPlan) {
     }
     const proof = JSON.parse(fs.readFileSync(absoluteProofPath, "utf8"));
     const expectedTracks = [...job.trackIds].sort();
-    const actualTracks = (proof.samplePackets ?? [])
-      .map((packet) => packet.trackId)
-      .sort();
+    // Canonical samples are the legal coverage; a regression variant is extra
+    // technical evidence for a branch of a track that already has one, and
+    // reconciling coverage against every emitted packet would read Oklahoma's
+    // three variants as three extra tracks. A proof written before variants
+    // existed carries no role and is canonical throughout.
+    const allPackets = proof.samplePackets ?? [];
+    const canonicalPackets = allPackets.filter(
+      (packet) => (packet.sampleRole ?? "canonical") === "canonical"
+    );
+    const variantPackets = allPackets.filter(
+      (packet) => packet.sampleRole === "variant"
+    );
+    const actualTracks = canonicalPackets.map((packet) => packet.trackId).sort();
     if (
       proof.schemaVersion !== "rcap-participant-packet-proof/v1" ||
       proof.jobId !== job.jobId ||
@@ -567,16 +577,25 @@ function buildParticipantPacketProofReconciliation(factoryPlan) {
       proof.verifier?.path !== job.regressionVerifier ||
       proof.verifier?.result !== "passed" ||
       proof.finalPdfCount !== job.trackIds.length ||
-      proof.samplePackets?.length !== job.trackIds.length ||
+      canonicalPackets.length !== job.trackIds.length ||
       JSON.stringify(actualTracks) !== JSON.stringify(expectedTracks) ||
-      proof.samplePackets.some(
+      (variantPackets.length === 0
+        ? proof.variantPacketCount !== undefined
+        : proof.canonicalPacketCount !== canonicalPackets.length ||
+          proof.variantPacketCount !== variantPackets.length ||
+          proof.technicalFixtureCount !== allPackets.length ||
+          variantPackets.some(
+            (packet) =>
+              !actualTracks.includes(packet.variantOfTrackId ?? packet.trackId)
+          )) ||
+      allPackets.some(
         (packet) =>
           !/^[0-9a-f]{64}$/u.test(packet.assembledSha256 ?? "") ||
           !Number.isInteger(packet.assembledPageCount) ||
           packet.assembledPageCount < 1
       ) ||
       proof.assembledPageCount !==
-        proof.samplePackets.reduce(
+        canonicalPackets.reduce(
           (count, packet) => count + packet.assembledPageCount,
           0
         ) ||

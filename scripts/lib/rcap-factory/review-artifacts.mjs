@@ -819,13 +819,36 @@ function inspectFactoryPacketProof({
   source,
   sourceBytes
 }) {
-  const packets = normalizePacketRecords(source.samplePackets);
+  const allPackets = normalizePacketRecords(source.samplePackets);
+  // Canonical samples are the legal coverage a review reads; a regression
+  // variant is extra technical evidence for a conditional branch of a track
+  // that already has one. Reconciling track coverage against every emitted
+  // packet would read Oklahoma's three variants as three extra tracks.
+  const sampleRoleOf = (packet) => packet.sampleRole ?? "canonical";
+  const packets = allPackets.filter(
+    (packet) => sampleRoleOf(packet) === "canonical"
+  );
+  const variantPackets = allPackets.filter(
+    (packet) => sampleRoleOf(packet) === "variant"
+  );
   const expectedTrackIds = [...(job.trackIds ?? [])].sort();
   const actualTrackIds = packets.map((packet) => packet.trackId).sort();
   const assembledPageCount = packets.reduce(
     (total, packet) => total + packet.pageCount,
     0
   );
+  const variantsReconcile =
+    variantPackets.length === 0
+      ? source.variantPacketCount === undefined &&
+        source.technicalFixtureCount === undefined
+      : source.canonicalPacketCount === packets.length &&
+        source.variantPacketCount === variantPackets.length &&
+        source.technicalFixtureCount === allPackets.length &&
+        source.technicalFixturePageCount ===
+          allPackets.reduce((total, packet) => total + packet.pageCount, 0) &&
+        variantPackets.every((packet) =>
+          actualTrackIds.includes(packet.variantOfTrackId ?? packet.trackId)
+        );
   const implementationOutputs = inspectImplementationOutputs(
     rootDir,
     job.expectedOutputs ?? []
@@ -875,6 +898,7 @@ function inspectFactoryPacketProof({
     new Set(actualTrackIds).size === actualTrackIds.length &&
     JSON.stringify(actualTrackIds) === JSON.stringify(expectedTrackIds) &&
     packetsAreValid(packets) &&
+    variantsReconcile &&
     source.deterministic === true &&
     source.generatedPacketBytesTracked === false &&
     source.runtimeStatus === "runtime_disabled" &&
@@ -981,6 +1005,10 @@ function normalizePacketRecords(samplePackets) {
   if (!Array.isArray(samplePackets)) return [];
   return samplePackets.map((packet) => ({
     trackId: packet?.trackId,
+    // Absent on a proof that emits one packet per track, which is what every
+    // proof written before regression variants existed looks like.
+    sampleRole: packet?.sampleRole,
+    variantOfTrackId: packet?.variantOfTrackId,
     fileName: packet?.assembledFileName ?? packet?.fileName,
     sha256: packet?.assembledSha256 ?? packet?.sha256,
     pageCount: packet?.assembledPageCount ?? packet?.pageCount
