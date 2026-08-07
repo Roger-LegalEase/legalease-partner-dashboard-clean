@@ -1,0 +1,318 @@
+{
+  "schemaVersion": "rcap-official-pdf-implementation-proof/v1",
+  "jobId": "rcap-nj-acroform-fill",
+  "parentJobId": "NEW-03-acroform-families",
+  "jurisdiction": "NJ",
+  "completionCommit": "0e4f3251477d6c368f9b672904c50ba67152d004",
+  "authorityEdition": "1.2",
+  "generatedAt": "2026-08-06T23:13:21Z",
+  "sourceReceipts": [
+    {
+      "sourceIdentityKey": "rcap-nj-cn-10557-814e1397cd",
+      "documentId": "CN-10557",
+      "receiptPath": "data/record-clearing/production-factory/source-materialization-receipts/rcap-nj-cn-10557-814e1397cd.json",
+      "receiptSha256": "50fdadde65d4378c2c41b83901cba585f5efd8dfb408fd4e0443b8bca8bfc739",
+      "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+      "sourceBytes": 1924831,
+      "materializationDestination": "official-pdf/NJ/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+      "verified": true
+    }
+  ],
+  "verifier": {
+    "path": "scripts/verify-rcap-new-jersey-acroform-fill.mjs",
+    "sha256": "73f558e7aa19c238c45432268e844168bef0983074c626686eefdce8f4e1f64e",
+    "result": "passed"
+  },
+  "implementationOutputs": [
+    {
+      "path": "src/lib/rcap/packets/jurisdictions/new-jersey/acroform.ts",
+      "sha256": "62c922336556ef68a0ca0035fe86baf5672556651be0ba24ba3b2b348260d2c1"
+    },
+    {
+      "path": "scripts/verify-rcap-new-jersey-acroform-fill.mjs",
+      "sha256": "73f558e7aa19c238c45432268e844168bef0983074c626686eefdce8f4e1f64e"
+    }
+  ],
+  "assignments": {
+    "trackIds": [
+      "nj_arrest_no_conviction",
+      "nj_clean_slate",
+      "nj_disorderly_persons",
+      "nj_indictable_conviction",
+      "nj_ordinance"
+    ],
+    "componentIds": [
+      "nj_arrest_no_conviction-order-for-hearing-3",
+      "nj_arrest_no_conviction-primary-filing-1",
+      "nj_arrest_no_conviction-proposed-order-4",
+      "nj_arrest_no_conviction-statements-accompanying-petition-2",
+      "nj_clean_slate-order-for-hearing-3",
+      "nj_clean_slate-primary-filing-1",
+      "nj_clean_slate-proposed-order-4",
+      "nj_clean_slate-statements-accompanying-petition-2",
+      "nj_disorderly_persons-order-for-hearing-3",
+      "nj_disorderly_persons-primary-filing-1",
+      "nj_disorderly_persons-proposed-order-4",
+      "nj_disorderly_persons-statements-accompanying-petition-2",
+      "nj_indictable_conviction-order-for-hearing-3",
+      "nj_indictable_conviction-primary-filing-1",
+      "nj_indictable_conviction-proposed-order-4",
+      "nj_indictable_conviction-statements-accompanying-petition-2",
+      "nj_ordinance-order-for-hearing-3",
+      "nj_ordinance-primary-filing-1",
+      "nj_ordinance-proposed-order-4",
+      "nj_ordinance-statements-accompanying-petition-2"
+    ],
+    "sourceIdentityKeys": [
+      "rcap-nj-cn-10557-814e1397cd"
+    ]
+  },
+  "fieldOrOverlayInventory": {
+    "inventoryType": "acroform_fields",
+    "totalSourceFields": 179,
+    "terminalFields": 179,
+    "widgetAnnotations": 269,
+    "completionFields": 177,
+    "actionButtonFields": 2,
+    "participantSuppliedFields": 8,
+    "deterministicFields": 3,
+    "mappedParticipantFields": 11,
+    "manualFields": 100,
+    "outsidePartyFields": 3,
+    "courtOnlyFields": 26,
+    "prohibitedFields": 5,
+    "unusedActionButtons": 34
+  },
+  "protectedSurfaceTreatment": "The 43-page kit is preserved whole; no page is extracted, reordered, removed, or flattened. Only participant identity and contact values are written, and appearance streams are regenerated on written fields alone, so untouched checkbox and dropdown appearances and every page carrying no mapped widget stay byte-identical to the source. The matter and addendum narratives, venue county, statutory-basis boxes, compelling-circumstances narrative, proposed-order arrest rows, monies-owed section, hearing date and time, docket number, notary block, every signature and every service-completion field remain blank for manual or outside-party completion.",
+  "fixtures": [
+    {
+      "fixtureId": "nj-arrest-no-conviction-optional-blank",
+      "trackId": "nj_arrest_no_conviction",
+      "componentIds": [
+        "nj_arrest_no_conviction-order-for-hearing-3",
+        "nj_arrest_no_conviction-primary-filing-1",
+        "nj_arrest_no_conviction-proposed-order-4",
+        "nj_arrest_no_conviction-statements-accompanying-petition-2"
+      ],
+      "sourceIdentityKeys": [
+        "rcap-nj-cn-10557-814e1397cd"
+      ],
+      "documentId": "CN-10557",
+      "variant": "optional_contact_blank",
+      "sampleRole": "regression_variant",
+      "expectedOutputStatus": "rendered_pdf",
+      "generatedPdf": true,
+      "assembledFileName": "nj-arrest-no-conviction-optional-blank-CN-10557.pdf",
+      "outputSha256": "40a7d40c214198fb2b6cbe7a2f5ab57d78a3734b2da260655c799b46bcfb987d",
+      "assembledPageCount": 43,
+      "deterministic": true,
+      "workerVisualEvidence": {
+        "status": "worker_inspected_technical_evidence",
+        "pagesInspected": 43,
+        "renderedPageImages": 43,
+        "sourceReferencePageImages": 0,
+        "noBlankPages": true,
+        "formalApproval": false
+      }
+    },
+    {
+      "fixtureId": "nj-arrest-no-conviction-standard",
+      "trackId": "nj_arrest_no_conviction",
+      "componentIds": [
+        "nj_arrest_no_conviction-order-for-hearing-3",
+        "nj_arrest_no_conviction-primary-filing-1",
+        "nj_arrest_no_conviction-proposed-order-4",
+        "nj_arrest_no_conviction-statements-accompanying-petition-2"
+      ],
+      "sourceIdentityKeys": [
+        "rcap-nj-cn-10557-814e1397cd"
+      ],
+      "documentId": "CN-10557",
+      "variant": "standard",
+      "sampleRole": "canonical_track_sample",
+      "expectedOutputStatus": "rendered_pdf",
+      "generatedPdf": true,
+      "assembledFileName": "nj-arrest-no-conviction-standard-CN-10557.pdf",
+      "outputSha256": "9f71b50c62466747c5da74ca85fa6eb797682c5f1476aeb13acc7d8a4cce4f71",
+      "assembledPageCount": 43,
+      "deterministic": true,
+      "workerVisualEvidence": {
+        "status": "worker_inspected_technical_evidence",
+        "pagesInspected": 43,
+        "renderedPageImages": 43,
+        "sourceReferencePageImages": 0,
+        "noBlankPages": true,
+        "formalApproval": false
+      }
+    },
+    {
+      "fixtureId": "nj-clean-slate-standard",
+      "trackId": "nj_clean_slate",
+      "componentIds": [
+        "nj_clean_slate-order-for-hearing-3",
+        "nj_clean_slate-primary-filing-1",
+        "nj_clean_slate-proposed-order-4",
+        "nj_clean_slate-statements-accompanying-petition-2"
+      ],
+      "sourceIdentityKeys": [
+        "rcap-nj-cn-10557-814e1397cd"
+      ],
+      "documentId": "CN-10557",
+      "variant": "standard",
+      "sampleRole": "canonical_track_sample",
+      "expectedOutputStatus": "rendered_pdf",
+      "generatedPdf": true,
+      "assembledFileName": "nj-clean-slate-standard-CN-10557.pdf",
+      "outputSha256": "c6088d04d4d8ff2351df87707fd8982be27321ed505d6bf1f8ed8ce824d2b8f9",
+      "assembledPageCount": 43,
+      "deterministic": true,
+      "workerVisualEvidence": {
+        "status": "worker_inspected_technical_evidence",
+        "pagesInspected": 43,
+        "renderedPageImages": 43,
+        "sourceReferencePageImages": 0,
+        "noBlankPages": true,
+        "formalApproval": false
+      }
+    },
+    {
+      "fixtureId": "nj-disorderly-persons-standard",
+      "trackId": "nj_disorderly_persons",
+      "componentIds": [
+        "nj_disorderly_persons-order-for-hearing-3",
+        "nj_disorderly_persons-primary-filing-1",
+        "nj_disorderly_persons-proposed-order-4",
+        "nj_disorderly_persons-statements-accompanying-petition-2"
+      ],
+      "sourceIdentityKeys": [
+        "rcap-nj-cn-10557-814e1397cd"
+      ],
+      "documentId": "CN-10557",
+      "variant": "standard",
+      "sampleRole": "canonical_track_sample",
+      "expectedOutputStatus": "rendered_pdf",
+      "generatedPdf": true,
+      "assembledFileName": "nj-disorderly-persons-standard-CN-10557.pdf",
+      "outputSha256": "e35c4a40af9cc09f83dc44be308609b093eb44523798f3187df36d36ed60ebc9",
+      "assembledPageCount": 43,
+      "deterministic": true,
+      "workerVisualEvidence": {
+        "status": "worker_inspected_technical_evidence",
+        "pagesInspected": 43,
+        "renderedPageImages": 43,
+        "sourceReferencePageImages": 0,
+        "noBlankPages": true,
+        "formalApproval": false
+      }
+    },
+    {
+      "fixtureId": "nj-indictable-conviction-long-name-reduction",
+      "trackId": "nj_indictable_conviction",
+      "componentIds": [
+        "nj_indictable_conviction-order-for-hearing-3",
+        "nj_indictable_conviction-primary-filing-1",
+        "nj_indictable_conviction-proposed-order-4",
+        "nj_indictable_conviction-statements-accompanying-petition-2"
+      ],
+      "sourceIdentityKeys": [
+        "rcap-nj-cn-10557-814e1397cd"
+      ],
+      "documentId": "CN-10557",
+      "variant": "long_name_font_reduction",
+      "sampleRole": "regression_variant",
+      "expectedOutputStatus": "rendered_pdf",
+      "generatedPdf": true,
+      "assembledFileName": "nj-indictable-conviction-long-name-reduction-CN-10557.pdf",
+      "outputSha256": "9ae068e52e792700ffffa699b3feaf7a26ddbbb0a8f0085747a01a6afcb924a1",
+      "assembledPageCount": 43,
+      "deterministic": true,
+      "workerVisualEvidence": {
+        "status": "worker_inspected_technical_evidence",
+        "pagesInspected": 43,
+        "renderedPageImages": 43,
+        "sourceReferencePageImages": 0,
+        "noBlankPages": true,
+        "formalApproval": false
+      }
+    },
+    {
+      "fixtureId": "nj-indictable-conviction-standard",
+      "trackId": "nj_indictable_conviction",
+      "componentIds": [
+        "nj_indictable_conviction-order-for-hearing-3",
+        "nj_indictable_conviction-primary-filing-1",
+        "nj_indictable_conviction-proposed-order-4",
+        "nj_indictable_conviction-statements-accompanying-petition-2"
+      ],
+      "sourceIdentityKeys": [
+        "rcap-nj-cn-10557-814e1397cd"
+      ],
+      "documentId": "CN-10557",
+      "variant": "standard",
+      "sampleRole": "canonical_track_sample",
+      "expectedOutputStatus": "rendered_pdf",
+      "generatedPdf": true,
+      "assembledFileName": "nj-indictable-conviction-standard-CN-10557.pdf",
+      "outputSha256": "ae70102977ad2faac1cc58f8975f4594e688ba014fe81b1de9fd8a70b80e53c4",
+      "assembledPageCount": 43,
+      "deterministic": true,
+      "workerVisualEvidence": {
+        "status": "worker_inspected_technical_evidence",
+        "pagesInspected": 43,
+        "renderedPageImages": 43,
+        "sourceReferencePageImages": 0,
+        "noBlankPages": true,
+        "formalApproval": false
+      }
+    },
+    {
+      "fixtureId": "nj-ordinance-standard",
+      "trackId": "nj_ordinance",
+      "componentIds": [
+        "nj_ordinance-order-for-hearing-3",
+        "nj_ordinance-primary-filing-1",
+        "nj_ordinance-proposed-order-4",
+        "nj_ordinance-statements-accompanying-petition-2"
+      ],
+      "sourceIdentityKeys": [
+        "rcap-nj-cn-10557-814e1397cd"
+      ],
+      "documentId": "CN-10557",
+      "variant": "standard",
+      "sampleRole": "canonical_track_sample",
+      "expectedOutputStatus": "rendered_pdf",
+      "generatedPdf": true,
+      "assembledFileName": "nj-ordinance-standard-CN-10557.pdf",
+      "outputSha256": "c920690c000a5b55550d050305acd80a03cf9197b99a2fdee20f8f7d41bbad95",
+      "assembledPageCount": 43,
+      "deterministic": true,
+      "workerVisualEvidence": {
+        "status": "worker_inspected_technical_evidence",
+        "pagesInspected": 43,
+        "renderedPageImages": 43,
+        "sourceReferencePageImages": 0,
+        "noBlankPages": true,
+        "formalApproval": false
+      }
+    }
+  ],
+  "totals": {
+    "assignedTracks": 5,
+    "canonicalTrackSamples": 5,
+    "regressionVariants": 2,
+    "positiveRenderedFixtures": 7,
+    "renderedPages": 301,
+    "expectedNoDocumentBranches": 0
+  },
+  "deterministic": true,
+  "sourceMutationDetected": false,
+  "officialSourcePdfBytesTracked": false,
+  "generatedParticipantPdfBytesTracked": false,
+  "workerVisualEvidenceStatus": "technical_evidence_only",
+  "formalVisualApprovalStatus": "pending",
+  "completedOutputLegalReviewStatus": "pending",
+  "counselAdopted": false,
+  "packetReady": false,
+  "runtimeStatus": "runtime_disabled",
+  "productionEnabled": false
+}
