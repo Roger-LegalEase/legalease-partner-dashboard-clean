@@ -581,8 +581,8 @@ assert.deepEqual(officialPdfSourceContract.queueCoverage.totals, {
   tracks: 267,
   components: 737,
   documentIdentities: 332,
-  exactSourceRequirements: 120,
-  unresolvedSourceIdentities: 212
+  exactSourceRequirements: 122,
+  unresolvedSourceIdentities: 210
 });
 assert.equal(officialPdfSourceContract.familyCount, 45);
 // Eleven newly admitted families have no authored source-requirements scaffold
@@ -609,7 +609,7 @@ assert.equal(officialPdfSourceContract.totals.pendingAssignmentFamilies, 0);
 assert.equal(officialPdfSourceContract.totals.projectedDocumentIdentities, 332);
 assert.equal(
   officialPdfSourceContract.totals.projectedExactWorkerAssignments,
-  73
+  74
 );
 assert.equal(
   officialPdfSourceContract.totals.materializationBlockedFamilies,
@@ -623,7 +623,7 @@ assert.equal(
     (family) => family.workerReady === true
   ).length
 );
-assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 51);
+assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 62);
 assert.equal(
   officialPdfSourceContract.verifierBoundary.packetWorkerMaterializationPaths,
   0
@@ -653,12 +653,12 @@ assert.equal(
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedExactWorkerAssignments,
-  73
+  74
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .unresolvedSourceIdentities,
-  212
+  210
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
