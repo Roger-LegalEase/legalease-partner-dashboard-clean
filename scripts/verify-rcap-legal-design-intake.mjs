@@ -2150,7 +2150,10 @@ check("the corrected Rhode Island memo and approvals preserve one conditional ma
   // Session D's final wave added Utah's seven sequential BCI-then-petition
   // compositions, Vermont's two and Texas's three, all through the substantive
   // gate on their own memo-declared units.
-  assert.equal(approvals.tracks.length, 48);
+  // The New York MRTA correction added one: ny_mrta_marijuana, approved on its
+  // own memo-declared units through the same substantive gate and without
+  // sweeping Kentucky or North Dakota in.
+  assert.equal(approvals.tracks.length, 49);
   const riApprovals = approvals.tracks.filter(
     (track) => track.jurisdiction === "RI"
   );
@@ -2172,6 +2175,44 @@ check("the corrected Rhode Island memo and approvals preserve one conditional ma
         track.trackId === "pa_pardon_expungement"
     ),
     true
+  );
+  // New York's marijuana relief is one composed sequential mechanism: the
+  // automatic CPL section 160.50(5)(a) vacatur, dismissal and expungement
+  // first, then the conditional participant-signed destruction request. The
+  // order is substantive — a destruction request cannot precede the
+  // expungement it asks to have destroyed — and neither unit is unresolved.
+  const nyMrta = approvals.tracks.find(
+    (track) =>
+      track.jurisdiction === "NY" && track.trackId === "ny_mrta_marijuana"
+  );
+  assert.ok(nyMrta, "the New York MRTA composition is not approved");
+  assert.equal(nyMrta.compositionMode, "sequential");
+  assert.equal(nyMrta.orderIsSubstantive, true);
+  assert.deepEqual(nyMrta.sequence, [
+    "ny-mrta-automatic-expungement",
+    "ny-mrta-destruction-request"
+  ]);
+  assert.deepEqual(
+    nyMrta.units.map((unit) => ({
+      unitId: unit.unitId,
+      order: unit.order,
+      outputStrategy: unit.outputStrategy,
+      unresolved: unit.unresolved
+    })),
+    [
+      {
+        unitId: "ny-mrta-automatic-expungement",
+        order: 1,
+        outputStrategy: "process_guidance",
+        unresolved: false
+      },
+      {
+        unitId: "ny-mrta-destruction-request",
+        order: 2,
+        outputStrategy: "official_pdf_fill",
+        unresolved: false
+      }
+    ]
   );
   // Kentucky and North Dakota are integrated but deliberately unapproved: their
   // composed units are marked resolved without counsel-authored provenance, and

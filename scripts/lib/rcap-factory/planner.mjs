@@ -155,6 +155,14 @@ const NY_MRTA_PACKET_CAPABILITY_JOB_ID =
   "rcap-ny-mrta-destruction-request-packet-capability-correction";
 const NY_INTEGRATED_MEMO_SHA256 =
   "560d30414b2615203cbe6767b69e8f7f3e7bc100123343e86f9c728f1b3cdf3e";
+const NY_MRTA_PACKET_CAPABILITY_WORKER_COMMIT =
+  "1d0f5be6dc557ff5fe7b3bbdec5c594d94e7ed32";
+const NY_MRTA_PACKET_CAPABILITY_COMPLETION_COMMIT =
+  "4dc1f8cdfb4af51ab0a6006862cddbdafb50295d";
+const NY_AMENDED_MEMO_SHA256 =
+  "28ccada5d1b5fa1dff73d6a44f4ec7e7521b46272317852f17c653550c9cc7b6";
+const NY_MRTA_COMPOSED_TRACK_ID = "ny_mrta_marijuana";
+const NY_MRTA_DESTRUCTION_REQUEST_FORM_ID = "MRTA-DESTRUCTION-REQUEST";
 const SC_SOLICITOR_DELIVERABLE_DECISION_ID =
   "sc-solicitor-route-participant-deliverable-resolution";
 const SC_SOLICITOR_DELIVERABLE_MEMO_CORRECTION_JOB_ID =
@@ -418,7 +426,24 @@ const COMPLETED_NORMALIZATIONS = Object.freeze([
       "rcap-factory/rcap-ny-legal-design-normalization-650ebb05-ba9fd4ce",
     completionCommit: "31e26aa7b6de3f279a9d677c186a9ad43accc57a",
     memoSha256:
-      "560d30414b2615203cbe6767b69e8f7f3e7bc100123343e86f9c728f1b3cdf3e"
+      "560d30414b2615203cbe6767b69e8f7f3e7bc100123343e86f9c728f1b3cdf3e",
+    // The memo this job delivered carried the participant-signed MRTA
+    // destruction request as an official_pdf_fill component sitting inside a
+    // process_guidance track, which put a packet-capable official-PDF component
+    // in New York's pure-guidance lane.
+    // rcap-ny-mrta-destruction-request-packet-capability-correction rebuilt
+    // ny_mrta_marijuana as one composed sequential mechanism in two units under
+    // CPL section 160.50(5): the automatic vacatur, dismissal and expungement,
+    // then the conditional participant-signed destruction request. The source
+    // slot denominator, the node count and the other fifteen tracks are
+    // unchanged. Both hashes are real historical states of the same file, so
+    // either satisfies the on-disk check.
+    amendedByJobId: NY_MRTA_PACKET_CAPABILITY_JOB_ID,
+    amendedByWorkerCommit: NY_MRTA_PACKET_CAPABILITY_WORKER_COMMIT,
+    amendedByWorkerBranch:
+      "rcap-factory/rcap-ny-mrta-destruction-request-packet-capability-correction-65c45a61-e68b4341",
+    amendmentCompletionCommit: NY_MRTA_PACKET_CAPABILITY_COMPLETION_COMMIT,
+    amendedMemoSha256: NY_AMENDED_MEMO_SHA256
   },
   // The final ordinary normalization wave. With these four every state and the
   // District of Columbia carries an integrated legal-design memo.
@@ -2184,11 +2209,21 @@ export function buildFactoryPlan(options = {}) {
     });
   }
 
+  const nyMemoPath = path.join(
+    rootDir,
+    "data/record-clearing/legal-design-intake/NY.memo.json"
+  );
+  // The amendment is complete when the memo on disk is the amended blob, not
+  // when a commit says so.
+  const nyMrtaPacketCapabilityCorrected =
+    fs.existsSync(nyMemoPath) &&
+    sha256File(nyMemoPath) === NY_AMENDED_MEMO_SHA256;
+
   if (integratedNormalizations.has("NY")) {
-    // ny_mrta_marijuana is normalized as process_guidance, but one of its
-    // components is not guidance: destruction_request_instructions carries
+    // ny_mrta_marijuana was normalized as process_guidance, but one of its
+    // components was not guidance: destruction_request_instructions carried
     // outputStrategy official_pdf_fill and officialFormId
-    // MRTA-DESTRUCTION-REQUEST, and the memo's own manual-completion item is
+    // MRTA-DESTRUCTION-REQUEST, and the memo's own manual-completion item was
     // "Signing and sending the destruction request", which is the participant
     // acting on their own instrument. A participant-signed, participant-
     // submitted official form cannot sit inside a pure-guidance assignment: a
@@ -2196,11 +2231,14 @@ export function buildFactoryPlan(options = {}) {
     // lane to build, which is why the guidance implementation was excluded
     // rather than attempted.
     //
-    // Whether the request belongs in the design as a conditional
-    // supporting_action or as a conditional unit of one composed mechanism is a
-    // legal-design question about New York's marijuana relief, and no
-    // integrated decision settles it. The correction job decides it against the
-    // full design; this record does not pre-empt it.
+    // Whether the request belonged in the design as a conditional
+    // supporting_action or as a conditional unit of one composed mechanism was a
+    // legal-design question about New York's marijuana relief that no integrated
+    // decision settled. The correction job decided it against the full design:
+    // one composed sequential mechanism in two units, the automatic relief
+    // first and the conditional destruction request second. Like every other
+    // memo amendment here, it closes on the amended blob being on disk, not on
+    // a commit asserting it.
     addJob({
       lane: "legal_design_normalization",
       jurisdiction: "NY",
@@ -2208,7 +2246,15 @@ export function buildFactoryPlan(options = {}) {
       strategyFamily: "legal_design_normalization_amendment",
       trackIds: [],
       dependencies: ["rcap-ny-legal-design-normalization"],
-      status: "ready",
+      status: nyMrtaPacketCapabilityCorrected ? "completed" : "ready",
+      ...(nyMrtaPacketCapabilityCorrected
+        ? {
+            workerCommit: NY_MRTA_PACKET_CAPABILITY_WORKER_COMMIT,
+            workerBranch:
+              "rcap-factory/rcap-ny-mrta-destruction-request-packet-capability-correction-65c45a61-e68b4341",
+            completionCommit: NY_MRTA_PACKET_CAPABILITY_COMPLETION_COMMIT
+          }
+        : {}),
       expectedOutputs: ["data/record-clearing/legal-design-intake/NY.memo.json"],
       ownedPaths: ["data/record-clearing/legal-design-intake/NY.memo.json"],
       requiredInputs: [
@@ -2254,6 +2300,71 @@ export function buildFactoryPlan(options = {}) {
         "runtime-disabled and packet_ready false. " +
         TERMINAL_INSTRUCTION
     });
+
+    if (nyMrtaPacketCapabilityCorrected) {
+      // The correction bound the participant's destruction request to the
+      // official-PDF lane as the second unit of the composed mechanism, which
+      // is what created a source consumer for MRTA-DESTRUCTION-REQUEST. The
+      // document itself is still unidentified: Edition 1.2 retains it at
+      // REV-UNKNOWN, no official landing page or binary URL is confirmed, and
+      // no bytes are materialized. That is one exact identity/currentness
+      // question and it has no owner anywhere in the plan, so the composed
+      // route would otherwise sit blocked on nobody. Resolving it is authority
+      // and source work, not packet work.
+      addJob({
+        lane: "legal_design_normalization",
+        jurisdiction: "NY",
+        jobId: "rcap-ny-mrta-destruction-request-source-identity-resolution",
+        strategyFamily: "source_identity_resolution",
+        trackIds: [],
+        dependencies: [NY_MRTA_PACKET_CAPABILITY_JOB_ID],
+        status: "ready",
+        expectedOutputs: [
+          `${FACTORY_DATA_DIR}/legal-design-decisions/ny-mrta-destruction-request-source-identity-resolution.json`
+        ],
+        ownedPaths: [
+          `${FACTORY_DATA_DIR}/legal-design-decisions/ny-mrta-destruction-request-source-identity-resolution.json`
+        ],
+        requiredInputs: [
+          "data/record-clearing/legal-design-intake/NY.memo.json",
+          FACTORY_INPUT_PATHS.normalizedTracks,
+          FACTORY_INPUT_PATHS.sourceRelationships,
+          FACTORY_INPUT_PATHS.repositoryAssetAudit,
+          OFFICIAL_PDF_SOURCE_PROJECTION_PATH,
+          FACTORY_INPUT_PATHS.blockerLedger
+        ],
+        participantPacketProofRequired: false,
+        model: "codex",
+        effort: "xhigh",
+        focusedValidation: [
+          "node scripts/rcap-factory-plan.mjs --check-job " +
+            "rcap-ny-mrta-destruction-request-source-identity-resolution"
+        ],
+        commitSubject:
+          `docs(record-clearing): resolve ${NY_MRTA_DESTRUCTION_REQUEST_FORM_ID} source identity`,
+        stopCondition:
+          "Establish for the Office of Court Administration application to destroy a marijuana " +
+          `conviction record, retained in Edition 1.2 at ${NY_MRTA_DESTRUCTION_REQUEST_FORM_ID}: ` +
+          "its exact official form title; the issuer; its official identity or form number; its " +
+          "current revision, which Edition 1.2 records only as REV-UNKNOWN; the " +
+          "participant-facing role; whether the scope is statewide; the official landing page; " +
+          "the official binary URL; the byte count; the SHA-256; the MIME type; the page count; " +
+          "whether it is encrypted; whether it carries XFA; whether it is an AcroForm or a flat " +
+          "PDF; the signature requirements, including whether a designated agent may sign; the " +
+          "submission destination; any supersession; the exact terminal disposition; and whether " +
+          "a Master Library Edition 1.3 correction is required. " +
+          "The consumer is the second unit of the composed ny_mrta_marijuana mechanism, " +
+          "ny-mrta-destruction-request, which the participant or their designated agent signs " +
+          "and sends under CPL section 160.50(5)(b)(i). Do not restate the automatic " +
+          "expungement stage as a filing and do not disturb the first unit. " +
+          "Do not acquire under a block, substitute a held or commercial copy for current " +
+          "official bytes, invent a revision, a licence, a role or a structure, create a source " +
+          "receipt without exact bytes and an exact SHA-256, edit NY.memo.json, regenerate a " +
+          "global registry, implement a renderer, publish an authority edition, or enable " +
+          "runtime, promote, or deploy. " +
+          TERMINAL_INSTRUCTION
+      });
+    }
   }
 
   if (integratedNormalizations.has("NJ")) {
