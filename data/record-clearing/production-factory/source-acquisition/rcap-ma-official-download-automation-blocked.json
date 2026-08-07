@@ -1,0 +1,754 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-ma-official-download-automation-blocked",
+  "parentJobId": "AUTH-05-acquisition-campaign-tier-2",
+  "jurisdiction": "MA",
+  "lane": "source_acquisition",
+  "strategyFamily": "official_download_automation_blocked",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "c7d961084ea8830dc7062db3591c5fe0490ba33c",
+  "generatedOn": "2026-08-07",
+  "acquisitionIds": [
+    "acquire:MA:massachusetts-probation-service-petition-to-expunge",
+    "acquire:MA:petition-for-expungement-g-l-c-276-100k",
+    "acquire:MA:petition-to-seal-office-of-the-commissioner-of-probation",
+    "acquire:MA:petition-to-seal-office-of-the-commissioner-of-probation-part-a-box-4",
+    "acquire:MA:tc0021",
+    "acquire:MA:tc0057"
+  ],
+  "downloadedSourceCount": 0,
+  "generatedFrom": [
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/acquisition-campaign.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/unresolved.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-05-acquisition-campaign-tier-2.json"
+  ],
+  "method": {
+    "description": "Re-tested the recorded automated-retrieval block against every assigned official endpoint, then established each document's identity, issuer, role, revision and scope from the issuer's own published forms index. Because www.mass.gov refuses automated agents outright, the index was read from an official archived capture of that exact page, and the Massachusetts Trial Court's separate interactive-forms host was probed directly. No binary was retrieved, deposited, materialized or committed; no receipt was written; no third-party mirror was treated as authority.",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "authenticationUsed": false,
+    "binariesDownloaded": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "attendedRetrievalPerformed": false,
+    "attendedRetrievalPerformedNote": "No human-in-browser retrieval was available to this worker. Every retrieval attempt recorded here is automated, and each is reported as an access fact.",
+    "thirdPartySubstituteUsed": false,
+    "binaryDeposition": "No binary was retrieved or deposited. This job's ownedPaths are limited to this single production-factory JSON file.",
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "memoAltered": false,
+    "byteVerificationMethod": "no_fresh_bytes_obtained_published_size_compared_to_registry_recorded_digest_and_bytes",
+    "byteVerificationNote": "No SHA-256 in this record was measured in this job. The digests reproduced below are the values the source-artifact registry already carries for the held repository copies. Where a held copy's byte count is compared to the size the issuer publishes on its index, that agreement is corroboration of identity only; it is not a byte proof and does not clear any source gate."
+  },
+  "dispositionDistinction": {
+    "publicOfficialDocument": true,
+    "publicOfficialDocumentEvidence": "All six assigned acquisitions resolve to forms published free, without login and without fee, on the Massachusetts Court System's official index 'Court forms for criminal records' at https://www.mass.gov/lists/court-forms-for-criminal-records, under the two headings 'Sealing criminal records' and 'Expunging criminal records'.",
+    "automatedRetrievalBlocked": true,
+    "automatedRetrievalBlockedNote": "The recorded block reproduced, and it is broader today than when it was recorded. See automationBlockRetest.",
+    "attendedOfficialRetrievalRequired": true,
+    "attendedOfficialRetrievalNote": "Every one of these binaries requires a human-in-browser retrieval from www.mass.gov, or in the case of the Massachusetts Probation Service petition an interaction with the Trial Court's interactive XFA form host. This worker could not perform one and did not simulate one.",
+    "sourceAbsent": false,
+    "sourceAbsentNote": "Explicitly not absent, and must not be relabelled as missing, unavailable or unidentified. Every document is published, its issuer is confirmed, and five of six carry a revision confirmed against the issuer's own index. The obstacle is a delivery-channel refusal to scripted agents, nothing about the documents themselves.",
+    "commercialLicenseExclusion": false,
+    "identityUnresolved": false
+  },
+  "automationBlockRetest": {
+    "recordedStatus": "BLOCKED — mass.gov HTML pages retrievable with full browser headers, but every /doc/…/download endpoint returns HTTP 403 to automated agents on both GET and HEAD across five endpoints tested (recorded 2026-08-03).",
+    "retestedOn": "2026-08-07",
+    "agent": "curl, Chrome 126 user-agent string, browser Accept header, redirects followed, 25s timeout",
+    "results": [
+      {
+        "url": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+        "kind": "official_index_html",
+        "httpStatus": 403
+      },
+      {
+        "url": "https://www.mass.gov/doc/petition-for-expungement-form/download",
+        "kind": "official_binary_endpoint",
+        "httpStatus": 403
+      },
+      {
+        "url": "https://www.mass.gov/doc/petition-to-seal-form/download",
+        "kind": "official_binary_endpoint",
+        "httpStatus": 403
+      },
+      {
+        "url": "https://www.mass.gov/doc/petition-for-expungement-of-marijuana-offenses-form/download",
+        "kind": "official_binary_endpoint",
+        "httpStatus": 403
+      },
+      {
+        "url": "https://www.mass.gov/doc/petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal/download",
+        "kind": "official_binary_endpoint",
+        "httpStatus": 403
+      },
+      {
+        "url": "https://www.mass.gov/doc/courts-dwnld-petition-to-expunge-form/download",
+        "kind": "official_binary_endpoint",
+        "httpStatus": 403
+      },
+      {
+        "url": "https://courtforms.jud.state.ma.us/publicforms/PROB0002",
+        "kind": "official_interactive_form_host",
+        "httpStatus": 200,
+        "contentType": "text/html;charset=utf-8",
+        "server": "Microsoft-IIS/10.0"
+      }
+    ],
+    "conclusion": "The block reproduces and has widened. On 2026-08-03 the HTML pages on www.mass.gov were retrievable and only the /doc/…/download endpoints refused; on 2026-08-07 the official index page itself returns 403 to the same class of agent. Six of six www.mass.gov endpoints refused. The refusal is host-scoped to www.mass.gov, not Commonwealth-wide: the Massachusetts Trial Court's own form host, courtforms.jud.state.ma.us, answered 200 to the identical agent.",
+    "blockScope": "host_scoped_www_mass_gov",
+    "userAgentEvasionAttempted": false,
+    "userAgentEvasionNote": "A browser user-agent string was sent because that is the condition under which the original block was recorded, so the retest had to match it. No cookie, referer, CAPTCHA or WAF-token workaround was attempted, and none should be. The 403 is a publisher control and this job treats it as a boundary, not an obstacle to defeat.",
+    "cautionAgainstOvergeneralising": "A 403 is an access fact about this agent, from this network, on this date. It is not evidence that a document is missing, withdrawn, restricted, licensed or superseded, and it must not be converted into any of those findings. Nothing here says a human in a browser cannot download these forms; the acquisition record for every one of them says a human can."
+  },
+  "officialIndexEvidence": {
+    "indexTitle": "Court forms for criminal records",
+    "indexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+    "indexPublisher": "Massachusetts Court System, with Massachusetts Probation Service, District Court, Boston Municipal Court, Juvenile Court and Superior Court",
+    "readVia": "official_archived_capture_of_the_official_index",
+    "archivedCapture": "http://web.archive.org/web/20260511094348/https://www.mass.gov/lists/court-forms-for-criminal-records",
+    "captureDate": "2026-05-11",
+    "whyArchived": "The live page returns 403 to this agent. Section 3 of the controlling hierarchy permits an official archived page where current official material is unavailable. This is a capture of the issuer's own page, not a third-party mirror or a commercial republication.",
+    "corroboratedBy": "The acquisition-intelligence record read the same live index on 2026-08-03 and recorded the same titles, revisions and sizes. Two independent reads, three months apart, agree.",
+    "listWideWarningVerbatim": "These forms may not display properly in your browser. Please download the form(s) you need and open in Acrobat Reader. For more information, please see What to do if you can't open court PDFs.",
+    "listWideWarningTreatment": "Consistent with XFA-based forms but not proof of XFA for any individual file. It must not be used to classify a specific document's technical structure.",
+    "listedEntries": [
+      {
+        "heading": "Sealing criminal records",
+        "listedTitle": "Personal Massachusetts Juvenile Court Activity Record Information Request Form",
+        "publishedSize": "510.97 KB",
+        "listedRevision": "9/30/14",
+        "inThisAssignment": false
+      },
+      {
+        "heading": "Sealing criminal records",
+        "listedTitle": "Petition to Seal Form",
+        "publishedSize": "211.8 KB",
+        "listedRevision": "4/12",
+        "listedDescription": "Form used to request to seal your criminal record (4/12).",
+        "inThisAssignment": true
+      },
+      {
+        "heading": "Sealing criminal records",
+        "listedTitle": "Petition to Seal Criminal Records for Nolle Prosequi or Dismissal",
+        "publishedSize": "1.31 MB",
+        "listedRevision": "Rev. 3/24",
+        "listedDescription": "Trial Court form for use in cases with a nolle prosequi or dismissal. Rev. 3/24",
+        "inThisAssignment": true
+      },
+      {
+        "heading": "Sealing criminal records",
+        "listedTitle": "General Motion (TC0059)",
+        "publishedSize": "1.29 MB",
+        "listedRevision": null,
+        "inThisAssignment": false
+      },
+      {
+        "heading": "Expunging criminal records",
+        "listedTitle": "Petition for Expungement Form",
+        "publishedSize": "1.32 MB",
+        "listedRevision": "12/20/18",
+        "listedDescription": "This form is used to request a non-time-based expungement of your criminal record (12/20/18).",
+        "inThisAssignment": true
+      },
+      {
+        "heading": "Expunging criminal records",
+        "listedTitle": "Petition to Expunge Form",
+        "publishedSize": null,
+        "publishedSizeNote": "This is the only entry in either section published WITHOUT an 'Open PDF file, <size>' link. The index offers no static PDF for it. That is consistent with its route being the Trial Court's server-rendered interactive XFA form rather than a downloadable AcroForm.",
+        "listedRevision": "10/11/18",
+        "listedDescription": "This form is used to request a time-based expungement of your criminal record (10/11/18).",
+        "inThisAssignment": true
+      },
+      {
+        "heading": "Expunging criminal records",
+        "listedTitle": "Petition for Expungement of Marijuana Offenses Form",
+        "publishedSize": "1.33 MB",
+        "listedRevision": "11/8/22",
+        "listedDescription": "This form can be used to petition the court for expungement of marijuana offenses that were based on now decriminalized amounts of marijuana (11/8/22).",
+        "inThisAssignment": true
+      }
+    ],
+    "formNumbersNotPrintedOnIndex": {
+      "finding": "The index prints a form number for exactly one entry, 'General Motion (TC0059)'. It does NOT print TC0021 or TC0057 beside their titles.",
+      "consequence": "TC0021 and TC0057 are form-face numbers, not index labels. An index entry cannot be matched to a TC number by the index alone; the match must be made on title, publisher, statute and published size, and confirmed against the form face at retrieval."
+    }
+  },
+  "interactiveFormHostEvidence": {
+    "url": "https://courtforms.jud.state.ma.us/publicforms/PROB0002",
+    "httpStatus": 200,
+    "server": "Microsoft-IIS/10.0",
+    "contentType": "text/html;charset=utf-8",
+    "observedOn": "2026-08-07",
+    "documentTitleMetaVerbatim": "Petition to Expunge Form",
+    "organizationMetaVerbatim": "PROB0002.xdp,massachusettsprobationservice,massachusettscourtsystem,executiveofficeofthetrialcourt",
+    "renderStack": "Adobe LiveCycle / AEM Forms XFA HTML rendering profile — the page loads /etc.clientlibs/fd/xfaforms/clientlibs/profile.min.js and profile.min.css and its page title is 'LC Forms'.",
+    "finding": "First-hand confirmation that the Massachusetts Probation Service Petition to Expunge is backed by an XFA design package, PROB0002.xdp, served as a rendered HTML form by the Executive Office of the Trial Court. The document exists, is current, is publicly reachable and is issued by the Massachusetts Probation Service.",
+    "whatThisIsNot": "This host serves an HTML rendering of a form, not a retrievable static binary. Reaching it 200 does not obtain a PDF and does not close the acquisition. No content was downloaded, saved or submitted; no form field was filled.",
+    "doNotGeneralise": "The XFA structure established here belongs to PROB0002 and to nothing else. It must not be transferred to TC0021, TC0057 or the § 100K petition."
+  },
+  "acquisitions": [
+    {
+      "acquisitionId": "acquire:MA:petition-for-expungement-g-l-c-276-100k",
+      "trackIds": [
+        "ma-expunge-k"
+      ],
+      "componentIds": [
+        "ma-expunge-k-primary-filing-1"
+      ],
+      "documentId": "MA 100K Petition for Expungement",
+      "officialTitle": "Petition for Expungement Form (G.L. c. 276, § 100K)",
+      "indexListedTitle": "Petition for Expungement Form",
+      "issuer": "Trial Court of Massachusetts (Boston Municipal, District, Juvenile and Superior Courts)",
+      "issuingOffice": "Executive Office of the Trial Court",
+      "legalRole": "primary_filing — participant petition to the court",
+      "participantFacing": true,
+      "signatory": "participant (the petitioner signs their own petition)",
+      "currentRevision": "12/20/18",
+      "currentRevisionEvidence": "Printed in the index description as '(12/20/18)' on both the 2026-05-11 archived capture and the 2026-08-03 live read.",
+      "priorRevision": null,
+      "scope": "statewide",
+      "scopeBasis": "A Trial Court form standardized across the Boston Municipal, District, Juvenile and Superior Court departments and published on the Commonwealth's single statewide criminal-records forms index. Not a county or division form.",
+      "officialLandingPage": "https://www.mass.gov/how-to/request-a-non-time-based-expungement-of-your-criminal-record",
+      "officialBinarySource": "https://www.mass.gov/doc/petition-for-expungement-form/download",
+      "officialBinaryRetrievable": false,
+      "officialBinaryRetrievableNote": "HTTP 403 to automated agents on 2026-08-07. Retrievable by a human in a browser per the acquisition record.",
+      "publishedSize": "1.32 MB",
+      "heldRepositoryCandidate": {
+        "artifactId": "jud-petition-for-expungement",
+        "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/jud-Petition-for-Expungement.pdf",
+        "presenceInThisWorktree": "absent (private/ is untracked)",
+        "bytes": 1387408,
+        "sha256": "19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce",
+        "mimeType": "application/pdf",
+        "structuralClass": "clean_acroform",
+        "logicalFields": 26,
+        "terminalFields": null,
+        "widgets": null,
+        "pages": null,
+        "encrypted": false,
+        "xfa": false,
+        "measurementBasis": "source_artifact_registry_historical_measurement_not_remeasured_here"
+      },
+      "sizeCorroboration": "1,387,408 bytes is 1.32 MB, matching the published size exactly at index precision. Corroborative of identity, not a byte proof.",
+      "license": "No redistribution or commercial-use restriction is published on the index or the how-to page. A Commonwealth copyright and Mass.gov service-mark notice appears in the site footer. The queue records 'None identified for Massachusetts Trial Court forms.'",
+      "licenseTerminal": false,
+      "terminalDisposition": "exact_identity_confirmed_attended_retrieval_required"
+    },
+    {
+      "acquisitionId": "acquire:MA:tc0021",
+      "trackIds": [
+        "ma-expunge-mj"
+      ],
+      "componentIds": [
+        "ma-expunge-mj-primary-filing-1"
+      ],
+      "documentId": "TC0021",
+      "officialTitle": "Petition for Expungement of Marijuana Offenses (G.L. c. 276, § 100K¼) (TC0021)",
+      "indexListedTitle": "Petition for Expungement of Marijuana Offenses Form",
+      "issuer": "Trial Court of Massachusetts (standardized across Boston Municipal, District, Juvenile and Superior)",
+      "issuingOffice": "Executive Office of the Trial Court",
+      "legalRole": "primary_filing — participant petition to the court",
+      "participantFacing": true,
+      "signatory": "participant (the petitioner signs their own petition)",
+      "currentRevision": "11/8/22",
+      "currentRevisionEvidence": "Printed in the index description as '(11/8/22)' on both the 2026-05-11 archived capture and the 2026-08-03 live read; the held form face reads 'TC0021 (11/22)'.",
+      "priorRevision": null,
+      "scope": "statewide",
+      "scopeBasis": "Trial Court form standardized across all four court departments, published on the statewide criminal-records index.",
+      "officialLandingPage": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+      "officialBinarySource": "https://www.mass.gov/doc/petition-for-expungement-of-marijuana-offenses-form/download",
+      "officialBinaryRetrievable": false,
+      "officialBinaryRetrievableNote": "HTTP 403 to automated agents on 2026-08-07.",
+      "publishedSize": "1.33 MB",
+      "heldRepositoryCandidate": {
+        "artifactId": "tc0021-petition-for-expungement-of-marijuana-offenses-rev-2022-11",
+        "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/source-gated/TC0021__petition-for-expungement-of-marijuana-offenses__rev-2022-11.pdf",
+        "presenceInThisWorktree": "absent (private/ is untracked)",
+        "bytes": 1393680,
+        "sha256": "a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c",
+        "mimeType": "application/pdf",
+        "structuralClass": "clean_acroform",
+        "logicalFields": 29,
+        "terminalFields": null,
+        "widgets": null,
+        "pages": null,
+        "encrypted": false,
+        "xfa": false,
+        "measurementBasis": "source_artifact_registry_historical_measurement_not_remeasured_here",
+        "duplicateRow": "The registry carries the identical digest and byte count twice, under artifactId jud-petition-for-expungement-of-marijuana-offenses-2022-11-08-final (presence=missing) and under the source-gated row above (presence=present). Same bytes, two rows — a duplicate inventory entry, not two documents."
+      },
+      "sizeCorroboration": "1,393,680 bytes is 1.33 MB, matching the published size at index precision. Corroborative of identity, not a byte proof.",
+      "structuralContradictionPreserved": {
+        "contradiction": "The repository's own measured registry row records clean_acroform, 29 logical fields, xfa=false, while free text on the same record and the Edition 1.2 manifest assert this document is XFA.",
+        "resolvedHere": false,
+        "why": "Settling it requires opening the binary. No binary was retrieved and the held copy is not present in this worktree.",
+        "doNotInfer": "The XFA finding established for PROB0002 above says nothing about TC0021. Do not resolve this contradiction by analogy, and do not let a renderer decision rest on either statement until the binary is re-measured."
+      },
+      "license": "No redistribution or commercial-use restriction published. The queue carries 'The publisher's licensing and commercial-use terms for this document are unresolved.'",
+      "licenseTerminal": false,
+      "terminalDisposition": "exact_identity_confirmed_attended_retrieval_required"
+    },
+    {
+      "acquisitionId": "acquire:MA:tc0057",
+      "trackIds": [
+        "ma-seal-court"
+      ],
+      "componentIds": [
+        "ma-seal-court-primary-filing-1"
+      ],
+      "documentId": "TC0057",
+      "officialTitle": "Petition to Seal Criminal Records for Nolle Prosequi or Dismissal (TC0057)",
+      "indexListedTitle": "Petition to Seal Criminal Records for Nolle Prosequi or Dismissal",
+      "issuer": "Trial Court of Massachusetts (standardized across Boston Municipal, District, Juvenile and Superior)",
+      "issuingOffice": "Executive Office of the Trial Court",
+      "legalRole": "primary_filing — participant petition to the court under G.L. c. 276, § 100C",
+      "participantFacing": true,
+      "signatory": "participant (the petitioner signs their own petition)",
+      "currentRevision": "Rev. 3/24",
+      "currentRevisionEvidence": "Printed in the index description as 'Rev. 3/24' on both the 2026-05-11 archived capture and the 2026-08-03 live read.",
+      "priorRevision": null,
+      "revisionConflictUnresolved": {
+        "conflict": "The issuer's index says Rev. 3/24. The held copy carries no printed revision on its form face and Edition 1.2 records it as REV-UNKNOWN, while the held PDF's internal document title reads 'TC0057 (2/24)'.",
+        "resolvedHere": false,
+        "why": "Three candidate revision strings, none of which can be reconciled without reading the acquired binary's revision block. This job retrieved no binary.",
+        "doNotInfer": "Do not adopt Rev. 3/24 onto the held bytes. The index revision describes what the Commonwealth publishes today; it does not describe the held copy."
+      },
+      "scope": "statewide",
+      "scopeBasis": "Trial Court form standardized across all four court departments, published on the statewide criminal-records index.",
+      "officialLandingPage": "https://www.mass.gov/how-to/request-to-seal-your-criminal-record",
+      "officialBinarySource": "https://www.mass.gov/doc/petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal/download",
+      "officialBinaryRetrievable": false,
+      "officialBinaryRetrievableNote": "HTTP 403 to automated agents on 2026-08-07.",
+      "publishedSize": "1.31 MB",
+      "heldRepositoryCandidate": {
+        "artifactId": "jud-tc-petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal",
+        "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+        "presenceInThisWorktree": "absent (private/ is untracked)",
+        "bytes": 1374671,
+        "sha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0",
+        "mimeType": "application/pdf",
+        "structuralClass": "clean_acroform",
+        "logicalFields": 135,
+        "terminalFields": null,
+        "widgets": null,
+        "pages": null,
+        "encrypted": false,
+        "xfa": false,
+        "measurementBasis": "source_artifact_registry_historical_measurement_not_remeasured_here"
+      },
+      "sizeCorroboration": "1,374,671 bytes is 1.31 MB, matching the published size at index precision. That is consistent with the held copy being the same document, and is NOT consistent enough to conclude it is the same revision — a revision change on a 1.3 MB form need not move the rounded megabyte figure.",
+      "license": "No redistribution or commercial-use restriction published. The queue records 'None identified.'",
+      "licenseTerminal": false,
+      "terminalDisposition": "identity_confirmed_revision_unresolved_attended_retrieval_required"
+    },
+    {
+      "acquisitionId": "acquire:MA:petition-to-seal-office-of-the-commissioner-of-probation",
+      "trackIds": [
+        "ma-seal-admin"
+      ],
+      "componentIds": [
+        "ma-seal-admin-primary-filing-1"
+      ],
+      "documentId": "MA Petition to Seal",
+      "officialTitle": "Petition to Seal Form",
+      "indexListedTitle": "Petition to Seal Form",
+      "issuer": "Massachusetts Probation Service",
+      "issuingOffice": "Office of the Commissioner of Probation, 1 Ashburton Place, Room 405, Boston, MA 02108",
+      "legalRole": "primary_filing — administrative petition to the Commissioner of Probation, not a court filing. G.L. c. 276, § 100A requires the request to be made on a form furnished by the commissioner.",
+      "participantFacing": true,
+      "signatory": "participant (the petitioner signs and mails the petition)",
+      "filingRoute": "Mail to the Office of the Commissioner of Probation. No court filing and no fee.",
+      "currentRevision": "4/12",
+      "currentRevisionEvidence": "Printed in the index description as '(4/12)' on both the 2026-05-11 archived capture and the 2026-08-03 live read.",
+      "priorRevision": null,
+      "scope": "statewide",
+      "scopeBasis": "A single form furnished by the Commissioner of Probation for the whole Commonwealth under G.L. c. 276, § 100A. There is no local variant.",
+      "officialLandingPage": "https://www.mass.gov/how-to/request-to-seal-your-criminal-record",
+      "officialBinarySource": "https://www.mass.gov/doc/petition-to-seal-form/download",
+      "officialBinaryRetrievable": false,
+      "officialBinaryRetrievableNote": "HTTP 403 to automated agents on 2026-08-07.",
+      "publishedSize": "211.8 KB",
+      "heldRepositoryCandidate": {
+        "artifactId": "fillable-jud-mps-petition-to-seal",
+        "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+        "presenceInThisWorktree": "absent (private/ is untracked)",
+        "bytes": 216883,
+        "sha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+        "mimeType": "application/pdf",
+        "structuralClass": "clean_acroform",
+        "logicalFields": 23,
+        "terminalFields": null,
+        "widgets": null,
+        "pages": null,
+        "encrypted": false,
+        "xfa": false,
+        "measurementBasis": "source_artifact_registry_historical_measurement_not_remeasured_here"
+      },
+      "sizeCorroboration": "216,883 bytes is 211.80 KB, an exact match to the published 211.8 KB. Strong identity corroboration; still not a byte proof.",
+      "counselFlagPreserved": {
+        "observation": "The Commonwealth publishes a 4/12 (April 2012) revision as current, which predates St. 2018 c. 69 resetting the § 100A waiting periods to three and seven years.",
+        "treatment": "Flag for counsel, NOT a currentness failure. The publisher says 4/12 is current and this job takes the publisher at its word on what it publishes. Whether the form's printed waiting-period text and Part A box structure still track the statute is a legal question outside this lane.",
+        "resolvedHere": false
+      },
+      "license": "No redistribution or commercial-use restriction published on the index or the how-to page. Commonwealth copyright and service-mark notice present in the site footer. The queue carries the licensing question as unresolved.",
+      "licenseTerminal": false,
+      "terminalDisposition": "exact_identity_confirmed_attended_retrieval_required"
+    },
+    {
+      "acquisitionId": "acquire:MA:petition-to-seal-office-of-the-commissioner-of-probation-part-a-box-4",
+      "trackIds": [
+        "ma-seal-decrim"
+      ],
+      "componentIds": [
+        "ma-seal-decrim-primary-filing-1"
+      ],
+      "documentId": "MA Petition to Seal — Part A box 4",
+      "officialTitle": "Petition to Seal Form, Part A box 4 selection (offence no longer a crime, G.L. c. 276, § 100A)",
+      "issuer": "Massachusetts Probation Service",
+      "issuingOffice": "Office of the Commissioner of Probation",
+      "legalRole": "primary_filing — the same administrative petition, completed with a different Part A selection",
+      "participantFacing": true,
+      "signatory": "participant",
+      "isDistinctDocument": false,
+      "isDistinctDocumentEvidence": "The issuer publishes one Petition to Seal Form. The index carries a single entry, one size and one revision. There is no separately numbered, separately published box-4 document, and no second /doc/ endpoint exists for one.",
+      "currentRevision": "4/12",
+      "scope": "statewide",
+      "officialBinarySource": "https://www.mass.gov/doc/petition-to-seal-form/download",
+      "officialBinaryRetrievable": false,
+      "satisfiedBy": "acquire:MA:petition-to-seal-office-of-the-commissioner-of-probation",
+      "unverifiedAssertionPreserved": {
+        "assertion": "That the current 4/12 form carries a numbered Part A box 4 whose content is 'the offence is no longer a crime'.",
+        "originatesIn": "the repository's Massachusetts legal-design memo",
+        "confirmedFromOfficialSource": false,
+        "why": "No official page reproduces the form's internal box structure, and the binary was not opened. The box number must be read off the form face at retrieval before any field mapping depends on it.",
+        "doNotInfer": "Do not treat box 4 as confirmed. If the acquired 4/12 form numbers its Part A selections differently, ma-seal-decrim's component mapping is wrong, not the form."
+      },
+      "license": "As for the parent document.",
+      "licenseTerminal": false,
+      "terminalDisposition": "not_a_distinct_document_satisfied_by_sibling_acquisition"
+    },
+    {
+      "acquisitionId": "acquire:MA:massachusetts-probation-service-petition-to-expunge",
+      "trackIds": [
+        "ma-expunge-time"
+      ],
+      "componentIds": [
+        "ma-expunge-time-primary-filing-1"
+      ],
+      "unitIds": [
+        "ma-expunge-time-commissioner-certification"
+      ],
+      "documentId": "MPS Petition to Expunge",
+      "officialTitle": "Petition to Expunge Form (long form: Petition to Expunge Under G.L. c. 276, §§ 100F, 100G or 100H)",
+      "indexListedTitle": "Petition to Expunge Form",
+      "issuer": "Massachusetts Probation Service, Trial Court of Massachusetts",
+      "issuingOffice": "Office of the Commissioner of Probation, 1 Ashburton Place, Room 405, Boston, MA 02108",
+      "issuerConfirmedFirstHand": true,
+      "issuerConfirmedFirstHandEvidence": "courtforms.jud.state.ma.us/publicforms/PROB0002 declares mg_organization 'PROB0002.xdp,massachusettsprobationservice,massachusettscourtsystem,executiveofficeofthetrialcourt' and mg_title 'Petition to Expunge Form'.",
+      "legalRole": "primary_filing — administrative petition to the Commissioner of Probation for a time-based expungement",
+      "participantFacing": true,
+      "signatory": "participant (the petitioner signs and mails the petition)",
+      "filingRoute": "Mail to the Office of the Commissioner of Probation, One Ashburton Place, Room 405, Boston, MA 02108. Free.",
+      "currentRevision": "10/11/18",
+      "currentRevisionEvidence": "Printed in the index description as '(10/11/18)' on both the 2026-05-11 archived capture and the 2026-08-03 live read.",
+      "priorRevision": null,
+      "scope": "statewide",
+      "scopeBasis": "A single form furnished by the Commissioner of Probation for the whole Commonwealth.",
+      "officialLandingPage": "https://www.mass.gov/info-details/massachusetts-probation-service-petition-to-expunge-form",
+      "officialInteractiveFormUrl": "https://courtforms.jud.state.ma.us/publicforms/PROB0002",
+      "officialBinarySource": "https://www.mass.gov/doc/courts-dwnld-petition-to-expunge-form/download",
+      "officialBinaryRetrievable": false,
+      "officialBinaryRetrievableNote": "HTTP 403 to automated agents on 2026-08-07. The index publishes no static PDF entry for this form at all; the downloadable Acrobat-only alternative is offered from the info-details page.",
+      "publishedSize": null,
+      "structuralClassOfIssuerArtifact": "xfa_design_package_rendered_as_html_form",
+      "structuralClassEvidence": "PROB0002.xdp is an XFA Design Package, served through the Adobe LiveCycle / AEM Forms xfaforms rendering profile. Confirmed first-hand on 2026-08-07.",
+      "heldRepositoryCandidate": {
+        "artifactId": "ma-probation-service-petition-to-expunge-under-gl-c-276-sections-100f-100g-100h-rev-2018-1",
+        "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/source-gated/MA-Probation-Service__petition-to-expunge-under-GL-c-276-sections-100F-100G-100H__rev-2018-10-11.pdf",
+        "presenceInThisWorktree": "absent (private/ is untracked)",
+        "bytes": 13137,
+        "sha256": "5ccb13e55c07a520526cad72fe48b506f6a67c51a2c879817feb49829853b0b1",
+        "mimeType": "application/pdf",
+        "structuralClass": "flat_pdf",
+        "logicalFields": 0,
+        "terminalFields": 0,
+        "widgets": 0,
+        "pages": 2,
+        "encrypted": false,
+        "xfa": false,
+        "measurementBasis": "source_artifact_registry_historical_measurement_not_remeasured_here"
+      },
+      "heldCopyVerdict": {
+        "verdict": "legacy_copy_corresponds_to_no_currently_published_artifact",
+        "why": "A 13,137-byte, 2-page, zero-field flat PDF is neither of the two artifacts the Commonwealth publishes for this form: it is not the server-rendered XFA interactive form, and it is not a 1 MB-class fillable download. Its revision string 'Revised 10/11/2018' matches the current published revision, which is precisely why it is dangerous — the revision agrees while the artifact does not.",
+        "doNotMaterialise": "This held copy must not be materialized as the source for ma-expunge-time. Revision agreement is not artifact identity.",
+        "notASupersessionFinding": "The published revision 10/11/18 is NOT superseded. What is superseded is the held copy, by the artifact the issuer actually serves at that same revision."
+      },
+      "license": "No redistribution or commercial-use restriction published on the index or the how-to pages. Commonwealth copyright and service-mark notice present.",
+      "licenseTerminal": false,
+      "terminalDisposition": "identity_and_issuer_confirmed_held_copy_superseded_xfa_route_confirmed_attended_retrieval_required"
+    }
+  ],
+  "doNotSubstitute": [
+    {
+      "documentId": "TC0059",
+      "officialTitle": "General Motion (TC0059)",
+      "negativeFinding": "A distinct Trial Court form published on the same index under 'Sealing criminal records' at 1.29 MB. Its TC number is adjacent to TC0057 and its published size is within 20 KB of TC0057's. It is a general motion, not a petition to seal, and must not be substituted for TC0057 or for any assigned document. It is not in this assignment."
+    },
+    {
+      "documentId": "Personal Massachusetts Juvenile Court Activity Record Information Request Form",
+      "negativeFinding": "A CARI records-request form (9/30/14) listed under the same 'Sealing criminal records' heading. It requests a copy of a record; it does not seal one. Heading adjacency is not role. Not in this assignment."
+    },
+    {
+      "documentPair": "MPS 'Petition to Expunge Form' vs Trial Court 'Petition for Expungement Form'",
+      "negativeFinding": "Two different documents with near-identical titles, one letter apart in ordinary reading. The MPS Petition to Expunge (PROB0002, §§ 100F/100G/100H, time-based) is an administrative petition mailed to the Commissioner of Probation. The Trial Court Petition for Expungement (§ 100K, non-time-based) is a court filing. Different issuer, different statute, different filing route, different track (ma-expunge-time vs ma-expunge-k). They must never be interchanged, and a packet that files one where the other belongs is filed in the wrong forum."
+    },
+    {
+      "documentPair": "'Petition to Seal Form' (MPS, § 100A) vs 'Petition to Seal Criminal Records for Nolle Prosequi or Dismissal' (TC0057, § 100C)",
+      "negativeFinding": "Both are petitions to seal and both appear under the same index heading. The first is administrative, mailed to the Commissioner of Probation, 211.8 KB. The second is a court filing, 1.31 MB. Different issuer, different statute, different destination, different track (ma-seal-admin vs ma-seal-court). Title-prefix similarity is not identity."
+    },
+    {
+      "documentId": "OCP004",
+      "officialTitle": "OCP004 — 10 days Notice Package, Opt-Out of Sealing Form (version 2-8-2024)",
+      "negativeFinding": "Held in the repository at 276,631 bytes, 42 fields. It is a Commissioner of Probation notice and opt-out package, not a sealing or expungement petition. It is not one of the six assigned acquisitions and must not be bound to any of these components."
+    },
+    {
+      "sourceClass": "commercial and third-party form mirrors",
+      "negativeFinding": "Massachusetts court forms are republished by commercial form vendors and legal-content sites. None is a controlling source, none may establish a revision, and none may substitute for a mass.gov retrieval — including while mass.gov is refusing automated agents. A publisher's 403 is not a licence to source the document elsewhere."
+    },
+    {
+      "sourceClass": "legacy held copy of the MPS Petition to Expunge",
+      "negativeFinding": "See heldCopyVerdict above. The 13,137-byte flat PDF must not be materialized, and its correct revision string must not be read as proof it is the current artifact."
+    }
+  ],
+  "questionsResolved": [
+    {
+      "question": "Do these forms exist and are they publicly published?",
+      "answer": "Yes. All six assigned acquisitions resolve to five distinct documents published free on the Commonwealth's official criminal-records forms index; the sixth is a selection within one of them."
+    },
+    {
+      "question": "Who issues them?",
+      "answer": "Two issuers. The Massachusetts Probation Service, Office of the Commissioner of Probation, issues the Petition to Seal Form and the Petition to Expunge Form. The Executive Office of the Trial Court issues the Petition for Expungement Form, TC0021 and TC0057."
+    },
+    {
+      "question": "Are they statewide or local?",
+      "answer": "Statewide, all of them. The Trial Court forms are standardized across the Boston Municipal, District, Juvenile and Superior Court departments; the Probation Service forms are furnished by the Commissioner for the whole Commonwealth."
+    },
+    {
+      "question": "What is the current revision?",
+      "answer": "Confirmed from the issuer's own index for five: Petition to Seal 4/12; Petition to Expunge 10/11/18; Petition for Expungement 12/20/18; Marijuana Expungement 11/8/22; TC0057 Rev. 3/24. TC0057's index revision cannot be reconciled with the held copy — see its revisionConflictUnresolved."
+    },
+    {
+      "question": "Is the current binary publicly retrievable by this worker?",
+      "answer": "No. Six of six www.mass.gov endpoints return HTTP 403 to automated agents. The forms remain retrievable by a human in a browser."
+    },
+    {
+      "question": "Has the automation block been resolved, worked around, or shown not to exist?",
+      "answer": "None of those. It reproduced and widened. No evasion was attempted."
+    },
+    {
+      "question": "Is a licence exclusion terminal for any of these?",
+      "answer": "No. No commercial or redistribution restriction is published for any assigned document. That is a negative finding on restriction, not an affirmative grant of permission — see licensePosture."
+    }
+  ],
+  "licensePosture": {
+    "restrictionFound": false,
+    "restrictionFoundNote": "No redistribution, reuse or commercial-use restriction is published on the forms index, on any how-to page, or on the interactive form host. The Commonwealth's site footer carries a copyright line and registers Mass.gov as a service mark.",
+    "permissionEstablished": false,
+    "permissionEstablishedNote": "Absence of a published restriction is not permission, and free public downloadability is expressly not permission. This job records that no restriction was found and stops there. Whether LegalEase may reproduce or fill these forms inside a paid packet is undetermined by this record.",
+    "commercialExclusionApplied": false,
+    "reopenCondition": "Resolved by written confirmation from the Executive Office of the Trial Court and the Office of the Commissioner of Probation, or by a published Commonwealth reuse policy covering court forms. This job was not assigned publisher contact and made none.",
+    "publisherContacted": false
+  },
+  "repositoryPosture": {
+    "queueRowsAffected": 6,
+    "queueRowsClosedByThisJob": 0,
+    "queueRowsClosedByThisJobWhy": "An acquisition row closes when the binary is acquired and manifested. Nothing was acquired. Each row's disposition is sharpened, not closed.",
+    "editionDispositionsPreserved": {
+      "acquired_and_source_gated": [
+        "acquire:MA:petition-for-expungement-g-l-c-276-100k",
+        "acquire:MA:tc0021",
+        "acquire:MA:tc0057"
+      ],
+      "identity_established_binary_unavailable": [
+        "acquire:MA:massachusetts-probation-service-petition-to-expunge",
+        "acquire:MA:petition-to-seal-office-of-the-commissioner-of-probation",
+        "acquire:MA:petition-to-seal-office-of-the-commissioner-of-probation-part-a-box-4"
+      ]
+    },
+    "materializationState": "No MA source-materialization receipt exists and no MA document is present in the materialized source root. Nothing in this job changes that.",
+    "urlCorrectionRequired": {
+      "deadUrls": [
+        {
+          "url": "https://www.mass.gov/lists/criminal-record-sealing-and-expungement-forms",
+          "recordedIn": "Edition 1.2 manifest",
+          "status": "does not resolve; no archive capture"
+        },
+        {
+          "url": "https://www.mass.gov/lists/sealing-and-expunging-criminal-records-forms",
+          "recordedIn": "Massachusetts legal-design memo",
+          "status": "does not resolve; no archive capture"
+        }
+      ],
+      "correctUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+      "appliedByThisJob": false,
+      "whyNotApplied": "The Edition 1.2 manifest is immutable and the legal-design memo is not this job's to edit. Both corrections are recorded as handoffs.",
+      "memoCorrectionOwner": "legal-design lane (MA memo officialSources)",
+      "editionCorrectionOwner": "rcap-nationwide-master-library-edition-1-3-publication"
+    }
+  },
+  "implementationFamilyRelationship": {
+    "dependentFactoryJobs": [
+      {
+        "jobId": "rcap-ma-acroform-fill",
+        "lane": "acroform_fill",
+        "trackIds": [
+          "ma-expunge-mj"
+        ],
+        "effectOfThisJob": "Satisfies this job's dependency edge only."
+      },
+      {
+        "jobId": "rcap-ma-composed-route",
+        "lane": "composed_route",
+        "trackIds": [
+          "ma-expunge-time"
+        ],
+        "effectOfThisJob": "Satisfies this job's dependency edge only."
+      }
+    ],
+    "affectedTracks": [
+      "ma-expunge-k",
+      "ma-expunge-mj",
+      "ma-expunge-time",
+      "ma-seal-admin",
+      "ma-seal-court",
+      "ma-seal-decrim"
+    ],
+    "affectedComponents": [
+      "ma-expunge-k-primary-filing-1",
+      "ma-expunge-mj-primary-filing-1",
+      "ma-expunge-time-primary-filing-1",
+      "ma-seal-admin-primary-filing-1",
+      "ma-seal-court-primary-filing-1",
+      "ma-seal-decrim-primary-filing-1"
+    ],
+    "familyReadinessStatement": "Neither MA family is ready and this job does not assert that either is. Every MA track remains fail-closed on an unacquired binary: no MA source-materialization receipt exists, no MA document is present in the materialized source root, and no MA binary can be materialized until someone performs an attended retrieval that this worker is not equipped to perform. rcap-ma-acroform-fill additionally cannot select a renderer for TC0021 until the AcroForm/XFA contradiction inside the repository's own registry is settled against the binary, and rcap-ma-composed-route cannot proceed on ma-expunge-time until the XFA route for PROB0002 gets an explicit strategy decision."
+  },
+  "terminalDisposition": "official_download_automation_blocked_attended_retrieval_required",
+  "terminalDispositionDetail": {
+    "why": "The narrowest accurate disposition. It is not official_download_automation_block_did_not_reproduce — the block reproduced on six of six endpoints and now covers the index page as well. It is not identity_unresolved — every document's identity, issuer, role and scope is established and five of six revisions are confirmed from the issuer's own index. It is not deliberately_excluded_commercial_license — no restriction is published. It is not superseded or retired — the Commonwealth publishes all of these as current. What stands between these documents and materialization is a delivery channel that refuses scripts.",
+    "perAcquisition": {
+      "acquire:MA:massachusetts-probation-service-petition-to-expunge": "identity_and_issuer_confirmed_held_copy_superseded_xfa_route_confirmed_attended_retrieval_required",
+      "acquire:MA:petition-for-expungement-g-l-c-276-100k": "exact_identity_confirmed_attended_retrieval_required",
+      "acquire:MA:petition-to-seal-office-of-the-commissioner-of-probation": "exact_identity_confirmed_attended_retrieval_required",
+      "acquire:MA:petition-to-seal-office-of-the-commissioner-of-probation-part-a-box-4": "not_a_distinct_document_satisfied_by_sibling_acquisition",
+      "acquire:MA:tc0021": "exact_identity_confirmed_attended_retrieval_required",
+      "acquire:MA:tc0057": "identity_confirmed_revision_unresolved_attended_retrieval_required"
+    }
+  },
+  "residualBlockers": [
+    {
+      "id": "ma-attended-retrieval",
+      "question": "Five official binaries must be retrieved by a human in a browser from www.mass.gov, plus a decision on how to obtain the PROB0002 artifact.",
+      "status": "open",
+      "owner": "operations (four documents), engineering (the MPS XFA petition)",
+      "why": "www.mass.gov returns HTTP 403 to automated agents on every assigned endpoint. This worker cannot perform an attended retrieval and did not simulate one.",
+      "reopenCondition": "Closed when each binary is retrieved from its official /doc/ endpoint and SHA-diffed against the held digest recorded above."
+    },
+    {
+      "id": "ma-tc0057-revision",
+      "question": "Which of Rev. 3/24, TC0057 (2/24), or REV-UNKNOWN describes the held bytes.",
+      "status": "unresolved",
+      "owner": "acquisition owner",
+      "why": "Three candidate revision strings from three sources; only the acquired binary's revision block can settle it.",
+      "doNotInfer": "Do not stamp Rev. 3/24 onto the held copy."
+    },
+    {
+      "id": "ma-tc0021-structural-class",
+      "question": "Is TC0021 a clean AcroForm or an XFA form?",
+      "status": "unresolved",
+      "owner": "implementation lane, after acquisition",
+      "why": "The repository contradicts itself: a measured registry row says clean_acroform / 29 fields / xfa=false, while free text on the same record and the Edition 1.2 manifest say XFA. Neither the mass.gov Acrobat Reader warning nor the confirmed XFA nature of PROB0002 settles it. Whichever repository statement is wrong must be corrected before a renderer decision rests on it."
+    },
+    {
+      "id": "ma-prob0002-xfa-strategy",
+      "question": "How LegalEase obtains and fills an XFA design package served only as a rendered HTML form.",
+      "status": "open",
+      "owner": "engineering",
+      "why": "PROB0002 is confirmed XFA. The options — retrieve the Acrobat-only downloadable alternative, flatten and overlay, or hand the participant off to the interactive form — are an implementation strategy decision this authority job must not make.",
+      "doNotInfer": "Confirming the XFA structure is not choosing a renderer."
+    },
+    {
+      "id": "ma-part-a-box-4",
+      "question": "Does the current 4/12 Petition to Seal carry a numbered Part A box 4 with the 'offence no longer a crime' content?",
+      "status": "unverified",
+      "owner": "acquisition owner, at retrieval",
+      "why": "The assertion originates in the repository memo and appears on no official page. It must be read off the form face."
+    },
+    {
+      "id": "ma-100a-waiting-period-currency",
+      "question": "Whether the published 4/12 Petition to Seal still tracks the § 100A waiting periods after St. 2018 c. 69.",
+      "status": "flagged_for_counsel",
+      "owner": "counsel",
+      "why": "A legal question, outside this lane. Recorded, not answered, and explicitly not treated as a currentness failure against the publisher."
+    },
+    {
+      "id": "ma-license-permission",
+      "question": "Whether LegalEase may reproduce or fill these forms in a paid packet.",
+      "status": "unresolved",
+      "owner": "licence owner",
+      "why": "No restriction is published, which is not the same as permission. Publisher contact was not assigned to this job and was not made."
+    },
+    {
+      "id": "ma-dead-official-urls",
+      "question": "Two recorded MA official-source URLs do not resolve.",
+      "status": "handed_off",
+      "owner": "Edition 1.3 publication (manifest) and the legal-design lane (memo)",
+      "why": "Both paths are outside this job's ownedPaths."
+    }
+  ],
+  "edition13Impact": {
+    "publicationJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+    "dependencySatisfied": "rcap-ma-official-download-automation-blocked",
+    "editionAmendmentRequired": true,
+    "requiresNewBytes": false,
+    "requiresNewBytesNote": "Not from this job. No binary was retrieved, so this record supplies no bytes for Edition 1.3. New bytes for the five MA documents remain owed by the attended-retrieval work and are not part of this amendment item.",
+    "requiresMetadataCorrection": true,
+    "requiresRoleCorrection": false,
+    "requiresScopeCorrection": false,
+    "requiresRevisionCorrection": false,
+    "requiresRevisionCorrectionNote": "The confirmed index revisions are recorded here as evidence, but they describe what the Commonwealth publishes, not the held bytes. Stamping them onto Edition 1.3 rows before an attended retrieval would assert an identity nobody has verified. No revision correction is offered.",
+    "requiresLicenseDisposition": false,
+    "amendmentHandoffItems": [
+      {
+        "item": "Massachusetts official-source URL correction",
+        "manifestRow": "MA official-source index URL recorded in the Edition 1.2 manifest",
+        "from": "https://www.mass.gov/lists/criminal-record-sealing-and-expungement-forms",
+        "to": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+        "kind": "metadata_correction",
+        "evidence": "The recorded URL does not resolve and has no archive capture. The replacement is the issuer's live index, confirmed by an official archived capture dated 2026-05-11 and by a live read on 2026-08-03."
+      }
+    ],
+    "edition12Treatment": "immutable_unchanged",
+    "publicationPerformed": false
+  },
+  "expectedDownstreamEffect": "The six MA acquisition rows carry precise dispositions instead of a generic block: five documents with confirmed issuer, role, scope and revision awaiting one attended retrieval each; one that is not a distinct document at all and needs no acquisition of its own; and one held copy positively identified as a legacy artifact that must not be materialized. The dependency edges into rcap-ma-acroform-fill and rcap-ma-composed-route clear. No MA family becomes implementable, because every MA track still lacks a materialized binary. No packet becomes generatable, no runtime is enabled, and no track changes promotion state.",
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "memoEdited": false,
+    "editionPublished": false
+  }
+}
