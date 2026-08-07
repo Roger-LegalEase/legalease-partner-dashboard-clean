@@ -21,7 +21,7 @@
   "verificationCommand": "node scripts/verify-rcap-materialized-source.mjs --source-identity-key rcap-nj-cn-10557-814e1397cd --sha256 c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7 --bytes 1924831",
   "assignmentJobId": "rcap-nj-cn-10557-814e1397cd-source-materialization",
   "materializationOwnerJobId": "rcap-nj-cn-10557-814e1397cd-source-materialization",
-  "downstreamImplementationConsumerJobId": null,
+  "downstreamImplementationConsumerJobId": "rcap-nj-acroform-fill",
   "assignmentBaseCommit": "6b5e6c2d8bd9e80075a0c06f36133e3062c193a6",
   "assignmentManifestSha256": "17c951582ed85b584880a35f704bfdc89eb8c8141b7665f51418e6241dbfc338",
   "localVerificationBasis": "freshly_verified_local_bytes",
@@ -56,8 +56,15 @@
     ],
     "truncated": false,
     "structuralClass": "clean_acroform",
-    "fieldMappingEstablished": false,
-    "rendererSelected": false
+    "fieldMappingEstablished": true,
+    "rendererSelected": true,
+    "acroFormFieldCountBasis": "logical_terminal_acroform_fields",
+    "terminalFieldCount": 179,
+    "nonTerminalFieldNodeCount": 0,
+    "widgetAnnotationCount": 269,
+    "completionFieldCount": 177,
+    "actionButtonFieldCount": 2,
+    "uniqueFullyQualifiedFieldNameCount": 179
   },
   "usageBindings": [
     {
@@ -155,5 +162,39 @@
     "runtimeStatus": "runtime_disabled"
   },
   "materializationAction": "verified_existing_binary",
-  "receiptSha256": "ebe09a7c9362009bd1ffdc18e6047c631a9609a755a6dfad027d5f3cade8d5f6"
+  "receiptSha256": "b36a08818419b96ff4da800fd648a0497ed2bbd4b2d9fea4aaa7fb18e0edb62a",
+  "fieldInventoryReconciliation": {
+    "reconciledOn": "2026-08-07",
+    "reconciledBy": "rcap-production-integration-captain",
+    "logicalAcroFormFields": 179,
+    "terminalFields": 179,
+    "widgetAnnotations": 269,
+    "actionButtonFields": 2,
+    "completionFields": 177,
+    "implementationClassification": {
+      "participantSupplied": 8,
+      "deterministic": 3,
+      "totalMapped": 11,
+      "manualParticipantCompletion": 100,
+      "courtOrAgencyOnly": 26,
+      "outsidePartyCompletion": 3,
+      "prohibited": 5,
+      "unusedOrActionButton": 34,
+      "total": 179
+    },
+    "competingMeasurements": [
+      {
+        "value": 177,
+        "recordedIn": [
+          "data/record-clearing/source-artifact-registry.json",
+          "data/record-clearing/production-factory/official-pdf-production-queue.json"
+        ],
+        "basis": "completion_fields_only",
+        "explanation": "The pre-factory inventory counted completion fields and omitted the two action buttons formPrint and formSafeClear. 177 + 2 = 179.",
+        "disposition": "explained_not_stale"
+      }
+    ],
+    "measurementNote": "Measured from the receipted binary at sha256 c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7. Every field-tree node is terminal, so the logical and terminal counts are both 179; 139 of them are merged field/widget dictionaries and the remainder carry Kids widget arrays, giving 269 widget annotations across the 43 pages. No competing 191-field measurement exists in any receipt, queue, projection, registry, or commit in this repository.",
+    "binaryIdentityUnchanged": true
+  }
 }

@@ -756,6 +756,12 @@ const COMPLETED_OFFICIAL_PDF_IMPLEMENTATIONS = Object.freeze([
     jurisdiction: "GA",
     lane: "flat_pdf_overlay",
     completionCommit: "f2f2c2c4de39d631bdd04e78563265519f8d21bd"
+  },
+  {
+    jobId: "rcap-nj-acroform-fill",
+    jurisdiction: "NJ",
+    lane: "acroform_fill",
+    completionCommit: "0e4f3251477d6c368f9b672904c50ba67152d004"
   }
 ]);
 const GUIDANCE_TYPED_STOP_TRACKS = new Set([
