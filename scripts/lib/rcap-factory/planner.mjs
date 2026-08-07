@@ -908,6 +908,45 @@ const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
     ]
   },
   {
+    jurisdiction: "NM",
+    workerBranch:
+      "rcap-factory/rcap-nm-guidance-implementation-cc1191cd-094e2990",
+    workerCommit: "94806b16e4fc58fb8dc4bb76286da5709acd0da1",
+    completionCommit: "77cf1525b3333d6f69f9a76f013f39b66ad5513a",
+    modulePath: "src/lib/rcap/packets/jurisdictions/new-mexico/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-new-mexico-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: ["nm_cannabis", "nm_cannabis_sentence"]
+  },
+  {
+    jurisdiction: "RI",
+    workerBranch:
+      "rcap-factory/rcap-ri-guidance-implementation-93ed9e83-4d5f5bb4",
+    workerCommit: "d298fd6e2f9e8d5f5926ec5bec302afb4680f671",
+    completionCommit: "77cf1525b3333d6f69f9a76f013f39b66ad5513a",
+    modulePath: "src/lib/rcap/packets/jurisdictions/rhode-island/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-rhode-island-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: ["ri_commercial_sexual_activity", "ri_filed_complaints"]
+  },
+  {
+    jurisdiction: "KY",
+    workerBranch:
+      "rcap-factory/rcap-ky-guidance-implementation-954fa2b8-47b9ecd0",
+    workerCommit: "be9c9b593601146f02bbe56d0eb91fb384730495",
+    completionCommit: "77cf1525b3333d6f69f9a76f013f39b66ad5513a",
+    modulePath: "src/lib/rcap/packets/jurisdictions/kentucky/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-kentucky-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: [
+      "ky_automatic_nonconviction_expungement_verification",
+      "ky_diversion_disposition_routing"
+    ]
+  },
+  {
     jurisdiction: "NY",
     workerBranch:
       "rcap-factory/rcap-ny-guidance-implementation-f88576f0-60d051c3",
@@ -3901,7 +3940,10 @@ const COMPLETED_OUTPUT_REVIEW_ASSIGNMENTS = Object.freeze([
   "rcap-wv-guidance-implementation",
   "rcap-nd-custom-pleading",
   "rcap-wi-custom-pleading",
-  "rcap-ny-guidance-implementation"
+  "rcap-ny-guidance-implementation",
+  "rcap-nm-guidance-implementation",
+  "rcap-ri-guidance-implementation",
+  "rcap-ky-guidance-implementation"
 ]);
 
 // The deliverable-identity question South Carolina's custom-pleading job waits

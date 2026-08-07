@@ -1,0 +1,266 @@
+{
+  "schemaVersion": "rcap-factory-review-manifest/v1",
+  "jobId": "rcap-nm-guidance-implementation",
+  "lane": "guidance_implementation",
+  "jurisdiction": "NM",
+  "trackIds": [
+    "nm_cannabis",
+    "nm_cannabis_sentence"
+  ],
+  "strategyFamily": "process_guidance",
+  "baseCommit": "77cf1525b3333d6f69f9a76f013f39b66ad5513a",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "generatedAt": "2026-08-07T21:27:08Z",
+  "syntheticData": true,
+  "filingUseAllowed": false,
+  "correctionRequired": false,
+  "outstandingCorrections": [],
+  "provenance": {
+    "workerBranch": "rcap-factory/rcap-nm-guidance-implementation-cc1191cd-094e2990",
+    "workerCommit": "94806b16e4fc58fb8dc4bb76286da5709acd0da1",
+    "captainIntegrationCommit": "77cf1525b3333d6f69f9a76f013f39b66ad5513a",
+    "normalizedLegalDesign": {
+      "memoPath": "data/record-clearing/legal-design-intake/NM.memo.json",
+      "memoSha256": "94fe9d381be4e2b03e78397bb67a76c30c5005854d178606604689d19e002f25",
+      "memoVersion": "1.0.0"
+    },
+    "unresolvedReleaseQuestionCount": 3,
+    "unresolvedReleaseQuestions": [
+      {
+        "trackId": "nm_cannabis",
+        "affectedElement": "participant_instructions",
+        "question": "The operating mechanics of the Administrative Office of the Courts verification and expedited-request procedure: how a request is submitted, what the AOC returns, how long it takes, and what the participant is told when a record is found to be ineligible. Section 29-3A-8(B) requires the AOC to implement the procedure and the AOC publishes an application form, but no published procedure describes the response."
+      },
+      {
+        "trackId": "nm_cannabis",
+        "affectedElement": "participant_instructions",
+        "question": "Whether the New Mexico Judiciary's district Steps to Filing packets for cannabis expungement, which still describe a district court petition and are dated rev. 1/28/22 and rev. 7/12/22, have been withdrawn or reissued since Form 4-954 NMRA was withdrawn. A participant who finds them will believe a filing route exists."
+      },
+      {
+        "trackId": "nm_cannabis_sentence",
+        "affectedElement": "filing_process",
+        "question": "What route remains for a person who was never reached by the Section 29-3A-9(D) and (E) sweep, given that the Department of Public Safety review was to be completed on or before January 1, 2022 and the prosecutor review window closed on July 1, 2022. Subsection C states an entitlement for a person who has completed such a sentence, and no procedure or form is published for asserting it now that the statutory sweep dates have passed."
+      }
+    ],
+    "technicalInspectionState": "worker_technical_evidence_only",
+    "formalVisualReview": "pending",
+    "completedOutputLegalReview": "pending"
+  },
+  "artifactTracking": {
+    "generatedAssetsTracked": false,
+    "artifactDirectory": "artifacts/rcap-factory/reviews/rcap-nm-guidance-implementation",
+    "reviewManifestTracked": true,
+    "reviewManifestPath": "data/record-clearing/production-factory/review-manifests/rcap-nm-guidance-implementation.json",
+    "note": "Generated PDFs and PNGs are reproducible and ignored. This JSON manifest is the tracked proof record."
+  },
+  "reproducibility": {
+    "rendererVersion": "rcap-factory-shared-layout-pdf-png/v1",
+    "fixtureVersion": "rcap-factory-synthetic-fixture/v1",
+    "fixedPdfMetadataDate": "2000-01-01T00:00:00.000Z",
+    "sharedLayoutSha256": "538bd5a586385eb3dbea3cf6fe24aed37a57039811d1fcfa4fd22855b3c80504"
+  },
+  "packet": {
+    "fileName": "synthetic-review.pdf",
+    "relativePath": "artifacts/rcap-factory/reviews/rcap-nm-guidance-implementation/synthetic-review.pdf",
+    "sha256": "29e39989bb92c28b77db6821460666ee206ffd38be1135067f39fb3c1c125b5f",
+    "bytes": 5687,
+    "pageCount": 2,
+    "structureClass": "flat_pdf"
+  },
+  "packetHashes": [
+    {
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-nm-guidance-implementation/synthetic-review.pdf",
+      "sha256": "29e39989bb92c28b77db6821460666ee206ffd38be1135067f39fb3c1c125b5f"
+    }
+  ],
+  "pageCounts": {
+    "packet": 2,
+    "renderedImages": 2
+  },
+  "renderedPages": [
+    {
+      "page": 1,
+      "fileName": "page-001.png",
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-nm-guidance-implementation/pages/page-001.png",
+      "sha256": "b4e91dacded4eec1ec5c581a846e51fab2332cd6bf43601be2c62f7d1bf6f6dd",
+      "bytes": 6543,
+      "width": 612,
+      "height": 792
+    },
+    {
+      "page": 2,
+      "fileName": "page-002.png",
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-nm-guidance-implementation/pages/page-002.png",
+      "sha256": "b2173e21663366185846184bf0744b206c4910418735c85ffb9b1b3ae31de5f6",
+      "bytes": 6608,
+      "width": 612,
+      "height": 792
+    }
+  ],
+  "implementationOutputs": [
+    {
+      "relativePath": "src/lib/rcap/packets/jurisdictions/new-mexico/guidance.ts",
+      "exists": true,
+      "kind": "file",
+      "bytes": 80783,
+      "sha256": "7df5fa02698f3a8b0a61425d20f2143e63b860f242eef5c9d12199a497997705"
+    },
+    {
+      "relativePath": "scripts/verify-rcap-new-mexico-guidance-implementation.mjs",
+      "exists": true,
+      "kind": "file",
+      "bytes": 30393,
+      "sha256": "3b9e471cf224f4b2eaf2af849e00d42b27aa7247b5e166418faf249532b98f95"
+    }
+  ],
+  "participantPacketProof": {
+    "status": "verified",
+    "sourceType": "integration_owned_factory_packet_proof",
+    "sourceManifestPath": "data/record-clearing/production-factory/packet-proofs/rcap-nm-guidance-implementation.json",
+    "sourceManifestSha256": "77d5a4da43620fdf2c150836d5c8c4894b7818320a9c10c0321f3432861aae05",
+    "verifier": {
+      "path": "scripts/verify-rcap-new-mexico-guidance-implementation.mjs",
+      "sha256": "3b9e471cf224f4b2eaf2af849e00d42b27aa7247b5e166418faf249532b98f95",
+      "result": "passed"
+    },
+    "implementationOutputs": [
+      {
+        "path": "src/lib/rcap/packets/jurisdictions/new-mexico/guidance.ts",
+        "sha256": "7df5fa02698f3a8b0a61425d20f2143e63b860f242eef5c9d12199a497997705"
+      },
+      {
+        "path": "scripts/verify-rcap-new-mexico-guidance-implementation.mjs",
+        "sha256": "3b9e471cf224f4b2eaf2af849e00d42b27aa7247b5e166418faf249532b98f95"
+      }
+    ],
+    "finalPdfCount": 2,
+    "assembledPageCount": 29,
+    "packets": [
+      {
+        "trackId": "nm_cannabis",
+        "sampleRole": "canonical",
+        "fileName": "nm_cannabis-technical-fixture.pdf",
+        "sha256": "403b79c80f106e2b095cad75962b61411c119552cd0d3311d19cc135f4ad7454",
+        "pageCount": 17
+      },
+      {
+        "trackId": "nm_cannabis_sentence",
+        "sampleRole": "canonical",
+        "fileName": "nm_cannabis_sentence-technical-fixture.pdf",
+        "sha256": "d39163a5958761c417c3d44848aca156ab4374befab706bddcf52d1ddd9fe062",
+        "pageCount": 12
+      }
+    ],
+    "deterministic": true,
+    "runtimeStatus": "runtime_disabled",
+    "visualProof": "pending",
+    "counselAdopted": false,
+    "productionEnabled": false,
+    "verified": true
+  },
+  "officialPdfImplementationProof": {
+    "status": "not_applicable",
+    "verified": null
+  },
+  "technicalChecklist": {
+    "status": "passed",
+    "items": [
+      {
+        "id": "synthetic-data-only",
+        "status": "passed",
+        "evidence": "Packet labels every value synthetic and not for filing."
+      },
+      {
+        "id": "focused-worker-validation",
+        "status": "passed",
+        "evidence": "2 focused command(s); 0 failure(s)."
+      },
+      {
+        "id": "deterministic-pdf",
+        "status": "passed",
+        "evidence": "Two renders matched SHA-256 29e39989bb92c28b77db6821460666ee206ffd38be1135067f39fb3c1c125b5f."
+      },
+      {
+        "id": "pdf-page-count",
+        "status": "passed",
+        "evidence": "2 page(s) inspected from generated bytes."
+      },
+      {
+        "id": "deterministic-page-images",
+        "status": "passed",
+        "evidence": "2 PNG render(s) reproduced byte-for-byte."
+      },
+      {
+        "id": "expected-output-hashes",
+        "status": "passed",
+        "evidence": "2 of 2 expected outputs hashed."
+      },
+      {
+        "id": "participant-packet-proof",
+        "status": "passed",
+        "evidence": "2 final participant PDF hash(es), 29 total page(s), reconciled from data/record-clearing/production-factory/packet-proofs/rcap-nm-guidance-implementation.json."
+      }
+    ]
+  },
+  "visualChecklist": {
+    "status": "pending",
+    "items": [
+      {
+        "id": "visual-01",
+        "label": "Confirm every page is legible at normal zoom.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-02",
+        "label": "Confirm no text is clipped, overlapped, or outside page bounds.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-03",
+        "label": "Confirm page order and track labels match the assigned job.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-04",
+        "label": "Confirm checkbox, radio, overlay, and signature placement when applicable.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-05",
+        "label": "Confirm participant and third-party fields are visually distinguishable.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-06",
+        "label": "Record reviewer name, date, defects, and disposition; generation itself grants no approval.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      }
+    ]
+  },
+  "technicalProofPassed": true,
+  "visualProofPassed": false,
+  "legalRecommendationComplete": false,
+  "counselAdopted": false,
+  "runtimeStatus": "runtime_disabled",
+  "stagingPassed": false,
+  "productionEnabled": false
+}
