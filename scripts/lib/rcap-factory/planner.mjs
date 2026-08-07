@@ -151,6 +151,10 @@ const TN_AMENDED_MEMO_SHA256 =
   "dfd8a621910fca5ed2fb57c2fc97784dc41699a57cf46d272946b8b6a64f1f48";
 const TN_INTEGRATED_MEMO_SHA256 =
   "a1c91f3d17115d87879905066b4f2b9732e717cbcdc6b063ec83502aa54f20e8";
+const NY_MRTA_PACKET_CAPABILITY_JOB_ID =
+  "rcap-ny-mrta-destruction-request-packet-capability-correction";
+const NY_INTEGRATED_MEMO_SHA256 =
+  "560d30414b2615203cbe6767b69e8f7f3e7bc100123343e86f9c728f1b3cdf3e";
 const SC_SOLICITOR_DELIVERABLE_DECISION_ID =
   "sc-solicitor-route-participant-deliverable-resolution";
 const SC_SOLICITOR_DELIVERABLE_MEMO_CORRECTION_JOB_ID =
@@ -2180,6 +2184,78 @@ export function buildFactoryPlan(options = {}) {
     });
   }
 
+  if (integratedNormalizations.has("NY")) {
+    // ny_mrta_marijuana is normalized as process_guidance, but one of its
+    // components is not guidance: destruction_request_instructions carries
+    // outputStrategy official_pdf_fill and officialFormId
+    // MRTA-DESTRUCTION-REQUEST, and the memo's own manual-completion item is
+    // "Signing and sending the destruction request", which is the participant
+    // acting on their own instrument. A participant-signed, participant-
+    // submitted official form cannot sit inside a pure-guidance assignment: a
+    // guidance worker would be handed a packet-capable component it has no
+    // lane to build, which is why the guidance implementation was excluded
+    // rather than attempted.
+    //
+    // Whether the request belongs in the design as a conditional
+    // supporting_action or as a conditional unit of one composed mechanism is a
+    // legal-design question about New York's marijuana relief, and no
+    // integrated decision settles it. The correction job decides it against the
+    // full design; this record does not pre-empt it.
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "NY",
+      jobId: NY_MRTA_PACKET_CAPABILITY_JOB_ID,
+      strategyFamily: "legal_design_normalization_amendment",
+      trackIds: [],
+      dependencies: ["rcap-ny-legal-design-normalization"],
+      status: "ready",
+      expectedOutputs: ["data/record-clearing/legal-design-intake/NY.memo.json"],
+      ownedPaths: ["data/record-clearing/legal-design-intake/NY.memo.json"],
+      requiredInputs: [
+        "data/record-clearing/legal-design-intake/NY.memo.json",
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.packetSetManifests,
+        FACTORY_INPUT_PATHS.sourceRelationships
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        `node scripts/rcap-factory-plan.mjs --check-job ${NY_MRTA_PACKET_CAPABILITY_JOB_ID}`,
+        "node scripts/verify-rcap-legal-design-intake.mjs",
+        "node scripts/verify-rcap-packet-capability-registry.mjs"
+      ],
+      commitSubject:
+        "feat(record-clearing): correct the New York marijuana packet capability",
+      executionNote:
+        `The memo you are amending is at sha256 ${NY_INTEGRATED_MEMO_SHA256}. The conflict is ` +
+        "one component: ny_mrta_marijuana-destruction-request-instructions-2, role " +
+        "destruction_request_instructions, outputStrategy official_pdf_fill, officialFormId " +
+        "MRTA-DESTRUCTION-REQUEST, on a track whose own outputStrategy is process_guidance. " +
+        "The memo's manual-completion item for it reads 'Signing and sending the destruction " +
+        "request', so the participant signs and submits it.",
+      stopCondition:
+        "Represent the participant-signed MRTA destruction request as packet-capable work and " +
+        "nothing else. Decide from the controlling authority and the integrated New York design " +
+        "whether it is a conditional supporting_action or a conditional unit of one composed " +
+        "relief mechanism, state the basis, and bind MRTA-DESTRUCTION-REQUEST to the " +
+        "official-PDF implementation lane. " +
+        "Preserve the automatic or agency-controlled marijuana record process exactly as " +
+        "normalized: the participant does not petition for what the State already did, and no " +
+        "second remedy may be created for the same relief. Preserve the verification guidance, " +
+        "the eligibility screen, the routing disclosure and the effect disclosure. Preserve the " +
+        "participant signature and submission requirements on the request itself, and every " +
+        "outside-party action. Leave every unrelated New York track, component and source slot " +
+        "unchanged, including the separate CPL 160.57 eligibility question and the CPL 160.59 " +
+        "packet. " +
+        "Own only NY.memo.json: do not touch a decision record, a shared registry, a source " +
+        "receipt, an authority record, the queue or projection, a blocker ledger, a factory " +
+        "plan, a runtime file, a migration or a deployment file. Keep every route " +
+        "runtime-disabled and packet_ready false. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
   if (integratedNormalizations.has("NJ")) {
     // New Jersey's automated Clean Slate process does not yet exist. The
     // participant petition is the current route and is not held back by a system
@@ -3278,6 +3354,28 @@ const COMPLETED_CUSTOM_PLEADING_IMPLEMENTATIONS = Object.freeze([
 // rather than pinned to a memo hash or asserted by hand. Zero unresolved
 // output-strategy questions across the assigned tracks means the correction
 // landed; one means it did not, whatever any status field claims.
+// A guidance assignment must be guidance all the way down. A component that
+// declares an official-PDF output strategy and an official form is packet-
+// capable work, and handing it to a guidance worker gives them a component they
+// have no lane to build. New York's ny_mrta_marijuana carries exactly one such
+// component; the count is read from the normalized design so the gate lifts by
+// itself once the correction lands, and returns by itself if it regresses.
+function packetCapableGuidanceComponentCount(inputs, jurisdiction) {
+  return (inputs?.normalizedTracks?.tracks ?? [])
+    .filter(
+      (track) =>
+        track.jurisdiction === jurisdiction &&
+        track.outputStrategy === "process_guidance"
+    )
+    .flatMap((track) => track.packetSet?.components ?? track.components ?? [])
+    .filter(
+      (component) =>
+        component?.outputStrategy === "official_pdf_fill" &&
+        typeof component?.officialFormId === "string" &&
+        component.officialFormId.length > 0
+    ).length;
+}
+
 function unresolvedOutputStrategyQuestionCount(inputs, jurisdiction, lane) {
   return (inputs?.normalizedTracks?.tracks ?? [])
     .filter(
@@ -3351,6 +3449,35 @@ function implementationJobOverrides(lane, jurisdiction, inputs) {
         "counsel adoption remain separate; runtime stays disabled. Do not scaffold, execute, " +
         "regenerate, enable, promote, or deploy this job."
     };
+  }
+  if (lane === "guidance_implementation" && jurisdiction === "NY") {
+    const packetCapableComponents = packetCapableGuidanceComponentCount(
+      inputs,
+      "NY"
+    );
+    if (packetCapableComponents > 0) {
+      return {
+        status: "blocked",
+        dependencies: [NY_MRTA_PACKET_CAPABILITY_JOB_ID],
+        model: "opus",
+        effort: "xhigh",
+        executionNote:
+          "Do not scaffold or execute until " +
+          `${NY_MRTA_PACKET_CAPABILITY_JOB_ID} is complete. The assignment still carries ` +
+          `${packetCapableComponents} packet-capable component(s) inside a pure-guidance ` +
+          "track.",
+        stopCondition:
+          "Blocked on the marijuana packet-capability correction. " +
+          `${packetCapableComponents} component(s) on a process_guidance track still declare ` +
+          "an official-PDF output strategy and an official form — " +
+          "ny_mrta_marijuana-destruction-request-instructions-2 carrying " +
+          "MRTA-DESTRUCTION-REQUEST, which the participant signs and sends. A guidance worker " +
+          "has no lane to build it. Do not scaffold, do not create an implementation branch, " +
+          "do not resolve the packet-capability question inside an implementation, and do not " +
+          "enable runtime, promote, or deploy. " +
+          TERMINAL_INSTRUCTION
+      };
+    }
   }
   if (lane === "custom_pleading" && jurisdiction === "SC") {
     // Scaffolding this job while the memo still asks whether LegalEase may

@@ -164,7 +164,14 @@ check("600-00229 carries no identity, acquisition target or source gap", () => {
 
 check("the resolved identity is not claimed worker-assignable", () => {
   assert.ok(identity, `${IDENTITY_KEY} is absent from the projection`);
-  assert.equal(identity.disposition, "identity_resolved_materialization_required");
+  // The blocker narrowed once the adopted manifest's own measurement reached the
+  // source contract: the identity is exact and its renderer lane is AcroForm,
+  // and what withholds it is the manifest classifying a participant-completed
+  // fillable application as supporting_process with packet_candidate no. That
+  // is role_mismatch, which is stricter than the measurement-shaped disposition
+  // it replaced, and still ineligible.
+  assert.equal(identity.disposition, "role_mismatch");
+  assert.equal(identity.sourceIdentityState, "exact_source_requirement_ready");
   assert.equal(identity.assignmentEligible, false);
   assert.equal(acquisition.gates.sourceMaterialized, false);
   assert.equal(acquisition.gates.sourceReceiptCreated, false);
