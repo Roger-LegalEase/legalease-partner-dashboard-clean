@@ -77,6 +77,36 @@ const LOCAL_MARKERS = [
   { id: "service_city_state_zip", scope: "court_specific", re: /\b[A-Z][a-z]+,\s*(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY|DC)\s+\d{5}\b/ }
 ];
 
+/**
+ * Captain-owned scope corrections, keyed by exact artifact id.
+ *
+ * The scope scanner reads a certificate-of-service address block — city, state
+ * and ZIP — as evidence that a form is court-specific. Every Colorado motion
+ * that must be served on the district attorney carries that block, including
+ * statewide Judicial Department forms, so on a form whose only local marker is
+ * the service block the marker evidences service, not locality. The sibling
+ * guide JDF 2370, which has no service block, scored statewide from the same
+ * scanner, which is the tell.
+ *
+ * This corrects the exact rows an integrated authority decision resolved. The
+ * marker list itself is deliberately unchanged: a general rule about service
+ * blocks would silently rescope forms in states no decision has looked at.
+ */
+const SCOPE_CORRECTIONS = new Map([
+  [
+    "jdf-2371-motion-to-seal-conviction-records-conduct-no-longer-prohibited-rev-2025-07-01",
+    {
+      geographicScope: "statewide",
+      currency: "unknown",
+      basis:
+        "rcap-co-jdf-2370-role-and-jdf-2371-mapping-correction: JDF 2371 is a " +
+        "Colorado Judicial Department form published centrally for every " +
+        "judicial district under C.R.S. section 24-72-711. Its only local " +
+        "marker is a certificate-of-service address block."
+    }
+  ]
+]);
+
 const inventory = JSON.parse(fs.readFileSync(INVENTORY, "utf8"));
 const archivePresent = fs.existsSync(SOURCE_ROOT);
 
@@ -156,6 +186,13 @@ for (const state of inventory.states) {
       Object.assign(row, measured);
       if (row.currency === "unknown" && measured.geographicScope !== "statewide" && measured.geographicScope !== "unknown") {
         row.currency = "local_only";
+      }
+      const correction = SCOPE_CORRECTIONS.get(row.artifactId);
+      if (correction) {
+        row.geographicScope = correction.geographicScope;
+        row.currency = correction.currency;
+        row.scannerGeographicScope = measured.geographicScope;
+        row.geographicScopeCorrectionBasis = correction.basis;
       }
     } catch (error) {
       row.technicalClass = "unreadable";
