@@ -662,6 +662,12 @@ function buildReviewManifest({
     ),
     syntheticData: true,
     filingUseAllowed: false,
+    // What this review is a review of, bound to exact objects. A reviewer
+    // reading the finished output has to be able to say which worker result
+    // produced it, which captain commit integrated it, which normalized design
+    // it was built against, and what the design still leaves open — none of
+    // which is recoverable from the rendered pages.
+    provenance: reviewProvenance(rootDir, job),
     artifactTracking: {
       generatedAssetsTracked: false,
       artifactDirectory,
@@ -736,6 +742,58 @@ function buildReviewManifest({
     runtimeStatus: "runtime_disabled",
     stagingPassed: false,
     productionEnabled: false
+  };
+}
+
+/**
+ * The exact objects a completed-output review has to be held to.
+ *
+ * Worker branch and commit come from the captain's completion record, the
+ * integration commit is the job's completion commit, the normalized
+ * legal-design version is the memo blob the implementation was built against,
+ * and the unresolved release questions are read from the normalized design
+ * rather than restated, so a question that closes disappears here by itself.
+ */
+function reviewProvenance(rootDir, job) {
+  const memoPath =
+    `data/record-clearing/legal-design-intake/${job.jurisdiction}.memo.json`;
+  const absoluteMemoPath = path.join(rootDir, memoPath);
+  const memoPresent = fs.existsSync(absoluteMemoPath);
+  const memo = memoPresent
+    ? JSON.parse(fs.readFileSync(absoluteMemoPath, "utf8"))
+    : null;
+  const assignedTracks = new Set(job.trackIds ?? []);
+  const unresolvedReleaseQuestions = (memo?.tracks ?? [])
+    .filter((track) => assignedTracks.has(track.trackId))
+    .flatMap((track) =>
+      (track.unresolvedQuestions ?? [])
+        .filter((question) => question?.impact === "release_blocker")
+        .map((question) => ({
+          trackId: track.trackId,
+          affectedElement: question.affectedElement ?? null,
+          question:
+            typeof question.question === "string" ? question.question : null
+        }))
+    )
+    .sort(
+      (left, right) =>
+        left.trackId.localeCompare(right.trackId) ||
+        String(left.question).localeCompare(String(right.question))
+    );
+  return {
+    workerBranch: job.workerBranch ?? null,
+    workerCommit: job.workerCommit ?? null,
+    captainIntegrationCommit: job.completionCommit ?? null,
+    normalizedLegalDesign: {
+      memoPath,
+      memoSha256: memoPresent ? sha256(fs.readFileSync(absoluteMemoPath)) : null,
+      memoVersion: memo?.memoVersion ?? null
+    },
+    unresolvedReleaseQuestionCount: unresolvedReleaseQuestions.length,
+    unresolvedReleaseQuestions,
+    technicalInspectionState: "worker_technical_evidence_only",
+    formalVisualReview: "pending",
+    completedOutputLegalReview: "pending"
   };
 }
 

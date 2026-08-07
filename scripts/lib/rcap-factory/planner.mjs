@@ -1115,6 +1115,8 @@ export function buildFactoryPlan(options = {}) {
     requiredOutputFields,
     downloadedSourceCount,
     completionCommit,
+    workerBranch,
+    workerCommit,
     regressionVerifier,
     participantPacketProofRequired,
     sourceMaterializationInputs,
@@ -1198,6 +1200,16 @@ export function buildFactoryPlan(options = {}) {
     }
     if (completionCommit) {
       job.completionCommit = completionCommit;
+    }
+    // The worker result an integrated completion actually came from. Recorded
+    // where the captain's completion record pins it, so a review manifest can
+    // bind the finished output to the branch and commit that produced it
+    // rather than to the integration commit alone.
+    if (workerBranch) {
+      job.workerBranch = workerBranch;
+    }
+    if (workerCommit) {
+      job.workerCommit = workerCommit;
     }
     if (regressionVerifier) {
       job.regressionVerifier = normalizeRepoPath(
@@ -3139,6 +3151,80 @@ export function buildFactoryPlan(options = {}) {
       sourceMaterializationFoundation.jobId
   });
 
+  // One completed-output review assignment per implementation whose finished
+  // output was handed to review. It depends on the implementation and on the
+  // integration-owned evidence, and it is ready — the review itself is the work
+  // that has not been done, not a prerequisite that is missing.
+  for (const implementationJobId of COMPLETED_OUTPUT_REVIEW_ASSIGNMENTS) {
+    const implementation = jobs.find(
+      (job) => job.jobId === implementationJobId
+    );
+    if (!implementation || implementation.status !== "completed") continue;
+    const packetProof = `${PACKET_PROOF_DIR}/${implementationJobId}.json`;
+    const reviewManifest =
+      `${REVIEW_MANIFEST_DIR}/${implementationJobId}.json`;
+    if (
+      !fs.existsSync(path.join(rootDir, packetProof)) ||
+      !fs.existsSync(path.join(rootDir, reviewManifest))
+    ) {
+      continue;
+    }
+    addJob({
+      lane: "legal_output_review",
+      jurisdiction: implementation.jurisdiction,
+      jobId: `${implementationJobId}-completed-output-review`,
+      strategyFamily: "completed_output_review",
+      trackIds: implementation.trackIds,
+      dependencies: [implementationJobId],
+      status: "ready",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/legal-output-reviews/completed-output/` +
+          `${implementationJobId}.json`
+      ],
+      ownedPaths: [
+        `${FACTORY_DATA_DIR}/legal-output-reviews/completed-output/` +
+          `${implementationJobId}.json`
+      ],
+      requiredInputs: [
+        packetProof,
+        reviewManifest,
+        ...(implementation.expectedOutputs ?? []),
+        `data/record-clearing/legal-design-intake/${implementation.jurisdiction}.memo.json`,
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.packetSetManifests,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job " +
+          `${implementationJobId}-completed-output-review`
+      ],
+      commitSubject:
+        `docs(record-clearing): review ${implementationJobId} completed output`,
+      executionNote:
+        "The technical evidence is integrated and deterministic. This job is the " +
+        "formal read of the finished participant-facing output, which no verifier " +
+        "performs.",
+      stopCondition:
+        "Perform, and record the result of, a formal page-by-page visual review of every " +
+        "rendered page and a completed-output legal review of the assembled documents. " +
+        "Verify: that each document's participant and outside-party roles are what the " +
+        "design assigns, and that nothing generated is presented as another party's or a " +
+        "court's instrument; that every field or document belonging to an outside party is " +
+        "left blank or omitted rather than filled; that the venue and submission destination " +
+        "on each route are correct; that the fee statements and manual-completion " +
+        "instructions are correct and complete; that the self-help stops and attorney " +
+        "handoffs fire where they should and route somewhere real. Record exact defects and " +
+        "a recommendation for or against counsel adoption. " +
+        "Recording a recommendation is not adopting it: do not mark counsel adoption, do not " +
+        "edit packet text, legal conclusions, track strategy or authority classification, do " +
+        "not mark any route packet-ready, and do not enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
   const implementationLanes = [
     "legal_design_normalization",
     "custom_pleading",
@@ -3457,7 +3543,38 @@ const COMPLETED_CUSTOM_PLEADING_IMPLEMENTATIONS = Object.freeze([
     completionCommit: "eccb51f2846f3df93a806981a09e991c6e841c8a",
     modulePath: "src/lib/rcap/packets/jurisdictions/nevada/custom-pleading.ts",
     verifierPath: "scripts/verify-rcap-nevada-custom-pleading.mjs"
+  },
+  {
+    jurisdiction: "SC",
+    workerBranch: "rcap-factory/rcap-sc-custom-pleading-e4099c88-468b1409",
+    workerCommit: "82274eb79ffd869c6d56558a1b508e308a01d200",
+    completionCommit: "6f139ff4f2d1b85646f3edd3e434d48fc5b676b6",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/south-carolina/custom-pleading.ts",
+    verifierPath: "scripts/verify-rcap-south-carolina-custom-pleading.mjs"
   }
+]);
+
+/**
+ * Implementations whose completed output has been handed to formal review.
+ *
+ * A completed implementation carries technical evidence — a deterministic
+ * verifier, an integration-owned packet proof and a review manifest — and none
+ * of that is a reading of the finished document. Page-by-page visual review and
+ * completed-output legal review are separate work with a separate recommendation
+ * for or against counsel adoption, and until they have an owner they are not
+ * pending, they are simply absent.
+ *
+ * This is an explicit captain-owned wave record rather than a sweep over every
+ * completed implementation: handing an output to review is a decision about that
+ * output, and back-filling one for every previously integrated implementation
+ * would assert a review assignment nobody made.
+ */
+const COMPLETED_OUTPUT_REVIEW_ASSIGNMENTS = Object.freeze([
+  "rcap-sc-custom-pleading",
+  "rcap-nh-guidance-implementation",
+  "rcap-oh-guidance-implementation",
+  "rcap-wv-guidance-implementation"
 ]);
 
 // The deliverable-identity question South Carolina's custom-pleading job waits
@@ -3537,6 +3654,12 @@ function implementationJobOverrides(lane, jurisdiction, inputs) {
     return {
       status: "completed",
       completionCommit: completedCustomPleading.completionCommit,
+      ...(completedCustomPleading.workerBranch
+        ? { workerBranch: completedCustomPleading.workerBranch }
+        : {}),
+      ...(completedCustomPleading.workerCommit
+        ? { workerCommit: completedCustomPleading.workerCommit }
+        : {}),
       model: "opus",
       effort: "xhigh",
       expectedOutputs: workerOutputs,
