@@ -88,12 +88,12 @@ check("the implementation carries no destination of its own", () => {
     Object.hasOwn(NEW_JERSEY_ACROFORM_SOURCE_REQUIREMENT, "materializationDestination"),
     false
   );
-  const module = fs.readFileSync(
+  const acroformSource = fs.readFileSync(
     path.join(ROOT, "src/lib/rcap/packets/jurisdictions/new-jersey/acroform.ts"),
     "utf8"
   );
   assert.doesNotMatch(
-    module,
+    acroformSource,
     /path\.(?:join|resolve)\([^)]*requirement\.materializationDestination[^)]*\)/su,
     "the module must not resolve a pre-contract destination"
   );
