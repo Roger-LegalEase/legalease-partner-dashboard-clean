@@ -11,6 +11,17 @@ export const OFFICIAL_PDF_PROOF_DIRECTORY =
 const SHA256_PATTERN = /^[0-9a-f]{64}$/u;
 const COMMIT_PATTERN = /^[0-9a-f]{40}$/u;
 
+// A track's canonical sample is the one final assembled result the completed
+// output review reads for that track. Regression variants are additional
+// deterministic fixtures that exercise a conditional or layout branch of a
+// track that already has a canonical sample; they are retained as evidence and
+// never counted as extra legal coverage. Every positive fixture declares which
+// it is, so a proof cannot silently carry two unnamed samples for one track or
+// leave an assigned track represented only by a variant.
+export const CANONICAL_TRACK_SAMPLE = "canonical_track_sample";
+export const REGRESSION_VARIANT = "regression_variant";
+export const EXPECTED_NO_DOCUMENT_BRANCH = "expected_no_document_branch";
+
 const OFFICIAL_PDF_PROOF_SPECS = Object.freeze({
   "rcap-ak-acroform-fill": {
     kind: "acroform",
@@ -19,19 +30,22 @@ const OFFICIAL_PDF_PROOF_SPECS = Object.freeze({
         fixtureId: "ak-courtview-visible",
         trackId: "ak-courtview",
         documentId: "TF-810",
-        variant: "visible"
+        variant: "visible",
+        sampleRole: CANONICAL_TRACK_SAMPLE
       },
       {
         fixtureId: "ak-tf800-standard",
         trackId: "ak-tf800",
         documentId: "TF-800",
-        variant: "standard"
+        variant: "standard",
+        sampleRole: CANONICAL_TRACK_SAMPLE
       },
       {
         fixtureId: "ak-tf805-standard",
         trackId: "ak-tf805",
         documentId: "TF-805",
-        variant: "standard"
+        variant: "standard",
+        sampleRole: CANONICAL_TRACK_SAMPLE
       }
     ],
     noDocumentFixtures: [
@@ -61,13 +75,15 @@ const OFFICIAL_PDF_PROOF_SPECS = Object.freeze({
         fixtureId: "ct-cleanslate-petition-standard",
         trackId: "ct-cleanslate-petition",
         documentId: "JD-CR-202",
-        variant: "standard"
+        variant: "standard",
+        sampleRole: CANONICAL_TRACK_SAMPLE
       },
       {
         fixtureId: "ct-cleanslate-petition-optional-contact-blank",
         trackId: "ct-cleanslate-petition",
         documentId: "JD-CR-202",
-        variant: "optional_contact_blank"
+        variant: "optional_contact_blank",
+        sampleRole: REGRESSION_VARIANT
       }
     ],
     noDocumentFixtures: [],
@@ -94,7 +110,8 @@ const OFFICIAL_PDF_PROOF_SPECS = Object.freeze({
         trackId: "ga-nonconv-pre2013",
         documentId:
           "GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013",
-        variant: "synthetic_layout"
+        variant: "synthetic_layout",
+        sampleRole: CANONICAL_TRACK_SAMPLE
       }
     ],
     noDocumentFixtures: [],
@@ -109,6 +126,81 @@ const OFFICIAL_PDF_PROOF_SPECS = Object.freeze({
     },
     protectedSurfaceTreatment:
       "Agency, prosecutor, signature, execution, disposition, screening, and GBI-only regions remain blank or unchanged; pages 1, 3, and 4 remain raster-identical."
+  },
+  "rcap-nj-acroform-fill": {
+    kind: "acroform",
+    positiveFixtures: [
+      {
+        fixtureId: "nj-arrest-no-conviction-standard",
+        trackId: "nj_arrest_no_conviction",
+        documentId: "CN-10557",
+        variant: "standard",
+        sampleRole: CANONICAL_TRACK_SAMPLE
+      },
+      {
+        fixtureId: "nj-arrest-no-conviction-optional-blank",
+        trackId: "nj_arrest_no_conviction",
+        documentId: "CN-10557",
+        variant: "optional_contact_blank",
+        sampleRole: REGRESSION_VARIANT
+      },
+      {
+        fixtureId: "nj-clean-slate-standard",
+        trackId: "nj_clean_slate",
+        documentId: "CN-10557",
+        variant: "standard",
+        sampleRole: CANONICAL_TRACK_SAMPLE
+      },
+      {
+        fixtureId: "nj-disorderly-persons-standard",
+        trackId: "nj_disorderly_persons",
+        documentId: "CN-10557",
+        variant: "standard",
+        sampleRole: CANONICAL_TRACK_SAMPLE
+      },
+      {
+        fixtureId: "nj-indictable-conviction-standard",
+        trackId: "nj_indictable_conviction",
+        documentId: "CN-10557",
+        variant: "standard",
+        sampleRole: CANONICAL_TRACK_SAMPLE
+      },
+      {
+        fixtureId: "nj-indictable-conviction-long-name-reduction",
+        trackId: "nj_indictable_conviction",
+        documentId: "CN-10557",
+        variant: "long_name_font_reduction",
+        sampleRole: REGRESSION_VARIANT
+      },
+      {
+        fixtureId: "nj-ordinance-standard",
+        trackId: "nj_ordinance",
+        documentId: "CN-10557",
+        variant: "standard",
+        sampleRole: CANONICAL_TRACK_SAMPLE
+      }
+    ],
+    noDocumentFixtures: [],
+    positiveFixtureCount: 7,
+    renderedPageCount: 301,
+    fieldOrOverlayInventory: {
+      inventoryType: "acroform_fields",
+      totalSourceFields: 179,
+      terminalFields: 179,
+      widgetAnnotations: 269,
+      completionFields: 177,
+      actionButtonFields: 2,
+      participantSuppliedFields: 8,
+      deterministicFields: 3,
+      mappedParticipantFields: 11,
+      manualFields: 100,
+      outsidePartyFields: 3,
+      courtOnlyFields: 26,
+      prohibitedFields: 5,
+      unusedActionButtons: 34
+    },
+    protectedSurfaceTreatment:
+      "The 43-page kit is preserved whole; no page is extracted, reordered, removed, or flattened. Only participant identity and contact values are written, and appearance streams are regenerated on written fields alone, so untouched checkbox and dropdown appearances and every page carrying no mapped widget stay byte-identical to the source. The matter and addendum narratives, venue county, statutory-basis boxes, compelling-circumstances narrative, proposed-order arrest rows, monies-owed section, hearing date and time, docket number, notary block, every signature and every service-completion field remain blank for manual or outside-party completion."
   }
 });
 
@@ -185,6 +277,12 @@ export function generateOfficialPdfImplementationProof(
     fixtures,
     totals: {
       assignedTracks: job.trackIds.length,
+      canonicalTrackSamples: positiveFixtures.filter(
+        (fixture) => fixture.sampleRole === CANONICAL_TRACK_SAMPLE
+      ).length,
+      regressionVariants: positiveFixtures.filter(
+        (fixture) => fixture.sampleRole === REGRESSION_VARIANT
+      ).length,
       positiveRenderedFixtures: positiveFixtures.length,
       renderedPages: positiveFixtures.reduce(
         (total, fixture) => total + fixture.assembledPageCount,
@@ -355,6 +453,7 @@ export function verifyOfficialPdfImplementationProof(
             trackId: fixture.trackId,
             fixtureId: fixture.fixtureId,
             variant: fixture.variant,
+            sampleRole: fixture.sampleRole,
             fileName: fixture.assembledFileName,
             sha256: fixture.outputSha256,
             pageCount: fixture.assembledPageCount
@@ -425,6 +524,19 @@ function parseVerifierFixtures(job, spec, output) {
         sha256: match[4]
       });
     }
+  } else if (job.jobId === "rcap-nj-acroform-fill") {
+    for (const match of output.matchAll(
+      /^\s+(nj-\S+)\s+(nj_\S+)\s+(\d+)p\s+(\d+) mapped\s+([0-9a-f]{64})$/gmu
+    )) {
+      parsed.push({
+        fixtureId: match[1],
+        documentId: "CN-10557",
+        trackId: match[2],
+        pageCount: Number(match[3]),
+        mappedFieldCount: Number(match[4]),
+        sha256: match[5]
+      });
+    }
   } else if (job.jobId === "rcap-ga-flat-pdf-overlay") {
     for (const match of output.matchAll(
       /^\s+(ga-\S+)\s+(\d+)p\s+(\d+) regions\s+([0-9a-f]{64})$/gmu
@@ -446,6 +558,20 @@ function parseVerifierFixtures(job, spec, output) {
     throw new Error(
       `${job.jobId} focused verifier returned ${JSON.stringify(actualIds)}, expected ${JSON.stringify(expectedIds)}`
     );
+  }
+  // Where the verifier reports the track it rendered each fixture under, the
+  // spec's track binding is checked against it rather than trusted, so a
+  // fixture cannot be attributed to the wrong track's canonical sample.
+  for (const fixture of parsed) {
+    if (typeof fixture.trackId !== "string") continue;
+    const expected = spec.positiveFixtures.find(
+      (candidate) => candidate.fixtureId === fixture.fixtureId
+    );
+    if (expected && expected.trackId !== fixture.trackId) {
+      throw new Error(
+        `${job.jobId} fixture ${fixture.fixtureId} rendered under ${fixture.trackId}, expected ${expected.trackId}`
+      );
+    }
   }
   return parsed.sort((left, right) =>
     left.fixtureId.localeCompare(right.fixtureId)
@@ -469,6 +595,7 @@ function buildFixtureEvidence(job, spec, parsedFixtures) {
       sourceIdentityKeys: [...new Set(uses.map((use) => use.identityKey))].sort(),
       documentId: expected.documentId,
       variant: expected.variant,
+      sampleRole: expected.sampleRole,
       expectedOutputStatus: "rendered_pdf",
       generatedPdf: true,
       assembledFileName: `${expected.fixtureId}-${shortDocumentId(expected.documentId)}.pdf`,
@@ -493,6 +620,7 @@ function buildFixtureEvidence(job, spec, parsedFixtures) {
     sourceIdentityKeys: [],
     documentId: null,
     variant: fixture.variant,
+    sampleRole: EXPECTED_NO_DOCUMENT_BRANCH,
     expectedOutputStatus: "no_document_required",
     generatedPdf: false,
     assembledFileName: null,
@@ -674,13 +802,73 @@ function verifyFixtureEvidence(job, spec, record, failures) {
   ) {
     failures.push("fixture track coverage does not reconcile");
   }
+  verifySampleRoles(job, record, positive, noDocument, failures);
   if (
     record.totals?.assignedTracks !== job.trackIds.length ||
     record.totals?.positiveRenderedFixtures !== positive.length ||
     record.totals?.renderedPages !== spec.renderedPageCount ||
-    record.totals?.expectedNoDocumentBranches !== noDocument.length
+    record.totals?.expectedNoDocumentBranches !== noDocument.length ||
+    record.totals?.canonicalTrackSamples !==
+      positive.filter(
+        (fixture) => fixture.sampleRole === CANONICAL_TRACK_SAMPLE
+      ).length ||
+    record.totals?.regressionVariants !==
+      positive.filter((fixture) => fixture.sampleRole === REGRESSION_VARIANT)
+        .length
   ) {
     failures.push("proof totals do not reconcile");
+  }
+}
+
+// The canonical sample set is what the completed-output review reads: exactly
+// one final assembled result for each assigned track, no more and no fewer. A
+// regression variant is extra technical evidence and must hang off a track that
+// already carries a canonical sample, so retaining variants can never inflate
+// or substitute for legal track coverage.
+function verifySampleRoles(job, record, positive, noDocument, failures) {
+  const assignedTracks = [...(job.trackIds ?? [])];
+  const canonicalByTrack = new Map();
+  for (const fixture of positive) {
+    if (fixture.sampleRole === CANONICAL_TRACK_SAMPLE) {
+      const existing = canonicalByTrack.get(fixture.trackId) ?? 0;
+      canonicalByTrack.set(fixture.trackId, existing + 1);
+    } else if (fixture.sampleRole !== REGRESSION_VARIANT) {
+      failures.push(
+        `rendered fixture ${fixture.fixtureId} declares no canonical or variant sample role`
+      );
+    }
+  }
+  for (const trackId of assignedTracks) {
+    const count = canonicalByTrack.get(trackId) ?? 0;
+    if (count !== 1) {
+      failures.push(
+        `assigned track ${trackId} carries ${count} canonical final samples, expected exactly one`
+      );
+    }
+  }
+  for (const trackId of canonicalByTrack.keys()) {
+    if (!assignedTracks.includes(trackId)) {
+      failures.push(
+        `canonical sample ${trackId} is not an assigned track`
+      );
+    }
+  }
+  for (const fixture of positive) {
+    if (
+      fixture.sampleRole === REGRESSION_VARIANT &&
+      (canonicalByTrack.get(fixture.trackId) ?? 0) !== 1
+    ) {
+      failures.push(
+        `regression variant ${fixture.fixtureId} references a track with no canonical sample`
+      );
+    }
+  }
+  for (const fixture of noDocument) {
+    if (fixture.sampleRole !== EXPECTED_NO_DOCUMENT_BRANCH) {
+      failures.push(
+        `expected no-document branch ${fixture.fixtureId} declares the wrong sample role`
+      );
+    }
   }
 }
 

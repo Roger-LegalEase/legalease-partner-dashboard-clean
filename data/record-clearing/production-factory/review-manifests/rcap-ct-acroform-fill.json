@@ -24,20 +24,20 @@
     "rendererVersion": "rcap-factory-shared-layout-pdf-png/v1",
     "fixtureVersion": "rcap-factory-synthetic-fixture/v1",
     "fixedPdfMetadataDate": "2000-01-01T00:00:00.000Z",
-    "sharedLayoutSha256": "1f1a42aa76f1fcd75f895eca77fd555ff0a9df48efdf6046d978325c2f0ebe57"
+    "sharedLayoutSha256": "6cbc81cf4f6eb413a00db0839ef102ae15f55e0b38ebd9cee4081e517a5fabbb"
   },
   "packet": {
     "fileName": "synthetic-review.pdf",
     "relativePath": "artifacts/rcap-factory/reviews/rcap-ct-acroform-fill/synthetic-review.pdf",
-    "sha256": "e7d7a378344f504cb32846f125f216fa236f229a87e8de494e3dd4f084f3c08d",
-    "bytes": 3691,
+    "sha256": "1a330c2708155fcaa0e1765647e914d6324f90baceee276e06aa4a2683de32d3",
+    "bytes": 3689,
     "pageCount": 1,
     "structureClass": "flat_pdf"
   },
   "packetHashes": [
     {
       "relativePath": "artifacts/rcap-factory/reviews/rcap-ct-acroform-fill/synthetic-review.pdf",
-      "sha256": "e7d7a378344f504cb32846f125f216fa236f229a87e8de494e3dd4f084f3c08d"
+      "sha256": "1a330c2708155fcaa0e1765647e914d6324f90baceee276e06aa4a2683de32d3"
     }
   ],
   "pageCounts": {
@@ -49,8 +49,8 @@
       "page": 1,
       "fileName": "page-001.png",
       "relativePath": "artifacts/rcap-factory/reviews/rcap-ct-acroform-fill/pages/page-001.png",
-      "sha256": "a441083d9d36baf35e134b93e800fa733ccd4fadc2de2ffc007c62c761ce8c77",
-      "bytes": 6464,
+      "sha256": "161ce6704797f0c8cfec2bf8e9b49fcc1afa8c9e921b859da4052a4bf03d4639",
+      "bytes": 6433,
       "width": 612,
       "height": 792
     }
@@ -75,7 +75,7 @@
     "status": "verified",
     "sourceType": "integration_owned_official_pdf_implementation_proof",
     "sourceManifestPath": "data/record-clearing/production-factory/official-pdf-proofs/rcap-ct-acroform-fill.json",
-    "sourceManifestSha256": "e8b4fab7c5d3274a1b0900316b0ba6883af865ce13db4ad25c935a05f0816f29",
+    "sourceManifestSha256": "4cd2f7bda35f40e8fd58596b297c8e00869fd6a4e148bead407858207b17b8d9",
     "verifier": {
       "path": "scripts/verify-rcap-connecticut-acroform-fill.mjs",
       "sha256": "7eff028374537f7f0613a525b8bf373bd86a86806ed6f0f117ac09c73069aa5e",
@@ -110,6 +110,7 @@
         "trackId": "ct-cleanslate-petition",
         "fixtureId": "ct-cleanslate-petition-optional-contact-blank",
         "variant": "optional_contact_blank",
+        "sampleRole": "regression_variant",
         "fileName": "ct-cleanslate-petition-optional-contact-blank-JD-CR-202.pdf",
         "sha256": "010eda6d9417dd06674f1163fbccaf26c365b257a45491a0070750c50fc21ddf",
         "pageCount": 2
@@ -118,6 +119,7 @@
         "trackId": "ct-cleanslate-petition",
         "fixtureId": "ct-cleanslate-petition-standard",
         "variant": "standard",
+        "sampleRole": "canonical_track_sample",
         "fileName": "ct-cleanslate-petition-standard-JD-CR-202.pdf",
         "sha256": "f2e3dd07c1a22006cc820de3a86c549df5eb861c541a546cbc2af1ef3f1d6c3d",
         "pageCount": 2
@@ -135,6 +137,7 @@
         ],
         "documentId": "JD-CR-202",
         "variant": "optional_contact_blank",
+        "sampleRole": "regression_variant",
         "expectedOutputStatus": "rendered_pdf",
         "generatedPdf": true,
         "assembledFileName": "ct-cleanslate-petition-optional-contact-blank-JD-CR-202.pdf",
@@ -161,6 +164,7 @@
         ],
         "documentId": "JD-CR-202",
         "variant": "standard",
+        "sampleRole": "canonical_track_sample",
         "expectedOutputStatus": "rendered_pdf",
         "generatedPdf": true,
         "assembledFileName": "ct-cleanslate-petition-standard-JD-CR-202.pdf",
@@ -198,7 +202,7 @@
   "officialPdfImplementationProof": {
     "status": "verified",
     "sourceManifestPath": "data/record-clearing/production-factory/official-pdf-proofs/rcap-ct-acroform-fill.json",
-    "sourceManifestSha256": "e8b4fab7c5d3274a1b0900316b0ba6883af865ce13db4ad25c935a05f0816f29",
+    "sourceManifestSha256": "4cd2f7bda35f40e8fd58596b297c8e00869fd6a4e148bead407858207b17b8d9",
     "sourceReceipts": [
       {
         "sourceIdentityKey": "rcap-ct-jd-cr-202-d37887dc0b",
@@ -233,6 +237,7 @@
         ],
         "documentId": "JD-CR-202",
         "variant": "optional_contact_blank",
+        "sampleRole": "regression_variant",
         "expectedOutputStatus": "rendered_pdf",
         "generatedPdf": true,
         "assembledFileName": "ct-cleanslate-petition-optional-contact-blank-JD-CR-202.pdf",
@@ -259,6 +264,7 @@
         ],
         "documentId": "JD-CR-202",
         "variant": "standard",
+        "sampleRole": "canonical_track_sample",
         "expectedOutputStatus": "rendered_pdf",
         "generatedPdf": true,
         "assembledFileName": "ct-cleanslate-petition-standard-JD-CR-202.pdf",
@@ -296,7 +302,7 @@
       {
         "id": "deterministic-pdf",
         "status": "passed",
-        "evidence": "Two renders matched SHA-256 e7d7a378344f504cb32846f125f216fa236f229a87e8de494e3dd4f084f3c08d."
+        "evidence": "Two renders matched SHA-256 1a330c2708155fcaa0e1765647e914d6324f90baceee276e06aa4a2683de32d3."
       },
       {
         "id": "pdf-page-count",
