@@ -968,6 +968,18 @@ const COMPLETED_AUTHORITY_JOB_COMMITS = new Map([
   [
     "rcap-ks-commercial-license",
     "b0cfdae005c897083180e2d49e48059b0f495463"
+  ],
+  [
+    "rcap-co-jdf-2370-role-and-jdf-2371-mapping-correction",
+    "117e7a653e4b63999380ab7fab6afecb3635bc3a"
+  ],
+  [
+    "rcap-ma-official-download-automation-blocked",
+    "7cd0227027e29c6f2d82d4ac7b1289b5d4b7687a"
+  ],
+  [
+    "rcap-la-public-official-download",
+    "19c137d0a5ed42f0b89eb150abd3954e3cdc0f3e"
   ]
 ]);
 const NO_DOWNLOAD_AUTHORITY_FAMILIES = new Set([
@@ -2929,6 +2941,7 @@ export function buildFactoryPlan(options = {}) {
   }
 
   addAuthorityCorrectionFollowups({ addJob });
+  addIntegratedAuthorityDecisionOwners({ addJob });
 
   addJob({
     lane: "source_acquisition",
@@ -3932,7 +3945,17 @@ function addAuthorityCorrectionFollowups({ addJob }) {
       reconciliationIds: record.reconciliationIds,
       downloadedSourceCount: 0,
       dependencies: [record.dependency],
-      status: "ready",
+      // These close the same way every other authority job does: on the
+      // captain's recorded integration commit for the decision record, not on
+      // the file merely existing.
+      status: COMPLETED_AUTHORITY_JOB_COMMITS.has(record.jobId)
+        ? "completed"
+        : "ready",
+      ...(COMPLETED_AUTHORITY_JOB_COMMITS.has(record.jobId)
+        ? {
+            completionCommit: COMPLETED_AUTHORITY_JOB_COMMITS.get(record.jobId)
+          }
+        : {}),
       expectedOutputs: [
         `${FACTORY_DATA_DIR}/source-acquisition/${record.jobId}.json`
       ],
@@ -3952,6 +3975,267 @@ function addAuthorityCorrectionFollowups({ addJob }) {
         TERMINAL_INSTRUCTION
     });
   }
+}
+
+/**
+ * Owners created by the integrated Colorado, Massachusetts and Louisiana
+ * authority decisions.
+ *
+ * Each decision established an exact answer and stopped at a boundary it was
+ * barred from crossing. What it handed back needs a named owner, or the
+ * question is not open — it is lost. None of these jobs may acquire, license,
+ * materialize or render anything; each resolves one question.
+ */
+function addIntegratedAuthorityDecisionOwners({ addJob }) {
+  // --- Colorado --------------------------------------------------------
+  //
+  // The decision confirmed JDF 2371's identity and bytes but recorded the
+  // licence as unresolved and outside its assignment. Public availability of
+  // the JDF series is not permission to reproduce it in a paid packet, and no
+  // Colorado licence owner exists anywhere in the plan.
+  addJob({
+    lane: "source_acquisition",
+    jurisdiction: "CO",
+    jobId: "rcap-co-jdf-family-commercial-license",
+    strategyFamily: "commercial_license",
+    reconciliationIds: ["license:CO:JDF-FAMILY:commercial-use"],
+    downloadedSourceCount: 0,
+    dependencies: ["rcap-co-jdf-2370-role-and-jdf-2371-mapping-correction"],
+    status: "ready",
+    expectedOutputs: [
+      `${FACTORY_DATA_DIR}/source-acquisition/rcap-co-jdf-family-commercial-license.json`
+    ],
+    requiredInputs: [
+      `${FACTORY_DATA_DIR}/source-acquisition/rcap-co-jdf-2370-role-and-jdf-2371-mapping-correction.json`,
+      FACTORY_INPUT_PATHS.authority,
+      FACTORY_INPUT_PATHS.acquisitionDocuments
+    ],
+    model: "opus",
+    effort: "xhigh",
+    commitSubject:
+      "docs(record-clearing): determine the Colorado JDF commercial licence",
+    stopCondition:
+      "Determine whether LegalEase may reproduce Colorado Judicial Department forms — JDF 2370, " +
+      "2371 and 2374 — inside a paid participant packet, and on what terms. Establish the " +
+      "publisher's licensing and commercial-use terms from the issuer's own statement. " +
+      "Public download availability is not permission and may not be treated as a licence. " +
+      "Record an exact terminal disposition: permitted, permitted subject to conditions, " +
+      "prohibited, or unresolved with the exact question outstanding. " +
+      "Do not download a binary, materialize a source, write a receipt, mutate Edition 1.2, " +
+      "publish an edition, implement a renderer, enable runtime, promote, or deploy. " +
+      TERMINAL_INSTRUCTION
+  });
+
+  // The bytes are retained by the adopted edition, but no receipt exists and
+  // the identity is absent from the materialized source root. Materialization
+  // is gated on the licence: an unresolved licence is not permission to
+  // reproduce, so this stays blocked rather than ready.
+  addJob({
+    lane: "source_acquisition",
+    jurisdiction: "CO",
+    jobId: "rcap-co-jdf-2371-source-materialization",
+    strategyFamily: "source_identity_resolution",
+    reconciliationIds: ["materialization:CO:JDF-2371:motion"],
+    downloadedSourceCount: 0,
+    dependencies: [
+      "rcap-co-jdf-2370-role-and-jdf-2371-mapping-correction",
+      "rcap-co-jdf-family-commercial-license"
+    ],
+    status: "blocked",
+    expectedOutputs: [
+      `${FACTORY_DATA_DIR}/source-acquisition/rcap-co-jdf-2371-source-materialization.json`
+    ],
+    requiredInputs: [
+      `${FACTORY_DATA_DIR}/source-acquisition/rcap-co-jdf-2370-role-and-jdf-2371-mapping-correction.json`,
+      FACTORY_INPUT_PATHS.authority,
+      OFFICIAL_PDF_SOURCE_PROJECTION_PATH
+    ],
+    model: "codex",
+    effort: "xhigh",
+    commitSubject:
+      "chore(record-clearing): materialize the Colorado JDF-2371 motion",
+    stopCondition:
+      "Materialize CO:JDF-2371:MOTION:EN through the portable authority archive only, at the " +
+      "pinned identity: 669287 bytes, sha256 " +
+      "642558b85e3f3df8c15808369685bbe56398523c7794b6a949d20fd7b4f8b6d6, revision REV-2025-07-01, " +
+      "statewide scope, role MOTION. On materialization, measure and record the page count, the " +
+      "terminal-field names and the widget count, which have never been measured; a field or " +
+      "ownership map must key on re-inspected terminal field names, never on the logical field " +
+      "count 51. Do not record an unmeasured value as zero. " +
+      "Do not proceed while the Colorado licence is unresolved, do not copy from the private " +
+      "corpus, do not materialize from a repository-only capture, do not alter the bytes, and do " +
+      "not enable runtime, promote, or deploy. " +
+      TERMINAL_INSTRUCTION
+  });
+
+  // --- Massachusetts ---------------------------------------------------
+  //
+  // Five distinct documents, each needing a human in a browser because
+  // www.mass.gov returns HTTP 403 to every automated request on the assigned
+  // endpoints. The Part A box-4 row is deliberately absent: the decision found
+  // it is not a distinct document and is satisfied by its sibling acquisition,
+  // so a second job for it would invent a document.
+  const massachusettsAttendedRetrievals = [
+    {
+      slug: "100k-petition-for-expungement",
+      acquisitionId: "acquire:MA:petition-for-expungement-g-l-c-276-100k",
+      document: "the G.L. c. 276 s. 100K petition for expungement"
+    },
+    {
+      slug: "tc0021",
+      acquisitionId: "acquire:MA:tc0021",
+      document: "TC0021"
+    },
+    {
+      slug: "tc0057",
+      acquisitionId: "acquire:MA:tc0057",
+      document:
+        "TC0057, whose revision is unresolved between Rev. 3/24, TC0057 (2/24) and REV-UNKNOWN"
+    },
+    {
+      slug: "ocp-petition-to-seal",
+      acquisitionId:
+        "acquire:MA:petition-to-seal-office-of-the-commissioner-of-probation",
+      document:
+        "the Office of the Commissioner of Probation petition to seal, including its Part A box-4 selection, which is part of this document and not a separate one"
+    },
+    {
+      slug: "mps-petition-to-expunge",
+      acquisitionId: "acquire:MA:massachusetts-probation-service-petition-to-expunge",
+      document:
+        "the Massachusetts Probation Service petition to expunge, served through the Trial Court's interactive XFA form host"
+    }
+  ];
+  for (const retrieval of massachusettsAttendedRetrievals) {
+    addJob({
+      lane: "source_acquisition",
+      jurisdiction: "MA",
+      jobId: `rcap-ma-attended-retrieval-${retrieval.slug}`,
+      strategyFamily: "official_download_automation_blocked",
+      // The acquisition row itself stays owned by the completed decision that
+      // dispositioned it. Re-declaring it here would make one acquisition map
+      // to two jobs; this job owns the retrieval, not the row.
+      reconciliationIds: [`retrieval:MA:${retrieval.slug}`],
+      downloadedSourceCount: 0,
+      dependencies: ["rcap-ma-official-download-automation-blocked"],
+      status: "ready",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/source-acquisition/rcap-ma-attended-retrieval-${retrieval.slug}.json`
+      ],
+      requiredInputs: [
+        `${FACTORY_DATA_DIR}/source-acquisition/rcap-ma-official-download-automation-blocked.json`,
+        FACTORY_INPUT_PATHS.authority,
+        FACTORY_INPUT_PATHS.acquisitionDocuments
+      ],
+      model: "codex",
+      effort: "xhigh",
+      commitSubject:
+        `chore(record-clearing): retrieve MA ${retrieval.slug} under attended access`,
+      stopCondition:
+        `Obtain ${retrieval.document} by attended human-in-browser retrieval from the ` +
+        "Commonwealth's own official index at " +
+        "https://www.mass.gov/lists/court-forms-for-criminal-records, and record the retrieved " +
+        "byte count, SHA-256, MIME type, page count, encryption, XFA presence, structural class " +
+        "and the revision block read from the form face. " +
+        "The HTTP 403 is an automation block, not evidence the document does not exist. Do not " +
+        "evade the block, do not spoof an agent, and do not retrieve through any route the issuer " +
+        "does not offer. Do not substitute a held or commercial copy for current official bytes: " +
+        "the retained Massachusetts Probation Service copy is a legacy artifact, is not current " +
+        "materialization evidence and is not eligible for a receipt. " +
+        "Do not stamp an index revision onto held bytes, mutate Edition 1.2, publish an edition, " +
+        "choose a renderer, enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  // The repository contradicts itself about TC0021: a measured registry row
+  // says clean AcroForm, 29 fields, xfa false, while free text on the same
+  // record and the Edition 1.2 manifest say XFA. PROB0002 being confirmed XFA
+  // settles nothing about TC0021, and resolving one by analogy to the other is
+  // exactly the error to avoid.
+  addJob({
+    lane: "source_acquisition",
+    jurisdiction: "MA",
+    jobId: "rcap-ma-tc0021-source-structure-resolution",
+    strategyFamily: "source_identity_resolution",
+    reconciliationIds: ["structure:MA:TC0021:acroform-or-xfa"],
+    downloadedSourceCount: 0,
+    dependencies: [
+      "rcap-ma-official-download-automation-blocked",
+      "rcap-ma-attended-retrieval-tc0021"
+    ],
+    status: "blocked",
+    expectedOutputs: [
+      `${FACTORY_DATA_DIR}/source-acquisition/rcap-ma-tc0021-source-structure-resolution.json`
+    ],
+    requiredInputs: [
+      `${FACTORY_DATA_DIR}/source-acquisition/rcap-ma-official-download-automation-blocked.json`,
+      FACTORY_INPUT_PATHS.authority,
+      FACTORY_INPUT_PATHS.sourceArtifacts
+    ],
+    model: "codex",
+    effort: "xhigh",
+    commitSubject:
+      "docs(record-clearing): resolve the MA TC0021 form structure",
+    stopCondition:
+      "Determine from the retrieved TC0021 binary itself whether it is a clean AcroForm or an XFA " +
+      "form, and state which of the repository's two contradicting statements is wrong: the " +
+      "measured source-artifact row reading clean_acroform / 29 fields / xfa=false, or the free " +
+      "text on the same record and the Edition 1.2 manifest row reading XFA. Record the terminal " +
+      "field names, the widget count and the structural class as measured. " +
+      "Do not resolve this by analogy to PROB0002, whose XFA structure is confirmed and says " +
+      "nothing about TC0021, and do not treat the mass.gov Acrobat Reader warning as proof. Do " +
+      "not choose a renderer, enable runtime, promote, or deploy. " +
+      TERMINAL_INSTRUCTION
+  });
+
+  // --- Louisiana -------------------------------------------------------
+  //
+  // The queue expected a PDF and the lane was set to flat_pdf_overlay on that
+  // expectation. The issuer publishes no PDF: Law.aspx and LawPrint.aspx return
+  // text/html. A lane cannot stay ready on a source that does not exist, and
+  // inventing an HTML renderer here would be worse than leaving it open.
+  addJob({
+    lane: "source_acquisition",
+    jurisdiction: "LA",
+    jobId:
+      "rcap-la-arts-993-995-998-html-source-output-strategy-adjudication",
+    strategyFamily: "not_required_design_reconciliation",
+    reconciliationIds: ["lane:LA:ARTS-993-995-998:html-output-strategy"],
+    downloadedSourceCount: 0,
+    dependencies: ["rcap-la-public-official-download"],
+    status: "ready",
+    expectedOutputs: [
+      `${FACTORY_DATA_DIR}/source-acquisition/rcap-la-arts-993-995-998-html-source-output-strategy-adjudication.json`
+    ],
+    requiredInputs: [
+      `${FACTORY_DATA_DIR}/source-acquisition/rcap-la-public-official-download.json`,
+      "data/record-clearing/legal-design-intake/LA.memo.json",
+      FACTORY_INPUT_PATHS.authority,
+      FACTORY_INPUT_PATHS.sourceRelationships,
+      OFFICIAL_PDF_SOURCE_PROJECTION_PATH
+    ],
+    model: "opus",
+    effort: "xhigh",
+    commitSubject:
+      "docs(record-clearing): adjudicate the Louisiana HTML source output strategy",
+    stopCondition:
+      "Decide the output strategy for C.Cr.P. arts. 993, 995 and 998, which the Louisiana " +
+      "Legislature publishes only as HTML statutory text. Choose exactly one expressly supported " +
+      "strategy: a controlled custom pleading generated from the statewide statutory text; a " +
+      "supported official HTML-to-document treatment the current factory already recognises; or " +
+      "another strategy this repository expressly supports. " +
+      "Preserve art. 986 statewide exclusivity, which permits only the court-name variation, and " +
+      "prohibit the local Louisiana Supreme Court city or parish packet as a statewide " +
+      "substitute. Preserve art. 993 as one statutory sheet with three Yes/No sections; the " +
+      "packet's three-variant split is a rendering convention of a non-mandatory packet and is " +
+      "the wrong denominator. Identify every affected track and component, and the source and " +
+      "renderer implications of the chosen strategy. " +
+      "Do not invent an unsupported HTML renderer, do not create a PDF receipt for an HTML-only " +
+      "source, do not treat the capture date SOURCE-2026-07-31 as an issuer revision, do not " +
+      "publish an edition, and keep runtime disabled. " +
+      TERMINAL_INSTRUCTION
+  });
 }
 
 function addCompletedGuidanceChildren({ addJob }) {

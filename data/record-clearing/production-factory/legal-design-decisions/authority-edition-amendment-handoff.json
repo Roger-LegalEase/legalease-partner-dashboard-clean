@@ -786,5 +786,80 @@
     }
   ],
   "runtimeEffect": "none",
-  "productionEffect": "none"
+  "productionEffect": "none",
+  "amendmentHandoffItems": [
+    {
+      "item": "Massachusetts official-source URL correction",
+      "jurisdiction": "MA",
+      "manifestRow": "MA official-source index URL recorded in the Edition 1.2 manifest",
+      "kind": "metadata_correction",
+      "from": "https://www.mass.gov/lists/criminal-record-sealing-and-expungement-forms",
+      "to": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+      "establishedBy": "rcap-ma-official-download-automation-blocked",
+      "requiresNewBytes": false,
+      "requiresRevisionCorrection": false,
+      "note": "Metadata only. No source bytes are supplied by this decision and none are claimed: the five Massachusetts documents still owe an attended retrieval, and no revision may be stamped onto held bytes before one happens."
+    },
+    {
+      "item": "Revision identity correction, LA-CCRP-ART-993",
+      "jurisdiction": "LA",
+      "manifestRow": "LA:LA-CCRP-ART-993:FORM:EN",
+      "kind": "revision_correction",
+      "from": "SOURCE-2026-07-31",
+      "to": "ACTS-2020-73",
+      "establishedBy": "rcap-la-public-official-download",
+      "requiresNewBytes": false,
+      "note": "SOURCE-2026-07-31 is a capture date, not an issuer revision. Acts 2020, No. 73, s.1, read first-hand from legis.la.gov on 2026-08-07."
+    },
+    {
+      "item": "Revision identity correction, LA-CCRP-ART-995",
+      "jurisdiction": "LA",
+      "manifestRow": "LA:LA-CCRP-ART-995:ORDER:EN",
+      "kind": "revision_correction",
+      "from": "SOURCE-2026-07-31",
+      "to": "ACTS-2014-145",
+      "establishedBy": "rcap-la-public-official-download",
+      "requiresNewBytes": false,
+      "note": "Acts 2014, No. 145, s.1, read first-hand from legis.la.gov on 2026-08-07."
+    },
+    {
+      "item": "Revision identity correction, LA-CCRP-ART-998",
+      "jurisdiction": "LA",
+      "manifestRow": "LA:LA-CCRP-ART-998:MOTION:EN",
+      "kind": "revision_correction",
+      "from": "SOURCE-2026-07-31",
+      "to": "ACTS-2023-342",
+      "establishedBy": "rcap-la-public-official-download",
+      "requiresNewBytes": false,
+      "note": "Acts 2023, No. 342, s.1, read first-hand from legis.la.gov on 2026-08-07 and corroborated by the same act as the most recent amendment in the art. 986 credit line."
+    },
+    {
+      "item": "Official title fields for Louisiana arts. 993, 995 and 998",
+      "jurisdiction": "LA",
+      "manifestRows": [
+        "LA:LA-CCRP-ART-993:FORM:EN",
+        "LA:LA-CCRP-ART-995:ORDER:EN",
+        "LA:LA-CCRP-ART-998:MOTION:EN"
+      ],
+      "kind": "metadata_correction",
+      "establishedBy": "rcap-la-public-official-download",
+      "requiresNewBytes": false,
+      "note": "Each row carries the form-face caption in the officialTitle field; the statutory heading is the official title."
+    },
+    {
+      "item": "Asset-class correction for Louisiana arts. 993, 995 and 998",
+      "jurisdiction": "LA",
+      "manifestRows": [
+        "LA:LA-CCRP-ART-993:FORM:EN",
+        "LA:LA-CCRP-ART-995:ORDER:EN",
+        "LA:LA-CCRP-ART-998:MOTION:EN"
+      ],
+      "kind": "asset_class_correction",
+      "establishedBy": "rcap-la-public-official-download",
+      "requiresNewBytes": "conditional",
+      "note": "The issuer publishes these three articles as text/html, not as PDF binaries; Law.aspx and LawPrint.aspx return text/html. Reconciling the source_gated PDF rows against the sibling packet_form HTML convention is an edition composition decision. Whether a retained HTML representation requires new bytes is left to the edition-publication owner and is not decided here; the article text retrieved by the decision worker was written to temporary storage for verification only and is expressly not offered for adoption."
+    }
+  ],
+  "amendmentHandoffItemCount": 6,
+  "amendmentHandoffNote": "Corrections established by completed authority decisions and owed to the successor edition. The Colorado JDF role-and-mapping decision contributes no amendment item: it found the adopted Edition 1.2 rows already correct, and the defect was repository-side component mapping and a heuristic scope flag, neither of which is edition content. These items are recorded for Edition 1.3; no edition was published."
 }

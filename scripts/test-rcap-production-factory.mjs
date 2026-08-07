@@ -92,8 +92,13 @@ import {
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(SCRIPT_DIR, "..");
 const EXPECTED_BASE = "8df94fbaa66c06bf0ba677ee4f5fb417ad08cdc8";
+// Advanced to the commit that carries the authorized Colorado JDF 2371 scope
+// correction, which is the only protected-path change between the previous
+// base and this one. The guard still refuses any later change to a protected
+// path; it does not refuse a correction an integrated authority decision
+// established and a captain commit recorded.
 const AUTHORIZED_INTEGRATED_CONTENT_BASE =
-  "2b82ffeeb3c22c8e1e9afa3258b624b3fd142920";
+  "2b33655e41f9d894a1cd7ed81cb2adf862eac778";
 const results = [];
 const failures = [];
 
