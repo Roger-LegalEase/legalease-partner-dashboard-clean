@@ -1,0 +1,239 @@
+{
+  "schemaVersion": "rcap-factory-review-manifest/v1",
+  "jobId": "rcap-wi-custom-pleading",
+  "lane": "custom_pleading",
+  "jurisdiction": "WI",
+  "trackIds": [
+    "wi_exp_certificate_of_discharge_followup"
+  ],
+  "strategyFamily": "custom_pleading",
+  "baseCommit": "69b215d3673600b18ead7422699eb4e6636de6fe",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "generatedAt": "2026-08-07T19:23:20Z",
+  "syntheticData": true,
+  "filingUseAllowed": false,
+  "correctionRequired": false,
+  "outstandingCorrections": [],
+  "provenance": {
+    "workerBranch": "rcap-factory/rcap-wi-custom-pleading-e5a9d38e-7dc4fef6",
+    "workerCommit": "0120a3213552dc307788fd6026b130241aa91db8",
+    "captainIntegrationCommit": "69b215d3673600b18ead7422699eb4e6636de6fe",
+    "normalizedLegalDesign": {
+      "memoPath": "data/record-clearing/legal-design-intake/WI.memo.json",
+      "memoSha256": "028ac578608bf73db912e355a18824d2100a2e3e8052d9ef3040d437dbf08c28",
+      "memoVersion": "1.0.0"
+    },
+    "unresolvedReleaseQuestionCount": 1,
+    "unresolvedReleaseQuestions": [
+      {
+        "trackId": "wi_exp_certificate_of_discharge_followup",
+        "affectedElement": "participant_instructions",
+        "question": "What recourse does a participant have where the supervising or detaining authority does not respond to the request, or declines to issue the certificate of discharge that § 973.015(1m)(b) says it shall issue? The statute sets no deadline for issuance or forwarding and identifies no remedy, so the packet can ask but cannot say what follows a refusal."
+      }
+    ],
+    "technicalInspectionState": "worker_technical_evidence_only",
+    "formalVisualReview": "pending",
+    "completedOutputLegalReview": "pending"
+  },
+  "artifactTracking": {
+    "generatedAssetsTracked": false,
+    "artifactDirectory": "artifacts/rcap-factory/reviews/rcap-wi-custom-pleading",
+    "reviewManifestTracked": true,
+    "reviewManifestPath": "data/record-clearing/production-factory/review-manifests/rcap-wi-custom-pleading.json",
+    "note": "Generated PDFs and PNGs are reproducible and ignored. This JSON manifest is the tracked proof record."
+  },
+  "reproducibility": {
+    "rendererVersion": "rcap-factory-shared-layout-pdf-png/v1",
+    "fixtureVersion": "rcap-factory-synthetic-fixture/v1",
+    "fixedPdfMetadataDate": "2000-01-01T00:00:00.000Z",
+    "sharedLayoutSha256": "61de8d124de514db6c609a3faeeed822a1e4ffdd34fdf299355695e4176725c6"
+  },
+  "packet": {
+    "fileName": "synthetic-review.pdf",
+    "relativePath": "artifacts/rcap-factory/reviews/rcap-wi-custom-pleading/synthetic-review.pdf",
+    "sha256": "c7faa3f685a27cada9aab1dd24c664f52760865c2ec722a3de69a153f2605668",
+    "bytes": 3707,
+    "pageCount": 1,
+    "structureClass": "flat_pdf"
+  },
+  "packetHashes": [
+    {
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-wi-custom-pleading/synthetic-review.pdf",
+      "sha256": "c7faa3f685a27cada9aab1dd24c664f52760865c2ec722a3de69a153f2605668"
+    }
+  ],
+  "pageCounts": {
+    "packet": 1,
+    "renderedImages": 1
+  },
+  "renderedPages": [
+    {
+      "page": 1,
+      "fileName": "page-001.png",
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-wi-custom-pleading/pages/page-001.png",
+      "sha256": "6d55f101adb92d1e5a126ce7486ac895e8bb502c3d96167500963d1767d60861",
+      "bytes": 6621,
+      "width": 612,
+      "height": 792
+    }
+  ],
+  "implementationOutputs": [
+    {
+      "relativePath": "src/lib/rcap/packets/jurisdictions/wisconsin/custom-pleading.ts",
+      "exists": true,
+      "kind": "file",
+      "bytes": 42300,
+      "sha256": "2cfc68eff96ded56228722d55a8ba74236d9b20fbf8acd6c840c0e1c73480e9a"
+    },
+    {
+      "relativePath": "scripts/verify-rcap-wisconsin-custom-pleading.mjs",
+      "exists": true,
+      "kind": "file",
+      "bytes": 47598,
+      "sha256": "6de858e2fa5235063812e45726cabce2558be301bb7d1d4269b34632bb392a60"
+    }
+  ],
+  "participantPacketProof": {
+    "status": "verified",
+    "sourceType": "integration_owned_factory_packet_proof",
+    "sourceManifestPath": "data/record-clearing/production-factory/packet-proofs/rcap-wi-custom-pleading.json",
+    "sourceManifestSha256": "71f28193ca77bc11e9f8f277fc256293bb77b0c1ffaaae1ae5ff37a6f18d14ee",
+    "verifier": {
+      "path": "scripts/verify-rcap-wisconsin-custom-pleading.mjs",
+      "sha256": "6de858e2fa5235063812e45726cabce2558be301bb7d1d4269b34632bb392a60",
+      "result": "passed"
+    },
+    "implementationOutputs": [
+      {
+        "path": "src/lib/rcap/packets/jurisdictions/wisconsin/custom-pleading.ts",
+        "sha256": "2cfc68eff96ded56228722d55a8ba74236d9b20fbf8acd6c840c0e1c73480e9a"
+      },
+      {
+        "path": "scripts/verify-rcap-wisconsin-custom-pleading.mjs",
+        "sha256": "6de858e2fa5235063812e45726cabce2558be301bb7d1d4269b34632bb392a60"
+      }
+    ],
+    "finalPdfCount": 1,
+    "assembledPageCount": 4,
+    "packets": [
+      {
+        "trackId": "wi_exp_certificate_of_discharge_followup",
+        "sampleRole": "canonical",
+        "fileName": "wi-certificate-request-positive-1-technical-fixture.pdf",
+        "sha256": "459b024f9b0107fa7530db8d44003f8b70bb3b996e50b26d57076d39dd52c7d4",
+        "pageCount": 4
+      }
+    ],
+    "deterministic": true,
+    "runtimeStatus": "runtime_disabled",
+    "visualProof": "pending",
+    "counselAdopted": false,
+    "productionEnabled": false,
+    "verified": true
+  },
+  "officialPdfImplementationProof": {
+    "status": "not_applicable",
+    "verified": null
+  },
+  "technicalChecklist": {
+    "status": "passed",
+    "items": [
+      {
+        "id": "synthetic-data-only",
+        "status": "passed",
+        "evidence": "Packet labels every value synthetic and not for filing."
+      },
+      {
+        "id": "focused-worker-validation",
+        "status": "passed",
+        "evidence": "2 focused command(s); 0 failure(s)."
+      },
+      {
+        "id": "deterministic-pdf",
+        "status": "passed",
+        "evidence": "Two renders matched SHA-256 c7faa3f685a27cada9aab1dd24c664f52760865c2ec722a3de69a153f2605668."
+      },
+      {
+        "id": "pdf-page-count",
+        "status": "passed",
+        "evidence": "1 page(s) inspected from generated bytes."
+      },
+      {
+        "id": "deterministic-page-images",
+        "status": "passed",
+        "evidence": "1 PNG render(s) reproduced byte-for-byte."
+      },
+      {
+        "id": "expected-output-hashes",
+        "status": "passed",
+        "evidence": "2 of 2 expected outputs hashed."
+      },
+      {
+        "id": "participant-packet-proof",
+        "status": "passed",
+        "evidence": "1 final participant PDF hash(es), 4 total page(s), reconciled from data/record-clearing/production-factory/packet-proofs/rcap-wi-custom-pleading.json."
+      }
+    ]
+  },
+  "visualChecklist": {
+    "status": "pending",
+    "items": [
+      {
+        "id": "visual-01",
+        "label": "Confirm every page is legible at normal zoom.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-02",
+        "label": "Confirm no text is clipped, overlapped, or outside page bounds.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-03",
+        "label": "Confirm page order and track labels match the assigned job.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-04",
+        "label": "Confirm checkbox, radio, overlay, and signature placement when applicable.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-05",
+        "label": "Confirm participant and third-party fields are visually distinguishable.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-06",
+        "label": "Record reviewer name, date, defects, and disposition; generation itself grants no approval.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      }
+    ]
+  },
+  "technicalProofPassed": true,
+  "visualProofPassed": false,
+  "legalRecommendationComplete": false,
+  "counselAdopted": false,
+  "runtimeStatus": "runtime_disabled",
+  "stagingPassed": false,
+  "productionEnabled": false
+}

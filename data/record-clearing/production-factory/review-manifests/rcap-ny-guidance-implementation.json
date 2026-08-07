@@ -1,0 +1,331 @@
+{
+  "schemaVersion": "rcap-factory-review-manifest/v1",
+  "jobId": "rcap-ny-guidance-implementation",
+  "lane": "guidance_implementation",
+  "jurisdiction": "NY",
+  "trackIds": [
+    "ny_160_50_nonconviction",
+    "ny_clean_slate_convictions",
+    "ny_clean_slate_dwai",
+    "ny_clean_slate_manual_review"
+  ],
+  "strategyFamily": "process_guidance",
+  "baseCommit": "69b215d3673600b18ead7422699eb4e6636de6fe",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "generatedAt": "2026-08-07T19:23:20Z",
+  "syntheticData": true,
+  "filingUseAllowed": false,
+  "correctionRequired": false,
+  "outstandingCorrections": [],
+  "provenance": {
+    "workerBranch": "rcap-factory/rcap-ny-guidance-implementation-f88576f0-60d051c3",
+    "workerCommit": "ab900aa61ed9ae9fe96925cfc9168025bb775e5d",
+    "captainIntegrationCommit": "69b215d3673600b18ead7422699eb4e6636de6fe",
+    "normalizedLegalDesign": {
+      "memoPath": "data/record-clearing/legal-design-intake/NY.memo.json",
+      "memoSha256": "28ccada5d1b5fa1dff73d6a44f4ec7e7521b46272317852f17c653550c9cc7b6",
+      "memoVersion": "1.0.0"
+    },
+    "unresolvedReleaseQuestionCount": 10,
+    "unresolvedReleaseQuestions": [
+      {
+        "trackId": "ny_160_50_nonconviction",
+        "affectedElement": "participant_instructions",
+        "question": "The remedy where sealing did not occur."
+      },
+      {
+        "trackId": "ny_160_50_nonconviction",
+        "affectedElement": "eligibility_branch",
+        "question": "Whether a vacated conviction seals automatically or requires a court direction."
+      },
+      {
+        "trackId": "ny_clean_slate_convictions",
+        "affectedElement": "participant_instructions",
+        "question": "How a person verifies Clean Slate status in practice, and whether the DCJS Record Review shows sealed status clearly. This decides whether the verification step the whole track rests on actually answers the participant's question."
+      },
+      {
+        "trackId": "ny_clean_slate_convictions",
+        "affectedElement": "eligibility_branch",
+        "question": "The status of Assembly Bill A10951, which would broaden the supervision prohibitor from \"for the conviction eligible for sealing\" to any probation or parole supervision, and would add conditions requiring that all other criminal convictions on the same docket also be eligible before any is sealed. As of 2026-08-06 it is in the Assembly Codes Committee, last action a referral to codes on April 14, 2026, and is not enacted. This is a standing monitor rather than a one-time answer, because enactment would narrow eligibility for participants currently screened as eligible."
+      },
+      {
+        "trackId": "ny_clean_slate_convictions",
+        "affectedElement": "eligibility_branch",
+        "question": "Whether CPL § 160.57 carries a life-sentence exclusion. The review and the internal reference both state that a person who received a life sentence is ineligible, and the section as read at the New York State Senate's published-statutes channel on 2026-08-06 did not surface an explicit life-sentence exclusion. The screen is written to exclude life sentences because that is what counsel recorded, and the point is returned for confirmation rather than resolved against counsel on a single reading."
+      },
+      {
+        "trackId": "ny_clean_slate_convictions",
+        "affectedElement": "waiting_period",
+        "question": "Whether the three-year misdemeanour clock and the eight-year felony clock interact where a person has both."
+      },
+      {
+        "trackId": "ny_clean_slate_dwai",
+        "affectedElement": "governing_mechanism",
+        "question": "How this interacts with CPL § 160.55 sealing for traffic infractions, given that a VTL § 1192(1) conviction is a traffic infraction with its own three-year rule here."
+      },
+      {
+        "trackId": "ny_clean_slate_dwai",
+        "affectedElement": "waiting_period",
+        "question": "What event starts the three-year period under CPL § 160.57(1)(a). The paragraph as read on 2026-08-06 states the period without naming the triggering event, unlike paragraph (b), which names release from incarceration or imposition of sentence."
+      },
+      {
+        "trackId": "ny_clean_slate_dwai",
+        "affectedElement": "eligibility_branch",
+        "question": "Whether the CPL § 160.57(1)(b) conditions on pending charges, supervision status, sex offences and class A felonies apply to the paragraph (a) DWAI route. The section was read at the New York State Senate's published-statutes channel on 2026-08-06: paragraph (a) states the three-year rule in a single sentence and does not on its face carry the paragraph (b) conditions."
+      },
+      {
+        "trackId": "ny_clean_slate_manual_review",
+        "affectedElement": "filing_process",
+        "question": "Whether any interim mechanism exists for an overdue Clean Slate sealing before the form is published. New York Courts states the form will be published no later than November 16, 2027 and publishes no interim procedure."
+      }
+    ],
+    "technicalInspectionState": "worker_technical_evidence_only",
+    "formalVisualReview": "pending",
+    "completedOutputLegalReview": "pending"
+  },
+  "artifactTracking": {
+    "generatedAssetsTracked": false,
+    "artifactDirectory": "artifacts/rcap-factory/reviews/rcap-ny-guidance-implementation",
+    "reviewManifestTracked": true,
+    "reviewManifestPath": "data/record-clearing/production-factory/review-manifests/rcap-ny-guidance-implementation.json",
+    "note": "Generated PDFs and PNGs are reproducible and ignored. This JSON manifest is the tracked proof record."
+  },
+  "reproducibility": {
+    "rendererVersion": "rcap-factory-shared-layout-pdf-png/v1",
+    "fixtureVersion": "rcap-factory-synthetic-fixture/v1",
+    "fixedPdfMetadataDate": "2000-01-01T00:00:00.000Z",
+    "sharedLayoutSha256": "bdc7ff601d30f5269a4099894d5fe59f8d38cfb643c8108ff090a01a98938363"
+  },
+  "packet": {
+    "fileName": "synthetic-review.pdf",
+    "relativePath": "artifacts/rcap-factory/reviews/rcap-ny-guidance-implementation/synthetic-review.pdf",
+    "sha256": "2d473e4358176d2495204169ab2c91054bcacc4a844d8004ecfb8a5c634e8eba",
+    "bytes": 9755,
+    "pageCount": 4,
+    "structureClass": "flat_pdf"
+  },
+  "packetHashes": [
+    {
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-ny-guidance-implementation/synthetic-review.pdf",
+      "sha256": "2d473e4358176d2495204169ab2c91054bcacc4a844d8004ecfb8a5c634e8eba"
+    }
+  ],
+  "pageCounts": {
+    "packet": 4,
+    "renderedImages": 4
+  },
+  "renderedPages": [
+    {
+      "page": 1,
+      "fileName": "page-001.png",
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-ny-guidance-implementation/pages/page-001.png",
+      "sha256": "2982b09db1450cf4ffbcf0584c2524a372417623edae9f3d6c57e4285c1925b8",
+      "bytes": 6644,
+      "width": 612,
+      "height": 792
+    },
+    {
+      "page": 2,
+      "fileName": "page-002.png",
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-ny-guidance-implementation/pages/page-002.png",
+      "sha256": "43d1388c584ff76ba7bac01f1155d8b3ec89d725353d26705faf9a7002f798d0",
+      "bytes": 6668,
+      "width": 612,
+      "height": 792
+    },
+    {
+      "page": 3,
+      "fileName": "page-003.png",
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-ny-guidance-implementation/pages/page-003.png",
+      "sha256": "80751e79051a70b47fdbc51995fc1288c59a26e06b060acc971aed7f8fbca991",
+      "bytes": 6602,
+      "width": 612,
+      "height": 792
+    },
+    {
+      "page": 4,
+      "fileName": "page-004.png",
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-ny-guidance-implementation/pages/page-004.png",
+      "sha256": "a9485c91547cab0633ee1224a6921eab0a3aa57e0d2b100281cdc25d8cc4befa",
+      "bytes": 6679,
+      "width": 612,
+      "height": 792
+    }
+  ],
+  "implementationOutputs": [
+    {
+      "relativePath": "src/lib/rcap/packets/jurisdictions/new-york/guidance.ts",
+      "exists": true,
+      "kind": "file",
+      "bytes": 125655,
+      "sha256": "ad784de7e6ce6f50aee837e9fbdce50eaf37285be74107ecda139b49123780a9"
+    },
+    {
+      "relativePath": "scripts/verify-rcap-new-york-guidance-implementation.mjs",
+      "exists": true,
+      "kind": "file",
+      "bytes": 38217,
+      "sha256": "75341f7e556e681713b08e90f0fee0ae39dc179b2e6ce2cd22612a14a6afc071"
+    }
+  ],
+  "participantPacketProof": {
+    "status": "verified",
+    "sourceType": "integration_owned_factory_packet_proof",
+    "sourceManifestPath": "data/record-clearing/production-factory/packet-proofs/rcap-ny-guidance-implementation.json",
+    "sourceManifestSha256": "8dd89c2cde83ddec9a3ae560941e8dfb8b1817e2714bb737182ffca4bbf289a5",
+    "verifier": {
+      "path": "scripts/verify-rcap-new-york-guidance-implementation.mjs",
+      "sha256": "75341f7e556e681713b08e90f0fee0ae39dc179b2e6ce2cd22612a14a6afc071",
+      "result": "passed"
+    },
+    "implementationOutputs": [
+      {
+        "path": "src/lib/rcap/packets/jurisdictions/new-york/guidance.ts",
+        "sha256": "ad784de7e6ce6f50aee837e9fbdce50eaf37285be74107ecda139b49123780a9"
+      },
+      {
+        "path": "scripts/verify-rcap-new-york-guidance-implementation.mjs",
+        "sha256": "75341f7e556e681713b08e90f0fee0ae39dc179b2e6ce2cd22612a14a6afc071"
+      }
+    ],
+    "finalPdfCount": 4,
+    "assembledPageCount": 55,
+    "packets": [
+      {
+        "trackId": "ny_160_50_nonconviction",
+        "fileName": "ny_160_50_nonconviction-technical-fixture.pdf",
+        "sha256": "e02bf756e64330e7a447aa4e14248bd44adbd5e0582e3cbf87f28e159e4e91fa",
+        "pageCount": 12
+      },
+      {
+        "trackId": "ny_clean_slate_convictions",
+        "fileName": "ny_clean_slate_convictions-technical-fixture.pdf",
+        "sha256": "4cfe0e38eba96fb436b9b7c644a8b60e73de89045b01d0c254488e94a5c7253f",
+        "pageCount": 19
+      },
+      {
+        "trackId": "ny_clean_slate_dwai",
+        "fileName": "ny_clean_slate_dwai-technical-fixture.pdf",
+        "sha256": "e436f4149ce1b804681bdd1c23b0a1824f378fe57d5608210f16adf25394b06e",
+        "pageCount": 12
+      },
+      {
+        "trackId": "ny_clean_slate_manual_review",
+        "fileName": "ny_clean_slate_manual_review-technical-fixture.pdf",
+        "sha256": "f099ec42dec2686ea1034153525c06cb3d130414ce06950eb35901db8b0d6c8e",
+        "pageCount": 12
+      }
+    ],
+    "deterministic": true,
+    "runtimeStatus": "runtime_disabled",
+    "visualProof": "pending",
+    "counselAdopted": false,
+    "productionEnabled": false,
+    "verified": true
+  },
+  "officialPdfImplementationProof": {
+    "status": "not_applicable",
+    "verified": null
+  },
+  "technicalChecklist": {
+    "status": "passed",
+    "items": [
+      {
+        "id": "synthetic-data-only",
+        "status": "passed",
+        "evidence": "Packet labels every value synthetic and not for filing."
+      },
+      {
+        "id": "focused-worker-validation",
+        "status": "passed",
+        "evidence": "2 focused command(s); 0 failure(s)."
+      },
+      {
+        "id": "deterministic-pdf",
+        "status": "passed",
+        "evidence": "Two renders matched SHA-256 2d473e4358176d2495204169ab2c91054bcacc4a844d8004ecfb8a5c634e8eba."
+      },
+      {
+        "id": "pdf-page-count",
+        "status": "passed",
+        "evidence": "4 page(s) inspected from generated bytes."
+      },
+      {
+        "id": "deterministic-page-images",
+        "status": "passed",
+        "evidence": "4 PNG render(s) reproduced byte-for-byte."
+      },
+      {
+        "id": "expected-output-hashes",
+        "status": "passed",
+        "evidence": "2 of 2 expected outputs hashed."
+      },
+      {
+        "id": "participant-packet-proof",
+        "status": "passed",
+        "evidence": "4 final participant PDF hash(es), 55 total page(s), reconciled from data/record-clearing/production-factory/packet-proofs/rcap-ny-guidance-implementation.json."
+      }
+    ]
+  },
+  "visualChecklist": {
+    "status": "pending",
+    "items": [
+      {
+        "id": "visual-01",
+        "label": "Confirm every page is legible at normal zoom.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-02",
+        "label": "Confirm no text is clipped, overlapped, or outside page bounds.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-03",
+        "label": "Confirm page order and track labels match the assigned job.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-04",
+        "label": "Confirm checkbox, radio, overlay, and signature placement when applicable.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-05",
+        "label": "Confirm participant and third-party fields are visually distinguishable.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-06",
+        "label": "Record reviewer name, date, defects, and disposition; generation itself grants no approval.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      }
+    ]
+  },
+  "technicalProofPassed": true,
+  "visualProofPassed": false,
+  "legalRecommendationComplete": false,
+  "counselAdopted": false,
+  "runtimeStatus": "runtime_disabled",
+  "stagingPassed": false,
+  "productionEnabled": false
+}

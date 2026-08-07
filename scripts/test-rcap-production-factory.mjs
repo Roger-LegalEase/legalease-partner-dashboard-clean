@@ -654,7 +654,7 @@ await check("all normalized tracks reconcile exactly once and completed tranches
     reconciliation.representedExactlyOnce,
     normalizedTrackCount
   );
-  assert.equal(reconciliation.implementationComplete, 171);
+  assert.equal(reconciliation.implementationComplete, 181);
   assert.equal(
     reconciliation.pendingProductionJob,
     normalizedTrackCount - reconciliation.implementationComplete
@@ -3525,7 +3525,7 @@ await check("completed guidance packet proofs are exact and review-consumable", 
       entry.lane === "guidance_implementation" &&
       entry.participantPacketProofRequired === true
   );
-  assert.equal(completedGuidance.length, 30);
+  assert.equal(completedGuidance.length, 31);
   for (const job of completedGuidance) {
     const proofPath =
       `data/record-clearing/production-factory/packet-proofs/${job.jobId}.json`;
@@ -3798,8 +3798,8 @@ await check("dashboard reports all 51 and preserves the red launch posture", () 
   assert.equal(status.totals.jurisdictions, 51);
   assert.equal(status.totals.tracks, normalizedRegistry.trackCount);
   assert.equal(status.totals.normalized, normalizedRegistry.trackCount);
-  assert.equal(status.totals.implementationComplete, 121);
-  assert.equal(status.totals.technicalProofPassed, 121);
+  assert.equal(status.totals.implementationComplete, 131);
+  assert.equal(status.totals.technicalProofPassed, 131);
   assert.equal(status.totals.visualProofPassed, 17);
   assert.equal(status.totals.legalRecommendationComplete, 19);
   assert.equal(status.totals.counselAdopted, 15);

@@ -872,6 +872,29 @@ const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
     ]
   },
   {
+    jurisdiction: "NY",
+    workerBranch:
+      "rcap-factory/rcap-ny-guidance-implementation-f88576f0-60d051c3",
+    workerCommit: "ab900aa61ed9ae9fe96925cfc9168025bb775e5d",
+    completionCommit: "69b215d3673600b18ead7422699eb4e6636de6fe",
+    modulePath: "src/lib/rcap/packets/jurisdictions/new-york/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-new-york-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    // Also a valid completion preceding its SESSION_C reservation, which moved
+    // the fingerprint from 60d051c3 to 1fa58117 and changed nothing else.
+    completionProvenance: "valid_completion_preceding_coordination_claim",
+    preClaimAssignmentFingerprint:
+      "60d051c3d1a4b3a09a4bd42b76b2b1efb28c30a5c1a45ba7a6d5aa0d5c4d43f5",
+    coordinationClaimCommit: "0f856532d40eef7528f1657da70ef825e6476fee",
+    trackIds: [
+      "ny_160_50_nonconviction",
+      "ny_clean_slate_convictions",
+      "ny_clean_slate_dwai",
+      "ny_clean_slate_manual_review"
+    ]
+  },
+  {
     jurisdiction: "WV",
     workerBranch:
       "rcap-factory/rcap-wv-guidance-implementation-fd54452a-0c4ab20f",
@@ -3711,6 +3734,35 @@ const COMPLETED_CUSTOM_PLEADING_IMPLEMENTATIONS = Object.freeze([
     modulePath:
       "src/lib/rcap/packets/jurisdictions/south-carolina/custom-pleading.ts",
     verifierPath: "scripts/verify-rcap-south-carolina-custom-pleading.mjs"
+  },
+  {
+    jurisdiction: "ND",
+    workerBranch: "rcap-factory/rcap-nd-custom-pleading-8e2164b3-eefc48ea",
+    workerCommit: "9e4e4099c43a1276958f83fd31f0f4bf95d937a2",
+    completionCommit: "69b215d3673600b18ead7422699eb4e6636de6fe",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/north-dakota/custom-pleading.ts",
+    verifierPath: "scripts/verify-rcap-north-dakota-custom-pleading.mjs",
+    // The worker finished before the captain reserved the job for SESSION_B
+    // while freezing the next wave. That reservation moved the branch
+    // fingerprint from eefc48ea to 936d912d and nothing else: tracks,
+    // components, owned paths, expected outputs, commit subject, legal-design
+    // inputs and renderer interfaces were byte-identical across the change.
+    // The completion is valid on its pre-claim branch and the branch is left
+    // exactly as the worker pushed it.
+    completionProvenance: "valid_completion_preceding_coordination_claim",
+    preClaimAssignmentFingerprint:
+      "eefc48eaa4a862b932db555664559b28a7c8af7da9eda901f004bf2a092d0ca4",
+    coordinationClaimCommit: "0f856532d40eef7528f1657da70ef825e6476fee"
+  },
+  {
+    jurisdiction: "WI",
+    workerBranch: "rcap-factory/rcap-wi-custom-pleading-e5a9d38e-7dc4fef6",
+    workerCommit: "0120a3213552dc307788fd6026b130241aa91db8",
+    completionCommit: "69b215d3673600b18ead7422699eb4e6636de6fe",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/wisconsin/custom-pleading.ts",
+    verifierPath: "scripts/verify-rcap-wisconsin-custom-pleading.mjs"
   }
 ]);
 
@@ -3733,7 +3785,10 @@ const COMPLETED_OUTPUT_REVIEW_ASSIGNMENTS = Object.freeze([
   "rcap-sc-custom-pleading",
   "rcap-nh-guidance-implementation",
   "rcap-oh-guidance-implementation",
-  "rcap-wv-guidance-implementation"
+  "rcap-wv-guidance-implementation",
+  "rcap-nd-custom-pleading",
+  "rcap-wi-custom-pleading",
+  "rcap-ny-guidance-implementation"
 ]);
 
 // The deliverable-identity question South Carolina's custom-pleading job waits
