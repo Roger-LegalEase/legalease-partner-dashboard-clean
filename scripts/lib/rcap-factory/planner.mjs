@@ -151,6 +151,12 @@ const TN_AMENDED_MEMO_SHA256 =
   "dfd8a621910fca5ed2fb57c2fc97784dc41699a57cf46d272946b8b6a64f1f48";
 const TN_INTEGRATED_MEMO_SHA256 =
   "a1c91f3d17115d87879905066b4f2b9732e717cbcdc6b063ec83502aa54f20e8";
+const SC_SOLICITOR_DELIVERABLE_DECISION_ID =
+  "sc-solicitor-route-participant-deliverable-resolution";
+const SC_SOLICITOR_DELIVERABLE_MEMO_CORRECTION_JOB_ID =
+  "rcap-sc-solicitor-deliverable-memo-correction";
+const SC_INTEGRATED_MEMO_SHA256 =
+  "1cb55c352a0ec365439dac7b1bacbeb154466d55d976c53d537dd25f654a5e64";
 const VT_600_00228_IDENTITY_COMMIT =
   "4d882023c10b9520facda87acad1c147937c7f65";
 const VT_600_00228_DECISION_SHA256 =
@@ -2042,6 +2048,75 @@ export function buildFactoryPlan(options = {}) {
     });
   }
 
+  if (integratedNormalizations.has("SC")) {
+    // The custom-pleading implementation stopped correctly: all eleven
+    // solicitor-office tracks still carry unresolvedQuestions[0] as a
+    // release_blocker on output_strategy, asking whether LegalEase may pre-fill
+    // the prescribed order form. The adopted normalization already answered it
+    // — it set custom_pleading on all eleven precisely because that is what
+    // LegalEase may unambiguously generate — so what is stale is the memo's
+    // record of the question, not the answer. The memo is worker-owned, so it
+    // gets its own worker. This job owns exactly one path.
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "SC",
+      jobId: "rcap-sc-solicitor-deliverable-memo-correction",
+      strategyFamily: "legal_design_normalization_amendment",
+      trackIds: [],
+      dependencies: ["rcap-sc-legal-design-normalization"],
+      status: "ready",
+      expectedOutputs: ["data/record-clearing/legal-design-intake/SC.memo.json"],
+      ownedPaths: ["data/record-clearing/legal-design-intake/SC.memo.json"],
+      requiredInputs: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/${SC_SOLICITOR_DELIVERABLE_DECISION_ID}.json`,
+        "data/record-clearing/legal-design-intake/SC.memo.json",
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.packetSetManifests
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job rcap-sc-solicitor-deliverable-memo-correction",
+        "node scripts/verify-rcap-legal-design-intake.mjs"
+      ],
+      commitSubject:
+        "feat(record-clearing): correct the South Carolina solicitor deliverable",
+      executionNote:
+        "Read the controlling decision record at " +
+        `${FACTORY_DATA_DIR}/legal-design-decisions/` +
+        `${SC_SOLICITOR_DELIVERABLE_DECISION_ID}.json in full. The memo you are amending is at ` +
+        `sha256 ${SC_INTEGRATED_MEMO_SHA256}. The stale artifact is unresolvedQuestions[0] on ` +
+        "each of the eleven solicitor tracks, carrying impact release_blocker, affectedElement " +
+        "output_strategy and classificationBasis counsel_confirmation_required. The other two " +
+        "questions on those tracks are unrelated and stay.",
+      stopCondition:
+        "Apply the adopted solicitor-route deliverable determination to SC.memo.json and nothing " +
+        "else. On each of the eleven solicitor tracks — sc_17_1_40_general_sessions, " +
+        "sc_17_1_65_handgun, sc_22_5_910, sc_22_5_920_yoa, sc_22_5_930_drug, sc_34_11_90e_check, " +
+        "sc_56_5_750f, sc_aep, sc_conditional_discharge_44_53_450, sc_pti_17_22_150 and sc_tep " +
+        "— remove the resolved document-identity question and replace it with the adopted " +
+        "treatment: the participant deliverable is a controlled application or request package " +
+        "directed to the solicitor's office; LegalEase does not generate or portray the " +
+        "solicitor's statutory expungement order as the participant's filing; SCCA 223A1 and " +
+        "analogous prescribed order instruments remain solicitor and court documents; solicitor, " +
+        "attestor and court fields remain outside-party work; and the solicitor's office obtains " +
+        "and completes the required blank order form. " +
+        "Preserve every unrelated South Carolina rule, including the single-incident fee question " +
+        "under section 17-22-940(G) and the H.3730 and H.428 standing monitor, both of which stay " +
+        "exactly as they are. Preserve SCCA 223E as official_pdf_fill on the unfingerprinted " +
+        "section 17-22-950(B) branch of sc_17_22_950_summary and do not extend it to any " +
+        "solicitor route. Preserve all twelve tracks, every source slot, and every solicitor, " +
+        "court and outside-party boundary. Do not invent a participant-facing official form, do " +
+        "not assert a new counsel approval, and do not change any output strategy. " +
+        "Own only SC.memo.json: do not touch the decision record, a shared registry, a source " +
+        "receipt, an authority record, the queue or projection, a blocker ledger, a factory plan, " +
+        "a runtime file, a migration or a deployment file. Keep every route runtime-disabled and " +
+        "packet_ready false. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
   if (integratedNormalizations.has("NJ")) {
     // New Jersey's automated Clean Slate process does not yet exist. The
     // participant petition is the current route and is not held back by a system
@@ -3184,6 +3259,35 @@ function implementationJobOverrides(lane, jurisdiction) {
         "stops. No document here is presented as an official form. Visual proof and hash-bound " +
         "counsel adoption remain separate; runtime stays disabled. Do not scaffold, execute, " +
         "regenerate, enable, promote, or deploy this job."
+    };
+  }
+  if (lane === "custom_pleading" && jurisdiction === "SC") {
+    // Scaffolding this job while the memo still asks whether LegalEase may
+    // pre-fill the prescribed order form would hand a worker eleven tracks
+    // whose deliverable identity reads as undecided, which is exactly why the
+    // first attempt stopped without a commit. It stays dependency-incomplete
+    // until the corrected memo and the regenerated specifications carry zero
+    // unresolved deliverable-identity questions.
+    return {
+      status: "blocked",
+      dependencies: [SC_SOLICITOR_DELIVERABLE_MEMO_CORRECTION_JOB_ID],
+      model: "opus",
+      effort: "xhigh",
+      executionNote:
+        "Do not scaffold or execute until " +
+        `${SC_SOLICITOR_DELIVERABLE_MEMO_CORRECTION_JOB_ID} is complete. The controlling ` +
+        "determination is recorded at " +
+        `${FACTORY_DATA_DIR}/legal-design-decisions/` +
+        `${SC_SOLICITOR_DELIVERABLE_DECISION_ID}.json; the memo has not yet been corrected ` +
+        "against it.",
+      stopCondition:
+        "Blocked on the solicitor-deliverable memo correction. All eleven assigned tracks still " +
+        "carry a release_blocker question on output_strategy asking whether LegalEase may " +
+        "pre-fill the prescribed expungement order form. The answer is recorded and is no; the " +
+        "memo has not yet been corrected to say so. Do not scaffold, do not create an " +
+        "implementation branch, do not resolve the question inside an implementation, and do not " +
+        "enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
     };
   }
   if (lane === "custom_pleading" && jurisdiction === "IL") {

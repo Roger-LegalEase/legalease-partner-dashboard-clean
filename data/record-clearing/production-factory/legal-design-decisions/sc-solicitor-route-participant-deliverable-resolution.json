@@ -1,0 +1,203 @@
+{
+  "schemaVersion": 1,
+  "specificationId": "sc-solicitor-route-participant-deliverable-resolution",
+  "jobId": "rcap-sc-legal-design-normalization",
+  "jurisdiction": "SC",
+  "jurisdictionName": "South Carolina",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "preparedOn": "2026-08-07",
+  "preparer": "captain integration, recording a determination already made in the adopted South Carolina normalization",
+  "recordedBy": "Session A captain integration",
+  "baseCommit": "5752e01e50f5be96e3c8dc58bc4af9c1d52ff124",
+
+  "whatThisDocumentIs": "The canonical record of what LegalEase may generate on South Carolina's eleven solicitor-office expungement routes. It settles nothing new. The adopted South Carolina normalization already read §§ 17-22-930, 17-22-940 and 17-22-950 at source and already recorded custom_pleading as the output strategy for all eleven routes precisely because that is what LegalEase may unambiguously generate. The memo nonetheless still carries the question as an open release blocker on every one of those tracks, which is why the custom-pleading implementation stopped. This record states the determination in one place so the memo can be corrected against it and the implementation can proceed. It amends no memo, creates no source receipt, regenerates no registry, implements nothing, and asserts no new counsel approval.",
+
+  "whyThisIsNotANewApproval": "The determination is the adopted normalization's own. The memo's _officialAuthorityConfirmation records the three controlling sections as read at source on 2026-08-06; its track objects already set outputStrategy to custom_pleading on all eleven routes; and its own reasoning states that custom_pleading 'is what LegalEase may unambiguously generate' and that the participant is referred to the official form obtained from the solicitor. What survived was the counsel-confirmation phrasing of the question, not a live disagreement about the answer. Recording it is a correction of the record, not a fresh legal adoption, and no counsel adoption is asserted here or anywhere downstream by it.",
+
+  "controllingStatutes": [
+    {
+      "citation": "S.C. Code § 17-22-930",
+      "readAtSource": "2026-08-06",
+      "operativeText": "A person applying to expunge a criminal record 'shall obtain the appropriate blank expungement order form from the solicitor's office in the judicial circuit where the charge originated', and 'the use of this form is mandatory and to the exclusion of all other expungement forms'.",
+      "effect": "The blank order form is obtained from the solicitor's office. It is not a document the participant sources, and no substitute instrument may stand in its place."
+    },
+    {
+      "citation": "S.C. Code § 17-22-940(B)(1)",
+      "readAtSource": "2026-08-06",
+      "operativeText": "Assisting the applicant in completing the expungement form is the solicitor's office's own duty.",
+      "effect": "Completion of the statutory order form is assigned by statute to the solicitor's office. A generator that pre-filled it would be performing an office's statutory duty from outside it."
+    },
+    {
+      "citation": "S.C. Code § 17-22-940(E)(3)",
+      "readAtSource": "2026-08-06",
+      "operativeText": "No official may allow the applicant to take possession of the application during the process.",
+      "effect": "The applicant is not to hold the in-process application at all, which forecloses a workflow in which LegalEase hands the participant a completed statutory instrument to carry."
+    },
+    {
+      "citation": "S.C. Code § 17-22-950(B) and (G)",
+      "readAtSource": "2026-08-06",
+      "operativeText": "Where the accused person was not fingerprinted, the person may apply to the summary court at no cost for an expungement order, on a form provided by the Office of Court Administration.",
+      "effect": "This is the one South Carolina branch on which a published official form is the participant's own application. It is not a solicitor route and is not governed by the determination below."
+    }
+  ],
+
+  "formRoles": [
+    {
+      "formId": "SCCA 223A1",
+      "title": "General Sessions expungement order",
+      "revision": "Revised 04/2026",
+      "sha256": "3c3daacf4c246fe5f33f09b971948c489e1343076b5d0ddc47babf9a12cf15b7",
+      "role": "solicitor_and_court_instrument",
+      "participantFacing": false,
+      "legalEaseMayGenerate": false,
+      "legalEaseMayPrefill": false,
+      "treatment": "The prescribed order instrument. Obtained blank from the solicitor's office, completed with that office's assistance, and signed by the court. LegalEase neither generates it nor portrays any generated document as it."
+    },
+    {
+      "formId": "SCCA 223C",
+      "title": "§ 17-1-65 destruction order",
+      "revision": "06/2024",
+      "sha256": "9a5d822bc98a5c774b4de6b45d6a5d161214d178f53bef560bddd46fc2972d29",
+      "role": "solicitor_and_court_instrument",
+      "participantFacing": false,
+      "legalEaseMayGenerate": false,
+      "legalEaseMayPrefill": false,
+      "treatment": "A § 17-1-65 instrument, not a general-purpose General Sessions destruction order. Same outside-party treatment as SCCA 223A1."
+    },
+    {
+      "formId": "SCCA 223D1",
+      "title": "Transmittal of an agency objection under § 17-22-950(F)",
+      "sha256": "988ad4b5f6054d1b47a459358fb409ac4c76b09f281b6a12650ff173f0158776",
+      "role": "summary_court_instrument",
+      "participantFacing": false,
+      "legalEaseMayGenerate": false,
+      "legalEaseMayPrefill": false,
+      "treatment": "Completed by the summary court judge. Where an objection is transmitted, a General Sessions judge decides and self-help ends."
+    },
+    {
+      "formId": "SCCA 223E",
+      "title": "Application for Expungement Pursuant to § 17-22-950(B)",
+      "sha256": "668b70b0b3c2cd4c0354d0ed63711110d23633f73d507a9f67c051828b7bbad8",
+      "role": "participant_completed_official_application",
+      "participantFacing": true,
+      "legalEaseMayGenerate": true,
+      "legalEaseMayPrefill": true,
+      "outputStrategy": "official_pdf_fill",
+      "treatment": "The single participant-facing official form in South Carolina, and only on the qualifying unfingerprinted § 17-22-950(B) branch of the summary-court route. Every field on it is a participant-supplied fact. It is signed by the defendant. This exception is preserved exactly and is not extended to any solicitor route."
+    }
+  ],
+
+  "determination": {
+    "scope": "the eleven solicitor-office routes",
+    "participantDeliverable": "a controlled application or request package directed to the solicitor's office",
+    "outputStrategy": "custom_pleading",
+    "rules": [
+      "The participant deliverable is a controlled application or request package directed to the solicitor's office.",
+      "LegalEase does not generate the solicitor's statutory expungement order, and does not portray any document it generates as the participant's filing of that order.",
+      "SCCA 223A1 and analogous prescribed order instruments remain solicitor and court documents.",
+      "Solicitor, attestor and court fields remain outside-party work and are never populated.",
+      "The solicitor's office obtains and completes the required blank order form.",
+      "No participant-facing official form is invented for any of the eleven solicitor routes.",
+      "SCCA 223E remains the participant-facing official application only on the qualifying unfingerprinted § 17-22-950(B) branch.",
+      "Runtime stays disabled and no route is enabled by this record."
+    ],
+    "participantPackageMayContain": [
+      "participant identifiers",
+      "participant-supplied case facts",
+      "controlled eligibility information",
+      "instructions",
+      "the required supporting-item checklist",
+      "the solicitor-office destination"
+    ],
+    "participantPackageMayNotContain": [
+      "the prescribed statutory expungement order, filled or blank",
+      "any solicitor, attestor, prosecutor or court finding",
+      "any signature, attestation or disposition belonging to an outside party",
+      "an assertion that the solicitor's office has acted, agreed, attested or approved",
+      "a substitute instrument presented as an official South Carolina form"
+    ]
+  },
+
+  "affectedTracks": {
+    "count": 11,
+    "trackIds": [
+      "sc_17_1_40_general_sessions",
+      "sc_17_1_65_handgun",
+      "sc_22_5_910",
+      "sc_22_5_920_yoa",
+      "sc_22_5_930_drug",
+      "sc_34_11_90e_check",
+      "sc_56_5_750f",
+      "sc_aep",
+      "sc_conditional_discharge_44_53_450",
+      "sc_pti_17_22_150",
+      "sc_tep"
+    ],
+    "outputStrategyOnEach": "custom_pleading",
+    "unaffectedTrack": {
+      "trackId": "sc_17_22_950_summary",
+      "outputStrategy": "composed",
+      "note": "The summary-court route. Its unfingerprinted branch carries SCCA 223E as official_pdf_fill and its fingerprinted branch requires nothing of the participant at all. It is not a solicitor route and this determination does not reach it."
+    }
+  },
+
+  "outsidePartyInstruments": [
+    "the prescribed blank expungement order form obtained from the solicitor's office",
+    "SCCA 223A1",
+    "SCCA 223C",
+    "SCCA 223D1",
+    "every attestation required by § 17-22-940(D), by the circuit pretrial intervention director, alcohol education programme director, traffic education programme director, South Carolina Youth Challenge Academy director or summary court judge",
+    "the court's signature and disposition"
+  ],
+
+  "questionsThisDoesNotResolve": [
+    {
+      "question": "The single-incident solicitor fee. § 17-22-940(G) as amended by 2018 Act No. 254 sets two hundred fifty dollars where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a); the controlling review reports one hundred fifty dollars.",
+      "impact": "release_blocker",
+      "affectedElement": "filing_process",
+      "treatment": "Preserved unchanged on every track that carries it. This record does not touch it."
+    },
+    {
+      "question": "Status of H.3730 and H.428 of the 2025-2026 session.",
+      "impact": "nonblocking_research_note",
+      "affectedElement": "governing_mechanism",
+      "treatment": "Preserved unchanged as a standing monitor."
+    }
+  ],
+
+  "adoptionProvenance": {
+    "adoptedIn": "the completed South Carolina legal-design normalization",
+    "normalizationJobId": "rcap-sc-legal-design-normalization",
+    "memoPath": "data/record-clearing/legal-design-intake/SC.memo.json",
+    "memoSha256AtRecording": "1cb55c352a0ec365439dac7b1bacbeb154466d55d976c53d537dd25f654a5e64",
+    "statutesReadAtSource": "2026-08-06",
+    "formsRetrievedAndHashed": "2026-08-06",
+    "newCounselApprovalRequired": false,
+    "newCounselApprovalAsserted": false,
+    "counselAdopted": false
+  },
+
+  "correctionRequired": {
+    "jobId": "rcap-sc-solicitor-deliverable-memo-correction",
+    "ownedPath": "data/record-clearing/legal-design-intake/SC.memo.json",
+    "staleArtifact": "unresolvedQuestions[0] on each of the eleven solicitor tracks, impact release_blocker, affectedElement output_strategy, classificationBasis counsel_confirmation_required",
+    "requiredChange": "Replace the open deliverable-identity question with the adopted participant-package treatment recorded here.",
+    "mustPreserve": [
+      "every unrelated South Carolina rule",
+      "the single-incident fee question on every track that carries it",
+      "the H.3730 and H.428 standing monitor",
+      "SCCA 223E as official_pdf_fill on the § 17-22-950(B) unfingerprinted branch",
+      "every solicitor, court and outside-party boundary",
+      "the twelve-track structure and every source slot"
+    ]
+  },
+
+  "runtimeEffect": {
+    "runtimeStatus": "runtime_disabled",
+    "packetReady": false,
+    "productionEnabled": false,
+    "routeEnabled": false,
+    "implementationBranchCreated": false
+  }
+}
