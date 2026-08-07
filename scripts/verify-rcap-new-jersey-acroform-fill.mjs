@@ -185,6 +185,13 @@ note(
 // 2. Source identity, receipt and projection ---------------------------------
 
 const requirement = nj.NEW_JERSEY_ACROFORM_SOURCE_REQUIREMENT;
+// The implementation no longer carries a destination of its own. Where the
+// source sits is read from the committed receipt through the same resolver the
+// renderer uses, so this verifier proves the contract is what locates the
+// binary rather than proving a constant agrees with itself.
+const contractDestination = nj.resolveNewJerseyAcroformDestination({
+  repositoryRoot: ROOT
+});
 const receipt = readJson(RECEIPT_PATH);
 const projection = JSON.parse(projectionBytes.toString("utf8"));
 const projected = projection.identities.find(
@@ -218,7 +225,7 @@ ok(
     projected?.exactSourceContract?.expectedMime ===
       requirement.expectedMediaType &&
     projected?.exactSourceContract?.materializationDestination ===
-      requirement.materializationDestination,
+      contractDestination,
   "The projected exact source contract differs from this implementation."
 );
 sameMembers(
@@ -256,7 +263,7 @@ ok(
     receipt.expectedBytes === requirement.expectedBytes &&
     receipt.actualBytes === requirement.expectedBytes &&
     receipt.expectedMediaType === requirement.expectedMediaType &&
-    receipt.materializationDestination === requirement.materializationDestination,
+    receipt.materializationDestination === contractDestination,
   "The New Jersey source receipt identity differs from this implementation."
 );
 ok(
@@ -336,7 +343,7 @@ note(
 
 // 4. Field inventory and ownership -------------------------------------------
 
-const sourcePath = materializedSourcePath(requirement.materializationDestination);
+const sourcePath = materializedSourcePath(contractDestination);
 const sourceBefore = {
   sha256: sha256(fs.readFileSync(sourcePath)),
   bytes: fs.statSync(sourcePath).size,

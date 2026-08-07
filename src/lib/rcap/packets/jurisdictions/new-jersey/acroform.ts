@@ -186,9 +186,19 @@ export type NewJerseySourceRequirement = Readonly<{
   structuralClass: "clean_acroform";
   encrypted: false;
   xfa: false;
-  materializationDestination: string;
 }>;
 
+/**
+ * What this implementation asserts about its source — never where to find it.
+ *
+ * The identity, hash, byte count, page count and field accounting are pinned
+ * here because they are what the implementation was built against and what a
+ * reviewer checks. The location is deliberately absent: a module that carries
+ * its own destination string resolves a path the source contract has not
+ * agreed to, and would keep resolving it after the captain moved the source.
+ * The destination is read from the committed receipt for this identity, and
+ * the receipt has to agree with every value below before a byte is read.
+ */
 export const NEW_JERSEY_ACROFORM_SOURCE_REQUIREMENT: NewJerseySourceRequirement =
   Object.freeze({
     sourceIdentityKey: "rcap-nj-cn-10557-814e1397cd",
@@ -206,10 +216,70 @@ export const NEW_JERSEY_ACROFORM_SOURCE_REQUIREMENT: NewJerseySourceRequirement 
     expectedActionButtonCount: 2,
     structuralClass: "clean_acroform",
     encrypted: false,
-    xfa: false,
-    materializationDestination:
-      "official-pdf/NJ/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf"
+    xfa: false
   });
+
+export const NEW_JERSEY_ACROFORM_RECEIPT_PATH =
+  "data/record-clearing/production-factory/source-materialization-receipts/" +
+  "rcap-nj-cn-10557-814e1397cd.json";
+
+/**
+ * Resolve the source location from the captain-committed receipt.
+ *
+ * The receipt is the portable source contract: it names the identity, the
+ * bytes, the hash and the destination the captain actually materialized. A
+ * receipt that does not bind this exact identity, or that disagrees with the
+ * pinned identity above, is refused rather than reconciled — an implementation
+ * has no standing to decide which of two conflicting contracts is right.
+ */
+export function resolveNewJerseyAcroformDestination(input: {
+  repositoryRoot?: string;
+}): string {
+  const repositoryRoot = path.resolve(input.repositoryRoot ?? process.cwd());
+  const receiptPath = path.resolve(
+    repositoryRoot,
+    ...NEW_JERSEY_ACROFORM_RECEIPT_PATH.split("/")
+  );
+  let receipt: Record<string, unknown>;
+  try {
+    receipt = JSON.parse(fs.readFileSync(receiptPath, "utf8")) as Record<
+      string,
+      unknown
+    >;
+  } catch {
+    throw new NewJerseyAcroformError(
+      "source_contract_missing",
+      "The New Jersey source receipt is absent; no destination may be assumed.",
+      { sourceIdentityKey: NEW_JERSEY_ACROFORM_SOURCE_REQUIREMENT.sourceIdentityKey }
+    );
+  }
+  const requirement = NEW_JERSEY_ACROFORM_SOURCE_REQUIREMENT;
+  const provenance = receipt.provenance as
+    | Readonly<Record<string, unknown>>
+    | undefined;
+  const destination = receipt.materializationDestination;
+  if (
+    provenance?.sourceIdentityKey !== requirement.sourceIdentityKey ||
+    receipt.documentId !== requirement.documentId ||
+    receipt.documentRole !== requirement.documentRole ||
+    receipt.expectedSha256 !== requirement.expectedSha256 ||
+    receipt.actualSha256 !== requirement.expectedSha256 ||
+    receipt.expectedBytes !== requirement.expectedBytes ||
+    receipt.actualBytes !== requirement.expectedBytes ||
+    receipt.expectedMediaType !== requirement.expectedMediaType ||
+    receipt.ready !== true ||
+    receipt.workerReady !== true ||
+    typeof destination !== "string" ||
+    destination.length === 0
+  ) {
+    throw new NewJerseyAcroformError(
+      "source_contract_mismatch",
+      "The New Jersey source receipt does not bind this exact assigned identity.",
+      { sourceIdentityKey: requirement.sourceIdentityKey }
+    );
+  }
+  return destination;
+}
 
 /**
  * Field names the kit reuses for semantically distinct blanks. The source PDF
@@ -3159,6 +3229,8 @@ export class NewJerseyAcroformError extends Error {
       | "missing_required_input"
       | "protected_field_modified"
       | "protected_input"
+      | "source_contract_mismatch"
+      | "source_contract_missing"
       | "source_hash_mismatch"
       | "source_media_type_mismatch"
       | "source_missing"
@@ -3513,6 +3585,7 @@ function assertSealedBoundary(root: string, destination: string): void {
 
 export async function verifyNewJerseyAcroformSource(input: {
   materializationRoot: string;
+  repositoryRoot?: string;
 }): Promise<
   Readonly<{
     absolutePath: string;
@@ -3524,10 +3597,10 @@ export async function verifyNewJerseyAcroformSource(input: {
 > {
   const requirement = NEW_JERSEY_ACROFORM_SOURCE_REQUIREMENT;
   const root = path.resolve(input.materializationRoot);
-  const absolutePath = path.resolve(
-    root,
-    ...requirement.materializationDestination.split("/")
-  );
+  const contractDestination = resolveNewJerseyAcroformDestination({
+    repositoryRoot: input.repositoryRoot
+  });
+  const absolutePath = path.resolve(root, ...contractDestination.split("/"));
   const relative = path.relative(root, absolutePath);
   if (
     relative === "" ||
