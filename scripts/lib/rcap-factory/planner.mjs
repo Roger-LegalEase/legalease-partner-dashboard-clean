@@ -4147,6 +4147,49 @@ function implementationJobOverrides(lane, jurisdiction, inputs, rootDir) {
         TERMINAL_INSTRUCTION
     };
   }
+  // Hawaii's custom-pleading lane owns the stage-one filing made in the
+  // sentencing court, and the integrated design does not establish what that
+  // filing is. Whether a statewide court form exists, whether a motion or a
+  // petition is required, what must be alleged, how it is served, the
+  // eligibility standard on four of the five tracks, count limits and the
+  // extent of the court's discretion are all open. The HCJDC decision
+  // resolved stage two — the agency application — and says nothing about any
+  // of that. A worker handed this would have to invent the vehicle.
+  if (
+    lane === "custom_pleading" &&
+    jurisdiction === "HI" &&
+    fs.existsSync(
+      path.join(
+        rootDir,
+        `${FACTORY_DATA_DIR}/source-acquisition/` +
+          "rcap-hi-in-repo-identity-reconciliation-hcjdc-159.json"
+      )
+    )
+  ) {
+    return {
+      status: "blocked",
+      dependencies: [
+        "rcap-hi-stage-one-expungement-filing-vehicle-current-law-reconciliation",
+        "rcap-hi-expungement-stage-one-and-hcjdc-159b-memo-correction"
+      ],
+      model: "opus",
+      effort: "xhigh",
+      executionNote:
+        "Do not scaffold or execute until the Hawaii stage-one filing vehicle is established " +
+        "and the memo correction that carries it is integrated.",
+      stopCondition:
+        "Blocked on the Hawaii stage-one legal design. This lane owns the filing made in the " +
+        "sentencing court before any application reaches the Criminal Justice Data Center, and " +
+        "the design does not establish whether a statewide court form exists, whether the " +
+        "vehicle is a motion or a petition, what must be alleged, how it is served, the " +
+        "eligibility standard on four of the five tracks, whether counts are limited, or how " +
+        "much discretion the court has. HCJDC 159(b) is the stage-two agency application and " +
+        "is not the stage-one filing. Do not scaffold, do not create an implementation branch, " +
+        "do not resolve the filing vehicle inside an implementation, and do not enable " +
+        "runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    };
+  }
   if (lane === "guidance_implementation" && jurisdiction === "NY") {
     const packetCapableComponents = packetCapableGuidanceComponentCount(
       inputs,
@@ -4950,6 +4993,303 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
         "against that would assert an exact source contract the authority layer has not issued. " +
         "Do not create a completed official-PDF implementation, and do not enable runtime, " +
         "promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  // --- Hawaii ---------------------------------------------------------
+  //
+  // The HCJDC decision resolved stage two: one document, HCJDC 159(b), the
+  // statewide Expungement Application. It resolved nothing about stage one,
+  // and stage one is where the custom-pleading lane actually works — the
+  // filing made in the sentencing court before any application reaches HCJDC.
+  // The design does not say whether a statewide court form exists, whether a
+  // motion or a petition is required, what must be alleged, how it is served,
+  // what the eligibility standard is on four of the five tracks, whether
+  // counts are limited, or how much discretion the court has. A pleading
+  // cannot be drafted against that, and guessing would put an invented
+  // vehicle in front of a participant.
+  const hiHcjdcDecision = acquisitionPath(
+    "rcap-hi-in-repo-identity-reconciliation-hcjdc-159"
+  );
+  if (present(hiHcjdcDecision)) {
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "HI",
+      jobId:
+        "rcap-hi-stage-one-expungement-filing-vehicle-current-law-reconciliation",
+      strategyFamily: "legal_design_adjudication",
+      trackIds: [],
+      dependencies: ["rcap-hi-in-repo-identity-reconciliation-hcjdc-159"],
+      status: "ready",
+      expectedOutputs: [
+        decisionPath(
+          "hi-stage-one-expungement-filing-vehicle-current-law-reconciliation"
+        )
+      ],
+      ownedPaths: [
+        decisionPath(
+          "hi-stage-one-expungement-filing-vehicle-current-law-reconciliation"
+        )
+      ],
+      requiredInputs: [
+        hiHcjdcDecision,
+        memoPath("HI"),
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.packetSetManifests,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job " +
+          "rcap-hi-stage-one-expungement-filing-vehicle-current-law-reconciliation"
+      ],
+      commitSubject:
+        "docs(record-clearing): reconcile the Hawaii stage-one filing vehicle",
+      stopCondition:
+        "Establish, track by track for hi_first_time_drug_offender_expungement, " +
+        "hi_first_time_property_offender_expungement, " +
+        "hi_marijuana_three_grams_expungement, " +
+        "hi_pre_2004_drug_offender_expungement and hi_under_21_dui_expungement: the governing " +
+        "statute and its current text; who makes the stage-one filing; that the venue is the " +
+        "sentencing court; whether the vehicle is a motion, a petition, an application or " +
+        "something else; whether any official statewide court form exists; the required " +
+        "allegations; the eligibility standard; any limit on counts; the extent of the court's " +
+        "discretion; service; notice; any fee; how a proposed order is treated; the self-help " +
+        "stops; and whether a controlled custom pleading is permitted at all. " +
+        "Do not invent a filing vehicle, do not infer one from the shape of another state's " +
+        "packet, and do not treat the HCJDC application as the stage-one filing — it is the " +
+        "stage-two agency application and the decision that resolved it says nothing about " +
+        "stage one. Own only the decision record: HI.memo.json is not yours. " +
+        "Do not implement a packet, enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+
+    // The memo needs both answers at once — the stage-one design and the
+    // single stage-two identity — so it waits for the decision rather than
+    // being corrected twice.
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "HI",
+      jobId: "rcap-hi-expungement-stage-one-and-hcjdc-159b-memo-correction",
+      strategyFamily: "legal_design_normalization_amendment",
+      trackIds: [],
+      dependencies: [
+        "rcap-hi-in-repo-identity-reconciliation-hcjdc-159",
+        "rcap-hi-stage-one-expungement-filing-vehicle-current-law-reconciliation"
+      ],
+      status: "blocked",
+      expectedOutputs: [memoPath("HI")],
+      ownedPaths: [memoPath("HI")],
+      requiredInputs: [
+        hiHcjdcDecision,
+        decisionPath(
+          "hi-stage-one-expungement-filing-vehicle-current-law-reconciliation"
+        ),
+        memoPath("HI"),
+        FACTORY_INPUT_PATHS.normalizedTracks
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job " +
+          "rcap-hi-expungement-stage-one-and-hcjdc-159b-memo-correction",
+        "node scripts/verify-rcap-legal-design-intake.mjs"
+      ],
+      commitSubject:
+        "feat(record-clearing): reconcile the Hawaii expungement design",
+      stopCondition:
+        "Reconcile both stages in one pass. Stage one: carry the filing vehicle, venue, " +
+        "required allegations, eligibility standard, count limits, discretion, service, notice, " +
+        "fee and proposed-order treatment the stage-one decision establishes, for all five " +
+        "affected tracks. Stage two: represent one document, not two — HCJDC 159(b), " +
+        "Expungement Application, issued by the Hawaii Criminal Justice Data Center at " +
+        "revision 06/03/2026, statewide, a participant primary filing sent to HCJDC. The " +
+        "11/15/2019 revision is superseded and may never be selected as current. " +
+        "Do not begin before the stage-one decision is integrated, do not invent a stage-one " +
+        "vehicle it did not establish, leave every unrelated Hawaii track value-identical, and " +
+        "keep runtime disabled. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  // --- Florida --------------------------------------------------------
+  //
+  // FL-RULE-3.989-CONTINUATION names nothing. Rule 3.989 has four forms and no
+  // continuation page, and the Supreme Court of Florida has never promulgated
+  // one. The component that carries it needs re-scoping, not another
+  // acquisition attempt against a document that does not exist.
+  const flContinuationDecision = acquisitionPath(
+    "rcap-fl-source-identity-resolution-rule-3-989-continuation"
+  );
+  if (present(flContinuationDecision)) {
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "FL",
+      jobId: "rcap-fl-rule-3-989-continuation-component-correction",
+      strategyFamily: "legal_design_normalization_amendment",
+      trackIds: [],
+      dependencies: [
+        "rcap-fl-source-identity-resolution-rule-3-989-continuation"
+      ],
+      status: "ready",
+      expectedOutputs: [memoPath("FL")],
+      ownedPaths: [memoPath("FL")],
+      requiredInputs: [
+        flContinuationDecision,
+        memoPath("FL"),
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.sourceRelationships,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job " +
+          "rcap-fl-rule-3-989-continuation-component-correction",
+        "node scripts/verify-rcap-legal-design-intake.mjs"
+      ],
+      commitSubject:
+        "fix(record-clearing): re-scope the Florida continuation component",
+      stopCondition:
+        "Take the affected track and component from the integrated decision rather than from " +
+        "this instruction, and retire the FL-RULE-3.989-CONTINUATION identity, which names no " +
+        "document. Preserve the relief mechanism and the node denominator: this is a re-scope, " +
+        "not a deletion of a route. " +
+        "Decide which of the two needs the component was carrying and represent it honestly. " +
+        "Where the need is additional directly related arrests, express it through the " +
+        "order-drafting requirement of sections 943.0585(4)(c) and 943.059(4)(c) — the " +
+        "statute makes the order's own wording the operative mechanism — either by merging the " +
+        "component into the existing proposed-order component or by making it a controlled " +
+        "repeatable order-data requirement. Where the need is a local circuit cover sheet, " +
+        "model it as local packet variation, which the track's geography record already " +
+        "contemplates. " +
+        "Do not create a second official form, do not create a local-form dependency, do not " +
+        "convert rule text into an official PDF, and do not invent a continuation page. Keep " +
+        "FDLE Form 40-021 separate: it is a pre-court agency application, not a court form. " +
+        "Leave unrelated Florida tracks value-identical and keep runtime disabled. " +
+        TERMINAL_INSTRUCTION
+    });
+
+    // Rule 3.989(a) is titled Sworn Statement and has been since SC19-1983.
+    // The retained identity still says Affidavit, which may be nothing worse
+    // than stale metadata — but that is a question, not an assumption.
+    addJob({
+      lane: "source_acquisition",
+      jurisdiction: "FL",
+      jobId: "rcap-fl-rule-3-989-sworn-statement-identity-currentness",
+      strategyFamily: "source_identity_resolution",
+      reconciliationIds: ["identity:FL:FL-RULE-3.989-AFFIDAVIT:sworn-statement"],
+      downloadedSourceCount: 0,
+      dependencies: [
+        "rcap-fl-source-identity-resolution-rule-3-989-continuation"
+      ],
+      status: "ready",
+      expectedOutputs: [
+        acquisitionPath("rcap-fl-rule-3-989-sworn-statement-identity-currentness")
+      ],
+      requiredInputs: [
+        flContinuationDecision,
+        FACTORY_INPUT_PATHS.authority,
+        FACTORY_INPUT_PATHS.sourceArtifacts
+      ],
+      model: "opus",
+      effort: "high",
+      commitSubject:
+        "docs(record-clearing): resolve the FL Rule 3.989(a) identity",
+      stopCondition:
+        "Determine whether FL-RULE-3.989-AFFIDAVIT is stale. Rule 3.989(a) is titled Sworn " +
+        "Statement and has been since SC19-1983; the retained identity still says Affidavit. " +
+        "Establish the exact current identity, official title, participant-facing role and " +
+        "effective date, whether the Affidavit label is merely stale metadata on the same " +
+        "instrument or names something the rule no longer contains, the affected Florida " +
+        "tracks and components, and the Edition 1.3 effect. " +
+        "Do not alter the identity without this answer, do not invent a second form, and do " +
+        "not enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  // --- Louisiana implementation ---------------------------------------
+  //
+  // The six corrected components need a pleading, and it is one job: the same
+  // three articles, the same statutory text, the same court-name-only
+  // variation. Splitting it per track would author the same sheet six times.
+  const laMemoCorrected = memoCorrected(
+    "LA",
+    "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10"
+  );
+  if (laMemoCorrected) {
+    addJob({
+      lane: "custom_pleading",
+      jurisdiction: "LA",
+      jobId: "rcap-la-arts-993-995-998-custom-pleading",
+      strategyFamily: "custom_pleading",
+      trackIds: [
+        "la-976-arrest-no-conviction",
+        "la-977-misdemeanor-conviction",
+        "la-977d-marijuana-first-offense",
+        "la-978-felony-conviction",
+        "la-985-1-interim-expungement",
+        "la-985-expungement-by-redaction"
+      ],
+      dependencies: [
+        "rcap-la-arts-993-995-998-output-strategy-memo-correction",
+        "rcap-la-arts-993-995-998-html-authority-asset-capture",
+        "rcap-nationwide-master-library-edition-1-3-publication"
+      ],
+      expectedOutputs: [
+        "src/lib/rcap/packets/jurisdictions/louisiana/arts-993-995-998-custom-pleading.ts",
+        "scripts/verify-rcap-louisiana-arts-993-995-998-custom-pleading.mjs"
+      ],
+      ownedPaths: [
+        "src/lib/rcap/packets/jurisdictions/louisiana/arts-993-995-998-custom-pleading.ts",
+        "scripts/verify-rcap-louisiana-arts-993-995-998-custom-pleading.mjs"
+      ],
+      requiredInputs: [
+        acquisitionPath("rcap-la-arts-993-995-998-html-authority-asset-capture"),
+        acquisitionPath(
+          "rcap-la-arts-993-995-998-html-source-output-strategy-adjudication"
+        ),
+        memoPath("LA"),
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.packetSetManifests
+      ],
+      participantPacketProofRequired: true,
+      regressionVerifier:
+        "scripts/verify-rcap-louisiana-arts-993-995-998-custom-pleading.mjs",
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job " +
+          "rcap-la-arts-993-995-998-custom-pleading",
+        "node scripts/verify-rcap-louisiana-arts-993-995-998-custom-pleading.mjs"
+      ],
+      commitSubject:
+        "feat(record-clearing): implement the Louisiana article pleadings",
+      executionNote:
+        "Six components across six tracks: the Article 993 continuation on four tracks, the " +
+        "Article 995 proposed order on la-985-1-interim-expungement, and the Article 998 " +
+        "primary filing on la-977d-marijuana-first-offense. Every genuine official-PDF sibling " +
+        "component on these same tracks stays in the official-PDF lane and is not yours.",
+      stopCondition:
+        "Generate controlled custom pleadings from the exact statewide statutory wording " +
+        "captured from the Legislature's own HTML — not paraphrase, and not the local " +
+        "Louisiana Supreme Court packet, which Article 986 excludes as a statewide substitute. " +
+        "Article 986 permits the court name to vary and nothing else. " +
+        "Keep Article 993 as one sheet with its three Yes/No sections; the packet's " +
+        "three-variant split is a rendering convention and the wrong model. Fix the repeating " +
+        "charge capacity at authoring time and stop when a participant exceeds it — never drop " +
+        "a charge silently. On the Article 995 proposed order the judge signs: every decretal " +
+        "election, the granted or denied choice, the reasons-for-denial boxes, the date, the " +
+        "place and the signature render blank, and no participant signature label appears on " +
+        "it. Carry both statutory signature blocks Article 998 prints. " +
+        "Nothing generated may be presented as an official PDF; there is none. Keep runtime " +
+        "disabled and produce the participant packet proof the lane requires. " +
         TERMINAL_INSTRUCTION
     });
   }
@@ -6228,7 +6568,10 @@ function resolveCanonicalParentJobId(job, parents, jobs, declaredOutputStrategyB
     // so this cannot quietly re-home an ordinary normalization amendment.
     if (
       matches.length === 0 &&
-      job.strategyFamily === "legal_design_normalization_amendment"
+      [
+        "legal_design_normalization_amendment",
+        "legal_design_adjudication"
+      ].includes(job.strategyFamily)
     ) {
       return canonicalAuthorityParentJobId(job);
     }

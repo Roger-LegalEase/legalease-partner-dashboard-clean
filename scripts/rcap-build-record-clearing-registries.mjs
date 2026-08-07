@@ -94,6 +94,31 @@ const LOCAL_MARKERS = [
  */
 const SCOPE_CORRECTIONS = new Map([
   [
+    "expungement-application-rev-2026-06",
+    {
+      geographicScope: "statewide",
+      currency: "unknown",
+      basis:
+        "rcap-hi-in-repo-identity-reconciliation-hcjdc-159: HCJDC 159(b) is " +
+        "filed by mail with the Hawaii Criminal Justice Data Center, a " +
+        "statewide unit of the Department of the Attorney General, for the " +
+        "whole State. The scanner scored an executive-agency mailing address " +
+        "as a court-specific marker on a document that is not a court form."
+    }
+  ],
+  [
+    "revised-exp-application-2019-11",
+    {
+      geographicScope: "statewide",
+      currency: "unknown",
+      basis:
+        "rcap-hi-in-repo-identity-reconciliation-hcjdc-159: the superseded " +
+        "11/15/2019 revision of the same statewide HCJDC application. Its " +
+        "scope was wrong for the same reason, and it may never be selected " +
+        "as current."
+    }
+  ],
+  [
     "jdf-2371-motion-to-seal-conviction-records-conduct-no-longer-prohibited-rev-2025-07-01",
     {
       geographicScope: "statewide",

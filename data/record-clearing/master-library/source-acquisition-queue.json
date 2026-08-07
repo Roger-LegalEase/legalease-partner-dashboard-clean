@@ -13,7 +13,8 @@
     "commercial_use_hold": "The publisher's terms do not permit, or do not clearly permit, commercial generation.",
     "legally_not_required": "The controlling authority does not require this document for the component.",
     "superseded": "A later official revision or successor document controls.",
-    "excluded": "Retired, mislabelled, unofficial or otherwise outside the authority set."
+    "excluded": "Retired, mislabelled, unofficial or otherwise outside the authority set.",
+    "normalization_artifact_no_document_exists": "The identity names no official document. It entered normalization as an artefact, an integrated decision established that the issuer never promulgated it, and no acquisition can produce it."
   },
   "totals": {
     "rows": 431,
@@ -77,7 +78,8 @@
       "acquired_and_source_gated": 69,
       "commercial_use_hold": 30,
       "currentness_unresolved": 9,
-      "identity_established_binary_unavailable": 229,
+      "identity_established_binary_unavailable": 228,
+      "normalization_artifact_no_document_exists": 1,
       "provenance_unresolved": 84
     },
     "byIdentityConfidence": {
@@ -89,6 +91,7 @@
       "issuer_confirmed_two_documents_share_one_document_id": 4,
       "two_distinct_documents_conflated_in_one_component_identity": 6
     },
+    "phantomIdentities": 1,
     "closed": 10,
     "open": 421,
     "rowsWithAuthoredDisposition": 115,
@@ -1990,8 +1993,10 @@
       "runtimeEffect": "runtime_disabled",
       "blockerDedupeKey": "mapping:FL:fl-expunction:fl-expunction-continuation-6",
       "acquisitionKey": "acquire:FL:fl-rule-3-989-continuation",
-      "edition12Disposition": "identity_established_binary_unavailable",
-      "edition12DispositionRationale": "No acquisition was completed for this document in the Edition 1.2 pass; the deterministic fail-closed result stands.",
+      "edition12Disposition": "normalization_artifact_no_document_exists",
+      "edition12DispositionRationale": "The narrowest disposition the evidence supports. It is not unresolved_identity: the question was answered, and answered in the negative with affirmative evidence. It is not identity_established_binary_unavailable, which is what the edition currently records — that phrasing asserts a document exists and is merely unobtained, which is the opposite of what is true. It is not superseded or retired, because the document was never issued. It is not official_download_automation_blocked: the Bar compilation's 403 to a default agent was worked around and the rule was read in full. The identifier names nothing, and the component that carries it needs re-scoping rather than acquisition.",
+      "acquisitionRequired": false,
+      "resolvedByDecisionJobId": "rcap-fl-source-identity-resolution-rule-3-989-continuation",
       "edition12Evidence": null
     },
     {

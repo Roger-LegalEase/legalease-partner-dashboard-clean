@@ -887,6 +887,48 @@ const acquisitionDecisions = new Map(
   (acquisitionOverlay?.decisions ?? []).map((entry) => [entry.acquisitionKey, entry])
 );
 
+// An integrated source-acquisition decision can find that an expected document
+// does not exist at all. Florida's FL-RULE-3.989-CONTINUATION is the case: Rule
+// 3.989 has four forms and no continuation page, and the Supreme Court of
+// Florida has never promulgated one. Left as an ordinary row it reads as a
+// document that exists and merely has not been obtained, which keeps a release
+// blocker open against a phantom and sends acquisition after nothing.
+//
+// The decision records are the authority here, so this reads them rather than
+// carrying a list. The adopted edition is immutable and is not written.
+const PHANTOM_IDENTITY_DISPOSITIONS = new Set([
+  "normalization_artefact_no_such_official_document_component_rescope_required"
+]);
+const phantomAcquisitionKeys = new Map();
+const decisionDirectory = path.join(
+  root,
+  "data/record-clearing/production-factory/source-acquisition"
+);
+if (fs.existsSync(decisionDirectory)) {
+  for (const name of fs.readdirSync(decisionDirectory).sort()) {
+    if (!name.endsWith(".json")) continue;
+    let decision;
+    try {
+      decision = JSON.parse(
+        fs.readFileSync(path.join(decisionDirectory, name), "utf8")
+      );
+    } catch {
+      continue;
+    }
+    if (!PHANTOM_IDENTITY_DISPOSITIONS.has(decision?.terminalDisposition)) {
+      continue;
+    }
+    for (const key of decision.acquisitionIds ?? []) {
+      phantomAcquisitionKeys.set(key, {
+        decisionJobId: decision.jobId,
+        rationale:
+          decision.terminalDispositionDetail?.why ??
+          "An integrated source-acquisition decision established that this identity names no official document."
+      });
+    }
+  }
+}
+
 const trackById = new Map(trackRegistry.tracks.map((track) => [track.trackId, track]));
 const artifactByDocumentId = new Map();
 for (const artifact of artifactRegistry.artifacts) {
@@ -908,6 +950,7 @@ for (const audit of trackAudits) {
     const documentId = component.officialFormId ?? null;
     const acquisitionKey = `acquire:${audit.jurisdiction}:${slug(documentId ?? component.componentId)}`;
     const decision = acquisitionDecisions.get(acquisitionKey) ?? null;
+    const phantom = phantomAcquisitionKeys.get(acquisitionKey) ?? null;
 
     // The intake schema records components on the track and composed units as
     // legal stages; it carries no component-to-unit edge. A unit is named only
@@ -959,10 +1002,19 @@ for (const audit of trackAudits) {
       runtimeEffect: "runtime_disabled",
       blockerDedupeKey: `mapping:${audit.jurisdiction}:${audit.trackId}:${component.componentId}`,
       acquisitionKey,
-      edition12Disposition: decision?.edition12Disposition ?? defaultAcquisitionDisposition(component, documentId),
-      edition12DispositionRationale:
-        decision?.rationale ??
-        "No acquisition was completed for this document in the Edition 1.2 pass; the deterministic fail-closed result stands.",
+      edition12Disposition: phantom
+        ? "normalization_artifact_no_document_exists"
+        : (decision?.edition12Disposition ?? defaultAcquisitionDisposition(component, documentId)),
+      edition12DispositionRationale: phantom
+        ? phantom.rationale
+        : (decision?.rationale ??
+          "No acquisition was completed for this document in the Edition 1.2 pass; the deterministic fail-closed result stands."),
+      ...(phantom
+        ? {
+            acquisitionRequired: false,
+            resolvedByDecisionJobId: phantom.decisionJobId
+          }
+        : {}),
       edition12Evidence: decision?.evidence ?? null
     });
   }
@@ -991,7 +1043,9 @@ const sourceAcquisitionQueue = {
     commercial_use_hold: "The publisher's terms do not permit, or do not clearly permit, commercial generation.",
     legally_not_required: "The controlling authority does not require this document for the component.",
     superseded: "A later official revision or successor document controls.",
-    excluded: "Retired, mislabelled, unofficial or otherwise outside the authority set."
+    excluded: "Retired, mislabelled, unofficial or otherwise outside the authority set.",
+    normalization_artifact_no_document_exists:
+      "The identity names no official document. It entered normalization as an artefact, an integrated decision established that the issuer never promulgated it, and no acquisition can produce it."
   },
   totals: {
     rows: acquisitionRows.length,
@@ -1001,6 +1055,9 @@ const sourceAcquisitionQueue = {
     byRequiredAcquisition: tally(acquisitionRows, (row) => row.requiredAcquisition),
     byEdition12Disposition: tally(acquisitionRows, (row) => row.edition12Disposition),
     byIdentityConfidence: tally(acquisitionRows, (row) => row.sourceIdentityConfidence),
+    phantomIdentities: acquisitionRows.filter(
+      (row) => row.edition12Disposition === "normalization_artifact_no_document_exists"
+    ).length,
     closed: acquisitionRows.filter((row) => isClosedAcquisition(row.edition12Disposition)).length,
     open: acquisitionRows.filter((row) => !isClosedAcquisition(row.edition12Disposition)).length,
     rowsWithAuthoredDisposition: acquisitionRows.filter((row) => acquisitionDecisions.has(row.acquisitionKey)).length,
