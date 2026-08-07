@@ -12,9 +12,25 @@
 // sealing of criminal records and of any public civil record arising from the
 // same arrest, transaction or occurrence. Section 19 does not authorise
 // physical destruction, a sealed record may be unsealed later on a finding of
-// changed conditions or compelling reason, and under § 19(N) a record ordered
+// changed conditions or compelling reason, and under § 19(L) a record ordered
 // sealed that is not unsealed within ten years may be obliterated or destroyed
-// at the end of that period. Full sealing and partial sealing are different
+// at the end of that period.
+//
+// **On that subsection letter.** Senate Bill 2030 (O.S.L. 2026, c. 282,
+// effective 1 July 2026) removed former § 19(B), (C) and (D), so every surviving
+// subsection from former E onward shifted up three letters. The ten-year
+// obliteration rule sat at former § 19(O) and now sits at § 19(L); current
+// § 19(N) is the impeachment and character-evidence rule. This module previously
+// cited § 19(N), which was wrong under either lettering — pre-amendment § 19(N)
+// was the district-court-index rule. The shift is established by the integrated
+// decision record ok-sb-2030-current-text-and-currency from the enrolled text and
+// two cross-references inside the new § 19d, and the pre-amendment lettering it
+// starts from is corroborated by the Oklahoma Legislature's own published
+// Title 22 compilation, which is current through Laws 2025 and carries § 19 as
+// A through S with obliteration at O and impeachment at Q. The post-amendment
+// codified page could not be retrieved — the Oklahoma State Courts Network
+// serves an automated-traffic challenge — and that remains a recorded residual
+// on the decision, not a question this module reopens. Full sealing and partial sealing are different
 // outcomes — partially sealed records stay available to law enforcement — and
 // the design records that difference as material and requiring disclosure. Every
 // filing here says so on its face; none of them promises a clear record.
@@ -31,9 +47,13 @@
 // stands.
 //
 // **A paid petition must never be generated for someone entitled to a free
-// route.** SB 2030 provides for sealing of certain records without a petition
-// and expressly preserves the right to petition; its enrolled text had not been
-// read when the design was adopted. The design's stated harm — selling a
+// route.** SB 2030 provides for sealing of certain records without a petition,
+// at §§ 18b and 19d, and expressly preserves the right to petition at
+// § 19d(G). Its enrolled text has since been read and the route is now known to
+// exist on paper and to be operating nowhere: eligibility runs from 1 July 2026
+// but is conditioned on the availability of funds, the request portal is not due
+// until 1 November 2026, and the Bureau need not begin the automatic process
+// until 1 November 2027. The design's stated harm — selling a
 // petition to a person who could have used a free route — is guarded twice
 // here: `okFreeRouteChecked` is a typed stop, so a participant who asks for that
 // check gets a referral rather than a petition, and every filing that is
@@ -269,9 +289,14 @@ const listAnswer = (answers: Answers, key: string): string => {
  * The free-route screen, asked first and deliberately.
  *
  * A participant who wants to know whether Oklahoma will seal this record
- * without a petition is asking a question the adopted design could not answer:
- * SB 2030's enrolled text was not obtained. Generating a paid petition anyway is
- * the exact harm the review names, so the route stops and refers to the Bureau.
+ * without a petition is asking a question LegalEase still cannot answer, though
+ * no longer for the original reason. SB 2030's enrolled text has been read; what
+ * it shows is that eligibility under § 18b is conditioned on the availability of
+ * funds and that nothing is operating yet. Whether a particular record is in the
+ * eligible set turns on what the Bureau holds and on whether it is a
+ * single-source record, neither of which LegalEase can see. Generating a paid
+ * petition anyway is the exact harm the review names, so the route stops and
+ * refers to the Bureau.
  */
 function applyFreeRouteScreen(trackId: string, answers: Answers, key: string): boolean {
   const wantsCheck = yesNo(trackId, answers, key);
@@ -279,7 +304,7 @@ function applyFreeRouteScreen(trackId: string, answers: Answers, key: string): b
     throw new OklahomaEligibilityStopError(
       "ok-free-route-check-not-available",
       trackId,
-      "Senate Bill 2030 amended 22 O.S. §§ 18 and 19 in 2026 and provides for the sealing of certain records without a petition. Its enrolled text has not been read, so LegalEase cannot tell you whether your record is one of them. Ask the Oklahoma State Bureau of Investigation before you pay for a petition you may not need.",
+      "Senate Bill 2030 took effect on 1 July 2026 and provides for the sealing of certain records without a petition, under 22 O.S. §§ 18b and 19d. Nothing is operating yet: the Bureau's request portal is not due until 1 November 2026, the automatic process need not begin until 1 November 2027, and eligibility is conditioned on the availability of funds. Whether your record is in that set turns on what the Bureau holds and on whether it is a single-source record, which LegalEase cannot see. Ask the Oklahoma State Bureau of Investigation before you pay for a petition you may not need.",
       OK_FREE_ROUTE_REFERRAL
     );
   }
@@ -559,7 +584,7 @@ const EFFECT_SECTION: Section = {
   paragraphs: [
     "In Oklahoma, expungement means sealing. Title 22 defines it as the sealing of criminal records and of any public civil record involving actions brought by and against the State arising from the same arrest, transaction or occurrence.",
     "Sealing may be full or partial, and the difference matters. Fully sealed records are unavailable to the public and to law enforcement, with the Oklahoma State Bureau of Investigation retaining them for research and statistical purposes. Partially sealed records are hidden from the public but remain available to law enforcement. Which of the two an order produces is a material difference in outcome, and this petition does not predict which one this Court would order.",
-    "Section 19 does not authorise the physical destruction of any record. A sealed record may be unsealed later on a finding of changed conditions or a compelling reason, and under § 19(N) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period.",
+    "Section 19 does not authorise the physical destruction of any record. A sealed record may be unsealed later on a finding of changed conditions or a compelling reason, and under § 19(L) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period.",
     "An Oklahoma order does not bind federal, tribal, military or out-of-state agencies and does not reach records they hold."
   ]
 };
@@ -588,8 +613,8 @@ const FREE_ROUTE_SECTION: Section = {
   heading: "SEALING WITHOUT A PETITION",
   numbered: false,
   paragraphs: [
-    "Senate Bill 2030, enacted in 2026, amended 22 O.S. §§ 18 and 19. It provides for the sealing of certain records without a petition, requires the Oklahoma State Bureau of Investigation to establish a request portal, and preserves the right to petition.",
-    "Its enrolled text had not been read when this packet was prepared. This petition therefore does not state that the petitioner is within that route, and it does not state that the petitioner is outside it.",
+    "Senate Bill 2030, enacted in 2026 as Laws 2026, c. 282 and effective 1 July 2026, amended 22 O.S. §§ 18 and 19 and created §§ 18b and 19d. It provides for the sealing of certain records without a petition, requires the Oklahoma State Bureau of Investigation to establish a request portal by 1 November 2026, and expressly preserves the right to petition at § 19d(G).",
+    "None of it is operating yet. The Bureau need not begin the automatic process until 1 November 2027 and need not complete it for then-eligible electronic records until 1 November 2029, and eligibility under § 18b is conditioned on the availability of funds. Whether the petitioner is within that route turns on what the Bureau holds and on whether this is a single-source record, so this petition does not state that the petitioner is within it, and it does not state that the petitioner is outside it.",
     "{{freeRouteStatement}}",
     "If you have not already done so, ask the Oklahoma State Bureau of Investigation whether this record is one that will be sealed without a petition before you pay for anything."
   ]
@@ -786,7 +811,7 @@ function orderTemplate(spec: OrderSpec): PleadingTemplate {
         paragraphs: [
           "Title 22 section 19 does not authorise the physical destruction of records, so no order made under it can direct that this record be destroyed.",
           "It would not reach federal, tribal, military or out-of-state records, or bind the agencies that hold them.",
-          "It would not be permanent as a matter of course. A sealed record may be unsealed later on a finding of changed conditions or a compelling reason, and under § 19(N) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period."
+          "It would not be permanent as a matter of course. A sealed record may be unsealed later on a finding of changed conditions or a compelling reason, and under § 19(L) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period."
         ]
       },
       {
