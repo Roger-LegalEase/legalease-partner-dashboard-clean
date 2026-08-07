@@ -1707,7 +1707,24 @@ function legalReviewRowFor(jurisdiction) {
     : `LEGAL_REVIEW_COVERAGE.csv:${jurisdiction}:missing`;
 }
 
+// The Master Asset Manifest is the adopted authority for source identity,
+// currentness, role, revision and checksum, and it also records what the
+// edition measured: byte count, page count, structural class and a field count.
+// Those travelled no further than the archive, so every downstream consumer had
+// to find a private-corpus copy of the same bytes to learn how large the
+// authority's own asset is. Carrying the measurement onto the derived row keeps
+// the authority authoritative and leaves the corpus where it belongs — as
+// corroboration, never as the fallback the resolution order forbids.
+//
+// manifestFieldCount is deliberately named rather than called a field count.
+// Vermont 200-00130 records 52 there against 48 terminal fields, because four
+// text fields carry two widgets each. A field map keyed on the manifest number
+// would write four values twice. Nothing derives a field denominator from it.
 function toAssetRef(row) {
+  const measurement = (value) => {
+    const parsed = Number.parseInt(value ?? "", 10);
+    return Number.isSafeInteger(parsed) && parsed > 0 ? parsed : null;
+  };
   return {
     libraryEdition: row.library_edition,
     jurisdictionCode: row.jurisdiction_code,
@@ -1722,7 +1739,15 @@ function toAssetRef(row) {
     sha256: row.sha256,
     packetCandidate: row.packet_candidate === "yes",
     generationAllowed: row.generation_allowed === "yes",
-    runtimeStatus: row.runtime_status
+    runtimeStatus: row.runtime_status,
+    authorityMeasurement: {
+      basis: "adopted_master_asset_manifest",
+      bytes: measurement(row.bytes),
+      pageCount: measurement(row.pages),
+      manifestFieldCount: measurement(row.field_count),
+      structuralClass: row.structural_class || null,
+      sourceUrl: row.source_url || null
+    }
   };
 }
 

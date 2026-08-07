@@ -430,9 +430,15 @@ export function buildOfficialPdfSourceProjection(rootDir) {
           expectedSha256: requirement?.expectedSha256 ?? null,
           expectedBytes: requirement?.expectedBytes ?? null,
           expectedMime: requirement?.expectedMediaType ?? null,
-          pageCount: registryArtifact?.pageCount ?? null,
+          // Where the private corpus holds no copy, the adopted manifest's own
+          // measurement of the asset supplies the page count and structure.
+          pageCount:
+            registryArtifact?.pageCount ??
+            authorityAsset?.authorityMeasurement?.pageCount ??
+            null,
           structuralClass:
             registryArtifact?.technicalClass ??
+            authorityAsset?.authorityMeasurement?.structuralClass ??
             document.rendererLaneCandidate ??
             null,
           canonicalAuthorityPath:

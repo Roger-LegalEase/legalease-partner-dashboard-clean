@@ -663,7 +663,7 @@ assert.equal(
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedUnresolvedIdentities,
-  177
+  176
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
@@ -728,24 +728,24 @@ assert.equal(
   "runtime_disabled"
 );
 assert.equal(officialPdfSourceProjection.coverage.queueIdentityCount, 332);
-assert.equal(officialPdfSourceProjection.coverage.assignmentEligibleCount, 73);
+assert.equal(officialPdfSourceProjection.coverage.assignmentEligibleCount, 74);
 assert.deepEqual(
   officialPdfSourceProjection.coverage.countsByDisposition,
   {
     deliberately_excluded_commercial_license: 9,
-    exact_worker_assignable: 73,
+    exact_worker_assignable: 74,
     // Completed acquisition decisions settled these identities. For all but one
     // the adopted edition manifests no asset, so there is no portable contract
     // to assign. Vermont's 600-00228 is the exception: the edition retains the
     // exact bytes but classes them supporting_process with packetCandidate
     // false and records no byte count, which withholds the contract just the
     // same. None of them is eligible.
-    identity_resolved_materialization_required: 27,
+    identity_resolved_materialization_required: 26,
     legal_design_or_technical_policy_blocked: 13,
     local_scope_identity: 1,
-    role_mismatch: 4,
+    role_mismatch: 5,
     source_gated_identity: 28,
-    unresolved_identity: 177
+    unresolved_identity: 176
   }
 );
 assert.equal(legalReviewMaterializationContract.assignmentCount, 24);
@@ -772,8 +772,8 @@ const exactOfficialPdfChildren = factoryPlan.jobs.filter(
 const assignedOfficialPdfIdentityKeys = exactOfficialPdfChildren.flatMap(
   (child) => child.officialPdfAssignment.identityKeys
 );
-assert.equal(assignedOfficialPdfIdentityKeys.length, 73);
-assert.equal(new Set(assignedOfficialPdfIdentityKeys).size, 73);
+assert.equal(assignedOfficialPdfIdentityKeys.length, 74);
+assert.equal(new Set(assignedOfficialPdfIdentityKeys).size, 74);
 // Every eligible identity is either assigned to an owning implementation job or
 // explicitly recorded as having no lane to own it. New Jersey's CN-10557 and New
 // York's CPL 160.59 packet are the second case: the projection resolved them
@@ -803,7 +803,7 @@ assert.equal(
     (child) =>
       child.officialPdfAssignment.newImplementationIdentityKeys
   ).length,
-  71
+  72
 );
 assert.equal(
   exactOfficialPdfChildren.flatMap(
@@ -2695,7 +2695,7 @@ assert.equal(
   factoryPlan.jobClaims.claims.filter(
     (claim) => claim.ownerSession === "SESSION_E"
   ).length,
-  29
+  31
 );
 const reservedNextJobIds = new Set([
   ...productionPlan.routingReservations.sessionB.preferredFirstJobs,

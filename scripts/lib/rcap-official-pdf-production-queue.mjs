@@ -72,6 +72,7 @@ export function buildOfficialPdfProductionQueue(root) {
   const trackAudit = readJson(root, TRACK_AUDIT_PATH);
   const repositoryAudit = readJson(root, REPOSITORY_AUDIT_PATH);
   const sourceRegistry = readJson(root, SOURCE_REGISTRY_PATH);
+  const adjudicatedDocuments = readAdjudicatedSourceDocuments(root);
 
   const auditedTracks = trackAudit.tracks
     .map(normalizeAuditedTrack)
@@ -123,7 +124,8 @@ export function buildOfficialPdfProductionQueue(root) {
         jurisdiction,
         tracks: tracks.filter((track) => track.jurisdiction === jurisdiction),
         repositoryAudit,
-        sourceRegistry
+        sourceRegistry,
+        adjudicatedDocuments
       })
     )
     .sort(compareFamilies);
@@ -415,7 +417,8 @@ function buildFamily({
   jurisdiction,
   tracks,
   repositoryAudit,
-  sourceRegistry
+  sourceRegistry,
+  adjudicatedDocuments
 }) {
   const components = tracks.flatMap((track) => track.components);
   const documents = unique(components.map((component) => component.officialFormId))
@@ -428,7 +431,8 @@ function buildFamily({
           (component) => component.officialFormId === officialFormId
         ),
         repositoryAudit,
-        sourceRegistry
+        sourceRegistry,
+        adjudicatedDocuments
       })
     );
 
@@ -475,12 +479,54 @@ function buildFamily({
   };
 }
 
+/**
+ * Documents a captain-integrated source decision has adjudicated.
+ *
+ * The adopted manifest measures every asset it retains, but a measurement is
+ * only allowed to stand in for a corpus copy where a decision record has
+ * independently established that identity — the same evidentiary bar the rest
+ * of the factory applies before an identity becomes assignable. Without that
+ * gate a manifest row alone would promote documents nobody has adjudicated.
+ */
+function readAdjudicatedSourceDocuments(root) {
+  const adjudicated = new Set();
+  const directory = path.join(
+    root,
+    "data/record-clearing/production-factory/legal-design-decisions"
+  );
+  if (!fs.existsSync(directory)) return adjudicated;
+  for (const name of fs.readdirSync(directory).sort()) {
+    if (!name.endsWith(".json")) continue;
+    let decision;
+    try {
+      decision = JSON.parse(fs.readFileSync(path.join(directory, name), "utf8"));
+    } catch {
+      continue;
+    }
+    const jurisdiction = decision.jurisdiction;
+    const detail = decision.terminalDispositionDetail;
+    if (typeof jurisdiction !== "string" || !detail || typeof detail !== "object") {
+      continue;
+    }
+    for (const [documentId, disposition] of Object.entries(detail)) {
+      if (
+        typeof disposition === "string" &&
+        disposition.startsWith("exact_identity_confirmed")
+      ) {
+        adjudicated.add(`${jurisdiction}:${documentId}`);
+      }
+    }
+  }
+  return adjudicated;
+}
+
 function buildDocument({
   jurisdiction,
   officialFormId,
   components,
   repositoryAudit,
-  sourceRegistry
+  sourceRegistry,
+  adjudicatedDocuments = new Set()
 }) {
   const assetCandidates = distinctAssets(
     components.map((component) => component.asset).filter(Boolean)
@@ -514,6 +560,20 @@ function buildDocument({
       })
     : [];
   const exactCandidate = selectExactCandidate(asset, repositoryCandidates);
+  // A document the private corpus never held could not state its own size, so
+  // its identity stalled at repository_measurement_unavailable no matter how
+  // exactly the authority knew it. The adopted manifest records the byte count
+  // itself, and the authority — not the corpus — is what the resolution order
+  // makes controlling. Where the corpus holds no byte-identical copy, the
+  // authority's own measurement supplies the requirement. The corpus stays
+  // preferred where it exists, so no existing contract changes basis.
+  const authorityMeasurement =
+    !exactCandidate &&
+    adjudicatedDocuments.has(`${jurisdiction}:${officialFormId}`) &&
+    asset?.authorityMeasurement?.bytes &&
+    /^[0-9a-f]{64}$/u.test(asset.sha256 ?? "")
+      ? asset.authorityMeasurement
+      : null;
   const exactSourceRequirement = exactCandidate
     ? {
         schemaVersion: "rcap-source-materialization-requirement-scaffold/v1",
@@ -535,7 +595,29 @@ function buildDocument({
           componentId: component.componentId
         }))
       }
-    : null;
+    : authorityMeasurement
+      ? {
+          schemaVersion:
+            "rcap-source-materialization-requirement-scaffold/v1",
+          authorityAssetState: "authority_asset_known",
+          registryState: "authority_manifest_measurement_present",
+          documentId: asset.documentId,
+          documentRole: asset.documentRole,
+          canonicalAuthorityPath: asset.canonicalRelativePath,
+          repositorySourcePath: asset.canonicalRelativePath,
+          expectedSha256: asset.sha256,
+          expectedBytes: authorityMeasurement.bytes,
+          expectedMediaType: "application/pdf",
+          readOnlyTreatment: "worker_read_only_no_modify",
+          expectedMeasurementBasis: "adopted_authority_manifest_measurement",
+          identityBindingStatus: "exact_pinned_identity",
+          materializationState: "binary_materialization_required",
+          usageBindings: components.map((component) => ({
+            trackId: component.trackId,
+            componentId: component.componentId
+          }))
+        }
+      : null;
 
   return {
     officialFormId,
@@ -562,15 +644,15 @@ function buildDocument({
         ? "authority_identity_unresolved"
         : assetCandidates.length > 1
           ? "authority_identity_conflict"
-          : exactCandidate
+          : exactCandidate || authorityMeasurement
             ? "exact_source_requirement_ready"
             : repositoryCandidates.length > 0
               ? "registry_measurement_not_uniquely_selectable"
               : "repository_measurement_unavailable",
     rendererLaneCandidate: rendererLane(
-      exactCandidate?.technicalClass,
-      exactCandidate?.encrypted,
-      exactCandidate?.xfa
+      exactCandidate?.technicalClass ?? authorityMeasurement?.structuralClass,
+      exactCandidate ? exactCandidate.encrypted : false,
+      exactCandidate ? exactCandidate.xfa : false
     ),
     rendererSelectionState: "pending_fresh_local_source_inspection",
     exactSourceRequirement,
@@ -656,7 +738,8 @@ function distinctAssets(assets) {
         sha256: asset.sha256 ?? null,
         packetCandidate: asset.packetCandidate ?? false,
         generationAllowed: asset.generationAllowed ?? false,
-        runtimeStatus: asset.runtimeStatus ?? null
+        runtimeStatus: asset.runtimeStatus ?? null,
+        authorityMeasurement: asset.authorityMeasurement ?? null
       });
     }
   }
@@ -676,7 +759,9 @@ function rendererLane(technicalClass, encrypted, xfa) {
       "clean_acroform",
       "dirty_acroform",
       "acroform_clean",
-      "acroform_dirty"
+      "acroform_dirty",
+      // The adopted manifest's own spelling for the same structure.
+      "acroform_pdf"
     ].includes(technicalClass)
   ) {
     return "acroform_or_hybrid_candidate";

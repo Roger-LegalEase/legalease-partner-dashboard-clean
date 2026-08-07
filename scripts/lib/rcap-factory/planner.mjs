@@ -5057,14 +5057,25 @@ function classifyOfficialPdfTracks(inputs, tracks, rootDir) {
     const trackKey = `${track.jurisdiction}:${track.trackId}`;
     const relationships = relationshipsByTrack.get(trackKey) ?? [];
     const artifacts = artifactsByState.get(track.jurisdiction) ?? [];
-    const classes = new Set(receiptClassByTrack.get(trackKey) ?? []);
+    const receiptClasses = receiptClassByTrack.get(trackKey) ?? new Set();
+    const corpus = new Set();
     for (const relationship of relationships) {
       for (const artifact of artifacts) {
         if (relationshipMatchesArtifact(relationship, artifact)) {
-          classes.add(artifact.technicalClass);
+          corpus.add(artifact.technicalClass);
         }
       }
     }
+    // A receipt was measured on the exact byte the worker will read and is
+    // keyed on the identity. Corpus evidence is a name match against whatever
+    // happens to sit in this checkout, so it can attach a neighbouring
+    // document: Vermont's petition 200-00130 matches the scanned instructions
+    // sheet 200-00130A, and six sealing tracks whose petition is a verified
+    // 48-field AcroForm would otherwise be routed to the coordinate-overlay
+    // lane on the strength of a scan of a document they do not use. Where a
+    // receipt exists it decides alone. Where none exists the corpus still
+    // speaks, so no track loses a classification it already had.
+    const classes = receiptClasses.size > 0 ? new Set(receiptClasses) : corpus;
 
     if ([...classes].some((value) => ["flat_pdf", "scanned_pdf"].includes(value))) {
       overlay.push(track);
@@ -6124,6 +6135,18 @@ function sourceMaterializationInputsForTracks(inputs, tracks) {
   );
 }
 
+// Matching a form id inside a longer name is how a document is recognised in a
+// private file whose name carries a description after the id. Doing it on keys
+// with every separator stripped also matched a *different* document whose id
+// merely starts with the same characters: Vermont's petition 200-00130 matched
+// the scanned instructions sheet 200-00130A, and six sealing tracks were
+// classified from a scan of a document they do not use.
+//
+// Matching therefore runs on keys that keep their separators, and a containment
+// match must land on a token boundary. "cr-65" still matches
+// "cr-65-expunge-petition-10-2024"; "200-00130" no longer matches
+// "200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record", because
+// the id ends there and "200-00130a" is a different id.
 function relationshipMatchesArtifact(relationship, artifact) {
   const relationshipKeys = [
     relationship.officialFormId,
