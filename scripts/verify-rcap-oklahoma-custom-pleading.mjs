@@ -248,7 +248,7 @@ for (const track of OKLAHOMA_CUSTOM_PLEADING_TRACKS) {
     );
     ok(
       !STATED_PERIOD.test(source),
-      `${component.componentId}: states a waiting period. The categories as amended by SB 2030 have not been read.`
+      `${component.componentId}: states a waiting period. The § 18(A) periods are known but the module asserts none, because the paragraph numbering has moved three years running and a period stated here would have to be tied to a category this petition does not assert.`
     );
     ok(
       !/\$\s?\d/.test(source),
@@ -268,8 +268,25 @@ for (const trackId of SECTION_18_TRACKS) {
     /Senate Bill 2030/.test(petition),
     `${trackId}: the petition never mentions Senate Bill 2030, which provides for sealing without a petition.`
   );
+  // The enrolled text has been read, so the packet may no longer say it has not.
   ok(
-    /does not state that the petitioner is within that route, and it does not state that the petitioner is outside it/.test(
+    !/enrolled text (has|had) not been (read|obtained)/i.test(petition),
+    `${trackId}: the petition still says Senate Bill 2030's enrolled text has not been read. It has.`
+  );
+  ok(
+    /18b/.test(petition) && /19d/.test(petition),
+    `${trackId}: the petition does not name §§ 18b and 19d, where the sealing-without-petition route actually sits.`
+  );
+  ok(
+    /19d\(G\)/.test(petition),
+    `${trackId}: the petition does not cite § 19d(G), which is where the right to petition is expressly preserved.`
+  );
+  ok(
+    /1 November 2026/.test(petition) && /1 November 2027/.test(petition),
+    `${trackId}: the petition does not carry the portal and automatic-process dates, which are the reason the route is not yet a live alternative.`
+  );
+  ok(
+    /does not state that the petitioner is within it, and it does not state that the petitioner is outside it/.test(
       petition
     ),
     `${trackId}: the petition does not refuse, in terms, to place the petitioner inside or outside the SB 2030 route.`
@@ -295,8 +312,17 @@ for (const trackId of SECTION_18_TRACKS) {
     `${trackId}: the petition does not disclose the difference between full and partial sealing.`
   );
   ok(
-    /19\(N\)/.test(petition),
-    `${trackId}: the petition does not record the § 19(N) ten-year position.`
+    /19\(L\)/.test(petition),
+    `${trackId}: the petition does not record the § 19(L) ten-year position.`
+  );
+  // Senate Bill 2030 shifted the surviving § 19 subsections up three letters, so
+  // the obliteration rule moved from former O to L and current N is the
+  // impeachment rule. A petition that still cited N would point a reader at a
+  // different rule, which is the one substantive citation error the current-law
+  // decision found in participant-facing Oklahoma text.
+  ok(
+    !/19\(N\)/.test(petition),
+    `${trackId}: the petition still cites § 19(N), which is now the impeachment and character-evidence rule.`
   );
 
   // The court gives notice; the petitioner does not serve.
@@ -344,7 +370,7 @@ for (const trackId of SECTION_18_TRACKS) {
   );
 }
 note(
-  `2. Design boundaries: on all ${SECTION_18_TRACKS.length} § 18 routes the petition carries the SB 2030 caution, the sealing-not-destruction and full-versus-partial disclosures, the § 19(N) position, the court's notice duty and the printed stops; the proposed order names every agency it can and is marked unsigned. No document in the module cites a § 18 subdivision, states a period, or prints an amount.`
+  `2. Design boundaries: on all ${SECTION_18_TRACKS.length} § 18 routes the petition carries the SB 2030 caution, the sealing-not-destruction and full-versus-partial disclosures, the § 19(L) position, the court's notice duty and the printed stops; the proposed order names every agency it can and is marked unsigned. No document in the module cites a § 18 subdivision, states a period, or prints an amount.`
 );
 
 // The § 991c limit is the design's most important consumer-facing point.
