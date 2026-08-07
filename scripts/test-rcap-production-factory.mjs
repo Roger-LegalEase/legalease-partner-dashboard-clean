@@ -2707,6 +2707,146 @@ await check("worker branch identity follows the assignment, not just the job", (
     () => scaffoldKeyFor(job.jobId, "not-a-digest"),
     /canonical assignment fingerprint/
   );
+
+  // 7. A coordination claim is not assignment substance, so reserving a job
+  //    must not rename its branch. This is not hypothetical: North Dakota
+  //    finished against ...-8e2164b3-eefc48ea, the captain added a SESSION_B
+  //    claim while freezing the next wave, and the same byte-identical
+  //    assignment started resolving to ...-8e2164b3-936d912d — a valid
+  //    completion reading as a branch nobody had ever scaffolded.
+  const claimed = structuredClone(job);
+  claimed.assignmentClaim = {
+    jobId: job.jobId,
+    jurisdiction: job.jurisdiction,
+    ownerSession: "SESSION_C",
+    status: "reserved",
+    targetType: "compiled_job"
+  };
+  assert.equal(
+    scaffoldKeyFor(claimed.jobId, { job: claimed, model: claimed.model }),
+    scaffoldKeyFor(job.jobId, { job, model: job.model }),
+    "a coordination claim renamed the worker branch"
+  );
+  assert.equal(
+    assignmentFingerprint(claimed, claimed.model),
+    assignmentFingerprint(job, job.model)
+  );
+  // Re-reserving to a different session, or releasing the claim entirely, is
+  // still coordination and still cannot move the branch.
+  const reassigned = structuredClone(claimed);
+  reassigned.assignmentClaim.ownerSession = "SESSION_D";
+  reassigned.assignmentClaim.status = "in_progress";
+  assert.equal(
+    scaffoldKeyFor(reassigned.jobId, { job: reassigned, model: reassigned.model }),
+    scaffoldKeyFor(job.jobId, { job, model: job.model })
+  );
+
+  // 8. Ratifying ownership is the only thing a late claim may do. Everything
+  //    that describes the work still invalidates the assignment, so a claim
+  //    cannot be used as a back door to change what was assigned.
+  for (const mutate of [
+    (entry) => { entry.trackIds = [...(entry.trackIds ?? []), "smuggled-track"]; },
+    (entry) => { entry.ownedPaths = [...entry.ownedPaths, "src/lib/rcap/smuggled.ts"]; },
+    (entry) => { entry.expectedOutputs = [...entry.expectedOutputs, "src/lib/rcap/smuggled.ts"]; },
+    (entry) => { entry.commitSubject = "feat(record-clearing): something else entirely"; },
+    (entry) => { entry.lane = "guidance_implementation"; },
+    (entry) => { entry.forbiddenPaths = []; }
+  ]) {
+    const smuggled = structuredClone(claimed);
+    mutate(smuggled);
+    assert.notEqual(
+      scaffoldKeyFor(smuggled.jobId, { job: smuggled, model: smuggled.model }),
+      scaffoldKeyFor(job.jobId, { job, model: job.model }),
+      "a substantive assignment change kept its branch identity"
+    );
+  }
+});
+
+// --- session reservations --------------------------------------------------
+//
+// A reservation says who is doing a job, so two sessions do not pick up the
+// same work. It is captain-owned state: a worker that could write it could
+// reassign itself.
+
+await check("captain reserves a job to a session and workers cannot rewrite it", () => {
+  const claims = readJson(
+    "data/record-clearing/production-factory/job-claims.json"
+  );
+  assert.equal(claims.schemaVersion, "rcap-factory-job-claims/v1");
+
+  // Every session that coordinates work can hold a reservation, and Session C
+  // is among them — the guidance lane had no reservation path at all, which is
+  // why New York and Kentucky were scaffolded against an unreserved job.
+  const sessions = new Set(claims.claims.map((entry) => entry.ownerSession));
+  for (const session of sessions) {
+    assert.match(session, /^SESSION_[BCDEF]$/);
+  }
+  assert.ok(
+    sessions.has("SESSION_C"),
+    "no guidance reservation exists, so Session C has no supported claim path"
+  );
+  for (const session of ["SESSION_B", "SESSION_D", "SESSION_F"]) {
+    assert.ok(sessions.has(session), `${session} reservations were dropped`);
+  }
+
+  // One job, one owner. A second claim on the same job is a collision, not a
+  // handover, and the reader refuses it rather than picking one.
+  const seen = new Set();
+  for (const entry of claims.claims) {
+    assert.equal(seen.has(entry.jobId), false, `${entry.jobId} claimed twice`);
+    seen.add(entry.jobId);
+    assert.match(entry.status, /^(reserved|in_progress)$/);
+    assert.match(entry.targetType, /^(compiled_job|canonical_parent)$/);
+  }
+
+  // The claim reaches the compiled job, so a scaffold can check it before
+  // handing the work out.
+  const claimedJobIds = new Set(
+    claims.claims
+      .filter((entry) => entry.targetType === "compiled_job")
+      .map((entry) => entry.jobId)
+  );
+  for (const entry of plan.jobs) {
+    if (!claimedJobIds.has(entry.jobId)) {
+      assert.equal(
+        entry.assignmentClaim,
+        undefined,
+        `${entry.jobId} carries a claim no committed reservation supports`
+      );
+      continue;
+    }
+    assert.ok(entry.assignmentClaim, `${entry.jobId} lost its reservation`);
+    assert.equal(entry.assignmentClaim.jobId, entry.jobId);
+  }
+
+  // Workers may never write the reservation file.
+  for (const entry of plan.jobs) {
+    if (entry.executionScope !== "worker") continue;
+    for (const owned of entry.ownedPaths) {
+      assert.notEqual(
+        owned,
+        "data/record-clearing/production-factory/job-claims.json",
+        `${entry.jobId} owns the shared reservation file`
+      );
+    }
+  }
+
+  // A scaffold handed the wrong session is refused, and one handed the right
+  // session is not.
+  const reserved = plan.jobs.find(
+    (entry) => entry.assignmentClaim?.ownerSession === "SESSION_C"
+  );
+  if (reserved) {
+    assert.throws(
+      () => assertClaimPermitsSession(reserved, "SESSION_B"),
+      /reserved to SESSION_C/
+    );
+    assert.equal(assertClaimPermitsSession(reserved, "SESSION_C"), undefined);
+  }
+  // An unreserved job is not blocked by this gate; it is the reservation that
+  // constrains, not its absence.
+  const unreserved = plan.jobs.find((entry) => !entry.assignmentClaim);
+  assert.equal(assertClaimPermitsSession(unreserved, "SESSION_F"), undefined);
 });
 
 // --- worker commit subjects ------------------------------------------------

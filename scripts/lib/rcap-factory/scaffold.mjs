@@ -259,7 +259,22 @@ export function assertScaffoldableJob(job, options = {}) {
 const BRANCH_IDENTITY_EXCLUDED_FIELDS = new Set([
   "baseCommit",
   "completionCommit",
-  "status"
+  "status",
+  // Coordination, not assignment. `assignmentClaim` records which session
+  // reserved a job so two sessions do not pick up the same work; it says
+  // nothing about what the work is. Including it meant that reserving an
+  // already-completed job renamed its canonical branch out from under the
+  // worker who had already pushed it: North Dakota finished against
+  // ...-8e2164b3-eefc48ea, the captain added a SESSION_B claim to coordinate
+  // the next wave, and the same byte-identical assignment started resolving to
+  // ...-8e2164b3-936d912d, so a valid completion read as a branch that was
+  // never scaffolded. A claim may ratify ownership; it may not invalidate work.
+  //
+  // Everything that is assignment substance — lane, trackIds, ownedPaths,
+  // forbiddenPaths, expectedOutputs, focusedValidation, officialPdfAssignment,
+  // sourceMaterializationInputs, commitSubject, model — still moves the key,
+  // so reissuing a genuinely changed assignment still produces a new branch.
+  "assignmentClaim"
 ]);
 
 /**
