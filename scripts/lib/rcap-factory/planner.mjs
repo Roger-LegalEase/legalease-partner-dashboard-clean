@@ -924,6 +924,35 @@ const COMPLETED_GUIDANCE_TRACKS = new Set(
     record.trackIds.map((trackId) => `${record.jurisdiction}:${trackId}`)
   )
 );
+/**
+ * The worker branch and commit behind each integrated decision in this wave.
+ * Kept beside the completion-commit map so a decision's provenance is one
+ * lookup rather than an archaeology exercise across commit messages.
+ */
+const WAVE_WORKER_BRANCHES = Object.freeze({
+  "rcap-ok-sb-2030-current-text-and-currency":
+    "rcap-factory/rcap-ok-sb-2030-current-text-and-currency-0d923f06-3494a6f1",
+  "rcap-oh-automatic-sealing-current-law-reconciliation":
+    "rcap-factory/rcap-oh-automatic-sealing-current-law-reconciliation-253ee8e2-eda71f22",
+  "rcap-ny-mrta-destruction-request-source-identity-resolution":
+    "rcap-factory/rcap-ny-mrta-destruction-request-source-identity-resolution-2e6e9693-4b55906b",
+  "rcap-co-jdf-family-commercial-license":
+    "rcap-factory/rcap-co-jdf-family-commercial-license-746756c2-c456b710",
+  "rcap-la-arts-993-995-998-html-source-output-strategy-adjudication":
+    "rcap-factory/rcap-la-arts-993-995-998-html-source-output-strategy-adjudicatio-eb9b6396-b289e8a2"
+});
+const WAVE_WORKER_COMMITS = Object.freeze({
+  "rcap-ok-sb-2030-current-text-and-currency":
+    "c163388bf8fa713df33a799674241e90f20217da",
+  "rcap-oh-automatic-sealing-current-law-reconciliation":
+    "8dc94e9ea1b84a2b43bebf1ef3557e9477be69f5",
+  "rcap-ny-mrta-destruction-request-source-identity-resolution":
+    "6a129eb6176b2827e33b5809c43736bfefb063ce",
+  "rcap-co-jdf-family-commercial-license":
+    "dab225425903abd07b786601e21a7b30fa0765da",
+  "rcap-la-arts-993-995-998-html-source-output-strategy-adjudication":
+    "6583072d8d273a564d76917c174936026b11d448"
+});
 const COMPLETED_AUTHORITY_JOB_COMMITS = new Map([
   [
     "rcap-co-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition",
@@ -980,6 +1009,26 @@ const COMPLETED_AUTHORITY_JOB_COMMITS = new Map([
   [
     "rcap-la-public-official-download",
     "19c137d0a5ed42f0b89eb150abd3954e3cdc0f3e"
+  ],
+  [
+    "rcap-ok-sb-2030-current-text-and-currency",
+    "bf06ee8f97e18f61c2cc7159c8244caa8085efa1"
+  ],
+  [
+    "rcap-oh-automatic-sealing-current-law-reconciliation",
+    "bf06ee8f97e18f61c2cc7159c8244caa8085efa1"
+  ],
+  [
+    "rcap-ny-mrta-destruction-request-source-identity-resolution",
+    "bf06ee8f97e18f61c2cc7159c8244caa8085efa1"
+  ],
+  [
+    "rcap-co-jdf-family-commercial-license",
+    "bf06ee8f97e18f61c2cc7159c8244caa8085efa1"
+  ],
+  [
+    "rcap-la-arts-993-995-998-html-source-output-strategy-adjudication",
+    "bf06ee8f97e18f61c2cc7159c8244caa8085efa1"
   ]
 ]);
 const NO_DOWNLOAD_AUTHORITY_FAMILIES = new Set([
@@ -2291,6 +2340,13 @@ export function buildFactoryPlan(options = {}) {
   const nyMrtaPacketCapabilityCorrected =
     fs.existsSync(nyMemoPath) &&
     sha256File(nyMemoPath) === NY_AMENDED_MEMO_SHA256;
+  const nyMrtaSourceIdentityResolved = fs.existsSync(
+    path.join(
+      rootDir,
+      `${FACTORY_DATA_DIR}/legal-design-decisions/` +
+        "ny-mrta-destruction-request-source-identity-resolution.json"
+    )
+  );
 
   if (integratedNormalizations.has("NY")) {
     // ny_mrta_marijuana was normalized as process_guidance, but one of its
@@ -2391,7 +2447,22 @@ export function buildFactoryPlan(options = {}) {
         strategyFamily: "source_identity_resolution",
         trackIds: [],
         dependencies: [NY_MRTA_PACKET_CAPABILITY_JOB_ID],
-        status: "ready",
+        status: nyMrtaSourceIdentityResolved ? "completed" : "ready",
+        ...(nyMrtaSourceIdentityResolved
+          ? {
+              workerBranch:
+                WAVE_WORKER_BRANCHES[
+                  "rcap-ny-mrta-destruction-request-source-identity-resolution"
+                ],
+              workerCommit:
+                WAVE_WORKER_COMMITS[
+                  "rcap-ny-mrta-destruction-request-source-identity-resolution"
+                ],
+              completionCommit: COMPLETED_AUTHORITY_JOB_COMMITS.get(
+                "rcap-ny-mrta-destruction-request-source-identity-resolution"
+              )
+            }
+          : {}),
         expectedOutputs: [
           `${FACTORY_DATA_DIR}/legal-design-decisions/ny-mrta-destruction-request-source-identity-resolution.json`
         ],
@@ -2591,6 +2662,11 @@ export function buildFactoryPlan(options = {}) {
   ];
   for (const entry of stateReconciliationJobs) {
     if (!integratedNormalizations.has(entry.jurisdiction)) continue;
+    // Closes on the presence of its committed decision record, like every
+    // other adjudication here, not on a commit asserting it.
+    const decisionRecord =
+      `${FACTORY_DATA_DIR}/legal-design-decisions/${entry.slug}.json`;
+    const decided = fs.existsSync(path.join(rootDir, decisionRecord));
     addJob({
       lane: "legal_design_normalization",
       jurisdiction: entry.jurisdiction,
@@ -2600,7 +2676,14 @@ export function buildFactoryPlan(options = {}) {
       dependencies: [
         `rcap-${entry.jurisdiction.toLowerCase()}-legal-design-normalization`
       ],
-      status: "ready",
+      status: decided ? "completed" : "ready",
+      ...(decided && COMPLETED_AUTHORITY_JOB_COMMITS.has(entry.jobId)
+        ? {
+            workerBranch: WAVE_WORKER_BRANCHES[entry.jobId],
+            workerCommit: WAVE_WORKER_COMMITS[entry.jobId],
+            completionCommit: COMPLETED_AUTHORITY_JOB_COMMITS.get(entry.jobId)
+          }
+        : {}),
       expectedOutputs: [
         `${FACTORY_DATA_DIR}/legal-design-decisions/${entry.slug}.json`
       ],
@@ -2941,7 +3024,7 @@ export function buildFactoryPlan(options = {}) {
   }
 
   addAuthorityCorrectionFollowups({ addJob });
-  addIntegratedAuthorityDecisionOwners({ addJob });
+  addIntegratedAuthorityDecisionOwners({ addJob, rootDir });
 
   addJob({
     lane: "source_acquisition",
@@ -3986,7 +4069,26 @@ function addAuthorityCorrectionFollowups({ addJob }) {
  * question is not open — it is lost. None of these jobs may acquire, license,
  * materialize or render anything; each resolves one question.
  */
-function addIntegratedAuthorityDecisionOwners({ addJob }) {
+function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
+  // These close on their committed decision record, like every other authority
+  // job, and carry the worker branch and commit that produced it.
+  const decided = (jobId) =>
+    fs.existsSync(
+      path.join(
+        rootDir,
+        `${FACTORY_DATA_DIR}/source-acquisition/${jobId}.json`
+      )
+    );
+  const completion = (jobId) =>
+    decided(jobId) && COMPLETED_AUTHORITY_JOB_COMMITS.has(jobId)
+      ? {
+          status: "completed",
+          workerBranch: WAVE_WORKER_BRANCHES[jobId],
+          workerCommit: WAVE_WORKER_COMMITS[jobId],
+          completionCommit: COMPLETED_AUTHORITY_JOB_COMMITS.get(jobId)
+        }
+      : { status: "ready" };
+
   // --- Colorado --------------------------------------------------------
   //
   // The decision confirmed JDF 2371's identity and bytes but recorded the
@@ -4001,7 +4103,7 @@ function addIntegratedAuthorityDecisionOwners({ addJob }) {
     reconciliationIds: ["license:CO:JDF-FAMILY:commercial-use"],
     downloadedSourceCount: 0,
     dependencies: ["rcap-co-jdf-2370-role-and-jdf-2371-mapping-correction"],
-    status: "ready",
+    ...completion("rcap-co-jdf-family-commercial-license"),
     expectedOutputs: [
       `${FACTORY_DATA_DIR}/source-acquisition/rcap-co-jdf-family-commercial-license.json`
     ],
@@ -4204,7 +4306,9 @@ function addIntegratedAuthorityDecisionOwners({ addJob }) {
     reconciliationIds: ["lane:LA:ARTS-993-995-998:html-output-strategy"],
     downloadedSourceCount: 0,
     dependencies: ["rcap-la-public-official-download"],
-    status: "ready",
+    ...completion(
+      "rcap-la-arts-993-995-998-html-source-output-strategy-adjudication"
+    ),
     expectedOutputs: [
       `${FACTORY_DATA_DIR}/source-acquisition/rcap-la-arts-993-995-998-html-source-output-strategy-adjudication.json`
     ],
