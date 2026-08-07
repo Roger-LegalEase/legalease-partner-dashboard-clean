@@ -1,0 +1,437 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-hi-in-repo-identity-reconciliation-hcjdc-159",
+  "parentJobId": "AUTH-03-acquisition-campaign-tier-1",
+  "jurisdiction": "HI",
+  "lane": "source_acquisition",
+  "strategyFamily": "in_repo_identity_reconciliation",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "6aac71e290cbb79db25f5837192a74f7efb6dd86",
+  "generatedOn": "2026-08-07",
+  "acquisitionIds": [
+    "acquire:HI:hcjdc-159",
+    "acquire:HI:hcjdc-159b"
+  ],
+  "downloadedSourceCount": 0,
+  "generatedFrom": [
+    "data/record-clearing/legal-design-intake/HI.memo.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-03-acquisition-campaign-tier-1.json"
+  ],
+  "method": {
+    "description": "Deterministic in-repository identity reconciliation of the two Hawaii expungement-application keys. The component-to-document bindings recorded in the track-source relationships and the source-acquisition queue were compared against the asset identities the repository actually holds, as recorded in the source-artifact registry and the repository asset audit, and against the official-source evidence already recorded in the acquisition intelligence. No network retrieval, no issuer contact and no edition mutation were performed.",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "authenticationUsed": false,
+    "binariesDownloaded": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "memoAltered": false,
+    "componentRebound": false,
+    "byteVerificationMethod": "repository_recorded_measurement_not_remeasured",
+    "byteVerificationNote": "The digests and byte counts below are the values the source-artifact registry and the repository asset audit already carry, both of which record hashState=match and binaryPresent=true for these files. They were not re-measured in this job: private/ is untracked, so no Hawaii binary is present in this worktree, and the assignment expressly forbids downloading. They are reproduced as identity of record.",
+    "assignmentConstraintObserved": "The stop condition confines this job to retained repository assets and deterministic identity mapping, with no download and no issuer contact. Every finding below is derived from retained data. Where a question cannot be answered inside that constraint it is recorded as unresolved rather than answered from outside it — see technicalStructure.notEstablishedWithinThisAssignment."
+  },
+  "finding": {
+    "headline": "HCJDC-159 and HCJDC-159B are not two documents. Hawaii publishes one expungement application, and the repository holds its current revision at matching bytes. The defect is a duplicated identity key, not an acquisition gap.",
+    "queueClaim": "Eight source-acquisition rows across eight tracks carry currentEditionStatus=authority_unmanifested_source and repositoryStatus=no_repository_binary, six under acquire:HI:hcjdc-159 and two under acquire:HI:hcjdc-159b, each with the currentness question 'The issuer's current revision for this document is unconfirmed.'",
+    "acquisitionRequired": false,
+    "acquisitionRequiredRationale": "Nothing needs to be obtained from the Hawaii Criminal Justice Data Center. The current official binary is already held in this repository at byte identity, and the acquisition intelligence records that the same digest was retrieved from the issuer's own publication on 2026-08-03. What is missing is an edition row, not a file.",
+    "repositoryStatusContradiction": {
+      "queueSays": "no_repository_binary, on all eight rows",
+      "assetAuditSays": "The repository asset audit records artifactId expungement-application-rev-2026-06 with presence=present, binaryPresent=true and hashState=match, status=unmanifested_repository_asset.",
+      "resolution": "The queue row is wrong on its face. The binary is present; what is absent is a retained row in the adopted edition. 'No repository binary' and 'no edition row' are different failures and the queue conflated them.",
+      "correctionOwner": "the queue owner; the queue is not this job's to write"
+    }
+  },
+  "resolvedIdentity": {
+    "singleDocument": true,
+    "officialDocumentId": "HCJDC 159(b)",
+    "repositoryKeysThatCollapseToIt": [
+      "HCJDC-159",
+      "HCJDC-159B"
+    ],
+    "officialTitle": "Expungement Application",
+    "issuer": "State of Hawaii, Department of the Attorney General",
+    "issuingOffice": "Hawaii Criminal Justice Data Center (HCJDC)",
+    "issuingOfficeAddress": "465 South King Street, Room 102, Honolulu, HI 96813",
+    "legalRole": "primary_filing — the applicant's application to HCJDC for expungement of a criminal record",
+    "participantFacing": true,
+    "signatory": "the applicant, personally",
+    "scope": "statewide",
+    "scopeBasis": "HCJDC is a statewide unit of the Hawaii Department of the Attorney General, not a court and not a judicial circuit, and it administers expungement for the whole State. The integrated Hawaii legal-design memo independently records geography.scope=statewide on all eight affected tracks, with destination kind=agency and name 'Hawaii Criminal Justice Data Center'.",
+    "currentRevision": "REV-2026-06-03",
+    "currentRevisionEvidence": "The acquisition intelligence records the revision printed in the retrieved binary's footer as 'HCJDC 159(b) Rev. 06/03/2026', with the HCJDC forms index listing June 2026, confirmed against the issuer on 2026-08-03. The held repository copy carries the same digest as that retrieved binary.",
+    "priorRevision": "Rev. 11/15/2019",
+    "officialLandingPage": "https://ag.hawaii.gov/hcjdc/hcjdc-forms/",
+    "officialBinaryUrl": "https://ag.hawaii.gov/hcjdc/files/2026/06/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+    "alternateOfficialPage": "https://ag.hawaii.gov/hcjdc/expungements/",
+    "publicRetrievalStatus": "public, free, no login; automated retrieval succeeded when last exercised on 2026-08-03",
+    "publicRetrievalStatusNote": "Recorded from the retained acquisition intelligence. This job performed no retrieval and does not re-assert live availability today.",
+    "filingRoute": "Mail the completed application to HCJDC with a self-addressed stamped envelope, a copy of a photo ID, and payment; conviction-route tracks must additionally attach the court order.",
+    "feeToObtainTheForm": "none",
+    "feeToFile": "recorded in the acquisition intelligence as $35 first-time, $50 non-first-time and $20 duplicate certificate, each including a non-refundable $10 processing fee, payable by US-issued money order or cashier's check to State of Hawaii"
+  },
+  "whyTheTwoKeysExist": {
+    "explanation": "The suffix was read as a form number. HCJDC publishes exactly two forms in total — HCJDC-073 and HCJDC 159(b) — and the '(b)' is part of the single expungement application's own identifier, not a variant of a base form numbered 159. Because the Hawaii tracks were normalized in two groups, the six non-conviction and first-offender routes acquired the key HCJDC-159 while the two deferred-acceptance routes acquired HCJDC-159B, and nothing afterwards tested whether the issuer publishes two documents.",
+    "issuerFormInventory": "Two forms: HCJDC-073 and HCJDC 159(b).",
+    "oneFormCoversBothRoutes": "The single application covers both the non-conviction and the conviction or deferred routes; the route difference shows up in what the applicant attaches, not in which form they file.",
+    "consequenceIfLeftUnreconciled": "Two edition rows, two materialization receipts and two field maps would be created for one document, and a participant packet could present two different applications for the same filing."
+  },
+  "heldRepositoryAssets": [
+    {
+      "artifactId": "expungement-application-rev-2026-06",
+      "fileName": "EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+      "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+      "presenceInRepository": "present",
+      "presenceInThisWorktree": "absent — private/ is untracked",
+      "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+      "bytes": 181711,
+      "hashState": "match",
+      "binaryPresent": true,
+      "mimeType": "application/pdf",
+      "structuralClass": "flat_pdf",
+      "logicalFields": 0,
+      "encrypted": false,
+      "xfa": false,
+      "editionStatus": "unmanifested_repository_asset",
+      "editionStatusReason": "Present in this repository with no retained row, exclusion row or duplicate row in the adopted edition. Runtime disabled pending an edition amendment.",
+      "verdict": "current_official_revision_held_at_byte_identity",
+      "verdictBasis": "The acquisition intelligence records SHA-256 1cb4f3ac…d935a and 181,711 bytes for the binary retrieved from the issuer on 2026-08-03 and states it is byte-identical to the held copy. The registry and the asset audit both record the same digest and byte count for the held file with hashState=match. Three independent records agree."
+    },
+    {
+      "artifactId": "revised-exp-application-2019-11",
+      "fileName": "REVISED-EXP-APPLICATION-2019-11.pdf",
+      "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase Hawaii/REVISED-EXP-APPLICATION-2019-11.pdf",
+      "presenceInRepository": "present",
+      "presenceInThisWorktree": "absent — private/ is untracked",
+      "sha256": "e9b084cea6c7b0bf27aae1c03937e28b33f7b3a8e4afe8173c766bc379b747f9",
+      "bytes": 137157,
+      "hashState": "match",
+      "mimeType": "application/pdf",
+      "structuralClass": "flat_pdf",
+      "logicalFields": 0,
+      "encrypted": false,
+      "xfa": false,
+      "editionStatus": "unmanifested_repository_asset",
+      "verdict": "superseded_by_current_revision",
+      "verdictBasis": "It is the Rev. 11/15/2019 edition of the same application, 44,554 bytes smaller than the current file and carrying a different digest. The issuer publishes the June 2026 revision as current.",
+      "treatment": "must_not_be_bound_as_current",
+      "treatmentNote": "It must not be materialized, bound to any component or presented to a participant. It may be retained as supersession evidence only."
+    },
+    {
+      "artifactId": "hcjdc-forms",
+      "fileName": "hcjdc-forms.html",
+      "sha256": "ee37bf85dbc620b7dd22d540aa3d86ddbfe8d9ae9412a97b35dab2f067bb3172",
+      "bytes": 51010,
+      "editionStatus": "not_a_workflow_asset",
+      "role": "a repository capture of the HCJDC forms index; corroborative provenance, not a packet document"
+    },
+    {
+      "artifactId": "hawaii-expungement-reference",
+      "fileName": "Hawaii-Expungement-Reference.pdf",
+      "sha256": "8754a27448c4752fc79e46da7a7be4c8bd7e3fd4603feb77c1d4ce16ed92a0fb",
+      "bytes": 8122,
+      "structuralClass": "flat_pdf",
+      "editionStatus": "unmanifested_repository_asset",
+      "role": "a reference document, not the application",
+      "treatment": "must_not_be_substituted_for_the_application"
+    }
+  ],
+  "technicalStructure": {
+    "measurementBasis": "repository_recorded_measurement_not_remeasured_in_this_job",
+    "bytes": 181711,
+    "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+    "mimeType": "application/pdf",
+    "structuralClass": "flat_pdf",
+    "logicalFields": 0,
+    "terminalFields": 0,
+    "encrypted": false,
+    "xfa": false,
+    "pageCountFromAcquisitionIntelligence": 1,
+    "pageCountBasis": "recorded in the acquisition intelligence as '1 page, flat PDF with no form fields'; not re-measured here",
+    "notEstablishedWithinThisAssignment": {
+      "fields": [
+        "widget annotation count",
+        "page dimensions",
+        "page rotation"
+      ],
+      "why": "None is recorded in any retained repository row, and establishing them requires opening the binary. The binary is absent from this worktree because private/ is untracked, and the assignment forbids downloading it. Recording an unmeasured value would be inventing one.",
+      "consequence": "Trivial for this document and stated for completeness. It is a flat PDF with zero form fields, so there are no widgets to count and no field map to build; a renderer for it would be an overlay keyed on page geometry, which is exactly the measurement still missing.",
+      "reopenCondition": "Closed the moment the captain materializes the binary, which the recorded digest and byte count make a mechanical step."
+    }
+  },
+  "adoptedEditionAssessment": {
+    "editionRetainsThisDocument": false,
+    "editionRetainsAnyHawaiiPacketForm": false,
+    "evidence": "The repository asset audit lists exactly one Hawaii library asset, HI:STATEWIDE:LEGAL_REVIEW:EN, and it is itself recorded under libraryAssetsAbsentFromRepositoryInventory. Both HCJDC applications carry libraryRow=null and status=unmanifested_repository_asset.",
+    "correctIdentity": "not_applicable_no_row_exists",
+    "correctRole": "not_applicable_no_row_exists",
+    "correctRevision": "not_applicable_no_row_exists",
+    "correctBytes": "not_applicable_no_row_exists",
+    "correctScope": "not_applicable_no_row_exists",
+    "summary": "There is nothing in the adopted edition to correct for this document, because there is nothing in it. The edition neither retains the application nor excludes it. That is why the disposition below is an edition amendment to add a row rather than a correction to an existing one."
+  },
+  "doNotSubstitute": [
+    {
+      "documentId": "HCJDC-073",
+      "negativeFinding": "The other of the two forms HCJDC publishes. It is not the expungement application and must not be bound to any of these eight components. Its number is adjacent in the same series, which is exactly the confusion to guard against."
+    },
+    {
+      "documentId": "REVISED-EXP-APPLICATION-2019-11",
+      "negativeFinding": "The Rev. 11/15/2019 edition of the same application. Same title, same issuer, same role, different bytes. Title and issuer agreement is not currentness."
+    },
+    {
+      "documentId": "Hawaii-Expungement-Reference.pdf",
+      "negativeFinding": "An 8,122-byte reference document held in the same repository folder. It is not the application and cannot serve a primary_filing component."
+    },
+    {
+      "documentId": "HCJDC-159 as a document distinct from HCJDC 159(b)",
+      "negativeFinding": "No such distinct document exists. Creating a second edition row, receipt or field map for it would manufacture a document the State of Hawaii does not publish."
+    },
+    {
+      "sourceClass": "a circuit or district court expungement form",
+      "negativeFinding": "Expungement here is an executive-branch application to the Attorney General's data centre, not a court filing. A court form must not be substituted, and no court form may be promoted to statewide scope on the strength of this record."
+    },
+    {
+      "sourceClass": "commercial or third-party recreations",
+      "negativeFinding": "None is a controlling source for identity, revision or bytes."
+    }
+  ],
+  "scopeFinding": {
+    "question": "Is the expungement application statewide or court-specific?",
+    "verdict": "statewide_scope_confirmed",
+    "basis": "HCJDC is a statewide unit of the Hawaii Department of the Attorney General. The application is filed by mail with that single office for the whole State, and the integrated legal-design memo records geography.scope=statewide on all eight affected tracks with an agency destination.",
+    "contradictedRegistryFlag": {
+      "registryPath": "data/record-clearing/source-artifact-registry.json",
+      "artifactIds": [
+        "expungement-application-rev-2026-06",
+        "revised-exp-application-2019-11"
+      ],
+      "recordedGeographicScope": "court_specific",
+      "disposition": "heuristic_scanner_artefact_superseded_by_this_finding",
+      "explanation": "The scanner scored a document that is not a court form at all as court-specific. This is the same false positive pattern already identified and corrected for the Colorado JDF family: a scope heuristic keyed on address or caption markers, applied to a document whose destination is an executive agency.",
+      "correctionOwner": "the registry owner; the registry is a forbidden path for this job",
+      "correctionRequired": "Set geographicScope=statewide on both artifact rows. Recorded as a handoff, not applied."
+    }
+  },
+  "affectedTracksAndComponents": [
+    {
+      "trackId": "hi_nonconviction_expungement",
+      "componentId": "hi_nonconviction_expungement-primary-filing-1",
+      "boundKey": "HCJDC-159",
+      "trackOutputStrategy": "official_pdf_fill"
+    },
+    {
+      "trackId": "hi_first_time_drug_offender_expungement",
+      "componentId": "hi_first_time_drug_offender_expungement-primary-filing-2",
+      "boundKey": "HCJDC-159",
+      "trackOutputStrategy": "custom_pleading",
+      "note": "The track also carries a separate custom_pleading primary filing for the court stage; only the HCJDC component is in scope here."
+    },
+    {
+      "trackId": "hi_first_time_property_offender_expungement",
+      "componentId": "hi_first_time_property_offender_expungement-primary-filing-2",
+      "boundKey": "HCJDC-159",
+      "trackOutputStrategy": "custom_pleading"
+    },
+    {
+      "trackId": "hi_marijuana_three_grams_expungement",
+      "componentId": "hi_marijuana_three_grams_expungement-primary-filing-2",
+      "boundKey": "HCJDC-159",
+      "trackOutputStrategy": "custom_pleading"
+    },
+    {
+      "trackId": "hi_pre_2004_drug_offender_expungement",
+      "componentId": "hi_pre_2004_drug_offender_expungement-primary-filing-2",
+      "boundKey": "HCJDC-159",
+      "trackOutputStrategy": "custom_pleading"
+    },
+    {
+      "trackId": "hi_under_21_dui_expungement",
+      "componentId": "hi_under_21_dui_expungement-primary-filing-2",
+      "boundKey": "HCJDC-159",
+      "trackOutputStrategy": "custom_pleading"
+    },
+    {
+      "trackId": "hi_712_1200_deferred_expungement",
+      "componentId": "hi_712_1200_deferred_expungement-primary-filing-2",
+      "boundKey": "HCJDC-159B",
+      "trackOutputStrategy": "official_pdf_fill"
+    },
+    {
+      "trackId": "hi_dag_danc_expungement",
+      "componentId": "hi_dag_danc_expungement-primary-filing-2",
+      "boundKey": "HCJDC-159B",
+      "trackOutputStrategy": "official_pdf_fill"
+    }
+  ],
+  "affectedTrackCount": 8,
+  "affectedComponentCount": 8,
+  "resolutionRequired": {
+    "kind": "identity_key_collapse_and_edition_retention",
+    "performedByThisJob": false,
+    "notPerformedRationale": "Collapsing the keys rewrites data/record-clearing/legal-design-track-source-relationships.json and the source-acquisition queue, and retaining the asset amends an edition. All are outside this job's ownedPaths. This job establishes the answer and stops at the boundary.",
+    "recommendedCorrections": [
+      "Collapse HCJDC-159 and HCJDC-159B to one identity for the single official document HCJDC 159(b) at REV-2026-06-03, and rebind all eight components to it.",
+      "Pin sha256 1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a on each of the eight track-source relationships.",
+      "Retain the held current binary as a Hawaii packet_form authority asset in the successor edition; the adopted edition retains no Hawaii packet form at all.",
+      "Mark the held Rev. 11/15/2019 copy superseded and exclude it from binding.",
+      "Correct the two source-artifact-registry rows from geographicScope=court_specific to statewide.",
+      "Correct the eight queue rows' repositoryStatus, which reads no_repository_binary for a binary the asset audit records as present."
+    ],
+    "memoEditRequired": false,
+    "memoEditRationale": "No Hawaii memo edit is required. The memo already records the correct issuer, the correct agency destination and statewide scope on all eight tracks, and its component bindings name the document by the same two keys the relationships use. Collapsing a duplicated source key is a source-identity correction, not a legal-design change. HI.memo.json was not opened for writing."
+  },
+  "terminalDisposition": "duplicate_identity_keys_resolved_to_one_document_authority_edition_amendment_required",
+  "terminalDispositionDetail": {
+    "why": "The narrowest accurate result. It is not identity_unresolved: the document, its issuer, its title, its role, its scope and its current revision are all established, and the current bytes are held. It is not exact_identity_confirmed_current_binary_retrievable, because retrievability was not exercised in this job and because no edition row exists to retrieve against. It is not superseded_by_current_revision at the job level — that disposition belongs to the 2019 copy alone, and is recorded there. What the eight rows actually need is one identity instead of two, and an edition row where today there is none.",
+    "perAcquisition": {
+      "acquire:HI:hcjdc-159": "resolves_to_HCJDC-159(b)_REV-2026-06-03_no_acquisition_required",
+      "acquire:HI:hcjdc-159b": "resolves_to_the_same_document_no_separate_acquisition_exists"
+    },
+    "supersessionDisposition": {
+      "revised-exp-application-2019-11": "superseded_by_current_revision"
+    }
+  },
+  "redundantAcquisitionWorkRemoved": {
+    "queueRowsClosableWithoutAcquisition": 8,
+    "acquisitionKeys": [
+      "acquire:HI:hcjdc-159",
+      "acquire:HI:hcjdc-159b"
+    ],
+    "downloadsAvoided": 2,
+    "duplicateIdentitiesRemoved": 1,
+    "rationale": "Neither key should remain an open download job. One document is published, its current revision is held at byte identity, and no issuer interaction can resolve a duplicated key held in this repository."
+  },
+  "edition13Impact": {
+    "publicationJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+    "dependencySatisfied": "rcap-hi-in-repo-identity-reconciliation-hcjdc-159",
+    "editionAmendmentRequired": true,
+    "requiresNewBytes": true,
+    "requiresNewBytesDetail": "Yes. The adopted edition retains no Hawaii packet form, so the successor edition must add one. The bytes already exist in this repository at a digest three independent records agree on; nothing needs to be acquired.",
+    "requiresMetadataCorrection": true,
+    "requiresRoleCorrection": false,
+    "requiresScopeCorrection": false,
+    "requiresScopeCorrectionNote": "There is no edition row carrying a wrong scope. The wrong scope is on two repository registry rows, which are not edition content.",
+    "requiresRevisionCorrection": false,
+    "requiresLicenseDisposition": false,
+    "requiresLicenseDispositionNote": "The acquisition intelligence records no published redistribution or commercial-use restriction. That is a negative finding on restriction, not a permission, and no licence question was assigned to this job.",
+    "amendmentHandoffItems": [
+      {
+        "item": "Retain the Hawaii expungement application as a packet_form authority asset",
+        "proposedWorkflowKey": "HI:HCJDC-159B:APPLICATION:EN",
+        "kind": "new_row_plus_new_bytes",
+        "officialTitle": "Expungement Application",
+        "documentId": "HCJDC 159(b)",
+        "revision": "REV-2026-06-03",
+        "assetClass": "packet_form",
+        "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+        "bytes": 181711,
+        "mediaType": "application/pdf",
+        "scope": "statewide",
+        "detail": "One row for one document. Do not create a second row for HCJDC-159."
+      },
+      {
+        "item": "Record the superseded 2019 revision",
+        "kind": "supersession_record",
+        "sha256": "e9b084cea6c7b0bf27aae1c03937e28b33f7b3a8e4afe8173c766bc379b747f9",
+        "bytes": 137157,
+        "revision": "Rev. 11/15/2019",
+        "detail": "Recorded so a later reader cannot mistake the held legacy copy for a second current form. It is not adopted."
+      }
+    ],
+    "edition12Treatment": "immutable_unchanged",
+    "publicationPerformed": false
+  },
+  "implementationFamilyRelationship": {
+    "affectedTracks": 8,
+    "affectedComponents": 8,
+    "effectOfThisJob": "One duplicated source identity becomes one document with a confirmed current revision and held bytes, and the acquisition question closes without a download for all eight rows.",
+    "familyReadinessStatement": "No Hawaii implementation family is ready and this job does not assert that any is. The document is a flat PDF with zero form fields, so an official_pdf_fill component consuming it needs a coordinate-overlay renderer and a page-geometry measurement that does not yet exist. Five of the eight tracks additionally carry a separate custom_pleading court-stage filing with no template. No Hawaii source-materialization receipt exists, no Hawaii asset is present in the materialized source root, and every relationship still records corpusState=unchecked with no pinned SHA-256.",
+    "rendererObservation": "flat_pdf with zero fields is the shape the coordinate_overlay lane exists for, not the acroform_fill lane. That is an observation about the artifact; assigning a renderer is not this job's act and is not performed."
+  },
+  "expectedDownstreamEffect": "The Hawaii expungement application resolves from two open acquisition keys with an unconfirmed revision to one identified statewide document at REV-2026-06-03 whose current bytes are already held, with the superseded 2019 copy identified and quarantined. Eight components across eight tracks stop pointing at a phantom second form. Edition 1.3 gains a concrete new row to add, with the digest and byte count supplied and nothing to acquire. Two downloads and one duplicate identity are removed from the backlog. No component is rebound here, no receipt is created, no renderer is assigned, no packet becomes generatable, no runtime is enabled and no track changes promotion state.",
+  "residualBlockers": [
+    {
+      "id": "hi-key-collapse-application",
+      "question": "Collapsing HCJDC-159 and HCJDC-159B to one identity and rebinding the eight components.",
+      "status": "handed_off",
+      "owner": "the component-remap and relationship-pinning lane",
+      "why": "The relationships file and the queue are forbidden paths for this job."
+    },
+    {
+      "id": "hi-edition-retention",
+      "question": "The successor edition must retain the application; the adopted edition retains no Hawaii packet form.",
+      "status": "handed_off",
+      "owner": "rcap-nationwide-master-library-edition-1-3-publication",
+      "why": "Edition 1.2 is immutable and this job may not publish or amend an edition."
+    },
+    {
+      "id": "hi-materialization",
+      "question": "No Hawaii source-materialization receipt exists and no Hawaii asset is in the materialized source root.",
+      "status": "open",
+      "owner": "Session A captain",
+      "why": "This job may not materialize a source or write a receipt. The expected values are recorded above.",
+      "reopenCondition": "Closed when a receipt verifies against sha256 1cb4f3ac…d935a at 181,711 bytes."
+    },
+    {
+      "id": "hi-page-geometry",
+      "question": "Widget count, page dimensions and rotation are unmeasured.",
+      "status": "open",
+      "owner": "implementation lane, after materialization",
+      "why": "Not recorded in any retained row, and the assignment forbids opening the binary. For a zero-field flat PDF the page geometry is what an overlay renderer would key on, so it must be measured before any renderer decision."
+    },
+    {
+      "id": "hi-registry-scope-metadata",
+      "question": "Two source-artifact-registry rows still record the application as court_specific.",
+      "status": "handed_off",
+      "owner": "the registry owner",
+      "why": "Forbidden path for this job. See scopeFinding."
+    },
+    {
+      "id": "hi-queue-repository-status",
+      "question": "Eight queue rows record no_repository_binary for a binary the asset audit records as present.",
+      "status": "handed_off",
+      "owner": "the queue owner",
+      "why": "Forbidden path for this job."
+    },
+    {
+      "id": "hi-court-stage-templates",
+      "question": "Five tracks carry a separate custom_pleading court-stage primary filing with no officialFormId and no template.",
+      "status": "open_and_outside_this_job",
+      "owner": "the Hawaii implementation lane",
+      "why": "Outside this assignment, which covers the HCJDC application only. Noted because those five tracks do not clear on this reconciliation alone."
+    },
+    {
+      "id": "hi-live-currentness",
+      "question": "The currentness finding rests on a 2026-08-03 confirmation, not on a reading taken today.",
+      "status": "inherent",
+      "owner": "acquisition owner",
+      "why": "The assignment forbids downloading, so no live check was possible or attempted. A revision published after 2026-08-03 would not be visible here.",
+      "reopenCondition": "Closed by a fresh comparison of the issuer's published binary against sha256 1cb4f3ac…d935a."
+    }
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "sourcesMaterialized": 0,
+    "memoEdited": false,
+    "editionPublished": false,
+    "rendererImplemented": false,
+    "issuerContacted": false
+  }
+}
