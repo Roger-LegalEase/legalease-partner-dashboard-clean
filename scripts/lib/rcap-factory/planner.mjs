@@ -726,6 +726,46 @@ const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
     trackIds: ["mt_auto_nonconviction"]
   },
   {
+    jurisdiction: "VA",
+    completionCommit: "e6367e3ee4a41a1d6baa4dc2294c699c0f23c5f0",
+    modulePath: "src/lib/rcap/packets/jurisdictions/virginia/guidance.ts",
+    verifierPath: "scripts/verify-rcap-virginia-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: [
+      "va_auto_seal_clean_record",
+      "va_auto_seal_convictions",
+      "va_auto_seal_nonconvictions",
+      "va_auto_seal_without_order",
+      "va_exp_actual_innocence"
+    ]
+  },
+  {
+    jurisdiction: "SD",
+    completionCommit: "c5ce6d306c60321d029eaba20cb95616eabe695a",
+    modulePath: "src/lib/rcap/packets/jurisdictions/south-dakota/guidance.ts",
+    verifierPath: "scripts/verify-rcap-south-dakota-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: [
+      "sd_23a_3_34_auto",
+      "sd_diversion",
+      "sd_pardon_24_14_11",
+      "sd_sis_sealing"
+    ]
+  },
+  {
+    jurisdiction: "WI",
+    completionCommit: "1ba6e2e720b60809ce59e9c5b6137f7b3fa91b03",
+    modulePath: "src/lib/rcap/packets/jurisdictions/wisconsin/guidance.ts",
+    verifierPath: "scripts/verify-rcap-wisconsin-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: [
+      "wi_def_961_47",
+      "wi_exp_942_08_mandatory",
+      "wi_exp_certificate_of_discharge",
+      "wi_exp_trafficking_2m"
+    ]
+  },
+  {
     jurisdiction: "NE",
     completionCommit: "ac4f9f2b106c79e00461861920b210aa537f57f2",
     modulePath: "src/lib/rcap/packets/jurisdictions/nebraska/guidance.ts",
@@ -3218,6 +3258,18 @@ const COMPLETED_CUSTOM_PLEADING_IMPLEMENTATIONS = Object.freeze([
     modulePath:
       "src/lib/rcap/packets/jurisdictions/tennessee/custom-pleading.ts",
     verifierPath: "scripts/verify-rcap-tennessee-custom-pleading.mjs"
+  },
+  {
+    jurisdiction: "OK",
+    completionCommit: "1602ca5ebbf69b9688a3b941b017da6ee6da8609",
+    modulePath: "src/lib/rcap/packets/jurisdictions/oklahoma/custom-pleading.ts",
+    verifierPath: "scripts/verify-rcap-oklahoma-custom-pleading.mjs"
+  },
+  {
+    jurisdiction: "NV",
+    completionCommit: "eccb51f2846f3df93a806981a09e991c6e841c8a",
+    modulePath: "src/lib/rcap/packets/jurisdictions/nevada/custom-pleading.ts",
+    verifierPath: "scripts/verify-rcap-nevada-custom-pleading.mjs"
   }
 ]);
 
