@@ -360,7 +360,7 @@ const completedGuidanceJobs = factoryPlan.jobs.filter(
     entry.lane === "guidance_implementation" &&
     entry.participantPacketProofRequired === true
 );
-assert.equal(completedGuidanceJobs.length, 27);
+assert.equal(completedGuidanceJobs.length, 30);
 const expectedGuidanceCompletions = new Map([
   ["rcap-ak-guidance-implementation", ["36509c7377c5653db07fd5c43b3948aad079164a", 4]],
   ["rcap-ca-guidance-implementation", ["26b4661089849a67eb99bfae6598ba101f75cbbc", 3]],
@@ -388,7 +388,10 @@ const expectedGuidanceCompletions = new Map([
   ["rcap-ut-guidance-implementation", ["4869d93aa5a1d56a5d4a395ad1b2bd8fabe2be7b", 5]],
   ["rcap-va-guidance-implementation", ["e6367e3ee4a41a1d6baa4dc2294c699c0f23c5f0", 5]],
   ["rcap-sd-guidance-implementation", ["c5ce6d306c60321d029eaba20cb95616eabe695a", 4]],
-  ["rcap-wi-guidance-implementation", ["1ba6e2e720b60809ce59e9c5b6137f7b3fa91b03", 4]]
+  ["rcap-wi-guidance-implementation", ["1ba6e2e720b60809ce59e9c5b6137f7b3fa91b03", 4]],
+  ["rcap-nh-guidance-implementation", ["6b33cd960db98b72cb5d68a799c99a13ed4effa4", 3]],
+  ["rcap-oh-guidance-implementation", ["fe2b29e13b1e57bfa2de478f3187e7939d5105bb", 3]],
+  ["rcap-wv-guidance-implementation", ["07d5d840a85df8d8f74a48e2778658c7a62b50e9", 3]]
 ]);
 let verifiedGuidancePacketCount = 0;
 let verifiedGuidancePageCount = 0;
@@ -447,15 +450,15 @@ for (const child of completedGuidanceJobs) {
   verifiedGuidancePacketCount += proof.finalPdfCount;
   verifiedGuidancePageCount += proof.assembledPageCount;
 }
-assert.equal(verifiedGuidancePacketCount, 89);
-assert.equal(verifiedGuidancePageCount, 352);
+assert.equal(verifiedGuidancePacketCount, 98);
+assert.equal(verifiedGuidancePageCount, 435);
 assert.deepEqual(productionPlan.participantPacketProofReconciliation, {
   schemaVersion: "rcap-participant-packet-proof/v1",
-  completedGuidanceJobsRequiringProof: 27,
-  proofsPresentAndVerified: 27,
-  assignedTracks: 89,
-  finalPackets: 89,
-  assembledPages: 352,
+  completedGuidanceJobsRequiringProof: 30,
+  proofsPresentAndVerified: 30,
+  assignedTracks: 98,
+  finalPackets: 98,
+  assembledPages: 435,
   proofDirectory: "data/record-clearing/production-factory/packet-proofs",
   evidenceSource:
     "Each integration-owned proof is generated from its committed regression verifier output; worker-authored proof assertions are not accepted.",
@@ -495,8 +498,8 @@ assert.deepEqual(productionPlan.guidanceLaneReconciliation, {
   workerImplementationStatus:
     guidanceImplementationPoolExhausted ? "complete" : "incomplete",
   technicalPacketProofStatus: "complete",
-  finalPackets: 89,
-  assembledPages: 352,
+  finalPackets: 98,
+  assembledPages: 435,
   blockedAdjudications: currentGuidanceAdjudicationJobs.filter(
     (entry) => entry.status === "blocked"
   ).length,
@@ -2197,7 +2200,7 @@ assert.equal(
   factoryPlan.trackReconciliation.representedExactlyOnce,
   normalizedTrackCount
 );
-assert.equal(factoryPlan.trackReconciliation.implementationComplete, 162);
+assert.equal(factoryPlan.trackReconciliation.implementationComplete, 171);
 assert.equal(
   factoryPlan.trackReconciliation.pendingProductionJob,
   normalizedTrackCount -
@@ -2812,8 +2815,8 @@ assert.deepEqual(
 );
 assert.equal(status.totals.tracks, normalizedTrackCount);
 assert.equal(status.totals.normalized, normalizedTrackCount);
-assert.equal(status.totals.implementationComplete, 112);
-assert.equal(status.totals.technicalProofPassed, 112);
+assert.equal(status.totals.implementationComplete, 121);
+assert.equal(status.totals.technicalProofPassed, 121);
 assert.equal(status.totals.visualProofPassed, 17);
 assert.equal(status.totals.legalRecommendationComplete, 19);
 assert.equal(status.totals.counselAdopted, 15);

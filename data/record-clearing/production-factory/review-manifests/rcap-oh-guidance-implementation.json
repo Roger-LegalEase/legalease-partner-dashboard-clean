@@ -1,0 +1,268 @@
+{
+  "schemaVersion": "rcap-factory-review-manifest/v1",
+  "jobId": "rcap-oh-guidance-implementation",
+  "lane": "guidance_implementation",
+  "jurisdiction": "OH",
+  "trackIds": [
+    "oh_2953_36_trafficking",
+    "oh_2953_39_prosecutor",
+    "oh_2953_521_trafficking_nonconviction"
+  ],
+  "strategyFamily": "process_guidance",
+  "baseCommit": "fe2b29e13b1e57bfa2de478f3187e7939d5105bb",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "generatedAt": "2026-08-07T14:28:12Z",
+  "syntheticData": true,
+  "filingUseAllowed": false,
+  "provenance": {
+    "workerBranch": "rcap-factory/rcap-oh-guidance-implementation-8596d292-7942d6c9",
+    "workerCommit": "ba0fb2ae215242436e3751e0f98917aced6122e2",
+    "captainIntegrationCommit": "fe2b29e13b1e57bfa2de478f3187e7939d5105bb",
+    "normalizedLegalDesign": {
+      "memoPath": "data/record-clearing/legal-design-intake/OH.memo.json",
+      "memoSha256": "ed0323da7859f0b94a9e801fbe0b896dbb1a6261c8cdf02e4a505df433300df1",
+      "memoVersion": "1.0.0"
+    },
+    "unresolvedReleaseQuestionCount": 1,
+    "unresolvedReleaseQuestions": [
+      {
+        "trackId": "oh_2953_39_prosecutor",
+        "affectedElement": "filing_process",
+        "question": "The full text of ORC 2953.39 was not read at source, including whether the person has any way to prompt a prosecutor to consider an application and what happens if the prosecutor declines."
+      }
+    ],
+    "technicalInspectionState": "worker_technical_evidence_only",
+    "formalVisualReview": "pending",
+    "completedOutputLegalReview": "pending"
+  },
+  "artifactTracking": {
+    "generatedAssetsTracked": false,
+    "artifactDirectory": "artifacts/rcap-factory/reviews/rcap-oh-guidance-implementation",
+    "reviewManifestTracked": true,
+    "reviewManifestPath": "data/record-clearing/production-factory/review-manifests/rcap-oh-guidance-implementation.json",
+    "note": "Generated PDFs and PNGs are reproducible and ignored. This JSON manifest is the tracked proof record."
+  },
+  "reproducibility": {
+    "rendererVersion": "rcap-factory-shared-layout-pdf-png/v1",
+    "fixtureVersion": "rcap-factory-synthetic-fixture/v1",
+    "fixedPdfMetadataDate": "2000-01-01T00:00:00.000Z",
+    "sharedLayoutSha256": "05f15dedf7df91e5088f9ed82c662fe8f8816a42368336328b5dfc67b1e0584a"
+  },
+  "packet": {
+    "fileName": "synthetic-review.pdf",
+    "relativePath": "artifacts/rcap-factory/reviews/rcap-oh-guidance-implementation/synthetic-review.pdf",
+    "sha256": "2076793d352a39505de3dcd1809c374481bbfbc117f5c57e5da23cea2b370b00",
+    "bytes": 7751,
+    "pageCount": 3,
+    "structureClass": "flat_pdf"
+  },
+  "packetHashes": [
+    {
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-oh-guidance-implementation/synthetic-review.pdf",
+      "sha256": "2076793d352a39505de3dcd1809c374481bbfbc117f5c57e5da23cea2b370b00"
+    }
+  ],
+  "pageCounts": {
+    "packet": 3,
+    "renderedImages": 3
+  },
+  "renderedPages": [
+    {
+      "page": 1,
+      "fileName": "page-001.png",
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-oh-guidance-implementation/pages/page-001.png",
+      "sha256": "f7ef8c8e2dc7ec8f422089b95ec18bfa366557036afe60e85e48c058a65eba40",
+      "bytes": 6626,
+      "width": 612,
+      "height": 792
+    },
+    {
+      "page": 2,
+      "fileName": "page-002.png",
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-oh-guidance-implementation/pages/page-002.png",
+      "sha256": "dd169b11cf54ae75ce0e590ace4cc1b9d3dace37b24dad923131d8eda1fda489",
+      "bytes": 6628,
+      "width": 612,
+      "height": 792
+    },
+    {
+      "page": 3,
+      "fileName": "page-003.png",
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-oh-guidance-implementation/pages/page-003.png",
+      "sha256": "38512d0eac9af2ef6543dfc6de224c4ef7e00509f137edb41c90d5d636c7a13f",
+      "bytes": 6725,
+      "width": 612,
+      "height": 792
+    }
+  ],
+  "implementationOutputs": [
+    {
+      "relativePath": "src/lib/rcap/packets/jurisdictions/ohio/guidance.ts",
+      "exists": true,
+      "kind": "file",
+      "bytes": 91678,
+      "sha256": "b0eae6b4aa7be0c68f004ebdc44392010638da3002736b137afe9f5a424436d3"
+    },
+    {
+      "relativePath": "scripts/verify-rcap-ohio-guidance-implementation.mjs",
+      "exists": true,
+      "kind": "file",
+      "bytes": 32746,
+      "sha256": "a6e1e608f483faeb1ed2c0fefa1519b6421f69c4062c96797955d58917a18cf9"
+    }
+  ],
+  "participantPacketProof": {
+    "status": "verified",
+    "sourceType": "integration_owned_factory_packet_proof",
+    "sourceManifestPath": "data/record-clearing/production-factory/packet-proofs/rcap-oh-guidance-implementation.json",
+    "sourceManifestSha256": "8fdb9995ac5cd42096aee63935bd2b7efb789ce4e034b8f67cb05c52fa4ab64c",
+    "verifier": {
+      "path": "scripts/verify-rcap-ohio-guidance-implementation.mjs",
+      "sha256": "a6e1e608f483faeb1ed2c0fefa1519b6421f69c4062c96797955d58917a18cf9",
+      "result": "passed"
+    },
+    "implementationOutputs": [
+      {
+        "path": "src/lib/rcap/packets/jurisdictions/ohio/guidance.ts",
+        "sha256": "b0eae6b4aa7be0c68f004ebdc44392010638da3002736b137afe9f5a424436d3"
+      },
+      {
+        "path": "scripts/verify-rcap-ohio-guidance-implementation.mjs",
+        "sha256": "a6e1e608f483faeb1ed2c0fefa1519b6421f69c4062c96797955d58917a18cf9"
+      }
+    ],
+    "finalPdfCount": 3,
+    "assembledPageCount": 33,
+    "packets": [
+      {
+        "trackId": "oh_2953_36_trafficking",
+        "fileName": "oh_2953_36_trafficking-technical-fixture.pdf",
+        "sha256": "692c3202d8ac671d72240148a9128f8fac21a3b1301ee5f32a17106f8cc8ae75",
+        "pageCount": 12
+      },
+      {
+        "trackId": "oh_2953_39_prosecutor",
+        "fileName": "oh_2953_39_prosecutor-technical-fixture.pdf",
+        "sha256": "9eba8677fafa76e980c0f43894ec234733c80f27e5abd167a72a0ebe5f06dbfe",
+        "pageCount": 9
+      },
+      {
+        "trackId": "oh_2953_521_trafficking_nonconviction",
+        "fileName": "oh_2953_521_trafficking_nonconviction-technical-fixture.pdf",
+        "sha256": "ac7782fb5b39347dcebde1e612fb4a369ab29f197fc3960152fa1702cc99b3a8",
+        "pageCount": 12
+      }
+    ],
+    "deterministic": true,
+    "runtimeStatus": "runtime_disabled",
+    "visualProof": "pending",
+    "counselAdopted": false,
+    "productionEnabled": false,
+    "verified": true
+  },
+  "officialPdfImplementationProof": {
+    "status": "not_applicable",
+    "verified": null
+  },
+  "technicalChecklist": {
+    "status": "passed",
+    "items": [
+      {
+        "id": "synthetic-data-only",
+        "status": "passed",
+        "evidence": "Packet labels every value synthetic and not for filing."
+      },
+      {
+        "id": "focused-worker-validation",
+        "status": "passed",
+        "evidence": "2 focused command(s); 0 failure(s)."
+      },
+      {
+        "id": "deterministic-pdf",
+        "status": "passed",
+        "evidence": "Two renders matched SHA-256 2076793d352a39505de3dcd1809c374481bbfbc117f5c57e5da23cea2b370b00."
+      },
+      {
+        "id": "pdf-page-count",
+        "status": "passed",
+        "evidence": "3 page(s) inspected from generated bytes."
+      },
+      {
+        "id": "deterministic-page-images",
+        "status": "passed",
+        "evidence": "3 PNG render(s) reproduced byte-for-byte."
+      },
+      {
+        "id": "expected-output-hashes",
+        "status": "passed",
+        "evidence": "2 of 2 expected outputs hashed."
+      },
+      {
+        "id": "participant-packet-proof",
+        "status": "passed",
+        "evidence": "3 final participant PDF hash(es), 33 total page(s), reconciled from data/record-clearing/production-factory/packet-proofs/rcap-oh-guidance-implementation.json."
+      }
+    ]
+  },
+  "visualChecklist": {
+    "status": "pending",
+    "items": [
+      {
+        "id": "visual-01",
+        "label": "Confirm every page is legible at normal zoom.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-02",
+        "label": "Confirm no text is clipped, overlapped, or outside page bounds.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-03",
+        "label": "Confirm page order and track labels match the assigned job.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-04",
+        "label": "Confirm checkbox, radio, overlay, and signature placement when applicable.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-05",
+        "label": "Confirm participant and third-party fields are visually distinguishable.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-06",
+        "label": "Record reviewer name, date, defects, and disposition; generation itself grants no approval.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      }
+    ]
+  },
+  "technicalProofPassed": true,
+  "visualProofPassed": false,
+  "legalRecommendationComplete": false,
+  "counselAdopted": false,
+  "runtimeStatus": "runtime_disabled",
+  "stagingPassed": false,
+  "productionEnabled": false
+}

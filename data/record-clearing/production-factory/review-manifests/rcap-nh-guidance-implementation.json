@@ -1,0 +1,288 @@
+{
+  "schemaVersion": "rcap-factory-review-manifest/v1",
+  "jobId": "rcap-nh-guidance-implementation",
+  "lane": "guidance_implementation",
+  "jurisdiction": "NH",
+  "trackIds": [
+    "nh_auto_nonconviction",
+    "nh_auto_vacated",
+    "nh_supreme_court_record"
+  ],
+  "strategyFamily": "process_guidance",
+  "baseCommit": "6b33cd960db98b72cb5d68a799c99a13ed4effa4",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "generatedAt": "2026-08-07T14:28:12Z",
+  "syntheticData": true,
+  "filingUseAllowed": false,
+  "provenance": {
+    "workerBranch": "rcap-factory/rcap-nh-guidance-implementation-fd0fb14b-d92b88f4",
+    "workerCommit": "da44d49f6ed51350617ccd72c15996696da22a69",
+    "captainIntegrationCommit": "6b33cd960db98b72cb5d68a799c99a13ed4effa4",
+    "normalizedLegalDesign": {
+      "memoPath": "data/record-clearing/legal-design-intake/NH.memo.json",
+      "memoSha256": "6f85d27d53ecaaaff93fcacf069338bbb981123002636ee1e80fa98e41fe57c0",
+      "memoVersion": "1.0.0"
+    },
+    "unresolvedReleaseQuestionCount": 5,
+    "unresolvedReleaseQuestions": [
+      {
+        "trackId": "nh_auto_nonconviction",
+        "affectedElement": "participant_instructions",
+        "question": "What a participant does when the automatic annulment does not happen. RSA 651:5 provides no express enforcement route, and the statute was read in full at gc.nh.gov on 2026-08-06 without finding one."
+      },
+      {
+        "trackId": "nh_auto_nonconviction",
+        "affectedElement": "eligibility_branch",
+        "question": "Whether \"not prosecuted\" covers a nolle prosequi in New Hampshire practice. The statute uses \"dismissed or not prosecuted\" without defining either."
+      },
+      {
+        "trackId": "nh_auto_nonconviction",
+        "affectedElement": "eligibility_branch",
+        "question": "Whether RSA 651:5, VI can block an automatic annulment where the person has other convictions. Paragraph VI is written around petitions and convictions and does not on its face gate the automatic route."
+      },
+      {
+        "trackId": "nh_auto_vacated",
+        "affectedElement": "eligibility_branch",
+        "question": "Whether \"disposed of on or after January 1, 2019\" in RSA 651:5, II-a(b) refers to the original disposition or to the vacatur. This decides whether an old case with a recent vacatur is automatic or needs a petition, and the subparagraph was read at gc.nh.gov on 2026-08-06 without resolving it."
+      },
+      {
+        "trackId": "nh_auto_vacated",
+        "affectedElement": "participant_instructions",
+        "question": "Whether the annulment is immediate on vacatur. Subparagraph (b) states no thirty-day clock and no appeal trigger, unlike subparagraph (a)."
+      }
+    ],
+    "technicalInspectionState": "worker_technical_evidence_only",
+    "formalVisualReview": "pending",
+    "completedOutputLegalReview": "pending"
+  },
+  "artifactTracking": {
+    "generatedAssetsTracked": false,
+    "artifactDirectory": "artifacts/rcap-factory/reviews/rcap-nh-guidance-implementation",
+    "reviewManifestTracked": true,
+    "reviewManifestPath": "data/record-clearing/production-factory/review-manifests/rcap-nh-guidance-implementation.json",
+    "note": "Generated PDFs and PNGs are reproducible and ignored. This JSON manifest is the tracked proof record."
+  },
+  "reproducibility": {
+    "rendererVersion": "rcap-factory-shared-layout-pdf-png/v1",
+    "fixtureVersion": "rcap-factory-synthetic-fixture/v1",
+    "fixedPdfMetadataDate": "2000-01-01T00:00:00.000Z",
+    "sharedLayoutSha256": "16b33148adfcafacb555934597cc7a91909683ca1edbc861c517e0bff9c45b4b"
+  },
+  "packet": {
+    "fileName": "synthetic-review.pdf",
+    "relativePath": "artifacts/rcap-factory/reviews/rcap-nh-guidance-implementation/synthetic-review.pdf",
+    "sha256": "95e575198ba89095cb4266aea5b8995aea20b4d227f96b8fc776631917350baa",
+    "bytes": 7726,
+    "pageCount": 3,
+    "structureClass": "flat_pdf"
+  },
+  "packetHashes": [
+    {
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-nh-guidance-implementation/synthetic-review.pdf",
+      "sha256": "95e575198ba89095cb4266aea5b8995aea20b4d227f96b8fc776631917350baa"
+    }
+  ],
+  "pageCounts": {
+    "packet": 3,
+    "renderedImages": 3
+  },
+  "renderedPages": [
+    {
+      "page": 1,
+      "fileName": "page-001.png",
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-nh-guidance-implementation/pages/page-001.png",
+      "sha256": "fde102658f2308a0ebc6f0fed6a231e70d8d7e8cd4d413c2032ebef35f1894c7",
+      "bytes": 6641,
+      "width": 612,
+      "height": 792
+    },
+    {
+      "page": 2,
+      "fileName": "page-002.png",
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-nh-guidance-implementation/pages/page-002.png",
+      "sha256": "c5c35bdada19730b41eddbfb9b5d11f006f931ca02432a6a943c05c191c76163",
+      "bytes": 6597,
+      "width": 612,
+      "height": 792
+    },
+    {
+      "page": 3,
+      "fileName": "page-003.png",
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-nh-guidance-implementation/pages/page-003.png",
+      "sha256": "1e7a9fc06894fee06be983f04267f1fa69575951e4ef0c33a7661ef1f67d752c",
+      "bytes": 6644,
+      "width": 612,
+      "height": 792
+    }
+  ],
+  "implementationOutputs": [
+    {
+      "relativePath": "src/lib/rcap/packets/jurisdictions/new-hampshire/guidance.ts",
+      "exists": true,
+      "kind": "file",
+      "bytes": 96483,
+      "sha256": "e9b1b6d1165caec1c2901de6e6acde16cde138463ccb695e98e24881a1a5d4a8"
+    },
+    {
+      "relativePath": "scripts/verify-rcap-new-hampshire-guidance-implementation.mjs",
+      "exists": true,
+      "kind": "file",
+      "bytes": 35861,
+      "sha256": "51f54325aede01d377f49a3e1e1b260afd7d1edcacd22a90a728af67745364fe"
+    }
+  ],
+  "participantPacketProof": {
+    "status": "verified",
+    "sourceType": "integration_owned_factory_packet_proof",
+    "sourceManifestPath": "data/record-clearing/production-factory/packet-proofs/rcap-nh-guidance-implementation.json",
+    "sourceManifestSha256": "d22d81995a116d0afe1e444d3da228a7070fc158408c5920bc41fb45cd1e9ac5",
+    "verifier": {
+      "path": "scripts/verify-rcap-new-hampshire-guidance-implementation.mjs",
+      "sha256": "51f54325aede01d377f49a3e1e1b260afd7d1edcacd22a90a728af67745364fe",
+      "result": "passed"
+    },
+    "implementationOutputs": [
+      {
+        "path": "src/lib/rcap/packets/jurisdictions/new-hampshire/guidance.ts",
+        "sha256": "e9b1b6d1165caec1c2901de6e6acde16cde138463ccb695e98e24881a1a5d4a8"
+      },
+      {
+        "path": "scripts/verify-rcap-new-hampshire-guidance-implementation.mjs",
+        "sha256": "51f54325aede01d377f49a3e1e1b260afd7d1edcacd22a90a728af67745364fe"
+      }
+    ],
+    "finalPdfCount": 3,
+    "assembledPageCount": 34,
+    "packets": [
+      {
+        "trackId": "nh_auto_nonconviction",
+        "fileName": "nh_auto_nonconviction-technical-fixture.pdf",
+        "sha256": "22dfd62eebb74eb60f6eceeff29c02c98e6a95dbff743cc9153e8f46475ea9c3",
+        "pageCount": 13
+      },
+      {
+        "trackId": "nh_auto_vacated",
+        "fileName": "nh_auto_vacated-technical-fixture.pdf",
+        "sha256": "81ffc63fb410c9826e76519f94870c44bbf7d5f63e265e9857e85056703e2471",
+        "pageCount": 12
+      },
+      {
+        "trackId": "nh_supreme_court_record",
+        "fileName": "nh_supreme_court_record-technical-fixture.pdf",
+        "sha256": "2346ce244d2675bdd3cbf914bb24543a4067bb799cc775f2bd3f9ccab203499e",
+        "pageCount": 9
+      }
+    ],
+    "deterministic": true,
+    "runtimeStatus": "runtime_disabled",
+    "visualProof": "pending",
+    "counselAdopted": false,
+    "productionEnabled": false,
+    "verified": true
+  },
+  "officialPdfImplementationProof": {
+    "status": "not_applicable",
+    "verified": null
+  },
+  "technicalChecklist": {
+    "status": "passed",
+    "items": [
+      {
+        "id": "synthetic-data-only",
+        "status": "passed",
+        "evidence": "Packet labels every value synthetic and not for filing."
+      },
+      {
+        "id": "focused-worker-validation",
+        "status": "passed",
+        "evidence": "2 focused command(s); 0 failure(s)."
+      },
+      {
+        "id": "deterministic-pdf",
+        "status": "passed",
+        "evidence": "Two renders matched SHA-256 95e575198ba89095cb4266aea5b8995aea20b4d227f96b8fc776631917350baa."
+      },
+      {
+        "id": "pdf-page-count",
+        "status": "passed",
+        "evidence": "3 page(s) inspected from generated bytes."
+      },
+      {
+        "id": "deterministic-page-images",
+        "status": "passed",
+        "evidence": "3 PNG render(s) reproduced byte-for-byte."
+      },
+      {
+        "id": "expected-output-hashes",
+        "status": "passed",
+        "evidence": "2 of 2 expected outputs hashed."
+      },
+      {
+        "id": "participant-packet-proof",
+        "status": "passed",
+        "evidence": "3 final participant PDF hash(es), 34 total page(s), reconciled from data/record-clearing/production-factory/packet-proofs/rcap-nh-guidance-implementation.json."
+      }
+    ]
+  },
+  "visualChecklist": {
+    "status": "pending",
+    "items": [
+      {
+        "id": "visual-01",
+        "label": "Confirm every page is legible at normal zoom.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-02",
+        "label": "Confirm no text is clipped, overlapped, or outside page bounds.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-03",
+        "label": "Confirm page order and track labels match the assigned job.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-04",
+        "label": "Confirm checkbox, radio, overlay, and signature placement when applicable.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-05",
+        "label": "Confirm participant and third-party fields are visually distinguishable.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-06",
+        "label": "Record reviewer name, date, defects, and disposition; generation itself grants no approval.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      }
+    ]
+  },
+  "technicalProofPassed": true,
+  "visualProofPassed": false,
+  "legalRecommendationComplete": false,
+  "counselAdopted": false,
+  "runtimeStatus": "runtime_disabled",
+  "stagingPassed": false,
+  "productionEnabled": false
+}

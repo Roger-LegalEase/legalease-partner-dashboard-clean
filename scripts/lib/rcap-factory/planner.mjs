@@ -838,6 +838,55 @@ const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
       "ut_auto_traffic",
       "ut_pet_appellate"
     ]
+  },
+  {
+    jurisdiction: "NH",
+    workerBranch:
+      "rcap-factory/rcap-nh-guidance-implementation-fd0fb14b-d92b88f4",
+    workerCommit: "da44d49f6ed51350617ccd72c15996696da22a69",
+    completionCommit: "6b33cd960db98b72cb5d68a799c99a13ed4effa4",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/new-hampshire/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-new-hampshire-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: [
+      "nh_auto_nonconviction",
+      "nh_auto_vacated",
+      "nh_supreme_court_record"
+    ]
+  },
+  {
+    jurisdiction: "OH",
+    workerBranch:
+      "rcap-factory/rcap-oh-guidance-implementation-8596d292-7942d6c9",
+    workerCommit: "ba0fb2ae215242436e3751e0f98917aced6122e2",
+    completionCommit: "fe2b29e13b1e57bfa2de478f3187e7939d5105bb",
+    modulePath: "src/lib/rcap/packets/jurisdictions/ohio/guidance.ts",
+    verifierPath: "scripts/verify-rcap-ohio-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: [
+      "oh_2953_36_trafficking",
+      "oh_2953_39_prosecutor",
+      "oh_2953_521_trafficking_nonconviction"
+    ]
+  },
+  {
+    jurisdiction: "WV",
+    workerBranch:
+      "rcap-factory/rcap-wv-guidance-implementation-fd54452a-0c4ab20f",
+    workerCommit: "c43591e881429c374c0b76512bc9685f96f4944e",
+    completionCommit: "07d5d840a85df8d8f74a48e2778658c7a62b50e9",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/west-virginia/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-west-virginia-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: [
+      "wv_common_conv_procedure",
+      "wv_common_nc_procedure",
+      "wv_dui_test_and_lock_dismissal"
+    ]
   }
 ]);
 const COMPLETED_OFFICIAL_PDF_IMPLEMENTATIONS = Object.freeze([
@@ -3924,6 +3973,8 @@ function addCompletedGuidanceChildren({ addJob }) {
       trackIds: record.trackIds,
       status: "completed",
       completionCommit: record.completionCommit,
+      ...(record.workerBranch ? { workerBranch: record.workerBranch } : {}),
+      ...(record.workerCommit ? { workerCommit: record.workerCommit } : {}),
       model: "opus",
       effort: "xhigh",
       expectedOutputs: workerOutputs,
