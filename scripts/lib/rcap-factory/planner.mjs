@@ -1227,6 +1227,7 @@ export function buildFactoryPlan(options = {}) {
     completionCommit,
     workerBranch,
     workerCommit,
+    implementationState,
     regressionVerifier,
     participantPacketProofRequired,
     sourceMaterializationInputs,
@@ -1320,6 +1321,12 @@ export function buildFactoryPlan(options = {}) {
     }
     if (workerCommit) {
       job.workerCommit = workerCommit;
+    }
+    // Delivered work that is integrated but must not be used as it stands.
+    // "blocked" says the job cannot proceed; this says why, so a reader does
+    // not mistake integrated code for usable code.
+    if (implementationState) {
+      job.implementationState = implementationState;
     }
     if (regressionVerifier) {
       job.regressionVerifier = normalizeRepoPath(
@@ -3025,6 +3032,7 @@ export function buildFactoryPlan(options = {}) {
 
   addAuthorityCorrectionFollowups({ addJob });
   addIntegratedAuthorityDecisionOwners({ addJob, rootDir });
+  addWaveCorrectionAssignments({ addJob, rootDir });
 
   addJob({
     lane: "source_acquisition",
@@ -3119,6 +3127,7 @@ export function buildFactoryPlan(options = {}) {
     ),
     inputs,
     addJob,
+    rootDir,
     jobsByLaneAndState
   });
   addGeorgiaJailGuidanceSpecificationChildren({ addJob });
@@ -3127,6 +3136,7 @@ export function buildFactoryPlan(options = {}) {
     tracks: classifications.acroform,
     inputs,
     addJob,
+    rootDir,
     jobsByLaneAndState,
     sourceMaterializationFoundationJobId: sourceMaterializationFoundation.jobId
   });
@@ -3135,6 +3145,7 @@ export function buildFactoryPlan(options = {}) {
     tracks: classifications.overlay,
     inputs,
     addJob,
+    rootDir,
     jobsByLaneAndState,
     sourceMaterializationFoundationJobId: sourceMaterializationFoundation.jobId
   });
@@ -3143,6 +3154,7 @@ export function buildFactoryPlan(options = {}) {
     tracks: pendingTracks.filter(isComposedTrack),
     inputs,
     addJob,
+    rootDir,
     jobsByLaneAndState,
     sourceMaterializationFoundationJobId: sourceMaterializationFoundation.jobId
   });
@@ -3153,6 +3165,7 @@ export function buildFactoryPlan(options = {}) {
     ),
     inputs,
     addJob,
+    rootDir,
     jobsByLaneAndState
   });
 
@@ -3586,6 +3599,7 @@ function addTrackLaneJobs({
   tracks,
   inputs,
   addJob,
+  rootDir,
   jobsByLaneAndState,
   sourceMaterializationFoundationJobId
 }) {
@@ -3603,7 +3617,7 @@ function addTrackLaneJobs({
             )
         )
       : [];
-    const overrides = implementationJobOverrides(lane, jurisdiction, inputs);
+    const overrides = implementationJobOverrides(lane, jurisdiction, inputs, rootDir);
     const state = (inputs.allStateBuildStatus.states ?? []).find(
       (candidate) => candidate.code === jurisdiction
     );
@@ -3760,7 +3774,7 @@ function unresolvedOutputStrategyQuestionCount(inputs, jurisdiction, lane) {
     .length;
 }
 
-function implementationJobOverrides(lane, jurisdiction, inputs) {
+function implementationJobOverrides(lane, jurisdiction, inputs, rootDir) {
   const completedOfficialPdf = COMPLETED_OFFICIAL_PDF_IMPLEMENTATIONS.find(
     (record) =>
       record.lane === lane && record.jurisdiction === jurisdiction
@@ -3827,6 +3841,97 @@ function implementationJobOverrides(lane, jurisdiction, inputs) {
         "stops. No document here is presented as an official form. Visual proof and hash-bound " +
         "counsel adoption remain separate; runtime stays disabled. Do not scaffold, execute, " +
         "regenerate, enable, promote, or deploy this job."
+    };
+  }
+  // Oklahoma's guidance worker delivered a structurally sound packet whose
+  // copy has stopped being true. SB 2030 is enacted and in force, and the
+  // packet still tells the participant four times that the enrolled text and
+  // effective date could not be obtained, builds a sheet on the premise that
+  // the eligible set may have narrowed against them — it widened — and omits
+  // the nearest actionable date in the statute.
+  //
+  // That is a correction of this job, not a second implementation of the same
+  // two tracks, so it is carried as a reissued assignment rather than as a
+  // separate job owning the same two files. The changed assignment produces a
+  // new branch through the ordinary fingerprint machinery, and the delivered
+  // worker branch is left untouched for audit. The job stays blocked: it is
+  // not ready, because the memo it must be corrected against has not been
+  // corrected yet, and it is not complete, because the copy is wrong.
+  if (
+    lane === "guidance_implementation" &&
+    jurisdiction === "OK" &&
+    okGuidanceCorrectionRequired(inputs, rootDir)
+  ) {
+    return {
+      status: "blocked",
+      dependencies: [
+        "rcap-ok-sb-2030-current-text-and-currency",
+        "rcap-ok-sb-2030-current-law-memo-correction"
+      ],
+      model: "opus",
+      effort: "xhigh",
+      implementationState: "correction_required",
+      executionNote:
+        "The worker code at 2608a5f354dc8648fdbdf96c14e262d6028743ad is integrated and is the " +
+        "canonical parent for this correction. Nothing structural is wrong: both tracks stay " +
+        "process_guidance, neither gains a participant filing, no packet is prepared, and both " +
+        "typed stops still resolve the same way. What must change is copy that has stopped " +
+        "being true.",
+      stopCondition:
+        "Correct exactly six participant-facing areas and the verifier assertions that depend " +
+        "on them: the limits-of-this-page disclosure, the authority list, the " +
+        "eligibility-boundary clause, the relying_on_automatic_sealing_that_is_not_operating " +
+        "stop reason, the no-portal stop and its nearest actionable date, and the mechanism and " +
+        "monitoring sheets. " +
+        "The corrected copy must say the current enrolled text was obtained, cite 22 O.S. " +
+        "sections 18b and 19d, explain that statutory eligibility exists but the administration " +
+        "is not yet operating, explain that no expedited-request portal is currently published, " +
+        "state the 1 November 2026 statutory portal deadline as a deadline rather than a " +
+        "promise of delivery, and state the 1 November 2027 automatic-process date. " +
+        "Keep every typed stop's destination exactly as it is. Do not tell the participant they " +
+        "are eligible, do not say automatic relief is operating, and do not present future " +
+        "administration as a reason the current petition route is unavailable — section 19d(G) " +
+        "expressly preserves it. Do not reopen the packet's structure. " +
+        TERMINAL_INSTRUCTION
+    };
+  }
+  // The Nevada guidance worker stopped rather than guess, and it was right to.
+  // The design does not establish whether these routes are automatic, whether
+  // a participant files anything, or what the output strategy is, and none of
+  // that is answerable from a packet. The job stays blocked on the correction
+  // that owns those questions rather than sitting ready for a worker who would
+  // have to invent the mechanism.
+  if (
+    lane === "guidance_implementation" &&
+    jurisdiction === "NV" &&
+    !fs.existsSync(
+      path.join(
+        rootDir,
+        "src/lib/rcap/packets/jurisdictions/nevada/guidance.ts"
+      )
+    )
+  ) {
+    return {
+      status: "blocked",
+      dependencies: [
+        "rcap-nv-sealing-mechanism-and-packet-capability-correction"
+      ],
+      model: "opus",
+      effort: "xhigh",
+      executionNote:
+        "Do not scaffold or execute until " +
+        "rcap-nv-sealing-mechanism-and-packet-capability-correction is complete.",
+      stopCondition:
+        "Blocked on the Nevada sealing-mechanism correction. For nv_repository_removal, " +
+        "nv_seal_deferred and nv_seal_probation_family the current design does not establish " +
+        "whether the route is automatic or requires a participant application, the governing " +
+        "mechanism, the output strategy, the exclusions, the waiting periods, the notice " +
+        "requirement or the fee. A guidance packet cannot be written against that, and writing " +
+        "one anyway would put a mechanism in front of a participant that nobody has " +
+        "established. Do not scaffold, do not create an implementation branch, do not resolve " +
+        "the mechanism question inside an implementation, and do not enable runtime, promote, " +
+        "or deploy. " +
+        TERMINAL_INSTRUCTION
     };
   }
   if (lane === "guidance_implementation" && jurisdiction === "NY") {
@@ -4069,6 +4174,466 @@ function addAuthorityCorrectionFollowups({ addJob }) {
  * question is not open — it is lost. None of these jobs may acquire, license,
  * materialize or render anything; each resolves one question.
  */
+/**
+ * Corrections owed by the integrated Oklahoma, Ohio, New York, Colorado,
+ * Louisiana and Nevada decisions.
+ *
+ * A decision that changes what a participant is told does not finish when it is
+ * written down. Every one of these owns exactly one path, and none of them is
+ * work Session A may do itself: a state memo is worker-owned legal design, and
+ * participant-facing packet copy is worker-owned implementation. Creating the
+ * owner is how the question stays open instead of becoming lost.
+ */
+/**
+ * Oklahoma guidance needs a copy correction when the SB 2030 current-law
+ * decision is integrated and the delivered module has not yet been corrected
+ * against it. Read from the integrated decision's own classification rather
+ * than asserted here, so the gate lifts by itself once the correction lands.
+ */
+function okGuidanceCorrectionRequired(inputs, rootDir) {
+  const decisionPath = path.join(
+    rootDir,
+    `${FACTORY_DATA_DIR}/legal-design-decisions/ok-sb-2030-current-text-and-currency.json`
+  );
+  if (!fs.existsSync(decisionPath)) return false;
+  let decision;
+  try {
+    decision = JSON.parse(fs.readFileSync(decisionPath, "utf8"));
+  } catch {
+    return false;
+  }
+  return (
+    decision?.implementationImpact?.oklahomaGuidanceWorker?.classification ===
+    "worker_copy_requires_narrow_captain_correction"
+  );
+}
+
+function addWaveCorrectionAssignments({ addJob, rootDir }) {
+  const memoPath = (code) =>
+    `data/record-clearing/legal-design-intake/${code}.memo.json`;
+  const decisionPath = (slug) =>
+    `${FACTORY_DATA_DIR}/legal-design-decisions/${slug}.json`;
+  const acquisitionPath = (jobId) =>
+    `${FACTORY_DATA_DIR}/source-acquisition/${jobId}.json`;
+  const present = (relative) => fs.existsSync(path.join(rootDir, relative));
+
+  // --- Oklahoma -------------------------------------------------------
+  //
+  // SB 2030 is enacted and in force. The memo still says the enrolled text
+  // could not be obtained, and the guidance packet tells the participant so
+  // four times while building a whole sheet on the premise that the eligible
+  // set may have narrowed against them. It widened. Neither statement can be
+  // corrected here: one is legal design, the other is participant-facing copy.
+  const okDecision = decisionPath("ok-sb-2030-current-text-and-currency");
+  if (present(okDecision)) {
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "OK",
+      jobId: "rcap-ok-sb-2030-current-law-memo-correction",
+      strategyFamily: "legal_design_normalization_amendment",
+      trackIds: [],
+      dependencies: [
+        "rcap-ok-legal-design-normalization",
+        "rcap-ok-sb-2030-current-text-and-currency"
+      ],
+      status: "ready",
+      expectedOutputs: [memoPath("OK")],
+      ownedPaths: [memoPath("OK")],
+      requiredInputs: [
+        okDecision,
+        memoPath("OK"),
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job " +
+          "rcap-ok-sb-2030-current-law-memo-correction",
+        "node scripts/verify-rcap-legal-design-intake.mjs"
+      ],
+      commitSubject:
+        "feat(record-clearing): correct the Oklahoma memo to current law",
+      stopCondition:
+        "Bring ok_clean_slate and ok_osbi_portal onto the enacted text. Remove the statement " +
+        "that the enrolled text and effective date could not be obtained; record Senate Bill " +
+        "2030 as O.S.L. 2026, c. 282, effective 1 July 2026; represent 22 O.S. sections 18b " +
+        "and 19d as the provisions that now carry eligibility and the automatic process, the " +
+        "former section 18(C) route having been repealed; preserve the petition routes, which " +
+        "section 19d(G) expressly keeps; distinguish statutory eligibility, which exists today, " +
+        "from administration, which is not operating; record the 1 November 2026 portal " +
+        "deadline, the 1 November 2027 automatic-process date and the 1 November 2029 " +
+        "completion date; and remove the premise that the amendment narrowed the eligible set, " +
+        "which it did not — it widened it. Correct the section 19 ten-year obliteration " +
+        "citation from the stale subsection (N) treatment to subsection (L) only where the " +
+        "decision establishes it, and record that the codified confirmation is still " +
+        "outstanding. Preserve the appropriation, portal-procedure, rulemaking and codification " +
+        "questions as residual questions rather than closing them. " +
+        "Leave every unrelated Oklahoma track value-identical, do not change any output " +
+        "strategy, do not declare any participant eligible, and keep runtime disabled. " +
+        TERMINAL_INSTRUCTION
+    });
+
+    addJob({
+      lane: "custom_pleading",
+      jurisdiction: "OK",
+      jobId: "rcap-ok-custom-pleading-sb-2030-citation-correction",
+      strategyFamily: "custom_pleading_citation_correction",
+      trackIds: [],
+      dependencies: [
+        "rcap-ok-sb-2030-current-text-and-currency",
+        "rcap-ok-custom-pleading"
+      ],
+      status: "ready",
+      expectedOutputs: [
+        "src/lib/rcap/packets/jurisdictions/oklahoma/custom-pleading.ts",
+        "scripts/verify-rcap-oklahoma-custom-pleading.mjs"
+      ],
+      ownedPaths: [
+        "src/lib/rcap/packets/jurisdictions/oklahoma/custom-pleading.ts",
+        "scripts/verify-rcap-oklahoma-custom-pleading.mjs"
+      ],
+      requiredInputs: [
+        okDecision,
+        memoPath("OK"),
+        "src/lib/rcap/packets/jurisdictions/oklahoma/custom-pleading.ts"
+      ],
+      participantPacketProofRequired: true,
+      regressionVerifier: "scripts/verify-rcap-oklahoma-custom-pleading.mjs",
+      model: "opus",
+      effort: "high",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job " +
+          "rcap-ok-custom-pleading-sb-2030-citation-correction",
+        "node scripts/verify-rcap-oklahoma-custom-pleading.mjs"
+      ],
+      commitSubject:
+        "fix(record-clearing): correct the OK pleading SB 2030 citation",
+      stopCondition:
+        "Correct only the affected 22 O.S. section 19 obliteration citation and the verifier " +
+        "assertions that depend on it, together with the typed screen and petition paragraph " +
+        "that still say the enrolled text has not been read — it has. The screen itself should " +
+        "survive: telling a participant to check before paying for a petition they may not need " +
+        "is right, and only its stated reason changes. " +
+        "The module was written not to depend on the paragraph numbering and that decision " +
+        "stands: keep screening on the description of the category rather than on a paragraph " +
+        "number, and keep asserting no waiting period. Preserve all packet text, eligibility " +
+        "boundaries, fixtures, hashes and legal roles except where the citation correction " +
+        "deterministically changes a rendered source line. Do not reopen the completed pleading " +
+        "structure and do not restate a stale paragraph number as current. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  // --- Ohio -----------------------------------------------------------
+  //
+  // The decision answers the build question, but the memo still names the node
+  // after an unverified Senate Bill 288 claim and narrates an unconfirmed
+  // secondary source. That text is legal design and cannot be corrected here.
+  const ohDecision = decisionPath(
+    "oh-automatic-sealing-current-law-reconciliation"
+  );
+  if (present(ohDecision)) {
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "OH",
+      jobId: "rcap-oh-automatic-sealing-memo-correction",
+      strategyFamily: "legal_design_normalization_amendment",
+      trackIds: [],
+      dependencies: [
+        "rcap-oh-legal-design-normalization",
+        "rcap-oh-automatic-sealing-current-law-reconciliation"
+      ],
+      status: "ready",
+      expectedOutputs: [memoPath("OH")],
+      ownedPaths: [memoPath("OH")],
+      requiredInputs: [
+        ohDecision,
+        memoPath("OH"),
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "high",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job " +
+          "rcap-oh-automatic-sealing-memo-correction",
+        "node scripts/verify-rcap-legal-design-intake.mjs"
+      ],
+      commitSubject:
+        "feat(record-clearing): settle the Ohio automatic-sealing node",
+      stopCondition:
+        "Turn oh_automatic_sealing from an open question into a settled negative. Drop the " +
+        "'(Senate Bill 288, unverified)' parenthetical from the legal name, and replace the " +
+        "account of the unconfirmed secondary source with the determination: current Ohio law " +
+        "provides neither automatic sealing nor automatic expungement of an adult criminal " +
+        "record; every adult route is begun by the person's application or by a prosecutor " +
+        "motion under Ohio Rev. Code section 2953.39 and decided at the court's discretion; the " +
+        "one automatic provision, section 2151.356, is juvenile and reaches no adult record. " +
+        "The node stays deferred and unreachable at the memo's chosen blocker level, keeps " +
+        "Ohio's eighteen slots and eighteen nodes, gains no components and no output strategy, " +
+        "and is not deleted — it is the record of a question the product must be able to " +
+        "answer. Do not create a relief mechanism that does not exist, do not broaden or narrow " +
+        "the node, do not touch any other Ohio track, and keep runtime disabled. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  // --- New York -------------------------------------------------------
+  //
+  // The source decision found the application is filed with the court of
+  // conviction, one per court. The memo says it goes to the Office of Court
+  // Administration and that nothing is filed in a court on either stage. A
+  // packet built on that would send a person to the wrong place.
+  const nyMrtaSource = decisionPath(
+    "ny-mrta-destruction-request-source-identity-resolution"
+  );
+  if (present(nyMrtaSource)) {
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "NY",
+      jobId: "rcap-ny-mrta-destruction-request-destination-memo-correction",
+      strategyFamily: "legal_design_normalization_amendment",
+      trackIds: [],
+      dependencies: [
+        "rcap-ny-legal-design-normalization",
+        NY_MRTA_PACKET_CAPABILITY_JOB_ID,
+        "rcap-ny-mrta-destruction-request-source-identity-resolution"
+      ],
+      status: "ready",
+      expectedOutputs: [memoPath("NY")],
+      ownedPaths: [memoPath("NY")],
+      requiredInputs: [
+        nyMrtaSource,
+        memoPath("NY"),
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.packetSetManifests,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job " +
+          "rcap-ny-mrta-destruction-request-destination-memo-correction",
+        "node scripts/verify-rcap-legal-design-intake.mjs",
+        "node scripts/verify-rcap-packet-capability-registry.mjs"
+      ],
+      commitSubject:
+        "feat(record-clearing): correct the NY MRTA filing destination",
+      stopCondition:
+        "Correct where the destruction request goes and who signs it, and change nothing else. " +
+        "Keep ny_mrta_marijuana as one sequential composed mechanism with automatic expungement " +
+        "as unit 1 and the participant-signed destruction request as conditional unit 2. " +
+        "Change unit 2's destination from the Office of Court Administration to the court of " +
+        "conviction, and state that one application is required for each court of conviction. " +
+        "Remove the statement that nothing is filed in a court on the destruction stage, while " +
+        "preserving that no participant filing exists on the automatic stage. Distinguish the " +
+        "participant's submission to the court from the court's later forwarding to the " +
+        "prosecutor, law enforcement and DCJS — those are the court's acts, not the " +
+        "participant's. Bind the exact current title, APPLICATION TO DESTROY EXPUNGED MARIHUANA " +
+        "CONVICTION RECORD, and record March 2025 as document-metadata dating rather than a " +
+        "printed issuer revision; the form carries no official form number. " +
+        "Preserve the current form's defendant-only signature block, and preserve CPL section " +
+        "160.50(5)(b)(i)'s designated-agent language as an unresolved form-implementation " +
+        "question: the statute permits an agent and the current form provides no agent " +
+        "signature line. LegalEase must not generate an agent-signature version while that is " +
+        "open. Leave every unrelated New York track value-identical and keep runtime disabled. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  // --- Colorado -------------------------------------------------------
+  const coLicense = acquisitionPath("rcap-co-jdf-family-commercial-license");
+  if (present(coLicense)) {
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "CO",
+      jobId: "rcap-co-jdf-2370-2371-component-remap-memo-correction",
+      strategyFamily: "legal_design_normalization_amendment",
+      trackIds: [],
+      dependencies: [
+        "rcap-co-jdf-2370-role-and-jdf-2371-mapping-correction",
+        "rcap-co-jdf-family-commercial-license"
+      ],
+      status: "ready",
+      expectedOutputs: [memoPath("CO")],
+      ownedPaths: [memoPath("CO")],
+      requiredInputs: [
+        acquisitionPath("rcap-co-jdf-2370-role-and-jdf-2371-mapping-correction"),
+        coLicense,
+        memoPath("CO"),
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.sourceRelationships
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "high",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job " +
+          "rcap-co-jdf-2370-2371-component-remap-memo-correction",
+        "node scripts/verify-rcap-legal-design-intake.mjs",
+        "node scripts/verify-rcap-colorado-jdf-role-and-scope.mjs"
+      ],
+      commitSubject:
+        "fix(record-clearing): remap the Colorado JDF primary filing",
+      stopCondition:
+        "Rebind one component. JDF 2370 is the issuer's guide and stays the track's " +
+        "instructions asset; remove it from the affected primary_filing component, which it " +
+        "cannot satisfy, and bind JDF 2371, the participant's motion, in its place. Preserve " +
+        "statewide scope for both, and preserve JDF 2374 as the outside-party order where the " +
+        "design already carries it. " +
+        "Preserve the licence disposition exactly as adopted: written permission from the " +
+        "Colorado Judicial Department is required before any participant-facing reproduction, " +
+        "prefill or paid distribution, so make no participant-facing generation claim here and " +
+        "do not read a corrected mapping as a cleared licence. Leave every unrelated Colorado " +
+        "form mapping value-identical and keep runtime disabled. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  // --- Louisiana ------------------------------------------------------
+  const laStrategy = acquisitionPath(
+    "rcap-la-arts-993-995-998-html-source-output-strategy-adjudication"
+  );
+  if (present(laStrategy)) {
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "LA",
+      jobId: "rcap-la-arts-993-995-998-output-strategy-memo-correction",
+      strategyFamily: "legal_design_normalization_amendment",
+      trackIds: [],
+      dependencies: [
+        "rcap-la-public-official-download",
+        "rcap-la-arts-993-995-998-html-source-output-strategy-adjudication"
+      ],
+      status: "ready",
+      expectedOutputs: [memoPath("LA")],
+      ownedPaths: [memoPath("LA")],
+      requiredInputs: [
+        laStrategy,
+        acquisitionPath("rcap-la-public-official-download"),
+        memoPath("LA"),
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.sourceRelationships
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job " +
+          "rcap-la-arts-993-995-998-output-strategy-memo-correction",
+        "node scripts/verify-rcap-legal-design-intake.mjs"
+      ],
+      commitSubject:
+        "feat(record-clearing): move the Louisiana articles to custom pleading",
+      stopCondition:
+        "Change six component output strategies from official_pdf_fill to custom_pleading: the " +
+        "art. 993 continuation on la-976-arrest-no-conviction, la-977-misdemeanor-conviction, " +
+        "la-978-felony-conviction and la-985-expungement-by-redaction; the art. 995 proposed " +
+        "order on la-985-1-interim-expungement; and the art. 998 primary filing on " +
+        "la-977d-marijuana-first-offense. There is no official PDF for any of them — the " +
+        "Legislature publishes the controlling text as HTML — and process_guidance is wrong " +
+        "because a participant submission exists. " +
+        "Preserve each officialFormId as the authority and source identity where the schema " +
+        "permits it; the document is still the authority even though the strategy changed. " +
+        "Preserve each track-level mechanism, the exact statewide statutory text, and the " +
+        "participant and outside-party roles: on art. 995 the judge signs, so every decretal " +
+        "election, the granted or denied choice, the reasons-for-denial boxes, the date, the " +
+        "place and the signature must stay blank. Preserve art. 986 statewide exclusivity, " +
+        "under which the court name is the only authorized variation, and prohibit the local " +
+        "Louisiana Supreme Court packet as a statewide substitute. Leave every unrelated " +
+        "Louisiana track value-identical and keep runtime disabled. " +
+        TERMINAL_INSTRUCTION
+    });
+
+    addJob({
+      lane: "source_acquisition",
+      jurisdiction: "LA",
+      jobId: "rcap-la-arts-993-995-998-html-authority-asset-capture",
+      strategyFamily: "public_official_download",
+      reconciliationIds: ["asset:LA:ARTS-993-995-998:html-retention"],
+      downloadedSourceCount: 0,
+      dependencies: [
+        "rcap-la-arts-993-995-998-html-source-output-strategy-adjudication"
+      ],
+      status: "ready",
+      expectedOutputs: [
+        acquisitionPath("rcap-la-arts-993-995-998-html-authority-asset-capture")
+      ],
+      requiredInputs: [
+        laStrategy,
+        FACTORY_INPUT_PATHS.authority,
+        FACTORY_INPUT_PATHS.acquisitionDocuments
+      ],
+      model: "codex",
+      effort: "xhigh",
+      commitSubject:
+        "chore(record-clearing): capture the Louisiana article HTML authority",
+      stopCondition:
+        "Capture the official HTML representations of C.Cr.P. arts. 993, 995 and 998 from the " +
+        "Louisiana Legislature so Edition 1.3 can retain them as packet_form authority assets " +
+        "under STATES/LA/02_PACKET_FORMS, exactly as their six siblings already are. Record for " +
+        "each: the retrieval URL, the byte count, the SHA-256, the MIME type, the statutory " +
+        "heading as official title, and the Acts-based revision — ACTS-2020-73 for art. 993, " +
+        "ACTS-2014-145 for art. 995 and ACTS-2023-342 for art. 998. The digests must be " +
+        "suitable for deterministic authority verification. " +
+        "Do not convert the HTML to a PDF and do not present it as one, do not treat the " +
+        "capture date SOURCE-2026-07-31 as an issuer revision, do not substitute the local " +
+        "Louisiana Supreme Court packet, do not publish or amend an edition, and keep runtime " +
+        "disabled. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  // --- Nevada ---------------------------------------------------------
+  //
+  // The Nevada guidance worker stopped rather than guessing, and it was right
+  // to: the design does not establish whether these routes are automatic, what
+  // the participant must file, or what the output strategy is. A guidance
+  // worker cannot answer that from a packet.
+  addJob({
+    lane: "legal_design_normalization",
+    jurisdiction: "NV",
+    jobId: "rcap-nv-sealing-mechanism-and-packet-capability-correction",
+    strategyFamily: "legal_design_normalization_amendment",
+    trackIds: [],
+    dependencies: [],
+    status: "ready",
+    expectedOutputs: [memoPath("NV")],
+    ownedPaths: [memoPath("NV")],
+    requiredInputs: [
+      memoPath("NV"),
+      FACTORY_INPUT_PATHS.normalizedTracks,
+      FACTORY_INPUT_PATHS.packetSetManifests,
+      FACTORY_INPUT_PATHS.blockerLedger
+    ],
+    participantPacketProofRequired: false,
+    model: "opus",
+    effort: "xhigh",
+    focusedValidation: [
+      "node scripts/rcap-factory-plan.mjs --check-job " +
+        "rcap-nv-sealing-mechanism-and-packet-capability-correction",
+      "node scripts/verify-rcap-legal-design-intake.mjs"
+    ],
+    commitSubject:
+      "feat(record-clearing): settle the Nevada sealing mechanism",
+    stopCondition:
+      "Establish, for nv_repository_removal, nv_seal_deferred and nv_seal_probation_family, " +
+      "what the current Nevada statutes actually provide: whether each route operates " +
+      "automatically or on the participant's application, the governing mechanism, whether a " +
+      "participant filing exists and what it is, the output strategy that follows, the " +
+      "exclusions, the waiting periods, any notice requirement and any fee. " +
+      "The guidance worker stopped because none of that is established, and stopping was " +
+      "correct — do not resolve it by inferring a mechanism from the shape of a packet. " +
+      "Resolve only the affected Nevada tracks, leave every unrelated Nevada track " +
+      "value-identical, and keep runtime disabled. " +
+      TERMINAL_INSTRUCTION
+  });
+}
+
 function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
   // These close on their committed decision record, like every other authority
   // job, and carry the worker branch and commit that produced it.
@@ -5272,18 +5837,38 @@ function resolveCanonicalParentJobId(job, parents, jobs, declaredOutputStrategyB
   if (job.lane === "platform_foundation") {
     return "F-02-template-family-hash-infrastructure";
   }
+  // The Colorado remap is a component-remap correction that happens to be
+  // carried out in a memo, so it belongs to the remap family that already owns
+  // the identical Illinois, Iowa and Indiana corrections — not to a Colorado
+  // normalization parent, which does not exist.
+  if (
+    job.jobId === "rcap-co-jdf-2370-2371-component-remap-memo-correction"
+  ) {
+    return "AUTH-02-component-remap-corrections";
+  }
   if (job.lane === "legal_design_normalization") {
     const matches = parents.filter(
       (parent) =>
         parent.lane === "normalization" &&
         (parent.jurisdictions ?? []).includes(job.jurisdiction)
     );
-    if (matches.length !== 1) {
-      throw new Error(
-        `${job.jobId} must map to one canonical normalization parent; found ${matches.length}.`
-      );
+    if (matches.length === 1) return matches[0].jobId;
+    // The normalization pods cover the twenty-six jurisdictions that were
+    // normalized through them. A legal-design amendment can arise outside that
+    // set — Louisiana's output-strategy correction exists because an authority
+    // decision changed what the source is, not because Louisiana was being
+    // normalized — and such an amendment belongs to the authority family whose
+    // decision produced it. A jurisdiction inside a pod still maps to its pod,
+    // so this cannot quietly re-home an ordinary normalization amendment.
+    if (
+      matches.length === 0 &&
+      job.strategyFamily === "legal_design_normalization_amendment"
+    ) {
+      return canonicalAuthorityParentJobId(job);
     }
-    return matches[0].jobId;
+    throw new Error(
+      `${job.jobId} must map to one canonical normalization parent; found ${matches.length}.`
+    );
   }
   if (job.lane === "source_acquisition") {
     return canonicalAuthorityParentJobId(job);

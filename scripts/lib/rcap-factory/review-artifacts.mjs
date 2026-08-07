@@ -11,6 +11,7 @@ import {
 } from "pdf-lib";
 
 import { inspectPdfBytes } from "./pdf-inspection.mjs";
+import { buildFactoryPlan } from "./planner.mjs";
 import {
   normalizeRepoPath,
   pathRuleMatches,
@@ -164,7 +165,8 @@ export async function generateJobReviewArtifacts(
     renderedPages,
     implementationOutputs,
     participantPacketProof,
-    focusedValidation
+    focusedValidation,
+    factoryPlan: safeFactoryPlan(root)
   });
 
   if (write) {
@@ -553,9 +555,11 @@ function buildReviewManifest({
   renderedPages,
   implementationOutputs,
   participantPacketProof,
-  focusedValidation
+  focusedValidation,
+  factoryPlan
 }) {
   const focusedPassed = focusedValidation?.passed === true;
+  const outstandingCorrections = outstandingCorrectionsFor(job, factoryPlan);
   const packetProofRequired = job.participantPacketProofRequired === true;
   const participantPacketProofRecord = packetProofRequired
     ? participantPacketProof
@@ -662,6 +666,12 @@ function buildReviewManifest({
     ),
     syntheticData: true,
     filingUseAllowed: false,
+    // A completed implementation whose output an integrated decision has since
+    // shown to be wrong is not ready for review. Recording it here keeps the
+    // original proof and its history intact — the error did happen — while
+    // stopping a reviewer from reading stale output as current.
+    correctionRequired: outstandingCorrections.length > 0,
+    outstandingCorrections,
     // What this review is a review of, bound to exact objects. A reviewer
     // reading the finished output has to be able to say which worker result
     // produced it, which captain commit integrated it, which normalized design
@@ -754,6 +764,49 @@ function buildReviewManifest({
  * and the unresolved release questions are read from the normalized design
  * rather than restated, so a question that closes disappears here by itself.
  */
+/**
+ * Corrections that own a file this job produced and have not landed yet.
+ *
+ * Oklahoma's custom pleading is the case this exists for: the module is
+ * completed and correct in structure, and an integrated current-law decision
+ * then showed one citation in its rendered text to be stale. Nothing about the
+ * completion is withdrawn; what changes is that its output must not go to
+ * formal review or counsel adoption until the correction lands.
+ */
+/**
+ * The compiled plan, where one can be compiled. Review artifacts are also
+ * generated against scratch fixture roots that carry no factory inputs, and a
+ * manifest is still worth producing there; outstanding corrections are simply
+ * unknown, which is reported as none rather than as a failure.
+ */
+function safeFactoryPlan(rootDir) {
+  try {
+    return buildFactoryPlan({ rootDir, root: rootDir });
+  } catch {
+    return null;
+  }
+}
+
+function outstandingCorrectionsFor(job, plan) {
+  const produced = new Set(job.expectedOutputs ?? []);
+  return (plan?.jobs ?? [])
+    .filter(
+      (candidate) =>
+        candidate.jobId !== job.jobId &&
+        ["ready", "blocked", "in_progress"].includes(candidate.status) &&
+        (candidate.ownedPaths ?? []).some((owned) => produced.has(owned))
+    )
+    .map((candidate) => ({
+      jobId: candidate.jobId,
+      status: candidate.status,
+      ownedPaths: (candidate.ownedPaths ?? []).filter((owned) =>
+        produced.has(owned)
+      ),
+      commitSubject: candidate.commitSubject
+    }))
+    .sort((left, right) => left.jobId.localeCompare(right.jobId));
+}
+
 function reviewProvenance(rootDir, job) {
   const memoPath =
     `data/record-clearing/legal-design-intake/${job.jurisdiction}.memo.json`;
