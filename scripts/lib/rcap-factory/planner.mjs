@@ -988,6 +988,7 @@ const COMPLETED_GUIDANCE_TRACKS = new Set(
  * Kept beside the completion-commit map so a decision's provenance is one
  * lookup rather than an archaeology exercise across commit messages.
  */
+const OK_CORRECTED_PLEADING_SHA256 = "d04d44153d43b92bfd84ab12f0502f1e2a9dd2dab72e6d64428f5382f267e056";
 const MEMO_CORRECTION_COMPLETION_COMMITS = Object.freeze({
   "rcap-ok-sb-2030-current-law-memo-correction": "5f5cf3def0b9cbc1e88084cc261bd60abaf48675",
   "rcap-ny-mrta-destruction-request-destination-memo-correction":
@@ -3804,7 +3805,33 @@ const COMPLETED_CUSTOM_PLEADING_IMPLEMENTATIONS = Object.freeze([
     jurisdiction: "OK",
     completionCommit: "1602ca5ebbf69b9688a3b941b017da6ee6da8609",
     modulePath: "src/lib/rcap/packets/jurisdictions/oklahoma/custom-pleading.ts",
-    verifierPath: "scripts/verify-rcap-oklahoma-custom-pleading.mjs"
+    verifierPath: "scripts/verify-rcap-oklahoma-custom-pleading.mjs",
+    // The original implementation was completed and correct in structure. An
+    // integrated current-law decision then showed one citation in its rendered
+    // text to be stale — 22 O.S. section 19(N) rather than 19(L) — and the
+    // packet still said the enrolled SB 2030 text had not been obtained. That
+    // error happened; it is recorded, not erased. What the correction changes
+    // is the copy, not the completion: the same eleven fixture identifiers,
+    // the same tracks, components, roles, inputs, venue and destination.
+    correction: {
+      reason: "sb_2030_current_law_citation_and_copy",
+      decisionJobId: "rcap-ok-sb-2030-current-text-and-currency",
+      memoCorrectionJobId: "rcap-ok-sb-2030-current-law-memo-correction",
+      implementationCorrectionJobId:
+        "rcap-ok-custom-pleading-sb-2030-citation-correction",
+      originalWorkerCommit: "1602ca5ebbf69b9688a3b941b017da6ee6da8609",
+      correctionWorkerBranch:
+        "rcap-factory/rcap-ok-custom-pleading-sb-2030-citation-correction-5783c7be-0fa7501a",
+      correctionWorkerCommit:
+        "6a0fb848b623c9fefc660503ad0b8ffdca013755",
+      correctionCompletionCommit:
+        "a9722b4e02bf611ea8304b3410601cb2a938d663",
+      byteIdenticalFixtures: ["ok-991c-positive-1"],
+      repaginatedFixtures: ["ok-deferred-dismissal-positive-1"]
+    },
+    workerBranch:
+      "rcap-factory/rcap-ok-custom-pleading-sb-2030-citation-correction-5783c7be-0fa7501a",
+    workerCommit: "6a0fb848b623c9fefc660503ad0b8ffdca013755"
   },
   {
     jurisdiction: "NV",
@@ -4003,8 +4030,11 @@ function implementationJobOverrides(lane, jurisdiction, inputs, rootDir) {
     jurisdiction === "OK" &&
     okGuidanceCorrectionRequired(inputs, rootDir)
   ) {
+    // Ready once the memo it must be corrected against is corrected; blocked
+    // until then. The correction is real work with a real assignment, not a
+    // permanently parked job.
     return {
-      status: "blocked",
+      status: okMemoCorrected(rootDir) ? "ready" : "blocked",
       dependencies: [
         "rcap-ok-sb-2030-current-text-and-currency",
         "rcap-ok-sb-2030-current-law-memo-correction"
@@ -4331,6 +4361,18 @@ function addAuthorityCorrectionFollowups({ addJob }) {
  * against it. Read from the integrated decision's own classification rather
  * than asserted here, so the gate lifts by itself once the correction lands.
  */
+function okMemoCorrected(rootDir) {
+  const memo = path.join(
+    rootDir,
+    "data/record-clearing/legal-design-intake/OK.memo.json"
+  );
+  return (
+    fs.existsSync(memo) &&
+    sha256File(memo) ===
+      "4e0380c9738cb9c9be3747e125990d79c483afc2c31a99ac29e638ad8c94c385"
+  );
+}
+
 function okGuidanceCorrectionRequired(inputs, rootDir) {
   const decisionPath = path.join(
     rootDir,
@@ -4388,6 +4430,14 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
   const acquisitionPath = (jobId) =>
     `${FACTORY_DATA_DIR}/source-acquisition/${jobId}.json`;
   const present = (relative) => fs.existsSync(path.join(rootDir, relative));
+  // The corrected Oklahoma pleading module, identified by its exact blob.
+  const okCustomPleadingModule = path.join(
+    rootDir,
+    "src/lib/rcap/packets/jurisdictions/oklahoma/custom-pleading.ts"
+  );
+  const okCustomPleadingCorrected =
+    fs.existsSync(okCustomPleadingModule) &&
+    sha256File(okCustomPleadingModule) === OK_CORRECTED_PLEADING_SHA256;
 
   // --- Oklahoma -------------------------------------------------------
   //
@@ -4463,7 +4513,17 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
         "rcap-ok-sb-2030-current-text-and-currency",
         "rcap-ok-custom-pleading"
       ],
-      status: "ready",
+      // Closes on the corrected module blob being on disk, like every other
+      // correction here, not on a commit asserting it.
+      ...(okCustomPleadingCorrected
+        ? {
+            status: "completed",
+            workerBranch:
+              "rcap-factory/rcap-ok-custom-pleading-sb-2030-citation-correction-5783c7be-0fa7501a",
+            workerCommit: "6a0fb848b623c9fefc660503ad0b8ffdca013755",
+            completionCommit: "a9722b4e02bf611ea8304b3410601cb2a938d663"
+          }
+        : { status: "ready" }),
       expectedOutputs: [
         "src/lib/rcap/packets/jurisdictions/oklahoma/custom-pleading.ts",
         "scripts/verify-rcap-oklahoma-custom-pleading.mjs"
