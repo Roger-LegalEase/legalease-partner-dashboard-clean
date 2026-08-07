@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "specificationId": "oh-automatic-sealing-current-law-reconciliation",
+  "jobId": "rcap-oh-automatic-sealing-current-law-reconciliation",
+  "jurisdiction": "OH",
+  "jurisdictionName": "Ohio",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "preparedOn": "2026-08-07",
+  "preparer": "Session D legal-design worker, executing rcap-oh-automatic-sealing-current-law-reconciliation",
+  "baseCommit": "0f856532d40eef7528f1657da70ef825e6476fee",
+  "decisionSource": "The current Ohio Revised Code as published by the Ohio Legislative Service Commission at codes.ohio.gov, section by section across the sealing and expungement chapter, together with the Supreme Court of Ohio's own practitioner guide to adult rights restoration and record sealing revised June 2026; read against the integrated Ohio legal-design memo, the normalized track registry, the authoritative blocker ledger, and the integrated Ohio guidance implementation.",
+  "whatThisDocumentIs": "The decision record that settles whether Ohio has an automatic sealing route. The integrated Ohio memo carries oh_automatic_sealing as a deferred node built entirely around a secondary source's claim that Senate Bill 288 provides automatic sealing of certain eligible offences handled by the court and the Bureau of Criminal Identification and Investigation without petition or fee. No primary source had confirmed it and the memo was explicit that the Legislative Service Commission analysis it read was evidence against the claim but not proof, and that a negative could not be asserted on that footing. This record establishes the answer affirmatively from the code itself and from the state's own judicial guidance rather than from the absence of an agency page or from a legislative analysis alone. It amends no memo, regenerates no registry, implements nothing, and asserts no counsel approval.",
+  "scopeOfThisJob": {
+    "ownedPath": "data/record-clearing/production-factory/legal-design-decisions/oh-automatic-sealing-current-law-reconciliation.json",
+    "memoAmended": false,
+    "memoSha256AtDecision": "ed0323da7859f0b94a9e801fbe0b896dbb1a6261c8cdf02e4a505df433300df1",
+    "globalRegistryRegenerated": false,
+    "rendererImplemented": false,
+    "completedGuidanceWorkReopened": false,
+    "runtimeOrPromotionChanged": false,
+    "note": "The job's stop condition reserves memo amendment, registry regeneration and implementation to other owners, and directs that unrelated Ohio routes not be held. Nothing here touches oh_2953_36_trafficking, oh_2953_521_trafficking_nonconviction or oh_2953_39_prosecutor beyond confirming that their implemented packets are unaffected."
+  },
+  "questionPresented": {
+    "claimUnderExamination": "That Senate Bill 288 of the 134th General Assembly provides for automatic sealing of certain eligible offences, handled by the court and the Bureau of Criminal Identification and Investigation, without petition or fee, with implementation ongoing.",
+    "claimOrigin": "A secondary source recorded in the controlling Ohio legal review. The review's internal reference does not mention it and no primary source in the review confirmed it.",
+    "whyItWasNotClosedEarlier": "The memo's refresh read the Legislative Service Commission analysis of Senate Bill 288 on 2026-08-06 and found it described reorganization of the sealing laws and their extension to records after a pardon, with no automatic route. The memo correctly declined to convert that into a negative finding, on the reasoning that the document read was a status-stage analysis rather than the enacted law in full.",
+    "whyItMattered": "The memo records the consequence in its own scope restriction: if Ohio has an automatic route it is the most important track in the state, and the product must not sell petitions to people whose records are already clearing."
+  },
+  "methodNote": "A negative finding about the existence of a mechanism cannot rest on not having found it. This record therefore does not rely on the Legislative Service Commission analysis, and does not rely on the absence of an agency web page. It rests on two affirmative things: the operative text of every sealing and expungement section in the Revised Code as those sections currently read, each of which conditions relief on an application or a motion; and the Supreme Court of Ohio's own current enumeration of every adult route available in the state, which contains no automatic one. A search of the Revised Code for automatic sealing language was also run and is reported below, including the one place in Ohio law where it does appear.",
+  "controllingSources": [
+    {
+      "kind": "codified_statute",
+      "citation": "Ohio Rev. Code § 2953.32, Sealing or expungement of record of conviction record or bail forfeiture; exceptions",
+      "issuer": "Ohio Legislative Service Commission, codes.ohio.gov",
+      "effectiveDateOfVersionRead": "2025-09-30",
+      "retrievedOn": "2026-08-07",
+      "operativeFinding": "Relief is conditioned on an application by the offender. Subsection (B) provides that an eligible offender or a person with a bail forfeiture may apply to the sentencing court, and subsection (C) opens \"Upon the filing of an application under this section, the court shall set a date for a hearing\". No part of the section operates without an application.",
+      "amendmentHistoryRead": "Versions listed run through S.B. 288 and H.B. 343 effective 2023-04-06, H.B. 33 effective 2023-10-03, H.B. 234 effective 2025-03-20 and H.B. 96 effective 2025-09-30. The current version is the H.B. 96 version.",
+      "weight": "controlling"
+    },
+    {
+      "kind": "codified_statute",
+      "citation": "Ohio Rev. Code § 2953.33, Sealing of official records after not guilty finding, dismissal of proceedings, grand jury no bill, or pardon",
+      "issuer": "Ohio Legislative Service Commission, codes.ohio.gov",
+      "effectiveDateOfVersionRead": "2023-10-03",
+      "retrievedOn": "2026-08-07",
+      "operativeFinding": "\"Any person ... may apply to the court for an order to seal or ... expunge the person's official records.\" The court then sets a hearing and notifies the prosecutor. There is no automatic sealing of a dismissal, an acquittal, a no bill or a record after a pardon.",
+      "weight": "controlling"
+    },
+    {
+      "kind": "codified_statute",
+      "citation": "Ohio Rev. Code § 2953.39, Low-level controlled substance offense conviction record sealing or expungement, on prosecutor's motion",
+      "issuer": "Ohio Legislative Service Commission, codes.ohio.gov",
+      "effectiveDateOfVersionRead": "2023-10-03",
+      "retrievedOn": "2026-08-07",
+      "operativeFinding": "\"If a person is or was convicted of a low-level controlled substance offense, the prosecutor in the case may apply to the sentencing court for the sealing or expungement.\" The subject files nothing to start it and may object. The court holds a hearing and must make findings on rehabilitation and the governmental interest. It is prosecutor-initiated and discretionary, not automatic.",
+      "weight": "controlling"
+    },
+    {
+      "kind": "codified_statute",
+      "citation": "Ohio Rev. Code § 2953.321, Expungement of marijuana or hashish possession offenses",
+      "issuer": "Ohio Legislative Service Commission, codes.ohio.gov",
+      "effectiveDateOfVersionRead": "2026-03-20",
+      "retrievedOn": "2026-08-07",
+      "operativeFinding": "\"the person may file an application under this section requesting an expungement.\" This is the most recently amended sealing provision in Ohio and the place an automatic route would most plausibly have been added. It contains none. No Ohio marijuana record clears without an application.",
+      "weight": "controlling"
+    },
+    {
+      "kind": "codified_statute",
+      "citation": "Ohio Rev. Code § 2953.521, Expungement of record of not guilty finding or dismissed charges when defendant victim of human trafficking",
+      "issuer": "Ohio Legislative Service Commission, codes.ohio.gov",
+      "effectiveDateOfVersionRead": "2023-04-04",
+      "retrievedOn": "2026-08-07",
+      "operativeFinding": "\"Any person who is found not guilty ... or who is the defendant named in a dismissed complaint, indictment, or information may apply to the court for an order to expunge the person's official records\". Application required.",
+      "weight": "controlling"
+    },
+    {
+      "kind": "state_judicial_guidance",
+      "citation": "Adult Rights Restoration and Record Sealing, Ohio Criminal Sentencing Commission judicial practitioner resource, revised June 2026",
+      "issuer": "Supreme Court of Ohio",
+      "url": "https://www.supremecourt.ohio.gov/docs/Boards/Sentencing/resources/judPractitioner/adultRightsRestoration.pdf",
+      "retrievedOn": "2026-08-07",
+      "operativeFinding": "The guide enumerates every adult route in the state and no automatic one appears. Its contents are: A, sealing records of conviction, R.C. 2953.32, at the sentencing court's discretion on the defendant's application; B, sealing records of dismissal, R.C. 2953.33, at the court's discretion; C, relief from weapons disability; D, expungement where the applicant is a victim of human trafficking, R.C. 2953.36 and R.C. 2953.521; E, expungement of records of conviction, R.C. 2953.32; F, prosecutor-initiated sealing and expungement, R.C. 2953.39, limited to fourth-degree and minor misdemeanour substance offences in chapter 2925; G, post-conviction DNA testing; H, professional licensure applications; I, certificates of qualification for employment; J, executive clemency. Every sealing and expungement route in the list is initiated by an application or a motion and decided at the court's discretion.",
+      "currencyMarkers": "The guide is dated \"Revised June 2026\" and its analysis of R.C. 2953.32 footnotes State v. J.B., Slip Opinion No. 2026-Ohio-1405, so it is current well past every act the review and the memo considered.",
+      "weight": "controlling_for_enumeration"
+    },
+    {
+      "kind": "code_wide_search",
+      "citation": "Ohio Revised Code full-text search for automatic sealing language",
+      "issuer": "Ohio Legislative Service Commission, codes.ohio.gov",
+      "retrievedOn": "2026-08-07",
+      "operativeFinding": "No adult criminal sealing or expungement provision was returned. The returns were professional-licence suspensions that operate automatically on conviction, and juvenile and protection-order records. The only sealing-without-application in Ohio law is juvenile.",
+      "weight": "corroborating"
+    },
+    {
+      "kind": "codified_statute",
+      "citation": "Ohio Rev. Code § 2151.356, Sealing of juvenile court records",
+      "issuer": "Ohio Legislative Service Commission, codes.ohio.gov",
+      "effectiveDateOfVersionRead": "2025-09-30",
+      "retrievedOn": "2026-08-07",
+      "operativeFinding": "\"The juvenile court shall promptly order the immediate sealing of records pertaining to a juvenile\" in stated circumstances, including where a case was resolved without a complaint being filed, where a diversion programme for an alcohol violation was completed, and, on a weighing of harm against public benefit, where a case was dismissed or ended in a finding of not guilty. This is court-initiated and requires no application. It applies exclusively to juvenile records and reaches no adult criminal record.",
+      "weight": "controlling_for_the_one_exception"
+    }
+  ],
+  "sourcesExpresslyNotRelieduponAsProof": "The Legislative Service Commission analysis of Senate Bill 288 is not treated here as proof that no mechanism exists; it is not cited as a basis for the determination. The absence of an agency page describing automatic sealing is likewise not treated as proof. The determination rests on the operative text of the sections themselves and on the Supreme Court of Ohio's current enumeration.",
+  "determination": {
+    "1_doesCurrentOhioLawProvideAutomaticSealingOrExpungement": "Neither, for adult criminal records. Ohio has no automatic sealing and no automatic expungement of an adult criminal record. Every adult route in the Revised Code is initiated by an application or a motion and is decided at the court's discretion.",
+    "2_governingStatute": "There is no governing statute, because there is no mechanism. The sections that govern what does exist are Ohio Rev. Code §§ 2953.32, 2953.33, 2953.321, 2953.36, 2953.39 and 2953.521. The one automatic sealing provision in Ohio law is Ohio Rev. Code § 2151.356, and it is juvenile.",
+    "3_qualifyingRecordsOrDispositions": "Not applicable to an adult automatic route. Under § 2151.356 the juvenile records that are sealed without application are, in outline, cases resolved without a complaint being filed, completion of a diversion programme for an alcohol violation, and — on a weighing of harm to the person against the benefit to the public — dismissals, findings of not guilty, and unruly-child adjudications for a person eighteen or over no longer under the court's jurisdiction.",
+    "4_whoInitiates": "The person, in every adult route but one. In § 2953.39 the prosecutor moves and the subject files nothing, but that is a motion by a party, not an automatic process, and the subject may object to it. Under § 2151.356 the juvenile court itself initiates.",
+    "5_isParticipantActionRequired": "Yes, on every adult route the participant can use. An application must be filed with the sentencing court, or with a court of common pleas for an out-of-state or federal conviction under § 2953.32.",
+    "6_isProsecutorBciClerkOrCourtActionRequired": "Yes, and it is the court that decides. On an application the court sets a hearing, the prosecutor is notified and may object, the victim may object on a conviction application, and the court must make findings before it may grant. The Bureau of Criminal Identification and Investigation receives orders and, on a conviction expungement under § 2953.32, retains a limited record for law-enforcement employment decisions. No agency clears records on its own motion.",
+    "7_effectiveDate": "Not applicable, there being no mechanism. The current versions of the sections that do exist took effect on the dates recorded in the source list, the most recent being § 2953.321 on 2026-03-20 and §§ 2953.32 and 2151.356 on 2025-09-30.",
+    "8_operationalDelayedOrContingent": "Not applicable. There is nothing pending implementation. This is not a route that exists on paper and awaits an agency, which is the Oklahoma position and is materially different; in Ohio there is no such provision to implement.",
+    "9_coexistenceWithParticipantFiledRelief": "Not applicable. Participant-filed sealing and expungement is the entirety of adult record clearing in Ohio.",
+    "10_doesItChangeAnExistingOhioNormalizedTrack": "It changes oh_automatic_sealing and no other. The change is to the status of its question, not to any relief the memo offers.",
+    "11_doesItRequireANewTrackSupportingActionOrComposedUnit": "No. Nothing is created. There is no mechanism to model, so there is no node, no supporting action and no composed unit to add.",
+    "12_doesItChangeAnyCurrentOhioGuidancePacket": "No. The integrated Ohio guidance module was inspected at the frozen baseline and contains no reference to automatic sealing, to Clean Slate, or to any route clearing without an application. Its three assigned tracks are unaffected and remain value-identical.",
+    "13_doesItChangeParticipantScreening": "Yes, in one respect and in the participant's favour. The memo's stop condition currently tells a participant who has heard that Ohio clears records automatically that the position is unconfirmed. That answer can now be given plainly: Ohio has no automatic route, so nothing is coming, and the ordinary routes are the only way. The screening action itself does not change, because the memo already routes that participant to the ordinary routes rather than leaving them waiting.",
+    "14_releaseBlockerOrBuildBlocker": "Neither, going forward. The build blocker is answered rather than converted. What survives is a source-currentness monitor with no blocking impact, because the finding is a negative about the state of the law and any future General Assembly can change it.",
+    "15_whatMonitorRemains": "A standing monitor on Ohio Rev. Code chapter 2953 at codes.ohio.gov and on the revision date of the Supreme Court of Ohio practitioner guide. The guide is the efficient monitor: it is revised as the law changes, it enumerates every route, and an automatic route appearing in it would be unmissable."
+  },
+  "whatTheSecondarySourceProbablyDescribed": {
+    "assessment": "The claim has an identifiable and non-automatic referent, which is worth recording so it is not rediscovered as a live question a third time.",
+    "referent": "Ohio Rev. Code § 2953.39, enacted by Senate Bill 288 and effective 2023-10-03, allows the prosecutor to apply for sealing or expungement of a conviction for a low-level controlled substance offence. From the subject's point of view that route involves no petition of their own and no application fee of their own, and it is handled between the prosecutor, the court and the Bureau. A summary compressing those features would read very much like the claim the review recorded.",
+    "whyItIsNotAutomatic": "It requires a prosecutor to file, a court to hold a hearing, findings on rehabilitation and on the governmental interest, and it is entirely discretionary. It reaches only fourth-degree and minor misdemeanour offences under chapter 2925. Nobody's record clears by operation of law.",
+    "designConsequence": "That route is already normalized as oh_2953_39_prosecutor at process_guidance, with no participant filing, and its guidance packet is already implemented and integrated. The design has therefore already captured the only real thing behind the claim."
+  },
+  "affectedTracks": [
+    {
+      "trackId": "oh_automatic_sealing",
+      "currentNodeState": "deferred, legal_research_required, outputStrategyStatus unresolved, packetIdentity unresolved, no components",
+      "recommendedDisposition": "remain_deferred_with_the_question_answered",
+      "shouldTheTrackRemain": "Yes. Deleting the node would move Ohio's denominator from eighteen accounted source slots and eighteen nodes, and the node is the record of a question the product must be able to answer. Ohio's source-slot accounting is unchanged by this record: eighteen slots, eighteen nodes, eight imported, ten deferred.",
+      "shouldItChangeStrategy": "No. There is no relief mechanism, so there is no output strategy to settle. A deferred node with no asserted strategy is the correct home for a route that does not exist, and converting it to an implementable status would require inventing components for a mechanism the code does not contain.",
+      "shouldItNarrow": "No, and it should not broaden. Its content changes from an open question to a settled negative.",
+      "failClosedLevelPreserved": "Yes. The track stays deferred and unreachable, which is the memo's chosen blocker level, and no participant is told either that a record is clearing automatically or that any relief is available that is not.",
+      "requiredMemoChanges": [
+        "legalName: the parenthetical \"(Senate Bill 288, unverified)\" should go. The node is no longer a claim about Senate Bill 288.",
+        "controllingAuthority.summary: replace the account of the unconfirmed secondary source with the determination — that current Ohio law provides no automatic sealing or expungement of an adult criminal record, that every adult route requires an application or a prosecutor's motion, and that the only sealing without application in Ohio law is juvenile under Ohio Rev. Code § 2151.356.",
+        "unresolvedQuestions: the first entry, the build_blocker on whether Senate Bill 288 or any later act created automatic sealing, is answered and should be replaced by a nonblocking_research_note recording the negative finding, its sources and its retrieval date. The second entry, the build_blocker on the eligible set and timing of a route if one exists, falls away with it.",
+        "legalDesignDecision.limitations: the legal_design_blocker \"Whether SB 288 or any later act created automatic sealing in Ohio\" closes. The scope restriction about not selling petitions to people whose records are already clearing should be kept — it remains the right instinct and it is what the node exists to enforce — with its premise updated to the answer.",
+        "selfHelpStopConditions: the first condition can state the answer rather than the uncertainty. A participant who has heard that Ohio clears records automatically should be told plainly that it does not, and screened for the ordinary routes.",
+        "legalDesignDecision.status: keep legal_research_required. The status is what keeps the node deferred and out of runtime resolution, and there is nothing to build."
+      ]
+    },
+    {
+      "trackIds": [
+        "oh_2953_36_trafficking",
+        "oh_2953_521_trafficking_nonconviction",
+        "oh_2953_39_prosecutor"
+      ],
+      "disposition": "unchanged_and_preserved_value_identical",
+      "verification": "The integrated Ohio guidance module at the frozen baseline, blob be1baa06890469053658a5be33937c13547b7cd6, was read for any reference to automatic sealing, Clean Slate, or relief without an application. There is none. No sentence in any of the three implemented packets depends on the question this record answers, and nothing in this record requires any of them to change."
+    },
+    {
+      "trackIds": [
+        "oh_2953_33_nonconviction",
+        "oh_marijuana_expungement",
+        "oh_2953_32_sealing",
+        "oh_2953_32_expungement",
+        "oh_2953_35_firearm"
+      ],
+      "disposition": "unchanged",
+      "note": "The five custom-pleading routes are confirmed rather than disturbed. Reading § 2953.32, § 2953.33 and § 2953.321 at source establishes that each remains an application-initiated route, which is the premise those tracks are built on. No eligibility, waiting period or component is changed by this record, and none was reopened."
+    }
+  ],
+  "implementationConsequence": {
+    "requiredImplementationLane": "none",
+    "reason": "There is no mechanism, so there is no packet, no guidance sheet and no supporting action to build. The correct outcome of this job is a settled record and a monitor, not an implementation.",
+    "noPacketCreated": true,
+    "noProofOrReviewManifestCreated": true,
+    "completedGuidanceUntouched": true
+  },
+  "monitorRequired": {
+    "required": true,
+    "kind": "source_currentness",
+    "impact": "nonblocking_research_note",
+    "channels": [
+      "Ohio Rev. Code chapter 2953 at codes.ohio.gov, watching for any new section or any amendment introducing sealing without an application",
+      "Supreme Court of Ohio, Adult Rights Restoration and Record Sealing practitioner guide, watching its revision date and its enumeration of routes",
+      "Ohio Rev. Code § 2953.321, the most recently amended sealing provision, at effective date 2026-03-20"
+    ],
+    "rationale": "A negative finding about whether a mechanism exists is only ever current as of the date it was made. It is recorded as a monitor rather than as a blocker because it withholds nothing: no Ohio route is held back by it, and no participant-facing statement depends on it changing."
+  },
+  "terminalDisposition": "resolved_no_automatic_mechanism_exists",
+  "terminalDispositionDetail": "Current Ohio law provides neither automatic sealing nor automatic expungement of an adult criminal record. Every adult route — §§ 2953.32, 2953.33, 2953.321, 2953.36 and 2953.521 on the person's own application, and § 2953.39 on the prosecutor's motion — is initiated by a filing and decided at the court's discretion, and the Supreme Court of Ohio's own enumeration of adult routes revised in June 2026 contains no automatic one. The single instance of sealing without an application in Ohio law is § 2151.356, which is juvenile and reaches no adult record. The secondary source's claim most plausibly described § 2953.39, which the design already carries as a prosecutor-initiated route with no participant filing. oh_automatic_sealing remains a deferred node, its build blocker is answered rather than converted, no new node is created, no Ohio track changes strategy, no implemented Ohio packet changes, and a standing source-currentness monitor replaces the blocker.",
+  "residualQuestions": [
+    {
+      "item": "Codified enumeration beyond the sections read",
+      "statement": "The sealing sections were read individually because the chapter index at codes.ohio.gov paginates and did not render past § 2953.26 on retrieval. Sections 2953.32, 2953.33, 2953.321, 2953.39 and 2953.521 were each read in full, and the Supreme Court guide independently enumerates the complete adult route set, so the coverage is established by two routes rather than one. A future refresh should still walk the whole chapter listing once it renders.",
+      "impact": "nonblocking_research_note",
+      "affectedElement": "governing_mechanism"
+    },
+    {
+      "item": "Juvenile scope",
+      "statement": "Ohio Rev. Code § 2151.356 is a genuine automatic sealing mechanism and it is out of this product's scope. Whether juvenile records are ever in scope is a product question, not a legal one, and is not decided here.",
+      "impact": "nonblocking_research_note",
+      "affectedElement": "eligibility_branch"
+    }
+  ],
+  "requiredCaptainFollowUp": [
+    "Apply the oh_automatic_sealing memo changes recorded here through whichever owner holds OH.memo.json. This record does not amend it, and the node stays deferred.",
+    "Register the source-currentness monitor on Ohio Rev. Code chapter 2953 and on the Supreme Court practitioner guide's revision date.",
+    "Close the Ohio automatic-sealing build blocker in the authoritative blocker ledger against this record rather than leaving it open as the state's second research priority."
+  ],
+  "runtimeEffect": {
+    "runtimeEnabled": false,
+    "packetReady": false,
+    "routePromoted": false,
+    "migrationOrDeployment": false,
+    "note": "This record answers a question. It enables nothing, builds nothing and changes no runtime status. Every Ohio route remains runtime-disabled."
+  }
+}
