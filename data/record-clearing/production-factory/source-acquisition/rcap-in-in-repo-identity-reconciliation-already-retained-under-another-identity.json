@@ -1,0 +1,365 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-in-in-repo-identity-reconciliation-already-retained-under-another-identity",
+  "parentJobId": "AUTH-02-component-remap-corrections",
+  "jurisdiction": "IN",
+  "lane": "source_acquisition",
+  "strategyFamily": "in_repo_identity_reconciliation",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "95789664518ee3f7f2aeb9c12380dd9ba70d3b76",
+  "generatedOn": "2026-08-08",
+  "reconciliationIds": [
+    "acquire:IN:cca-gf-0120-3016",
+    "acquire:IN:cca-xp-0120-7002-form-acr",
+    "acquire:IN:confidential-information-form"
+  ],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero is correct and is the assignment's pinned value. Nothing was downloaded, no issuer was contacted, no file entered version control and no receipt was created. Every measurement below was read out of the adopted authority archive this repository already holds.",
+  "generatedFrom": [
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/authority.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/acquisition-campaign.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/unresolved.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-02-component-remap-corrections.json"
+  ],
+  "method": {
+    "description": "Deterministic in-repository identity reconciliation. The three assigned identities were tested against the bytes the adopted edition already retains by extracting the Indiana packet assets from the authority archive, mapping every page of the Section 1 petition-and-order bundle to the Coalition form code printed in its own footer, and reading each sub-document's printed title from the page itself. The result was compared against the source-acquisition queue, the adopted edition manifest and the track-source relationships.",
+    "measurementBasis": "freshly_measured_bytes_from_the_adopted_authority_archive",
+    "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+    "extractionNote": "Assets were read out of Expungement_AI_RCAP_Master_Library_Edition_1_2.zip into temporary storage outside the repository and outside every worktree. Nothing was retained, committed or materialized. The adopted archive is itself a retained repository asset, which is why this is in-repository evidence and not an acquisition.",
+    "tooling": "poppler (pdfinfo, pdftotext -layout, per-page extraction) for page mapping and face text; pdf-lib for AcroForm and per-page annotation reads; zipfile/XML for the Form ACR docx",
+    "issuerContactsMade": 0,
+    "binariesDownloaded": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "binariesCommitted": 0,
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "memoAltered": false,
+    "componentRebound": false,
+    "assignmentConstraintObserved": "The stop condition confines this job to retained repository assets and deterministic identity mapping, with no download, no issuer contact, no legal-design change and no edition edit. Every finding is derived from retained bytes."
+  },
+  "finding": {
+    "headline": "All three identities are already retained, and all three are pages of one document the adopted edition already manifests. The queue's 'no_repository_binary' is wrong on all three rows. Two recorded assumptions about these identities are also wrong on the artifact, and in opposite directions: 'CCA-XP-0120-7002 Form ACR' is not a conflation of two documents, and 'Confidential Information Form' is not CCA-XP-0120-7002.",
+    "acquisitionRequired": false,
+    "acquisitionRequiredRationale": "Nothing needs to be obtained from the Coalition for Court Access or from the Office of Judicial Administration. Every page these three identities name is inside IN:CCA-SECTION1-PETITION-ORDER:PACKET:EN, which the adopted edition retains as a packet_form at a pinned digest, and the Office of Judicial Administration's own generic Form ACR is retained separately at IN:Form ACR:NOTICE:EN.",
+    "whatIsActuallyWrong": "Three component identities point at pages of a retained bundle as though they were unretained standalone documents, one of them under a role label the artifact contradicts and one of them under a name that belongs to a different page."
+  },
+  "containerDocument": {
+    "workflowKey": "IN:CCA-SECTION1-PETITION-ORDER:PACKET:EN",
+    "documentId": "CCA-SECTION1-PETITION-ORDER",
+    "officialTitle": "Coalition for Court Access Section 1 Non-Conviction Expungement Petition and Order Bundle",
+    "revision": "SOURCE-2021",
+    "assetClass": "packet_form",
+    "canonicalAuthorityPath": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+    "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+    "bytes": 2946894,
+    "mimeType": "application/pdf",
+    "pdfVersion": "1.6",
+    "pageCount": 15,
+    "encrypted": false,
+    "xfa": false,
+    "acroFormPresent": true,
+    "javaScript": false,
+    "terminalFields": 68,
+    "widgetAnnotations": 105,
+    "totalAnnotations": 105,
+    "nonWidgetAnnotations": 0,
+    "fieldTypes": {"PDFTextField": 50, "PDFCheckBox": 17, "PDFDropdown": 1},
+    "allPagesLetterUnrotated": true,
+    "pageGeometry": "every one of the 15 pages is 612 x 792 points with rotation 0",
+    "creator": "Acrobat PDFMaker 17 for Word",
+    "author": "Kate Guerrero",
+    "widgetVersusTerminalFieldDenominator": {
+      "terminalFields": 68,
+      "widgets": 105,
+      "difference": 37,
+      "cause": "The bundle repeats caption, cause-number and petitioner-name fields across its sub-documents under shared field names, so one terminal field drives widgets on several pages. This is the same denominator hazard already recorded for the Illinois FW-CIV family, at a much larger magnitude.",
+      "editionRecords": 105,
+      "editionDenominator": "widget count",
+      "warning": "The adopted edition's field_count of 105 is the widget count. A field map keyed on 68 terminal fields and validated against 105 widgets misaligns by 37. Both numbers are recorded so the ambiguity cannot survive.",
+      "rendererConsequence": "A renderer must write each shared field once and let every widget render, not treat repeated widgets as separate values."
+    }
+  },
+  "pageLevelIdentityMap": {
+    "basis": "Every page was extracted individually and the Coalition form code was read from its own printed footer. The map is measured, not inferred from the bundle's title.",
+    "pages": [
+      {"pages": "1-2", "printedFormCode": "CCA-GF-0120-3016", "printedTitle": "APPEARANCE BY UNREPRESENTED PERSON IN EXPUNGEMENT MATTER", "widgets": 33, "assignedIdentity": "acquire:IN:cca-gf-0120-3016"},
+      {"pages": "3-6", "printedFormCode": "CCA-XP-0120-7000", "printedTitle": "Section 1 non-conviction petition, with an insert placeholder at page 4 and a Certificate of Service at page 6", "widgets": 26, "assignedIdentity": "not assigned to this job"},
+      {"pages": "7", "printedFormCode": "CCA-XP-0120-7002", "printedTitle": "Form ACR (Access to Court Records) — Notice of Exclusion of Confidential Information from Public Access", "widgets": 13, "assignedIdentity": "acquire:IN:cca-xp-0120-7002-form-acr", "printedPagination": "Page 1 of 1"},
+      {"pages": "8", "printedFormCode": "none — the page carries no Coalition form code", "printedTitle": "CONFIDENTIAL INFORMATION FORM (Not Public Record)", "widgets": 2, "assignedIdentity": "acquire:IN:confidential-information-form"},
+      {"pages": "9-15", "printedFormCode": "CCA-XP-0120-7006", "printedTitle": "Order (NOT FOR PUBLIC RECORD), with insert placeholders at pages 10 and 11 and a continuation sheet at page 15", "widgets": 31, "assignedIdentity": "not assigned to this job"}
+    ],
+    "widgetArithmetic": "33 + 26 + 13 + 2 + 31 = 105, which reconciles exactly to the bundle's measured widget total."
+  },
+  "resolvedIdentities": [
+    {
+      "reconciliationId": "acquire:IN:cca-gf-0120-3016",
+      "assignedDocumentId": "CCA-GF-0120-3016",
+      "verdict": "already_retained_inside_the_section_1_bundle_role_label_incorrect",
+      "officialTitle": "Appearance by Unrepresented Person in Expungement Matter",
+      "officialTitleBasis": "read verbatim from the page-1 caption of the retained bundle",
+      "issuer": "Coalition for Court Access",
+      "issuerBasis": "the page footer reads 'Approved by the Coalition for Court Access' with www.indianalegalhelp.org",
+      "retainedAt": "IN:CCA-SECTION1-PETITION-ORDER:PACKET:EN, pages 1-2",
+      "standaloneBinaryExists": false,
+      "standaloneBinaryExistsNote": "The Coalition publishes it inside its packets, not as a standalone file. That is why the queue's 'no_repository_binary' reads as an acquisition gap when it is really a container-page question.",
+      "role": "appearance",
+      "roleAsRecorded": "attachment",
+      "roleDefect": "The queue already flags sourceIdentityConfidence 'document_identity_confirmed_role_label_incorrect' and states the component label implies a fee-waiver form. The artifact confirms it: this is a self-represented litigant's appearance, not a fee waiver and not an evidentiary attachment. Nothing on the two pages concerns fees.",
+      "participantFacing": true,
+      "signatory": "the petitioner, personally, as an unrepresented person",
+      "scope": "statewide",
+      "widgets": 33,
+      "currentness": "confirmed current by the queue and published inside the Coalition packets; not re-verified against the publisher because the assignment forbids downloading"
+    },
+    {
+      "reconciliationId": "acquire:IN:cca-xp-0120-7002-form-acr",
+      "assignedDocumentId": "CCA-XP-0120-7002 Form ACR",
+      "verdict": "already_retained_and_the_identity_string_is_correct_not_a_conflation",
+      "officialTitle": "Form ACR (Access to Court Records) — Notice of Exclusion of Confidential Information from Public Access",
+      "officialTitleBasis": "read verbatim from page 7 of the retained bundle: the page heading is 'Form ACR (Access to Court Records)', the body caption is 'Notice of Exclusion of Confidential Information from Public Access (FILED WITH TRIAL COURT CLERK)', and the footer reads 'Page 1 of 1 / Approved by the Coalition for Court Access / CCA-XP-0120-7002'.",
+      "issuer": "Coalition for Court Access",
+      "retainedAt": "IN:CCA-SECTION1-PETITION-ORDER:PACKET:EN, page 7",
+      "standaloneBinaryExists": false,
+      "role": "supporting_process — a notice filed with the clerk, not an evidentiary attachment",
+      "participantFacing": true,
+      "signatory": "the petitioner, personally; the page carries its own Certificate of Service with mail and e-filing alternatives",
+      "scope": "statewide",
+      "widgets": 13,
+      "printedPagination": "Page 1 of 1",
+      "printedPaginationSignificance": "The Coalition itself paginates this as a complete one-page document. It is not the first half of a two-page unit."
+    },
+    {
+      "reconciliationId": "acquire:IN:confidential-information-form",
+      "assignedDocumentId": "Confidential Information Form",
+      "verdict": "already_retained_inside_the_section_1_bundle_and_it_is_not_CCA-XP-0120-7002",
+      "officialTitle": "Confidential Information Form",
+      "officialTitleBasis": "read verbatim from the page-8 caption of the retained bundle, printed between two 'Not Public Record' banners",
+      "issuer": "Coalition for Court Access",
+      "issuerBasis": "published inside the Coalition's packet; the page itself carries no form code and no separate attribution line",
+      "retainedAt": "IN:CCA-SECTION1-PETITION-ORDER:PACKET:EN, page 8",
+      "standaloneBinaryExists": false,
+      "role": "confidential_attachment — the document whose exclusion the Form ACR notice requests",
+      "participantFacing": true,
+      "signatory": "none — it is a data sheet carrying the cause number, the petitioner's name and the petitioner's full Social Security Number; there is no signature block",
+      "scope": "statewide",
+      "widgets": 2,
+      "handlingInstructionsOnTheFace": [
+        "ATTENTION CLERK: FOR SELF REPRESENTED LITIGANTS TREAT THIS FORM AS IF IT IS PRINTED ON GREEN PAPER.",
+        "IF THIS DOCUMENT IS E-FILED, FILE THIS AS A CONFIDENTIAL DOCUMENT"
+      ],
+      "handlingConsequence": "This page carries a full Social Security Number and is filed as a confidential document. Any packet that emits it must carry the green-paper and confidential-e-filing instruction with it, and it must never be merged into a public-access document."
+    }
+  ],
+  "correctionsToRecordedAssumptions": [
+    {
+      "id": "in-7002-is-not-a-conflation",
+      "recorded": "The queue records sourceIdentityConfidence 'two_distinct_documents_conflated_in_one_component_identity' for acquire:IN:cca-xp-0120-7002-form-acr, and the adopted edition's note on IN:Form ACR:NOTICE:EN says the Indiana normalization 'labels one component \"CCA-XP-0120-7002 Form ACR\", conflating the two'.",
+      "measured": "Page 7 of the retained bundle is a single document that carries BOTH names on its own face: the heading 'Form ACR (Access to Court Records)' and the footer code 'CCA-XP-0120-7002', paginated by the Coalition as 'Page 1 of 1'.",
+      "conclusion": "The component identity string is not a conflation. It names one document by its Coalition code and by its printed title, both of which the issuer prints on the same page. The label is accurate.",
+      "whatIsTrue": "The separate and correct point is that the Coalition's CCA-XP-0120-7002 and the Office of Judicial Administration's generic Form ACR are two different renditions of the same notice by two different issuers. Both are retained. That is a two-renditions question, not a mislabelled-component question.",
+      "confidence": "high",
+      "confidenceBasis": "The heading, the body caption, the pagination and the form code were all read off the same extracted page.",
+      "consequenceIfNotCorrected": "A remap worker acting on the recorded assumption would split one real Coalition document into two, and would have to invent a second identity for a page that does not exist."
+    },
+    {
+      "id": "in-confidential-information-form-is-not-7002",
+      "recorded": "The queue's edition12DispositionRationale for acquire:IN:confidential-information-form opens with the bare string 'CCA-XP-0120-7002', equating the Confidential Information Form with that code.",
+      "measured": "CCA-XP-0120-7002 is the code printed on page 7, the Form ACR notice. The Confidential Information Form is page 8 and carries no Coalition form code at all.",
+      "conclusion": "They are two different pages and two different instruments. The Form ACR notice on page 7 expressly names the Confidential Information Form as a separate document in its own exclusion table: 'Name or description of document: Confidential Information Form listing Petitioner's full Social Security Number; ACR grounds for exclusion: Access to Court Records Rule 5'. A document cannot be the document it lists.",
+      "confidence": "high",
+      "confidenceBasis": "The page-7 exclusion table naming the page-8 document is direct textual evidence from the issuer, not an inference from adjacency.",
+      "consequenceIfNotCorrected": "Collapsing the two identities would delete the confidential Social-Security-Number sheet from the packet while leaving the notice that says it was filed, and would produce a filing whose own notice refers to a document the participant was never given."
+    }
+  ],
+  "twoRenditionsOfFormACR": {
+    "question": "The adopted edition retains an Office of Judicial Administration Form ACR as well. Which does an expungement packet use?",
+    "coalitionRendition": {
+      "workflowKey": "IN:CCA-SECTION1-PETITION-ORDER:PACKET:EN, page 7",
+      "formCode": "CCA-XP-0120-7002",
+      "issuer": "Coalition for Court Access",
+      "caption": "pre-printed expungement caption — 'IN RE THE PETITION FOR EXPUNGEMENT OF RECORDS OF ARREST, CRIMINAL CHARGES, OR JUVENILE DELINQUENCE ALLEGATIONS OF: ______ Petitioner'",
+      "groundsTable": "pre-filled — 'Confidential Information Form listing Petitioner's full Social Security Number' against 'Access to Court Records Rule 5'",
+      "certificateOfService": "included, with mail and Indiana E-filing System alternatives",
+      "structuralClass": "acroform page inside a retained packet, 13 widgets"
+    },
+    "ojaRendition": {
+      "workflowKey": "IN:Form ACR:NOTICE:EN",
+      "documentId": "Form ACR",
+      "officialTitle": "Form ACR — Notice of Exclusion of Confidential Information from Public Access",
+      "issuer": "Indiana Office of Judicial Administration",
+      "revision": "SOURCE-2026-08",
+      "assetClass": "supporting_process",
+      "structuralClass": "docx",
+      "bytes": 27518,
+      "sha256": "21001a1265eb8ff2872f0771ef6e7e75b6b0ad664b2d43aaed912f4e0f4c76c3",
+      "caption": "generic civil template — 'Plaintiff(s) ... vs. ... Defendant(s)'",
+      "groundsTable": "empty placeholders — '[List here]' and '[List specific A.C.R. grounds here.]'",
+      "bracketedPlaceholders": "'[filing/tender]', '[party name]', '[Insert Name]', '[list names and addresses of counsel of record]'",
+      "note": "It also carries a drafting note: if Rule 5(A)(1 or 3), 5(B)(1 or 2) or 5(D)(2) is the basis, the specific law or statute must also be listed."
+    },
+    "verdict": "the_coalition_rendition_is_the_expungement_instrument",
+    "verdictBasis": "The OJA document is a generic civil-caption template with unfilled bracketed placeholders and a plaintiff-versus-defendant caption that does not fit an ex parte expungement petition. The Coalition rendition is the same notice already adapted to the expungement caption with the grounds pre-filled. The nine components on these tracks are expungement components.",
+    "doNotRetireTheOjaRendition": "It is the statewide generic instrument, is separately retained, and is correctly classed supporting_process. Nothing here retires or rebinds it.",
+    "notDecidedHere": "Whether a packet should ever emit the OJA generic rendition instead is a legal-design choice. This job records which document each identity names; it does not choose the packet's contents."
+  },
+  "isTheCurrentRepositorySourceCorrectlyBound": {
+    "documentsCorrectlyIdentified": true,
+    "documentsRetained": true,
+    "documentsAdopted": true,
+    "componentsCorrectlyBound": false,
+    "explanation": "The bytes are retained and adopted; the defect is entirely in the component layer. All eighteen relationships carry an officialFormId naming a page rather than the retained container, all eighteen queue rows read repositoryStatus 'no_repository_binary' for pages that are demonstrably present, one identity carries a role label the artifact contradicts, and one identity carries the wrong document's name.",
+    "queueContradiction": {
+      "queueSays": "repositoryStatus 'no_repository_binary' and requiredAcquisition 'Acquire the current official binary from the issuing authority and manifest it.', on all eighteen rows",
+      "measured": "Every page named by all three identities is inside a bundle the adopted edition manifests as packet_form at sha256 b04f2941…d041c5, and the OJA Form ACR is separately manifested at sha256 21001a12…c76c3.",
+      "resolution": "The queue rows are wrong on their face. 'No repository binary' and 'no standalone binary' are different statements, and the second one is what is true. The same conflation is already recorded for Hawaii and Illinois; this is its third instance and the pattern should be fixed in the queue generator rather than row by row.",
+      "correctionOwner": "the queue owner; the queue is not this job's to write"
+    }
+  },
+  "similarlyNamedDifferentRole": [
+    {"document": "Indiana Office of Judicial Administration Form ACR (docx)", "why": "Same instrument name, different issuer, generic civil caption, unfilled placeholders. See twoRenditionsOfFormACR. It must not be substituted for the Coalition's expungement rendition and must not be retired on the strength of this record."},
+    {"document": "CCA-XP-0120-7000", "why": "The Section 1 petition at pages 3-6 of the same bundle. Adjacent code, different instrument. Not assigned to this job."},
+    {"document": "CCA-XP-0120-7006", "why": "The proposed Order at pages 9-15 of the same bundle. Judge-facing. Not assigned to this job and must not be bound as a participant component."},
+    {"document": "CCA-XP-0120-7003 / 7004 / 7005", "why": "The Facts, Findings and Exhibit inserts, which live in a different retained asset, IN:CCA-SECTION1-INSERTS:PACKET:EN. The bundle's pages 4, 10 and 11 are placeholders reading 'Take out this page and insert your ... pages', which is the physical join between the two assets. A worker who reads those placeholder pages as content will produce a packet with three instruction sheets in it."},
+    {"document": "CCA-XP-0220-7008 / 7009 / 7010", "why": "The conviction-route inserts under I.C. 35-38-9-2, -3 and -4. Different statutory routes and separate retained assets."},
+    {"sourceClass": "a county-specific expungement packet", "why": "The Coalition forms are statewide and carry a blank county selector on the caption. A county reproduction is not a statewide form."}
+  ],
+  "affectedTracksAndComponents": {
+    "trackCount": 6,
+    "componentCount": 18,
+    "documentCount": 3,
+    "tracks": ["in_arrest_no_charges", "in_section1_petition", "in_conviction_misd", "in_conviction_d6", "in_conviction_felony", "in_conviction_serious_felony"],
+    "components": [
+      {"reconciliationId": "acquire:IN:cca-gf-0120-3016", "componentIds": ["in_arrest_no_charges-attachment-3", "in_section1_petition-attachment-3", "in_conviction_misd-attachment-4", "in_conviction_d6-attachment-4", "in_conviction_felony-attachment-4", "in_conviction_serious_felony-attachment-4"]},
+      {"reconciliationId": "acquire:IN:cca-xp-0120-7002-form-acr", "componentIds": ["in_arrest_no_charges-attachment-4", "in_section1_petition-attachment-4", "in_conviction_misd-attachment-5", "in_conviction_d6-attachment-5", "in_conviction_felony-attachment-5", "in_conviction_serious_felony-attachment-5"]},
+      {"reconciliationId": "acquire:IN:confidential-information-form", "componentIds": ["in_arrest_no_charges-attachment-5", "in_section1_petition-attachment-5", "in_conviction_misd-attachment-6", "in_conviction_d6-attachment-6", "in_conviction_felony-attachment-6", "in_conviction_serious_felony-attachment-6"]}
+    ],
+    "uniformity": "All three identities bind identically across all six tracks, three components per track. The reconciliation is one-to-many and deterministic with no per-track variation.",
+    "crossRouteObservation": "Four of the six tracks are conviction routes whose petitions come from the CCA-XP-0220-70xx conviction inserts, yet all four bind these three attachments out of the Section 1 non-conviction bundle. That is consistent — the appearance, the ACR notice and the confidential sheet are route-independent — but it means the conviction tracks depend on a bundle whose own title says Section 1. Recorded so a later worker does not read the dependency as an error."
+  },
+  "resolutionRequired": {
+    "kind": "component_to_document_mapping_and_role_correction",
+    "performedByThisJob": false,
+    "notPerformedRationale": "Remapping rewrites data/record-clearing/legal-design-track-source-relationships.json and the source-acquisition queue, both forbidden paths for this job. This job establishes the answer and stops at the boundary.",
+    "recommendedCorrections": [
+      "Bind all eighteen components to the retained container IN:CCA-SECTION1-PETITION-ORDER:PACKET:EN with an explicit page range: 1-2 for CCA-GF-0120-3016, 7 for CCA-XP-0120-7002, 8 for the Confidential Information Form.",
+      "Pin sha256 b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5 on all eighteen relationships, which today carry sha256 null and corpusState unchecked.",
+      "Correct the CCA-GF-0120-3016 role label from an implied fee waiver to appearance.",
+      "Keep acquire:IN:cca-xp-0120-7002-form-acr as one identity. Do not split it.",
+      "Keep acquire:IN:confidential-information-form as a separate identity from CCA-XP-0120-7002. Do not collapse it.",
+      "Correct the eighteen queue rows' repositoryStatus, which reads no_repository_binary for pages that are present, and close all three acquisition keys without acquisition."
+    ],
+    "memoEditRequired": false,
+    "memoEditRationale": "No Indiana memo edit is required for the identity questions. Correcting a source key and a source-side role label is a source-identity correction, not a legal-design change. IN.memo.json was not opened for writing. The one question that may reach legal design — whether a packet emits the Coalition or the Office of Judicial Administration rendition of Form ACR — is recorded as unresolved and handed off rather than decided."
+  },
+  "edition13Impact": {
+    "publicationJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+    "editionCorrectionRequired": true,
+    "correctionKind": "note_correction_and_component_mapping_only",
+    "requiresNewBytes": false,
+    "requiresNewBytesNote": "None. Both the Coalition bundle and the Office of Judicial Administration Form ACR are already retained at pinned digests.",
+    "requiresAssetRowChange": false,
+    "requiresAssetRowChangeNote": "Neither the IN:CCA-SECTION1-PETITION-ORDER:PACKET:EN row nor the IN:Form ACR:NOTICE:EN row is wrong in its identity, class, digest or path. This is the receipt-only shape, not the amendment shape.",
+    "requiresNoteCorrection": true,
+    "requiresNoteCorrectionDetail": "The IN:Form ACR:NOTICE:EN note asserts that the normalization label 'CCA-XP-0120-7002 Form ACR' conflates two documents. The artifact shows the Coalition prints both names on one page. The note should instead record that two issuers publish two renditions of the same notice and that both are retained.",
+    "requiresRoleCorrection": true,
+    "requiresRoleCorrectionDetail": "CCA-GF-0120-3016 is an appearance, not a fee waiver and not an attachment.",
+    "requiresTitleCorrection": false,
+    "requiresScopeCorrection": false,
+    "requiresRevisionCorrection": false,
+    "requiresLicenseDisposition": false,
+    "requiresLicenseDispositionNote": "The queue records 'None identified.' for all three rows. A negative finding on restriction, not an affirmative permission. The separate Indiana commercial-license question covers the conviction petition and order bundles and is a different job; nothing here touches it.",
+    "requiresStructuralMetadataDisambiguation": true,
+    "requiresStructuralMetadataDisambiguationDetail": "The bundle row's field_count of 105 is a widget count against 68 terminal fields. State the denominator on the row.",
+    "amendmentHandoffItems": [
+      {"item": "Map eighteen components to the retained container with page ranges", "kind": "component_to_document_mapping", "appliedByThisJob": false},
+      {"item": "Correct the Form ACR conflation note", "kind": "note_correction", "appliedByThisJob": false},
+      {"item": "Correct the CCA-GF-0120-3016 role label", "kind": "role_correction", "appliedByThisJob": false},
+      {"item": "State the widget-versus-terminal denominator on the bundle row", "kind": "metadata_disambiguation", "appliedByThisJob": false},
+      {"item": "Close three acquisition keys without acquisition", "kind": "blocker_disposition", "appliedByThisJob": false}
+    ],
+    "edition12Treatment": "immutable_unchanged",
+    "publicationPerformed": false
+  },
+  "sourceMaterializationEligibility": {
+    "laterMaterializationPermitted": true,
+    "laterMaterializationPermittedDetail": "The container is adopted as packet_form with a canonical path, a pinned digest and a byte count, so a receipt for it is mechanical once the mapping is approved.",
+    "notPermittedYet": true,
+    "notPermittedYetDetail": "No approved component-to-document mapping exists, no captain assignment anchor or portable projection exists for the Indiana family, and the three identities are still recorded as unmanifested. This job created no receipt and materialized nothing.",
+    "receiptCreatedByThisJob": false,
+    "materializationUnitObservation": "The materialization unit is the 15-page container, not the three pages. A receipt should pin the container digest; page selection is a packet-assembly concern, not a materialization concern. Recorded so no one attempts to receipt three pages that have no independent bytes.",
+    "prerequisitesInOrder": [
+      "1. Approve the component-to-document mapping with page ranges for the eighteen components.",
+      "2. Issue a captain assignment anchor and portable projection for the Indiana family.",
+      "3. Author a source-materialization receipt pinning expectedSha256 b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5 and expectedBytes 2946894, with a destination under official-pdf/IN/.",
+      "4. Seal the materialized file at 0444 with every containing directory at 0555."
+    ]
+  },
+  "implementationFamilyEffect": {
+    "family": "rcap-in-official-pdf-family",
+    "affectedTracks": 6,
+    "affectedComponents": 18,
+    "effectOfThisJob": "Three Indiana identities move from 'no repository binary, acquire from the issuer' to located pages of a retained, adopted, digest-pinned bundle, with a measured page map, a per-page widget allocation and a corrected role label. Eighteen component bindings gain a concrete target and a digest to pin. Two recorded assumptions that would have produced wrong remaps are corrected before any remap is attempted.",
+    "familyReadinessStatement": "The Indiana official-PDF family remains fail-closed and this job does not move it. generation_allowed is no on every Indiana packet row, the family has no captain-projected exact sources, the separate Indiana commercial-license question is unresolved for the petition and order bundles, and no approved mapping exists. No packet becomes generatable, no renderer is assigned and no field map is built.",
+    "rendererObservation": "A 15-page unrotated Letter AcroForm with 68 terminal fields over 105 widgets, no XFA, no encryption and no JavaScript is an acroform_fill candidate. An observation about the artifact; the lane is not assigned here.",
+    "packetAssemblyObservation": "Pages 4, 10 and 11 of the container are physical placeholder sheets instructing the filer to remove them and insert pages from the separate inserts asset. Any assembly that emits the container unmodified will emit three instruction sheets to a participant. Recorded as an implementation constraint, not resolved here."
+  },
+  "terminalDisposition": "all_three_identities_already_retained_inside_one_adopted_container_component_mapping_and_role_correction_required_no_acquisition",
+  "terminalDispositionDetail": {
+    "why": "The narrowest disposition the evidence supports. It is not unresolved_identity: every document, issuer, title, role, page location and widget allocation is established from the artifact. It is not acquisition_required: the bytes are retained and adopted, and the queue's contrary statement is demonstrably wrong. It is not a pure duplicate collapse either, because the evidence went the other way on one identity — the Confidential Information Form is a genuinely separate instrument from CCA-XP-0120-7002 and must not be collapsed into it.",
+    "acquisitionRequired": false,
+    "identitiesResolved": 3,
+    "identitiesCollapsed": 0,
+    "identitiesSplit": 0,
+    "recordedAssumptionsCorrected": 2,
+    "roleLabelsCorrected": 1
+  },
+  "redundantAcquisitionWorkRemoved": {
+    "queueRowsClosableWithoutAcquisition": 18,
+    "acquisitionKeys": ["acquire:IN:cca-gf-0120-3016", "acquire:IN:cca-xp-0120-7002-form-acr", "acquire:IN:confidential-information-form"],
+    "downloadsAvoided": 3,
+    "issuerContactsAvoided": 3,
+    "rationale": "None of the three should remain an open download job. Every page is retained inside an adopted asset, and no issuer interaction can resolve a component binding held in this repository."
+  },
+  "expectedDownstreamEffect": "Three Indiana acquisition keys close without a download, and eighteen components across six tracks gain a concrete retained target with a page range and a digest to pin. Two recorded assumptions are corrected before they can drive a wrong remap: one would have split a single Coalition document in two, the other would have deleted the confidential Social-Security-Number sheet by merging it into the notice that lists it. One role label is corrected from an implied fee waiver to an appearance. Edition 1.3 gains a note correction, a role correction, a denominator disambiguation and a mapping item, and needs no new bytes. No component is rebound, no receipt is created, no binary enters version control, no renderer is assigned, no memo is edited, no edition is published, no packet becomes generatable, no runtime is enabled and no track changes promotion state.",
+  "residualBlockers": [
+    {"id": "in-component-mapping", "question": "Eighteen components and eighteen relationships must be mapped to the retained container with page ranges and a pinned digest.", "status": "handed_off", "owner": "the component-remap and relationship-pinning lane", "why": "The relationships file and the queue are forbidden paths for this job."},
+    {"id": "in-queue-repository-status", "question": "Eighteen queue rows record no_repository_binary for pages that are present in an adopted asset.", "status": "handed_off", "owner": "the queue owner", "why": "Forbidden path. This is the third jurisdiction showing the same no-standalone-binary versus no-repository-binary conflation, so the generator is the better fix."},
+    {"id": "in-form-acr-rendition-choice", "question": "Whether an Indiana expungement packet emits the Coalition rendition of Form ACR or the Office of Judicial Administration generic rendition.", "status": "unresolved", "owner": "the Indiana legal-design owner", "why": "Both are retained and both are official. The evidence strongly favours the Coalition rendition for an expungement filing, but choosing what a packet contains is a legal-design decision this lane does not make."},
+    {"id": "in-container-placeholder-pages", "question": "Pages 4, 10 and 11 are remove-and-insert instruction sheets, so the container cannot be emitted unmodified.", "status": "open_and_outside_this_job", "owner": "the Indiana implementation lane"},
+    {"id": "in-field-denominator", "question": "The bundle is 68 terminal fields over 105 widgets and the edition row states only 105.", "status": "open_and_outside_this_job", "owner": "the implementation lane, at field-map time"},
+    {"id": "in-commercial-license", "question": "The Coalition's licensing and commercial-use terms for its packet binaries.", "status": "open_and_outside_this_job", "owner": "rcap-in-commercial-license", "why": "A separate assigned job. The queue records 'None identified' for these three attachment rows specifically, which is a negative finding on those rows and not a licence for the family. Nothing here grants generation."},
+    {"id": "in-container-currentness", "question": "The container is retained at revision SOURCE-2021 and its currentness rests on a 2026-08-03 confirmation.", "status": "inherent", "owner": "acquisition owner", "why": "The assignment forbids downloading, so no live check was possible or attempted."}
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "sourcesMaterialized": 0,
+    "sourceReceiptCountUnchanged": true,
+    "memoEdited": false,
+    "editionPublished": false,
+    "editionMutated": false,
+    "rendererImplemented": false,
+    "packetImplemented": false,
+    "fieldMapBuilt": false,
+    "componentRebound": false,
+    "issuerContacted": false,
+    "generationAllowedChanged": false,
+    "integrationPerformed": false,
+    "promotionPerformed": false,
+    "migrationPerformed": false,
+    "deploymentPerformed": false
+  }
+}

@@ -1,0 +1,294 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-mo-superseded-source-replacement",
+  "parentJobId": "AUTH-06-source-gate-clearance",
+  "jurisdiction": "MO",
+  "lane": "source_acquisition",
+  "strategyFamily": "superseded_source_replacement",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "95789664518ee3f7f2aeb9c12380dd9ba70d3b76",
+  "generatedOn": "2026-08-08",
+  "acquisitionIds": ["acquire:MO:fi-05"],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero is correct and is the assignment's pinned value. Nothing was downloaded, no issuer was contacted, no file entered version control and no receipt was created. The measurement basis is the retained repository binary. One read-only reachability probe of the issuer's published index was attempted and returned HTTP 403; it retrieved no document and is recorded as evidence of the block, not as an acquisition.",
+  "generatedFrom": [
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/authority.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-06-source-gate-clearance.json"
+  ],
+  "method": {
+    "description": "Supersession reconstruction against the retained binary. The retained FI-05 asset was opened, measured, and read page by page, and each page's printed SJRC revision stamp was extracted separately rather than assumed uniform across the file. The result was compared against the adopted edition row, the repository asset audit and the source-acquisition queue. A read-only reachability probe of the issuer's index was made to test whether the recorded automation block still holds.",
+    "measurementBasis": "freshly_measured_local_bytes",
+    "measuredFile": "private/Nationwide Record Clearing/LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf",
+    "measuredFileNote": "The repository asset audit records this exact digest with presence=present, binaryPresent=true, hashState=match and status=manifested_source_gated as an exact SHA-256 match to the retained source_gated row MO:FI-05:COVER_SHEET:EN.",
+    "tooling": "poppler (pdfinfo, per-page pdftotext -layout) for page-level revision stamps and face text; pdf-lib for AcroForm, per-page widget and page-geometry reads; curl for the reachability probe",
+    "issuerContactsMade": 0,
+    "binariesDownloaded": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "binariesCommitted": 0,
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "memoAltered": false,
+    "componentRebound": false,
+    "assignmentConstraintObserved": "The stop condition requires keeping the supersession chain explicit, preventing the superseded identity from remaining the active target, and not silently discarding either identity. Both identities inside the retained bundle are recorded, neither is discarded, and the chain is stated at page level."
+  },
+  "finding": {
+    "headline": "The retained FI-05 asset is not one document at one revision. It is a four-page bundle carrying two differently-stamped SJRC documents: the two-page fillable Confidential Case Filing Information Sheet at SJRC (04-23) FI-05, and a two-page unfillable Case Types List at SJRC (07-23) that carries no form number. The edition records the bundle under a single revision, REV-2023-04, which is the earlier of the two stamps and describes only half the file.",
+    "acquisitionRequired": false,
+    "acquisitionRequiredRationale": "Nothing needs to be obtained to establish what the retained bytes are. The bundle is present, digest-matched and now measured page by page. What cannot be established from retained bytes is whether the issuer has published a newer FI-05, and that is blocked by a live automation block rather than by an absent file.",
+    "whyThisIsASupersessionFinding": "A single revision field on a two-revision bundle cannot express supersession. If the issuer reissues FI-05 alone, the bundle's recorded revision would be updated while a 07-23 appendix of unknown currentness rode along unexamined; if the issuer reissues the Case Types List alone, nothing in the record would change at all."
+  },
+  "resolvedIdentity": {
+    "acquisitionKey": "acquire:MO:fi-05",
+    "assignedDocumentId": "FI-05",
+    "officialTitleOnTheFace": "Confidential Case Filing Information Sheet – Non-Domestic Relations",
+    "titleAgreesWithQueue": true,
+    "titleAgreesWithQueueNote": "The queue and the edition both record 'Confidential Case Filing Information Sheet — Non-Domestic Relations (FI-05)', which matches the printed page-1 caption. Confirmed rather than corrected.",
+    "issuer": "Missouri Office of the State Courts Administrator",
+    "issuerBasis": "The SJRC stamp is the Office of the State Courts Administrator's State Judicial Records Committee form marking. The queue records the issuing authority independently.",
+    "role": "cover_sheet",
+    "roleDetail": "A confidential filing cover sheet submitted with a new case filing. It is not a petition and not an order. The role recorded on all eight components is correct.",
+    "participantFacing": true,
+    "signatory": "none — the sheet carries a 'Submitted by' block with an optional Bar ID rather than a signature line or a jurat",
+    "scope": "statewide",
+    "scopeBasis": "A Missouri Office of the State Courts Administrator statewide form with a blank 'County/City of St. Louis' selector on the face. It is not a local form.",
+    "mandatory": true,
+    "mandatoryBasis": "The edition records it as mandatory with a new case filing and confidential in itself. The face states: 'NOTE: The full Social Security Number (SSN) is required pursuant to Missouri Supreme Court Operating Rule 4.07'.",
+    "confidentialInItself": true,
+    "confidentialityConsequence": "The sheet carries the participant's full Social Security Number by design, under Operating Rule 4.07, and the number is deliberately not repeated on CR360 or CR375. Any packet emitting this component emits a document containing a full SSN, and it must be handled and labelled as confidential. This is the single most sensitive artifact in the Missouri set.",
+    "currentEditionRevision": "REV-2023-04",
+    "printedRevisionStamps": ["SJRC (04-23) FI-05", "SJRC (07-23)"],
+    "currentness": "unconfirmed",
+    "currentnessDetail": "See automationBlock. Whether SJRC (04-23) remains the issuer's current FI-05 could not be established."
+  },
+  "bundleComposition": {
+    "basis": "Every page was extracted individually and its printed footer stamp and widget count read separately. The composition is measured, not inferred from the filename.",
+    "totalPages": 4,
+    "segments": [
+      {
+        "pages": "1-2",
+        "document": "Confidential Case Filing Information Sheet – Non-Domestic Relations",
+        "printedStamp": "SJRC (04-23) FI-05",
+        "formNumber": "FI-05",
+        "revision": "04-23",
+        "widgets": 111,
+        "widgetsByPage": {"1": 63, "2": 48},
+        "fillable": true,
+        "contentSummary": "Page 1 captures filing date, county, style of case, case type code and description, party type, name or organization, address, city, state, zip, telephone and email, plus a checkbox for attaching an unredacted document in place of listing identifiers. Page 2 is the REDACTED INFORMATION table — identifier and value pairs — plus the 'Submitted by' block with Bar ID.",
+        "isTheAssignedDocument": true
+      },
+      {
+        "pages": "3-4",
+        "document": "CASE TYPES LIST",
+        "printedStamp": "SJRC (07-23)",
+        "formNumber": "none — the pages carry no form number at all",
+        "revision": "07-23",
+        "widgets": 0,
+        "fillable": false,
+        "contentSummary": "A two-page reference table of every Missouri case type category, description and code, with separate columns for the associate and circuit divisions, spanning domestic relations, contract, administrative review, miscellaneous civil and probate.",
+        "isTheAssignedDocument": false,
+        "whyItIsBundled": "It is the lookup table for the 'Case Type Code' field on page 1. Without it a participant cannot complete the sheet."
+      }
+    ],
+    "widgetArithmetic": "63 + 48 + 0 + 0 = 111, which reconciles exactly to the measured document total and to the edition's recorded field_count.",
+    "twoStampsOneFile": "The 04-23 and 07-23 stamps are three months apart. The bundle was assembled at or after July 2023, so its assembly postdates the FI-05 revision it carries."
+  },
+  "loadBearingFinding": {
+    "id": "mo-expungement-case-type-code",
+    "finding": "Page 4 of the bundled Case Types List gives the case type code the eight bound tracks actually need: under MISCELLANEOUS CIVIL, 'Expungement of Crim/Arrest Record' carries code XG in the circuit-division column, with the associate-division column left blank.",
+    "consequence": "Expungement is a circuit-division case type in Missouri, and XG is the value a participant must enter in the 'Case Type Code' field on page 1 of FI-05. This is directly packet-relevant for all eight tracks and it is only discoverable from the appended pages the edition does not describe.",
+    "whyItMatters": "It is a concrete reason the appendix must not be dropped as mere reference material when the bundle is modelled. Discarding pages 3-4 would remove the only source in the retained asset for the code page 1 demands.",
+    "notDecidedHere": "Whether the packet should pre-fill XG, instruct the participant to enter it, or emit the lookup table is a legal-design decision outside this assignment."
+  },
+  "measuredStructure": {
+    "measurementBasis": "freshly_measured_local_bytes",
+    "bytes": 298649,
+    "sha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+    "mimeType": "application/pdf",
+    "pdfVersion": "1.7",
+    "pageCount": 4,
+    "pageGeometry": "all 4 pages 612 x 792 points, rotation 0, MediaBox and CropBox coincident",
+    "encrypted": false,
+    "xfa": false,
+    "acroFormPresent": true,
+    "terminalFields": 111,
+    "widgetAnnotations": 111,
+    "totalAnnotations": 112,
+    "nonWidgetAnnotations": 1,
+    "fieldTypes": {"PDFTextField": 104, "PDFCheckBox": 7},
+    "javaScript": false,
+    "structuralClass": "acroform_pdf",
+    "widgetVersusTerminalFieldDenominator": {
+      "terminalFields": 111,
+      "widgets": 111,
+      "difference": 0,
+      "note": "One-to-one. Unlike the Illinois and Indiana families there is no multi-widget field here, so the edition's field_count of 111 is unambiguous on either denominator. Recorded expressly because the ambiguity exists elsewhere in this wave and its absence here is worth stating.",
+      "butFieldsAreNotEvenlyDistributed": "All 111 widgets sit on pages 1-2. Pages 3-4 carry none. A renderer that assumes fields are distributed across a four-page document will be wrong about half of it."
+    },
+    "editionMetadataGap": {
+      "pages": "The edition row records pages as an empty string. The measured count is 4.",
+      "note": "The edition's note field does say 'Four pages, 111 AcroForm fields', so the information exists in prose but not in the structured field."
+    }
+  },
+  "supersessionChain": {
+    "explicit": true,
+    "whatIsKnown": [
+      {"document": "Confidential Case Filing Information Sheet (FI-05)", "revision": "SJRC (04-23)", "status": "the revision retained and adopted", "supersededBy": "unknown — see automationBlock", "supersedes": "not established; no earlier FI-05 revision is retained in this repository"},
+      {"document": "CASE TYPES LIST", "revision": "SJRC (07-23)", "status": "retained as pages 3-4 of the same file, unadopted as a distinct identity", "supersededBy": "unknown", "supersedes": "not established"}
+    ],
+    "neitherIdentityDiscarded": "Both are recorded. The Case Types List is not the assigned document and is not proposed as a packet component, but it is not discarded either — it is named, stamped, measured and its load-bearing content identified.",
+    "supersededIdentityIsNotTheActiveTarget": "There is no superseded FI-05 revision retained in this repository that could remain an active target. The active target is SJRC (04-23), which is the only FI-05 revision held. The supersession risk here is prospective, not historical: the issuer may have moved past 04-23 and the block prevents knowing.",
+    "distinguishedFromOtherMissouriSupersessions": {
+      "note": "Missouri has several genuine historical supersessions recorded in the adopted edition, and none of them concerns FI-05. They are recorded here so a later reader does not attribute them to this identity.",
+      "cases": [
+        {"current": "CR145 (REV-2024-04)", "replaced": "stale 2003 and 2016 copies"},
+        {"current": "CR360 (REV-2024-10)", "replaced": "the obsolete OSCA (11-17) copy"},
+        {"current": "CR375 (REV-2024-10)", "replaced": "an unofficial modified Missouri State Public Defender pro se form"}
+      ],
+      "corpusEvidence": "The retained corpus still holds 'EXPUNGEMENT FORM.pdf' and 'Modified-MSPD-Pro-Se-FormFillable.pdf', which are the displaced predecessors. Neither is bound to any component and neither is this identity."
+    }
+  },
+  "automationBlock": {
+    "recordedInTheQueue": "courts.mo.gov returns HTTP 403 with an explicit anti-automation challenge and www2.courts.mo.gov was decommissioned on 1 November 2025, so SJRC (04-23) could not be re-confirmed.",
+    "independentlyReconfirmed": true,
+    "reconfirmationDate": "2026-08-08",
+    "probes": [
+      {"url": "https://www.courts.mo.gov/page.jsp?id=191585", "result": "HTTP 403", "note": "the knownOfficialUrl recorded on the queue row"},
+      {"url": "https://www.courts.mo.gov/", "result": "HTTP 403"},
+      {"url": "https://www.courts.mo.gov/page.jsp?id=525", "result": "HTTP 403"},
+      {"url": "https://www2.courts.mo.gov/", "result": "no connection established", "note": "consistent with the recorded decommissioning"}
+    ],
+    "probeNature": "Read-only reachability testing only. No document was retrieved, no block was evaded, no user agent was spoofed beyond an ordinary browser string, and no alternative route the issuer does not offer was attempted.",
+    "verdict": "the block is real, current and unchanged",
+    "contrastWithArizona": "Worth stating because the two look alike in a queue and are not alike in fact: Arizona was recorded as needing verification and proved fully reachable in this same pass, while Missouri was recorded as blocked and proved genuinely blocked. A recorded block must be re-tested, not assumed, in either direction.",
+    "consequence": "The currentness half of the source gate cannot be closed from this environment by any legitimate means. It needs an attended retrieval or another authorized channel.",
+    "doNotRelabel": "This must not be recorded as a missing source or as an unresolved identity. The document is identified, retained and measured; only the comparison against today's publication is blocked."
+  },
+  "affectedTracksAndComponents": {
+    "trackCount": 8,
+    "componentCount": 8,
+    "documentCount": 1,
+    "uniformRole": "cover_sheet on every binding",
+    "components": [
+      {"trackId": "mo-610-140-conviction", "componentId": "mo-610-140-conviction-cover-sheet-2"},
+      {"trackId": "mo-610-140-arrest", "componentId": "mo-610-140-arrest-cover-sheet-3"},
+      {"trackId": "mo-610-122-arrest-expungement", "componentId": "mo-610-122-arrest-expungement-cover-sheet-2"},
+      {"trackId": "mo-610-130-first-intoxication", "componentId": "mo-610-130-first-intoxication-cover-sheet-3"},
+      {"trackId": "mo-art-xiv-marijuana", "componentId": "mo-art-xiv-marijuana-cover-sheet-2"},
+      {"trackId": "mo-610-145-mistaken-identity", "componentId": "mo-610-145-mistaken-identity-cover-sheet-2"},
+      {"trackId": "mo-575-120-identity-theft-correction", "componentId": "mo-575-120-identity-theft-correction-cover-sheet-2"},
+      {"trackId": "mo-311-326-minor-in-possession", "componentId": "mo-311-326-minor-in-possession-cover-sheet-3"}
+    ],
+    "reachSignificance": "One document across eight of Missouri's ten tracks. It is the widest single-document reach in the Missouri set and the widest of any identity resolved in this wave.",
+    "bindingCorrectness": "All eight bindings are correct as they stand. No rebinding is required or performed.",
+    "queueContradiction": {
+      "queueSays": "repositoryStatus 'no_repository_binary' on all eight rows",
+      "measured": "The binary is present, digest-matched to the adopted edition row, and freshly measured.",
+      "resolution": "The queue rows are wrong on their face. This is the fifth jurisdiction in this wave showing the same conflation; the queue generator is the right place to fix it.",
+      "correctionOwner": "the queue owner; the queue is not this job's to write"
+    }
+  },
+  "doNotSubstitute": [
+    {"document": "the bundled CASE TYPES LIST at SJRC (07-23)", "why": "It shares a file with FI-05 but is a different document at a different revision with no form number and no fields. It must not be given the FI-05 identity, and its 07-23 stamp must not be recorded as FI-05's revision."},
+    {"document": "a Domestic Relations filing information sheet", "why": "This form is expressly the Non-Domestic Relations sheet. Missouri publishes a domestic-relations counterpart, and an expungement is not a domestic relations case."},
+    {"document": "EXPUNGEMENT FORM.pdf held in the Missouri corpus", "why": "An unbound legacy artifact displaced by CR145 and CR360. Not this identity and not bound to any component."},
+    {"document": "Modified-MSPD-Pro-Se-FormFillable.pdf held in the Missouri corpus", "why": "An unofficial modified Missouri State Public Defender form, displaced by CR375. Unofficial, and not this identity."},
+    {"document": "CR300, CR301, CR145, CR360, CR375, GN10", "why": "The Missouri petitions, the identity-theft correction and the poor-person motion. All are separate identities with their own rows, and several belong to other assigned jobs. None is a cover sheet."},
+    {"sourceClass": "a circuit-specific filing information sheet", "why": "The retained sheet is the statewide Office of the State Courts Administrator form with a blank county selector. A local variant must not be promoted to statewide."},
+    {"sourceClass": "a copy retrieved from a non-issuer mirror during the block", "why": "The block is on the issuer's own site. Sourcing around it from a mirror substitutes an unattributable copy for an official one and must not be done to close the currentness gate."}
+  ],
+  "edition13Impact": {
+    "publicationJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+    "editionAmendmentRequired": true,
+    "amendmentKind": "metadata_correction_and_bundle_disclosure_no_new_bytes",
+    "requiresNewBytes": false,
+    "requiresNewBytesNote": "None. The binary is retained and already manifested at a matching digest.",
+    "requiresRevisionDisclosure": true,
+    "requiresRevisionDisclosureDetail": "The row records a single revision REV-2023-04 for a file carrying two stamps. It should disclose that the asset is a bundle of FI-05 at SJRC (04-23) plus an unnumbered Case Types List at SJRC (07-23), so that a future reissue of either can be detected.",
+    "requiresStructuralMetadataCompletion": true,
+    "requiresStructuralMetadataCompletionDetail": "pages is an empty string on the row; the measured count is 4, with fields on pages 1-2 only.",
+    "requiresTitleCorrection": false,
+    "requiresRoleCorrection": false,
+    "requiresScopeCorrection": false,
+    "requiresAssetClassCorrection": false,
+    "requiresAssetClassCorrectionNote": "source_gated remains correct while the currentness gate is open.",
+    "requiresLicenseDisposition": false,
+    "requiresLicenseDispositionNote": "The queue records 'None identified for Missouri court forms.' A negative finding on restriction, not an affirmative permission. No licence question was assigned to this job.",
+    "requiresConfidentialityFlag": true,
+    "requiresConfidentialityFlagDetail": "The row should carry an explicit confidentiality marking. The document is confidential in itself and mandatorily carries a full Social Security Number under Operating Rule 4.07. Nothing on the current row says so in a structured field.",
+    "edition12Treatment": "immutable_unchanged",
+    "publicationPerformed": false
+  },
+  "sourceMaterializationEligibility": {
+    "laterMaterializationPermitted": false,
+    "laterMaterializationPermittedDetail": "Not while the source gate is open. The asset is source_gated with freshness_status currentness_unconfirmed, and the currentness comparison is blocked at the issuer. Materializing now would carry an unverified revision into the runtime contract for eight tracks.",
+    "receiptCreatedByThisJob": false,
+    "prerequisitesInOrder": [
+      "1. Obtain the issuer's current FI-05 through an attended or otherwise authorized channel and compare it against sha256 53f1e04e…cd412e.",
+      "2. Separately confirm whether the bundled Case Types List has been reissued since SJRC (07-23).",
+      "3. Apply the edition metadata corrections above, including the bundle disclosure and the confidentiality flag.",
+      "4. Clear the source gate and reclassify from source_gated if the comparison holds.",
+      "5. Author a receipt pinning the digest and byte count recorded here, with a destination under official-pdf/MO/.",
+      "6. Seal the materialized file at 0444 with every containing directory at 0555."
+    ]
+  },
+  "implementationFamilyEffect": {
+    "family": "rcap-mo-official-pdf-family",
+    "affectedTracks": 8,
+    "affectedComponents": 8,
+    "effectOfThisJob": "The widest-reaching single Missouri document moves from 'no repository binary, acquire from the issuer' to a retained, digest-matched, page-by-page measured bundle with both of its revision stamps named, its field distribution mapped and its packet-relevant case type code identified. Eight component bindings are confirmed correct. The remaining gate narrows from 'acquire and confirm' to 'confirm one revision through an authorized channel'.",
+    "familyReadinessStatement": "The Missouri official-PDF family remains fail-closed and this job does not move it. The asset stays source_gated with runtime disabled, the currentness gate stays open because the issuer is genuinely unreachable, and several other Missouri identities remain in other assigned jobs. No packet becomes generatable, no renderer is assigned and no field map is built.",
+    "rendererObservation": "A four-page unrotated Letter AcroForm with 111 one-to-one fields, no XFA, no encryption and no JavaScript is an acroform_fill candidate, with the caveat that two of its four pages carry no fields at all. An observation about the artifact; the lane is not assigned.",
+    "confidentialityConstraint": "Any implementation must treat this component as confidential end to end. It mandatorily carries a full Social Security Number and the court treats the sheet itself as a confidential filing."
+  },
+  "terminalDisposition": "identity_confirmed_bundle_composition_and_dual_revision_stamps_established_from_retained_bytes_currentness_blocked_at_the_issuer",
+  "terminalDispositionDetail": {
+    "why": "The narrowest disposition the evidence supports. It is not unresolved_identity: the document, issuer, role, scope, mandate, structure and both revision stamps are established. It is not acquisition_required: the bytes are retained and adopted. It is not superseded: no superseded FI-05 revision is held and none was found. It is not source_gate_cleared, because the one comparison that would clear it is blocked at the issuer by a live and independently reconfirmed HTTP 403.",
+    "acquisitionRequired": false,
+    "identitiesInsideTheRetainedAsset": 2,
+    "identitiesDiscarded": 0,
+    "revisionStampsFound": 2,
+    "bindingsConfirmed": 8,
+    "blockReconfirmed": true
+  },
+  "expectedDownstreamEffect": "One Missouri acquisition key closes without a download across eight of the state's ten tracks, and eight component bindings are confirmed correct as they stand. The retained asset is shown to be a two-document bundle carrying two different SJRC revision stamps, which a single revision field cannot express and which would otherwise hide a reissue of either half. The expungement case type code XG is surfaced from the bundled appendix that the edition row does not describe, which is the value the sheet's own page 1 demands. The recorded Missouri automation block is independently reconfirmed rather than assumed, and is distinguished from the Arizona case in the same wave where the recorded position proved wrong in the opposite direction. Edition 1.3 receives four metadata corrections including a confidentiality flag for a document that mandatorily carries a full Social Security Number. No component is rebound, no receipt is created, no binary enters version control, no renderer is assigned, no memo is edited, no edition is published, no packet becomes generatable, no runtime is enabled and no track changes promotion state.",
+  "residualBlockers": [
+    {"id": "mo-fi-05-currentness-blocked", "question": "Whether SJRC (04-23) remains the issuer's current FI-05.", "status": "blocked", "owner": "acquisition owner", "why": "courts.mo.gov returns HTTP 403 to automated retrieval and www2.courts.mo.gov is decommissioned. Independently reconfirmed on 2026-08-08. Needs an attended retrieval or another authorized channel.", "reopenCondition": "Closed by comparing the issuer's current publication against sha256 53f1e04e…cd412e."},
+    {"id": "mo-case-types-list-currentness", "question": "Whether the bundled Case Types List has been reissued since SJRC (07-23).", "status": "blocked", "owner": "acquisition owner", "why": "Same block. Recorded separately because it is a separately-stamped document and a reissue of it would not show up in an FI-05 comparison."},
+    {"id": "mo-edition-bundle-disclosure", "question": "The edition row records one revision for a two-revision bundle and leaves the page count empty.", "status": "handed_off", "owner": "rcap-nationwide-master-library-edition-1-3-publication", "why": "Edition 1.2 is immutable. The corrections and the measured values are supplied."},
+    {"id": "mo-fi-05-confidentiality-flag", "question": "No structured field marks this asset as confidential despite it mandatorily carrying a full Social Security Number.", "status": "handed_off", "owner": "rcap-nationwide-master-library-edition-1-3-publication"},
+    {"id": "mo-asset-audit-revision-text", "question": "The asset-audit row records repositoryRevisionText null and revisionEvidence unknown.", "status": "handed_off", "owner": "the asset-audit owner", "why": "Forbidden path. Both stamps are supplied above and can be filled mechanically."},
+    {"id": "mo-queue-repository-status", "question": "Eight queue rows record no_repository_binary for a binary that is present and digest-matched.", "status": "handed_off", "owner": "the queue owner", "why": "Forbidden path. Fifth instance of this conflation in this wave."},
+    {"id": "mo-case-type-code-modelling", "question": "How the packet supplies the XG expungement case type code that FI-05 page 1 requires.", "status": "open_and_outside_this_job", "owner": "the Missouri legal-design owner", "why": "Whether to pre-fill, instruct, or emit the lookup table is a design decision."},
+    {"id": "mo-other-identities", "question": "CR300, CR301, CR145, CR360, CR375 and GN10 remain in other assigned jobs, several with their own open currentness gates.", "status": "open_and_outside_this_job", "owner": "the other assigned Missouri jobs", "why": "Noted because the eight tracks do not clear on this resolution alone."}
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "sourcesMaterialized": 0,
+    "sourceReceiptCountUnchanged": true,
+    "memoEdited": false,
+    "editionPublished": false,
+    "editionMutated": false,
+    "rendererImplemented": false,
+    "packetImplemented": false,
+    "componentRebound": false,
+    "issuerContacted": false,
+    "automationBlockEvaded": false,
+    "integrationPerformed": false,
+    "promotionPerformed": false,
+    "migrationPerformed": false,
+    "deploymentPerformed": false
+  }
+}

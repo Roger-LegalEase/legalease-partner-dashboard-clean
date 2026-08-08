@@ -1,0 +1,449 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-fl-public-official-download-fdle-fac-supersession",
+  "parentJobId": "AUTH-03-acquisition-campaign-tier-1",
+  "jurisdiction": "FL",
+  "lane": "source_acquisition",
+  "strategyFamily": "public_official_download",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "95789664518ee3f7f2aeb9c12380dd9ba70d3b76",
+  "generatedOn": "2026-08-08",
+  "acquisitionIds": [
+    "acquire:FL:fdle-certificate-of-eligibility-application",
+    "acquire:FL:fdle-early-juvenile-expunction-application",
+    "acquire:FL:fdle-juvenile-diversion-expunction-application",
+    "acquire:FL:fdle-self-defense-expunction-application"
+  ],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero is correct. All four current binaries plus one superseded revision were retrieved into temporary storage outside the repository and outside every worktree for provenance and measurement, and all were discarded. Nothing entered version control, no materialization destination was written and no receipt was created — this job owns no authority asset path and no receipt path. The provenance and hashes the assignment requires are recorded below as measurements, not as deposits.",
+  "generatedFrom": [
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/authority.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/production-factory/official-pdf-families/FL/source-requirements.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-fl-source-identity-resolution-rule-3-989-continuation.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-03-acquisition-campaign-tier-1.json"
+  ],
+  "method": {
+    "description": "Public official download and supersession reconstruction. The controlling source is the Florida Administrative Code at flrules.org, because FDLE's expunction applications are not published as free-standing agency forms but are incorporated by reference into Chapter 11C-7 rules, each with its own Ref-NNNNN identifier and adoption date. Each rule's incorporation history was walked to reconstruct the full supersession chain, then the current binary for each of the four assigned identities was retrieved, hashed and measured, and its printed revision block and rule citation were read from the form face.",
+    "controllingSource": "https://www.flrules.org — the official Florida Administrative Code",
+    "controllingSourceRationale": "FDLE's own web pages never print a form number. The numbers 40-021, 40-025, 40-026 and 40-028 exist only in the FAC incorporation records, so the FAC is the only place where these identities are citable at all.",
+    "retrievalDate": "2026-08-08",
+    "measurementBasis": "freshly_measured_retrieved_bytes",
+    "tooling": "curl for retrieval and HTTP status; sha256 and byte counts on the retrieved bytes; poppler (pdfinfo, pdftotext -layout) for structure and face text; pdf-lib for AcroForm, annotation and page-geometry reads",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "authenticationUsed": false,
+    "sourcesDeposited": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "binariesCommitted": 0,
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "memoAltered": false,
+    "componentRebound": false,
+    "countyPacketUsed": false,
+    "assignmentConstraintObserved": "The stop condition requires using only the assigned public official sources, recording provenance and hashes, and stopping where identity, revision or issuer authority is uncertain. All four identities resolved with certainty on all three axes, so none was stopped. Two defects were found in the official material itself and are recorded as findings rather than treated as uncertainty.",
+    "scopeBoundary": "This job covers the four FDLE agency-stage applications only. It does not touch the Rule 3.989 court-stage identities, which are a separate assigned job currently being integrated, and it does not touch the Rule 3.989 continuation identity resolved earlier."
+  },
+  "incorporatingRules": {
+    "chapter": "Fla. Admin. Code Chapter 11C-7",
+    "chapterUrl": "https://www.flrules.org/gateway/ChapterHome.asp?Chapter=11C-7",
+    "keyFinding": "The four forms are not incorporated by one rule. Each has its own rule, and one form is incorporated twice under two different rules. All five rules share an 8/30/2023 effective date, which is a re-adoption date and not a form revision date.",
+    "rules": [
+      {"rule": "11C-7.006", "title": "Procedures on Court-Ordered Expunctions", "effective": "2023-08-30", "lawImplemented": "s. 943.0585 F.S.", "incorporatesForm": "FDLE 40-021", "refId": "Ref-14423", "amendmentHistory": "New 8-5-92; Am. 7-7-99, 8-22-00, 6-9-08, 6-3-10, 7-29-15, 7-9-19, 5-5-20, 5-20-21, 7-6-22, 8-30-23"},
+      {"rule": "11C-7.007", "title": "Procedures on Court-Ordered Sealings", "effective": "2023-08-30", "lawImplemented": "s. 943.059 F.S.", "incorporatesForm": "FDLE 40-021 (the same form)", "refId": "Ref-14424", "amendmentHistory": "New 8-5-92; Am. 7-7-99, 8-22-00, 6-9-08, 6-3-10, 7-9-19, 5-5-20, 5-20-21, 7-6-22, 8-30-23"},
+      {"rule": "11C-7.009", "title": "Procedures on Juvenile Diversion Expunctions", "effective": "2023-08-30", "lawImplemented": "s. 943.0582 F.S.", "incorporatesForm": "FDLE 40-025", "refId": "Ref-15824", "amendmentHistory": "New 11-5-02; Am. 6-9-08, 5-29-14, 7-20-17, 7-9-19, 5-5-20, 5-20-21, 7-6-22, 8-30-23"},
+      {"rule": "11C-7.010", "title": "Procedures on Early Juvenile Expunction", "effective": "2023-08-30", "lawImplemented": "s. 943.0515(1) F.S.", "incorporatesForm": "FDLE 40-028", "refId": "Ref-14426", "amendmentHistory": "New 7-20-17; Am. 7-9-19, 5-5-20, 5-20-21, 7-6-22, 8-30-23"},
+      {"rule": "11C-7.012", "title": "Procedures on Lawful Self-Defense Expunctions", "effective": "2023-08-30", "lawImplemented": "s. 943.0578 F.S.", "incorporatesForm": "FDLE 40-026", "refId": "Ref-14427", "amendmentHistory": "New 5-5-20; Am. 5-20-21, 7-6-22, 8-30-23"}
+    ],
+    "adjacentRulesNotInScope": [
+      {"rule": "11C-7.008", "title": "Administrative Expunction", "effective": "2009-04-16", "note": "A separate assigned job covers the administrative expunction application."},
+      {"rule": "11C-7.013", "title": "Automatic Sealing", "effective": "2020-05-05", "note": "No participant application."}
+    ],
+    "noLaterRulemaking": {
+      "established": true,
+      "how": "Every one of the five rules' notice tables on flrules.org ends at the 8/30/2023 final adoption. No pending or proposed amendment exists as of 2026-08-08.",
+      "caveat": "Absence of a proposed amendment today is not a guarantee against one tomorrow. Recorded as of the retrieval date."
+    },
+    "ruleDateVersusFormDate": {
+      "trap": "Rule 11C-7.006 is effective 8/30/2023 and recites 'form number FDLE 40-021, rev. June 2021', while the Ref-14423 landing page displays an adoption date of 08/30/2023.",
+      "resolution": "Both are correct in their own frame. The 2023 rulemaking re-adopted forms whose printed revision dates did not change. The form's identity date is its printed revision; the rule's adoption date is 8/30/2023. Record both and never substitute one for the other.",
+      "consequence": "A revision field populated from the rule's effective date would record every one of these forms as a 2023 revision, which is wrong for all four."
+    }
+  },
+  "resolvedIdentities": [
+    {
+      "acquisitionKey": "acquire:FL:fdle-certificate-of-eligibility-application",
+      "formNumber": "FDLE 40-021",
+      "formNumberOnTheFace": "FDLE40-021",
+      "officialTitleOnTheFace": "APPLICATION FOR A CERTIFICATE OF ELIGIBILITY FOR SEALING (s. 943.059, F.S.) or EXPUNCTION (s. 943.585, F.S.)",
+      "titleInTheFAC": "Application for Certification of Eligibility",
+      "printedRevisionBlock": "Revised June 2021 | Ref. Rule 11C-7.006 and 11C-7.007 | FDLE40-021",
+      "revision": "REV-2021-06",
+      "issuer": "Florida Department of Law Enforcement, Division of Criminal Justice Information Systems",
+      "issuerUnitOnTheFace": "Seal & Expunge Section, P.O. Box 1489, Tallahassee, FL 32302-1489",
+      "role": "primary_filing at the agency stage — a participant-completed application for a certificate of eligibility",
+      "roleDetail": "It is the application, not the certificate. The certificate FDLE issues in response is a separate agency form (FDLE 40-030 / 40-027 / 40-022) which the participant does not complete.",
+      "participantFacing": true,
+      "signatory": "the applicant, personally",
+      "notarizationRequired": true,
+      "notarizationBasis": "The face carries a NOTARY block reading 'Signature of Notary Public / Print/Type/Stamp Commissioned Name of Notary or Deputy Clerk of the Court'. The applicant must sign in the presence of a notary public or a deputy clerk of the court.",
+      "secondSignatory": "page 2 is a Written Certified Statement completed and signed by the state attorney or statewide prosecutor, not by the participant",
+      "scope": "statewide",
+      "scopeBasis": "A single statewide FDLE rule, a single Tallahassee mailing address, no county variant.",
+      "mandatory": true,
+      "mandatoryBasis": "s. 943.0585(2), Fla. Stat.: 'Before petitioning a court to expunge a criminal history record, a person seeking to expunge a criminal history record must apply to the department for a certificate of eligibility for expunction.'",
+      "officialUrl": "https://www.flrules.org/gateway/readRefFile.asp?refId=14423&filename=FDLE%2040-021%20Seal%20and%20Expunge%20Application%20Final%20.pdf",
+      "alternateOfficialUrl": "https://www.flrules.org/gateway/readRefFile.asp?refId=14424&filename=FDLE%2040-021%20Seal%20and%20Expunge%20Application%20Final%20.pdf",
+      "httpStatus": 200,
+      "publicAccessStatus": "public, free, no authentication; plain automated GET succeeded",
+      "bytes": 232916,
+      "sha256": "7a3647f5ae134c3e9ad62a8dd177805314738ed23985309728b57bbcd79b8ee8",
+      "mimeType": "application/pdf",
+      "pdfVersion": "1.6",
+      "pageCount": 6,
+      "pageGeometry": "all 6 pages 612 x 792 points, rotation 0, MediaBox and CropBox coincident",
+      "encrypted": false,
+      "xfa": false,
+      "acroFormPresent": false,
+      "logicalFields": 0,
+      "terminalFields": 0,
+      "widgetAnnotations": 0,
+      "totalAnnotations": 0,
+      "structuralClass": "flat_pdf",
+      "structuralClassNote": "Measured, not inferred. pdfinfo reports Form: none, there is no /AcroForm dictionary, and a whole-document object scan finds zero /Widget objects. It is a printed form, not a fillable one.",
+      "javaScript": false,
+      "creator": "Acrobat PDFMaker 20 for Word",
+      "pageLayout": "p1 application and notary block; p2 state attorney's Written Certified Statement; p3 fingerprint sheet; p4 General Information and Reasons Denied; p5 Disqualifying Charges under s. 943.0584; p6 Application Checklist and Instructions",
+      "digestAgreementWithPriorSession": "The Rule 3.989 continuation job independently recorded Ref-14423 at 232,916 bytes and sha256 7a3647f5…b8ee8 on 2026-08-07. This retrieval reproduces both exactly, so the binary is byte-stable across two sessions a day apart."
+    },
+    {
+      "acquisitionKey": "acquire:FL:fdle-self-defense-expunction-application",
+      "formNumber": "FDLE 40-026",
+      "officialTitleOnTheFace": "APPLICATION FOR A CERTIFICATE OF ELIGIBILITY FOR LAWFUL SELF-DEFENSE EXPUNCTION (s. 943.0578, F.S.)",
+      "printedRevisionBlock": "Revised June 2021 | Ref. Rule 11C-7.012 | FDLE40-026",
+      "revision": "REV-2021-06",
+      "issuer": "Florida Department of Law Enforcement, Division of Criminal Justice Information Systems, Seal & Expunge Section",
+      "role": "primary_filing at the agency stage",
+      "participantFacing": true,
+      "signatory": "the applicant, personally",
+      "notarizationRequired": true,
+      "secondSignatory": "page 2 is a prosecutor's certified statement",
+      "scope": "statewide",
+      "mandatory": true,
+      "mandatoryBasis": "s. 943.0578, Fla. Stat.: 'the department shall issue a certificate of eligibility for expunction under this section to a person who is the subject of a criminal history record if that person has obtained, and submitted to the department, on a form provided by the department, a written, certified statement from the appropriate state attorney…'",
+      "officialUrl": "https://www.flrules.org/gateway/readRefFile.asp?refId=14427&filename=FDLE%2040-026%20Lawful%20Self-Defense%20Application%20Final.pdf",
+      "httpStatus": 200,
+      "publicAccessStatus": "public, free, no authentication",
+      "bytes": 193518,
+      "sha256": "bf86860df49887fd5da1788408de724cc527871a152389722f3733a479f16e16",
+      "mimeType": "application/pdf",
+      "pdfVersion": "1.6",
+      "pageCount": 5,
+      "pageGeometry": "all 5 pages 612 x 792 points, rotation 0",
+      "encrypted": false,
+      "xfa": false,
+      "acroFormPresent": false,
+      "terminalFields": 0,
+      "widgetAnnotations": 0,
+      "totalAnnotations": 0,
+      "structuralClass": "flat_pdf",
+      "javaScript": false,
+      "statutoryRelocation": {
+        "finding": "Lawful self-defense expunction moved statute and moved rule. The 2014 form was titled 'Application for Lawful Self-Defense Expunction under Section 943.0585(5), F.S.' and was incorporated under rule 11C-7.006 alongside 40-021. Effective 5-5-2020 the remedy moved to its own s. 943.0578 and the form moved to its own rule 11C-7.012.",
+        "consequence": "Anything sourced from before 5-5-2020 will show 40-026 bundled with 40-021 under one rule and citing the wrong statute. That is history, not a current conflation."
+      }
+    },
+    {
+      "acquisitionKey": "acquire:FL:fdle-juvenile-diversion-expunction-application",
+      "formNumber": "FDLE 40-025",
+      "officialTitleOnTheFace": "APPLICATION FOR A JUVENILE DIVERSION EXPUNCTION (s. 943.0582, F.S.)",
+      "printedRevisionBlock": "Revised October 2019 July 2022 | Ref. Rule 11C-7.009 | FDLE40-025",
+      "printedRevisionBlockNote": "Both dates appear in the footer because the incorporated file is a change-marked copy. See the redline defect below.",
+      "revision": "REV-2022-07",
+      "issuer": "Florida Department of Law Enforcement, Division of Criminal Justice Information Systems, Seal & Expunge Section",
+      "role": "primary_filing at the agency stage",
+      "participantFacing": true,
+      "signatory": "the applicant, and a parent or legal guardian where the applicant is under 18",
+      "notarizationRequired": true,
+      "secondSignatory": "page 2 is a state attorney's certification of successful diversion completion under s. 985.3065",
+      "scope": "statewide",
+      "mandatory": true,
+      "mandatoryBasis": "s. 943.0582, Fla. Stat.: 'The department shall expunge the nonjudicial arrest record of a minor who has successfully completed a diversion program if that minor: (a) Submits an application for diversion expunction, on a form prescribed by the department…'",
+      "officialUrl": "https://www.flrules.org/gateway/readRefFile.asp?refId=15824&filename=FDLE%2040-025%20Juvenile%20Diversion%20Expunction%20Application%20Marked%20Up.pdf",
+      "httpStatus": 200,
+      "publicAccessStatus": "public, free, no authentication",
+      "bytes": 201663,
+      "sha256": "432e225f79ceb9d1c67d32a5f2dae092ea4d1546c775652499b30771d8ee46cf",
+      "mimeType": "application/pdf",
+      "pdfVersion": "1.6",
+      "pageCount": 5,
+      "pageGeometry": "all 5 pages 612 x 792 points, rotation 0",
+      "encrypted": false,
+      "xfa": false,
+      "acroFormPresent": false,
+      "terminalFields": 0,
+      "widgetAnnotations": 0,
+      "totalAnnotations": 0,
+      "structuralClass": "flat_pdf",
+      "javaScript": false,
+      "onlyOneReAdoptedIn2023": "This is the only one of the four that received a new Ref id in the 2023 rulemaking. The other three were re-adopted at their 2022 Ref ids.",
+      "feeException": "No fee applies to a juvenile diversion expunction application; the $75 fee applies to the other three routes."
+    },
+    {
+      "acquisitionKey": "acquire:FL:fdle-early-juvenile-expunction-application",
+      "formNumber": "FDLE 40-028",
+      "formNumberOnTheFace": "FDLE 40-028",
+      "officialTitleOnTheFace": "APPLICATION FOR A EARLY JUVENILE EXPUNCTION (s. 943.0515, F.S.)",
+      "officialTitleNote": "The grammatical error 'A EARLY' is FDLE's, present on the official form face. It must be reproduced verbatim in an identity record and must not be silently corrected, because a corrected string will not match the artifact.",
+      "printedRevisionBlock": "Revised June 2021 | Ref. Rule 11C-7.010 | FDLE 40-028",
+      "revision": "REV-2021-06",
+      "issuer": "Florida Department of Law Enforcement, Division of Criminal Justice Information Systems, Seal & Expunge Section",
+      "role": "primary_filing at the agency stage",
+      "participantFacing": true,
+      "signatory": "the applicant, and a parent or guardian where the applicant is under 18",
+      "notarizationRequired": true,
+      "secondSignatory": "page 2 is a prosecutor certification recording approval or non-approval under s. 943.0515(1)(b)2",
+      "scope": "statewide",
+      "mandatory": "mandatory as the form for the remedy, but the remedy is elective",
+      "mandatoryBasis": "s. 943.0515(1)(b), Fla. Stat.: 'A minor described in subparagraph 1. may apply to the department to have his or her criminal history record expunged before the minor reaches 21 years of age.' The verb is 'may' — unlike 40-021 this is not a precondition to a court petition but a direct-to-agency route.",
+      "officialUrl": "https://www.flrules.org/gateway/readRefFile.asp?refId=14426&filename=FDLE%2040-028%20Early%20Juvenile%20Expunction%20Final.pdf",
+      "httpStatus": 200,
+      "publicAccessStatus": "public, free, no authentication",
+      "bytes": 244908,
+      "sha256": "46e97b586c60def6f3d9a4be88626815a00df3350eb9fd65b10f60d873f15872",
+      "mimeType": "application/pdf",
+      "pdfVersion": "1.6",
+      "pageCount": 5,
+      "pageGeometry": "all 5 pages 612 x 792 points, rotation 0",
+      "encrypted": false,
+      "xfa": false,
+      "acroFormPresent": false,
+      "terminalFields": 0,
+      "widgetAnnotations": 0,
+      "totalAnnotations": 2,
+      "totalAnnotationsNote": "Two non-widget annotations. Zero widgets and zero form fields; the annotations are not form controls.",
+      "structuralClass": "flat_pdf",
+      "javaScript": false,
+      "serverPageCountIsWrong": "The server's linearization dictionary reports /N 1 for this file. The measured page count is 5. A page count taken from the linearization hint would be wrong by four."
+    }
+  ],
+  "supersessionChains": {
+    "significance": "This is the assignment's central deliverable. Every superseded Ref id remains live at HTTP 200 on the official host, so a supersession chain is the only way to tell a current official binary from a stale one that looks equally official.",
+    "chains": [
+      {
+        "form": "FDLE 40-021",
+        "chain": [
+          {"refId": "Ref-05634", "revision": "December 2009", "adoptedWith": "7-29-2015 final", "note": "filed as a bundled reference document also carrying 40-026 (created Apr 2014), 40-022 (rev. Jul 2006), 40-027 (created Oct 2014) and the FD-258 / 40-024 (rev. Feb 2008)"},
+          {"refId": "Ref-10784", "revision": "October 2018", "adoptedWith": "7-9-2019 final", "note": "bundled with 40-026 rev. May 2017"},
+          {"refId": "Ref-11937", "revision": "October 2019", "adoptedWith": "5-5-2020 final, carried into 5-20-2021", "pages": 9, "status": "superseded and still served at HTTP 200"},
+          {"refId": "Ref-14423 and Ref-14424", "revision": "June 2021", "adoptedWith": "7-6-2022 final, re-adopted unchanged 8-30-2023", "status": "CURRENT"}
+        ]
+      },
+      {
+        "form": "FDLE 40-026",
+        "chain": [
+          {"refId": "Ref-05634", "revision": "created April 2014, effective July 2015", "adoptedWith": "7-29-2015 final under rule 11C-7.006", "note": "then titled 'Application for Lawful Self-Defense Expunction under Section 943.0585(5), F.S.'"},
+          {"refId": "Ref-10784", "revision": "May 2017", "adoptedWith": "7-9-2019 final, still under 11C-7.006"},
+          {"refId": "Ref-11936", "revision": "October 2019", "adoptedWith": "5-5-2020 final — the first filing under the new rule 11C-7.012; carried into 5-20-2021", "note": "the statutory citation moved to s. 943.0578 at this point"},
+          {"refId": "Ref-14427", "revision": "June 2021", "adoptedWith": "7-6-2022 final, re-adopted 8-30-2023", "status": "CURRENT"}
+        ]
+      },
+      {
+        "form": "FDLE 40-025",
+        "chain": [
+          {"refId": "not surfaced", "revision": "July 2013, effective May 2014", "adoptedWith": "cited in the 7-20-2017 final"},
+          {"refId": "Ref-10789", "revision": "October 2018", "adoptedWith": "7-9-2019 final"},
+          {"refId": "Ref-11935", "revision": "October 2019", "adoptedWith": "5-5-2020 final, carried into 5-20-2021"},
+          {"refId": "Ref-14425", "revision": "June 2021", "adoptedWith": "7-6-2022 final"},
+          {"refId": "Ref-15824", "revision": "July 2022", "adoptedWith": "8-30-2023 final", "status": "CURRENT"}
+        ]
+      },
+      {
+        "form": "FDLE 40-028",
+        "chain": [
+          {"refId": "Ref-08462", "revision": "July 2017", "adoptedWith": "7-20-2017 new rule, carried into 7-9-2019"},
+          {"refId": "Ref-11934", "revision": "October 2019", "adoptedWith": "5-5-2020 and 5-20-2021"},
+          {"refId": "Ref-14426", "revision": "June 2021", "adoptedWith": "7-6-2022 final, re-adopted 8-30-2023", "status": "CURRENT"}
+        ]
+      }
+    ],
+    "supersededRefIdsStillLive": ["Ref-05634", "Ref-08462", "Ref-10784", "Ref-10789", "Ref-11934", "Ref-11935", "Ref-11936", "Ref-11937", "Ref-14425"],
+    "supersededRefIdsStillLiveNote": "Ref-11937 was confirmed live at HTTP 200 during this pass, serving the 9-page October 2019 revision of 40-021. Every other superseded id should be assumed equally live. A live 200 on flrules.org is not currentness."
+  },
+  "doTheFourCollapse": {
+    "question": "Are these four genuinely four distinct forms, or do some collapse into one another?",
+    "answer": "Four distinct forms, four distinct form numbers, four distinct rules. None collapses.",
+    "basis": "Answered from the FAC incorporation list rather than by inference. Each form is incorporated by its own rule at its own Ref id.",
+    "selfDefenseIsSeparate": "FDLE 40-026 is its own form under its own rule 11C-7.012. It is not a section or a variant of 40-021. This has been true only since 5-5-2020; before that it was incorporated under 11C-7.006 alongside 40-021 and, in Ref-05634 and Ref-10784, filed as a single bundled reference document. Anything sourced from that era will appear to collapse them.",
+    "theTwoJuvenileFormsAreSeparate": "40-025 (diversion, s. 943.0582, rule 11C-7.009) and 40-028 (early juvenile, s. 943.0515, rule 11C-7.010) differ in form number, rule, Ref id, eligibility, prosecutor certification and fee treatment.",
+    "theRealCollapseRunsTheOtherWay": {
+      "finding": "FDLE 40-021 is a single dual-purpose form serving both sealing and expunction, and it is incorporated twice — Ref-14423 under 11C-7.006 and Ref-14424 under 11C-7.007.",
+      "verifiedByMeasurement": "Both Ref ids were retrieved separately and both returned 232,916 bytes at sha256 7a3647f5…b8ee8. Byte-identical, same filename.",
+      "corroboratedOnTheFace": "The form's own footer reads 'Ref. Rule 11C-7.006 and 11C-7.007' — the issuer prints the dual incorporation on the artifact.",
+      "consequence": "The certificate-of-eligibility identity has two equally official current Ref ids. Pick one deliberately and record why. For an expunction route the correct citation is Ref-14423; for sealing it is Ref-14424. The bytes are the same either way, so this is a citation choice, not a source choice.",
+      "warning": "Do not create two edition rows for one form. One document, one digest, two incorporations."
+    }
+  },
+  "defectsInTheOfficialMaterial": [
+    {
+      "id": "fl-40-025-incorporated-copy-is-a-redline",
+      "severity": "material",
+      "finding": "The currently incorporated FDLE 40-025 is a change-marked comparison copy, not a clean form. Its filename is literally 'FDLE 40-025 Juvenile Diversion Expunction Application Marked Up.pdf', and its footer prints both revision dates: 'Revised October 2019 July 2022', with the older date struck through and the newer inserted. The certification page carries underlined inserted statutory text.",
+      "verifiedByMeasurement": "The extracted text of the retrieved binary shows 'Revised October 2019 July 2022' in the footer of every footer-bearing page, which is the redline rendered flat.",
+      "consequence": "Any packet reproducing Ref-15824 faithfully will reproduce the strikethroughs and underlines to a participant. This is the officially incorporated version, so substituting a clean copy from elsewhere would be substituting a document the FAC does not incorporate.",
+      "notResolvedHere": "Whether to reproduce the redline, seek a clean copy from FDLE, or flag it to counsel is a legal-design and acquisition decision outside this assignment.",
+      "doNotSilentlyClean": "Do not regenerate or re-flatten the file to remove the markup. That would create bytes no official source publishes."
+    },
+    {
+      "id": "fl-40-021-statutory-citation-typo",
+      "severity": "cosmetic_but_must_be_reproduced",
+      "finding": "FDLE 40-021 page 1 prints 'EXPUNCTION (s. 943.585, F.S.)'. The correct citation is s. 943.0585. The typo is FDLE's and is present in both the October 2019 and the current June 2021 revisions.",
+      "consequence": "An official title recorded verbatim will contain the typo. Recording a corrected citation would produce a title string that does not match the artifact. Record the verbatim face string and note the correction separately."
+    },
+    {
+      "id": "fl-40-021-internal-pagination-does-not-match-page-count",
+      "severity": "validation_hazard",
+      "finding": "The measured file is 6 pages, but the application pages print 'Page 1 of 2' and 'Page 2 of 2'. The fingerprint sheet and the instruction pages sit outside the form's own numbering. The superseded Ref-11937 is worse: it prints 'Page 3 of 2'.",
+      "consequence": "Any page-count validation keyed on the printed 'of N' will fail against the true page count. Use the measured count."
+    },
+    {
+      "id": "fl-fdle-web-pages-never-print-a-form-number",
+      "severity": "sourcing_hazard",
+      "finding": "FDLE's own web pages do not print '40-021', '40-025', '40-026' or '40-028' anywhere. The form numbers exist only in the Florida Administrative Code.",
+      "consequence": "A worker sourcing from fdle.state.fl.us rather than flrules.org obtains an unnumbered, uncitable artifact. The FAC must remain the controlling source for identity."
+    }
+  ],
+  "commercialUseAndLicensing": {
+    "verdict": "unresolved_by_silence",
+    "flrulesOrg": "The only copyright text anywhere on flrules.org is the footer line 'Copyright @ 2010 State of Florida Department of State'. There is no terms-of-use page, no licence and no reuse or commercial-use statement on the homepage or the about page.",
+    "fdleStateFlUs": "No copyright notice, terms of use or reuse restriction on the Seal and Expunge pages. https://www.fdle.state.fl.us/Disclaimer returns HTTP 404.",
+    "theBinariesThemselves": "None of the four carries a copyright, licence or reuse legend on any page.",
+    "conclusion": "Silence, not permission. No affirmative grant of reuse or commercial-distribution rights exists on either site, and the bare 'Copyright @ 2010 State of Florida Department of State' line is a weak assertion of rights rather than a waiver.",
+    "doNotInfer": "Public downloadability is not a licence. generationAllowed must not be set true on the strength of this record.",
+    "escalation": "If commercial redistribution matters, this needs counsel or a written FDLE or Department of State response. That is a human-only task and it was not attempted.",
+    "queueRecordedPosition": "The queue records no commercial-use question for these rows; this record supplies the finding it lacked."
+  },
+  "correctionsToTheTaskPremise": [
+    {
+      "recorded": "Self-defense expunction is under s. 943.0583.",
+      "verified": "s. 943.0583 is 'Human trafficking victim expunction'. It mentions no FDLE form and no certificate of eligibility, and no Chapter 11C-7 rule implements it. The self-defense statute is s. 943.0578, implemented by rule 11C-7.012.",
+      "source": "https://www.flsenate.gov/Laws/Statutes/2025/943.0583 and /943.0578",
+      "consequence": "A record citing 943.0583 for self-defense would point the Florida self-defense track at the human-trafficking statute. Note that human trafficking is the same carve-out that produced Fla. R. Crim. P. 3.9895 on the court side, so the two are easy to cross."
+    },
+    {
+      "recorded": "The juvenile provisions are at s. 985.255.",
+      "verified": "The juvenile authorities actually implemented are s. 943.0515(1) (early juvenile) and s. 943.0582 (diversion), the latter cross-referencing the diversion programme at s. 985.3065, formerly s. 985.125.",
+      "consequence": "s. 985.255 is a detention statute and is not implemented by any of these rules."
+    }
+  ],
+  "feeFinding": {
+    "amount": "$75 non-refundable processing fee",
+    "statutoryBasisFor40021": "s. 943.0585(2) provides for it: 'Remits a $75 processing fee to the department… unless the executive director waives such fee.'",
+    "contradiction": "s. 943.0578 (self-defense) contains no fee provision, yet FDLE's self-defense page and the form's own checklist require the $75 fee. Treat the fee as rule- or practice-imposed for self-defense, not statutory.",
+    "exception": "The checklist states the fee is not required for juvenile diversion expunction applications.",
+    "notDecidedHere": "The fee's legal basis for the self-defense route is recorded as a contradiction, not resolved. It is a legal-design question."
+  },
+  "doNotSubstitute": [
+    {"documentClass": "superseded Ref ids still served at HTTP 200", "why": "Ref-11937 was confirmed live during this pass, serving the 9-page October 2019 revision of 40-021 — discoverable by ordinary search and entirely official-looking. The cheapest current-versus-stale discriminator on 40-021 is the fingerprint footnote: the current June 2021 revision reads 'Fingerprints must be taken at a law enforcement agency or by a vendor engaged in the business of providing electronic fingerprint submissions which has an agreement in place with FDLE pursuant to s. 943.053(13), F.S.', while the October 2019 revision reads only 'Fingerprints must be taken at a law enforcement entity.'"},
+    {"documentClass": "FDLE agency certificates", "why": "FDLE 40-030 (Certificate of Eligibility, rev. Dec 2020), 40-027 (self-defense Certificate of Eligibility, rev. Oct 2019) and 40-022 (older Certificate, rev. Jul 2006) are FDLE outputs named in rule text. They are not the participant-completed applications and carry no current Ref id of their own."},
+    {"document": "FDLE's online intake portal at web.fdle.state.fl.us/intakeweb", "why": "Every FDLE page now links to it. It covers all five request types in one web form with a Generate PDF button, never names a form number, and never mentions notarization, printing or the fee. Its generated PDF is not the FAC-incorporated document and has no Ref id. It is the single most likely wrong source for this family."},
+    {"documentClass": "the Rule 3.989 court-stage forms", "why": "Filed with the court after the certificate issues. The FAC forms are the FDLE-stage documents only. The Rule 3.989 identities are a separate assigned job."},
+    {"document": "the FBI FD-258 fingerprint card", "why": "A federal form referenced by the rules. Note the FDLE fingerprint sheet is now bundled inside each application PDF as its own page, so it does not need separate sourcing."},
+    {"documentClass": "the FDLE criminal history record check request", "why": "A different FDLE product from a different bureau, not part of Chapter 11C-7."},
+    {"rule": "11C-7.008 Administrative Expunction and 11C-7.013 Automatic Sealing", "why": "Adjacent remedies in the same chapter. Neither is among the four assigned identities."},
+    {"sourceClass": "county or circuit clerk expunction packets", "why": "Local reproductions. None is the FAC-incorporated document."}
+  ],
+  "unexplainedArtifact": {
+    "observation": "The flrules-served copies of 40-025, 40-026, 40-028 and the superseded 40-021 (Ref-11937) each carry an identical QR-style glyph and the hex string 58503bbb-a64a-4781-b43b-41736dc772fb in the top-right of page 1. The current 40-021 (Ref-14423) does not.",
+    "status": "unresolved",
+    "why": "It is identical across multiple distinct documents, so it is not a per-document identifier. Its origin and significance were not established.",
+    "instruction": "Flag it; do not reproduce it blindly and do not treat it as a document identifier."
+  },
+  "affectedTracksAndComponents": {
+    "trackCount": 6,
+    "componentCount": 6,
+    "documentCount": 4,
+    "note": "Six Florida components across six tracks bind the four FDLE identities. The Rule 3.989 court-stage components on the same tracks are out of scope for this job."
+  },
+  "edition13Impact": {
+    "publicationJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+    "editionAmendmentRequired": true,
+    "amendmentKind": "new_rows_plus_new_bytes",
+    "requiresNewBytes": true,
+    "requiresNewBytesDetail": "The adopted edition retains none of the four. All four are currently authority_unmanifested_source. The successor edition must add four rows, and the bytes are freely retrievable at the pinned digests recorded here.",
+    "requiresTitleCorrection": true,
+    "requiresTitleCorrectionNote": "Titles must be the verbatim face strings, including FDLE's 'A EARLY' on 40-028 and the 's. 943.585' typo on 40-021.",
+    "requiresRevisionCorrection": true,
+    "requiresRevisionCorrectionNote": "Revisions are the printed form revisions — June 2021, June 2021, July 2022, June 2021 — not the 8/30/2023 rule adoption date.",
+    "requiresRoleCorrection": false,
+    "requiresScopeCorrection": false,
+    "requiresLicenseDisposition": true,
+    "requiresLicenseDispositionNote": "Unresolved by silence. generation_allowed must remain no until a written position exists.",
+    "proposedRows": [
+      {"workflowKey": "FL:FDLE-40-021:APPLICATION:EN", "documentId": "FDLE-40-021", "revision": "REV-2021-06", "sha256": "7a3647f5ae134c3e9ad62a8dd177805314738ed23985309728b57bbcd79b8ee8", "bytes": 232916, "pages": 6, "fieldCount": 0, "structuralClass": "flat_pdf", "assetClass": "packet_form", "sourceUrl": "https://www.flrules.org/gateway/readRefFile.asp?refId=14423&filename=FDLE%2040-021%20Seal%20and%20Expunge%20Application%20Final%20.pdf", "note": "One row only, despite two incorporations."},
+      {"workflowKey": "FL:FDLE-40-026:APPLICATION:EN", "documentId": "FDLE-40-026", "revision": "REV-2021-06", "sha256": "bf86860df49887fd5da1788408de724cc527871a152389722f3733a479f16e16", "bytes": 193518, "pages": 5, "fieldCount": 0, "structuralClass": "flat_pdf", "assetClass": "packet_form", "sourceUrl": "https://www.flrules.org/gateway/readRefFile.asp?refId=14427&filename=FDLE%2040-026%20Lawful%20Self-Defense%20Application%20Final.pdf"},
+      {"workflowKey": "FL:FDLE-40-025:APPLICATION:EN", "documentId": "FDLE-40-025", "revision": "REV-2022-07", "sha256": "432e225f79ceb9d1c67d32a5f2dae092ea4d1546c775652499b30771d8ee46cf", "bytes": 201663, "pages": 5, "fieldCount": 0, "structuralClass": "flat_pdf", "assetClass": "packet_form", "sourceUrl": "https://www.flrules.org/gateway/readRefFile.asp?refId=15824&filename=FDLE%2040-025%20Juvenile%20Diversion%20Expunction%20Application%20Marked%20Up.pdf", "note": "The incorporated copy is a redline. Record that on the row."},
+      {"workflowKey": "FL:FDLE-40-028:APPLICATION:EN", "documentId": "FDLE-40-028", "revision": "REV-2021-06", "sha256": "46e97b586c60def6f3d9a4be88626815a00df3350eb9fd65b10f60d873f15872", "bytes": 244908, "pages": 5, "fieldCount": 0, "structuralClass": "flat_pdf", "assetClass": "packet_form", "sourceUrl": "https://www.flrules.org/gateway/readRefFile.asp?refId=14426&filename=FDLE%2040-028%20Early%20Juvenile%20Expunction%20Final.pdf"}
+    ],
+    "edition12Treatment": "immutable_unchanged",
+    "publicationPerformed": false
+  },
+  "sourceMaterializationEligibility": {
+    "laterMaterializationPermitted": true,
+    "laterMaterializationPermittedDetail": "All four are freely and publicly retrievable at HTTP 200 with no authentication, at digests pinned here. Once the successor edition admits them, materialization is mechanical.",
+    "notPermittedYet": true,
+    "notPermittedYetDetail": "The adopted edition retains none of them, so no canonicalAuthorityPath exists to receipt against. This job owns no receipt path and created no receipt.",
+    "receiptCreatedByThisJob": false,
+    "rendererObservation": "All four are flat PDFs with zero form fields, which is the coordinate_overlay shape rather than the acroform_fill shape. Recorded as an observation; no lane is assigned."
+  },
+  "terminalDisposition": "all_four_identities_resolved_current_binaries_measured_and_supersession_chains_reconstructed_edition_rows_required_license_unresolved",
+  "terminalDispositionDetail": {
+    "why": "The narrowest disposition the evidence supports. All four identities, issuers, roles, revisions, scopes and current binaries are established from the controlling official source, with hashes, and the full supersession chain is reconstructed for each. It is not fully cleared, because the successor edition retains none of them and because the commercial-use question is unresolved by silence rather than answered.",
+    "identitiesResolved": 4,
+    "binariesMeasured": 4,
+    "supersessionChainsReconstructed": 4,
+    "supersededRefIdsIdentified": 9,
+    "defectsFoundInOfficialMaterial": 4,
+    "acquisitionRequired": false,
+    "acquisitionRequiredRationale": "Retrievability is proven and the digests are pinned. What remains is an edition decision, not an acquisition."
+  },
+  "expectedDownstreamEffect": "Four Florida FDLE identities move from authority_unmanifested_source with unconfirmed revisions to fully identified, hashed and measured current binaries with complete supersession chains, official URLs and HTTP evidence. Edition 1.3 gains four ready-to-add rows with digests, byte counts, page counts and structural class supplied. Nine superseded Ref ids are named as live traps, and the fingerprint-sentence discriminator gives a one-line current-versus-stale test for the most-used form. Two errors in the recorded statutory basis are corrected, including one that would have pointed the self-defense track at the human-trafficking statute. The redline defect in the officially incorporated juvenile diversion form is surfaced before it can reach a participant packet. No component is rebound, no receipt is created, no binary enters version control, no renderer is assigned, no memo is edited, no edition is published, no packet becomes generatable, no runtime is enabled and no track changes promotion state.",
+  "residualBlockers": [
+    {"id": "fl-fdle-edition-rows", "question": "Edition 1.3 must add four FDLE rows; the adopted edition retains none of them.", "status": "handed_off", "owner": "rcap-nationwide-master-library-edition-1-3-publication", "why": "Edition 1.2 is immutable. Complete rows are supplied."},
+    {"id": "fl-fdle-commercial-use", "question": "Whether FDLE or the Department of State permit redistribution of these forms.", "status": "unresolved", "owner": "counsel or a written issuer response", "why": "Both sites are silent. Silence is not permission and this is a human-only escalation. generation_allowed must stay no."},
+    {"id": "fl-40-025-redline", "question": "Whether to reproduce the officially incorporated change-marked copy, or seek a clean one.", "status": "open", "owner": "the Florida legal-design owner and the acquisition owner", "why": "The redline is what the FAC incorporates. Substituting a clean copy substitutes a document the rule does not incorporate."},
+    {"id": "fl-40-021-dual-refid-citation", "question": "Which of Ref-14423 and Ref-14424 to cite on the certificate-of-eligibility identity.", "status": "open", "owner": "the edition owner", "why": "Byte-identical, so this is a citation choice. Expunction routes should cite Ref-14423 and sealing routes Ref-14424; one row, not two."},
+    {"id": "fl-self-defense-fee-basis", "question": "The $75 fee for the self-defense route has no statutory basis in s. 943.0578.", "status": "open_and_outside_this_job", "owner": "the Florida legal-design owner"},
+    {"id": "fl-flrules-qr-artifact", "question": "The identical QR glyph and hex string on four of the five retrieved binaries.", "status": "unresolved", "owner": "acquisition owner", "why": "Identical across distinct documents, so not a per-document identifier. Origin unknown."},
+    {"id": "fl-rule-3989-court-stage", "question": "The Rule 3.989 court-stage identities remain separately unresolved.", "status": "open_and_outside_this_job", "owner": "the separate assigned Rule 3.989 jobs", "why": "Out of scope. Noted because the Florida tracks do not clear on this resolution alone."}
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "sourcesMaterialized": 0,
+    "sourceReceiptCountUnchanged": true,
+    "memoEdited": false,
+    "editionPublished": false,
+    "editionMutated": false,
+    "rendererImplemented": false,
+    "packetImplemented": false,
+    "componentRebound": false,
+    "issuerContacted": false,
+    "generationAllowedChanged": false,
+    "countyPacketSubstituted": false,
+    "integrationPerformed": false,
+    "promotionPerformed": false,
+    "migrationPerformed": false,
+    "deploymentPerformed": false
+  }
+}

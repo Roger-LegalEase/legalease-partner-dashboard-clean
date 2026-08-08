@@ -96,8 +96,8 @@
           "requirement": "conditional",
           "conditionDescription": "Only where the participant cannot pay the county filing fee.",
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
-          "notes": "Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived."
+          "officialFormId": "FW-CIV-APPLICATION",
+          "notes": "Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived. The participant instrument is the FW-CIV Application, ATJ 601.9 (08/25), \"Application for Waiver of Court Fees (Civil)\", approved by the Illinois Supreme Court Commission on Access to Justice and required in all Illinois Circuit Courts. Illinois Supreme Court Rule 298 is the procedural authority behind it and is not itself a form: the rule directs that \"An applicant shall use the 'Application for Waiver of Court Fees' form approved by the Illinois Supreme Court and the Supreme Court Commission on Access to Justice\". The Rule 298 order the statute keys on is issued by the court and is not a participant packet component."
         }
       ],
       "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers. The certified disposition itself is a supporting document below and never gates generation.",
@@ -247,6 +247,57 @@
         "The petition is denied."
       ],
       "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "_feeWaiverComponentRemap": {
+        "correctionJob": "rcap-il-rule-298-fw-civ-component-remap-memo-correction",
+        "correctedOn": "2026-08-08",
+        "baseCommit": "7aaf916468800d42181158379c5262520c859a1b",
+        "controllingDecision": "data/record-clearing/production-factory/source-acquisition/rcap-il-in-repo-identity-reconciliation-rule-298.json",
+        "controllingDecisionTerminalDisposition": "rule_number_resolved_to_retained_adopted_form_component_mapping_correction_required_no_acquisition",
+        "whatChanged": "One officialFormId on this track's fee_waiver component. It carried a rule-citation string formed by concatenating the Rule 298 citation with the rule's own Article II index label, and it now reads FW-CIV-APPLICATION. That prior string is deliberately not reproduced here, so no literal of it survives in this memo for a component binding, a relationship row or an acceptance check to match on. The component's role, requirement, conditionDescription and outputStrategy are unchanged, because all four were already correct.",
+        "whyTheOldIdentityWasWrong": "The string concatenated a rule citation with the rule's own index label, so it named procedural authority rather than a document. Nothing is filed that is 'a Rule 298'. The rule contains no fillable application and instead directs the applicant to a separately approved form. The defect was a naming and binding defect, not an unknown source and not an acquisition gap: the repository's own source-identity confidence value already read 'document_identity_confirmed_component_names_the_rule_not_the_form'.",
+        "resolvedIdentity": {
+          "authorityDocumentId": "FW-CIV-APPLICATION",
+          "workflowKey": "IL:FW-CIV-APPLICATION:APPLICATION:EN",
+          "printedFormIdentifier": "ATJ 601.9",
+          "printedRevisionCode": "(08/25)",
+          "suiteDesignation": "FW-CIV",
+          "officialTitle": "Application for Waiver of Court Fees (Civil)",
+          "issuer": "Illinois Supreme Court Commission on Access to Justice, approved by the Illinois Supreme Court",
+          "role": "fee_waiver",
+          "participantFacing": true,
+          "signatory": "the self-represented litigant, personally, under 735 ILCS 5/1-109; the form offers mutually exclusive 'completing this form for myself' and 'lawyer completing this form on behalf of a client' checkboxes",
+          "swornOrNotarized": false,
+          "revision": "REV-2025-08",
+          "statewideScope": true,
+          "statewideScopeBasis": "Illinois Supreme Court Rule 10-101(c) requires all courts to accept standardized court forms, and Rule 10-101(d) forbids a court from creating or requiring an alternate form seeking the same remedy. The form's own footer states it is required to be used in all Illinois Circuit Courts.",
+          "mandatoryAsToFormNotAsToFiling": "Where the waiver route is used this is the form and no county substitute is permitted, but the component stays conditional: a participant who can pay the fee files nothing."
+        },
+        "ruleTreatment": "Ill. S. Ct. R. 298, 'Application for Waiver of Court Fees, Costs, and Charges', effective 2023-09-01 as amended by M.R. 3140, remains the procedural authority for this component and is recorded as authority only. It is not a participant form and may not be bound as one.",
+        "sourceUnchanged": {
+          "acquisitionRequired": false,
+          "newBytesRequired": false,
+          "statement": "The exact asset is already retained and adopted and is preserved unchanged: sha256 b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5, 1,051,549 bytes, PDF 1.6, four unrotated Letter pages, a clean AcroForm with no XFA and no encryption, 121 terminal fields across 130 widgets. Two independent copies were compared and agree. Nothing was acquired, materialized, re-digested or re-measured by this correction, and no second source identity was created.",
+          "canonicalAuthorityPath": "STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf"
+        },
+        "documentsExpresslyNotSubstituted": [
+          "The Rule 298(e) Attorney Certification for Waiver of Fees under 735 ILCS 5/5-105.5 — counsel-signed rather than participant-signed, and outside the packet-only product model. Recorded as the highest-risk mis-binding target.",
+          "The FW-CIV Order, ATJ 602.8 (08/25), Order on Application for Waiver of Court Fees (Civil) — judge-facing. The court issues it; the participant does not complete it. Its absence from this component set is correct rather than a gap, notwithstanding that 20 ILCS 2630/5.2(d)(1) keys the expungement fee waiver on such an order having been obtained.",
+          "The FW-CIV Instructions — instructions are a guidance asset, not a filing.",
+          "The appellate FW-AC Application, ATJ 8031.1, and the supreme-court FW-SC Application, ATJ 9031.1 — different suites governed by Rule 313(f). Their (02/26) revision codes are newer-looking but they are different documents, not newer revisions of ATJ 601.9, and a cross-suite revision comparison would falsely read them as superseding it.",
+          "The criminal FW-CRM fee-waiver suite — a different family for a different proceeding."
+        ],
+        "scopePreserved": "Statewide, unchanged. This track's geography is untouched and the form is a statewide standardized form under Rule 10-101.",
+        "denominatorsUnchanged": "One component keeps one official form. No component, participant input, supporting document or manual completion item was added or removed on this track, and the number of official-form bindings across the Illinois memo is unchanged — nine were retargeted, none created or destroyed.",
+        "runtimeEffect": "None. The Illinois official-PDF family remains fail-closed: six component documents are still authority-unmanifested, no Illinois source-materialization receipt exists, no renderer is assigned and no field map is built. No track becomes packet ready.",
+        "openItemsHandedOff": [
+          "No Illinois source-materialization receipt exists and no Illinois asset is in the materialized source root. Owner: Session A captain. Closed when a receipt verifies against sha256 b2da395f… at 1,051,549 bytes and the file is sealed into the root.",
+          "Any future field map must state whether it is keyed on 121 terminal fields or on 130 widgets. The family scaffold records expectedFieldCount 121 while an edition state-manifest fieldCount would be 130 — a silent nine-entry misalignment hazard. Owner: the implementation lane.",
+          "The form carries embedded JavaScript and no decision exists about what a renderer does with it on fill or flatten. Owner: the implementation lane.",
+          "Revision-drift watch: the retained copy's ModDate of 2026-01-27 postdates its CreationDate of 2025-08-18 while the footer still reads (08/25), so identity must be anchored on the printed ATJ number plus revision code and the digest treated as point-in-time. Owner: acquisition owner.",
+          "How the packet's copy explains the sequencing — participant files the Application, court issues the Order, and only then does 20 ILCS 2630/5.2(d)(1) waive the expungement fee — is a guidance question for the Illinois legal-design owner, not a missing component."
+        ],
+        "boundary": "This correction edits officialFormId and notes on one component of this track and nothing else. It does not touch the Rule 298 decision record, the track-source relationships, the acquisition queue, the family source-requirements file or any registry, all of which are outside this job's ownedPaths and carry the same mapping. Runtime stays disabled and packet_ready stays 0."
+      },
       "unresolvedQuestions": [
         {
           "question": "County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant.",
@@ -419,8 +470,8 @@
           "requirement": "conditional",
           "conditionDescription": "Only where the participant cannot pay the county filing fee.",
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
-          "notes": "Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained."
+          "officialFormId": "FW-CIV-APPLICATION",
+          "notes": "Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained. The participant instrument is the FW-CIV Application, ATJ 601.9 (08/25), \"Application for Waiver of Court Fees (Civil)\", approved by the Illinois Supreme Court Commission on Access to Justice and required in all Illinois Circuit Courts. Illinois Supreme Court Rule 298 is the procedural authority behind it and is not itself a form: the rule directs that \"An applicant shall use the 'Application for Waiver of Court Fees' form approved by the Illinois Supreme Court and the Supreme Court Commission on Access to Justice\". The Rule 298 order the statute keys on is issued by the court and is not a participant packet component."
         }
       ],
       "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers; no third-party record gates generation.",
@@ -601,6 +652,57 @@
           "requirement": "required"
         }
       ],
+      "_feeWaiverComponentRemap": {
+        "correctionJob": "rcap-il-rule-298-fw-civ-component-remap-memo-correction",
+        "correctedOn": "2026-08-08",
+        "baseCommit": "7aaf916468800d42181158379c5262520c859a1b",
+        "controllingDecision": "data/record-clearing/production-factory/source-acquisition/rcap-il-in-repo-identity-reconciliation-rule-298.json",
+        "controllingDecisionTerminalDisposition": "rule_number_resolved_to_retained_adopted_form_component_mapping_correction_required_no_acquisition",
+        "whatChanged": "One officialFormId on this track's fee_waiver component. It carried a rule-citation string formed by concatenating the Rule 298 citation with the rule's own Article II index label, and it now reads FW-CIV-APPLICATION. That prior string is deliberately not reproduced here, so no literal of it survives in this memo for a component binding, a relationship row or an acceptance check to match on. The component's role, requirement, conditionDescription and outputStrategy are unchanged, because all four were already correct.",
+        "whyTheOldIdentityWasWrong": "The string concatenated a rule citation with the rule's own index label, so it named procedural authority rather than a document. Nothing is filed that is 'a Rule 298'. The rule contains no fillable application and instead directs the applicant to a separately approved form. The defect was a naming and binding defect, not an unknown source and not an acquisition gap: the repository's own source-identity confidence value already read 'document_identity_confirmed_component_names_the_rule_not_the_form'.",
+        "resolvedIdentity": {
+          "authorityDocumentId": "FW-CIV-APPLICATION",
+          "workflowKey": "IL:FW-CIV-APPLICATION:APPLICATION:EN",
+          "printedFormIdentifier": "ATJ 601.9",
+          "printedRevisionCode": "(08/25)",
+          "suiteDesignation": "FW-CIV",
+          "officialTitle": "Application for Waiver of Court Fees (Civil)",
+          "issuer": "Illinois Supreme Court Commission on Access to Justice, approved by the Illinois Supreme Court",
+          "role": "fee_waiver",
+          "participantFacing": true,
+          "signatory": "the self-represented litigant, personally, under 735 ILCS 5/1-109; the form offers mutually exclusive 'completing this form for myself' and 'lawyer completing this form on behalf of a client' checkboxes",
+          "swornOrNotarized": false,
+          "revision": "REV-2025-08",
+          "statewideScope": true,
+          "statewideScopeBasis": "Illinois Supreme Court Rule 10-101(c) requires all courts to accept standardized court forms, and Rule 10-101(d) forbids a court from creating or requiring an alternate form seeking the same remedy. The form's own footer states it is required to be used in all Illinois Circuit Courts.",
+          "mandatoryAsToFormNotAsToFiling": "Where the waiver route is used this is the form and no county substitute is permitted, but the component stays conditional: a participant who can pay the fee files nothing."
+        },
+        "ruleTreatment": "Ill. S. Ct. R. 298, 'Application for Waiver of Court Fees, Costs, and Charges', effective 2023-09-01 as amended by M.R. 3140, remains the procedural authority for this component and is recorded as authority only. It is not a participant form and may not be bound as one.",
+        "sourceUnchanged": {
+          "acquisitionRequired": false,
+          "newBytesRequired": false,
+          "statement": "The exact asset is already retained and adopted and is preserved unchanged: sha256 b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5, 1,051,549 bytes, PDF 1.6, four unrotated Letter pages, a clean AcroForm with no XFA and no encryption, 121 terminal fields across 130 widgets. Two independent copies were compared and agree. Nothing was acquired, materialized, re-digested or re-measured by this correction, and no second source identity was created.",
+          "canonicalAuthorityPath": "STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf"
+        },
+        "documentsExpresslyNotSubstituted": [
+          "The Rule 298(e) Attorney Certification for Waiver of Fees under 735 ILCS 5/5-105.5 — counsel-signed rather than participant-signed, and outside the packet-only product model. Recorded as the highest-risk mis-binding target.",
+          "The FW-CIV Order, ATJ 602.8 (08/25), Order on Application for Waiver of Court Fees (Civil) — judge-facing. The court issues it; the participant does not complete it. Its absence from this component set is correct rather than a gap, notwithstanding that 20 ILCS 2630/5.2(d)(1) keys the expungement fee waiver on such an order having been obtained.",
+          "The FW-CIV Instructions — instructions are a guidance asset, not a filing.",
+          "The appellate FW-AC Application, ATJ 8031.1, and the supreme-court FW-SC Application, ATJ 9031.1 — different suites governed by Rule 313(f). Their (02/26) revision codes are newer-looking but they are different documents, not newer revisions of ATJ 601.9, and a cross-suite revision comparison would falsely read them as superseding it.",
+          "The criminal FW-CRM fee-waiver suite — a different family for a different proceeding."
+        ],
+        "scopePreserved": "Statewide, unchanged. This track's geography is untouched and the form is a statewide standardized form under Rule 10-101.",
+        "denominatorsUnchanged": "One component keeps one official form. No component, participant input, supporting document or manual completion item was added or removed on this track, and the number of official-form bindings across the Illinois memo is unchanged — nine were retargeted, none created or destroyed.",
+        "runtimeEffect": "None. The Illinois official-PDF family remains fail-closed: six component documents are still authority-unmanifested, no Illinois source-materialization receipt exists, no renderer is assigned and no field map is built. No track becomes packet ready.",
+        "openItemsHandedOff": [
+          "No Illinois source-materialization receipt exists and no Illinois asset is in the materialized source root. Owner: Session A captain. Closed when a receipt verifies against sha256 b2da395f… at 1,051,549 bytes and the file is sealed into the root.",
+          "Any future field map must state whether it is keyed on 121 terminal fields or on 130 widgets. The family scaffold records expectedFieldCount 121 while an edition state-manifest fieldCount would be 130 — a silent nine-entry misalignment hazard. Owner: the implementation lane.",
+          "The form carries embedded JavaScript and no decision exists about what a renderer does with it on fill or flatten. Owner: the implementation lane.",
+          "Revision-drift watch: the retained copy's ModDate of 2026-01-27 postdates its CreationDate of 2025-08-18 while the footer still reads (08/25), so identity must be anchored on the printed ATJ number plus revision code and the digest treated as point-in-time. Owner: acquisition owner.",
+          "How the packet's copy explains the sequencing — participant files the Application, court issues the Order, and only then does 20 ILCS 2630/5.2(d)(1) waive the expungement fee — is a guidance question for the Illinois legal-design owner, not a missing component."
+        ],
+        "boundary": "This correction edits officialFormId and notes on one component of this track and nothing else. It does not touch the Rule 298 decision record, the track-source relationships, the acquisition queue, the family source-requirements file or any registry, all of which are outside this job's ownedPaths and carry the same mapping. Runtime stays disabled and packet_ready stays 0."
+      },
       "unresolvedQuestions": [
         {
           "question": "County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant.",
@@ -750,8 +852,8 @@
           "requirement": "conditional",
           "conditionDescription": "Only where the participant cannot pay the county filing fee.",
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
-          "notes": "Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained."
+          "officialFormId": "FW-CIV-APPLICATION",
+          "notes": "Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained. The participant instrument is the FW-CIV Application, ATJ 601.9 (08/25), \"Application for Waiver of Court Fees (Civil)\", approved by the Illinois Supreme Court Commission on Access to Justice and required in all Illinois Circuit Courts. Illinois Supreme Court Rule 298 is the procedural authority behind it and is not itself a form: the rule directs that \"An applicant shall use the 'Application for Waiver of Court Fees' form approved by the Illinois Supreme Court and the Supreme Court Commission on Access to Justice\". The Rule 298 order the statute keys on is issued by the court and is not a participant packet component."
         }
       ],
       "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers; no third-party record gates generation.",
@@ -915,6 +1017,57 @@
           "requirement": "required"
         }
       ],
+      "_feeWaiverComponentRemap": {
+        "correctionJob": "rcap-il-rule-298-fw-civ-component-remap-memo-correction",
+        "correctedOn": "2026-08-08",
+        "baseCommit": "7aaf916468800d42181158379c5262520c859a1b",
+        "controllingDecision": "data/record-clearing/production-factory/source-acquisition/rcap-il-in-repo-identity-reconciliation-rule-298.json",
+        "controllingDecisionTerminalDisposition": "rule_number_resolved_to_retained_adopted_form_component_mapping_correction_required_no_acquisition",
+        "whatChanged": "One officialFormId on this track's fee_waiver component. It carried a rule-citation string formed by concatenating the Rule 298 citation with the rule's own Article II index label, and it now reads FW-CIV-APPLICATION. That prior string is deliberately not reproduced here, so no literal of it survives in this memo for a component binding, a relationship row or an acceptance check to match on. The component's role, requirement, conditionDescription and outputStrategy are unchanged, because all four were already correct.",
+        "whyTheOldIdentityWasWrong": "The string concatenated a rule citation with the rule's own index label, so it named procedural authority rather than a document. Nothing is filed that is 'a Rule 298'. The rule contains no fillable application and instead directs the applicant to a separately approved form. The defect was a naming and binding defect, not an unknown source and not an acquisition gap: the repository's own source-identity confidence value already read 'document_identity_confirmed_component_names_the_rule_not_the_form'.",
+        "resolvedIdentity": {
+          "authorityDocumentId": "FW-CIV-APPLICATION",
+          "workflowKey": "IL:FW-CIV-APPLICATION:APPLICATION:EN",
+          "printedFormIdentifier": "ATJ 601.9",
+          "printedRevisionCode": "(08/25)",
+          "suiteDesignation": "FW-CIV",
+          "officialTitle": "Application for Waiver of Court Fees (Civil)",
+          "issuer": "Illinois Supreme Court Commission on Access to Justice, approved by the Illinois Supreme Court",
+          "role": "fee_waiver",
+          "participantFacing": true,
+          "signatory": "the self-represented litigant, personally, under 735 ILCS 5/1-109; the form offers mutually exclusive 'completing this form for myself' and 'lawyer completing this form on behalf of a client' checkboxes",
+          "swornOrNotarized": false,
+          "revision": "REV-2025-08",
+          "statewideScope": true,
+          "statewideScopeBasis": "Illinois Supreme Court Rule 10-101(c) requires all courts to accept standardized court forms, and Rule 10-101(d) forbids a court from creating or requiring an alternate form seeking the same remedy. The form's own footer states it is required to be used in all Illinois Circuit Courts.",
+          "mandatoryAsToFormNotAsToFiling": "Where the waiver route is used this is the form and no county substitute is permitted, but the component stays conditional: a participant who can pay the fee files nothing."
+        },
+        "ruleTreatment": "Ill. S. Ct. R. 298, 'Application for Waiver of Court Fees, Costs, and Charges', effective 2023-09-01 as amended by M.R. 3140, remains the procedural authority for this component and is recorded as authority only. It is not a participant form and may not be bound as one.",
+        "sourceUnchanged": {
+          "acquisitionRequired": false,
+          "newBytesRequired": false,
+          "statement": "The exact asset is already retained and adopted and is preserved unchanged: sha256 b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5, 1,051,549 bytes, PDF 1.6, four unrotated Letter pages, a clean AcroForm with no XFA and no encryption, 121 terminal fields across 130 widgets. Two independent copies were compared and agree. Nothing was acquired, materialized, re-digested or re-measured by this correction, and no second source identity was created.",
+          "canonicalAuthorityPath": "STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf"
+        },
+        "documentsExpresslyNotSubstituted": [
+          "The Rule 298(e) Attorney Certification for Waiver of Fees under 735 ILCS 5/5-105.5 — counsel-signed rather than participant-signed, and outside the packet-only product model. Recorded as the highest-risk mis-binding target.",
+          "The FW-CIV Order, ATJ 602.8 (08/25), Order on Application for Waiver of Court Fees (Civil) — judge-facing. The court issues it; the participant does not complete it. Its absence from this component set is correct rather than a gap, notwithstanding that 20 ILCS 2630/5.2(d)(1) keys the expungement fee waiver on such an order having been obtained.",
+          "The FW-CIV Instructions — instructions are a guidance asset, not a filing.",
+          "The appellate FW-AC Application, ATJ 8031.1, and the supreme-court FW-SC Application, ATJ 9031.1 — different suites governed by Rule 313(f). Their (02/26) revision codes are newer-looking but they are different documents, not newer revisions of ATJ 601.9, and a cross-suite revision comparison would falsely read them as superseding it.",
+          "The criminal FW-CRM fee-waiver suite — a different family for a different proceeding."
+        ],
+        "scopePreserved": "Statewide, unchanged. This track's geography is untouched and the form is a statewide standardized form under Rule 10-101.",
+        "denominatorsUnchanged": "One component keeps one official form. No component, participant input, supporting document or manual completion item was added or removed on this track, and the number of official-form bindings across the Illinois memo is unchanged — nine were retargeted, none created or destroyed.",
+        "runtimeEffect": "None. The Illinois official-PDF family remains fail-closed: six component documents are still authority-unmanifested, no Illinois source-materialization receipt exists, no renderer is assigned and no field map is built. No track becomes packet ready.",
+        "openItemsHandedOff": [
+          "No Illinois source-materialization receipt exists and no Illinois asset is in the materialized source root. Owner: Session A captain. Closed when a receipt verifies against sha256 b2da395f… at 1,051,549 bytes and the file is sealed into the root.",
+          "Any future field map must state whether it is keyed on 121 terminal fields or on 130 widgets. The family scaffold records expectedFieldCount 121 while an edition state-manifest fieldCount would be 130 — a silent nine-entry misalignment hazard. Owner: the implementation lane.",
+          "The form carries embedded JavaScript and no decision exists about what a renderer does with it on fill or flatten. Owner: the implementation lane.",
+          "Revision-drift watch: the retained copy's ModDate of 2026-01-27 postdates its CreationDate of 2025-08-18 while the footer still reads (08/25), so identity must be anchored on the printed ATJ number plus revision code and the digest treated as point-in-time. Owner: acquisition owner.",
+          "How the packet's copy explains the sequencing — participant files the Application, court issues the Order, and only then does 20 ILCS 2630/5.2(d)(1) waive the expungement fee — is a guidance question for the Illinois legal-design owner, not a missing component."
+        ],
+        "boundary": "This correction edits officialFormId and notes on one component of this track and nothing else. It does not touch the Rule 298 decision record, the track-source relationships, the acquisition queue, the family source-requirements file or any registry, all of which are outside this job's ownedPaths and carry the same mapping. Runtime stays disabled and packet_ready stays 0."
+      },
       "unresolvedQuestions": [
         {
           "question": "County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant.",
@@ -1054,8 +1207,8 @@
           "requirement": "conditional",
           "conditionDescription": "Only where the participant cannot pay the county filing fee.",
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
-          "notes": "Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained."
+          "officialFormId": "FW-CIV-APPLICATION",
+          "notes": "Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained. The participant instrument is the FW-CIV Application, ATJ 601.9 (08/25), \"Application for Waiver of Court Fees (Civil)\", approved by the Illinois Supreme Court Commission on Access to Justice and required in all Illinois Circuit Courts. Illinois Supreme Court Rule 298 is the procedural authority behind it and is not itself a form: the rule directs that \"An applicant shall use the 'Application for Waiver of Court Fees' form approved by the Illinois Supreme Court and the Supreme Court Commission on Access to Justice\". The Rule 298 order the statute keys on is issued by the court and is not a participant packet component."
         }
       ],
       "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers; no third-party record gates generation.",
@@ -1211,6 +1364,57 @@
           "requirement": "required"
         }
       ],
+      "_feeWaiverComponentRemap": {
+        "correctionJob": "rcap-il-rule-298-fw-civ-component-remap-memo-correction",
+        "correctedOn": "2026-08-08",
+        "baseCommit": "7aaf916468800d42181158379c5262520c859a1b",
+        "controllingDecision": "data/record-clearing/production-factory/source-acquisition/rcap-il-in-repo-identity-reconciliation-rule-298.json",
+        "controllingDecisionTerminalDisposition": "rule_number_resolved_to_retained_adopted_form_component_mapping_correction_required_no_acquisition",
+        "whatChanged": "One officialFormId on this track's fee_waiver component. It carried a rule-citation string formed by concatenating the Rule 298 citation with the rule's own Article II index label, and it now reads FW-CIV-APPLICATION. That prior string is deliberately not reproduced here, so no literal of it survives in this memo for a component binding, a relationship row or an acceptance check to match on. The component's role, requirement, conditionDescription and outputStrategy are unchanged, because all four were already correct.",
+        "whyTheOldIdentityWasWrong": "The string concatenated a rule citation with the rule's own index label, so it named procedural authority rather than a document. Nothing is filed that is 'a Rule 298'. The rule contains no fillable application and instead directs the applicant to a separately approved form. The defect was a naming and binding defect, not an unknown source and not an acquisition gap: the repository's own source-identity confidence value already read 'document_identity_confirmed_component_names_the_rule_not_the_form'.",
+        "resolvedIdentity": {
+          "authorityDocumentId": "FW-CIV-APPLICATION",
+          "workflowKey": "IL:FW-CIV-APPLICATION:APPLICATION:EN",
+          "printedFormIdentifier": "ATJ 601.9",
+          "printedRevisionCode": "(08/25)",
+          "suiteDesignation": "FW-CIV",
+          "officialTitle": "Application for Waiver of Court Fees (Civil)",
+          "issuer": "Illinois Supreme Court Commission on Access to Justice, approved by the Illinois Supreme Court",
+          "role": "fee_waiver",
+          "participantFacing": true,
+          "signatory": "the self-represented litigant, personally, under 735 ILCS 5/1-109; the form offers mutually exclusive 'completing this form for myself' and 'lawyer completing this form on behalf of a client' checkboxes",
+          "swornOrNotarized": false,
+          "revision": "REV-2025-08",
+          "statewideScope": true,
+          "statewideScopeBasis": "Illinois Supreme Court Rule 10-101(c) requires all courts to accept standardized court forms, and Rule 10-101(d) forbids a court from creating or requiring an alternate form seeking the same remedy. The form's own footer states it is required to be used in all Illinois Circuit Courts.",
+          "mandatoryAsToFormNotAsToFiling": "Where the waiver route is used this is the form and no county substitute is permitted, but the component stays conditional: a participant who can pay the fee files nothing."
+        },
+        "ruleTreatment": "Ill. S. Ct. R. 298, 'Application for Waiver of Court Fees, Costs, and Charges', effective 2023-09-01 as amended by M.R. 3140, remains the procedural authority for this component and is recorded as authority only. It is not a participant form and may not be bound as one.",
+        "sourceUnchanged": {
+          "acquisitionRequired": false,
+          "newBytesRequired": false,
+          "statement": "The exact asset is already retained and adopted and is preserved unchanged: sha256 b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5, 1,051,549 bytes, PDF 1.6, four unrotated Letter pages, a clean AcroForm with no XFA and no encryption, 121 terminal fields across 130 widgets. Two independent copies were compared and agree. Nothing was acquired, materialized, re-digested or re-measured by this correction, and no second source identity was created.",
+          "canonicalAuthorityPath": "STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf"
+        },
+        "documentsExpresslyNotSubstituted": [
+          "The Rule 298(e) Attorney Certification for Waiver of Fees under 735 ILCS 5/5-105.5 — counsel-signed rather than participant-signed, and outside the packet-only product model. Recorded as the highest-risk mis-binding target.",
+          "The FW-CIV Order, ATJ 602.8 (08/25), Order on Application for Waiver of Court Fees (Civil) — judge-facing. The court issues it; the participant does not complete it. Its absence from this component set is correct rather than a gap, notwithstanding that 20 ILCS 2630/5.2(d)(1) keys the expungement fee waiver on such an order having been obtained.",
+          "The FW-CIV Instructions — instructions are a guidance asset, not a filing.",
+          "The appellate FW-AC Application, ATJ 8031.1, and the supreme-court FW-SC Application, ATJ 9031.1 — different suites governed by Rule 313(f). Their (02/26) revision codes are newer-looking but they are different documents, not newer revisions of ATJ 601.9, and a cross-suite revision comparison would falsely read them as superseding it.",
+          "The criminal FW-CRM fee-waiver suite — a different family for a different proceeding."
+        ],
+        "scopePreserved": "Statewide, unchanged. This track's geography is untouched and the form is a statewide standardized form under Rule 10-101.",
+        "denominatorsUnchanged": "One component keeps one official form. No component, participant input, supporting document or manual completion item was added or removed on this track, and the number of official-form bindings across the Illinois memo is unchanged — nine were retargeted, none created or destroyed.",
+        "runtimeEffect": "None. The Illinois official-PDF family remains fail-closed: six component documents are still authority-unmanifested, no Illinois source-materialization receipt exists, no renderer is assigned and no field map is built. No track becomes packet ready.",
+        "openItemsHandedOff": [
+          "No Illinois source-materialization receipt exists and no Illinois asset is in the materialized source root. Owner: Session A captain. Closed when a receipt verifies against sha256 b2da395f… at 1,051,549 bytes and the file is sealed into the root.",
+          "Any future field map must state whether it is keyed on 121 terminal fields or on 130 widgets. The family scaffold records expectedFieldCount 121 while an edition state-manifest fieldCount would be 130 — a silent nine-entry misalignment hazard. Owner: the implementation lane.",
+          "The form carries embedded JavaScript and no decision exists about what a renderer does with it on fill or flatten. Owner: the implementation lane.",
+          "Revision-drift watch: the retained copy's ModDate of 2026-01-27 postdates its CreationDate of 2025-08-18 while the footer still reads (08/25), so identity must be anchored on the printed ATJ number plus revision code and the digest treated as point-in-time. Owner: acquisition owner.",
+          "How the packet's copy explains the sequencing — participant files the Application, court issues the Order, and only then does 20 ILCS 2630/5.2(d)(1) waive the expungement fee — is a guidance question for the Illinois legal-design owner, not a missing component."
+        ],
+        "boundary": "This correction edits officialFormId and notes on one component of this track and nothing else. It does not touch the Rule 298 decision record, the track-source relationships, the acquisition queue, the family source-requirements file or any registry, all of which are outside this job's ownedPaths and carry the same mapping. Runtime stays disabled and packet_ready stays 0."
+      },
       "unresolvedQuestions": [
         {
           "question": "County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant.",
@@ -1350,8 +1554,8 @@
           "requirement": "conditional",
           "conditionDescription": "Only where the participant cannot pay the county filing fee.",
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
-          "notes": "Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained."
+          "officialFormId": "FW-CIV-APPLICATION",
+          "notes": "Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained. The participant instrument is the FW-CIV Application, ATJ 601.9 (08/25), \"Application for Waiver of Court Fees (Civil)\", approved by the Illinois Supreme Court Commission on Access to Justice and required in all Illinois Circuit Courts. Illinois Supreme Court Rule 298 is the procedural authority behind it and is not itself a form: the rule directs that \"An applicant shall use the 'Application for Waiver of Court Fees' form approved by the Illinois Supreme Court and the Supreme Court Commission on Access to Justice\". The Rule 298 order the statute keys on is issued by the court and is not a participant packet component."
         }
       ],
       "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers; no third-party record gates generation.",
@@ -1514,6 +1718,57 @@
           "requirement": "required"
         }
       ],
+      "_feeWaiverComponentRemap": {
+        "correctionJob": "rcap-il-rule-298-fw-civ-component-remap-memo-correction",
+        "correctedOn": "2026-08-08",
+        "baseCommit": "7aaf916468800d42181158379c5262520c859a1b",
+        "controllingDecision": "data/record-clearing/production-factory/source-acquisition/rcap-il-in-repo-identity-reconciliation-rule-298.json",
+        "controllingDecisionTerminalDisposition": "rule_number_resolved_to_retained_adopted_form_component_mapping_correction_required_no_acquisition",
+        "whatChanged": "One officialFormId on this track's fee_waiver component. It carried a rule-citation string formed by concatenating the Rule 298 citation with the rule's own Article II index label, and it now reads FW-CIV-APPLICATION. That prior string is deliberately not reproduced here, so no literal of it survives in this memo for a component binding, a relationship row or an acceptance check to match on. The component's role, requirement, conditionDescription and outputStrategy are unchanged, because all four were already correct.",
+        "whyTheOldIdentityWasWrong": "The string concatenated a rule citation with the rule's own index label, so it named procedural authority rather than a document. Nothing is filed that is 'a Rule 298'. The rule contains no fillable application and instead directs the applicant to a separately approved form. The defect was a naming and binding defect, not an unknown source and not an acquisition gap: the repository's own source-identity confidence value already read 'document_identity_confirmed_component_names_the_rule_not_the_form'.",
+        "resolvedIdentity": {
+          "authorityDocumentId": "FW-CIV-APPLICATION",
+          "workflowKey": "IL:FW-CIV-APPLICATION:APPLICATION:EN",
+          "printedFormIdentifier": "ATJ 601.9",
+          "printedRevisionCode": "(08/25)",
+          "suiteDesignation": "FW-CIV",
+          "officialTitle": "Application for Waiver of Court Fees (Civil)",
+          "issuer": "Illinois Supreme Court Commission on Access to Justice, approved by the Illinois Supreme Court",
+          "role": "fee_waiver",
+          "participantFacing": true,
+          "signatory": "the self-represented litigant, personally, under 735 ILCS 5/1-109; the form offers mutually exclusive 'completing this form for myself' and 'lawyer completing this form on behalf of a client' checkboxes",
+          "swornOrNotarized": false,
+          "revision": "REV-2025-08",
+          "statewideScope": true,
+          "statewideScopeBasis": "Illinois Supreme Court Rule 10-101(c) requires all courts to accept standardized court forms, and Rule 10-101(d) forbids a court from creating or requiring an alternate form seeking the same remedy. The form's own footer states it is required to be used in all Illinois Circuit Courts.",
+          "mandatoryAsToFormNotAsToFiling": "Where the waiver route is used this is the form and no county substitute is permitted, but the component stays conditional: a participant who can pay the fee files nothing."
+        },
+        "ruleTreatment": "Ill. S. Ct. R. 298, 'Application for Waiver of Court Fees, Costs, and Charges', effective 2023-09-01 as amended by M.R. 3140, remains the procedural authority for this component and is recorded as authority only. It is not a participant form and may not be bound as one.",
+        "sourceUnchanged": {
+          "acquisitionRequired": false,
+          "newBytesRequired": false,
+          "statement": "The exact asset is already retained and adopted and is preserved unchanged: sha256 b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5, 1,051,549 bytes, PDF 1.6, four unrotated Letter pages, a clean AcroForm with no XFA and no encryption, 121 terminal fields across 130 widgets. Two independent copies were compared and agree. Nothing was acquired, materialized, re-digested or re-measured by this correction, and no second source identity was created.",
+          "canonicalAuthorityPath": "STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf"
+        },
+        "documentsExpresslyNotSubstituted": [
+          "The Rule 298(e) Attorney Certification for Waiver of Fees under 735 ILCS 5/5-105.5 — counsel-signed rather than participant-signed, and outside the packet-only product model. Recorded as the highest-risk mis-binding target.",
+          "The FW-CIV Order, ATJ 602.8 (08/25), Order on Application for Waiver of Court Fees (Civil) — judge-facing. The court issues it; the participant does not complete it. Its absence from this component set is correct rather than a gap, notwithstanding that 20 ILCS 2630/5.2(d)(1) keys the expungement fee waiver on such an order having been obtained.",
+          "The FW-CIV Instructions — instructions are a guidance asset, not a filing.",
+          "The appellate FW-AC Application, ATJ 8031.1, and the supreme-court FW-SC Application, ATJ 9031.1 — different suites governed by Rule 313(f). Their (02/26) revision codes are newer-looking but they are different documents, not newer revisions of ATJ 601.9, and a cross-suite revision comparison would falsely read them as superseding it.",
+          "The criminal FW-CRM fee-waiver suite — a different family for a different proceeding."
+        ],
+        "scopePreserved": "Statewide, unchanged. This track's geography is untouched and the form is a statewide standardized form under Rule 10-101.",
+        "denominatorsUnchanged": "One component keeps one official form. No component, participant input, supporting document or manual completion item was added or removed on this track, and the number of official-form bindings across the Illinois memo is unchanged — nine were retargeted, none created or destroyed.",
+        "runtimeEffect": "None. The Illinois official-PDF family remains fail-closed: six component documents are still authority-unmanifested, no Illinois source-materialization receipt exists, no renderer is assigned and no field map is built. No track becomes packet ready.",
+        "openItemsHandedOff": [
+          "No Illinois source-materialization receipt exists and no Illinois asset is in the materialized source root. Owner: Session A captain. Closed when a receipt verifies against sha256 b2da395f… at 1,051,549 bytes and the file is sealed into the root.",
+          "Any future field map must state whether it is keyed on 121 terminal fields or on 130 widgets. The family scaffold records expectedFieldCount 121 while an edition state-manifest fieldCount would be 130 — a silent nine-entry misalignment hazard. Owner: the implementation lane.",
+          "The form carries embedded JavaScript and no decision exists about what a renderer does with it on fill or flatten. Owner: the implementation lane.",
+          "Revision-drift watch: the retained copy's ModDate of 2026-01-27 postdates its CreationDate of 2025-08-18 while the footer still reads (08/25), so identity must be anchored on the printed ATJ number plus revision code and the digest treated as point-in-time. Owner: acquisition owner.",
+          "How the packet's copy explains the sequencing — participant files the Application, court issues the Order, and only then does 20 ILCS 2630/5.2(d)(1) waive the expungement fee — is a guidance question for the Illinois legal-design owner, not a missing component."
+        ],
+        "boundary": "This correction edits officialFormId and notes on one component of this track and nothing else. It does not touch the Rule 298 decision record, the track-source relationships, the acquisition queue, the family source-requirements file or any registry, all of which are outside this job's ownedPaths and carry the same mapping. Runtime stays disabled and packet_ready stays 0."
+      },
       "unresolvedQuestions": [
         {
           "question": "County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant.",
@@ -1653,8 +1908,8 @@
           "requirement": "conditional",
           "conditionDescription": "Only where the participant cannot pay the county filing fee.",
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
-          "notes": "Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained."
+          "officialFormId": "FW-CIV-APPLICATION",
+          "notes": "Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained. The participant instrument is the FW-CIV Application, ATJ 601.9 (08/25), \"Application for Waiver of Court Fees (Civil)\", approved by the Illinois Supreme Court Commission on Access to Justice and required in all Illinois Circuit Courts. Illinois Supreme Court Rule 298 is the procedural authority behind it and is not itself a form: the rule directs that \"An applicant shall use the 'Application for Waiver of Court Fees' form approved by the Illinois Supreme Court and the Supreme Court Commission on Access to Justice\". The Rule 298 order the statute keys on is issued by the court and is not a participant packet component."
         }
       ],
       "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers; no third-party record gates generation.",
@@ -1837,6 +2092,57 @@
           "requirement": "required"
         }
       ],
+      "_feeWaiverComponentRemap": {
+        "correctionJob": "rcap-il-rule-298-fw-civ-component-remap-memo-correction",
+        "correctedOn": "2026-08-08",
+        "baseCommit": "7aaf916468800d42181158379c5262520c859a1b",
+        "controllingDecision": "data/record-clearing/production-factory/source-acquisition/rcap-il-in-repo-identity-reconciliation-rule-298.json",
+        "controllingDecisionTerminalDisposition": "rule_number_resolved_to_retained_adopted_form_component_mapping_correction_required_no_acquisition",
+        "whatChanged": "One officialFormId on this track's fee_waiver component. It carried a rule-citation string formed by concatenating the Rule 298 citation with the rule's own Article II index label, and it now reads FW-CIV-APPLICATION. That prior string is deliberately not reproduced here, so no literal of it survives in this memo for a component binding, a relationship row or an acceptance check to match on. The component's role, requirement, conditionDescription and outputStrategy are unchanged, because all four were already correct.",
+        "whyTheOldIdentityWasWrong": "The string concatenated a rule citation with the rule's own index label, so it named procedural authority rather than a document. Nothing is filed that is 'a Rule 298'. The rule contains no fillable application and instead directs the applicant to a separately approved form. The defect was a naming and binding defect, not an unknown source and not an acquisition gap: the repository's own source-identity confidence value already read 'document_identity_confirmed_component_names_the_rule_not_the_form'.",
+        "resolvedIdentity": {
+          "authorityDocumentId": "FW-CIV-APPLICATION",
+          "workflowKey": "IL:FW-CIV-APPLICATION:APPLICATION:EN",
+          "printedFormIdentifier": "ATJ 601.9",
+          "printedRevisionCode": "(08/25)",
+          "suiteDesignation": "FW-CIV",
+          "officialTitle": "Application for Waiver of Court Fees (Civil)",
+          "issuer": "Illinois Supreme Court Commission on Access to Justice, approved by the Illinois Supreme Court",
+          "role": "fee_waiver",
+          "participantFacing": true,
+          "signatory": "the self-represented litigant, personally, under 735 ILCS 5/1-109; the form offers mutually exclusive 'completing this form for myself' and 'lawyer completing this form on behalf of a client' checkboxes",
+          "swornOrNotarized": false,
+          "revision": "REV-2025-08",
+          "statewideScope": true,
+          "statewideScopeBasis": "Illinois Supreme Court Rule 10-101(c) requires all courts to accept standardized court forms, and Rule 10-101(d) forbids a court from creating or requiring an alternate form seeking the same remedy. The form's own footer states it is required to be used in all Illinois Circuit Courts.",
+          "mandatoryAsToFormNotAsToFiling": "Where the waiver route is used this is the form and no county substitute is permitted, but the component stays conditional: a participant who can pay the fee files nothing."
+        },
+        "ruleTreatment": "Ill. S. Ct. R. 298, 'Application for Waiver of Court Fees, Costs, and Charges', effective 2023-09-01 as amended by M.R. 3140, remains the procedural authority for this component and is recorded as authority only. It is not a participant form and may not be bound as one.",
+        "sourceUnchanged": {
+          "acquisitionRequired": false,
+          "newBytesRequired": false,
+          "statement": "The exact asset is already retained and adopted and is preserved unchanged: sha256 b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5, 1,051,549 bytes, PDF 1.6, four unrotated Letter pages, a clean AcroForm with no XFA and no encryption, 121 terminal fields across 130 widgets. Two independent copies were compared and agree. Nothing was acquired, materialized, re-digested or re-measured by this correction, and no second source identity was created.",
+          "canonicalAuthorityPath": "STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf"
+        },
+        "documentsExpresslyNotSubstituted": [
+          "The Rule 298(e) Attorney Certification for Waiver of Fees under 735 ILCS 5/5-105.5 — counsel-signed rather than participant-signed, and outside the packet-only product model. Recorded as the highest-risk mis-binding target.",
+          "The FW-CIV Order, ATJ 602.8 (08/25), Order on Application for Waiver of Court Fees (Civil) — judge-facing. The court issues it; the participant does not complete it. Its absence from this component set is correct rather than a gap, notwithstanding that 20 ILCS 2630/5.2(d)(1) keys the expungement fee waiver on such an order having been obtained.",
+          "The FW-CIV Instructions — instructions are a guidance asset, not a filing.",
+          "The appellate FW-AC Application, ATJ 8031.1, and the supreme-court FW-SC Application, ATJ 9031.1 — different suites governed by Rule 313(f). Their (02/26) revision codes are newer-looking but they are different documents, not newer revisions of ATJ 601.9, and a cross-suite revision comparison would falsely read them as superseding it.",
+          "The criminal FW-CRM fee-waiver suite — a different family for a different proceeding."
+        ],
+        "scopePreserved": "Statewide, unchanged. This track's geography is untouched and the form is a statewide standardized form under Rule 10-101.",
+        "denominatorsUnchanged": "One component keeps one official form. No component, participant input, supporting document or manual completion item was added or removed on this track, and the number of official-form bindings across the Illinois memo is unchanged — nine were retargeted, none created or destroyed.",
+        "runtimeEffect": "None. The Illinois official-PDF family remains fail-closed: six component documents are still authority-unmanifested, no Illinois source-materialization receipt exists, no renderer is assigned and no field map is built. No track becomes packet ready.",
+        "openItemsHandedOff": [
+          "No Illinois source-materialization receipt exists and no Illinois asset is in the materialized source root. Owner: Session A captain. Closed when a receipt verifies against sha256 b2da395f… at 1,051,549 bytes and the file is sealed into the root.",
+          "Any future field map must state whether it is keyed on 121 terminal fields or on 130 widgets. The family scaffold records expectedFieldCount 121 while an edition state-manifest fieldCount would be 130 — a silent nine-entry misalignment hazard. Owner: the implementation lane.",
+          "The form carries embedded JavaScript and no decision exists about what a renderer does with it on fill or flatten. Owner: the implementation lane.",
+          "Revision-drift watch: the retained copy's ModDate of 2026-01-27 postdates its CreationDate of 2025-08-18 while the footer still reads (08/25), so identity must be anchored on the printed ATJ number plus revision code and the digest treated as point-in-time. Owner: acquisition owner.",
+          "How the packet's copy explains the sequencing — participant files the Application, court issues the Order, and only then does 20 ILCS 2630/5.2(d)(1) waive the expungement fee — is a guidance question for the Illinois legal-design owner, not a missing component."
+        ],
+        "boundary": "This correction edits officialFormId and notes on one component of this track and nothing else. It does not touch the Rule 298 decision record, the track-source relationships, the acquisition queue, the family source-requirements file or any registry, all of which are outside this job's ownedPaths and carry the same mapping. Runtime stays disabled and packet_ready stays 0."
+      },
       "unresolvedQuestions": [
         {
           "question": "County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant.",
@@ -2017,8 +2323,8 @@
           "requirement": "conditional",
           "conditionDescription": "Only where the participant cannot pay the county filing fee.",
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
-          "notes": "Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained."
+          "officialFormId": "FW-CIV-APPLICATION",
+          "notes": "Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained. The participant instrument is the FW-CIV Application, ATJ 601.9 (08/25), \"Application for Waiver of Court Fees (Civil)\", approved by the Illinois Supreme Court Commission on Access to Justice and required in all Illinois Circuit Courts. Illinois Supreme Court Rule 298 is the procedural authority behind it and is not itself a form: the rule directs that \"An applicant shall use the 'Application for Waiver of Court Fees' form approved by the Illinois Supreme Court and the Supreme Court Commission on Access to Justice\". The Rule 298 order the statute keys on is issued by the court and is not a participant packet component."
         }
       ],
       "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers; no third-party record gates generation.",
@@ -2199,6 +2505,57 @@
           "requirement": "required"
         }
       ],
+      "_feeWaiverComponentRemap": {
+        "correctionJob": "rcap-il-rule-298-fw-civ-component-remap-memo-correction",
+        "correctedOn": "2026-08-08",
+        "baseCommit": "7aaf916468800d42181158379c5262520c859a1b",
+        "controllingDecision": "data/record-clearing/production-factory/source-acquisition/rcap-il-in-repo-identity-reconciliation-rule-298.json",
+        "controllingDecisionTerminalDisposition": "rule_number_resolved_to_retained_adopted_form_component_mapping_correction_required_no_acquisition",
+        "whatChanged": "One officialFormId on this track's fee_waiver component. It carried a rule-citation string formed by concatenating the Rule 298 citation with the rule's own Article II index label, and it now reads FW-CIV-APPLICATION. That prior string is deliberately not reproduced here, so no literal of it survives in this memo for a component binding, a relationship row or an acceptance check to match on. The component's role, requirement, conditionDescription and outputStrategy are unchanged, because all four were already correct.",
+        "whyTheOldIdentityWasWrong": "The string concatenated a rule citation with the rule's own index label, so it named procedural authority rather than a document. Nothing is filed that is 'a Rule 298'. The rule contains no fillable application and instead directs the applicant to a separately approved form. The defect was a naming and binding defect, not an unknown source and not an acquisition gap: the repository's own source-identity confidence value already read 'document_identity_confirmed_component_names_the_rule_not_the_form'.",
+        "resolvedIdentity": {
+          "authorityDocumentId": "FW-CIV-APPLICATION",
+          "workflowKey": "IL:FW-CIV-APPLICATION:APPLICATION:EN",
+          "printedFormIdentifier": "ATJ 601.9",
+          "printedRevisionCode": "(08/25)",
+          "suiteDesignation": "FW-CIV",
+          "officialTitle": "Application for Waiver of Court Fees (Civil)",
+          "issuer": "Illinois Supreme Court Commission on Access to Justice, approved by the Illinois Supreme Court",
+          "role": "fee_waiver",
+          "participantFacing": true,
+          "signatory": "the self-represented litigant, personally, under 735 ILCS 5/1-109; the form offers mutually exclusive 'completing this form for myself' and 'lawyer completing this form on behalf of a client' checkboxes",
+          "swornOrNotarized": false,
+          "revision": "REV-2025-08",
+          "statewideScope": true,
+          "statewideScopeBasis": "Illinois Supreme Court Rule 10-101(c) requires all courts to accept standardized court forms, and Rule 10-101(d) forbids a court from creating or requiring an alternate form seeking the same remedy. The form's own footer states it is required to be used in all Illinois Circuit Courts.",
+          "mandatoryAsToFormNotAsToFiling": "Where the waiver route is used this is the form and no county substitute is permitted, but the component stays conditional: a participant who can pay the fee files nothing."
+        },
+        "ruleTreatment": "Ill. S. Ct. R. 298, 'Application for Waiver of Court Fees, Costs, and Charges', effective 2023-09-01 as amended by M.R. 3140, remains the procedural authority for this component and is recorded as authority only. It is not a participant form and may not be bound as one.",
+        "sourceUnchanged": {
+          "acquisitionRequired": false,
+          "newBytesRequired": false,
+          "statement": "The exact asset is already retained and adopted and is preserved unchanged: sha256 b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5, 1,051,549 bytes, PDF 1.6, four unrotated Letter pages, a clean AcroForm with no XFA and no encryption, 121 terminal fields across 130 widgets. Two independent copies were compared and agree. Nothing was acquired, materialized, re-digested or re-measured by this correction, and no second source identity was created.",
+          "canonicalAuthorityPath": "STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf"
+        },
+        "documentsExpresslyNotSubstituted": [
+          "The Rule 298(e) Attorney Certification for Waiver of Fees under 735 ILCS 5/5-105.5 — counsel-signed rather than participant-signed, and outside the packet-only product model. Recorded as the highest-risk mis-binding target.",
+          "The FW-CIV Order, ATJ 602.8 (08/25), Order on Application for Waiver of Court Fees (Civil) — judge-facing. The court issues it; the participant does not complete it. Its absence from this component set is correct rather than a gap, notwithstanding that 20 ILCS 2630/5.2(d)(1) keys the expungement fee waiver on such an order having been obtained.",
+          "The FW-CIV Instructions — instructions are a guidance asset, not a filing.",
+          "The appellate FW-AC Application, ATJ 8031.1, and the supreme-court FW-SC Application, ATJ 9031.1 — different suites governed by Rule 313(f). Their (02/26) revision codes are newer-looking but they are different documents, not newer revisions of ATJ 601.9, and a cross-suite revision comparison would falsely read them as superseding it.",
+          "The criminal FW-CRM fee-waiver suite — a different family for a different proceeding."
+        ],
+        "scopePreserved": "Statewide, unchanged. This track's geography is untouched and the form is a statewide standardized form under Rule 10-101.",
+        "denominatorsUnchanged": "One component keeps one official form. No component, participant input, supporting document or manual completion item was added or removed on this track, and the number of official-form bindings across the Illinois memo is unchanged — nine were retargeted, none created or destroyed.",
+        "runtimeEffect": "None. The Illinois official-PDF family remains fail-closed: six component documents are still authority-unmanifested, no Illinois source-materialization receipt exists, no renderer is assigned and no field map is built. No track becomes packet ready.",
+        "openItemsHandedOff": [
+          "No Illinois source-materialization receipt exists and no Illinois asset is in the materialized source root. Owner: Session A captain. Closed when a receipt verifies against sha256 b2da395f… at 1,051,549 bytes and the file is sealed into the root.",
+          "Any future field map must state whether it is keyed on 121 terminal fields or on 130 widgets. The family scaffold records expectedFieldCount 121 while an edition state-manifest fieldCount would be 130 — a silent nine-entry misalignment hazard. Owner: the implementation lane.",
+          "The form carries embedded JavaScript and no decision exists about what a renderer does with it on fill or flatten. Owner: the implementation lane.",
+          "Revision-drift watch: the retained copy's ModDate of 2026-01-27 postdates its CreationDate of 2025-08-18 while the footer still reads (08/25), so identity must be anchored on the printed ATJ number plus revision code and the digest treated as point-in-time. Owner: acquisition owner.",
+          "How the packet's copy explains the sequencing — participant files the Application, court issues the Order, and only then does 20 ILCS 2630/5.2(d)(1) waive the expungement fee — is a guidance question for the Illinois legal-design owner, not a missing component."
+        ],
+        "boundary": "This correction edits officialFormId and notes on one component of this track and nothing else. It does not touch the Rule 298 decision record, the track-source relationships, the acquisition queue, the family source-requirements file or any registry, all of which are outside this job's ownedPaths and carry the same mapping. Runtime stays disabled and packet_ready stays 0."
+      },
       "unresolvedQuestions": [
         {
           "question": "Whether the § 5.2(a)(3) exclusion list is exhaustive for petition sealing, such that homicide, Class X felonies and crimes of violence are sealable by petition after three years subject to court discretion. The enrolled text reads that way; the obsolete internal reference says otherwise.",
@@ -2400,8 +2757,8 @@
           "requirement": "conditional",
           "conditionDescription": "Only where the participant cannot pay the county filing fee.",
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
-          "notes": "Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained."
+          "officialFormId": "FW-CIV-APPLICATION",
+          "notes": "Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained. The participant instrument is the FW-CIV Application, ATJ 601.9 (08/25), \"Application for Waiver of Court Fees (Civil)\", approved by the Illinois Supreme Court Commission on Access to Justice and required in all Illinois Circuit Courts. Illinois Supreme Court Rule 298 is the procedural authority behind it and is not itself a form: the rule directs that \"An applicant shall use the 'Application for Waiver of Court Fees' form approved by the Illinois Supreme Court and the Supreme Court Commission on Access to Justice\". The Rule 298 order the statute keys on is issued by the court and is not a participant packet component."
         }
       ],
       "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers; no third-party record gates generation.",
@@ -2606,6 +2963,57 @@
           "conditionDescription": "Asked when a qualifying credential was earned, because the waiver applies only where the same goal was not previously completed."
         }
       ],
+      "_feeWaiverComponentRemap": {
+        "correctionJob": "rcap-il-rule-298-fw-civ-component-remap-memo-correction",
+        "correctedOn": "2026-08-08",
+        "baseCommit": "7aaf916468800d42181158379c5262520c859a1b",
+        "controllingDecision": "data/record-clearing/production-factory/source-acquisition/rcap-il-in-repo-identity-reconciliation-rule-298.json",
+        "controllingDecisionTerminalDisposition": "rule_number_resolved_to_retained_adopted_form_component_mapping_correction_required_no_acquisition",
+        "whatChanged": "One officialFormId on this track's fee_waiver component. It carried a rule-citation string formed by concatenating the Rule 298 citation with the rule's own Article II index label, and it now reads FW-CIV-APPLICATION. That prior string is deliberately not reproduced here, so no literal of it survives in this memo for a component binding, a relationship row or an acceptance check to match on. The component's role, requirement, conditionDescription and outputStrategy are unchanged, because all four were already correct.",
+        "whyTheOldIdentityWasWrong": "The string concatenated a rule citation with the rule's own index label, so it named procedural authority rather than a document. Nothing is filed that is 'a Rule 298'. The rule contains no fillable application and instead directs the applicant to a separately approved form. The defect was a naming and binding defect, not an unknown source and not an acquisition gap: the repository's own source-identity confidence value already read 'document_identity_confirmed_component_names_the_rule_not_the_form'.",
+        "resolvedIdentity": {
+          "authorityDocumentId": "FW-CIV-APPLICATION",
+          "workflowKey": "IL:FW-CIV-APPLICATION:APPLICATION:EN",
+          "printedFormIdentifier": "ATJ 601.9",
+          "printedRevisionCode": "(08/25)",
+          "suiteDesignation": "FW-CIV",
+          "officialTitle": "Application for Waiver of Court Fees (Civil)",
+          "issuer": "Illinois Supreme Court Commission on Access to Justice, approved by the Illinois Supreme Court",
+          "role": "fee_waiver",
+          "participantFacing": true,
+          "signatory": "the self-represented litigant, personally, under 735 ILCS 5/1-109; the form offers mutually exclusive 'completing this form for myself' and 'lawyer completing this form on behalf of a client' checkboxes",
+          "swornOrNotarized": false,
+          "revision": "REV-2025-08",
+          "statewideScope": true,
+          "statewideScopeBasis": "Illinois Supreme Court Rule 10-101(c) requires all courts to accept standardized court forms, and Rule 10-101(d) forbids a court from creating or requiring an alternate form seeking the same remedy. The form's own footer states it is required to be used in all Illinois Circuit Courts.",
+          "mandatoryAsToFormNotAsToFiling": "Where the waiver route is used this is the form and no county substitute is permitted, but the component stays conditional: a participant who can pay the fee files nothing."
+        },
+        "ruleTreatment": "Ill. S. Ct. R. 298, 'Application for Waiver of Court Fees, Costs, and Charges', effective 2023-09-01 as amended by M.R. 3140, remains the procedural authority for this component and is recorded as authority only. It is not a participant form and may not be bound as one.",
+        "sourceUnchanged": {
+          "acquisitionRequired": false,
+          "newBytesRequired": false,
+          "statement": "The exact asset is already retained and adopted and is preserved unchanged: sha256 b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5, 1,051,549 bytes, PDF 1.6, four unrotated Letter pages, a clean AcroForm with no XFA and no encryption, 121 terminal fields across 130 widgets. Two independent copies were compared and agree. Nothing was acquired, materialized, re-digested or re-measured by this correction, and no second source identity was created.",
+          "canonicalAuthorityPath": "STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf"
+        },
+        "documentsExpresslyNotSubstituted": [
+          "The Rule 298(e) Attorney Certification for Waiver of Fees under 735 ILCS 5/5-105.5 — counsel-signed rather than participant-signed, and outside the packet-only product model. Recorded as the highest-risk mis-binding target.",
+          "The FW-CIV Order, ATJ 602.8 (08/25), Order on Application for Waiver of Court Fees (Civil) — judge-facing. The court issues it; the participant does not complete it. Its absence from this component set is correct rather than a gap, notwithstanding that 20 ILCS 2630/5.2(d)(1) keys the expungement fee waiver on such an order having been obtained.",
+          "The FW-CIV Instructions — instructions are a guidance asset, not a filing.",
+          "The appellate FW-AC Application, ATJ 8031.1, and the supreme-court FW-SC Application, ATJ 9031.1 — different suites governed by Rule 313(f). Their (02/26) revision codes are newer-looking but they are different documents, not newer revisions of ATJ 601.9, and a cross-suite revision comparison would falsely read them as superseding it.",
+          "The criminal FW-CRM fee-waiver suite — a different family for a different proceeding."
+        ],
+        "scopePreserved": "Statewide, unchanged. This track's geography is untouched and the form is a statewide standardized form under Rule 10-101.",
+        "denominatorsUnchanged": "One component keeps one official form. No component, participant input, supporting document or manual completion item was added or removed on this track, and the number of official-form bindings across the Illinois memo is unchanged — nine were retargeted, none created or destroyed.",
+        "runtimeEffect": "None. The Illinois official-PDF family remains fail-closed: six component documents are still authority-unmanifested, no Illinois source-materialization receipt exists, no renderer is assigned and no field map is built. No track becomes packet ready.",
+        "openItemsHandedOff": [
+          "No Illinois source-materialization receipt exists and no Illinois asset is in the materialized source root. Owner: Session A captain. Closed when a receipt verifies against sha256 b2da395f… at 1,051,549 bytes and the file is sealed into the root.",
+          "Any future field map must state whether it is keyed on 121 terminal fields or on 130 widgets. The family scaffold records expectedFieldCount 121 while an edition state-manifest fieldCount would be 130 — a silent nine-entry misalignment hazard. Owner: the implementation lane.",
+          "The form carries embedded JavaScript and no decision exists about what a renderer does with it on fill or flatten. Owner: the implementation lane.",
+          "Revision-drift watch: the retained copy's ModDate of 2026-01-27 postdates its CreationDate of 2025-08-18 while the footer still reads (08/25), so identity must be anchored on the printed ATJ number plus revision code and the digest treated as point-in-time. Owner: acquisition owner.",
+          "How the packet's copy explains the sequencing — participant files the Application, court issues the Order, and only then does 20 ILCS 2630/5.2(d)(1) waive the expungement fee — is a guidance question for the Illinois legal-design owner, not a missing component."
+        ],
+        "boundary": "This correction edits officialFormId and notes on one component of this track and nothing else. It does not touch the Rule 298 decision record, the track-source relationships, the acquisition queue, the family source-requirements file or any registry, all of which are outside this job's ownedPaths and carry the same mapping. Runtime stays disabled and packet_ready stays 0."
+      },
       "unresolvedQuestions": [
         {
           "question": "Whether the educational-credential waiver at § 5.2(c)(3)(E) reaches the two-year categories. The enrolled text lists (c)(2)(C), (D), (E) and (F) and omits (c)(2)(C-5); Illinois Legal Aid says the two-year period cannot be waived.",
@@ -3078,8 +3486,8 @@
           "requirement": "conditional",
           "conditionDescription": "Only where the participant cannot pay the county filing fee.",
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
-          "notes": "Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained."
+          "officialFormId": "FW-CIV-APPLICATION",
+          "notes": "Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained. The participant instrument is the FW-CIV Application, ATJ 601.9 (08/25), \"Application for Waiver of Court Fees (Civil)\", approved by the Illinois Supreme Court Commission on Access to Justice and required in all Illinois Circuit Courts. Illinois Supreme Court Rule 298 is the procedural authority behind it and is not itself a form: the rule directs that \"An applicant shall use the 'Application for Waiver of Court Fees' form approved by the Illinois Supreme Court and the Supreme Court Commission on Access to Justice\". The Rule 298 order the statute keys on is issued by the court and is not a participant packet component."
         }
       ],
       "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers; no third-party record gates generation.",
@@ -3238,6 +3646,57 @@
           "requirement": "required"
         }
       ],
+      "_feeWaiverComponentRemap": {
+        "correctionJob": "rcap-il-rule-298-fw-civ-component-remap-memo-correction",
+        "correctedOn": "2026-08-08",
+        "baseCommit": "7aaf916468800d42181158379c5262520c859a1b",
+        "controllingDecision": "data/record-clearing/production-factory/source-acquisition/rcap-il-in-repo-identity-reconciliation-rule-298.json",
+        "controllingDecisionTerminalDisposition": "rule_number_resolved_to_retained_adopted_form_component_mapping_correction_required_no_acquisition",
+        "whatChanged": "One officialFormId on this track's fee_waiver component. It carried a rule-citation string formed by concatenating the Rule 298 citation with the rule's own Article II index label, and it now reads FW-CIV-APPLICATION. That prior string is deliberately not reproduced here, so no literal of it survives in this memo for a component binding, a relationship row or an acceptance check to match on. The component's role, requirement, conditionDescription and outputStrategy are unchanged, because all four were already correct.",
+        "whyTheOldIdentityWasWrong": "The string concatenated a rule citation with the rule's own index label, so it named procedural authority rather than a document. Nothing is filed that is 'a Rule 298'. The rule contains no fillable application and instead directs the applicant to a separately approved form. The defect was a naming and binding defect, not an unknown source and not an acquisition gap: the repository's own source-identity confidence value already read 'document_identity_confirmed_component_names_the_rule_not_the_form'.",
+        "resolvedIdentity": {
+          "authorityDocumentId": "FW-CIV-APPLICATION",
+          "workflowKey": "IL:FW-CIV-APPLICATION:APPLICATION:EN",
+          "printedFormIdentifier": "ATJ 601.9",
+          "printedRevisionCode": "(08/25)",
+          "suiteDesignation": "FW-CIV",
+          "officialTitle": "Application for Waiver of Court Fees (Civil)",
+          "issuer": "Illinois Supreme Court Commission on Access to Justice, approved by the Illinois Supreme Court",
+          "role": "fee_waiver",
+          "participantFacing": true,
+          "signatory": "the self-represented litigant, personally, under 735 ILCS 5/1-109; the form offers mutually exclusive 'completing this form for myself' and 'lawyer completing this form on behalf of a client' checkboxes",
+          "swornOrNotarized": false,
+          "revision": "REV-2025-08",
+          "statewideScope": true,
+          "statewideScopeBasis": "Illinois Supreme Court Rule 10-101(c) requires all courts to accept standardized court forms, and Rule 10-101(d) forbids a court from creating or requiring an alternate form seeking the same remedy. The form's own footer states it is required to be used in all Illinois Circuit Courts.",
+          "mandatoryAsToFormNotAsToFiling": "Where the waiver route is used this is the form and no county substitute is permitted, but the component stays conditional: a participant who can pay the fee files nothing."
+        },
+        "ruleTreatment": "Ill. S. Ct. R. 298, 'Application for Waiver of Court Fees, Costs, and Charges', effective 2023-09-01 as amended by M.R. 3140, remains the procedural authority for this component and is recorded as authority only. It is not a participant form and may not be bound as one.",
+        "sourceUnchanged": {
+          "acquisitionRequired": false,
+          "newBytesRequired": false,
+          "statement": "The exact asset is already retained and adopted and is preserved unchanged: sha256 b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5, 1,051,549 bytes, PDF 1.6, four unrotated Letter pages, a clean AcroForm with no XFA and no encryption, 121 terminal fields across 130 widgets. Two independent copies were compared and agree. Nothing was acquired, materialized, re-digested or re-measured by this correction, and no second source identity was created.",
+          "canonicalAuthorityPath": "STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf"
+        },
+        "documentsExpresslyNotSubstituted": [
+          "The Rule 298(e) Attorney Certification for Waiver of Fees under 735 ILCS 5/5-105.5 — counsel-signed rather than participant-signed, and outside the packet-only product model. Recorded as the highest-risk mis-binding target.",
+          "The FW-CIV Order, ATJ 602.8 (08/25), Order on Application for Waiver of Court Fees (Civil) — judge-facing. The court issues it; the participant does not complete it. Its absence from this component set is correct rather than a gap, notwithstanding that 20 ILCS 2630/5.2(d)(1) keys the expungement fee waiver on such an order having been obtained.",
+          "The FW-CIV Instructions — instructions are a guidance asset, not a filing.",
+          "The appellate FW-AC Application, ATJ 8031.1, and the supreme-court FW-SC Application, ATJ 9031.1 — different suites governed by Rule 313(f). Their (02/26) revision codes are newer-looking but they are different documents, not newer revisions of ATJ 601.9, and a cross-suite revision comparison would falsely read them as superseding it.",
+          "The criminal FW-CRM fee-waiver suite — a different family for a different proceeding."
+        ],
+        "scopePreserved": "Statewide, unchanged. This track's geography is untouched and the form is a statewide standardized form under Rule 10-101.",
+        "denominatorsUnchanged": "One component keeps one official form. No component, participant input, supporting document or manual completion item was added or removed on this track, and the number of official-form bindings across the Illinois memo is unchanged — nine were retargeted, none created or destroyed.",
+        "runtimeEffect": "None. The Illinois official-PDF family remains fail-closed: six component documents are still authority-unmanifested, no Illinois source-materialization receipt exists, no renderer is assigned and no field map is built. No track becomes packet ready.",
+        "openItemsHandedOff": [
+          "No Illinois source-materialization receipt exists and no Illinois asset is in the materialized source root. Owner: Session A captain. Closed when a receipt verifies against sha256 b2da395f… at 1,051,549 bytes and the file is sealed into the root.",
+          "Any future field map must state whether it is keyed on 121 terminal fields or on 130 widgets. The family scaffold records expectedFieldCount 121 while an edition state-manifest fieldCount would be 130 — a silent nine-entry misalignment hazard. Owner: the implementation lane.",
+          "The form carries embedded JavaScript and no decision exists about what a renderer does with it on fill or flatten. Owner: the implementation lane.",
+          "Revision-drift watch: the retained copy's ModDate of 2026-01-27 postdates its CreationDate of 2025-08-18 while the footer still reads (08/25), so identity must be anchored on the printed ATJ number plus revision code and the digest treated as point-in-time. Owner: acquisition owner.",
+          "How the packet's copy explains the sequencing — participant files the Application, court issues the Order, and only then does 20 ILCS 2630/5.2(d)(1) waive the expungement fee — is a guidance question for the Illinois legal-design owner, not a missing component."
+        ],
+        "boundary": "This correction edits officialFormId and notes on one component of this track and nothing else. It does not touch the Rule 298 decision record, the track-source relationships, the acquisition queue, the family source-requirements file or any registry, all of which are outside this job's ownedPaths and carry the same mapping. Runtime stays disabled and packet_ready stays 0."
+      },
       "unresolvedQuestions": [
         {
           "question": "County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant.",

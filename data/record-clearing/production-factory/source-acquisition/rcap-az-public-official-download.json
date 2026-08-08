@@ -1,0 +1,352 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-az-public-official-download",
+  "parentJobId": "AUTH-03-acquisition-campaign-tier-1",
+  "jurisdiction": "AZ",
+  "lane": "source_acquisition",
+  "strategyFamily": "public_official_download",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "95789664518ee3f7f2aeb9c12380dd9ba70d3b76",
+  "generatedOn": "2026-08-08",
+  "acquisitionIds": [
+    "acquire:AZ:aoc-crem2f-071221",
+    "acquire:AZ:aoc-crem3f-071221",
+    "acquire:AZ:aoccr41form31a-082224",
+    "acquire:AZ:aoccr41form31b-082224",
+    "acquire:AZ:aoccrsa3f-010122",
+    "acquire:AZ:aoccrsa4f-010122"
+  ],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero is correct. The two retrievable binaries were fetched into temporary storage outside the repository and outside every worktree for provenance and measurement, and were discarded. Nothing entered version control, no materialization destination was written and no receipt was created — this job owns no authority asset path and no receipt path.",
+  "generatedFrom": [
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/authority.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-03-acquisition-campaign-tier-1.json"
+  ],
+  "outcomeSummary": {
+    "assignedIdentities": 6,
+    "fullyResolvedAndMeasured": 2,
+    "stoppedOnUncertainty": 4,
+    "headline": "Two of the six resolved completely — official URL, HTTP 200, byte count, SHA-256, page geometry, structural class and a printed title read off the form face. Four are stopped under the assignment's own stop condition: the Arizona AOC publishes them behind a client-rendered forms index that exposes no binary URL in server-rendered HTML, so neither their current revision nor their printed title could be established from an official source. A third finding applies to all six and is the most consequential: azcourts.gov expressly reserves all rights in its Terms of Use, so the commercial-use question is answered in the negative rather than left silent.",
+    "whyPartialRatherThanBlocked": "The stop condition directs stopping where identity, revision or issuer authority is uncertain. It is uncertain for four identities and certain for two. Stopping the whole job would discard two complete, hashed, official resolutions; resolving all six would require asserting revisions that were never observed. The record therefore carries both outcomes explicitly."
+  },
+  "method": {
+    "description": "Public official download against azcourts.gov, the Arizona Supreme Court Administrative Office of the Courts. The Prop 207 landing page is server-rendered and publishes its form family as ordinary links, so those binaries were retrieved, hashed and measured, and their printed titles and revision codes were read from the form face. The Self-Service Center criminal forms indexes are client-rendered and expose no form links at all in their HTML, so the remaining four identities could not be reached at any official URL.",
+    "retrievalDate": "2026-08-08",
+    "measurementBasis": "freshly_measured_retrieved_bytes",
+    "tooling": "curl for retrieval and HTTP status; sha256 and byte counts on retrieved bytes; poppler (pdfinfo, pdftotext -layout) for structure and face text; pdf-lib for AcroForm, annotation and page-geometry reads",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "authenticationUsed": false,
+    "sourcesDeposited": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "binariesCommitted": 0,
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "memoAltered": false,
+    "componentRebound": false,
+    "countyFormUsed": false,
+    "countyFormUsedNote": "County and municipal court sites mirror several of these forms and are readily reachable. None was used as a source and none may be substituted for an AOC original. Two are named in doNotSubstitute.",
+    "automationBlockNotEncountered": "No block was encountered. Every azcourts.gov URL attempted returned HTTP 200 or a genuine HTTP 404, including the site root, the Terms of Use page, the Prop 207 landing page and the Self-Service Center indexes. No user agent was spoofed beyond an ordinary browser string and no block was evaded, because none was present.",
+    "assignmentConstraintObserved": "The stop condition requires using only the assigned public official sources, recording provenance and hashes, and stopping where identity, revision or issuer authority is uncertain. Two identities cleared all three tests and are recorded with hashes. Four did not and are stopped, with no revision, title or digest asserted for any of them."
+  },
+  "resolvedIdentities": [
+    {
+      "acquisitionKey": "acquire:AZ:aoc-crem2f-071221",
+      "status": "resolved",
+      "assignedDocumentId": "AOC-CREM2F-071221",
+      "publishedFormCode": "AOCCREM2F-071221",
+      "printedFormCodeOnTheFace": "AOC CREM2F-071221",
+      "codeFormattingFinding": "Three renderings of one code. The repository uses a hyphen after AOC, the AOC's filename uses no separator, and the printed face uses a space. Only the printed face and the filename are the issuer's. The repository's hyphenated form matches neither and should be normalized to the filename form.",
+      "officialTitleOnTheFace": "Petition to Expunge Records: Municipal/Justice Court",
+      "titleAgreesWithQueue": true,
+      "titleAgreesWithQueueNote": "The queue's recorded officialTitle matches the form face exactly. Confirmed rather than corrected.",
+      "issuer": "Arizona Supreme Court, Administrative Office of the Courts",
+      "issuerBasis": "Every page header reads 'Arizona Supreme Court' followed by 'Page N of 3' and the AOC form code.",
+      "role": "primary_filing",
+      "participantFacing": true,
+      "signatory": "the petitioner, personally",
+      "signatoryBasis": "The face carries 'I declare under penalty of perjury that the information I have provided in this petition and any attachment is true and correct' above '(Petitioner's Signature)' and '(Date)'.",
+      "scope": "statewide",
+      "scopeBasis": "An AOC statewide self-service form published on the Supreme Court's own Prop 207 page, carrying a blank court and county selector. It is not a county form.",
+      "courtLevel": "municipal and justice courts",
+      "implementsStatute": "A.R.S. § 36-2862",
+      "implementsRule": "Ariz. R. Crim. P. 36, adopted by order R-21-0023, emergency 23 May 2021, effective 12 July 2021",
+      "revision": "071221",
+      "revisionInterpretation": "07/12/2021, matching both § 36-2862(A)'s 'Beginning July 12, 2021' and Rule 36's effective date",
+      "revisionIsCurrent": true,
+      "revisionIsCurrentBasis": "The AOC's Prop 207 page links exactly one CREM2F binary and it carries the 071221 stamp. No later stamp is published there.",
+      "officialLandingPage": "https://www.azcourts.gov/prop207",
+      "officialBinaryUrl": "https://www.azcourts.gov/Portals/0/0/Prop%20207/AOCCREM2F-071221.pdf",
+      "httpStatus": 200,
+      "publicAccessStatus": "public, free, no authentication, no CAPTCHA; a plain automated GET succeeded",
+      "bytes": 72602,
+      "sha256": "4875e08bc1518ca9b449b3f52fca1264bdbd3bd207887420f6f88c76d0409482",
+      "mimeType": "application/pdf",
+      "pdfVersion": "1.5",
+      "pageCount": 3,
+      "pageGeometry": "all 3 pages 612 x 792 points, rotation 0, MediaBox and CropBox coincident at [0 0 612 792]",
+      "encrypted": false,
+      "xfa": false,
+      "acroFormPresent": false,
+      "logicalFields": 0,
+      "terminalFields": 0,
+      "widgetAnnotations": 0,
+      "totalAnnotations": 0,
+      "structuralClass": "flat_pdf",
+      "structuralClassBasis": "Measured, not inferred. pdfinfo reports Form: none, there is no /AcroForm dictionary, no page carries an /Annots array, and a whole-document object scan finds zero /Widget objects.",
+      "supersession": "None. Created for Proposition 207 in 2021; no predecessor and no successor published on the AOC page."
+    },
+    {
+      "acquisitionKey": "acquire:AZ:aoc-crem3f-071221",
+      "status": "resolved",
+      "assignedDocumentId": "AOC-CREM3F-071221",
+      "publishedFormCode": "AOCCREM3F-071221",
+      "officialTitleOnTheFace": "Petition to Expunge Records: Superior Court",
+      "titleAgreesWithQueue": true,
+      "issuer": "Arizona Supreme Court, Administrative Office of the Courts",
+      "role": "primary_filing",
+      "participantFacing": true,
+      "signatory": "the petitioner, personally",
+      "scope": "statewide",
+      "courtLevel": "superior court",
+      "courtLevelSignificance": "Not a cosmetic difference from CREM2F. To expunge law-enforcement and Department of Public Safety records the petition must be filed in the superior court of the county where the arrest occurred; CREM2F reaches only the limited-jurisdiction court's own records.",
+      "implementsStatute": "A.R.S. § 36-2862",
+      "implementsRule": "Ariz. R. Crim. P. 36",
+      "revision": "071221",
+      "revisionIsCurrent": true,
+      "officialLandingPage": "https://www.azcourts.gov/prop207",
+      "officialBinaryUrl": "https://www.azcourts.gov/Portals/0/0/Prop%20207/AOCCREM3F-071221.pdf",
+      "httpStatus": 200,
+      "publicAccessStatus": "public, free, no authentication",
+      "bytes": 22738,
+      "sha256": "3f0a4f97f7a28a63f4f74e4f6c37cc4400a47e35c5669895ebf296c882b79652",
+      "mimeType": "application/pdf",
+      "pdfVersion": "1.5",
+      "pageCount": 3,
+      "pageGeometry": "all 3 pages 612 x 792 points, rotation 0, MediaBox and CropBox coincident",
+      "encrypted": false,
+      "xfa": false,
+      "acroFormPresent": false,
+      "terminalFields": 0,
+      "widgetAnnotations": 0,
+      "totalAnnotations": 0,
+      "structuralClass": "flat_pdf",
+      "supersession": "None published.",
+      "directoryPathCorrection": {
+        "finding": "A widely-cited URL for this form under /Portals/0/Prop%20207/ returns HTTP 404. The correct directory is /Portals/0/0/Prop%20207/, which is what the AOC's own Prop 207 page links.",
+        "consequence": "There is no duplicate-directory problem in the Prop 207 family. There is one directory and one commonly-miscited path. Recorded so the 404 is not later read as the form having been withdrawn."
+      }
+    }
+  ],
+  "stoppedIdentities": [
+    {
+      "acquisitionKeys": [
+        "acquire:AZ:aoccr41form31a-082224",
+        "acquire:AZ:aoccr41form31b-082224",
+        "acquire:AZ:aoccrsa3f-010122",
+        "acquire:AZ:aoccrsa4f-010122"
+      ],
+      "status": "stopped_under_the_assignment_stop_condition",
+      "disposition": "official_binary_url_not_locatable_revision_uncertain",
+      "whatWasEstablished": [
+        "All four belong to the Arizona set-aside and certificate-of-second-chance family rather than the Proposition 207 expungement family, and are therefore published through the Self-Service Center rather than the Prop 207 page.",
+        "AOCCR41FORM31A and AOCCR41FORM31B are Ariz. R. Crim. P. Rule 41 forms — Form 31(a) and Form 31(b) — which makes them rule-prescribed rather than merely AOC-approved, a materially stronger status than the CREM family.",
+        "The 082224 stamp on both corresponds to Supreme Court order R-24-0049, which amended Forms 31(a) and 31(b) on an emergency basis dated 22 August 2024, with permanent adoption dated 3 December 2024.",
+        "AOCCRSA3F and AOCCRSA4F are an Application and Order pair for the certificate of second chance, published as Self-Service Center forms rather than Rule 41 forms.",
+        "The certificate of second chance is A.R.S. § 13-905, not § 13-909. § 13-909 is 'Vacating the conviction of a sex trafficking victim'. § 13-905(A) provides that the court may issue an order including a certificate of second chance for a person whose judgment of guilt is set aside under subsection K or N.",
+        "AOCCRSA3F/4F cover the standalone later application under § 13-905(N), while Form 31(b) grants the certificate at the time of set-aside under § 13-905(K)."
+      ],
+      "whatCouldNotBeEstablished": [
+        "Any official binary URL. Both Self-Service Center criminal forms indexes — /selfservicecenter/Criminal-Law/Criminal-Law-Forms and /selfservicecenter/Criminal-Law/Criminal-Forms — return HTTP 200 with fully client-rendered content: their HTML contains zero form links and zero AOC form codes. The site publishes no sitemap.xml (HTTP 404).",
+        "The current revision stamp for any of the four.",
+        "The printed title on any of the four form faces.",
+        "Byte count, SHA-256, page count, structural class or any other measurement."
+      ],
+      "urlPatternsAttempted": [
+        "/Portals/34/Forms/<CODE>.pdf — the pattern used by other AOC self-service forms; returns 404 for all four codes",
+        "/Portals/0/34/<CODE>.pdf, /Portals/0/0/<CODE>.pdf, /Portals/0/<CODE>.pdf",
+        "/Portals/0/34/Forms/, /Portals/0/34/Criminal/, /Portals/0/34/SetAside/, /Portals/0/0/SelfServiceCenter/",
+        "legacy.azcourts.gov/selfservicecenter/Forms (HTTP 404)",
+        "the DNN OpenContent public API (no controller)"
+      ],
+      "revisionUncertainty": {
+        "cr41form31a_and_b": "The 082224 stamp is consistent with R-24-0049's emergency adoption. Whether the 3 December 2024 permanent adoption produced a further stamp was not established. The assignment's recorded stamp may therefore be current or may be one revision stale, and the record does not say which.",
+        "crsa3f_and_4f": "There is uncorroborated indication of a possible AOCCRSA3F-103023 and AOCCRSA4F-103023 revision dated 30 October 2023 — a date on which the AOC demonstrably re-stamped the sibling set-aside form. If real, the assignment's 010122 stamp is one revision stale. This could not be confirmed or refuted from an official source and is recorded as an open question, not as a finding.",
+        "consequence": "Recording 010122 or 082224 as the current revision would be asserting a value never observed at an official source. The stop condition forbids exactly that."
+      },
+      "whatIsNotBeingClaimed": [
+        "Not that the forms do not exist. They plainly do.",
+        "Not that azcourts.gov blocked retrieval. It did not; every request succeeded or returned a genuine 404.",
+        "Not that the assignment's stamps are wrong. Only that they were not confirmed.",
+        "No title, revision, digest, byte count or page count is asserted for any of the four."
+      ],
+      "howToClose": "A rendered-browser session, or an AOC-published machine-readable forms index, would resolve all four in minutes. The forms are public and free; the obstacle is purely that the index is client-rendered. This is a tooling gap, not an access restriction, and it does not require issuer contact."
+    }
+  ],
+  "commercialUseAndLicensing": {
+    "verdict": "expressly_reserved_not_silent",
+    "significance": "This is the most consequential finding in the record and it applies to all six identities, including the two that resolved.",
+    "termsOfUseUrl": "https://www.azcourts.gov/Terms",
+    "termsOfUseHttpStatus": 200,
+    "verbatimCopyrightClause": "COPYRIGHT AND TRADEMARK NOTICES: All contents of the AZCourts.gov Web Site are: © 2026 Arizona Supreme Court. All Rights Reserved. and/or its suppliers. All rights reserved.",
+    "verbatimReservationClause": "Any rights not expressly granted herein are reserved.",
+    "verbatimFooter": "© 2026 Arizona Supreme Court. All Rights Reserved.",
+    "footerLocation": "the footer of every azcourts.gov page, including the Prop 207 landing page from which the two resolved binaries were retrieved",
+    "termsAreBinding": "The Terms of Use open: 'The AZCourts.gov Web Site is offered to you conditioned on your acceptance without modification of the terms, conditions, and notices contained herein. Your use of the AZCourts.gov Web Site constitutes your agreement to all such terms, conditions, and notices.'",
+    "grantsFound": "None. The only permission language in the Terms of Use runs the other way: it is a grant from the user to AZCourts.gov covering material the user submits, not a grant from the Court to the user.",
+    "theBinariesThemselves": "Neither resolved binary carries a copyright, licence or reuse legend on any page. The absence of a legend on the artifact does not displace the site-level reservation under which it was published.",
+    "conclusion": "Arizona is not a silence case. The Arizona Supreme Court affirmatively asserts copyright in all site contents and expressly reserves any right not granted. Public downloadability is not permission, and here the issuer has said so directly.",
+    "consequence": "generationAllowed must remain false for every Arizona identity, including the two resolved here, until a written permission is adopted. Retrievability and measurement are established; the right to redistribute is not.",
+    "escalation": "Obtaining written permission from the Arizona Supreme Court is a human-only task. It was not attempted and is expressly outside this assignment.",
+    "correctionToTheQueue": "The queue records the commercial-use question for all six rows as 'The publisher's licensing and commercial-use terms for this document are unresolved.' They are no longer unresolved in the sense of unknown: they are known and they are restrictive. The row should record an express reservation rather than an open question."
+  },
+  "arizonaFormFamilyContext": {
+    "purpose": "Recorded because three different Arizona remedies use three different form families and the AOC itself publishes a page titled 'Expunging v Sealing Case Records' to address the confusion.",
+    "threeRemedies": [
+      {"remedy": "Expungement", "scope": "marijuana offences only", "statute": "A.R.S. § 36-2862", "rule": "Ariz. R. Crim. P. 36", "formFamily": "CREM"},
+      {"remedy": "Set aside, with certificate of second chance", "statute": "A.R.S. § 13-905, with firearm rights at § 13-910", "rule": "Ariz. R. Crim. P. 29, 29.7 and 41 Forms 31(a) and 31(b)", "formFamily": "CR41FORM31 and CRSA", "note": "Does not seal or expunge; the record stays public with a notation that judgment was set aside."},
+      {"remedy": "Sealing of case records", "statute": "A.R.S. § 13-911", "rule": "Ariz. R. Crim. P. 36.1", "formFamily": "CRSL", "note": "Entirely absent from the six assigned identities."}
+    ],
+    "prop207FamilyAsPublished": {
+      "source": "the AOC Prop 207 page, read directly",
+      "forms": [
+        {"code": "AOCCREM1I-071221", "role": "instructions", "bytes": 30120, "sha256": "8e9955b29ba8a5d12b100ca9022359ede202259d00b5e2b4f6611c697ab23e0b", "pages": 2, "title": "INSTRUCTIONS FOR COMPLETING A PETITION TO EXPUNGE MARIJUANA-RELATED OFFENSE RECORDS PURSUANT TO A.R.S. SECTION 36-2862."},
+        {"code": "AOCCREM2F-071221", "role": "primary_filing", "title": "Petition to Expunge Records: Municipal/Justice Court", "assigned": true},
+        {"code": "AOCCREM3F-071221", "role": "primary_filing", "title": "Petition to Expunge Records: Superior Court", "assigned": true},
+        {"code": "AOCCREM4F-071221", "role": "primary_filing", "bytes": 22596, "sha256": "2c528e7b64cbe161c195555521a6ee318b722bdde42feeafd72abf5f76725324", "pages": 3, "title": "Petition to Expunge Records: Juvenile Court", "assigned": false}
+      ],
+      "gapFinding": "The AOC publishes three Prop 207 petitions, one per court level. Only two are assigned. AOCCREM4F-071221, the Juvenile Court petition, is measured here but is not among the six assigned identities and is not claimed by this job. Whether any Arizona track needs it is a legal-design question.",
+      "orderFormsGap": "The Prop 207 page publishes no order form. The assigned set carries proposed_order identities for the set-aside and certificate families but none for the expungement family. Recorded as an observation about the assigned set, not resolved here."
+    },
+    "completenessVerdict": "The six assigned identities are not the complete current Arizona record-relief form set. Missing at minimum: the Prop 207 juvenile petition and instructions, every Spanish counterpart, and the entire § 13-911 sealing family."
+  },
+  "doNotSubstitute": [
+    {"document": "AOCCREM2F versus AOCCREM3F", "why": "Identical purpose and identical stamp, one character apart in the code, and the titles differ only in the court named. Filing the municipal/justice petition where superior court is required reaches only that court's own records and will not expunge law-enforcement or DPS records."},
+    {"document": "AOCCREM4F-071221", "why": "The Juvenile Court petition. Same family, same stamp, adjacent code, and not among the assigned identities."},
+    {"document": "AOCCR41FORM31A versus AOCCR41FORM31B", "why": "Application versus Order — petitioner-signed versus judge-signed. Identical stamp, one letter apart. The highest mechanical substitution risk in the set."},
+    {"document": "AOCCRSA3F versus AOCCRSA4F", "why": "The same Application-versus-Order trap at adjacent codes with an identical stamp."},
+    {"document": "AOCCR41FORM31A/B versus AOCCRSA3F/4F", "why": "Both concern the certificate of second chance. Form 31(b) grants it at the time of set-aside under § 13-905(K); CRSA3F/4F are the standalone later application under § 13-905(N). Substantively wrong in either direction."},
+    {"document": "AOCCR41FORM32A", "why": "An adjacent Rule 41 form also beginning 'Application to…' — Restore Civil Rights and Gun Rights rather than Set Aside Conviction."},
+    {"documentClass": "the -S suffixed forms", "why": "AOCCREM2FS and AOCCR41FORM31AS are Spanish language editions, not revisions. Their differing page counts invite mistaking them for newer versions."},
+    {"sourceClass": "Maricopa County Superior Court forms", "why": "Maricopa publishes its own re-branded versions (crex1z, crsa1z and others) whose first printed line is '© Superior Court of Arizona in Maricopa County ALL RIGHTS RESERVED'. They are county documents under a county copyright and must never be substituted for an AOC statewide form. Maricopa's Law Library Resource Center grants permission to use Maricopa's own files; that grant has no bearing on AOC forms."},
+    {"sourceClass": "other county and municipal mirrors", "why": "Pima Justice Court JP-numbered forms, Mohave JCSS forms, Cochise, Graham and Pinal locally-stamped copies. Cochise publishes both a re-branded local certificate form and the AOC form, which is itself a substitution hazard."},
+    {"documentClass": "a form bearing a stale § 13-905(L) citation", "why": "The certificate-of-second-chance provision now sits at § 13-905(N). Mirrored copies citing subsection (L) predate the renumbering. Subsection agreement is part of currentness."}
+  ],
+  "correctionsToRecordedAssumptions": [
+    {
+      "recorded": "The certificate of second chance is under A.R.S. § 13-909.",
+      "verified": "§ 13-909 is 'Vacating the conviction of a sex trafficking victim; requirements'. The certificate of second chance is § 13-905, whose heading reads 'Setting aside judgment of convicted person on discharge; application; release from disabilities; certificate of second chance; firearm possession; exceptions'.",
+      "source": "https://www.azleg.gov/ars/13/00905.htm and https://www.azleg.gov/ars/13/00909.htm",
+      "consequence": "A record citing § 13-909 would point the certificate track at the sex-trafficking vacatur statute."
+    },
+    {
+      "recorded": "§ 36-2862 directs the Supreme Court to develop expungement forms.",
+      "verified": "§ 36-2862 contains no form directive. Its only rulemaking provision is subsection (H): 'The supreme court may adopt rules necessary to implement this section.' The forms exist under Ariz. R. Crim. P. 36, adopted by order R-21-0023.",
+      "consequence": "The CREM forms' authority is the rule, not the statute. This matters for the mandatory-use question below."
+    }
+  ],
+  "openQuestions": [
+    {
+      "id": "az-mandatory-use",
+      "question": "Whether Rule 36 and Rule 41 make use of these forms compulsory or merely approved.",
+      "status": "unresolved",
+      "why": "Neither rule's operative text was read at an official source in this pass. The CREM instructions say a petitioner 'must, at a minimum, provide the court with the following information as required by Rule 36', which mandates content rather than demonstrably mandating the form. The Rule 41 forms have a stronger claim because they are adopted by Supreme Court order as numbered rule forms, but that too was not confirmed from the rule text.",
+      "consequence": "Mandatory-statewide status is left unasserted for all six rather than inferred."
+    },
+    {
+      "id": "az-revision-convention",
+      "question": "Whether the AOC anywhere states that the six trailing digits are an MMDDYY effective date.",
+      "status": "unresolved",
+      "why": "The reading is strongly supported by coincidence with independently verified dates — 071221 with § 36-2862's 'Beginning July 12, 2021' and Rule 36's effective date, 082224 with order R-24-0049 — and is positively confirmed not to be an upload date, since AOCCREM2F-071221.pdf carries an upload timestamp of 23 June 2021, three weeks before its own stamp. But no AOC statement of the convention was located.",
+      "consequence": "The decoding is recorded as well-evidenced inference, not as issuer-stated fact."
+    }
+  ],
+  "edition13Impact": {
+    "publicationJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+    "editionAmendmentRequired": true,
+    "amendmentKind": "two_new_rows_plus_new_bytes_and_a_license_disposition",
+    "requiresNewBytes": true,
+    "requiresNewBytesDetail": "For the two resolved identities only. The adopted edition records CREM2F and CREM3F as authority_mapped_source_gated with unmanifested repository binaries; the successor edition can now manifest both at the digests pinned here.",
+    "requiresRevisionCorrection": true,
+    "requiresRevisionCorrectionNote": "Both resolved rows currently carry REV-UNKNOWN. Both are 071221.",
+    "requiresTitleCorrection": false,
+    "requiresTitleCorrectionNote": "Both recorded titles match the form faces exactly and are confirmed rather than corrected.",
+    "requiresIdentifierNormalization": true,
+    "requiresIdentifierNormalizationNote": "The repository's AOC-CREM2F / AOC-CREM3F hyphenation matches neither the issuer's filename nor its printed face.",
+    "requiresLicenseDisposition": true,
+    "requiresLicenseDispositionNote": "Express reservation of all rights. This is a positive finding that must be recorded on every Arizona row, including the four unresolved ones. generation_allowed must remain no.",
+    "requiresRoleCorrection": false,
+    "requiresScopeCorrection": false,
+    "proposedRows": [
+      {"workflowKey": "AZ:AOCCREM2F:PRIMARY_FILING:EN", "documentId": "AOCCREM2F-071221", "officialTitle": "Petition to Expunge Records: Municipal/Justice Court", "revision": "REV-2021-07-12", "sha256": "4875e08bc1518ca9b449b3f52fca1264bdbd3bd207887420f6f88c76d0409482", "bytes": 72602, "pages": 3, "fieldCount": 0, "structuralClass": "flat_pdf", "sourceUrl": "https://www.azcourts.gov/Portals/0/0/Prop%20207/AOCCREM2F-071221.pdf", "commercialUseTreatment": "expressly_reserved_no_permission_obtained", "generationAllowed": "no"},
+      {"workflowKey": "AZ:AOCCREM3F:PRIMARY_FILING:EN", "documentId": "AOCCREM3F-071221", "officialTitle": "Petition to Expunge Records: Superior Court", "revision": "REV-2021-07-12", "sha256": "3f0a4f97f7a28a63f4f74e4f6c37cc4400a47e35c5669895ebf296c882b79652", "bytes": 22738, "pages": 3, "fieldCount": 0, "structuralClass": "flat_pdf", "sourceUrl": "https://www.azcourts.gov/Portals/0/0/Prop%20207/AOCCREM3F-071221.pdf", "commercialUseTreatment": "expressly_reserved_no_permission_obtained", "generationAllowed": "no"}
+    ],
+    "noRowsProposedForTheStoppedFour": "Correct and deliberate. Proposing a row would require asserting a revision, title and digest that were never observed.",
+    "edition12Treatment": "immutable_unchanged",
+    "publicationPerformed": false
+  },
+  "sourceMaterializationEligibility": {
+    "laterMaterializationPermitted": false,
+    "laterMaterializationPermittedDetail": "Not on the licensing position established here. Both resolved binaries are freely retrievable at pinned digests, so materialization is technically mechanical, but the Arizona Supreme Court expressly reserves all rights in site contents. Materializing and redistributing without a written permission would be acting against a stated reservation. Technical availability and legal permission are different gates and only the first is cleared.",
+    "receiptCreatedByThisJob": false,
+    "rendererObservation": "Both resolved binaries are flat PDFs with zero form fields, which is the coordinate_overlay shape rather than the acroform_fill shape. Recorded as an observation; no lane is assigned."
+  },
+  "implementationFamilyEffect": {
+    "family": "rcap-az-official-pdf-family",
+    "effectOfThisJob": "Two of six Arizona identities gain an official URL, HTTP evidence, a pinned digest, a byte count, a measured page geometry, a confirmed structural class and a form-face-confirmed title, closing their currentness question against the issuer's own published page. All six gain a resolved commercial-use position, which was previously recorded as an open question and is in fact an express reservation. Four identities remain unresolved with the exact obstacle and the exact closing step named.",
+    "familyReadinessStatement": "The Arizona official-PDF family remains fail-closed and this job does not move it. Four of six identities are unresolved, the licensing gate is now affirmatively closed rather than merely open, generation_allowed stays no on every row, and no Arizona asset is materialized. No packet becomes generatable, no renderer is assigned and no field map is built.",
+    "netEffectOnBlockers": "One blocker class closes for two identities (currentness and provenance), one blocker class hardens for all six (commercial use moves from unknown to expressly reserved), and one new blocker is named for four (client-rendered index)."
+  },
+  "terminalDisposition": "partially_resolved_two_of_six_measured_and_hashed_four_stopped_on_unlocatable_binary_and_uncertain_revision_commercial_use_expressly_reserved_for_all_six",
+  "terminalDispositionDetail": {
+    "why": "The narrowest disposition the evidence supports. It is not resolved: four identities have no observed revision, title or digest. It is not blocked: two identities are completely resolved from the issuer's own page with hashes, and the licensing question is answered for all six. It is not official_download_automation_blocked: no block exists on azcourts.gov and every request succeeded or returned a genuine 404 — recording an automation block here would be false and would send a later worker looking for a WAF that is not there.",
+    "identitiesResolved": 2,
+    "identitiesStopped": 4,
+    "binariesMeasured": 3,
+    "binariesMeasuredNote": "Three including AOCCREM4F-071221, which is unassigned and is recorded as family context rather than as a resolution.",
+    "acquisitionRequired": "no for the two resolved; unknown for the four stopped, because their publication location is not established",
+    "licenseResolved": true
+  },
+  "expectedDownstreamEffect": "Two Arizona identities move from authority_mapped_source_gated with REV-UNKNOWN to fully identified, hashed and measured current binaries with an official URL, HTTP 200 evidence and a form-face-confirmed title, ready for the successor edition. Four identities are precisely bounded: the obstacle is a client-rendered forms index, not an access restriction, and one rendered-browser session closes all four. For all six, the commercial-use question moves from unknown to expressly reserved, which hardens rather than clears the Arizona gate and is the single most decision-relevant output of this job. Two errors in the recorded statutory basis are corrected. No component is rebound, no receipt is created, no binary enters version control, no renderer is assigned, no memo is edited, no edition is published, no packet becomes generatable, no runtime is enabled and no track changes promotion state.",
+  "residualBlockers": [
+    {"id": "az-selfservice-index-client-rendered", "question": "Four assigned identities have no locatable official binary URL because both Self-Service Center criminal forms indexes are client-rendered and expose no links in HTML.", "status": "open", "owner": "acquisition owner", "why": "A tooling gap, not an access restriction and not an issuer problem. The forms are public and free.", "reopenCondition": "Closed by one rendered-browser session, or by an AOC machine-readable forms index."},
+    {"id": "az-crsa-revision-possibly-stale", "question": "Whether AOCCRSA3F and AOCCRSA4F carry a 103023 revision superseding the assigned 010122.", "status": "open", "owner": "acquisition owner", "why": "Uncorroborated indication only; could not be confirmed or refuted from an official source. Resolves with the item above."},
+    {"id": "az-cr41form31-permanent-adoption-stamp", "question": "Whether R-24-0049's permanent adoption of 3 December 2024 produced a stamp later than 082224.", "status": "open", "owner": "acquisition owner", "why": "The emergency adoption is dated 22 August 2024 and matches the assigned stamp; the permanent adoption's effect on the stamp was not established."},
+    {"id": "az-commercial-use-expressly-reserved", "question": "The Arizona Supreme Court reserves all rights in site contents and grants none.", "status": "blocked_human_only", "owner": "counsel", "why": "Obtaining written permission is a human-only task expressly outside this assignment. generation_allowed must stay no for every Arizona identity until it exists.", "note": "This is not an unknown. It is a known restriction."},
+    {"id": "az-mandatory-use-unread", "question": "Whether Rule 36 and Rule 41 compel use of these forms or merely approve them.", "status": "open_and_outside_this_job", "owner": "the Arizona legal-design owner"},
+    {"id": "az-assigned-set-incomplete", "question": "The six assigned identities omit the Prop 207 juvenile petition and instructions, every Spanish counterpart, and the entire § 13-911 sealing family.", "status": "open_and_outside_this_job", "owner": "the Arizona legal-design owner", "why": "Whether any Arizona track needs them is a design question, not a source question."},
+    {"id": "az-no-prop207-order-form", "question": "The Prop 207 page publishes no order form, yet the assigned set carries proposed_order identities for the other two families.", "status": "open_and_outside_this_job", "owner": "the Arizona legal-design owner"}
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "sourcesMaterialized": 0,
+    "sourceReceiptCountUnchanged": true,
+    "memoEdited": false,
+    "editionPublished": false,
+    "editionMutated": false,
+    "rendererImplemented": false,
+    "packetImplemented": false,
+    "componentRebound": false,
+    "issuerContacted": false,
+    "generationAllowedChanged": false,
+    "countyFormSubstituted": false,
+    "automationBlockEvaded": false,
+    "integrationPerformed": false,
+    "promotionPerformed": false,
+    "migrationPerformed": false,
+    "deploymentPerformed": false
+  }
+}

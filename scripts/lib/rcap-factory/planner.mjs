@@ -482,7 +482,17 @@ const COMPLETED_NORMALIZATIONS = Object.freeze([
       "rcap-factory/rcap-oh-legal-design-normalization-fb610857-8118b1b3",
     completionCommit: "dae284f17b6b0c5bd31810a7f6331957a9d5db53",
     memoSha256:
-      "ed0323da7859f0b94a9e801fbe0b896dbb1a6261c8cdf02e4a505df433300df1"
+      "ed0323da7859f0b94a9e801fbe0b896dbb1a6261c8cdf02e4a505df433300df1",
+    // The integrated automatic-sealing current-law decision established what
+    // the normalization had left open about the Ohio automatic routes. Both
+    // hashes are real historical states of the same file and either satisfies
+    // the on-disk check.
+    amendedByJobId: "rcap-oh-automatic-sealing-memo-correction",
+    amendedByWorkerCommit: "0ae8a4adc132051c9f9a2154a152885dfd6576ea",
+    amendedByWorkerBranch:
+      "rcap-factory/rcap-oh-automatic-sealing-memo-correction-3fc6dd43-1ae3d74c",
+    amendedMemoSha256:
+      "1253b1a70ddd14a38992a11dd3943a6771b183a5fa95454edc0ebc6660409a21"
   },
   {
     jurisdiction: "NV",
@@ -4751,12 +4761,20 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
   // A memo correction is complete when the corrected blob is on disk, and an
   // authority job when its decision record is. Neither closes on a commit
   // asserting it.
-  const memoCorrected = (code, sha) => {
+  // Every recorded historical state of the same memo is acceptable. A memo can
+  // be amended more than once — Florida's continuation re-scope was followed by
+  // the Rule 3.989(a) and 3.9895(b) binding correction — and a completed
+  // correction does not stop being complete because a later one landed on top
+  // of it. Pinning only the newest hash reopened the earlier job and put two
+  // active owners on one memo.
+  const memoCorrected = (code, ...accepted) => {
     const absolute = path.join(
       rootDir,
       `data/record-clearing/legal-design-intake/${code}.memo.json`
     );
-    return fs.existsSync(absolute) && sha256File(absolute) === sha;
+    if (!fs.existsSync(absolute)) return false;
+    const actual = sha256File(absolute);
+    return accepted.flat().filter(Boolean).includes(actual);
   };
   const completionOf = (jobId) =>
     COMPLETED_AUTHORITY_JOB_COMMITS.has(jobId) &&
@@ -5563,7 +5581,12 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
       ...memoCompletionOf(
         "rcap-fl-rule-3-989-continuation-component-correction",
         "FL",
-        "25aa993019c36979db11363907d3c64700afab6e4964e7ad59a9c8a075b84239",
+        [
+          // As this correction delivered it, and as the Rule 3.989(a) /
+          // 3.9895(b) binding correction later left it.
+          "25aa993019c36979db11363907d3c64700afab6e4964e7ad59a9c8a075b84239",
+          "9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065"
+        ],
         "rcap-factory/rcap-fl-rule-3-989-continuation-component-correction-d37ecf99-270be4d4",
         "074b07810b2905888b766c3475e9e072a7b11c05"
       ),
