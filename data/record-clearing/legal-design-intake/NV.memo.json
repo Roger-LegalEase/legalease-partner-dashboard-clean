@@ -1981,9 +1981,10 @@
       "controllingAuthority": {
         "citations": [
           "NRS 176.211",
-          "NRS 179.255"
+          "NRS 179.275",
+          "NRS 179.285"
         ],
-        "summary": "Where a case was dismissed under a deferred judgment agreement, NRS 176.211 governs the sealing rather than the ordinary non-conviction section. The controlling review classifies this as process guidance only. It matters because a participant will describe a deferred judgment dismissal as a dismissal, and routing them into the ordinary NRS 179.255 petition would send them to the wrong section. Nevada calls it record sealing and never expungement: the Department of Public Safety states directly that sealing is not expungement because it does not authorise destruction of the records. Under NRS 179.285 the proceedings are deemed never to have occurred and civil rights are restored, but NRS 179.295 allows sealed records to be reopened and NRS 179.301 allows certain persons and agencies to inspect them. A Nevada order does not bind out-of-state or federal agencies and does not reach records they hold. Sealing does not restore firearm rights; only a pardon that does not restrict the right to bear arms does."
+        "summary": "NRS 176.211 governs deferral of judgment and its own sealing. It has now been read in full and the mechanism is settled: sealing is automatic and court-ordered, and there is no participant filing. Under subsection 5, on completion of the terms and conditions and a finding by the court that they have been met, the court discharges the defendant and dismisses the proceedings. Under subsection 6, the court \"shall order sealed all documents, papers and exhibits in the defendant's record, minute book entries and entries on dockets, and other documents relating to the case in the custody of such other agencies and officers as are named in the court's order\", and \"shall order those records sealed without a hearing unless the Division or the prosecutor petitions the court, for good cause shown, not to seal the records and requests a hearing thereon\". Subsection 9(a) defines \"court\" for this section as a district court of the State of Nevada, so a justice court or municipal court matter is not on this route at all. The routing value of the node stands and is now supported rather than assumed: a participant will describe a deferred-judgment dismissal as an ordinary dismissal, and NRS 179.245 expressly excepts NRS 176.211 from the ordinary conviction petition, so sending them to a petition would be the wrong instrument for a remedy they are already entitled to receive without filing anything. Nevada calls it record sealing and never expungement: the Department of Public Safety states directly that sealing is not expungement because it does not authorise destruction of the records. Under NRS 179.285 the proceedings are deemed never to have occurred and civil rights are restored, but NRS 179.295 allows sealed records to be reopened and NRS 179.301 allows certain persons and agencies to inspect them. A Nevada order does not bind out-of-state or federal agencies and does not reach records they hold. Sealing does not restore firearm rights; only a pardon that does not restrict the right to bear arms does."
       },
       "effectiveDates": {
         "effectiveFrom": "2026-08-01",
@@ -2002,12 +2003,15 @@
         "set_aside"
       ],
       "exclusions": [
-        "Not determined beyond what the review records. The governing sections were not reproduced."
+        "NRS 176.211(7): the court may not order sealing under subsection 6 for a defendant who is charged with a violation of NRS 200.5099 (abuse, neglect, exploitation, isolation or abandonment of an older person or a vulnerable person) and who is discharged under the section. The deferral itself remains available; only the sealing is withheld.",
+        "Upstream, NRS 176.211(3)(b) bars deferral of judgment altogether for a defendant convicted of a violent or sexual offense as defined in NRS 202.876, a crime against a child as defined in NRS 179D.0357, a violation of NRS 200.508, or a violation of NRS 574.100 punishable under subsection 6 of that section. A person in any of those categories never reaches this route.",
+        "NRS 176.211(9)(a) confines the section to a district court of the State of Nevada. A deferral-like disposition in a justice court or a municipal court is not governed by this section.",
+        "Sealing under this section is not available where the deferral was terminated for violation of a term or condition and a judgment of conviction was entered under NRS 176.211(4)."
       ],
       "waitingPeriods": [
         {
-          "condition": "Not determined",
-          "duration": "unresolved pending the text of the governing sections"
+          "condition": "None. NRS 176.211(6) conditions the sealing on the defendant fulfilling the terms and conditions imposed by the court and the Division, not on the passage of time after discharge.",
+          "duration": "none"
         }
       ],
       "outputStrategy": "process_guidance",
@@ -2024,27 +2028,33 @@
       },
       "destination": {
         "kind": "court",
-        "name": "The Nevada court that handled the matter",
-        "detail": "The review assigns this track no generated filing. LegalEase detects the deferred-judgment posture, names NRS 176.211, explains how it differs from the ordinary non-conviction route, and routes accordingly."
+        "name": "The Nevada district court that deferred judgment",
+        "detail": "The district court that deferred judgment discharges, dismisses and then orders the sealing on its own, under NRS 176.211(5) and (6). Under subsection 8 the court sends a copy of the order to each agency or officer named in it and each must notify the court in writing of compliance, and under NRS 179.275 a copy also goes to the Central Repository for Nevada Records of Criminal History and to each named custodian. Nothing is submitted by the participant and LegalEase generates no filing."
       },
       "components": [
         {
           "role": "detection_and_routing",
           "requirement": "required",
           "outputStrategy": "process_guidance",
-          "notes": "Detects that the dismissal followed a deferred judgment and names NRS 176.211. This is the point of the node: a participant will call it a dismissal, and the ordinary NRS 179.255 petition is the wrong instrument for it."
+          "notes": "Detects that the dismissal followed a deferral of judgment in a Nevada district court and names NRS 176.211. This is the point of the node: a participant will call it a dismissal, and NRS 179.245 expressly excepts NRS 176.211 from the ordinary conviction petition, so routing them to a petition would be the wrong instrument."
         },
         {
           "role": "explanation",
           "requirement": "required",
           "outputStrategy": "process_guidance",
-          "notes": "What the section provides and what the participant should expect, without asserting timing the review did not establish."
+          "notes": "That under NRS 176.211(6) the court orders the sealing itself, without a hearing and without any application from the participant, once it finds the terms and conditions were met; that the Division of Parole and Probation or the prosecutor may petition for good cause not to seal and request a hearing; and that under NRS 176.211(8) each named agency must report its compliance back to the court. Stated as the mechanism the statute provides, with no promise about how long any particular court takes."
+        },
+        {
+          "role": "exclusion_screen",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Screens for the NRS 176.211(7) exclusion, which withholds the sealing where the defendant was charged with a violation of NRS 200.5099 even though the deferral and dismissal stand, and confirms the matter was in a district court, which subsection 9(a) requires."
         },
         {
           "role": "referral_instructions",
           "requirement": "required",
           "outputStrategy": "process_guidance",
-          "notes": "Where to go for the sealing itself, including the court that handled the deferred judgment and Nevada Legal Services."
+          "notes": "Where to go if the record still appears after the discharge and dismissal: the district court that deferred judgment, which holds the sealing order and is the only body that can act, and Nevada Legal Services. Not a filing instruction, because there is nothing on this route for the participant to file."
         }
       ],
       "participantInputs": [
@@ -2055,67 +2065,95 @@
         },
         {
           "key": "dfjCourt",
-          "question": "Which court handled it, and in which county?",
+          "question": "Which court handled it, and in which county? Was it a district court, a justice court or a municipal court?",
           "requirement": "required"
         },
         {
           "key": "dfjCompletionDate",
           "question": "When did you finish the programme or agreement, and when was the case dismissed?",
           "requirement": "required"
+        },
+        {
+          "key": "dfjElderVulnerableCharge",
+          "question": "Was the charge one of abuse, neglect, exploitation, isolation or abandonment of an older person or a vulnerable person?",
+          "requirement": "required",
+          "conditionDescription": "Asked because NRS 176.211(7) withholds the sealing in that case even though the discharge and dismissal still stand. The answer changes what the participant should expect, not what is generated, because nothing is generated on this track."
         }
       ],
       "supportingDocuments": [],
       "manualCompletionItems": [],
       "officialSources": [
         {
-          "title": "Nevada Revised Statutes chapter 179, Nevada Legislature — the sealing sections NRS 179.2405, 179.2445, 179.245, 179.255, 179.259, 179.2595, 179.265, 179.271, 179.273, 179.275, 179.285, 179.295 and 179.301, confirmed present with their official titles",
-          "url": "https://www.leg.state.nv.us/NRS/NRS-179.html",
-          "retrievedOn": "2026-08-06",
+          "title": "Nevada Revised Statutes chapter 176, Nevada Legislature — NRS 176.211, Deferral of judgment: Eligibility; duration; terms and conditions; violation of term or condition; discharge and dismissal; sealing of records. Chapter revision stamp [Rev. 4/15/2026 11:24:04 AM--2025]; the section's history reads (Added to NRS by 2019, 4388; A 2023, 709; 2025, 36th Special Session, 90).",
+          "url": "https://www.leg.state.nv.us/NRS/NRS-176.html",
+          "retrievedOn": "2026-08-08",
           "sha256": null
         },
         {
-          "title": "Sealing of Criminal History Records (General Information), rev. 8/2025, Nevada Department of Public Safety, Records, Communications and Compliance Division — reproduces the current text of NRS 179.245, 179.255, 179.259, 179.2595, 179.265, 179.275, 179.285, 179.295 and 179.301, with sample District Court and Justice or Municipal Court petitions and orders",
-          "url": "https://rccd.nv.gov/",
-          "retrievedOn": "2026-08-06",
+          "title": "Nevada Revised Statutes chapter 179, Nevada Legislature — NRS 179.2445 (rebuttable presumption; the subsection 2 exception for a dishonorable discharge under NRS 176A.850), NRS 179.245 (which is expressly displaced by NRS 176.211, 176A.245, 176A.265 and 176A.295), NRS 179.245(9) (the sex-trafficking fee waiver, confined by its own words to a petition under that section) and NRS 179.275 (distribution of a sealing order to the Central Repository and each named custodian). Chapter revision stamp [Rev. 4/15/2026 11:25:29 AM--2025].",
+          "url": "https://www.leg.state.nv.us/NRS/NRS-179.html",
+          "retrievedOn": "2026-08-08",
+          "sha256": null
+        },
+        {
+          "title": "Sealing of Criminal History Records (General Information), rev. 8/2025, Nevada State Police, Records, Communications and Compliance Division — 14 pages reproducing the current text of the chapter 179 sealing sections with two sample petitions. It records that the process can take up to 6 months to complete once the final seal order is received. It publishes no form for a removal request under NRS 179A.160 and no form for a petition under NRS 176A.245, 176A.265 or 176A.295.",
+          "url": "https://www.rccd.nv.gov/siteassets/content/feesforms/sealing-of-criminal-history-records-general-information.pdf",
+          "retrievedOn": "2026-08-08",
+          "sha256": null
+        },
+        {
+          "title": "Session Information, Nevada Legislature — the Legislature's own session index. The most recent sessions are the 83rd (2025) Regular Session and the 36th (2025) Special Session; the next is the 84th (2027) Session beginning February 1, 2027. Nevada holds no 2026 session, so the chapter revision stamps of 4/15/2026 carrying the 2025 sessions are the current law in full.",
+          "url": "https://www.leg.state.nv.us/Session/",
+          "retrievedOn": "2026-08-08",
           "sha256": null
         }
       ],
       "rules": {
-        "filing": "LegalEase generates no filing on this track.",
-        "fees": "Not determined. Any repository fee is waived for a victim of sex trafficking or involuntary servitude under NRS 179.245(9).",
-        "feeWaiver": "NRS 179.245(9) where it applies.",
-        "notice": "Not determined.",
-        "service": "none by the participant through LegalEase.",
-        "participantSignature": "not applicable. Nothing is generated for the participant to sign.",
-        "notarization": "none required."
+        "filing": "Nothing is filed by the participant and nothing can be. NRS 176.211(6) puts the sealing on the court's own motion once it finds the terms and conditions were met, and the section provides no application, petition or request for the defendant to make.",
+        "fees": "None. There is no participant filing to charge for, and NRS 176.211 prescribes no fee for the sealing it directs. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not reach this section; it is not needed here because there is no fee.",
+        "feeWaiver": "Not applicable. No fee arises on this route, so there is nothing to waive. NRS 179.245(9) applies to a petition under NRS 179.245, which is a different track.",
+        "notice": "No notice duty falls on the participant. The court sends a copy of the sealing order to each agency or officer named in it under NRS 176.211(8) and, under NRS 179.275, to the Central Repository and each named custodian; each such agency must advise the court of compliance.",
+        "service": "None. There is no document for the participant to serve. Under NRS 176.211(6) the Division of Parole and Probation or the prosecutor may petition the court, for good cause shown, not to seal and request a hearing; that is the only adversarial step the section contemplates and the participant does not initiate it.",
+        "participantSignature": "Not applicable. Nothing is generated for the participant to sign.",
+        "notarization": "None required. Nothing is generated."
       },
       "selfHelpStopConditions": [
-        "Every deferred judgment matter, until NRS 176.211 is read and its mechanism and timing established.",
-        "Any offence-category question. Nevada eligibility turns on category A through E felony, gross misdemeanour or misdemeanour and on whether the offence is a crime of violence, which is a legal classification driving a one-year versus ten-year answer.",
-        "Any pending charge, and any conviction during the clean period other than a minor moving or standing traffic violation.",
-        "Prosecutor refusal to stipulate, which converts the matter into a contested hearing.",
-        "Records in more than one county, or in both municipal and justice or district court, where the stipulation practice differs by prosecuting agency.",
+        "The charge was a violation of NRS 200.5099, which NRS 176.211(7) excludes from sealing even though the discharge and dismissal stand.",
+        "The Division of Parole and Probation or the prosecutor petitions the court, for good cause shown, not to seal and requests a hearing under NRS 176.211(6). That is a contested proceeding.",
+        "The deferral was terminated for violation of a term or condition and a judgment of conviction was entered under NRS 176.211(4).",
+        "The case was not in a district court. NRS 176.211(9)(a) confines the section to a district court of the State of Nevada, and a similar-looking disposition in a justice or municipal court is governed by a different section.",
+        "The dismissal was ordinary rather than following a deferral of judgment, which routes to a different track.",
+        "Any offence-category question. Nevada eligibility turns on category A through E felony, gross misdemeanour or misdemeanour and on whether the offence is a crime of violence, which is a legal classification driving a one-year versus ten-year answer on the ordinary tracks.",
+        "The record still appears months after the discharge and dismissal, which is a compliance question for the court under NRS 176.211(8) and not something a participant can cure by filing anything.",
+        "Records in more than one county, or in both municipal and justice or district court.",
         "Federal, tribal, military and out-of-state records.",
         "Any participant whose goal is firearm rights, which sealing does not restore.",
         "Immigration exposure. Nevada sealing must not be described as having immigration effect."
       ],
-      "unresolvedQuestions": [
-        {
-          "question": "The text of NRS 176.211, including what it requires, whether any waiting period applies, and whether the sealing is automatic on dismissal or requires an application. The review classifies the track as process guidance only without reproducing the section.",
-          "impact": "build_blocker",
-          "affectedElement": "governing_mechanism",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "NV__LEGAL-REVIEW__STATEWIDE__nevada-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "Track summary",
-            "sourceStatement": "6. Sealing after deferred judgment dismissal | NRS 176.211 | process_guidance | Process guidance only"
+      "_sealingMechanismCorrection": {
+        "correctionJob": "rcap-nv-sealing-mechanism-and-packet-capability-correction",
+        "correctedOn": "2026-08-08",
+        "baseCommit": "95789664518ee3f7f2aeb9c12380dd9ba70d3b76",
+        "questionAsked": "Whether the sealing on this track is automatic or requires a participant application, what the governing mechanism is, whether a participant filing exists and what it is, and the output strategy, exclusions, waiting periods, notice and fee that follow.",
+        "answer": "Automatic. NRS 176.211(6) directs the district court to order the records sealed, without a hearing, once it finds the terms and conditions of the deferred judgment were met. No participant filing exists, none is authorised by the section, and the ordinary conviction petition is expressly unavailable because NRS 179.245 excepts NRS 176.211 from it.",
+        "outputStrategyResult": "process_guidance, unchanged and now established rather than assumed",
+        "packetCapabilityResult": "not_packet_capable_and_correctly_so — there is no participant filing to generate, so a packet asserting one would be unsupported",
+        "guidanceLaneEffect": "This track is now genuinely guidance-ready. Both of the strings that made rcap-nv-guidance-implementation unworkable are gone from it: the undetermined governing_mechanism question is answered and removed, and the stale reclassify-to-custom_pleading design blocker is retired below. The affirmative statement the guidance packet needs — nothing is filed by you on this route and nothing can be — is now supported by the operative text.",
+        "retiredUnresolvedQuestions": [
+          {
+            "question": "The text of NRS 176.211, including what it requires, whether any waiting period applies, and whether the sealing is automatic on dismissal or requires an application. The review classifies the track as process guidance only without reproducing the section.",
+            "impact": "build_blocker",
+            "affectedElement": "governing_mechanism",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NV__LEGAL-REVIEW__STATEWIDE__nevada-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "Track summary",
+              "sourceStatement": "6. Sealing after deferred judgment dismissal | NRS 176.211 | process_guidance | Process guidance only"
+            }
           }
-        }
-      ],
-      "legalDesignDecision": {
-        "status": "legal_design_approved_with_limitations",
-        "rationale": "The review's decision is \"Process guidance only\" and that normalizes directly. The node earns its place as a routing correction rather than as a remedy: a participant whose case was dismissed after a deferred judgment will present it as an ordinary dismissal, and sending them to the NRS 179.255 petition would be the wrong section. The guidance rationales are another_entity_decides and no_participant_filing_exists, because the review assigns the track no participant filing. The section's own text was not established and is recorded as a build blocker, so the node detects and routes without asserting timing.",
-        "limitations": [
+        ],
+        "retiredUnresolvedQuestionsNote": "The question above asked for the text of NRS 176.211, what it requires, whether any waiting period applies and whether the sealing is automatic on dismissal or requires an application. All four are answered from the section itself and the question is therefore closed rather than carried. It is preserved here verbatim, with its provenance, so the record shows what was asked and what closed it.",
+        "retiredLimitations": [
           {
             "classification": "legal_design_blocker",
             "statement": "Reclassify Nevada from official_pdf_fill to custom_pleading",
@@ -2126,7 +2164,18 @@
               "sourceHeading": "LIMITATIONS, CLASSIFIED",
               "sourceStatement": "Reclassify Nevada from official_pdf_fill to custom_pleading | Legal-design blocker"
             }
-          },
+          }
+        ],
+        "retiredLimitationsNote": "The retired limitation was a design instruction rather than a legal conclusion: it told the normalizer to reclassify Nevada from official_pdf_fill to custom_pleading because the correct form was undetermined. On this track it is doubly spent. The reclassification was carried out at normalization and this track is process_guidance, not official_pdf_fill; and there is no form to determine, because there is no participant filing. Its statement and provenance are preserved verbatim here. The identical limitation is left in place on every Nevada track outside this correction's scope, because those tracks are not this job's to touch.",
+        "officialFormFinding": "None exists and none is needed. The Nevada State Police Records, Communications and Compliance Division publishes, in total, a General Information document, a statutory information page and two sample Word petitions for the ordinary chapter 179 sealing petition, and its own guidance records that sealing procedures vary from county to county. Nothing in that inventory addresses NRS 176.211, and nothing in NRS 176.211 contemplates a form.",
+        "currency": "Currency basis for this correction: the Nevada Legislature publishes chapters 176, 176A, 179 and 179A with revision stamps of 4/15/2026 carrying the 2025 sessions, and its own session index records that the most recent sessions are the 83rd (2025) Regular Session and the 36th (2025) Special Session, with the next session, the 84th, beginning 1 February 2027. Nevada holds no 2026 session. The text read on 2026-08-08 is therefore the whole of the current law, with no session gap of the kind that has to be closed separately in annual-session states.",
+        "boundary": "Boundary of this correction: it establishes the governing mechanism, the automatic-versus-participant-filed question, the vehicle, the destination, the exclusions, the waiting periods, the notice, the service, the fee, the hearing, the prosecutor role, the proposed-order role, the output strategy and the packet-capability classification for this track from the operative statutory text. It enables nothing: the track remains runtime disabled and not packet ready, no packet is implemented, no renderer is written, no official form is created or acquired, no source is materialized and no shared registry or composed approval is touched. The six completed Nevada custom-pleading tracks and their implemented module are untouched and value-identical."
+      },
+      "unresolvedQuestions": [],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The review's decision was \"Process guidance only\" and it normalized directly, but it was recorded without the section's text, so the node's own guidance rationales were asserted rather than established and the guidance implementation was correctly refused. NRS 176.211 has now been read in full and it supports the classification exactly. Subsection 6 puts the sealing on the district court's own motion, without a hearing and without any application from the defendant, once the court finds the terms and conditions were met; the section provides the defendant no vehicle of any kind; and NRS 179.245 expressly excepts NRS 176.211 from the ordinary conviction petition, so the participant has nothing to file and must not be given a petition. The rationales no_participant_filing_exists and another_entity_decides are therefore both correct on the face of the statute. What changes is the confidence and the content: the mechanism, the exclusions, the absence of a waiting period, the notice route, the absence of a fee, the hearing rule and the prosecutor's objection right are all now established, the routing correction can be stated in terms of what the statute actually provides, and the stop condition that held every deferred-judgment matter pending a reading of the section is retired because the section has been read.",
+        "limitations": [
           {
             "classification": "scope_restriction",
             "statement": "\"Record sealing\", never expungement. The state agency states directly that sealing is not expungement because it does not authorize destruction of the records.",
@@ -2173,16 +2222,20 @@
     {
       "trackId": "nv_seal_probation_family",
       "nodeType": "relief_track",
-      "legalName": "Sealing After Probation Discharge, Conditional Dismissal or Set-Aside (NRS 176A.245, 176A.265 and 176A.295)",
-      "publicName": "Clearing a Nevada case after probation, a conditional dismissal or a set-aside",
+      "legalName": "Sealing After a Treatment-Program Discharge, Conditional Dismissal or Set-Aside (NRS 176A.245, 176A.265 and 176A.295)",
+      "publicName": "Clearing a Nevada case after a court treatment programme, a conditional dismissal or a set-aside",
       "controllingAuthority": {
         "citations": [
           "NRS 176A.245",
           "NRS 176A.265",
           "NRS 176A.295",
-          "NRS 176A.850"
+          "NRS 176A.240",
+          "NRS 176A.260",
+          "NRS 176A.290",
+          "NRS 176A.850",
+          "NRS 179.2445"
         ],
-        "summary": "Three sections of NRS chapter 176A provide sealing routes tied to the outcome of probation: discharge, conditional dismissal and set-aside. The controlling review groups them as one track and classifies it as process guidance only. The grouping matters for routing because each is a different outcome of the same supervision, and because a dishonourable discharge from probation under NRS 176A.850 removes the NRS 179.2445 presumption from any later petition. Nevada calls it record sealing and never expungement: the Department of Public Safety states directly that sealing is not expungement because it does not authorise destruction of the records. Under NRS 179.285 the proceedings are deemed never to have occurred and civil rights are restored, but NRS 179.295 allows sealed records to be reopened and NRS 179.301 allows certain persons and agencies to inspect them. A Nevada order does not bind out-of-state or federal agencies and does not reach records they hold. Sealing does not restore firearm rights; only a pardon that does not restrict the right to bear arms does."
+        "summary": "All three sections have now been read in full and they are structurally identical, differing only in the programme they attach to: NRS 176A.245 to the programme of treatment for alcohol or other substance use under NRS 176A.240, NRS 176A.265 to the programme for treatment of mental illness or intellectual disabilities under NRS 176A.260, and NRS 176A.295 to the programme for treatment of veterans and members of the military under NRS 176A.290. Each has two mechanisms, not one. Subsection 1 is automatic: after the defendant is discharged from probation or the case is dismissed under the corresponding programme section, the justice court, municipal court or district court, as applicable, \"shall order sealed\" the record if the defendant fulfilled the terms and conditions imposed by the court and the Division, and \"shall order those records sealed without a hearing unless the Division petitions the court, for good cause shown, not to seal the records and requests a hearing thereon\". Subsection 2 is not automatic: where the defendant was charged with a violation of NRS 200.485, NRS 484C.110 or NRS 484C.120 and the charges were conditionally dismissed or the judgment of conviction set aside, sealing follows only \"not sooner than 7 years after\" and \"upon the filing of a petition by the defendant\". So a participant filing does exist on this track, on a defined branch, with a defined waiting period. Subsection 3 of each section bars sealing where the defendant was charged with a violation of NRS 200.508 or NRS 200.5099. Subsection 4 requires the court to send a copy of the order to each agency or officer named in it, each of which must notify the court in writing of compliance. The grouping of the three sections into one track remains correct because the participant cannot be expected to know which programme section their case ran under, and the discharge-type screen remains load-bearing: NRS 179.2445(2) provides that the rebuttable presumption in favour of sealing does not apply to a defendant given a dishonorable discharge from probation under NRS 176A.850, which changes what that participant should expect on the ordinary conviction track. Nevada calls it record sealing and never expungement: the Department of Public Safety states directly that sealing is not expungement because it does not authorise destruction of the records. Under NRS 179.285 the proceedings are deemed never to have occurred and civil rights are restored, but NRS 179.295 allows sealed records to be reopened and NRS 179.301 allows certain persons and agencies to inspect them. A Nevada order does not bind out-of-state or federal agencies and does not reach records they hold. Sealing does not restore firearm rights; only a pardon that does not restrict the right to bear arms does."
       },
       "effectiveDates": {
         "effectiveFrom": "2026-08-01",
@@ -2201,21 +2254,24 @@
         "set_aside"
       ],
       "exclusions": [
-        "Not determined beyond what the review records. The governing sections were not reproduced."
+        "Subsection 3 of each of NRS 176A.245, 176A.265 and 176A.295: the court may not order sealing under the section where the defendant was charged with a violation of NRS 200.508 (abuse, neglect or endangerment of a child) or NRS 200.5099 (abuse, neglect, exploitation, isolation or abandonment of an older person or a vulnerable person), whether the defendant was discharged from probation, the case was dismissed, or the judgment of conviction was set aside.",
+        "The automatic sealing in subsection 1 does not reach a defendant who was charged with a violation of NRS 200.485 (battery constituting domestic violence), NRS 484C.110 or NRS 484C.120 and whose charges were conditionally dismissed or judgment of conviction set aside. Those matters are moved to the subsection 2 branch, which is not automatic and carries a seven-year wait.",
+        "The route depends on the case having run through the corresponding chapter 176A programme. A defendant who was never assigned to a programme under NRS 176A.240, NRS 176A.260 or NRS 176A.290 is not on this track.",
+        "Sealing under these sections is not available where the defendant failed the programme and was sentenced rather than discharged or dismissed."
       ],
       "waitingPeriods": [
         {
-          "condition": "Not determined",
-          "duration": "unresolved pending the text of the governing sections"
+          "condition": "Subsection 1 of each section, the automatic branch: after discharge from probation or dismissal of the case under the corresponding programme section, with no interval prescribed.",
+          "duration": "none"
+        },
+        {
+          "condition": "Subsection 2 of each section, the petition branch: where the defendant was charged with a violation of NRS 200.485, NRS 484C.110 or NRS 484C.120 and the charges were conditionally dismissed or the judgment of conviction was set aside, measured from the conditional dismissal or the setting aside.",
+          "duration": "not sooner than 7 years"
         }
       ],
-      "outputStrategy": "process_guidance",
+      "outputStrategy": "custom_pleading",
       "outputStrategyStatus": "resolved",
       "packetIdentity": "identified",
-      "guidanceRationales": [
-        "another_entity_decides",
-        "no_participant_filing_exists"
-      ],
       "geography": {
         "scope": "statewide",
         "keys": [],
@@ -2223,100 +2279,208 @@
       },
       "destination": {
         "kind": "court",
-        "name": "The Nevada court that handled the matter",
-        "detail": "The review assigns this track no generated filing. LegalEase detects which of the three outcomes applies, names the section, and routes."
+        "name": "The Nevada justice court, municipal court or district court that handled the case, as applicable",
+        "detail": "On the subsection 1 branch the court acts on its own and the participant submits nothing. On the subsection 2 branch the participant files a petition in the court that handled the case — the sections name the justice court, municipal court or district court, as applicable, so venue follows the court of the underlying case rather than a single court level. Under subsection 4 the court sends a copy of any sealing order to each agency or officer named in it and each must notify the court in writing of compliance, and under NRS 179.275 a copy also goes to the Central Repository for Nevada Records of Criminal History."
       },
       "components": [
         {
           "role": "detection_and_routing",
           "requirement": "required",
           "outputStrategy": "process_guidance",
-          "notes": "Detects which of the three chapter 176A outcomes applies — discharge, conditional dismissal or set-aside — and names the section. Each is a different outcome of the same supervision and they are easy to confuse."
+          "notes": "Detects which of the three chapter 176A programme sections applies — NRS 176A.245 for alcohol or other substance use treatment under NRS 176A.240, NRS 176A.265 for mental illness or intellectual disabilities under NRS 176A.260, NRS 176A.295 for veterans and members of the military under NRS 176A.290 — and then which branch applies within it. The section identity decides nothing about the mechanism, because all three are identical; the branch decides everything."
+        },
+        {
+          "role": "branch_screen",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "The single question that decides whether anything is generated at all: was the defendant charged with a violation of NRS 200.485, NRS 484C.110 or NRS 484C.120, and were the charges conditionally dismissed or the judgment of conviction set aside? If no, subsection 1 applies, sealing is automatic and nothing is filed. If yes, subsection 2 applies, sealing requires the defendant's petition and cannot be sought sooner than seven years after."
         },
         {
           "role": "discharge_type_screen",
           "requirement": "required",
           "outputStrategy": "process_guidance",
-          "notes": "Whether the discharge from probation was honourable or dishonourable. A dishonourable discharge under NRS 176A.850 removes the NRS 179.2445 rebuttable presumption from any later sealing petition, which changes what the participant should expect on the ordinary conviction track too."
+          "notes": "Whether the discharge from probation was honourable or dishonourable. NRS 179.2445(2) provides that the rebuttable presumption in favour of sealing does not apply to a defendant given a dishonorable discharge under NRS 176A.850 who applies for sealing of records relating to the conviction, which changes what the participant should expect on the ordinary conviction track. It does not change the mechanism on this track, where subsections 1 and 2 turn on fulfilment of the terms and conditions rather than on the presumption."
+        },
+        {
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Generated only on the subsection 2 branch: a violation of NRS 200.485, NRS 484C.110 or NRS 484C.120, conditionally dismissed or the judgment of conviction set aside, and not sooner than seven years after.",
+          "outputStrategy": "custom_pleading",
+          "notes": "The petition by the defendant that subsection 2 of NRS 176A.245, NRS 176A.265 or NRS 176A.295 requires. There is no official statewide form: the Nevada State Police Records, Communications and Compliance Division publishes only a General Information document and two sample petitions for the ordinary chapter 179 sealing petition, and records that procedures vary from county to county. The petition pleads the programme section the case ran under, the conditional dismissal or set-aside and its date, that seven years have elapsed, that the defendant fulfilled the terms and conditions imposed by the court and the Division, and that no subsection 3 exclusion applies, and asks the court to order the records sealed under the applicable subsection 2."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Accompanies the subsection 2 petition.",
+          "outputStrategy": "custom_pleading",
+          "notes": "An order sealing all documents, papers and exhibits in the defendant's record, minute book entries and entries on dockets, and other documents relating to the case in the custody of the agencies and officers named in it. The order must name those custodians, because subsection 1 and subsection 2 both reach only records \"in the custody of such other agencies and officers as are named in the court's order\", and because subsection 4 makes each named agency report its compliance to the court."
+        },
+        {
+          "role": "declaration_and_verification",
+          "requirement": "conditional",
+          "conditionDescription": "Accompanies the subsection 2 petition.",
+          "outputStrategy": "custom_pleading",
+          "notes": "The participant's own statement of the facts the petition asserts: the programme, the disposition and its date, the seven-year computation, and fulfilment of the terms and conditions. The sections prescribe no verification; this is the ordinary support for facts not appearing of record."
+        },
+        {
+          "role": "filing_and_service_instructions",
+          "requirement": "conditional",
+          "conditionDescription": "Accompanies the subsection 2 petition.",
+          "outputStrategy": "process_guidance",
+          "notes": "Where to file — the justice court, municipal court or district court that handled the case — and what to expect: the court shall order the records sealed without a hearing unless the Division petitions for good cause not to seal and requests one. The sections prescribe no service and name no fee; the instructions must say that rather than invent either."
         },
         {
           "role": "referral_instructions",
           "requirement": "required",
           "outputStrategy": "process_guidance",
-          "notes": "Where to go, including the court that supervised the probation and Nevada Legal Services."
+          "notes": "Where to go on the automatic branch, where nothing is filed: the court that supervised the programme, which holds the sealing order and is the only body that can act, and Nevada Legal Services."
         }
       ],
       "participantInputs": [
         {
-          "key": "prbOutcome",
-          "question": "How did your probation end — discharged, dismissed on conditions, or set aside?",
+          "key": "prbProgramSection",
+          "question": "Was your case handled through a court treatment programme — for alcohol or other substance use, for mental illness or an intellectual disability, or for veterans and members of the military?",
           "requirement": "required"
+        },
+        {
+          "key": "prbOutcome",
+          "question": "How did it end — discharged from probation, the case dismissed, conditionally dismissed, or the judgment set aside?",
+          "requirement": "required"
+        },
+        {
+          "key": "prbChargeType",
+          "question": "Was the charge battery constituting domestic violence, or driving or being in actual physical control of a vehicle under the influence, or the related controlled-substance driving offence?",
+          "requirement": "required",
+          "conditionDescription": "Asked because subsection 2 of NRS 176A.245, NRS 176A.265 and NRS 176A.295 moves a charge under NRS 200.485, NRS 484C.110 or NRS 484C.120 off the automatic branch and onto a petition that cannot be filed sooner than seven years after the conditional dismissal or set-aside. It is the question that decides whether anything is generated."
+        },
+        {
+          "key": "prbDispositionDate",
+          "question": "On what date were the charges conditionally dismissed or the judgment of conviction set aside?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only on the subsection 2 branch, because the seven-year period runs from that date and the petition cannot be filed before it elapses."
         },
         {
           "key": "prbDischargeType",
           "question": "If you were discharged from probation, was the discharge honourable or dishonourable?",
           "requirement": "required",
-          "conditionDescription": "Asked because a dishonourable discharge under NRS 176A.850 removes the rebuttable presumption that records should be sealed."
+          "conditionDescription": "Asked because NRS 179.2445(2) removes the rebuttable presumption in favour of sealing for a defendant given a dishonorable discharge under NRS 176A.850, which changes what the participant should expect on the ordinary conviction track."
+        },
+        {
+          "key": "prbExcludedCharge",
+          "question": "Was the charge one of abuse, neglect or endangerment of a child, or abuse, neglect, exploitation, isolation or abandonment of an older person or a vulnerable person?",
+          "requirement": "required",
+          "conditionDescription": "Asked because subsection 3 of each section bars sealing outright in those cases, on both branches."
         },
         {
           "key": "prbCourt",
-          "question": "Which court supervised the probation, and in which county?",
+          "question": "Which court handled the case, and in which county? Was it a district, justice or municipal court?",
           "requirement": "required"
         }
       ],
       "supportingDocuments": [],
-      "manualCompletionItems": [],
+      "manualCompletionItems": [
+        {
+          "item": "Case number and the identity of the court that handled the case",
+          "whereInPacket": "Petition caption, on the subsection 2 branch only",
+          "why": "Taken from the participant's own court paperwork. LegalEase does not obtain or inspect the record."
+        },
+        {
+          "item": "The list of agencies and officers to be named in the sealing order",
+          "whereInPacket": "Proposed order, on the subsection 2 branch only",
+          "why": "Subsections 1 and 2 reach only records in the custody of the agencies and officers named in the court's order, so the list is operative text rather than formality, and it depends on which agencies touched the particular case."
+        },
+        {
+          "item": "Signature and date",
+          "whereInPacket": "Petition and declaration, on the subsection 2 branch only",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
       "officialSources": [
         {
-          "title": "Nevada Revised Statutes chapter 179, Nevada Legislature — the sealing sections NRS 179.2405, 179.2445, 179.245, 179.255, 179.259, 179.2595, 179.265, 179.271, 179.273, 179.275, 179.285, 179.295 and 179.301, confirmed present with their official titles",
-          "url": "https://www.leg.state.nv.us/NRS/NRS-179.html",
-          "retrievedOn": "2026-08-06",
+          "title": "Nevada Revised Statutes chapter 176A, Nevada Legislature — NRS 176A.245, 176A.265 and 176A.295, each titled Sealing of records after discharge, dismissal, conditional dismissal or setting aside of judgment of conviction, together with NRS 176A.240, 176A.260 and 176A.290 (the programs they attach to) and NRS 176A.850 (honorable and dishonorable discharge). Chapter revision stamp [Rev. 4/15/2026 11:24:32 AM--2025].",
+          "url": "https://www.leg.state.nv.us/NRS/NRS-176A.html",
+          "retrievedOn": "2026-08-08",
           "sha256": null
         },
         {
-          "title": "Sealing of Criminal History Records (General Information), rev. 8/2025, Nevada Department of Public Safety, Records, Communications and Compliance Division — reproduces the current text of NRS 179.245, 179.255, 179.259, 179.2595, 179.265, 179.275, 179.285, 179.295 and 179.301, with sample District Court and Justice or Municipal Court petitions and orders",
-          "url": "https://rccd.nv.gov/",
-          "retrievedOn": "2026-08-06",
+          "title": "Nevada Revised Statutes chapter 179, Nevada Legislature — NRS 179.2445 (rebuttable presumption; the subsection 2 exception for a dishonorable discharge under NRS 176A.850), NRS 179.245 (which is expressly displaced by NRS 176.211, 176A.245, 176A.265 and 176A.295), NRS 179.245(9) (the sex-trafficking fee waiver, confined by its own words to a petition under that section) and NRS 179.275 (distribution of a sealing order to the Central Repository and each named custodian). Chapter revision stamp [Rev. 4/15/2026 11:25:29 AM--2025].",
+          "url": "https://www.leg.state.nv.us/NRS/NRS-179.html",
+          "retrievedOn": "2026-08-08",
+          "sha256": null
+        },
+        {
+          "title": "Sealing of Criminal History Records (General Information), rev. 8/2025, Nevada State Police, Records, Communications and Compliance Division — 14 pages reproducing the current text of the chapter 179 sealing sections with two sample petitions. It records that the process can take up to 6 months to complete once the final seal order is received. It publishes no form for a removal request under NRS 179A.160 and no form for a petition under NRS 176A.245, 176A.265 or 176A.295.",
+          "url": "https://www.rccd.nv.gov/siteassets/content/feesforms/sealing-of-criminal-history-records-general-information.pdf",
+          "retrievedOn": "2026-08-08",
+          "sha256": null
+        },
+        {
+          "title": "History & Sealing of Records, Nevada State Police, Records, Communications and Compliance Division — the Division's complete published inventory for sealing: the General Information document, the statutory information page, and two sample Word petitions, Petition to Seal Records for District Court and Petition to Seal Records for Justice or Municipal Court. The Division's own guidance states that the procedures for sealing Nevada criminal history records vary from county to county, so the samples are not statewide prescribed forms.",
+          "url": "https://www.rccd.nv.gov/fees-forms/fees-information-fingerprints/history-sealing-of-records/",
+          "retrievedOn": "2026-08-08",
+          "sha256": null
+        },
+        {
+          "title": "Session Information, Nevada Legislature — the Legislature's own session index. The most recent sessions are the 83rd (2025) Regular Session and the 36th (2025) Special Session; the next is the 84th (2027) Session beginning February 1, 2027. Nevada holds no 2026 session, so the chapter revision stamps of 4/15/2026 carrying the 2025 sessions are the current law in full.",
+          "url": "https://www.leg.state.nv.us/Session/",
+          "retrievedOn": "2026-08-08",
           "sha256": null
         }
       ],
       "rules": {
-        "filing": "LegalEase generates no filing on this track.",
-        "fees": "Not determined. Any repository fee is waived for a victim of sex trafficking or involuntary servitude under NRS 179.245(9).",
-        "feeWaiver": "NRS 179.245(9) where it applies.",
-        "notice": "Not determined.",
-        "service": "none by the participant through LegalEase.",
-        "participantSignature": "not applicable. Nothing is generated for the participant to sign.",
-        "notarization": "none required."
+        "filing": "Two mechanisms in one track. On the subsection 1 branch nothing is filed by the participant: the justice court, municipal court or district court orders the sealing itself after the discharge or dismissal, without a hearing, unless the Division petitions for good cause not to seal. On the subsection 2 branch the defendant files a petition in the court that handled the case, and not sooner than seven years after the conditional dismissal or the setting aside of the judgment.",
+        "fees": "None is prescribed. Neither NRS 176A.245, NRS 176A.265 nor NRS 176A.295 imposes, authorises or mentions a fee, on either branch. Whether a particular clerk charges a filing fee for the subsection 2 petition is not established by the sections and is recorded as an open question rather than asserted either way. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not by its terms reach these sections.",
+        "feeWaiver": "None prescribed by these sections. NRS 179.245(9) waives fees related to a petition for sealing under NRS 179.245 where the petitioner was being sex trafficked when the crime was committed; its text is confined to that section and it is not authority for a waiver here.",
+        "notice": "No notice duty falls on the participant on either branch. Under subsection 4 the court sends a copy of any sealing order to each agency or officer named in it and each must notify the court in writing of compliance, and under NRS 179.275 a copy also goes to the Central Repository and each named custodian.",
+        "service": "The sections prescribe none. On the subsection 1 branch there is nothing to serve. On the subsection 2 branch the sections require only \"the filing of a petition by the defendant\" and name no person to be served; the Division is the body given the right to object, and whether the petition must be served on it or on the prosecutor is not established by the text and is recorded as an open question.",
+        "participantSignature": "On the subsection 2 branch the petitioner signs the petition and the declaration personally. On the subsection 1 branch nothing is generated for the participant to sign.",
+        "notarization": "None required. The sections prescribe no verification or notarization."
       },
       "selfHelpStopConditions": [
-        "Every chapter 176A matter, until the three sections are read and their mechanisms and timing established.",
-        "Any dishonourable discharge, which changes the presumption on every later petition.",
-        "Any offence-category question. Nevada eligibility turns on category A through E felony, gross misdemeanour or misdemeanour and on whether the offence is a crime of violence, which is a legal classification driving a one-year versus ten-year answer.",
+        "The charge was a violation of NRS 200.508 or NRS 200.5099, which subsection 3 of each section bars from sealing on both branches.",
+        "The Division of Parole and Probation petitions the court, for good cause shown, not to seal and requests a hearing. That is a contested proceeding.",
+        "Whether the defendant fulfilled the terms and conditions imposed by the court and the Division is disputed or unclear on the record; that is the condition on which both branches turn.",
+        "The programme was not completed and the defendant was sentenced rather than discharged or the case dismissed.",
+        "The seven-year period under subsection 2 has not elapsed, or its start date is uncertain because the record does not show clearly whether the disposition was a conditional dismissal, a set-aside or an ordinary dismissal.",
+        "Any dishonourable discharge, which under NRS 179.2445(2) removes the presumption on any later petition under NRS 179.245.",
+        "Any offence-category question. Nevada eligibility turns on category A through E felony, gross misdemeanour or misdemeanour and on whether the offence is a crime of violence, which is a legal classification driving a one-year versus ten-year answer on the ordinary tracks.",
         "Any pending charge, and any conviction during the clean period other than a minor moving or standing traffic violation.",
-        "Prosecutor refusal to stipulate, which converts the matter into a contested hearing.",
-        "Records in more than one county, or in both municipal and justice or district court, where the stipulation practice differs by prosecuting agency.",
+        "Records in more than one county, or in both municipal and justice or district court, where practice differs by court and prosecuting agency.",
         "Federal, tribal, military and out-of-state records.",
         "Any participant whose goal is firearm rights, which sealing does not restore.",
         "Immigration exposure. Nevada sealing must not be described as having immigration effect."
       ],
-      "unresolvedQuestions": [
-        {
-          "question": "The texts of NRS 176A.245, NRS 176A.265 and NRS 176A.295, including what each requires, how they differ, and whether any produces sealing automatically. The review groups them as one track and classifies it as process guidance only without reproducing the sections.",
-          "impact": "build_blocker",
-          "affectedElement": "governing_mechanism",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "NV__LEGAL-REVIEW__STATEWIDE__nevada-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "Track summary",
-            "sourceStatement": "7. Sealing after probation discharge, conditional dismissal or set-aside | NRS 176A.245, 176A.265, 176A.295 | process_guidance | Process guidance only"
+      "_sealingMechanismCorrection": {
+        "correctionJob": "rcap-nv-sealing-mechanism-and-packet-capability-correction",
+        "correctedOn": "2026-08-08",
+        "baseCommit": "95789664518ee3f7f2aeb9c12380dd9ba70d3b76",
+        "questionAsked": "Whether the sealing on this track is automatic or requires a participant application, what the governing mechanism is, whether a participant filing exists and what it is, and the output strategy, exclusions, waiting periods, notice and fee that follow.",
+        "answer": "Both, on two branches of the same three sections. Subsection 1 of each of NRS 176A.245, NRS 176A.265 and NRS 176A.295 is automatic: the court shall order the records sealed, without a hearing, once the defendant is discharged or the case dismissed under the corresponding programme section and has fulfilled the terms and conditions, unless the Division petitions for good cause not to seal. Subsection 2 of each is participant-filed: where the charge was under NRS 200.485, NRS 484C.110 or NRS 484C.120 and was conditionally dismissed or the judgment set aside, sealing follows only upon the filing of a petition by the defendant, and not sooner than seven years after.",
+        "outputStrategyResult": "changed from process_guidance to custom_pleading, because a participant petition exists on the subsection 2 branch and the sections prescribe what it must establish",
+        "outputStrategyResultQualifier": "The track keeps five process_guidance components for the automatic branch, the routing and the screens. Mixed component strategies under a custom_pleading track are the same shape the six completed Nevada petition tracks already use.",
+        "packetCapabilityResult": "partially_packet_capable — the subsection 2 petition and its proposed order are generatable; the subsection 1 branch is not a filing and nothing may be generated for it",
+        "guidanceRationalesRemoved": [
+          "another_entity_decides",
+          "no_participant_filing_exists"
+        ],
+        "guidanceRationalesRemovedNote": "Required by the schema, which permits guidanceRationales only on a process_guidance track, and correct on the merits: no_participant_filing_exists is untrue of the subsection 2 branch, and the existence of a court and a Division that may object is not a reason to classify a participant filing as guidance.",
+        "guidanceLaneEffect": "This track leaves the guidance lane. rcap-nv-guidance-implementation currently claims it alongside nv_repository_removal and nv_seal_deferred; after this correction only nv_seal_deferred is a pure-guidance track and the guidance assignment needs re-scoping to that one track by the captain. This job does not touch the queue, the implementation queue or the guidance job.",
+        "officialFormFinding": "None. The Nevada State Police Records, Communications and Compliance Division publishes, in total, a General Information document, a statutory information page and two sample Word petitions for the ordinary chapter 179 sealing petition, and records that sealing procedures vary from county to county. There is no form for a subsection 2 petition under these sections, and the sections prescribe none.",
+        "retiredUnresolvedQuestions": [
+          {
+            "question": "The texts of NRS 176A.245, NRS 176A.265 and NRS 176A.295, including what each requires, how they differ, and whether any produces sealing automatically. The review groups them as one track and classifies it as process guidance only without reproducing the sections.",
+            "impact": "build_blocker",
+            "affectedElement": "governing_mechanism",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NV__LEGAL-REVIEW__STATEWIDE__nevada-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "Track summary",
+              "sourceStatement": "7. Sealing after probation discharge, conditional dismissal or set-aside | NRS 176A.245, 176A.265, 176A.295 | process_guidance | Process guidance only"
+            }
           }
-        }
-      ],
-      "legalDesignDecision": {
-        "status": "legal_design_approved_with_limitations",
-        "rationale": "The review's decision is \"Process guidance only\" and that normalizes directly. The node's value is routing and one specific warning: a dishonourable discharge from probation under NRS 176A.850 removes the NRS 179.2445 presumption, which is the single most favourable structural feature of Nevada sealing, so a participant in that position needs to know before they build expectations on any track. The three sections' texts were not established and are recorded as a build blocker.",
-        "limitations": [
+        ],
+        "retiredUnresolvedQuestionsNote": "The question above asked for the texts of the three sections, how they differ, and whether any produces sealing automatically. All three have been read: they are identical to one another and each produces sealing automatically on one branch and only on petition on the other. The question is closed and is preserved here verbatim with its provenance.",
+        "retiredLimitations": [
           {
             "classification": "legal_design_blocker",
             "statement": "Reclassify Nevada from official_pdf_fill to custom_pleading",
@@ -2327,7 +2491,23 @@
               "sourceHeading": "LIMITATIONS, CLASSIFIED",
               "sourceStatement": "Reclassify Nevada from official_pdf_fill to custom_pleading | Legal-design blocker"
             }
-          },
+          }
+        ],
+        "retiredLimitationsNote": "The retired limitation was a design instruction rather than a legal conclusion: reclassify Nevada from official_pdf_fill to custom_pleading because the correct form was undetermined. On this track it is now spent in the direction it pointed. The reclassification is complete — the track is custom_pleading — and the form question is answered: there is no official statewide form and none is prescribed, so a controlled pleading is the correct and only available output. The statement and its provenance are preserved verbatim here. The identical limitation is left in place on every Nevada track outside this correction's scope.",
+        "correctedCitationNote": "The review's framing of this track as sealing after ordinary probation discharge was imprecise. All three sections attach to a court treatment programme — NRS 176A.240 for alcohol or other substance use, NRS 176A.260 for mental illness or intellectual disabilities, NRS 176A.290 for veterans and members of the military — and none of them governs an ordinary probation discharge, which routes to NRS 176A.850 and then to a petition under NRS 179.245 on the conviction track. The legalName and publicName are corrected accordingly.",
+        "currency": "Currency basis for this correction: the Nevada Legislature publishes chapters 176, 176A, 179 and 179A with revision stamps of 4/15/2026 carrying the 2025 sessions, and its own session index records that the most recent sessions are the 83rd (2025) Regular Session and the 36th (2025) Special Session, with the next session, the 84th, beginning 1 February 2027. Nevada holds no 2026 session. The text read on 2026-08-08 is therefore the whole of the current law, with no session gap of the kind that has to be closed separately in annual-session states.",
+        "boundary": "Boundary of this correction: it establishes the governing mechanism, the automatic-versus-participant-filed question, the vehicle, the destination, the exclusions, the waiting periods, the notice, the service, the fee, the hearing, the prosecutor role, the proposed-order role, the output strategy and the packet-capability classification for this track from the operative statutory text. It enables nothing: the track remains runtime disabled and not packet ready, no packet is implemented, no renderer is written, no official form is created or acquired, no source is materialized and no shared registry or composed approval is touched. The six completed Nevada custom-pleading tracks and their implemented module are untouched and value-identical.",
+        "openQuestionsCreatedByThisCorrection": [
+          "Whether a clerk charges a filing fee for a subsection 2 petition. The sections prescribe none. Release-level: it is filing-instruction copy and does not change what is generated.",
+          "Whether a subsection 2 petition must be served on the Division of Parole and Probation or on the prosecuting attorney. The sections require only its filing and name no person to be served, while giving the Division the right to object. Release-level for the same reason.",
+          "Whether the court expects a proposed order lodged with the petition or settled after decision. The sections are silent."
+        ]
+      },
+      "unresolvedQuestions": [],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The review's decision was \"Process guidance only\", recorded without the sections' text, and it is right about most of the track and wrong about part of it. Read in full, each of NRS 176A.245, NRS 176A.265 and NRS 176A.295 carries two mechanisms. Subsection 1 is automatic and matches the review exactly: the court orders the sealing itself, without a hearing, and the participant files nothing. Subsection 2 is not: where the charge was under NRS 200.485, NRS 484C.110 or NRS 484C.120 and was conditionally dismissed or the judgment set aside, sealing follows only \"upon the filing of a petition by the defendant\" and not sooner than seven years after. A participant filing therefore exists on a defined branch of this track, the statute prescribes what it must establish, no official statewide form exists for it, and the correct output strategy for the track is custom_pleading with the petition and its proposed order generated conditionally and the automatic branch carried as guidance. Classifying the whole track as guidance would have withheld from a defined class of participant the only filing that clears their record. The guidance rationales no_participant_filing_exists and another_entity_decides are removed because the first is untrue on the subsection 2 branch and the second cannot carry a track that has a participant filing. The routing correction, the branch screen and the dishonourable-discharge warning remain the node's most valuable work and are all preserved.",
+        "limitations": [
           {
             "classification": "scope_restriction",
             "statement": "\"Record sealing\", never expungement. The state agency states directly that sealing is not expungement because it does not authorize destruction of the records.",
@@ -2379,9 +2559,11 @@
       "controllingAuthority": {
         "citations": [
           "NRS 179A.160",
+          "NRS 179.245",
+          "NRS 179.255",
           "NRS 179.275"
         ],
-        "summary": "NRS 179A.160 provides for removal of a record from the Central Repository following a favourable disposition. The controlling review classifies this as process guidance only. It is a repository remedy rather than a court sealing order, so it sits alongside the NRS 179.255 petition rather than replacing it, and a participant may need both. Nevada calls it record sealing and never expungement: the Department of Public Safety states directly that sealing is not expungement because it does not authorise destruction of the records. Under NRS 179.285 the proceedings are deemed never to have occurred and civil rights are restored, but NRS 179.295 allows sealed records to be reopened and NRS 179.301 allows certain persons and agencies to inspect them. A Nevada order does not bind out-of-state or federal agencies and does not reach records they hold. Sealing does not restore firearm rights; only a pardon that does not restrict the right to bear arms does."
+        "summary": "NRS 179A.160 has now been read in full and it is not a route on which nothing is filed. Subsection 1 provides that where a person has been arrested or issued a citation, or has been the subject of a warrant for alleged criminal conduct, and is acquitted or the disposition of the charge is favourable to the person, then \"at any time after the charge is dismissed, acquittal is entered or disposition of the charge in favor of the person is final, the person who is the subject of a record of criminal history relating to the arrest, citation or warrant may apply in writing to the Central Repository and the agency which maintains the record to have it removed from the files which are available and generally searched for the purpose of responding to inquiries concerning the criminal history of a person.\" Subsection 2 makes removal mandatory — \"The Central Repository and the agency shall remove the record unless\" one of five stated conditions applies. So the participant makes a written application, to two recipients, with no waiting period and no hearing, and the agencies must act unless an exclusion bites. It remains a repository remedy rather than a court sealing order, so it sits alongside the NRS 179.255 petition rather than replacing it, and subsection 3 preserves a court's separate authority to order deletion or modification of a record. Nevada calls it record sealing and never expungement: the Department of Public Safety states directly that sealing is not expungement because it does not authorise destruction of the records, and NRS 179A.160 likewise removes a record from the files that are available and generally searched rather than destroying it. Under NRS 179.285 the proceedings are deemed never to have occurred and civil rights are restored, but NRS 179.295 allows sealed records to be reopened and NRS 179.301 allows certain persons and agencies to inspect them. A Nevada order does not bind out-of-state or federal agencies and does not reach records they hold. Sealing does not restore firearm rights; only a pardon that does not restrict the right to bear arms does."
       },
       "effectiveDates": {
         "effectiveFrom": "2026-08-01",
@@ -2400,21 +2582,21 @@
         "set_aside"
       ],
       "exclusions": [
-        "Not determined beyond what the review records. The governing sections were not reproduced."
+        "NRS 179A.160(2)(a): the person is a fugitive.",
+        "NRS 179A.160(2)(b): the case is under active prosecution according to a current certificate of a prosecuting attorney.",
+        "NRS 179A.160(2)(c): the disposition of the case was a deferred prosecution, plea bargain or other similar disposition. This is the exclusion that most often defeats the route in practice and it is why a participant whose case was resolved by a deferral of judgment belongs on the NRS 176.211 track and not here.",
+        "NRS 179A.160(2)(d): the person has a prior conviction for a felony or gross misdemeanour in any jurisdiction in the United States — not merely in Nevada.",
+        "NRS 179A.160(2)(e): the person has been arrested for or charged with another crime, other than a minor traffic violation, since the arrest, citation or warrant which the person seeks to have removed."
       ],
       "waitingPeriods": [
         {
-          "condition": "Not determined",
-          "duration": "unresolved pending the text of the governing sections"
+          "condition": "None. NRS 179A.160(1) permits the application \"at any time after the charge is dismissed, acquittal is entered or disposition of the charge in favor of the person is final\". The only temporal condition is that the favourable disposition be final.",
+          "duration": "none"
         }
       ],
-      "outputStrategy": "process_guidance",
+      "outputStrategy": "custom_pleading",
       "outputStrategyStatus": "resolved",
       "packetIdentity": "identified",
-      "guidanceRationales": [
-        "another_entity_decides",
-        "no_participant_filing_exists"
-      ],
       "geography": {
         "scope": "statewide",
         "keys": [],
@@ -2422,27 +2604,45 @@
       },
       "destination": {
         "kind": "agency",
-        "name": "Nevada Central Repository, Department of Public Safety",
-        "detail": "The Central Repository at the Nevada Department of Public Safety. LegalEase generates no filing: it explains the route, screens for the court sealing petition in parallel, and refers."
+        "name": "The Central Repository for Nevada Records of Criminal History, and the agency which maintains the record",
+        "detail": "NRS 179A.160(1) directs the application to two recipients and not one: the Central Repository for Nevada Records of Criminal History, administered by the Nevada State Police Records, Communications and Compliance Division at 333 West Nye Lane, Suite 100, Carson City, Nevada 89706, and the agency which maintains the record, ordinarily the arresting agency. The application is made in writing by the person who is the subject of the record. It is not a court filing, no order issues on it, and it does not reach the court's own record, which is why the parallel screen for the court sealing petition matters."
       },
       "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "The written application under NRS 179A.160(1). No official form exists: the Nevada State Police Records, Communications and Compliance Division publishes only a General Information document, a statutory information page and two sample petitions for the ordinary chapter 179 court sealing petition, none of which addresses this section, and the section itself prescribes no form. The application identifies the applicant and any former names, identifies the arrest, citation or warrant by agency, date and case or event number, states the favourable disposition and the date it became final, asks that the record be removed from the files which are available and generally searched for the purpose of responding to criminal history inquiries, and addresses each of the five subsection 2 conditions so the agency can act on the face of the application."
+        },
+        {
+          "role": "duplicate_submission_copy",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "The same written application, addressed to the agency which maintains the record. Subsection 1 requires the application to go to the Central Repository and the agency, and subsection 2 puts the removal duty on both. A single copy sent to the Repository alone leaves the arresting agency's own record untouched, which is exactly the failure this node exists to prevent."
+        },
         {
           "role": "explanation",
           "requirement": "required",
           "outputStrategy": "process_guidance",
-          "notes": "What the repository remedy is and how it differs from a court sealing order: it addresses the state's own record rather than the court's, and a participant with a favourable disposition may want both."
+          "notes": "What the repository remedy is and how it differs from a court sealing order: it addresses the state's own criminal history record and the record-holding agency's, not the court's, and it removes the record from the files that are available and generally searched rather than destroying it. Subsection 3 preserves the court's separate authority, so the two remedies coexist."
         },
         {
           "role": "parallel_screen",
           "requirement": "required",
           "outputStrategy": "process_guidance",
-          "notes": "The parallel screen under the non-conviction sealing track, which is a court petition the participant can pursue. This is the point of the node: repository removal alone leaves the court record, and a court order alone still takes up to six months to reach the repository under NRS 179.275."
+          "notes": "The parallel screen under the non-conviction sealing track, which is a court petition the participant can pursue. This is the point of the node in the other direction: repository removal alone leaves the court record. The Records, Communications and Compliance Division's own General Information document, rev. 8/2025, records that the sealing process can take up to 6 months to complete once the final seal order is received, so a participant who obtains a court order should not expect the repository to reflect it at once."
+        },
+        {
+          "role": "exclusion_screen",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Screens each of the five NRS 179A.160(2) conditions before anything is generated. Two of them are easy for a participant to get wrong: a deferred prosecution, plea bargain or other similar disposition defeats the route even though the participant will describe the outcome as favourable, and a prior felony or gross misdemeanour conviction anywhere in the United States defeats it even though the participant may be thinking only of Nevada."
         },
         {
           "role": "referral_instructions",
           "requirement": "required",
           "outputStrategy": "process_guidance",
-          "notes": "How to approach the Records, Communications and Compliance Division, and where to get help."
+          "notes": "How to approach the Records, Communications and Compliance Division and the record-holding agency, and where to get help, including Nevada Legal Services."
         }
       ],
       "participantInputs": [
@@ -2452,65 +2652,161 @@
           "requirement": "required"
         },
         {
+          "key": "rpoDispositionFinalDate",
+          "question": "On what date did that outcome become final?",
+          "requirement": "required",
+          "conditionDescription": "Asked because NRS 179A.160(1) permits the application at any time after the dismissal, acquittal or favourable disposition is final. There is no waiting period, but finality is the condition."
+        },
+        {
+          "key": "rpoArrestIdentity",
+          "question": "Which agency arrested you, cited you or sought the warrant, on what date, and what case or event number does the record carry?",
+          "requirement": "required",
+          "conditionDescription": "Asked because the application must go to the agency which maintains the record as well as to the Central Repository, and must identify the record it asks to have removed."
+        },
+        {
           "key": "rpoRepositoryShows",
           "question": "Does the arrest still show on your Nevada criminal history from the repository?",
           "requirement": "required",
           "conditionDescription": "Asked because this route is about the repository's own record, and the answer decides whether there is anything to remove."
+        },
+        {
+          "key": "rpoDeferredOrPlea",
+          "question": "Was the case resolved through a deferred prosecution, a plea bargain, or any similar arrangement, rather than being dismissed outright or ending in acquittal?",
+          "requirement": "required",
+          "conditionDescription": "Asked because NRS 179A.160(2)(c) excludes those dispositions outright. A yes ends this route and routes the participant elsewhere."
+        },
+        {
+          "key": "rpoPriorFelonyOrGrossMisdemeanor",
+          "question": "Have you ever been convicted of a felony or a gross misdemeanour anywhere in the United States?",
+          "requirement": "required",
+          "conditionDescription": "Asked because NRS 179A.160(2)(d) excludes a person with any such prior conviction in any United States jurisdiction, not only in Nevada."
+        },
+        {
+          "key": "rpoSubsequentArrest",
+          "question": "Since the arrest, citation or warrant you want removed, have you been arrested for or charged with any other crime, apart from a minor traffic violation?",
+          "requirement": "required",
+          "conditionDescription": "Asked because NRS 179A.160(2)(e) excludes a person in that position."
+        },
+        {
+          "key": "rpoFormerNames",
+          "question": "What other names have you used, including any former legal names?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked where the participant reports having used another name, because the repository indexes by identity and an application under one name may not reach a record filed under another."
         }
       ],
-      "supportingDocuments": [],
-      "manualCompletionItems": [],
+      "supportingDocuments": [
+        {
+          "name": "Proof of the favourable disposition",
+          "obtainedFrom": "The court that handled the case",
+          "requirement": "conditional",
+          "conditionDescription": "Named wherever the participant's criminal history or court paperwork does not already show the disposition and its finality on its face. NRS 179A.160 does not require any attachment, so this is never a gate on generation.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request a certified copy of the dismissal, acquittal or other favourable disposition from the court that handled the case. NRS 179A.160 does not require it, but the Central Repository and the agency have to satisfy themselves that the disposition is favourable and final, and an application that carries the proof is the one that can be acted on. LegalEase names it; the participant obtains it and LegalEase does not review it."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "The mailing address of the agency which maintains the record",
+          "whereInPacket": "Address block of the duplicate application copy",
+          "why": "It varies with the arresting agency and LegalEase does not hold a directory of Nevada law-enforcement agency addresses. The participant supplies it."
+        },
+        {
+          "item": "Case or event number from the record",
+          "whereInPacket": "Identification block of both application copies",
+          "why": "Taken from the participant's own criminal history record or court paperwork. LegalEase does not obtain or inspect the record."
+        },
+        {
+          "item": "Signature and date",
+          "whereInPacket": "Signature block of both application copies",
+          "why": "The applicant signs their own application."
+        }
+      ],
       "officialSources": [
         {
-          "title": "Nevada Revised Statutes chapter 179, Nevada Legislature — the sealing sections NRS 179.2405, 179.2445, 179.245, 179.255, 179.259, 179.2595, 179.265, 179.271, 179.273, 179.275, 179.285, 179.295 and 179.301, confirmed present with their official titles",
-          "url": "https://www.leg.state.nv.us/NRS/NRS-179.html",
-          "retrievedOn": "2026-08-06",
+          "title": "Nevada Revised Statutes chapter 179A, Nevada Legislature — NRS 179A.160, Removal of certain records where disposition of case favorable to accused. Chapter revision stamp [Rev. 4/15/2026 11:25:56 AM--2025]; the section's history reads (Added to NRS by 1979, 1853; A 1985, 916; 2001, 1694), so it has not been amended since 2001.",
+          "url": "https://www.leg.state.nv.us/NRS/NRS-179A.html",
+          "retrievedOn": "2026-08-08",
           "sha256": null
         },
         {
-          "title": "Sealing of Criminal History Records (General Information), rev. 8/2025, Nevada Department of Public Safety, Records, Communications and Compliance Division — reproduces the current text of NRS 179.245, 179.255, 179.259, 179.2595, 179.265, 179.275, 179.285, 179.295 and 179.301, with sample District Court and Justice or Municipal Court petitions and orders",
-          "url": "https://rccd.nv.gov/",
-          "retrievedOn": "2026-08-06",
+          "title": "Nevada Revised Statutes chapter 179, Nevada Legislature — NRS 179.2445 (rebuttable presumption; the subsection 2 exception for a dishonorable discharge under NRS 176A.850), NRS 179.245 (which is expressly displaced by NRS 176.211, 176A.245, 176A.265 and 176A.295), NRS 179.245(9) (the sex-trafficking fee waiver, confined by its own words to a petition under that section) and NRS 179.275 (distribution of a sealing order to the Central Repository and each named custodian). Chapter revision stamp [Rev. 4/15/2026 11:25:29 AM--2025].",
+          "url": "https://www.leg.state.nv.us/NRS/NRS-179.html",
+          "retrievedOn": "2026-08-08",
+          "sha256": null
+        },
+        {
+          "title": "Sealing of Criminal History Records (General Information), rev. 8/2025, Nevada State Police, Records, Communications and Compliance Division — 14 pages reproducing the current text of the chapter 179 sealing sections with two sample petitions. It records that the process can take up to 6 months to complete once the final seal order is received. It publishes no form for a removal request under NRS 179A.160 and no form for a petition under NRS 176A.245, 176A.265 or 176A.295.",
+          "url": "https://www.rccd.nv.gov/siteassets/content/feesforms/sealing-of-criminal-history-records-general-information.pdf",
+          "retrievedOn": "2026-08-08",
+          "sha256": null
+        },
+        {
+          "title": "History & Sealing of Records, Nevada State Police, Records, Communications and Compliance Division — the Division's complete published inventory for sealing: the General Information document, the statutory information page, and two sample Word petitions, Petition to Seal Records for District Court and Petition to Seal Records for Justice or Municipal Court. The Division's own guidance states that the procedures for sealing Nevada criminal history records vary from county to county, so the samples are not statewide prescribed forms.",
+          "url": "https://www.rccd.nv.gov/fees-forms/fees-information-fingerprints/history-sealing-of-records/",
+          "retrievedOn": "2026-08-08",
+          "sha256": null
+        },
+        {
+          "title": "Session Information, Nevada Legislature — the Legislature's own session index. The most recent sessions are the 83rd (2025) Regular Session and the 36th (2025) Special Session; the next is the 84th (2027) Session beginning February 1, 2027. Nevada holds no 2026 session, so the chapter revision stamps of 4/15/2026 carrying the 2025 sessions are the current law in full.",
+          "url": "https://www.leg.state.nv.us/Session/",
+          "retrievedOn": "2026-08-08",
           "sha256": null
         }
       ],
       "rules": {
-        "filing": "LegalEase generates no filing on this track.",
-        "fees": "Not determined. Any repository fee is waived for a victim of sex trafficking or involuntary servitude under NRS 179.245(9).",
-        "feeWaiver": "NRS 179.245(9) where it applies.",
-        "notice": "Not determined.",
-        "service": "none by the participant through LegalEase.",
-        "participantSignature": "not applicable. Nothing is generated for the participant to sign.",
-        "notarization": "none required."
+        "filing": "The participant applies in writing to the Central Repository for Nevada Records of Criminal History and to the agency which maintains the record, under NRS 179A.160(1). It is an agency application, not a court filing, and no order issues on it. There is no prescribed form and no prescribed manner of delivery.",
+        "fees": "None is prescribed. NRS 179A.160 imposes, authorises and mentions no fee for a removal request. The fees the Records, Communications and Compliance Division does charge are for obtaining a copy of a criminal history record, which is a different service the participant may want first, and are not a fee for this application. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not by its terms reach this section.",
+        "feeWaiver": "None prescribed by this section, and none needed for the application itself. NRS 179.245(9) waives fees related to a petition for sealing under NRS 179.245 where the petitioner was being sex trafficked when the crime was committed; its text is confined to that section.",
+        "notice": "None. NRS 179A.160 requires no notice to the prosecuting attorney, to any court or to any other person. The prosecuting attorney enters only through subsection 2(b), which lets a current certificate that the case is under active prosecution defeat the removal; that is the prosecutor's own act and not a notice the participant gives.",
+        "service": "No service in the litigation sense, because there is no court proceeding. The application is delivered to both recipients directly: the Central Repository and the agency which maintains the record. The section prescribes no method, so a method that produces proof of delivery is a filing instruction rather than a legal requirement.",
+        "participantSignature": "The applicant signs both copies of the application personally.",
+        "notarization": "None required. The section prescribes no verification or notarization."
       },
       "selfHelpStopConditions": [
-        "Every repository matter, until NRS 179A.160 is read and its mechanism established.",
-        "Any participant who needs the court record sealed as well, which is a separate petition.",
-        "Any offence-category question. Nevada eligibility turns on category A through E felony, gross misdemeanour or misdemeanour and on whether the offence is a crime of violence, which is a legal classification driving a one-year versus ten-year answer.",
-        "Any pending charge, and any conviction during the clean period other than a minor moving or standing traffic violation.",
-        "Prosecutor refusal to stipulate, which converts the matter into a contested hearing.",
-        "Records in more than one county, or in both municipal and justice or district court, where the stipulation practice differs by prosecuting agency.",
+        "The disposition was a deferred prosecution, plea bargain or other similar disposition, which NRS 179A.160(2)(c) excludes outright even though the participant will describe the outcome as favourable.",
+        "The participant has any prior conviction for a felony or gross misdemeanour in any jurisdiction in the United States, which NRS 179A.160(2)(d) excludes.",
+        "The participant has been arrested for or charged with another crime, other than a minor traffic violation, since the arrest, citation or warrant in question, which NRS 179A.160(2)(e) excludes.",
+        "The case is under active prosecution, or the participant is a fugitive.",
+        "Whether the disposition is \"favorable to the person\" is arguable on the record; that is the threshold legal characterisation on which the whole route turns and the section does not define it.",
+        "The participant also needs the court record sealed, which is a separate court petition on a different track and is not obtained by this application.",
+        "The Central Repository or the agency refuses the application, which the section provides no appeal from and which a participant should not litigate alone.",
+        "Any offence-category question. Nevada eligibility turns on category A through E felony, gross misdemeanour or misdemeanour and on whether the offence is a crime of violence, which is a legal classification driving a one-year versus ten-year answer on the ordinary tracks.",
+        "Records in more than one county, or held by more than one agency, where a single application will not reach every custodian.",
         "Federal, tribal, military and out-of-state records.",
-        "Any participant whose goal is firearm rights, which sealing does not restore.",
-        "Immigration exposure. Nevada sealing must not be described as having immigration effect."
+        "Any participant whose goal is firearm rights, which sealing and removal do not restore.",
+        "Immigration exposure. Nevada sealing and repository removal must not be described as having immigration effect."
       ],
-      "unresolvedQuestions": [
-        {
-          "question": "The text of NRS 179A.160, including what counts as a favourable disposition for its purposes, what the request requires, and how the remedy interacts with a court sealing order under NRS 179.255. The review classifies the track as process guidance only without reproducing the section.",
-          "impact": "build_blocker",
-          "affectedElement": "governing_mechanism",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "NV__LEGAL-REVIEW__STATEWIDE__nevada-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "Track summary",
-            "sourceStatement": "11. Repository removal after favorable disposition | NRS 179A.160 | process_guidance | Process guidance only"
+      "_sealingMechanismCorrection": {
+        "correctionJob": "rcap-nv-sealing-mechanism-and-packet-capability-correction",
+        "correctedOn": "2026-08-08",
+        "baseCommit": "95789664518ee3f7f2aeb9c12380dd9ba70d3b76",
+        "questionAsked": "Whether the removal on this track is automatic or requires a participant application, what the governing mechanism is, whether a participant filing exists and what it is, and the output strategy, exclusions, waiting periods, notice and fee that follow.",
+        "answer": "Participant-filed, and not automatic. NRS 179A.160(1) provides that the person who is the subject of the record \"may apply in writing to the Central Repository and the agency which maintains the record\", at any time after the dismissal, acquittal or favourable disposition is final. Subsection 2 makes the removal mandatory — \"shall remove the record unless\" — subject to five stated exclusions. Nothing happens without the application.",
+        "outputStrategyResult": "changed from process_guidance to custom_pleading, because an express participant written application exists and the section prescribes what it must establish",
+        "outputStrategyResultQualifier": "The destination stays kind agency: this is an application to the Central Repository and to the record-holding agency, not a court filing, and no order issues on it. Four process_guidance components are kept for the explanation, the parallel court-petition screen, the exclusion screen and the referral.",
+        "packetCapabilityResult": "packet_capable_as_an_agency_application — two copies of one written application, to two recipients, with no official form to fill and no court order to draft",
+        "guidanceRationalesRemoved": [
+          "another_entity_decides",
+          "no_participant_filing_exists"
+        ],
+        "guidanceRationalesRemovedNote": "Required by the schema, which permits guidanceRationales only on a process_guidance track, and correct on the merits: the section contains the participant's filing in terms, and the fact that an agency rather than the participant makes the final decision is not a reason to classify a participant filing as guidance.",
+        "guidanceLaneEffect": "This track leaves the guidance lane. rcap-nv-guidance-implementation currently claims it; after this correction it does not belong there. This job does not touch the queue, the implementation queue or the guidance job.",
+        "officialFormFinding": "None. The Nevada State Police Records, Communications and Compliance Division's complete published inventory for sealing is a General Information document, a statutory information page and two sample Word petitions for the ordinary chapter 179 court sealing petition. Nothing addresses NRS 179A.160, and the section prescribes no form.",
+        "retiredUnresolvedQuestions": [
+          {
+            "question": "The text of NRS 179A.160, including what counts as a favourable disposition for its purposes, what the request requires, and how the remedy interacts with a court sealing order under NRS 179.255. The review classifies the track as process guidance only without reproducing the section.",
+            "impact": "build_blocker",
+            "affectedElement": "governing_mechanism",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "NV__LEGAL-REVIEW__STATEWIDE__nevada-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+              "sourceHeading": "Track summary",
+              "sourceStatement": "11. Repository removal after favorable disposition | NRS 179A.160 | process_guidance | Process guidance only"
+            }
           }
-        }
-      ],
-      "legalDesignDecision": {
-        "status": "legal_design_approved_with_limitations",
-        "rationale": "The review's decision is \"Process guidance only\" and that normalizes directly. The node earns its place because it prevents a specific wrong turn in both directions: a participant who obtains repository removal may believe the court record is gone when it is not, and a participant who obtains a court order may believe the repository is updated immediately when NRS 179.275 gives it up to six months. The section's own text was not established and is recorded as a build blocker.",
-        "limitations": [
+        ],
+        "retiredUnresolvedQuestionsNote": "The question above asked for the text of NRS 179A.160, what counts as a favourable disposition for its purposes, what the request requires, and how the remedy interacts with a court sealing order under NRS 179.255. Three of the four are answered from the section: the request is a written application to two recipients, its contents follow from subsections 1 and 2, and subsection 3 settles the interaction by preserving the court's separate authority. What \"favorable to the person\" means is not defined by the section and survives as a self-help stop rather than as a build blocker, because it changes who is eligible and not what is generated. The question is preserved here verbatim with its provenance.",
+        "retiredLimitations": [
           {
             "classification": "legal_design_blocker",
             "statement": "Reclassify Nevada from official_pdf_fill to custom_pleading",
@@ -2521,7 +2817,23 @@
               "sourceHeading": "LIMITATIONS, CLASSIFIED",
               "sourceStatement": "Reclassify Nevada from official_pdf_fill to custom_pleading | Legal-design blocker"
             }
-          },
+          }
+        ],
+        "retiredLimitationsNote": "The retired limitation was a design instruction rather than a legal conclusion: reclassify Nevada from official_pdf_fill to custom_pleading because the correct form was undetermined. It is now spent in the direction it pointed. The track is custom_pleading and the form question is answered: no official form exists for a NRS 179A.160 removal request and the section prescribes none, so a controlled written application is the correct and only available output. The statement and its provenance are preserved verbatim here. The identical limitation is left in place on every Nevada track outside this correction's scope.",
+        "correctedCitationNote": "The parallel_screen component previously attributed a six-month repository lag to NRS 179.275. That section directs the distribution of a sealing order to the Central Repository and to each named custodian and says nothing about timing. The six-month figure comes from the Records, Communications and Compliance Division's own General Information document, rev. 8/2025, which states that the process can take up to 6 months to complete once the final seal order is received; the Division's web page currently gives 2 to 4 months for the same process. The attribution is corrected to the document that actually says it and the divergence is recorded rather than resolved.",
+        "feeWaiverScopeCorrection": "The track previously recorded that any repository fee is waived for a victim of sex trafficking or involuntary servitude under NRS 179.245(9). Read in full, subsection 9 waives fees \"related to a petition for the sealing of records pursuant to this section\", which is NRS 179.245 and not this one. The waiver is real and is preserved on the tracks it governs; it is not authority for a waiver here, and in any event NRS 179A.160 prescribes no fee. Counsel's own limitation describing the waiver as cross-cutting is left in place verbatim, because it is counsel's statement and this correction records the statutory boundary rather than rewriting it.",
+        "currency": "Currency basis for this correction: the Nevada Legislature publishes chapters 176, 176A, 179 and 179A with revision stamps of 4/15/2026 carrying the 2025 sessions, and its own session index records that the most recent sessions are the 83rd (2025) Regular Session and the 36th (2025) Special Session, with the next session, the 84th, beginning 1 February 2027. Nevada holds no 2026 session. The text read on 2026-08-08 is therefore the whole of the current law, with no session gap of the kind that has to be closed separately in annual-session states.",
+        "boundary": "Boundary of this correction: it establishes the governing mechanism, the automatic-versus-participant-filed question, the vehicle, the destination, the exclusions, the waiting periods, the notice, the service, the fee, the hearing, the prosecutor role, the proposed-order role, the output strategy and the packet-capability classification for this track from the operative statutory text. It enables nothing: the track remains runtime disabled and not packet ready, no packet is implemented, no renderer is written, no official form is created or acquired, no source is materialized and no shared registry or composed approval is touched. The six completed Nevada custom-pleading tracks and their implemented module are untouched and value-identical.",
+        "openQuestionsCreatedByThisCorrection": [
+          "What makes a disposition \"favorable to the person\" for the purposes of NRS 179A.160(1). The section does not define it and the five subsection 2 exclusions define the negative rather than the positive. Recorded as a self-help stop: it changes who is eligible, not what is generated.",
+          "Whether the Central Repository requires a particular delivery method or a criminal history record to accompany the application. The section prescribes neither. Release-level filing-instruction copy."
+        ]
+      },
+      "unresolvedQuestions": [],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The review's decision was \"Process guidance only\", recorded without the section's text, and reading the section shows the classification cannot stand. NRS 179A.160(1) gives the participant an express written application, to two named recipients, available at any time after a favourable disposition becomes final; subsection 2 makes removal mandatory unless one of five stated conditions applies. That is a participant filing whose content the statute prescribes, and there is no official form for it, so the correct output strategy is custom_pleading. The guidance rationales no_participant_filing_exists and another_entity_decides are removed: the first is contradicted by the section, and the second would classify every application to any agency as guidance, which is precisely the reasoning the correction assignment forbids. What the node already had right is kept and strengthened. The parallel screen remains the most valuable thing on the track, because repository removal alone leaves the court record and a court order alone does not reach the repository at once, and the five statutory exclusions — particularly the deferred-prosecution and plea-bargain exclusion, and the prior-conviction exclusion that reaches the whole United States — are now screened before anything is generated instead of being left to a warning.",
+        "limitations": [
           {
             "classification": "scope_restriction",
             "statement": "\"Record sealing\", never expungement. The state agency states directly that sealing is not expungement because it does not authorize destruction of the records.",
