@@ -131,11 +131,10 @@ const ACTIVE_SHARDS = [
     ownerSession: "SESSION_F",
     jobIds: [
       "rcap-mo-issuer-contact-authorization",
-      "rcap-in-written-permission-authorization",
-      "rcap-oh-2953-321-local-form-and-fee-survey"
+      "rcap-in-written-permission-authorization"
     ],
     note:
-      "The permission and follow-up owners the completed decisions created. Three have now left the shard satisfied: Colorado's grant is recorded as a successor decision, Kansas delivered its written-permission authorization, and Washington resolved the CRO form-family source identity. Indiana remains, still sitting at a withheld licence with no route out but the asking. The Missouri request is drafted and deliberately unsent and what remains is the human authorization to send it. None of these jobs sends anything: drafting is the deliverable and sending is a separate human act. The Ohio survey carries the local-form and fee question the integrated marijuana decision expressly left open."
+      "The permission and follow-up owners the completed decisions created. Three have now left the shard satisfied: Colorado's grant is recorded as a successor decision, Kansas delivered its written-permission authorization, and Washington resolved the CRO form-family source identity. Indiana remains, still sitting at a withheld licence with no route out but the asking. The Missouri request is drafted and deliberately unsent and what remains is the human authorization to send it. None of these jobs sends anything: drafting is the deliverable and sending is a separate human act. The Ohio survey left the shard too: its local-form and fee question is answered and integrated."
   },
   {
     shard: "F3",
