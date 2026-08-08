@@ -3336,6 +3336,76 @@ export function buildFactoryPlan(options = {}) {
       TERMINAL_INSTRUCTION
   });
 
+  // The first incremental successor tranche.
+  //
+  // The monolithic Edition 1.3 job below depends on every authority job in the
+  // plan, which means the Hawaii application — bytes measured, identity
+  // resolved, role, scope, revision and structure all settled — waits on an
+  // unrelated Massachusetts retrieval nobody has been able to attend. Official
+  // PDF work is the critical path and that gate is what holds it.
+  //
+  // This job publishes a closed tranche instead: only rows that satisfy every
+  // admission criterion exactly, with everything else named in the successor
+  // backlog rather than silently omitted. It is ready when the generated plan
+  // actually admits a row, so it cannot become a job that publishes nothing.
+  const successorPlanPath =
+    "data/record-clearing/master-library/edition-successor-plan.json";
+  const successorPlan = (() => {
+    const absolute = path.join(rootDir, successorPlanPath);
+    if (!fs.existsSync(absolute)) return null;
+    try {
+      return JSON.parse(fs.readFileSync(absolute, "utf8"));
+    } catch {
+      return null;
+    }
+  })();
+  const trancheRows = successorPlan?.candidateTranche?.rows ?? [];
+  if (trancheRows.length > 0) {
+    addJob({
+      lane: "source_acquisition",
+      jurisdiction: "NATIONWIDE",
+      jobId: "rcap-nationwide-master-library-edition-1-3-tranche-1-publication",
+      strategyFamily: "edition_publication",
+      dependencies: [
+        ...new Set(trancheRows.map((row) => row.jobId))
+      ].sort((left, right) => left.localeCompare(right)),
+      status: "ready",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/authority/master-library-edition-1-3-tranche-1-publication.json`
+      ],
+      requiredInputs: [
+        successorPlanPath,
+        FACTORY_INPUT_PATHS.authority,
+        FACTORY_INPUT_PATHS.sourceArtifacts,
+        FACTORY_INPUT_PATHS.acquisitionDocuments
+      ],
+      model: "opus",
+      effort: "xhigh",
+      executionScope: "captain",
+      participantPacketProofRequired: false,
+      commitSubject:
+        "docs(record-clearing): publish Master Library Edition 1.3 tranche 1",
+      executionNote:
+        `Tranche manifest ${successorPlan.trancheManifestSha256}. ` +
+        `${trancheRows.length} admitted row(s); ` +
+        `${successorPlan.successorBacklog?.length ?? 0} deferred to the next successor, each with an exact blocker.`,
+      stopCondition:
+        "Publish exactly the rows the generated successor plan admits, and no others. Every " +
+        "published row carries exact authority, exact source identity, exact bytes where bytes " +
+        "apply, exact role, exact scope, a resolved licence, the deterministic tranche manifest " +
+        "digest and predecessor lineage. " +
+        "Edition 1.2 is immutable and is never amended, overwritten or reconstructed: a tranche " +
+        "is a new edition. Every deferred row stays named in the successor backlog — a row may " +
+        "be deferred, never silently omitted. " +
+        "Do not admit a row on a near miss, do not infer a missing digest, byte count, role, " +
+        "scope or licence, and do not publish while the predecessor lineage is incomplete. " +
+        "Publishing establishes identity and nothing else: packet readiness, runtime " +
+        "registration, counsel adoption and production enablement all remain separate and stay " +
+        "where they are. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
   const authorityJobs = jobs.filter((job) => job.lane === "source_acquisition");
   const editionPublication = addJob({
     lane: "source_acquisition",

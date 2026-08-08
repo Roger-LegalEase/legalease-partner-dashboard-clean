@@ -7,6 +7,7 @@
 // and it verifies each candidate against the assignment rather than against its
 // name. It reads; it never writes to a worker branch.
 
+import fs from "node:fs";
 import path from "node:path";
 
 import { loadFactoryPlan } from "./lib/rcap-factory/index.mjs";
@@ -29,6 +30,16 @@ try {
     fetch: !options.noFetch
   });
 
+  if (options.out) {
+    const outputPath = path.resolve(rootDir, options.out);
+    const relative = path.relative(rootDir, outputPath).replaceAll("\\", "/");
+    if (relative.startsWith("../") || path.isAbsolute(relative)) {
+      throw new Error("--out must stay inside the repository");
+    }
+    fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+    fs.writeFileSync(outputPath, `${JSON.stringify(report, null, 2)}\n`);
+    console.log(`Discovery report written: ${relative}`);
+  }
   if (options.json) {
     process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
   } else {
@@ -79,13 +90,15 @@ function parseArgs(argv) {
     remote: "origin",
     rootDir: null,
     json: false,
-    noFetch: false
+    noFetch: false,
+    out: null
   };
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     if (arg === "--json") parsed.json = true;
     else if (arg === "--no-fetch") parsed.noFetch = true;
     else if (arg === "--remote") parsed.remote = requireValue(argv, ++index, arg);
+    else if (arg === "--out") parsed.out = requireValue(argv, ++index, arg);
     else if (arg === "--root") parsed.rootDir = requireValue(argv, ++index, arg);
     else if (arg === "--job") parsed.jobIds.push(requireValue(argv, ++index, arg));
     else if (arg === "--status") {

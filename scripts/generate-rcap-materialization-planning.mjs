@@ -367,7 +367,28 @@ const expectedFactoryQueue = {
   completedTracksRegeneratedAsPending: 0,
   canonicalParentMappingPolicy:
     factoryPlan.canonicalPlan.childMappingPolicy,
-  byLane
+  byLane,
+  // Regenerated rather than carried forward. It was carried forward, and a new
+  // authority job therefore left the recorded tally behind while the verifier
+  // compared it to the live plan — a stale count that could only be corrected
+  // by hand, in a file whose whole purpose is to be generated.
+  byAuthorityFamily: Object.fromEntries(
+    [
+      ...new Set(
+        factoryPlan.jobs
+          .filter((job) => job.lane === "source_acquisition")
+          .map((job) => job.strategyFamily)
+      )
+    ]
+      .sort()
+      .map((family) => [
+        family,
+        factoryPlan.jobs.filter(
+          (job) =>
+            job.lane === "source_acquisition" && job.strategyFamily === family
+        ).length
+      ])
+  )
 };
 const expectedReadinessMetrics = {
   ...productionPlan.readinessMetrics,

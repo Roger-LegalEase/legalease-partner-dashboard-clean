@@ -1,0 +1,265 @@
+{
+  "schemaVersion": "rcap-master-library-edition-successor-plan/v1",
+  "generatedBy": "npm run rcap:plan-edition-successor",
+  "policy": {
+    "model": "incremental_immutable_successor_editions",
+    "publishedEditionsAreImmutable": true,
+    "trancheMustBeClosedAndVerified": true,
+    "unresolvedAssetsMoveToNextSuccessor": true,
+    "admissionCriteria": [
+      "exact_authority",
+      "exact_source_identity",
+      "exact_bytes_where_applicable",
+      "exact_role",
+      "exact_scope",
+      "license_resolved",
+      "deterministic_manifest",
+      "predecessor_lineage"
+    ],
+    "noUnresolvedRowSilentlyOmitted": true,
+    "runtimeRemainsDisabledUntilPacketGatesPass": true,
+    "failClosed": "A row is admitted only when every admission criterion is satisfied exactly. A near miss defers; it never publishes."
+  },
+  "lineage": {
+    "parentEdition": "1.2",
+    "parentArchivePath": "/workspaces/legalease-attorney-review-packages/Expungement_AI_RCAP_Master_Library_Edition_1_2.zip",
+    "parentArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+    "parentArchiveRetained": false,
+    "grandparentArchivePath": "/workspaces/legalease-attorney-review-packages/Expungement_AI_RCAP_Master_Library_Edition_1_1.zip",
+    "grandparentArchiveRetained": false
+  },
+  "firstTrancheJobId": "rcap-nationwide-master-library-edition-1-3-tranche-1-publication",
+  "terminalEditionJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+  "publicationPerformed": false,
+  "editionMutated": false,
+  "runtimeStatus": "runtime_disabled",
+  "packetReady": false,
+  "totals": {
+    "candidatesRead": 11,
+    "admitted": 3,
+    "deferred": 8,
+    "admittedNewBytes": 1,
+    "admittedMetadataCorrections": 2,
+    "byUnmetCriterion": {
+      "exact_authority": 1,
+      "exact_source_identity": 5,
+      "exact_bytes_where_applicable": 3,
+      "license_resolved": 1
+    }
+  },
+  "candidateTranche": {
+    "trancheId": "master-library-edition-1-3-tranche-1",
+    "successorEdition": "1.3",
+    "predecessorEdition": "1.2",
+    "rows": [
+      {
+        "jobId": "rcap-fl-source-identity-resolution-rule-3-989-continuation",
+        "jurisdiction": "FL",
+        "kind": "metadata_correction",
+        "assetRow": null,
+        "correctedManifestRows": [
+          "FL:FL-RULE-3.989-CONTINUATION"
+        ]
+      },
+      {
+        "jobId": "rcap-hi-hcjdc-159b-technical-structure-and-edition-asset",
+        "jurisdiction": "HI",
+        "kind": "new_bytes",
+        "assetRow": {
+          "jurisdiction": "HI",
+          "canonicalIdentifier": "HCJDC 159(b)",
+          "workflowKey": "HI:HCJDC-159B:APPLICATION:EN",
+          "officialTitle": "Expungement Application",
+          "issuer": "State of Hawaii, Department of the Attorney General",
+          "issuingOffice": "Hawaii Criminal Justice Data Center",
+          "role": "primary_filing",
+          "scope": "statewide",
+          "revision": "REV-2026-06-03",
+          "language": "EN",
+          "assetClass": "packet_form",
+          "canonicalPath": "STATES/HI/02_PACKET_FORMS/HI__FORM__HCJDC-159B__expungement-application__REV-2026-06-03__EN.pdf",
+          "sourceUrl": "https://ag.hawaii.gov/hcjdc/files/2026/06/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+          "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+          "bytes": 181711,
+          "mediaType": "application/pdf",
+          "pdfVersion": "1.6",
+          "pageCount": 1,
+          "structuralClass": "flat_pdf",
+          "licenseDisposition": "no_published_redistribution_or_commercial_use_restriction_identified",
+          "supersedes": {
+            "kind": "supersession_record",
+            "documentIdentity": "the same Expungement Application at its Rev. 11/15/2019 revision",
+            "sha256": "e9b084cea6c7b0bf27aae1c03937e28b33f7b3a8e4afe8173c766bc379b747f9",
+            "bytes": 137157,
+            "adopted": false,
+            "purpose": "So a later reader cannot mistake the retained legacy copy for a second current form. Title and issuer agreement is not currentness."
+          }
+        },
+        "correctedManifestRows": []
+      },
+      {
+        "jobId": "rcap-ma-official-download-automation-blocked",
+        "jurisdiction": "MA",
+        "kind": "metadata_correction",
+        "assetRow": null,
+        "correctedManifestRows": [
+          "MA official-source index URL recorded in the Edition 1.2 manifest",
+          "MA official-source index URL recorded in the Edition 1.2 manifest"
+        ]
+      }
+    ]
+  },
+  "trancheManifestSha256": "89d93686c8794c56bd0f4d9da4eea233b9712170c136bdee12f9d10eac7d2d82",
+  "successorBacklog": [
+    {
+      "jobId": "rcap-co-jdf-2370-role-and-jdf-2371-mapping-correction",
+      "jurisdiction": "CO",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-co-jdf-2370-role-and-jdf-2371-mapping-correction.json",
+      "unmetCriteria": [
+        "exact_authority",
+        "exact_source_identity"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_authority",
+          "detail": "the decision does not require an edition amendment"
+        },
+        {
+          "criterion": "exact_source_identity",
+          "detail": "a no-bytes correction must name the manifest rows it corrects; none were recorded"
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-co-jdf-family-commercial-license",
+      "jurisdiction": "CO",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-co-jdf-family-commercial-license.json",
+      "unmetCriteria": [
+        "exact_source_identity",
+        "license_resolved"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_source_identity",
+          "detail": "Licence disposition for the Colorado JDF form family does not record both the current and corrected value"
+        },
+        {
+          "criterion": "exact_source_identity",
+          "detail": "Licence disposition for the Colorado JDF form family does not record both the current and corrected value"
+        },
+        {
+          "criterion": "license_resolved",
+          "detail": "the publisher's commercial-use terms are unresolved"
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-fl-rule-3-989-sworn-statement-identity-currentness",
+      "jurisdiction": "FL",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-fl-rule-3-989-sworn-statement-identity-currentness.json",
+      "unmetCriteria": [
+        "exact_source_identity"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_source_identity",
+          "detail": "Split the human-trafficking usage to a Rule 3.9895(b) identity does not record both the current and corrected value"
+        },
+        {
+          "criterion": "exact_source_identity",
+          "detail": "Close acquire:FL:fl-rule-3-989-affidavit without acquisition and clear the four blocker-ledger rows does not record both the current and corrected value"
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-hi-in-repo-identity-reconciliation-hcjdc-159",
+      "jurisdiction": "HI",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-hi-in-repo-identity-reconciliation-hcjdc-159.json",
+      "unmetCriteria": [
+        "exact_bytes_where_applicable"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_bytes_where_applicable",
+          "detail": "the decision requires new bytes and supplies no measured asset row; the measurement belongs to a technical-structure job"
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-il-in-repo-identity-reconciliation-rule-298",
+      "jurisdiction": "IL",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-il-in-repo-identity-reconciliation-rule-298.json",
+      "unmetCriteria": [
+        "exact_source_identity"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_source_identity",
+          "detail": "Map the nine fee_waiver components from the rule string to IL:FW-CIV-APPLICATION:APPLICATION:EN does not record both the current and corrected value"
+        },
+        {
+          "criterion": "exact_source_identity",
+          "detail": "Close acquire:IL:ill-s-ct-r-298-application-for-waiver-of-court-fees without acquisition does not record both the current and corrected value"
+        },
+        {
+          "criterion": "exact_source_identity",
+          "detail": "Record Rule 298 as governing procedural authority, not as a document identity does not record both the current and corrected value"
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-la-arts-993-995-998-html-authority-asset-capture",
+      "jurisdiction": "LA",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-la-arts-993-995-998-html-authority-asset-capture.json",
+      "unmetCriteria": [
+        "exact_bytes_where_applicable"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_bytes_where_applicable",
+          "detail": "the decision requires new bytes and supplies no measured asset row; the measurement belongs to a technical-structure job"
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-la-arts-993-995-998-html-source-output-strategy-adjudication",
+      "jurisdiction": "LA",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-la-arts-993-995-998-html-source-output-strategy-adjudication.json",
+      "unmetCriteria": [
+        "exact_bytes_where_applicable"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_bytes_where_applicable",
+          "detail": "the decision requires new bytes and supplies no measured asset row; the measurement belongs to a technical-structure job"
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-la-public-official-download",
+      "jurisdiction": "LA",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-la-public-official-download.json",
+      "unmetCriteria": [
+        "exact_source_identity"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_source_identity",
+          "detail": "Official title fields for Louisiana arts. 993, 995 and 998 does not record both the current and corrected value"
+        },
+        {
+          "criterion": "exact_source_identity",
+          "detail": "Asset-class correction for Louisiana arts. 993, 995 and 998 does not record both the current and corrected value"
+        },
+        {
+          "criterion": "exact_source_identity",
+          "detail": "Official title fields for all three articles does not record both the current and corrected value"
+        },
+        {
+          "criterion": "exact_source_identity",
+          "detail": "Asset-class inconsistency in the LA statutory form family does not record both the current and corrected value"
+        }
+      ]
+    }
+  ]
+}
