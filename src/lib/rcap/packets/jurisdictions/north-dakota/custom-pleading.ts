@@ -64,6 +64,20 @@
 // impaired-driving carve-out from Chapter 12-60.1 appears only in the ND Courts
 // guides and not in § 12-60.1-02(2); the routing follows the guides and says so.
 //
+// **A municipal court is a city court, and the caption says so.** Technical
+// review found every municipal-route caption reading "IN THE MUNICIPAL COURT OF
+// <COUNTY> COUNTY", a court with no existence: the composer appended
+// "OF <COUNTY> COUNTY" on both branches. A North Dakota municipal court is
+// established by the governing body of a *city* under N.D.C.C. § 40-18.1-01(1),
+// hears "offenses against the ordinances of any city served by the court" under
+// § 40-18.1-02(1), and § 40-18.1-01(6) requires the identity of the individual
+// court to be expressed in the case caption. Chapter 40-18, which the earlier
+// draft followed, was repealed by S.L. 2025, ch. 379, § 4. So a municipal
+// caption now names the city and a district caption still names the county,
+// through one shared composer, and a municipal case whose locality answer is
+// given as a county stops rather than captioning a court that does not exist.
+// The district-route captions are unchanged.
+//
 // Every template is DRAFT PENDING LEGAL REVIEW until reviewing counsel adopts
 // it. Every track is `technicalFixture` and `runtimeDisabled`: nothing here
 // reaches a runtime surface, and wiring these tracks and templates into the
@@ -73,7 +87,7 @@ import type { PleadingTemplate } from "@/lib/rcap/packets/engines/pleading-templ
 import type { PacketSet, ReliefTrack, RequiredInput } from "@/lib/rcap/packets/types";
 import { computeRuntimeStatus } from "@/lib/rcap/packets/types";
 
-const VERSION = "1.0.0";
+const VERSION = "1.1.0";
 
 const BANNER =
   "DRAFT PENDING LEGAL REVIEW — PREPARED BY LEGALEASE — NOT LEGAL ADVICE — DO NOT FILE UNTIL REVIEWED";
@@ -424,9 +438,75 @@ function parseQuantity(raw: string): { amount: number; unit: string } | null {
   return null;
 }
 
+/** A locality answer given as a county, which a municipal caption cannot use. */
+const COUNTY_SUFFIX = /\s+county$/i;
+
 /** The bare county name, for a line that already prints the word "County". */
 function bareCountyName(raw: string): string {
-  return raw.trim().replace(/\s+county$/i, "").trim() || raw.trim();
+  return raw.trim().replace(COUNTY_SUFFIX, "").trim() || raw.trim();
+}
+
+/**
+ * The bare city name, for a line that already prints "THE CITY OF".
+ *
+ * Only a leading "City of" is stripped. A trailing "City" is part of the name
+ * in Valley City, Garrison City and others, so it is left where it stands.
+ */
+function bareCityName(raw: string): string {
+  return raw.trim().replace(/^(?:the\s+)?city\s+of\s+/i, "").trim() || raw.trim();
+}
+
+/**
+ * The caption, the locality it names and the reference the packet carries.
+ *
+ * The two North Dakota courts are named for different things, and a caption
+ * that gets it wrong names a court that does not exist. A district court is
+ * the district court of a county. A municipal court is a *city* court:
+ * N.D.C.C. § 40-18.1-01(1) has the governing body of a city establish it,
+ * § 40-18.1-02(1) gives it "offenses against the ordinances of any city served
+ * by the court", and § 40-18.1-01(6) requires the identity of the individual
+ * court to be expressed in the case caption. There is no municipal court of a
+ * county.
+ *
+ * Chapter 40-18, which the earlier draft of this module followed in appending
+ * "OF <COUNTY> COUNTY" to every caption, was repealed by S.L. 2025, ch. 379,
+ * § 4 and replaced by Chapter 40-18.1.
+ *
+ * The design asks one locality question per route — "Which North Dakota county
+ * or municipality?" — so on a municipal case the answer is the city. Where it
+ * is given as a county the city is simply not known, and the route stops
+ * rather than captioning a court that has no existence.
+ */
+function ndCaptionNaming(
+  trackId: string,
+  courtType: "district" | "municipal",
+  localityAnswer: string
+): { captionLocality: string; captionLocalityKind: string; courtLine: string; packetCaseReference: string } {
+  if (courtType === "municipal") {
+    if (COUNTY_SUFFIX.test(localityAnswer.trim())) {
+      stop(
+        "nd-municipal-court-named-by-county",
+        trackId,
+        `The petitioner states a municipal court case and gives the locality as "${localityAnswer.trim()}". A North Dakota municipal court is a city court: under N.D.C.C. § 40-18.1-01(1) the governing body of a city establishes it, and under § 40-18.1-02(1) it hears offences against the ordinances of a city served by the court. There is no municipal court of a county, so a caption cannot be written from a county name, and § 40-18.1-01(6) requires the identity of the individual court to be expressed in the caption.`,
+        ND_RECORD_REFERRAL,
+        "Look at the citation or the judgment: a municipal case names the city whose court it is. Answer with that city. If the case was in fact in district court, answer district to the court question instead."
+      );
+    }
+    const cityName = bareCityName(localityAnswer);
+    return {
+      captionLocality: cityName,
+      captionLocalityKind: "city",
+      courtLine: `IN ${ND_COURT_PHRASE.municipal.toUpperCase()} OF THE CITY OF ${cityName.toUpperCase()}, STATE OF NORTH DAKOTA`,
+      packetCaseReference: `City of ${cityName}`
+    };
+  }
+  const countyName = bareCountyName(localityAnswer);
+  return {
+    captionLocality: countyName,
+    captionLocalityKind: "county",
+    courtLine: `IN ${ND_COURT_PHRASE.district.toUpperCase()} OF ${countyName.toUpperCase()} COUNTY, STATE OF NORTH DAKOTA`,
+    packetCaseReference: `${countyName} County`
+  };
 }
 
 /**
@@ -495,8 +575,6 @@ export const ND_PROPOSED_ORDER_CONDITION_KEY = "proposedOrderLodged";
 
 type Chapter12601Facts = {
   facts: Record<string, string>;
-  courtType: "district" | "municipal";
-  countyName: string;
 };
 
 /**
@@ -619,11 +697,11 @@ function deriveChapterFacts(trackId: string, answers: Answers): Chapter12601Fact
     );
   }
 
-  const countyName = bareCountyName(sealCounty);
+  const naming = ndCaptionNaming(trackId, courtType, sealCounty);
   const respondent =
     prosecutorOffice === "city_attorney"
-      ? `the office of the prosecuting official for the municipality, in ${countyName}`
-      : `the office of the State's Attorney for ${countyName} County`;
+      ? `the office of the prosecuting official for the City of ${naming.captionLocality}`
+      : `the office of the State's Attorney for ${naming.captionLocality} County`;
 
   const facts: Record<string, string> = {
     // Declared keys, carried through exactly as declared.
@@ -645,8 +723,9 @@ function deriveChapterFacts(trackId: string, answers: Answers): Chapter12601Fact
     sealProsecutorOffice: prosecutorOffice,
 
     // Template placeholders.
-    countyName,
-    courtLine: `IN ${ND_COURT_PHRASE[courtType].toUpperCase()} OF ${countyName.toUpperCase()} COUNTY, STATE OF NORTH DAKOTA`,
+    captionLocality: naming.captionLocality,
+    captionLocalityKind: naming.captionLocalityKind,
+    courtLine: naming.courtLine,
     courtPhrase: ND_COURT_PHRASE[courtType],
     respondentOffice: respondent,
     otherNamesStatement: statesNone(sealAllOtherNames)
@@ -667,10 +746,10 @@ function deriveChapterFacts(trackId: string, answers: Answers): Chapter12601Fact
         : "The petitioner states that no restitution was ordered in this case.",
     registrationStatement:
       "The petitioner states that they were not ordered to register under N.D.C.C. § 12.1-32-15 for this offence.",
-    packetCaseReference: `${countyName} County`
+    packetCaseReference: naming.packetCaseReference
   };
 
-  return { facts, courtType, countyName };
+  return { facts };
 }
 
 /**
@@ -828,7 +907,7 @@ export function deriveNorthDakotaFacts(
         "Get your criminal history record from the Bureau of Criminal Investigation and have a lawyer read the seven-year window against it."
       );
     }
-    const countyName = bareCountyName(county);
+    const naming = ndCaptionNaming(trackId, courtType, county);
     return {
       duiFirstViolationDate: firstViolationDate,
       duiCaseNumber: caseNumber,
@@ -842,8 +921,9 @@ export function deriveNorthDakotaFacts(
       duiOtherOffence: "no",
       duiCommercialLicence: "no",
 
-      countyName,
-      courtLine: `IN ${ND_COURT_PHRASE[courtType].toUpperCase()} OF ${countyName.toUpperCase()} COUNTY, STATE OF NORTH DAKOTA`,
+      captionLocality: naming.captionLocality,
+      captionLocalityKind: naming.captionLocalityKind,
+      courtLine: naming.courtLine,
       courtPhrase: ND_COURT_PHRASE[courtType],
       caseNumber,
       firstViolationStatement: `The petitioner states the date of the first violation as: ${firstViolationDate}`,
@@ -857,7 +937,7 @@ export function deriveNorthDakotaFacts(
       commercialLicenceStatement:
         "The petitioner states that they are not and have never been licensed as a commercial driver under N.D.C.C. § 39-06.2-10.",
       [ND_PROPOSED_ORDER_CONDITION_KEY]: "yes",
-      packetCaseReference: `${countyName} County`
+      packetCaseReference: naming.packetCaseReference
     };
   }
 
@@ -945,7 +1025,7 @@ export function deriveNorthDakotaFacts(
   const caseNumber = need(trackId, answers, "mjCaseNumber");
   const county = need(trackId, answers, "mjCounty");
   const courtType = branch(trackId, "mjCourtType", need(trackId, answers, "mjCourtType"), ND_COURT_TYPES);
-  const countyName = bareCountyName(county);
+  const naming = ndCaptionNaming(trackId, courtType, county);
 
   return {
     mjJudgmentDate: judgmentDate,
@@ -959,8 +1039,9 @@ export function deriveNorthDakotaFacts(
     mjCounty: county,
     mjCourtType: courtType,
 
-    countyName,
-    courtLine: `IN ${ND_COURT_PHRASE[courtType].toUpperCase()} OF ${countyName.toUpperCase()} COUNTY, STATE OF NORTH DAKOTA`,
+    captionLocality: naming.captionLocality,
+    captionLocalityKind: naming.captionLocalityKind,
+    courtLine: naming.courtLine,
     courtPhrase: ND_COURT_PHRASE[courtType],
     caseNumber,
     substanceName: substance === "marijuana" ? "marijuana" : "tetrahydrocannabinol",
@@ -974,7 +1055,7 @@ export function deriveNorthDakotaFacts(
     otherChargesStatement:
       "The movant states that there were no other charges in this case besides the possession charge described above.",
     [ND_PROPOSED_ORDER_CONDITION_KEY]: "yes",
-    packetCaseReference: `${countyName} County`
+    packetCaseReference: naming.packetCaseReference
   };
 }
 
@@ -1389,7 +1470,9 @@ function proposedOrderTemplate(spec: OrderSpec): PleadingTemplate {
         paragraphs: [
           spec.findingsAnchor,
           `No finding is written into this draft, and that is deliberate. A finding written in advance by the person asking for the order is not a finding; it is a request wearing the court's voice. The ${spec.signer ?? "petitioner"}'s evidence is in the ${spec.filingNoun ?? "petition"} and its attachments.`,
-          "Before lodging this, read the subsection named above and add any recital the court in your county expects that this draft does not carry. Ask the clerk whether that court has a preferred form of order.",
+          // Court-neutral: this order is lodged in a municipal court as often
+          // as in a district court, and a municipal court belongs to a city.
+          "Before lodging this, read the subsection named above and add any recital the court holding your case expects that this draft does not carry. Ask the clerk whether that court has a preferred form of order.",
           "________________________________________________________________",
           "________________________________________________________________",
           "________________________________________________________________"
@@ -2466,7 +2549,12 @@ export const NORTH_DAKOTA_CUSTOM_PLEADING_TRACKS: readonly ReliefTrack[] = [
         required: true
       },
       { key: "mjCaseNumber", label: "What is the case number?", required: true },
-      { key: "mjCounty", label: "Which North Dakota county?", required: true },
+      // The key is the design's and is not renamed. The wording matches the
+      // other two routes because this route offers a municipal court on the
+      // next question, and a municipal caption names the city rather than a
+      // county: a question that asks only for a county cannot be answered on
+      // the branch this route already offers.
+      { key: "mjCounty", label: "Which North Dakota county or municipality?", required: true },
       {
         key: "mjCourtType",
         label: "Was the case in district court or municipal court? Answer district or municipal.",

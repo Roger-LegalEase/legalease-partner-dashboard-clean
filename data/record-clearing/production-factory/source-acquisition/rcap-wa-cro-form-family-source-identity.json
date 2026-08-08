@@ -1,0 +1,645 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-wa-cro-form-family-source-identity",
+  "parentJobId": "AUTH-01-in-repo-authority-pinning",
+  "jurisdiction": "WA",
+  "lane": "source_acquisition",
+  "strategyFamily": "source_identity_resolution",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "74b6e95ecd5ee59bfa3600f83fd3d9f4e10e9700",
+  "generatedOn": "2026-08-08",
+  "reconciliationIds": [
+    "followup:WA:rcap-wa-cro-form-family-source-identity"
+  ],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountMeaning": "Sources taken into custody: materialized under the sealed source-materialization root, receipted, or pinned as a worker-ready source contract. That count is zero and this job was not authorized to raise it. Eight official binaries were retrieved transiently from the issuer's own site so that identity, revision, media type, byte count, SHA-256, page count, geometry and field structure could be measured at first hand rather than inferred. They were measured in a session scratchpad outside the repository and outside the materialization root, entered no commit, produced no receipt and produced no source contract.",
+  "generatedFrom": [
+    "data/record-clearing/legal-design-intake/WA.memo.json",
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/production-factory/legal-design-decisions/rcap-wa-crop-venue-reconciliation.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-01-in-repo-authority-pinning.json"
+  ],
+  "method": {
+    "description": "Source identity resolution with first-hand structural measurement. The Certificate of Restoration of Opportunity forms index on the Washington Courts' own site was read; every document it offers for the CRO family was retrieved directly from that index's own links; each retrieval was classified by the repository's hardened acquisition-response validator before any digest was reported; and each binary was measured with the committed factory PDF inspector or, for the legacy Word documents the inspector does not model, by container signature and form-face text. RCW 9.97.020 and RCW 36.18.020 were read in full at the Washington State Legislature's own publication. CR 84 and GR 34 were read at the Washington Courts' own rules publication.",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "binariesDownloaded": 8,
+    "binariesRetained": 0,
+    "binariesCommitted": 0,
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "componentRebound": false,
+    "memoAmended": false,
+    "receiptsWritten": 0,
+    "byteVerificationMethod": "measured_at_first_hand_from_issuer_response_body",
+    "perimeterEncountered": false,
+    "perimeterEvasionAttempted": false,
+    "acquisitionValidator": "scripts/lib/rcap-factory/acquisition-response.mjs",
+    "everyResponseClassified": true
+  },
+  "sourceChannel": {
+    "issuer": "Washington State Administrative Office of the Courts",
+    "issuerRole": "The body RCW 9.97.020(11)(a) charges with developing and preparing the instructions, forms and informational brochure for this proceeding.",
+    "publishedIndex": "https://www.courts.wa.gov/forms/?fa=forms.contribute&formID=102",
+    "indexTitle": "Certificate of Restoration of Opportunity",
+    "indexSha256": "5fa22153347e405b5f754ce1c4617f4162f91a0eac541cf4ffebbbbcd999c0dd",
+    "indexByteLength": 22503,
+    "indexRetrievedOn": "2026-08-08",
+    "automationBlocked": false,
+    "note": "The index was reachable by ordinary request. No CAPTCHA, Cloudflare challenge, F5/BIG-IP rejection or authenticated gate stands in front of this family, and none was encountered on any of the eight document retrievals. This is not a blocked channel and no attended retrieval is required to establish identity here."
+  },
+  "headlineFinding": {
+    "statement": "The assignment names five operative binaries. There are not five binaries. Only one document in the entire CRO family is published as a PDF at all, and it is a flat PDF with no form fields.",
+    "detail": "The issuer publishes CRO 01.0100 in both .doc and .pdf, and publishes CRO 01.0200, CRO 01.0300, CRO 01.0600 and CRO 01.0700 as legacy Microsoft Word .doc only. There is no PDF of the notice, the proof of service, the order of dismissal or the order and certificate to acquire, pin, measure or fill. The instructions and the brochure are each published in both an editable format and PDF.",
+    "consequenceForImplementationFamily": "acroform_fill is impossible for the whole family: the one PDF carries zero AcroForm fields, and the other four have no PDF. flat_pdf_overlay is available for CRO 01.0100 alone and for nothing else. Any strategy that reproduces the notice, proof of service or order as the issuer's document would have to render the issuer's Word documents, which is a different acquisition and a different licence question from filling a published PDF.",
+    "doNotInfer": "Do not read 'five operative binaries' in the assignment as a finding that five binaries exist. The phrase came from the venue decision's reading of the forms index, which lists five form numbers. Form numbers are not binaries."
+  },
+  "documents": [
+    {
+      "documentId": "CRO 01.0100",
+      "officialTitle": "Petition for Certificate of Restoration of Opportunity",
+      "titleSource": "issuer forms index and the form face",
+      "formFaceTitle": "Petition for Certificate of Restoration of Opportunity",
+      "docketCode": "PT",
+      "revision": "12/2016",
+      "revisionSource": "form face footer: 'CRO 01.0100 (12/2016) Laws of 2016, ch. 81, §§ 2 and 3'",
+      "indexPublishedDate": "12/2016",
+      "revisionAgreesWithIndex": true,
+      "statutoryFooterCitation": "Laws of 2016, ch. 81, §§ 2 and 3",
+      "scope": "statewide",
+      "scopeBasis": "Published on the statewide forms site under RCW 9.97.020(11), which directs a master copy to all superior courts and all county clerks. No county-specific variant is published and none is required by the statute.",
+      "role": "participant_primary_filing",
+      "signer": "participant",
+      "signerDetail": "Signature block reads 'Petitioner/ Petitioner's Attorney/ WSBA #'. The instrument carries both the petition and the Petitioner's Declaration, which the participant signs.",
+      "formats": [
+        {
+          "mediaType": "application/pdf",
+          "sourceUrl": "https://www.courts.wa.gov/forms/documents/CRO%2001_0100%20Petition%20for%20Certificate%20of%20Restoration%20of%20Opportunities_2016%2012.pdf",
+          "httpStatus": 200,
+          "contentTypeHeader": "application/pdf",
+          "lastModifiedHeader": "Wed, 08 Oct 2025 17:53:44 GMT",
+          "byteLength": 91552,
+          "sha256": "7a8a0b1917490bdd63ff6d7c16e6ccf8160d892bfc66e2e6a20db296d0f69a58",
+          "acquisitionDisposition": "acquired_public_official_download",
+          "structure": {
+            "structureClass": "flat_pdf",
+            "pageCount": 5,
+            "pageGeometry": "612x792 points, rotation 0, every page",
+            "encrypted": false,
+            "xfaPresent": false,
+            "acroFormPresent": false,
+            "logicalFieldCount": 0,
+            "terminalFieldCount": 0,
+            "widgetCount": 0,
+            "widgetTypes": [],
+            "signatureBlockFields": 0,
+            "inspectorWarnings": 0,
+            "inspectorErrors": 0
+          }
+        },
+        {
+          "mediaType": "application/msword",
+          "sourceUrl": "https://www.courts.wa.gov/forms/documents/CRO%2001_0100%20Petition%20for%20Certificate%20of%20Restoration%20of%20Opportunities_2016%2012.doc",
+          "httpStatus": 200,
+          "lastModifiedHeader": "Wed, 08 Oct 2025 17:53:43 GMT",
+          "byteLength": 80896,
+          "sha256": "cb92715915e1945539228ec89e4eea826e11d67b5ce88284c0869886d5e87569",
+          "fileSignature": "ole2_compound_document_d0cf11e0",
+          "structure": {
+            "structureClass": "legacy_word_binary_document",
+            "pageCount": null,
+            "pageCountRationale": "A flow-layout word processing document has no fixed page count, no fixed geometry and no PDF widgets. Its checkboxes are Word FORMCHECKBOX legacy form fields, which are not PDF form fields and cannot be filled by any PDF filler.",
+            "encrypted": false,
+            "xfaPresent": false,
+            "acroFormPresent": false,
+            "wordLegacyFormFieldsPresent": true
+          }
+        }
+      ],
+      "packetMembership": "in_participant_packet",
+      "mapsToMemoComponent": "primary_filing"
+    },
+    {
+      "documentId": "CRO 01.0200",
+      "officialTitle": "Notice of Filing a Petition for Certificate of Restoration of Opportunity",
+      "titleSource": "issuer forms index and the form face",
+      "docketCode": "NT",
+      "revision": "06/2016",
+      "revisionSource": "form face footer: 'CRO 01.0200 (06/2016) Laws of 2016, ch. 81, §§ 2 and 3'",
+      "indexPublishedDate": "06/2016",
+      "revisionAgreesWithIndex": true,
+      "scope": "statewide",
+      "role": "participant_notice_to_outside_party",
+      "signer": "participant",
+      "recipient": "The prosecuting attorney's office in the county of filing, and the prosecuting attorney's office in every other jurisdiction that sentenced the participant in the five years before filing.",
+      "recipientBasis": "RCW 9.97.020(6), and the form face, which carries a block for 'Prosecuting Attorney's Office in this county' and a list for other jurisdictions.",
+      "formats": [
+        {
+          "mediaType": "application/msword",
+          "sourceUrl": "https://www.courts.wa.gov/forms/documents/CRO%2001_0200%20Notice%20of%20Petition%20for%20Certificate%20of%20Restoration%20of%20Opportunity.doc",
+          "httpStatus": 200,
+          "lastModifiedHeader": "Wed, 08 Oct 2025 17:53:49 GMT",
+          "byteLength": 37888,
+          "sha256": "c1c2082b0b3c1850b25016fa42a3da54afbb2f4ebc5538e2882c1edb7e875d70",
+          "fileSignature": "ole2_compound_document_d0cf11e0",
+          "structure": {
+            "structureClass": "legacy_word_binary_document",
+            "pageCount": null,
+            "encrypted": false,
+            "xfaPresent": false,
+            "acroFormPresent": false,
+            "wordLegacyFormFieldsPresent": false
+          }
+        }
+      ],
+      "pdfPublished": false,
+      "packetMembership": "in_participant_packet",
+      "mapsToMemoComponent": "notice_package"
+    },
+    {
+      "documentId": "CRO 01.0300",
+      "officialTitle": "Proof of Service of Notice of Filing a Petition for Certificate of Restoration of Opportunity",
+      "titleSource": "issuer forms index and the form face",
+      "docketCode": "AFSR",
+      "revision": "06/2016",
+      "revisionSource": "form face footer: 'CRO 01.0300 (06/2016) Laws of 2016, ch. 81, §§ 2 and 3'",
+      "indexPublishedDate": "06/2016",
+      "revisionAgreesWithIndex": true,
+      "scope": "statewide",
+      "role": "participant_or_third_party_server_declaration",
+      "signer": "participant_or_outside_party",
+      "signerDetail": "The form face offers 'I am (check one): the Petitioner / (name):' and closes with 'Signature of server'. Where the participant serves personally the participant signs; where another person serves, that person signs. It is a declaration under penalty of perjury under the laws of the state of Washington, so the signer must be the person who actually served.",
+      "perServedPartyCardinality": "one per prosecuting attorney served",
+      "cardinalityBasis": "The instructions direct that a Proof of Service be completed 'for each prosecuting attorney served with the notice'.",
+      "formats": [
+        {
+          "mediaType": "application/msword",
+          "sourceUrl": "https://www.courts.wa.gov/forms/documents/CRO%2001_0300%20Proof%20of%20Serving%20Notice%20of%20Filing%20PT%20for%20CROP.doc",
+          "httpStatus": 200,
+          "lastModifiedHeader": "Wed, 08 Oct 2025 17:53:53 GMT",
+          "byteLength": 43008,
+          "sha256": "a9e42e31c405d26a4dc4d995405e2eaa4a64b78afa3766d7b61d8fa3679db7ca",
+          "fileSignature": "ole2_compound_document_d0cf11e0",
+          "structure": {
+            "structureClass": "legacy_word_binary_document",
+            "pageCount": null,
+            "encrypted": false,
+            "xfaPresent": false,
+            "acroFormPresent": false,
+            "wordLegacyFormFieldsPresent": true
+          }
+        }
+      ],
+      "pdfPublished": false,
+      "packetMembership": "in_participant_packet",
+      "mapsToMemoComponent": "notice_package"
+    },
+    {
+      "documentId": "CRO 01.0600",
+      "officialTitle": "Order of Dismissal of Petition for Certificate of Restoration of Opportunity",
+      "titleSource": "issuer forms index and the form face",
+      "docketCodes": [
+        "ORDDC",
+        "ORDIN",
+        "ORDNQ"
+      ],
+      "docketCodeMeaning": "ORDDC declined to consider; ORDIN petitioner ineligible; ORDNQ court not qualified. Three dispositions on one instrument, selected by checkbox.",
+      "revision": "06/2016",
+      "revisionSource": "form face footer: 'CRO 01.0600 (06/2016) Laws of 2016, ch. 81, §§ 2 and 3'",
+      "indexPublishedDate": "06/2016",
+      "revisionAgreesWithIndex": true,
+      "scope": "statewide",
+      "role": "court_issued_order",
+      "signer": "court",
+      "formats": [
+        {
+          "mediaType": "application/msword",
+          "sourceUrl": "https://www.courts.wa.gov/forms/documents/CRO%2001_0600%20Order%20of%20Dismissal%20Petition%20for%20CROP.doc",
+          "httpStatus": 200,
+          "lastModifiedHeader": "Wed, 08 Oct 2025 17:53:56 GMT",
+          "byteLength": 41472,
+          "sha256": "32a9b2eb9bae5efce8c36326ea3e03a046e3d808cf5b33c8b1b96d4f07014f42",
+          "fileSignature": "ole2_compound_document_d0cf11e0",
+          "structure": {
+            "structureClass": "legacy_word_binary_document",
+            "pageCount": null,
+            "encrypted": false,
+            "xfaPresent": false,
+            "acroFormPresent": false,
+            "wordLegacyFormFieldsPresent": true,
+            "clerkActionRequired": "section 2"
+          }
+        }
+      ],
+      "pdfPublished": false,
+      "packetMembership": "not_in_participant_packet",
+      "packetMembershipBasis": "Its entire content is the court's own findings and disposition — 'The court: declines to consider the petition (option only available in the county where the petitioner resides) because…', 'determines the petitioner did not meet the required qualifications because…', 'determines it is not qualified to consider the…'. The instructions describe it as the instrument the court must use to explain a dismissal: 'If the court dismisses your petition, the court must explain the reason for dismissal in the Order of Dismissal of Petition for Certificate of Restoration of Opportunity, form CRO 01.0600.' There is no state of the world in which a participant lodges an order dismissing their own petition on three grounds they are arguing against.",
+      "mapsToMemoComponent": null,
+      "explicitlyAnswersAssignment": "The assignment asked which documents are not part of the participant packet at all, naming the order of dismissal in particular. This is the answer: CRO 01.0600 is court-issued and must not be generated, lodged, filled or included."
+    },
+    {
+      "documentId": "CRO 01.0700",
+      "officialTitle": "Order and Certificate of Restoration of Opportunity",
+      "titleSource": "issuer forms index and the form face",
+      "docketCode": "ORCROP",
+      "revision": "06/2016",
+      "revisionSource": "form face footer identifies the form as CRO 01.0700 (06/2016), Laws of 2016, ch. 81, §§ 2 and 3",
+      "indexPublishedDate": "06/2016",
+      "revisionAgreesWithIndex": true,
+      "scope": "statewide",
+      "role": "court_issued_order_and_certificate",
+      "signer": "court",
+      "roleQualification": "This is the document the memo maps to its proposed_order component, and the mapping is not clean. See unresolved item wa-cro-01-0700-proposed-or-issued.",
+      "formats": [
+        {
+          "mediaType": "application/msword",
+          "sourceUrl": "https://www.courts.wa.gov/forms/documents/CRO%2001_0700%20Order%20and%20Certificate%20of%20Restoration%20of%20Opportunities.doc",
+          "httpStatus": 200,
+          "lastModifiedHeader": "Wed, 08 Oct 2025 17:53:59 GMT",
+          "byteLength": 60416,
+          "sha256": "3a4af08b635b1d83ea214ce2e99d4f03d7e9cf446fd89021a9ccbd82dfae82c9",
+          "fileSignature": "ole2_compound_document_d0cf11e0",
+          "structure": {
+            "structureClass": "legacy_word_binary_document",
+            "pageCount": null,
+            "encrypted": false,
+            "xfaPresent": false,
+            "acroFormPresent": false,
+            "wordLegacyFormFieldsPresent": true,
+            "clerkActionRequired": "section 7"
+          }
+        }
+      ],
+      "pdfPublished": false,
+      "packetMembership": "conditional_see_unresolved",
+      "mapsToMemoComponent": "proposed_order"
+    },
+    {
+      "documentId": "CROP Instructions",
+      "officialTitle": "Instructions for a Certificate of Restoration of Opportunity",
+      "internalFormCode": "CROi 01.0100",
+      "revision": "12/2019",
+      "revisionSource": "form face footer on every page: 'CROi 01.0100 (12/2019)'",
+      "indexPublishedDate": "01/2020",
+      "revisionAgreesWithIndex": false,
+      "revisionDisagreementTreatment": "The face governs. The index date 01/2020 is a publication date, not a revision. The document's own footer reads 12/2019 on all five pages. Recorded as a discrepancy rather than resolved by preferring whichever is later: nothing establishes that the index date reflects any change to the content.",
+      "scope": "statewide",
+      "role": "issuer_instructions",
+      "signer": "none",
+      "formats": [
+        {
+          "mediaType": "application/pdf",
+          "sourceUrl": "https://www.courts.wa.gov/forms/documents/CROP%20instructions%20English%202020%2001.pdf",
+          "httpStatus": 200,
+          "contentTypeHeader": "application/pdf",
+          "lastModifiedHeader": "Mon, 06 Jan 2020 18:40:59 GMT",
+          "byteLength": 119811,
+          "sha256": "f8a2590f69cae42865166e8643b8c63da25226859c1b4b09a06f0746e782ef79",
+          "acquisitionDisposition": "acquired_public_official_download",
+          "structure": {
+            "structureClass": "flat_pdf",
+            "pageCount": 5,
+            "pageGeometry": "612x792 points, rotation 0, every page",
+            "encrypted": false,
+            "xfaPresent": false,
+            "acroFormPresent": false,
+            "logicalFieldCount": 0,
+            "terminalFieldCount": 0,
+            "widgetCount": 0
+          }
+        }
+      ],
+      "docxAlsoPublished": true,
+      "packetMembership": "reference_only_not_filed",
+      "mapsToMemoComponent": "filing_instructions (as source material, not as a generated component)"
+    },
+    {
+      "documentId": "CROP Brochure",
+      "officialTitle": "Certificate of Restoration of Opportunity – Brochure",
+      "revision": "12/2019",
+      "revisionSource": "issuer forms index; the brochure is the RCW 9.97.020(11)(a) informational brochure",
+      "indexPublishedDate": "12/2019",
+      "revisionAgreesWithIndex": true,
+      "scope": "statewide",
+      "role": "issuer_informational_brochure",
+      "signer": "none",
+      "formats": [
+        {
+          "mediaType": "application/pdf",
+          "sourceUrl": "https://www.courts.wa.gov/forms/documents/CROP%20Brochure%20Courts%20English%202019%2012.pdf",
+          "httpStatus": 200,
+          "contentTypeHeader": "application/pdf",
+          "lastModifiedHeader": "Fri, 03 Jan 2020 00:51:27 GMT",
+          "byteLength": 153826,
+          "sha256": "fd9047c5293031287d12ed71a79c187f3999cb1c87b1728ede91e488ff040205",
+          "acquisitionDisposition": "acquired_public_official_download",
+          "structure": {
+            "structureClass": "flat_pdf",
+            "pageCount": 2,
+            "pageGeometry": "612x792 points, rotation 90 on both pages — a landscape trifold",
+            "encrypted": false,
+            "xfaPresent": false,
+            "acroFormPresent": false,
+            "logicalFieldCount": 0,
+            "terminalFieldCount": 0,
+            "widgetCount": 0
+          }
+        }
+      ],
+      "docAlsoPublished": true,
+      "packetMembership": "reference_only_not_filed",
+      "mapsToMemoComponent": null
+    }
+  ],
+  "mandatoryOrPattern": {
+    "question": "Are the CRO forms mandatory forms a superior court must accept and a filer must use, pattern forms a filer may adapt, or optional?",
+    "verdict": "not_mandatory",
+    "classification": "issuer_developed_assistive_forms_use_not_compelled",
+    "confidence": "high",
+    "consequenceStated": "The packet may conform to these forms without being obliged to reproduce them, and a custom pleading that follows their structure and captions is not defective for not being the issuer's file.",
+    "evidence": [
+      "RCW 9.97.020(11)(a) charges the Administrative Office of the Courts to 'develop and prepare instructions, forms, and an informational brochure designed to assist applicants applying for a certificate of restoration of opportunity'. The statutory purpose is assistance, and the section imposes no duty on a filer.",
+      "RCW 9.97.020(11)(b): 'The instructions must include, at least, a sample of a standard application and a form order for a certificate of restoration of opportunity.' A sample of a standard application is not a mandatory form, and the venue decision's instinct about the word 'sample' is confirmed at source.",
+      "RCW 9.97.020(11)(c) directs distribution of 'a master copy' to all county clerks and superior courts. A master copy is a template for local reproduction, which is the opposite of a compelled filing instrument.",
+      "CR 84, the Superior Court Civil Rule titled FORMS, reads in its entirety '[RESERVED]'. Read at the Washington Courts' own rules publication (SUP_CR_84_00_00.pdf, 4041 bytes, sha256 7318acc1b7b957f919de7d3831ce4ae0dda70f12d9f4857419354092efe8ea24). There is no civil rule prescribing forms for superior court civil actions, and a CROP application is filed as a civil action under RCW 9.97.020(7).",
+      "Washington marks its mandated forms in the form number itself. The fee-waiver forms GR 34 requires carry the WPF prefix — WPF GR 34.0100, WPF GR 34.0200, WPF GR 34.0500 — for Washington Pattern Forms, and GR 34(a)(1) calls that instrument 'a mandatory pattern form created by the Administrative Office of the Courts'. The CRO forms carry no WPF prefix and no rule names them."
+    ],
+    "notAsserted": [
+      "That no local rule anywhere compels the CRO forms. That is a 39-county question and is recorded unresolved below. What is established is that no statewide statute or rule compels them.",
+      "That a court would reject the issuer's own form. Nothing suggests that; the finding runs the other way."
+    ]
+  },
+  "participantPacketMapping": {
+    "basis": "The memo's five components for wa_crop_certificate_of_restoration, read against the eight documents this record measures and against the issuer's instructions.",
+    "map": [
+      {
+        "memoComponent": "primary_filing",
+        "memoRequirement": "required",
+        "correspondingIssuerDocument": "CRO 01.0100",
+        "relationship": "exact_single_document",
+        "note": "One instrument carries both the petition and the Petitioner's Declaration across five pages. The memo's primary_filing is not one of two documents; it is this whole five-page instrument. Its note that 'No Washington Courts pattern form for this section was identified by the controlling review or located on this pass' is factually superseded by this record: the form exists, is published, and is measured here."
+      },
+      {
+        "memoComponent": "notice_package",
+        "memoRequirement": "required",
+        "correspondingIssuerDocuments": [
+          "CRO 01.0200",
+          "CRO 01.0300"
+        ],
+        "relationship": "one_memo_component_to_two_issuer_documents_with_variable_cardinality",
+        "note": "CRO 01.0200 is one notice per prosecuting attorney to be notified; CRO 01.0300 is one proof of service per prosecuting attorney served. The count is a function of the participant's sentencing history in the preceding five years and is not fixed at two. The memo treats notice_package as a single required component, which is compatible, but any implementation must generate the pair per recipient rather than once."
+      },
+      {
+        "memoComponent": "proposed_order",
+        "memoRequirement": "required",
+        "correspondingIssuerDocument": "CRO 01.0700",
+        "relationship": "contested_see_unresolved",
+        "note": "See wa-cro-01-0700-proposed-or-issued. The memo assumes a proposed order the participant lodges. The issuer's instructions describe CRO 01.0700 as something the court issues."
+      },
+      {
+        "memoComponent": "records_checklist",
+        "memoRequirement": "required",
+        "correspondingIssuerDocument": null,
+        "relationship": "no_issuer_document",
+        "note": "Process guidance. The issuer's instructions supply its content: the Washington State Patrol WATCH criminal history at https://fortress.wa.gov/wsp/watch/, the judgment and sentence or adjudication order for every listed conviction, proof of completion of or compliance with conditions, and for legal financial obligations either a satisfaction of judgment or a case financial history with receipting detail obtained from the convicting court's clerk."
+      },
+      {
+        "memoComponent": "filing_instructions",
+        "memoRequirement": "required",
+        "correspondingIssuerDocument": null,
+        "relationship": "no_issuer_document_but_issuer_instructions_are_source_material",
+        "note": "Process guidance informed by the CROP Instructions and brochure, neither of which is filed."
+      }
+    ],
+    "documentsOutsideTheParticipantPacket": [
+      {
+        "documentId": "CRO 01.0600",
+        "reason": "court_issued_dismissal_order"
+      },
+      {
+        "documentId": "CROP Instructions",
+        "reason": "reference_material_not_filed"
+      },
+      {
+        "documentId": "CROP Brochure",
+        "reason": "reference_material_not_filed"
+      }
+    ],
+    "documentTheParticipantMustAttachThatIsNotACroForm": {
+      "what": "Copies of the notices sent to each prosecuting attorney.",
+      "basis": "CRO 01.0100 section 2 states 'Copies of the notices sent to each prosecuting attorney must be attached', and the instructions repeat it: 'Attach the Notice of Filing Petition for Certificate of Restoration to the petition.'",
+      "consequence": "The notice is not merely served; a copy of it is an attachment to the petition. An implementation that serves the notice and files the petition without attaching the notice copy produces an incomplete filing."
+    }
+  },
+  "filingFee": {
+    "existsPerIssuer": true,
+    "issuerStatement": "The CROP Instructions state: 'There is a filing fee for the CROP petition. If you cannot afford to pay the filing fee, you can ask the court for a fee waiver using the GR 34 motion for fee waiver.' The issuer does not state an amount.",
+    "statutoryAmount": {
+      "governingProvision": "RCW 36.18.020(2)(a)",
+      "why": "RCW 9.97.020(7) provides that an 'application for a certificate of restoration of opportunity must be filed as a civil action'. RCW 36.18.020(2)(a) sets the fee for 'the party filing the first or initial document in any civil action'.",
+      "baseFee": "$200",
+      "surcharges": [
+        {
+          "provision": "RCW 36.18.020(5)(c)",
+          "amount": "$40",
+          "applies": true,
+          "why": "Collected on all filing fees required under the section except those under subsection (2)(b), (d) and (h). A CROP petition is under (2)(a) and is not excepted."
+        },
+        {
+          "provision": "RCW 36.18.020(6)",
+          "amount": "$50",
+          "applies": true,
+          "why": "Collected on filing fees required under subsection (2)(a) among others."
+        }
+      ],
+      "statutoryTotal": "$290",
+      "totalBasis": "$200 base plus the $40 subsection (5)(c) surcharge plus the $50 subsection (6) surcharge, each of which the statute directs the clerk to collect.",
+      "readAtSource": "https://app.leg.wa.gov/RCW/default.aspx?cite=36.18.020 on 2026-08-08; response sha256 9340d2864a53c653fc7b6c3f44b00b37a14f4c20c2da1878dde4a2fa693bd1da"
+    },
+    "notAsserted": "That $290 is the whole of what a participant pays at any given counter. RCW 36.18.020 is the statewide schedule the clerk must collect; it does not exclude other lawfully established local charges, and GR 34's own comment contemplates 'other lawfully established fees and surcharges' beyond the section. The packet may state the statutory figure with its provisions and must not present it as a guaranteed county total.",
+    "waiver": {
+      "mechanism": "GR 34, Waiver of Court and Clerk's Fees and Charges in Civil Matters on the Basis of Indigency",
+      "readAtSource": "https://www.courts.wa.gov/court_rules/pdf/GR/GA_GR_34_00_00.pdf; 133512 bytes; sha256 33496beb626957b04d69364b248e24e5eb281c3694066573c4ced70343ff01ae",
+      "scope": "GR 34(a) reaches 'filing fees or surcharges the payment of which is a condition precedent to a litigant's ability to secure access to judicial relief', and its comment names RCW 36.18.020(5) surcharges expressly. The waiver therefore reaches the base fee and both surcharges, not the base fee alone.",
+      "applicationForm": "A mandatory pattern form created by the Administrative Office of the Courts, per GR 34(a)(1). The issuer's instructions point to https://www.courts.wa.gov/forms/?fa=forms.contribute&formID=87, which publishes WPF GR 34.0100 Motion and Declaration for Waiver of Civil Fees and Surcharges (07/2019), WPF GR 34.0200 (QLSP Filing) (04/2021) and WPF GR 34.0500 Order Re Waiver of Civil Fees and Surcharges (05/2014).",
+      "mayBeMadeOrally": "GR 34(a)(1) permits the application 'ex parte in writing or orally', but in either case accompanied by the mandatory pattern form or a QLSP declaration of counsel.",
+      "noLocalFeeForApplying": "GR 34(a)(2): 'There shall be no locally imposed fee for making an application.'",
+      "packetConsequence": "The fee-waiver route is a real, statewide, rule-based route and may be described as such. Whether the waiver is granted is a judicial determination on the participant's finances and must not be promised.",
+      "acquisitionConsequence": "The GR 34 forms are a separate WPF family with their own identities and revisions. They are not part of the CRO family, were not measured here, and if the packet is to include a fee-waiver component they require their own acquisition."
+    }
+  },
+  "localSuperiorCourtRequirements": {
+    "verdict": "yes_at_least_one_county_requires_an_additional_document_and_the_full_enumeration_is_unresolved",
+    "publisherWarning": "The Washington Courts forms site states, on the CRO index itself, 'Additional documents may be required by local county superior court rules,' and on the forms home page, 'Your Court may have additional forms you must file in a case. Please check with your local Court to confirm.'",
+    "confirmedExamples": [
+      {
+        "county": "King",
+        "requirement": "A Case Assignment Area Designation and Case Information Cover Sheet is required when a new civil case is filed in person; it is not required for electronic filing. The form certifies that the case meets the case assignment criteria in King County LCR 82(e).",
+        "evidenceQuality": "read from the county's own superior court civil filing pages",
+        "scopeOfThisEvidence": "King County only. It is evidence about King County and about nothing else."
+      }
+    ],
+    "counties": 39,
+    "countiesSurveyed": 1,
+    "unsurveyed": 38,
+    "doNotInfer": "No county is recorded here as requiring nothing. Thirty-eight counties were not surveyed, and the absence of a survey is not a finding of absence. Do not generalise the King County cover sheet to other counties either: the requirement, the form and the in-person-only carve-out are local.",
+    "designConsequence": "This does not make the track county-routed. It makes a local-rules check an ordinary filing instruction, exactly as the venue decision concluded. A statewide packet remains generable."
+  },
+  "currentnessAndSupersession": {
+    "familyRevisionState": "The five CRO forms carry 06/2016 revisions except the petition, revised 12/2016. The instructions carry 12/2019 on the face. The brochure carries 12/2019.",
+    "supersessionFound": false,
+    "supersessionBasis": "The issuer's own current index publishes exactly these revisions today. No superseding revision of any CRO form was published, and no CRO form was withdrawn. The index is the issuer's authoritative list for this family and it was read on 2026-08-08.",
+    "ageIsNotStaleness": "A 2016 revision is not evidence of staleness. Laws of 2016, ch. 81 created the proceeding and the forms were issued under the RCW 9.97.020(11)(c) duty to distribute master copies by January 1, 2017. The forms match the statute as it currently reads.",
+    "lastModifiedHeadersAreNotRevisions": {
+      "observation": "Every CRO form URL returns Last-Modified of 08 Oct 2025, and the instructions and brochure return January 2020 dates.",
+      "treatment": "A Last-Modified header records when the file was last written to the web server, which on 08 Oct 2025 was almost certainly a bulk migration of the whole forms directory: five documents with five different published revisions share the same timestamp to within sixteen seconds. It is not a revision and is recorded as a transport fact only.",
+      "doNotInfer": "Do not stamp REV-2025-10 on any of these documents."
+    },
+    "statutoryCurrency": {
+      "checkedAgainst": "RCW 9.97.020 as currently published, read in full on 2026-08-08 (response sha256 e92c2819a244974837df0d46516edf912fcf9102a1826577a77e433ca9ffa604).",
+      "finding": "The statute has been amended since 2016 — subsection (5)(f) addresses the Department of Children, Youth, and Families, which did not exist in its present form in 2016 — while the forms carry 2016 revisions. Nothing in those amendments changes what the applicant must plead or what the order must say, so the forms are not superseded by them. This is recorded because a future amendment touching the application itself would supersede the forms and nothing in the forms' own metadata would show it."
+    }
+  },
+  "licensing": {
+    "verdict": "unresolved_no_licence_located",
+    "whatWasChecked": "The CRO index page, the forms home page and the retrieved documents themselves carry no licence, no terms of use and no reproduction permission. The site footer carries '© Copyright 2026. Washington State Administrative Office of the Courts.'",
+    "whatThatMeans": "A copyright notice over a state court forms site is an assertion of rights, not a grant of one, and public availability is not permission. No Washington source contract may be written and no CRO form may be reproduced as the issuer's document until the licensing question is separately owned and answered.",
+    "distinctionThatMatters": "Conforming to a form is not reproducing it. The mandatory-or-pattern finding above establishes that a custom pleading may follow the CRO structure and captions without using the issuer's file, and that route does not depend on the licence. Filling or embedding the issuer's binary does.",
+    "notAsserted": [
+      "That reproduction is permitted. It is not established.",
+      "That reproduction is prohibited. That is not established either.",
+      "That the Colorado or Kansas licence determinations tell us anything about Washington. They are different publishers under different terms."
+    ],
+    "handoffTo": "A Washington written-permission or licence-determination assignment, which does not exist yet and which this job may not create."
+  },
+  "sourceContractEligibility": {
+    "eligible": false,
+    "reasons": [
+      "No licence has been established, so no reproduction-authorized contract can be written.",
+      "This job is a source-identity resolution and its stop condition forbids creating a receipt without an authorized source contract.",
+      "Four of the five forms have no PDF, so any contract would have to describe a Word-document acquisition, which is a different acquisition class than the official-PDF queue currently models."
+    ],
+    "whatWouldMakeItEligible": "A Washington licence determination permitting reproduction, followed by a materialization assignment that places the exact measured bytes under the sealed materialization root and issues a receipt against the digests recorded here."
+  },
+  "materializationEligibility": {
+    "eligible": false,
+    "why": "Materialization requires an owning assignment and an authorized use. This job owns neither. The digests recorded here are measurements, not custody.",
+    "digestsAreReusable": true,
+    "digestsAreReusableNote": "A future materialization assignment can verify its own retrieval against the byte counts and SHA-256 values recorded here. If they differ, the issuer republished and the difference is the finding."
+  },
+  "editionConsequence": {
+    "kind": "new_rows_evidence_only",
+    "amendmentRequired": false,
+    "amendmentRequiredNote": "No Edition 1.2 row is wrong. The edition retains no CRO asset at all, so there is nothing to correct, retire or re-title.",
+    "recommendedSuccessorTreatment": "Eight evidence-only rows for the CRO family — five forms, the instructions and the brochure, with the petition carrying two format rows — recording identity, title, revision, role, scope, media type, byte count and SHA-256, and each marked not generation-authorized pending the Washington licence determination.",
+    "notPerformedHere": "This job publishes no edition, amends no edition, and writes no edition row. Edition 1.3 publication is owned elsewhere and is untouched.",
+    "doNotSweep": "No other Washington row and no other jurisdiction's row is implicated by this record."
+  },
+  "implementationFamilyConsequence": {
+    "currentMemoStrategy": "custom_pleading",
+    "acroformFillPossible": false,
+    "acroformFillWhyNot": "CRO 01.0100 is the only CRO PDF and it carries no AcroForm, no XFA, zero fields and zero widgets. The other four forms have no PDF.",
+    "flatPdfOverlayPossible": "for CRO 01.0100 only, and only if the licence permits reproduction",
+    "flatPdfOverlayDetail": "5 pages, 612x792 points, rotation 0 throughout, no encryption. Structurally an ordinary overlay target.",
+    "customPleadingRemainsAvailable": true,
+    "customPleadingUnaffectedByLicence": true,
+    "recommendation": "Leave the track custom_pleading. The venue decision handed the memo a form question and expected it to point toward official_pdf_fill; measured at first hand it points the other way. Filling would deliver one of four filed documents from the issuer's file and require a licence for it, while the other three would be composed anyway. A custom pleading conforming to the CRO structure and captions delivers the whole set on one strategy with no licence dependency.",
+    "recommendationIsNotADecision": "The strategy is a memo decision and this record does not make it. It supplies the measurements the decision needs."
+  },
+  "memoAccuracyFindings": [
+    {
+      "memoLocation": "components[0].notes for wa_crop_certificate_of_restoration",
+      "memoText": "No Washington Courts pattern form for this section was identified by the controlling review or located on this pass.",
+      "finding": "Superseded by measurement. A complete published set exists and has since 2016.",
+      "correctionOwner": "the Washington legal-design owner",
+      "correctedHere": false
+    },
+    {
+      "memoLocation": "geography.venue and destination.detail",
+      "memoText": "the venue question is asked and confirmed with the clerk before filing",
+      "finding": "Already answered against the memo by rcap-wa-crop-venue-reconciliation on the face of RCW 9.97.020(8). Restated here only because this record's fee and local-rules findings are the other half of what replaces that language.",
+      "correctionOwner": "the Washington legal-design owner",
+      "correctedHere": false
+    },
+    {
+      "memoLocation": "components[2].notes",
+      "memoText": "The exact recipients and timing are among the open questions on this track",
+      "finding": "The recipients are settled by RCW 9.97.020(6) and by the forms themselves: the prosecuting attorney of the county of filing, and the prosecuting attorney of every jurisdiction that sentenced the participant in the preceding five years. Timing is not settled: no provision fixes how far before filing the notice must be given, and the instructions place service alongside filing without stating an interval.",
+      "correctionOwner": "the Washington legal-design owner",
+      "correctedHere": false
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "wa-cro-01-0700-proposed-or-issued",
+      "question": "Does the participant lodge CRO 01.0700 as a proposed order, or does the court produce it on its own?",
+      "status": "unresolved",
+      "whyItMatters": "It decides whether the memo's proposed_order component is generated at all. If the court produces it, generating a proposed order is harmless surplus at best and misleading at worst.",
+      "evidenceEachWay": {
+        "pointsToCourtIssued": [
+          "The instructions say only: 'If the court grants the petition, the court will issue an Order and Certificate of Restoration of Opportunity, form CRO 01.0700.' They never tell the applicant to prepare or bring one, though they walk through every other step in order.",
+          "The form face is entirely the court's voice — findings on hearing, qualified court, notice, and whether the petitioner meets the requirements — and carries a Clerk's Action Required marker at section 7.",
+          "There is no 'Presented by' block for the petitioner or petitioner's counsel on the face."
+        ],
+        "pointsToParticipantLodged": [
+          "RCW 9.97.020(11)(b) requires the instructions to include 'a form order', which would be pointless if the applicant were never to use it.",
+          "Ordinary Washington superior court civil practice is for the moving party to present a proposed order.",
+          "The memo, on the controlling review, records a required proposed_order component."
+        ]
+      },
+      "whatWouldSettleIt": "Local practice at a superior court clerk's office, or a county's own CROP filing instructions if any publishes one. Neither is a document question and neither was resolved here.",
+      "doNotInfer": "Do not resolve it by deleting the memo's proposed_order component, and do not resolve it by asserting the participant must lodge one."
+    },
+    {
+      "id": "wa-cro-local-rule-enumeration",
+      "question": "Which of the 39 county superior courts require additional documents, and what are they?",
+      "status": "unresolved_bounded",
+      "established": "That at least one does. King County requires a Case Assignment Area Designation and Case Information Cover Sheet for in-person new civil filings under LCR 82(e).",
+      "notEstablished": "Anything about the other 38.",
+      "owner": "the Washington legal-design owner, as a release-blocker-level local-rules check"
+    },
+    {
+      "id": "wa-cro-licence",
+      "question": "May LegalEase reproduce the Washington Courts CRO forms in a participant packet?",
+      "status": "unresolved",
+      "owner": "a Washington licence determination assignment that does not yet exist",
+      "blocks": [
+        "any CRO source receipt",
+        "any CRO materialization",
+        "any flat_pdf_overlay on CRO 01.0100"
+      ],
+      "doesNotBlock": "a custom pleading conforming to the CRO forms"
+    },
+    {
+      "id": "wa-cro-word-source-class",
+      "question": "How does the factory treat an official document the issuer publishes only as legacy Word?",
+      "status": "unresolved_infrastructure",
+      "detail": "Four of the five CRO forms are .doc only. The official-PDF queue, the PDF inspector and the acroform and overlay renderers all assume a PDF. There is no acquisition class, no structural schema and no receipt shape for a legacy Word official source.",
+      "measuredWhatCouldBeMeasured": "Byte count, SHA-256, OLE2 container signature and form-face text are recorded for each. Page count, geometry, widgets and terminal fields are recorded as null because a flow-layout Word document has none — not because they were not looked for.",
+      "owner": "the factory infrastructure owner",
+      "note": "This is not Washington-specific. Any jurisdiction publishing Word-only forms hits the same gap."
+    },
+    {
+      "id": "wa-cro-notice-timing",
+      "question": "How far before filing must the RCW 9.97.020(6) notice reach the prosecuting attorney?",
+      "status": "unresolved",
+      "detail": "The statute requires notice of the pendency of the application without fixing an interval. The instructions treat notice and filing as one step and attach the notice copy to the petition. No provision was located setting a period.",
+      "owner": "the Washington legal-design owner"
+    }
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "receiptsWritten": 0,
+    "sourceContractsWritten": 0,
+    "editionMutated": false,
+    "memoAmended": false,
+    "cropTrackMadeReady": false
+  }
+}
