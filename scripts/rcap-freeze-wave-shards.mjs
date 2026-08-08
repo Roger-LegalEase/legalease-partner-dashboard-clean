@@ -41,9 +41,9 @@ const ACTIVE_SHARDS = [
     shard: "B1",
     lane: "custom_pleading",
     ownerSession: "SESSION_B",
-    jobIds: ["rcap-wy-custom-pleading", "rcap-hi-custom-pleading"],
+    jobIds: ["rcap-hi-custom-pleading"],
     note:
-      "Wyoming carries over unfinished. Hawaii is promoted: its stage-one filing vehicle was the longest-standing legal-design blocker in the plan and the integrated memo correction closed it, so the five conviction tracks are buildable for the first time."
+      "Hawaii only. Wyoming left this shard: all three of its tracks carry unresolved governing-mechanism questions, its packet components wait on a 23-county local-template survey nobody has run, and two tracks carry open waiting-period and eligibility questions. It was standing ready with every one of those open. It is now blocked on three owners and will return when they answer."
   },
   {
     shard: "B2",
@@ -91,8 +91,20 @@ const ACTIVE_SHARDS = [
       "rcap-oh-marijuana-governing-mechanism-reconciliation",
       "rcap-wa-crop-venue-reconciliation"
     ],
+    // D2 carries the Wyoming reads; D1's carried work is not reranked.
     note:
       "The two questions that forced the B2 split, each owning a decision record only. rcap-vt-200-00130-source-identity-resolution is deliberately absent: its decision is already integrated at d40261d and the job had been advertising work that was done."
+  },
+  {
+    shard: "D2",
+    lane: "legal_design_normalization",
+    ownerSession: "SESSION_D",
+    jobIds: [
+      "rcap-wy-governing-mechanism-and-currency-reconciliation",
+      "rcap-wy-eligibility-waiting-period-and-effect-reconciliation"
+    ],
+    note:
+      "The two Wyoming reads that block its custom-pleading lane: a statutory sweep of the 2025 and 2026 sessions with the missing enactment dates and the felony-deferral gap, and the substantive reads on the status-offence definition and the restoration asymmetry between sections 7-13-1501 and 7-13-1502(m). Different reads, so different owners; neither owns WY.memo.json."
   },
   {
     shard: "E1",
@@ -116,10 +128,11 @@ const ACTIVE_SHARDS = [
     jobIds: [
       "rcap-mn-attended-retrieval-currentness-comparison",
       "rcap-de-attended-retrieval-five-current-forms",
-      "rcap-de-form-281e-edition-metadata-correction"
+      "rcap-de-form-281e-edition-metadata-correction",
+      "rcap-wy-local-template-and-handout-survey"
     ],
     note:
-      "Refilled from the integrated Minnesota and Delaware refusals. The two retrievals need a person in a browser and are ranked, not promised; the 281E correction is metadata only and needs nobody."
+      "Human-attended work plus one metadata correction. The Minnesota and Delaware retrievals need a person in a browser; the Wyoming survey needs a person telephoning clerks in 23 counties and is not a download; the 281E correction is metadata only and needs nobody. The three attended items are ranked, not promised."
   },
   {
     shard: "F2",

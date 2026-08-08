@@ -4,7 +4,7 @@
   "note": "Shard metadata is recorded here rather than on a claim because a job manifest is what a branch fingerprint is computed from: a coordination field inside the assignment would rename a worker's branch. Nothing here alters a semantic fingerprint or a branch key.",
   "reviewShardReservationNote": "The claim schema's ownerSession enum is SESSION_B through SESSION_F, and review is none of those. R1 and R2 are therefore reserved here rather than in job-claims.json. This manifest is the reservation of record for them; widening the claim enum would change the job manifest and, through it, worker branch identity.",
   "baseline": {
-    "baseCommit": "60207b6cf57147d9e5b40ea0cc71d0957b1c295c",
+    "baseCommit": "2faea1123246a3f7095f4f17d6f82f29f158f7e1",
     "authorityVersion": "master-library/1.2",
     "authorityEdition": "1.2"
   },
@@ -12,7 +12,7 @@
     "normalizedTracks": 497,
     "representedExactlyOnce": 497,
     "implementationComplete": 212,
-    "jobs": 459,
+    "jobs": 462,
     "generatedFrom": [
       {
         "path": "data/rcap-all50/all-state-build-manifest.json",
@@ -196,7 +196,7 @@
       },
       {
         "path": "data/record-clearing/production-factory/job-claims.json",
-        "sha256": "2d15a087c210dd9897c4665d4c9f1b3507be860cca7b981a1e62f744001b817d"
+        "sha256": "663b361b5109d60ec9188bd00034cb3a18567f237ff1a760d24795881cdcc55a"
       },
       {
         "path": "data/record-clearing/production-factory/legal-review-materialization-contract.json",
@@ -552,7 +552,7 @@
       },
       {
         "path": "planning/record-clearing-100-percent/production-plan.json",
-        "sha256": "36fde1f0a0c4a2054087f5906a8b2dc2a547f4728e84fbd8b77c278eb0139c0e"
+        "sha256": "6f1d02f39d4a93efbc420a92a3b708b926ac8eafcf2dcc7f6954be9b286ff8b3"
       },
       {
         "path": "src/lib/rcap/jurisdictions/packet-capability.ts",
@@ -576,9 +576,9 @@
     ]
   },
   "totals": {
-    "activeShards": 14,
+    "activeShards": 15,
     "candidateShards": 7,
-    "activeJobs": 27,
+    "activeJobs": 29,
     "candidateJobs": 15,
     "awaitingIntegration": 0
   },
@@ -589,45 +589,18 @@
       "lane": "custom_pleading",
       "status": "active",
       "ownerSession": "SESSION_B",
-      "note": "Wyoming carries over unfinished. Hawaii is promoted: its stage-one filing vehicle was the longest-standing legal-design blocker in the plan and the integrated memo correction closed it, so the five conviction tracks are buildable for the first time.",
+      "note": "Hawaii only. Wyoming left this shard: all three of its tracks carry unresolved governing-mechanism questions, its packet components wait on a 23-county local-template survey nobody has run, and two tracks carry open waiting-period and eligibility questions. It was standing ready with every one of those open. It is now blocked on three owners and will return when they answer.",
       "jobIds": [
-        "rcap-wy-custom-pleading",
         "rcap-hi-custom-pleading"
       ],
       "capacity": {
-        "jobs": 2,
-        "assignedTracks": 8,
-        "incrementalTracks": 8,
-        "assignedComponents": 30,
-        "incrementalComponents": 30
+        "jobs": 1,
+        "assignedTracks": 5,
+        "incrementalTracks": 5,
+        "assignedComponents": 15,
+        "incrementalComponents": 15
       },
       "jobs": [
-        {
-          "jobId": "rcap-wy-custom-pleading",
-          "lane": "custom_pleading",
-          "jurisdiction": "WY",
-          "status": "ready",
-          "semanticFingerprint": "ecde12d422618a508a805e419c0f335a5217e046ccaf01ef198c57fc60f65e65",
-          "branch": "rcap-factory/rcap-wy-custom-pleading-05f655d3-ecde12d4",
-          "ownedPaths": [
-            "scripts/verify-rcap-wyoming-custom-pleading.mjs",
-            "src/lib/rcap/packets/jurisdictions/wyoming/custom-pleading.ts"
-          ],
-          "dependencies": [],
-          "assignedTrackIds": [
-            "wy_fel_1502",
-            "wy_misd_1501",
-            "wy_nc_1401"
-          ],
-          "incrementalTrackIds": [
-            "wy_fel_1502",
-            "wy_misd_1501",
-            "wy_nc_1401"
-          ],
-          "assignedComponents": 15,
-          "incrementalComponents": 15,
-          "alreadyHasPushedCompletion": false
-        },
         {
           "jobId": "rcap-hi-custom-pleading",
           "lane": "custom_pleading",
@@ -947,6 +920,61 @@
     },
     {
       "wave": 4,
+      "shard": "D2",
+      "lane": "legal_design_normalization",
+      "status": "active",
+      "ownerSession": "SESSION_D",
+      "note": "The two Wyoming reads that block its custom-pleading lane: a statutory sweep of the 2025 and 2026 sessions with the missing enactment dates and the felony-deferral gap, and the substantive reads on the status-offence definition and the restoration asymmetry between sections 7-13-1501 and 7-13-1502(m). Different reads, so different owners; neither owns WY.memo.json.",
+      "jobIds": [
+        "rcap-wy-governing-mechanism-and-currency-reconciliation",
+        "rcap-wy-eligibility-waiting-period-and-effect-reconciliation"
+      ],
+      "capacity": {
+        "jobs": 2,
+        "assignedTracks": 0,
+        "incrementalTracks": 0,
+        "assignedComponents": 0,
+        "incrementalComponents": 0
+      },
+      "jobs": [
+        {
+          "jobId": "rcap-wy-governing-mechanism-and-currency-reconciliation",
+          "lane": "legal_design_normalization",
+          "jurisdiction": "WY",
+          "status": "ready",
+          "semanticFingerprint": "ac6e7bccc21d1e3fdacd9ed6c36c03252859aa2b78838c097217332a5d6186db",
+          "branch": "rcap-factory/rcap-wy-governing-mechanism-and-currency-reconciliation-590b7d1d-ac6e7bcc",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-governing-mechanism-and-currency-reconciliation.json"
+          ],
+          "dependencies": [],
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
+          "alreadyHasPushedCompletion": false
+        },
+        {
+          "jobId": "rcap-wy-eligibility-waiting-period-and-effect-reconciliation",
+          "lane": "legal_design_normalization",
+          "jurisdiction": "WY",
+          "status": "ready",
+          "semanticFingerprint": "7d5ae2ef385d5bd473eb9c912c94721b98ba89fe5015b0eaeffea69a7bf79864",
+          "branch": "rcap-factory/rcap-wy-eligibility-waiting-period-and-effect-reconciliation-42b720cf-7d5ae2ef",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-eligibility-waiting-period-and-effect-reconciliation.json"
+          ],
+          "dependencies": [],
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
+          "alreadyHasPushedCompletion": false
+        }
+      ]
+    },
+    {
+      "wave": 4,
       "shard": "E1",
       "lane": "acroform_fill",
       "status": "active",
@@ -985,14 +1013,15 @@
       "lane": "source_acquisition",
       "status": "active",
       "ownerSession": "SESSION_F",
-      "note": "Refilled from the integrated Minnesota and Delaware refusals. The two retrievals need a person in a browser and are ranked, not promised; the 281E correction is metadata only and needs nobody.",
+      "note": "Human-attended work plus one metadata correction. The Minnesota and Delaware retrievals need a person in a browser; the Wyoming survey needs a person telephoning clerks in 23 counties and is not a download; the 281E correction is metadata only and needs nobody. The three attended items are ranked, not promised.",
       "jobIds": [
         "rcap-mn-attended-retrieval-currentness-comparison",
         "rcap-de-attended-retrieval-five-current-forms",
-        "rcap-de-form-281e-edition-metadata-correction"
+        "rcap-de-form-281e-edition-metadata-correction",
+        "rcap-wy-local-template-and-handout-survey"
       ],
       "capacity": {
-        "jobs": 3,
+        "jobs": 4,
         "assignedTracks": 0,
         "incrementalTracks": 0,
         "assignedComponents": 0,
@@ -1050,6 +1079,23 @@
           "dependencies": [
             "rcap-de-official-download-automation-blocked"
           ],
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
+          "alreadyHasPushedCompletion": false
+        },
+        {
+          "jobId": "rcap-wy-local-template-and-handout-survey",
+          "lane": "source_acquisition",
+          "jurisdiction": "WY",
+          "status": "ready",
+          "semanticFingerprint": "d079c7e1c0ce8e2ec186447af3beb228aaa5e6ec2bbba2b0f14146edbd4438f7",
+          "branch": "rcap-factory/rcap-wy-local-template-and-handout-survey-852fb61e-d079c7e1",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-wy-local-template-and-handout-survey.json"
+          ],
+          "dependencies": [],
           "assignedTrackIds": [],
           "incrementalTrackIds": [],
           "assignedComponents": 0,
@@ -2033,5 +2079,5 @@
       ]
     }
   ],
-  "manifestSha256": "68a5dba3d96ed4d583c4b6e65420cbbf8609ff3aa38bc25dc7e8ccfb9ea2dd8e"
+  "manifestSha256": "54e879cf844bf933ecb93c241af0836dc562f31e92bf4f13f3534a0cee210f20"
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-captain-completion-discovery/v1",
-  "baseCommit": "60207b6cf57147d9e5b40ea0cc71d0957b1c295c",
+  "baseCommit": "2faea1123246a3f7095f4f17d6f82f29f158f7e1",
   "fetch": {
     "remote": "origin",
     "refspecs": [
@@ -12,14 +12,14 @@
   },
   "remoteFactoryBranches": 174,
   "totals": {
-    "integrated_completion": 1,
+    "integrated_completion": 0,
     "exact_completion": 0,
     "valid_pre_claim_branch": 0,
     "valid_legacy_branch": 0,
     "partial_branch": 0,
     "incompatible_branch": 5,
     "baseline_lease": 5,
-    "no_branch": 240
+    "no_branch": 245
   },
   "jobs": [
     {
@@ -1645,7 +1645,7 @@
       "assignmentFingerprint": "69158102925f06f3ffbb1f1a186ecb04fdbd084a618650d6da51789d3d6203aa",
       "canonicalBranch": "rcap-factory/rcap-in-custom-pleading-technical-review-correction-c4033be7-69158102",
       "legacyBranch": "rcap-factory/rcap-in-custom-pleading-technical-review-correction-c4033be7",
-      "preClaimBranch": "rcap-factory/rcap-in-custom-pleading-technical-review-correction-c4033be7-69158102",
+      "preClaimBranch": "rcap-factory/rcap-in-custom-pleading-technical-review-correction-c4033be7-4ecf16d5",
       "ownedPaths": [
         "scripts/verify-rcap-indiana-custom-pleading.mjs",
         "src/lib/rcap/packets/jurisdictions/indiana/custom-pleading.ts"
@@ -2815,7 +2815,7 @@
       "assignmentFingerprint": "fc6539d64777443cde91ea9e935affc1eb050554b90f799cfed3e0bdd8b27afd",
       "canonicalBranch": "rcap-factory/rcap-ms-custom-pleading-technical-review-correction-768c6cc3-fc6539d6",
       "legacyBranch": "rcap-factory/rcap-ms-custom-pleading-technical-review-correction-768c6cc3",
-      "preClaimBranch": "rcap-factory/rcap-ms-custom-pleading-technical-review-correction-768c6cc3-fc6539d6",
+      "preClaimBranch": "rcap-factory/rcap-ms-custom-pleading-technical-review-correction-768c6cc3-8495dabc",
       "ownedPaths": [
         "scripts/verify-rcap-mississippi-custom-pleading.mjs",
         "src/lib/rcap/packets/jurisdictions/mississippi/custom-pleading.ts"
@@ -3944,14 +3944,14 @@
       "branches": []
     },
     {
-      "jobId": "rcap-oh-custom-pleading",
+      "jobId": "rcap-oh-custom-pleading-clean-tracks",
       "lane": "custom_pleading",
       "jurisdiction": "OH",
       "status": "ready",
-      "assignmentFingerprint": "57d2efc083a32dbac5a39f6ee28b732b4a08ff0a125e33cf1ec927f5ef094dd0",
-      "canonicalBranch": "rcap-factory/rcap-oh-custom-pleading-bb9a3f22-57d2efc0",
-      "legacyBranch": "rcap-factory/rcap-oh-custom-pleading-bb9a3f22",
-      "preClaimBranch": "rcap-factory/rcap-oh-custom-pleading-bb9a3f22-c5f55385",
+      "assignmentFingerprint": "d9d0681a9cf848c3dd428c5a348ae332921e212217faafdd33c73a8604f3f7ae",
+      "canonicalBranch": "rcap-factory/rcap-oh-custom-pleading-clean-tracks-610f8666-d9d0681a",
+      "legacyBranch": "rcap-factory/rcap-oh-custom-pleading-clean-tracks-610f8666",
+      "preClaimBranch": "rcap-factory/rcap-oh-custom-pleading-clean-tracks-610f8666-4988a715",
       "ownedPaths": [
         "scripts/verify-rcap-ohio-custom-pleading.mjs",
         "src/lib/rcap/packets/jurisdictions/ohio/custom-pleading.ts"
@@ -4010,15 +4010,35 @@
       "lane": "legal_output_review",
       "jurisdiction": "OH",
       "status": "blocked",
-      "assignmentFingerprint": "3e8bff5d3b9a8196d77141cf576c1deb57bbbf2c255351cc808bcf4056167efa",
-      "canonicalBranch": "rcap-factory/rcap-oh-legal-output-review-3a645bd9-3e8bff5d",
+      "assignmentFingerprint": "2c401a6170778be7bba86628eba80f100c79747c619f229091ce680df7e5c68d",
+      "canonicalBranch": "rcap-factory/rcap-oh-legal-output-review-3a645bd9-2c401a61",
       "legacyBranch": "rcap-factory/rcap-oh-legal-output-review-3a645bd9",
-      "preClaimBranch": "rcap-factory/rcap-oh-legal-output-review-3a645bd9-3e8bff5d",
+      "preClaimBranch": "rcap-factory/rcap-oh-legal-output-review-3a645bd9-2c401a61",
       "ownedPaths": [
         "data/record-clearing/production-factory/legal-output-reviews/ohio.json"
       ],
       "expectedOutputs": [
         "data/record-clearing/production-factory/legal-output-reviews/ohio.json"
+      ],
+      "classification": "no_branch",
+      "completionBranch": null,
+      "completionCommit": null,
+      "branches": []
+    },
+    {
+      "jobId": "rcap-oh-marijuana-governing-mechanism-reconciliation",
+      "lane": "legal_design_normalization",
+      "jurisdiction": "OH",
+      "status": "ready",
+      "assignmentFingerprint": "c9cae40ef540b5005db2147c8e75ad072d9ad15f0a05970fb4995c573d0b65cf",
+      "canonicalBranch": "rcap-factory/rcap-oh-marijuana-governing-mechanism-reconciliation-d420b6d0-c9cae40e",
+      "legacyBranch": "rcap-factory/rcap-oh-marijuana-governing-mechanism-reconciliation-d420b6d0",
+      "preClaimBranch": "rcap-factory/rcap-oh-marijuana-governing-mechanism-reconciliation-d420b6d0-8b3bb040",
+      "ownedPaths": [
+        "data/record-clearing/production-factory/legal-design-decisions/rcap-oh-marijuana-governing-mechanism-reconciliation.json"
+      ],
+      "expectedOutputs": [
+        "data/record-clearing/production-factory/legal-design-decisions/rcap-oh-marijuana-governing-mechanism-reconciliation.json"
       ],
       "classification": "no_branch",
       "completionBranch": null,
@@ -4972,43 +4992,6 @@
       "branches": []
     },
     {
-      "jobId": "rcap-vt-200-00130-source-identity-resolution",
-      "lane": "legal_design_normalization",
-      "jurisdiction": "VT",
-      "status": "ready",
-      "assignmentFingerprint": "15ad8e7006358851368c45d9ffd213ff14cd99971c17edbab076ebc4253ed0ea",
-      "canonicalBranch": "rcap-factory/rcap-vt-200-00130-source-identity-resolution-aa6ee8e4-15ad8e70",
-      "legacyBranch": "rcap-factory/rcap-vt-200-00130-source-identity-resolution-aa6ee8e4",
-      "preClaimBranch": "rcap-factory/rcap-vt-200-00130-source-identity-resolution-aa6ee8e4-37118a69",
-      "ownedPaths": [
-        "data/record-clearing/production-factory/legal-design-decisions/vt-200-00130-source-identity-resolution.json"
-      ],
-      "expectedOutputs": [
-        "data/record-clearing/production-factory/legal-design-decisions/vt-200-00130-source-identity-resolution.json"
-      ],
-      "classification": "integrated_completion",
-      "completionBranch": "rcap-factory/rcap-vt-200-00130-source-identity-resolution-aa6ee8e4-15ad8e70",
-      "completionCommit": "ece22e89fd6dee718840c546a100432bd8b29f67",
-      "branches": [
-        {
-          "branch": "rcap-factory/rcap-vt-200-00130-source-identity-resolution-aa6ee8e4-15ad8e70",
-          "commit": "ece22e89fd6dee718840c546a100432bd8b29f67",
-          "keyKind": "canonical",
-          "subject": "chore(record-clearing): resolve the Vermont 200-00130 source identity",
-          "parents": [
-            "bc3909064604d01c327570d92cc1cb825a42ff18"
-          ],
-          "changedPaths": [
-            "data/record-clearing/production-factory/legal-design-decisions/vt-200-00130-source-identity-resolution.json"
-          ],
-          "missingOutputs": [],
-          "isBaselineLease": false,
-          "failures": [],
-          "classification": "integrated_completion"
-        }
-      ]
-    },
-    {
       "jobId": "rcap-vt-acroform-fill",
       "lane": "acroform_fill",
       "jurisdiction": "VT",
@@ -5225,14 +5208,34 @@
       "branches": []
     },
     {
-      "jobId": "rcap-wa-custom-pleading",
+      "jobId": "rcap-wa-crop-venue-reconciliation",
+      "lane": "legal_design_normalization",
+      "jurisdiction": "WA",
+      "status": "ready",
+      "assignmentFingerprint": "6f56627417f99a11c9581dae561c98329994f09e54ab77c865066e61461fd357",
+      "canonicalBranch": "rcap-factory/rcap-wa-crop-venue-reconciliation-e071d790-6f566274",
+      "legacyBranch": "rcap-factory/rcap-wa-crop-venue-reconciliation-e071d790",
+      "preClaimBranch": "rcap-factory/rcap-wa-crop-venue-reconciliation-e071d790-5c51ab03",
+      "ownedPaths": [
+        "data/record-clearing/production-factory/legal-design-decisions/rcap-wa-crop-venue-reconciliation.json"
+      ],
+      "expectedOutputs": [
+        "data/record-clearing/production-factory/legal-design-decisions/rcap-wa-crop-venue-reconciliation.json"
+      ],
+      "classification": "no_branch",
+      "completionBranch": null,
+      "completionCommit": null,
+      "branches": []
+    },
+    {
+      "jobId": "rcap-wa-custom-pleading-clean-tracks",
       "lane": "custom_pleading",
       "jurisdiction": "WA",
       "status": "ready",
-      "assignmentFingerprint": "5c853dc1ad1f2de644e7e8b246d2b355e7fdca08f42c5b59d29352316b632736",
-      "canonicalBranch": "rcap-factory/rcap-wa-custom-pleading-0246688d-5c853dc1",
-      "legacyBranch": "rcap-factory/rcap-wa-custom-pleading-0246688d",
-      "preClaimBranch": "rcap-factory/rcap-wa-custom-pleading-0246688d-486b5644",
+      "assignmentFingerprint": "c0ae532b32aeb1b31fc3188716da29627ad6608632574212c1bf7a33e13dfd09",
+      "canonicalBranch": "rcap-factory/rcap-wa-custom-pleading-clean-tracks-665b428f-c0ae532b",
+      "legacyBranch": "rcap-factory/rcap-wa-custom-pleading-clean-tracks-665b428f",
+      "preClaimBranch": "rcap-factory/rcap-wa-custom-pleading-clean-tracks-665b428f-4d729ae4",
       "ownedPaths": [
         "scripts/verify-rcap-washington-custom-pleading.mjs",
         "src/lib/rcap/packets/jurisdictions/washington/custom-pleading.ts"
@@ -5273,10 +5276,10 @@
       "lane": "legal_output_review",
       "jurisdiction": "WA",
       "status": "blocked",
-      "assignmentFingerprint": "df771e9b178c1707c766594f0b6f20466c919e8683ddb996105737ef673407f8",
-      "canonicalBranch": "rcap-factory/rcap-wa-legal-output-review-f8d6a5a9-df771e9b",
+      "assignmentFingerprint": "12846471d4fe782a2f687fb47032d83291f1d0fcd84ccb4aadd81e8324d0bc81",
+      "canonicalBranch": "rcap-factory/rcap-wa-legal-output-review-f8d6a5a9-12846471",
       "legacyBranch": "rcap-factory/rcap-wa-legal-output-review-f8d6a5a9",
-      "preClaimBranch": "rcap-factory/rcap-wa-legal-output-review-f8d6a5a9-df771e9b",
+      "preClaimBranch": "rcap-factory/rcap-wa-legal-output-review-f8d6a5a9-12846471",
       "ownedPaths": [
         "data/record-clearing/production-factory/legal-output-reviews/washington.json"
       ],
@@ -5554,11 +5557,11 @@
       "jobId": "rcap-wy-custom-pleading",
       "lane": "custom_pleading",
       "jurisdiction": "WY",
-      "status": "ready",
-      "assignmentFingerprint": "ecde12d422618a508a805e419c0f335a5217e046ccaf01ef198c57fc60f65e65",
-      "canonicalBranch": "rcap-factory/rcap-wy-custom-pleading-05f655d3-ecde12d4",
+      "status": "blocked",
+      "assignmentFingerprint": "4f00bbeb55586297eb1b5a41b19872c0db64c6d60927f9f0eb0c36a5580991a8",
+      "canonicalBranch": "rcap-factory/rcap-wy-custom-pleading-05f655d3-4f00bbeb",
       "legacyBranch": "rcap-factory/rcap-wy-custom-pleading-05f655d3",
-      "preClaimBranch": "rcap-factory/rcap-wy-custom-pleading-05f655d3-4861a793",
+      "preClaimBranch": "rcap-factory/rcap-wy-custom-pleading-05f655d3-487afccd",
       "ownedPaths": [
         "scripts/verify-rcap-wyoming-custom-pleading.mjs",
         "src/lib/rcap/packets/jurisdictions/wyoming/custom-pleading.ts"
@@ -5573,19 +5576,79 @@
       "branches": []
     },
     {
+      "jobId": "rcap-wy-eligibility-waiting-period-and-effect-reconciliation",
+      "lane": "legal_design_normalization",
+      "jurisdiction": "WY",
+      "status": "ready",
+      "assignmentFingerprint": "7d5ae2ef385d5bd473eb9c912c94721b98ba89fe5015b0eaeffea69a7bf79864",
+      "canonicalBranch": "rcap-factory/rcap-wy-eligibility-waiting-period-and-effect-reconciliation-42b720cf-7d5ae2ef",
+      "legacyBranch": "rcap-factory/rcap-wy-eligibility-waiting-period-and-effect-reconciliation-42b720cf",
+      "preClaimBranch": "rcap-factory/rcap-wy-eligibility-waiting-period-and-effect-reconciliation-42b720cf-7d5ae2ef",
+      "ownedPaths": [
+        "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-eligibility-waiting-period-and-effect-reconciliation.json"
+      ],
+      "expectedOutputs": [
+        "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-eligibility-waiting-period-and-effect-reconciliation.json"
+      ],
+      "classification": "no_branch",
+      "completionBranch": null,
+      "completionCommit": null,
+      "branches": []
+    },
+    {
+      "jobId": "rcap-wy-governing-mechanism-and-currency-reconciliation",
+      "lane": "legal_design_normalization",
+      "jurisdiction": "WY",
+      "status": "ready",
+      "assignmentFingerprint": "ac6e7bccc21d1e3fdacd9ed6c36c03252859aa2b78838c097217332a5d6186db",
+      "canonicalBranch": "rcap-factory/rcap-wy-governing-mechanism-and-currency-reconciliation-590b7d1d-ac6e7bcc",
+      "legacyBranch": "rcap-factory/rcap-wy-governing-mechanism-and-currency-reconciliation-590b7d1d",
+      "preClaimBranch": "rcap-factory/rcap-wy-governing-mechanism-and-currency-reconciliation-590b7d1d-ac6e7bcc",
+      "ownedPaths": [
+        "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-governing-mechanism-and-currency-reconciliation.json"
+      ],
+      "expectedOutputs": [
+        "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-governing-mechanism-and-currency-reconciliation.json"
+      ],
+      "classification": "no_branch",
+      "completionBranch": null,
+      "completionCommit": null,
+      "branches": []
+    },
+    {
       "jobId": "rcap-wy-legal-output-review",
       "lane": "legal_output_review",
       "jurisdiction": "WY",
       "status": "blocked",
-      "assignmentFingerprint": "5a06a897c85f4737e14d08b7afab78a7c391b254142225dc2e4454dc1b89248b",
-      "canonicalBranch": "rcap-factory/rcap-wy-legal-output-review-1b4a72b6-5a06a897",
+      "assignmentFingerprint": "5d3b5ecf86690bfb908bb8aaf1589573374621cc433858e5617358d10dd0a00f",
+      "canonicalBranch": "rcap-factory/rcap-wy-legal-output-review-1b4a72b6-5d3b5ecf",
       "legacyBranch": "rcap-factory/rcap-wy-legal-output-review-1b4a72b6",
-      "preClaimBranch": "rcap-factory/rcap-wy-legal-output-review-1b4a72b6-5a06a897",
+      "preClaimBranch": "rcap-factory/rcap-wy-legal-output-review-1b4a72b6-5d3b5ecf",
       "ownedPaths": [
         "data/record-clearing/production-factory/legal-output-reviews/wyoming.json"
       ],
       "expectedOutputs": [
         "data/record-clearing/production-factory/legal-output-reviews/wyoming.json"
+      ],
+      "classification": "no_branch",
+      "completionBranch": null,
+      "completionCommit": null,
+      "branches": []
+    },
+    {
+      "jobId": "rcap-wy-local-template-and-handout-survey",
+      "lane": "source_acquisition",
+      "jurisdiction": "WY",
+      "status": "ready",
+      "assignmentFingerprint": "d079c7e1c0ce8e2ec186447af3beb228aaa5e6ec2bbba2b0f14146edbd4438f7",
+      "canonicalBranch": "rcap-factory/rcap-wy-local-template-and-handout-survey-852fb61e-d079c7e1",
+      "legacyBranch": "rcap-factory/rcap-wy-local-template-and-handout-survey-852fb61e",
+      "preClaimBranch": "rcap-factory/rcap-wy-local-template-and-handout-survey-852fb61e-d079c7e1",
+      "ownedPaths": [
+        "data/record-clearing/production-factory/source-acquisition/rcap-wy-local-template-and-handout-survey.json"
+      ],
+      "expectedOutputs": [
+        "data/record-clearing/production-factory/source-acquisition/rcap-wy-local-template-and-handout-survey.json"
       ],
       "classification": "no_branch",
       "completionBranch": null,

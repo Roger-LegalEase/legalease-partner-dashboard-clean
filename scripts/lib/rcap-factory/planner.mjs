@@ -4179,6 +4179,46 @@ export function buildFactoryPlan(options = {}) {
     });
   }
 
+  // The Wyoming owners. Each closes on its committed decision record.
+  for (const owner of WYOMING_LEGAL_DESIGN_OWNERS) {
+    const decisionPath =
+      `${FACTORY_DATA_DIR}/legal-design-decisions/${owner.jobId}.json`;
+    const acquisitionPathFor =
+      `${FACTORY_DATA_DIR}/source-acquisition/${owner.jobId}.json`;
+    const outputPath =
+      owner.lane === "source_acquisition" ? acquisitionPathFor : decisionPath;
+    const present = fs.existsSync(path.join(rootDir, outputPath));
+    addJob({
+      lane: owner.lane,
+      jurisdiction: "WY",
+      jobId: owner.jobId,
+      strategyFamily: owner.strategyFamily,
+      trackIds: [],
+      dependencies: [],
+      ...(owner.lane === "source_acquisition"
+        ? { reconciliationIds: [`survey:WY:${owner.jobId}`], downloadedSourceCount: 0 }
+        : {}),
+      status: present ? "completed" : "ready",
+      expectedOutputs: [outputPath],
+      ownedPaths: [outputPath],
+      requiredInputs: [
+        "data/record-clearing/legal-design-intake/WY.memo.json",
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.packetSetManifests,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: owner.model,
+      effort: "xhigh",
+      focusedValidation: [
+        `node scripts/rcap-factory-plan.mjs --check-job ${owner.jobId}`
+      ],
+      commitSubject: owner.subject,
+      executionNote: owner.note,
+      stopCondition: `${owner.stop} ${TERMINAL_INSTRUCTION}`
+    });
+  }
+
   // The clean halves of the split whole-state assignments, plus the
   // legal-design owners for the questions that forced the split.
   for (const split of ATOMIC_IMPLEMENTATION_SPLITS) {
@@ -4940,6 +4980,80 @@ const COMPLETED_CUSTOM_PLEADING_IMPLEMENTATIONS = Object.freeze([
  * as their own assignment with their own fingerprint; the blocked track stays
  * with the original job, which stays incomplete.
  */
+/**
+ * The Wyoming questions that block its custom-pleading lane, each with an
+ * owner. They are grouped by the kind of work rather than one job per bullet:
+ * a statutory sweep and a substantive design reading are different reads, and
+ * the county survey is neither — it needs a person telephoning clerks.
+ */
+const WYOMING_LEGAL_DESIGN_OWNERS = Object.freeze([
+  {
+    jobId: "rcap-wy-governing-mechanism-and-currency-reconciliation",
+    lane: "legal_design_normalization",
+    strategyFamily: "legal_design_adjudication",
+    model: "opus",
+    subject:
+      "docs(record-clearing): reconcile the Wyoming governing mechanisms",
+    note:
+      "Every assigned Wyoming track carries an unresolved governing-mechanism question, and two of them turn on whether a 2025 or 2026 session amended the controlling section.",
+    stop:
+      "Establish, from the Wyoming Legislature's own publication and the session laws: " +
+      "whether the 2025 or 2026 regular sessions amended Wyo. Stat. sections 7-13-1401, " +
+      "7-13-1501 or 7-13-1502, sweeping each session rather than reporting that no " +
+      "amendment was identified; the original enactment date of each section, which the " +
+      "official publication prints no history note for; whether any Wyoming mechanism " +
+      "reaches a completed felony deferral where section 7-13-1401 is barred and section " +
+      "7-13-1502 requires a conviction; and whether the internal citation to docket " +
+      "S-25-0140 is accurate and says what it is cited for. " +
+      "An unswept session is not evidence of no amendment. Where a question cannot be " +
+      "closed from the published record, say so and say what would close it. Own only the " +
+      "decision record: WY.memo.json belongs to a separate amendment. Do not implement a " +
+      "packet, do not declare a track ready, and do not enable runtime, promote, or deploy."
+  },
+  {
+    jobId: "rcap-wy-eligibility-waiting-period-and-effect-reconciliation",
+    lane: "legal_design_normalization",
+    strategyFamily: "legal_design_adjudication",
+    model: "opus",
+    subject:
+      "docs(record-clearing): reconcile the Wyoming waiting periods and effect",
+    note:
+      "The misdemeanour route's waiting period turns on a definition nobody has pinned, and the felony route has an express restoration provision the misdemeanour route appears to lack.",
+    stop:
+      "Establish: what Wyo. Stat. section 7-1-107(b)(iii) defines as a status offence and " +
+      "which common Wyoming charges fall inside it, on which the one-year and five-year " +
+      "waiting periods depend; and whether an expungement under section 7-13-1501 restores " +
+      "any right, given that section 7-13-1502(m) carries an express restoration provision " +
+      "and 7-13-1501 does not appear to. " +
+      "Do not resolve the asymmetry by reading 7-13-1502(m) across into 7-13-1501: they are " +
+      "differently drafted and the difference may be deliberate. Own only the decision " +
+      "record. Do not implement a packet, do not declare a track ready, and do not enable " +
+      "runtime, promote, or deploy."
+  },
+  {
+    jobId: "rcap-wy-local-template-and-handout-survey",
+    lane: "source_acquisition",
+    strategyFamily: "official_download_automation_blocked",
+    model: "codex",
+    subject:
+      "chore(record-clearing): survey the Wyoming local templates under attended access",
+    note:
+      "A 23-county clerk survey and a handout-currency check. Neither is answerable from the published record alone, and both gate the packet components on all three tracks.",
+    stop:
+      "Establish, by attended human contact with the Wyoming courts: which of the 23 " +
+      "counties publish a local expungement template, what each published template is, and " +
+      "whether the Wyoming Judicial Branch's Expungement Basics handout is current — it " +
+      "carries a 10/2015 revision date while being served from a 2025 upload path, and " +
+      "those cannot both be right. " +
+      "This is a survey, not a download: do not infer a county's practice from a " +
+      "neighbouring county, do not treat a search result as an enumeration, and do not " +
+      "record a county as having no template merely because none was found. Record exactly " +
+      "what each clerk said and what remains unanswered. " +
+      "Do not create a source receipt from an unattended retrieval, do not stamp a revision " +
+      "onto held bytes, and do not enable runtime, promote, or deploy."
+  }
+]);
+
 const ATOMIC_IMPLEMENTATION_SPLITS = Object.freeze([
   {
     lane: "custom_pleading",
@@ -5089,6 +5203,34 @@ function implementationJobOverrides(
   // clean tracks move to their own assignment and the blocked track stays with
   // the original job — which remains incomplete, blocked on the legal-design
   // correction that owns its question.
+  // Wyoming stopped for a different reason from Ohio and Washington: there are
+  // no clean tracks to split out. All three carry unresolved governing-
+  // mechanism questions, all three wait on a local-template survey nobody has
+  // run, and two carry unresolved eligibility or waiting-period questions. A
+  // pleading cannot be drafted against that, and the assignment was standing
+  // ready with every one of those questions open.
+  if (lane === "custom_pleading" && jurisdiction === "WY") {
+    return {
+      status: "blocked",
+      dependencies: WYOMING_LEGAL_DESIGN_OWNERS.map((entry) => entry.jobId),
+      model: "opus",
+      effort: "xhigh",
+      executionNote:
+        "Blocked on Wyoming's own open questions, not on a source or licence gate. Every " +
+        "assigned track carries an unresolved governing mechanism; the packet components " +
+        "depend on a 23-county local-template survey that has not been run; and the " +
+        "misdemeanour and felony routes carry unresolved waiting-period and eligibility " +
+        "questions on top of that.",
+      stopCondition:
+        "Blocked on the Wyoming legal-design questions owned by " +
+        `${WYOMING_LEGAL_DESIGN_OWNERS.map((entry) => entry.jobId).join(", ")}. ` +
+        "Do not draft a pleading against an unresolved governing mechanism, do not infer a " +
+        "waiting period or an eligibility branch, do not assume a county publishes a local " +
+        "template that nobody has surveyed, and do not enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    };
+  }
+
   const atomicSplit = ATOMIC_IMPLEMENTATION_SPLITS.find(
     (entry) => entry.lane === lane && entry.jurisdiction === jurisdiction
   );
