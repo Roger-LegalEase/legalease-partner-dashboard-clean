@@ -1,0 +1,229 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-ia-in-repo-identity-reconciliation-already-retained-under-another-identity",
+  "parentJobId": "AUTH-02-component-remap-corrections",
+  "jurisdiction": "IA",
+  "lane": "source_acquisition",
+  "strategyFamily": "in_repo_identity_reconciliation",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "db1d5d24989d81f7c5dd009101f7bc5532a8b8f7",
+  "shard": "F3",
+  "generatedOn": "2026-08-08",
+  "reconciliationIds": ["acquire:IA:dci-76-criminal-history-record-check-billing-form"],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero is correct and is the assignment's pinned value. Nothing was downloaded, no issuer was contacted, nothing entered version control and no receipt was created.",
+  "generatedFrom": [
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/authority.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-02-component-remap-corrections.json"
+  ],
+  "method": {
+    "description": "Deterministic in-repository identity reconciliation. The retained Iowa Division of Criminal Investigation packet was read page by page and each page's printed form number and caption identified, then compared against the queue row, the edition disposition and the component that binds the DCI-76 identity.",
+    "measurementBasis": "page_level_read_of_the_retained_packet",
+    "issuerContactsMade": 0,
+    "binariesDownloaded": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "binariesCommitted": 0,
+    "legalDesignAltered": false,
+    "editionMutated": false,
+    "memoAltered": false,
+    "componentRebound": false,
+    "assignmentConstraintObserved": "The stop condition confines this job to retained repository assets and deterministic identity mapping, and forbids downloading, contacting an issuer, altering legal design or editing any adopted Master Library edition. All observed."
+  },
+  "finding": {
+    "headline": "DCI-76 is not a separate document. It is page 1 of a single combined Iowa Department of Public Safety packet whose remaining pages are DCI-77, and the packet is already retained. The queue's 'no repository binary' and its instruction to acquire the binary are both wrong on their face — the bytes are present and the edition already records the disposition as acquired and adopted.",
+    "acquisitionRequired": false,
+    "acquisitionRequiredRationale": "There is no separate DCI-76 binary to acquire and there never was. The Department publishes one packet containing both forms, and the component resolves to that packet.",
+    "defect": "a component-to-document mapping recorded as an acquisition gap"
+  },
+  "resolvedIdentity": {
+    "reconciliationId": "acquire:IA:dci-76-criminal-history-record-check-billing-form",
+    "recordedDocumentId": "DCI-76 Criminal History Record Check Billing Form",
+    "recordedRole": "attachment",
+    "roleCorrect": true,
+    "roleAssessment": "attachment is right. The billing form accompanies the record-check request; it is not a filing of its own and not the participant's primary document on the track.",
+    "verdict": "already_retained_as_page_1_of_the_combined_dci-76-dci-77_packet",
+    "officialTitleOnTheFace": "Criminal History Record Check Billing Form",
+    "printedFormNumber": "Form DCI-76",
+    "printedRevision": "9/22/21",
+    "printedRevisionVerbatim": "Form DCI‐76 9/22/21",
+    "printedRevisionLocation": "footer of page 1 of the combined packet",
+    "issuer": "Iowa Department of Public Safety, Division of Criminal Investigation",
+    "issuerBasis": "recorded on the queue row and corroborated by the packet's own submission block",
+    "participantFacing": true,
+    "scope": "statewide",
+    "scopeBasis": "a single statewide Division of Criminal Investigation record-check service. Not inferred from the mailing address printed on the form.",
+    "boundComponent": {"trackId": "ia-dci77", "componentId": "ia-dci77-attachment-2", "role": "attachment"},
+    "componentCount": 3,
+    "componentCountNote": "The shard manifest records three assigned components for this job, of which the DCI-76 identity binds one; the other two belong to the same ia-dci77 track under other identities.",
+    "currentness": "confirmed_by_the_queue_and_not_reopened",
+    "currentnessDetail": "The queue records the currentness question as resolved: the Department publishes DCI-76 and DCI-77 as one combined fillable packet at revision 9/22/21, and the copy held is byte-identical to the copy published today. This job did not re-verify against the issuer because the assignment forbids downloading."
+  },
+  "packetComposition": {
+    "basis": "each page of the retained packet was read and its printed form number and caption identified",
+    "totalPages": 3,
+    "segments": [
+      {"page": 1, "printedFormNumber": "Form DCI-76", "printedRevision": "9/22/21", "caption": "Criminal History Record Check Billing Form", "isTheAssignedIdentity": true, "faceInstructions": ["A completed Billing Form is required when submitting any criminal history record check Request Forms to the DCI.", "If the Billing Form is not complete all forms will be returned.", "Only one Billing Form is required when submitting several Request Forms at one time."]},
+      {"pages": "2 to 3", "printedFormNumber": "DCI-77", "caption": "Criminal History Record Check Request Form", "isTheAssignedIdentity": false, "faceNote": "The request form carries the release authorization: 'This form (DCI-77) is the only approved release authorization form for this purpose.'"}
+    ],
+    "oneToManyBillingRule": {
+      "finding": "The billing form's own face states that only one Billing Form is required when several Request Forms are submitted together.",
+      "consequence": "DCI-76 and DCI-77 are not a one-to-one pair. A participant submitting multiple record-check requests attaches one billing form to all of them. Any assembly that emits a billing form per request would over-produce.",
+      "notDecidedHere": "How a packet expresses that is a legal-design and assembly question outside this lane."
+    },
+    "measuredStructure": {
+      "bytes": 1076864,
+      "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+      "mimeType": "application/pdf",
+      "pdfVersion": "1.6",
+      "pageCount": 3,
+      "pageGeometry": "all 3 pages 612 x 792 points, rotation 0",
+      "encrypted": false,
+      "xfa": false,
+      "acroFormPresent": true,
+      "terminalFields": 45,
+      "widgetAnnotations": 54,
+      "totalAnnotations": 58,
+      "nonWidgetAnnotations": 4,
+      "fieldTypes": {"PDFTextField": 40, "PDFRadioGroup": 4, "PDFDropdown": 1},
+      "widgetVersusTerminalFieldDenominator": {
+        "terminalFields": 45,
+        "widgets": 54,
+        "difference": 9,
+        "cause": "four radio groups, each carrying several widget kids, plus repeated fields across the request pages",
+        "warning": "Both numbers are recorded. A field map keyed on one and validated against the other misaligns by nine, which is the same hazard already recorded for the Illinois and Indiana families.",
+        "measurementCaveat": "These measurements were taken against the Department's published packet at the digest recorded here. They are recorded as structure of the packet, not as issuer provenance established by this job, which performed no retrieval."
+      }
+    }
+  },
+  "queueContradictions": [
+    {
+      "field": "repositoryStatus",
+      "queueSays": "no_repository_binary",
+      "actual": "The combined packet is retained and the edition disposition on the same row reads acquired_and_adopted.",
+      "resolution": "The row contradicts itself. 'No separate DCI-76 binary' and 'no repository binary' are different statements and only the first is true.",
+      "correctionOwner": "the queue owner; the queue is not this job's to write"
+    },
+    {
+      "field": "requiredAcquisition",
+      "queueSays": "Acquire the current official binary from the issuing authority and manifest it.",
+      "actual": "Nothing needs acquiring. The queue's own edition12DispositionRationale already states that DCI-76 is published inside the same official packet Edition 1.2 retains under DCI-77, that there is no separate DCI-76 binary to acquire, and that what remains is a component-to-document mapping question.",
+      "resolution": "The rationale is right and the instruction is a leftover. A worker following the instruction would attempt a retrieval the rationale already explains is unnecessary."
+    }
+  ],
+  "resolutionRequired": {
+    "kind": "component_to_document_mapping",
+    "performedByThisJob": false,
+    "notPerformedRationale": "Mapping the component rewrites the track-source relationships and the source-acquisition queue, both forbidden paths for this job.",
+    "recommendedCorrections": [
+      "Map ia-dci77-attachment-2 to the retained combined packet with an explicit page reference — page 1 for the billing form.",
+      "Pin sha256 321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516 on the relationship.",
+      "Close acquire:IA:dci-76-criminal-history-record-check-billing-form without acquisition.",
+      "Correct the queue row's repositoryStatus and requiredAcquisition, which contradict the row's own rationale.",
+      "Record the one-billing-form-per-submission rule so assembly does not emit one per request."
+    ],
+    "memoEditRequired": false,
+    "memoEditRationale": "Resolving a source identity onto the packet page that carries it is a source-identity correction, not a legal-design change. IA.memo.json was not opened for writing."
+  },
+  "relationshipToTheSiblingIowaJobs": {
+    "certificationOfService": {
+      "job": "rcap-ia-source-identity-resolution-certification-of-service",
+      "status": "completed and integrated",
+      "finding": "It established that the Iowa certification of service is a boxed section on the last page of each Rule 2.86 application rather than a standalone form.",
+      "sameShape": "DCI-76 is the same shape of defect in a different place: an identity recorded as a standalone acquirable document that is in fact part of a larger retained artifact. Iowa has now produced this pattern twice, which suggests the normalization pass split multi-part official packets into per-section identities."
+    },
+    "rule2_81_2Link": {
+      "finding": "Iowa R. Crim. P. 2.81(2) requires a § 901C.3 expungement application to be accompanied by an official Division of Criminal Investigation Iowa criminal history record check, obtained by submitting form DCI-77 with a release authorization signature, dated within the past 30 days.",
+      "consequence": "The DCI packet is not incidental to the Iowa expungement design — the record check it produces is a rule-mandated attachment to the misdemeanor expungement application, and the billing form is what makes the record check obtainable.",
+      "thirtyDayWindow": "The rule's 30-day currency requirement on the record check is a real sequencing constraint on any Iowa packet. Recorded as an observation; not decided here."
+    }
+  },
+  "doNotSubstitute": [
+    {"documentId": "DCI-77", "why": "Pages 2 to 3 of the same packet and the other identity on the same track. It is the request form and the only approved release authorization; the billing form is not. They travel together but perform different functions and one cannot stand for the other."},
+    {"documentClass": "a DCI-76 treated as a standalone document with its own edition row, receipt or field map", "why": "It has no independent bytes. Creating any of those would manufacture a document the Department does not publish separately."},
+    {"documentClass": "an Iowa Judicial Branch form", "why": "The DCI packet is a Department of Public Safety product, not a court form. The Rule 2.86 applications are the court-side documents and are a different issuer entirely."},
+    {"documentClass": "a county sheriff's record-check request", "why": "The Division of Criminal Investigation packet is the statewide instrument. A county form is not it."}
+  ],
+  "edition13Impact": {
+    "publicationJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+    "editionAmendmentRequired": true,
+    "amendmentKind": "component_mapping_and_metadata_correction_no_new_bytes",
+    "requiresNewBytes": false,
+    "requiresNewBytesNote": "None. The packet is retained and its disposition already reads acquired_and_adopted.",
+    "requiresMetadataCorrection": true,
+    "requiresMetadataCorrectionDetail": "The DCI-76 identity should record that it is page 1 of the combined packet rather than an unacquired standalone document.",
+    "requiresIdentityMapping": true,
+    "requiresRoleCorrection": false,
+    "requiresScopeCorrection": false,
+    "requiresRevisionCorrection": false,
+    "requiresRevisionCorrectionNote": "9/22/21 is the packet's printed revision and applies to the whole artifact.",
+    "requiresLicenseDisposition": false,
+    "requiresLicenseDispositionNote": "The queue records 'None identified for Iowa Department of Public Safety forms.' A negative finding, not a permission. No licence question was assigned here.",
+    "edition12Treatment": "immutable_unchanged",
+    "publicationPerformed": false
+  },
+  "sourceMaterializationEligibility": {
+    "laterMaterializationPermitted": true,
+    "laterMaterializationPermittedDetail": "The packet is retained with a pinned digest and its currentness is recorded as resolved, so a receipt is mechanical once the mapping is approved.",
+    "notPermittedYet": true,
+    "notPermittedYetDetail": "No approved component-to-document mapping exists and the queue still describes the identity as unacquired. This job created no receipt.",
+    "materializationUnit": "the three-page combined packet, not page 1. DCI-76 has no independent bytes to receipt.",
+    "receiptCreatedByThisJob": false
+  },
+  "implementationFamilyEffect": {
+    "family": "rcap-ia-official-pdf-family",
+    "affectedTracks": 1,
+    "affectedComponents": 1,
+    "effectOfThisJob": "One Iowa identity moves from an apparent acquisition gap to a located page of a retained packet, with the packet's structure measured and its one-billing-form-per-submission rule surfaced. It is the second Iowa identity in this programme to resolve as part of a larger artifact rather than as a standalone document.",
+    "familyReadinessStatement": "The Iowa official-PDF family remains fail-closed and this job does not move it. No approved mapping exists, the Rule 2.86 court-side forms are themselves unmanifested and unretrieved behind an iowacourts.gov block, generation is not permitted, runtime is disabled and no field map is built.",
+    "rendererObservation": "A three-page unrotated Letter AcroForm with 45 terminal fields over 54 widgets, no XFA and no encryption is an acroform_fill candidate. An observation about the artifact; the lane is not assigned here."
+  },
+  "terminalDisposition": "already_retained_as_page_1_of_a_combined_packet_component_mapping_required_no_acquisition",
+  "terminalDispositionDetail": {
+    "why": "The narrowest disposition the evidence supports. It is not unresolved_identity: the document, issuer, title, printed form number, revision, role and page location are established. It is not acquisition_required: the packet is retained and the edition already records it as acquired and adopted. It is not a duplicate collapse either — DCI-76 and DCI-77 are genuinely different forms performing different functions, and neither should be merged into the other.",
+    "acquisitionRequired": false,
+    "identitiesResolved": 1,
+    "separateBinariesFound": 0,
+    "queueContradictionsIdentified": 2,
+    "measurementsOutstanding": 0
+  },
+  "expectedDownstreamEffect": "One Iowa acquisition key closes without a download, and the DCI-76 component gains a precise target — page 1 of the retained three-page Department of Public Safety packet at revision 9/22/21 — together with the packet's measured structure and both field denominators. Two self-contradictory queue fields are identified, including a retrieval instruction the row's own rationale already explains is unnecessary. The one-billing-form-per-submission rule printed on the face is surfaced so assembly does not over-produce, and the Rule 2.81(2) link is recorded, which makes the record check a rule-mandated attachment rather than an optional extra. No component is rebound, no receipt is created, no binary enters version control, no legal design is altered, no memo is edited, no edition is published, no packet becomes generatable, no runtime is enabled and no track changes promotion state.",
+  "residualBlockers": [
+    {"id": "ia-dci76-component-mapping", "question": "ia-dci77-attachment-2 must be mapped to the retained packet with a page reference and a pinned digest.", "status": "handed_off", "owner": "the component-remap lane", "why": "The relationships and the queue are forbidden paths for this job."},
+    {"id": "ia-dci76-queue-contradictions", "question": "The queue row records no_repository_binary and a retrieval instruction that its own rationale contradicts.", "status": "handed_off", "owner": "the queue owner"},
+    {"id": "ia-billing-form-cardinality", "question": "One billing form covers several request forms, so assembly must not emit one per request.", "status": "open_and_outside_this_job", "owner": "the Iowa legal-design and implementation lanes"},
+    {"id": "ia-record-check-30-day-window", "question": "Rule 2.81(2) requires the record check to be dated within the past 30 days of the expungement application.", "status": "open_and_outside_this_job", "owner": "the Iowa legal-design owner", "why": "A sequencing constraint on the packet, not a source question."},
+    {"id": "ia-court-side-forms-blocked", "question": "The Rule 2.86 applications that consume this record check are unmanifested and iowacourts.gov refuses automated retrieval.", "status": "open_and_outside_this_job", "owner": "acquisition owner", "why": "Recorded by the completed certification-of-service job. The Iowa family does not clear on this reconciliation alone."}
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "sourcesMaterialized": 0,
+    "sourceReceiptCountUnchanged": true,
+    "memoEdited": false,
+    "editionPublished": false,
+    "editionMutated": false,
+    "rendererImplemented": false,
+    "packetImplemented": false,
+    "fieldMapBuilt": false,
+    "componentRebound": false,
+    "legalDesignAltered": false,
+    "issuerContacted": false,
+    "integrationPerformed": false,
+    "promotionPerformed": false,
+    "migrationPerformed": false,
+    "deploymentPerformed": false
+  }
+}
