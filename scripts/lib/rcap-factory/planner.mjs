@@ -4169,6 +4169,24 @@ function unresolvedOutputStrategyQuestionCount(inputs, jurisdiction, lane) {
  * instead: the built tracks stay complete against the commit that produced
  * them, and the added tracks become work.
  */
+/**
+ * True once the Nevada sealing-mechanism correction is the memo on disk.
+ *
+ * Closes on the delivered blob, not on a commit asserting it closed, and
+ * reverts by itself if the memo is ever replaced by anything else.
+ */
+function nevadaSealingMechanismCorrected(rootDir) {
+  const memo = path.join(
+    rootDir,
+    "data/record-clearing/legal-design-intake/NV.memo.json"
+  );
+  return (
+    fs.existsSync(memo) &&
+    sha256File(memo) ===
+      "113a9728c08487ad09184fdd045da4d19b532adcca2b083059dbb24e1c84c3f5"
+  );
+}
+
 function unbuiltAssignedTracks(record, stateTracks) {
   if (!Array.isArray(record?.implementedTrackIds)) return [];
   const built = new Set(record.implementedTrackIds);
@@ -4300,11 +4318,19 @@ function implementationJobOverrides(
     };
   }
   // The Nevada guidance worker stopped rather than guess, and it was right to.
-  // The design does not establish whether these routes are automatic, whether
-  // a participant files anything, or what the output strategy is, and none of
-  // that is answerable from a packet. The job stays blocked on the correction
-  // that owns those questions rather than sitting ready for a worker who would
-  // have to invent the mechanism.
+  // The design did not establish whether these routes were automatic, whether
+  // a participant filed anything, or what the output strategy was, and none of
+  // that was answerable from a packet.
+  //
+  // The sealing-mechanism correction answered it from the operative statutory
+  // text, and the answer moved two of the three tracks out of this lane:
+  // nv_seal_probation_family has a subsection 2 petition and a proposed order,
+  // nv_repository_removal is an express written application to two recipients,
+  // and both are custom pleading. nv_seal_deferred stays pure guidance — under
+  // NRS 176.211(6) the court seals on its own finding, with no application from
+  // the participant and nothing for them to serve — and it is the whole of this
+  // assignment now. The lane list is read from the corrected design, so the
+  // scope follows the memo rather than this comment.
   if (
     lane === "guidance_implementation" &&
     jurisdiction === "NV" &&
@@ -4315,27 +4341,47 @@ function implementationJobOverrides(
       )
     )
   ) {
+    const nevadaCorrected = nevadaSealingMechanismCorrected(rootDir);
     return {
-      status: "blocked",
+      status: nevadaCorrected ? "ready" : "blocked",
       dependencies: [
         "rcap-nv-sealing-mechanism-and-packet-capability-correction"
       ],
       model: "opus",
       effort: "xhigh",
-      executionNote:
-        "Do not scaffold or execute until " +
-        "rcap-nv-sealing-mechanism-and-packet-capability-correction is complete.",
-      stopCondition:
-        "Blocked on the Nevada sealing-mechanism correction. For nv_repository_removal, " +
-        "nv_seal_deferred and nv_seal_probation_family the current design does not establish " +
-        "whether the route is automatic or requires a participant application, the governing " +
-        "mechanism, the output strategy, the exclusions, the waiting periods, the notice " +
-        "requirement or the fee. A guidance packet cannot be written against that, and writing " +
-        "one anyway would put a mechanism in front of a participant that nobody has " +
-        "established. Do not scaffold, do not create an implementation branch, do not resolve " +
-        "the mechanism question inside an implementation, and do not enable runtime, promote, " +
-        "or deploy. " +
-        TERMINAL_INSTRUCTION
+      executionNote: nevadaCorrected
+        ? "Reissued against the corrected design. This assignment is the pure-guidance " +
+          "Nevada routes only; nv_seal_probation_family and nv_repository_removal left this " +
+          "lane for custom pleading and belong to rcap-nv-custom-pleading, which owns the " +
+          "Nevada pleading module. Build no participant instrument here."
+        : "Do not scaffold or execute until " +
+          "rcap-nv-sealing-mechanism-and-packet-capability-correction is complete.",
+      stopCondition: nevadaCorrected
+        ? "Build guidance for the assigned pure-guidance Nevada routes and nothing else. " +
+          "Take the mechanism from the corrected memo: under NRS 176.211(6) the court orders " +
+          "the sealing itself, without a hearing and without any application from the " +
+          "participant, once it finds the terms and conditions were met, and each named " +
+          "agency reports its compliance back to the court. The participant files nothing and " +
+          "serves nothing, so there is no document to generate and no submission instruction " +
+          "to give. Say that the Division of Parole and Probation or the prosecutor may " +
+          "petition for good cause not to seal and request a hearing, and say it as the " +
+          "mechanism the statute provides — not as a likelihood, and not with any promise " +
+          "about how long a court takes. " +
+          "Do not generate a petition, an application, a proposed order or any other " +
+          "participant instrument; if a route needs one it is not yours. Do not claim the " +
+          "sealing has happened or will happen by a date. Keep runtime disabled and produce " +
+          "the participant packet proof the lane requires. " +
+          TERMINAL_INSTRUCTION
+        : "Blocked on the Nevada sealing-mechanism correction. For nv_repository_removal, " +
+          "nv_seal_deferred and nv_seal_probation_family the current design does not establish " +
+          "whether the route is automatic or requires a participant application, the governing " +
+          "mechanism, the output strategy, the exclusions, the waiting periods, the notice " +
+          "requirement or the fee. A guidance packet cannot be written against that, and writing " +
+          "one anyway would put a mechanism in front of a participant that nobody has " +
+          "established. Do not scaffold, do not create an implementation branch, do not resolve " +
+          "the mechanism question inside an implementation, and do not enable runtime, promote, " +
+          "or deploy. " +
+          TERMINAL_INSTRUCTION
     };
   }
   // Hawaii's custom-pleading lane owns the stage-one filing made in the
@@ -5251,9 +5297,25 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
       trackIds: [],
       dependencies: [
         "rcap-hi-in-repo-identity-reconciliation-hcjdc-159",
-        "rcap-hi-stage-one-expungement-filing-vehicle-current-law-reconciliation"
+        "rcap-hi-stage-one-expungement-filing-vehicle-current-law-reconciliation",
+        "rcap-hi-hcjdc-159b-technical-structure-and-edition-asset"
       ],
-      status: "blocked",
+      // Ready when all three decisions it must reconcile are on disk: the
+      // stage-one filing vehicle, the stage-two identity, and the measured
+      // structure of the document that identity names. Read from the records
+      // themselves so the gate lifts by itself and closes by itself.
+      status:
+        present(hiHcjdcDecision) &&
+        present(
+          decisionPath(
+            "hi-stage-one-expungement-filing-vehicle-current-law-reconciliation"
+          )
+        ) &&
+        present(
+          acquisitionPath("rcap-hi-hcjdc-159b-technical-structure-and-edition-asset")
+        )
+          ? "ready"
+          : "blocked",
       expectedOutputs: [memoPath("HI")],
       ownedPaths: [memoPath("HI")],
       requiredInputs: [
@@ -5261,6 +5323,7 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
         decisionPath(
           "hi-stage-one-expungement-filing-vehicle-current-law-reconciliation"
         ),
+        acquisitionPath("rcap-hi-hcjdc-159b-technical-structure-and-edition-asset"),
         memoPath("HI"),
         FACTORY_INPUT_PATHS.normalizedTracks
       ],
@@ -5329,6 +5392,81 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
         "Do not record an unmeasured value as zero, do not write a materialization receipt " +
         "before the edition admits the asset, do not publish or amend an edition, and do not " +
         "enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  // The stage-one decision established the vehicle, the venue, the allegations
+  // and the eligibility standard, and left exactly one procedural question
+  // where it found it: no statute imposes a stage-one fee, and clerk practice
+  // was not conclusively established. That is its own finding and it is not
+  // reopened here.
+  //
+  // A separate reading of HRS 607-4(a) and 607-5(a) reports that the district-
+  // and circuit-court fee schedules exclude adult criminal cases outright,
+  // which would close the question in the negative rather than leave it open.
+  // That belongs to an owner, not to a captain commit amending someone else's
+  // decision, so it gets a narrow addendum of its own that owns one new record
+  // and touches nothing else.
+  //
+  // It is not a build blocker. A fee, or its absence, is participant-facing
+  // copy and a filing instruction; it does not change what pleading is
+  // generated, and the incumbent decision classifies it as a release blocker.
+  // The Hawaii memo correction and the stage-one custom pleading do not wait
+  // on it.
+  if (
+    present(
+      decisionPath(
+        "hi-stage-one-expungement-filing-vehicle-current-law-reconciliation"
+      )
+    )
+  ) {
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "HI",
+      jobId: "rcap-hi-stage-one-court-fee-addendum",
+      strategyFamily: "legal_design_adjudication",
+      trackIds: [],
+      dependencies: [
+        "rcap-hi-stage-one-expungement-filing-vehicle-current-law-reconciliation"
+      ],
+      status: "ready",
+      expectedOutputs: [decisionPath("hi-stage-one-court-fee-addendum")],
+      ownedPaths: [decisionPath("hi-stage-one-court-fee-addendum")],
+      requiredInputs: [
+        decisionPath(
+          "hi-stage-one-expungement-filing-vehicle-current-law-reconciliation"
+        ),
+        memoPath("HI"),
+        FACTORY_INPUT_PATHS.normalizedTracks
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "high",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job " +
+          "rcap-hi-stage-one-court-fee-addendum"
+      ],
+      commitSubject:
+        "docs(record-clearing): settle the Hawaii stage-one filing fee",
+      executionNote:
+        "Release-blocker copy, not a build blocker. The five stage-one pleadings are " +
+        "specified and generable without this answer, and neither the Hawaii memo " +
+        "correction nor rcap-hi-custom-pleading waits on it.",
+      stopCondition:
+        "Answer one question: whether a participant filing a stage-one expungement motion " +
+        "under HRS 706-622.5, 706-622.8, 706-622.9 or 291E-64 pays a court filing fee. " +
+        "Read HRS 607-4 and 607-5 in full, including subsection (a) of each and any exclusion " +
+        "for criminal cases, from the Legislature's own publication; read the Judiciary's " +
+        "published fee schedules for the district and circuit courts; and read Haw. R. Penal " +
+        "P. Form B against the filings it is actually appended for. State whether a fee is " +
+        "charged, waived, not charged, or unestablished, and say which of those the evidence " +
+        "supports rather than choosing the convenient one. " +
+        "Own only the addendum record. The stage-one decision is integrated and is not yours " +
+        "to amend, contradict or restate: where you agree with it say so and cite it, and " +
+        "where you disagree record the disagreement in your own record and stop. HI.memo.json " +
+        "belongs to rcap-hi-expungement-stage-one-and-hcjdc-159b-memo-correction. " +
+        "Do not implement a packet, enable runtime, promote, or deploy. " +
         TERMINAL_INSTRUCTION
     });
   }
@@ -5433,6 +5571,133 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
         "tracks and components, and the Edition 1.3 effect. " +
         "Do not alter the identity without this answer, do not invent a second form, and do " +
         "not enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  // The currentness decision answered two things at once. Rule 3.989(a) has
+  // been titled "Sworn Statement in Support of Petition" since SC19-1983 and
+  // the retained identity still says Affidavit, which is stale metadata on the
+  // same instrument — fl-expunction-affidavit-3 and fl-sealing-affidavit-3 are
+  // naming corrections and nothing more. fl-trafficking-affidavit-2 is not:
+  // the same 2019 opinion moved the human-trafficking forms out of Rule 3.989
+  // into Rule 3.9895, and that component's own legal basis is
+  // section 943.0583, so it is bound to the wrong rule and needs
+  // Rule 3.9895(b). One memo, one owner, one correction.
+  if (
+    present(
+      acquisitionPath("rcap-fl-rule-3-989-sworn-statement-identity-currentness")
+    )
+  ) {
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "FL",
+      jobId: "rcap-fl-rule-3-989-sworn-statement-and-3-9895-memo-correction",
+      strategyFamily: "legal_design_normalization_amendment",
+      trackIds: [],
+      dependencies: [
+        "rcap-fl-rule-3-989-sworn-statement-identity-currentness",
+        "rcap-fl-rule-3-989-continuation-component-correction"
+      ],
+      status: "ready",
+      expectedOutputs: [memoPath("FL")],
+      ownedPaths: [memoPath("FL")],
+      requiredInputs: [
+        acquisitionPath(
+          "rcap-fl-rule-3-989-sworn-statement-identity-currentness"
+        ),
+        memoPath("FL"),
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.sourceRelationships,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job " +
+          "rcap-fl-rule-3-989-sworn-statement-and-3-9895-memo-correction",
+        "node scripts/verify-rcap-legal-design-intake.mjs"
+      ],
+      commitSubject:
+        "fix(record-clearing): correct the Florida sworn-statement bindings",
+      executionNote:
+        "Three components, two defects. fl-expunction-affidavit-3 and " +
+        "fl-sealing-affidavit-3 carry a stale title on the right instrument. " +
+        "fl-trafficking-affidavit-2 carries the wrong rule.",
+      stopCondition:
+        "Take the affected components, their defects and the correct instruments from the " +
+        "integrated decision rather than from this instruction. Rule 3.989(a) is titled " +
+        "\"Sworn Statement in Support of Petition\" and the instrument is printed inside the " +
+        "rule, so the authority is rule text and there is no standalone official binary to " +
+        "acquire. Bind fl-trafficking-affidavit-2 to Fla. R. Crim. P. 3.9895(b), \"Sworn " +
+        "Statement in Support of Petition; Human Trafficking Victim.\", which implements " +
+        "section 943.0583, Fla. Stat. and whose averments are not Rule 3.989(a)'s. " +
+        "Do not invent a form number, do not create a standalone PDF identity for rule text, " +
+        "do not create a second component for either instrument, and do not reopen the " +
+        "retired continuation, which is already corrected. Leave every unrelated Florida " +
+        "route value-identical and keep runtime disabled. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  // --- Illinois --------------------------------------------------------
+  //
+  // Rule 298 is the procedure for a civil fee-waiver application, not the
+  // application. The rule itself directs the applicant to a separately
+  // approved form, and the repository already retains exactly that form —
+  // the FW-CIV Application, ATJ 601.9 (08/25), at the correct digest under
+  // the correct workflow key. Nine components are bound to the rule number
+  // instead of to the document. The bytes are right; the mapping is wrong.
+  if (
+    present(
+      acquisitionPath("rcap-il-in-repo-identity-reconciliation-rule-298")
+    )
+  ) {
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "IL",
+      jobId: "rcap-il-rule-298-fw-civ-component-remap-memo-correction",
+      strategyFamily: "legal_design_normalization_amendment",
+      trackIds: [],
+      dependencies: ["rcap-il-in-repo-identity-reconciliation-rule-298"],
+      status: "ready",
+      expectedOutputs: [memoPath("IL")],
+      ownedPaths: [memoPath("IL")],
+      requiredInputs: [
+        acquisitionPath("rcap-il-in-repo-identity-reconciliation-rule-298"),
+        memoPath("IL"),
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.sourceRelationships,
+        FACTORY_INPUT_PATHS.sourceArtifacts
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job " +
+          "rcap-il-rule-298-fw-civ-component-remap-memo-correction",
+        "node scripts/verify-rcap-legal-design-intake.mjs"
+      ],
+      commitSubject:
+        "fix(record-clearing): remap the Illinois fee-waiver components",
+      executionNote:
+        "Nine components across nine tracks, taken from the integrated decision. The " +
+        "fee_waiver role is correct on all nine and does not change. No new bytes are " +
+        "needed: the retained binary is already the right one at 1,051,549 bytes, sha256 " +
+        "b2da395f…, PDF 1.6, 4 pages, AcroForm, no XFA, 121 terminal fields, 130 widgets.",
+      stopCondition:
+        "Rebind the nine affected components from the Rule 298 identity to the participant " +
+        "form the rule points at: the FW-CIV Application, ATJ 601.9 (08/25), \"Application " +
+        "for Waiver of Court Fees (Civil)\". Take the components and their track ids from " +
+        "the integrated decision. Ill. S. Ct. R. 298 stays recorded as procedural authority; " +
+        "it is not a participant form and may not be bound as one. " +
+        "Do not substitute the attorney certification, the instructions, the order, the " +
+        "appellate suite, the supreme-court suite or the criminal fee-waiver suite — each is " +
+        "a different document with a different role. Do not acquire, materialize or " +
+        "re-digest anything: the exact asset and its bytes are already retained and are " +
+        "preserved unchanged. Leave every unrelated Illinois route value-identical and keep " +
+        "runtime disabled. " +
         TERMINAL_INSTRUCTION
     });
   }
