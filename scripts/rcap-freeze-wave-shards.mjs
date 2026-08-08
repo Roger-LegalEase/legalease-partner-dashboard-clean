@@ -59,10 +59,10 @@ const ACTIVE_SHARDS = [
     lane: "custom_pleading",
     ownerSession: "SESSION_B",
     jobIds: [
-      "rcap-ms-custom-pleading-technical-review-correction"
+      "rcap-nd-custom-pleading-technical-review-correction"
     ],
     note:
-      "Opened by technical review, not by a new requirement. Indiana's correction is delivered and integrated: its replacement packet is generated and the proof drift reopened its technical review, exactly as intended — the stale approval did not survive the new bytes. Mississippi's correction is still outstanding and is all that remains here. It reissues the assignment that produced the defect and owns the same module and verifier; it does not re-implement a track. Both legal reviews stay blocked."
+      "Opened by technical review, not by a new requirement. Indiana and Mississippi are both delivered and integrated: each replacement packet is generated, and in both cases the proof drift reopened the technical review rather than letting a stale approval carry over to new bytes. North Dakota takes their place, and it is a different kind of defect: the municipal-route caption reads 'IN THE MUNICIPAL COURT OF CASS COUNTY' and no such court exists, because North Dakota municipal courts are city courts named for a municipality under N.D.C.C. ch. 40-18. Indiana and Mississippi were fixture defects; this one is in the caption composer, which appends 'OF <COUNTY> COUNTY' unconditionally while the fixture's own ordinance citation already names Fargo. Scoped to the municipal route: the district-route captions are correct and are not touched. Its legal review stays blocked; Kansas, Minnesota, Missouri and New Jersey opened theirs on this wave's approvals."
   },
   {
     shard: "B3",
@@ -151,26 +151,27 @@ const ACTIVE_SHARDS = [
     lane: "source_acquisition",
     ownerSession: "SESSION_F",
     jobIds: [
-      "rcap-fl-not-required-design-reconciliation",
-      "rcap-ia-not-required-design-reconciliation"
+      "rcap-de-direct-issuer-request",
+      "rcap-ma-attended-retrieval-100k-petition-for-expungement",
+      "rcap-ma-attended-retrieval-mps-petition-to-expunge",
+      "rcap-ma-attended-retrieval-ocp-petition-to-seal",
+      "rcap-ma-attended-retrieval-tc0021",
+      "rcap-ma-attended-retrieval-tc0057"
     ],
     note:
-      "Promoted from the previous wave's candidate ranking. Both had lease branches at the start of this pass and no worker commit; they are reissued to the same shard rather than recommissioned elsewhere. The Iowa in-repo identity reconciliation is gone from this shard because it is complete and integrated: DCI-76 resolved to page 1 of a retained three-page packet, and its remap is now D1's."
+      "The shard emptied and refilled. All three of its previous rows — the Florida and Iowa not-required design reconciliations and the Iowa in-repo identity reconciliation — are complete and integrated; DCI-76 resolved to page 1 of a retained three-page packet and its remap is now D1's. What replaces them is the Massachusetts attended-retrieval set and the Delaware direct-issuer request. Every one of these is human-attended or human-sent work: the five Massachusetts documents sit behind a perimeter that refuses automation, and the Delaware request is drafted and sent by a person or not at all. They are ranked, not promised, and none of them may create a receipt from an unattended retrieval."
   },
   {
     shard: "R1",
     lane: "legal_output_review",
     ownerSession: "SESSION_R1",
     jobIds: [
-      "rcap-ks-custom-pleading-technical-visual-review",
-      "rcap-mo-custom-pleading-technical-visual-review",
-      "rcap-mn-custom-pleading-technical-visual-review",
-      "rcap-nj-guidance-implementation-technical-visual-review",
-      "rcap-nd-custom-pleading-technical-visual-review"
+      "rcap-in-custom-pleading-technical-visual-review",
+      "rcap-ms-custom-pleading-technical-visual-review"
     ],
     reviewKind: "technical_visual_review",
     note:
-      "Technical and visual review only; this shard does not own any legal-review path. Indiana and Mississippi are deliberately absent: their current output is correction_required and the packet to re-review does not exist yet."
+      "Technical and visual review only; this shard does not own any legal-review path. All five of its previous reads are integrated: Kansas, Minnesota, Missouri and New Jersey approved, and North Dakota held with a real finding that now has a correction owner. Indiana and Mississippi take their place and are here for the opposite reason from last wave — their corrections landed, their replacement packets are generated, and the new bytes reopened reviews that had already been recorded. A technical approval does not survive the output it approved being replaced."
   },
   {
     shard: "R2",
@@ -226,12 +227,9 @@ const CANDIDATE_SHARDS = [
   {
     shard: "F1",
     lane: "source_acquisition",
-    jobIds: [
-      "rcap-de-direct-issuer-request",
-      "rcap-ma-attended-retrieval-100k-petition-for-expungement",
-      "rcap-ma-attended-retrieval-mps-petition-to-expunge"
-    ],
-    note: "The Massachusetts retrievals each need a person at a terminal, so they are ranked but not promised."
+    jobIds: [],
+    note:
+      "Empty because its whole candidate list was promoted into the active F3 this wave: the Delaware direct-issuer request and all five Massachusetts attended retrievals. Nothing is queued behind them — every other ready acquisition job is already seated in an active shard."
   },
   {
     shard: "R1",

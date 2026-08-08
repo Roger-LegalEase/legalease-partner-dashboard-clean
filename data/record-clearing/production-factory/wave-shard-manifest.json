@@ -4,15 +4,15 @@
   "note": "Shard metadata is recorded here rather than on a claim because a job manifest is what a branch fingerprint is computed from: a coordination field inside the assignment would rename a worker's branch. Nothing here alters a semantic fingerprint or a branch key.",
   "reviewShardReservationNote": "The claim schema's ownerSession enum is SESSION_B through SESSION_F, and review is none of those. R1 and R2 are therefore reserved here rather than in job-claims.json. This manifest is the reservation of record for them; widening the claim enum would change the job manifest and, through it, worker branch identity.",
   "baseline": {
-    "baseCommit": "2faea1123246a3f7095f4f17d6f82f29f158f7e1",
+    "baseCommit": "7e4526cd9acf20ec4b17ac27e74303947e9cda23",
     "authorityVersion": "master-library/1.2",
     "authorityEdition": "1.2"
   },
   "sourceSnapshot": {
     "normalizedTracks": 497,
     "representedExactlyOnce": 497,
-    "implementationComplete": 212,
-    "jobs": 462,
+    "implementationComplete": 223,
+    "jobs": 474,
     "generatedFrom": [
       {
         "path": "data/rcap-all50/all-state-build-manifest.json",
@@ -196,7 +196,7 @@
       },
       {
         "path": "data/record-clearing/production-factory/job-claims.json",
-        "sha256": "663b361b5109d60ec9188bd00034cb3a18567f237ff1a760d24795881cdcc55a"
+        "sha256": "0d7471c901bc9359f33f6669cc9e43b8ccec96ccc03376547bb739023569fd7b"
       },
       {
         "path": "data/record-clearing/production-factory/legal-review-materialization-contract.json",
@@ -208,11 +208,11 @@
       },
       {
         "path": "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json",
-        "sha256": "1128c4b3b37af142f5c9832eb7842f24e841f0bbafa5b9de63ed079378b22965"
+        "sha256": "371cd5e98f8dc000b1f53cccd39d4113de36b64e974e4e7841f9a35f8b579649"
       },
       {
         "path": "data/record-clearing/production-factory/official-pdf-source-contract-reconciliation.json",
-        "sha256": "420f9c653ebaffb1abc25c194292a1040a5160746c68e28d38da99c8c75c461d"
+        "sha256": "0e4e57b18c821ae236484ed4060307a0fc2c2cc76b78e8bf563aecdb2032f87d"
       },
       {
         "path": "data/record-clearing/source-artifact-registry.json",
@@ -552,7 +552,7 @@
       },
       {
         "path": "planning/record-clearing-100-percent/production-plan.json",
-        "sha256": "6f1d02f39d4a93efbc420a92a3b708b926ac8eafcf2dcc7f6954be9b286ff8b3"
+        "sha256": "06fc9e9507b25d15589453c249c2d65b0953cc692ad7a26f29777d610eb92f66"
       },
       {
         "path": "src/lib/rcap/jurisdictions/packet-capability.ts",
@@ -578,8 +578,8 @@
   "totals": {
     "activeShards": 15,
     "candidateShards": 7,
-    "activeJobs": 29,
-    "candidateJobs": 15,
+    "activeJobs": 28,
+    "candidateJobs": 12,
     "awaitingIntegration": 0
   },
   "shards": [
@@ -589,49 +589,16 @@
       "lane": "custom_pleading",
       "status": "active",
       "ownerSession": "SESSION_B",
-      "note": "Hawaii only. Wyoming left this shard: all three of its tracks carry unresolved governing-mechanism questions, its packet components wait on a 23-county local-template survey nobody has run, and two tracks carry open waiting-period and eligibility questions. It was standing ready with every one of those open. It is now blocked on three owners and will return when they answer.",
-      "jobIds": [
-        "rcap-hi-custom-pleading"
-      ],
+      "note": "Empty because it succeeded. Hawaii's custom pleading is integrated and completed — five tracks, thirty pages — and its replacement proof is generated. Wyoming had already left this shard: all three of its tracks carry unresolved governing-mechanism questions, its packet components wait on a 23-county local-template survey nobody has run, and two tracks carry open waiting-period and eligibility questions. It returns when D2 and the Wyoming owners answer, not before.",
+      "jobIds": [],
       "capacity": {
-        "jobs": 1,
-        "assignedTracks": 5,
-        "incrementalTracks": 5,
-        "assignedComponents": 15,
-        "incrementalComponents": 15
+        "jobs": 0,
+        "assignedTracks": 0,
+        "incrementalTracks": 0,
+        "assignedComponents": 0,
+        "incrementalComponents": 0
       },
-      "jobs": [
-        {
-          "jobId": "rcap-hi-custom-pleading",
-          "lane": "custom_pleading",
-          "jurisdiction": "HI",
-          "status": "ready",
-          "semanticFingerprint": "8ecf5490b69cd38d0e96603c187fb782d201e4fb4d638b532a70f27c62075c48",
-          "branch": "rcap-factory/rcap-hi-custom-pleading-e5deb202-8ecf5490",
-          "ownedPaths": [
-            "scripts/verify-rcap-hawaii-custom-pleading.mjs",
-            "src/lib/rcap/packets/jurisdictions/hawaii/custom-pleading.ts"
-          ],
-          "dependencies": [],
-          "assignedTrackIds": [
-            "hi_first_time_drug_offender_expungement",
-            "hi_first_time_property_offender_expungement",
-            "hi_marijuana_three_grams_expungement",
-            "hi_pre_2004_drug_offender_expungement",
-            "hi_under_21_dui_expungement"
-          ],
-          "incrementalTrackIds": [
-            "hi_first_time_drug_offender_expungement",
-            "hi_first_time_property_offender_expungement",
-            "hi_marijuana_three_grams_expungement",
-            "hi_pre_2004_drug_offender_expungement",
-            "hi_under_21_dui_expungement"
-          ],
-          "assignedComponents": 15,
-          "incrementalComponents": 15,
-          "alreadyHasPushedCompletion": false
-        }
-      ]
+      "jobs": []
     },
     {
       "wave": 4,
@@ -639,72 +606,16 @@
       "lane": "custom_pleading",
       "status": "active",
       "ownerSession": "SESSION_B",
-      "note": "B2 returned both whole-state assignments unimplemented, each because one track carries an unresolved release blocker and a worker cannot atomically deliver four fifths of a job. The captain split them: these are the clean tracks only, with new fingerprints. oh_marijuana_expungement and wa_crop_certificate_of_restoration are excluded and neither is forced ready. The earlier note on this shard was wrong to say both assignments had no venue blocker — Washington's CROP track carries exactly that.",
-      "jobIds": [
-        "rcap-oh-custom-pleading-clean-tracks",
-        "rcap-wa-custom-pleading-clean-tracks"
-      ],
+      "note": "The split worked and is now spent. Both clean-track assignments — Ohio's four and Washington's two — are integrated and completed with proofs generated. oh_marijuana_expungement and wa_crop_certificate_of_restoration were excluded from those assignments and remain excluded; neither is forced ready, and each now has its own memo-amendment owner plus a source owner in this wave. The earlier note on this shard was wrong to say both assignments had no venue blocker — Washington's CROP track carries exactly that, which is why WA has a venue decision behind it.",
+      "jobIds": [],
       "capacity": {
-        "jobs": 2,
-        "assignedTracks": 6,
-        "incrementalTracks": 6,
-        "assignedComponents": 28,
-        "incrementalComponents": 28
+        "jobs": 0,
+        "assignedTracks": 0,
+        "incrementalTracks": 0,
+        "assignedComponents": 0,
+        "incrementalComponents": 0
       },
-      "jobs": [
-        {
-          "jobId": "rcap-oh-custom-pleading-clean-tracks",
-          "lane": "custom_pleading",
-          "jurisdiction": "OH",
-          "status": "ready",
-          "semanticFingerprint": "d9d0681a9cf848c3dd428c5a348ae332921e212217faafdd33c73a8604f3f7ae",
-          "branch": "rcap-factory/rcap-oh-custom-pleading-clean-tracks-610f8666-d9d0681a",
-          "ownedPaths": [
-            "scripts/verify-rcap-ohio-custom-pleading.mjs",
-            "src/lib/rcap/packets/jurisdictions/ohio/custom-pleading.ts"
-          ],
-          "dependencies": [],
-          "assignedTrackIds": [
-            "oh_2953_32_expungement",
-            "oh_2953_32_sealing",
-            "oh_2953_33_nonconviction",
-            "oh_2953_35_firearm"
-          ],
-          "incrementalTrackIds": [
-            "oh_2953_32_expungement",
-            "oh_2953_32_sealing",
-            "oh_2953_33_nonconviction",
-            "oh_2953_35_firearm"
-          ],
-          "assignedComponents": 20,
-          "incrementalComponents": 20,
-          "alreadyHasPushedCompletion": false
-        },
-        {
-          "jobId": "rcap-wa-custom-pleading-clean-tracks",
-          "lane": "custom_pleading",
-          "jurisdiction": "WA",
-          "status": "ready",
-          "semanticFingerprint": "c0ae532b32aeb1b31fc3188716da29627ad6608632574212c1bf7a33e13dfd09",
-          "branch": "rcap-factory/rcap-wa-custom-pleading-clean-tracks-665b428f-c0ae532b",
-          "ownedPaths": [
-            "scripts/verify-rcap-washington-custom-pleading.mjs",
-            "src/lib/rcap/packets/jurisdictions/washington/custom-pleading.ts"
-          ],
-          "dependencies": [],
-          "assignedTrackIds": [
-            "wa_del_nonconviction",
-            "wa_vac_post_probation_9_95_240"
-          ],
-          "incrementalTrackIds": [
-            "wa_del_nonconviction",
-            "wa_vac_post_probation_9_95_240"
-          ],
-          "assignedComponents": 8,
-          "incrementalComponents": 8,
-          "alreadyHasPushedCompletion": false
-        }
-      ]
+      "jobs": []
     },
     {
       "wave": 4,
@@ -712,66 +623,42 @@
       "lane": "custom_pleading",
       "status": "active",
       "ownerSession": "SESSION_B",
-      "note": "Opened by technical review, not by a new requirement. Each reissues the assignment that produced the defect and owns the same module and verifier; neither re-implements a track. Both legal reviews stay blocked until the corrected packets are produced and technically re-reviewed.",
+      "note": "Opened by technical review, not by a new requirement. Indiana and Mississippi are both delivered and integrated: each replacement packet is generated, and in both cases the proof drift reopened the technical review rather than letting a stale approval carry over to new bytes. North Dakota takes their place, and it is a different kind of defect: the municipal-route caption reads 'IN THE MUNICIPAL COURT OF CASS COUNTY' and no such court exists, because North Dakota municipal courts are city courts named for a municipality under N.D.C.C. ch. 40-18. Indiana and Mississippi were fixture defects; this one is in the caption composer, which appends 'OF <COUNTY> COUNTY' unconditionally while the fixture's own ordinance citation already names Fargo. Scoped to the municipal route: the district-route captions are correct and are not touched. Its legal review stays blocked; Kansas, Minnesota, Missouri and New Jersey opened theirs on this wave's approvals.",
       "jobIds": [
-        "rcap-in-custom-pleading-technical-review-correction",
-        "rcap-ms-custom-pleading-technical-review-correction"
+        "rcap-nd-custom-pleading-technical-review-correction"
       ],
       "capacity": {
-        "jobs": 2,
-        "assignedTracks": 6,
+        "jobs": 1,
+        "assignedTracks": 5,
         "incrementalTracks": 0,
-        "assignedComponents": 28,
+        "assignedComponents": 18,
         "incrementalComponents": 0
       },
       "jobs": [
         {
-          "jobId": "rcap-in-custom-pleading-technical-review-correction",
+          "jobId": "rcap-nd-custom-pleading-technical-review-correction",
           "lane": "custom_pleading",
-          "jurisdiction": "IN",
+          "jurisdiction": "ND",
           "status": "ready",
-          "semanticFingerprint": "69158102925f06f3ffbb1f1a186ecb04fdbd084a618650d6da51789d3d6203aa",
-          "branch": "rcap-factory/rcap-in-custom-pleading-technical-review-correction-c4033be7-69158102",
+          "semanticFingerprint": "29bd4a46d94be55526ee087447780a0db995a3cbfe5d7e21599813279ae3fd54",
+          "branch": "rcap-factory/rcap-nd-custom-pleading-technical-review-correction-d296572c-29bd4a46",
           "ownedPaths": [
-            "scripts/verify-rcap-indiana-custom-pleading.mjs",
-            "src/lib/rcap/packets/jurisdictions/indiana/custom-pleading.ts"
+            "scripts/verify-rcap-north-dakota-custom-pleading.mjs",
+            "src/lib/rcap/packets/jurisdictions/north-dakota/custom-pleading.ts"
           ],
           "dependencies": [
-            "rcap-in-custom-pleading",
-            "rcap-in-custom-pleading-technical-visual-review"
+            "rcap-nd-custom-pleading",
+            "rcap-nd-custom-pleading-technical-visual-review"
           ],
           "assignedTrackIds": [
-            "in_collateral_action",
-            "in_conviction_serious_felony",
-            "in_supplemental_order"
+            "nd-dui-record-seal",
+            "nd-marijuana-first-offense-seal",
+            "nd-seal-felony-conviction",
+            "nd-seal-misdemeanor-conviction",
+            "nd-seal-pardoned-conviction"
           ],
           "incrementalTrackIds": [],
-          "assignedComponents": 13,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": false
-        },
-        {
-          "jobId": "rcap-ms-custom-pleading-technical-review-correction",
-          "lane": "custom_pleading",
-          "jurisdiction": "MS",
-          "status": "ready",
-          "semanticFingerprint": "fc6539d64777443cde91ea9e935affc1eb050554b90f799cfed3e0bdd8b27afd",
-          "branch": "rcap-factory/rcap-ms-custom-pleading-technical-review-correction-768c6cc3-fc6539d6",
-          "ownedPaths": [
-            "scripts/verify-rcap-mississippi-custom-pleading.mjs",
-            "src/lib/rcap/packets/jurisdictions/mississippi/custom-pleading.ts"
-          ],
-          "dependencies": [
-            "rcap-ms-custom-pleading",
-            "rcap-ms-custom-pleading-technical-visual-review"
-          ],
-          "assignedTrackIds": [
-            "ms-drug-cd",
-            "ms-dui",
-            "ms-mip"
-          ],
-          "incrementalTrackIds": [],
-          "assignedComponents": 15,
+          "assignedComponents": 18,
           "incrementalComponents": 0,
           "alreadyHasPushedCompletion": false
         }
@@ -869,13 +756,14 @@
       "lane": "legal_design_normalization",
       "status": "active",
       "ownerSession": "SESSION_D",
-      "note": "The two questions that forced the B2 split, each owning a decision record only. rcap-vt-200-00130-source-identity-resolution is deliberately absent: its decision is already integrated at d40261d and the job had been advertising work that was done.",
+      "note": "The two questions that forced the B2 split are answered and integrated, and neither decision could amend its own state memo. These are the owners that can. Ohio carries the mechanism into OH.memo.json and fixes the two accuracy defects the decision found — the fee is division (G), and the 60-day and 30-day figures do not govern this route. Washington carries the venue conclusion and reopens the form blocker in the opposite direction, because the CRO pattern set exists. Iowa remaps six components that two completed resolutions found pointing at documents that do not exist as such. None of the three makes a track ready.",
       "jobIds": [
-        "rcap-oh-marijuana-governing-mechanism-reconciliation",
-        "rcap-wa-crop-venue-reconciliation"
+        "rcap-oh-marijuana-memo-amendment",
+        "rcap-wa-crop-memo-amendment",
+        "rcap-ia-rule-2-86-and-dci-76-component-remap"
       ],
       "capacity": {
-        "jobs": 2,
+        "jobs": 3,
         "assignedTracks": 0,
         "incrementalTracks": 0,
         "assignedComponents": 0,
@@ -883,16 +771,18 @@
       },
       "jobs": [
         {
-          "jobId": "rcap-oh-marijuana-governing-mechanism-reconciliation",
+          "jobId": "rcap-oh-marijuana-memo-amendment",
           "lane": "legal_design_normalization",
           "jurisdiction": "OH",
           "status": "ready",
-          "semanticFingerprint": "c9cae40ef540b5005db2147c8e75ad072d9ad15f0a05970fb4995c573d0b65cf",
-          "branch": "rcap-factory/rcap-oh-marijuana-governing-mechanism-reconciliation-d420b6d0-c9cae40e",
+          "semanticFingerprint": "1f28c5f81d8637d04b2097b705f632090f8fccc63338ca23477d56e494403617",
+          "branch": "rcap-factory/rcap-oh-marijuana-memo-amendment-8e081aef-1f28c5f8",
           "ownedPaths": [
-            "data/record-clearing/production-factory/legal-design-decisions/rcap-oh-marijuana-governing-mechanism-reconciliation.json"
+            "data/record-clearing/legal-design-intake/OH.memo.json"
           ],
-          "dependencies": [],
+          "dependencies": [
+            "rcap-oh-marijuana-governing-mechanism-reconciliation"
+          ],
           "assignedTrackIds": [],
           "incrementalTrackIds": [],
           "assignedComponents": 0,
@@ -900,16 +790,38 @@
           "alreadyHasPushedCompletion": false
         },
         {
-          "jobId": "rcap-wa-crop-venue-reconciliation",
+          "jobId": "rcap-wa-crop-memo-amendment",
           "lane": "legal_design_normalization",
           "jurisdiction": "WA",
           "status": "ready",
-          "semanticFingerprint": "6f56627417f99a11c9581dae561c98329994f09e54ab77c865066e61461fd357",
-          "branch": "rcap-factory/rcap-wa-crop-venue-reconciliation-e071d790-6f566274",
+          "semanticFingerprint": "cc57c34b74f1fd09606da12ab9c1bccd4941a6570530cc1f1359b2a681b6362c",
+          "branch": "rcap-factory/rcap-wa-crop-memo-amendment-fbe07d37-cc57c34b",
           "ownedPaths": [
-            "data/record-clearing/production-factory/legal-design-decisions/rcap-wa-crop-venue-reconciliation.json"
+            "data/record-clearing/legal-design-intake/WA.memo.json"
           ],
-          "dependencies": [],
+          "dependencies": [
+            "rcap-wa-crop-venue-reconciliation"
+          ],
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
+          "alreadyHasPushedCompletion": false
+        },
+        {
+          "jobId": "rcap-ia-rule-2-86-and-dci-76-component-remap",
+          "lane": "legal_design_normalization",
+          "jurisdiction": "IA",
+          "status": "ready",
+          "semanticFingerprint": "1b91729dc6fb0c98b0c5c09dde5a69c23beacc739b9f86c98193518f1fb73da8",
+          "branch": "rcap-factory/rcap-ia-rule-2-86-and-dci-76-component-remap-d72b2f26-1b91729d",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/legal-design-decisions/rcap-ia-rule-2-86-and-dci-76-component-remap.json"
+          ],
+          "dependencies": [
+            "rcap-ia-in-repo-identity-reconciliation-already-retained-under-another-identity",
+            "rcap-ia-source-identity-resolution-certification-of-service"
+          ],
           "assignedTrackIds": [],
           "incrementalTrackIds": [],
           "assignedComponents": 0,
@@ -1013,15 +925,14 @@
       "lane": "source_acquisition",
       "status": "active",
       "ownerSession": "SESSION_F",
-      "note": "Human-attended work plus one metadata correction. The Minnesota and Delaware retrievals need a person in a browser; the Wyoming survey needs a person telephoning clerks in 23 counties and is not a download; the 281E correction is metadata only and needs nobody. The three attended items are ranked, not promised.",
+      "note": "Human-attended work only. The 281E metadata correction left this shard because it is delivered and integrated: all five of its corrections — role, workflow key, canonical path, title qualification and the primary-filing guard — are admitted into the Edition 1.3 candidate tranche, which prepares but does not publish. The Minnesota and Delaware retrievals still need a person in a browser, and the Wyoming survey needs a person telephoning clerks in 23 counties and is not a download. Delaware FORM-281 stays inside the attended retrieval and is not made a separate promise. All three are ranked, not promised.",
       "jobIds": [
         "rcap-mn-attended-retrieval-currentness-comparison",
         "rcap-de-attended-retrieval-five-current-forms",
-        "rcap-de-form-281e-edition-metadata-correction",
         "rcap-wy-local-template-and-handout-survey"
       ],
       "capacity": {
-        "jobs": 4,
+        "jobs": 3,
         "assignedTracks": 0,
         "incrementalTracks": 0,
         "assignedComponents": 0,
@@ -1067,25 +978,6 @@
           "alreadyHasPushedCompletion": false
         },
         {
-          "jobId": "rcap-de-form-281e-edition-metadata-correction",
-          "lane": "source_acquisition",
-          "jurisdiction": "DE",
-          "status": "ready",
-          "semanticFingerprint": "92c501891eeefda3ddf98541e0d0db9b73a5f54d608148d071fea58bec4586d8",
-          "branch": "rcap-factory/rcap-de-form-281e-edition-metadata-correction-0744303b-92c50189",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-de-form-281e-edition-metadata-correction.json"
-          ],
-          "dependencies": [
-            "rcap-de-official-download-automation-blocked"
-          ],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": false
-        },
-        {
           "jobId": "rcap-wy-local-template-and-handout-survey",
           "lane": "source_acquisition",
           "jurisdiction": "WY",
@@ -1110,109 +1002,135 @@
       "lane": "source_acquisition",
       "status": "active",
       "ownerSession": "SESSION_F",
-      "note": "Carried over unfinished; not reranked. The wave's earlier F2 trio — the Iowa certification-of-service identity, the Maine form-face title correction and the Michigan MC 227 revision — are integrated and satisfied, and are not re-listed.",
+      "note": "The permission and follow-up owners the completed decisions created. The Missouri hardened block and direct-issuer request are done and the request is drafted and deliberately unsent; what remains is the human authorization to send it, which is what the Missouri job here owns. The three written-permission owners exist because a licence decision that says no does not create the work of going and asking, and Colorado, Indiana and Kansas were each sitting at generation_permission_required with no route out. They are derived from the corpus, so the next withheld jurisdiction gets one automatically. None of them sends anything: drafting is the deliverable and sending is a separate human act. The Ohio and Washington source owners carry the one question each integrated decision expressly left open — Ohio's local forms and fee practice, and the CRO form family's mandatory-versus-pattern status and mapping.",
       "jobIds": [
-        "rcap-mo-official-download-automation-blocked",
-        "rcap-in-commercial-license",
-        "rcap-mo-direct-issuer-request"
+        "rcap-mo-issuer-contact-authorization",
+        "rcap-co-written-permission-authorization",
+        "rcap-in-written-permission-authorization",
+        "rcap-ks-written-permission-authorization",
+        "rcap-oh-2953-321-local-form-and-fee-survey",
+        "rcap-wa-cro-form-family-source-identity"
       ],
       "capacity": {
-        "jobs": 3,
-        "assignedTracks": 17,
-        "incrementalTracks": 17,
-        "assignedComponents": 94,
-        "incrementalComponents": 94
+        "jobs": 6,
+        "assignedTracks": 0,
+        "incrementalTracks": 0,
+        "assignedComponents": 0,
+        "incrementalComponents": 0
       },
       "jobs": [
         {
-          "jobId": "rcap-mo-official-download-automation-blocked",
+          "jobId": "rcap-mo-issuer-contact-authorization",
           "lane": "source_acquisition",
           "jurisdiction": "MO",
           "status": "ready",
-          "semanticFingerprint": "2fbfd970cab4d591f56efaaa0536c26f3db768db7434b9dec270ae6f097285f1",
-          "branch": "rcap-factory/rcap-mo-official-download-automation-blocked-50816f4b-2fbfd970",
+          "semanticFingerprint": "ddb0ae5a423a162b6d3e301d0a4a4c8573e51b02c9f11508a45ec509f7a191f7",
+          "branch": "rcap-factory/rcap-mo-issuer-contact-authorization-2233f9df-ddb0ae5a",
           "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-mo-official-download-automation-blocked.json"
+            "data/record-clearing/production-factory/source-acquisition/rcap-mo-issuer-contact-authorization.json"
           ],
-          "dependencies": [],
-          "assignedTrackIds": [
-            "mo-311-326-minor-in-possession",
-            "mo-575-120-identity-theft-correction",
-            "mo-610-122-arrest-expungement",
-            "mo-610-130-first-intoxication",
-            "mo-610-140-arrest",
-            "mo-610-140-conviction",
-            "mo-610-145-mistaken-identity"
+          "dependencies": [
+            "rcap-mo-direct-issuer-request"
           ],
-          "incrementalTrackIds": [
-            "mo-311-326-minor-in-possession",
-            "mo-575-120-identity-theft-correction",
-            "mo-610-122-arrest-expungement",
-            "mo-610-130-first-intoxication",
-            "mo-610-140-arrest",
-            "mo-610-140-conviction",
-            "mo-610-145-mistaken-identity"
-          ],
-          "assignedComponents": 38,
-          "incrementalComponents": 38,
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
           "alreadyHasPushedCompletion": false
         },
         {
-          "jobId": "rcap-in-commercial-license",
+          "jobId": "rcap-co-written-permission-authorization",
+          "lane": "source_acquisition",
+          "jurisdiction": "CO",
+          "status": "ready",
+          "semanticFingerprint": "83203c096a5371ccacaff2a7a16d4eaee09900573eeac1627ce51710b023bd49",
+          "branch": "rcap-factory/rcap-co-written-permission-authorization-32c46bf5-83203c09",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-co-written-permission-authorization.json"
+          ],
+          "dependencies": [
+            "rcap-co-jdf-family-commercial-license"
+          ],
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
+          "alreadyHasPushedCompletion": false
+        },
+        {
+          "jobId": "rcap-in-written-permission-authorization",
           "lane": "source_acquisition",
           "jurisdiction": "IN",
           "status": "ready",
-          "semanticFingerprint": "95a539cfc6629a133f78a63f41ed7b095404c6483711d178c1107b99650af82a",
-          "branch": "rcap-factory/rcap-in-commercial-license-2108f6a8-95a539cf",
+          "semanticFingerprint": "1c9d82b9af03bfb2bf64f3d9efec7f0354ba1cfad12fa9e8ef38977157087406",
+          "branch": "rcap-factory/rcap-in-written-permission-authorization-5595d439-1c9d82b9",
           "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-in-commercial-license.json"
+            "data/record-clearing/production-factory/source-acquisition/rcap-in-written-permission-authorization.json"
           ],
-          "dependencies": [],
-          "assignedTrackIds": [
-            "in_arrest_no_charges",
-            "in_conviction_d6",
-            "in_conviction_felony",
-            "in_conviction_misd",
-            "in_section1_petition"
+          "dependencies": [
+            "rcap-in-commercial-license"
           ],
-          "incrementalTrackIds": [
-            "in_arrest_no_charges",
-            "in_conviction_d6",
-            "in_conviction_felony",
-            "in_conviction_misd",
-            "in_section1_petition"
-          ],
-          "assignedComponents": 28,
-          "incrementalComponents": 28,
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
           "alreadyHasPushedCompletion": false
         },
         {
-          "jobId": "rcap-mo-direct-issuer-request",
+          "jobId": "rcap-ks-written-permission-authorization",
           "lane": "source_acquisition",
-          "jurisdiction": "MO",
+          "jurisdiction": "KS",
           "status": "ready",
-          "semanticFingerprint": "b20349867a9846d308dda8020294380f8c48f2ec5c63bc15ac03154a6bf155e4",
-          "branch": "rcap-factory/rcap-mo-direct-issuer-request-d4367b02-b2034986",
+          "semanticFingerprint": "61336e5cd5b17160b9f040a1a98154ff26fb3f2181a0e6e44b03bbee8682ee4f",
+          "branch": "rcap-factory/rcap-ks-written-permission-authorization-7197cc61-61336e5c",
           "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-mo-direct-issuer-request.json"
+            "data/record-clearing/production-factory/source-acquisition/rcap-ks-written-permission-authorization.json"
           ],
-          "dependencies": [],
-          "assignedTrackIds": [
-            "mo-575-120-identity-theft-correction",
-            "mo-610-122-arrest-expungement",
-            "mo-610-140-arrest",
-            "mo-610-140-conviction",
-            "mo-610-145-mistaken-identity"
+          "dependencies": [
+            "rcap-ks-commercial-license"
           ],
-          "incrementalTrackIds": [
-            "mo-575-120-identity-theft-correction",
-            "mo-610-122-arrest-expungement",
-            "mo-610-140-arrest",
-            "mo-610-140-conviction",
-            "mo-610-145-mistaken-identity"
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
+          "alreadyHasPushedCompletion": false
+        },
+        {
+          "jobId": "rcap-oh-2953-321-local-form-and-fee-survey",
+          "lane": "source_acquisition",
+          "jurisdiction": "OH",
+          "status": "ready",
+          "semanticFingerprint": "3e40c8f9834427eb827104f64bc1cd20f8827a4e201d5162ab15b1a53b18b34b",
+          "branch": "rcap-factory/rcap-oh-2953-321-local-form-and-fee-survey-7b38384a-3e40c8f9",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-oh-2953-321-local-form-and-fee-survey.json"
           ],
-          "assignedComponents": 28,
-          "incrementalComponents": 28,
+          "dependencies": [
+            "rcap-oh-marijuana-governing-mechanism-reconciliation"
+          ],
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
+          "alreadyHasPushedCompletion": false
+        },
+        {
+          "jobId": "rcap-wa-cro-form-family-source-identity",
+          "lane": "source_acquisition",
+          "jurisdiction": "WA",
+          "status": "ready",
+          "semanticFingerprint": "eabb9bce894c3956d356ef330ce8560a9b3c2c41c50a50a2bd6811b4cff58318",
+          "branch": "rcap-factory/rcap-wa-cro-form-family-source-identity-f788cb5b-eabb9bce",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-wa-cro-form-family-source-identity.json"
+          ],
+          "dependencies": [
+            "rcap-wa-crop-venue-reconciliation"
+          ],
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
           "alreadyHasPushedCompletion": false
         }
       ]
@@ -1223,81 +1141,137 @@
       "lane": "source_acquisition",
       "status": "active",
       "ownerSession": "SESSION_F",
-      "note": "Promoted from the previous wave's candidate ranking. All three had lease branches at the start of this pass and no worker commit; they are reissued to the same shard rather than recommissioned elsewhere.",
+      "note": "The shard emptied and refilled. All three of its previous rows — the Florida and Iowa not-required design reconciliations and the Iowa in-repo identity reconciliation — are complete and integrated; DCI-76 resolved to page 1 of a retained three-page packet and its remap is now D1's. What replaces them is the Massachusetts attended-retrieval set and the Delaware direct-issuer request. Every one of these is human-attended or human-sent work: the five Massachusetts documents sit behind a perimeter that refuses automation, and the Delaware request is drafted and sent by a person or not at all. They are ranked, not promised, and none of them may create a receipt from an unattended retrieval.",
       "jobIds": [
-        "rcap-fl-not-required-design-reconciliation",
-        "rcap-ia-in-repo-identity-reconciliation-already-retained-under-another-identity",
-        "rcap-ia-not-required-design-reconciliation"
+        "rcap-de-direct-issuer-request",
+        "rcap-ma-attended-retrieval-100k-petition-for-expungement",
+        "rcap-ma-attended-retrieval-mps-petition-to-expunge",
+        "rcap-ma-attended-retrieval-ocp-petition-to-seal",
+        "rcap-ma-attended-retrieval-tc0021",
+        "rcap-ma-attended-retrieval-tc0057"
       ],
       "capacity": {
-        "jobs": 3,
-        "assignedTracks": 3,
-        "incrementalTracks": 3,
-        "assignedComponents": 8,
-        "incrementalComponents": 8
+        "jobs": 6,
+        "assignedTracks": 1,
+        "incrementalTracks": 1,
+        "assignedComponents": 1,
+        "incrementalComponents": 1
       },
       "jobs": [
         {
-          "jobId": "rcap-fl-not-required-design-reconciliation",
+          "jobId": "rcap-de-direct-issuer-request",
           "lane": "source_acquisition",
-          "jurisdiction": "FL",
+          "jurisdiction": "DE",
           "status": "ready",
-          "semanticFingerprint": "2cff6f3c076799c69eb9c228cff086faf2f35ff1d1d603efab4f86c12bd39c84",
-          "branch": "rcap-factory/rcap-fl-not-required-design-reconciliation-4a64d3e9-2cff6f3c",
+          "semanticFingerprint": "960389238e071fbc936088e7876b6199b3dca80b3d8ccfb3849528ae8f307b93",
+          "branch": "rcap-factory/rcap-de-direct-issuer-request-9e355e2d-96038923",
           "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-fl-not-required-design-reconciliation.json"
+            "data/record-clearing/production-factory/source-acquisition/rcap-de-direct-issuer-request.json"
           ],
           "dependencies": [],
           "assignedTrackIds": [
-            "fl-administrative"
+            "de_mandatory_expungement"
           ],
           "incrementalTrackIds": [
-            "fl-administrative"
+            "de_mandatory_expungement"
           ],
           "assignedComponents": 1,
           "incrementalComponents": 1,
           "alreadyHasPushedCompletion": false
         },
         {
-          "jobId": "rcap-ia-in-repo-identity-reconciliation-already-retained-under-another-identity",
+          "jobId": "rcap-ma-attended-retrieval-100k-petition-for-expungement",
           "lane": "source_acquisition",
-          "jurisdiction": "IA",
+          "jurisdiction": "MA",
           "status": "ready",
-          "semanticFingerprint": "cab9304183f83d3762de65a6f8c3d210d6b9f228f6d01131cb1020aa1e53ba24",
-          "branch": "rcap-factory/rcap-ia-in-repo-identity-reconciliation-already-retained-under-a-35e905d4-cab93041",
+          "semanticFingerprint": "8a4253c9a3fb26472cc0a98ec478d3829ad82bf86c829b747b92c8cb63ba7bd6",
+          "branch": "rcap-factory/rcap-ma-attended-retrieval-100k-petition-for-expungement-64b65016-8a4253c9",
           "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-ia-in-repo-identity-reconciliation-already-retained-under-another-identity.json"
+            "data/record-clearing/production-factory/source-acquisition/rcap-ma-attended-retrieval-100k-petition-for-expungement.json"
           ],
-          "dependencies": [],
-          "assignedTrackIds": [
-            "ia-dci77"
+          "dependencies": [
+            "rcap-ma-official-download-automation-blocked"
           ],
-          "incrementalTrackIds": [
-            "ia-dci77"
-          ],
-          "assignedComponents": 3,
-          "incrementalComponents": 3,
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
           "alreadyHasPushedCompletion": false
         },
         {
-          "jobId": "rcap-ia-not-required-design-reconciliation",
+          "jobId": "rcap-ma-attended-retrieval-mps-petition-to-expunge",
           "lane": "source_acquisition",
-          "jurisdiction": "IA",
+          "jurisdiction": "MA",
           "status": "ready",
-          "semanticFingerprint": "967ec13b8a60108399634cb2ae4084662024763809a1c74e25c729fa358987d1",
-          "branch": "rcap-factory/rcap-ia-not-required-design-reconciliation-70dabf5c-967ec13b",
+          "semanticFingerprint": "a3850b09455de566a02f1b348955447919f48a9eb0a8b864999d96f51ab13baf",
+          "branch": "rcap-factory/rcap-ma-attended-retrieval-mps-petition-to-expunge-b2e4ddc9-a3850b09",
           "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-ia-not-required-design-reconciliation.json"
+            "data/record-clearing/production-factory/source-acquisition/rcap-ma-attended-retrieval-mps-petition-to-expunge.json"
           ],
-          "dependencies": [],
-          "assignedTrackIds": [
-            "ia-901c3"
+          "dependencies": [
+            "rcap-ma-official-download-automation-blocked"
           ],
-          "incrementalTrackIds": [
-            "ia-901c3"
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
+          "alreadyHasPushedCompletion": false
+        },
+        {
+          "jobId": "rcap-ma-attended-retrieval-ocp-petition-to-seal",
+          "lane": "source_acquisition",
+          "jurisdiction": "MA",
+          "status": "ready",
+          "semanticFingerprint": "ceeee3b5c9f59eadb68d2217a240c3d3a2e6ca979c8b170acaf383f94c7781f0",
+          "branch": "rcap-factory/rcap-ma-attended-retrieval-ocp-petition-to-seal-2ab37a5e-ceeee3b5",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-ma-attended-retrieval-ocp-petition-to-seal.json"
           ],
-          "assignedComponents": 4,
-          "incrementalComponents": 4,
+          "dependencies": [
+            "rcap-ma-official-download-automation-blocked"
+          ],
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
+          "alreadyHasPushedCompletion": false
+        },
+        {
+          "jobId": "rcap-ma-attended-retrieval-tc0021",
+          "lane": "source_acquisition",
+          "jurisdiction": "MA",
+          "status": "ready",
+          "semanticFingerprint": "ec90969091ef6245b42c024c2fefb95958b19a28491b393e6140a21aa93ca9d6",
+          "branch": "rcap-factory/rcap-ma-attended-retrieval-tc0021-eef50be8-ec909690",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-ma-attended-retrieval-tc0021.json"
+          ],
+          "dependencies": [
+            "rcap-ma-official-download-automation-blocked"
+          ],
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
+          "alreadyHasPushedCompletion": false
+        },
+        {
+          "jobId": "rcap-ma-attended-retrieval-tc0057",
+          "lane": "source_acquisition",
+          "jurisdiction": "MA",
+          "status": "ready",
+          "semanticFingerprint": "9e55fad94dcba33184bad377c10d8a594fbfb7a8e96a13b38cd1d84723ec3451",
+          "branch": "rcap-factory/rcap-ma-attended-retrieval-tc0057-e73f92d1-9e55fad9",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-ma-attended-retrieval-tc0057.json"
+          ],
+          "dependencies": [
+            "rcap-ma-official-download-automation-blocked"
+          ],
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
           "alreadyHasPushedCompletion": false
         }
       ]
@@ -1309,147 +1283,71 @@
       "status": "active",
       "ownerSession": "SESSION_R1",
       "reviewKind": "technical_visual_review",
-      "note": "Technical and visual review only; this shard does not own any legal-review path. Indiana and Mississippi are deliberately absent: their current output is correction_required and the packet to re-review does not exist yet.",
+      "note": "Technical and visual review only; this shard does not own any legal-review path. All five of its previous reads are integrated: Kansas, Minnesota, Missouri and New Jersey approved, and North Dakota held with a real finding that now has a correction owner. Indiana and Mississippi take their place and are here for the opposite reason from last wave — their corrections landed, their replacement packets are generated, and the new bytes reopened reviews that had already been recorded. A technical approval does not survive the output it approved being replaced.",
       "jobIds": [
-        "rcap-ks-custom-pleading-technical-visual-review",
-        "rcap-mo-custom-pleading-technical-visual-review",
-        "rcap-mn-custom-pleading-technical-visual-review",
-        "rcap-nj-guidance-implementation-technical-visual-review",
-        "rcap-nd-custom-pleading-technical-visual-review"
+        "rcap-in-custom-pleading-technical-visual-review",
+        "rcap-ms-custom-pleading-technical-visual-review"
       ],
       "capacity": {
-        "jobs": 5,
-        "assignedTracks": 11,
-        "incrementalTracks": 11,
-        "assignedComponents": 40,
-        "incrementalComponents": 40
+        "jobs": 2,
+        "assignedTracks": 6,
+        "incrementalTracks": 6,
+        "assignedComponents": 28,
+        "incrementalComponents": 28
       },
       "jobs": [
         {
-          "jobId": "rcap-ks-custom-pleading-technical-visual-review",
+          "jobId": "rcap-in-custom-pleading-technical-visual-review",
           "lane": "legal_output_review",
-          "jurisdiction": "KS",
+          "jurisdiction": "IN",
           "status": "ready",
-          "semanticFingerprint": "4d3ee611d1bead584dcd6739263bb90a04f01f463799c32a5f4662498fc15ca8",
-          "branch": "rcap-factory/rcap-ks-custom-pleading-technical-visual-review-1e7fa76b-4d3ee611",
+          "semanticFingerprint": "093335b2191a1ced88ebe01e64d72d1e40e76d66016a18d3880f1f1bfb007e5e",
+          "branch": "rcap-factory/rcap-in-custom-pleading-technical-visual-review-30416a40-093335b2",
           "ownedPaths": [
-            "data/record-clearing/production-factory/technical-visual-reviews/completed-output/rcap-ks-custom-pleading.json"
+            "data/record-clearing/production-factory/technical-visual-reviews/completed-output/rcap-in-custom-pleading.json"
           ],
           "dependencies": [
-            "rcap-ks-custom-pleading"
+            "rcap-in-custom-pleading"
           ],
           "assignedTrackIds": [
-            "ks-12-4516-municipal",
-            "ks-12-4516a-municipal-arrest"
+            "in_collateral_action",
+            "in_conviction_serious_felony",
+            "in_supplemental_order"
           ],
           "incrementalTrackIds": [
-            "ks-12-4516-municipal",
-            "ks-12-4516a-municipal-arrest"
+            "in_collateral_action",
+            "in_conviction_serious_felony",
+            "in_supplemental_order"
           ],
-          "assignedComponents": 6,
-          "incrementalComponents": 6,
+          "assignedComponents": 13,
+          "incrementalComponents": 13,
           "alreadyHasPushedCompletion": false
         },
         {
-          "jobId": "rcap-mo-custom-pleading-technical-visual-review",
+          "jobId": "rcap-ms-custom-pleading-technical-visual-review",
           "lane": "legal_output_review",
-          "jurisdiction": "MO",
+          "jurisdiction": "MS",
           "status": "ready",
-          "semanticFingerprint": "52f77547bd363985f67cd888751ff2b4aeeae793925369a502d34584c0252fc4",
-          "branch": "rcap-factory/rcap-mo-custom-pleading-technical-visual-review-344d5a07-52f77547",
+          "semanticFingerprint": "033321ebeb6e276dee921c1c79c3862ff55f5f742b36f36ad0630f7e7ece75de",
+          "branch": "rcap-factory/rcap-ms-custom-pleading-technical-visual-review-a52e30e7-033321eb",
           "ownedPaths": [
-            "data/record-clearing/production-factory/technical-visual-reviews/completed-output/rcap-mo-custom-pleading.json"
+            "data/record-clearing/production-factory/technical-visual-reviews/completed-output/rcap-ms-custom-pleading.json"
           ],
           "dependencies": [
-            "rcap-mo-custom-pleading"
+            "rcap-ms-custom-pleading"
           ],
           "assignedTrackIds": [
-            "mo-311-326-minor-in-possession",
-            "mo-610-130-first-intoxication"
+            "ms-drug-cd",
+            "ms-dui",
+            "ms-mip"
           ],
           "incrementalTrackIds": [
-            "mo-311-326-minor-in-possession",
-            "mo-610-130-first-intoxication"
+            "ms-drug-cd",
+            "ms-dui",
+            "ms-mip"
           ],
-          "assignedComponents": 10,
-          "incrementalComponents": 10,
-          "alreadyHasPushedCompletion": false
-        },
-        {
-          "jobId": "rcap-mn-custom-pleading-technical-visual-review",
-          "lane": "legal_output_review",
-          "jurisdiction": "MN",
-          "status": "ready",
-          "semanticFingerprint": "f406752062187a0686a9c72c27edc8cc6bb0d631aa1eb73182b8ffd8ed13280c",
-          "branch": "rcap-factory/rcap-mn-custom-pleading-technical-visual-review-fa0ece63-f4067520",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/technical-visual-reviews/completed-output/rcap-mn-custom-pleading.json"
-          ],
-          "dependencies": [
-            "rcap-mn-custom-pleading"
-          ],
-          "assignedTrackIds": [
-            "mn_299c11_arrest_demand"
-          ],
-          "incrementalTrackIds": [
-            "mn_299c11_arrest_demand"
-          ],
-          "assignedComponents": 3,
-          "incrementalComponents": 3,
-          "alreadyHasPushedCompletion": false
-        },
-        {
-          "jobId": "rcap-nj-guidance-implementation-technical-visual-review",
-          "lane": "legal_output_review",
-          "jurisdiction": "NJ",
-          "status": "ready",
-          "semanticFingerprint": "e480293a8015122602bf89d95effae52e405564b2f9b159f38cbbe8ec5a24f50",
-          "branch": "rcap-factory/rcap-nj-guidance-implementation-technical-visual-review-d5ed9fc8-e480293a",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/technical-visual-reviews/completed-output/rcap-nj-guidance-implementation.json"
-          ],
-          "dependencies": [
-            "rcap-nj-guidance-implementation"
-          ],
-          "assignedTrackIds": [
-            "nj_automated_clean_slate"
-          ],
-          "incrementalTrackIds": [
-            "nj_automated_clean_slate"
-          ],
-          "assignedComponents": 3,
-          "incrementalComponents": 3,
-          "alreadyHasPushedCompletion": false
-        },
-        {
-          "jobId": "rcap-nd-custom-pleading-technical-visual-review",
-          "lane": "legal_output_review",
-          "jurisdiction": "ND",
-          "status": "ready",
-          "semanticFingerprint": "2febdb851e10ade0e905443c7bd50472bd2ba4ba52c57f49933e47da32aa7f95",
-          "branch": "rcap-factory/rcap-nd-custom-pleading-technical-visual-review-beae4951-2febdb85",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/technical-visual-reviews/completed-output/rcap-nd-custom-pleading.json"
-          ],
-          "dependencies": [
-            "rcap-nd-custom-pleading"
-          ],
-          "assignedTrackIds": [
-            "nd-dui-record-seal",
-            "nd-marijuana-first-offense-seal",
-            "nd-seal-felony-conviction",
-            "nd-seal-misdemeanor-conviction",
-            "nd-seal-pardoned-conviction"
-          ],
-          "incrementalTrackIds": [
-            "nd-dui-record-seal",
-            "nd-marijuana-first-offense-seal",
-            "nd-seal-felony-conviction",
-            "nd-seal-misdemeanor-conviction",
-            "nd-seal-pardoned-conviction"
-          ],
-          "assignedComponents": 18,
-          "incrementalComponents": 18,
+          "assignedComponents": 15,
+          "incrementalComponents": 15,
           "alreadyHasPushedCompletion": false
         }
       ]
@@ -1737,80 +1635,16 @@
       "shard": "F1",
       "lane": "source_acquisition",
       "status": "candidate",
-      "note": "The Massachusetts retrievals each need a person at a terminal, so they are ranked but not promised.",
-      "jobIds": [
-        "rcap-de-direct-issuer-request",
-        "rcap-ma-attended-retrieval-100k-petition-for-expungement",
-        "rcap-ma-attended-retrieval-mps-petition-to-expunge"
-      ],
+      "note": "Empty because its whole candidate list was promoted into the active F3 this wave: the Delaware direct-issuer request and all five Massachusetts attended retrievals. Nothing is queued behind them — every other ready acquisition job is already seated in an active shard.",
+      "jobIds": [],
       "capacity": {
-        "jobs": 3,
-        "assignedTracks": 1,
-        "incrementalTracks": 1,
-        "assignedComponents": 1,
-        "incrementalComponents": 1
+        "jobs": 0,
+        "assignedTracks": 0,
+        "incrementalTracks": 0,
+        "assignedComponents": 0,
+        "incrementalComponents": 0
       },
-      "jobs": [
-        {
-          "jobId": "rcap-de-direct-issuer-request",
-          "lane": "source_acquisition",
-          "jurisdiction": "DE",
-          "status": "ready",
-          "semanticFingerprint": "960389238e071fbc936088e7876b6199b3dca80b3d8ccfb3849528ae8f307b93",
-          "branch": "rcap-factory/rcap-de-direct-issuer-request-9e355e2d-96038923",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-de-direct-issuer-request.json"
-          ],
-          "dependencies": [],
-          "assignedTrackIds": [
-            "de_mandatory_expungement"
-          ],
-          "incrementalTrackIds": [
-            "de_mandatory_expungement"
-          ],
-          "assignedComponents": 1,
-          "incrementalComponents": 1,
-          "alreadyHasPushedCompletion": false
-        },
-        {
-          "jobId": "rcap-ma-attended-retrieval-100k-petition-for-expungement",
-          "lane": "source_acquisition",
-          "jurisdiction": "MA",
-          "status": "ready",
-          "semanticFingerprint": "8a4253c9a3fb26472cc0a98ec478d3829ad82bf86c829b747b92c8cb63ba7bd6",
-          "branch": "rcap-factory/rcap-ma-attended-retrieval-100k-petition-for-expungement-64b65016-8a4253c9",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-ma-attended-retrieval-100k-petition-for-expungement.json"
-          ],
-          "dependencies": [
-            "rcap-ma-official-download-automation-blocked"
-          ],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": false
-        },
-        {
-          "jobId": "rcap-ma-attended-retrieval-mps-petition-to-expunge",
-          "lane": "source_acquisition",
-          "jurisdiction": "MA",
-          "status": "ready",
-          "semanticFingerprint": "a3850b09455de566a02f1b348955447919f48a9eb0a8b864999d96f51ab13baf",
-          "branch": "rcap-factory/rcap-ma-attended-retrieval-mps-petition-to-expunge-b2e4ddc9-a3850b09",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-ma-attended-retrieval-mps-petition-to-expunge.json"
-          ],
-          "dependencies": [
-            "rcap-ma-official-download-automation-blocked"
-          ],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": false
-        }
-      ]
+      "jobs": []
     },
     {
       "wave": 5,
@@ -1835,9 +1669,9 @@
           "jobId": "rcap-mn-custom-pleading-completed-output-review",
           "lane": "legal_output_review",
           "jurisdiction": "MN",
-          "status": "blocked",
-          "semanticFingerprint": "f282a2ebd313f26d84693d3dc2d531441628f66353bd92dda3afeb9f862df564",
-          "branch": "rcap-factory/rcap-mn-custom-pleading-completed-output-review-2864a303-f282a2eb",
+          "status": "ready",
+          "semanticFingerprint": "ceab6af09d1f40d47d0205e695c7da042cf6d573137ed2e6d18bed3b7854c5ea",
+          "branch": "rcap-factory/rcap-mn-custom-pleading-completed-output-review-2864a303-ceab6af0",
           "ownedPaths": [
             "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-mn-custom-pleading.json"
           ],
@@ -2079,5 +1913,5 @@
       ]
     }
   ],
-  "manifestSha256": "54e879cf844bf933ecb93c241af0836dc562f31e92bf4f13f3534a0cee210f20"
+  "manifestSha256": "961f600d6279bf9a05f1cc9a56f012b81dc738e9cec9a1512b1c111e9fc46781"
 }

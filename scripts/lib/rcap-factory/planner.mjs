@@ -211,10 +211,21 @@ function implementationsRequiringCorrection(rootDir) {
         continue;
       }
       const implementationJobId = name.replace(/\.json$/u, "");
+      // A review can find a defect without being able to dispose of it. North
+      // Dakota's came back `held_on_source_or_design` with `correctionRequired`
+      // false and a severity `correction_required` finding sitting inside it:
+      // the reviewer saw that the municipal caption names a county, and could
+      // not complete the review because the assigned verifier would not run.
+      // Reading only the top-level result would file a real, evidenced defect
+      // as a completed review with nobody assigned to it. A severity is a
+      // finding about the output; a result is a statement about the review.
+      const findingRequiresCorrection = (record?.findings ?? []).some(
+        (finding) => finding?.severity === "correction_required"
+      );
       // A defect finding against output that has since been corrected is
       // history, not a live blocker.
       if (
-        record?.result === "correction_required" &&
+        (record?.result === "correction_required" || findingRequiresCorrection) &&
         technicalReviewIsCurrent(rootDir, implementationJobId)
       ) {
         requiring.add(implementationJobId);
@@ -1470,7 +1481,19 @@ const WAVE_WORKER_BRANCHES = Object.freeze({
   "rcap-wa-custom-pleading-clean-tracks":
     "rcap-factory/rcap-wa-custom-pleading-clean-tracks-665b428f-c0ae532b",
   "rcap-in-custom-pleading-technical-review-correction":
-    "rcap-factory/rcap-in-custom-pleading-technical-review-correction-c4033be7-69158102"
+    "rcap-factory/rcap-in-custom-pleading-technical-review-correction-c4033be7-69158102",
+  "rcap-ms-custom-pleading-technical-review-correction":
+    "rcap-factory/rcap-ms-custom-pleading-technical-review-correction-768c6cc3-fc6539d6",
+  "rcap-ks-custom-pleading-technical-visual-review":
+    "rcap-factory/rcap-ks-custom-pleading-technical-visual-review-1e7fa76b-4d3ee611",
+  "rcap-mn-custom-pleading-technical-visual-review":
+    "rcap-factory/rcap-mn-custom-pleading-technical-visual-review-fa0ece63-f4067520",
+  "rcap-mo-custom-pleading-technical-visual-review":
+    "rcap-factory/rcap-mo-custom-pleading-technical-visual-review-344d5a07-52f77547",
+  "rcap-nd-custom-pleading-technical-visual-review":
+    "rcap-factory/rcap-nd-custom-pleading-technical-visual-review-beae4951-2febdb85",
+  "rcap-nj-guidance-implementation-technical-visual-review":
+    "rcap-factory/rcap-nj-guidance-implementation-technical-visual-review-d5ed9fc8-e480293a"
 });
 const WAVE_WORKER_COMMITS = Object.freeze({
   "rcap-ok-sb-2030-current-text-and-currency":
@@ -1571,6 +1594,18 @@ const WAVE_WORKER_COMMITS = Object.freeze({
     "0b19dc56f1cbef0ab5f2a82433a8b81c7eda35ab",
   "rcap-in-custom-pleading-technical-review-correction":
     "0c3253e1fd539e41a3bbe28dbcb842a8d953a43d",
+  "rcap-ms-custom-pleading-technical-review-correction":
+    "57a49c24892e96c40fef2c91f8cfc41baae779df",
+  "rcap-ks-custom-pleading-technical-visual-review":
+    "cbfac551ca51230cc860e66bae82884579a35456",
+  "rcap-mn-custom-pleading-technical-visual-review":
+    "525a054e38ac02194114bcfecaa559e0353663bc",
+  "rcap-mo-custom-pleading-technical-visual-review":
+    "733a80626f9065cba36552d4b6361a609d1cc400",
+  "rcap-nd-custom-pleading-technical-visual-review":
+    "d716c3cc14b10a5a7d309ec112cf420dcebefdda",
+  "rcap-nj-guidance-implementation-technical-visual-review":
+    "adf1bdc91f2fe47f3a5a69dd7b5cc16307e8fb5f",
   "rcap-mt-public-official-download":
     "123fc9a4506b242270ad527686958de522563791"
 });
@@ -4671,6 +4706,45 @@ export function buildFactoryPlan(options = {}) {
         "template is correct and the fixtures are not. Preserve the Mississippi memo, the " +
         "legal design, every canonical packet, every unaffected variant, component roles " +
         "and the outside-party protections value-identically."
+    },
+    {
+      implementationJobId: "rcap-nd-custom-pleading",
+      jurisdiction: "ND",
+      modulePath:
+        "src/lib/rcap/packets/jurisdictions/north-dakota/custom-pleading.ts",
+      verifierPath: "scripts/verify-rcap-north-dakota-custom-pleading.mjs",
+      moduleSha256:
+        "88554f072ae809ca0484a023bd4093d40fd53968cdfa9e43a8ab4d78e0e66b48",
+      verifierSha256:
+        "7f0432d2aac94c0c4712d036e86d1e79260a3ae879459ef308abaee6edf3add7",
+      packetProofSha256:
+        "d049698d41698a4859815dfa94330b65ffd12c6a5f42985081bedae6448f6217",
+      technicalReviewSha256:
+        "61df6b83b78a098c06a1e3289f240f2411810b4607b419dde4ba060851c911a5",
+      fixtureIds: [
+        "nd-dui-seal-municipal-ordinance-2",
+        "nd-misdemeanor-seal-municipal-court-2"
+      ],
+      commitSubject:
+        "fix(record-clearing): name the North Dakota municipal court correctly",
+      executionNote:
+        "Two variant packets caption a court that does not exist. North Dakota municipal " +
+        "courts are city courts, established by and named for a municipality under " +
+        "N.D.C.C. ch. 40-18; there is no municipal court of a county.",
+      stop:
+        "The caption composer appends 'OF <COUNTY> COUNTY' unconditionally, so selecting " +
+        "the municipal court type renders 'IN THE MUNICIPAL COURT OF CASS COUNTY, STATE OF " +
+        "NORTH DAKOTA'. Make the municipal route caption the municipality. The city is " +
+        "already available on the fixture — its ordinance citation reads 'Fargo Municipal " +
+        "Code § 8-0301' — and is simply not used. " +
+        "Unlike the Indiana and Mississippi corrections, this one is in the composer and " +
+        "not the fixture: the fixture data is coherent and the caption logic is wrong. " +
+        "Correct the caption on the petition, the proposed order and the notice component " +
+        "for the municipal route only. " +
+        "Do not change the district-route captions: for those the county name is correct " +
+        "and they are unaffected. Preserve the North Dakota memo, the legal design, every " +
+        "canonical packet, every unaffected variant, component roles and the outside-party " +
+        "protections value-identically."
     }
   ];
   for (const correction of reviewCorrections) {
@@ -5358,6 +5432,12 @@ const CORRECTION_COMPLETIONS = Object.freeze({
       "rcap-factory/rcap-in-custom-pleading-technical-review-correction-c4033be7-69158102",
     workerCommit: "0c3253e1fd539e41a3bbe28dbcb842a8d953a43d",
     completionCommit: "8b892f0ef579788bb5de9b43c59996a0b41e0006"
+  },
+  "rcap-ms-custom-pleading-technical-review-correction": {
+    workerBranch:
+      "rcap-factory/rcap-ms-custom-pleading-technical-review-correction-768c6cc3-fc6539d6",
+    workerCommit: "57a49c24892e96c40fef2c91f8cfc41baae779df",
+    completionCommit: "7e4526cd9acf20ec4b17ac27e74303947e9cda23"
   }
 });
 
