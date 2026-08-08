@@ -840,13 +840,15 @@ await check("packet, source-materialization, and normalization readiness fail cl
   // Regenerating the queue against the current integrated audit admitted eleven
   // more jurisdictions, so more jobs now carry exact identities.
   assert.equal(officialJobs.length, 28);
+  // 74 -> 76: the wave-3 source decisions resolved two further exact identities
+  // onto official-PDF assignments.
   assert.equal(
     officialJobs.reduce(
       (total, job) =>
         total + job.officialPdfAssignment.identityKeys.length,
       0
     ),
-    74
+    76
   );
   assert.ok(
     officialJobs.every(
@@ -859,7 +861,7 @@ await check("packet, source-materialization, and normalization readiness fail cl
         (job) => job.officialPdfAssignment.identityKeys
       )
     ).size,
-    74
+    76
   );
   const marylandMaterializationOnly = officialJobs
     .flatMap(
@@ -872,7 +874,7 @@ await check("packet, source-materialization, and normalization readiness fail cl
     officialJobs.flatMap(
       (job) => job.officialPdfAssignment.newImplementationIdentityKeys
     ).length,
-    72
+    74
   );
   const officialProjection = readJson(
     "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json"

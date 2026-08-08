@@ -628,8 +628,8 @@ assert.equal(kansasCommercialDisposition.generationAllowed, false);
 assert.deepEqual(officialPdfSourceContract.queueCoverage.totals, {
   tracks: 267,
   components: 730,
-  documentIdentities: 328,
-  exactSourceRequirements: 119,
+  documentIdentities: 329,
+  exactSourceRequirements: 120,
   unresolvedSourceIdentities: 209
 });
 assert.equal(officialPdfSourceContract.familyCount, 45);
@@ -654,10 +654,10 @@ assert.equal(
   0
 );
 assert.equal(officialPdfSourceContract.totals.pendingAssignmentFamilies, 0);
-assert.equal(officialPdfSourceContract.totals.projectedDocumentIdentities, 328);
+assert.equal(officialPdfSourceContract.totals.projectedDocumentIdentities, 329);
 assert.equal(
   officialPdfSourceContract.totals.projectedExactWorkerAssignments,
-  74
+  76
 );
 assert.equal(
   officialPdfSourceContract.totals.materializationBlockedFamilies,
@@ -777,13 +777,14 @@ assert.equal(
   productionPlan.officialPdfSourceContractIntegration.runtimeStatus,
   "runtime_disabled"
 );
-assert.equal(officialPdfSourceProjection.coverage.queueIdentityCount, 328);
-assert.equal(officialPdfSourceProjection.coverage.assignmentEligibleCount, 74);
+assert.equal(officialPdfSourceProjection.coverage.queueIdentityCount, 329);
+assert.equal(officialPdfSourceProjection.coverage.assignmentEligibleCount, 76);
 assert.deepEqual(
   officialPdfSourceProjection.coverage.countsByDisposition,
   {
     deliberately_excluded_commercial_license: 9,
-    exact_worker_assignable: 74,
+    // Two identities became exactly worker-assignable in wave 3.
+    exact_worker_assignable: 76,
     // Completed acquisition decisions settled these identities. For all but one
     // the adopted edition manifests no asset, so there is no portable contract
     // to assign. Vermont's 600-00228 is the exception: the edition retains the
@@ -793,7 +794,8 @@ assert.deepEqual(
     identity_resolved_materialization_required: 26,
     legal_design_or_technical_policy_blocked: 13,
     local_scope_identity: 1,
-    role_mismatch: 5,
+    // One fewer: the Illinois notice-of-court-date role correction settled it.
+    role_mismatch: 4,
     // Three fewer: Louisiana's arts. 993, 995 and 998 were source-gated PDF
     // captures of statutory text the issuer publishes only as HTML. They left
     // the official-PDF lane with their six components.
@@ -825,8 +827,8 @@ const exactOfficialPdfChildren = factoryPlan.jobs.filter(
 const assignedOfficialPdfIdentityKeys = exactOfficialPdfChildren.flatMap(
   (child) => child.officialPdfAssignment.identityKeys
 );
-assert.equal(assignedOfficialPdfIdentityKeys.length, 74);
-assert.equal(new Set(assignedOfficialPdfIdentityKeys).size, 74);
+assert.equal(assignedOfficialPdfIdentityKeys.length, 76);
+assert.equal(new Set(assignedOfficialPdfIdentityKeys).size, 76);
 // Every eligible identity is either assigned to an owning implementation job or
 // explicitly recorded as having no lane to own it. New Jersey's CN-10557 and New
 // York's CPL 160.59 packet are the second case: the projection resolved them
@@ -856,7 +858,7 @@ assert.equal(
     (child) =>
       child.officialPdfAssignment.newImplementationIdentityKeys
   ).length,
-  72
+  74
 );
 assert.equal(
   exactOfficialPdfChildren.flatMap(
@@ -2132,18 +2134,43 @@ assert.equal(
   ).trackIds.length,
   8
 );
+// Its worker completion is integrated at 0846d05.
 assert.equal(
   expectJob(
     "rcap-fl-public-official-download-fdle-fac-supersession",
     "public_official_download",
     4
   ).status,
-  "ready"
+  "completed"
 );
+// The Rule 298 reconciliation carried nine tracks while those components were
+// bound to the rule number. The integrated remap moved all nine to the form the
+// rule points at, so the reconciliation job now binds none — which is the
+// correction landing, not coverage being lost. Asserted as the outcome rather
+// than as a count: the identity must bind nothing, and the nine tracks must be
+// on FW-CIV-APPLICATION.
 assert.equal(
   job("rcap-il-in-repo-identity-reconciliation-rule-298").trackIds.length,
-  9
+  0
 );
+{
+  const illinois = readJson(
+    "data/record-clearing/production-factory/official-pdf-production-queue.json"
+  ).families.find((family) => family.jurisdiction === "IL");
+  const rule298 = illinois.documents.filter((document) =>
+    /R\.?\s*298|RULE-298/iu.test(document.officialFormId)
+  );
+  assert.deepEqual(
+    rule298.flatMap((document) => document.usageBindings),
+    [],
+    "Ill. S. Ct. R. 298 is procedural authority and may bind no participant component"
+  );
+  const fwCiv = illinois.documents.find(
+    (document) => document.officialFormId === "FW-CIV-APPLICATION"
+  );
+  assert.ok(fwCiv, "the FW-CIV Application is absent from the Illinois queue");
+  assert.equal(fwCiv.usageBindings.length, 9);
+}
 assert.equal(
   expectJob("rcap-ks-commercial-license", "commercial_license", 9).stopCondition.includes(
     "never relabel the route as custom pleading"

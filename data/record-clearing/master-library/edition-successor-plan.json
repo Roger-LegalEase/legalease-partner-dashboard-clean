@@ -35,16 +35,16 @@
   "runtimeStatus": "runtime_disabled",
   "packetReady": false,
   "totals": {
-    "candidatesRead": 11,
+    "candidatesRead": 26,
     "admitted": 3,
-    "deferred": 8,
+    "deferred": 23,
     "admittedNewBytes": 1,
     "admittedMetadataCorrections": 2,
     "byUnmetCriterion": {
       "exact_authority": 1,
-      "exact_source_identity": 5,
-      "exact_bytes_where_applicable": 3,
-      "license_resolved": 1
+      "exact_source_identity": 16,
+      "exact_bytes_where_applicable": 7,
+      "license_resolved": 5
     }
   },
   "candidateTranche": {
@@ -112,6 +112,58 @@
   "trancheManifestSha256": "89d93686c8794c56bd0f4d9da4eea233b9712170c136bdee12f9d10eac7d2d82",
   "successorBacklog": [
     {
+      "jobId": "rcap-al-public-official-download",
+      "jurisdiction": "AL",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-al-public-official-download.json",
+      "unmetCriteria": [
+        "exact_bytes_where_applicable",
+        "license_resolved"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_bytes_where_applicable",
+          "detail": "the decision requires new bytes and supplies no measured asset row; the measurement belongs to a technical-structure job"
+        },
+        {
+          "criterion": "license_resolved",
+          "detail": "Unresolved. A bare copyright footer, no terms page located. generation_allowed must remain no."
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-az-not-required-design-reconciliation",
+      "jurisdiction": "AZ",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-az-not-required-design-reconciliation.json",
+      "unmetCriteria": [
+        "exact_source_identity"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_source_identity",
+          "detail": "a no-bytes correction must name the manifest rows it corrects; none were recorded"
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-az-public-official-download",
+      "jurisdiction": "AZ",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-az-public-official-download.json",
+      "unmetCriteria": [
+        "exact_bytes_where_applicable",
+        "license_resolved"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_bytes_where_applicable",
+          "detail": "the decision requires new bytes and supplies no measured asset row; the measurement belongs to a technical-structure job"
+        },
+        {
+          "criterion": "license_resolved",
+          "detail": "Express reservation of all rights. This is a positive finding that must be recorded on every Arizona row, including the four unresolved ones. generation_allowed must remain no."
+        }
+      ]
+    },
+    {
       "jobId": "rcap-co-jdf-2370-role-and-jdf-2371-mapping-correction",
       "jurisdiction": "CO",
       "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-co-jdf-2370-role-and-jdf-2371-mapping-correction.json",
@@ -154,6 +206,25 @@
       ]
     },
     {
+      "jobId": "rcap-fl-public-official-download-fdle-fac-supersession",
+      "jurisdiction": "FL",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-fl-public-official-download-fdle-fac-supersession.json",
+      "unmetCriteria": [
+        "exact_bytes_where_applicable",
+        "license_resolved"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_bytes_where_applicable",
+          "detail": "the decision requires new bytes and supplies no measured asset row; the measurement belongs to a technical-structure job"
+        },
+        {
+          "criterion": "license_resolved",
+          "detail": "Unresolved by silence. generation_allowed must remain no until a written position exists."
+        }
+      ]
+    },
+    {
       "jobId": "rcap-fl-rule-3-989-sworn-statement-identity-currentness",
       "jurisdiction": "FL",
       "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-fl-rule-3-989-sworn-statement-identity-currentness.json",
@@ -186,6 +257,34 @@
       ]
     },
     {
+      "jobId": "rcap-ia-source-identity-resolution-certification-of-service",
+      "jurisdiction": "IA",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-ia-source-identity-resolution-certification-of-service.json",
+      "unmetCriteria": [
+        "exact_source_identity"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_source_identity",
+          "detail": "a no-bytes correction must name the manifest rows it corrects; none were recorded"
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-id-shield-revision-and-bci-identity-correction",
+      "jurisdiction": "ID",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-id-shield-revision-and-bci-identity-correction.json",
+      "unmetCriteria": [
+        "exact_source_identity"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_source_identity",
+          "detail": "a no-bytes correction must name the manifest rows it corrects; none were recorded"
+        }
+      ]
+    },
+    {
       "jobId": "rcap-il-in-repo-identity-reconciliation-rule-298",
       "jurisdiction": "IL",
       "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-il-in-repo-identity-reconciliation-rule-298.json",
@@ -204,6 +303,50 @@
         {
           "criterion": "exact_source_identity",
           "detail": "Record Rule 298 as governing procedural authority, not as a document identity does not record both the current and corrected value"
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-il-notice-of-court-date-statewide-role-correction",
+      "jurisdiction": "IL",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-il-notice-of-court-date-statewide-role-correction.json",
+      "unmetCriteria": [
+        "exact_bytes_where_applicable"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_bytes_where_applicable",
+          "detail": "the decision requires new bytes and supplies no measured asset row; the measurement belongs to a technical-structure job"
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-in-in-repo-identity-reconciliation-already-retained-under-another-identity",
+      "jurisdiction": "IN",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-in-in-repo-identity-reconciliation-already-retained-under-another-identity.json",
+      "unmetCriteria": [
+        "exact_source_identity"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_source_identity",
+          "detail": "Map eighteen components to the retained container with page ranges does not record both the current and corrected value"
+        },
+        {
+          "criterion": "exact_source_identity",
+          "detail": "Correct the Form ACR conflation note does not record both the current and corrected value"
+        },
+        {
+          "criterion": "exact_source_identity",
+          "detail": "Correct the CCA-GF-0120-3016 role label does not record both the current and corrected value"
+        },
+        {
+          "criterion": "exact_source_identity",
+          "detail": "State the widget-versus-terminal denominator on the bundle row does not record both the current and corrected value"
+        },
+        {
+          "criterion": "exact_source_identity",
+          "detail": "Close three acquisition keys without acquisition does not record both the current and corrected value"
         }
       ]
     },
@@ -258,6 +401,109 @@
         {
           "criterion": "exact_source_identity",
           "detail": "Asset-class inconsistency in the LA statutory form family does not record both the current and corrected value"
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-md-in-repo-identity-reconciliation-cc-dc-cr-072",
+      "jurisdiction": "MD",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-md-in-repo-identity-reconciliation-cc-dc-cr-072.json",
+      "unmetCriteria": [
+        "exact_source_identity"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_source_identity",
+          "detail": "a no-bytes correction must name the manifest rows it corrects; none were recorded"
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-me-form-face-title-correction",
+      "jurisdiction": "ME",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-me-form-face-title-correction.json",
+      "unmetCriteria": [
+        "exact_source_identity"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_source_identity",
+          "detail": "a no-bytes correction must name the manifest rows it corrects; none were recorded"
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-mi-mc-227-revision-3-25-correction",
+      "jurisdiction": "MI",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-mi-mc-227-revision-3-25-correction.json",
+      "unmetCriteria": [
+        "exact_source_identity"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_source_identity",
+          "detail": "a no-bytes correction must name the manifest rows it corrects; none were recorded"
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-mn-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition",
+      "jurisdiction": "MN",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-mn-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition.json",
+      "unmetCriteria": [
+        "exact_source_identity",
+        "license_resolved"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_source_identity",
+          "detail": "a no-bytes correction must name the manifest rows it corrects; none were recorded"
+        },
+        {
+          "criterion": "license_resolved",
+          "detail": "The queue records the publisher's licensing and commercial-use terms as unresolved. No licence question was assigned to this job and none is answered; the position is carried forward unchanged."
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-mo-superseded-source-replacement",
+      "jurisdiction": "MO",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-mo-superseded-source-replacement.json",
+      "unmetCriteria": [
+        "exact_source_identity"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_source_identity",
+          "detail": "a no-bytes correction must name the manifest rows it corrects; none were recorded"
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-mt-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition",
+      "jurisdiction": "MT",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-mt-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition.json",
+      "unmetCriteria": [
+        "exact_source_identity"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_source_identity",
+          "detail": "a no-bytes correction must name the manifest rows it corrects; none were recorded"
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-mt-public-official-download",
+      "jurisdiction": "MT",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-mt-public-official-download.json",
+      "unmetCriteria": [
+        "exact_source_identity"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_source_identity",
+          "detail": "a no-bytes correction must name the manifest rows it corrects; none were recorded"
         }
       ]
     }

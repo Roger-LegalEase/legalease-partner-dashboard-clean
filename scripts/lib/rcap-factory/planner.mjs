@@ -1117,7 +1117,15 @@ const MEMO_CORRECTION_COMPLETION_COMMITS = Object.freeze({
   "rcap-fl-rule-3-989-continuation-component-correction":
     "2fccb6a47fc4706d2f235f26c15b7af29ebef634",
   "rcap-nv-sealing-mechanism-and-packet-capability-correction":
-    "2fccb6a47fc4706d2f235f26c15b7af29ebef634"
+    "2fccb6a47fc4706d2f235f26c15b7af29ebef634",
+  "rcap-co-jdf-2370-2371-component-remap-memo-correction":
+    "0846d05dbb446e976985781293a371336cc86369",
+  "rcap-oh-automatic-sealing-memo-correction":
+    "0846d05dbb446e976985781293a371336cc86369",
+  "rcap-il-rule-298-fw-civ-component-remap-memo-correction":
+    "0846d05dbb446e976985781293a371336cc86369",
+  "rcap-fl-rule-3-989-sworn-statement-and-3-9895-memo-correction":
+    "0846d05dbb446e976985781293a371336cc86369"
 });
 /**
  * Decision jobs whose output is a legal-design decision record rather than a
@@ -1127,7 +1135,9 @@ const MEMO_CORRECTION_COMPLETION_COMMITS = Object.freeze({
  */
 const DECISION_RECORD_COMPLETION_COMMITS = Object.freeze({
   "rcap-hi-stage-one-expungement-filing-vehicle-current-law-reconciliation":
-    "2fccb6a47fc4706d2f235f26c15b7af29ebef634"
+    "2fccb6a47fc4706d2f235f26c15b7af29ebef634",
+  "rcap-hi-stage-one-court-fee-addendum":
+    "0846d05dbb446e976985781293a371336cc86369"
 });
 const WAVE_WORKER_BRANCHES = Object.freeze({
   "rcap-ok-sb-2030-current-text-and-currency":
@@ -1153,7 +1163,51 @@ const WAVE_WORKER_BRANCHES = Object.freeze({
   "rcap-fl-rule-3-989-sworn-statement-identity-currentness":
     "rcap-factory/rcap-fl-rule-3-989-sworn-statement-identity-currentness-97e406a2-d2848759",
   "rcap-il-in-repo-identity-reconciliation-rule-298":
-    "rcap-factory/rcap-il-in-repo-identity-reconciliation-rule-298-08992e9c-6ea35aa9"
+    "rcap-factory/rcap-il-in-repo-identity-reconciliation-rule-298-08992e9c-6ea35aa9",
+  "rcap-co-jdf-2370-2371-component-remap-memo-correction":
+    "rcap-factory/rcap-co-jdf-2370-2371-component-remap-memo-correction-719205bf-853907e5",
+  "rcap-fl-rule-3-989-sworn-statement-and-3-9895-memo-correction":
+    "rcap-factory/rcap-fl-rule-3-989-sworn-statement-and-3-9895-memo-correction-9a3f041c-15352e94",
+  "rcap-hi-stage-one-court-fee-addendum":
+    "rcap-factory/rcap-hi-stage-one-court-fee-addendum-e0b9c992-2250eaaa",
+  "rcap-il-rule-298-fw-civ-component-remap-memo-correction":
+    "rcap-factory/rcap-il-rule-298-fw-civ-component-remap-memo-correction-cffec689-888d2c32",
+  "rcap-oh-automatic-sealing-memo-correction":
+    "rcap-factory/rcap-oh-automatic-sealing-memo-correction-3fc6dd43-1ae3d74c",
+  "rcap-or-2025-monetary-obligations-scope-reconciliation":
+    "rcap-factory/rcap-or-2025-monetary-obligations-scope-reconciliation-8ab487db-fad36e98",
+  "rcap-or-same-episode-rule-source-reconciliation":
+    "rcap-factory/rcap-or-same-episode-rule-source-reconciliation-f5aaa678-7a2ff0c7",
+  "rcap-al-public-official-download":
+    "rcap-factory/rcap-al-public-official-download-e9f4cb65-11872439",
+  "rcap-az-not-required-design-reconciliation":
+    "rcap-factory/rcap-az-not-required-design-reconciliation-37df8651-ac2a8e25",
+  "rcap-az-public-official-download":
+    "rcap-factory/rcap-az-public-official-download-28224bed-cf3b6866",
+  "rcap-fl-public-official-download-fdle-fac-supersession":
+    "rcap-factory/rcap-fl-public-official-download-fdle-fac-supersession-dea68b51-e0574d6d",
+  "rcap-ia-source-identity-resolution-certification-of-service":
+    "rcap-factory/rcap-ia-source-identity-resolution-certification-of-service-c9c66ab8-3d91b395",
+  "rcap-id-shield-revision-and-bci-identity-correction":
+    "rcap-factory/rcap-id-shield-revision-and-bci-identity-correction-1b2ccea1-3ad254e5",
+  "rcap-il-notice-of-court-date-statewide-role-correction":
+    "rcap-factory/rcap-il-notice-of-court-date-statewide-role-correction-cda02799-c72c9d61",
+  "rcap-in-in-repo-identity-reconciliation-already-retained-under-another-identity":
+    "rcap-factory/rcap-in-in-repo-identity-reconciliation-already-retained-under-a-73efe34e-263c1ed6",
+  "rcap-md-in-repo-identity-reconciliation-cc-dc-cr-072":
+    "rcap-factory/rcap-md-in-repo-identity-reconciliation-cc-dc-cr-072-d9ad5023-6ff92051",
+  "rcap-me-form-face-title-correction":
+    "rcap-factory/rcap-me-form-face-title-correction-acd52ac7-554feb19",
+  "rcap-mi-mc-227-revision-3-25-correction":
+    "rcap-factory/rcap-mi-mc-227-revision-3-25-correction-051e1730-82d398c0",
+  "rcap-mn-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition":
+    "rcap-factory/rcap-mn-in-repo-identity-reconciliation-needs-edition-reclass-no-94c0b52e-0f81f937",
+  "rcap-mo-superseded-source-replacement":
+    "rcap-factory/rcap-mo-superseded-source-replacement-eb4c6af2-454baed8",
+  "rcap-mt-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition":
+    "rcap-factory/rcap-mt-in-repo-identity-reconciliation-needs-edition-reclass-no-b1b03c32-f1c23c68",
+  "rcap-mt-public-official-download":
+    "rcap-factory/rcap-mt-public-official-download-0d0f623b-7ffebf15"
 });
 const WAVE_WORKER_COMMITS = Object.freeze({
   "rcap-ok-sb-2030-current-text-and-currency":
@@ -1179,7 +1233,51 @@ const WAVE_WORKER_COMMITS = Object.freeze({
   "rcap-fl-rule-3-989-sworn-statement-identity-currentness":
     "0350e4279896db1a82f2e4d59f5c31271c23c97a",
   "rcap-il-in-repo-identity-reconciliation-rule-298":
-    "c7db252eaf3c88461344f066cb1601c51c95f8e9"
+    "c7db252eaf3c88461344f066cb1601c51c95f8e9",
+  "rcap-co-jdf-2370-2371-component-remap-memo-correction":
+    "3942768cfd7c316272f4a3996365daeddad8b6f3",
+  "rcap-fl-rule-3-989-sworn-statement-and-3-9895-memo-correction":
+    "b99a78921510e1c56a2fa05e728dabefa19ccdcd",
+  "rcap-hi-stage-one-court-fee-addendum":
+    "de73f9d122fb94206607f022f3a0fafcf5157557",
+  "rcap-il-rule-298-fw-civ-component-remap-memo-correction":
+    "10d2b958acbf75a9038dfc39dc41cc0c1525164a",
+  "rcap-oh-automatic-sealing-memo-correction":
+    "0ae8a4adc132051c9f9a2154a152885dfd6576ea",
+  "rcap-or-2025-monetary-obligations-scope-reconciliation":
+    "e8890c3f9cf201dc991310e2aa27c7edf9060240",
+  "rcap-or-same-episode-rule-source-reconciliation":
+    "b71077316e2adacdb7d06f4aed1e74201d8da195",
+  "rcap-al-public-official-download":
+    "d6b8ffc2e8f23f2d23098d2dadfa88d20074e548",
+  "rcap-az-not-required-design-reconciliation":
+    "cc20c5f16ca06cb256989f722f333aaeb3d85d81",
+  "rcap-az-public-official-download":
+    "45b881e872aea8364f007bf9e461dd72b518d617",
+  "rcap-fl-public-official-download-fdle-fac-supersession":
+    "cafead7ae8dfadbf56443999e0ed536df86af252",
+  "rcap-ia-source-identity-resolution-certification-of-service":
+    "b0083cd8b687105d725a2f0f050767a37974414b",
+  "rcap-id-shield-revision-and-bci-identity-correction":
+    "005c561bee930f4cf264da6c0f14d893a9ff2259",
+  "rcap-il-notice-of-court-date-statewide-role-correction":
+    "75c24386b87c13995fe4feff19ad3e97715ba452",
+  "rcap-in-in-repo-identity-reconciliation-already-retained-under-another-identity":
+    "b8fda0a9f6cf7dc216cef0d1c409a47a2372093e",
+  "rcap-md-in-repo-identity-reconciliation-cc-dc-cr-072":
+    "7996fa0c600d57d297025545708fc0a64725ce4c",
+  "rcap-me-form-face-title-correction":
+    "ad999b1f64631420ec05096eddf6906149b851bc",
+  "rcap-mi-mc-227-revision-3-25-correction":
+    "4036aed2e3f565bf193b3c875f34613b2e0223e0",
+  "rcap-mn-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition":
+    "0e8b19671ce349a0c26651d24b29f4a51bf615be",
+  "rcap-mo-superseded-source-replacement":
+    "a23c05e55fa632f06e495d7fb067338528150904",
+  "rcap-mt-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition":
+    "84d29fc9e0da4cff0dff7a88c1e66d70457d6e83",
+  "rcap-mt-public-official-download":
+    "123fc9a4506b242270ad527686958de522563791"
 });
 const COMPLETED_AUTHORITY_JOB_COMMITS = new Map([
   [
@@ -1281,6 +1379,74 @@ const COMPLETED_AUTHORITY_JOB_COMMITS = new Map([
   [
     "rcap-il-in-repo-identity-reconciliation-rule-298",
     "2fccb6a47fc4706d2f235f26c15b7af29ebef634"
+  ],
+  [
+    "rcap-or-2025-monetary-obligations-scope-reconciliation",
+    "0846d05dbb446e976985781293a371336cc86369"
+  ],
+  [
+    "rcap-or-same-episode-rule-source-reconciliation",
+    "0846d05dbb446e976985781293a371336cc86369"
+  ],
+  [
+    "rcap-al-public-official-download",
+    "0846d05dbb446e976985781293a371336cc86369"
+  ],
+  [
+    "rcap-az-not-required-design-reconciliation",
+    "0846d05dbb446e976985781293a371336cc86369"
+  ],
+  [
+    "rcap-az-public-official-download",
+    "0846d05dbb446e976985781293a371336cc86369"
+  ],
+  [
+    "rcap-fl-public-official-download-fdle-fac-supersession",
+    "0846d05dbb446e976985781293a371336cc86369"
+  ],
+  [
+    "rcap-ia-source-identity-resolution-certification-of-service",
+    "0846d05dbb446e976985781293a371336cc86369"
+  ],
+  [
+    "rcap-id-shield-revision-and-bci-identity-correction",
+    "0846d05dbb446e976985781293a371336cc86369"
+  ],
+  [
+    "rcap-il-notice-of-court-date-statewide-role-correction",
+    "0846d05dbb446e976985781293a371336cc86369"
+  ],
+  [
+    "rcap-in-in-repo-identity-reconciliation-already-retained-under-another-identity",
+    "0846d05dbb446e976985781293a371336cc86369"
+  ],
+  [
+    "rcap-md-in-repo-identity-reconciliation-cc-dc-cr-072",
+    "0846d05dbb446e976985781293a371336cc86369"
+  ],
+  [
+    "rcap-me-form-face-title-correction",
+    "0846d05dbb446e976985781293a371336cc86369"
+  ],
+  [
+    "rcap-mi-mc-227-revision-3-25-correction",
+    "0846d05dbb446e976985781293a371336cc86369"
+  ],
+  [
+    "rcap-mn-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition",
+    "0846d05dbb446e976985781293a371336cc86369"
+  ],
+  [
+    "rcap-mo-superseded-source-replacement",
+    "0846d05dbb446e976985781293a371336cc86369"
+  ],
+  [
+    "rcap-mt-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition",
+    "0846d05dbb446e976985781293a371336cc86369"
+  ],
+  [
+    "rcap-mt-public-official-download",
+    "0846d05dbb446e976985781293a371336cc86369"
   ]
 ]);
 const NO_DOWNLOAD_AUTHORITY_FAMILIES = new Set([
@@ -4972,7 +5138,13 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
         "rcap-oh-legal-design-normalization",
         "rcap-oh-automatic-sealing-current-law-reconciliation"
       ],
-      status: "ready",
+      ...memoCompletionOf(
+        "rcap-oh-automatic-sealing-memo-correction",
+        "OH",
+        "1253b1a70ddd14a38992a11dd3943a6771b183a5fa95454edc0ebc6660409a21",
+        "rcap-factory/rcap-oh-automatic-sealing-memo-correction-3fc6dd43-1ae3d74c",
+        "0ae8a4adc132051c9f9a2154a152885dfd6576ea"
+      ),
       expectedOutputs: [memoPath("OH")],
       ownedPaths: [memoPath("OH")],
       requiredInputs: [
@@ -5091,7 +5263,13 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
         "rcap-co-jdf-2370-role-and-jdf-2371-mapping-correction",
         "rcap-co-jdf-family-commercial-license"
       ],
-      status: "ready",
+      ...memoCompletionOf(
+        "rcap-co-jdf-2370-2371-component-remap-memo-correction",
+        "CO",
+        "40b2ce6bd30ae7b2b92c384761165716b84bfe470c22cd93e7b2ef9e3da56a50",
+        "rcap-factory/rcap-co-jdf-2370-2371-component-remap-memo-correction-719205bf-853907e5",
+        "3942768cfd7c316272f4a3996365daeddad8b6f3"
+      ),
       expectedOutputs: [memoPath("CO")],
       ownedPaths: [memoPath("CO")],
       requiredInputs: [
@@ -5518,7 +5696,10 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
       dependencies: [
         "rcap-hi-stage-one-expungement-filing-vehicle-current-law-reconciliation"
       ],
-      status: "ready",
+      ...decisionCompletionOf(
+        "rcap-hi-stage-one-court-fee-addendum",
+        "hi-stage-one-court-fee-addendum"
+      ),
       expectedOutputs: [decisionPath("hi-stage-one-court-fee-addendum")],
       ownedPaths: [decisionPath("hi-stage-one-court-fee-addendum")],
       requiredInputs: [
@@ -5692,7 +5873,13 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
         "rcap-fl-rule-3-989-sworn-statement-identity-currentness",
         "rcap-fl-rule-3-989-continuation-component-correction"
       ],
-      status: "ready",
+      ...memoCompletionOf(
+        "rcap-fl-rule-3-989-sworn-statement-and-3-9895-memo-correction",
+        "FL",
+        "9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065",
+        "rcap-factory/rcap-fl-rule-3-989-sworn-statement-and-3-9895-memo-correction-9a3f041c-15352e94",
+        "b99a78921510e1c56a2fa05e728dabefa19ccdcd"
+      ),
       expectedOutputs: [memoPath("FL")],
       ownedPaths: [memoPath("FL")],
       requiredInputs: [
@@ -5754,7 +5941,13 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
       strategyFamily: "legal_design_normalization_amendment",
       trackIds: [],
       dependencies: ["rcap-il-in-repo-identity-reconciliation-rule-298"],
-      status: "ready",
+      ...memoCompletionOf(
+        "rcap-il-rule-298-fw-civ-component-remap-memo-correction",
+        "IL",
+        "fc64a4b6bb182a3f77091613809b140c9f600c3512c2670ee5d2447498114106",
+        "rcap-factory/rcap-il-rule-298-fw-civ-component-remap-memo-correction-cffec689-888d2c32",
+        "10d2b958acbf75a9038dfc39dc41cc0c1525164a"
+      ),
       expectedOutputs: [memoPath("IL")],
       ownedPaths: [memoPath("IL")],
       requiredInputs: [
