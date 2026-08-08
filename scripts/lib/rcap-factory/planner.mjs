@@ -1259,7 +1259,11 @@ const WAVE_WORKER_BRANCHES = Object.freeze({
   "rcap-mt-public-official-download":
     "rcap-factory/rcap-mt-public-official-download-0d0f623b-7ffebf15",
   "rcap-fl-public-official-download":
-    "rcap-factory/rcap-fl-public-official-download-be035cc6-321bcb1d"
+    "rcap-factory/rcap-fl-public-official-download-be035cc6-321bcb1d",
+  "rcap-mn-official-download-automation-blocked":
+    "rcap-factory/rcap-mn-official-download-automation-blocked-31de2ec7-ef9a1be3",
+  "rcap-de-official-download-automation-blocked":
+    "rcap-factory/rcap-de-official-download-automation-blocked-e84ade59-86c9c49e"
 });
 const WAVE_WORKER_COMMITS = Object.freeze({
   "rcap-ok-sb-2030-current-text-and-currency":
@@ -1330,6 +1334,10 @@ const WAVE_WORKER_COMMITS = Object.freeze({
     "84d29fc9e0da4cff0dff7a88c1e66d70457d6e83",
   "rcap-fl-public-official-download":
     "b4825b72e1d54f3dc9cf732ac52794b05cfedd56",
+  "rcap-mn-official-download-automation-blocked":
+    "540a94a3c087b86766c6b29c313002f0c600cb38",
+  "rcap-de-official-download-automation-blocked":
+    "fc58e592c9f134ff1331aafa9bd9adbf1fe0448b",
   "rcap-mt-public-official-download":
     "123fc9a4506b242270ad527686958de522563791"
 });
@@ -1505,6 +1513,14 @@ const COMPLETED_AUTHORITY_JOB_COMMITS = new Map([
   [
     "rcap-fl-public-official-download",
     "f35f634669effa4bcec01a51a16205cd690ab5f8"
+  ],
+  [
+    "rcap-mn-official-download-automation-blocked",
+    "508581b62d4ca36e8187733b1fc6ad0390c4597b"
+  ],
+  [
+    "rcap-de-official-download-automation-blocked",
+    "508581b62d4ca36e8187733b1fc6ad0390c4597b"
   ]
 ]);
 const NO_DOWNLOAD_AUTHORITY_FAMILIES = new Set([
@@ -6261,6 +6277,177 @@ function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
       "not enable runtime, promote, or deploy. " +
       TERMINAL_INSTRUCTION
   });
+
+  // --- Minnesota -------------------------------------------------------
+  //
+  // The official channel answers automation with a Cloudflare managed
+  // challenge: HTTP 403 carrying `cf-mitigated: challenge`, on the site root
+  // and on the forms index alike. That is a block, not a missing document.
+  // All five identities are already retained, so nothing here is unidentified
+  // and no Edition amendment is owed for these rows. What is unverified is
+  // currentness: whether the retained bytes are still the issuer's current
+  // revision. One owner answers that by comparison, and the family stays
+  // blocked until the comparison integrates.
+  const mnBlockedDecision = path.join(
+    rootDir,
+    `${FACTORY_DATA_DIR}/source-acquisition/rcap-mn-official-download-automation-blocked.json`
+  );
+  if (fs.existsSync(mnBlockedDecision)) {
+    addJob({
+      lane: "source_acquisition",
+      jurisdiction: "MN",
+      jobId: "rcap-mn-attended-retrieval-currentness-comparison",
+      strategyFamily: "official_download_automation_blocked",
+      reconciliationIds: ["retrieval:MN:exp101-exp102-exp104-exp105-exp106"],
+      downloadedSourceCount: 0,
+      dependencies: ["rcap-mn-official-download-automation-blocked"],
+      status: "ready",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/source-acquisition/rcap-mn-attended-retrieval-currentness-comparison.json`
+      ],
+      requiredInputs: [
+        `${FACTORY_DATA_DIR}/source-acquisition/rcap-mn-official-download-automation-blocked.json`,
+        FACTORY_INPUT_PATHS.authority,
+        FACTORY_INPUT_PATHS.sourceArtifacts,
+        FACTORY_INPUT_PATHS.acquisitionDocuments
+      ],
+      model: "codex",
+      effort: "xhigh",
+      commitSubject:
+        "chore(record-clearing): compare the Minnesota forms under attended access",
+      executionNote:
+        "EXP101, EXP102, EXP104, EXP105 and EXP106 are all retained. Identity is not the " +
+        "question and none of them may be relabelled missing. The question is currentness.",
+      stopCondition:
+        "Retrieve the five current official Minnesota expungement documents — EXP101, EXP102, " +
+        "EXP104, EXP105 and EXP106 — through a legitimate human-in-browser session on the " +
+        "Judicial Branch's own site, and record for each the exact byte count, SHA-256, MIME " +
+        "type, page count, structural class, source URL and the revision block read from the " +
+        "form face. Then compare each against the retained corpus and state, per document, " +
+        "whether the retained bytes are current, superseded, or cannot be determined. " +
+        "The HTTP 403 is a Cloudflare managed challenge and is a block, not evidence that a " +
+        "document is absent. Do not evade the challenge, do not spoof a user agent, do not " +
+        "solve or replay a challenge token, do not retrieve through a mirror, a cache, a " +
+        "scraper service or any route the issuer does not offer, and do not share or reuse " +
+        "credentials or session cookies. " +
+        "Do not relabel any of the five retained assets as missing, do not create a source " +
+        "receipt from the blocked live channel, and do not stamp a retrieved revision onto " +
+        "held bytes. EXP105 and EXP106 are separate orders for separate statutory routes and " +
+        "must not be merged. " +
+        "Do not amend or publish an edition, choose a renderer, enable runtime, promote, or " +
+        "deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  // --- Delaware --------------------------------------------------------
+  //
+  // The worst kind of block: HTTP 200 with a 247-byte F5/BIG-IP rejection body
+  // reading "The requested URL was rejected" and a rotating support ID. A
+  // status-only pipeline writes that page to disk and pins it as the form.
+  // Five current documents are named from a retained official index and none
+  // of their bytes were obtained.
+  const deBlockedDecision = path.join(
+    rootDir,
+    `${FACTORY_DATA_DIR}/source-acquisition/rcap-de-official-download-automation-blocked.json`
+  );
+  if (fs.existsSync(deBlockedDecision)) {
+    addJob({
+      lane: "source_acquisition",
+      jurisdiction: "DE",
+      jobId: "rcap-de-attended-retrieval-five-current-forms",
+      strategyFamily: "official_download_automation_blocked",
+      reconciliationIds: ["retrieval:DE:civ-exp-and-form-281"],
+      downloadedSourceCount: 0,
+      dependencies: ["rcap-de-official-download-automation-blocked"],
+      status: "ready",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/source-acquisition/rcap-de-attended-retrieval-five-current-forms.json`
+      ],
+      requiredInputs: [
+        `${FACTORY_DATA_DIR}/source-acquisition/rcap-de-official-download-automation-blocked.json`,
+        FACTORY_INPUT_PATHS.authority,
+        FACTORY_INPUT_PATHS.sourceArtifacts,
+        FACTORY_INPUT_PATHS.acquisitionDocuments
+      ],
+      model: "codex",
+      effort: "xhigh",
+      commitSubject:
+        "chore(record-clearing): retrieve the Delaware forms under attended access",
+      executionNote:
+        "Five documents: CIV_EXP_02_A Expungement Petition Form (Superior Court, 06/12/2024), " +
+        "CIV_EXP_02_B Additional Charges Extension Sheet (06/12/2024), CIV_EXP_04_A Order " +
+        "Granting (05/29/2024), CIV_EXP_08_A New Order Granting after Pardon (05/30/2024), and " +
+        "FORM-281 Petition For Expungement of Adult Record (Family Court, 11/26/2025).",
+      stopCondition:
+        "Obtain the five named current Delaware documents by attended human-in-browser " +
+        "retrieval from the Judiciary's own site, and record for each the exact byte count, " +
+        "SHA-256, MIME type, page count, structural class, source URL and the revision read " +
+        "from the form face. " +
+        "An HTTP 200 carrying an F5 rejection body is not a successful response and must never " +
+        "be recorded as one. Do not evade the perimeter, do not spoof an agent, and do not " +
+        "retrieve through any route the issuer does not offer. " +
+        "Do not substitute an unofficial replica for official bytes: a LegalEase " +
+        "\"Faithful Replica\" is not the issuer's document and may not satisfy any of these " +
+        "five identities. Do not create a receipt or an exact source contract until official " +
+        "bytes are in hand and the licensing question behind the same perimeter is answered — " +
+        "retrieval establishes identity and bytes, not permission to reproduce. " +
+        "Form 281 and Form 281E are different documents seven years apart: do not satisfy " +
+        "FORM-281 with the retained 281E extension sheet. " +
+        "Do not amend or publish an edition, enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+
+    // The edition row is wrong on its own face: it calls one document a
+    // PETITION in its workflow key and a continuation sheet in its notes. The
+    // notes are right. Left uncorrected, a worker looking for the Delaware
+    // Family Court adult petition finds a row titled "Petition for Expungement
+    // of Adult Record…" with role PETITION and binds a 2018 extension sheet to
+    // a primary filing, while the actual 2025 petition stays unmanifested.
+    addJob({
+      lane: "source_acquisition",
+      jurisdiction: "DE",
+      jobId: "rcap-de-form-281e-edition-metadata-correction",
+      strategyFamily: "in_repo_identity_reconciliation",
+      reconciliationIds: ["identity:DE:FORM-281E:role-and-title"],
+      downloadedSourceCount: 0,
+      dependencies: ["rcap-de-official-download-automation-blocked"],
+      status: "ready",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/source-acquisition/rcap-de-form-281e-edition-metadata-correction.json`
+      ],
+      requiredInputs: [
+        `${FACTORY_DATA_DIR}/source-acquisition/rcap-de-official-download-automation-blocked.json`,
+        FACTORY_INPUT_PATHS.authority,
+        FACTORY_INPUT_PATHS.sourceArtifacts
+      ],
+      model: "opus",
+      effort: "xhigh",
+      commitSubject:
+        "chore(record-clearing): correct the Delaware Form 281E edition row",
+      executionNote:
+        "Metadata only. The retained 281E bytes are not re-measured, not replaced and not " +
+        "removed, and no Form 281 bytes are added by this job.",
+      stopCondition:
+        "Establish, from the retained official evidence and the official index alone, that " +
+        "Form 281E is a charge and additional-charges continuation sheet and not a primary " +
+        "petition. Record that its `document_role: PETITION` classification is wrong, that its " +
+        "workflow key DE:FORM-281E:PETITION:EN must identify a continuation or extension-sheet " +
+        "role instead, and that the 2018 continuation sheet may not satisfy a current FORM-281 " +
+        "primary-filing component. " +
+        "Take the corrected title from the retained form face or the official index — the " +
+        "index reads \"281E - Adult Expungement Charge Extension Sheet\" — and do not splice " +
+        "Form 281's title onto it. The recorded string \"Petition for Expungement of Adult " +
+        "Record Charge Sheet\" is not the issuer's and must not be preserved. Where the source " +
+        "does not establish a title, say so rather than inventing one. " +
+        "Form 281 remains a separate, unmanifested, current petition identity and stays " +
+        "unmanifested until attended retrieval supplies its bytes; do not add them here. " +
+        "Record the correction for the next Edition candidate. Do not mutate Edition 1.2, do " +
+        "not publish an edition, do not create a receipt, and do not enable runtime, promote, " +
+        "or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
 
   // --- Massachusetts ---------------------------------------------------
   //

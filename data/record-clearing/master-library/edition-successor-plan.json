@@ -35,16 +35,16 @@
   "runtimeStatus": "runtime_disabled",
   "packetReady": false,
   "totals": {
-    "candidatesRead": 27,
+    "candidatesRead": 29,
     "admitted": 3,
-    "deferred": 24,
+    "deferred": 26,
     "admittedNewBytes": 1,
     "admittedMetadataCorrections": 2,
     "byUnmetCriterion": {
-      "exact_authority": 1,
-      "exact_source_identity": 17,
-      "exact_bytes_where_applicable": 7,
-      "license_resolved": 6
+      "exact_authority": 2,
+      "exact_source_identity": 18,
+      "exact_bytes_where_applicable": 8,
+      "license_resolved": 7
     }
   },
   "candidateTranche": {
@@ -202,6 +202,25 @@
         {
           "criterion": "license_resolved",
           "detail": "the publisher's commercial-use terms are unresolved"
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-de-official-download-automation-blocked",
+      "jurisdiction": "DE",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-de-official-download-automation-blocked.json",
+      "unmetCriteria": [
+        "exact_bytes_where_applicable",
+        "license_resolved"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_bytes_where_applicable",
+          "detail": "the decision requires new bytes and supplies no measured asset row; the measurement belongs to a technical-structure job"
+        },
+        {
+          "criterion": "license_resolved",
+          "detail": "Unresolved and unverifiable while the perimeter blocks the terms pages."
         }
       ]
     },
@@ -481,6 +500,25 @@
         {
           "criterion": "license_resolved",
           "detail": "The queue records the publisher's licensing and commercial-use terms as unresolved. No licence question was assigned to this job and none is answered; the position is carried forward unchanged."
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-mn-official-download-automation-blocked",
+      "jurisdiction": "MN",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-mn-official-download-automation-blocked.json",
+      "unmetCriteria": [
+        "exact_authority",
+        "exact_source_identity"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_authority",
+          "detail": "the decision does not require an edition amendment"
+        },
+        {
+          "criterion": "exact_source_identity",
+          "detail": "a no-bytes correction must name the manifest rows it corrects; none were recorded"
         }
       ]
     },

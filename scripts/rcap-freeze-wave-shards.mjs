@@ -96,10 +96,12 @@ const ACTIVE_SHARDS = [
     lane: "source_acquisition",
     ownerSession: "SESSION_F",
     jobIds: [
-      "rcap-mn-official-download-automation-blocked",
-      "rcap-de-official-download-automation-blocked"
+      "rcap-mn-attended-retrieval-currentness-comparison",
+      "rcap-de-attended-retrieval-five-current-forms",
+      "rcap-de-form-281e-edition-metadata-correction"
     ],
-    note: "Carried over unfinished; not reranked."
+    note:
+      "Refilled from the integrated Minnesota and Delaware refusals. The two retrievals need a person in a browser and are ranked, not promised; the 281E correction is metadata only and needs nobody."
   },
   {
     shard: "F2",
@@ -110,7 +112,8 @@ const ACTIVE_SHARDS = [
       "rcap-in-commercial-license",
       "rcap-mo-direct-issuer-request"
     ],
-    note: "Promoted from the previous wave's candidate ranking."
+    note:
+      "Carried over unfinished; not reranked. The wave's earlier F2 trio — the Iowa certification-of-service identity, the Maine form-face title correction and the Michigan MC 227 revision — are integrated and satisfied, and are not re-listed."
   },
   {
     shard: "F3",

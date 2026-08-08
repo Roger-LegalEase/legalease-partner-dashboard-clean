@@ -70,6 +70,13 @@ import {
   assertAuthorityOutputContract
 } from "./lib/rcap-factory/authority-output.mjs";
 import {
+  ACQUISITION_BLOCKED_DISPOSITION,
+  SUCCESS_DISPOSITIONS,
+  assertAcquisitionPermitted,
+  classifyAcquisitionResponse,
+  detectAccessBlock
+} from "./lib/rcap-factory/acquisition-response.mjs";
+import {
   COMPLETION_CLASSIFICATIONS,
   candidateBranchKeys,
   discoverCompletions,
@@ -4330,6 +4337,256 @@ function discoveryJob(overrides = {}) {
 function discoveryPlan(jobs, baseCommit) {
   return { schemaVersion: "rcap-production-factory/v1", baseCommit, jobs };
 }
+
+
+// ---------------------------------------------------------------------------
+// Acquisition-response validation
+//
+// Every case below is a real one. Minnesota's official channel answers
+// automation with a Cloudflare managed challenge; Delaware's answers with
+// HTTP 200 and a 247-byte F5 rejection page. A pipeline that reads 2xx as
+// success pins the rejection page as the official form. No live network call
+// is made here — the responses are constructed.
+// ---------------------------------------------------------------------------
+
+const MINIMAL_PDF = Buffer.from(
+  [
+    "%PDF-1.4",
+    "1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj",
+    "2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj",
+    "3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] >> endobj",
+    "trailer << /Root 1 0 R >>",
+    "%%EOF",
+    ""
+  ].join("\n"),
+  "utf8"
+);
+
+const F5_REJECTION = (supportId) =>
+  Buffer.from(
+    "<html><head><title>Request Rejected</title></head><body>" +
+      "The requested URL was rejected. Please consult with your administrator.<br><br>" +
+      `Your support ID is: ${supportId}<br><br>` +
+      "<a href='javascript:history.back();'>[Go Back]</a></body></html>",
+    "utf8"
+  );
+
+await check("HTTP status alone can never establish an acquisition", () => {
+  // 1. A real PDF, served correctly.
+  const good = classifyAcquisitionResponse({
+    status: 200,
+    headers: { "content-type": "application/pdf" },
+    body: MINIMAL_PDF,
+    expectedAsset: { kind: "pdf", expectedPageCount: 1 }
+  });
+  assert.equal(good.acquired, true);
+  assert.equal(good.disposition, "acquired_public_official_download");
+  assert.match(good.contentSha256, /^[0-9a-f]{64}$/u);
+  assert.equal(good.receiptEligible, true);
+  assert.equal(good.structure.pageCount, 1);
+
+  // 2. Cloudflare managed challenge — Minnesota.
+  const cloudflare = classifyAcquisitionResponse({
+    status: 403,
+    headers: { "cf-mitigated": "challenge", "content-type": "text/html" },
+    body: Buffer.from(
+      "<html><head><title>Just a moment...</title></head><body>" +
+        "<script src='/cdn-cgi/challenge-platform/h/b/orchestrate/chl_page'></script>" +
+        "</body></html>",
+      "utf8"
+    ),
+    expectedAsset: { kind: "pdf" }
+  });
+  assert.equal(cloudflare.acquired, false);
+  assert.equal(cloudflare.disposition, ACQUISITION_BLOCKED_DISPOSITION);
+  assert.equal(cloudflare.block.vendor, "cloudflare");
+  assert.ok(cloudflare.block.signals.includes("cf_mitigated_challenge"));
+  assert.equal(cloudflare.contentSha256, null);
+  assert.equal(cloudflare.receiptEligible, false);
+  assert.equal(cloudflare.workerReadyContract, false);
+
+  // 3. F5/BIG-IP rejection at HTTP 200 — Delaware. This is the case that made
+  //    status-only validation dangerous rather than merely incomplete.
+  const f5 = classifyAcquisitionResponse({
+    status: 200,
+    headers: { "content-type": "text/html" },
+    body: F5_REJECTION("18364827364512345678"),
+    expectedAsset: { kind: "pdf" }
+  });
+  assert.equal(f5.acquired, false);
+  assert.equal(f5.disposition, ACQUISITION_BLOCKED_DISPOSITION);
+  assert.equal(f5.block.vendor, "f5_big_ip");
+  assert.equal(f5.contentSha256, null);
+  assert.equal(f5.receiptEligible, false);
+  for (const forbidden of SUCCESS_DISPOSITIONS) {
+    assert.notEqual(f5.disposition, forbidden);
+  }
+  assert.throws(() => assertAcquisitionPermitted(f5), /attended_retrieval_required/u);
+
+  // 4. HTML accepted only where the assignment expects HTML — Louisiana's
+  //    statutory text is published as HTML and nothing else.
+  const html = classifyAcquisitionResponse({
+    status: 200,
+    headers: { "content-type": "text/html" },
+    body: Buffer.from("<html><body><h1>Art. 993</h1></body></html>", "utf8"),
+    expectedAsset: { kind: "html" }
+  });
+  assert.equal(html.acquired, true);
+  // The same bytes do not satisfy a PDF assignment.
+  const htmlForPdf = classifyAcquisitionResponse({
+    status: 200,
+    headers: { "content-type": "text/html" },
+    body: Buffer.from("<html><body><h1>Art. 993</h1></body></html>", "utf8"),
+    expectedAsset: { kind: "pdf" }
+  });
+  assert.equal(htmlForPdf.acquired, false);
+
+  // 5. Wrong MIME, real PDF: accepted under the explicit policy, with the
+  //    mismatch recorded rather than normalised away.
+  const wrongMime = classifyAcquisitionResponse({
+    status: 200,
+    headers: { "content-type": "application/octet-stream" },
+    body: MINIMAL_PDF,
+    expectedAsset: { kind: "pdf" }
+  });
+  assert.equal(wrongMime.acquired, true);
+  assert.equal(wrongMime.findings.length, 1);
+  assert.equal(
+    wrongMime.findings[0].finding,
+    "content_type_mismatch_body_parseable"
+  );
+  const refusedMime = classifyAcquisitionResponse({
+    status: 200,
+    headers: { "content-type": "application/octet-stream" },
+    body: MINIMAL_PDF,
+    expectedAsset: { kind: "pdf" },
+    wrongMimeButParseablePolicy: "refuse"
+  });
+  assert.equal(refusedMime.acquired, false);
+
+  // 6. Truncated PDF: right signature, no trailer.
+  const truncated = classifyAcquisitionResponse({
+    status: 200,
+    headers: { "content-type": "application/pdf" },
+    body: MINIMAL_PDF.subarray(0, 40),
+    expectedAsset: { kind: "pdf" }
+  });
+  assert.equal(truncated.acquired, false);
+  assert.equal(truncated.contentSha256, null);
+  assert.ok(
+    truncated.failures.some((entry) => entry.check === "parser_opens")
+  );
+
+  // 7. Rotating support IDs must classify identically. Hashing the raw body
+  //    would make every rejection a different "identity".
+  const first = classifyAcquisitionResponse({
+    status: 200,
+    headers: { "content-type": "text/html" },
+    body: F5_REJECTION("11111111111111111111"),
+    expectedAsset: { kind: "pdf" }
+  });
+  const second = classifyAcquisitionResponse({
+    status: 200,
+    headers: { "content-type": "text/html" },
+    body: F5_REJECTION("99999999999999999999"),
+    expectedAsset: { kind: "pdf" }
+  });
+  assert.equal(first.disposition, second.disposition);
+  assert.equal(
+    first.block.blockFingerprint,
+    second.block.blockFingerprint,
+    "a rotating support ID must not produce an unstable block identity"
+  );
+  assert.equal(first.contentSha256, null);
+  assert.equal(second.contentSha256, null);
+});
+
+await check("a real document is never mistaken for an access block", () => {
+  // A PDF whose text layer contains a block phrase must still acquire: block
+  // scanning is gated on the body being small and not binary-signatured.
+  const withPhrase = Buffer.concat([
+    MINIMAL_PDF,
+    Buffer.from("\n% The requested URL was rejected\n", "utf8")
+  ]);
+  assert.equal(detectAccessBlock({ headers: {}, body: withPhrase }), null);
+  const result = classifyAcquisitionResponse({
+    status: 200,
+    headers: { "content-type": "application/pdf" },
+    body: withPhrase,
+    expectedAsset: { kind: "pdf" }
+  });
+  assert.equal(result.acquired, true);
+
+  // An OOXML container must be a real package, not any ZIP.
+  const notOoxml = Buffer.from([0x50, 0x4b, 0x03, 0x04, 0x00, 0x00]);
+  const docx = classifyAcquisitionResponse({
+    status: 200,
+    headers: {
+      "content-type":
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    },
+    body: notOoxml,
+    expectedAsset: { kind: "docx" }
+  });
+  assert.equal(docx.acquired, false);
+  assert.ok(
+    docx.failures.some((entry) => entry.check === "expected_structure")
+  );
+});
+
+await check("no integrated acquisition decision claims success from a block", () => {
+  const directory = path.join(
+    ROOT,
+    "data/record-clearing/production-factory/source-acquisition"
+  );
+  let checked = 0;
+  let blockedChannels = 0;
+  for (const name of fs.readdirSync(directory).sort()) {
+    if (!name.endsWith(".json")) continue;
+    const decision = readJson(
+      `data/record-clearing/production-factory/source-acquisition/${name}`
+    );
+    if (decision.strategyFamily !== "official_download_automation_blocked") {
+      continue;
+    }
+    checked += 1;
+    // The rule is about the channel's recorded state, not the job's family
+    // name. A job in this family may legitimately have downloaded something
+    // when the recorded block turns out not to reproduce on retest — Colorado
+    // is exactly that case, and its JDF 684 retrieval is real. What may never
+    // happen is a download claimed from a channel the same decision records as
+    // still blocking.
+    const stillBlocked =
+      decision.method?.automatedRetrievalBlocked === true ||
+      /blocked|refused|rejected|challenge/iu.test(
+        decision.terminalDisposition ?? ""
+      );
+    if (!stillBlocked) continue;
+    blockedChannels += 1;
+    assert.equal(
+      decision.downloadedSourceCount,
+      0,
+      `${name} claims downloads from a channel it records as blocked`
+    );
+    for (const acquisition of decision.acquisitions ?? []) {
+      assert.equal(
+        SUCCESS_DISPOSITIONS.includes(acquisition.disposition),
+        false,
+        `${name} records ${acquisition.disposition} against a blocked channel`
+      );
+      assert.equal(
+        typeof acquisition.sha256 === "string",
+        false,
+        `${name} pins a digest obtained from a blocked channel`
+      );
+    }
+  }
+  assert.ok(checked >= 2, "expected the Minnesota and Delaware decisions");
+  assert.ok(
+    blockedChannels >= 2,
+    "expected Minnesota and Delaware to record channels that are still blocked"
+  );
+});
 
 if (failures.length > 0) {
   console.error("RCAP production factory tests failed:");
