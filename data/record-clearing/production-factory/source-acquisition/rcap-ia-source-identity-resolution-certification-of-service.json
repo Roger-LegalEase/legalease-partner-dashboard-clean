@@ -1,0 +1,244 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-ia-source-identity-resolution-certification-of-service",
+  "parentJobId": "AUTH-03-acquisition-campaign-tier-1",
+  "jurisdiction": "IA",
+  "lane": "source_acquisition",
+  "strategyFamily": "source_identity_resolution",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "d6e175f77ddd2fba547432664c00219fa3b455d0",
+  "generatedOn": "2026-08-08",
+  "acquisitionIds": ["acquire:IA:certification-of-service-by-mailing-or-delivery"],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero is correct. Official rule and statute publications were read into temporary storage outside the repository for inspection and discarded; nothing entered version control, no materialization destination was written and no receipt was created. The assigned document was not downloaded because it does not exist as a document.",
+  "generatedFrom": [
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/authority.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-03-acquisition-campaign-tier-1.json"
+  ],
+  "method": {
+    "description": "Identity resolution against the authority that actually creates Iowa Judicial Branch forms — the Iowa Court Rules — rather than against a website file listing. The rule-prescribed form inventory was enumerated, the five Rule 2.86 expungement applications were read in the Supreme Court orders that adopt them, the certification block was located and read verbatim inside each, and the electronic-filing rule that permits a certificate to live inside another document was read in full.",
+    "controllingSource": "legis.iowa.gov — the Legislative Service Agency's official publication of the Iowa Court Rules and the Iowa Code, including the Iowa Supreme Court's own adopting orders",
+    "controllingSourceRationale": "Iowa Judicial Branch forms are created by rule. Rule 2.86 is titled 'Forms' and its entire content is the five forms themselves, so the rule text is the form. A website file listing is a distribution channel, not the authority.",
+    "retrievalDate": "2026-08-08",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "sourcesDeposited": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "binariesCommitted": 0,
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "memoAltered": false,
+    "componentRebound": false,
+    "similarFileMapped": false,
+    "assignmentConstraintObserved": "The stop condition requires resolving only the assigned identity from official evidence and stopping unresolved rather than guessing, mapping a similar file, or changing legal design. The identity is resolved from the issuer's own words. No similar file was mapped: six near-name Iowa forms were considered and each is expressly rejected below.",
+    "retrievalLimitation": "iowacourts.gov returned HTTP 403 to every automated request, including its privacy-policy page. No byte of the Judicial Branch website was read. This bounds two answers — the live form date stamp and the site's terms of use — and both are marked unverified rather than assumed. It does not bound the identity finding, which rests on the rules."
+  },
+  "questionPresented": "Does the document the repository calls 'Certification of Service by Mailing or Delivery' exist, and if so what is it?",
+  "identityResolution": {
+    "assignedIdentity": "Certification of Service by Mailing or Delivery",
+    "recordedIssuingAuthority": "Iowa Judicial Branch",
+    "recordedRole": "certificate_of_service",
+    "verdict": "not_a_document_it_is_a_titled_section_of_five_parent_forms",
+    "classification": "section_of_a_parent_form",
+    "confidence": "high",
+    "confidenceBasis": "The Iowa Supreme Court characterises it in its own words as a section in the applications, and the electronic-filing rule expressly authorises a certificate of service to be included on the last page of the document it accompanies. The finding rests on the issuer's language and on the rule that permits the design, not on failure to find a file.",
+    "isADistinctOfficialForm": false,
+    "isAStandalonePublication": false,
+    "isARuleRequirement": "partly — rule 16.316 imposes the requirement, but prescribes no form",
+    "isAPhantom": false,
+    "isAPhantomDetail": "The instrument is real, current and mandatory in its circumstances. What does not exist is a separately published document bearing this title. That distinction matters: unlike an identity that names nothing at all, this one names something real that is modelled at the wrong granularity.",
+    "issuerCharacterisationVerbatim": "Revising the certificate of service section in the expungement applications (Rule 2.86—Forms 1–5) with new, clearer language.",
+    "issuerCharacterisationSource": "Iowa Supreme Court order filed 30 August 2024, amending Chapter 2, summary of substantive amendments, page 1",
+    "issuerCharacterisationSignificance": "The Court calls it a section in the applications. It does not call it a form, and it does not list it among the forms the same order attaches.",
+    "priorInternalNoteAssessment": "The queue's recorded currentness question already read: 'No separately published certification-of-service form was located in the Iowa Judicial Branch forms collection; the certification appears within the Rule 2.86 application forms.' That note is correct as written. This job confirms it affirmatively from the issuer's own amendment summary rather than leaving it as a failure to locate."
+  },
+  "whereTheCertificationActuallyLives": {
+    "parentRule": "Iowa R. Crim. P. 2.86, titled simply 'Forms', whose entire content is the five expungement applications",
+    "sectionTitleOnTheFace": "Certification of Service by Mailing or Delivery",
+    "sectionPlacement": "the last element on the last page of each of the five forms, inside a ruled box, immediately after the attorney signature block",
+    "sectionTextVerbatim": "If you cannot find your case on the Iowa Judicial Branch eFile System, proceed with filing your application in paper at the county clerk of court office. You must fill out the below and mail or hand deliver a copy of this application to the county attorney of the county in which you are filing this application. I, [print your full name: first, middle, last], certify that on [month] [day], 20[year], I mailed or gave a copy of this Application to the county attorney at this address: [name of person to whom I delivered or mailed it], [mailing address], [city], [state], [ZIP code].",
+    "acknowledgmentElsewhereOnTheForm": "Every one of the five forms also carries, in its 'Read Before Signing' block, the acknowledgment: 'I understand that I must provide a copy of this application to the county attorney.'",
+    "parentForms": [
+      {"form": "Iowa R. Crim. P. 2.86—Form 1", "officialTitle": "Application to Expunge Court Record under Iowa Code section 901C.2", "statute": "Iowa Code § 901C.2", "pages": 3, "certificationOnPage": "3 of 3", "dateStamp": "August 2024", "boundTrack": "ia-901c2", "boundComponent": "ia-901c2-certificate-of-service-3"},
+      {"form": "Iowa R. Crim. P. 2.86—Form 2", "officialTitle": "Application to Expunge Misdemeanor Court Records under Iowa Code section 901C.3", "statute": "Iowa Code § 901C.3", "pages": 3, "certificationOnPage": "3 of 3", "dateStamp": "August 2024", "boundTrack": "ia-901c3", "boundComponent": "ia-901c3-certificate-of-service-4"},
+      {"form": "Iowa R. Crim. P. 2.86—Form 3", "officialTitle": "Application to Expunge Public Intoxication Court Records under Iowa Code section 123.46", "statute": "Iowa Code § 123.46", "pages": 2, "certificationOnPage": "2 of 2", "dateStamp": "August 2024", "boundTrack": "ia-12346", "boundComponent": "ia-12346-certificate-of-service-2"},
+      {"form": "Iowa R. Crim. P. 2.86—Form 4", "officialTitle": "Application to Expunge Possession of Alcohol under the Legal Age Court Records under Iowa Code section 123.47", "statute": "Iowa Code § 123.47", "pages": 2, "certificationOnPage": "2 of 2", "dateStamp": "August 2024", "boundTrack": "ia-12347", "boundComponent": "ia-12347-certificate-of-service-2"},
+      {"form": "Iowa R. Crim. P. 2.86—Form 5", "officialTitle": "Application to Expunge Prostitution Court Records under Iowa Code section 725.1", "statute": "Iowa Code § 725.1", "pages": 2, "certificationOnPage": "2 of 2", "dateStamp": "August 2024", "boundTrack": "ia-7251", "boundComponent": "ia-7251-certificate-of-service-2"}
+    ],
+    "mappingIsOneToOne": true,
+    "mappingSignificance": "All five bound tracks map exactly one-to-one onto the five parent forms, and each track's primary filing is the very form whose last page carries its certificate-of-service component. The correct model is a section reference into the parent — form plus page — not a separately bound document.",
+    "formNumbering": "There is no form number beyond the rule citation. The footer of every page reads, for example, 'August 2024 | Rule 2.86—Form 1 | Page 3 of 3'."
+  },
+  "whyNoStandaloneFormExists": {
+    "doctrinalBasis": "Iowa Ct. R. 16.316, Certificate of service, provides in terms: 'A certificate of service must be filed for all documents EDMS does not serve. … The certificate must be filed promptly and show the date and manner of service. The certificate of service may be included on the last page of the document.'",
+    "consequence": "The rule that creates the obligation expressly permits the certificate to be part of the document it accompanies, and prescribes no form. The Judicial Branch put the certification on the last page of each application because the rule allows exactly that. A standalone form would be redundant, and none was ever created.",
+    "electronicServiceContext": "Iowa Ct. R. 16.315(1)(b): 'When a document is electronically filed, EDMS serves the document on all parties who are registered filers. … The posting of the notice of electronic filing or presentation constitutes service of the document for purposes of the Iowa Court Rules. No other service on those parties is required.' The boxed certification is therefore conditional by design — it is the paper-filing path, which is why the form text opens 'If you cannot find your case on the Iowa Judicial Branch eFile System'.",
+    "whyTheConditionalityIsCoherent": "Iowa Ct. R. 16.102(1) provides that a case pending prior to the initiation of electronic filing in a particular county is not subject to Chapter 16 at all. A case that cannot be found on the eFile system is such a case, so EDMS service is unavailable and the applicant must certify service themselves. Iowa Ct. R. 16.302(3)(a) additionally makes registration optional for self-represented criminal defendants, which is the population the boxed certification serves.",
+    "tensionRecordedNotSmoothed": "Read alone, Iowa Ct. R. 16.315(3)(a) — service on registered filers of documents filed by nonregistered filers 'will be made by the clerk electronically through EDMS' — would make the applicant's certification redundant even on a paper filing, since county attorneys are registered filers. The form's own trigger language and rule 16.102(1) resolve it, but only when all three provisions are read together. The form text alone is ambiguous and is recorded as such."
+  },
+  "serviceObligationInTheExpungementRules": {
+    "rule2_80_3": "The application must be filed in the case where expungement is sought and served on the county attorney. If the application is filed by a county attorney, the county attorney shall provide notice to the defendant and any counsel of record.",
+    "rule2_81_3": "identical in substance for the § 901C.3 route",
+    "rule2_82_5": "The application must be filed in the case where expungement is sought and served on the county attorney.",
+    "rule2_82_5_note": "This provision did not exist as originally adopted. Rule 2.82 — the § 123.46, § 123.47 and § 725.1 track — had no service provision at all until the 30 August 2024 order added it, describing the change as 'Conforming rule 2.82 … to the other expungement procedural rules.' For three of the five bound tracks the express service duty therefore dates only from 30 October 2024.",
+    "rule2_83_1": "The county attorney may file a response to an application under rule 2.80, 2.81, or 2.82. The response shall be filed within 20 days after service of the application unless otherwise ordered by the court.",
+    "consequenceOfRule2_83_1": "Service starts the county attorney's 20-day response clock, which is what makes the certification legally operative rather than merely administrative."
+  },
+  "mandatoryStatusFinding": {
+    "verdict": "substantial_compliance_not_mandatory_use",
+    "verbatim": "An application for expungement of a criminal case record under Iowa Code section 901C.2 shall be initiated by completing and filing an application that substantially complies with Rule 2.86—Form 1: Application to Expunge Court Record under Iowa Code section 901C.2.",
+    "parallelProvisions": "Rules 2.80(2), 2.81(2), 2.82(2), 2.82(3) and 2.82(4) each apply the same substantial-compliance standard to Forms 1 through 5 respectively.",
+    "contrastWithChapter17": "Iowa Ct. R. 17.1 makes the Chapter 17 self-represented-litigant forms mandatory in terms: 'Persons without attorney representation in legal actions covered under this chapter must use the forms listed in this chapter and available on the Iowa Judicial Branch website at: www.iowacourts.gov. Attorneys may use these forms but are not required to do so.'",
+    "trap": "The Rule 2.86 expungement forms are not in Chapter 17 and rule 17.1 does not reach them. A mandatory-statewide assumption carried across from Chapter 17 would be wrong for every one of the five bound tracks. A substantially compliant application is legally sufficient.",
+    "notDecidedHere": "What substantial compliance permits in practice, and whether a generated packet should nevertheless reproduce the prescribed form exactly, is a legal-design question outside this assignment."
+  },
+  "sourceAvailabilityAndStructure": {
+    "officialSourceUrlForTheAssignedDocument": null,
+    "binaryExists": false,
+    "bytes": null,
+    "sha256": null,
+    "mimeType": null,
+    "pages": null,
+    "encryption": null,
+    "xfa": null,
+    "fields": null,
+    "widgets": null,
+    "dimensions": null,
+    "rotation": null,
+    "whyAllNull": "There is no standalone binary for this identity, so there is nothing to measure. Recording measurements here would be inventing them. The measurable artifacts are the five parent forms, which are identified above and are a different acquisition question.",
+    "parentFormBinariesNotMeasured": "The five parent forms were read as rule text in the Supreme Court's adopting orders, which is the authoritative publication. The Judicial Branch's own PDF copies could not be retrieved because iowacourts.gov returns HTTP 403 to automated requests, so no byte count or digest is asserted for any of them.",
+    "eligibleForLaterMaterialization": false,
+    "eligibleForLaterMaterializationWhy": "Materialization presupposes a document. There is nothing to materialize for this identity and no receipt should ever be written for it. The parent forms are separately materializable once retrieved, and that is a different identity and a different job."
+  },
+  "urlPinningTrap": {
+    "observation": "The Judicial Branch serves the same Rule 2.86 forms under multiple collection identifiers — the expungement category resolves to one set of collection and file ids, and the same forms also surface under at least three other collection numbers.",
+    "consequence": "A pinned collection URL is not a stable identity for an Iowa form and may serve a superseded revision. The site appears to version its document library by collection rather than by replacing a file in place.",
+    "instruction": "Do not treat any single iowacourts.gov collection URL as canonical. Pin the digest, not the URL, and treat the rule citation plus the date stamp as the identity."
+  },
+  "correctionsToRecordedPremises": [
+    {
+      "recorded": "ia-7251 concerns Iowa Code § 907.9 deferred judgment.",
+      "verified": "ia-7251 maps to Rule 2.86—Form 5, Application to Expunge Prostitution Court Records under Iowa Code section 725.1. Section 907.9 appears in this material only as an exclusion: Iowa Code § 901C.2(3) provides that the section 'does not apply to dismissals related to a deferred judgment under section 907.9', and Form 1 carries a matching acknowledgment checkbox to the same effect.",
+      "consequence": "There is no Rule 2.86 deferred-judgment expungement form. A component built on that premise would look for a form that does not exist and would misdescribe the track."
+    },
+    {
+      "recorded": "the five tracks span four statutes",
+      "verified": "they span five: §§ 901C.2, 901C.3, 123.46, 123.47 and 725.1, one per form.",
+      "consequence": "§ 123.47, possession of alcohol under the legal age, is a distinct statute and a distinct form and must not be folded into the § 123.46 public-intoxication route."
+    }
+  ],
+  "doNotSubstitute": [
+    {"document": "Iowa Ct. R. 17 Form 125 / 225 / 325 / 425, Affidavit of Mailing Notice", "why": "The closest superficial match by name in the entire Iowa form inventory. It is a family-law affidavit in a different chapter for a different action, and it is sworn rather than certified."},
+    {"document": "Iowa Ct. R. 17 Form 110 / 210 / 310 / 410, Affidavit of Service of Original Notice and Petition", "why": "A sworn affidavit, family-law only, and directed at service of an original notice rather than at service of an application on a county attorney."},
+    {"document": "Iowa Ct. R. 17 Form 104 / 104a, Original Notice for Personal Service", "why": "Commences a civil action and confers personal jurisdiction. The comment to rule 16.314(3) records that electronic service cannot be used for an original notice, which is a different mechanism entirely."},
+    {"document": "Iowa Ct. R. 17 Form 105, Acceptance of Service", "why": "A defendant's acknowledgment that they received something, not the applicant's certification that they sent it. The direction is reversed."},
+    {"document": "Iowa Ct. R. 17 Form 106, Directions for Service of Original Notice", "why": "Instructions to a sheriff or process server."},
+    {"document": "Iowa Ct. R. 17 Form 108 and Form 408a, Original Notice by Publication and Proof of Service by Publication", "why": "A different service mechanism with its own proof."},
+    {"document": "Iowa Ct. R. 16.314(4) return of service", "why": "A server's return filed after an original notice is served, not the party's own certification."},
+    {"document": "Iowa Ct. R. 16.316 itself", "why": "The rule that imposes the requirement. It is a rule, not a published form, and it has no document identity. Binding a component to a rule number would repeat the error already resolved for Illinois Supreme Court Rule 298."},
+    {"document": "Iowa Ct. R. ch. 3 small-claims pleading forms", "why": "A separate chapter of small-claims forms; any small-claims proof of service is not interchangeable with a criminal expungement certification."},
+    {"document": "the 'Defendant's Attorney's Certification' in Rule 2.37—Form 12", "why": "A criminal-chapter certification, and therefore a plausible near miss, but it certifies counsel's advice to the defendant rather than service of anything."},
+    {"sourceClass": "commercial form aggregators and unofficial rule republications", "why": "Several surfaced during this work, including one whose snippet reproduced rule 2.82's subsections. None was relied on; the identical text was verified from the Supreme Court's own 2021 and 2024 orders."}
+  ],
+  "terminalDisposition": "not_a_document_titled_section_of_five_rule_2_86_parent_forms_component_regranularisation_required_no_acquisition",
+  "terminalDispositionDetail": {
+    "why": "The narrowest disposition the evidence supports. It is not unresolved_identity: the question is answered, and answered from the issuer's own characterisation. It is not identity_established_binary_unavailable, which is what the edition currently records — that phrasing asserts a document exists and is merely unobtained, which is the opposite of what is true. It is not a phantom in the Florida continuation sense either: the instrument is real, current and legally operative, and five real parent forms carry it. What is wrong is the granularity at which it is modelled.",
+    "acquisitionRequired": false,
+    "acquisitionRequiredRationale": "No issuer interaction can produce a standalone document the Iowa Supreme Court has never prescribed. acquire:IA:certification-of-service-by-mailing-or-delivery should not remain an open download job.",
+    "stoppedRatherThanMapped": "No similar file was mapped in. Eleven candidate documents were considered and each is expressly rejected above, including the Affidavit of Mailing Notice, which is the closest match by name in the entire Iowa inventory.",
+    "componentsAffected": 5,
+    "parentFormsIdentified": 5
+  },
+  "resolutionRequired": {
+    "kind": "component_regranularisation_to_a_parent_form_section_reference",
+    "performedByThisJob": false,
+    "notPerformedRationale": "Re-modelling the five components rewrites the track-source relationships and the source-acquisition queue, both forbidden paths for this job. This job establishes the answer and stops at the boundary.",
+    "recommendedCorrections": [
+      "Re-model each of the five certificate_of_service components as a section reference into its own track's parent Rule 2.86 form, identified by form and page, rather than as a bound document.",
+      "Retire the standalone identity 'Certification of Service by Mailing or Delivery'. It names no published document.",
+      "Close acquire:IA:certification-of-service-by-mailing-or-delivery without acquisition and clear its blocker-ledger rows.",
+      "Record the certification as conditional on the paper-filing path, since EDMS service under rule 16.315(1)(b) makes it unnecessary where the case is on the eFile system.",
+      "Do not carry a mandatory-statewide flag onto these forms from Chapter 17; the standard is substantial compliance."
+    ],
+    "memoEditRequired": false,
+    "memoEditRationale": "No Iowa memo edit is required to resolve the identity. Whether the packet's own instructions should describe the certification as conditional is a legal-design question, and it is handed off rather than decided. IA.memo.json was not opened for writing."
+  },
+  "edition13Impact": {
+    "publicationJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+    "editionAmendmentRequired": true,
+    "amendmentKind": "metadata_correction_no_new_bytes",
+    "requiresNewBytes": false,
+    "requiresNewBytesNote": "None for this identity. There is nothing to retain.",
+    "requiresMetadataCorrection": true,
+    "requiresMetadataCorrectionDetail": "The identity is recorded as identity_established_binary_unavailable with requiredAcquisition 'Acquire the current official binary from the issuing authority and manifest it.' That asserts a document exists and has merely not been obtained, which is affirmatively wrong and keeps a blocker open against a document that was never issued at that granularity.",
+    "requiresIdentityRetirement": true,
+    "requiresRoleCorrection": false,
+    "requiresRoleCorrectionNote": "certificate_of_service remains the substantively correct role for what the participant must do. It is the document binding, not the role, that is wrong.",
+    "requiresScopeCorrection": false,
+    "requiresRevisionCorrection": false,
+    "requiresLicenseDisposition": false,
+    "requiresLicenseDispositionNote": "Unresolved rather than answered — see licensingUnverified. No licence question was assigned to this job.",
+    "separateEditionOpportunity": "The five Rule 2.86 parent forms are themselves unmanifested and are the real Iowa acquisition target. Identifying them precisely is a by-product of this job and is handed off rather than claimed.",
+    "edition12Treatment": "immutable_unchanged",
+    "publicationPerformed": false
+  },
+  "licensingUnverified": {
+    "status": "unverified_not_silent",
+    "why": "iowacourts.gov returned HTTP 403 to every automated request, including its privacy-policy page. No terms-of-use, copyright or reuse statement could be read, so neither a rights assertion nor silence can be certified.",
+    "doNotRecordAsSilence": "A retrieval failure is not a negative finding. Recording this as silence would overstate what was observed, in the way an express reservation was found on another state's site in the immediately preceding wave.",
+    "adjacentDataPointsThatDoNotLicenseTheForms": [
+      "The eFiling portal on a different host asserts '© 2001-16 Tybera Development Group, Inc. All rights reserved.' That is the vendor's copyright in the portal software, not in Iowa court forms, and must not be cited as a forms licence.",
+      "legis.iowa.gov publishes the court rules with no licence or reuse statement located — silent, and silence is not permission."
+    ],
+    "escalation": "A browser check of iowacourts.gov is needed. Human-only and outside this assignment."
+  },
+  "implementationFamilyEffect": {
+    "family": "rcap-ia-official-pdf-family",
+    "affectedTracks": 5,
+    "affectedComponents": 5,
+    "effectOfThisJob": "This job is recorded in the live plan as the sole remaining open dependency of rcap-ia-flat-pdf-overlay, which covers four Iowa tracks. Resolving the identity removes the reason that job cannot be scheduled, and it removes a phantom document from the Iowa backlog: five components stop pointing at a standalone form the Iowa Supreme Court has never prescribed, and each gains a precise parent form and page instead.",
+    "familyReadinessStatement": "The Iowa official-PDF family remains fail-closed and this job does not move it. The five parent forms are themselves unmanifested and unretrieved, iowacourts.gov is unreachable to automation, the licensing position is unverified, generation is not permitted, runtime is disabled and no field map is built. No packet becomes generatable and no renderer is assigned.",
+    "structuralObservation": "Because the certification is the last element on the last page of a form the participant is already completing, it needs no separate document assembly at all. Whatever renders the parent form renders the certification. Recorded as an observation about the artifacts; no lane is assigned."
+  },
+  "expectedDownstreamEffect": "One Iowa acquisition key closes without a download, and five components across five tracks stop pointing at a standalone form that has never existed. Each gains an exact parent form and page — Rule 2.86 Forms 1 through 5, at page 3, 3, 2, 2 and 2 respectively — with the certification text recorded verbatim and the rule that permits the design quoted. The sole remaining open dependency of the Iowa flat-PDF overlay job is answered. Two recorded premises are corrected, one of which had a track pointed at a deferred-judgment statute that is an exclusion rather than a remedy. A mandatory-use assumption that would have been carried across from Chapter 17 is stopped, and the five real Iowa acquisition targets are identified for whoever takes them. No component is rebound, no similar file is mapped in, no receipt is created, no binary enters version control, no renderer is assigned, no memo is edited, no edition is published, no packet becomes generatable, no runtime is enabled and no track changes promotion state.",
+  "residualBlockers": [
+    {"id": "ia-certification-component-regranularisation", "question": "Five components must be re-modelled as section references into their parent Rule 2.86 forms.", "status": "handed_off", "owner": "the component-remap lane", "why": "The relationships and the queue are forbidden paths for this job. The parent form and page are supplied for each."},
+    {"id": "ia-certification-identity-retirement", "question": "The standalone identity must be retired and its acquisition key closed without acquisition.", "status": "handed_off", "owner": "rcap-nationwide-master-library-edition-1-3-publication", "why": "Edition 1.2 is immutable and the queue is forbidden."},
+    {"id": "ia-parent-forms-unretrieved", "question": "The five Rule 2.86 parent forms are unmanifested and no digest or byte count exists for any of them.", "status": "open", "owner": "acquisition owner", "why": "iowacourts.gov returns HTTP 403 to automated requests. The forms are identified precisely by rule and title, so the remaining work is retrieval, not identification.", "reopenCondition": "Closed by an attended or otherwise authorized retrieval of the five PDFs."},
+    {"id": "ia-live-form-date-stamp", "question": "Whether the live forms still carry the August 2024 date stamp.", "status": "open", "owner": "acquisition owner", "why": "No Chapter 2 order later than 30 August 2024 was located, so August 2024 appears current, but the current chapter PDF could not be retrieved and the live forms 403. If a live form reads anything other than August 2024, a later amendment exists."},
+    {"id": "ia-licensing-unverified", "question": "Whether iowacourts.gov asserts copyright or reuse restrictions over its forms.", "status": "unverified", "owner": "acquisition owner or counsel", "why": "The site is unreachable to automation. This must not be recorded as silence."},
+    {"id": "ia-url-instability", "question": "The same forms are served under multiple collection identifiers, so a pinned URL may serve a superseded revision.", "status": "open", "owner": "the relationship-pinning lane", "why": "Pin the digest, not the URL."},
+    {"id": "ia-conditionality-modelling", "question": "How the packet expresses that the certification applies only on the paper-filing path.", "status": "open_and_outside_this_job", "owner": "the Iowa legal-design owner", "why": "EDMS service under rule 16.315(1)(b) makes it unnecessary where the case is on the eFile system, and rule 16.315(3)(a) creates a tension the form text alone does not resolve."},
+    {"id": "ia-legislative-council-review", "question": "The August 2024 amendments were temporarily adopted effective 30 October 2024, permanent subject to Legislative Council review under Iowa Code § 602.4202. Completion of that review was not verified.", "status": "open", "owner": "acquisition owner"}
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "sourcesMaterialized": 0,
+    "sourceReceiptCountUnchanged": true,
+    "memoEdited": false,
+    "editionPublished": false,
+    "editionMutated": false,
+    "rendererImplemented": false,
+    "packetImplemented": false,
+    "componentRebound": false,
+    "similarFileMapped": false,
+    "issuerContacted": false,
+    "integrationPerformed": false,
+    "promotionPerformed": false,
+    "migrationPerformed": false,
+    "deploymentPerformed": false
+  }
+}
