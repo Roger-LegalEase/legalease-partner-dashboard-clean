@@ -110,13 +110,22 @@ export const NV_ROUTING_REFERRAL =
 export const NV_REPOSITORY_REFERRAL =
   "The Nevada Central Repository for Nevada Records of Criminal History, which holds the record a verification would be run against.";
 
-/** The eight assigned components' six routes, held as a closed list. */
+/**
+ * The assigned routes, held as a closed list.
+ *
+ * Six were built in the first pass and are unchanged. The expansion adds
+ * `nv_repository_removal` and `nv_seal_probation_family`, which are the two
+ * incremental tracks in the assignment: every value on the original six stays
+ * exactly as it was, because they are already integrated.
+ */
 export const NV_ASSIGNED_TRACK_IDS: readonly string[] = [
+  "nv_repository_removal",
   "nv_seal_conviction",
   "nv_seal_decrim",
   "nv_seal_multi",
   "nv_seal_nonconviction",
   "nv_seal_pardon",
+  "nv_seal_probation_family",
   "nv_seal_reentry"
 ];
 
@@ -209,6 +218,60 @@ export const NV_COURT_LEVELS: Readonly<Record<string, string>> = {
 };
 
 // ---------------------------------------------------------------------------
+// Closed lists added by the expansion: NRS 176A treatment-programme sealing and
+// NRS 179A.160 repository removal
+// ---------------------------------------------------------------------------
+
+/** Which chapter 176A programme the case ran under. The three sections are structurally identical. */
+export const NV_PROGRAM_SECTIONS: Readonly<Record<string, string>> = {
+  substance_use: "the programme of treatment for alcohol or other substance use under NRS 176A.240, sealed under NRS 176A.245",
+  mental_health: "the programme for treatment of mental illness or intellectual disabilities under NRS 176A.260, sealed under NRS 176A.265",
+  veterans: "the programme for treatment of veterans and members of the military under NRS 176A.290, sealed under NRS 176A.295",
+  unsure: "unsure"
+};
+
+/** How the programme case ended. Only two of the four reach the subsection 2 petition. */
+export const NV_PROBATION_OUTCOMES: Readonly<Record<string, string>> = {
+  discharged: "discharged from probation",
+  dismissed: "the case was dismissed",
+  conditionally_dismissed: "the charges were conditionally dismissed",
+  set_aside: "the judgment of conviction was set aside",
+  sentenced: "the programme was not completed and a sentence was imposed"
+};
+
+/** Whether the charge is one of the three subsection 2 names. */
+export const NV_PROBATION_CHARGE_TYPES: Readonly<Record<string, string>> = {
+  domestic_battery: "a violation of NRS 200.485, battery constituting domestic violence",
+  dui: "a violation of NRS 484C.110 or NRS 484C.120, driving or being in actual physical control of a vehicle under the influence",
+  other: "an offence other than one named in subsection 2",
+  unsure: "unsure"
+};
+
+/** NRS 179.2445(2) turns on which discharge was given. */
+export const NV_DISCHARGE_TYPES: Readonly<Record<string, string>> = {
+  honourable: "an honourable discharge",
+  dishonourable: "a dishonourable discharge under NRS 176A.850",
+  not_applicable: "no discharge from probation",
+  unsure: "unsure"
+};
+
+/** How the case ended, for the NRS 179A.160 threshold. */
+export const NV_REPOSITORY_DISPOSITIONS: Readonly<Record<string, string>> = {
+  acquitted: "an acquittal was entered",
+  dismissed: "the charge was dismissed",
+  favourable_other: "the disposition of the charge was otherwise favourable to the applicant",
+  unsure: "unsure"
+};
+
+/** Where a treatment-programme stop that is really the ordinary sealing route goes. */
+export const NV_ORDINARY_SEALING_REFERRAL =
+  "LegalEase's own Nevada routing: the ordinary chapter 179 sealing petition, which is a different track with its own periods and its own petition.";
+
+/** Where a repository stop that needs the court record sealed as well goes. */
+export const NV_COURT_SEALING_REFERRAL =
+  "LegalEase's own Nevada routing: removing a record from the Central Repository does not seal the court record, which is a separate NRS 179.255 petition on a different track.";
+
+// ---------------------------------------------------------------------------
 // Answer helpers
 // ---------------------------------------------------------------------------
 
@@ -247,6 +310,25 @@ const branch = <T>(
     throw new NevadaBranchError(trackId, key, raw, Object.keys(permitted));
   }
   return permitted[normalized];
+};
+
+/**
+ * The same closed-list validation as `branch`, returning the answer's own key
+ * rather than the prose it maps to. A branch that both decides a mechanism and
+ * prints a sentence needs the key to compare against and the prose to print,
+ * and comparing against the prose silently matches nothing.
+ */
+const branchKey = (
+  trackId: string,
+  key: string,
+  raw: string,
+  permitted: Readonly<Record<string, unknown>>
+): string => {
+  const normalized = raw.trim().toLowerCase().replace(/[\s-]+/g, "_");
+  if (!Object.prototype.hasOwnProperty.call(permitted, normalized)) {
+    throw new NevadaBranchError(trackId, key, raw, Object.keys(permitted));
+  }
+  return normalized;
 };
 
 const yesNo = (trackId: string, answers: Answers, key: string): boolean =>
@@ -345,6 +427,207 @@ export function deriveNevadaFacts(
   }
 
   switch (trackId) {
+    case "nv_seal_probation_family": {
+      const court = need(trackId, answers, "prbCourt");
+      const programSection = branchKey(
+        trackId,
+        "prbProgramSection",
+        need(trackId, answers, "prbProgramSection"),
+        NV_PROGRAM_SECTIONS
+      );
+      const outcome = branchKey(
+        trackId,
+        "prbOutcome",
+        need(trackId, answers, "prbOutcome"),
+        NV_PROBATION_OUTCOMES
+      );
+      const chargeType = branchKey(
+        trackId,
+        "prbChargeType",
+        need(trackId, answers, "prbChargeType"),
+        NV_PROBATION_CHARGE_TYPES
+      );
+      const dischargeType = branchKey(
+        trackId,
+        "prbDischargeType",
+        need(trackId, answers, "prbDischargeType"),
+        NV_DISCHARGE_TYPES
+      );
+
+      if (yesNo(trackId, answers, "prbExcludedCharge")) {
+        throw new NevadaEligibilityStopError(
+          "nv-176a-subsection-3-exclusion",
+          trackId,
+          "The charge was one of abuse, neglect or endangerment of a child under NRS 200.508, or abuse, neglect, exploitation, isolation or abandonment of an older or vulnerable person under NRS 200.5099. Subsection 3 of each of NRS 176A.245, NRS 176A.265 and NRS 176A.295 provides that the court may not order sealing under the section in that case. It is a bar on the face of the section and neither branch survives it.",
+          NV_REFERRAL
+        );
+      }
+      if (programSection === "unsure") {
+        throw new NevadaEligibilityStopError(
+          "nv-176a-programme-not-identified",
+          trackId,
+          "Which chapter 176A programme the case ran under has not been identified. The three sections are structurally identical but each attaches to its own programme, and the petition has to name the one the case ran under. The court file and the programme paperwork carry it.",
+          NV_ROUTING_REFERRAL
+        );
+      }
+      if (outcome === "sentenced") {
+        throw new NevadaEligibilityStopError(
+          "nv-176a-programme-not-completed",
+          trackId,
+          "The programme was not completed and a sentence was imposed rather than a discharge given or the case dismissed. Sealing under these sections follows a discharge or a dismissal under the corresponding programme section, so neither branch opens on those facts.",
+          NV_ORDINARY_SEALING_REFERRAL
+        );
+      }
+      if (dischargeType === "dishonourable") {
+        throw new NevadaEligibilityStopError(
+          "nv-176a-dishonourable-discharge",
+          trackId,
+          "The discharge from probation was dishonourable under NRS 176A.850. NRS 179.2445(2) provides that the rebuttable presumption in favour of sealing does not apply to such a defendant, which changes what any later petition should expect, and the design makes it a stop rather than something to draft around.",
+          NV_REFERRAL
+        );
+      }
+      if (dischargeType === "unsure") {
+        throw new NevadaEligibilityStopError(
+          "nv-176a-discharge-type-not-established",
+          trackId,
+          "Whether the discharge from probation was honourable or dishonourable has not been established. NRS 179.2445(2) turns on it, so it is not a detail to answer from memory: the order of discharge says which it was.",
+          NV_ROUTING_REFERRAL
+        );
+      }
+      if (chargeType === "unsure") {
+        throw new NevadaEligibilityStopError(
+          "nv-176a-charge-type-not-established",
+          trackId,
+          "Whether the charge was a violation of NRS 200.485, NRS 484C.110 or NRS 484C.120 has not been established. That single answer decides which of the section's two mechanisms applies — the automatic one on which nothing is filed, or the subsection 2 petition — and it comes from the charging document rather than from memory.",
+          NV_ROUTING_REFERRAL
+        );
+      }
+
+      // The subsection 2 branch is the only one on which a defendant files.
+      const subsectionTwo =
+        (chargeType === "domestic_battery" || chargeType === "dui") &&
+        (outcome === "conditionally_dismissed" || outcome === "set_aside");
+      const dispositionDate = str(answers, "prbDispositionDate");
+      if (subsectionTwo && !dispositionDate) {
+        throw new NevadaEligibilityStopError(
+          "nv-176a-disposition-date-not-established",
+          trackId,
+          "This is a subsection 2 case and the date of the conditional dismissal or the setting aside of the judgment has not been given. Subsection 2 runs its seven years from that date, so it is the date the whole timing question turns on, and the court record carries it.",
+          NV_ROUTING_REFERRAL
+        );
+      }
+
+      const sectionCitation =
+        programSection === "substance_use"
+          ? "NRS 176A.245"
+          : programSection === "mental_health"
+            ? "NRS 176A.265"
+            : "NRS 176A.295";
+
+      return {
+        prbCourt: court,
+        prbProgramSection: programSection,
+        prbOutcome: outcome,
+        prbChargeType: chargeType,
+        prbDispositionDate: dispositionDate || "not applicable on this branch",
+        prbDischargeType: dischargeType,
+        prbExcludedCharge: "no",
+
+        countyName: bareCountyName(court),
+        prbCourtName: court,
+        prbCourtLine: court.toUpperCase(),
+        prbSectionCitation: sectionCitation,
+        prbProgramStatement: `The petitioner states that this case was handled through ${NV_PROGRAM_SECTIONS[programSection]}.`,
+        prbOffenceStatement: `The petitioner states the charge as ${NV_PROBATION_CHARGE_TYPES[chargeType]}.`,
+        prbDispositionStatement: subsectionTwo
+          ? `The petitioner states that ${NV_PROBATION_OUTCOMES[outcome]} on ${dispositionDate}.`
+          : `The petitioner states that ${NV_PROBATION_OUTCOMES[outcome]}.`,
+        prbFulfilmentStatement:
+          "The petitioner states that the terms and conditions imposed by the Court and by the Division of Parole and Probation were fulfilled. Whether they were is the Court's finding, and this is the petitioner's own statement of it.",
+        prbDischargeStatement: `The petitioner states the discharge from probation as ${NV_DISCHARGE_TYPES[dischargeType]}.`,
+        prbBranchStatement: subsectionTwo
+          ? "On the answers given this is a subsection 2 case: the charge is one of the three the subsection names and the disposition was a conditional dismissal or a set-aside, so a petition by the defendant is the mechanism."
+          : "On the answers given this is a subsection 1 case: the court orders the sealing itself and the defendant files nothing. No petition is generated, and none is needed.",
+        prbReferralLine: NV_REFERRAL,
+        [NV_SUBSECTION_TWO_CONDITION_KEY]: subsectionTwo ? "yes" : "",
+        packetCaseReference: `${bareCountyName(court)} County`
+      };
+    }
+
+    case "nv_repository_removal": {
+      const arrestIdentity = need(trackId, answers, "rpoArrestIdentity");
+      const dispositionFinalDate = need(trackId, answers, "rpoDispositionFinalDate");
+      const disposition = branchKey(
+        trackId,
+        "rpoDisposition",
+        need(trackId, answers, "rpoDisposition"),
+        NV_REPOSITORY_DISPOSITIONS
+      );
+      if (disposition === "unsure") {
+        throw new NevadaEligibilityStopError(
+          "nv-179a160-disposition-not-established",
+          trackId,
+          "How the case ended has not been established. NRS 179A.160(1) opens only on an acquittal or a disposition of the charge favourable to the person, and whether a given outcome is favourable is the threshold question the section turns on. The court record settles what the outcome was.",
+          NV_REPOSITORY_REFERRAL
+        );
+      }
+      if (yesNo(trackId, answers, "rpoDeferredOrPlea")) {
+        throw new NevadaEligibilityStopError(
+          "nv-179a160-deferred-or-plea",
+          trackId,
+          "The case was resolved through a deferred prosecution, a plea bargain or a similar arrangement. NRS 179A.160(2)(c) excludes that outright, and the design records it as the condition that most often defeats this route in practice. The application would be refused on its face.",
+          NV_COURT_SEALING_REFERRAL
+        );
+      }
+      if (yesNo(trackId, answers, "rpoPriorFelonyOrGrossMisdemeanor")) {
+        throw new NevadaEligibilityStopError(
+          "nv-179a160-prior-conviction",
+          trackId,
+          "There is a prior conviction for a felony or a gross misdemeanour. NRS 179A.160(2)(d) reaches a conviction in ANY jurisdiction in the United States, not merely in Nevada, so the exclusion bites wherever the conviction is from.",
+          NV_REFERRAL
+        );
+      }
+      if (yesNo(trackId, answers, "rpoSubsequentArrest")) {
+        throw new NevadaEligibilityStopError(
+          "nv-179a160-subsequent-arrest",
+          trackId,
+          "There has been an arrest for or a charge of another crime, other than a minor traffic violation, since the arrest, citation or warrant sought to be removed. NRS 179A.160(2)(e) excludes that.",
+          NV_REFERRAL
+        );
+      }
+      if (!yesNo(trackId, answers, "rpoRepositoryShows")) {
+        throw new NevadaEligibilityStopError(
+          "nv-179a160-record-not-shown",
+          trackId,
+          "The arrest does not still show on the applicant's Nevada criminal history from the repository. There is nothing to ask the Central Repository to remove, and an application about a record the repository does not hold asks an office to act on something it cannot find.",
+          NV_REPOSITORY_REFERRAL
+        );
+      }
+
+      const formerNames = str(answers, "rpoFormerNames");
+      return {
+        rpoDisposition: disposition,
+        rpoDispositionFinalDate: dispositionFinalDate,
+        rpoArrestIdentity: arrestIdentity,
+        rpoRepositoryShows: "yes",
+        rpoDeferredOrPlea: "no",
+        rpoPriorFelonyOrGrossMisdemeanor: "no",
+        rpoSubsequentArrest: "no",
+        rpoFormerNames: formerNames,
+
+        rpoAgencyShortName: "named in the application",
+        rpoFormerNamesStatement: formerNames
+          ? `The applicant states that they have also used the following names: ${formerNames}`
+          : "The applicant states that they have used no other name.",
+        rpoArrestStatement: `The applicant states the arrest, citation or warrant as: ${arrestIdentity}`,
+        rpoDispositionStatement: `The applicant states that ${NV_REPOSITORY_DISPOSITIONS[disposition]}, and that the disposition became final on ${dispositionFinalDate}.`,
+        rpoRepositoryStatement:
+          "The applicant states that the record still appears on the applicant's Nevada criminal history obtained from the Central Repository.",
+        rpoReferralLine: NV_REFERRAL,
+        packetCaseReference: "Nevada repository removal"
+      };
+    }
+
     case "nv_seal_conviction": {
       const facts = commonFacts(trackId, answers, "cvs");
 
@@ -1523,6 +1806,368 @@ const REENTRY_STIPULATION = stipulationTemplate({
 // Template registry
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+// Expansion templates: NRS 176A treatment-programme sealing (subsection 2) and
+// NRS 179A.160 repository removal
+// ---------------------------------------------------------------------------
+
+/** Every filing on the programme route says which branch it is on before anything else. */
+const PROBATION_BRANCH_SECTION = {
+  heading: "WHICH BRANCH OF THE SECTION THIS PETITION IS ON",
+  numbered: false,
+  paragraphs: [
+    "NRS 176A.245, NRS 176A.265 and NRS 176A.295 each carry two mechanisms. Under subsection 1 the court orders the sealing itself, after the discharge or the dismissal, without a hearing, unless the Division of Parole and Probation petitions for good cause not to seal. Nothing is filed by the defendant on that branch and no petition is needed.",
+    "This petition is on subsection 2, which is the only branch on which a defendant files. It opens where the charge was a violation of NRS 200.485, NRS 484C.110 or NRS 484C.120, the charges were conditionally dismissed or the judgment of conviction was set aside, and not sooner than seven years after that disposition.",
+    "{{prbBranchStatement}}"
+  ]
+};
+
+/** What each section takes out, on the face of the filing. */
+const PROBATION_EXCLUSION_SECTION = {
+  heading: "WHAT SUBSECTION 3 TAKES OUT",
+  numbered: false,
+  paragraphs: [
+    "Subsection 3 of each of NRS 176A.245, NRS 176A.265 and NRS 176A.295 provides that the court may not order sealing under the section where the defendant was charged with a violation of NRS 200.508, abuse, neglect or endangerment of a child, or NRS 200.5099, abuse, neglect, exploitation, isolation or abandonment of an older or vulnerable person.",
+    "The petitioner states that the charge in this matter was neither. That is the petitioner's own statement from the record, not a determination by anybody."
+  ]
+};
+
+const PROBATION_FILING: PleadingTemplate = {
+  templateId: "nv_seal_probation_family-petition",
+  version: VERSION,
+  technicalFixture: true,
+  fixtureBanner: BANNER,
+  caption: {
+    courtLine: "IN THE {{prbCourtLine}}, STATE OF NEVADA",
+    partyBlockLeft: ["THE STATE OF NEVADA,", "", "vs.", "", "______________________,", "", "Defendant."],
+    partyBlockRight: ["Case No. ______________", "", "Dept. No. ______________", "", "PETITION TO SEAL RECORDS"]
+  },
+  title:
+    "PETITION TO SEAL RECORDS AFTER A CONDITIONAL DISMISSAL OR SET-ASIDE — NRS 176A.245, NRS 176A.265 OR NRS 176A.295, SUBSECTION 2",
+  preamble:
+    "The petitioner, appearing without a lawyer, petitions this Court under subsection 2 of the section named below to seal the records of this case, and states as follows. LegalEase prepared this petition from the petitioner's own answers, has seen no court record and no Division file, has decided nothing, represents nobody and has filed nothing.",
+  sections: [
+    {
+      heading: "COMPLETE THESE LINES BEFORE FILING",
+      numbered: false,
+      paragraphs: [
+        "The design for this route asks nothing about who you are, so this packet holds no name, no date of birth and no case number. Write them in by hand, on every document here, before you file.",
+        "Petitioner's full legal name: __________________________________________",
+        "Date of birth: ________________________________________________________",
+        "Case number, from the court record: ___________________________________",
+        "The agencies and officers to be named in the order: ___________________",
+        "______________________________________________________________________"
+      ]
+    },
+    PROBATION_BRANCH_SECTION,
+    {
+      heading: "I.  THE PETITIONER, THE COURT AND THE PROGRAMME",
+      numbered: true,
+      paragraphs: [
+        "The petitioner is the person named in the caption above, whose name, date of birth and case number are written in by hand.",
+        "This petition concerns that case in the {{prbCourtName}}, Nevada.",
+        "{{prbProgramStatement}}",
+        "{{prbOffenceStatement}}"
+      ]
+    },
+    {
+      heading: "II.  THE DISPOSITION AND THE SEVEN YEARS",
+      numbered: true,
+      paragraphs: [
+        "{{prbDispositionStatement}}",
+        "Subsection 2 permits this petition not sooner than seven years after that disposition. The petitioner states the date above and does not state that the seven years have run; the computation is for the Court.",
+        "{{prbFulfilmentStatement}}"
+      ]
+    },
+    PROBATION_EXCLUSION_SECTION,
+    {
+      heading: "III.  WHAT THIS PETITION DOES NOT SAY",
+      numbered: false,
+      paragraphs: [
+        "It does not say that the petitioner is entitled to the sealing. The findings are the Court's and this petition asks the Court to make them.",
+        "It does not say that the Division of Parole and Probation agrees, or that it will not petition for good cause not to seal. LegalEase has obtained nothing from the Division and states nothing about what it will do.",
+        "It does not say that any period has run, and it computes none.",
+        "Nevada seals records: sealing is not expungement, because it does not authorise destruction of the records. Under NRS 179.285 the proceedings are deemed never to have occurred and civil rights are restored, but NRS 179.295 allows sealed records to be reopened and NRS 179.301 allows certain persons and agencies to inspect them. A Nevada order does not bind a federal, tribal, military or out-of-state agency and does not reach records they hold, and sealing does not restore the right to bear arms.",
+        "Nobody at LegalEase has read the court file, the programme record or the Division's file in this matter."
+      ]
+    },
+    {
+      heading: "WHERE THIS PACKET STOPS",
+      numbered: false,
+      paragraphs: [
+        "LegalEase prepares documents from what the petitioner says. It gives no legal advice, reads no record, decides no eligibility question and files nothing.",
+        "Any charge of abuse, neglect or endangerment of a child under NRS 200.508, or abuse, neglect, exploitation, isolation or abandonment of an older or vulnerable person under NRS 200.5099, which subsection 3 bars.",
+        "The Division petitioning the court for good cause not to seal, or requesting a hearing.",
+        "Any dispute about whether the terms and conditions imposed by the court and the Division were fulfilled.",
+        "A programme that was not completed, where a sentence was imposed rather than a discharge or a dismissal.",
+        "Any dishonourable discharge from probation under NRS 176A.850, which NRS 179.2445(2) makes relevant to what a later ordinary petition can expect.",
+        "Records in more than one county or in more than one court, federal, tribal, military and out-of-state records, and any question about firearm rights or immigration, none of which this packet addresses.",
+        "Where any of these applies, speak to a lawyer before filing. {{prbReferralLine}}"
+      ]
+    }
+  ],
+  prayer: [
+    "WHEREFORE, the petitioner asks the Court to order sealed all documents, papers and exhibits in the petitioner's record, minute book entries and entries on dockets, and other documents relating to this case in the custody of such other agencies and officers as are named in the Court's order.",
+    "Nothing in this petition reports a decision by anyone. It asks."
+  ],
+  verification: VERIFICATION,
+  signatureLabel: "Petitioner, self-represented",
+  signatureBlock: PETITION_SIGNATURE_BLOCK
+};
+
+const PROBATION_ORDER: PleadingTemplate = {
+  templateId: "nv_seal_probation_family-order",
+  version: VERSION,
+  technicalFixture: true,
+  fixtureBanner: BANNER,
+  caption: {
+    courtLine: "IN THE {{prbCourtLine}}, STATE OF NEVADA",
+    partyBlockLeft: ["THE STATE OF NEVADA,", "", "vs.", "", "______________________,", "", "Defendant."],
+    partyBlockRight: ["Case No. ______________", "", "Dept. No. ______________", "", "ORDER SEALING RECORDS"]
+  },
+  title: "PROPOSED ORDER SEALING RECORDS — NRS 176A.245, NRS 176A.265 OR NRS 176A.295, SUBSECTION 2",
+  preamble:
+    "This is a proposed order, tendered for the Court's consideration with the petition it accompanies. Every finding, date and signature below is left blank for the Court. It has been granted by nobody and signed by nobody.",
+  sections: [
+    {
+      numbered: false,
+      paragraphs: [
+        "THIS MATTER came before the Court on the petition of the defendant named in the caption, under subsection 2 of {{prbSectionCitation}}, to seal the records of this case.",
+        "The Court, having considered the petition, FINDS:",
+        "(  ) that the charges were conditionally dismissed or the judgment of conviction set aside as the petition states;",
+        "(  ) that seven years have elapsed since that disposition; and",
+        "(  ) that the petitioner fulfilled the terms and conditions imposed by the Court and by the Division of Parole and Probation.",
+        "",
+        "IT IS HEREBY ORDERED that all documents, papers and exhibits in the petitioner's record, minute book entries and entries on dockets, and other documents relating to this case in the custody of the agencies and officers named below, be sealed.",
+        "The agencies and officers named in this order are:",
+        "______________________________________________________________________",
+        "______________________________________________________________________",
+        "______________________________________________________________________",
+        "Subsection 1 and subsection 2 both reach records in the custody of such other agencies and officers AS ARE NAMED IN THE COURT'S ORDER, so an agency left off this list keeps its record. The list is completed by the petitioner from the record and settled by the Court.",
+        "IT IS FURTHER ORDERED that a copy of this order be sent to each agency and officer named in it, each of which shall notify the Court in writing of its compliance, as subsection 4 of the section requires."
+      ]
+    }
+  ],
+  prayer: [],
+  signatureLabel: null,
+  signatureBlock: [
+    "",
+    "_____________________________________",
+    "DISTRICT / JUSTICE / MUNICIPAL COURT JUDGE",
+    "",
+    "Dated: ______________________",
+    "",
+    "The findings, the date and the signature above are the Court's. They are printed blank, and LegalEase has made no finding and signed nothing."
+  ]
+};
+
+const PROBATION_DECLARATION: PleadingTemplate = {
+  templateId: "nv_seal_probation_family-declaration",
+  version: VERSION,
+  technicalFixture: true,
+  fixtureBanner: BANNER,
+  caption: {
+    courtLine: "IN THE {{prbCourtLine}}, STATE OF NEVADA",
+    partyBlockLeft: ["THE STATE OF NEVADA,", "", "vs.", "", "______________________,", "", "Defendant."],
+    partyBlockRight: ["Case No. ______________", "", "Dept. No. ______________", "", "DECLARATION"]
+  },
+  title: "DECLARATION OF THE PETITIONER IN SUPPORT OF THE PETITION TO SEAL",
+  preamble:
+    "The sections reached by this petition prescribe no sworn verification. This declaration is the ordinary support for facts that do not appear of record: NRS 53.045 permits a declaration under penalty of perjury in place of an oath, and that is what the block at the end of this document is. It is UNSIGNED as generated.",
+  sections: [
+    {
+      heading: "COMPLETE THESE LINES BEFORE FILING",
+      numbered: false,
+      paragraphs: [
+        "The design for this route asks nothing about who you are, so this packet holds no name, no date of birth and no case number. Write them in by hand, on every document here, before you file.",
+        "Petitioner's full legal name: __________________________________________",
+        "Date of birth: ________________________________________________________",
+        "Case number, from the court record: ___________________________________",
+        "The agencies and officers to be named in the order: ___________________",
+        "______________________________________________________________________"
+      ]
+    },
+    {
+      heading: "THE PETITIONER DECLARES",
+      numbered: true,
+      paragraphs: [
+        "The petitioner is the defendant named in the caption above, whose name, date of birth and case number are written in by hand.",
+        "{{prbProgramStatement}}",
+        "{{prbDispositionStatement}}",
+        "{{prbFulfilmentStatement}}",
+        "{{prbDischargeStatement}}",
+        "The petitioner makes no statement about whether the Division of Parole and Probation will petition the Court for good cause not to seal, and none about what the Court will find."
+      ]
+    },
+    {
+      heading: "HOW TO COMPLETE THIS DECLARATION",
+      numbered: false,
+      paragraphs: [
+        "Read every statement above against the court record and the programme paperwork, and correct anything that does not match before signing.",
+        "Sign and date it by hand. The block at the end is a declaration under penalty of perjury under NRS 53.045, which is signed rather than sworn: nothing here is sworn before a notary, because the sections prescribe no oath. If the clerk of the court asks for a notarized verification instead, ask what form that court wants."
+      ]
+    }
+  ],
+  prayer: [],
+  // Subsection 2 of each section prescribes no verification, so this is the
+  // unsworn declaration NRS 53.045 allows in place of one, and not an oath
+  // taken before anybody.
+  verification:
+    "I declare under penalty of perjury under the law of the State of Nevada that the foregoing is true and correct. I am the petitioner, the statements above are mine, and I understand that no one at LegalEase has seen my court record or the Division's file, decided whether these records may be sealed, or spoken to any agency about this case.",
+  signatureLabel: "Petitioner, self-represented",
+  signatureBlock: PETITION_SIGNATURE_BLOCK
+};
+
+/** Both repository documents are the same application, addressed twice. */
+const REPOSITORY_SECTIONS = [
+  {
+    heading: "WHAT THIS APPLICATION IS",
+    numbered: false,
+    paragraphs: [
+      "NRS 179A.160(1) provides that where a person has been arrested or issued a citation, or has been the subject of a warrant for alleged criminal conduct, and is acquitted or the disposition of the charge is favourable to the person, that person may apply IN WRITING to the Central Repository and to the agency which maintains the record to have it removed from the files which are available and generally searched for the purpose of responding to inquiries concerning the criminal history of a person.",
+      "This is that written application. It is not a court filing, no order issues on it, there is no hearing, no waiting period and no fee prescribed by the section.",
+      "NRS 179A.160(2) provides that the Central Repository and the agency SHALL remove the record unless one of five stated conditions applies. Those five are addressed below so that the office can act on the face of this application.",
+      "Removal is not sealing, and sealing is not expungement: neither authorises destruction of the record. This removes the record from the files that are available and generally searched, and it does not seal the court record, which is a separate court petition."
+    ]
+  },
+  {
+    heading: "I.  THE APPLICANT AND THE RECORD",
+    numbered: true,
+    paragraphs: [
+      "The applicant is the person who signs below, whose full legal name and date of birth are written in by hand at the head of this application.",
+      "{{rpoFormerNamesStatement}}",
+      "{{rpoArrestStatement}}",
+      "{{rpoDispositionStatement}}",
+      "{{rpoRepositoryStatement}}"
+    ]
+  },
+  {
+    heading: "II.  THE FIVE CONDITIONS IN SUBSECTION 2",
+    numbered: true,
+    paragraphs: [
+      "NRS 179A.160(2) requires removal unless the applicant is a fugitive; the case is under active prosecution according to a current certificate of a prosecuting attorney; the disposition was a deferred prosecution, plea bargain or other similar disposition; the applicant has a prior conviction for a felony or gross misdemeanour in any jurisdiction in the United States; or the applicant has been arrested for or charged with another crime, other than a minor traffic violation, since the arrest, citation or warrant sought to be removed.",
+      "The applicant states that they are not a fugitive.",
+      "The applicant states that the case is not under active prosecution.",
+      "The applicant states that the disposition was not a deferred prosecution, a plea bargain or any similar disposition.",
+      "The applicant states that they have no prior conviction for a felony or a gross misdemeanour in any jurisdiction in the United States.",
+      "The applicant states that they have not been arrested for or charged with another crime, other than a minor traffic violation, since the arrest, citation or warrant described above.",
+      "Each of those is the applicant's own statement from their own records. None of them is a determination by anybody, and this application asks the office to check its own files."
+    ]
+  },
+  {
+    heading: "III.  WHAT THIS APPLICATION DOES NOT SAY",
+    numbered: false,
+    paragraphs: [
+      "It does not say that the office holds the record, or that it has failed in any duty.",
+      "It does not say that the disposition was favourable as a matter of law. That is the threshold question the section turns on and the office decides it.",
+      "It does not ask for the court record to be sealed. NRS 179A.160(3) preserves a court's separate authority, and a court sealing is a different application on a different track.",
+      "It says nothing about firearm rights, which removal does not restore, and nothing about immigration.",
+      "Nobody at LegalEase has read the applicant's criminal history or any agency file in this matter."
+    ]
+  },
+  {
+    heading: "WHERE THIS PACKET STOPS",
+    numbered: false,
+    paragraphs: [
+      "LegalEase prepares documents from what the applicant says. It gives no legal advice, reads no record, decides no eligibility question and sends nothing.",
+      "A deferred prosecution, plea bargain or similar disposition, which subsection 2(c) excludes and which is the condition that most often defeats this route.",
+      "Any prior felony or gross-misdemeanour conviction anywhere in the United States, and any arrest or charge since the one sought to be removed other than a minor traffic violation.",
+      "An active prosecution, or a fugitive status.",
+      "Any argument about whether the disposition was favourable to the applicant.",
+      "A refusal by the Central Repository or the agency, which the section provides no appeal from.",
+      "Records held by more than one agency, and federal, tribal, military and out-of-state records, which a Nevada application does not reach.",
+      "Where any of these applies, speak to a lawyer before sending anything. {{rpoReferralLine}}"
+    ]
+  }
+];
+
+const REPOSITORY_APPLICATION_SIGNATURE: readonly string[] = [
+  "Printed name: ______________________________________",
+  "Date: ______________________________________________",
+  "",
+  "Sign and date this by hand before sending it. Send it so that receipt can be evidenced and keep a copy.",
+  "Write the office's current postal address into the block above from your own look-up; none is printed here.",
+  "NRS 179A.160 prescribes no verification and no notarization for this application. Do not have it notarized unless the office you are sending it to asks for that; if it does, ask that office what form it wants."
+];
+
+const REPOSITORY_APPLICATION: PleadingTemplate = {
+  templateId: "nv_repository_removal-application-repository",
+  version: VERSION,
+  technicalFixture: true,
+  fixtureBanner: BANNER,
+  caption: {
+    courtLine: "WRITTEN APPLICATION UNDER NRS 179A.160(1) — THIS IS NOT A COURT FILING",
+    partyBlockLeft: ["TO:", "", "The Central Repository for", "Nevada Records of", "Criminal History"],
+    partyBlockRight: ["NRS 179A.160(1)", "", "Copy 1 of 2", "", "Written application"]
+  },
+  title: "APPLICATION TO REMOVE A RECORD OF CRIMINAL HISTORY — NRS 179A.160",
+  preamble:
+    "Prepared by LegalEase from the applicant's own answers, for the applicant to sign and send. This copy is addressed to the Central Repository. A second copy, addressed to the agency which maintains the record, is in this packet and must also be sent.",
+  sections: [
+    {
+      heading: "COMPLETE THESE LINES BEFORE SENDING",
+      numbered: false,
+      paragraphs: [
+        "Applicant's full legal name: __________________________________________",
+        "Applicant's date of birth: ____________________________________________",
+        "Applicant's return address: ___________________________________________",
+        "______________________________________________________________________",
+        "Office's current postal address: _______________________________________",
+        "______________________________________________________________________",
+        "Date sent: ____________________________________________________________"
+      ]
+    },
+    ...REPOSITORY_SECTIONS
+  ],
+  prayer: [
+    "The applicant asks that the record described above be removed from the files which are available and generally searched for the purpose of responding to inquiries concerning the criminal history of a person, as NRS 179A.160 provides.",
+    "This application reports no decision by anybody. It asks."
+  ],
+  verification:
+    "The applicant states that the facts set out above are true and correct to the best of the applicant's knowledge and belief. NRS 179A.160 prescribes no verification and no notarization for this application; if the office you send it to asks for one, ask that office what form it wants before you sign.",
+  signatureLabel: "The applicant, in their own name",
+  signatureBlock: REPOSITORY_APPLICATION_SIGNATURE
+};
+
+const REPOSITORY_AGENCY_COPY: PleadingTemplate = {
+  templateId: "nv_repository_removal-application-agency",
+  version: VERSION,
+  technicalFixture: true,
+  fixtureBanner: BANNER,
+  caption: {
+    courtLine: "WRITTEN APPLICATION UNDER NRS 179A.160(1) — THIS IS NOT A COURT FILING",
+    partyBlockLeft: ["TO:", "", "The agency which", "maintains the record", "{{rpoAgencyShortName}}"],
+    partyBlockRight: ["NRS 179A.160(1)", "", "Copy 2 of 2", "", "Written application"]
+  },
+  title: "APPLICATION TO REMOVE A RECORD OF CRIMINAL HISTORY — NRS 179A.160",
+  preamble:
+    "This is the same application, addressed to the agency which maintains the record. NRS 179A.160(1) directs the application to the Central Repository AND to that agency, and subsection 2 puts the removal duty on both. A copy sent to the Repository alone leaves the arresting agency's own record untouched. Send both.",
+  sections: [
+    {
+      heading: "COMPLETE THESE LINES BEFORE SENDING",
+      numbered: false,
+      paragraphs: [
+        "Applicant's full legal name: __________________________________________",
+        "Applicant's date of birth: ____________________________________________",
+        "Applicant's return address: ___________________________________________",
+        "______________________________________________________________________",
+        "Agency's current postal address: ______________________________________",
+        "______________________________________________________________________",
+        "Date sent: ____________________________________________________________"
+      ]
+    },
+    ...REPOSITORY_SECTIONS
+  ],
+  prayer: [
+    "The applicant asks that the record described above be removed from the files which are available and generally searched for the purpose of responding to inquiries concerning the criminal history of a person, as NRS 179A.160 provides.",
+    "This application reports no decision by anybody. It asks."
+  ],
+  verification:
+    "The applicant states that the facts set out above are true and correct to the best of the applicant's knowledge and belief. NRS 179A.160 prescribes no verification and no notarization for this application; if the office you send it to asks for one, ask that office what form it wants before you sign.",
+  signatureLabel: "The applicant, in their own name",
+  signatureBlock: REPOSITORY_APPLICATION_SIGNATURE
+};
+
 function buildTemplates(): Record<string, PleadingTemplate> {
   const templates: Record<string, PleadingTemplate> = {};
   const all = [
@@ -1549,7 +2194,12 @@ function buildTemplates(): Record<string, PleadingTemplate> {
     REENTRY_FILING,
     REENTRY_ORDER,
     REENTRY_DECLARATION,
-    REENTRY_STIPULATION
+    REENTRY_STIPULATION,
+    PROBATION_FILING,
+    PROBATION_ORDER,
+    PROBATION_DECLARATION,
+    REPOSITORY_APPLICATION,
+    REPOSITORY_AGENCY_COPY
   ];
   for (const template of all) templates[template.templateId] = template;
   return templates;
@@ -1595,7 +2245,15 @@ export const NV_DESIGN_ROLE_TO_ENGINE_ROLE: Readonly<
   primary_filing: "primary_filing",
   proposed_order: "proposed_order",
   declaration_and_verification: "affidavit",
-  stipulation: "notice"
+  stipulation: "notice",
+  /**
+   * The second copy of the NRS 179A.160(1) application, addressed to the agency
+   * which maintains the record. It is not a `notice`, which this module uses for
+   * a document an outside office executes: the applicant signs this one too, at
+   * the same time as the first copy. `continuation` is the engine's role for a
+   * document signed with the primary filing, which is exactly what it is.
+   */
+  duplicate_submission_copy: "continuation"
 };
 
 type ComponentSpec = {
@@ -1604,6 +2262,17 @@ type ComponentSpec = {
   templateId: string;
   order: number;
   requirement: "required" | "conditional";
+  /**
+   * The fact that decides whether a conditional component renders.
+   *
+   * The six original routes have exactly one conditional component and one
+   * condition, so the stipulation key was the only one needed. The
+   * treatment-programme route's three custom-pleading components are all
+   * conditional on a different thing — the subsection 2 branch — so the key is
+   * now per component and defaults to the stipulation's for the routes that
+   * were built before it existed.
+   */
+  conditionKey?: string;
 };
 
 /**
@@ -1618,6 +2287,22 @@ type ComponentSpec = {
  * the single place a captain would attach one.
  */
 export const NV_STIPULATION_CONDITION_KEY = "stipulationRouteApplies";
+
+/**
+ * The fact that decides whether the treatment-programme petition renders.
+ *
+ * NRS 176A.245, NRS 176A.265 and NRS 176A.295 each carry two mechanisms.
+ * Subsection 1 is automatic and the participant files nothing at all: the court
+ * orders the sealing itself, without a hearing, unless the Division petitions
+ * for good cause not to. Subsection 2 is the only branch on which a defendant
+ * files, and it opens only where the charge was a violation of NRS 200.485,
+ * NRS 484C.110 or NRS 484C.120, the charges were conditionally dismissed or the
+ * judgment set aside, and seven years have passed. So all three custom-pleading
+ * components on that route are conditional on this one fact, and a participant
+ * on the automatic branch receives no filing from this lane — which is the
+ * correct outcome, not a gap.
+ */
+export const NV_SUBSECTION_TWO_CONDITION_KEY = "subsectionTwoPetitionApplies";
 
 function packetSet(trackId: string, specs: readonly ComponentSpec[]): PacketSet {
   for (const spec of specs) {
@@ -1639,7 +2324,7 @@ function packetSet(trackId: string, specs: readonly ComponentSpec[]): PacketSet 
       geographicScope: "statewide",
       requirement: spec.requirement,
       ...(spec.requirement === "conditional"
-        ? { conditionKey: NV_STIPULATION_CONDITION_KEY }
+        ? { conditionKey: spec.conditionKey ?? NV_STIPULATION_CONDITION_KEY }
         : {}),
       order: spec.order,
       approval: PENDING_APPROVAL,
@@ -1776,7 +2461,189 @@ function nevadaComponents(trackId: string): readonly ComponentSpec[] {
   ];
 }
 
+/**
+ * The expansion's component specs.
+ *
+ * The order numbers are the design's, gaps included: the treatment-programme
+ * route's positions 1, 2, 3, 7 and 8 are process_guidance and belong to another
+ * lane, and the repository route's positions 3 to 6 likewise. Renumbering to
+ * close the gaps would bind the assembled packet out of the design's order once
+ * the guidance lane fills them.
+ */
+function probationFamilyComponents(): readonly ComponentSpec[] {
+  return [
+    {
+      componentId: "nv_seal_probation_family-primary-filing-4",
+      designRole: "primary_filing",
+      templateId: "nv_seal_probation_family-petition",
+      order: 4,
+      requirement: "conditional",
+      conditionKey: NV_SUBSECTION_TWO_CONDITION_KEY
+    },
+    {
+      componentId: "nv_seal_probation_family-proposed-order-5",
+      designRole: "proposed_order",
+      templateId: "nv_seal_probation_family-order",
+      order: 5,
+      requirement: "conditional",
+      conditionKey: NV_SUBSECTION_TWO_CONDITION_KEY
+    },
+    {
+      componentId: "nv_seal_probation_family-declaration-and-verification-6",
+      designRole: "declaration_and_verification",
+      templateId: "nv_seal_probation_family-declaration",
+      order: 6,
+      requirement: "conditional",
+      conditionKey: NV_SUBSECTION_TWO_CONDITION_KEY
+    }
+  ];
+}
+
+function repositoryRemovalComponents(): readonly ComponentSpec[] {
+  return [
+    {
+      componentId: "nv_repository_removal-primary-filing-1",
+      designRole: "primary_filing",
+      templateId: "nv_repository_removal-application-repository",
+      order: 1,
+      requirement: "required"
+    },
+    {
+      componentId: "nv_repository_removal-duplicate-submission-copy-2",
+      designRole: "duplicate_submission_copy",
+      templateId: "nv_repository_removal-application-agency",
+      order: 2,
+      requirement: "required"
+    }
+  ];
+}
+
 export const NEVADA_CUSTOM_PLEADING_TRACKS: readonly ReliefTrack[] = [
+  nevadaTrack({
+    trackId: "nv_seal_probation_family",
+    publicName: "Clearing a Nevada case after a court treatment programme, a conditional dismissal or a set-aside",
+    mechanism: "seal_after_treatment_programme_discharge_conditional_dismissal_or_set_aside",
+    authority: "NRS 176A.245, NRS 176A.265 and NRS 176A.295",
+    recordTypes: ["conviction", "arrest", "charge", "court_record"],
+    dispositions: ["dismissed", "convicted", "set_aside"],
+    courtLevel: "the_justice_municipal_or_district_court_that_handled_the_case",
+    packetSet: packetSet("nv_seal_probation_family", probationFamilyComponents()),
+    requiredInputs: [
+      {
+        key: "prbProgramSection",
+        label:
+          "Was your case handled through a court treatment programme — for alcohol or other substance use, for mental illness or an intellectual disability, or for veterans and members of the military? Answer substance use, mental health, veterans, or unsure.",
+        required: true
+      },
+      {
+        key: "prbOutcome",
+        label:
+          "How did it end — discharged from probation, the case dismissed, conditionally dismissed, the judgment set aside, or sentenced? Only a conditional dismissal or a set-aside reaches the petition branch.",
+        required: true
+      },
+      {
+        key: "prbChargeType",
+        label:
+          "Was the charge battery constituting domestic violence, or driving or being in actual physical control of a vehicle under the influence? Answer domestic battery, DUI, other, or unsure. This decides which of the section's two mechanisms applies.",
+        required: true
+      },
+      {
+        key: "prbDispositionDate",
+        label:
+          "On what date were the charges conditionally dismissed or the judgment of conviction set aside? Asked on the petition branch only, because subsection 2 runs seven years from that date.",
+        required: false
+      },
+      {
+        key: "prbDischargeType",
+        label:
+          "If you were discharged from probation, was the discharge honourable or dishonourable? Answer honourable, dishonourable, not applicable, or unsure. NRS 179.2445(2) turns on it.",
+        required: true
+      },
+      {
+        key: "prbExcludedCharge",
+        label:
+          "Was the charge one of abuse, neglect or endangerment of a child, or abuse, neglect, exploitation, isolation or abandonment of an older or vulnerable person? Answer yes or no. Subsection 3 bars sealing in either case.",
+        required: true
+      },
+      {
+        key: "prbCourt",
+        label:
+          "Which court handled the case, and in which county? Was it a district, justice or municipal court?",
+        required: true
+      }
+    ],
+    assembledPacketName: "nv-treatment-programme-sealing",
+    assembledPacketTitle:
+      "Nevada sealing after a treatment-programme conditional dismissal or set-aside — NRS 176A.245, 176A.265 and 176A.295",
+    customerDeliverableDescription:
+      "A petition, a proposed order and an unsigned declaration for the subsection 2 branch of NRS 176A.245, NRS 176A.265 or NRS 176A.295 — the only branch on which a defendant files. On the subsection 1 branch the court orders the sealing itself and this lane produces nothing, which the packet says in terms. Every component is conditional on the branch, the seven-year period is recited from the participant's own date without asserting that it has run, the subsection 3 bar is stated on the face of the filing, and the order leaves the list of agencies and officers to be named blank because subsection 1 and subsection 2 both reach only records in the custody of those the order names.",
+    notes:
+      "The three sections are structurally identical and differ only in the programme they attach to, which is why the design groups them and why the petition names the one the case ran under. A dishonourable discharge under NRS 176A.850 stops the route: NRS 179.2445(2) removes the rebuttable presumption for such a defendant. Nevada seals and never expunges, no period is computed, and no fee amount is stated because none of the three sections prescribes one."
+  }),
+  nevadaTrack({
+    trackId: "nv_repository_removal",
+    publicName: "Getting a Nevada arrest off the state repository after a favourable outcome",
+    mechanism: "remove_record_from_central_repository_after_favourable_disposition",
+    authority: "NRS 179A.160",
+    recordTypes: ["conviction", "arrest", "charge", "court_record"],
+    dispositions: ["dismissed", "convicted", "set_aside"],
+    courtLevel: "not_a_court_filing_the_central_repository_and_the_agency_receive_a_written_application",
+    packetSet: packetSet("nv_repository_removal", repositoryRemovalComponents()),
+    requiredInputs: [
+      {
+        key: "rpoDisposition",
+        label:
+          "How did the case end? Answer acquitted, dismissed, favourable other, or unsure. NRS 179A.160(1) opens on an acquittal or a disposition favourable to you.",
+        required: true
+      },
+      {
+        key: "rpoDispositionFinalDate",
+        label: "On what date did that outcome become final?",
+        required: true
+      },
+      {
+        key: "rpoArrestIdentity",
+        label:
+          "Which agency arrested you, cited you or sought the warrant, on what date, and what case or event number does the record carry?",
+        required: true
+      },
+      {
+        key: "rpoRepositoryShows",
+        label:
+          "Does the arrest still show on your Nevada criminal history from the repository? Answer yes or no. Get your own record before answering.",
+        required: true
+      },
+      {
+        key: "rpoDeferredOrPlea",
+        label:
+          "Was the case resolved through a deferred prosecution, a plea bargain, or any similar arrangement, rather than being dismissed outright? Answer yes or no. NRS 179A.160(2)(c) excludes it.",
+        required: true
+      },
+      {
+        key: "rpoPriorFelonyOrGrossMisdemeanor",
+        label:
+          "Have you ever been convicted of a felony or a gross misdemeanour anywhere in the United States? Answer yes or no. The exclusion is nationwide, not Nevada-only.",
+        required: true
+      },
+      {
+        key: "rpoSubsequentArrest",
+        label:
+          "Since the arrest, citation or warrant you want removed, have you been arrested for or charged with any other crime, apart from a minor traffic violation? Answer yes or no.",
+        required: true
+      },
+      {
+        key: "rpoFormerNames",
+        label: "What other names have you used, including any former legal names?",
+        required: false
+      }
+    ],
+    assembledPacketName: "nv-repository-removal-application",
+    assembledPacketTitle: "Nevada Central Repository removal application — NRS 179A.160",
+    customerDeliverableDescription:
+      "The written application NRS 179A.160(1) requires, in two copies: one addressed to the Central Repository for Nevada Records of Criminal History and one to the agency which maintains the record, because the subsection directs the application to both and subsection 2 puts the removal duty on both. Nothing is filed in a court, no order issues, there is no waiting period and the section prescribes no fee. Each of the five subsection 2 conditions is addressed as the applicant's own statement so the office can act on the face of the application, and the packet says in terms that removal is not sealing and does not reach the court record.",
+    notes:
+      "A single copy sent to the Repository alone leaves the arresting agency's own record untouched, which is the failure this route exists to prevent. The deferred-prosecution and plea-bargain exclusion in subsection 2(c) is the condition that most often defeats the route in practice and stops it here; so do a nationwide prior felony or gross misdemeanour, a subsequent arrest or charge, and a record the repository does not show."
+  }),
   nevadaTrack({
     trackId: "nv_seal_conviction",
     publicName: "Seal your Nevada conviction",

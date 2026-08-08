@@ -41,6 +41,7 @@ const {
   NEVADA_PLEADING_TEMPLATES,
   NV_DESIGN_ROLE_TO_ENGINE_ROLE,
   NV_ASSIGNED_TRACK_IDS,
+  NV_SUBSECTION_TWO_CONDITION_KEY,
   NV_OFFENCE_CATEGORIES,
   NV_NONCONVICTION_DISPOSITIONS,
   NV_PARDON_TYPES,
@@ -64,7 +65,13 @@ const note = (line) => checks.push(line);
 const sha = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(root, rel), "utf8"));
 
-const ASSIGNED = [
+/**
+ * The six routes built in the first pass. Their values are already integrated
+ * and the expansion must leave every one of them exactly as it was, so the
+ * chapter 179 boundary checks below run against these and only these: the two
+ * expansion routes are not chapter 179 petitions and carry none of that shape.
+ */
+const ORIGINAL_SIX = [
   "nv_seal_conviction",
   "nv_seal_decrim",
   "nv_seal_multi",
@@ -72,6 +79,11 @@ const ASSIGNED = [
   "nv_seal_pardon",
   "nv_seal_reentry"
 ];
+
+/** The two routes the expansion adds. */
+const EXPANSION_TWO = ["nv_repository_removal", "nv_seal_probation_family"];
+
+const ASSIGNED = [...ORIGINAL_SIX, ...EXPANSION_TWO];
 
 /** The two roles that may carry an outside party's execution block. */
 const OUTSIDE_PARTY_ROLES = new Set(["proposed_order", "notice"]);
@@ -100,7 +112,7 @@ for (const track of NEVADA_CUSTOM_PLEADING_TRACKS) RELIEF_TRACKS.push(track);
 Object.assign(PLEADING_TEMPLATES, NEVADA_PLEADING_TEMPLATES);
 
 note(
-  "0. Enablement: all six assigned tracks and all twenty-four templates are absent from the shared registry and template pack; injection is verification-time only."
+  `0. Enablement: all ${ASSIGNED.length} assigned tracks and all ${Object.keys(NEVADA_PLEADING_TEMPLATES).length} templates are absent from the shared registry and template pack; injection is verification-time only.`
 );
 
 // ---------------------------------------------------------------------------
@@ -255,6 +267,12 @@ for (const track of NEVADA_CUSTOM_PLEADING_TRACKS) {
     );
   }
 
+  // The chapter 179 shape — repository attachment, prosecutor-first workflow,
+  // stipulation, NRS 179.275 transmission — belongs to the six original routes.
+  // NRS 176A treatment-programme sealing and NRS 179A.160 repository removal are
+  // different mechanisms and are checked separately below.
+  if (!ORIGINAL_SIX.includes(track.trackId)) continue;
+
   // Every filing and every declaration must carry the repository requirement,
   // the prosecutor-first workflow and the effect disclosures.
   const filing = track.packetSet.components.find((c) => c.role === "primary_filing");
@@ -355,7 +373,7 @@ for (const track of NEVADA_CUSTOM_PLEADING_TRACKS) {
   );
 }
 note(
-  `2. Design boundaries: on all ${ASSIGNED.length} routes the filing carries the repository requirement, the prosecutor-first workflow with its disclaimer, the sealing-is-not-expungement, reopening, inspection and firearm-rights disclosures, and the NRS 179.245(9) fee waiver; every declaration requires a handwritten signature; every stipulation is unexecuted and says so; every proposed order is marked proposed and directs NRS 179.275 transmission. No document states a period or prints an amount.`
+  `2. Design boundaries: on the ${ORIGINAL_SIX.length} chapter 179 routes the filing carries the repository requirement, the prosecutor-first workflow with its disclaimer, the sealing-is-not-expungement, reopening, inspection and firearm-rights disclosures, and the NRS 179.245(9) fee waiver; every declaration requires a handwritten signature; every stipulation is unexecuted and says so; every proposed order is marked proposed and directs NRS 179.275 transmission. No document states a period or prints an amount.`
 );
 
 // Route-specific boundaries.
@@ -409,6 +427,93 @@ note(
 );
 
 // ---------------------------------------------------------------------------
+// 2b. The expansion's own boundaries
+// ---------------------------------------------------------------------------
+
+const probation = NEVADA_CUSTOM_PLEADING_TRACKS.find((t) => t.trackId === "nv_seal_probation_family");
+const repository = NEVADA_CUSTOM_PLEADING_TRACKS.find((t) => t.trackId === "nv_repository_removal");
+ok(Boolean(probation) && Boolean(repository), "The expansion tracks are not both present.");
+
+// Every component on the treatment-programme route is conditional on the
+// subsection 2 branch, because subsection 1 is automatic and the defendant files
+// nothing at all on it.
+for (const component of probation.packetSet.components) {
+  ok(
+    component.requirement === "conditional" &&
+      component.conditionKey === NV_SUBSECTION_TWO_CONDITION_KEY,
+    `${component.componentId}: is not conditional on the subsection 2 branch, though subsection 1 is automatic and produces no filing.`
+  );
+}
+const probationFiling = JSON.stringify(
+  pleadingTemplate(probation.packetSet.components.find((c) => c.role === "primary_filing").templateId)
+);
+ok(
+  /Under subsection 1 the court orders the sealing itself/.test(probationFiling),
+  "The treatment-programme petition does not explain that subsection 1 is automatic."
+);
+ok(
+  /not sooner than seven years/.test(probationFiling),
+  "The treatment-programme petition does not state the subsection 2 seven-year condition."
+);
+ok(
+  /does not state that the seven years have run/.test(probationFiling),
+  "The treatment-programme petition asserts that the seven years have run."
+);
+ok(
+  /200\.508/.test(probationFiling) && /200\.5099/.test(probationFiling),
+  "The treatment-programme petition does not state the subsection 3 bar."
+);
+ok(
+  /LegalEase has obtained nothing from the Division/.test(probationFiling),
+  "The treatment-programme petition does not disclaim knowing what the Division will do."
+);
+const probationOrder = JSON.stringify(
+  pleadingTemplate(probation.packetSet.components.find((c) => c.role === "proposed_order").templateId)
+);
+ok(
+  /AS ARE NAMED IN THE COURT'S ORDER/.test(probationOrder),
+  "The treatment-programme order does not record that it reaches only the agencies it names."
+);
+ok(
+  /shall notify the Court in writing of its compliance/.test(probationOrder),
+  "The treatment-programme order does not carry the subsection 4 compliance duty."
+);
+ok(
+  !/\(\s*[xX]\s*\)/.test(probationOrder) && /\(\s\s\)/.test(probationOrder),
+  "The treatment-programme order does not leave its findings unmarked."
+);
+
+// The repository route sends the same application twice, to two recipients.
+ok(
+  repository.packetSet.components.length === 2,
+  "The repository route does not carry both submission copies."
+);
+const repositoryTemplates = repository.packetSet.components.map((c) =>
+  JSON.stringify(pleadingTemplate(c.templateId))
+);
+for (const source of repositoryTemplates) {
+  ok(/THIS IS NOT A COURT FILING/.test(source), "A repository application does not say it is not a court filing.");
+  ok(/179A\.160\(2\)/.test(source), "A repository application does not address the five subsection 2 conditions.");
+  ok(
+    /removal is not sealing|Removal is not sealing/.test(source),
+    "A repository application does not distinguish removal from sealing."
+  );
+  ok(!/\$\s?\d/.test(source), "A repository application prints an amount, though the section prescribes no fee.");
+}
+ok(
+  /Copy 1 of 2/.test(repositoryTemplates[0]) && /Copy 2 of 2/.test(repositoryTemplates[1]),
+  "The two repository copies are not marked as a pair."
+);
+ok(
+  /leaves the arresting agency's own record untouched/.test(repositoryTemplates[1]),
+  "The agency copy does not say why sending only the Repository copy fails."
+);
+
+note(
+  "2b. Expansion boundaries: every treatment-programme component is conditional on the subsection 2 branch and the petition explains that subsection 1 is automatic and produces no filing; it states the seven-year condition without asserting it has run, states the subsection 3 bar, and disclaims knowing what the Division will do; its order reaches only the agencies it names, carries the subsection 4 compliance duty and leaves every finding unmarked. Both repository copies say they are not court filings, address the five subsection 2 conditions, distinguish removal from sealing and print no amount; the pair is marked 1 of 2 and 2 of 2 and the agency copy says why the Repository copy alone is not enough."
+);
+
+// ---------------------------------------------------------------------------
 // 3. Deterministic fixtures — one canonical positive per assigned track, plus
 //    regression variants where a branch changes the document
 // ---------------------------------------------------------------------------
@@ -427,7 +532,93 @@ const common = (prefix) => ({
   [`${prefix}Trafficking`]: "no"
 });
 
+const probationBase = (overrides = {}) => ({
+  prbFullLegalName: "Imani Delacroix-Whitmore",
+  prbDateOfBirth: "9 November 1989",
+  prbCaseNumber: "C-16-318402-1",
+  prbProgramSection: "substance_use",
+  prbOutcome: "conditionally_dismissed",
+  prbChargeType: "dui",
+  prbDispositionDate: "12 May 2017",
+  prbDischargeType: "honourable",
+  prbExcludedCharge: "no",
+  prbCourt: "Eighth Judicial District Court, Clark County",
+  ...overrides
+});
+
+const repositoryBase = (overrides = {}) => ({
+  rpoFullLegalName: "Bartholomew Nnamdi Castellano",
+  rpoDateOfBirth: "2 June 1985",
+  rpoDisposition: "dismissed",
+  rpoDispositionFinalDate: "8 August 2023",
+  rpoArrestIdentity:
+    "Reno Police Department, arrested 14 February 2023, event number RPD-2023-004417",
+  rpoRepositoryShows: "yes",
+  rpoDeferredOrPlea: "no",
+  rpoPriorFelonyOrGrossMisdemeanor: "no",
+  rpoSubsequentArrest: "no",
+  rpoFormerNames: "",
+  ...overrides
+});
+
 const FIXTURES = [
+  {
+    fixtureId: "nv-probation-subsection-two-1",
+    trackId: "nv_seal_probation_family",
+    // Pinned from the design, not read back from the module: a DUI that ended in
+    // a conditional dismissal is the subsection 2 branch, on which the defendant
+    // files the petition, the proposed order and the declaration.
+    expectedBranch: "subsection_two",
+    expectedComponents: 3,
+    answers: probationBase()
+  },
+  {
+    fixtureId: "nv-probation-subsection-one-automatic-2",
+    trackId: "nv_seal_probation_family",
+    variantOf: "nv-probation-subsection-two-1",
+    variantPurpose:
+      "Subsection 1 is the automatic branch: the court orders the sealing itself and the defendant files nothing. A discharge on an offence outside the three subsection 2 names is that branch, and it must produce no filing at all from this lane rather than a petition nobody needs.",
+    answers: probationBase({
+      prbOutcome: "discharged",
+      prbChargeType: "other",
+      prbDispositionDate: ""
+    }),
+    expectedBranch: "subsection_one",
+    expectedComponents: 0
+  },
+  {
+    fixtureId: "nv-probation-mental-health-set-aside-3",
+    trackId: "nv_seal_probation_family",
+    variantOf: "nv-probation-subsection-two-1",
+    variantPurpose:
+      "The programme answer decides which of the three structurally identical sections the petition and the order cite, and a set-aside is the other subsection 2 disposition. Both change operative text on the face of the filing.",
+    answers: probationBase({
+      prbProgramSection: "mental_health",
+      prbOutcome: "set_aside",
+      prbChargeType: "domestic_battery",
+      prbCourt: "Reno Justice Court, Washoe County"
+    }),
+    expectedBranch: "subsection_two",
+    expectedComponents: 3
+  },
+  {
+    fixtureId: "nv-repository-removal-dismissed-1",
+    trackId: "nv_repository_removal",
+    expectedComponents: 2,
+    answers: repositoryBase()
+  },
+  {
+    fixtureId: "nv-repository-removal-acquitted-former-names-2",
+    trackId: "nv_repository_removal",
+    variantOf: "nv-repository-removal-dismissed-1",
+    variantPurpose:
+      "The disposition answer changes the operative recital between an acquittal and a dismissal, and a former name changes the identity paragraph the repository searches on. Both are content the office acts from.",
+    answers: repositoryBase({
+      rpoDisposition: "acquitted",
+      rpoFormerNames: "Bartholomew Nnamdi Okonjo"
+    }),
+    expectedComponents: 2
+  },
   {
     fixtureId: "nv-conviction-positive-1",
     trackId: "nv_seal_conviction",
@@ -873,10 +1064,60 @@ for (const fixture of FIXTURES) {
     resolved.runtimeStatus === "runtime_disabled",
     `${fixture.fixtureId}: resolved to ${resolved.runtimeStatus}.`
   );
+
+  // A closed-list answer that is looked up with the wrong kind of key prints
+  // "undefined" into an operative sentence and reads as prose everywhere but
+  // the one place it matters. No derived value may carry a leaked placeholder.
+  for (const [key, value] of Object.entries(facts)) {
+    if (typeof value !== "string") continue;
+    ok(
+      !/\bundefined\b|\bnull\b|\bNaN\b|\[object Object\]|\{\{/.test(value),
+      `${fixture.fixtureId}: derived fact ${key} carries a leaked placeholder: ${value}`
+    );
+  }
+  // The six chapter 179 routes always resolve their four components. The
+  // expansion does not: the treatment-programme route resolves three on the
+  // subsection 2 branch and NONE on the subsection 1 branch, because there the
+  // court seals on its own and the defendant files nothing; and the repository
+  // route resolves the two submission copies.
+  // The expansion's counts are pinned on the fixture from the design. Reading
+  // them back out of the facts the module just derived would make this an
+  // assertion that the module agrees with itself, and a branch predicate that
+  // never fires would still pass.
+  const expected = fixture.expectedComponents ?? 4;
+  if (fixture.expectedBranch) {
+    const onSubsectionTwo = Boolean(facts[NV_SUBSECTION_TWO_CONDITION_KEY]);
+    ok(
+      onSubsectionTwo === (fixture.expectedBranch === "subsection_two"),
+      `${fixture.fixtureId}: the module put these answers on ${onSubsectionTwo ? "subsection 2" : "subsection 1"} where the design puts them on ${fixture.expectedBranch === "subsection_two" ? "subsection 2" : "subsection 1"}.`
+    );
+  }
   ok(
-    resolved.components.length === 4,
-    `${fixture.fixtureId}: resolved ${resolved.components.length} components rather than the four the design assigns.`
+    resolved.components.length === expected,
+    `${fixture.fixtureId}: resolved ${resolved.components.length} components rather than the ${expected} this branch assigns.`
   );
+
+  // A branch that produces no filing is the product's correct answer, not a
+  // gap, and it is asserted rather than skipped past.
+  if (resolved.components.length === 0) {
+    ok(
+      fixture.trackId === "nv_seal_probation_family" && !facts[NV_SUBSECTION_TWO_CONDITION_KEY],
+      `${fixture.fixtureId}: produced no component on a branch that should have produced one.`
+    );
+    ok(
+      /this is a subsection 1 case/.test(facts.prbBranchStatement ?? ""),
+      `${fixture.fixtureId}: produced nothing without saying which branch put it there.`
+    );
+    results.push({
+      fixtureId: fixture.fixtureId,
+      trackId: fixture.trackId,
+      sampleRole: fixture.variantOf ? "variant" : "canonical",
+      components: 0,
+      pages: 0,
+      sha256: "no filing is generated on the automatic branch"
+    });
+    continue;
+  }
 
   const assemblyComponents = [];
   for (const component of resolved.components) {
@@ -925,6 +1166,12 @@ for (const fixture of FIXTURES) {
         written.every((line) => line.length < 220),
         `${fixture.fixtureId}/${component.componentId}: page ${pageIndex + 1} carries a line long enough to have run past the margin.`
       );
+      written.forEach((line) => {
+        ok(
+          !/\bundefined\b|\bNaN\b|\[object Object\]|\{\{/.test(line),
+          `${fixture.fixtureId}/${component.componentId}: page ${pageIndex + 1} prints a leaked placeholder: ${line}`
+        );
+      });
     });
     const allLines = pages.flat().filter((line) => line.length > 24 && !isFillInRule(line));
     for (let i = 1; i < allLines.length; i += 1) {
@@ -1023,9 +1270,18 @@ for (const fixture of FIXTURES) {
     `${fixture.fixtureId}: assembly is not deterministic.`
   );
   ok(assembled.pageCount > 0, `${fixture.fixtureId}: the assembled packet has no pages.`);
+  // The design's order, per route. The six chapter 179 petitions bind filing,
+  // order, declaration and stipulation; the treatment-programme petition binds
+  // filing, order and declaration; the repository application binds its two
+  // submission copies.
+  const expectedRoles =
+    fixture.trackId === "nv_repository_removal"
+      ? ["primary_filing", "continuation"]
+      : fixture.trackId === "nv_seal_probation_family"
+        ? ["primary_filing", "proposed_order", "affidavit"]
+        : ["primary_filing", "proposed_order", "affidavit", "notice"];
   ok(
-    JSON.stringify(assembled.componentRanges.map((r) => r.role)) ===
-      JSON.stringify(["primary_filing", "proposed_order", "affidavit", "notice"]),
+    JSON.stringify(assembled.componentRanges.map((r) => r.role)) === JSON.stringify(expectedRoles),
     `${fixture.fixtureId}: the assembled packet is not in the order the design assigns.`
   );
 
