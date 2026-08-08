@@ -98,7 +98,10 @@ const ok = (condition, message) => {
 const note = (message) => notes.push(message);
 
 const FAMILY_ID = "rcap-hi-official-pdf-family";
-const EXPECTED_FORM_IDS = ["HCJDC-159", "HCJDC-159B"];
+// One document, not two: the integrated identity decision and the memo
+// correction that carried it collapsed the two historical keys onto the single
+// current instrument.
+const EXPECTED_FORM_IDS = ["HCJDC-159B"];
 const EXPECTED_TRACK_IDS = [
   "hi_nonconviction_expungement",
   "hi_dag_danc_expungement",
@@ -143,7 +146,7 @@ ok(
 );
 ok(
   manifest.scope?.officialPdfComponentCount === 8 &&
-    manifest.scope?.documentIdentityCount === 2,
+    manifest.scope?.documentIdentityCount === 1,
   "Family manifest has incorrect component or document counts."
 );
 ok(
@@ -223,7 +226,7 @@ if (queueFamily) {
   );
   ok(
     queueFamily.counts?.exactSourceRequirementCount === 0 &&
-      queueFamily.counts?.unresolvedSourceIdentityCount === 2,
+      queueFamily.counts?.unresolvedSourceIdentityCount === 1,
     "Production queue no longer reports zero exact sources and two unresolved identities."
   );
 }
@@ -296,7 +299,7 @@ for (const track of hiSourceAuditTracks) {
   }
 }
 note(
-  "2. Identity: queue, acquisition rows, relationships, and track audit still declare two unmanifested form identities."
+  "2. Identity: queue, acquisition rows, relationships, and track audit declare one unmanifested form identity."
 );
 
 // ---------------------------------------------------------------------------
@@ -630,13 +633,27 @@ for (const trackId of EXPECTED_TRACK_IDS) {
   }
   if (CONVICTION_STAGE_ONE_TRACK_IDS.includes(trackId)) {
     ok(
-      assembly.blockingReasonCodes.includes(
-        "conviction_stage_one_legal_design_blocker"
-      ) &&
-        assembly.components[0]?.familyTreatment ===
-          "external_required_component" &&
-        assembly.components[0]?.outputStrategy === "custom_pleading" &&
-        assembly.components[1]?.legalDesignState ===
+      // The stage-one legal-design blocker is gone: the filing vehicle is
+        // established and the corrected memo carries it. What still blocks
+        // generation is the unresolved authority source, which every route
+        // here still records.
+        assembly.blockingReasonCodes.includes("authority_unmanifested_source") &&
+        // Stage one is every component before the agency application, and it
+        // is drafted, not filled: the integrated filing-vehicle decision and
+        // the memo correction that carried it established a motion with a
+        // proposed order. Stage two is the last component and is the only
+        // owned one. Read from the end rather than from a fixed index, so the
+        // shape is asserted instead of the position.
+        assembly.components
+          .slice(0, -1)
+          .every(
+            (component) =>
+              component.familyTreatment === "external_required_component" &&
+              component.outputStrategy === "custom_pleading"
+          ) &&
+        assembly.components.at(-1)?.familyTreatment === "owned_scaffold" &&
+        assembly.components.at(-1)?.outputStrategy === "official_pdf_fill" &&
+        assembly.components.at(-1)?.legalDesignState ===
           "packet_capable_stage_2_after_signed_court_order",
       `${trackId}: staged conviction design was changed.`
     );
@@ -937,10 +954,19 @@ for (const trackId of EXPECTED_TRACK_IDS) {
   const officialComponent = assembly.components.find(
     (entry) => entry.outputStrategy === "official_pdf_fill"
   );
+  // `stage` is the Hawaii two-stage design's stage — the agency application
+  // filed after a signed stage-one order — not the component's position in the
+  // packet. The two were equal only while stage one was a single component, and
+  // the stage-one filing-vehicle correction added a proposed order, which moved
+  // the position without moving the stage. They are checked separately now:
+  // the agency application is always the last component, and it is always
+  // stage 2 on a staged route and stage 1 on a single-stage one.
+  const stagedRoute = assembly.components.length > 1;
   ok(
     officialComponent?.officialFormId === codeRoute.officialFormId &&
       officialComponent?.componentId === codeRoute.componentId &&
-      officialComponent?.order === codeRoute.stage &&
+      officialComponent?.order === assembly.components.length &&
+      codeRoute.stage === (stagedRoute ? 2 : 1) &&
       stable(assembly.blockingReasonCodes) === stable(codeRoute.blockers) &&
       codeRoute.runtimeDisabled === true &&
       codeRoute.generationAllowed === false,
@@ -1074,7 +1100,9 @@ ok(
 );
 ok(
   review.sourceReview?.exactAuthorityAssetCount === 0 &&
-    review.sourceReview?.authorityUnmanifestedDocumentCount === 2 &&
+    // One document, not two: the historical HCJDC-159 key never named a second
+    // instrument and no longer has a row.
+    review.sourceReview?.authorityUnmanifestedDocumentCount === 1 &&
     review.sourceReview?.exactCandidateEvidencePinCount === 3 &&
     review.sourceReview?.candidateEvidenceMappedToAuthorityIdentityCount ===
       0 &&

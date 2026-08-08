@@ -667,7 +667,7 @@ await check("all normalized tracks reconcile exactly once and completed tranches
   );
   // 198 -> 210 with the wave-3 pleadings (KS 2, MN 1, MO 2, WV 2) and guidance
   // packets (NJ 1, NV 1, TX 1, VT 2).
-  assert.equal(reconciliation.implementationComplete, 210);
+  assert.equal(reconciliation.implementationComplete, 212);
   assert.equal(
     reconciliation.pendingProductionJob,
     normalizedTrackCount - reconciliation.implementationComplete

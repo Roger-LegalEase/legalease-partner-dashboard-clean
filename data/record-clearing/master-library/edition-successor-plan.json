@@ -35,16 +35,16 @@
   "runtimeStatus": "runtime_disabled",
   "packetReady": false,
   "totals": {
-    "candidatesRead": 26,
+    "candidatesRead": 27,
     "admitted": 3,
-    "deferred": 23,
+    "deferred": 24,
     "admittedNewBytes": 1,
     "admittedMetadataCorrections": 2,
     "byUnmetCriterion": {
       "exact_authority": 1,
-      "exact_source_identity": 16,
+      "exact_source_identity": 17,
       "exact_bytes_where_applicable": 7,
-      "license_resolved": 5
+      "license_resolved": 6
     }
   },
   "candidateTranche": {
@@ -202,6 +202,25 @@
         {
           "criterion": "license_resolved",
           "detail": "the publisher's commercial-use terms are unresolved"
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-fl-public-official-download",
+      "jurisdiction": "FL",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-fl-public-official-download.json",
+      "unmetCriteria": [
+        "exact_source_identity",
+        "license_resolved"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_source_identity",
+          "detail": "a no-bytes correction must name the manifest rows it corrects; none were recorded"
+        },
+        {
+          "criterion": "license_resolved",
+          "detail": "Unresolved and split across two publishers. generation_allowed must remain no."
         }
       ]
     },

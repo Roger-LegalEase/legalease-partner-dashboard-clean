@@ -632,9 +632,9 @@ assert.equal(kansasCommercialDisposition.generationAllowed, false);
 assert.deepEqual(officialPdfSourceContract.queueCoverage.totals, {
   tracks: 267,
   components: 730,
-  documentIdentities: 329,
+  documentIdentities: 328,
   exactSourceRequirements: 120,
-  unresolvedSourceIdentities: 209
+  unresolvedSourceIdentities: 208
 });
 assert.equal(officialPdfSourceContract.familyCount, 45);
 // Eleven newly admitted families have no authored source-requirements scaffold
@@ -658,7 +658,7 @@ assert.equal(
   0
 );
 assert.equal(officialPdfSourceContract.totals.pendingAssignmentFamilies, 0);
-assert.equal(officialPdfSourceContract.totals.projectedDocumentIdentities, 329);
+assert.equal(officialPdfSourceContract.totals.projectedDocumentIdentities, 328);
 assert.equal(
   officialPdfSourceContract.totals.projectedExactWorkerAssignments,
   76
@@ -702,7 +702,7 @@ assert.equal(
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedDocumentIdentities,
-  329
+  328
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
@@ -712,12 +712,12 @@ assert.equal(
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .unresolvedSourceIdentities,
-  209
+  208
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedUnresolvedIdentities,
-  175
+  174
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
@@ -781,7 +781,7 @@ assert.equal(
   productionPlan.officialPdfSourceContractIntegration.runtimeStatus,
   "runtime_disabled"
 );
-assert.equal(officialPdfSourceProjection.coverage.queueIdentityCount, 329);
+assert.equal(officialPdfSourceProjection.coverage.queueIdentityCount, 328);
 assert.equal(officialPdfSourceProjection.coverage.assignmentEligibleCount, 76);
 assert.deepEqual(
   officialPdfSourceProjection.coverage.countsByDisposition,
@@ -804,7 +804,7 @@ assert.deepEqual(
     // captures of statutory text the issuer publishes only as HTML. They left
     // the official-PDF lane with their six components.
     source_gated_identity: 25,
-    unresolved_identity: 175
+    unresolved_identity: 174
   }
 );
 assert.equal(legalReviewMaterializationContract.assignmentCount, 24);
@@ -2263,7 +2263,7 @@ assert.equal(
   normalizedTrackCount
 );
 // 187 -> 198 with the eleven tracks this wave's five implementations built.
-assert.equal(factoryPlan.trackReconciliation.implementationComplete, 210);
+assert.equal(factoryPlan.trackReconciliation.implementationComplete, 212);
 assert.equal(
   factoryPlan.trackReconciliation.pendingProductionJob,
   normalizedTrackCount -

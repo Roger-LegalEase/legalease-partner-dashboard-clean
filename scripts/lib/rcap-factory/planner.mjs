@@ -1173,7 +1173,9 @@ const MEMO_CORRECTION_COMPLETION_COMMITS = Object.freeze({
   "rcap-il-rule-298-fw-civ-component-remap-memo-correction":
     "0846d05dbb446e976985781293a371336cc86369",
   "rcap-fl-rule-3-989-sworn-statement-and-3-9895-memo-correction":
-    "0846d05dbb446e976985781293a371336cc86369"
+    "0846d05dbb446e976985781293a371336cc86369",
+  "rcap-hi-expungement-stage-one-and-hcjdc-159b-memo-correction":
+    "f35f634669effa4bcec01a51a16205cd690ab5f8"
 });
 /**
  * Decision jobs whose output is a legal-design decision record rather than a
@@ -1255,7 +1257,9 @@ const WAVE_WORKER_BRANCHES = Object.freeze({
   "rcap-mt-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition":
     "rcap-factory/rcap-mt-in-repo-identity-reconciliation-needs-edition-reclass-no-b1b03c32-f1c23c68",
   "rcap-mt-public-official-download":
-    "rcap-factory/rcap-mt-public-official-download-0d0f623b-7ffebf15"
+    "rcap-factory/rcap-mt-public-official-download-0d0f623b-7ffebf15",
+  "rcap-fl-public-official-download":
+    "rcap-factory/rcap-fl-public-official-download-be035cc6-321bcb1d"
 });
 const WAVE_WORKER_COMMITS = Object.freeze({
   "rcap-ok-sb-2030-current-text-and-currency":
@@ -1324,6 +1328,8 @@ const WAVE_WORKER_COMMITS = Object.freeze({
     "a23c05e55fa632f06e495d7fb067338528150904",
   "rcap-mt-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition":
     "84d29fc9e0da4cff0dff7a88c1e66d70457d6e83",
+  "rcap-fl-public-official-download":
+    "b4825b72e1d54f3dc9cf732ac52794b05cfedd56",
   "rcap-mt-public-official-download":
     "123fc9a4506b242270ad527686958de522563791"
 });
@@ -1495,6 +1501,10 @@ const COMPLETED_AUTHORITY_JOB_COMMITS = new Map([
   [
     "rcap-mt-public-official-download",
     "0846d05dbb446e976985781293a371336cc86369"
+  ],
+  [
+    "rcap-fl-public-official-download",
+    "f35f634669effa4bcec01a51a16205cd690ab5f8"
   ]
 ]);
 const NO_DOWNLOAD_AUTHORITY_FAMILIES = new Set([
@@ -4297,24 +4307,35 @@ const COMPLETED_CUSTOM_PLEADING_IMPLEMENTATIONS = Object.freeze([
   },
   {
     jurisdiction: "NV",
-    completionCommit: "eccb51f2846f3df93a806981a09e991c6e841c8a",
+    completionCommit: "f35f634669effa4bcec01a51a16205cd690ab5f8",
     modulePath: "src/lib/rcap/packets/jurisdictions/nevada/custom-pleading.ts",
     verifierPath: "scripts/verify-rcap-nevada-custom-pleading.mjs",
-    // The six tracks this implementation actually built, pinned. The
-    // sealing-mechanism correction moved nv_seal_probation_family and
-    // nv_repository_removal into the custom-pleading lane, which widens the
-    // Nevada assignment without building anything. Without this pin the
-    // assignment's own track list would sweep both into a completion nobody
-    // produced. The implemented six stay complete against the commit that
-    // produced them; the two added tracks are pending work.
-    implementedTrackIds: [
-      "nv_seal_conviction",
-      "nv_seal_decrim",
-      "nv_seal_multi",
-      "nv_seal_nonconviction",
-      "nv_seal_pardon",
-      "nv_seal_reentry"
-    ]
+    // The expansion landed. The sealing-mechanism correction moved
+    // nv_seal_probation_family and nv_repository_removal into this lane, the
+    // job was reissued as a controlled expansion of the same assignment, and
+    // the reissued worker built both while leaving the original six
+    // value-identical. Nothing is unbuilt, so no implementedTrackIds pin is
+    // needed any more; the pin existed to stop the widened lane asserting an
+    // implementation nobody had produced.
+    expansion: {
+      reason: "nv_sealing_mechanism_and_packet_capability_correction",
+      decisionJobId: "rcap-nv-sealing-mechanism-and-packet-capability-correction",
+      addedTrackIds: ["nv_repository_removal", "nv_seal_probation_family"],
+      originalTrackIds: [
+        "nv_seal_conviction",
+        "nv_seal_decrim",
+        "nv_seal_multi",
+        "nv_seal_nonconviction",
+        "nv_seal_pardon",
+        "nv_seal_reentry"
+      ],
+      originalCompletionCommit: "eccb51f2846f3df93a806981a09e991c6e841c8a",
+      preExpansionWorkerBranch:
+        "rcap-factory/rcap-nv-custom-pleading-1783e4ea-b7cfd8fd",
+      preExpansionWorkerCommit: "a1c94ad6791710551495134ee53b05b969842d84"
+    },
+    workerBranch: "rcap-factory/rcap-nv-custom-pleading-1783e4ea-47bc6eb9",
+    workerCommit: "72c50ff282c1543a96d22ded56f03ae7d26a1501"
   },
   {
     jurisdiction: "SC",
@@ -4505,6 +4526,22 @@ function unresolvedOutputStrategyQuestionCount(inputs, jurisdiction, lane) {
  * instead: the built tracks stay complete against the commit that produced
  * them, and the added tracks become work.
  */
+/**
+ * True once the Hawaii stage-one and HCJDC 159(b) memo correction is the memo
+ * on disk. Closes on the delivered blob, not on a commit asserting it closed.
+ */
+function hawaiiStageOneMemoCorrected(rootDir) {
+  const memo = path.join(
+    rootDir,
+    "data/record-clearing/legal-design-intake/HI.memo.json"
+  );
+  return (
+    fs.existsSync(memo) &&
+    sha256File(memo) ===
+      "200088e191a176e48d3a53dc111a901728100aebdfe972eeabd426e3a96048fc"
+  );
+}
+
 function unbuiltAssignedTracks(record, stateTracks) {
   if (!Array.isArray(record?.implementedTrackIds)) return [];
   const built = new Set(record.implementedTrackIds);
@@ -4636,13 +4673,16 @@ function implementationJobOverrides(
     };
   }
   // Hawaii's custom-pleading lane owns the stage-one filing made in the
-  // sentencing court, and the integrated design does not establish what that
-  // filing is. Whether a statewide court form exists, whether a motion or a
-  // petition is required, what must be alleged, how it is served, the
-  // eligibility standard on four of the five tracks, count limits and the
-  // extent of the court's discretion are all open. The HCJDC decision
-  // resolved stage two — the agency application — and says nothing about any
-  // of that. A worker handed this would have to invent the vehicle.
+  // sentencing court. The integrated design did not establish what that filing
+  // is — whether a statewide court form exists, whether the vehicle is a motion
+  // or a petition, what must be alleged, how it is served, the eligibility
+  // standard on four of the five tracks, count limits, or the extent of the
+  // court's discretion — and a worker handed it would have had to invent one.
+  //
+  // The stage-one filing-vehicle decision established all of it and the memo
+  // correction carried it into HI.memo.json. The gate reads the corrected memo
+  // rather than a status set by hand, so it lifts by itself now and closes by
+  // itself if the memo is ever replaced.
   if (
     lane === "custom_pleading" &&
     jurisdiction === "HI" &&
@@ -4652,7 +4692,8 @@ function implementationJobOverrides(
         `${FACTORY_DATA_DIR}/source-acquisition/` +
           "rcap-hi-in-repo-identity-reconciliation-hcjdc-159.json"
       )
-    )
+    ) &&
+    !hawaiiStageOneMemoCorrected(rootDir)
   ) {
     return {
       status: "blocked",
@@ -5575,18 +5616,13 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
       // stage-one filing vehicle, the stage-two identity, and the measured
       // structure of the document that identity names. Read from the records
       // themselves so the gate lifts by itself and closes by itself.
-      status:
-        present(hiHcjdcDecision) &&
-        present(
-          decisionPath(
-            "hi-stage-one-expungement-filing-vehicle-current-law-reconciliation"
-          )
-        ) &&
-        present(
-          acquisitionPath("rcap-hi-hcjdc-159b-technical-structure-and-edition-asset")
-        )
-          ? "ready"
-          : "blocked",
+      ...memoCompletionOf(
+        "rcap-hi-expungement-stage-one-and-hcjdc-159b-memo-correction",
+        "HI",
+        "200088e191a176e48d3a53dc111a901728100aebdfe972eeabd426e3a96048fc",
+        "rcap-factory/rcap-hi-expungement-stage-one-and-hcjdc-159b-memo-correction-00b6c384-14d358d0",
+        "9f78550a01c86311ccfccd06841c398581e1e091"
+      ),
       expectedOutputs: [memoPath("HI")],
       ownedPaths: [memoPath("HI")],
       requiredInputs: [

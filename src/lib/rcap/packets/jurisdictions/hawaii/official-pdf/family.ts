@@ -28,10 +28,11 @@ export const HAWAII_OFFICIAL_PDF_TRACK_IDS = [
 export type HawaiiOfficialPdfTrackId =
   (typeof HAWAII_OFFICIAL_PDF_TRACK_IDS)[number];
 
-export const HAWAII_OFFICIAL_PDF_FORM_IDS = [
-  "HCJDC-159",
-  "HCJDC-159B"
-] as const;
+// One document, not two. The integrated HCJDC identity decision established
+// that HCJDC 159(b) is the single current instrument and that HCJDC-159 never
+// named a second one; the stage-one and HCJDC 159(b) memo correction carried
+// that into the design, and the queue now reports one document identity.
+export const HAWAII_OFFICIAL_PDF_FORM_IDS = ["HCJDC-159B"] as const;
 
 export type HawaiiOfficialPdfFormId =
   (typeof HAWAII_OFFICIAL_PDF_FORM_IDS)[number];
@@ -53,22 +54,6 @@ export type HawaiiOfficialPdfSourceBoundary = {
 };
 
 export const HAWAII_OFFICIAL_PDF_SOURCE_BOUNDARIES = [
-  {
-    officialFormId: "HCJDC-159",
-    authorityState: "authority_unmanifested_source",
-    identityBindingStatus:
-      "document_identity_known_exact_authority_asset_unresolved",
-    expectedSha256: null,
-    expectedBytes: null,
-    expectedMediaType: null,
-    assignmentAnchor: null,
-    portableProjection: null,
-    materialized: false,
-    workerReadAuthorized: false,
-    rendererEnabled: false,
-    activeFieldMappingCount: 0,
-    activeOverlayPlacementCount: 0
-  },
   {
     officialFormId: "HCJDC-159B",
     authorityState: "authority_unmanifested_source",
@@ -167,7 +152,7 @@ export type HawaiiOfficialPdfRouteBoundary = {
 export const HAWAII_OFFICIAL_PDF_ROUTE_BOUNDARIES = [
   {
     trackId: "hi_nonconviction_expungement",
-    officialFormId: "HCJDC-159",
+    officialFormId: "HCJDC-159B",
     componentId: "hi_nonconviction_expungement-primary-filing-1",
     stage: 1,
     blockers: [
@@ -215,11 +200,10 @@ export const HAWAII_OFFICIAL_PDF_ROUTE_BOUNDARIES = [
   },
   {
     trackId: "hi_first_time_drug_offender_expungement",
-    officialFormId: "HCJDC-159",
-    componentId: "hi_first_time_drug_offender_expungement-primary-filing-2",
+    officialFormId: "HCJDC-159B",
+    componentId: "hi_first_time_drug_offender_expungement-primary-filing-3",
     stage: 2,
     blockers: [
-      "conviction_stage_one_legal_design_blocker",
       "authority_unmanifested_source",
       "captain_assignment_required",
       "portable_projection_required",
@@ -231,11 +215,10 @@ export const HAWAII_OFFICIAL_PDF_ROUTE_BOUNDARIES = [
   },
   {
     trackId: "hi_marijuana_three_grams_expungement",
-    officialFormId: "HCJDC-159",
-    componentId: "hi_marijuana_three_grams_expungement-primary-filing-2",
+    officialFormId: "HCJDC-159B",
+    componentId: "hi_marijuana_three_grams_expungement-primary-filing-3",
     stage: 2,
     blockers: [
-      "conviction_stage_one_legal_design_blocker",
       "authority_unmanifested_source",
       "captain_assignment_required",
       "portable_projection_required",
@@ -247,11 +230,10 @@ export const HAWAII_OFFICIAL_PDF_ROUTE_BOUNDARIES = [
   },
   {
     trackId: "hi_pre_2004_drug_offender_expungement",
-    officialFormId: "HCJDC-159",
-    componentId: "hi_pre_2004_drug_offender_expungement-primary-filing-2",
+    officialFormId: "HCJDC-159B",
+    componentId: "hi_pre_2004_drug_offender_expungement-primary-filing-3",
     stage: 2,
     blockers: [
-      "conviction_stage_one_legal_design_blocker",
       "authority_unmanifested_source",
       "captain_assignment_required",
       "portable_projection_required",
@@ -263,12 +245,11 @@ export const HAWAII_OFFICIAL_PDF_ROUTE_BOUNDARIES = [
   },
   {
     trackId: "hi_first_time_property_offender_expungement",
-    officialFormId: "HCJDC-159",
+    officialFormId: "HCJDC-159B",
     componentId:
-      "hi_first_time_property_offender_expungement-primary-filing-2",
+      "hi_first_time_property_offender_expungement-primary-filing-3",
     stage: 2,
     blockers: [
-      "conviction_stage_one_legal_design_blocker",
       "authority_unmanifested_source",
       "captain_assignment_required",
       "portable_projection_required",
@@ -280,11 +261,10 @@ export const HAWAII_OFFICIAL_PDF_ROUTE_BOUNDARIES = [
   },
   {
     trackId: "hi_under_21_dui_expungement",
-    officialFormId: "HCJDC-159",
-    componentId: "hi_under_21_dui_expungement-primary-filing-2",
+    officialFormId: "HCJDC-159B",
+    componentId: "hi_under_21_dui_expungement-primary-filing-3",
     stage: 2,
     blockers: [
-      "conviction_stage_one_legal_design_blocker",
       "authority_unmanifested_source",
       "captain_assignment_required",
       "portable_projection_required",
