@@ -2794,7 +2794,17 @@ export function buildFactoryPlan(options = {}) {
       strategyFamily: "legal_design_adjudication",
       trackIds: [],
       dependencies: ["rcap-va-legal-design-normalization"],
-      status: "blocked",
+      // Derived, not hard-coded. This read `blocked` while the normalization it
+      // names had already completed, so the job could never open and nothing on
+      // it said why — the same shut gate as the Colorado licence and the
+      // Maryland migration. It is the question Virginia's custom pleading waits
+      // on, so leaving it shut blocks the lane behind it indefinitely.
+      ...decisionRecordCompletion(rootDir, "rcap-va-2026-2027-statutory-cutover", {
+        workerBranch: WAVE_WORKER_BRANCHES["rcap-va-2026-2027-statutory-cutover"],
+        workerCommit: WAVE_WORKER_COMMITS["rcap-va-2026-2027-statutory-cutover"],
+        completionCommit:
+          DECISION_RECORD_COMPLETION_COMMITS["rcap-va-2026-2027-statutory-cutover"]
+      }),
       expectedOutputs: [
         `${FACTORY_DATA_DIR}/legal-design-decisions/va-2026-2027-statutory-cutover.json`
       ],
@@ -2816,12 +2826,20 @@ export function buildFactoryPlan(options = {}) {
       commitSubject:
         "docs(record-clearing): plan the Virginia 2026-2027 statutory cutover",
       stopCondition:
-        "Cover the Va. Code section 19.2-392.2 version effective December 1, 2026 against the " +
-        "existing tracks ending November 30, 2026, including the broader subsection A gateway and " +
-        "the multi-transaction single-petition treatment; the section 19.2-392.6 changes effective " +
-        "July 1, 2027; and the resulting screening, packet, and dated regression-test requirements. " +
-        "Do not activate future law early, do not retire a track that is still in force, and do not " +
-        "enable runtime, promote, or deploy. " +
+        "Answer six questions and record each separately. Which version of Va. Code " +
+        "section 19.2-392.2 governs a packet generated now; which version takes effect " +
+        "December 1, 2026; whether a future-effective successor track or a versioned packet " +
+        "is required, or whether the existing tracks carry the change; what the current " +
+        "tracks' effectiveTo treatment should be against their present 2026-11-30 end date; " +
+        "whether current-law packets can be built and delivered before the cutover at all; " +
+        "and the exact packet-copy and routing consequences of the answer. " +
+        "Cover the broader subsection A gateway and the multi-transaction single-petition " +
+        "treatment, the section 19.2-392.6 changes effective July 1, 2027, and the resulting " +
+        "screening and dated regression-test requirements. " +
+        "\"Both versions exist\" is not an answer: a participant filing tomorrow files under " +
+        "one of them, and the packet has to know which. " +
+        "Do not activate future law early, do not retire a track that is still in force, and " +
+        "do not enable runtime, promote, or deploy. " +
         TERMINAL_INSTRUCTION
     });
 
@@ -2842,7 +2860,21 @@ export function buildFactoryPlan(options = {}) {
       strategyFamily: "source_identity_resolution",
       trackIds: [],
       dependencies: ["rcap-va-legal-design-normalization"],
-      status: "blocked",
+      // Derived for the same reason as the cutover job above.
+      ...decisionRecordCompletion(
+        rootDir,
+        "rcap-va-cc-1201-source-identity-materialization",
+        {
+          workerBranch:
+            WAVE_WORKER_BRANCHES["rcap-va-cc-1201-source-identity-materialization"],
+          workerCommit:
+            WAVE_WORKER_COMMITS["rcap-va-cc-1201-source-identity-materialization"],
+          completionCommit:
+            DECISION_RECORD_COMPLETION_COMMITS[
+              "rcap-va-cc-1201-source-identity-materialization"
+            ]
+        }
+      ),
       expectedOutputs: [
         `${FACTORY_DATA_DIR}/legal-design-decisions/va-cc-1201-source-identity-materialization.json`
       ],
@@ -2864,12 +2896,24 @@ export function buildFactoryPlan(options = {}) {
       commitSubject:
         "chore(record-clearing): resolve Virginia CC-1201 source identity",
       stopCondition:
-        "Establish, for each instrument in the current CC-1201 series, its exact form number, " +
-        "title, revision, role, statewide scope, official URL, content hash, participant-facing " +
-        "status, and the affected Virginia tracks and components. Do not substitute CC-1473 " +
-        "outside Va. Code section 19.2-392.2(A), do not adopt an unofficial mirror or aggregator " +
-        "copy as authority, do not commit a source binary, and do not enable runtime, promote, or " +
-        "deploy. " +
+        "Establish whether the Office of the Executive Secretary publishes a separate " +
+        "statewide instrument for either route assigned to Virginia custom pleading — " +
+        "va_exp_absolute_pardon and va_exp_identity_used_by_another — and for each " +
+        "instrument in the current CC-1201 series. " +
+        "For every instrument found, record its exact identity and form number, title, role, " +
+        "revision and currentness, whether its scope is statewide or local, whether it is " +
+        "mandatory, a standard or pattern form, optional, or does not exist, its official URL " +
+        "and content hash, its participant-facing status, the affected Virginia tracks and " +
+        "components, and the source and Edition consequence together with the output-strategy " +
+        "consequence — whether the route builds an official form or a custom pleading. " +
+        "Failure to find a form is not proof that no form exists. Every plausible CC-1201 and " +
+        "CC-1203 path returned 404 on the normalization pass while CC-1473 retrieved cleanly " +
+        "from the same library, which is a retrieval failure and not a finding. Record " +
+        "\"searched, not found\" as exactly that, with what was searched, and never as " +
+        "\"no such form\". " +
+        "Do not substitute CC-1473 outside Va. Code section 19.2-392.2(A), do not adopt an " +
+        "unofficial mirror or aggregator copy as authority, do not commit a source binary, and " +
+        "do not enable runtime, promote, or deploy. " +
         TERMINAL_INSTRUCTION
     });
   }
@@ -4721,34 +4765,16 @@ export function buildFactoryPlan(options = {}) {
       focusedValidation: [
         `node scripts/rcap-factory-plan.mjs --check-job ${split.correctionJobId}`
       ],
-      commitSubject:
-        split.jurisdiction === "OH"
-          ? "docs(record-clearing): reconcile the Ohio marijuana expungement mechanism"
-          : "docs(record-clearing): reconcile the Washington CROP venue",
+      // The subject and stop condition live on the split definition, beside the
+      // question they describe. They were a jurisdiction ternary, which reads as
+      // "Ohio or else Washington" and silently hands a third split Washington's
+      // CROP venue instructions — Kentucky would have been commissioned to
+      // reconcile a Washington statute.
+      commitSubject: split.correctionSubject,
       executionNote:
         `Owns the question that blocked ${split.blockedTrackIds.join(", ")} and forced the ` +
         `${split.jurisdiction} assignment to be split. It owns a decision record only.`,
-      stopCondition:
-        split.jurisdiction === "OH"
-          ? "Establish, from the current Ohio statutory text and the enacted initiative, " +
-            "whether ORC 2953.321 is the complete participant application mechanism for " +
-            "marijuana expungement, or whether Issue 2 created a separate or automatic " +
-            "mechanism alongside it. Determine which applies to oh_marijuana_expungement, " +
-            "what the participant files if anything, where it goes, and whether the route is " +
-            "participant-initiated at all. " +
-            "Do not resolve the question by analogy to the four sibling Ohio routes, which " +
-            "are differently drafted. Do not declare the track ready, do not implement a " +
-            "packet, and own only the decision record: OH.memo.json belongs to a separate " +
-            "amendment. "
-          : "Establish, for wa_crop_certificate_of_restoration under RCW 9.97.020, which " +
-            "court the application may statutorily be filed in and which courts will " +
-            "actually entertain it — those are different questions and the answer must " +
-            "distinguish them. Determine the filing process, the correct form if one exists, " +
-            "and what a participant is told when the statutory venue and the practical venue " +
-            "diverge. " +
-            "Do not resolve the venue by choosing the convenient reading, do not declare the " +
-            "track ready, do not implement a packet, and own only the decision record: " +
-            "WA.memo.json belongs to a separate amendment. ",
+      stopCondition: split.correctionStop
     });
   }
 
@@ -4851,7 +4877,16 @@ export function buildFactoryPlan(options = {}) {
       executionNote:
         "Two variant packets caption a court that does not exist. North Dakota municipal " +
         "courts are city courts, established by and named for a municipality under " +
-        "N.D.C.C. ch. 40-18; there is no municipal court of a county.",
+        "N.D.C.C. ch. 40-18.1; there is no municipal court of a county. " +
+        // The assignment first cited ch. 40-18, which is the chapter the defect
+        // itself followed: it was repealed by S.L. 2025, ch. 379, § 4 and
+        // replaced by ch. 40-18.1. Citing the repealed chapter in the assignment
+        // that fixes reliance on the repealed chapter would send the next reader
+        // to the wrong law to check the work.
+        "Chapter 40-18 — the chapter the defective composer followed — was repealed by " +
+        "S.L. 2025, ch. 379, § 4. The governing provisions are § 40-18.1-01(1), " +
+        "§ 40-18.1-02(1) and § 40-18.1-01(6), the last of which requires the identity of " +
+        "the individual court to be expressed in the caption.",
       stop:
         "The caption composer appends 'OF <COUNTY> COUNTY' unconditionally, so selecting " +
         "the municipal court type renders 'IN THE MUNICIPAL COURT OF CASS COUNTY, STATE OF " +
@@ -4860,8 +4895,12 @@ export function buildFactoryPlan(options = {}) {
         "Code § 8-0301' — and is simply not used. " +
         "Unlike the Indiana and Mississippi corrections, this one is in the composer and " +
         "not the fixture: the fixture data is coherent and the caption logic is wrong. " +
-        "Correct the caption on the petition, the proposed order and the notice component " +
-        "for the municipal route only. " +
+        // "Notice component" named nothing in this packet set. The third
+        // captioned component on these routes is the proof of service —
+        // `nd-seal-<track>-proof-of-service` — and a worker looking for a
+        // notice component would have found no such thing and had to guess.
+        "Correct the caption on the petition, the proposed order and the proof-of-service " +
+        "component for the municipal route only. " +
         "Do not change the district-route captions: for those the county name is correct " +
         "and they are unaffected. Preserve the North Dakota memo, the legal design, every " +
         "canonical packet, every unaffected variant, component roles and the outside-party " +
@@ -5788,7 +5827,20 @@ const ATOMIC_IMPLEMENTATION_SPLITS = Object.freeze([
     blockedQuestion:
       "the Ohio marijuana-expungement governing mechanism: whether ORC 2953.321 is the " +
       "complete participant application mechanism, or whether Issue 2 created a separate or " +
-      "automatic mechanism alongside it."
+      "automatic mechanism alongside it.",
+    correctionSubject:
+      "docs(record-clearing): reconcile the Ohio marijuana expungement mechanism",
+    correctionStop:
+      "Establish, from the current Ohio statutory text and the enacted initiative, " +
+      "whether ORC 2953.321 is the complete participant application mechanism for " +
+      "marijuana expungement, or whether Issue 2 created a separate or automatic " +
+      "mechanism alongside it. Determine which applies to oh_marijuana_expungement, " +
+      "what the participant files if anything, where it goes, and whether the route is " +
+      "participant-initiated at all. " +
+      "Do not resolve the question by analogy to the four sibling Ohio routes, which " +
+      "are differently drafted. Do not declare the track ready, do not implement a " +
+      "packet, and own only the decision record: OH.memo.json belongs to a separate " +
+      "amendment. "
   },
   {
     lane: "custom_pleading",
@@ -5802,7 +5854,63 @@ const ATOMIC_IMPLEMENTATION_SPLITS = Object.freeze([
     blockedTrackIds: ["wa_crop_certificate_of_restoration"],
     blockedQuestion:
       "the Washington CROP venue question under RCW 9.97.020: which court the application may " +
-      "statutorily be filed in, and which courts will actually entertain it."
+      "statutorily be filed in, and which courts will actually entertain it.",
+    correctionSubject: "docs(record-clearing): reconcile the Washington CROP venue",
+    correctionStop:
+      "Establish, for wa_crop_certificate_of_restoration under RCW 9.97.020, which " +
+      "court the application may statutorily be filed in and which courts will " +
+      "actually entertain it — those are different questions and the answer must " +
+      "distinguish them. Determine the filing process, the correct form if one exists, " +
+      "and what a participant is told when the statutory venue and the practical venue " +
+      "diverge. " +
+      "Do not resolve the venue by choosing the convenient reading, do not declare the " +
+      "track ready, do not implement a packet, and own only the decision record: " +
+      "WA.memo.json belongs to a separate amendment. "
+  },
+  {
+    // Kentucky's two custom-pleading tracks are siblings in structure and not in
+    // readiness. The controlled-substance track carries an eligibility bar that
+    // its own memo records and the controlling review does not: KRS 218A.275(12)
+    // absolutely bars anyone who previously had a possession charge dismissed
+    // after a deferred prosecution under KRS 218A.14151. That is not a drafting
+    // detail — it decides whether the participant receives a packet at all, and
+    // a pleading built without asking the question would be handed to people who
+    // cannot use it.
+    //
+    // The marijuana/synthetic/salvia track carries no such bar. Splitting keeps
+    // one unresolved eligibility question from holding a deliverable track for a
+    // second wave, which is the whole reason this machinery exists.
+    lane: "custom_pleading",
+    jurisdiction: "KY",
+    cleanJobId: "rcap-ky-custom-pleading-clean-tracks",
+    correctionJobId: "rcap-ky-void-seal-eligibility-bar-reconciliation",
+    cleanTrackIds: ["ky_void_seal_marijuana_synthetic_salvia"],
+    blockedTrackIds: ["ky_void_seal_controlled_substance"],
+    blockedQuestion:
+      "the KRS 218A.275(12) eligibility bar: whether a prior KRS 218A.14151 deferred-prosecution " +
+      "dismissal absolutely bars voiding, what participant question must be asked before a packet " +
+      "is offered, and whether the route remains packet-capable once the bar is encoded.",
+    correctionSubject:
+      "docs(record-clearing): reconcile the Kentucky void-and-seal eligibility bar",
+    correctionStop:
+      "Read the controlling Kentucky authority and encode the KRS 218A.275(12) bar for " +
+      "ky_void_seal_controlled_substance: a person whose possession charge was previously " +
+      "dismissed after a deferred prosecution under KRS 218A.14151 is absolutely barred from " +
+      "voiding. KY.memo.json already records the exclusion and states that the controlling " +
+      "review does not; establish which is right from the statute rather than from either " +
+      "record, and say so. " +
+      "Determine the exact participant question that must be asked before a packet is offered " +
+      "and the stop that follows a disqualifying answer. This is an eligibility gate, not " +
+      "pleading copy: it decides whether the participant receives a packet at all, so a packet " +
+      "that asks nothing and files anyway is the failure being prevented. " +
+      "Then answer whether the route remains packet-capable once the bar is encoded — a route " +
+      "that stops most applicants may still be worth building, and a route that can never " +
+      "produce a filing is not, and that is a finding, not a disappointment. " +
+      "Preserve every unrelated Kentucky track value-identically, including " +
+      "ky_void_seal_marijuana_synthetic_salvia, which is split out and is being implemented in " +
+      "parallel: do not touch its design and do not infer its eligibility from this one. " +
+      "Do not declare the track ready, do not implement a packet, and own only the decision " +
+      "record: KY.memo.json belongs to a separate amendment. "
   }
 ]);
 
@@ -6173,6 +6281,78 @@ function implementationJobOverrides(
           "has no lane to build it. Do not scaffold, do not create an implementation branch, " +
           "do not resolve the packet-capability question inside an implementation, and do not " +
           "enable runtime, promote, or deploy. " +
+          TERMINAL_INSTRUCTION
+      };
+    }
+  }
+  if (lane === "custom_pleading" && jurisdiction === "VA") {
+    // Virginia's two custom-pleading tracks are blocked by two independent
+    // questions, and neither can be answered inside an implementation.
+    //
+    // The first is which law governs. Va. Code § 19.2-392.2 has a version in
+    // force and a version effective 2026-12-01, and the assigned tracks are
+    // currently dated out at 2026-11-30. A worker cannot draft a pleading
+    // without knowing which text it is drafted under.
+    //
+    // The second is what document is being built at all. If the Office of the
+    // Executive Secretary publishes a statewide instrument for either route,
+    // the route is official-PDF work and not custom pleading, and the pleading
+    // would be the wrong artifact — not a rough draft of the right one.
+    //
+    // Both gates derive from their decision records, so each lifts by itself
+    // when its owner delivers and returns by itself if the record is removed.
+    const cutoverResolved = fs.existsSync(
+      path.join(
+        rootDir,
+        `${FACTORY_DATA_DIR}/legal-design-decisions/va-2026-2027-statutory-cutover.json`
+      )
+    );
+    const formIdentityResolved = fs.existsSync(
+      path.join(
+        rootDir,
+        `${FACTORY_DATA_DIR}/legal-design-decisions/` +
+          "va-cc-1201-source-identity-materialization.json"
+      )
+    );
+    if (!cutoverResolved || !formIdentityResolved) {
+      const open = [
+        ...(cutoverResolved
+          ? []
+          : ["rcap-va-2026-2027-statutory-cutover"]),
+        ...(formIdentityResolved
+          ? []
+          : ["rcap-va-cc-1201-source-identity-materialization"])
+      ];
+      return {
+        status: "blocked",
+        dependencies: open,
+        model: "opus",
+        effort: "xhigh",
+        executionNote:
+          "Do not scaffold or execute until " +
+          `${open.join(" and ")} ` +
+          (open.length > 1 ? "are" : "is") +
+          " complete. Two independent questions are open: which version of " +
+          "Va. Code § 19.2-392.2 governs a packet generated now, and whether the Office of " +
+          "the Executive Secretary publishes a statewide instrument for either assigned route.",
+        stopCondition:
+          "Blocked on the Virginia governing-law and official-form questions, which are " +
+          "separately owned and separately unresolved. " +
+          (cutoverResolved
+            ? ""
+            : "The statutory cutover is undetermined: § 19.2-392.2 has a version in force and " +
+              "a version effective 2026-12-01, the assigned tracks end 2026-11-30, and whether " +
+              "a current-law packet may be built before the cutover is exactly what is being " +
+              "decided. ") +
+          (formIdentityResolved
+            ? ""
+            : "The form identity is undetermined: if a statewide instrument exists for either " +
+              "route then the route is official-PDF work and a custom pleading is the wrong " +
+              "document, not an early version of the right one. ") +
+          "Do not scaffold, do not create an implementation branch, do not resolve either " +
+          "question inside an implementation, do not pick the version that makes the work " +
+          "possible, and do not treat a failed form search as proof that no form exists. Do " +
+          "not enable runtime, promote, or deploy. " +
           TERMINAL_INSTRUCTION
       };
     }

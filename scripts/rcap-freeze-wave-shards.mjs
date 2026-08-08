@@ -60,15 +60,15 @@ const ACTIVE_SHARDS = [
     ownerSession: "SESSION_B",
     jobIds: [],
     note:
-      "Empty because it delivered. North Dakota's correction is integrated: the caption composer appended 'OF <COUNTY> COUNTY' unconditionally and produced 'IN THE MUNICIPAL COURT OF CASS COUNTY', a court that does not exist — North Dakota municipal courts are city courts named for a municipality under N.D.C.C. ch. 40-18. Unlike the Indiana and Mississippi fixture defects, this one was in the composer, and that is where it was fixed. The verifier the reviewer could not get to run now runs and passes across all nine fixtures. The replacement packet proof and review manifest are generated, the new bytes reopened the technical review rather than letting a stale approval carry over, and the completed-output legal review stays blocked behind it. This shard refills when a review finds something, not on a schedule."
+      "Empty because it delivered. North Dakota's correction is integrated: the caption composer appended 'OF <COUNTY> COUNTY' unconditionally and produced 'IN THE MUNICIPAL COURT OF CASS COUNTY', a court that does not exist — North Dakota municipal courts are city courts named for a municipality under N.D.C.C. ch. 40-18.1 — ch. 40-18, which the defective composer followed, was repealed by S.L. 2025, ch. 379, § 4. Unlike the Indiana and Mississippi fixture defects, this one was in the composer, and that is where it was fixed. The verifier the reviewer could not get to run now runs and passes across all nine fixtures. The replacement packet proof and review manifest are generated, the new bytes reopened the technical review rather than letting a stale approval carry over, and the completed-output legal review stays blocked behind it. This shard refills when a review finds something, not on a schedule."
   },
   {
     shard: "B3",
     lane: "custom_pleading",
     ownerSession: "SESSION_B",
-    jobIds: ["rcap-ky-custom-pleading", "rcap-va-custom-pleading"],
+    jobIds: ["rcap-ky-custom-pleading-clean-tracks"],
     note:
-      "Promoted from the previous wave's candidate ranking without reranking. Nebraska is deliberately not promoted: its memo still carries unresolved venue and packet-component questions, and its branch is a lease."
+      "Both promoted rows changed shape rather than being reranked. Kentucky was one assignment over two tracks and is now one over one: ky_void_seal_controlled_substance carries an eligibility bar its own memo records and the controlling review does not — KRS 218A.275(12) absolutely bars anyone previously dismissed after a KRS 218A.14151 deferred prosecution — and that decides whether the participant receives a packet at all, not how one is worded. It is split out to a Session D owner and the combined assignment is superseded, not completed. The marijuana/synthetic/salvia sibling carries no such bar and is here on its own so one unresolved eligibility question does not hold a deliverable track for a second wave. Virginia leaves the shard entirely: both its tracks are blocked on two independent questions — which version of Va. Code § 19.2-392.2 governs a packet generated now, and whether the Office of the Executive Secretary publishes a statewide instrument for either route. The second one decides whether a custom pleading is even the right document, so drafting first would risk building the wrong artifact rather than an early draft of the right one. Nebraska is still deliberately not promoted: unresolved venue and packet-component questions, and its branch is a lease."
   },
   {
     shard: "C1",
@@ -82,10 +82,13 @@ const ACTIVE_SHARDS = [
     shard: "D1",
     lane: "legal_design_normalization",
     ownerSession: "SESSION_D",
-    jobIds: [],
+    jobIds: [
+      "rcap-ky-void-seal-eligibility-bar-reconciliation",
+      "rcap-va-2026-2027-statutory-cutover"
+    ],
     // D2 carries the Wyoming reads; D1's carried work is not reranked.
     note:
-      "All three delivered and integrated. Ohio carried the marijuana mechanism into OH.memo.json with the two accuracy defects fixed — the fee is division (G), and the 60-day and 30-day figures do not govern this route. Washington carried the CROP venue conclusion. Iowa remapped the six components that two completed resolutions found pointing at documents that do not exist as such. None of the three made a track ready, which was the point. The Ohio memo now carries three recorded states rather than two; the earlier automatic-sealing amendment stays complete rather than reopening because a successor touched the same file."
+      "Refilled by two blocked implementations. Kentucky owns the KRS 218A.275(12) bar that split its custom-pleading assignment: read the statute, encode the bar, determine the participant question and the stop that follows a disqualifying answer, and say whether the route remains packet-capable once it is encoded — a route that stops most applicants may still be worth building and one that can never produce a filing is not. Virginia owns the statutory cutover: which § 19.2-392.2 version governs a packet generated now, which takes effect 2026-12-01, whether a future-effective successor track or a versioned packet is required, what the current tracks' effectiveTo treatment should be, whether current-law packets can be built before the cutover at all, and the packet-copy and routing consequences. Neither owner may implement a packet and neither owns its state memo. The previous three delivered and integrated. Ohio carried the marijuana mechanism into OH.memo.json with the two accuracy defects fixed — the fee is division (G), and the 60-day and 30-day figures do not govern this route. Washington carried the CROP venue conclusion. Iowa remapped the six components that two completed resolutions found pointing at documents that do not exist as such. None of the three made a track ready, which was the point. The Ohio memo now carries three recorded states rather than two; the earlier automatic-sealing amendment stays complete rather than reopening because a successor touched the same file."
   },
   {
     shard: "D2",
@@ -150,6 +153,23 @@ const ACTIVE_SHARDS = [
     ],
     note:
       "The shard emptied and refilled. All three of its previous rows — the Florida and Iowa not-required design reconciliations and the Iowa in-repo identity reconciliation — are complete and integrated; DCI-76 resolved to page 1 of a retained three-page packet and its remap is now D1's. What replaces them is the Massachusetts attended-retrieval set and the Delaware direct-issuer request. Every one of these is human-attended or human-sent work: the five Massachusetts documents sit behind a perimeter that refuses automation, and the Delaware request is drafted and sent by a person or not at all. They are ranked, not promised, and none of them may create a receipt from an unattended retrieval."
+  },
+  {
+    // F4 carries a job whose lane is legal_design_normalization rather than
+    // source_acquisition. That is deliberate and is not an error to tidy: the
+    // acquisition lane is keyed to acquisition records for documents whose
+    // identity is already established, and CC-1201's identity is precisely what
+    // is unknown. Filing it there would require inventing the acquisition rows
+    // that name the very form this job exists to find. The shard's `lane` is a
+    // label for the shard, not a constraint on its members, so the work sits
+    // with the session that does source and authority without the job having to
+    // claim an identity it does not have.
+    shard: "F4",
+    lane: "source_acquisition",
+    ownerSession: "SESSION_F",
+    jobIds: ["rcap-va-cc-1201-source-identity-materialization"],
+    note:
+      "The Virginia official-form question, and one of the two things blocking Virginia custom pleading. Establish whether the Office of the Executive Secretary publishes a separate statewide instrument for va_exp_absolute_pardon or va_exp_identity_used_by_another, and for each instrument in the current CC-1201 series: exact identity, title, role, revision and currentness, statewide against local scope, whether it is mandatory, a standard or pattern form, optional or nonexistent, and the source, Edition and output-strategy consequences. The output-strategy consequence is the point — if a statewide instrument exists, the route is official-PDF work and the custom pleading is the wrong document. Every plausible CC-1201 and CC-1203 path returned 404 on the normalization pass while CC-1473 retrieved cleanly from the same library: that is a retrieval failure, not a finding, and failure to find a form is never proof that no form exists. CC-1473 may not be substituted outside § 19.2-392.2(A)."
   },
   {
     shard: "R1",

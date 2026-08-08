@@ -5,7 +5,7 @@
   "reviewShardReservationNote": "The claim schema's ownerSession enum is SESSION_B through SESSION_F, and review is none of those. R1 and R2 are therefore reserved here rather than in job-claims.json. This manifest is the reservation of record for them; widening the claim enum would change the job manifest and, through it, worker branch identity.",
   "shardIdentifiersAreNotSessions": "R1 and R2 are shard identifiers, not sessions. Both are owned by SESSION_R, which is the single human review session: R1 carries its technical and visual reads, R2 carries its completed-output legal reads, and the split exists so the two kinds of review cannot be recorded against each other's paths. They were briefly written as ownerSession SESSION_R1 and SESSION_R2, which reads as two review sessions and would have someone opening a second one. The human pool is exactly A, B, C, D, E, F and R; every shard here names one of those seven and no shard may name anything else.",
   "baseline": {
-    "baseCommit": "74b6e95ecd5ee59bfa3600f83fd3d9f4e10e9700",
+    "baseCommit": "baab79ce5f6360a57db50f9f3ffdeb23c49a1bc5",
     "authorityVersion": "master-library/1.2",
     "authorityEdition": "1.2"
   },
@@ -13,7 +13,7 @@
     "normalizedTracks": 497,
     "representedExactlyOnce": 497,
     "implementationComplete": 223,
-    "jobs": 474,
+    "jobs": 476,
     "generatedFrom": [
       {
         "path": "data/rcap-all50/all-state-build-manifest.json",
@@ -197,7 +197,7 @@
       },
       {
         "path": "data/record-clearing/production-factory/job-claims.json",
-        "sha256": "04c4d3ca730ac75dc4acc7a09643f4d7d1d78f3af831818f674531fc65c47da1"
+        "sha256": "963709a03e08015d73220caa0049fff15f39d7365682e0c42edc81ed5cac5977"
       },
       {
         "path": "data/record-clearing/production-factory/legal-review-materialization-contract.json",
@@ -553,7 +553,7 @@
       },
       {
         "path": "planning/record-clearing-100-percent/production-plan.json",
-        "sha256": "8902fe375b91c7fe0556d0220696a510fac03cd2adc743bfebbbb91acef424f6"
+        "sha256": "0f072aec114e8839b9f6aed4796d83613320df5e6cb0f001c642c320dda46c6f"
       },
       {
         "path": "src/lib/rcap/jurisdictions/packet-capability.ts",
@@ -577,9 +577,9 @@
     ]
   },
   "totals": {
-    "activeShards": 15,
+    "activeShards": 16,
     "candidateShards": 7,
-    "activeJobs": 27,
+    "activeJobs": 23,
     "candidateJobs": 12,
     "awaitingIntegration": 0
   },
@@ -624,46 +624,16 @@
       "lane": "custom_pleading",
       "status": "active",
       "ownerSession": "SESSION_B",
-      "note": "Opened by technical review, not by a new requirement. Indiana and Mississippi are both delivered and integrated: each replacement packet is generated, and in both cases the proof drift reopened the technical review rather than letting a stale approval carry over to new bytes. North Dakota takes their place, and it is a different kind of defect: the municipal-route caption reads 'IN THE MUNICIPAL COURT OF CASS COUNTY' and no such court exists, because North Dakota municipal courts are city courts named for a municipality under N.D.C.C. ch. 40-18. Indiana and Mississippi were fixture defects; this one is in the caption composer, which appends 'OF <COUNTY> COUNTY' unconditionally while the fixture's own ordinance citation already names Fargo. Scoped to the municipal route: the district-route captions are correct and are not touched. Its legal review stays blocked; Kansas, Minnesota, Missouri and New Jersey opened theirs on this wave's approvals.",
-      "jobIds": [
-        "rcap-nd-custom-pleading-technical-review-correction"
-      ],
+      "note": "Empty because it delivered. North Dakota's correction is integrated: the caption composer appended 'OF <COUNTY> COUNTY' unconditionally and produced 'IN THE MUNICIPAL COURT OF CASS COUNTY', a court that does not exist — North Dakota municipal courts are city courts named for a municipality under N.D.C.C. ch. 40-18.1 — ch. 40-18, which the defective composer followed, was repealed by S.L. 2025, ch. 379, § 4. Unlike the Indiana and Mississippi fixture defects, this one was in the composer, and that is where it was fixed. The verifier the reviewer could not get to run now runs and passes across all nine fixtures. The replacement packet proof and review manifest are generated, the new bytes reopened the technical review rather than letting a stale approval carry over, and the completed-output legal review stays blocked behind it. This shard refills when a review finds something, not on a schedule.",
+      "jobIds": [],
       "capacity": {
-        "jobs": 1,
-        "assignedTracks": 5,
+        "jobs": 0,
+        "assignedTracks": 0,
         "incrementalTracks": 0,
-        "assignedComponents": 18,
+        "assignedComponents": 0,
         "incrementalComponents": 0
       },
-      "jobs": [
-        {
-          "jobId": "rcap-nd-custom-pleading-technical-review-correction",
-          "lane": "custom_pleading",
-          "jurisdiction": "ND",
-          "status": "ready",
-          "semanticFingerprint": "29bd4a46d94be55526ee087447780a0db995a3cbfe5d7e21599813279ae3fd54",
-          "branch": "rcap-factory/rcap-nd-custom-pleading-technical-review-correction-d296572c-29bd4a46",
-          "ownedPaths": [
-            "scripts/verify-rcap-north-dakota-custom-pleading.mjs",
-            "src/lib/rcap/packets/jurisdictions/north-dakota/custom-pleading.ts"
-          ],
-          "dependencies": [
-            "rcap-nd-custom-pleading",
-            "rcap-nd-custom-pleading-technical-visual-review"
-          ],
-          "assignedTrackIds": [
-            "nd-dui-record-seal",
-            "nd-marijuana-first-offense-seal",
-            "nd-seal-felony-conviction",
-            "nd-seal-misdemeanor-conviction",
-            "nd-seal-pardoned-conviction"
-          ],
-          "incrementalTrackIds": [],
-          "assignedComponents": 18,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": false
-        }
-      ]
+      "jobs": []
     },
     {
       "wave": 4,
@@ -671,65 +641,38 @@
       "lane": "custom_pleading",
       "status": "active",
       "ownerSession": "SESSION_B",
-      "note": "Promoted from the previous wave's candidate ranking without reranking. Nebraska is deliberately not promoted: its memo still carries unresolved venue and packet-component questions, and its branch is a lease.",
+      "note": "Both promoted rows changed shape rather than being reranked. Kentucky was one assignment over two tracks and is now one over one: ky_void_seal_controlled_substance carries an eligibility bar its own memo records and the controlling review does not — KRS 218A.275(12) absolutely bars anyone previously dismissed after a KRS 218A.14151 deferred prosecution — and that decides whether the participant receives a packet at all, not how one is worded. It is split out to a Session D owner and the combined assignment is superseded, not completed. The marijuana/synthetic/salvia sibling carries no such bar and is here on its own so one unresolved eligibility question does not hold a deliverable track for a second wave. Virginia leaves the shard entirely: both its tracks are blocked on two independent questions — which version of Va. Code § 19.2-392.2 governs a packet generated now, and whether the Office of the Executive Secretary publishes a statewide instrument for either route. The second one decides whether a custom pleading is even the right document, so drafting first would risk building the wrong artifact rather than an early draft of the right one. Nebraska is still deliberately not promoted: unresolved venue and packet-component questions, and its branch is a lease.",
       "jobIds": [
-        "rcap-ky-custom-pleading",
-        "rcap-va-custom-pleading"
+        "rcap-ky-custom-pleading-clean-tracks"
       ],
       "capacity": {
-        "jobs": 2,
-        "assignedTracks": 4,
-        "incrementalTracks": 4,
-        "assignedComponents": 14,
-        "incrementalComponents": 14
+        "jobs": 1,
+        "assignedTracks": 1,
+        "incrementalTracks": 1,
+        "assignedComponents": 3,
+        "incrementalComponents": 3
       },
       "jobs": [
         {
-          "jobId": "rcap-ky-custom-pleading",
+          "jobId": "rcap-ky-custom-pleading-clean-tracks",
           "lane": "custom_pleading",
           "jurisdiction": "KY",
           "status": "ready",
-          "semanticFingerprint": "0657b23323171c0415e0ebc6f5cb219204b92e71d9ca1cbf366634812845b3ac",
-          "branch": "rcap-factory/rcap-ky-custom-pleading-63ccfc79-0657b233",
+          "semanticFingerprint": "3f5a2908d01995b74277a651c7ee8fc27ec90b16ed870af22121174339ff76ed",
+          "branch": "rcap-factory/rcap-ky-custom-pleading-clean-tracks-70f288b6-3f5a2908",
           "ownedPaths": [
             "scripts/verify-rcap-kentucky-custom-pleading.mjs",
             "src/lib/rcap/packets/jurisdictions/kentucky/custom-pleading.ts"
           ],
           "dependencies": [],
           "assignedTrackIds": [
-            "ky_void_seal_controlled_substance",
             "ky_void_seal_marijuana_synthetic_salvia"
           ],
           "incrementalTrackIds": [
-            "ky_void_seal_controlled_substance",
             "ky_void_seal_marijuana_synthetic_salvia"
           ],
-          "assignedComponents": 6,
-          "incrementalComponents": 6,
-          "alreadyHasPushedCompletion": false
-        },
-        {
-          "jobId": "rcap-va-custom-pleading",
-          "lane": "custom_pleading",
-          "jurisdiction": "VA",
-          "status": "ready",
-          "semanticFingerprint": "2897aaf79ae4e19bc9aa93aaa82cb7084ff61ea0196b67858895ebbc499f7de3",
-          "branch": "rcap-factory/rcap-va-custom-pleading-9f885f82-2897aaf7",
-          "ownedPaths": [
-            "scripts/verify-rcap-virginia-custom-pleading.mjs",
-            "src/lib/rcap/packets/jurisdictions/virginia/custom-pleading.ts"
-          ],
-          "dependencies": [],
-          "assignedTrackIds": [
-            "va_exp_absolute_pardon",
-            "va_exp_identity_used_by_another"
-          ],
-          "incrementalTrackIds": [
-            "va_exp_absolute_pardon",
-            "va_exp_identity_used_by_another"
-          ],
-          "assignedComponents": 8,
-          "incrementalComponents": 8,
+          "assignedComponents": 3,
+          "incrementalComponents": 3,
           "alreadyHasPushedCompletion": false
         }
       ]
@@ -757,14 +700,13 @@
       "lane": "legal_design_normalization",
       "status": "active",
       "ownerSession": "SESSION_D",
-      "note": "The two questions that forced the B2 split are answered and integrated, and neither decision could amend its own state memo. These are the owners that can. Ohio carries the mechanism into OH.memo.json and fixes the two accuracy defects the decision found — the fee is division (G), and the 60-day and 30-day figures do not govern this route. Washington carries the venue conclusion and reopens the form blocker in the opposite direction, because the CRO pattern set exists. Iowa remaps six components that two completed resolutions found pointing at documents that do not exist as such. None of the three makes a track ready.",
+      "note": "Refilled by two blocked implementations. Kentucky owns the KRS 218A.275(12) bar that split its custom-pleading assignment: read the statute, encode the bar, determine the participant question and the stop that follows a disqualifying answer, and say whether the route remains packet-capable once it is encoded — a route that stops most applicants may still be worth building and one that can never produce a filing is not. Virginia owns the statutory cutover: which § 19.2-392.2 version governs a packet generated now, which takes effect 2026-12-01, whether a future-effective successor track or a versioned packet is required, what the current tracks' effectiveTo treatment should be, whether current-law packets can be built before the cutover at all, and the packet-copy and routing consequences. Neither owner may implement a packet and neither owns its state memo. The previous three delivered and integrated. Ohio carried the marijuana mechanism into OH.memo.json with the two accuracy defects fixed — the fee is division (G), and the 60-day and 30-day figures do not govern this route. Washington carried the CROP venue conclusion. Iowa remapped the six components that two completed resolutions found pointing at documents that do not exist as such. None of the three made a track ready, which was the point. The Ohio memo now carries three recorded states rather than two; the earlier automatic-sealing amendment stays complete rather than reopening because a successor touched the same file.",
       "jobIds": [
-        "rcap-oh-marijuana-memo-amendment",
-        "rcap-wa-crop-memo-amendment",
-        "rcap-ia-rule-2-86-and-dci-76-component-remap"
+        "rcap-ky-void-seal-eligibility-bar-reconciliation",
+        "rcap-va-2026-2027-statutory-cutover"
       ],
       "capacity": {
-        "jobs": 3,
+        "jobs": 2,
         "assignedTracks": 0,
         "incrementalTracks": 0,
         "assignedComponents": 0,
@@ -772,18 +714,16 @@
       },
       "jobs": [
         {
-          "jobId": "rcap-oh-marijuana-memo-amendment",
+          "jobId": "rcap-ky-void-seal-eligibility-bar-reconciliation",
           "lane": "legal_design_normalization",
-          "jurisdiction": "OH",
+          "jurisdiction": "KY",
           "status": "ready",
-          "semanticFingerprint": "1f28c5f81d8637d04b2097b705f632090f8fccc63338ca23477d56e494403617",
-          "branch": "rcap-factory/rcap-oh-marijuana-memo-amendment-8e081aef-1f28c5f8",
+          "semanticFingerprint": "32ea116bc93b101f48a574c705ed9ec5d4bbfd234a89f59af03fb23ca1bdefe3",
+          "branch": "rcap-factory/rcap-ky-void-seal-eligibility-bar-reconciliation-15190b16-32ea116b",
           "ownedPaths": [
-            "data/record-clearing/legal-design-intake/OH.memo.json"
+            "data/record-clearing/production-factory/legal-design-decisions/rcap-ky-void-seal-eligibility-bar-reconciliation.json"
           ],
-          "dependencies": [
-            "rcap-oh-marijuana-governing-mechanism-reconciliation"
-          ],
+          "dependencies": [],
           "assignedTrackIds": [],
           "incrementalTrackIds": [],
           "assignedComponents": 0,
@@ -791,37 +731,17 @@
           "alreadyHasPushedCompletion": false
         },
         {
-          "jobId": "rcap-wa-crop-memo-amendment",
+          "jobId": "rcap-va-2026-2027-statutory-cutover",
           "lane": "legal_design_normalization",
-          "jurisdiction": "WA",
+          "jurisdiction": "VA",
           "status": "ready",
-          "semanticFingerprint": "cc57c34b74f1fd09606da12ab9c1bccd4941a6570530cc1f1359b2a681b6362c",
-          "branch": "rcap-factory/rcap-wa-crop-memo-amendment-fbe07d37-cc57c34b",
+          "semanticFingerprint": "aef008e13e84d388cf4d423bce75edafa806fef42694ad78b5d763111e3cdd40",
+          "branch": "rcap-factory/rcap-va-2026-2027-statutory-cutover-46df2fe6-aef008e1",
           "ownedPaths": [
-            "data/record-clearing/legal-design-intake/WA.memo.json"
+            "data/record-clearing/production-factory/legal-design-decisions/va-2026-2027-statutory-cutover.json"
           ],
           "dependencies": [
-            "rcap-wa-crop-venue-reconciliation"
-          ],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": false
-        },
-        {
-          "jobId": "rcap-ia-rule-2-86-and-dci-76-component-remap",
-          "lane": "legal_design_normalization",
-          "jurisdiction": "IA",
-          "status": "ready",
-          "semanticFingerprint": "1b91729dc6fb0c98b0c5c09dde5a69c23beacc739b9f86c98193518f1fb73da8",
-          "branch": "rcap-factory/rcap-ia-rule-2-86-and-dci-76-component-remap-d72b2f26-1b91729d",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/legal-design-decisions/rcap-ia-rule-2-86-and-dci-76-component-remap.json"
-          ],
-          "dependencies": [
-            "rcap-ia-in-repo-identity-reconciliation-already-retained-under-another-identity",
-            "rcap-ia-source-identity-resolution-certification-of-service"
+            "rcap-va-legal-design-normalization"
           ],
           "assignedTrackIds": [],
           "incrementalTrackIds": [],
@@ -1004,16 +924,13 @@
       "lane": "source_acquisition",
       "status": "active",
       "ownerSession": "SESSION_F",
-      "note": "The permission and follow-up owners the completed decisions created. Colorado left this shard: its grant is recorded as a successor decision and its authorization is delivered, so the job that sought the permission is completed rather than reissued. Indiana and Kansas remain, each still sitting at a withheld licence with no route out but the asking. The Missouri request is drafted and deliberately unsent and what remains is the human authorization to send it. None of these jobs sends anything: drafting is the deliverable and sending is a separate human act. The Ohio and Washington source owners carry the one question each integrated decision expressly left open.",
+      "note": "The permission and follow-up owners the completed decisions created. Three have now left the shard satisfied: Colorado's grant is recorded as a successor decision, Kansas delivered its written-permission authorization, and Washington resolved the CRO form-family source identity. Indiana remains, still sitting at a withheld licence with no route out but the asking. The Missouri request is drafted and deliberately unsent and what remains is the human authorization to send it. None of these jobs sends anything: drafting is the deliverable and sending is a separate human act. The Ohio survey left the shard too: its local-form and fee question is answered and integrated.",
       "jobIds": [
         "rcap-mo-issuer-contact-authorization",
-        "rcap-in-written-permission-authorization",
-        "rcap-ks-written-permission-authorization",
-        "rcap-oh-2953-321-local-form-and-fee-survey",
-        "rcap-wa-cro-form-family-source-identity"
+        "rcap-in-written-permission-authorization"
       ],
       "capacity": {
-        "jobs": 5,
+        "jobs": 2,
         "assignedTracks": 0,
         "incrementalTracks": 0,
         "assignedComponents": 0,
@@ -1051,63 +968,6 @@
           ],
           "dependencies": [
             "rcap-in-commercial-license"
-          ],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": false
-        },
-        {
-          "jobId": "rcap-ks-written-permission-authorization",
-          "lane": "source_acquisition",
-          "jurisdiction": "KS",
-          "status": "ready",
-          "semanticFingerprint": "61336e5cd5b17160b9f040a1a98154ff26fb3f2181a0e6e44b03bbee8682ee4f",
-          "branch": "rcap-factory/rcap-ks-written-permission-authorization-7197cc61-61336e5c",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-ks-written-permission-authorization.json"
-          ],
-          "dependencies": [
-            "rcap-ks-commercial-license"
-          ],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": false
-        },
-        {
-          "jobId": "rcap-oh-2953-321-local-form-and-fee-survey",
-          "lane": "source_acquisition",
-          "jurisdiction": "OH",
-          "status": "ready",
-          "semanticFingerprint": "3e40c8f9834427eb827104f64bc1cd20f8827a4e201d5162ab15b1a53b18b34b",
-          "branch": "rcap-factory/rcap-oh-2953-321-local-form-and-fee-survey-7b38384a-3e40c8f9",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-oh-2953-321-local-form-and-fee-survey.json"
-          ],
-          "dependencies": [
-            "rcap-oh-marijuana-governing-mechanism-reconciliation"
-          ],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": false
-        },
-        {
-          "jobId": "rcap-wa-cro-form-family-source-identity",
-          "lane": "source_acquisition",
-          "jurisdiction": "WA",
-          "status": "ready",
-          "semanticFingerprint": "eabb9bce894c3956d356ef330ce8560a9b3c2c41c50a50a2bd6811b4cff58318",
-          "branch": "rcap-factory/rcap-wa-cro-form-family-source-identity-f788cb5b-eabb9bce",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-wa-cro-form-family-source-identity.json"
-          ],
-          "dependencies": [
-            "rcap-wa-crop-venue-reconciliation"
           ],
           "assignedTrackIds": [],
           "incrementalTrackIds": [],
@@ -1260,22 +1120,62 @@
     },
     {
       "wave": 4,
+      "shard": "F4",
+      "lane": "source_acquisition",
+      "status": "active",
+      "ownerSession": "SESSION_F",
+      "note": "The Virginia official-form question, and one of the two things blocking Virginia custom pleading. Establish whether the Office of the Executive Secretary publishes a separate statewide instrument for va_exp_absolute_pardon or va_exp_identity_used_by_another, and for each instrument in the current CC-1201 series: exact identity, title, role, revision and currentness, statewide against local scope, whether it is mandatory, a standard or pattern form, optional or nonexistent, and the source, Edition and output-strategy consequences. The output-strategy consequence is the point — if a statewide instrument exists, the route is official-PDF work and the custom pleading is the wrong document. Every plausible CC-1201 and CC-1203 path returned 404 on the normalization pass while CC-1473 retrieved cleanly from the same library: that is a retrieval failure, not a finding, and failure to find a form is never proof that no form exists. CC-1473 may not be substituted outside § 19.2-392.2(A).",
+      "jobIds": [
+        "rcap-va-cc-1201-source-identity-materialization"
+      ],
+      "capacity": {
+        "jobs": 1,
+        "assignedTracks": 0,
+        "incrementalTracks": 0,
+        "assignedComponents": 0,
+        "incrementalComponents": 0
+      },
+      "jobs": [
+        {
+          "jobId": "rcap-va-cc-1201-source-identity-materialization",
+          "lane": "legal_design_normalization",
+          "jurisdiction": "VA",
+          "status": "ready",
+          "semanticFingerprint": "46fcb4f3dd6ec83fc31a1e78657161039904292bdd2f1a05be1db8f36c920c81",
+          "branch": "rcap-factory/rcap-va-cc-1201-source-identity-materialization-e23ef250-46fcb4f3",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/legal-design-decisions/va-cc-1201-source-identity-materialization.json"
+          ],
+          "dependencies": [
+            "rcap-va-legal-design-normalization"
+          ],
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
+          "alreadyHasPushedCompletion": false
+        }
+      ]
+    },
+    {
+      "wave": 4,
       "shard": "R1",
       "lane": "legal_output_review",
       "status": "active",
       "ownerSession": "SESSION_R",
       "reviewKind": "technical_visual_review",
-      "note": "Technical and visual review only; this shard does not own any legal-review path. All five of its previous reads are integrated: Kansas, Minnesota, Missouri and New Jersey approved, and North Dakota held with a real finding that now has a correction owner. Indiana and Mississippi take their place and are here for the opposite reason from last wave — their corrections landed, their replacement packets are generated, and the new bytes reopened reviews that had already been recorded. A technical approval does not survive the output it approved being replaced.",
+      "note": "Technical and visual review only; this shard does not own any legal-review path. All three are here for one reason: their corrections landed, their replacement packets are generated, and the new bytes reopened reviews that had already been recorded. North Dakota joins Indiana and Mississippi this wave — its own held review is what produced the correction, and the correction replaced the output that review was written about, so the review it produced no longer describes anything on disk. A technical approval does not survive the output it approved being replaced, including when the approval and the replacement come from the same finding.",
       "jobIds": [
         "rcap-in-custom-pleading-technical-visual-review",
-        "rcap-ms-custom-pleading-technical-visual-review"
+        "rcap-ms-custom-pleading-technical-visual-review",
+        "rcap-nd-custom-pleading-technical-visual-review"
       ],
       "capacity": {
-        "jobs": 2,
-        "assignedTracks": 6,
-        "incrementalTracks": 6,
-        "assignedComponents": 28,
-        "incrementalComponents": 28
+        "jobs": 3,
+        "assignedTracks": 11,
+        "incrementalTracks": 11,
+        "assignedComponents": 46,
+        "incrementalComponents": 46
       },
       "jobs": [
         {
@@ -1330,6 +1230,37 @@
           ],
           "assignedComponents": 15,
           "incrementalComponents": 15,
+          "alreadyHasPushedCompletion": false
+        },
+        {
+          "jobId": "rcap-nd-custom-pleading-technical-visual-review",
+          "lane": "legal_output_review",
+          "jurisdiction": "ND",
+          "status": "ready",
+          "semanticFingerprint": "2febdb851e10ade0e905443c7bd50472bd2ba4ba52c57f49933e47da32aa7f95",
+          "branch": "rcap-factory/rcap-nd-custom-pleading-technical-visual-review-beae4951-2febdb85",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/technical-visual-reviews/completed-output/rcap-nd-custom-pleading.json"
+          ],
+          "dependencies": [
+            "rcap-nd-custom-pleading"
+          ],
+          "assignedTrackIds": [
+            "nd-dui-record-seal",
+            "nd-marijuana-first-offense-seal",
+            "nd-seal-felony-conviction",
+            "nd-seal-misdemeanor-conviction",
+            "nd-seal-pardoned-conviction"
+          ],
+          "incrementalTrackIds": [
+            "nd-dui-record-seal",
+            "nd-marijuana-first-offense-seal",
+            "nd-seal-felony-conviction",
+            "nd-seal-misdemeanor-conviction",
+            "nd-seal-pardoned-conviction"
+          ],
+          "assignedComponents": 18,
+          "incrementalComponents": 18,
           "alreadyHasPushedCompletion": false
         }
       ]
@@ -1895,5 +1826,5 @@
       ]
     }
   ],
-  "manifestSha256": "8cd2e3c6aca45200058389bf9a7341c2ca1b89f9349f11b6e7f3cdd713111e16"
+  "manifestSha256": "26d846df4c9088ac78e70fdc278d30cbbff7b1710a0ee89ee7756df31214a3bc"
 }
