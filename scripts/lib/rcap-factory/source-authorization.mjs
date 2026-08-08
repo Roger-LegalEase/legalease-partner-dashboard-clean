@@ -128,12 +128,21 @@ export function buildSourceAuthorizationIndex(rootDir = process.cwd()) {
       // A decision may scope itself to named documents (Kansas lists the nine
       // Judicial Council forms) or cover a family with no list (Colorado's JDF
       // licence names no documents because it covers all of them).
-      const scopedDocumentIds = Array.isArray(decision.excludedDocuments)
-        ? new Set(
-            decision.excludedDocuments
-              .map((entry) => entry?.documentId)
-              .filter(Boolean)
-          )
+      //
+      // A refusal scopes by naming what it excludes; a grant scopes by naming
+      // what it covers. Both produce the same thing here — the set of documents
+      // this decision speaks to — but they are not the same list, and a grant
+      // forced to declare its covered forms under `excludedDocuments` would read
+      // as excluding the very documents it authorizes. Either key scopes, and a
+      // document named by neither falls through to the jurisdiction question
+      // below, which fails closed where a licence question is open.
+      const scopeSource = Array.isArray(decision.excludedDocuments)
+        ? decision.excludedDocuments
+        : Array.isArray(decision.coveredDocuments)
+          ? decision.coveredDocuments
+          : null;
+      const scopedDocumentIds = scopeSource
+        ? new Set(scopeSource.map((entry) => entry?.documentId).filter(Boolean))
         : null;
 
       const supersededJobId =
@@ -225,6 +234,27 @@ export function authorizationFor(index, { jurisdiction, documentId = null } = {}
     }
     // A scoped decision that does not reach this document leaves it to the
     // jurisdiction-level question below rather than silently permitting it.
+    //
+    // Except when no document was named at all. Asking "what is Kansas's
+    // authorization state?" without naming a form is a question the scoped
+    // decision cannot answer, and answering it with the jurisdiction fallback
+    // reports `license_unresolved` for a jurisdiction that holds a live grant.
+    // That was harmless while the scoped decision was a refusal — both said no —
+    // and became misleading the moment one said yes. Say what is actually true:
+    // there is a decision, it covers a named set, and which answer applies
+    // depends on which document is being asked about. Still fails closed,
+    // because a caller that names no document gets no permission.
+    if (documentId === null) {
+      return {
+        verdict: "scoped_decision_document_not_named",
+        generationAllowed: false,
+        licenseAdopted: decision.licenseAdopted,
+        workerReadAuthorized: false,
+        blocker: "document_not_named_for_scoped_decision",
+        decisionJobId: decision.decisionJobId,
+        scopedDocumentCount: decision.scopedDocumentIds.size
+      };
+    }
   }
 
   if (index?.licenseRequiredJurisdictions?.has(jurisdiction)) {

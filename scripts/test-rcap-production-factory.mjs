@@ -4824,70 +4824,124 @@ await check(
 );
 
 await check(
-  "a reported Kansas grant without its document authorizes nothing",
+  "the Kansas project-owner attestation authorizes exactly the nine covered forms",
   () => {
-    // The owner reported a hard-copy Kansas permission and the scan had not
-    // arrived. The failure this guards is the tempting one: recording the
-    // successor authorization anyway and filling its twelve permission fields
-    // from the phrase "permission for Kansas", which distinguishes none of them.
-    const pendingPath = path.join(
-      ROOT,
-      "data/record-clearing/production-factory/source-acquisition",
-      "rcap-ks-hard-copy-permission-evidence-pending.json"
-    );
-    assert.ok(fs.existsSync(pendingPath));
-    const pending = JSON.parse(fs.readFileSync(pendingPath, "utf8"));
-
-    // It says plainly that it is not a licence, and nothing is asserted about a
-    // document that was not read.
-    assert.equal(pending.isNotADecision, true);
-    assert.equal(pending.grantsNothing, true);
-    assert.equal(pending.attestation.evidenceDocumentPresent, false);
-    assert.equal(pending.attestation.evidenceDocumentSha256, null);
-    assert.equal(pending.gates.generationEnabled, false);
-
-    // Every distinguishable permission is held open. Not one may be true, and
-    // not one may be false either — the document may yet grant it.
-    for (const [act, state] of Object.entries(
-      pending.permissionsHeldOpenPendingTheDocument
-    )) {
-      if (act === "note") continue;
-      assert.equal(
-        state,
-        "unresolved",
-        `${act} must stay unresolved until the document is read`
-      );
-    }
-
-    // Kansas is still fail-closed, and still by the decision that closed it.
+    // This test previously asserted that Kansas stayed fail-closed while a
+    // reported grant had no readable scope. The project owner then stated the
+    // scope and determined the attestation is controlling. The fact changed, so
+    // the assertion changed; what stays constant is that the grant reaches
+    // exactly the documents it names and nothing else.
     const index = buildSourceAuthorizationIndex(ROOT);
     const kansas = index.decisions.get("KS");
     assert.ok(kansas);
-    assert.equal(kansas.decisionJobId, "rcap-ks-commercial-license");
-    assert.equal(kansas.generationAllowed, false);
-    assert.equal(kansas.licenseAdopted, false);
-    const resolved = authorizationFor(index, { jurisdiction: "KS" });
-    assert.equal(resolved.generationAllowed, false);
-    assert.equal(resolved.workerReadAuthorized, false);
+    assert.equal(
+      kansas.decisionJobId,
+      "rcap-ks-project-owner-permission-authorization"
+    );
+    assert.equal(kansas.verdict, "authorized");
+    assert.equal(
+      kansas.supersedes,
+      "rcap-ks-commercial-license",
+      "the grant must name the exclusion it supersedes rather than replacing it silently"
+    );
+    assert.equal(kansas.scopedDocumentIds.size, 9);
 
-    // The historical worker recorded that permission had not been obtained.
-    // That was true when written and is left exactly as written.
-    const historical = JSON.parse(
+    // Covered: authorized. Uncovered: fail-closed, and by the open
+    // jurisdiction-level question rather than by silence.
+    const covered = authorizationFor(index, {
+      jurisdiction: "KS",
+      documentId: "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022"
+    });
+    assert.equal(covered.generationAllowed, true);
+    assert.equal(covered.licenseAdopted, true);
+    assert.equal(covered.workerReadAuthorized, true);
+    const uncovered = authorizationFor(index, {
+      jurisdiction: "KS",
+      documentId: "SOME-OTHER-PUBLISHERS-FORM"
+    });
+    assert.equal(uncovered.generationAllowed, false);
+    assert.equal(uncovered.workerReadAuthorized, false);
+
+    // Asking about the jurisdiction without naming a document is a question the
+    // scoped decision cannot answer. It must not answer it with a permission,
+    // and it must not report Kansas as licence-unresolved either.
+    const unnamed = authorizationFor(index, { jurisdiction: "KS" });
+    assert.equal(unnamed.verdict, "scoped_decision_document_not_named");
+    assert.equal(unnamed.generationAllowed, false);
+    assert.equal(
+      unnamed.decisionJobId,
+      "rcap-ks-project-owner-permission-authorization"
+    );
+
+    const grant = JSON.parse(
       fs.readFileSync(
         path.join(
           ROOT,
           "data/record-clearing/production-factory/source-acquisition",
-          "rcap-ks-written-permission-authorization.json"
+          "rcap-ks-project-owner-permission-authorization.json"
         ),
         "utf8"
       )
     );
-    assert.equal(historical.currentEffectUnchanged.generationAllowed, false);
-    assert.equal(historical.currentEffectUnchanged.licenseAdopted, false);
-    assert.equal(pending.gates.priorDecisionRewritten, false);
-    assert.equal(pending.gates.priorDecisionDeleted, false);
-    assert.equal(pending.gates.receiptsDeleted, 0);
-    assert.equal(pending.gates.receiptsRewritten, 0);
+
+    // Honest about its basis. An attestation is not a document and must not
+    // read as one: no issuer, signer, date or letter text is asserted.
+    assert.equal(grant.provenance.evidenceType, "project_owner_attestation");
+    assert.equal(grant.provenance.repositoryCopyAvailable, false);
+    assert.equal(grant.provenance.documentHashAvailable, false);
+    assert.equal(grant.gates.evidenceFabricated, false);
+
+    // The superseded exclusion and the historical worker decision both survive.
+    for (const [file, field, value] of [
+      ["rcap-ks-commercial-license.json", "terminalDisposition", "deliberately_excluded_commercial_license"],
+      ["rcap-ks-hard-copy-permission-evidence-pending.json", "terminalDisposition", "reported_grant_without_evidence_no_authorization_derived"]
+    ]) {
+      const retained = JSON.parse(
+        fs.readFileSync(
+          path.join(
+            ROOT,
+            "data/record-clearing/production-factory/source-acquisition",
+            file
+          ),
+          "utf8"
+        )
+      );
+      assert.equal(retained[field], value, `${file} must not be rewritten`);
+    }
+    assert.equal(grant.gates.priorDecisionRewritten, false);
+    assert.equal(grant.gates.priorDecisionDeleted, false);
+    assert.equal(grant.historicalDecisionPreserved.recordedThen.permissionObtained, false);
+
+    // Permission buys permission. Everything a court or an outside party writes
+    // stays outside it, and so does anyone else's form.
+    for (const excluded of [
+      "filling judicial findings",
+      "filling judge signatures",
+      "filling clerk fields",
+      "filling prosecutor fields",
+      "filling court dates",
+      "filling service-completion facts",
+      "filling outside-party attestations",
+      "changing official legal text",
+      "claiming endorsement by Kansas",
+      "applying this permission to forms issued by another publisher"
+    ]) {
+      assert.ok(
+        grant.boundaries.notGranted.includes(excluded),
+        `${excluded} must stay outside the grant`
+      );
+    }
+    assert.equal(grant.gates.judicialFieldsAuthorized, false);
+    assert.equal(grant.gates.outsidePartyFieldsAuthorized, false);
+
+    // A licence answer must not disturb evidence.
+    assert.equal(grant.receiptTreatment.receiptsDeleted, 0);
+    assert.equal(grant.receiptTreatment.receiptsRewritten, 0);
+    assert.equal(grant.receiptTreatment.bytesRehashed, false);
+
+    // Runtime is untouched by any of it.
+    assert.equal(grant.gates.productionEnabled, false);
+    assert.equal(grant.gates.counselAdopted, false);
   }
 );
 

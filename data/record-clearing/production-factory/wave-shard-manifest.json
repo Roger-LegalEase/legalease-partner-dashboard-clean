@@ -5,7 +5,7 @@
   "reviewShardReservationNote": "The claim schema's ownerSession enum is SESSION_B through SESSION_F, and review is none of those. R1 and R2 are therefore reserved here rather than in job-claims.json. This manifest is the reservation of record for them; widening the claim enum would change the job manifest and, through it, worker branch identity.",
   "shardIdentifiersAreNotSessions": "R1 and R2 are shard identifiers, not sessions. Both are owned by SESSION_R, which is the single human review session: R1 carries its technical and visual reads, R2 carries its completed-output legal reads, and the split exists so the two kinds of review cannot be recorded against each other's paths. They were briefly written as ownerSession SESSION_R1 and SESSION_R2, which reads as two review sessions and would have someone opening a second one. The human pool is exactly A, B, C, D, E, F and R; every shard here names one of those seven and no shard may name anything else.",
   "baseline": {
-    "baseCommit": "9b7c72779f8f0cd5220874cd03d5f1f7245d0050",
+    "baseCommit": "a052780c620c41c39994df2140706483688006d8",
     "authorityVersion": "master-library/1.2",
     "authorityEdition": "1.2"
   },
@@ -13,7 +13,7 @@
     "normalizedTracks": 497,
     "representedExactlyOnce": 497,
     "implementationComplete": 223,
-    "jobs": 477,
+    "jobs": 478,
     "generatedFrom": [
       {
         "path": "data/rcap-all50/all-state-build-manifest.json",
@@ -553,7 +553,7 @@
       },
       {
         "path": "planning/record-clearing-100-percent/production-plan.json",
-        "sha256": "9712b22129111cb0b476636f49909a9f6634eace27c03306ec1ce051b9e2f5d2"
+        "sha256": "a058ce6a9b9e963b933add9493730d9748cf94ffad77141ba13a32aa2b15217c"
       },
       {
         "path": "src/lib/rcap/jurisdictions/packet-capability.ts",
@@ -1766,5 +1766,5 @@
       ]
     }
   ],
-  "manifestSha256": "f001bf2ff4519a8f57080955f9f4c255cab0c5a5d09e8bf6f89733f671663ed0"
+  "manifestSha256": "224744ba22266ac9b4d20d95b0fc26a08c7166e73efc778a5950f1ce24a5abfd"
 }

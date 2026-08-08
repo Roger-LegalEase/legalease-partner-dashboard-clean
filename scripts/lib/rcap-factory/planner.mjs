@@ -8057,6 +8057,94 @@ function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
     });
   }
 
+  // Reinstating the six Kansas routes the licence exclusion closed.
+  //
+  // `rcap-ks-commercial-license` excluded nine documents and six tracks as
+  // terminal, and stated its own reopening condition: express permission from
+  // the Council, adopted as a licence, at which point the nine acquisition keys
+  // reopen. That condition is now met by the project-owner attestation.
+  //
+  // Nothing in the factory acted on it. A terminal disposition is terminal until
+  // something reconsiders it, and no job reconsidered this one — the routes would
+  // have sat excluded forever with the reason for their exclusion no longer true.
+  // That is the shut-gate pattern, in its most consequential form yet: six routes
+  // in a jurisdiction the product could now serve.
+  //
+  // It waits on currentness, and only on currentness. Reinstating a route onto a
+  // revision nobody has confirmed would rebuild the packet on a form that may be
+  // superseded, and permission to reproduce a 2013 revision says nothing about
+  // whether the Council still publishes it.
+  const ksPermission = path.join(
+    rootDir,
+    `${FACTORY_DATA_DIR}/source-acquisition/rcap-ks-project-owner-permission-authorization.json`
+  );
+  const ksCurrentness = path.join(
+    rootDir,
+    `${FACTORY_DATA_DIR}/source-acquisition/rcap-ks-form-currentness-verification.json`
+  );
+  if (fs.existsSync(ksPermission)) {
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: "KS",
+      jobId: "rcap-ks-excluded-route-reinstatement",
+      strategyFamily: "legal_design_adjudication",
+      trackIds: [],
+      dependencies: ["rcap-ks-form-currentness-verification"],
+      ...decisionRecordCompletion(rootDir, "ks-excluded-route-reinstatement", {
+        workerBranch: WAVE_WORKER_BRANCHES["rcap-ks-excluded-route-reinstatement"],
+        workerCommit: WAVE_WORKER_COMMITS["rcap-ks-excluded-route-reinstatement"],
+        completionCommit:
+          DECISION_RECORD_COMPLETION_COMMITS["rcap-ks-excluded-route-reinstatement"]
+      }),
+      ...(fs.existsSync(ksCurrentness) ? {} : { status: "blocked" }),
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/ks-excluded-route-reinstatement.json`
+      ],
+      ownedPaths: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/ks-excluded-route-reinstatement.json`
+      ],
+      requiredInputs: [
+        `${FACTORY_DATA_DIR}/source-acquisition/rcap-ks-commercial-license.json`,
+        `${FACTORY_DATA_DIR}/source-acquisition/rcap-ks-project-owner-permission-authorization.json`,
+        "data/record-clearing/legal-design-intake/KS.memo.json",
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.packetSetManifests,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job rcap-ks-excluded-route-reinstatement"
+      ],
+      commitSubject:
+        "docs(record-clearing): reinstate the Kansas routes the licence closed",
+      executionNote:
+        "The licence exclusion that closed these six routes has been superseded by an adopted " +
+        "permission. This job decides what that means for each route. It owns a decision " +
+        "record only and implements nothing.",
+      stopCondition:
+        "For each of the six Kansas tracks the exclusion closed — ks-21-6614-conviction, " +
+        "ks-21-6614-diversion, ks-21-6614-prostitution-coercion, ks-21-6614-specialty-court, " +
+        "ks-22-2410-arrest and ks-22-4908-registration-relief — determine whether the route is " +
+        "reinstated now that the licence is adopted, which of the nine covered documents each " +
+        "route needs, what output strategy each takes, and what remains open. " +
+        "Reinstatement is per route and is not automatic. The exclusion was terminal and " +
+        "correct; the fact it rested on has changed, and a route may still be held by identity, " +
+        "role, scope or a legal-design question that the licence never touched. Say which, per " +
+        "route, rather than reinstating the set. " +
+        "Bind only the nine documents the permission covers, and only at revisions the " +
+        "currentness owner has confirmed. Permission to reproduce a revision does not make it " +
+        "current, and a route reinstated onto a superseded form is worse than one left closed. " +
+        "The permission does not authorize filling judicial findings, judge signatures, clerk, " +
+        "prosecutor or outside-party fields, court dates or service-completion facts, and no " +
+        "reinstated route may assume otherwise. " +
+        "Do not rewrite the exclusion, do not implement a packet, do not create a receipt, do " +
+        "not mark a track ready, and do not enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
   // --- Delaware --------------------------------------------------------
   //
   // The worst kind of block: HTTP 200 with a 247-byte F5/BIG-IP rejection body
