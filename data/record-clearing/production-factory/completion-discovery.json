@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-captain-completion-discovery/v1",
-  "baseCommit": "7aaf916468800d42181158379c5262520c859a1b",
+  "baseCommit": "484e7543d7adcd422864350869bca1cd5a4d6249",
   "fetch": {
     "remote": "origin",
     "refspecs": [
@@ -10,15 +10,16 @@
     "fetched": true,
     "detail": null
   },
-  "remoteFactoryBranches": 152,
+  "remoteFactoryBranches": 165,
   "totals": {
     "integrated_completion": 1,
-    "exact_completion": 21,
+    "exact_completion": 30,
     "valid_pre_claim_branch": 0,
     "valid_legacy_branch": 0,
     "partial_branch": 0,
-    "incompatible_branch": 3,
-    "no_branch": 230
+    "incompatible_branch": 1,
+    "baseline_lease": 6,
+    "no_branch": 217
   },
   "jobs": [
     {
@@ -140,10 +141,27 @@
       "expectedOutputs": [
         "data/record-clearing/production-factory/source-acquisition/rcap-al-public-official-download.json"
       ],
-      "classification": "no_branch",
-      "completionBranch": null,
-      "completionCommit": null,
-      "branches": []
+      "classification": "exact_completion",
+      "completionBranch": "rcap-factory/rcap-al-public-official-download-e9f4cb65-11872439",
+      "completionCommit": "d6b8ffc2e8f23f2d23098d2dadfa88d20074e548",
+      "branches": [
+        {
+          "branch": "rcap-factory/rcap-al-public-official-download-e9f4cb65-11872439",
+          "commit": "d6b8ffc2e8f23f2d23098d2dadfa88d20074e548",
+          "keyKind": "canonical",
+          "subject": "chore(record-clearing): reconcile AL public official download",
+          "parents": [
+            "7aaf916468800d42181158379c5262520c859a1b"
+          ],
+          "changedPaths": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-al-public-official-download.json"
+          ],
+          "missingOutputs": [],
+          "isBaselineLease": false,
+          "failures": [],
+          "classification": "exact_completion"
+        }
+      ]
     },
     {
       "jobId": "rcap-al-staging-promotion",
@@ -370,58 +388,25 @@
       "expectedOutputs": [
         "data/record-clearing/production-factory/source-acquisition/rcap-az-not-required-design-reconciliation.json"
       ],
-      "classification": "incompatible_branch",
+      "classification": "exact_completion",
       "completionBranch": "rcap-factory/rcap-az-not-required-design-reconciliation-37df8651-ac2a8e25",
-      "completionCommit": "d6e175f77ddd2fba547432664c00219fa3b455d0",
+      "completionCommit": "cc20c5f16ca06cb256989f722f333aaeb3d85d81",
       "branches": [
         {
           "branch": "rcap-factory/rcap-az-not-required-design-reconciliation-37df8651-ac2a8e25",
-          "commit": "d6e175f77ddd2fba547432664c00219fa3b455d0",
+          "commit": "cc20c5f16ca06cb256989f722f333aaeb3d85d81",
           "keyKind": "canonical",
-          "subject": "feat(record-clearing): open the HI FL NV and IL downstream lanes",
+          "subject": "chore(record-clearing): reconcile AZ not required design reconciliation",
           "parents": [
-            "5f3c1dbf23f5d2468109e3fc22eec034f4bd5392"
+            "d6e175f77ddd2fba547432664c00219fa3b455d0"
           ],
           "changedPaths": [
-            "data/record-clearing/production-factory/job-claims.json",
-            "planning/record-clearing-100-percent/production-plan.json",
-            "scripts/lib/rcap-factory/planner.mjs"
-          ],
-          "missingOutputs": [
             "data/record-clearing/production-factory/source-acquisition/rcap-az-not-required-design-reconciliation.json"
           ],
-          "failures": [
-            {
-              "code": "commit_subject_mismatch",
-              "message": "commit subject must be exactly \"chore(record-clearing): reconcile AZ not required design reconciliation\", found \"feat(record-clearing): open the HI FL NV and IL downstream lanes\""
-            },
-            {
-              "code": "outside_owned_paths",
-              "path": "data/record-clearing/production-factory/job-claims.json",
-              "message": "data/record-clearing/production-factory/job-claims.json is outside the job's ownedPaths"
-            },
-            {
-              "code": "forbidden_path",
-              "path": "data/record-clearing/production-factory/job-claims.json",
-              "message": "data/record-clearing/production-factory/job-claims.json matches forbidden path data/record-clearing/production-factory/job-claims.json"
-            },
-            {
-              "code": "outside_owned_paths",
-              "path": "planning/record-clearing-100-percent/production-plan.json",
-              "message": "planning/record-clearing-100-percent/production-plan.json is outside the job's ownedPaths"
-            },
-            {
-              "code": "forbidden_path",
-              "path": "planning/record-clearing-100-percent/production-plan.json",
-              "message": "planning/record-clearing-100-percent/production-plan.json matches forbidden path planning/record-clearing-100-percent/production-plan.json"
-            },
-            {
-              "code": "outside_owned_paths",
-              "path": "scripts/lib/rcap-factory/planner.mjs",
-              "message": "scripts/lib/rcap-factory/planner.mjs is outside the job's ownedPaths"
-            }
-          ],
-          "classification": "incompatible_branch"
+          "missingOutputs": [],
+          "isBaselineLease": false,
+          "failures": [],
+          "classification": "exact_completion"
         }
       ]
     },
@@ -456,6 +441,7 @@
             "data/record-clearing/production-factory/source-acquisition/rcap-az-public-official-download.json"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "exact_completion"
         }
@@ -618,6 +604,7 @@
             "data/record-clearing/legal-design-intake/CO.memo.json"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "exact_completion"
         }
@@ -940,10 +927,79 @@
       "expectedOutputs": [
         "data/record-clearing/production-factory/source-acquisition/rcap-fl-not-required-design-reconciliation.json"
       ],
-      "classification": "no_branch",
-      "completionBranch": null,
-      "completionCommit": null,
-      "branches": []
+      "classification": "baseline_lease",
+      "completionBranch": "rcap-factory/rcap-fl-not-required-design-reconciliation-4a64d3e9-2cff6f3c",
+      "completionCommit": "7aaf916468800d42181158379c5262520c859a1b",
+      "branches": [
+        {
+          "branch": "rcap-factory/rcap-fl-not-required-design-reconciliation-4a64d3e9-2cff6f3c",
+          "commit": "7aaf916468800d42181158379c5262520c859a1b",
+          "keyKind": "canonical",
+          "subject": "feat(record-clearing): discover worker completions before commissioning work",
+          "parents": [
+            "d6e175f77ddd2fba547432664c00219fa3b455d0"
+          ],
+          "changedPaths": [
+            "docs/record-clearing/agent-runbooks/FAST-COMPLETION.md",
+            "package.json",
+            "scripts/lib/rcap-factory/completion-discovery.mjs",
+            "scripts/rcap-captain-discover-completions.mjs",
+            "scripts/rcap-captain-plan-integrations.mjs",
+            "scripts/test-rcap-production-factory.mjs"
+          ],
+          "missingOutputs": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-fl-not-required-design-reconciliation.json"
+          ],
+          "isBaselineLease": true,
+          "failures": [
+            {
+              "code": "commit_subject_mismatch",
+              "message": "commit subject must be exactly \"chore(record-clearing): reconcile FL not required design reconciliation\", found \"feat(record-clearing): discover worker completions before commissioning work\""
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "docs/record-clearing/agent-runbooks/FAST-COMPLETION.md",
+              "message": "docs/record-clearing/agent-runbooks/FAST-COMPLETION.md is outside the job's ownedPaths"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "package.json",
+              "message": "package.json is outside the job's ownedPaths"
+            },
+            {
+              "code": "forbidden_path",
+              "path": "package.json",
+              "message": "package.json matches forbidden path package.json"
+            },
+            {
+              "code": "factory_boundary",
+              "path": "package.json",
+              "message": "package.json is outside the production-factory worker boundary"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "scripts/lib/rcap-factory/completion-discovery.mjs",
+              "message": "scripts/lib/rcap-factory/completion-discovery.mjs is outside the job's ownedPaths"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "scripts/rcap-captain-discover-completions.mjs",
+              "message": "scripts/rcap-captain-discover-completions.mjs is outside the job's ownedPaths"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "scripts/rcap-captain-plan-integrations.mjs",
+              "message": "scripts/rcap-captain-plan-integrations.mjs is outside the job's ownedPaths"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "scripts/test-rcap-production-factory.mjs",
+              "message": "scripts/test-rcap-production-factory.mjs is outside the job's ownedPaths"
+            }
+          ],
+          "classification": "baseline_lease"
+        }
+      ]
     },
     {
       "jobId": "rcap-fl-public-official-download",
@@ -996,6 +1052,7 @@
             "data/record-clearing/production-factory/source-acquisition/rcap-fl-public-official-download-fdle-fac-supersession.json"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "exact_completion"
         }
@@ -1016,10 +1073,27 @@
       "expectedOutputs": [
         "data/record-clearing/legal-design-intake/FL.memo.json"
       ],
-      "classification": "no_branch",
-      "completionBranch": null,
-      "completionCommit": null,
-      "branches": []
+      "classification": "exact_completion",
+      "completionBranch": "rcap-factory/rcap-fl-rule-3-989-sworn-statement-and-3-9895-memo-correction-9a3f041c-15352e94",
+      "completionCommit": "b99a78921510e1c56a2fa05e728dabefa19ccdcd",
+      "branches": [
+        {
+          "branch": "rcap-factory/rcap-fl-rule-3-989-sworn-statement-and-3-9895-memo-correction-9a3f041c-15352e94",
+          "commit": "b99a78921510e1c56a2fa05e728dabefa19ccdcd",
+          "keyKind": "canonical",
+          "subject": "fix(record-clearing): correct the Florida sworn-statement bindings",
+          "parents": [
+            "7aaf916468800d42181158379c5262520c859a1b"
+          ],
+          "changedPaths": [
+            "data/record-clearing/legal-design-intake/FL.memo.json"
+          ],
+          "missingOutputs": [],
+          "isBaselineLease": false,
+          "failures": [],
+          "classification": "exact_completion"
+        }
+      ]
     },
     {
       "jobId": "rcap-fl-staging-promotion",
@@ -1224,10 +1298,77 @@
       "expectedOutputs": [
         "data/record-clearing/legal-design-intake/HI.memo.json"
       ],
-      "classification": "no_branch",
-      "completionBranch": null,
-      "completionCommit": null,
-      "branches": []
+      "classification": "baseline_lease",
+      "completionBranch": "rcap-factory/rcap-hi-expungement-stage-one-and-hcjdc-159b-memo-correction-00b6c384-14d358d0",
+      "completionCommit": "7aaf916468800d42181158379c5262520c859a1b",
+      "branches": [
+        {
+          "branch": "rcap-factory/rcap-hi-expungement-stage-one-and-hcjdc-159b-memo-correction-00b6c384-14d358d0",
+          "commit": "7aaf916468800d42181158379c5262520c859a1b",
+          "keyKind": "canonical",
+          "subject": "feat(record-clearing): discover worker completions before commissioning work",
+          "parents": [
+            "d6e175f77ddd2fba547432664c00219fa3b455d0"
+          ],
+          "changedPaths": [
+            "docs/record-clearing/agent-runbooks/FAST-COMPLETION.md",
+            "package.json",
+            "scripts/lib/rcap-factory/completion-discovery.mjs",
+            "scripts/rcap-captain-discover-completions.mjs",
+            "scripts/rcap-captain-plan-integrations.mjs",
+            "scripts/test-rcap-production-factory.mjs"
+          ],
+          "missingOutputs": [],
+          "isBaselineLease": true,
+          "failures": [
+            {
+              "code": "commit_subject_mismatch",
+              "message": "commit subject must be exactly \"feat(record-clearing): reconcile the Hawaii expungement design\", found \"feat(record-clearing): discover worker completions before commissioning work\""
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "docs/record-clearing/agent-runbooks/FAST-COMPLETION.md",
+              "message": "docs/record-clearing/agent-runbooks/FAST-COMPLETION.md is outside the job's ownedPaths"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "package.json",
+              "message": "package.json is outside the job's ownedPaths"
+            },
+            {
+              "code": "forbidden_path",
+              "path": "package.json",
+              "message": "package.json matches forbidden path package.json"
+            },
+            {
+              "code": "factory_boundary",
+              "path": "package.json",
+              "message": "package.json is outside the production-factory worker boundary"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "scripts/lib/rcap-factory/completion-discovery.mjs",
+              "message": "scripts/lib/rcap-factory/completion-discovery.mjs is outside the job's ownedPaths"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "scripts/rcap-captain-discover-completions.mjs",
+              "message": "scripts/rcap-captain-discover-completions.mjs is outside the job's ownedPaths"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "scripts/rcap-captain-plan-integrations.mjs",
+              "message": "scripts/rcap-captain-plan-integrations.mjs is outside the job's ownedPaths"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "scripts/test-rcap-production-factory.mjs",
+              "message": "scripts/test-rcap-production-factory.mjs is outside the job's ownedPaths"
+            }
+          ],
+          "classification": "baseline_lease"
+        }
+      ]
     },
     {
       "jobId": "rcap-hi-legal-output-review",
@@ -1264,10 +1405,27 @@
       "expectedOutputs": [
         "data/record-clearing/production-factory/legal-design-decisions/hi-stage-one-court-fee-addendum.json"
       ],
-      "classification": "no_branch",
-      "completionBranch": null,
-      "completionCommit": null,
-      "branches": []
+      "classification": "exact_completion",
+      "completionBranch": "rcap-factory/rcap-hi-stage-one-court-fee-addendum-e0b9c992-2250eaaa",
+      "completionCommit": "de73f9d122fb94206607f022f3a0fafcf5157557",
+      "branches": [
+        {
+          "branch": "rcap-factory/rcap-hi-stage-one-court-fee-addendum-e0b9c992-2250eaaa",
+          "commit": "de73f9d122fb94206607f022f3a0fafcf5157557",
+          "keyKind": "canonical",
+          "subject": "docs(record-clearing): settle the Hawaii stage-one filing fee",
+          "parents": [
+            "7aaf916468800d42181158379c5262520c859a1b"
+          ],
+          "changedPaths": [
+            "data/record-clearing/production-factory/legal-design-decisions/hi-stage-one-court-fee-addendum.json"
+          ],
+          "missingOutputs": [],
+          "isBaselineLease": false,
+          "failures": [],
+          "classification": "exact_completion"
+        }
+      ]
     },
     {
       "jobId": "rcap-hi-staging-promotion",
@@ -1348,10 +1506,79 @@
       "expectedOutputs": [
         "data/record-clearing/production-factory/source-acquisition/rcap-ia-in-repo-identity-reconciliation-already-retained-under-another-identity.json"
       ],
-      "classification": "no_branch",
-      "completionBranch": null,
-      "completionCommit": null,
-      "branches": []
+      "classification": "baseline_lease",
+      "completionBranch": "rcap-factory/rcap-ia-in-repo-identity-reconciliation-already-retained-under-a-35e905d4-cab93041",
+      "completionCommit": "7aaf916468800d42181158379c5262520c859a1b",
+      "branches": [
+        {
+          "branch": "rcap-factory/rcap-ia-in-repo-identity-reconciliation-already-retained-under-a-35e905d4-cab93041",
+          "commit": "7aaf916468800d42181158379c5262520c859a1b",
+          "keyKind": "canonical",
+          "subject": "feat(record-clearing): discover worker completions before commissioning work",
+          "parents": [
+            "d6e175f77ddd2fba547432664c00219fa3b455d0"
+          ],
+          "changedPaths": [
+            "docs/record-clearing/agent-runbooks/FAST-COMPLETION.md",
+            "package.json",
+            "scripts/lib/rcap-factory/completion-discovery.mjs",
+            "scripts/rcap-captain-discover-completions.mjs",
+            "scripts/rcap-captain-plan-integrations.mjs",
+            "scripts/test-rcap-production-factory.mjs"
+          ],
+          "missingOutputs": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-ia-in-repo-identity-reconciliation-already-retained-under-another-identity.json"
+          ],
+          "isBaselineLease": true,
+          "failures": [
+            {
+              "code": "commit_subject_mismatch",
+              "message": "commit subject must be exactly \"chore(record-clearing): reconcile IA in repo identity reconciliation\", found \"feat(record-clearing): discover worker completions before commissioning work\""
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "docs/record-clearing/agent-runbooks/FAST-COMPLETION.md",
+              "message": "docs/record-clearing/agent-runbooks/FAST-COMPLETION.md is outside the job's ownedPaths"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "package.json",
+              "message": "package.json is outside the job's ownedPaths"
+            },
+            {
+              "code": "forbidden_path",
+              "path": "package.json",
+              "message": "package.json matches forbidden path package.json"
+            },
+            {
+              "code": "factory_boundary",
+              "path": "package.json",
+              "message": "package.json is outside the production-factory worker boundary"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "scripts/lib/rcap-factory/completion-discovery.mjs",
+              "message": "scripts/lib/rcap-factory/completion-discovery.mjs is outside the job's ownedPaths"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "scripts/rcap-captain-discover-completions.mjs",
+              "message": "scripts/rcap-captain-discover-completions.mjs is outside the job's ownedPaths"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "scripts/rcap-captain-plan-integrations.mjs",
+              "message": "scripts/rcap-captain-plan-integrations.mjs is outside the job's ownedPaths"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "scripts/test-rcap-production-factory.mjs",
+              "message": "scripts/test-rcap-production-factory.mjs is outside the job's ownedPaths"
+            }
+          ],
+          "classification": "baseline_lease"
+        }
+      ]
     },
     {
       "jobId": "rcap-ia-legal-output-review",
@@ -1388,10 +1615,79 @@
       "expectedOutputs": [
         "data/record-clearing/production-factory/source-acquisition/rcap-ia-not-required-design-reconciliation.json"
       ],
-      "classification": "no_branch",
-      "completionBranch": null,
-      "completionCommit": null,
-      "branches": []
+      "classification": "baseline_lease",
+      "completionBranch": "rcap-factory/rcap-ia-not-required-design-reconciliation-70dabf5c-967ec13b",
+      "completionCommit": "7aaf916468800d42181158379c5262520c859a1b",
+      "branches": [
+        {
+          "branch": "rcap-factory/rcap-ia-not-required-design-reconciliation-70dabf5c-967ec13b",
+          "commit": "7aaf916468800d42181158379c5262520c859a1b",
+          "keyKind": "canonical",
+          "subject": "feat(record-clearing): discover worker completions before commissioning work",
+          "parents": [
+            "d6e175f77ddd2fba547432664c00219fa3b455d0"
+          ],
+          "changedPaths": [
+            "docs/record-clearing/agent-runbooks/FAST-COMPLETION.md",
+            "package.json",
+            "scripts/lib/rcap-factory/completion-discovery.mjs",
+            "scripts/rcap-captain-discover-completions.mjs",
+            "scripts/rcap-captain-plan-integrations.mjs",
+            "scripts/test-rcap-production-factory.mjs"
+          ],
+          "missingOutputs": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-ia-not-required-design-reconciliation.json"
+          ],
+          "isBaselineLease": true,
+          "failures": [
+            {
+              "code": "commit_subject_mismatch",
+              "message": "commit subject must be exactly \"chore(record-clearing): reconcile IA not required design reconciliation\", found \"feat(record-clearing): discover worker completions before commissioning work\""
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "docs/record-clearing/agent-runbooks/FAST-COMPLETION.md",
+              "message": "docs/record-clearing/agent-runbooks/FAST-COMPLETION.md is outside the job's ownedPaths"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "package.json",
+              "message": "package.json is outside the job's ownedPaths"
+            },
+            {
+              "code": "forbidden_path",
+              "path": "package.json",
+              "message": "package.json matches forbidden path package.json"
+            },
+            {
+              "code": "factory_boundary",
+              "path": "package.json",
+              "message": "package.json is outside the production-factory worker boundary"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "scripts/lib/rcap-factory/completion-discovery.mjs",
+              "message": "scripts/lib/rcap-factory/completion-discovery.mjs is outside the job's ownedPaths"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "scripts/rcap-captain-discover-completions.mjs",
+              "message": "scripts/rcap-captain-discover-completions.mjs is outside the job's ownedPaths"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "scripts/rcap-captain-plan-integrations.mjs",
+              "message": "scripts/rcap-captain-plan-integrations.mjs is outside the job's ownedPaths"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "scripts/test-rcap-production-factory.mjs",
+              "message": "scripts/test-rcap-production-factory.mjs is outside the job's ownedPaths"
+            }
+          ],
+          "classification": "baseline_lease"
+        }
+      ]
     },
     {
       "jobId": "rcap-ia-source-identity-resolution-certification-of-service",
@@ -1424,6 +1720,7 @@
             "data/record-clearing/production-factory/source-acquisition/rcap-ia-source-identity-resolution-certification-of-service.json"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "exact_completion"
         }
@@ -1544,6 +1841,7 @@
             "data/record-clearing/production-factory/source-acquisition/rcap-id-shield-revision-and-bci-identity-correction.json"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "exact_completion"
         }
@@ -1686,6 +1984,7 @@
             "data/record-clearing/production-factory/source-acquisition/rcap-il-notice-of-court-date-statewide-role-correction.json"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "exact_completion"
         }
@@ -1706,10 +2005,27 @@
       "expectedOutputs": [
         "data/record-clearing/legal-design-intake/IL.memo.json"
       ],
-      "classification": "no_branch",
-      "completionBranch": null,
-      "completionCommit": null,
-      "branches": []
+      "classification": "exact_completion",
+      "completionBranch": "rcap-factory/rcap-il-rule-298-fw-civ-component-remap-memo-correction-cffec689-888d2c32",
+      "completionCommit": "10d2b958acbf75a9038dfc39dc41cc0c1525164a",
+      "branches": [
+        {
+          "branch": "rcap-factory/rcap-il-rule-298-fw-civ-component-remap-memo-correction-cffec689-888d2c32",
+          "commit": "10d2b958acbf75a9038dfc39dc41cc0c1525164a",
+          "keyKind": "canonical",
+          "subject": "fix(record-clearing): remap the Illinois fee-waiver components",
+          "parents": [
+            "7aaf916468800d42181158379c5262520c859a1b"
+          ],
+          "changedPaths": [
+            "data/record-clearing/legal-design-intake/IL.memo.json"
+          ],
+          "missingOutputs": [],
+          "isBaselineLease": false,
+          "failures": [],
+          "classification": "exact_completion"
+        }
+      ]
     },
     {
       "jobId": "rcap-il-staging-promotion",
@@ -1824,6 +2140,7 @@
             "data/record-clearing/production-factory/source-acquisition/rcap-in-in-repo-identity-reconciliation-already-retained-under-another-identity.json"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "exact_completion"
         }
@@ -1903,6 +2220,7 @@
             "src/lib/rcap/packets/jurisdictions/kansas/custom-pleading.ts"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "exact_completion"
         }
@@ -2411,6 +2729,7 @@
             "data/record-clearing/production-factory/source-acquisition/rcap-md-in-repo-identity-reconciliation-cc-dc-cr-072.json"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "exact_completion"
         }
@@ -2573,6 +2892,7 @@
             "data/record-clearing/production-factory/source-acquisition/rcap-me-form-face-title-correction.json"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "exact_completion"
         }
@@ -2711,6 +3031,7 @@
             "data/record-clearing/production-factory/source-acquisition/rcap-mi-mc-227-revision-3-25-correction.json"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "exact_completion"
         }
@@ -2753,10 +3074,28 @@
         "src/lib/rcap/packets/jurisdictions/minnesota/custom-pleading.ts",
         "scripts/verify-rcap-minnesota-custom-pleading.mjs"
       ],
-      "classification": "no_branch",
-      "completionBranch": null,
-      "completionCommit": null,
-      "branches": []
+      "classification": "exact_completion",
+      "completionBranch": "rcap-factory/rcap-mn-custom-pleading-b5f21a53-e54a4052",
+      "completionCommit": "5dc96c76d15fc906ee03e64f560793d9254cf76a",
+      "branches": [
+        {
+          "branch": "rcap-factory/rcap-mn-custom-pleading-b5f21a53-e54a4052",
+          "commit": "5dc96c76d15fc906ee03e64f560793d9254cf76a",
+          "keyKind": "canonical",
+          "subject": "feat(record-clearing): implement MN custom pleading",
+          "parents": [
+            "7aaf916468800d42181158379c5262520c859a1b"
+          ],
+          "changedPaths": [
+            "scripts/verify-rcap-minnesota-custom-pleading.mjs",
+            "src/lib/rcap/packets/jurisdictions/minnesota/custom-pleading.ts"
+          ],
+          "missingOutputs": [],
+          "isBaselineLease": false,
+          "failures": [],
+          "classification": "exact_completion"
+        }
+      ]
     },
     {
       "jobId": "rcap-mn-flat-pdf-overlay",
@@ -2795,10 +3134,27 @@
       "expectedOutputs": [
         "data/record-clearing/production-factory/source-acquisition/rcap-mn-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition.json"
       ],
-      "classification": "no_branch",
-      "completionBranch": null,
-      "completionCommit": null,
-      "branches": []
+      "classification": "exact_completion",
+      "completionBranch": "rcap-factory/rcap-mn-in-repo-identity-reconciliation-needs-edition-reclass-no-94c0b52e-0f81f937",
+      "completionCommit": "0e8b19671ce349a0c26651d24b29f4a51bf615be",
+      "branches": [
+        {
+          "branch": "rcap-factory/rcap-mn-in-repo-identity-reconciliation-needs-edition-reclass-no-94c0b52e-0f81f937",
+          "commit": "0e8b19671ce349a0c26651d24b29f4a51bf615be",
+          "keyKind": "canonical",
+          "subject": "chore(record-clearing): reconcile MN in repo identity reconciliation",
+          "parents": [
+            "7aaf916468800d42181158379c5262520c859a1b"
+          ],
+          "changedPaths": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-mn-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition.json"
+          ],
+          "missingOutputs": [],
+          "isBaselineLease": false,
+          "failures": [],
+          "classification": "exact_completion"
+        }
+      ]
     },
     {
       "jobId": "rcap-mn-legal-output-review",
@@ -2938,6 +3294,7 @@
             "src/lib/rcap/packets/jurisdictions/missouri/custom-pleading.ts"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "exact_completion"
         }
@@ -3054,6 +3411,7 @@
             "data/record-clearing/production-factory/source-acquisition/rcap-mo-superseded-source-replacement.json"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "exact_completion"
         }
@@ -3172,6 +3530,7 @@
             "data/record-clearing/production-factory/source-acquisition/rcap-mt-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition.json"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "exact_completion"
         }
@@ -3212,10 +3571,27 @@
       "expectedOutputs": [
         "data/record-clearing/production-factory/source-acquisition/rcap-mt-public-official-download.json"
       ],
-      "classification": "no_branch",
-      "completionBranch": null,
-      "completionCommit": null,
-      "branches": []
+      "classification": "exact_completion",
+      "completionBranch": "rcap-factory/rcap-mt-public-official-download-0d0f623b-7ffebf15",
+      "completionCommit": "123fc9a4506b242270ad527686958de522563791",
+      "branches": [
+        {
+          "branch": "rcap-factory/rcap-mt-public-official-download-0d0f623b-7ffebf15",
+          "commit": "123fc9a4506b242270ad527686958de522563791",
+          "keyKind": "canonical",
+          "subject": "chore(record-clearing): reconcile MT public official download",
+          "parents": [
+            "7aaf916468800d42181158379c5262520c859a1b"
+          ],
+          "changedPaths": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-mt-public-official-download.json"
+          ],
+          "missingOutputs": [],
+          "isBaselineLease": false,
+          "failures": [],
+          "classification": "exact_completion"
+        }
+      ]
     },
     {
       "jobId": "rcap-mt-staging-promotion",
@@ -3564,7 +3940,7 @@
         "src/lib/rcap/packets/jurisdictions/nebraska/custom-pleading.ts",
         "scripts/verify-rcap-nebraska-custom-pleading.mjs"
       ],
-      "classification": "incompatible_branch",
+      "classification": "baseline_lease",
       "completionBranch": "rcap-factory/rcap-ne-custom-pleading-a5cb799f-fc7bf089",
       "completionCommit": "95789664518ee3f7f2aeb9c12380dd9ba70d3b76",
       "branches": [
@@ -3583,6 +3959,7 @@
             "src/lib/rcap/packets/jurisdictions/nebraska/custom-pleading.ts",
             "scripts/verify-rcap-nebraska-custom-pleading.mjs"
           ],
+          "isBaselineLease": true,
           "failures": [
             {
               "code": "commit_subject_mismatch",
@@ -3594,7 +3971,7 @@
               "message": "scripts/verify-rcap-colorado-jdf-role-and-scope.mjs is outside the job's ownedPaths"
             }
           ],
-          "classification": "incompatible_branch"
+          "classification": "baseline_lease"
         }
       ]
     },
@@ -3794,6 +4171,7 @@
             "src/lib/rcap/packets/jurisdictions/new-jersey/guidance.ts"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "exact_completion"
         }
@@ -3955,6 +4333,7 @@
             "src/lib/rcap/packets/jurisdictions/nevada/custom-pleading.ts"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [
             {
               "code": "commit_subject_mismatch",
@@ -3986,10 +4365,28 @@
         "src/lib/rcap/packets/jurisdictions/nevada/guidance.ts",
         "scripts/verify-rcap-nevada-guidance-implementation.mjs"
       ],
-      "classification": "no_branch",
-      "completionBranch": null,
-      "completionCommit": null,
-      "branches": []
+      "classification": "exact_completion",
+      "completionBranch": "rcap-factory/rcap-nv-guidance-implementation-51a140f2-bab248fd",
+      "completionCommit": "59ea67fd7ec896c7314271aa764e3968f27942f7",
+      "branches": [
+        {
+          "branch": "rcap-factory/rcap-nv-guidance-implementation-51a140f2-bab248fd",
+          "commit": "59ea67fd7ec896c7314271aa764e3968f27942f7",
+          "keyKind": "canonical",
+          "subject": "feat(record-clearing): implement NV guidance",
+          "parents": [
+            "7aaf916468800d42181158379c5262520c859a1b"
+          ],
+          "changedPaths": [
+            "scripts/verify-rcap-nevada-guidance-implementation.mjs",
+            "src/lib/rcap/packets/jurisdictions/nevada/guidance.ts"
+          ],
+          "missingOutputs": [],
+          "isBaselineLease": false,
+          "failures": [],
+          "classification": "exact_completion"
+        }
+      ]
     },
     {
       "jobId": "rcap-nv-legal-output-review",
@@ -4206,6 +4603,7 @@
             "data/record-clearing/legal-design-intake/OH.memo.json"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "exact_completion"
         }
@@ -4384,6 +4782,7 @@
             "data/record-clearing/production-factory/legal-design-decisions/or-2025-monetary-obligations-scope-reconciliation.json"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "exact_completion"
         }
@@ -4440,6 +4839,7 @@
             "data/record-clearing/production-factory/legal-design-decisions/or-same-episode-rule-source-reconciliation.json"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "exact_completion"
         }
@@ -4933,6 +5333,7 @@
             "src/lib/rcap/packets/jurisdictions/texas/guidance.ts"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "exact_completion"
         }
@@ -5237,6 +5638,7 @@
             "data/record-clearing/production-factory/legal-design-decisions/vt-200-00130-source-identity-resolution.json"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "integrated_completion"
         }
@@ -5303,10 +5705,80 @@
         "src/lib/rcap/packets/jurisdictions/vermont/custom-pleading.ts",
         "scripts/verify-rcap-vermont-custom-pleading.mjs"
       ],
-      "classification": "no_branch",
-      "completionBranch": null,
-      "completionCommit": null,
-      "branches": []
+      "classification": "baseline_lease",
+      "completionBranch": "rcap-factory/rcap-vt-custom-pleading-88a9dfe3-da785f58",
+      "completionCommit": "7aaf916468800d42181158379c5262520c859a1b",
+      "branches": [
+        {
+          "branch": "rcap-factory/rcap-vt-custom-pleading-88a9dfe3-da785f58",
+          "commit": "7aaf916468800d42181158379c5262520c859a1b",
+          "keyKind": "canonical",
+          "subject": "feat(record-clearing): discover worker completions before commissioning work",
+          "parents": [
+            "d6e175f77ddd2fba547432664c00219fa3b455d0"
+          ],
+          "changedPaths": [
+            "docs/record-clearing/agent-runbooks/FAST-COMPLETION.md",
+            "package.json",
+            "scripts/lib/rcap-factory/completion-discovery.mjs",
+            "scripts/rcap-captain-discover-completions.mjs",
+            "scripts/rcap-captain-plan-integrations.mjs",
+            "scripts/test-rcap-production-factory.mjs"
+          ],
+          "missingOutputs": [
+            "src/lib/rcap/packets/jurisdictions/vermont/custom-pleading.ts",
+            "scripts/verify-rcap-vermont-custom-pleading.mjs"
+          ],
+          "isBaselineLease": true,
+          "failures": [
+            {
+              "code": "commit_subject_mismatch",
+              "message": "commit subject must be exactly \"feat(record-clearing): implement VT custom pleading\", found \"feat(record-clearing): discover worker completions before commissioning work\""
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "docs/record-clearing/agent-runbooks/FAST-COMPLETION.md",
+              "message": "docs/record-clearing/agent-runbooks/FAST-COMPLETION.md is outside the job's ownedPaths"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "package.json",
+              "message": "package.json is outside the job's ownedPaths"
+            },
+            {
+              "code": "forbidden_path",
+              "path": "package.json",
+              "message": "package.json matches forbidden path package.json"
+            },
+            {
+              "code": "factory_boundary",
+              "path": "package.json",
+              "message": "package.json is outside the production-factory worker boundary"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "scripts/lib/rcap-factory/completion-discovery.mjs",
+              "message": "scripts/lib/rcap-factory/completion-discovery.mjs is outside the job's ownedPaths"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "scripts/rcap-captain-discover-completions.mjs",
+              "message": "scripts/rcap-captain-discover-completions.mjs is outside the job's ownedPaths"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "scripts/rcap-captain-plan-integrations.mjs",
+              "message": "scripts/rcap-captain-plan-integrations.mjs is outside the job's ownedPaths"
+            },
+            {
+              "code": "outside_owned_paths",
+              "path": "scripts/test-rcap-production-factory.mjs",
+              "message": "scripts/test-rcap-production-factory.mjs is outside the job's ownedPaths"
+            }
+          ],
+          "classification": "baseline_lease"
+        }
+      ]
     },
     {
       "jobId": "rcap-vt-guidance-implementation",
@@ -5342,6 +5814,7 @@
             "src/lib/rcap/packets/jurisdictions/vermont/guidance.ts"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "exact_completion"
         }
@@ -5607,6 +6080,7 @@
             "src/lib/rcap/packets/jurisdictions/west-virginia/custom-pleading.ts"
           ],
           "missingOutputs": [],
+          "isBaselineLease": false,
           "failures": [],
           "classification": "exact_completion"
         }

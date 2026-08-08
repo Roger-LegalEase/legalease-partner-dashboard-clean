@@ -3994,7 +3994,10 @@ await check("captain discovery classifies every branch shape it has actually met
       // Pushed, but missing an output it promised.
       discoveryJob({ jobId: "rcap-zz-partial" }),
       // Pushed under a fingerprint no assignment this job has held produces.
-      discoveryJob({ jobId: "rcap-zz-foreign" })
+      discoveryJob({ jobId: "rcap-zz-foreign" }),
+      // Scaffolded and never worked: the branch still points at a commit in the
+      // integration branch's own history.
+      discoveryJob({ jobId: "rcap-zz-leased" })
     ];
     const plan = discoveryPlan(jobs, repo.tip);
     return discoverCompletions(plan, {
@@ -4005,6 +4008,7 @@ await check("captain discovery classifies every branch shape it has actually met
   });
 
   const byJob = new Map(report.jobs.map((entry) => [entry.jobId, entry]));
+  assert.equal(byJob.get("rcap-zz-leased").classification, "baseline_lease");
   assert.equal(byJob.get("rcap-in-custom-pleading").classification, "exact_completion");
   assert.equal(byJob.get("rcap-ok-guidance-implementation").classification, "exact_completion");
   assert.equal(byJob.get("rcap-hi-stage-one-decision").classification, "exact_completion");
@@ -4063,7 +4067,8 @@ await check("captain integration planning distinguishes dispositions and changes
         discoveryJob({ jobId: "rcap-vt-identity" }),
         discoveryJob({ jobId: "rcap-zz-absent" }),
         discoveryJob({ jobId: "rcap-zz-partial" }),
-        discoveryJob({ jobId: "rcap-zz-foreign" })
+        discoveryJob({ jobId: "rcap-zz-foreign" }),
+        discoveryJob({ jobId: "rcap-zz-leased" })
       ];
       const plan = discoveryPlan(jobs, repo.tip);
       const before = spawnSync("git", ["status", "--porcelain=v1"], {
@@ -4097,6 +4102,12 @@ await check("captain integration planning distinguishes dispositions and changes
   assert.equal(byJob.get("rcap-zz-partial").disposition, "correction_required");
   assert.equal(byJob.get("rcap-zz-foreign").disposition, "blocked");
   assert.equal(byJob.get("rcap-zz-absent").disposition, "refused_active_worker");
+  assert.equal(
+    byJob.get("rcap-zz-leased").disposition,
+    "refused_baseline_lease",
+    "a leased worktree must never be integrated as a completion"
+  );
+  assert.match(byJob.get("rcap-zz-leased").reason, /carries no worker commit/u);
   assert.equal(byJob.get("rcap-in-custom-pleading").commit.length, 40);
   assert.ok(byJob.get("rcap-in-custom-pleading").branch.startsWith("rcap-factory/"));
   assert.ok(integration.independentJobIds.includes("rcap-in-custom-pleading"));
@@ -4242,6 +4253,13 @@ function withDiscoveryFixture(callback) {
       { "owned/rcap-zz-foreign.txt": "foreign\n" },
       undefined
     );
+
+    // Leased: the worktree was scaffolded and nothing was committed on it, so
+    // the branch still points at an integration commit.
+    const leased = discoveryJob({ jobId: "rcap-zz-leased" });
+    inWorker(["checkout", "--quiet", "-B", `rcap-factory/${keysFor("rcap-zz-leased").canonical}`, base]);
+    inWorker(["push", "--quiet", "origin", `rcap-factory/${keysFor("rcap-zz-leased").canonical}`]);
+    void leased;
 
     // The captain clone starts from main only — exactly the single-branch state
     // that hid nine completions — and then fetches with the wildcard.

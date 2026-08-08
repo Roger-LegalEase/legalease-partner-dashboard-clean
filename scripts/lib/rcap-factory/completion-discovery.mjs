@@ -43,6 +43,7 @@ export const COMPLETION_CLASSIFICATIONS = Object.freeze([
   "valid_legacy_branch",
   "partial_branch",
   "incompatible_branch",
+  "baseline_lease",
   "no_branch"
 ]);
 
@@ -170,6 +171,15 @@ export function verifyBranchCompletion(
 ) {
   const failures = [];
 
+  // A scaffolded branch that has not been worked yet points straight at an
+  // integration commit: the worktree was leased, nothing was committed on it.
+  // That is not an incompatible assignment, it is an unstarted one, and calling
+  // it incompatible sends a captain looking for a defect that is not there.
+  // Checked before anything else, because every other failure below is a
+  // downstream symptom of there being no worker commit to check.
+  const isBaselineLease =
+    git(["merge-base", "--is-ancestor", commit, integrationRef]).status === 0;
+
   const parents = (gitValue(git, ["show", "-s", "--format=%P", commit]) ?? "")
     .split(/\s+/u)
     .filter(Boolean);
@@ -280,6 +290,7 @@ export function verifyBranchCompletion(
     parents,
     changedPaths,
     missingOutputs,
+    isBaselineLease,
     failures
   };
 }
@@ -315,6 +326,7 @@ function branchAlreadyIntegrated(git, verification, integrationRef) {
 }
 
 function classifyVerification(verification, integrated) {
+  if (verification.isBaselineLease) return "baseline_lease";
   if (verification.failures.length > 0) return "incompatible_branch";
   if (integrated) return "integrated_completion";
   if (verification.missingOutputs.length > 0) return "partial_branch";
@@ -540,7 +552,9 @@ export function planIntegrations(
             ? "correction_required"
             : entry.classification === "incompatible_branch"
               ? "blocked"
-              : "no_completion";
+              : entry.classification === "baseline_lease"
+                ? "refused_baseline_lease"
+                : "no_completion";
 
     const conflicts = [];
     if (disposition === "integrate") {
@@ -574,7 +588,9 @@ export function planIntegrations(
                     (branch) => branch.classification === "partial_branch"
                   )?.missingOutputs?.join(", ") ?? "unknown"
                 }`
-              : null
+              : disposition === "refused_baseline_lease"
+                ? "the branch points at an integration commit and carries no worker commit; the worktree is leased and the work has not been done"
+                : null
     });
   }
 
@@ -597,7 +613,15 @@ export function planIntegrations(
     baseCommit: discovery.baseCommit,
     fetch: discovery.fetch,
     totals: Object.fromEntries(
-      ["integrate", "already_integrated", "blocked", "correction_required", "no_completion", "refused_active_worker"].map(
+      [
+        "integrate",
+        "already_integrated",
+        "blocked",
+        "correction_required",
+        "refused_baseline_lease",
+        "no_completion",
+        "refused_active_worker"
+      ].map(
         (value) => [value, steps.filter((step) => step.disposition === value).length]
       )
     ),
