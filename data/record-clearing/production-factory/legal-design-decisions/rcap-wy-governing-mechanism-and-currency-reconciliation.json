@@ -1,0 +1,540 @@
+{
+  "schemaVersion": 1,
+  "specificationId": "rcap-wy-governing-mechanism-and-currency-reconciliation",
+  "jobId": "rcap-wy-governing-mechanism-and-currency-reconciliation",
+  "jurisdiction": "WY",
+  "jurisdictionName": "Wyoming",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "preparedOn": "2026-08-08",
+  "preparer": "Session D2 legal-design worker, executing rcap-wy-governing-mechanism-and-currency-reconciliation",
+  "baseCommit": "74b6e95ecd5ee59bfa3600f83fd3d9f4e10e9700",
+  "decisionSource": "The Wyoming Legislative Service Office's own publication of the Wyoming Statutes and of every bill of the 2001 through 2026 sessions, and the Wyoming Judicial Branch's own publication of the Supreme Court's opinions. Read against the integrated Wyoming legal-design memo, the normalized track registry, the packet-set manifests and the authoritative blocker ledger.",
+  "whatThisDocumentIs": "The decision record that answers four currency and mechanism questions the Wyoming memo left open on all three of its tracks. Three of them are negatives, and the memo was honest that it had asserted them without sweeping: whether the 2025 or 2026 sessions amended the three controlling sections, when each section was originally enacted, and whether any Wyoming mechanism reaches a completed felony deferral. The fourth is a citation check. Two of the four come back differently from what the memo recorded. It amends no memo, regenerates no registry, implements nothing and asserts no counsel approval.",
+  "scopeOfThisJob": {
+    "ownedPath": "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-governing-mechanism-and-currency-reconciliation.json",
+    "memoAmended": false,
+    "memoPath": "data/record-clearing/legal-design-intake/WY.memo.json",
+    "memoSha256AtDecision": "8788564390c3d4ad1c9e9fd90e3dcf6311ccba4557b481a306790214f8d3c0bf",
+    "globalRegistryRegenerated": false,
+    "rendererImplemented": false,
+    "sourceMaterialized": false,
+    "runtimeOrPromotionChanged": false,
+    "trackTouched": "None. This record adjudicates questions carried by wy_nc_1401, wy_misd_1501 and wy_fel_1502 and writes only itself.",
+    "questionsExpresslyNotReached": "The status-offence definition and the restoration asymmetry belong to rcap-wy-eligibility-waiting-period-and-effect-reconciliation and are not decided here, except where a currency finding bears directly on them and is handed across. The local-template question — which of Wyoming's twenty-three counties publish local expungement forms — is a clerk survey and is untouched. The Expungement Basics handout currency question and the W.S. 6-2-708 trafficking-vacatur filing fee are untouched."
+  },
+  "questionsPresented": [
+    "Did the 2025 or 2026 Wyoming sessions amend Wyo. Stat. §§ 7-13-1401, 7-13-1501 or 7-13-1502, swept rather than asserted?",
+    "What is the original enactment date of each of the three sections, which the official statute publication prints no history note for?",
+    "Does any Wyoming mechanism reach a completed felony deferral, where § 7-13-1401 is barred and § 7-13-1502 requires a conviction?",
+    "Is the internal citation to Wyoming Supreme Court docket S-25-0140 accurate, and does it say what it is cited for?"
+  ],
+  "methodNote": "The assignment forbids treating an unswept session as evidence of no amendment, so the sweep is the method and it is described here in enough detail to be repeated or falsified. The Legislative Service Office serves a per-bill record at web.wyoleg.gov/LsoService/api/BillInformation/<year>/<bill> whose digestHTML field carries the full engrossed bill text. Every bill of the 2025 session (556) and of the 2026 session (335) was retrieved and searched, and for the enactment history every chaptered bill of the 2001 through 2024 sessions (3,959) as well: 4,841 bill records in total, zero unreadable.",
+  "methodCorrectionsMade": {
+    "note": "Two instrument defects were found and fixed before any negative was recorded. Both would have produced a false negative, which is the exact failure the assignment names.",
+    "items": [
+      {
+        "defect": "Sweeping the bill title only.",
+        "why": "Wyoming bill titles are narrative — \"AN ACT relating to criminal procedure; ... and providing for an effective date\" — and never enumerate the W.S. sections a bill amends. Across 891 bills of the two sessions, not one title contains the string \"W.S.\". A title sweep returns zero on every section in the code and means nothing.",
+        "fix": "Sweep the bill text."
+      },
+      {
+        "defect": "Sweeping currentBillHTML, and matching a literal hyphenated citation.",
+        "why": "currentBillHTML holds a partial rendering: for the 2026 revisor's bill it is 22,297 characters of stripped text and contains none of the three sections, while digestHTML contains all three. Separately, the LSO encodes the citation hyphen as the non-breaking-hyphen entity &#x2011;, so \"W.S. 7-13-1502\" is stored as \"7&#x2011;13&#x2011;1502\" and a literal match on \"7-13-1502\" fails. The act that created 7-13-1502 was missed by exactly this.",
+        "fix": "Concatenate every string field of the record, strip tags, neutralise every HTML entity to a space, collapse all spaces and dashes, then match the digit run with digit boundaries. Positive controls were run against four acts known to touch the sections before any negative was accepted."
+      }
+    ],
+    "residueNotSwept": {
+      "count": 9,
+      "what": "Nine special-session acts whose bill numbers use the 1000 series return HTTP 404 from the per-bill endpoint, so their text was not read.",
+      "bills": [
+        "2004 HB1008 ch. 3, Medical education programs",
+        "2004 HB1010 ch. 4, Medical malpractice review",
+        "2004 SF1004 ch. 1, Health care providers-open communications",
+        "2004 SF1009 ch. 2, Medicaid reimbursement for obstetric services-2",
+        "2004 SF1011 ch. 5, Medical malpractice insurance account-2",
+        "2020 HB1004 ch. 3, COVID-19 business relief programs",
+        "2020 SF1001 ch. 1, Emergency appropriation-COVID-19 funds-2",
+        "2020 SF2002 ch. 2, Emergency powers-Covid-19-2 (listed as SF1002)",
+        "2021 HB1002 ch. 1, Federal COVID vaccine mandates-prohibition and remedies-2"
+      ],
+      "assessment": "Recorded rather than waved away. All nine sit outside the 2025 and 2026 window the assignment asks about, so they cannot affect the currency answer. For the enactment history their subjects — medical malpractice, COVID appropriations and emergency powers, and a federal vaccine-mandate prohibition — are on their face unrelated to criminal-record expungement, but that is a title-level judgement and not a text sweep, and it is not offered as one.",
+      "whatWouldCloseIt": "Reading the nine enrolled acts from the Session Laws of Wyoming volumes for 2004, 2020 and 2021, or from the special-session pages the LSO serves under a different key."
+    },
+    "strikethroughCaveat": "Wyoming enrolled acts print struck language struck and new language underscored, and pdftotext preserves neither, so an enrolled text shows both the old and the new words run together. Every attribution of a change to an act below is therefore made by delta — comparing the enrolled text against the section as codified — rather than by reading the formatting. Where a delta could not fix the attribution, it is said so."
+  },
+  "controllingSources": [
+    {
+      "kind": "codified_statute_publication",
+      "citation": "Wyoming Statutes, Title 7 — Criminal Procedure, complete title",
+      "issuer": "Wyoming Legislative Service Office",
+      "url": "https://wyoleg.gov/statutes/compress/title07.pdf",
+      "retrievedOn": "2026-08-08",
+      "bytes": 694689,
+      "pages": 357,
+      "fileMetadataNote": "The PDF's own creation timestamp is 2026-05-08. That is file metadata and not a publisher currency statement; no \"current through\" assertion appears in the document, and the statutes download page carries none that could be read. It is used here only to date the codification, and the 2026-07-01 amendment discussed below is later than it, which is consistent with the text this file carries.",
+      "operativeFinding": "Read in full for W.S. 7-1-107, 7-13-301, 7-13-307, 7-13-1401, 7-13-1501 and 7-13-1502, and searched across the whole title for every expungement, sealing and purge provision.",
+      "weight": "controlling"
+    },
+    {
+      "kind": "session_law_enrolled_act",
+      "citation": "2026 House Bill 0044, Enrolled Act No. 40, House of Representatives, Session Laws of Wyoming 2026 ch. 98",
+      "issuer": "Wyoming Legislature, Sixty-eighth Legislature, 2026 Budget Session",
+      "url": "https://www.wyoleg.gov/2026/Enroll/HB0044.pdf",
+      "retrievedOn": "2026-08-08",
+      "signedOn": "2026-03-07",
+      "effectiveDate": "2026-07-01",
+      "operativeFinding": "Section 1 amends, among many other sections, W.S. 7-13-1401(h), 7-13-1501(j) and 7-13-1502(j). In each the amendment replaces the reference to \"any provision of the Wyoming Governmental Claims Act\" with the citation \"W.S. 1-39-101 through 1-39-120\" in the subsection granting the division of criminal investigation and the prosecuting attorney immunity. Section 5 provides \"This act is effective July 1, 2026.\"",
+      "howTheDirectionOfTheEditWasFixed": "By delta against the codified text. The codification carries \"Notwithstanding any provision of the Wyoming Governmental Claims Act\" and does not carry the numeric citation; the enrolled act carries both phrases adjacent. The added language is therefore the citation and the struck language is the Act's name. The same pattern repeats across every other section in the act, including W.S. 9-1-404.",
+      "weight": "controlling"
+    },
+    {
+      "kind": "session_law_bill_record",
+      "citation": "2003 HB0184 ch. 137; 2004 SF0064 ch. 69; 2011 SF0088 ch. 69",
+      "issuer": "Wyoming Legislative Service Office",
+      "retrievedOn": "2026-08-08",
+      "operativeFinding": "The three creating acts, each read in its own enrolled text: \"W.S. 7-13-1401 is created to read: ARTICLE 14 EXPUNGEMENT OF CRIMINAL RECORDS\"; \"W.S. 7-13-1501 is created to read: ARTICLE 15 EXPUNGEMENT OF RECORDS OF CONVICTIONS\"; \"W.S. 7-13-1502 is created to read:\".",
+      "weight": "controlling"
+    },
+    {
+      "kind": "appellate_decision",
+      "citation": "Lynch v. State, 2026 WY 8 (Wyo. Jan. 15, 2026), docket S-25-0140",
+      "issuer": "Supreme Court of Wyoming",
+      "url": "https://stwjbopinions.blob.core.usgovcloudapi.net/wsc-opinions/Lynch%20S-25-0140.pdf",
+      "retrievedOn": "2026-08-08",
+      "caption": "RUSSELL LEE LYNCH, Appellant (Defendant), v. THE STATE OF WYOMING, Appellee (Plaintiff)",
+      "author": "GRAY, Justice",
+      "panel": "BOOMGAARDEN, C.J., and GRAY, FENN and JAROSH, JJ., and EAMES, D.J.",
+      "below": "Appeal from the District Court of Albany County, the Honorable Misha E. Westby, Judge",
+      "publicationCaveat": "The opinion carries the Court's standard notice that it is subject to formal revision before publication in Pacific Reporter Third.",
+      "operativeFinding": "Holding at ¶18: \"To be eligible for expungement under § 7-13-1502, a person must have a felony conviction. Mr. Lynch does not have a conviction and does not qualify for expungement.\" The issue at ¶2 is \"Are deferred prosecutions subject to expungement under Wyo. Stat. Ann. § 7-13-1502?\" and the answer is no.",
+      "retrievalNote": "www.wyocourts.gov returns HTTP 403 to a default client and 200 to a browser user-agent; the opinion index is a client-side application that reads opinions.courts.state.wy.us/Home/GetOpinions and links documents from the Judicial Branch's own government-cloud blob store. Both were read directly. A recorded block was retested rather than carried forward.",
+      "weight": "controlling"
+    }
+  ],
+  "sourcesExpresslyNotRelieduponAsProof": [
+    "No commercial code compilation, annotation service, law-firm page or reentry-policy database was used to establish any text, date or holding. Several surfaced during this work and none is relied on in either direction.",
+    "The LexisNexis parentheticals inside the Lynch opinion's own quotations are the Court's citation practice and are not treated as an independent source.",
+    "No inference is drawn from the absence of a search result anywhere in this record. Each negative rests on a described enumeration."
+  ],
+  "determination": {
+    "1_didThe2025SessionAmendAnyOfTheThreeSections": {
+      "answer": "No.",
+      "basis": "All 556 bills of the 2025 general session were retrieved and their text searched. Four bills cite W.S. 7-13-301 — HB0049, HB0055 and HB0243, none of which was enacted, and SF0160, Treatment courts-amendments-2, ch. 160, effective 2025-03-18. None cites 7-13-1401, 7-13-1501 or 7-13-1502. The memo's own observation that the 2025 session amended the treatment court programme is confirmed and is the SF0160 chapter; it reaches W.S. 5-12-105 and the Court Supervised Treatment Program Act and does not reach any expungement section.",
+      "status": "swept, not assumed"
+    },
+    "2_didThe2026SessionAmendAnyOfTheThreeSections": {
+      "answer": "Yes — one act amends all three, and the memo's recorded negative is wrong.",
+      "act": "2026 House Bill 0044, the Revisor's bill, Session Laws of Wyoming 2026 ch. 98, House Enrolled Act 40, signed 2026-03-07, effective 2026-07-01.",
+      "whatItChanged": "In W.S. 7-13-1401(h), 7-13-1501(j) and 7-13-1502(j) — the subsections granting the division of criminal investigation, its employees and the prosecuting attorney immunity from liability — the reference to the Wyoming Governmental Claims Act by name is replaced by the citation W.S. 1-39-101 through 1-39-120.",
+      "legalDesignEffect": "None. The amendment is a citation-form correction inside an immunity provision. It touches no eligibility element, no waiting period, no exclusion, no filing fee, no notice or objection rule, no venue, no definition, no participant obligation and no relief granted. Nothing in any Wyoming packet changes because of it, and no track's design is disturbed.",
+      "currencyEffect": "Real. It is in force now, it postdates the codified text the normalization read, and it makes every effectiveFrom in the Wyoming memo stale as a statement of when the current operative text took effect.",
+      "classification": "current law, in force since 2026-07-01",
+      "alsoInThe2026Session": [
+        {
+          "act": "2026 House Bill 0003, ch. 62, effective 2026-07-01, Wyoming pregnancy centers-autonomy and rights",
+          "finding": "Creates a new offence at W.S. 6-2-512, assault and battery against health care providers, which borrows the definition of \"health care provider\" from W.S. 7-13-1501(m)(iv). It amends no part of 7-13-1501.",
+          "designEffect": "None today, and one thing to watch. The 7-13-1501(a)(iv) ineligibility bar is keyed to an offence punishable under W.S. 6-2-313 and to that section alone, so a conviction under the new 6-2-512 does not trigger it. The definition now has an external consumer, which is a reason for any future amendment to 7-13-1501(m)(iv) to be noticed."
+        },
+        {
+          "act": "2026 House Bill 0184, Juveniles-criminal deferral — not enacted, did not clear introduction",
+          "finding": "Would have created a criminal deferral process for juveniles who commit misdemeanours, with conforming amendments citing W.S. 7-13-301 and 7-13-307.",
+          "classification": "proposed and failed legislation",
+          "designEffect": "None. It is recorded because it is the only 2025 or 2026 measure that would have moved the deferral architecture the third question turns on, and because a reintroduction is a monitoring event rather than a surprise."
+        }
+      ]
+    },
+    "3_originalEnactmentDates": {
+      "answer": "All three are established from the creating act's own enrolled text.",
+      "sections": {
+        "7-13-1401": "Created by 2003 House Bill 0184, Session Laws of Wyoming 2003 ch. 137, effective 2003-07-01. The act created Article 14 of chapter 13, Expungement of Criminal Records, as a whole.",
+        "7-13-1501": "Created by 2004 Senate File 0064, Session Laws of Wyoming 2004 ch. 69, effective 2004-07-01, under the catch title \"Restoration of firearm rights-expungement\". The act created Article 15, Expungement of Records of Convictions, as a whole.",
+        "7-13-1502": "Created by 2011 Senate File 0088, Session Laws of Wyoming 2011 ch. 69, effective 2011-07-01, under the catch title \"Expungement of nonviolent felonies\". This confirms the date the memo recorded and supplies the chapter."
+      },
+      "memoComparison": "The memo recorded 7-13-1502's original enactment correctly and recorded the other two as not establishable. All three are now establishable, and the memo's stated reason — that the official publication prints no source or history notes — is correct as an observation about the codification and is no longer a reason to leave the question open, because the session-law record is itself official and is complete from 2001.",
+      "whatTheCodificationDoesPrint": "The Title 7 publication does carry inline disposition notes for repealed and renumbered provisions — \"Repealed by Laws 2015, ch. 164, § 2\" at 7-13-1501(a)(ii), five notes reading \"Repealed By Laws 2014, Ch. 124, § 2\" inside 7-13-1502(a)(iv), and renumbering notes across Article 16. These are not source notes and do not give an enactment date, but each one independently corroborates an act the sweep found, which is why they are worth recording."
+    },
+    "4_completeAmendmentHistoryFrom2001": {
+      "basis": "Every chaptered bill of the 2001 through 2024 sessions, plus every bill of 2025 and 2026, searched by text. Thirteen acts cite at least one of the three sections; the two that only cross-reference are separated out.",
+      "history": {
+        "7-13-1401": {
+          "createdBy": "2003 House Bill 0184, Session Laws of Wyoming 2003 ch. 137",
+          "createdEffective": "2003-07-01",
+          "creatingLanguageVerbatim": "Section 1. W.S. 7-13-1401 is created to read: ARTICLE 14 EXPUNGEMENT OF CRIMINAL RECORDS",
+          "creatingActCatchTitle": "Expungement of criminal records.",
+          "creatingActNote": "The same act created Article 14 of chapter 13 as a whole, so the article and the section share an origin.",
+          "amendments": [
+            {
+              "act": "2005 House Bill 0204, ch. 137",
+              "effective": "2005-02-25",
+              "touched": "(a)(i)(intro) and (a)(i)(A)",
+              "catchTitle": "Expungement of criminal records."
+            },
+            {
+              "act": "2011 Senate File 0088, ch. 69",
+              "effective": "2011-07-01",
+              "touched": "cited in the act that created W.S. 7-13-1502",
+              "catchTitle": "Expungement of nonviolent felonies."
+            },
+            {
+              "act": "2019 House Bill 0044, ch. 29",
+              "effective": "2019-07-01",
+              "touched": "(a)(intro) and a new subsection (k)",
+              "catchTitle": "Expungement of juvenile court records."
+            },
+            {
+              "act": "2026 House Bill 0044, ch. 98",
+              "effective": "2026-07-01",
+              "touched": "(h)",
+              "catchTitle": "Revisor's bill."
+            }
+          ],
+          "currentOperativeTextDate": "2026-07-01",
+          "memoRecordedEffectiveFrom": "2019-07-01"
+        },
+        "7-13-1501": {
+          "createdBy": "2004 Senate File 0064, Session Laws of Wyoming 2004 ch. 69",
+          "createdEffective": "2004-07-01",
+          "creatingLanguageVerbatim": "Section 1. W.S. 7-13-1501 is created to read: ARTICLE 15 EXPUNGEMENT OF RECORDS OF CONVICTIONS",
+          "creatingActCatchTitle": "Restoration of firearm rights-expungement.",
+          "creatingActNote": "The same act created Article 15 as a whole. As enacted the section was expressly purpose-limited: a person could petition \"for an expungement of the records of conviction for the purposes of restoring any firearm rights lost\", and the waiting period was one (1) year for every qualifying misdemeanour.",
+          "amendments": [
+            {
+              "act": "2009 House Bill 0106, ch. 67",
+              "effective": "2009-02-26",
+              "touched": "(a)(intro), (a)(i), (a)(ii) and (k)",
+              "catchTitle": "Firearm ownership-domestic violence offenses.",
+              "significance": "Replaced the one-year clock with five years, and removed the firearm-rights purpose limitation from both (a) and (k). Its own title is \"amending the purposes for which an expungement under W.S. 7-13-1501 may be used\"."
+            },
+            {
+              "act": "2014 House Bill 0006, ch. 13",
+              "effective": "2014-07-01",
+              "touched": "(a)(intro) and (a)(ii)",
+              "catchTitle": "Domestic assault and battery.",
+              "significance": "Added the new domestic assault and domestic battery offences to the enumerated list the section then reached."
+            },
+            {
+              "act": "2015 Senate File 0018, ch. 164",
+              "effective": "2015-07-01",
+              "touched": "(a)(intro) and (a)(i) amended; (a)(ii) repealed",
+              "catchTitle": "Expungement of misdemeanors.",
+              "significance": "Inserted the status-offence split now in (a)(i): five years for nonstatus offences, one year for status offences as defined by W.S. 7-1-107(b)(iii). The codified section's inline note \"Repealed by Laws 2015, ch. 164, § 2\" at (a)(ii) corroborates it."
+            },
+            {
+              "act": "2018 House Bill 0157, ch. 80",
+              "effective": "2018-07-01",
+              "touched": "(a)(intro), a new (a)(iv) and a new (m)(iv)",
+              "catchTitle": "Health care providers-sexual assault protections-2.",
+              "significance": "Struck the enumerated misdemeanour list so the section reaches any misdemeanour, added the health-care-provider bar and its definition, and added \"exceptions\" to the section heading. This is the amendment that turned a narrow firearm-rights route into a general misdemeanour expungement."
+            },
+            {
+              "act": "2026 House Bill 0044, ch. 98",
+              "effective": "2026-07-01",
+              "touched": "(j)",
+              "catchTitle": "Revisor's bill."
+            }
+          ],
+          "crossReferencesOnly": [
+            {
+              "act": "2009 Senate File 0070, ch. 19",
+              "effective": "2009-02-24",
+              "catchTitle": "Loss of firearms rights-protections.",
+              "note": "Creates W.S. 7-11-507 and amends W.S. 7-6-102(a)(v); it cites 7-13-1501 but amends no part of it."
+            },
+            {
+              "act": "2026 House Bill 0003, ch. 62",
+              "effective": "2026-07-01",
+              "catchTitle": "Wyoming pregnancy centers-autonomy and rights.",
+              "note": "Creates a new offence at W.S. 6-2-512 which borrows the definition of \"health care provider\" from W.S. 7-13-1501(m)(iv). It amends no part of 7-13-1501 and does not extend the (a)(iv) bar, which is keyed to W.S. 6-2-313 and to that section alone."
+            }
+          ],
+          "currentOperativeTextDate": "2026-07-01",
+          "memoRecordedEffectiveFrom": "2014-07-01"
+        },
+        "7-13-1502": {
+          "createdBy": "2011 Senate File 0088, Session Laws of Wyoming 2011 ch. 69",
+          "createdEffective": "2011-07-01",
+          "creatingLanguageVerbatim": "Section 1. W.S. 7-13-1502 is created to read:",
+          "creatingActCatchTitle": "Expungement of nonviolent felonies.",
+          "creatingActNote": "As enacted the section already carried the heading element \"restoration of rights\" and the subsection (m) restoration provision. The felony route was drafted with restoration in it from the first day.",
+          "amendments": [
+            {
+              "act": "2014 House Bill 0006, ch. 13",
+              "effective": "2014-07-01",
+              "touched": "(a)(iv)(E)",
+              "catchTitle": "Domestic assault and battery."
+            },
+            {
+              "act": "2014 Senate File 0116, ch. 124",
+              "effective": "2014-07-01",
+              "touched": "(a)(iii), (a)(iv)(P) and (S) amended; (a)(iv)(H), (J), (R), (U) and (W) repealed",
+              "catchTitle": "Expungement of felonies.",
+              "significance": "The codified section's five inline notes reading \"Repealed By Laws 2014, Ch. 124, § 2\" corroborate this act exactly."
+            },
+            {
+              "act": "2026 House Bill 0044, ch. 98",
+              "effective": "2026-07-01",
+              "touched": "(j)",
+              "catchTitle": "Revisor's bill."
+            }
+          ],
+          "currentOperativeTextDate": "2026-07-01",
+          "memoRecordedEffectiveFrom": "2014-07-01"
+        }
+      }
+    },
+    "5_doesAnyWyomingMechanismReachACompletedFelonyDeferral": {
+      "answer": "No. Nothing in Wyoming law clears the record of a successfully completed felony deferral, and one section forbids reading such a power in.",
+      "theRoutesAndWhyEachFails": [
+        {
+          "route": "W.S. 7-13-1401, expungement of records of arrest, dismissal of charges and disposition",
+          "why": "Barred on its face. Subsection (a)(i) requires that \"there were no dispositions pursuant to W.S. 7-13-301 to any charge or charges as the result of the incident leading to the arrest, including dispositions to a different or lesser charge\", and repeats the same exclusion for dispositions under W.S. 35-7-1037 and under former W.S. 7-13-203. A completed deferral is precisely such a disposition. Lynch describes this exclusion at ¶14."
+        },
+        {
+          "route": "W.S. 7-13-1502, expungement of records of conviction of certain felonies",
+          "why": "Requires a conviction. The section opens \"A person convicted of a felony\", and Lynch holds at ¶18 that a person who completed a deferral has none. At ¶15 the Court gives the reason the two sections read differently: \"the legislature did not need to exclude deferrals from § 7-13-1502 because that statute only allows the expungement of 'convictions.'\""
+        },
+        {
+          "route": "W.S. 7-13-301 itself, the deferral statute",
+          "why": "Contains no record-clearing provision at all. Subsections (a) through (f) were read in full: probation terms, discharge and dismissal, revocation, the \"not a conviction for any purpose\" rule at (d), the one-deferral-per-person rule at (e) and a commercial-driver exclusion at (f). Nothing about records."
+        },
+        {
+          "route": "W.S. 7-13-307",
+          "why": "Forecloses the argument expressly: \"Nothing in W.S. 7-13-301 through 7-13-306 shall be construed to authorize the court to expunge the record of a person charged with or convicted of a criminal offense.\" This is the strongest single answer to the question, because it is a statutory prohibition on the very construction a participant would want."
+        },
+        {
+          "route": "W.S. 7-12-310 and W.S. 7-12-404, post-conviction DNA testing and factual innocence",
+          "why": "Both operate on a conviction and both require actual or factual innocence established through DNA testing or stipulation. Each ends in vacating a conviction and ordering expungement. Neither reaches a person who has no conviction to vacate."
+        },
+        {
+          "route": "W.S. 7-19-405, DNA database expungement",
+          "why": "Removes a DNA sample and profile from the state database. It does not touch the court record or the criminal history record."
+        },
+        {
+          "route": "W.S. 14-6-241, juvenile expungement, reached through 7-13-1401(k)",
+          "why": "A juvenile route, available to the state on a juvenile arrest record. It does not reach an adult felony deferral."
+        }
+      ],
+      "theOnlyThingThatIsAvailable": {
+        "route": "W.S. 7-19-109, inspection, deletion or modification of criminal history record information",
+        "verbatim": "\"An individual has the right to inspect all criminal history record information located within this state which refers to him. The record subject may apply to the district court for an order to purge, modify or supplement inaccurate or incomplete information.\"",
+        "whyItMatters": "It is what the Supreme Court pointed at. Lynch's own division of criminal investigation record said he \"is a convicted felon\" with disposition \"CONVICTED\", and the Court said at ¶3 \"This record is not correct\" and at ¶18 \"His record should be corrected to accurately reflect the deferred sentencing disposition and the ultimate dismissal of the charge.\"",
+        "whatItIsNot": "It is not expungement and must never be described as one. It corrects an inaccurate record to say what actually happened — deferral, discharge, dismissal — and leaves the accurate record in place and disseminable. A participant told otherwise would be misled about the product they were buying.",
+        "designStatus": "Not a track today. Wyoming's normalized set has three tracks and none of them is a record-correction route. Whether to model one is a legal-design question with real substance behind it, and it is named as a downstream question rather than answered here."
+      },
+      "participantConsequence": "The anomaly is real and the Court said so without curing it. At ¶17 it recorded Mr. Lynch's argument that a person who was convicted may become eligible for expungement while a person who successfully completed a deferral — and so avoided conviction altogether — is permanently barred, and declined to substitute its policy judgement for the legislature's. Any Wyoming packet or screen must therefore fail closed on a completed felony deferral and must not offer 7-13-1401 or 7-13-1502 to that participant.",
+      "classification": "build blocker on wy_fel_1502, answered"
+    },
+    "6_isTheLynchCitationAccurate": {
+      "answer": "Yes, in every particular the memo asserted, and the different 2024 Lynch matter the memo's searcher found is a genuinely different case.",
+      "confirmed": {
+        "docket": "S-25-0140 — correct",
+        "citation": "2026 WY 8",
+        "decided": "2026-01-15",
+        "caption": "Russell Lee Lynch v. The State of Wyoming",
+        "proposition": "Correct as cited. Section 7-13-1502 requires an actual felony conviction, and a completed deferral producing a dismissal is not one.",
+        "alsoConsistentWith": "The memo's own reading that the statutory text opens with \"a person convicted of a felony\". The Court reached the same place by the same route and held the language unambiguous."
+      },
+      "theOtherLynch": "Lynch v. State, 2024 WY 79, docket S-23-0271, appellant Jennifer Elizabeth Lynch a/k/a Jennifer Elizabeth Stracener, is a different appellant on an unrelated issue. It is not the cited case and it does not bear on this proposition.",
+      "oneThingTheOpinionDoesNotDecide": "Footnote 3: \"Our interpretation of § 7-13-1501 is limited to its clear language — that the statute authorizes expungement of records of conviction — and we express no view on its broader scope.\" So Lynch does not decide whether a misdemeanour deferral under W.S. 7-13-301 is expungeable under 7-13-1501, although at ¶16 it observes that section 7-13-1501 \"clearly only authorizes 'expungement of the records of conviction'\". That reservation is handed to the eligibility job and to the Wyoming legal-design owner rather than resolved here.",
+      "classification": "release blocker on wy_fel_1502, answered"
+    }
+  },
+  "memoAmendmentImplied": {
+    "note": "This record owns no memo. The amendments below are stated exactly so that whoever owns WY.memo.json can apply and check them; none is applied here.",
+    "owner": "the Wyoming legal-design owner, through a Wyoming memo amendment job",
+    "items": [
+      {
+        "field": "wy_nc_1401.effectiveDates.effectiveFrom",
+        "recorded": "2019-07-01",
+        "correct": "2026-07-01 as the date the current operative text took effect, with 2003-07-01 recorded as the original enactment.",
+        "why": "2026 ch. 98 amended subsection (h) effective 2026-07-01, which is later than the 2019 amendment the memo recorded."
+      },
+      {
+        "field": "wy_misd_1501.effectiveDates.effectiveFrom",
+        "recorded": "2014-07-01",
+        "correct": "2026-07-01 as the date the current operative text took effect, with 2004-07-01 recorded as the original enactment.",
+        "why": "Three amendments postdate the one the memo recorded: 2015 ch. 164, 2018 ch. 80 and 2026 ch. 98. The 2018 act matters most, because it is what made the section reach any misdemeanour rather than an enumerated list."
+      },
+      {
+        "field": "wy_fel_1502.effectiveDates.effectiveFrom",
+        "recorded": "2014-07-01",
+        "correct": "2026-07-01 as the date the current operative text took effect, with 2011-07-01 recorded as the original enactment.",
+        "why": "2014 ch. 124 and 2026 ch. 98 both postdate 2014 ch. 13."
+      },
+      {
+        "field": "the three unresolvedQuestions asking whether the 2025 or 2026 sessions amended the sections",
+        "recorded": "nonblocking_research_note, \"No amendment was identified, but the sessions were not swept.\"",
+        "correct": "Retire all three against this record. Both sessions are swept. 2025 amended none of the three; 2026 ch. 98 amended all three in their immunity subsections with no legal-design effect.",
+        "why": "The condition the questions record — that the sessions were not swept — is closed."
+      },
+      {
+        "field": "the two unresolvedQuestions asking for the original enactment dates of 7-13-1401 and 7-13-1501",
+        "recorded": "nonblocking_research_note",
+        "correct": "Retire both against this record: 2003 ch. 137 effective 2003-07-01, and 2004 ch. 69 effective 2004-07-01."
+      },
+      {
+        "field": "wy_fel_1502.unresolvedQuestions, the Lynch citation question",
+        "recorded": "release_blocker on eligibility_branch, \"the citation could not be confirmed\"",
+        "correct": "Retire against this record. The citation is accurate: Lynch v. State, 2026 WY 8, docket S-25-0140, decided 2026-01-15."
+      },
+      {
+        "field": "wy_fel_1502.unresolvedQuestions, whether anything else reaches a completed felony deferral",
+        "recorded": "build_blocker on governing_mechanism",
+        "correct": "Retire against this record as answered in the negative, and carry the answer into participant-facing copy: nothing clears the record of a completed felony deferral, W.S. 7-13-307 forbids reading the power into the deferral statutes, and the only available remedy is a W.S. 7-19-109 application to correct an inaccurate criminal history record, which is correction and not expungement.",
+        "careRequired": "Do not turn W.S. 7-19-109 into a fourth Wyoming track in the same edit. It is a different instrument in a different court posture and it needs its own design decision."
+      }
+    ]
+  },
+  "affectedTracks": {
+    "wy_nc_1401": "Currency corrected; one nonblocking question retired. No mechanism, eligibility, venue, component or strategy change.",
+    "wy_misd_1501": "Currency corrected; one nonblocking question retired. Its two build blockers — the status-offence definition and the local templates — are untouched here.",
+    "wy_fel_1502": "One release blocker and one build blocker answered. The track does not become ready: the local-template build blocker stands, and the deferral answer is a fail-closed screen rather than a capability.",
+    "denominatorEffect": "None. Wyoming keeps three slots and three nodes. Nothing is added, removed, split or merged.",
+    "outputStrategyEffect": "None. All three tracks stay custom_pleading with outputStrategyStatus resolved.",
+    "packetCapabilityEffect": "Unchanged, and no track becomes packet-ready. What changes is the accuracy of two participant-facing screens: a completed felony deferral must fail closed on wy_fel_1502 and on wy_nc_1401, and the reason is now statable."
+  },
+  "residualQuestions": [
+    {
+      "id": "wy-local-expungement-templates",
+      "question": "Which of Wyoming's twenty-three counties publish local expungement templates.",
+      "classification": "build_blocker",
+      "isBuildBlocker": true,
+      "owner": "the Wyoming legal-design owner",
+      "note": "Carried by all three tracks and untouched here. Resolvable only by a clerk survey, which is human work."
+    },
+    {
+      "id": "wy-status-offence-definition",
+      "question": "What W.S. 7-1-107(b)(iii) defines as a status offence and which Wyoming charges fall inside it.",
+      "classification": "build_blocker",
+      "isBuildBlocker": true,
+      "owner": "rcap-wy-eligibility-waiting-period-and-effect-reconciliation",
+      "note": "Expressly this record's sibling job, not this record's question."
+    },
+    {
+      "id": "wy-1501-restoration-asymmetry",
+      "question": "Whether an expungement under 7-13-1501 restores any right.",
+      "classification": "release_blocker",
+      "isBuildBlocker": false,
+      "owner": "rcap-wy-eligibility-waiting-period-and-effect-reconciliation"
+    },
+    {
+      "id": "wy-1501-deferral-scope-reserved",
+      "question": "Whether a misdemeanour deferral under W.S. 7-13-301 can be expunged under 7-13-1501, which Lynch footnote 3 expressly reserves.",
+      "classification": "release_blocker",
+      "isBuildBlocker": false,
+      "owner": "the Wyoming legal-design owner",
+      "note": "New, and surfaced by this record. The memo did not carry it because nobody had read the opinion. It is release-level rather than build-level because the misdemeanour track is generatable either way; what turns on it is who is screened out."
+    },
+    {
+      "id": "wy-7-19-109-record-correction-route",
+      "question": "Whether Wyoming should model a W.S. 7-19-109 application to purge, modify or supplement inaccurate criminal history record information as a route of its own.",
+      "classification": "product_scope_boundary",
+      "isBuildBlocker": false,
+      "owner": "the Wyoming legal-design owner and product",
+      "note": "It is the only thing available to a completed felony deferral, and the Supreme Court pointed at it in terms. It is a different remedy with a different promise and it must not be folded into an expungement track."
+    },
+    {
+      "id": "wy-special-session-residue",
+      "question": "Nine special-session acts of 2004, 2020 and 2021 whose text the per-bill endpoint does not serve.",
+      "classification": "monitoring_question",
+      "isBuildBlocker": false,
+      "owner": "the Wyoming legal-design owner",
+      "note": "Outside the 2025 and 2026 window, so it does not qualify the currency answer. It qualifies only the completeness of the 2001-forward enactment history."
+    },
+    {
+      "id": "wy-6-2-512-definition-consumer",
+      "question": "W.S. 6-2-512, created by 2026 ch. 62 effective 2026-07-01, now borrows the 7-13-1501(m)(iv) definition of health care provider.",
+      "classification": "monitoring_question",
+      "isBuildBlocker": false,
+      "owner": "the Wyoming legal-design owner",
+      "note": "No effect today. It means a future amendment to that definition would move a criminal offence as well as an expungement bar."
+    },
+    {
+      "id": "wy-lynch-publication-status",
+      "question": "Lynch v. State, 2026 WY 8 is subject to formal revision before publication in Pacific Reporter Third.",
+      "classification": "monitoring_question",
+      "isBuildBlocker": false,
+      "owner": "the Wyoming legal-design owner",
+      "note": "The Court's own standard notice. The holding is not in doubt; the pagination and any formal correction are."
+    },
+    {
+      "id": "wy-expungement-basics-handout",
+      "question": "Whether the Wyoming Judicial Branch Expungement Basics handout is current, carrying a 10/2015 revision date in a 2025 upload path.",
+      "classification": "nonblocking_research_note",
+      "isBuildBlocker": false,
+      "owner": "the Wyoming legal-design owner",
+      "note": "Untouched here."
+    },
+    {
+      "id": "wy-6-2-708-vacatur-fee",
+      "question": "Whether there is a filing fee for a W.S. 6-2-708 trafficking vacatur motion.",
+      "classification": "nonblocking_research_note",
+      "isBuildBlocker": false,
+      "owner": "the Wyoming legal-design owner",
+      "note": "Untouched here; that route is referred out rather than generated."
+    }
+  ],
+  "blockerClassification": {
+    "buildBlockersClosed": "One: whether anything else reaches a completed felony deferral, on wy_fel_1502.",
+    "releaseBlockersClosed": "One: the Lynch citation, on wy_fel_1502.",
+    "nonblockingNotesClosed": "Five: the three session-sweep questions and the two original-enactment questions.",
+    "buildBlockersRetained": "The local-template survey on all three tracks, and the status-offence definition on wy_misd_1501. Neither is this record's question and neither is moved by it.",
+    "releaseBlockersRetained": "The 7-13-1501 restoration asymmetry, and the newly recorded reservation in Lynch footnote 3.",
+    "monitoringQuestions": "The special-session residue, the new external consumer of the 7-13-1501(m)(iv) definition, the Lynch publication status, and any reintroduction of the failed juvenile-deferral bill.",
+    "releaseBlockersThatMeanNoTrackIsReady": "Wyoming has no ready track after this record and is not closer to one. The local-template build blocker alone holds all three."
+  },
+  "downstreamJobs": [
+    {
+      "owner": "the Wyoming legal-design owner",
+      "job": "a WY.memo.json amendment applying the currency corrections and retiring the seven questions listed above",
+      "lane": "legal_design_normalization"
+    },
+    {
+      "owner": "rcap-wy-eligibility-waiting-period-and-effect-reconciliation",
+      "job": "the status-offence definition and the restoration asymmetry",
+      "lane": "legal_design_normalization",
+      "note": "This record hands it two things it will need: that 2015 ch. 164 inserted the status-offence split, and that 7-13-1501 once carried an express firearm-rights restoration purpose which 2009 ch. 67 removed."
+    },
+    {
+      "owner": "the Wyoming legal-design owner",
+      "job": "a decision on whether to model the W.S. 7-19-109 record-correction route",
+      "lane": "legal_design_normalization"
+    },
+    {
+      "owner": "the Wyoming legal-design owner",
+      "job": "the twenty-three-county local-template survey",
+      "lane": "legal_design_normalization",
+      "note": "Human work. No clerk was contacted here and no county practice is asserted anywhere in this record."
+    }
+  ],
+  "terminalDisposition": "both_sessions_swept_2026_ch_98_amends_all_three_immunity_subsections_with_no_design_effect_original_enactments_established_2003_2004_2011_no_mechanism_reaches_a_completed_felony_deferral_lynch_citation_confirmed",
+  "terminalDispositionDetail": {
+    "why": "The narrowest accurate result. It is not \"no amendment found\": one was found, and the memo's recorded negative was wrong on the 2026 session. It is not a readiness statement: the amendment changes nothing a participant sees and no Wyoming track becomes ready. And the deferral answer is a proved negative rather than an unsuccessful search — seven routes were enumerated and each fails for a stated reason, one of them by an express statutory prohibition.",
+    "howTheNegativesWereEstablished": "By enumeration in both directions. For currency, 4,841 bill records across twenty-six sessions, with the instrument corrected twice and positive-controlled before any negative was accepted. For the deferral question, every expungement, sealing and purge provision in Title 7, read against the deferral statutes and against a Supreme Court holding on the exact point.",
+    "twoMemoAssertionsOverturned": 2,
+    "questionsClosed": 7,
+    "questionsOpened": 2
+  },
+  "runtimeEffect": {
+    "packetReadyChanged": false,
+    "packetReady": 0,
+    "memoEdited": false,
+    "globalRegistriesRegenerated": false,
+    "enabledJurisdictionsChanged": false,
+    "launchGateChanged": false,
+    "runtimeStatusChanged": false,
+    "promotionStatusChanged": false,
+    "tracksMadeReady": 0,
+    "sourcesMaterialized": 0,
+    "sourceReceiptsCreated": 0,
+    "binariesEnteringVersionControl": 0,
+    "rendererImplemented": false,
+    "editionPublished": false,
+    "issuerContacted": false,
+    "clerkContacted": false,
+    "feesPaid": 0,
+    "downloadedSourceCount": 0,
+    "downloadedSourceCountNote": "Zero. Official statute publications, session-law bill records, one enrolled act and one appellate opinion were read for adjudication and held outside the repository. Nothing was retained as a repository source artifact, materialized, receipted or bound to any component. No acquisition occurred."
+  }
+}
