@@ -360,7 +360,8 @@ const completedGuidanceJobs = factoryPlan.jobs.filter(
     entry.lane === "guidance_implementation" &&
     entry.participantPacketProofRequired === true
 );
-assert.equal(completedGuidanceJobs.length, 34);
+// 34 -> 37 with the Oklahoma, Tennessee and North Carolina guidance packets.
+assert.equal(completedGuidanceJobs.length, 37);
 const expectedGuidanceCompletions = new Map([
   ["rcap-ak-guidance-implementation", ["36509c7377c5653db07fd5c43b3948aad079164a", 4]],
   ["rcap-ca-guidance-implementation", ["26b4661089849a67eb99bfae6598ba101f75cbbc", 3]],
@@ -395,7 +396,10 @@ const expectedGuidanceCompletions = new Map([
   ["rcap-ny-guidance-implementation", ["69b215d3673600b18ead7422699eb4e6636de6fe", 4]],
   ["rcap-nm-guidance-implementation", ["77cf1525b3333d6f69f9a76f013f39b66ad5513a", 2]],
   ["rcap-ri-guidance-implementation", ["77cf1525b3333d6f69f9a76f013f39b66ad5513a", 2]],
-  ["rcap-ky-guidance-implementation", ["77cf1525b3333d6f69f9a76f013f39b66ad5513a", 2]]
+  ["rcap-ky-guidance-implementation", ["77cf1525b3333d6f69f9a76f013f39b66ad5513a", 2]],
+  ["rcap-ok-guidance-implementation", ["80630a60928012c001ff107bac376845bfd74680", 2]],
+  ["rcap-tn-guidance-implementation", ["80630a60928012c001ff107bac376845bfd74680", 2]],
+  ["rcap-nc-guidance-implementation", ["80630a60928012c001ff107bac376845bfd74680", 1]]
 ]);
 let verifiedGuidancePacketCount = 0;
 let verifiedGuidancePageCount = 0;
@@ -451,18 +455,32 @@ for (const child of completedGuidanceJobs) {
   assert.equal(proof.visualProof, "pending");
   assert.equal(proof.counselAdopted, false);
   assert.equal(proof.productionEnabled, false);
+  // A proof states what it is and what it is not. The gates below are only
+  // checked where the proof carries them: three Georgia, Illinois and
+  // Pennsylvania proofs predate the fields and cannot be regenerated in
+  // place, because their worker-owned verifiers assert the integration-owned
+  // proof does not exist. Where a proof does carry them, no value but these
+  // is accepted.
+  if (proof.technicalEvidence !== undefined) {
+    assert.equal(proof.technicalEvidence, "complete");
+    assert.equal(proof.visualReview, "formal_visual_review_pending");
+    assert.equal(proof.completedOutputLegalReview, "pending");
+    assert.equal(proof.packetReady, false);
+  }
   verifiedGuidancePacketCount += proof.finalPdfCount;
   verifiedGuidancePageCount += proof.assembledPageCount;
 }
-assert.equal(verifiedGuidancePacketCount, 108);
-assert.equal(verifiedGuidancePageCount, 541);
+// 108 -> 113 packets and 541 -> 578 pages with the Oklahoma (2/23),
+// Tennessee (2/9) and North Carolina (1/5) guidance packets.
+assert.equal(verifiedGuidancePacketCount, 113);
+assert.equal(verifiedGuidancePageCount, 578);
 assert.deepEqual(productionPlan.participantPacketProofReconciliation, {
   schemaVersion: "rcap-participant-packet-proof/v1",
-  completedGuidanceJobsRequiringProof: 34,
-  proofsPresentAndVerified: 34,
-  assignedTracks: 108,
-  finalPackets: 108,
-  assembledPages: 541,
+  completedGuidanceJobsRequiringProof: 37,
+  proofsPresentAndVerified: 37,
+  assignedTracks: 113,
+  finalPackets: 113,
+  assembledPages: 578,
   proofDirectory: "data/record-clearing/production-factory/packet-proofs",
   evidenceSource:
     "Each integration-owned proof is generated from its committed regression verifier output; worker-authored proof assertions are not accepted.",
@@ -502,8 +520,8 @@ assert.deepEqual(productionPlan.guidanceLaneReconciliation, {
   workerImplementationStatus:
     guidanceImplementationPoolExhausted ? "complete" : "incomplete",
   technicalPacketProofStatus: "complete",
-  finalPackets: 108,
-  assembledPages: 541,
+  finalPackets: 113,
+  assembledPages: 578,
   blockedAdjudications: currentGuidanceAdjudicationJobs.filter(
     (entry) => entry.status === "blocked"
   ).length,
@@ -609,10 +627,10 @@ assert.equal(kansasCommercialDisposition.generationAllowed, false);
 // sources. Their genuine PDF siblings stay.
 assert.deepEqual(officialPdfSourceContract.queueCoverage.totals, {
   tracks: 267,
-  components: 731,
-  documentIdentities: 329,
+  components: 730,
+  documentIdentities: 328,
   exactSourceRequirements: 119,
-  unresolvedSourceIdentities: 210
+  unresolvedSourceIdentities: 209
 });
 assert.equal(officialPdfSourceContract.familyCount, 45);
 // Eleven newly admitted families have no authored source-requirements scaffold
@@ -636,7 +654,7 @@ assert.equal(
   0
 );
 assert.equal(officialPdfSourceContract.totals.pendingAssignmentFamilies, 0);
-assert.equal(officialPdfSourceContract.totals.projectedDocumentIdentities, 329);
+assert.equal(officialPdfSourceContract.totals.projectedDocumentIdentities, 328);
 assert.equal(
   officialPdfSourceContract.totals.projectedExactWorkerAssignments,
   74
@@ -653,7 +671,9 @@ assert.equal(
     (family) => family.workerReady === true
   ).length
 );
-assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 73);
+// 73 -> 77 packet modules: Indiana and Mississippi custom pleading, Tennessee
+// and North Carolina guidance. Oklahoma guidance was already counted.
+assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 77);
 assert.equal(
   officialPdfSourceContract.verifierBoundary.packetWorkerMaterializationPaths,
   0
@@ -678,7 +698,7 @@ assert.equal(
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedDocumentIdentities,
-  329
+  328
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
@@ -688,12 +708,12 @@ assert.equal(
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .unresolvedSourceIdentities,
-  210
+  209
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedUnresolvedIdentities,
-  176
+  175
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
@@ -757,7 +777,7 @@ assert.equal(
   productionPlan.officialPdfSourceContractIntegration.runtimeStatus,
   "runtime_disabled"
 );
-assert.equal(officialPdfSourceProjection.coverage.queueIdentityCount, 329);
+assert.equal(officialPdfSourceProjection.coverage.queueIdentityCount, 328);
 assert.equal(officialPdfSourceProjection.coverage.assignmentEligibleCount, 74);
 assert.deepEqual(
   officialPdfSourceProjection.coverage.countsByDisposition,
@@ -778,7 +798,7 @@ assert.deepEqual(
     // captures of statutory text the issuer publishes only as HTML. They left
     // the official-PDF lane with their six components.
     source_gated_identity: 25,
-    unresolved_identity: 176
+    unresolved_identity: 175
   }
 );
 assert.equal(legalReviewMaterializationContract.assignmentCount, 24);
@@ -2211,7 +2231,8 @@ assert.equal(
   factoryPlan.trackReconciliation.representedExactlyOnce,
   normalizedTrackCount
 );
-assert.equal(factoryPlan.trackReconciliation.implementationComplete, 187);
+// 187 -> 198 with the eleven tracks this wave's five implementations built.
+assert.equal(factoryPlan.trackReconciliation.implementationComplete, 198);
 assert.equal(
   factoryPlan.trackReconciliation.pendingProductionJob,
   normalizedTrackCount -
@@ -2244,7 +2265,8 @@ assert.equal(new Set(factoryPlan.trackReconciliation.assignments.map(
 const completed = factoryPlan.trackReconciliation.assignments.filter(
   (entry) => entry.disposition === "implementation_complete"
 );
-assert.equal(completed.filter((entry) => entry.jurisdiction === "MS").length, 5);
+// 5 Tranche 1 Mississippi tracks plus the 3 this wave's pleading built.
+assert.equal(completed.filter((entry) => entry.jurisdiction === "MS").length, 8);
 assert.equal(completed.filter((entry) => entry.jurisdiction === "GA").length, 13);
 assert.equal(completed.filter((entry) => entry.jurisdiction === "IL").length, 6);
 assert.equal(completed.filter((entry) => entry.jurisdiction === "PA").length, 3);
@@ -2845,8 +2867,9 @@ assert.deepEqual(
 );
 assert.equal(status.totals.tracks, normalizedTrackCount);
 assert.equal(status.totals.normalized, normalizedTrackCount);
-assert.equal(status.totals.implementationComplete, 137);
-assert.equal(status.totals.technicalProofPassed, 137);
+// 137 -> 148 with the eleven tracks this wave's five implementations built.
+assert.equal(status.totals.implementationComplete, 148);
+assert.equal(status.totals.technicalProofPassed, 148);
 assert.equal(status.totals.visualProofPassed, 17);
 assert.equal(status.totals.legalRecommendationComplete, 19);
 assert.equal(status.totals.counselAdopted, 15);

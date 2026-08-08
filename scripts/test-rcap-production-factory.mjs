@@ -658,7 +658,9 @@ await check("all normalized tracks reconcile exactly once and completed tranches
     reconciliation.representedExactlyOnce,
     normalizedTrackCount
   );
-  assert.equal(reconciliation.implementationComplete, 187);
+  // 187 -> 198 with the Indiana and Mississippi pleadings (3 + 3) and the
+  // Oklahoma, Tennessee and North Carolina guidance packets (2 + 2 + 1).
+  assert.equal(reconciliation.implementationComplete, 198);
   assert.equal(
     reconciliation.pendingProductionJob,
     normalizedTrackCount - reconciliation.implementationComplete
@@ -674,7 +676,8 @@ await check("all normalized tracks reconcile exactly once and completed tranches
   const completed = reconciliation.assignments.filter(
     (entry) => entry.disposition === "implementation_complete"
   );
-  assert.equal(completed.filter((entry) => entry.jurisdiction === "MS").length, 5);
+  // 5 Tranche 1 Mississippi tracks plus the 3 this wave's pleading built.
+  assert.equal(completed.filter((entry) => entry.jurisdiction === "MS").length, 8);
   assert.equal(completed.filter((entry) => entry.jurisdiction === "AK").length, 7);
   assert.equal(completed.filter((entry) => entry.jurisdiction === "CT").length, 7);
   assert.equal(completed.filter((entry) => entry.jurisdiction === "GA").length, 13);
@@ -3556,7 +3559,8 @@ await check("completed guidance packet proofs are exact and review-consumable", 
       entry.lane === "guidance_implementation" &&
       entry.participantPacketProofRequired === true
   );
-  assert.equal(completedGuidance.length, 34);
+  // 34 -> 37 with the Oklahoma, Tennessee and North Carolina guidance packets.
+  assert.equal(completedGuidance.length, 37);
   for (const job of completedGuidance) {
     const proofPath =
       `data/record-clearing/production-factory/packet-proofs/${job.jobId}.json`;
@@ -3829,8 +3833,9 @@ await check("dashboard reports all 51 and preserves the red launch posture", () 
   assert.equal(status.totals.jurisdictions, 51);
   assert.equal(status.totals.tracks, normalizedRegistry.trackCount);
   assert.equal(status.totals.normalized, normalizedRegistry.trackCount);
-  assert.equal(status.totals.implementationComplete, 137);
-  assert.equal(status.totals.technicalProofPassed, 137);
+  // 137 -> 148 with the eleven tracks this wave's five implementations built.
+  assert.equal(status.totals.implementationComplete, 148);
+  assert.equal(status.totals.technicalProofPassed, 148);
   assert.equal(status.totals.visualProofPassed, 17);
   assert.equal(status.totals.legalRecommendationComplete, 19);
   assert.equal(status.totals.counselAdopted, 15);

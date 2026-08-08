@@ -101,7 +101,6 @@ const EXPECTED_FORM_IDS = [
   "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
   "FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION",
   "FL-RULE-3.989-AFFIDAVIT",
-  "FL-RULE-3.989-CONTINUATION",
   "FL-RULE-3.989-ORDER",
   "FL-RULE-3.989-PETITION"
 ];
@@ -133,10 +132,10 @@ ok(
 );
 ok(
   manifest.scope?.routeCount === 8 &&
-    manifest.scope?.packetComponentCount === 24 &&
-    manifest.scope?.officialPdfComponentCount === 19 &&
+    manifest.scope?.packetComponentCount === 23 &&
+    manifest.scope?.officialPdfComponentCount === 18 &&
     manifest.scope?.externalPacketComponentCount === 5 &&
-    manifest.scope?.documentIdentityCount === 9,
+    manifest.scope?.documentIdentityCount === 8,
   "Family manifest has incorrect route, component, or document counts."
 );
 ok(
@@ -209,10 +208,10 @@ if (queueFamily) {
   );
   ok(
     queueFamily.counts?.trackCount === 8 &&
-      queueFamily.counts?.componentCount === 19 &&
-      queueFamily.counts?.documentCount === 9 &&
+      queueFamily.counts?.componentCount === 18 &&
+      queueFamily.counts?.documentCount === 8 &&
       queueFamily.counts?.exactSourceRequirementCount === 0 &&
-      queueFamily.counts?.unresolvedSourceIdentityCount === 9,
+      queueFamily.counts?.unresolvedSourceIdentityCount === 8,
     "Production queue Florida counts changed."
   );
   for (const document of queueFamily.documents ?? []) {
@@ -234,7 +233,7 @@ const flRelationships = relationships.relationships.filter(
     EXPECTED_TRACK_IDS.includes(entry.trackId)
 );
 ok(
-  flRelationships.length === 19,
+  flRelationships.length === 18,
   "Florida source relationship count is not nineteen."
 );
 for (const relationship of flRelationships) {
@@ -247,13 +246,25 @@ for (const relationship of flRelationships) {
   );
 }
 
+// The retired continuation keeps its queue row so the negative answer stays on
+// the record, but it is not a live acquisition row and is not counted as one.
 const acquisitionRows = acquisitionQueue.rows.filter(
   (entry) =>
     entry.jurisdiction === "FL" &&
-    EXPECTED_TRACK_IDS.includes(entry.trackId)
+    EXPECTED_TRACK_IDS.includes(entry.trackId) &&
+    entry.componentRetired !== true
 );
 ok(
-  acquisitionRows.length === 19,
+  acquisitionQueue.rows.some(
+    (entry) =>
+      entry.acquisitionKey === "acquire:FL:fl-rule-3-989-continuation" &&
+      entry.componentRetired === true &&
+      entry.acquisitionRequired === false
+  ),
+  "The resolved Florida continuation row left the queue instead of staying answered."
+);
+ok(
+  acquisitionRows.length === 18,
   "Florida source-acquisition row count is not nineteen."
 );
 for (const row of acquisitionRows) {
@@ -280,8 +291,8 @@ const auditedOfficialComponents = auditTracks.flatMap((track) =>
   )
 );
 ok(
-  auditedOfficialComponents.length === 19,
-  "Florida track audit no longer contains nineteen official-PDF components."
+  auditedOfficialComponents.length === 18,
+  "Florida track audit no longer contains eighteen official-PDF components."
 );
 for (const component of auditedOfficialComponents) {
   ok(
@@ -292,7 +303,7 @@ for (const component of auditedOfficialComponents) {
   );
 }
 note(
-  "2. Identity: queue, relationships, acquisition rows, and audit agree on 8 routes, 19 bindings, and 9 unresolved documents."
+  "2. Identity: queue, relationships, acquisition rows, and audit agree on 8 routes, 18 bindings, and 8 unresolved documents."
 );
 
 // ---------------------------------------------------------------------------
@@ -422,7 +433,7 @@ ok(
   "Source provenance permits candidate inference or overstates verification."
 );
 note(
-  "3. Sources: nine authority-unmanifested requirements preserve null pins, null locators, zero candidates, and zero worker authority."
+  "3. Sources: eight authority-unmanifested requirements preserve null pins, null locators, zero candidates, and zero worker authority."
 );
 
 // ---------------------------------------------------------------------------
@@ -581,22 +592,21 @@ for (const trackId of EXPECTED_TRACK_IDS) {
   }
 }
 ok(
-  assembledComponentCount === 24 &&
-    assembledOfficialCount === 19 &&
+  assembledComponentCount === 23 &&
+    assembledOfficialCount === 18 &&
     assembledExternalCount === 5,
-  "Assembled component totals are not 24/19/5."
+  "Assembled component totals are not 23/18/5."
 );
 ok(
   assemblyByTrack
     .get("fl-expunction")
     ?.blockingReasonCodes.includes("legal_design_route_selection_blocker") &&
-    assemblyByTrack.get("fl-expunction")?.components[5]?.requirement ===
-      "conditional" &&
-    assemblyByTrack
-      .get("fl-expunction")
-      ?.components[5]?.conditionDescription ===
-      "For multiple charges, and for local circuit cover sheets or packet forms.",
-  "Expunction build blocker or conditional continuation was lost."
+    (assemblyByTrack.get("fl-expunction")?.components ?? []).every(
+      (component) =>
+        component.componentId !== "fl-expunction-continuation-6" &&
+        component.officialFormId !== "FL-RULE-3.989-CONTINUATION"
+    ),
+  "Expunction build blocker was lost, or the retired continuation identity returned."
 );
 ok(
   (packetAssembly.excludedTracks ?? []).some(
@@ -607,7 +617,7 @@ ok(
   "Automatic sealing guidance track is not explicitly excluded."
 );
 note(
-  "5. Assembly: all 24 adopted components retain exact order, including 19 owned PDF positions and 5 external positions."
+  "5. Assembly: all 23 adopted components retain exact order, including 18 owned PDF positions and 5 external positions."
 );
 
 // ---------------------------------------------------------------------------
@@ -952,9 +962,9 @@ ok(
   "Review manifest claims design changes or source-backed output."
 );
 ok(
-  review.sourceReview?.knownDocumentIdentityCount === 9 &&
+  review.sourceReview?.knownDocumentIdentityCount === 8 &&
     review.sourceReview?.exactAuthorityAssetCount === 0 &&
-    review.sourceReview?.authorityUnmanifestedDocumentCount === 9 &&
+    review.sourceReview?.authorityUnmanifestedDocumentCount === 8 &&
     review.sourceReview?.exactSourceRequirementCount === 0 &&
     review.sourceReview?.queueMappedRepositoryCandidateCount === 0 &&
     review.sourceReview?.captainAssignedSourceCount === 0 &&

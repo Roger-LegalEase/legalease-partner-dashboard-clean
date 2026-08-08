@@ -64,12 +64,14 @@
       "authority_hash_conflict": 15,
       "authority_mapped_source_gated": 82,
       "authority_role_mismatch": 63,
-      "authority_unmanifested_source": 271
+      "authority_unmanifested_source": 270,
+      "retired_component_no_document_exists": 1
     },
     "byRequiredAcquisition": {
-      "Acquire the current official binary from the issuing authority and manifest it.": 255,
+      "Acquire the current official binary from the issuing authority and manifest it.": 254,
       "Clear the edition's source gate — currentness, provenance or commercial use — or keep packet identity without runtime selection.": 82,
       "Establish official title, revision and provenance for the held binary, then manifest it in an adopted edition.": 16,
+      "none": 1,
       "Re-manifest the source under the document role the component requires, or map the component to the asset that carries that role.": 63,
       "Separate the conflicting document identities and re-manifest each at its own document ID and SHA-256.": 15
     },
@@ -86,7 +88,8 @@
       "document_identity_and_issuer_confirmed": 79,
       "document_identity_confirmed_component_names_the_rule_not_the_form": 9,
       "document_identity_confirmed_role_label_incorrect": 6,
-      "document_identity_known": 322,
+      "document_identity_known": 321,
+      "identity_names_no_document": 1,
       "issuer_confirmed_document_class_incorrect_in_the_edition": 5,
       "issuer_confirmed_two_documents_share_one_document_id": 4,
       "two_distinct_documents_conflated_in_one_component_identity": 6
@@ -1966,37 +1969,6 @@
       "acquisitionKey": "acquire:FL:fl-rule-3-989-order",
       "edition12Disposition": "identity_established_binary_unavailable",
       "edition12DispositionRationale": "No acquisition was completed for this document in the Edition 1.2 pass; the deterministic fail-closed result stands.",
-      "edition12Evidence": null
-    },
-    {
-      "jurisdiction": "FL",
-      "trackId": "fl-expunction",
-      "componentId": "fl-expunction-continuation-6",
-      "composedUnitId": null,
-      "composedUnitAssociation": "not_a_composed_track",
-      "expectedDocumentId": "FL-RULE-3.989-CONTINUATION",
-      "expectedDocumentRole": "continuation",
-      "officialTitle": null,
-      "issuingAuthority": null,
-      "knownOfficialUrl": null,
-      "legalBasis": [
-        "§ 943.0585, Fla. Stat.; disqualifiers at § 943.0584",
-        "Fla. R. Crim. P. 3.692, with forms at Rule 3.989",
-        "as amended by Chapter 2026-114, effective 1 July 2026"
-      ],
-      "currentEditionStatus": "authority_unmanifested_source",
-      "repositoryStatus": "no_repository_binary",
-      "requiredAcquisition": "Acquire the current official binary from the issuing authority and manifest it.",
-      "currentnessQuestion": "The issuer's current revision for this document is unconfirmed.",
-      "commercialUseQuestion": "The publisher's licensing and commercial-use terms for this document are unresolved.",
-      "sourceIdentityConfidence": "document_identity_known",
-      "runtimeEffect": "runtime_disabled",
-      "blockerDedupeKey": "mapping:FL:fl-expunction:fl-expunction-continuation-6",
-      "acquisitionKey": "acquire:FL:fl-rule-3-989-continuation",
-      "edition12Disposition": "normalization_artifact_no_document_exists",
-      "edition12DispositionRationale": "The narrowest disposition the evidence supports. It is not unresolved_identity: the question was answered, and answered in the negative with affirmative evidence. It is not identity_established_binary_unavailable, which is what the edition currently records — that phrasing asserts a document exists and is merely unobtained, which is the opposite of what is true. It is not superseded or retired, because the document was never issued. It is not official_download_automation_blocked: the Bar compilation's 403 to a default agent was worked around and the rule was read in full. The identifier names nothing, and the component that carries it needs re-scoping rather than acquisition.",
-      "acquisitionRequired": false,
-      "resolvedByDecisionJobId": "rcap-fl-source-identity-resolution-rule-3-989-continuation",
       "edition12Evidence": null
     },
     {
@@ -13188,6 +13160,34 @@
       "acquisitionKey": "acquire:WV:sca-c907",
       "edition12Disposition": "identity_established_binary_unavailable",
       "edition12DispositionRationale": "No acquisition was completed for this document in the Edition 1.2 pass; the deterministic fail-closed result stands.",
+      "edition12Evidence": null
+    },
+    {
+      "jurisdiction": "FL",
+      "trackId": "fl-expunction",
+      "componentId": "fl-expunction-continuation-6",
+      "composedUnitId": null,
+      "composedUnitAssociation": "not_a_composed_track",
+      "expectedDocumentId": null,
+      "expectedDocumentRole": null,
+      "officialTitle": null,
+      "issuingAuthority": null,
+      "knownOfficialUrl": null,
+      "legalBasis": [],
+      "currentEditionStatus": "retired_component_no_document_exists",
+      "repositoryStatus": "not_applicable_no_document_exists",
+      "requiredAcquisition": "none",
+      "currentnessQuestion": "Not applicable. No document exists to have a current revision.",
+      "commercialUseQuestion": "Not applicable. No document exists to license.",
+      "sourceIdentityConfidence": "identity_names_no_document",
+      "runtimeEffect": "runtime_disabled",
+      "blockerDedupeKey": "mapping:FL:fl-expunction:fl-expunction-continuation-6",
+      "acquisitionKey": "acquire:FL:fl-rule-3-989-continuation",
+      "edition12Disposition": "normalization_artifact_no_document_exists",
+      "edition12DispositionRationale": "The narrowest disposition the evidence supports. It is not unresolved_identity: the question was answered, and answered in the negative with affirmative evidence. It is not identity_established_binary_unavailable, which is what the edition currently records — that phrasing asserts a document exists and is merely unobtained, which is the opposite of what is true. It is not superseded or retired, because the document was never issued. It is not official_download_automation_blocked: the Bar compilation's 403 to a default agent was worked around and the rule was read in full. The identifier names nothing, and the component that carries it needs re-scoping rather than acquisition.",
+      "acquisitionRequired": false,
+      "resolvedByDecisionJobId": "rcap-fl-source-identity-resolution-rule-3-989-continuation",
+      "componentRetired": true,
       "edition12Evidence": null
     }
   ]

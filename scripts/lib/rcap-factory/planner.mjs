@@ -1000,6 +1000,61 @@ const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
       "wv_common_nc_procedure",
       "wv_dui_test_and_lock_dismissal"
     ]
+  },
+  {
+    jurisdiction: "OK",
+    workerBranch:
+      "rcap-factory/rcap-ok-guidance-implementation-916e92d6-4ccb90be",
+    workerCommit: "7f5324eebc95936eda3d481e987d756c5056a2e8",
+    completionCommit: "80630a60928012c001ff107bac376845bfd74680",
+    modulePath: "src/lib/rcap/packets/jurisdictions/oklahoma/guidance.ts",
+    verifierPath: "scripts/verify-rcap-oklahoma-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: ["ok_clean_slate", "ok_osbi_portal"],
+    // The first delivery, under assignment 6122f3ae at
+    // 2608a5f354dc8648fdbdf96c14e262d6028743ad, was structurally sound and its
+    // copy had stopped being true: it told the participant four times that the
+    // enrolled SB 2030 text could not be obtained and built a sheet on the
+    // premise that the eligible set might have narrowed. It widened. That
+    // module was integrated as correction_required and never registered. The
+    // reissued 4ccb90be assignment carries the corrected copy. Both branches
+    // are preserved exactly as pushed; the structure — two tracks, six
+    // components, both process_guidance, no participant filing — is unchanged.
+    correction: {
+      reason: "sb_2030_current_law_copy",
+      decisionJobId: "rcap-ok-sb-2030-current-text-and-currency",
+      memoCorrectionJobId: "rcap-ok-sb-2030-current-law-memo-correction",
+      originalAssignmentFingerprint: "6122f3ae",
+      originalWorkerBranch:
+        "rcap-factory/rcap-ok-guidance-implementation-916e92d6-6122f3ae",
+      originalWorkerCommit: "2608a5f354dc8648fdbdf96c14e262d6028743ad",
+      correctedModuleSha256:
+        "c8002b240b1f68149a3d20e8acc29ae41e1542e8064bfc3f8b61f149e88ce2b1"
+    }
+  },
+  {
+    jurisdiction: "TN",
+    workerBranch:
+      "rcap-factory/rcap-tn-guidance-implementation-d122b02f-cebac062",
+    workerCommit: "952e984d19d4a8a4ff7c91dcf97cc556d9441495",
+    completionCommit: "80630a60928012c001ff107bac376845bfd74680",
+    modulePath: "src/lib/rcap/packets/jurisdictions/tennessee/guidance.ts",
+    verifierPath: "scripts/verify-rcap-tennessee-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: ["tn_acquittal_immediate", "tn_trafficking_40_32_105"]
+  },
+  {
+    jurisdiction: "NC",
+    workerBranch:
+      "rcap-factory/rcap-nc-guidance-implementation-871e29d9-89c3bef8",
+    workerCommit: "48440d6f30e7b56fbfbdbc633f17be735e6b0a1c",
+    completionCommit: "80630a60928012c001ff107bac376845bfd74680",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/north-carolina/guidance.ts",
+    verifierPath:
+      "scripts/verify-rcap-north-carolina-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: ["nc_auto_146_a4"]
   }
 ]);
 const COMPLETED_OFFICIAL_PDF_IMPLEMENTATIONS = Object.freeze([
@@ -4004,6 +4059,30 @@ const COMPLETED_CUSTOM_PLEADING_IMPLEMENTATIONS = Object.freeze([
     modulePath:
       "src/lib/rcap/packets/jurisdictions/wisconsin/custom-pleading.ts",
     verifierPath: "scripts/verify-rcap-wisconsin-custom-pleading.mjs"
+  },
+  {
+    jurisdiction: "IN",
+    workerBranch: "rcap-factory/rcap-in-custom-pleading-9b3c28db-edb78958",
+    workerCommit: "e51ea26a73b6eb1def2c35d0e18696491f3e3f2e",
+    completionCommit: "80630a60928012c001ff107bac376845bfd74680",
+    modulePath: "src/lib/rcap/packets/jurisdictions/indiana/custom-pleading.ts",
+    verifierPath: "scripts/verify-rcap-indiana-custom-pleading.mjs",
+    // An older Indiana branch exists at
+    // rcap-factory/rcap-in-custom-pleading-9b3c28db, commit b5daae4e, parented
+    // on the retired baseline 4eee199a under the legacy pre-fingerprint key.
+    // It is an incompatible assignment, it was not integrated, and it is left
+    // exactly as it was pushed.
+    supersededWorkerBranch: "rcap-factory/rcap-in-custom-pleading-9b3c28db",
+    supersededWorkerCommit: "b5daae4e87f32f53c38653da468d2a904b94c405"
+  },
+  {
+    jurisdiction: "MS",
+    workerBranch: "rcap-factory/rcap-ms-custom-pleading-60280abf-326c2c07",
+    workerCommit: "9d25ed6e0391037a171f9bf3660cfff13f490a75",
+    completionCommit: "80630a60928012c001ff107bac376845bfd74680",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/mississippi/custom-pleading.ts",
+    verifierPath: "scripts/verify-rcap-mississippi-custom-pleading.mjs"
   }
 ]);
 
@@ -4032,7 +4111,12 @@ const COMPLETED_OUTPUT_REVIEW_ASSIGNMENTS = Object.freeze([
   "rcap-ny-guidance-implementation",
   "rcap-nm-guidance-implementation",
   "rcap-ri-guidance-implementation",
-  "rcap-ky-guidance-implementation"
+  "rcap-ky-guidance-implementation",
+  "rcap-in-custom-pleading",
+  "rcap-ms-custom-pleading",
+  "rcap-ok-guidance-implementation",
+  "rcap-tn-guidance-implementation",
+  "rcap-nc-guidance-implementation"
 ]);
 
 // The deliverable-identity question South Carolina's custom-pleading job waits
@@ -4213,61 +4297,6 @@ function implementationJobOverrides(
         "stops. No document here is presented as an official form. Visual proof and hash-bound " +
         "counsel adoption remain separate; runtime stays disabled. Do not scaffold, execute, " +
         "regenerate, enable, promote, or deploy this job."
-    };
-  }
-  // Oklahoma's guidance worker delivered a structurally sound packet whose
-  // copy has stopped being true. SB 2030 is enacted and in force, and the
-  // packet still tells the participant four times that the enrolled text and
-  // effective date could not be obtained, builds a sheet on the premise that
-  // the eligible set may have narrowed against them — it widened — and omits
-  // the nearest actionable date in the statute.
-  //
-  // That is a correction of this job, not a second implementation of the same
-  // two tracks, so it is carried as a reissued assignment rather than as a
-  // separate job owning the same two files. The changed assignment produces a
-  // new branch through the ordinary fingerprint machinery, and the delivered
-  // worker branch is left untouched for audit. The job stays blocked: it is
-  // not ready, because the memo it must be corrected against has not been
-  // corrected yet, and it is not complete, because the copy is wrong.
-  if (
-    lane === "guidance_implementation" &&
-    jurisdiction === "OK" &&
-    okGuidanceCorrectionRequired(inputs, rootDir)
-  ) {
-    // Ready once the memo it must be corrected against is corrected; blocked
-    // until then. The correction is real work with a real assignment, not a
-    // permanently parked job.
-    return {
-      status: okMemoCorrected(rootDir) ? "ready" : "blocked",
-      dependencies: [
-        "rcap-ok-sb-2030-current-text-and-currency",
-        "rcap-ok-sb-2030-current-law-memo-correction"
-      ],
-      model: "opus",
-      effort: "xhigh",
-      implementationState: "correction_required",
-      executionNote:
-        "The worker code at 2608a5f354dc8648fdbdf96c14e262d6028743ad is integrated and is the " +
-        "canonical parent for this correction. Nothing structural is wrong: both tracks stay " +
-        "process_guidance, neither gains a participant filing, no packet is prepared, and both " +
-        "typed stops still resolve the same way. What must change is copy that has stopped " +
-        "being true.",
-      stopCondition:
-        "Correct exactly six participant-facing areas and the verifier assertions that depend " +
-        "on them: the limits-of-this-page disclosure, the authority list, the " +
-        "eligibility-boundary clause, the relying_on_automatic_sealing_that_is_not_operating " +
-        "stop reason, the no-portal stop and its nearest actionable date, and the mechanism and " +
-        "monitoring sheets. " +
-        "The corrected copy must say the current enrolled text was obtained, cite 22 O.S. " +
-        "sections 18b and 19d, explain that statutory eligibility exists but the administration " +
-        "is not yet operating, explain that no expedited-request portal is currently published, " +
-        "state the 1 November 2026 statutory portal deadline as a deadline rather than a " +
-        "promise of delivery, and state the 1 November 2027 automatic-process date. " +
-        "Keep every typed stop's destination exactly as it is. Do not tell the participant they " +
-        "are eligible, do not say automatic relief is operating, and do not present future " +
-        "administration as a reason the current petition route is unavailable — section 19d(G) " +
-        "expressly preserves it. Do not reopen the packet's structure. " +
-        TERMINAL_INSTRUCTION
     };
   }
   // The Nevada guidance worker stopped rather than guess, and it was right to.
@@ -4602,42 +4631,6 @@ function addAuthorityCorrectionFollowups({ addJob }) {
  * participant-facing packet copy is worker-owned implementation. Creating the
  * owner is how the question stays open instead of becoming lost.
  */
-/**
- * Oklahoma guidance needs a copy correction when the SB 2030 current-law
- * decision is integrated and the delivered module has not yet been corrected
- * against it. Read from the integrated decision's own classification rather
- * than asserted here, so the gate lifts by itself once the correction lands.
- */
-function okMemoCorrected(rootDir) {
-  const memo = path.join(
-    rootDir,
-    "data/record-clearing/legal-design-intake/OK.memo.json"
-  );
-  return (
-    fs.existsSync(memo) &&
-    sha256File(memo) ===
-      "4e0380c9738cb9c9be3747e125990d79c483afc2c31a99ac29e638ad8c94c385"
-  );
-}
-
-function okGuidanceCorrectionRequired(inputs, rootDir) {
-  const decisionPath = path.join(
-    rootDir,
-    `${FACTORY_DATA_DIR}/legal-design-decisions/ok-sb-2030-current-text-and-currency.json`
-  );
-  if (!fs.existsSync(decisionPath)) return false;
-  let decision;
-  try {
-    decision = JSON.parse(fs.readFileSync(decisionPath, "utf8"));
-  } catch {
-    return false;
-  }
-  return (
-    decision?.implementationImpact?.oklahomaGuidanceWorker?.classification ===
-    "worker_copy_requires_narrow_captain_correction"
-  );
-}
-
 function addWaveCorrectionAssignments({ addJob, rootDir }) {
   // A memo correction is complete when the corrected blob is on disk, and an
   // authority job when its decision record is. Neither closes on a commit

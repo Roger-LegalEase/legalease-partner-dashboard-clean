@@ -5,21 +5,21 @@
   "totals": {
     "jurisdictionsAudited": 51,
     "tracksAudited": 497,
-    "tracksCleared": 141,
-    "tracksBlocked": 356,
+    "tracksCleared": 142,
+    "tracksBlocked": 355,
     "tracksWithoutRetainedLegalReview": 0,
-    "componentsAudited": 1772,
-    "officialPdfComponents": 731,
+    "componentsAudited": 1780,
+    "officialPdfComponents": 730,
     "officialPdfComponentsByResult": {
       "authority_hash_conflict": 15,
       "authority_mapped_packet_candidate": 300,
       "authority_mapped_source_gated": 82,
       "authority_role_mismatch": 63,
-      "authority_unmanifested_source": 271
+      "authority_unmanifested_source": 270
     },
     "officialPdfComponentsWithPinnedSha": 100,
-    "customPleadingComponents": 351,
-    "processGuidanceComponents": 690,
+    "customPleadingComponents": 356,
+    "processGuidanceComponents": 694,
     "composedTracks": 51,
     "composedUnits": 113
   },
@@ -7077,25 +7077,6 @@
           ],
           "requiresPacketBinary": false,
           "specificationPresent": true
-        },
-        {
-          "jurisdiction": "FL",
-          "trackId": "fl-expunction",
-          "componentId": "fl-expunction-continuation-6",
-          "role": "continuation",
-          "outputStrategy": "official_pdf_fill",
-          "officialFormId": "FL-RULE-3.989-CONTINUATION",
-          "officialSourceUrl": null,
-          "repositoryMappingStatus": "not_mapped",
-          "corpusState": "unchecked",
-          "sha256Verified": false,
-          "asset": null,
-          "result": "authority_unmanifested_source",
-          "reasons": [
-            "No retained Edition 1.2 asset for FL document ID FL-RULE-3.989-CONTINUATION. Any candidate rows recorded here are secondary evidence for a future edition, not a mapping."
-          ],
-          "requiresPacketBinary": true,
-          "candidateLibraryEvidence": []
         }
       ],
       "cleared": false,
@@ -7104,8 +7085,7 @@
         "fl-expunction-primary-filing-1: authority_unmanifested_source.",
         "fl-expunction-primary-filing-2: authority_unmanifested_source.",
         "fl-expunction-affidavit-3: authority_unmanifested_source.",
-        "fl-expunction-proposed-order-4: authority_unmanifested_source.",
-        "fl-expunction-continuation-6: authority_unmanifested_source."
+        "fl-expunction-proposed-order-4: authority_unmanifested_source."
       ],
       "declaredOutputStrategy": "official_pdf_fill",
       "compositionMode": null,
@@ -34005,10 +33985,7 @@
       "outputStrategy": "process_guidance",
       "legalReviewRetained": true,
       "pendingAuthorityReconciliation": null,
-      "openLegalDesignBlockers": [
-        "Design undetermined: Reclassify Nevada from official_pdf_fill to custom_pleading (undetermined: correct_form)",
-        "Open question blocks the build (governing_mechanism): The text of NRS 176.211, including what it requires, whether any waiting period applies, and whether the sealing is automatic on dismissal or requires an application. The review classifies the track as process guidance only without reproducing the section."
-      ],
+      "openLegalDesignBlockers": [],
       "components": [
         {
           "jurisdiction": "NV",
@@ -34051,7 +34028,26 @@
         {
           "jurisdiction": "NV",
           "trackId": "nv_seal_deferred",
-          "componentId": "nv_seal_deferred-referral-instructions-3",
+          "componentId": "nv_seal_deferred-exclusion-screen-3",
+          "role": "exclusion_screen",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "NV",
+          "trackId": "nv_seal_deferred",
+          "componentId": "nv_seal_deferred-referral-instructions-4",
           "role": "referral_instructions",
           "outputStrategy": "process_guidance",
           "officialFormId": null,
@@ -34068,11 +34064,8 @@
           "specificationPresent": true
         }
       ],
-      "cleared": false,
-      "blockingReasons": [
-        "nv_seal_deferred: the controlling review retains an open legal-design blocker — Design undetermined: Reclassify Nevada from official_pdf_fill to custom_pleading (undetermined: correct_form)",
-        "nv_seal_deferred: the controlling review retains an open legal-design blocker — Open question blocks the build (governing_mechanism): The text of NRS 176.211, including what it requires, whether any waiting period applies, and whether the sealing is automatic on dismissal or requires an application. The review classifies the track as process guidance only without reproducing the section."
-      ],
+      "cleared": true,
+      "blockingReasons": [],
       "declaredOutputStrategy": "process_guidance",
       "compositionMode": null,
       "legalReviewAsset": "STATES/NV/01_LEGAL_REVIEW/NV__LEGAL-REVIEW__STATEWIDE__nevada-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
@@ -34081,13 +34074,10 @@
     {
       "jurisdiction": "NV",
       "trackId": "nv_seal_probation_family",
-      "outputStrategy": "process_guidance",
+      "outputStrategy": "custom_pleading",
       "legalReviewRetained": true,
       "pendingAuthorityReconciliation": null,
-      "openLegalDesignBlockers": [
-        "Design undetermined: Reclassify Nevada from official_pdf_fill to custom_pleading (undetermined: correct_form)",
-        "Open question blocks the build (governing_mechanism): The texts of NRS 176A.245, NRS 176A.265 and NRS 176A.295, including what each requires, how they differ, and whether any produces sealing automatically. The review groups them as one track and classifies it as process guidance only without reproducing the sections."
-      ],
+      "openLegalDesignBlockers": [],
       "components": [
         {
           "jurisdiction": "NV",
@@ -34103,15 +34093,34 @@
           "asset": null,
           "result": null,
           "reasons": [
-            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+            "Process-guidance component has no guidance specification in this repository."
           ],
           "requiresPacketBinary": false,
-          "specificationPresent": true
+          "specificationPresent": false
         },
         {
           "jurisdiction": "NV",
           "trackId": "nv_seal_probation_family",
-          "componentId": "nv_seal_probation_family-discharge-type-screen-2",
+          "componentId": "nv_seal_probation_family-branch-screen-2",
+          "role": "branch_screen",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process-guidance component has no guidance specification in this repository."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": false
+        },
+        {
+          "jurisdiction": "NV",
+          "trackId": "nv_seal_probation_family",
+          "componentId": "nv_seal_probation_family-discharge-type-screen-3",
           "role": "discharge_type_screen",
           "outputStrategy": "process_guidance",
           "officialFormId": null,
@@ -34122,7 +34131,26 @@
           "asset": null,
           "result": null,
           "reasons": [
-            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+            "Process-guidance component has no guidance specification in this repository."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": false
+        },
+        {
+          "jurisdiction": "NV",
+          "trackId": "nv_seal_probation_family",
+          "componentId": "nv_seal_probation_family-primary-filing-4",
+          "role": "primary_filing",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
           ],
           "requiresPacketBinary": false,
           "specificationPresent": true
@@ -34130,7 +34158,64 @@
         {
           "jurisdiction": "NV",
           "trackId": "nv_seal_probation_family",
-          "componentId": "nv_seal_probation_family-referral-instructions-3",
+          "componentId": "nv_seal_probation_family-proposed-order-5",
+          "role": "proposed_order",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "NV",
+          "trackId": "nv_seal_probation_family",
+          "componentId": "nv_seal_probation_family-declaration-and-verification-6",
+          "role": "declaration_and_verification",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "NV",
+          "trackId": "nv_seal_probation_family",
+          "componentId": "nv_seal_probation_family-filing-and-service-instructions-7",
+          "role": "filing_and_service_instructions",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process-guidance component has no guidance specification in this repository."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": false
+        },
+        {
+          "jurisdiction": "NV",
+          "trackId": "nv_seal_probation_family",
+          "componentId": "nv_seal_probation_family-referral-instructions-8",
           "role": "referral_instructions",
           "outputStrategy": "process_guidance",
           "officialFormId": null,
@@ -34141,18 +34226,21 @@
           "asset": null,
           "result": null,
           "reasons": [
-            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+            "Process-guidance component has no guidance specification in this repository."
           ],
           "requiresPacketBinary": false,
-          "specificationPresent": true
+          "specificationPresent": false
         }
       ],
       "cleared": false,
       "blockingReasons": [
-        "nv_seal_probation_family: the controlling review retains an open legal-design blocker — Design undetermined: Reclassify Nevada from official_pdf_fill to custom_pleading (undetermined: correct_form)",
-        "nv_seal_probation_family: the controlling review retains an open legal-design blocker — Open question blocks the build (governing_mechanism): The texts of NRS 176A.245, NRS 176A.265 and NRS 176A.295, including what each requires, how they differ, and whether any produces sealing automatically. The review groups them as one track and classifies it as process guidance only without reproducing the sections."
+        "nv_seal_probation_family-detection-and-routing-1: process_guidance component has no governing specification in this repository.",
+        "nv_seal_probation_family-branch-screen-2: process_guidance component has no governing specification in this repository.",
+        "nv_seal_probation_family-discharge-type-screen-3: process_guidance component has no governing specification in this repository.",
+        "nv_seal_probation_family-filing-and-service-instructions-7: process_guidance component has no governing specification in this repository.",
+        "nv_seal_probation_family-referral-instructions-8: process_guidance component has no governing specification in this repository."
       ],
-      "declaredOutputStrategy": "process_guidance",
+      "declaredOutputStrategy": "custom_pleading",
       "compositionMode": null,
       "legalReviewAsset": "STATES/NV/01_LEGAL_REVIEW/NV__LEGAL-REVIEW__STATEWIDE__nevada-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
       "units": []
@@ -34160,18 +34248,53 @@
     {
       "jurisdiction": "NV",
       "trackId": "nv_repository_removal",
-      "outputStrategy": "process_guidance",
+      "outputStrategy": "custom_pleading",
       "legalReviewRetained": true,
       "pendingAuthorityReconciliation": null,
-      "openLegalDesignBlockers": [
-        "Design undetermined: Reclassify Nevada from official_pdf_fill to custom_pleading (undetermined: correct_form)",
-        "Open question blocks the build (governing_mechanism): The text of NRS 179A.160, including what counts as a favourable disposition for its purposes, what the request requires, and how the remedy interacts with a court sealing order under NRS 179.255. The review classifies the track as process guidance only without reproducing the section."
-      ],
+      "openLegalDesignBlockers": [],
       "components": [
         {
           "jurisdiction": "NV",
           "trackId": "nv_repository_removal",
-          "componentId": "nv_repository_removal-explanation-1",
+          "componentId": "nv_repository_removal-primary-filing-1",
+          "role": "primary_filing",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "NV",
+          "trackId": "nv_repository_removal",
+          "componentId": "nv_repository_removal-duplicate-submission-copy-2",
+          "role": "duplicate_submission_copy",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Custom pleading by adopted design: a counsel-approved pleading is the statewide fallback where the law permits a participant petition and no current controlling form is identified. No official binary is required."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": true
+        },
+        {
+          "jurisdiction": "NV",
+          "trackId": "nv_repository_removal",
+          "componentId": "nv_repository_removal-explanation-3",
           "role": "explanation",
           "outputStrategy": "process_guidance",
           "officialFormId": null,
@@ -34182,15 +34305,15 @@
           "asset": null,
           "result": null,
           "reasons": [
-            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+            "Process-guidance component has no guidance specification in this repository."
           ],
           "requiresPacketBinary": false,
-          "specificationPresent": true
+          "specificationPresent": false
         },
         {
           "jurisdiction": "NV",
           "trackId": "nv_repository_removal",
-          "componentId": "nv_repository_removal-parallel-screen-2",
+          "componentId": "nv_repository_removal-parallel-screen-4",
           "role": "parallel_screen",
           "outputStrategy": "process_guidance",
           "officialFormId": null,
@@ -34201,15 +34324,34 @@
           "asset": null,
           "result": null,
           "reasons": [
-            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+            "Process-guidance component has no guidance specification in this repository."
           ],
           "requiresPacketBinary": false,
-          "specificationPresent": true
+          "specificationPresent": false
         },
         {
           "jurisdiction": "NV",
           "trackId": "nv_repository_removal",
-          "componentId": "nv_repository_removal-referral-instructions-3",
+          "componentId": "nv_repository_removal-exclusion-screen-5",
+          "role": "exclusion_screen",
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "repositoryMappingStatus": null,
+          "corpusState": null,
+          "sha256Verified": false,
+          "asset": null,
+          "result": null,
+          "reasons": [
+            "Process-guidance component has no guidance specification in this repository."
+          ],
+          "requiresPacketBinary": false,
+          "specificationPresent": false
+        },
+        {
+          "jurisdiction": "NV",
+          "trackId": "nv_repository_removal",
+          "componentId": "nv_repository_removal-referral-instructions-6",
           "role": "referral_instructions",
           "outputStrategy": "process_guidance",
           "officialFormId": null,
@@ -34220,18 +34362,20 @@
           "asset": null,
           "result": null,
           "reasons": [
-            "Process guidance by adopted design: no participant filing is produced, so no packet binary is required. This is not a source gap."
+            "Process-guidance component has no guidance specification in this repository."
           ],
           "requiresPacketBinary": false,
-          "specificationPresent": true
+          "specificationPresent": false
         }
       ],
       "cleared": false,
       "blockingReasons": [
-        "nv_repository_removal: the controlling review retains an open legal-design blocker — Design undetermined: Reclassify Nevada from official_pdf_fill to custom_pleading (undetermined: correct_form)",
-        "nv_repository_removal: the controlling review retains an open legal-design blocker — Open question blocks the build (governing_mechanism): The text of NRS 179A.160, including what counts as a favourable disposition for its purposes, what the request requires, and how the remedy interacts with a court sealing order under NRS 179.255. The review classifies the track as process guidance only without reproducing the section."
+        "nv_repository_removal-explanation-3: process_guidance component has no governing specification in this repository.",
+        "nv_repository_removal-parallel-screen-4: process_guidance component has no governing specification in this repository.",
+        "nv_repository_removal-exclusion-screen-5: process_guidance component has no governing specification in this repository.",
+        "nv_repository_removal-referral-instructions-6: process_guidance component has no governing specification in this repository."
       ],
-      "declaredOutputStrategy": "process_guidance",
+      "declaredOutputStrategy": "custom_pleading",
       "compositionMode": null,
       "legalReviewAsset": "STATES/NV/01_LEGAL_REVIEW/NV__LEGAL-REVIEW__STATEWIDE__nevada-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
       "units": []

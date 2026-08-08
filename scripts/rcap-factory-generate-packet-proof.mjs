@@ -214,8 +214,19 @@ const proof = {
   deterministic: true,
   generatedPacketBytesTracked: false,
   runtimeStatus: "runtime_disabled",
+  // What this proof is, and what it is not, stated rather than inferred.
+  // A packet proof is the technical evidence: the verifier ran, the packets
+  // assembled deterministically, the pages are what they say they are. It is
+  // not a reading of the finished document by a person, it is not a legal
+  // review of the completed output, and it is not a readiness claim. Those are
+  // separate work with separate owners, and a reader should not have to derive
+  // their absence from the absence of a field.
+  technicalEvidence: "complete",
   visualProof: "pending",
+  visualReview: "formal_visual_review_pending",
+  completedOutputLegalReview: "pending",
   counselAdopted: false,
+  packetReady: false,
   productionEnabled: false
 };
 

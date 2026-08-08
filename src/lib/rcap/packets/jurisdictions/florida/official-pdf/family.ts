@@ -30,7 +30,6 @@ export const FLORIDA_OFFICIAL_PDF_FORM_IDS = [
   "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
   "FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION",
   "FL-RULE-3.989-AFFIDAVIT",
-  "FL-RULE-3.989-CONTINUATION",
   "FL-RULE-3.989-ORDER",
   "FL-RULE-3.989-PETITION"
 ] as const;
@@ -188,11 +187,6 @@ export const FLORIDA_OFFICIAL_PDF_ROUTE_BOUNDARIES = [
         componentId: "fl-expunction-proposed-order-4",
         officialFormId: "FL-RULE-3.989-ORDER",
         order: 4
-      },
-      {
-        componentId: "fl-expunction-continuation-6",
-        officialFormId: "FL-RULE-3.989-CONTINUATION",
-        order: 6
       }
     ],
     blockers: [

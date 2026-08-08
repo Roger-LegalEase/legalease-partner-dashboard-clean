@@ -921,6 +921,13 @@ if (fs.existsSync(decisionDirectory)) {
     for (const key of decision.acquisitionIds ?? []) {
       phantomAcquisitionKeys.set(key, {
         decisionJobId: decision.jobId,
+        jurisdiction: decision.jurisdiction ?? null,
+        trackId: decision.affectedTracksAndComponents?.trackId ?? null,
+        componentId: decision.affectedTracksAndComponents?.componentId ?? null,
+        documentId:
+          decision.inRepositoryIdentityUnderReview?.documentId ??
+          decision.identityUnderReview?.documentId ??
+          null,
         rationale:
           decision.terminalDispositionDetail?.why ??
           "An integrated source-acquisition decision established that this identity names no official document."
@@ -1018,6 +1025,49 @@ for (const audit of trackAudits) {
       edition12Evidence: decision?.evidence ?? null
     });
   }
+}
+
+// A phantom answered in the negative leaves the design: the component that
+// carried it is re-scoped away, so no track audit row generates it any more.
+// Dropping the queue row with it would erase the answer — the queue would look
+// exactly as it does for an identity nobody ever raised, and a later pass could
+// reintroduce the same artefact with nothing on the record to contradict it.
+// The row is retained, resolved and not required, so the negative answer stays
+// visible for as long as the decision does.
+for (const [acquisitionKey, phantom] of phantomAcquisitionKeys) {
+  if (acquisitionRows.some((row) => row.acquisitionKey === acquisitionKey)) {
+    continue;
+  }
+  acquisitionRows.push({
+    jurisdiction: phantom.jurisdiction,
+    trackId: phantom.trackId,
+    componentId: phantom.componentId,
+    composedUnitId: null,
+    composedUnitAssociation: "not_a_composed_track",
+    expectedDocumentId: phantom.documentId,
+    expectedDocumentRole: null,
+    officialTitle: null,
+    issuingAuthority: null,
+    knownOfficialUrl: null,
+    legalBasis: [],
+    currentEditionStatus: "retired_component_no_document_exists",
+    repositoryStatus: "not_applicable_no_document_exists",
+    requiredAcquisition: "none",
+    currentnessQuestion:
+      "Not applicable. No document exists to have a current revision.",
+    commercialUseQuestion:
+      "Not applicable. No document exists to license.",
+    sourceIdentityConfidence: "identity_names_no_document",
+    runtimeEffect: "runtime_disabled",
+    blockerDedupeKey: `mapping:${phantom.jurisdiction}:${phantom.trackId}:${phantom.componentId}`,
+    acquisitionKey,
+    edition12Disposition: "normalization_artifact_no_document_exists",
+    edition12DispositionRationale: phantom.rationale,
+    acquisitionRequired: false,
+    resolvedByDecisionJobId: phantom.decisionJobId,
+    componentRetired: true,
+    edition12Evidence: null
+  });
 }
 
 const acquisitionKeys = [...new Set(acquisitionRows.map((row) => row.acquisitionKey))];
