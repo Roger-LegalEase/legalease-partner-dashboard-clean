@@ -1,0 +1,207 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-fl-not-required-design-reconciliation",
+  "parentJobId": "AUTH-03-acquisition-campaign-tier-1",
+  "jurisdiction": "FL",
+  "lane": "source_acquisition",
+  "strategyFamily": "not_required_design_reconciliation",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "db1d5d24989d81f7c5dd009101f7bc5532a8b8f7",
+  "shard": "F3",
+  "generatedOn": "2026-08-08",
+  "acquisitionIds": ["acquire:FL:fdle-administrative-expunction-application"],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero is correct and is the assignment's pinned value. The controlling statute was read at flsenate.gov into temporary storage outside the repository and discarded. Nothing entered version control and no receipt was created. The assigned document was not downloaded because no participant-completable form exists to download.",
+  "generatedFrom": [
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/authority.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-03-acquisition-campaign-tier-1.json"
+  ],
+  "method": {
+    "description": "Design reconciliation of one identity against the statute that creates the remedy. The question asked was not whether a binary could be obtained but whether a participant-completable document is required to exist at all, and the answer is settled by the statute's own prescription of who signs the application and on whose letterhead it must appear.",
+    "controllingSource": "Fla. Stat. § 943.0581, Administrative expunction for arrests made contrary to law or by mistake, read in full at flsenate.gov",
+    "retrievalDate": "2026-08-08",
+    "issuerContactsMade": 0,
+    "binariesDownloaded": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "binariesCommitted": 0,
+    "legalConclusionsAltered": false,
+    "adoptedStrategyAltered": false,
+    "editionMutated": false,
+    "memoAltered": false,
+    "componentRebound": false,
+    "assignmentConstraintObserved": "The stop condition requires preserving the exact not-required reason, including custom pleading versus no participant filing, and forbids collapsing it into source missing or altering an adopted strategy. The reason is recorded at the precise branch the stop condition names — no participant filing — and is evidenced from the statute rather than inferred."
+  },
+  "finding": {
+    "headline": "Administrative expunction is not a participant filing. The statute requires the application to be on the submitting agency's letterhead and signed by the head of that agency, so there is no document a participant can complete, and no form for this programme to acquire or generate.",
+    "notRequiredReason": "no_participant_filing",
+    "notRequiredReasonConfidence": "high",
+    "notRequiredReasonBasis": "the statute's own prescription of the application's form and signatory, quoted verbatim below",
+    "acquisitionRequired": false,
+    "acquisitionRequiredRationale": "No issuer interaction can produce a participant-completable form for a remedy whose application must be executed by a law enforcement agency on its own letterhead.",
+    "isThisCustomPleading": false,
+    "isThisCustomPleadingWhy": "A custom pleading is something this programme drafts for a participant to file. Here the participant files nothing at all — the filing is made by an agency, and a drafted document would be an agency's letter that the participant has no standing to issue."
+  },
+  "statutoryBasis": {
+    "citation": "Fla. Stat. § 943.0581",
+    "heading": "Administrative expunction for arrests made contrary to law or by mistake",
+    "implementingRule": "Fla. Admin. Code R. 11C-7.008, Administrative Expunction, effective 2009-04-16",
+    "whoApplies": {
+      "subsection2Verbatim": "A law enforcement agency shall apply to the department in the manner prescribed by rule for the administrative expunction of any nonjudicial record of any arrest of a minor or an adult who is subsequently determined by the agency, at its discretion, or by the final order of a court of competent jurisdiction, to have been arrested contrary to law or by mistake.",
+      "subsection2Reading": "The primary applicant is the arresting agency, and its duty is expressed as 'shall apply'."
+    },
+    "theIndividualRoute": {
+      "subsection3Verbatim": "An adult or, in the case of a minor child, the parent or legal guardian of the minor child, may apply to the department in the manner prescribed by rule for the administrative expunction of any nonjudicial record of an arrest alleged to have been made contrary to law or by mistake, provided that the application is supported by the endorsement of the head of the arresting agency or his or her designee or the state attorney of the judicial circuit in which the arrest occurred or his or her designee.",
+      "subsection3Reading": "An individual may apply, but only with an endorsement the individual cannot supply. The endorsement must come from the head of the arresting agency or the state attorney. This looks at first like a participant route and is not one: the operative document still depends on a third party's signature.",
+      "whyThisIsTheTrap": "Read alone, subsection (3) would support modelling a participant-facing application. Subsection (4) forecloses it."
+    },
+    "theDecisiveProvision": {
+      "subsection4Verbatim": "An application for administrative expunction shall include the date and time of the arrest, the name of the person arrested, the offender-based tracking system (OBTS) number, and the crime or crimes charged. The application shall be on the submitting agency's letterhead and shall be signed by the head of the submitting agency or his or her designee.",
+      "reading": "The application must physically be on an agency's letterhead and must carry an agency head's signature. Both are attributes a participant cannot supply and this programme cannot generate. Whatever route subsection (3) contemplates, the instrument itself is an agency document."
+    },
+    "warrantRoute": {
+      "subsection5Verbatim": "If the person was arrested on a warrant, capias, or pickup order, a request for an administrative expunction may be made by the sheriff of the county in which the warrant, capias, or pickup order was issued or his or her designee or by the state attorney of the judicial circuit in which the warrant, capias, or pickup order was issued or his or her designee.",
+      "reading": "A third applicant class, and again not the participant."
+    },
+    "consequence": "Every route to administrative expunction runs through a document executed by a public body. There is no participant-completable form, and there never was one to acquire."
+  },
+  "resolvedIdentity": {
+    "acquisitionKey": "acquire:FL:fdle-administrative-expunction-application",
+    "recordedDocumentId": "FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION",
+    "recordedRole": "primary_filing",
+    "recordedRoleAssessment": "primary_filing is wrong for a participant packet. It is a primary filing of the agency's, not the participant's. The role is right about the document's function in the proceeding and wrong about who performs it.",
+    "documentExists": true,
+    "documentExistsDetail": "An application for administrative expunction plainly exists — the statute prescribes its required contents. What does not exist is a participant-completable published form, which is what the acquisition key implies.",
+    "participantFacing": false,
+    "signatory": "the head of the submitting law enforcement agency or their designee",
+    "medium": "the submitting agency's letterhead",
+    "issuer": "Florida Department of Law Enforcement receives it; the arresting agency, sheriff or state attorney authors it",
+    "scope": "statewide",
+    "scopeBasis": "a single statewide FDLE remedy under Chapter 943, not inferred from any address",
+    "boundComponent": {"trackId": "fl-administrative", "componentId": "fl-administrative-primary-filing-1", "requirement": "recorded as the track's primary filing"},
+    "componentCount": 1,
+    "trackCount": 1
+  },
+  "distinguishedFromTheSiblingFdleJob": {
+    "siblingJob": "rcap-fl-public-official-download-fdle-fac-supersession",
+    "siblingStatus": "completed and pushed in an earlier wave",
+    "whatItCovered": "the four FDLE applications that ARE participant-completed — 40-021 certificate of eligibility, 40-025 juvenile diversion, 40-026 lawful self-defense and 40-028 early juvenile — each incorporated by reference into its own Chapter 11C-7 rule with its own Ref id, all four measured and hashed.",
+    "whyAdministrativeExpunctionIsDifferent": "Rule 11C-7.008 was expressly recorded by that job as an adjacent rule not in its scope, and the reason is now clear: it is the one Chapter 11C-7 remedy with no participant application among its incorporated forms. The other four are participant forms with Ref ids; this one is an agency letter.",
+    "consequence": "Florida has five FDLE-stage remedies and only four participant forms. The fifth is not a missing form; it is a remedy that does not use one."
+  },
+  "notRequiredReasonPreserved": {
+    "branch": "no_participant_filing",
+    "notCustomPleading": "Expressly not. Drafting an agency letter for a participant would produce a document the participant cannot sign and cannot put on the required letterhead, and would misrepresent who is applying.",
+    "notSourceMissing": "Expressly not, and the stop condition forbids that collapse. The remedy exists, the application exists, and the statute prescribes its contents. Nothing is missing — the document simply is not the participant's.",
+    "notAPhantomIdentity": "Distinguish this from FL-RULE-3.989-CONTINUATION, resolved elsewhere in this programme, which named a document nobody publishes. Here a real application exists and is made by a real party; the defect is that the identity is bound to a participant component.",
+    "whatTheParticipantCanDo": "Under subsection (3) an adult may apply if they first obtain the endorsement of the arresting agency head or the state attorney. Obtaining that endorsement is a real-world action, not a document this programme generates. Whether the packet should explain that route in guidance is a legal-design question and is not decided here.",
+    "adoptedStrategyUnchanged": "The track's output strategy is untouched. Reclassifying fl-administrative is a legal-design decision, and this record supplies the source-side fact it would rest on."
+  },
+  "sourceAvailabilityAndStructure": {
+    "officialSourceUrlForTheAssignedDocument": null,
+    "binaryExists": false,
+    "binaryExistsDetail": "No participant-completable form file exists. FDLE publishes no administrative-expunction application form, and Rule 11C-7.008 incorporates none by reference — unlike the four sibling rules, each of which incorporates a numbered FDLE form with a flrules.org Ref id.",
+    "bytes": null,
+    "sha256": null,
+    "mimeType": null,
+    "pages": null,
+    "geometry": null,
+    "encryption": null,
+    "xfa": null,
+    "fields": null,
+    "widgets": null,
+    "whyAllNull": "There is no document to measure. Recording measurements would be inventing them.",
+    "supersession": "not_applicable",
+    "sourceContractEligible": false,
+    "sourceContractEligibleWhy": "A source contract pins a document. There is no participant document to pin.",
+    "materializationEligible": false,
+    "materializationEligibleWhy": "Materialization presupposes bytes. None exist and no receipt should ever be written for this identity.",
+    "receiptCreatedByThisJob": false
+  },
+  "licensing": {
+    "status": "not_applicable",
+    "why": "A licence question presupposes material to reproduce. There is no form to reproduce. The queue's recorded 'unresolved' should become not-applicable rather than staying open.",
+    "notAnswered": "No licence question was assigned and none is decided."
+  },
+  "doNotSubstitute": [
+    {"documentId": "FDLE 40-021", "why": "The Application for a Certificate of Eligibility for Sealing or Expunction, Ref-14423, revised June 2021. It is the participant application for the court-route remedies and is the single most likely wrong pick, because it is the FDLE form a reader will find when searching for an FDLE expunction application."},
+    {"documentId": "FDLE 40-026", "why": "The lawful self-defense application under § 943.0578. A different statute, a different remedy, and participant-completed where this one is not."},
+    {"documentId": "FDLE 40-025 and FDLE 40-028", "why": "The juvenile diversion and early juvenile applications. Both participant-completed."},
+    {"documentClass": "an agency letter template drafted by this programme", "why": "It would have to sit on a law enforcement agency's letterhead and carry an agency head's signature. Producing one would misrepresent the applicant and could not be executed by the participant."},
+    {"documentClass": "the FDLE online intake portal output", "why": "The portal covers the five request types and generates an unnumbered PDF. It is not the FAC-incorporated document for any remedy and it is not an agency letterhead application."},
+    {"documentClass": "a county or arresting-agency local expunction request form", "why": "Some agencies publish their own internal request forms. Those are agency instruments, not statewide participant forms, and must not be promoted to statewide on the strength of this record."}
+  ],
+  "edition13Impact": {
+    "publicationJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+    "editionAmendmentRequired": true,
+    "amendmentKind": "metadata_correction_no_new_bytes",
+    "requiresNewBytes": false,
+    "requiresNewBytesNote": "None. There is nothing to retain.",
+    "requiresMetadataCorrection": true,
+    "requiresMetadataCorrectionDetail": "The row records currentEditionStatus authority_unmanifested_source with edition12Disposition identity_established_binary_unavailable and requiredAcquisition 'Acquire the current official binary from the issuing authority and manifest it.' That asserts a participant form exists and has merely not been obtained. It does not exist.",
+    "requiresIdentityRetirementOrRescope": true,
+    "requiresIdentityRetirementOrRescopeDetail": "The identity should either be retired or re-scoped to record an agency-executed instrument that no participant packet produces.",
+    "requiresRoleCorrection": true,
+    "requiresRoleCorrectionDetail": "primary_filing implies a participant filing. The instrument is the agency's.",
+    "requiresLicenseDisposition": true,
+    "requiresLicenseDispositionDetail": "Change from unresolved to not applicable — there is no material to licence.",
+    "requiresScopeCorrection": false,
+    "requiresRevisionCorrection": false,
+    "edition12Treatment": "immutable_unchanged",
+    "publicationPerformed": false
+  },
+  "implementationFamilyEffect": {
+    "family": "rcap-fl-official-pdf-family",
+    "affectedTracks": 1,
+    "affectedComponents": 1,
+    "effectOfThisJob": "One Florida acquisition key closes as a remedy that uses no participant form rather than as an unobtained binary, and one component is shown to be bound to an agency instrument. No implementation job depends on this identity, so nothing is released; what changes is that a retrieval which could never succeed is removed from the Florida backlog and the fl-administrative track's design question is given its source-side answer.",
+    "familyReadinessStatement": "The Florida official-PDF family remains fail-closed and this job does not move it. The Rule 3.989 identities are rule-text-only, the four FDLE participant forms are unmanifested pending edition rows, generation is not permitted and runtime is disabled.",
+    "netEffect": "A removal rather than an addition — the value is that no acquisition, receipt or renderer will now be scheduled for a document that does not exist in participant form."
+  },
+  "terminalDisposition": "no_participant_filing_administrative_expunction_is_applied_for_by_an_agency_on_its_own_letterhead_no_form_to_acquire",
+  "terminalDispositionDetail": {
+    "why": "The narrowest disposition the evidence supports. It is not source_missing, which the stop condition forbids and which would be false — the application exists and the statute prescribes its contents. It is not custom_pleading, the other branch the stop condition names, because a drafted document could not be signed or issued by the participant. It is not a phantom identity, because a real instrument exists. The precise fact is that the instrument is an agency's, and that is the not-required reason.",
+    "notRequiredBranch": "no_participant_filing",
+    "acquisitionRequired": false,
+    "adoptedStrategyAltered": false,
+    "componentsAffected": 1,
+    "measurementsOutstanding": 0
+  },
+  "expectedDownstreamEffect": "Florida's administrative-expunction identity closes without acquisition and with its reason recorded at the exact branch the assignment distinguishes: no participant filing, because § 943.0581(4) requires the application to be on the submitting agency's letterhead and signed by the head of that agency. The subsection (3) individual route is recorded as the trap it is — an adult may apply, but only with an endorsement they cannot supply, and the instrument remains an agency document either way. The identity is distinguished from the four participant FDLE forms resolved by the sibling job, explaining why Chapter 11C-7 has five remedies and four forms. No binary is acquired, no receipt is created, nothing enters version control, no adopted strategy is altered, no component is rebound, no memo is edited, no edition is published, no packet becomes generatable, no runtime is enabled and no track changes promotion state.",
+  "residualBlockers": [
+    {"id": "fl-administrative-component-rescope", "question": "fl-administrative-primary-filing-1 is bound to an agency-executed instrument and must be re-scoped or removed.", "status": "handed_off", "owner": "the Florida legal-design owner, via a memo-correction child job", "why": "FL.memo.json and the track-source relationships are forbidden paths for this job."},
+    {"id": "fl-administrative-identity-disposition", "question": "The identity should be retired or re-scoped, and its licence question changed from unresolved to not applicable.", "status": "handed_off", "owner": "rcap-nationwide-master-library-edition-1-3-publication"},
+    {"id": "fl-administrative-guidance-question", "question": "Whether the packet should explain the subsection (3) endorsement route to a participant.", "status": "open_and_outside_this_job", "owner": "the Florida legal-design owner", "why": "A real route exists for a participant who can obtain an agency or state attorney endorsement. Whether to describe it is a design decision, not a source one."},
+    {"id": "fl-administrative-blocker-ledger", "question": "The blocker ledger holds Florida open against this identity as an unacquired source.", "status": "handed_off", "owner": "the queue owner"}
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "sourcesMaterialized": 0,
+    "sourceReceiptCountUnchanged": true,
+    "memoEdited": false,
+    "editionPublished": false,
+    "editionMutated": false,
+    "rendererImplemented": false,
+    "packetImplemented": false,
+    "componentRebound": false,
+    "adoptedStrategyAltered": false,
+    "collapsedIntoSourceMissing": false,
+    "issuerContacted": false,
+    "integrationPerformed": false,
+    "promotionPerformed": false,
+    "migrationPerformed": false,
+    "deploymentPerformed": false
+  }
+}
