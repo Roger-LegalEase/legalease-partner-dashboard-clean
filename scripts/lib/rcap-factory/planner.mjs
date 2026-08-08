@@ -24,6 +24,11 @@ import {
   validateLegalReviewMaterializationContract,
   validateOfficialPdfSourceProjection
 } from "./materialization-planning.mjs";
+import {
+  authorizationFor,
+  buildSourceAuthorizationIndex,
+  deriveSourceLifecycle
+} from "./source-authorization.mjs";
 
 export const FACTORY_INPUT_PATHS = Object.freeze({
   authority: "data/record-clearing/master-library/authority.json",
@@ -4061,6 +4066,7 @@ export function buildFactoryPlan(options = {}) {
       jobs,
       inputs
     ),
+    sourceEvidenceRetention: buildSourceEvidenceRetention(jobs, rootDir),
     jobClaims: compiledJobClaims,
     canonicalPlan: buildCanonicalPlanSummary(inputs.canonicalParentJobs),
     parentJobReconciliation: buildParentJobReconciliation(
@@ -8770,6 +8776,22 @@ function addAuthorityBackedSourceMaterializationJobs({
   }
 }
 
+/**
+ * The authorization corpus, read once per root per compile. Plan compilation
+ * touches every identity and the corpus does not change underneath it.
+ */
+const SOURCE_AUTHORIZATION_INDEX_CACHE = new Map();
+function sourceAuthorizationIndex(rootDir) {
+  const key = rootDir ?? process.cwd();
+  if (!SOURCE_AUTHORIZATION_INDEX_CACHE.has(key)) {
+    SOURCE_AUTHORIZATION_INDEX_CACHE.set(
+      key,
+      buildSourceAuthorizationIndex(key)
+    );
+  }
+  return SOURCE_AUTHORIZATION_INDEX_CACHE.get(key);
+}
+
 function sourceMaterializationJobIdFor(identity) {
   return `${identity.identityKey}-source-materialization`;
 }
@@ -8806,6 +8828,19 @@ function officialPdfMaterializationInput(
     "node scripts/verify-rcap-materialized-source.mjs " +
     `--source-identity-key ${identity.identityKey} ` +
     `--sha256 ${source.expectedSha256} --bytes ${source.expectedBytes}`;
+  // Permission is read from the integrated decision corpus, per jurisdiction
+  // and — where a decision scopes itself to named documents — per document.
+  const authorization = authorizationFor(
+    sourceAuthorizationIndex(rootDir),
+    {
+      jurisdiction: identity.jurisdiction,
+      documentId: identity.officialDocument?.documentId ?? null
+    }
+  );
+  const lifecycle = deriveSourceLifecycle({
+    receiptVerified: verification.ready === true,
+    authorization
+  });
   return {
     sourceIdentityKey: identity.identityKey,
     documentId: identity.officialDocument.documentId,
@@ -8830,12 +8865,30 @@ function officialPdfMaterializationInput(
     identityBindingStatus: "exact_pinned_identity",
     authorityAssetState: "authority_asset_known",
     registryState: "registry_metadata_present",
+    // Evidence and permission, kept apart. `verification.ready` is a
+    // measurement — bytes, hash, size, mode — and it establishes custody of the
+    // evidence and nothing else. Worker readiness additionally requires that
+    // the controlling licence decision permits the reproduction we intend.
+    // Colorado is the case that made the difference visible: twelve receipts
+    // that verify exactly, against a terminal `written_permission_required`.
     materializationState: verification.ready
       ? "binary_materialized_hash_verified"
       : "binary_materialization_required",
-    workerReadiness: verification.ready
+    workerReadiness: lifecycle.workerReady
       ? "worker_ready"
-      : "binary_materialization_required",
+      : verification.ready
+        ? "generation_permission_required"
+        : "binary_materialization_required",
+    sourceLifecycle: lifecycle,
+    sourceAuthorization: {
+      verdict: authorization.verdict,
+      generationAllowed: authorization.generationAllowed,
+      licenseAdopted: authorization.licenseAdopted,
+      blocker: authorization.blocker,
+      decisionJobId: authorization.decisionJobId
+    },
+    // Internal verification of retained evidence is always permitted; it is
+    // what a receipt is for. Participant-facing reproduction is not.
     workerMayRead: true,
     workerMayModify: false,
     verificationCommand,
@@ -9790,6 +9843,110 @@ function assertFactoryClaimTargets(claims, jobs, canonicalParents) {
       }
     }
   }
+}
+
+/**
+ * Every retained materialization receipt, partitioned by what it establishes.
+ *
+ * A receipt is evidence of custody. Some receipts back a source a worker may
+ * use; others back a source we hold and verify but may not reproduce. Before
+ * this existed the plan had no way to describe the second kind, so a verified
+ * Colorado receipt looked like an orphan and the only way to make the gates
+ * pass was to delete evidence. Recording the partition makes the fail-closed
+ * state a first-class one: the receipt stays, the source stays sealed, and the
+ * reason it is not assignable travels with it.
+ *
+ * Counts are derived from the receipts actually present. Nothing here asserts
+ * how many there should be.
+ */
+function buildSourceEvidenceRetention(jobs, rootDir) {
+  const directory = path.join(
+    rootDir ?? process.cwd(),
+    "data/record-clearing/production-factory/source-materialization-receipts"
+  );
+  const assignableIdentityKeys = new Set(
+    jobs.flatMap((job) =>
+      (job.sourceMaterializationInputs ?? [])
+        .filter((input) => input.sourceLifecycle?.workerReady === true)
+        .map((input) => input.sourceIdentityKey)
+    )
+  );
+  const index = sourceAuthorizationIndex(rootDir);
+  const records = [];
+  if (fs.existsSync(directory)) {
+    for (const name of fs.readdirSync(directory).sort()) {
+      if (!name.endsWith(".json")) continue;
+      let receipt;
+      try {
+        receipt = JSON.parse(
+          fs.readFileSync(path.join(directory, name), "utf8")
+        );
+      } catch {
+        continue;
+      }
+      const identityKey = name.replace(/\.json$/u, "");
+      const authorization = authorizationFor(index, {
+        jurisdiction: receipt.jurisdiction,
+        documentId: receipt.documentId ?? null
+      });
+      const receiptVerified =
+        receipt.hashAndMediaVerified === true &&
+        receipt.materializationState === "binary_hash_verified" ||
+        receipt.hashAndMediaVerified === true;
+      const lifecycle = deriveSourceLifecycle({
+        receiptVerified,
+        authorization,
+        otherGatesPass: assignableIdentityKeys.has(identityKey)
+      });
+      records.push({
+        sourceIdentityKey: identityKey,
+        jurisdiction: receipt.jurisdiction ?? null,
+        documentId: receipt.documentId ?? null,
+        receiptPath:
+          `data/record-clearing/production-factory/source-materialization-receipts/${name}`,
+        receiptVerified,
+        authorizationVerdict: authorization.verdict,
+        blocker: authorization.blocker,
+        decisionJobId: authorization.decisionJobId,
+        lifecycle
+      });
+    }
+  }
+  records.sort((left, right) =>
+    left.sourceIdentityKey.localeCompare(right.sourceIdentityKey)
+  );
+  const withheld = records.filter(
+    (entry) => entry.receiptVerified && !entry.lifecycle.workerReadAuthorized
+  );
+  return {
+    schemaVersion: "rcap-source-evidence-retention/v1",
+    principle:
+      "A receipt records that bytes were measured. It never records permission to reproduce them.",
+    totals: {
+      receipts: records.length,
+      verified: records.filter((entry) => entry.receiptVerified).length,
+      workerReady: records.filter((entry) => entry.lifecycle.workerReady).length,
+      retainedEvidenceGenerationPermissionRequired: withheld.length,
+      byAuthorizationVerdict: Object.fromEntries(
+        [...new Set(records.map((entry) => entry.authorizationVerdict))]
+          .sort()
+          .map((verdict) => [
+            verdict,
+            records.filter((entry) => entry.authorizationVerdict === verdict)
+              .length
+          ])
+      ),
+      byJurisdictionWithheld: Object.fromEntries(
+        [...new Set(withheld.map((entry) => entry.jurisdiction))]
+          .sort()
+          .map((jurisdiction) => [
+            jurisdiction,
+            withheld.filter((entry) => entry.jurisdiction === jurisdiction).length
+          ])
+      )
+    },
+    records
+  };
 }
 
 function buildMaterializationPlanningSummary(jobs, inputs) {

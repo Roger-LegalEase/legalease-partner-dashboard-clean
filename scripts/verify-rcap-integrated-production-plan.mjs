@@ -1090,8 +1090,18 @@ assert.equal(
     .materializedSourceCount,
   verifiedOfficialPdfIdentityKeys.length
 );
-assert.deepEqual(
-  fs
+// A receipt records that bytes were measured; it never records permission to
+// reproduce them. Asserting the receipt set equals the worker-ready set said
+// those were the same thing, and the only way to satisfy it for a source we
+// legitimately hold but may not reproduce was to delete the evidence.
+//
+// The partition below is stricter, not looser. Every receipt on disk must be
+// accounted for; every worker-ready identity must have one; and every receipt
+// that is not worker-ready must carry an explicit withheld authorization with
+// a named blocker. An orphan — a receipt backing nothing, explained by
+// nothing — still fails.
+{
+  const receiptFiles = fs
     .readdirSync(
       path.join(
         ROOT,
@@ -1101,11 +1111,48 @@ assert.deepEqual(
     )
     .filter((entry) => entry.isFile() && entry.name.endsWith(".json"))
     .map((entry) => entry.name)
-    .sort(),
-  verifiedOfficialPdfIdentityKeys
-    .map((identityKey) => `${identityKey}.json`)
-    .sort()
-);
+    .sort();
+  const retention = factoryPlan.sourceEvidenceRetention;
+  assert.ok(retention, "the plan carries no source-evidence retention record");
+  assert.deepEqual(
+    retention.records.map((entry) => `${entry.sourceIdentityKey}.json`).sort(),
+    receiptFiles,
+    "every receipt on disk must be accounted for in the retention record"
+  );
+  // Counts are derived from the live set, never asserted as a constant.
+  assert.equal(retention.totals.receipts, receiptFiles.length);
+  for (const identityKey of verifiedOfficialPdfIdentityKeys) {
+    assert.ok(
+      receiptFiles.includes(`${identityKey}.json`),
+      `${identityKey} is worker-ready with no materialization receipt`
+    );
+  }
+  for (const record of retention.records) {
+    if (record.lifecycle.workerReady) {
+      assert.ok(
+        verifiedOfficialPdfIdentityKeys.includes(record.sourceIdentityKey),
+        `${record.sourceIdentityKey} is worker-ready in retention but not in the plan`
+      );
+      continue;
+    }
+    // Not worker-ready: the reason must be explicit.
+    assert.equal(
+      record.lifecycle.workerReadAuthorized ||
+        record.lifecycle.implementationAssignable,
+      false,
+      `${record.sourceIdentityKey} withholds readiness while claiming authorization`
+    );
+    assert.ok(
+      typeof record.blocker === "string" && record.blocker.length > 0,
+      `${record.sourceIdentityKey} is not worker-ready and names no blocker`
+    );
+    assert.equal(record.lifecycle.generationAllowed, false);
+    assert.equal(record.lifecycle.runtimeEnabled, false);
+    // Evidence custody survives the refusal.
+    assert.equal(record.receiptVerified, true);
+    assert.equal(record.lifecycle.internalEvidenceRetained, true);
+  }
+}
 const completedOfficialPdfExpectations = new Map([
   [
     "rcap-ak-acroform-fill",

@@ -4,7 +4,7 @@
   "note": "Shard metadata is recorded here rather than on a claim because a job manifest is what a branch fingerprint is computed from: a coordination field inside the assignment would rename a worker's branch. Nothing here alters a semantic fingerprint or a branch key.",
   "reviewShardReservationNote": "The claim schema's ownerSession enum is SESSION_B through SESSION_F, and review is none of those. R1 and R2 are therefore reserved here rather than in job-claims.json. This manifest is the reservation of record for them; widening the claim enum would change the job manifest and, through it, worker branch identity.",
   "baseline": {
-    "baseCommit": "508581b62d4ca36e8187733b1fc6ad0390c4597b",
+    "baseCommit": "ba82fe3e01dafbb51045902bb3f149ba87cb5a05",
     "authorityVersion": "master-library/1.2",
     "authorityEdition": "1.2"
   },
@@ -552,7 +552,7 @@
       },
       {
         "path": "planning/record-clearing-100-percent/production-plan.json",
-        "sha256": "837a156b5cbcb90a4960c1bf478bd3f974bc347e7111e4f49d1567ab98c88268"
+        "sha256": "efc3a3c0ae3cda15aceae1de99ac6ff69c5a07bf29c2d92da3a95a664e10232f"
       },
       {
         "path": "src/lib/rcap/jurisdictions/packet-capability.ts",
@@ -580,7 +580,7 @@
     "candidateShards": 7,
     "activeJobs": 26,
     "candidateJobs": 15,
-    "awaitingIntegration": 2
+    "awaitingIntegration": 0
   },
   "shards": [
     {
@@ -1488,69 +1488,15 @@
       "status": "active",
       "ownerSession": "SESSION_A",
       "note": "Jobs whose completions are already pushed and verified, populated from the committed discovery report rather than by hand.",
-      "jobIds": [
-        "rcap-de-official-download-automation-blocked",
-        "rcap-mn-official-download-automation-blocked"
-      ],
+      "jobIds": [],
       "capacity": {
-        "jobs": 2,
-        "assignedTracks": 6,
-        "incrementalTracks": 6,
-        "assignedComponents": 23,
-        "incrementalComponents": 23
+        "jobs": 0,
+        "assignedTracks": 0,
+        "incrementalTracks": 0,
+        "assignedComponents": 0,
+        "incrementalComponents": 0
       },
-      "jobs": [
-        {
-          "jobId": "rcap-de-official-download-automation-blocked",
-          "lane": "source_acquisition",
-          "jurisdiction": "DE",
-          "status": "completed",
-          "semanticFingerprint": "86c9c49e75930ecbdce5954149aba35aa24be253f74b9761cd28996819889507",
-          "branch": "rcap-factory/rcap-de-official-download-automation-blocked-e84ade59-86c9c49e",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-de-official-download-automation-blocked.json"
-          ],
-          "dependencies": [],
-          "assignedTrackIds": [
-            "de_discretionary_family_court",
-            "de_discretionary_superior_court",
-            "de_pardon_expungement"
-          ],
-          "incrementalTrackIds": [
-            "de_discretionary_family_court",
-            "de_discretionary_superior_court",
-            "de_pardon_expungement"
-          ],
-          "assignedComponents": 10,
-          "incrementalComponents": 10,
-          "alreadyHasPushedCompletion": true
-        },
-        {
-          "jobId": "rcap-mn-official-download-automation-blocked",
-          "lane": "source_acquisition",
-          "jurisdiction": "MN",
-          "status": "completed",
-          "semanticFingerprint": "ef9a1be3645d155352e237ca18d4a0115d17ee61b6c1c4d25e71b1b9a99a6693",
-          "branch": "rcap-factory/rcap-mn-official-download-automation-blocked-31de2ec7-ef9a1be3",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-mn-official-download-automation-blocked.json"
-          ],
-          "dependencies": [],
-          "assignedTrackIds": [
-            "mn_petition_15218",
-            "mn_petition_609a02_subd3",
-            "mn_petition_juvenile_as_adult"
-          ],
-          "incrementalTrackIds": [
-            "mn_petition_15218",
-            "mn_petition_609a02_subd3",
-            "mn_petition_juvenile_as_adult"
-          ],
-          "assignedComponents": 13,
-          "incrementalComponents": 13,
-          "alreadyHasPushedCompletion": true
-        }
-      ]
+      "jobs": []
     },
     {
       "wave": 5,
@@ -2053,5 +1999,5 @@
       ]
     }
   ],
-  "manifestSha256": "dc43680a0652895df1e4c286b1ea0485149e2c7c8d98720c9544768bf5f79a22"
+  "manifestSha256": "6d3903d280a2fc90e2a58aa72b79423155b3aca5deaeabdb31e16c15de4af0cb"
 }

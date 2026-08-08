@@ -70,6 +70,13 @@ import {
   assertAuthorityOutputContract
 } from "./lib/rcap-factory/authority-output.mjs";
 import {
+  SOURCE_AUTHORIZATION_VERDICTS,
+  authorizationFor,
+  buildSourceAuthorizationIndex,
+  deriveSourceLifecycle,
+  permitsGeneration
+} from "./lib/rcap-factory/source-authorization.mjs";
+import {
   ACQUISITION_BLOCKED_DISPOSITION,
   SUCCESS_DISPOSITIONS,
   assertAcquisitionPermitted,
@@ -918,12 +925,36 @@ await check("packet, source-materialization, and normalization readiness fail cl
     .filter((entry) => entry.isFile() && entry.name.endsWith(".json"))
     .map((entry) => entry.name)
     .sort();
+  // Receipts are evidence of custody, not permission to reproduce. Asserting
+  // the receipt set equals the worker-ready set conflated the two, and made
+  // deleting verified evidence the only way to satisfy a licence refusal.
+  // The partition is stricter: every receipt accounted for, every worker-ready
+  // identity backed by one, and every withheld one carrying a named blocker.
+  const retention = plan.sourceEvidenceRetention;
+  assert.ok(retention, "the plan carries no source-evidence retention record");
   assert.deepEqual(
-    receiptFiles,
-    [...verifiedIdentityKeys]
-      .map((identityKey) => `${identityKey}.json`)
-      .sort()
+    retention.records.map((entry) => `${entry.sourceIdentityKey}.json`).sort(),
+    receiptFiles
   );
+  assert.equal(retention.totals.receipts, receiptFiles.length);
+  for (const identityKey of verifiedIdentityKeys) {
+    assert.ok(
+      receiptFiles.includes(`${identityKey}.json`),
+      `${identityKey} is worker-ready with no receipt`
+    );
+  }
+  for (const record of retention.records) {
+    if (record.lifecycle.workerReady) continue;
+    assert.equal(record.receiptVerified, true, record.sourceIdentityKey);
+    assert.equal(record.lifecycle.internalEvidenceRetained, true);
+    assert.equal(record.lifecycle.generationAllowed, false);
+    assert.equal(record.lifecycle.implementationAssignable, false);
+    assert.equal(record.lifecycle.runtimeEnabled, false);
+    assert.ok(
+      typeof record.blocker === "string" && record.blocker.length > 0,
+      `${record.sourceIdentityKey} withholds readiness and names no blocker`
+    );
+  }
   for (const { job, source } of materiallyVerifiedSources) {
     const identity = projectedIdentityByKey.get(source.sourceIdentityKey);
     assert.ok(identity, source.sourceIdentityKey);
@@ -4585,6 +4616,275 @@ await check("no integrated acquisition decision claims success from a block", ()
   assert.ok(
     blockedChannels >= 2,
     "expected Minnesota and Delaware to record channels that are still blocked"
+  );
+});
+
+
+// ---------------------------------------------------------------------------
+// Source materialization versus generation authorization
+//
+// Colorado is the case: twelve receipts whose bytes, hashes, sizes and modes
+// all verify, against a terminal `written_permission_required`. Both are true.
+// Before these, byte verification alone produced worker_ready, so the only way
+// to honour the licence was to delete the evidence.
+// ---------------------------------------------------------------------------
+
+function authorizationFixture(rootDir, decisions, { holdCommercialUse = [] } = {}) {
+  const directory = path.join(
+    rootDir,
+    "data/record-clearing/production-factory/source-acquisition"
+  );
+  fs.mkdirSync(directory, { recursive: true });
+  for (const [name, decision] of Object.entries(decisions)) {
+    fs.writeFileSync(
+      path.join(directory, `${name}.json`),
+      `${JSON.stringify(decision, null, 2)}\n`
+    );
+  }
+  const libraryDir = path.join(rootDir, "data/record-clearing/master-library");
+  fs.mkdirSync(libraryDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(libraryDir, "pending-edition-amendments.json"),
+    `${JSON.stringify(
+      {
+        candidates: holdCommercialUse.map((jurisdiction) => ({
+          jurisdiction,
+          disposition: "hold_commercial_use"
+        }))
+      },
+      null,
+      2
+    )}\n`
+  );
+  return buildSourceAuthorizationIndex(rootDir);
+}
+
+await check("materialization evidence never establishes generation permission", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-source-authorization-"));
+  try {
+    const index = authorizationFixture(root, {
+      "rcap-zz-commercial-license": {
+        jobId: "rcap-zz-commercial-license",
+        jurisdiction: "ZZ",
+        strategyFamily: "commercial_license",
+        licenseAdopted: true,
+        generationAllowed: true,
+        terminalDisposition: "license_adopted"
+      },
+      "rcap-yy-commercial-license": {
+        jobId: "rcap-yy-commercial-license",
+        jurisdiction: "YY",
+        strategyFamily: "commercial_license",
+        licenseAdopted: false,
+        generationAllowed: false,
+        terminalDisposition: "written_permission_required"
+      },
+      "rcap-xx-commercial-license": {
+        jobId: "rcap-xx-commercial-license",
+        jurisdiction: "XX",
+        strategyFamily: "commercial_license",
+        licenseAdopted: false,
+        generationAllowed: false,
+        terminalDisposition: "deliberately_excluded_commercial_license",
+        excludedDocuments: [{ documentId: "XX-FORM-1" }]
+      }
+    }, { holdCommercialUse: ["WW"] });
+
+    for (const verdict of [
+      "authorized",
+      "written_permission_required",
+      "deliberately_excluded_commercial_license",
+      "license_unresolved",
+      "no_license_restriction"
+    ]) {
+      assert.ok(SOURCE_AUTHORIZATION_VERDICTS.includes(verdict));
+    }
+
+    // 1. Materialized plus permission: worker-ready where other gates pass.
+    const authorized = authorizationFor(index, { jurisdiction: "ZZ" });
+    assert.equal(authorized.verdict, "authorized");
+    const okLifecycle = deriveSourceLifecycle({
+      receiptVerified: true,
+      authorization: authorized
+    });
+    assert.equal(okLifecycle.workerReady, true);
+    assert.equal(okLifecycle.implementationAssignable, true);
+    assert.equal(okLifecycle.runtimeEnabled, false, "runtime stays independent");
+
+    // 2. Materialized plus written_permission_required: evidence kept,
+    //    readiness withheld. This is Colorado.
+    const permissionRequired = authorizationFor(index, { jurisdiction: "YY" });
+    assert.equal(permissionRequired.verdict, "written_permission_required");
+    const withheld = deriveSourceLifecycle({
+      receiptVerified: true,
+      authorization: permissionRequired
+    });
+    assert.deepEqual(
+      {
+        sourceIdentityExact: withheld.sourceIdentityExact,
+        binaryMaterialized: withheld.binaryMaterialized,
+        binaryHashVerified: withheld.binaryHashVerified,
+        internalEvidenceRetained: withheld.internalEvidenceRetained,
+        generationAllowed: withheld.generationAllowed,
+        licenseAdopted: withheld.licenseAdopted,
+        workerReady: withheld.workerReady,
+        implementationAssignable: withheld.implementationAssignable,
+        runtimeEnabled: withheld.runtimeEnabled,
+        disposition: withheld.disposition,
+        blocker: withheld.blocker
+      },
+      {
+        sourceIdentityExact: true,
+        binaryMaterialized: true,
+        binaryHashVerified: true,
+        internalEvidenceRetained: true,
+        generationAllowed: false,
+        licenseAdopted: false,
+        workerReady: false,
+        implementationAssignable: false,
+        runtimeEnabled: false,
+        disposition: "materialized_evidence_generation_permission_required",
+        blocker: "written_permission_required"
+      }
+    );
+
+    // 3. Deliberate commercial exclusion, scoped to named documents.
+    const excluded = authorizationFor(index, {
+      jurisdiction: "XX",
+      documentId: "XX-FORM-1"
+    });
+    assert.equal(excluded.verdict, "deliberately_excluded_commercial_license");
+    const excludedLifecycle = deriveSourceLifecycle({
+      receiptVerified: true,
+      authorization: excluded
+    });
+    assert.equal(excludedLifecycle.workerReady, false);
+    assert.equal(excludedLifecycle.internalEvidenceRetained, true);
+
+    // 4. Licence required by a recorded hold, no decision: fail closed.
+    const unresolved = authorizationFor(index, { jurisdiction: "WW" });
+    assert.equal(unresolved.verdict, "license_unresolved");
+    const unresolvedLifecycle = deriveSourceLifecycle({
+      receiptVerified: true,
+      authorization: unresolved
+    });
+    assert.equal(unresolvedLifecycle.workerReady, false);
+    assert.equal(unresolvedLifecycle.sourceIdentityExact, true);
+
+    // 5. Permission granted but the bytes drifted: evidence fails, so does
+    //    readiness. Permission never rescues a hash mismatch.
+    const drifted = deriveSourceLifecycle({
+      receiptVerified: false,
+      authorization: authorized
+    });
+    assert.equal(drifted.workerReady, false);
+    assert.equal(drifted.binaryHashVerified, false);
+
+    // 6. Permission revoked after the fact: readiness is withdrawn from the
+    //    same receipt, deterministically, with nothing deleted or recopied.
+    const before = deriveSourceLifecycle({
+      receiptVerified: true,
+      authorization: authorized
+    });
+    const after = deriveSourceLifecycle({
+      receiptVerified: true,
+      authorization: permissionRequired
+    });
+    assert.equal(before.workerReady, true);
+    assert.equal(after.workerReady, false);
+    assert.equal(after.implementationAssignable, false);
+    assert.equal(after.binaryHashVerified, before.binaryHashVerified);
+    assert.equal(after.internalEvidenceRetained, true);
+
+    // 7. Permission granted later: the same verified receipt becomes eligible
+    //    without recopying bytes.
+    const restored = deriveSourceLifecycle({
+      receiptVerified: true,
+      authorization: authorized
+    });
+    assert.equal(restored.workerReady, true);
+
+    // 8. No decision where no licence question was ever raised: no artificial
+    //    blocker. A jurisdiction nobody asked about is not thereby refused.
+    const unrestricted = authorizationFor(index, { jurisdiction: "VV" });
+    assert.equal(unrestricted.verdict, "no_license_restriction");
+    assert.equal(permitsGeneration(unrestricted.verdict), true);
+
+    // A scoped exclusion does not reach a document it does not name, and the
+    // jurisdiction-level question decides instead.
+    const outOfScope = authorizationFor(index, {
+      jurisdiction: "XX",
+      documentId: "XX-FORM-UNLISTED"
+    });
+    assert.equal(outOfScope.verdict, "no_license_restriction");
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+await check("retained evidence is auditable but never participant-facing", () => {
+  const retention = plan.sourceEvidenceRetention;
+  assert.ok(retention);
+
+  // 10. Counts derive from the live receipt set. Nothing asserts 13, and a
+  //     missing record is never invented to satisfy an expected total.
+  const receiptFiles = fs
+    .readdirSync(
+      path.join(
+        ROOT,
+        "data/record-clearing/production-factory/source-materialization-receipts"
+      )
+    )
+    .filter((name) => name.endsWith(".json"))
+    .sort();
+  assert.equal(retention.totals.receipts, receiptFiles.length);
+  assert.equal(retention.records.length, receiptFiles.length);
+
+  // 9. Internal-evidence-only sources stay available to validators and never
+  //    reach participant-packet generation.
+  const withheld = retention.records.filter(
+    (entry) => entry.receiptVerified && !entry.lifecycle.workerReadAuthorized
+  );
+  assert.ok(withheld.length > 0, "expected at least one withheld source");
+  const assignableIdentityKeys = new Set(
+    plan.jobs.flatMap((job) =>
+      (job.sourceMaterializationInputs ?? []).map(
+        (input) => input.sourceIdentityKey
+      )
+    )
+  );
+  for (const record of withheld) {
+    assert.equal(record.lifecycle.internalEvidenceRetained, true);
+    assert.equal(record.lifecycle.generationAllowed, false);
+    assert.equal(record.lifecycle.implementationAssignable, false);
+    assert.equal(record.lifecycle.runtimeEnabled, false);
+    assert.equal(
+      assignableIdentityKeys.has(record.sourceIdentityKey),
+      false,
+      `${record.sourceIdentityKey} is withheld yet reaches an implementation job`
+    );
+    assert.ok(fs.existsSync(path.join(ROOT, record.receiptPath)));
+  }
+
+  // Colorado specifically: every one of its live receipts is withheld on
+  // written permission, and every one survives.
+  const colorado = retention.records.filter(
+    (entry) => entry.jurisdiction === "CO"
+  );
+  assert.ok(colorado.length > 0);
+  for (const record of colorado) {
+    assert.equal(record.authorizationVerdict, "written_permission_required");
+    assert.equal(record.blocker, "written_permission_required");
+    assert.equal(record.receiptVerified, true);
+    assert.equal(
+      record.lifecycle.disposition,
+      "materialized_evidence_generation_permission_required"
+    );
+  }
+  assert.equal(
+    retention.totals.byJurisdictionWithheld.CO,
+    colorado.length,
+    "the withheld tally must derive from the live Colorado receipt set"
   );
 });
 
