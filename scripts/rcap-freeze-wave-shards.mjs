@@ -41,31 +41,28 @@ const ACTIVE_SHARDS = [
     shard: "B1",
     lane: "custom_pleading",
     ownerSession: "SESSION_B",
-    jobIds: ["rcap-hi-custom-pleading"],
+    jobIds: [],
     note:
-      "Hawaii only. Wyoming left this shard: all three of its tracks carry unresolved governing-mechanism questions, its packet components wait on a 23-county local-template survey nobody has run, and two tracks carry open waiting-period and eligibility questions. It was standing ready with every one of those open. It is now blocked on three owners and will return when they answer."
+      "Empty because it succeeded. Hawaii's custom pleading is integrated and completed — five tracks, thirty pages — and its replacement proof is generated. Wyoming had already left this shard: all three of its tracks carry unresolved governing-mechanism questions, its packet components wait on a 23-county local-template survey nobody has run, and two tracks carry open waiting-period and eligibility questions. It returns when D2 and the Wyoming owners answer, not before."
   },
   {
     shard: "B2",
     lane: "custom_pleading",
     ownerSession: "SESSION_B",
     jobIds: [
-      "rcap-oh-custom-pleading-clean-tracks",
-      "rcap-wa-custom-pleading-clean-tracks"
     ],
     note:
-      "B2 returned both whole-state assignments unimplemented, each because one track carries an unresolved release blocker and a worker cannot atomically deliver four fifths of a job. The captain split them: these are the clean tracks only, with new fingerprints. oh_marijuana_expungement and wa_crop_certificate_of_restoration are excluded and neither is forced ready. The earlier note on this shard was wrong to say both assignments had no venue blocker — Washington's CROP track carries exactly that."
+      "The split worked and is now spent. Both clean-track assignments — Ohio's four and Washington's two — are integrated and completed with proofs generated. oh_marijuana_expungement and wa_crop_certificate_of_restoration were excluded from those assignments and remain excluded; neither is forced ready, and each now has its own memo-amendment owner plus a source owner in this wave. The earlier note on this shard was wrong to say both assignments had no venue blocker — Washington's CROP track carries exactly that, which is why WA has a venue decision behind it."
   },
   {
     shard: "B4",
     lane: "custom_pleading",
     ownerSession: "SESSION_B",
     jobIds: [
-      "rcap-in-custom-pleading-technical-review-correction",
       "rcap-ms-custom-pleading-technical-review-correction"
     ],
     note:
-      "Opened by technical review, not by a new requirement. Each reissues the assignment that produced the defect and owns the same module and verifier; neither re-implements a track. Both legal reviews stay blocked until the corrected packets are produced and technically re-reviewed."
+      "Opened by technical review, not by a new requirement. Indiana's correction is delivered and integrated: its replacement packet is generated and the proof drift reopened its technical review, exactly as intended — the stale approval did not survive the new bytes. Mississippi's correction is still outstanding and is all that remains here. It reissues the assignment that produced the defect and owns the same module and verifier; it does not re-implement a track. Both legal reviews stay blocked."
   },
   {
     shard: "B3",
@@ -88,12 +85,13 @@ const ACTIVE_SHARDS = [
     lane: "legal_design_normalization",
     ownerSession: "SESSION_D",
     jobIds: [
-      "rcap-oh-marijuana-governing-mechanism-reconciliation",
-      "rcap-wa-crop-venue-reconciliation"
+      "rcap-oh-marijuana-memo-amendment",
+      "rcap-wa-crop-memo-amendment",
+      "rcap-ia-rule-2-86-and-dci-76-component-remap"
     ],
     // D2 carries the Wyoming reads; D1's carried work is not reranked.
     note:
-      "The two questions that forced the B2 split, each owning a decision record only. rcap-vt-200-00130-source-identity-resolution is deliberately absent: its decision is already integrated at d40261d and the job had been advertising work that was done."
+      "The two questions that forced the B2 split are answered and integrated, and neither decision could amend its own state memo. These are the owners that can. Ohio carries the mechanism into OH.memo.json and fixes the two accuracy defects the decision found — the fee is division (G), and the 60-day and 30-day figures do not govern this route. Washington carries the venue conclusion and reopens the form blocker in the opposite direction, because the CRO pattern set exists. Iowa remaps six components that two completed resolutions found pointing at documents that do not exist as such. None of the three makes a track ready."
   },
   {
     shard: "D2",
@@ -128,23 +126,25 @@ const ACTIVE_SHARDS = [
     jobIds: [
       "rcap-mn-attended-retrieval-currentness-comparison",
       "rcap-de-attended-retrieval-five-current-forms",
-      "rcap-de-form-281e-edition-metadata-correction",
       "rcap-wy-local-template-and-handout-survey"
     ],
     note:
-      "Human-attended work plus one metadata correction. The Minnesota and Delaware retrievals need a person in a browser; the Wyoming survey needs a person telephoning clerks in 23 counties and is not a download; the 281E correction is metadata only and needs nobody. The three attended items are ranked, not promised."
+      "Human-attended work only. The 281E metadata correction left this shard because it is delivered and integrated: all five of its corrections — role, workflow key, canonical path, title qualification and the primary-filing guard — are admitted into the Edition 1.3 candidate tranche, which prepares but does not publish. The Minnesota and Delaware retrievals still need a person in a browser, and the Wyoming survey needs a person telephoning clerks in 23 counties and is not a download. Delaware FORM-281 stays inside the attended retrieval and is not made a separate promise. All three are ranked, not promised."
   },
   {
     shard: "F2",
     lane: "source_acquisition",
     ownerSession: "SESSION_F",
     jobIds: [
-      "rcap-mo-official-download-automation-blocked",
-      "rcap-in-commercial-license",
-      "rcap-mo-direct-issuer-request"
+      "rcap-mo-issuer-contact-authorization",
+      "rcap-co-written-permission-authorization",
+      "rcap-in-written-permission-authorization",
+      "rcap-ks-written-permission-authorization",
+      "rcap-oh-2953-321-local-form-and-fee-survey",
+      "rcap-wa-cro-form-family-source-identity"
     ],
     note:
-      "Carried over unfinished; not reranked. The wave's earlier F2 trio — the Iowa certification-of-service identity, the Maine form-face title correction and the Michigan MC 227 revision — are integrated and satisfied, and are not re-listed."
+      "The permission and follow-up owners the completed decisions created. The Missouri hardened block and direct-issuer request are done and the request is drafted and deliberately unsent; what remains is the human authorization to send it, which is what the Missouri job here owns. The three written-permission owners exist because a licence decision that says no does not create the work of going and asking, and Colorado, Indiana and Kansas were each sitting at generation_permission_required with no route out. They are derived from the corpus, so the next withheld jurisdiction gets one automatically. None of them sends anything: drafting is the deliverable and sending is a separate human act. The Ohio and Washington source owners carry the one question each integrated decision expressly left open — Ohio's local forms and fee practice, and the CRO form family's mandatory-versus-pattern status and mapping."
   },
   {
     shard: "F3",
@@ -152,11 +152,10 @@ const ACTIVE_SHARDS = [
     ownerSession: "SESSION_F",
     jobIds: [
       "rcap-fl-not-required-design-reconciliation",
-      "rcap-ia-in-repo-identity-reconciliation-already-retained-under-another-identity",
       "rcap-ia-not-required-design-reconciliation"
     ],
     note:
-      "Promoted from the previous wave's candidate ranking. All three had lease branches at the start of this pass and no worker commit; they are reissued to the same shard rather than recommissioned elsewhere."
+      "Promoted from the previous wave's candidate ranking. Both had lease branches at the start of this pass and no worker commit; they are reissued to the same shard rather than recommissioned elsewhere. The Iowa in-repo identity reconciliation is gone from this shard because it is complete and integrated: DCI-76 resolved to page 1 of a retained three-page packet, and its remap is now D1's."
   },
   {
     shard: "R1",

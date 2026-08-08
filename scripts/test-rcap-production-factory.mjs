@@ -679,9 +679,9 @@ await check("all normalized tracks reconcile exactly once and completed tranches
     reconciliation.representedExactlyOnce,
     normalizedTrackCount
   );
-  // 198 -> 210 with the wave-3 pleadings (KS 2, MN 1, MO 2, WV 2) and guidance
-  // packets (NJ 1, NV 1, TX 1, VT 2).
-  assert.equal(reconciliation.implementationComplete, 212);
+  // 212 -> 223 with the eleven tracks integrated this wave: Hawaii custom
+  // pleading 5, and the clean splits of Ohio 4 and Washington 2.
+  assert.equal(reconciliation.implementationComplete, 223);
   assert.equal(
     reconciliation.pendingProductionJob,
     normalizedTrackCount - reconciliation.implementationComplete
@@ -853,29 +853,61 @@ await check("packet, source-materialization, and normalization readiness fail cl
   assert.ok(officialJobs.length > 0);
   // Regenerating the queue against the current integrated audit admitted eleven
   // more jurisdictions, so more jobs now carry exact identities.
-  assert.equal(officialJobs.length, 26);
-  // 74 -> 63: the wave-3 source decisions resolved two further exact identities
-  // onto official-PDF assignments.
-  assert.equal(
-    officialJobs.reduce(
-      (total, job) =>
-        total + job.officialPdfAssignment.identityKeys.length,
-      0
-    ),
-    63
+  // 26 -> 25 and 63 -> 60 when the Indiana licence decision was applied. The
+  // bare numbers are a consequence, not the invariant, so the invariant is
+  // asserted directly against the live corpus: a jurisdiction whose licence
+  // decision withholds generation contributes no exact worker assignment
+  // anywhere in the plan. Assert the rule and the count follows; assert only
+  // the count and the next withheld jurisdiction passes unnoticed.
+  const authorizationIndex = buildSourceAuthorizationIndex(ROOT);
+  const withheldJurisdictions = [...authorizationIndex.decisions]
+    .filter(([, decision]) => !permitsGeneration(decision.verdict))
+    .map(([jurisdiction]) => jurisdiction);
+  assert.ok(
+    withheldJurisdictions.length > 0,
+    "the corpus must still contain at least one withholding licence decision"
   );
+  for (const jurisdiction of withheldJurisdictions) {
+    const assigned = officialJobs.filter(
+      (job) => job.jurisdiction === jurisdiction
+    );
+    assert.equal(
+      assigned.length,
+      0,
+      `${jurisdiction} withholds generation and must carry no exact identity assignment`
+    );
+    // The receipts are untouched by the withholding: possession is not
+    // permission, and neither is the absence of permission a loss of evidence.
+    const retained = plan.jobs.filter(
+      (job) =>
+        job.jurisdiction === jurisdiction &&
+        job.sourceLifecycle?.binaryHashVerified === true
+    );
+    for (const job of retained) {
+      assert.equal(job.sourceLifecycle.internalEvidenceRetained, true);
+      assert.equal(job.sourceLifecycle.generationAllowed, false);
+      assert.equal(job.sourceLifecycle.workerReady, false);
+    }
+  }
+  const exactAssignments = officialJobs.reduce(
+    (total, job) => total + job.officialPdfAssignment.identityKeys.length,
+    0
+  );
+  assert.equal(officialJobs.length, 25);
+  assert.equal(exactAssignments, 60);
   assert.ok(
     officialJobs.every(
       (job) => job.assignmentClaim?.ownerSession === "SESSION_E"
     )
   );
+  // Unique keys track the same withholding: 63 -> 60 without Indiana's three.
   assert.equal(
     new Set(
       officialJobs.flatMap(
         (job) => job.officialPdfAssignment.identityKeys
       )
     ).size,
-    63
+    60
   );
   const marylandMaterializationOnly = officialJobs
     .flatMap(
@@ -884,11 +916,13 @@ await check("packet, source-materialization, and normalization readiness fail cl
           .existingImplementationMaterializationOnlyIdentityKeys
     );
   assert.equal(marylandMaterializationOnly.length, 2);
+  // 61 -> 58 for the same reason: Indiana's three are retained and verified,
+  // and not assignable.
   assert.equal(
     officialJobs.flatMap(
       (job) => job.officialPdfAssignment.newImplementationIdentityKeys
     ).length,
-    61
+    58
   );
   const officialProjection = readJson(
     "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json"
@@ -3880,9 +3914,10 @@ await check("dashboard reports all 51 and preserves the red launch posture", () 
   assert.equal(status.totals.jurisdictions, 51);
   assert.equal(status.totals.tracks, normalizedRegistry.trackCount);
   assert.equal(status.totals.normalized, normalizedRegistry.trackCount);
-  // 137 -> 148 with the eleven tracks this wave's five implementations built.
-  assert.equal(status.totals.implementationComplete, 160);
-  assert.equal(status.totals.technicalProofPassed, 160);
+  // 160 -> 171 with the eleven tracks the Hawaii, Ohio and Washington
+  // implementations built this wave (5 + 4 + 2).
+  assert.equal(status.totals.implementationComplete, 171);
+  assert.equal(status.totals.technicalProofPassed, 171);
   assert.equal(status.totals.visualProofPassed, 17);
   assert.equal(status.totals.legalRecommendationComplete, 19);
   assert.equal(status.totals.counselAdopted, 15);

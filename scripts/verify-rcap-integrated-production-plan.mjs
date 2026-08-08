@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 
 import assert from "node:assert/strict";
+import {
+  buildSourceAuthorizationIndex,
+  permitsGeneration
+} from "./lib/rcap-factory/source-authorization.mjs";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
@@ -659,10 +663,29 @@ assert.equal(
 );
 assert.equal(officialPdfSourceContract.totals.pendingAssignmentFamilies, 0);
 assert.equal(officialPdfSourceContract.totals.projectedDocumentIdentities, 328);
+// 63 -> 60: the three Indiana identities are materialized and hash-verified
+// and remain so, but the Indiana licence decision withholds generation, and an
+// unauthorized source is not an exact worker assignment. The count is the
+// consequence; the rule is asserted below against the live corpus.
 assert.equal(
   officialPdfSourceContract.totals.projectedExactWorkerAssignments,
-  63
+  60
 );
+{
+  const authorization = buildSourceAuthorizationIndex(ROOT);
+  const withheld = [...authorization.decisions]
+    .filter(([, decision]) => !permitsGeneration(decision.verdict))
+    .map(([jurisdiction]) => jurisdiction);
+  assert.ok(withheld.length > 0);
+  for (const family of officialPdfSourceContract.families) {
+    if (!withheld.includes(family.jurisdiction)) continue;
+    assert.equal(
+      family.exactWorkerAssignments ?? 0,
+      0,
+      `${family.jurisdiction} withholds generation and may project no exact worker assignment`
+    );
+  }
+}
 assert.equal(
   officialPdfSourceContract.totals.materializationBlockedFamilies,
   officialPdfSourceContract.families.filter(
@@ -675,9 +698,9 @@ assert.equal(
     (family) => family.workerReady === true
   ).length
 );
-// 73 -> 77 packet modules: Indiana and Mississippi custom pleading, Tennessee
-// and North Carolina guidance. Oklahoma guidance was already counted.
-assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 85);
+// 85 -> 88 packet modules: the Hawaii custom pleading and the clean Ohio and
+// Washington splits each landed one.
+assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 88);
 assert.equal(
   officialPdfSourceContract.verifierBoundary.packetWorkerMaterializationPaths,
   0
@@ -704,20 +727,27 @@ assert.equal(
     .projectedDocumentIdentities,
   328
 );
+// Mirrors the contract total above: 63 -> 60 under the Indiana licence.
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedExactWorkerAssignments,
-  63
+  60
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .unresolvedSourceIdentities,
   208
 );
+// 173 -> 166. Seven Indiana identities stopped being counted as merely
+// unresolved and are now classified by the reason that actually controls them:
+// deliberately_excluded_commercial_license. Together with the three that moved
+// out of exact_worker_assignable, all ten Indiana identities now name the
+// licence as their blocker instead of hiding behind "unresolved". Nothing was
+// acquired, lost or re-measured; the same 328 identities are projected.
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedUnresolvedIdentities,
-  173
+  166
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
@@ -782,13 +812,19 @@ assert.equal(
   "runtime_disabled"
 );
 assert.equal(officialPdfSourceProjection.coverage.queueIdentityCount, 328);
-assert.equal(officialPdfSourceProjection.coverage.assignmentEligibleCount, 63);
+// 63 -> 60 under the Indiana licence. Eligibility is a permission fact.
+assert.equal(officialPdfSourceProjection.coverage.assignmentEligibleCount, 60);
 assert.deepEqual(
   officialPdfSourceProjection.coverage.countsByDisposition,
   {
-    deliberately_excluded_commercial_license: 25,
-    // Two identities became exactly worker-assignable in wave 3.
-    exact_worker_assignable: 63,
+    // 25 -> 35. All ten Indiana identities moved here: three from
+    // exact_worker_assignable and seven from unresolved_identity. They are
+    // materialized and hash-verified and stay that way; what changed is that
+    // the projection now names the licence as the reason they cannot be worked,
+    // instead of leaving seven of them looking merely unresolved.
+    deliberately_excluded_commercial_license: 35,
+    // 63 -> 60, the three Indiana identities that had been assignable.
+    exact_worker_assignable: 60,
     // Completed acquisition decisions settled these identities. For all but one
     // the adopted edition manifests no asset, so there is no portable contract
     // to assign. Vermont's 600-00228 is the exception: the edition retains the
@@ -804,7 +840,8 @@ assert.deepEqual(
     // captures of statutory text the issuer publishes only as HTML. They left
     // the official-PDF lane with their six components.
     source_gated_identity: 25,
-    unresolved_identity: 173
+    // 173 -> 166: the seven Indiana identities above.
+    unresolved_identity: 166
   }
 );
 assert.equal(legalReviewMaterializationContract.assignmentCount, 24);
@@ -831,8 +868,10 @@ const exactOfficialPdfChildren = factoryPlan.jobs.filter(
 const assignedOfficialPdfIdentityKeys = exactOfficialPdfChildren.flatMap(
   (child) => child.officialPdfAssignment.identityKeys
 );
-assert.equal(assignedOfficialPdfIdentityKeys.length, 63);
-assert.equal(new Set(assignedOfficialPdfIdentityKeys).size, 63);
+// 63 -> 60: the same three Indiana identities, seen from the implementation
+// side. An unauthorized source is assigned to no owning implementation job.
+assert.equal(assignedOfficialPdfIdentityKeys.length, 60);
+assert.equal(new Set(assignedOfficialPdfIdentityKeys).size, 60);
 // Every eligible identity is either assigned to an owning implementation job or
 // explicitly recorded as having no lane to own it. New Jersey's CN-10557 and New
 // York's CPL 160.59 packet are the second case: the projection resolved them
@@ -857,12 +896,13 @@ for (const identityKey of laneUnownedIdentityKeys) {
     `${identityKey} must not be assigned while no implementation lane owns it`
   );
 }
+// 61 -> 58: Indiana again.
 assert.equal(
   exactOfficialPdfChildren.flatMap(
     (child) =>
       child.officialPdfAssignment.newImplementationIdentityKeys
   ).length,
-  61
+  58
 );
 assert.equal(
   exactOfficialPdfChildren.flatMap(
@@ -2309,8 +2349,9 @@ assert.equal(
   factoryPlan.trackReconciliation.representedExactlyOnce,
   normalizedTrackCount
 );
-// 187 -> 198 with the eleven tracks this wave's five implementations built.
-assert.equal(factoryPlan.trackReconciliation.implementationComplete, 212);
+// 212 -> 223 with the eleven tracks integrated this wave: Hawaii custom
+// pleading 5, and the clean splits of Ohio 4 and Washington 2.
+assert.equal(factoryPlan.trackReconciliation.implementationComplete, 223);
 assert.equal(
   factoryPlan.trackReconciliation.pendingProductionJob,
   normalizedTrackCount -
@@ -2945,9 +2986,9 @@ assert.deepEqual(
 );
 assert.equal(status.totals.tracks, normalizedTrackCount);
 assert.equal(status.totals.normalized, normalizedTrackCount);
-// 137 -> 148 with the eleven tracks this wave's five implementations built.
-assert.equal(status.totals.implementationComplete, 160);
-assert.equal(status.totals.technicalProofPassed, 160);
+// 160 -> 171 with the eleven tracks integrated this wave (HI 5, OH 4, WA 2).
+assert.equal(status.totals.implementationComplete, 171);
+assert.equal(status.totals.technicalProofPassed, 171);
 assert.equal(status.totals.visualProofPassed, 17);
 assert.equal(status.totals.legalRecommendationComplete, 19);
 assert.equal(status.totals.counselAdopted, 15);

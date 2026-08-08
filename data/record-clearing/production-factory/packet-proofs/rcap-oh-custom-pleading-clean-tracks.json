@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "rcap-participant-packet-proof/v1",
+  "jobId": "rcap-oh-custom-pleading-clean-tracks",
+  "parentJobId": "NEW-02-custom-pleading-families",
+  "jurisdiction": "OH",
+  "completionCommit": "8b892f0ef579788bb5de9b43c59996a0b41e0006",
+  "authorityEdition": "1.2",
+  "verifier": {
+    "path": "scripts/verify-rcap-ohio-custom-pleading.mjs",
+    "sha256": "4cd81fe2a97a9d32f11385eca8f077eff5074064ea6b657b3130220b58dd7b58",
+    "result": "passed"
+  },
+  "implementationOutputs": [
+    {
+      "path": "src/lib/rcap/packets/jurisdictions/ohio/custom-pleading.ts",
+      "sha256": "2faa2fb9bf15dc2ae0015b61cb13d229a57d31c8f45ec99c79e654f84634f41f"
+    },
+    {
+      "path": "scripts/verify-rcap-ohio-custom-pleading.mjs",
+      "sha256": "4cd81fe2a97a9d32f11385eca8f077eff5074064ea6b657b3130220b58dd7b58"
+    }
+  ],
+  "finalPdfCount": 4,
+  "assembledPageCount": 12,
+  "canonicalPacketCount": 4,
+  "variantPacketCount": 2,
+  "technicalFixtureCount": 6,
+  "technicalFixturePageCount": 18,
+  "samplePackets": [
+    {
+      "trackId": "oh_2953_32_expungement",
+      "fixtureId": "oh-expungement-f5-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "oh-expungement-f5-1-technical-fixture.pdf",
+      "assembledSha256": "928404debad8bb4869dc4788431b6e554ff7199b95760faba7114aae76d08ef0",
+      "assembledPageCount": 3
+    },
+    {
+      "trackId": "oh_2953_32_sealing",
+      "fixtureId": "oh-sealing-f5-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "oh-sealing-f5-1-technical-fixture.pdf",
+      "assembledSha256": "b9d8601f3e4178e58c3cbe0710035fa8a677f4f4ccb8f456098e552238e82249",
+      "assembledPageCount": 3
+    },
+    {
+      "trackId": "oh_2953_32_sealing",
+      "fixtureId": "oh-sealing-court-costs-outstanding-2",
+      "sampleRole": "variant",
+      "variantOfTrackId": "oh_2953_32_sealing",
+      "assembledFileName": "oh-sealing-court-costs-outstanding-2-technical-fixture.pdf",
+      "assembledSha256": "5261808abb1c5a9add49dd638cbe725cb889770e84d3244284d8656abc96ffbd",
+      "assembledPageCount": 3
+    },
+    {
+      "trackId": "oh_2953_33_nonconviction",
+      "fixtureId": "oh-nonconviction-dismissed-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "oh-nonconviction-dismissed-1-technical-fixture.pdf",
+      "assembledSha256": "01bd09c6e1d0d9aa3f1885f7f155611bcf04473ea48d5a1bb381ba2253959b64",
+      "assembledPageCount": 3
+    },
+    {
+      "trackId": "oh_2953_33_nonconviction",
+      "fixtureId": "oh-nonconviction-no-bill-2",
+      "sampleRole": "variant",
+      "variantOfTrackId": "oh_2953_33_nonconviction",
+      "assembledFileName": "oh-nonconviction-no-bill-2-technical-fixture.pdf",
+      "assembledSha256": "a5c1fe2b3e50ffa83222150023e88a7f6eb71411ff52091b4caf5f0b53a46c87",
+      "assembledPageCount": 3
+    },
+    {
+      "trackId": "oh_2953_35_firearm",
+      "fixtureId": "oh-firearm-notification-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "oh-firearm-notification-1-technical-fixture.pdf",
+      "assembledSha256": "30a2edd702cb5a8469fed26875a564126acf893276ce650ef583e861271e2be3",
+      "assembledPageCount": 3
+    }
+  ],
+  "deterministic": true,
+  "generatedPacketBytesTracked": false,
+  "runtimeStatus": "runtime_disabled",
+  "technicalEvidence": "complete",
+  "visualProof": "pending",
+  "visualReview": "formal_visual_review_pending",
+  "completedOutputLegalReview": "pending",
+  "counselAdopted": false,
+  "packetReady": false,
+  "productionEnabled": false
+}

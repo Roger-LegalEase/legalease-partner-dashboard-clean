@@ -27,7 +27,8 @@ import {
 import {
   authorizationFor,
   buildSourceAuthorizationIndex,
-  deriveSourceLifecycle
+  deriveSourceLifecycle,
+  permitsGeneration
 } from "./source-authorization.mjs";
 
 export const FACTORY_INPUT_PATHS = Object.freeze({
@@ -140,6 +141,54 @@ const LEGAL_REVIEW_DIR =
   "data/record-clearing/production-factory/legal-output-reviews/completed-output";
 
 /**
+ * Whether a recorded technical result still describes the current output.
+ *
+ * A review is a reading of specific bytes. When a correction lands, the packet
+ * proof is regenerated and its sample hashes move; the previous result then
+ * describes a document that will never ship — neither its approval nor its
+ * defect finding carries forward. Comparing the hashes the reviewer recorded
+ * against the hashes now on disk is what makes the supersession automatic
+ * rather than something a captain has to remember.
+ */
+function technicalReviewIsCurrent(rootDir, implementationJobId) {
+  const root = rootDir ?? process.cwd();
+  const resultPath = path.join(
+    root,
+    `${TECHNICAL_REVIEW_DIR}/${implementationJobId}.json`
+  );
+  const proofPath = path.join(
+    root,
+    `${PACKET_PROOF_DIR}/${implementationJobId}.json`
+  );
+  if (!fs.existsSync(resultPath) || !fs.existsSync(proofPath)) return false;
+  let result;
+  let proof;
+  try {
+    result = JSON.parse(fs.readFileSync(resultPath, "utf8"));
+    proof = JSON.parse(fs.readFileSync(proofPath, "utf8"));
+  } catch {
+    return false;
+  }
+  const reviewed = new Set(
+    (result.packets ?? []).map((entry) => entry.proofSha256).filter(Boolean)
+  );
+  if (reviewed.size === 0) return false;
+  const current = new Set(
+    [
+      ...(proof.samplePackets ?? []),
+      ...(proof.variantPackets ?? [])
+    ]
+      .map((entry) => entry.assembledSha256)
+      .filter(Boolean)
+  );
+  if (current.size === 0) return false;
+  for (const hash of reviewed) {
+    if (!current.has(hash)) return false;
+  }
+  return true;
+}
+
+/**
  * Implementations whose current output is known defective.
  *
  * Read from the recorded technical result rather than asserted here, so a
@@ -161,8 +210,14 @@ function implementationsRequiringCorrection(rootDir) {
       } catch {
         continue;
       }
-      if (record?.result === "correction_required") {
-        requiring.add(name.replace(/\.json$/u, ""));
+      const implementationJobId = name.replace(/\.json$/u, "");
+      // A defect finding against output that has since been corrected is
+      // history, not a live blocker.
+      if (
+        record?.result === "correction_required" &&
+        technicalReviewIsCurrent(rootDir, implementationJobId)
+      ) {
+        requiring.add(implementationJobId);
       }
     }
   }
@@ -209,6 +264,10 @@ function technicalReviewCompletion(rootDir, implementationJobId) {
     return { status: "ready" };
   }
   if (record?.reviewKind !== "technical_visual_review") return { status: "ready" };
+  // Superseded by corrected output: the review reopens against the new packet.
+  if (!technicalReviewIsCurrent(rootDir, implementationJobId)) {
+    return { status: "ready" };
+  }
   return {
     status: "completed",
     ...(record.provenance?.originalWorkerBranch
@@ -235,7 +294,8 @@ function technicalReviewApproved(rootDir, implementationJobId) {
     const record = JSON.parse(fs.readFileSync(absolute, "utf8"));
     return (
       record?.reviewKind === "technical_visual_review" &&
-      record?.result === "technical_approved"
+      record?.result === "technical_approved" &&
+      technicalReviewIsCurrent(rootDir, implementationJobId)
     );
   } catch {
     return false;
@@ -1304,7 +1364,11 @@ const DECISION_RECORD_COMPLETION_COMMITS = Object.freeze({
   "rcap-hi-stage-one-expungement-filing-vehicle-current-law-reconciliation":
     "2fccb6a47fc4706d2f235f26c15b7af29ebef634",
   "rcap-hi-stage-one-court-fee-addendum":
-    "0846d05dbb446e976985781293a371336cc86369"
+    "0846d05dbb446e976985781293a371336cc86369",
+  "rcap-oh-marijuana-governing-mechanism-reconciliation":
+    "01b28373ad3c572fea667bb76f3fd8f4d6f08ed6",
+  "rcap-wa-crop-venue-reconciliation":
+    "01b28373ad3c572fea667bb76f3fd8f4d6f08ed6"
 });
 const WAVE_WORKER_BRANCHES = Object.freeze({
   "rcap-ok-sb-2030-current-text-and-currency":
@@ -1380,7 +1444,33 @@ const WAVE_WORKER_BRANCHES = Object.freeze({
   "rcap-mn-official-download-automation-blocked":
     "rcap-factory/rcap-mn-official-download-automation-blocked-31de2ec7-ef9a1be3",
   "rcap-de-official-download-automation-blocked":
-    "rcap-factory/rcap-de-official-download-automation-blocked-e84ade59-86c9c49e"
+    "rcap-factory/rcap-de-official-download-automation-blocked-e84ade59-86c9c49e",
+  "rcap-oh-marijuana-governing-mechanism-reconciliation":
+    "rcap-factory/rcap-oh-marijuana-governing-mechanism-reconciliation-d420b6d0-c9cae40e",
+  "rcap-wa-crop-venue-reconciliation":
+    "rcap-factory/rcap-wa-crop-venue-reconciliation-e071d790-6f566274",
+  "rcap-de-form-281e-edition-metadata-correction":
+    "rcap-factory/rcap-de-form-281e-edition-metadata-correction-0744303b-92c50189",
+  "rcap-mo-official-download-automation-blocked":
+    "rcap-factory/rcap-mo-official-download-automation-blocked-50816f4b-2fbfd970",
+  "rcap-mo-direct-issuer-request":
+    "rcap-factory/rcap-mo-direct-issuer-request-d4367b02-b2034986",
+  "rcap-in-commercial-license":
+    "rcap-factory/rcap-in-commercial-license-2108f6a8-95a539cf",
+  "rcap-fl-not-required-design-reconciliation":
+    "rcap-factory/rcap-fl-not-required-design-reconciliation-4a64d3e9-2cff6f3c",
+  "rcap-ia-in-repo-identity-reconciliation-already-retained-under-another-identity":
+    "rcap-factory/rcap-ia-in-repo-identity-reconciliation-already-retained-under-a-35e905d4-cab93041",
+  "rcap-ia-not-required-design-reconciliation":
+    "rcap-factory/rcap-ia-not-required-design-reconciliation-70dabf5c-967ec13b",
+  "rcap-hi-custom-pleading":
+    "rcap-factory/rcap-hi-custom-pleading-e5deb202-8ecf5490",
+  "rcap-oh-custom-pleading-clean-tracks":
+    "rcap-factory/rcap-oh-custom-pleading-clean-tracks-610f8666-d9d0681a",
+  "rcap-wa-custom-pleading-clean-tracks":
+    "rcap-factory/rcap-wa-custom-pleading-clean-tracks-665b428f-c0ae532b",
+  "rcap-in-custom-pleading-technical-review-correction":
+    "rcap-factory/rcap-in-custom-pleading-technical-review-correction-c4033be7-69158102"
 });
 const WAVE_WORKER_COMMITS = Object.freeze({
   "rcap-ok-sb-2030-current-text-and-currency":
@@ -1455,6 +1545,32 @@ const WAVE_WORKER_COMMITS = Object.freeze({
     "540a94a3c087b86766c6b29c313002f0c600cb38",
   "rcap-de-official-download-automation-blocked":
     "fc58e592c9f134ff1331aafa9bd9adbf1fe0448b",
+  "rcap-oh-marijuana-governing-mechanism-reconciliation":
+    "130a59b173eb0fdbd48acfdb52f3d030264f1758",
+  "rcap-wa-crop-venue-reconciliation":
+    "18932f7e0368d9aeb58bd1db76c101e8855272f7",
+  "rcap-de-form-281e-edition-metadata-correction":
+    "ba7cb9d72f03136bd5184494868d0c78e646bb73",
+  "rcap-mo-official-download-automation-blocked":
+    "81d8e6e41b52f2fae7bd5084073b1dd12db8e885",
+  "rcap-mo-direct-issuer-request":
+    "723630565e9d94d8138056555a501734622b1d0e",
+  "rcap-in-commercial-license":
+    "be05ebcf6f2f8f728e62389e9c54bd9fde0cfa7c",
+  "rcap-fl-not-required-design-reconciliation":
+    "384209ec048fe4da6036c4312c10e8f874b222d4",
+  "rcap-ia-in-repo-identity-reconciliation-already-retained-under-another-identity":
+    "af80c625c56561e2d2f9ac51fb6035507c83ac4a",
+  "rcap-ia-not-required-design-reconciliation":
+    "103acfce679568d090fb1a8140d083d8460f4210",
+  "rcap-hi-custom-pleading":
+    "be84e3c36e224f4f722e7b43df455b8a9a33115d",
+  "rcap-oh-custom-pleading-clean-tracks":
+    "54031d2599095b7144fc6bbf8ce062d250c60c8a",
+  "rcap-wa-custom-pleading-clean-tracks":
+    "0b19dc56f1cbef0ab5f2a82433a8b81c7eda35ab",
+  "rcap-in-custom-pleading-technical-review-correction":
+    "0c3253e1fd539e41a3bbe28dbcb842a8d953a43d",
   "rcap-mt-public-official-download":
     "123fc9a4506b242270ad527686958de522563791"
 });
@@ -1638,6 +1754,34 @@ const COMPLETED_AUTHORITY_JOB_COMMITS = new Map([
   [
     "rcap-de-official-download-automation-blocked",
     "508581b62d4ca36e8187733b1fc6ad0390c4597b"
+  ],
+  [
+    "rcap-de-form-281e-edition-metadata-correction",
+    "01b28373ad3c572fea667bb76f3fd8f4d6f08ed6"
+  ],
+  [
+    "rcap-mo-official-download-automation-blocked",
+    "01b28373ad3c572fea667bb76f3fd8f4d6f08ed6"
+  ],
+  [
+    "rcap-mo-direct-issuer-request",
+    "01b28373ad3c572fea667bb76f3fd8f4d6f08ed6"
+  ],
+  [
+    "rcap-in-commercial-license",
+    "01b28373ad3c572fea667bb76f3fd8f4d6f08ed6"
+  ],
+  [
+    "rcap-fl-not-required-design-reconciliation",
+    "01b28373ad3c572fea667bb76f3fd8f4d6f08ed6"
+  ],
+  [
+    "rcap-ia-in-repo-identity-reconciliation-already-retained-under-another-identity",
+    "01b28373ad3c572fea667bb76f3fd8f4d6f08ed6"
+  ],
+  [
+    "rcap-ia-not-required-design-reconciliation",
+    "01b28373ad3c572fea667bb76f3fd8f4d6f08ed6"
   ]
 ]);
 const NO_DOWNLOAD_AUTHORITY_FAMILIES = new Set([
@@ -4179,6 +4323,116 @@ export function buildFactoryPlan(options = {}) {
     });
   }
 
+  // Owners created by the integrated D1 and F results. Each is exactly one
+  // question with exactly one owner; none of them re-asks something a worker
+  // has already answered.
+  for (const owner of INTEGRATED_RESULT_FOLLOW_UP_OWNERS) {
+    if (owner.requires && !fs.existsSync(path.join(rootDir, owner.requires))) {
+      continue;
+    }
+    const isMemo = owner.ownsMemo === true;
+    const outputPath = isMemo
+      ? `data/record-clearing/legal-design-intake/${owner.jurisdiction}.memo.json`
+      : owner.lane === "source_acquisition"
+        ? `${FACTORY_DATA_DIR}/source-acquisition/${owner.jobId}.json`
+        : `${FACTORY_DATA_DIR}/legal-design-decisions/${owner.jobId}.json`;
+    addJob({
+      lane: owner.lane,
+      jurisdiction: owner.jurisdiction,
+      jobId: owner.jobId,
+      strategyFamily: owner.strategyFamily,
+      trackIds: [],
+      dependencies: owner.dependencies ?? [],
+      ...(owner.lane === "source_acquisition"
+        ? {
+            reconciliationIds: [`followup:${owner.jurisdiction}:${owner.jobId}`],
+            downloadedSourceCount: 0
+          }
+        : {}),
+      status: fs.existsSync(path.join(rootDir, outputPath)) && !isMemo
+        ? "completed"
+        : "ready",
+      expectedOutputs: [outputPath],
+      ownedPaths: [outputPath],
+      requiredInputs: [
+        ...(owner.requires ? [owner.requires] : []),
+        `data/record-clearing/legal-design-intake/${owner.jurisdiction}.memo.json`,
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: owner.model ?? "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        `node scripts/rcap-factory-plan.mjs --check-job ${owner.jobId}`
+      ],
+      commitSubject: owner.subject,
+      executionNote: owner.note,
+      stopCondition: `${owner.stop} ${TERMINAL_INSTRUCTION}`
+    });
+  }
+
+  // Written-permission owners, derived from the licence decisions themselves.
+  //
+  // A licence decision that withholds generation answers "may we?" with no. It
+  // does not create the work of going and asking, and until someone owns that,
+  // a jurisdiction sits permanently at generation_permission_required with no
+  // route out. Deriving these from the corpus rather than naming Indiana keeps
+  // Colorado, Indiana and Kansas on the same footing and picks up the next one
+  // automatically. Seeking permission is a human act: no worker may send it.
+  {
+    const authorization = buildSourceAuthorizationIndex(rootDir);
+    for (const [jurisdiction, decision] of [...authorization.decisions].sort(
+      ([left], [right]) => left.localeCompare(right)
+    )) {
+      if (permitsGeneration(decision.verdict)) continue;
+      const jobId = `rcap-${jurisdiction.toLowerCase()}-written-permission-authorization`;
+      const outputPath = `${FACTORY_DATA_DIR}/source-acquisition/${jobId}.json`;
+      addJob({
+        lane: "source_acquisition",
+        jurisdiction,
+        jobId,
+        strategyFamily: "written_permission_request",
+        reconciliationIds: [`permission:${jurisdiction}`],
+        downloadedSourceCount: 0,
+        trackIds: [],
+        dependencies: [decision.decisionJobId],
+        status: fs.existsSync(path.join(rootDir, outputPath))
+          ? "completed"
+          : "ready",
+        expectedOutputs: [outputPath],
+        ownedPaths: [outputPath],
+        requiredInputs: [
+          `${FACTORY_DATA_DIR}/source-acquisition/${decision.decisionJobId}.json`,
+          FACTORY_INPUT_PATHS.authority,
+          FACTORY_INPUT_PATHS.sourceArtifacts
+        ],
+        participantPacketProofRequired: false,
+        model: "codex",
+        effort: "xhigh",
+        focusedValidation: [`node scripts/rcap-factory-plan.mjs --check-job ${jobId}`],
+        commitSubject: `chore(record-clearing): own the ${jurisdiction} written-permission question`,
+        executionNote:
+          `${decision.decisionJobId} settled that ${jurisdiction} generation is not permitted ` +
+          `(${decision.verdict}). That decision stands and is not reopened here. This job owns ` +
+          "the separate question of who asks the publisher for written permission, and records " +
+          "the answer when it comes.",
+        stopCondition:
+          "Identify the rights holder, the correct contact route and the exact scope a request " +
+          "would have to cover, and draft the request. " +
+          "Do not send it. Sending is a human act requiring separate authorization, exactly as " +
+          "with the Missouri issuer request. Do not contact a publisher, court or clerk. Do not " +
+          "treat a drafted request as permission, a granted licence, or an acquisition. Do not " +
+          "reopen or relitigate the licence decision, and do not record counsel adoption. " +
+          "Until written permission is actually granted and recorded, the retained " +
+          `${jurisdiction} binaries stay materialized and hash-verified but not generation-` +
+          "authorized: no receipt may be deleted or altered, no source may become worker-ready, " +
+          `no ${jurisdiction} packet may be generated, and runtime stays disabled. ` +
+          TERMINAL_INSTRUCTION
+      });
+    }
+  }
+
   // The Wyoming owners. Each closes on its committed decision record.
   for (const owner of WYOMING_LEGAL_DESIGN_OWNERS) {
     const decisionPath =
@@ -4242,7 +4496,16 @@ export function buildFactoryPlan(options = {}) {
       strategyFamily: "custom_pleading",
       trackIds: split.cleanTrackIds,
       dependencies: [],
-      status: "ready",
+      ...(SPLIT_CLEAN_COMPLETIONS[split.cleanJobId]
+        ? {
+            status: "completed",
+            ...SPLIT_CLEAN_COMPLETIONS[split.cleanJobId],
+            integrationOwnedOutputs: [
+              `${PACKET_PROOF_DIR}/${split.cleanJobId}.json`,
+              `${REVIEW_MANIFEST_DIR}/${split.cleanJobId}.json`
+            ]
+          }
+        : { status: "ready" }),
       expectedOutputs: original.expectedOutputs,
       ownedPaths: original.expectedOutputs,
       requiredInputs: original.requiredInputs,
@@ -4278,7 +4541,12 @@ export function buildFactoryPlan(options = {}) {
       strategyFamily: "legal_design_adjudication",
       trackIds: [],
       dependencies: [],
-      status: "ready",
+      ...decisionRecordCompletion(rootDir, split.correctionJobId, {
+        workerBranch: WAVE_WORKER_BRANCHES[split.correctionJobId],
+        workerCommit: WAVE_WORKER_COMMITS[split.correctionJobId],
+        completionCommit:
+          DECISION_RECORD_COMPLETION_COMMITS[split.correctionJobId]
+      }),
       expectedOutputs: [
         `${FACTORY_DATA_DIR}/legal-design-decisions/${split.correctionJobId}.json`
       ],
@@ -4410,10 +4678,17 @@ export function buildFactoryPlan(options = {}) {
       (job) => job.jobId === correction.implementationJobId
     );
     if (!implementation) continue;
+    // A delivered correction stays in the plan. Without this it disappeared the
+    // moment its own fix landed — the regenerated proof made the defect finding
+    // stale, the job that fixed it stopped being generated, and its completion
+    // provenance and claim went with it.
+    const correctionJobId =
+      `${correction.implementationJobId}-technical-review-correction`;
     if (
       !implementationsRequiringCorrection(rootDir).has(
         correction.implementationJobId
-      )
+      ) &&
+      !CORRECTION_COMPLETIONS[correctionJobId]
     ) {
       continue;
     }
@@ -4427,7 +4702,16 @@ export function buildFactoryPlan(options = {}) {
         correction.implementationJobId,
         `${correction.implementationJobId}-technical-visual-review`
       ],
-      status: "ready",
+      ...(CORRECTION_COMPLETIONS[
+        `${correction.implementationJobId}-technical-review-correction`
+      ]
+        ? {
+            status: "completed",
+            ...CORRECTION_COMPLETIONS[
+              `${correction.implementationJobId}-technical-review-correction`
+            ]
+          }
+        : { status: "ready" }),
       expectedOutputs: [correction.modulePath, correction.verifierPath],
       ownedPaths: [correction.modulePath, correction.verifierPath],
       requiredInputs: [
@@ -4915,6 +5199,14 @@ const COMPLETED_CUSTOM_PLEADING_IMPLEMENTATIONS = Object.freeze([
     supersededWorkerCommit: "b5daae4e87f32f53c38653da468d2a904b94c405"
   },
   {
+    jurisdiction: "HI",
+    workerBranch: "rcap-factory/rcap-hi-custom-pleading-e5deb202-8ecf5490",
+    workerCommit: "be84e3c36e224f4f722e7b43df455b8a9a33115d",
+    completionCommit: "8b892f0ef579788bb5de9b43c59996a0b41e0006",
+    modulePath: "src/lib/rcap/packets/jurisdictions/hawaii/custom-pleading.ts",
+    verifierPath: "scripts/verify-rcap-hawaii-custom-pleading.mjs"
+  },
+  {
     jurisdiction: "MS",
     workerBranch: "rcap-factory/rcap-ms-custom-pleading-60280abf-326c2c07",
     workerCommit: "9d25ed6e0391037a171f9bf3660cfff13f490a75",
@@ -5054,6 +5346,222 @@ const WYOMING_LEGAL_DESIGN_OWNERS = Object.freeze([
   }
 ]);
 
+/**
+ * The split clean assignments that have been delivered. Keyed by the clean job
+ * id, because the whole-state job it replaced is superseded and must never
+ * pick this up.
+ */
+/** Delivered implementation corrections, keyed by correction job id. */
+const CORRECTION_COMPLETIONS = Object.freeze({
+  "rcap-in-custom-pleading-technical-review-correction": {
+    workerBranch:
+      "rcap-factory/rcap-in-custom-pleading-technical-review-correction-c4033be7-69158102",
+    workerCommit: "0c3253e1fd539e41a3bbe28dbcb842a8d953a43d",
+    completionCommit: "8b892f0ef579788bb5de9b43c59996a0b41e0006"
+  }
+});
+
+const SPLIT_CLEAN_COMPLETIONS = Object.freeze({
+  "rcap-oh-custom-pleading-clean-tracks": {
+    workerBranch:
+      "rcap-factory/rcap-oh-custom-pleading-clean-tracks-610f8666-d9d0681a",
+    workerCommit: "54031d2599095b7144fc6bbf8ce062d250c60c8a",
+    completionCommit: "8b892f0ef579788bb5de9b43c59996a0b41e0006"
+  },
+  "rcap-wa-custom-pleading-clean-tracks": {
+    workerBranch:
+      "rcap-factory/rcap-wa-custom-pleading-clean-tracks-665b428f-c0ae532b",
+    workerCommit: "0b19dc56f1cbef0ab5f2a82433a8b81c7eda35ab",
+    completionCommit: "8b892f0ef579788bb5de9b43c59996a0b41e0006"
+  }
+});
+
+/**
+ * Follow-up owners created by integrated results. Each carries only what its
+ * source record actually left open.
+ */
+const INTEGRATED_RESULT_FOLLOW_UP_OWNERS = Object.freeze([
+  {
+    jobId: "rcap-oh-marijuana-memo-amendment",
+    jurisdiction: "OH",
+    lane: "legal_design_normalization",
+    strategyFamily: "legal_design_normalization_amendment",
+    ownsMemo: true,
+    requires:
+      "data/record-clearing/production-factory/legal-design-decisions/rcap-oh-marijuana-governing-mechanism-reconciliation.json",
+    dependencies: ["rcap-oh-marijuana-governing-mechanism-reconciliation"],
+    subject: "fix(record-clearing): amend the Ohio marijuana expungement design",
+    note:
+      "The integrated decision settled the mechanism and named two accuracy defects the memo carries. It could not amend the memo itself; this job does.",
+    stop:
+      "Carry the integrated governing-mechanism decision into OH.memo.json and retire the " +
+      "governing-mechanism release blocker on oh_marijuana_expungement against it. ORC " +
+      "2953.321 is the complete and sole marijuana record-clearing route; Issue 2 created no " +
+      "record-clearing mechanism and no automatic route; the participant applies; the filing " +
+      "court is the sentencing court; the decision is discretionary; prosecutor objection and " +
+      "the division (D)(1) probation investigation are outside-party processes; no separate " +
+      "route or node is created. " +
+      "Fix the two accuracy defects the decision found: the fee division is (G), not (H), and " +
+      "the 60-day notice and 30-day objection figures do not govern this route and must be " +
+      "replaced with what division (D) actually says. Carry the participant-expectation copy " +
+      "the decision supports — probation investigation, prosecutor objection, hearing and " +
+      "notice treatment — without predicting an outcome. " +
+      "Do not make the track ready: the local-form question and the fee and indigency " +
+      "treatment remain open and have their own owners. Do not add this track to the clean " +
+      "four-track Ohio assignment. Own only OH.memo.json."
+  },
+  {
+    jobId: "rcap-oh-2953-321-local-form-and-fee-survey",
+    jurisdiction: "OH",
+    lane: "source_acquisition",
+    strategyFamily: "official_download_automation_blocked",
+    model: "codex",
+    requires:
+      "data/record-clearing/production-factory/legal-design-decisions/rcap-oh-marijuana-governing-mechanism-reconciliation.json",
+    dependencies: ["rcap-oh-marijuana-governing-mechanism-reconciliation"],
+    subject:
+      "chore(record-clearing): survey the Ohio 2953.321 local forms and fee practice",
+    note:
+      "The one question the mechanism decision expressly left open, plus the fee and indigency treatment that governs what a participant is told.",
+    stop:
+      "Establish: whether local Ohio courts publish an ORC 2953.321 application packet, how " +
+      "many materially different local packets exist, and whether any local form is mandatory " +
+      "or merely optional; and how the section 2953.321(G) fifty-dollar fee is applied, " +
+      "including the applicable indigency or waiver process. " +
+      "No local form may be promoted to statewide use without authority saying it applies " +
+      "statewide, and a form found in one county is evidence about that county only. Do not " +
+      "promise a fee waiver the authority does not establish, and do not record a county as " +
+      "publishing nothing merely because nothing was found. " +
+      "Do not create a source receipt from an unattended retrieval and do not make the " +
+      "marijuana track ready."
+  },
+  {
+    jobId: "rcap-wa-crop-memo-amendment",
+    jurisdiction: "WA",
+    lane: "legal_design_normalization",
+    strategyFamily: "legal_design_normalization_amendment",
+    ownsMemo: true,
+    requires:
+      "data/record-clearing/production-factory/legal-design-decisions/rcap-wa-crop-venue-reconciliation.json",
+    dependencies: ["rcap-wa-crop-venue-reconciliation"],
+    subject: "fix(record-clearing): amend the Washington CROP venue and form design",
+    note:
+      "The venue decision closed one blocker and deliberately reopened another in the opposite direction: the AOC pattern set exists, which the memo had concluded it did not.",
+    stop:
+      "Carry the integrated venue decision into WA.memo.json and retire the venue release " +
+      "blocker against it. The qualified court is a superior court; the permissible courts " +
+      "are the superior court of the applicant's county of residence or of the county of " +
+      "conviction or adjudication; where a court of limited jurisdiction entered the " +
+      "conviction the relevant court is that county's superior court; the residence-county " +
+      "superior court may decline and dismiss without prejudice; the conviction-county " +
+      "superior court may not decline to consider it; there is no statutory transfer " +
+      "procedure; clerk confirmation is prudent practice and not a legal prerequisite; and " +
+      "one statewide packet is possible as to venue. Replace the geography.venue and " +
+      "destination clerk-confirmation language accordingly and add the residence-county " +
+      "decline disclosure. " +
+      "Reopen the form build blocker in the opposite direction from the memo's conclusion: " +
+      "the CRO pattern set exists. Decide custom_pleading against official_pdf_fill for this " +
+      "route, and record the RCW 9.97.020(2)(a) discretion over whether a certificate covers " +
+      "all criminal history or only the selected court's convictions. " +
+      "Do not guess whether the CRO forms are mandatory, pattern or optional — that belongs " +
+      "to the form-family owner. Do not make CROP ready, do not add it to the clean two-track " +
+      "Washington assignment, and own only WA.memo.json."
+  },
+  {
+    jobId: "rcap-wa-cro-form-family-source-identity",
+    jurisdiction: "WA",
+    lane: "source_acquisition",
+    strategyFamily: "source_identity_resolution",
+    model: "codex",
+    requires:
+      "data/record-clearing/production-factory/legal-design-decisions/rcap-wa-crop-venue-reconciliation.json",
+    dependencies: ["rcap-wa-crop-venue-reconciliation"],
+    subject: "chore(record-clearing): resolve the Washington CRO form family",
+    note:
+      "CRO 01.0100, 01.0200, 01.0300, 01.0600, 01.0700, the instructions and the brochure. The venue decision named the family and commissioned this.",
+    stop:
+      "Establish for the CRO family: the source identity, current revision, official title, " +
+      "participant or outside-party role, statewide scope and structural measurements of the " +
+      "five operative binaries — CRO 01.0100 Petition, 01.0200 Notice of Filing, 01.0300 " +
+      "Proof of Service, 01.0600 Order of Dismissal and 01.0700 Order and Certificate — with " +
+      "the current instructions and brochure; whether the forms are mandatory, standard or " +
+      "pattern, or optional; the exact mapping of participant petition, notice, proof of " +
+      "service and proposed order or certificate, and which documents are not part of the " +
+      "participant packet at all — the order of dismissal in particular; whether any local " +
+      "superior court requires additional documents; and the filing fee amount with its GR 34 " +
+      "waiver treatment. " +
+      "Do not guess the mandatory-versus-pattern question: it changes whether the packet may " +
+      "reproduce the form or must reference it. Do not generate any CRO form before exact " +
+      "acquisition and the licensing and source gates pass, do not create a receipt without " +
+      "an authorized source contract, and do not make CROP ready."
+  },
+  {
+    jobId: "rcap-ia-rule-2-86-and-dci-76-component-remap",
+    jurisdiction: "IA",
+    lane: "legal_design_normalization",
+    // The remap arises from two completed authority decisions rather than from
+    // an Iowa normalization pod, so it homes to the authority family that
+    // produced it. Same footing as the Louisiana output-strategy correction.
+    strategyFamily: "legal_design_normalization_amendment",
+    requires:
+      "data/record-clearing/production-factory/source-acquisition/rcap-ia-source-identity-resolution-certification-of-service.json",
+    dependencies: [
+      "rcap-ia-source-identity-resolution-certification-of-service",
+      "rcap-ia-in-repo-identity-reconciliation-already-retained-under-another-identity"
+    ],
+    subject: "fix(record-clearing): remap the Iowa components onto their real documents",
+    note:
+      "Two completed identity resolutions found six components pointing at documents that do not exist as such. Both stopped at the relationship boundary; this owns it.",
+    stop:
+      "Carry both integrated Iowa resolutions into the track-source relationships and the " +
+      "acquisition queue. " +
+      "Re-model the five certificate_of_service components as section references into their " +
+      "own track's parent Rule 2.86 form, by form and page — Forms 1 through 5 at pages 3, 3, " +
+      "2, 2 and 2 — rather than as bound documents, and retire the standalone identity " +
+      "'Certification of Service by Mailing or Delivery', which names no published document. " +
+      "Close acquire:IA:certification-of-service-by-mailing-or-delivery without acquisition " +
+      "and clear its blocker-ledger rows. Record the certification as conditional on the " +
+      "paper-filing path, since EDMS service under rule 16.315(1)(b) makes it unnecessary on " +
+      "the eFile system. Do not carry a mandatory-statewide flag onto these forms from " +
+      "Chapter 17; the standard is substantial compliance. " +
+      "Map ia-dci77-attachment-2 to page 1 of the retained three-page Department of Public " +
+      "Safety packet at revision 9/22/21, pin sha256 " +
+      "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516 on the relationship, " +
+      "close acquire:IA:dci-76-criminal-history-record-check-billing-form without " +
+      "acquisition, and correct the queue row's repositoryStatus and requiredAcquisition, " +
+      "which contradict the row's own rationale. Record the one-billing-form-per-submission " +
+      "rule printed on the form face so assembly does not emit one per request. " +
+      "Do not acquire anything, do not create a receipt, and do not map in a similar file. " +
+      "The five Rule 2.86 parent forms remain unmanifested behind an iowacourts.gov block and " +
+      "Iowa licensing is unverified, so the Iowa official-PDF family stays fail-closed and no " +
+      "Iowa track becomes ready. The Rule 2.81(2) thirty-day record-check window and the " +
+      "billing-form cardinality are legal-design questions and are not decided here."
+  },
+  {
+    jobId: "rcap-mo-issuer-contact-authorization",
+    jurisdiction: "MO",
+    lane: "source_acquisition",
+    strategyFamily: "direct_issuer_request",
+    model: "codex",
+    requires:
+      "data/record-clearing/production-factory/source-acquisition/rcap-mo-direct-issuer-request.json",
+    dependencies: ["rcap-mo-direct-issuer-request"],
+    subject:
+      "chore(record-clearing): record the Missouri issuer-contact authorization",
+    note:
+      "The request draft is complete and deliberately unsent. Sending it is a human act that needs separate authorization; this records the dependency and its outcome, and nothing else.",
+    stop:
+      "This job does not send the request. The Missouri direct-issuer request is drafted, " +
+      "bounded and unsent, and it stays unsent until a person with authority sends it. " +
+      "Record the dependency and, once a human has been authorized and has acted, the " +
+      "outcome: the publication location of the four proposed orders, their current " +
+      "revision, and whether they are publicly issued at all. " +
+      "Do not send the request, do not claim contact occurred, do not claim receipt, do not " +
+      "claim a revision, and do not claim the documents do not exist. A drafted request is " +
+      "not an acquisition. The Missouri official-PDF family stays blocked."
+  }
+]);
+
 const ATOMIC_IMPLEMENTATION_SPLITS = Object.freeze([
   {
     lane: "custom_pleading",
@@ -5111,7 +5619,10 @@ const COMPLETED_OUTPUT_REVIEW_ASSIGNMENTS = Object.freeze([
   "rcap-nj-guidance-implementation",
   "rcap-nv-guidance-implementation",
   "rcap-tx-guidance-implementation",
-  "rcap-vt-guidance-implementation"
+  "rcap-vt-guidance-implementation",
+  "rcap-hi-custom-pleading",
+  "rcap-oh-custom-pleading-clean-tracks",
+  "rcap-wa-custom-pleading-clean-tracks"
 ]);
 
 // The deliverable-identity question South Carolina's custom-pleading job waits
@@ -7104,7 +7615,26 @@ function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
       reconciliationIds: ["identity:DE:FORM-281E:role-and-title"],
       downloadedSourceCount: 0,
       dependencies: ["rcap-de-official-download-automation-blocked"],
-      status: "ready",
+      ...(COMPLETED_AUTHORITY_JOB_COMMITS.has(
+        "rcap-de-form-281e-edition-metadata-correction"
+      ) &&
+      fs.existsSync(
+        path.join(
+          rootDir,
+          `${FACTORY_DATA_DIR}/source-acquisition/rcap-de-form-281e-edition-metadata-correction.json`
+        )
+      )
+        ? {
+            status: "completed",
+            workerBranch:
+              WAVE_WORKER_BRANCHES["rcap-de-form-281e-edition-metadata-correction"],
+            workerCommit:
+              WAVE_WORKER_COMMITS["rcap-de-form-281e-edition-metadata-correction"],
+            completionCommit: COMPLETED_AUTHORITY_JOB_COMMITS.get(
+              "rcap-de-form-281e-edition-metadata-correction"
+            )
+          }
+        : { status: "ready" }),
       expectedOutputs: [
         `${FACTORY_DATA_DIR}/source-acquisition/rcap-de-form-281e-edition-metadata-correction.json`
       ],

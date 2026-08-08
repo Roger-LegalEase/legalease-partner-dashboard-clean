@@ -89,7 +89,14 @@ function readEditionDecisions(rootDir) {
     } catch {
       continue;
     }
-    const impact = decision.edition13Impact ?? null;
+    // `edition13Impact` is the usual name. Delaware's 281E correction records
+    // the identical thing under `editionCorrection`, because the worker who
+    // measured it named the field after what it is rather than after the
+    // edition it lands in. Reading only the first name would make a closed,
+    // fully evidenced correction invisible to the successor plan — the same
+    // false-blocker failure `assetRowFrom` already guards against.
+    const impact =
+      decision.edition13Impact ?? decision.editionCorrection ?? null;
     const assetSpecification = decision.edition13AssetSpecification ?? null;
     if (!impact && !assetSpecification) continue;
     decisions.push({
@@ -97,10 +104,93 @@ function readEditionDecisions(rootDir) {
       jurisdiction: decision.jurisdiction ?? null,
       recordPath: `${SOURCE_ACQUISITION_DIR}/${name}`,
       impact,
-      assetSpecification
+      assetSpecification,
+      raw: decision
     });
   }
   return decisions;
+}
+
+/**
+ * Handoff items a record states structurally rather than as a handoff list.
+ *
+ * A no-bytes correction is admissible only if it names both the current and
+ * the corrected value for every manifest row it touches. Most records say that
+ * in `amendmentHandoffItems`. Delaware's 281E correction says exactly the same
+ * thing in `roleDefect` — the wrong role and workflow key it measured on the
+ * live edition row, and the corrected role it established with five pieces of
+ * cited evidence — because the job was written as a defect report.
+ *
+ * This reads those pairs and nothing else. Where a record does not state both
+ * sides, nothing is produced and the candidate defers on the existing
+ * criterion; no value is inferred, completed or supplied on a worker's behalf.
+ */
+function derivedHandoffItems(decision) {
+  const defect = decision.raw?.roleDefect ?? null;
+  const correction = decision.impact ?? null;
+  if (!defect || !correction) return [];
+  const current = defect.editionRecords ?? {};
+  const items = [];
+
+  if (correction.requiresRoleCorrection === true && current.documentRole && defect.correctRole) {
+    items.push({
+      item: "document_role",
+      from: current.documentRole,
+      to: defect.correctRole,
+      manifestRow: current.workflowKey ?? null,
+      evidence: defect.evidenceForTheCorrectRole ?? null
+    });
+  }
+  if (
+    correction.requiresWorkflowKeyCorrection === true &&
+    current.workflowKey &&
+    defect.correctedWorkflowKey
+  ) {
+    items.push({
+      item: "workflow_key",
+      from: current.workflowKey,
+      to: defect.correctedWorkflowKey,
+      manifestRow: current.workflowKey
+    });
+  }
+  if (
+    correction.requiresCanonicalPathRegeneration === true &&
+    current.workflowKey &&
+    defect.canonicalPathConsequence
+  ) {
+    items.push({
+      item: "canonical_path",
+      from: "the path generated from the uncorrected role",
+      to: defect.canonicalPathConsequence,
+      manifestRow: current.workflowKey
+    });
+  }
+  if (
+    correction.requiresTitleQualification === true &&
+    correction.requiresTitleQualificationDetail
+  ) {
+    // Explicitly not a title replacement: the form-face caption stays, and the
+    // issuer's own role-bearing index title is recorded alongside it.
+    items.push({
+      item: "title_qualification",
+      from: "the form-face caption alone",
+      to: correction.requiresTitleQualificationDetail,
+      manifestRow: current.workflowKey ?? null
+    });
+  }
+  if (correction.requiresPrimaryFilingGuard === true) {
+    const guard = decision.raw?.primaryFilingSatisfactionFinding ?? null;
+    items.push({
+      item: "primary_filing_guard",
+      from: "no bar recorded; the row is reachable for a primary_filing component",
+      to:
+        correction.requiresPrimaryFilingGuardDetail ??
+        "the row may not satisfy a primary_filing component",
+      manifestRow: current.workflowKey ?? null,
+      componentAtRisk: guard?.componentAtRisk ?? null
+    });
+  }
+  return items;
 }
 
 function assetRowFrom(decision) {
@@ -306,7 +396,8 @@ export function buildEditionSuccessorPlan(rootDir = process.cwd()) {
     const assetRow = assetRowFrom(decision);
     const handoffItems = [
       ...(handoffByJob.get(decision.jobId) ?? []),
-      ...((decision.impact?.amendmentHandoffItems ?? []).filter(Boolean))
+      ...((decision.impact?.amendmentHandoffItems ?? []).filter(Boolean)),
+      ...derivedHandoffItems(decision)
     ];
     const candidate = { decision, assetRow, handoffItems };
     const missing = evaluateCandidate(candidate, lineage);
