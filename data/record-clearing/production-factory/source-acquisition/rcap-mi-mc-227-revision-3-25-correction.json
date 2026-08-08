@@ -1,0 +1,278 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-mi-mc-227-revision-3-25-correction",
+  "parentJobId": "AUTH-02-component-remap-corrections",
+  "jurisdiction": "MI",
+  "lane": "source_acquisition",
+  "strategyFamily": "source_identity_resolution",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "d6e175f77ddd2fba547432664c00219fa3b455d0",
+  "generatedOn": "2026-08-08",
+  "reconciliationIds": ["revision:MI:MC-227:3-25"],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero is correct and is the assignment's pinned value. No binary was downloaded, nothing entered version control and no receipt was created. The measurement basis is the binary this repository already retains, which the completed dependency job independently confirmed byte-identical to the publisher's current file.",
+  "generatedFrom": [
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/master-library/authority.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-mi-public-official-download.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-02-component-remap-corrections.json"
+  ],
+  "controllingPriorDecision": {
+    "jobId": "rcap-mi-public-official-download",
+    "status": "completed",
+    "whatItEstablished": "Retrieved MC 227 from courts.michigan.gov at HTTP 200, confirmed the retrieved bytes byte-identical to the held copy, read the printed revision stamps from the form face and the instruction sheet, and raised the REV-UNKNOWN defect as a high-severity correction.",
+    "whatThisJobAdds": "The revision correction itself, from an independent re-measurement of the retained binary, plus the sub-form disposition the assignment requires: the three assigned rows resolved as components of a parent form rather than as separate documents, with the page and item locations measured.",
+    "contraryEvidenceFound": false
+  },
+  "method": {
+    "description": "Deterministic in-repository revision and sub-form reconciliation. The retained MC 227 binary was opened and measured, every printed revision stamp was read from the form face, the running headers and the instruction sheet, and each of the three assigned sub-form rows was located inside the parent by page. The result was compared against the adopted edition row, the repository asset audit and the source-acquisition queue.",
+    "measurementBasis": "freshly_measured_local_bytes",
+    "measuredFile": "private/Nationwide Record Clearing/LegalEase Michigan/mc227.pdf",
+    "tooling": "poppler (pdfinfo, pdftotext -layout) for face text and revision stamps; pdf-lib for AcroForm, per-page annotation and page-geometry reads",
+    "issuerContactsMade": 0,
+    "binariesDownloaded": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "binariesCommitted": 0,
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "memoAltered": false,
+    "componentRebound": false,
+    "assignmentConstraintObserved": "The stop condition requires recording the printed MC-227 Rev. 3/25 identity and preserving the three assigned sub-form rows as components rather than separate documents, and forbids downloading a binary, mutating the edition, inferring a legal conclusion, implementing a packet, enabling runtime, promoting or deploying. All observed. No sub-form is promoted to a document and none is discarded."
+  },
+  "finding": {
+    "headline": "MC 227 prints its revision in three places and the adopted edition records REV-UNKNOWN. The revision is 3/25 and the repository has held the bytes that prove it all along. The three assigned sub-form rows are not documents: two are a checkbox line and a page of MC 227, and the third belongs to a different form entirely.",
+    "acquisitionRequired": false,
+    "acquisitionRequiredRationale": "Nothing needs to be obtained from the State Court Administrative Office. The current binary is held at byte identity with the publisher's file, and the revision is legible on its face. REV-UNKNOWN here is a metadata gap, not an evidentiary one."
+  },
+  "resolvedIdentity": {
+    "reconciliationId": "revision:MI:MC-227:3-25",
+    "documentId": "MC-227",
+    "workflowKey": "MI:MC-227:PRIMARY_FILING:EN",
+    "officialTitle": "Application to Set Aside Conviction(s)",
+    "officialTitleAgreesWithEdition": true,
+    "officialTitleAgreesWithEditionNote": "The edition records 'Application to Set Aside Conviction(s) (MC 227)', which matches the form face. Confirmed rather than corrected.",
+    "issuer": "Michigan Supreme Court, State Court Administrative Office (SCAO)",
+    "issuerEvidence": "The form face carries the SCAO approval block: 'Approved, SCAO' immediately above 'Form MC 227, Rev. 3/25'.",
+    "role": "primary_filing",
+    "participantFacing": true,
+    "signatory": "the applicant, personally",
+    "scope": "statewide",
+    "scopeBasis": "A SCAO-approved Michigan court form. SCAO approval is the statewide form mechanism; the form carries a blank court and county selector and is not county-specific. Scope is not inferred from any service address.",
+    "editionRecordedRevision": "REV-UNKNOWN",
+    "correctRevision": "REV-2025-03",
+    "printedRevisionStamps": [
+      {"stamp": "Form MC 227, Rev. 3/25", "location": "form face, page 1, directly beneath the 'Approved, SCAO' block"},
+      {"stamp": "Application to Set Aside Conviction(s) (3/25)", "location": "running header on pages 2 and 3"},
+      {"stamp": "Form INST MC 227, Rev. 3/25", "location": "the instruction sheet, page 4"}
+    ],
+    "revisionEvidenceQuality": "three independent printed stamps within one file, all agreeing",
+    "currentness": "confirmed_current_at_the_dependency_retrieval",
+    "currentnessDetail": "The dependency job retrieved the publisher's file at HTTP 200 and found it byte-identical to the held copy. This job re-measured the held copy and reproduced the same digest and the same stamps. Currentness is asserted as of that retrieval, not as of a reading taken today, because this assignment forbids downloading.",
+    "distinguishedFromIdahoBCI": "REV-UNKNOWN is the wrong value here and the right value elsewhere. Idaho's BCI expungement application carries no revision marking anywhere on its face, so REV-UNKNOWN is correct for it. Michigan's MC 227 carries three. The two must not be corrected by the same rule."
+  },
+  "measuredStructure": {
+    "measurementBasis": "freshly_measured_local_bytes",
+    "bytes": 374474,
+    "sha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7",
+    "digestAgreementWithDependency": "exact — the dependency job recorded the same digest and byte count for the copy it retrieved from courts.michigan.gov",
+    "digestAgreementWithEdition": "exact — the adopted edition row records the same digest and byte count",
+    "mimeType": "application/pdf",
+    "pdfVersion": "1.7",
+    "pageCount": 4,
+    "pageComposition": "A three-page form paginated 'Page 1 of 3' through 'Page 3 of 3', plus a fourth page which is the separate instruction sheet headed 'Instructions for Filing and Serving an Application to Set Aside Conviction(s) (Form MC 227)'.",
+    "pageGeometry": "all 4 pages 612 x 792 points, rotation 0, MediaBox and CropBox coincident",
+    "encrypted": false,
+    "xfa": false,
+    "acroFormPresent": true,
+    "terminalFields": 106,
+    "widgetAnnotations": 108,
+    "totalAnnotations": 109,
+    "nonWidgetAnnotations": 1,
+    "nonWidgetAnnotationDetail": "One /Link annotation on page 4, the instruction sheet. It is not a form control.",
+    "fieldTypes": {"PDFTextField": 87, "PDFCheckBox": 19},
+    "perPage": [
+      {"page": 1, "widgets": 36, "annots": 36},
+      {"page": 2, "widgets": 59, "annots": 59},
+      {"page": 3, "widgets": 13, "annots": 13},
+      {"page": 4, "widgets": 0, "annots": 1, "note": "the instruction sheet carries no fields"}
+    ],
+    "widgetVersusTerminalFieldDenominator": {
+      "terminalFields": 106,
+      "widgets": 108,
+      "difference": 2,
+      "editionRecords": 106,
+      "editionDenominator": "terminal field count",
+      "warning": "The adopted edition's field_count of 106 is the TERMINAL count here. That is the opposite convention from the Maryland CC-DC-CR-072 family, where the edition count excluded a pushbutton and sat one below the terminal count, and from the Illinois and Indiana families, where the edition count is the widget count. The denominator is not consistent across the manifest and must be stated per row rather than assumed.",
+      "consequence": "A field map keyed on 106 and validated against a parsed widget count of 108 misaligns by two. Both numbers are recorded."
+    },
+    "javaScript": "not_reported_by_pdfinfo",
+    "structuralClass": "acroform_pdf",
+    "structuralClassNote": "The adopted edition records structural_class 'clean_acroform' for this row while recording 'acroform_pdf' for its MC-227A, MC-227B and MC-228 siblings. The measured structure is the same shape as the siblings. Recorded as an observed vocabulary inconsistency, not resolved here."
+  },
+  "subFormRowDisposition": {
+    "principle": "The assignment requires these three rows to be preserved as components of a parent form, not promoted to separate documents. Each is located inside a parent by page, and none is discarded.",
+    "rows": [
+      {
+        "acquisitionKey": "acquire:MI:mc-227-item-2-c",
+        "recordedDocumentId": "MC 227 item 2.c",
+        "recordedRole": "primary_filing",
+        "boundComponent": {"trackId": "mi_setaside_first_owi", "componentId": "mi_setaside_first_owi-primary-filing-1"},
+        "disposition": "component_of_MC-227_not_a_separate_document",
+        "whereItLives": "a checkbox line in the item-2 eligibility series of MC 227, which spans pages 1 to 2",
+        "structuralEvidence": "Item 2.c appears verbatim in the retained bytes: 'I am requesting a first violation operating while intoxicated offense to be set aside. At least five years have passed since sentence was imposed or discharge from imprisonment, probation, or parole for the conviction, whichever is later. I have not been convicted of any offense during that time. I have not previously applied to have and had a first violation operating while intoxicated offense conviction set aside.'",
+        "separateBinaryExists": false,
+        "correctModelling": "A field-level selector on MI:MC-227 for the mi_setaside_first_owi route. It must not carry its own document identity, its own edition row, its own receipt or its own field map.",
+        "whyItMatters": "The row is currently typed primary_filing, which invites a reader to look for a first-OWI application form. There is none: the OWI route is a checkbox on the general application."
+      },
+      {
+        "acquisitionKey": "acquire:MI:mc-227-page-3-proof-of-service",
+        "recordedDocumentId": "MC 227 page 3 Proof of Service",
+        "recordedRole": "certificate_of_service",
+        "boundComponents": [
+          {"trackId": "mi_setaside_application", "componentId": "mi_setaside_application-certificate-of-service-2"},
+          {"trackId": "mi_setaside_first_owi", "componentId": "mi_setaside_first_owi-certificate-of-service-2"}
+        ],
+        "disposition": "component_of_MC-227_not_a_separate_document",
+        "whereItLives": "page 3 of MC 227",
+        "structuralEvidence": "Page 3 of the retained bytes is headed 'Application to Set Aside Conviction(s) (3/25)' and 'Page 3 of 3', and carries NOTICE OF HEARING followed by PROOF OF SERVICE. It measures 13 widgets. The proof of service is a section of that page, not a filing of its own.",
+        "separateBinaryExists": false,
+        "correctModelling": "Page 3 of MI:MC-227. Two components across two tracks both resolve to the same page of the same parent.",
+        "note": "Page 3 carries both a Notice of Hearing and a Proof of Service. A component modelled as only the proof of service would silently drop the notice that shares the page."
+      },
+      {
+        "acquisitionKey": "acquire:MI:proof-of-service",
+        "recordedDocumentId": "MI proof of service",
+        "recordedRole": "certificate_of_service",
+        "boundComponent": {"trackId": "mi_setaside_trafficking", "componentId": "not enumerated in the rows read for this job"},
+        "disposition": "component_of_MC-227B_not_of_MC-227_and_not_a_separate_document",
+        "whereItLives": "page 3 of MC 227b — a different form",
+        "structuralEvidence": "The dependency job recorded that page 3 of the retrieved MC 227b bytes is headed 'Application for Human Trafficking Victim to Set Aside Conviction(s) (7/24)' and 'Page 3 of 3' and likewise carries NOTICE OF HEARING followed by PROOF OF SERVICE.",
+        "separateBinaryExists": false,
+        "correctModelling": "Page 3 of MI:MC-227B.",
+        "loadBearingWarning": "This is the one row of the three that must NOT be merged into MC 227. MC 227b is the required form where the conviction was a direct result of human trafficking, and the dependency job established that MC 227b contains no item 2.c at all — its item 2 is a single narrative field. Merging this row into MC 227 would bind the trafficking track to the wrong form and would import an OWI checkbox series that does not exist on it.",
+        "revisionOfTheParent": "MC 227b is Rev. 7/24, not 3/25. The two parents carry different revisions and must not share one."
+      }
+    ],
+    "summary": "Three rows, zero separate documents, two distinct parents. Two rows are components of MC 227 at Rev. 3/25; one is a component of MC 227b at Rev. 7/24.",
+    "noneDiscarded": true,
+    "nonePromotedToDocument": true
+  },
+  "adjacentCorrectionsObserved": {
+    "purpose": "Recorded because they surfaced necessarily while establishing the MC 227 identity and a later worker should not have to rediscover them. None is applied and none is this job's to apply.",
+    "items": [
+      {
+        "id": "mi-mc-227b-title-preposition",
+        "field": "MC-227B official title",
+        "editionRecords": "Application by Human Trafficking Victim to Set Aside Conviction(s)",
+        "formFaceReads": "Application for Human Trafficking Victim to Set Aside Conviction(s)",
+        "note": "The preposition is 'for', not 'by'. The dependency job established this from the form face, both running headers and the instruction sheet. The edition's canonical relative path also embeds 'application-by-human-trafficking-victim' and inherits the error.",
+        "appliedByThisJob": false
+      },
+      {
+        "id": "mi-canonical-path-inherits-rev-unknown",
+        "field": "MI:MC-227 canonical_relative_path",
+        "note": "The adopted canonical path embeds REV-UNKNOWN and will need regenerating once the revision is corrected to REV-2025-03.",
+        "appliedByThisJob": false
+      },
+      {
+        "id": "mi-revision-evidence-comparator",
+        "field": "MC-227B revisionEvidence",
+        "note": "The asset audit records revisionEvidence='differs' for MC-227B, comparing repositoryRevisionText 'MC 227b Rev. 7/24' against libraryRow revision 'REV-2024-07'. Those express the same revision in two notations. The dependency job assessed this as a string-comparison artefact rather than a substantive conflict and recommended normalising MM/YY against REV-YYYY-MM before treating 'differs' as real anywhere it appears. Recorded as observed, not dismissed.",
+        "appliedByThisJob": false
+      }
+    ]
+  },
+  "doNotSubstitute": [
+    {"document": "MC 227a", "why": "Application to Set Aside Misdemeanor Marihuana Conviction(s), Rev. 7/24. The form face of MC 227 expressly directs: 'if you are applying to set aside under MCL 780.621e, you must use form MC 227a.' Adjacent number, different statutory branch, different revision."},
+    {"document": "MC 227b", "why": "Application for Human Trafficking Victim to Set Aside Conviction(s), Rev. 7/24. It is the parent of the third assigned row and is not MC 227. It contains no item 2.c."},
+    {"document": "MC 228", "why": "Order on Application to Set Aside Conviction(s), Rev. 3/23. The court's order, judge-facing, not the application."},
+    {"documentClass": "the instruction sheet INST MC 227", "why": "It shares the file as page 4 and shares the 3/25 revision, but it is instructions. A component bound to it would deliver a participant a sheet that cannot be filed. It also carries zero fields, which is how it is distinguishable structurally."},
+    {"documentClass": "item 2.c, page 3, or any other MC 227 section treated as a standalone document", "why": "None has separate bytes, a separate form number or a separate revision. Creating an edition row, a receipt or a field map for any of them would manufacture a document SCAO does not publish."}
+  ],
+  "edition13Impact": {
+    "publicationJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+    "editionAmendmentRequired": true,
+    "amendmentKind": "metadata_correction_only",
+    "requiresNewBytes": false,
+    "requiresNewBytesNote": "None. The binary is retained and already manifested at a matching digest.",
+    "requiresRevisionCorrection": true,
+    "requiresRevisionCorrectionDetail": "REV-UNKNOWN must become REV-2025-03, evidenced by three printed stamps in the retained bytes.",
+    "requiresCanonicalPathRegeneration": true,
+    "requiresCanonicalPathRegenerationDetail": "The path embeds REV-UNKNOWN and inherits the defect.",
+    "requiresStructuralMetadataCompletion": true,
+    "requiresStructuralMetadataCompletionDetail": "The row records pages as an empty string; the measured count is 4, of which 3 are the form and 1 is the instruction sheet. The field_count of 106 is the terminal count and should say so, because the widget count is 108.",
+    "requiresTitleCorrection": false,
+    "requiresRoleCorrection": false,
+    "requiresScopeCorrection": false,
+    "requiresLicenseDisposition": false,
+    "requiresLicenseDispositionNote": "No licence question was assigned to this job and none is answered.",
+    "adjacentRowsNeedingCorrection": ["MI:MC-227B official_title preposition and its canonical path"],
+    "edition12Treatment": "immutable_unchanged",
+    "publicationPerformed": false
+  },
+  "sourceMaterializationEligibility": {
+    "laterMaterializationPermitted": true,
+    "laterMaterializationPermittedDetail": "The asset is adopted as packet_form with a canonical path, a pinned digest and a byte count, so a receipt is mechanical once the revision correction lands and the path is regenerated.",
+    "notPermittedYet": true,
+    "notPermittedYetDetail": "Materializing against a canonical path that embeds REV-UNKNOWN would carry the defect into the runtime contract. The correction is a genuine precondition, not a formality.",
+    "receiptCreatedByThisJob": false,
+    "materializationUnitObservation": "The materialization unit is the 4-page file, not the three sub-form rows. None of them has independent bytes to receipt."
+  },
+  "implementationFamilyEffect": {
+    "family": "rcap-mi-official-pdf-family",
+    "effectOfThisJob": "This job is recorded in the live plan as the sole remaining open dependency of rcap-mi-acroform-fill, which covers four Michigan tracks. Resolving the revision and the sub-form dispositions removes the reason that job cannot be scheduled, and it removes three phantom document identities from the Michigan backlog at the same time.",
+    "familyReadinessStatement": "The Michigan official-PDF family remains fail-closed and this job does not move it. The revision correction has not been applied to the edition, the canonical path still embeds REV-UNKNOWN, generation_allowed is unchanged, runtime is disabled and no field map is built. No packet becomes generatable and no renderer is assigned.",
+    "rendererObservation": "A four-page unrotated Letter AcroForm with 106 terminal fields over 108 widgets, no XFA and no encryption is an acroform_fill candidate. An observation about the artifact; the lane is not assigned here.",
+    "fieldMapCaveat": "Any Michigan field map must state its denominator and must exclude page 4, which is the instruction sheet and carries no fields."
+  },
+  "terminalDisposition": "printed_revision_confirmed_from_three_stamps_edition_metadata_correction_required_three_sub_form_rows_resolved_as_components_no_acquisition",
+  "terminalDispositionDetail": {
+    "why": "The narrowest disposition the evidence supports. It is not unresolved_identity: the document, issuer, title, role, scope, revision and structure are all established from the artifact. It is not acquisition_required: the bytes are held and were confirmed against the publisher by the completed dependency. It is not a supersession: no earlier MC 227 revision is retained and none was found. What is wrong is a revision field and three rows typed as documents.",
+    "acquisitionRequired": false,
+    "measurementsOutstanding": 0,
+    "revisionStampsFound": 3,
+    "subFormRowsResolved": 3,
+    "separateDocumentsCreated": 0,
+    "rowsDiscarded": 0
+  },
+  "expectedDownstreamEffect": "The Michigan set-aside application moves from REV-UNKNOWN to REV-2025-03 on three independent printed stamps, and the canonical path that inherits the defect is flagged for regeneration. Three assigned rows stop being treated as acquirable documents: two resolve to a checkbox line and a page of MC 227, and the third is redirected to MC 227b, which is the correction that actually protects the trafficking track from being bound to a form that lacks its eligibility item. The sole remaining open dependency of a four-track Michigan implementation job is answered. Two adjacent edition defects are recorded with evidence. No component is rebound, no receipt is created, no binary enters version control, no renderer is assigned, no memo is edited, no edition is published, no packet becomes generatable, no runtime is enabled and no track changes promotion state.",
+  "residualBlockers": [
+    {"id": "mi-mc-227-revision-application", "question": "The edition must record REV-2025-03 and regenerate the canonical path.", "status": "handed_off", "owner": "rcap-nationwide-master-library-edition-1-3-publication", "why": "Edition 1.2 is immutable. The evidence and the value are supplied."},
+    {"id": "mi-sub-form-row-collapse", "question": "Three queue rows and their components must be re-modelled as parent-form components with page or item locations.", "status": "handed_off", "owner": "the component-remap lane", "why": "The queue and the relationships are forbidden paths for this job."},
+    {"id": "mi-trafficking-row-misparenting", "question": "acquire:MI:proof-of-service is bound under the trafficking track and belongs to MC 227b, not MC 227.", "status": "handed_off", "owner": "the component-remap lane", "why": "Highest-consequence of the three. Merging it into MC 227 would bind the trafficking track to the wrong form."},
+    {"id": "mi-mc-227b-title-preposition", "question": "MC-227B is recorded as 'Application by Human Trafficking Victim' and the face reads 'for'.", "status": "handed_off", "owner": "rcap-nationwide-master-library-edition-1-3-publication", "why": "Adjacent row, raised by the dependency job and unchanged."},
+    {"id": "mi-field-denominator", "question": "The edition field_count is the terminal count here and the widget count elsewhere in the manifest.", "status": "open_and_outside_this_job", "owner": "the edition owner", "why": "A manifest-wide convention question, not a Michigan one. Both numbers are recorded on this row."},
+    {"id": "mi-revision-evidence-comparator", "question": "revisionEvidence='differs' is produced by comparing MM/YY against REV-YYYY-MM.", "status": "open_and_outside_this_job", "owner": "the asset-audit owner"},
+    {"id": "mi-live-currentness", "question": "Currentness rests on the dependency job's retrieval, not on a reading taken today.", "status": "inherent", "owner": "acquisition owner", "why": "This assignment forbids downloading."}
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "sourcesMaterialized": 0,
+    "sourceReceiptCountUnchanged": true,
+    "memoEdited": false,
+    "editionPublished": false,
+    "editionMutated": false,
+    "rendererImplemented": false,
+    "packetImplemented": false,
+    "fieldMapBuilt": false,
+    "componentRebound": false,
+    "subFormPromotedToDocument": false,
+    "issuerContacted": false,
+    "integrationPerformed": false,
+    "promotionPerformed": false,
+    "migrationPerformed": false,
+    "deploymentPerformed": false
+  }
+}
