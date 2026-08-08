@@ -49,8 +49,23 @@ const ACTIVE_SHARDS = [
     shard: "B2",
     lane: "custom_pleading",
     ownerSession: "SESSION_B",
-    jobIds: ["rcap-oh-custom-pleading", "rcap-wa-custom-pleading"],
-    note: "Carried over unfinished from the previous wave; not reranked."
+    jobIds: [
+      "rcap-oh-custom-pleading-clean-tracks",
+      "rcap-wa-custom-pleading-clean-tracks"
+    ],
+    note:
+      "B2 returned both whole-state assignments unimplemented, each because one track carries an unresolved release blocker and a worker cannot atomically deliver four fifths of a job. The captain split them: these are the clean tracks only, with new fingerprints. oh_marijuana_expungement and wa_crop_certificate_of_restoration are excluded and neither is forced ready. The earlier note on this shard was wrong to say both assignments had no venue blocker — Washington's CROP track carries exactly that."
+  },
+  {
+    shard: "B4",
+    lane: "custom_pleading",
+    ownerSession: "SESSION_B",
+    jobIds: [
+      "rcap-in-custom-pleading-technical-review-correction",
+      "rcap-ms-custom-pleading-technical-review-correction"
+    ],
+    note:
+      "Opened by technical review, not by a new requirement. Each reissues the assignment that produced the defect and owns the same module and verifier; neither re-implements a track. Both legal reviews stay blocked until the corrected packets are produced and technically re-reviewed."
   },
   {
     shard: "B3",
@@ -72,9 +87,12 @@ const ACTIVE_SHARDS = [
     shard: "D1",
     lane: "legal_design_normalization",
     ownerSession: "SESSION_D",
-    jobIds: ["rcap-vt-200-00130-source-identity-resolution"],
+    jobIds: [
+      "rcap-oh-marijuana-governing-mechanism-reconciliation",
+      "rcap-wa-crop-venue-reconciliation"
+    ],
     note:
-      "The only ready legal-design job left. Every memo correction this wave commissioned is integrated."
+      "The two questions that forced the B2 split, each owning a decision record only. rcap-vt-200-00130-source-identity-resolution is deliberately absent: its decision is already integrated at d40261d and the job had been advertising work that was done."
   },
   {
     shard: "E1",
@@ -132,30 +150,28 @@ const ACTIVE_SHARDS = [
     lane: "legal_output_review",
     ownerSession: "SESSION_R1",
     jobIds: [
-      "rcap-ks-custom-pleading-completed-output-review",
-      "rcap-mo-custom-pleading-completed-output-review",
-      "rcap-wv-custom-pleading-completed-output-review",
-      "rcap-nj-guidance-implementation-completed-output-review",
-      "rcap-tx-guidance-implementation-completed-output-review"
+      "rcap-ks-custom-pleading-technical-visual-review",
+      "rcap-mo-custom-pleading-technical-visual-review",
+      "rcap-mn-custom-pleading-technical-visual-review",
+      "rcap-nj-guidance-implementation-technical-visual-review",
+      "rcap-nd-custom-pleading-technical-visual-review"
     ],
-    reviewKind: "technical_and_visual",
+    reviewKind: "technical_visual_review",
     note:
-      "Refilled: R1 delivered its first five results this pass, three technically approved and two returned correction_required. This shard reviews the wave-3 implementations."
+      "Technical and visual review only; this shard does not own any legal-review path. Indiana and Mississippi are deliberately absent: their current output is correction_required and the packet to re-review does not exist yet."
   },
   {
     shard: "R2",
     lane: "legal_output_review",
     ownerSession: "SESSION_R2",
     jobIds: [
-      "rcap-ky-guidance-implementation-completed-output-review",
-      "rcap-nd-custom-pleading-completed-output-review",
-      "rcap-nh-guidance-implementation-completed-output-review",
-      "rcap-nm-guidance-implementation-completed-output-review",
-      "rcap-ny-guidance-implementation-completed-output-review"
+      "rcap-ok-guidance-implementation-completed-output-review",
+      "rcap-tn-guidance-implementation-completed-output-review",
+      "rcap-nc-guidance-implementation-completed-output-review"
     ],
-    reviewKind: "completed_output_legal_review_preparation",
+    reviewKind: "completed_output_legal_review",
     note:
-      "Carried over unfinished; not reranked. Produces counsel-ready recommendations only — counsel remains the adopter."
+      "Completed-output legal review only; this shard does not own any technical-review path. These three are the families whose technical and visual review is recorded and approved. Recommendations only — recommend_adopt, recommend_correction or recommend_hold. Counsel remains the adopter."
   },
   {
     shard: "INTEGRATION",
@@ -296,10 +312,58 @@ try {
     };
   };
 
+  // Preflight. Every proposed assignment is checked against the live plan and
+  // the discovery report before it is frozen, because each of these has
+  // actually happened: a job advertised ready whose decision was already
+  // integrated, a lease mistaken for a completion, and a whole-state
+  // assignment whose clean tracks could have been split out.
+  const preflight = (jobId, status, definitionShard) => {
+    const job = byJobId.get(jobId);
+    const problems = [];
+    if (!job) {
+      problems.push("absent from the live plan");
+      return problems;
+    }
+    if (status !== "active") return problems;
+    if (job.status === "completed") {
+      problems.push("already completed; it must not be refrozen");
+    }
+    if (job.status === "cancelled") {
+      problems.push("cancelled or superseded; it must not be refrozen");
+    }
+    if (alreadyCompleted.has(jobId)) {
+      problems.push("already has a pushed worker completion awaiting integration");
+    }
+    // A baseline lease is a worker holding the job, not a completion. It does
+    // not stop the job being frozen — the work is genuinely outstanding — but
+    // it must never be counted as something awaiting integration.
+    const leased = (discovery?.jobs ?? []).some(
+      (entry) => entry.jobId === jobId && entry.classification === "baseline_lease"
+    );
+    if (leased && definitionShard === "INTEGRATION") {
+      problems.push(
+        "its only branch is a baseline lease carrying no worker commit, so there is nothing to integrate"
+      );
+    }
+    // A whole-state implementation assignment that still contains a track the
+    // captain has already split out.
+    const split = (job.supersededBy ?? []).length > 0;
+    if (split) problems.push("superseded by a split assignment");
+    return problems;
+  };
+
   const buildShard = (definition, status) => {
     const jobIds = definition.fromDiscovery
       ? [...alreadyCompleted].sort((left, right) => left.localeCompare(right))
       : definition.jobIds;
+    for (const jobId of jobIds) {
+      const problems = preflight(jobId, status, definition.shard);
+      if (problems.length > 0) {
+        throw new Error(
+          `${definition.shard} may not freeze ${jobId}: ${problems.join("; ")}`
+        );
+      }
+    }
     const jobs = jobIds.filter((jobId) => byJobId.has(jobId)).map(describe);
     return {
       wave: status === "active" ? 4 : 5,

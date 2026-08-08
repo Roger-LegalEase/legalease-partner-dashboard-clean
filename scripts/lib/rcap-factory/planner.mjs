@@ -170,6 +170,26 @@ function implementationsRequiringCorrection(rootDir) {
 }
 
 /**
+ * Completion state for a job whose deliverable is a legal-design decision
+ * record. Present on disk means done; absent means ready.
+ */
+function decisionRecordCompletion(rootDir, slug, provenance = {}) {
+  const absolute = path.join(
+    rootDir ?? process.cwd(),
+    `data/record-clearing/production-factory/legal-design-decisions/${slug}.json`
+  );
+  if (!fs.existsSync(absolute)) return { status: "ready" };
+  return {
+    status: "completed",
+    ...(provenance.workerBranch ? { workerBranch: provenance.workerBranch } : {}),
+    ...(provenance.workerCommit ? { workerCommit: provenance.workerCommit } : {}),
+    ...(provenance.completionCommit
+      ? { completionCommit: provenance.completionCommit }
+      : {})
+  };
+}
+
+/**
  * Completion state for a technical/visual review job.
  *
  * A recorded result completes it, whether the finding was approval or a
@@ -1817,6 +1837,7 @@ export function buildFactoryPlan(options = {}) {
     workerBranch,
     workerCommit,
     implementationState,
+    supersededBy,
     implementedTrackIds,
     priorCompletionCommit,
     regressionVerifier,
@@ -1918,6 +1939,11 @@ export function buildFactoryPlan(options = {}) {
     // not mistake integrated code for usable code.
     if (implementationState) {
       job.implementationState = implementationState;
+    }
+    // A split assignment records what replaced it, so "cancelled" is never
+    // read as "abandoned" or as "delivered".
+    if (Array.isArray(supersededBy) && supersededBy.length > 0) {
+      job.supersededBy = sortedUnique(supersededBy);
     }
     // A reissued expansion carries what the integrated commit already built, so
     // the tracks behind it stay attributed to that commit instead of silently
@@ -2838,7 +2864,19 @@ export function buildFactoryPlan(options = {}) {
       strategyFamily: "source_identity_resolution",
       trackIds: [],
       dependencies: ["rcap-vt-legal-design-normalization"],
-      status: "ready",
+      // Closes on its committed decision record, like every other adjudication
+      // here. It was pinned ready while the record was already integrated at
+      // d40261d, so the job kept advertising work that was done.
+      ...decisionRecordCompletion(
+        rootDir,
+        "vt-200-00130-source-identity-resolution",
+        {
+          workerBranch:
+            "rcap-factory/rcap-vt-200-00130-source-identity-resolution-aa6ee8e4-15ad8e70",
+          workerCommit: "ece22e89fd6dee718840c546a100432bd8b29f67",
+          completionCommit: "d40261dd6f68b3019aba34a1561af7dcdb48c63e"
+        }
+      ),
       expectedOutputs: [
         `${FACTORY_DATA_DIR}/legal-design-decisions/vt-200-00130-source-identity-resolution.json`
       ],
@@ -4141,6 +4179,115 @@ export function buildFactoryPlan(options = {}) {
     });
   }
 
+  // The clean halves of the split whole-state assignments, plus the
+  // legal-design owners for the questions that forced the split.
+  for (const split of ATOMIC_IMPLEMENTATION_SPLITS) {
+    const original = jobs.find(
+      (job) =>
+        job.lane === split.lane &&
+        job.jurisdiction === split.jurisdiction &&
+        job.trackIds.length > 0 &&
+        split.blockedTrackIds.every((trackId) => job.trackIds.includes(trackId))
+    );
+    if (!original) continue;
+    const state = (inputs.allStateBuildStatus.states ?? []).find(
+      (candidate) => candidate.code === split.jurisdiction
+    );
+    if (!state) continue;
+
+    addJob({
+      lane: split.lane,
+      jurisdiction: split.jurisdiction,
+      jobId: split.cleanJobId,
+      strategyFamily: "custom_pleading",
+      trackIds: split.cleanTrackIds,
+      dependencies: [],
+      status: "ready",
+      expectedOutputs: original.expectedOutputs,
+      ownedPaths: original.expectedOutputs,
+      requiredInputs: original.requiredInputs,
+      regressionVerifier: original.regressionVerifier,
+      participantPacketProofRequired: true,
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        `node scripts/rcap-factory-plan.mjs --check-job ${split.cleanJobId}`,
+        `node ${original.regressionVerifier}`
+      ],
+      commitSubject:
+        `feat(record-clearing): implement ${split.jurisdiction} custom pleading`,
+      executionNote:
+        `The clean tracks of the ${split.jurisdiction} assignment, split out so they can be ` +
+        `delivered atomically: ${split.cleanTrackIds.join(", ")}. ` +
+        `${split.blockedTrackIds.join(", ")} is deliberately excluded and stays with the ` +
+        "original assignment, which is blocked on its own legal-design question. Do not " +
+        "implement it here and do not infer its mechanism from these tracks.",
+      stopCondition:
+        `Implement exactly ${split.cleanTrackIds.join(", ")} and nothing else. ` +
+        `${split.blockedTrackIds.join(", ")} is not yours: it carries an unresolved release ` +
+        "blocker and belongs to the original assignment. Take every component, role, " +
+        "recipient and destination from the corrected memo and nowhere else, produce the " +
+        "participant packet proof the lane requires, and keep runtime disabled. " +
+        TERMINAL_INSTRUCTION
+    });
+
+    addJob({
+      lane: "legal_design_normalization",
+      jurisdiction: split.jurisdiction,
+      jobId: split.correctionJobId,
+      strategyFamily: "legal_design_adjudication",
+      trackIds: [],
+      dependencies: [],
+      status: "ready",
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/${split.correctionJobId}.json`
+      ],
+      ownedPaths: [
+        `${FACTORY_DATA_DIR}/legal-design-decisions/${split.correctionJobId}.json`
+      ],
+      requiredInputs: [
+        `data/record-clearing/legal-design-intake/${split.jurisdiction}.memo.json`,
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.packetSetManifests,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        `node scripts/rcap-factory-plan.mjs --check-job ${split.correctionJobId}`
+      ],
+      commitSubject:
+        split.jurisdiction === "OH"
+          ? "docs(record-clearing): reconcile the Ohio marijuana expungement mechanism"
+          : "docs(record-clearing): reconcile the Washington CROP venue",
+      executionNote:
+        `Owns the question that blocked ${split.blockedTrackIds.join(", ")} and forced the ` +
+        `${split.jurisdiction} assignment to be split. It owns a decision record only.`,
+      stopCondition:
+        split.jurisdiction === "OH"
+          ? "Establish, from the current Ohio statutory text and the enacted initiative, " +
+            "whether ORC 2953.321 is the complete participant application mechanism for " +
+            "marijuana expungement, or whether Issue 2 created a separate or automatic " +
+            "mechanism alongside it. Determine which applies to oh_marijuana_expungement, " +
+            "what the participant files if anything, where it goes, and whether the route is " +
+            "participant-initiated at all. " +
+            "Do not resolve the question by analogy to the four sibling Ohio routes, which " +
+            "are differently drafted. Do not declare the track ready, do not implement a " +
+            "packet, and own only the decision record: OH.memo.json belongs to a separate " +
+            "amendment. "
+          : "Establish, for wa_crop_certificate_of_restoration under RCW 9.97.020, which " +
+            "court the application may statutorily be filed in and which courts will " +
+            "actually entertain it — those are different questions and the answer must " +
+            "distinguish them. Determine the filing process, the correct form if one exists, " +
+            "and what a participant is told when the statutory venue and the practical venue " +
+            "diverge. " +
+            "Do not resolve the venue by choosing the convenient reading, do not declare the " +
+            "track ready, do not implement a packet, and own only the decision record: " +
+            "WA.memo.json belongs to a separate amendment. ",
+    });
+  }
+
   // Implementation corrections opened by technical review.
   //
   // Each is a reissue of the assignment that produced the defect, owning the
@@ -4787,6 +4934,46 @@ const COMPLETED_CUSTOM_PLEADING_IMPLEMENTATIONS = Object.freeze([
  * output, and back-filling one for every previously integrated implementation
  * would assert a review assignment nobody made.
  */
+/**
+ * Whole-state implementation assignments the captain has split because one
+ * track carries an unresolved release blocker. The clean tracks are delivered
+ * as their own assignment with their own fingerprint; the blocked track stays
+ * with the original job, which stays incomplete.
+ */
+const ATOMIC_IMPLEMENTATION_SPLITS = Object.freeze([
+  {
+    lane: "custom_pleading",
+    jurisdiction: "OH",
+    cleanJobId: "rcap-oh-custom-pleading-clean-tracks",
+    correctionJobId: "rcap-oh-marijuana-governing-mechanism-reconciliation",
+    cleanTrackIds: [
+      "oh_2953_32_expungement",
+      "oh_2953_32_sealing",
+      "oh_2953_33_nonconviction",
+      "oh_2953_35_firearm"
+    ],
+    blockedTrackIds: ["oh_marijuana_expungement"],
+    blockedQuestion:
+      "the Ohio marijuana-expungement governing mechanism: whether ORC 2953.321 is the " +
+      "complete participant application mechanism, or whether Issue 2 created a separate or " +
+      "automatic mechanism alongside it."
+  },
+  {
+    lane: "custom_pleading",
+    jurisdiction: "WA",
+    cleanJobId: "rcap-wa-custom-pleading-clean-tracks",
+    correctionJobId: "rcap-wa-crop-venue-reconciliation",
+    cleanTrackIds: [
+      "wa_del_nonconviction",
+      "wa_vac_post_probation_9_95_240"
+    ],
+    blockedTrackIds: ["wa_crop_certificate_of_restoration"],
+    blockedQuestion:
+      "the Washington CROP venue question under RCW 9.97.020: which court the application may " +
+      "statutorily be filed in, and which courts will actually entertain it."
+  }
+]);
+
 const COMPLETED_OUTPUT_REVIEW_ASSIGNMENTS = Object.freeze([
   "rcap-sc-custom-pleading",
   "rcap-nh-guidance-implementation",
@@ -4895,6 +5082,48 @@ function implementationJobOverrides(
   rootDir,
   stateTracks
 ) {
+  // B2 returned Ohio and Washington unimplemented, each for the same reason:
+  // one track in an otherwise clean whole-state assignment carries an
+  // unresolved release blocker, and a worker cannot atomically deliver four
+  // fifths of a job. Splitting is the captain's call, not the worker's, so the
+  // clean tracks move to their own assignment and the blocked track stays with
+  // the original job — which remains incomplete, blocked on the legal-design
+  // correction that owns its question.
+  const atomicSplit = ATOMIC_IMPLEMENTATION_SPLITS.find(
+    (entry) => entry.lane === lane && entry.jurisdiction === jurisdiction
+  );
+  if (atomicSplit) {
+    const present = new Set((stateTracks ?? []).map((track) => track.trackId));
+    if (atomicSplit.blockedTrackIds.every((trackId) => present.has(trackId))) {
+      // Superseded, not completed and not delivered. This exact assignment —
+      // all five Ohio tracks, or all three Washington tracks, in one atomic
+      // delivery — is not going to happen, because one of its tracks cannot be
+      // implemented until a legal-design question is answered. Saying so is
+      // honest; leaving it "ready" would advertise work no worker can finish,
+      // and only one job may own the module, so it cannot sit blocked holding
+      // the file the clean assignment has to write.
+      return {
+        status: "cancelled",
+        trackIds: [...atomicSplit.blockedTrackIds],
+        supersededBy: [atomicSplit.cleanJobId, atomicSplit.correctionJobId],
+        model: "opus",
+        effort: "xhigh",
+        executionNote:
+          `Split by the captain and superseded. B2 could not deliver this assignment ` +
+          `atomically: ${atomicSplit.blockedTrackIds.join(", ")} carries an unresolved ` +
+          `release blocker. The clean tracks moved to ${atomicSplit.cleanJobId}, and the ` +
+          `blocked track's question is owned by ${atomicSplit.correctionJobId}. This ` +
+          "assignment was never completed and its blocked track is not implemented; a " +
+          "follow-up assignment adds it once the mechanism is established.",
+        stopCondition:
+          `Superseded assignment: do not execute. ${atomicSplit.blockedTrackIds.join(", ")} ` +
+          `remains unimplemented, blocked on ${atomicSplit.blockedQuestion} ` +
+          "Do not implement it against an unresolved mechanism, do not infer one from the " +
+          "sibling tracks, and do not enable runtime, promote, or deploy."
+      };
+    }
+  }
+
   const completedOfficialPdf = COMPLETED_OFFICIAL_PDF_IMPLEMENTATIONS.find(
     (record) =>
       record.lane === lane && record.jurisdiction === jurisdiction
