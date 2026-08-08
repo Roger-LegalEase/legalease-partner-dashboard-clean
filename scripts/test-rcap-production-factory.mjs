@@ -70,6 +70,13 @@ import {
   assertAuthorityOutputContract
 } from "./lib/rcap-factory/authority-output.mjs";
 import {
+  COMPLETION_CLASSIFICATIONS,
+  candidateBranchKeys,
+  discoverCompletions,
+  factoryFetchRefspecs,
+  planIntegrations
+} from "./lib/rcap-factory/completion-discovery.mjs";
+import {
   ADOPTION_RECORD_PATHS,
   buildCurrentCounselAdoptionRecords
 } from "./lib/rcap-counsel-adoption.mjs";
@@ -3932,6 +3939,377 @@ await check("immutable authority and runtime paths are byte-unchanged", () => {
   );
   assert.equal(result.status, 0, result.stderr || result.stdout);
 });
+
+
+// ---------------------------------------------------------------------------
+// Captain completion discovery
+//
+// Every case below is a real one from the wave that produced this module. Nine
+// of eleven assignments already had a valid pushed branch and every one of them
+// read as absent, because the integration checkout had fetched only its own
+// head. These fixtures reproduce that, and the shapes it hid behind.
+// ---------------------------------------------------------------------------
+
+await check("captain discovery fetches factory refs with a wildcard before testing existence", () => {
+  const refspecs = factoryFetchRefspecs("feat/record-clearing-production-integration");
+  assert.equal(refspecs.length, 2);
+  assert.ok(
+    refspecs.some((spec) => spec.includes("refs/heads/rcap-factory/*")),
+    "the factory wildcard refspec is missing; a single-branch clone would report every worker branch as absent"
+  );
+  assert.ok(
+    refspecs.some((spec) =>
+      spec.includes("refs/heads/feat/record-clearing-production-integration:")
+    ),
+    "the integration branch is not fetched explicitly"
+  );
+  // A skipped fetch is reported, never silently treated as a clean result.
+  const fixture = withDiscoveryFixture((repo) => {
+    const plan = discoveryPlan([discoveryJob({ jobId: "rcap-zz-one" })], repo.tip);
+    return discoverCompletions(plan, {
+      rootDir: repo.captain,
+      fetch: false,
+      integrationRef: "HEAD"
+    });
+  });
+  assert.equal(fixture.fetch.fetched, false);
+  assert.match(fixture.fetch.detail, /skipped/u);
+});
+
+await check("captain discovery classifies every branch shape it has actually met", () => {
+  const report = withDiscoveryFixture((repo) => {
+    const jobs = [
+      // Indiana: an incompatible legacy branch beside an exact current one.
+      discoveryJob({ jobId: "rcap-in-custom-pleading" }),
+      // Oklahoma, Tennessee, North Carolina: valid completions while the plan
+      // still says ready.
+      discoveryJob({ jobId: "rcap-ok-guidance-implementation" }),
+      // Hawaii / Florida Session D and Session F: valid remote completions the
+      // single-branch refspec hid entirely.
+      discoveryJob({ jobId: "rcap-hi-stage-one-decision" }),
+      // Already carried onto the integration branch.
+      discoveryJob({ jobId: "rcap-vt-identity" }),
+      // Nothing pushed at all.
+      discoveryJob({ jobId: "rcap-zz-absent" }),
+      // Pushed, but missing an output it promised.
+      discoveryJob({ jobId: "rcap-zz-partial" }),
+      // Pushed under a fingerprint no assignment this job has held produces.
+      discoveryJob({ jobId: "rcap-zz-foreign" })
+    ];
+    const plan = discoveryPlan(jobs, repo.tip);
+    return discoverCompletions(plan, {
+      rootDir: repo.captain,
+      fetch: false,
+      integrationRef: "HEAD"
+    });
+  });
+
+  const byJob = new Map(report.jobs.map((entry) => [entry.jobId, entry]));
+  assert.equal(byJob.get("rcap-in-custom-pleading").classification, "exact_completion");
+  assert.equal(byJob.get("rcap-ok-guidance-implementation").classification, "exact_completion");
+  assert.equal(byJob.get("rcap-hi-stage-one-decision").classification, "exact_completion");
+  assert.equal(byJob.get("rcap-vt-identity").classification, "integrated_completion");
+  assert.equal(byJob.get("rcap-zz-absent").classification, "no_branch");
+  assert.equal(byJob.get("rcap-zz-partial").classification, "partial_branch");
+  assert.equal(byJob.get("rcap-zz-foreign").classification, "incompatible_branch");
+
+  // Indiana's older branch is surfaced beside the current one and is refused;
+  // the current one is still the completion.
+  const indiana = byJob.get("rcap-in-custom-pleading");
+  assert.equal(indiana.branches.length, 2);
+  assert.equal(indiana.completionBranch, indiana.canonicalBranch);
+  const legacy = indiana.branches.find(
+    (branch) => branch.branch === indiana.legacyBranch
+  );
+  assert.equal(legacy.classification, "incompatible_branch");
+
+  // A foreign-fingerprint branch fails on identity, not on shape.
+  const foreign = byJob.get("rcap-zz-foreign");
+  assert.ok(
+    foreign.branches[0].failures.some(
+      (failure) => failure.code === "assignment_marker_identity"
+    )
+  );
+
+  for (const entry of report.jobs) {
+    assert.ok(COMPLETION_CLASSIFICATIONS.includes(entry.classification));
+  }
+});
+
+await check("captain discovery keys branches on the job digest, not the slug prefix", () => {
+  // `rcap-fl-public-official-download` is a prefix of
+  // `rcap-fl-public-official-download-fdle-fac-supersession`. Matching on the
+  // slug made the second job's valid completion read as the first job's
+  // incompatible branch.
+  const shortKeys = candidateBranchKeys(
+    discoveryJob({ jobId: "rcap-fl-public-official-download" })
+  );
+  const longKeys = candidateBranchKeys(
+    discoveryJob({ jobId: "rcap-fl-public-official-download-fdle-fac-supersession" })
+  );
+  assert.notEqual(shortKeys.canonical, longKeys.canonical);
+  assert.equal(
+    longKeys.canonical.startsWith(shortKeys.legacy),
+    false,
+    "the longer job's branch key still starts with the shorter job's key"
+  );
+});
+
+await check("captain integration planning distinguishes dispositions and changes nothing", () => {
+  const { report, integration, statusBefore, statusAfter } = withDiscoveryFixture(
+    (repo) => {
+      const jobs = [
+        discoveryJob({ jobId: "rcap-in-custom-pleading" }),
+        discoveryJob({ jobId: "rcap-vt-identity" }),
+        discoveryJob({ jobId: "rcap-zz-absent" }),
+        discoveryJob({ jobId: "rcap-zz-partial" }),
+        discoveryJob({ jobId: "rcap-zz-foreign" })
+      ];
+      const plan = discoveryPlan(jobs, repo.tip);
+      const before = spawnSync("git", ["status", "--porcelain=v1"], {
+        cwd: repo.captain,
+        encoding: "utf8"
+      }).stdout;
+      const discovered = discoverCompletions(plan, {
+        rootDir: repo.captain,
+        fetch: false,
+        integrationRef: "HEAD"
+      });
+      const planned = planIntegrations(discovered, {
+        activeWorkerJobIds: ["rcap-zz-absent"]
+      });
+      const after = spawnSync("git", ["status", "--porcelain=v1"], {
+        cwd: repo.captain,
+        encoding: "utf8"
+      }).stdout;
+      return {
+        report: discovered,
+        integration: planned,
+        statusBefore: before,
+        statusAfter: after
+      };
+    }
+  );
+
+  const byJob = new Map(integration.steps.map((step) => [step.jobId, step]));
+  assert.equal(byJob.get("rcap-in-custom-pleading").disposition, "integrate");
+  assert.equal(byJob.get("rcap-vt-identity").disposition, "already_integrated");
+  assert.equal(byJob.get("rcap-zz-partial").disposition, "correction_required");
+  assert.equal(byJob.get("rcap-zz-foreign").disposition, "blocked");
+  assert.equal(byJob.get("rcap-zz-absent").disposition, "refused_active_worker");
+  assert.equal(byJob.get("rcap-in-custom-pleading").commit.length, 40);
+  assert.ok(byJob.get("rcap-in-custom-pleading").branch.startsWith("rcap-factory/"));
+  assert.ok(integration.independentJobIds.includes("rcap-in-custom-pleading"));
+  assert.equal(report.totals.no_branch, 1);
+  // Plan mode is a read.
+  assert.equal(statusBefore, statusAfter);
+});
+
+await check("captain integration planning refuses two jobs claiming one owned path", () => {
+  // planIntegrations is a pure function over a discovery report, so the
+  // collision is stated directly rather than staged through a fixture repo that
+  // could not produce it: two jobs cannot legitimately own one path, and the
+  // planner has to catch the case where a reissued assignment produces one.
+  const discovery = {
+    schemaVersion: "rcap-captain-completion-discovery/v1",
+    baseCommit: "0".repeat(40),
+    fetch: { fetched: true, detail: null },
+    jobs: [
+      {
+        jobId: "rcap-zz-first",
+        lane: "custom_pleading",
+        jurisdiction: "ZZ",
+        classification: "exact_completion",
+        completionBranch: "rcap-factory/rcap-zz-first-aaaaaaaa-bbbbbbbb",
+        completionCommit: "1".repeat(40),
+        ownedPaths: ["src/shared.ts"],
+        branches: []
+      },
+      {
+        jobId: "rcap-zz-second",
+        lane: "custom_pleading",
+        jurisdiction: "ZZ",
+        classification: "exact_completion",
+        completionBranch: "rcap-factory/rcap-zz-second-cccccccc-dddddddd",
+        completionCommit: "2".repeat(40),
+        ownedPaths: ["src/shared.ts"],
+        branches: []
+      }
+    ]
+  };
+  const integration = planIntegrations(discovery);
+  const conflicted = integration.steps.filter(
+    (step) => step.sharedFileConflicts.length > 0
+  );
+  assert.equal(conflicted.length, 1);
+  assert.equal(conflicted[0].jobId, "rcap-zz-second");
+  assert.equal(conflicted[0].disposition, "blocked");
+  assert.match(conflicted[0].reason, /already claimed/u);
+  assert.deepEqual(integration.independentJobIds, ["rcap-zz-first"]);
+});
+
+/**
+ * A minimal two-repository fixture: one bare "origin" carrying worker branches,
+ * one captain clone. Built rather than mocked, because the defect this guards
+ * against lived in git's own ref plumbing and a mock would have agreed with the
+ * broken behaviour.
+ */
+function withDiscoveryFixture(callback) {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-completion-discovery-"));
+  try {
+    const origin = path.join(root, "origin");
+    const worker = path.join(root, "worker");
+    const captain = path.join(root, "captain");
+    run(["init", "--quiet", "--bare", "--initial-branch=main", origin]);
+    run(["init", "--quiet", "--initial-branch=main", worker]);
+    const inWorker = (args) => run(["-C", worker, ...args]);
+    inWorker(["config", "user.email", "fixture@example.invalid"]);
+    inWorker(["config", "user.name", "RCAP fixture"]);
+    fs.mkdirSync(path.join(worker, "owned"), { recursive: true });
+    fs.writeFileSync(path.join(worker, "README"), "base\n");
+    inWorker(["add", "README"]);
+    inWorker(["commit", "--quiet", "-m", "base"]);
+    inWorker(["remote", "add", "origin", origin]);
+    inWorker(["push", "--quiet", "origin", "main"]);
+    const base = run(["-C", worker, "rev-parse", "HEAD"]).trim();
+
+    const commitOwned = (branch, job, files, subject) => {
+      inWorker(["checkout", "--quiet", "-B", branch, base]);
+      for (const [name, body] of Object.entries(files)) {
+        fs.mkdirSync(path.dirname(path.join(worker, name)), { recursive: true });
+        fs.writeFileSync(path.join(worker, name), body);
+        inWorker(["add", name]);
+      }
+      inWorker(["commit", "--quiet", "-m", subject ?? job.commitSubject]);
+      inWorker(["push", "--quiet", "origin", branch]);
+      return run(["-C", worker, "rev-parse", "HEAD"]).trim();
+    };
+
+    const keysFor = (jobId, overrides) =>
+      candidateBranchKeys(discoveryJob({ jobId, ...overrides }));
+
+    // Indiana: current assignment, plus an older branch under the legacy key
+    // carrying somebody else's subject and path.
+    const indiana = discoveryJob({ jobId: "rcap-in-custom-pleading" });
+    const indianaKeys = keysFor("rcap-in-custom-pleading");
+    commitOwned(
+      `rcap-factory/${indianaKeys.canonical}`,
+      indiana,
+      { "owned/rcap-in-custom-pleading.txt": "indiana\n" },
+      undefined
+    );
+    commitOwned(
+      `rcap-factory/${indianaKeys.legacy}`,
+      indiana,
+      { "owned/unrelated.txt": "stale\n" },
+      "feat(record-clearing): something else entirely"
+    );
+
+    for (const jobId of ["rcap-ok-guidance-implementation", "rcap-hi-stage-one-decision"]) {
+      const job = discoveryJob({ jobId });
+      commitOwned(
+        `rcap-factory/${keysFor(jobId).canonical}`,
+        job,
+        { [`owned/${jobId}.txt`]: `${jobId}\n` },
+        undefined
+      );
+    }
+
+    // Vermont: pushed, and its blob is already the blob on the captain branch.
+    const vermont = discoveryJob({ jobId: "rcap-vt-identity" });
+    commitOwned(
+      `rcap-factory/${keysFor("rcap-vt-identity").canonical}`,
+      vermont,
+      { "owned/rcap-vt-identity.txt": "vermont\n" },
+      undefined
+    );
+
+    // Partial: correct subject, only owned paths touched, and one of the two
+    // outputs it promised never written.
+    const partial = discoveryJob({ jobId: "rcap-zz-partial" });
+    commitOwned(
+      `rcap-factory/${keysFor("rcap-zz-partial").canonical}`,
+      partial,
+      { "owned/rcap-zz-partial.txt": "partial\n" },
+      undefined
+    );
+
+    // Foreign: right job id, a fingerprint suffix no assignment produces.
+    const foreign = discoveryJob({ jobId: "rcap-zz-foreign" });
+    commitOwned(
+      `rcap-factory/${scaffoldKeyFor("rcap-zz-foreign")}-deadbeef`,
+      foreign,
+      { "owned/rcap-zz-foreign.txt": "foreign\n" },
+      undefined
+    );
+
+    // The captain clone starts from main only — exactly the single-branch state
+    // that hid nine completions — and then fetches with the wildcard.
+    run(["clone", "--quiet", "--branch", "main", "--single-branch", origin, captain]);
+    run([
+      "-C",
+      captain,
+      "fetch",
+      "origin",
+      "--prune",
+      "+refs/heads/rcap-factory/*:refs/remotes/origin/rcap-factory/*"
+    ]);
+    const inCaptain = (args) => run(["-C", captain, ...args]);
+    inCaptain(["config", "user.email", "fixture@example.invalid"]);
+    inCaptain(["config", "user.name", "RCAP fixture"]);
+    fs.mkdirSync(path.join(captain, "owned"), { recursive: true });
+    fs.writeFileSync(
+      path.join(captain, "owned/rcap-vt-identity.txt"),
+      "vermont\n"
+    );
+    inCaptain(["add", "owned/rcap-vt-identity.txt"]);
+    inCaptain(["commit", "--quiet", "-m", "captain: adopt the Vermont blob"]);
+    const tip = run(["-C", captain, "rev-parse", "HEAD"]).trim();
+
+    return callback({ root, origin, worker, captain, base, tip });
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+
+  function run(args) {
+    const result = spawnSync("git", args, { encoding: "utf8" });
+    if (result.status !== 0) {
+      throw new Error(result.stderr || result.stdout || `git ${args.join(" ")} failed`);
+    }
+    return result.stdout;
+  }
+}
+
+/** A job manifest with only the fields discovery reads. */
+function discoveryJob(overrides = {}) {
+  const jobId = overrides.jobId ?? "rcap-zz-one";
+  return {
+    jobId,
+    lane: "legal_design_normalization",
+    jurisdiction: "ZZ",
+    status: "ready",
+    model: "opus",
+    trackIds: [],
+    dependencies: [],
+    baseCommit: "0".repeat(40),
+    commitSubject: `feat(record-clearing): ${jobId}`,
+    ownedPaths:
+      jobId === "rcap-zz-partial"
+        ? [`owned/${jobId}.txt`, `owned/${jobId}-verifier.txt`]
+        : [`owned/${jobId}.txt`],
+    expectedOutputs:
+      jobId === "rcap-zz-partial"
+        ? [`owned/${jobId}.txt`, `owned/${jobId}-verifier.txt`]
+        : [`owned/${jobId}.txt`],
+    forbiddenPaths: [],
+    focusedValidation: [],
+    ...overrides
+  };
+}
+
+function discoveryPlan(jobs, baseCommit) {
+  return { schemaVersion: "rcap-production-factory/v1", baseCommit, jobs };
+}
 
 if (failures.length > 0) {
   console.error("RCAP production factory tests failed:");
