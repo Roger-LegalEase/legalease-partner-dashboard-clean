@@ -710,12 +710,18 @@ const FIXTURES = [
     trackId: MS_DRUG_TRACK_ID,
     variantOf: "ms-drug-cd-conditional-discharge-possession-1",
     variantPurpose:
-      "The charge-type answer changes the operative offence allegation from § 41-29-139(c) to § 41-29-139(d), and a justice-court answer changes the caption's court line. Both are legal branches, not cosmetic ones.",
+      "The charge-type answer changes the operative offence allegation from § 41-29-139(c) to § 41-29-139(d), and a justice-court answer changes the caption's court line. Both are legal branches, not cosmetic ones. Moving the court also moves everything that hangs off it: a Jones County justice-court matter has a Jones County residence, a Jones County arresting agency, a justice-court cause number and the county prosecuting attorney who appears in that court, so all of them move together and the packet describes one jurisdiction rather than two.",
     answers: drugBase({
       chargeType: "paraphernalia",
       courtLevel: "justice court",
       courtCounty: "Jones County",
-      chargeName: "Possession of paraphernalia, Miss. Code Ann. § 41-29-139(d)"
+      chargeName: "Possession of paraphernalia, Miss. Code Ann. § 41-29-139(d)",
+      mailingAddress:
+        "1174 Maple Grove Road, Laurel, Mississippi 39440; 601-555-0178; m.whitfield@example.org",
+      countyOfResidence: "Jones County, Laurel",
+      causeNumber: "JC-2019-00871",
+      arrestingAgency: "Jones County Sheriff's Department, agency case number JCSD-2019-02218",
+      prosecutingAuthority: "County Prosecuting Attorney for Jones County"
     })
   },
   {
@@ -741,7 +747,7 @@ const FIXTURES = [
     trackId: MS_MIP_TRACK_ID,
     variantOf: "ms-mip-dismissed-and-discharged-1",
     variantPurpose:
-      "Section 67-3-70(6) offers the Court two alternative findings, and the disposition answer decides which one the proposed order asks for and which date the one-year period runs from. The order's operative finding line changes with it.",
+      "Section 67-3-70(6) offers the Court two alternative findings, and the disposition answer decides which one the proposed order asks for and which date the one-year period runs from. The order's operative finding line changes with it. The court answer moves from the Oxford Municipal Court to the Lafayette County Justice Court, and everything that hangs off the court moves with it: a justice-court cause number rather than a municipal one, the county sheriff rather than the city police, and the county prosecuting attorney rather than the city prosecutor, so the certificate of service and the proposed order's approval addressee name the office that actually appears in that court.",
     answers: mipBase({
       dispositionType: "convicted and sentence completed",
       dispositionDate: "6 December 2022",
@@ -749,7 +755,10 @@ const FIXTURES = [
       alcoholOffense: "false age statement",
       chargeName: "Underage statement of false age, Miss. Code Ann. § 67-3-70(2)",
       courtLevel: "justice court",
-      courtCounty: "Lafayette County"
+      courtCounty: "Lafayette County",
+      causeNumber: "JC-2022-01844",
+      arrestingAgency: "Lafayette County Sheriff's Department, agency case number LCSD-2022-03310",
+      prosecutingAuthority: "County Prosecuting Attorney for Lafayette County"
     })
   }
 ];
@@ -1382,6 +1391,105 @@ ok(
 ok(
   new Set(results.map((r) => r.trackId)).size === 3,
   "The fixtures do not cover all three assigned tracks."
+);
+
+// ---------------------------------------------------------------------------
+// 6b. One packet, one jurisdiction
+// ---------------------------------------------------------------------------
+//
+// A variant that moves the court while inheriting the rest of a base fixture
+// renders a packet that describes two jurisdictions at once: the caption names
+// one court, the cause number belongs to another, the arresting agency sits in
+// a third county and the certificate of service and the proposed order's
+// approval addressee name a prosecutor who never appears in the captioned
+// court. Every half of that is individually valid, so nothing else in this file
+// catches it. These assertions do.
+
+/** The circuit court district each fixture county sits in. */
+const MS_CIRCUIT_DISTRICTS = {
+  Forrest: "Twelfth",
+  Lauderdale: "Tenth",
+  Jones: "Eighteenth",
+  Lafayette: "Third"
+};
+
+/** Cause-number prefixes, and which court level each belongs to. */
+const MS_CAUSE_PREFIXES = { "K-": "circuit", "CC-": "county", "MC-": "municipal", "JC-": "justice" };
+
+const countyIn = (text) => {
+  const match = /([A-Z][a-z]+)\s+County/.exec(String(text ?? ""));
+  return match ? match[1] : null;
+};
+
+let coherenceChecked = 0;
+for (const fixture of FIXTURES) {
+  const facts = deriveMississippiFacts(fixture.trackId, fixture.answers);
+  const level = facts.courtLevel;
+  const courtCounty = countyIn(facts.courtCounty);
+  const residenceCounty = countyIn(facts.countyOfResidence);
+  const agencyCounty = countyIn(facts.arrestingAgency);
+  const prosecutorCounty = countyIn(facts.prosecutingAuthority);
+
+  // The cause number must belong to the captioned court's level.
+  const prefix = Object.keys(MS_CAUSE_PREFIXES).find((p) => facts.causeNumber.startsWith(p));
+  ok(
+    prefix !== undefined,
+    `${fixture.fixtureId}: the cause number ${facts.causeNumber} uses no recognised Mississippi style.`
+  );
+  if (prefix) {
+    ok(
+      MS_CAUSE_PREFIXES[prefix] === level,
+      `${fixture.fixtureId}: the caption is a ${level} court but the cause number ${facts.causeNumber} is a ${MS_CAUSE_PREFIXES[prefix]}-court style.`
+    );
+  }
+
+  // A municipal prosecutor appears in a municipal court and nowhere else.
+  const namesCityProsecutor = /City Prosecuting Attorney|City Attorney|for the City of/i.test(
+    facts.prosecutingAuthority
+  );
+  ok(
+    namesCityProsecutor === (level === "municipal"),
+    level === "municipal"
+      ? `${fixture.fixtureId}: a municipal-court packet does not name a city prosecutor: ${facts.prosecutingAuthority}`
+      : `${fixture.fixtureId}: a ${level}-court packet names a municipal prosecutor: ${facts.prosecutingAuthority}`
+  );
+
+  if (level !== "municipal") {
+    ok(
+      courtCounty !== null,
+      `${fixture.fixtureId}: a ${level}-court caption names no county.`
+    );
+    ok(
+      residenceCounty === courtCounty,
+      `${fixture.fixtureId}: the court is in ${courtCounty} County but the petitioner resides in ${residenceCounty} County.`
+    );
+    if (agencyCounty !== null) {
+      ok(
+        agencyCounty === courtCounty,
+        `${fixture.fixtureId}: the court is in ${courtCounty} County but the arresting agency is in ${agencyCounty} County.`
+      );
+    }
+    if (prosecutorCounty !== null) {
+      ok(
+        prosecutorCounty === courtCounty,
+        `${fixture.fixtureId}: the court is in ${courtCounty} County but the prosecuting authority is ${facts.prosecutingAuthority}.`
+      );
+    }
+    // Where a circuit court district is named, it must be that county's.
+    const districtMatch = /(\w+)\s+Circuit Court District/.exec(facts.prosecutingAuthority);
+    if (districtMatch) {
+      ok(
+        MS_CIRCUIT_DISTRICTS[courtCounty] === districtMatch[1],
+        `${fixture.fixtureId}: the court is in ${courtCounty} County, whose circuit court district is the ${MS_CIRCUIT_DISTRICTS[courtCounty]}, but the prosecuting authority is the ${districtMatch[1]} Circuit Court District.`
+      );
+    }
+  }
+  coherenceChecked += 1;
+}
+ok(coherenceChecked === FIXTURES.length, `Only ${coherenceChecked} of ${FIXTURES.length} fixtures were checked for jurisdictional coherence.`);
+
+note(
+  `6b. Jurisdiction: all ${coherenceChecked} fixtures describe one jurisdiction each — the cause-number style matches the captioned court's level, a municipal prosecutor appears in a municipal court and nowhere else, and on every non-municipal packet the county of residence, the arresting agency, the prosecuting authority and, where one is named, the circuit court district all belong to the county the caption names.`
 );
 
 note(
