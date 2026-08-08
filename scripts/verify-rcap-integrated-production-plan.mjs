@@ -2263,25 +2263,44 @@ assert.deepEqual(
   ]
 );
 const activeStatuses = new Set(["planned", "ready", "blocked", "in_progress"]);
+// One owner per completed track. A reissued expansion of the assignment that
+// already built the track is that same owner — same job id, same module, same
+// verifier — and pins the built tracks in implementedTrackIds against the
+// commit that produced them. Anything else claiming a completed track is a
+// second owner for finished work and still fails.
 for (const completedTrack of completed) {
+  const claimants = factoryPlan.jobs.filter(
+    (entry) =>
+      activeStatuses.has(entry.status) &&
+      [
+        "custom_pleading",
+        "acroform_fill",
+        "flat_pdf_overlay",
+        "composed_route",
+        "guidance_implementation"
+      ].includes(entry.lane) &&
+      entry.strategyFamily !== "legal_design_adjudication" &&
+      entry.jurisdiction === completedTrack.jurisdiction &&
+      entry.trackIds.includes(completedTrack.trackId)
+  );
   assert.equal(
-    factoryPlan.jobs.some(
-      (entry) =>
-        activeStatuses.has(entry.status) &&
-        [
-          "custom_pleading",
-          "acroform_fill",
-          "flat_pdf_overlay",
-          "composed_route",
-          "guidance_implementation"
-        ].includes(entry.lane) &&
-        entry.strategyFamily !== "legal_design_adjudication" &&
-        entry.jurisdiction === completedTrack.jurisdiction &&
-        entry.trackIds.includes(completedTrack.trackId)
-    ),
-    false,
+    claimants.length <= 1,
+    true,
     `${completedTrack.jurisdiction}:${completedTrack.trackId}`
   );
+  for (const claimant of claimants) {
+    assert.equal(
+      (claimant.implementedTrackIds ?? []).includes(completedTrack.trackId),
+      true,
+      `${completedTrack.jurisdiction}:${completedTrack.trackId} claimed by ${claimant.jobId}`
+    );
+    assert.match(claimant.priorCompletionCommit ?? "", /^[0-9a-f]{40}$/u);
+    assert.equal(
+      completedTrack.completionCommit,
+      claimant.priorCompletionCommit,
+      `${completedTrack.jurisdiction}:${completedTrack.trackId}`
+    );
+  }
 }
 assert.equal(tranche1.implementationStatus, "implemented_and_internally_proved");
 assert.equal(tranche2.implementationStatus, "implemented_and_internally_proved");

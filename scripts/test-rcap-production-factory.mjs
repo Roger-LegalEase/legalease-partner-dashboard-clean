@@ -694,19 +694,33 @@ await check("all normalized tracks reconcile exactly once and completed tranches
       "md_second_chance_shielding"
     ]
   );
+  // A completed track may not be claimed by an active implementation job — with
+  // one exception that is not a loophole. When a legal-design correction widens
+  // an implementation lane after that lane was completed, the completed job is
+  // reissued as an expansion of the same assignment: same module, same verifier,
+  // same job id, one owner. Its already-built tracks stay listed because it owns
+  // the file they live in, and it pins them in implementedTrackIds so the
+  // reconciliation attributes them to the commit that produced them. Any active
+  // job carrying a completed track *without* pinning it is still a second owner
+  // for work already done, and still fails here.
   for (const track of completed) {
-    assert.equal(
-      plan.jobs.some(
-        (job) =>
-          ["planned", "ready", "blocked", "in_progress"].includes(job.status) &&
-          implementationLanes.has(job.lane) &&
-          job.strategyFamily !== "legal_design_adjudication" &&
-          job.jurisdiction === track.jurisdiction &&
-          job.trackIds.includes(track.trackId)
-      ),
-      false,
-      `${track.jurisdiction}:${track.trackId}`
+    const claimants = plan.jobs.filter(
+      (job) =>
+        ["planned", "ready", "blocked", "in_progress"].includes(job.status) &&
+        implementationLanes.has(job.lane) &&
+        job.strategyFamily !== "legal_design_adjudication" &&
+        job.jurisdiction === track.jurisdiction &&
+        job.trackIds.includes(track.trackId)
     );
+    assert.equal(claimants.length <= 1, true, `${track.jurisdiction}:${track.trackId}`);
+    for (const claimant of claimants) {
+      assert.equal(
+        (claimant.implementedTrackIds ?? []).includes(track.trackId),
+        true,
+        `${track.jurisdiction}:${track.trackId} claimed by ${claimant.jobId}`
+      );
+      assert.match(claimant.priorCompletionCommit ?? "", /^[0-9a-f]{40}$/u);
+    }
   }
   const completedMarylandJob = plan.jobs.find(
     (job) => job.jobId === "rcap-md-second-chance-shielding-completed"

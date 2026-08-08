@@ -504,6 +504,7 @@ const COMPLETED_NORMALIZATIONS = Object.freeze([
     amendedByWorkerCommit: "9ef2c869faeee51b85cbaca960ef98d155c35eac",
     amendedByWorkerBranch:
       "rcap-factory/rcap-nv-sealing-mechanism-and-packet-capability-correction-d31659df-64b640c3",
+    amendmentCompletionCommit: "2fccb6a47fc4706d2f235f26c15b7af29ebef634",
     amendedMemoSha256:
       "113a9728c08487ad09184fdd045da4d19b532adcca2b083059dbb24e1c84c3f5"
   },
@@ -1047,7 +1048,21 @@ const MEMO_CORRECTION_COMPLETION_COMMITS = Object.freeze({
   "rcap-ny-mrta-destruction-request-destination-memo-correction":
     "5f5cf3def0b9cbc1e88084cc261bd60abaf48675",
   "rcap-la-arts-993-995-998-output-strategy-memo-correction":
-    "5f5cf3def0b9cbc1e88084cc261bd60abaf48675"
+    "5f5cf3def0b9cbc1e88084cc261bd60abaf48675",
+  "rcap-fl-rule-3-989-continuation-component-correction":
+    "2fccb6a47fc4706d2f235f26c15b7af29ebef634",
+  "rcap-nv-sealing-mechanism-and-packet-capability-correction":
+    "2fccb6a47fc4706d2f235f26c15b7af29ebef634"
+});
+/**
+ * Decision jobs whose output is a legal-design decision record rather than a
+ * source-acquisition record or a memo. They close the same way everything else
+ * does — on the committed artefact, pinned to the captain commit that carried
+ * the worker blob in.
+ */
+const DECISION_RECORD_COMPLETION_COMMITS = Object.freeze({
+  "rcap-hi-stage-one-expungement-filing-vehicle-current-law-reconciliation":
+    "2fccb6a47fc4706d2f235f26c15b7af29ebef634"
 });
 const WAVE_WORKER_BRANCHES = Object.freeze({
   "rcap-ok-sb-2030-current-text-and-currency":
@@ -1065,7 +1080,15 @@ const WAVE_WORKER_BRANCHES = Object.freeze({
   "rcap-hi-in-repo-identity-reconciliation-hcjdc-159":
     "rcap-factory/rcap-hi-in-repo-identity-reconciliation-hcjdc-159-ebf47315-c9cce424",
   "rcap-fl-source-identity-resolution-rule-3-989-continuation":
-    "rcap-factory/rcap-fl-source-identity-resolution-rule-3-989-continuation-5df99664-df05ce06"
+    "rcap-factory/rcap-fl-source-identity-resolution-rule-3-989-continuation-5df99664-df05ce06",
+  "rcap-hi-stage-one-expungement-filing-vehicle-current-law-reconciliation":
+    "rcap-factory/rcap-hi-stage-one-expungement-filing-vehicle-current-law-reconci-dc16ca6f-200419fb",
+  "rcap-hi-hcjdc-159b-technical-structure-and-edition-asset":
+    "rcap-factory/rcap-hi-hcjdc-159b-technical-structure-and-edition-asset-3b5c467a-8be3d70f",
+  "rcap-fl-rule-3-989-sworn-statement-identity-currentness":
+    "rcap-factory/rcap-fl-rule-3-989-sworn-statement-identity-currentness-97e406a2-d2848759",
+  "rcap-il-in-repo-identity-reconciliation-rule-298":
+    "rcap-factory/rcap-il-in-repo-identity-reconciliation-rule-298-08992e9c-6ea35aa9"
 });
 const WAVE_WORKER_COMMITS = Object.freeze({
   "rcap-ok-sb-2030-current-text-and-currency":
@@ -1083,7 +1106,15 @@ const WAVE_WORKER_COMMITS = Object.freeze({
   "rcap-hi-in-repo-identity-reconciliation-hcjdc-159":
     "552aae83e2755f82990bf7c64fd0b64ef578ee73",
   "rcap-fl-source-identity-resolution-rule-3-989-continuation":
-    "22d3ff3e88641fd3c9c9807a0349c4c051237ec2"
+    "22d3ff3e88641fd3c9c9807a0349c4c051237ec2",
+  "rcap-hi-stage-one-expungement-filing-vehicle-current-law-reconciliation":
+    "d694f08cd73c7ead441582b32d01dca2c83d40b4",
+  "rcap-hi-hcjdc-159b-technical-structure-and-edition-asset":
+    "f7dd582fa34c6b9eb9ab41f0a86e03f204995b4e",
+  "rcap-fl-rule-3-989-sworn-statement-identity-currentness":
+    "0350e4279896db1a82f2e4d59f5c31271c23c97a",
+  "rcap-il-in-repo-identity-reconciliation-rule-298":
+    "c7db252eaf3c88461344f066cb1601c51c95f8e9"
 });
 const COMPLETED_AUTHORITY_JOB_COMMITS = new Map([
   [
@@ -1173,6 +1204,18 @@ const COMPLETED_AUTHORITY_JOB_COMMITS = new Map([
   [
     "rcap-fl-source-identity-resolution-rule-3-989-continuation",
     "5f5cf3def0b9cbc1e88084cc261bd60abaf48675"
+  ],
+  [
+    "rcap-hi-hcjdc-159b-technical-structure-and-edition-asset",
+    "2fccb6a47fc4706d2f235f26c15b7af29ebef634"
+  ],
+  [
+    "rcap-fl-rule-3-989-sworn-statement-identity-currentness",
+    "2fccb6a47fc4706d2f235f26c15b7af29ebef634"
+  ],
+  [
+    "rcap-il-in-repo-identity-reconciliation-rule-298",
+    "2fccb6a47fc4706d2f235f26c15b7af29ebef634"
   ]
 ]);
 const NO_DOWNLOAD_AUTHORITY_FAMILIES = new Set([
@@ -1372,6 +1415,8 @@ export function buildFactoryPlan(options = {}) {
     workerBranch,
     workerCommit,
     implementationState,
+    implementedTrackIds,
+    priorCompletionCommit,
     regressionVerifier,
     participantPacketProofRequired,
     sourceMaterializationInputs,
@@ -1471,6 +1516,15 @@ export function buildFactoryPlan(options = {}) {
     // not mistake integrated code for usable code.
     if (implementationState) {
       job.implementationState = implementationState;
+    }
+    // A reissued expansion carries what the integrated commit already built, so
+    // the tracks behind it stay attributed to that commit instead of silently
+    // reverting to unbuilt when the lane widens.
+    if (Array.isArray(implementedTrackIds) && implementedTrackIds.length > 0) {
+      job.implementedTrackIds = sortedUnique(implementedTrackIds);
+    }
+    if (priorCompletionCommit) {
+      job.priorCompletionCommit = priorCompletionCommit;
     }
     if (regressionVerifier) {
       job.regressionVerifier = normalizeRepoPath(
@@ -3780,7 +3834,13 @@ function addTrackLaneJobs({
             )
         )
       : [];
-    const overrides = implementationJobOverrides(lane, jurisdiction, inputs, rootDir);
+    const overrides = implementationJobOverrides(
+      lane,
+      jurisdiction,
+      inputs,
+      rootDir,
+      stateTracks
+    );
     const state = (inputs.allStateBuildStatus.states ?? []).find(
       (candidate) => candidate.code === jurisdiction
     );
@@ -3890,7 +3950,22 @@ const COMPLETED_CUSTOM_PLEADING_IMPLEMENTATIONS = Object.freeze([
     jurisdiction: "NV",
     completionCommit: "eccb51f2846f3df93a806981a09e991c6e841c8a",
     modulePath: "src/lib/rcap/packets/jurisdictions/nevada/custom-pleading.ts",
-    verifierPath: "scripts/verify-rcap-nevada-custom-pleading.mjs"
+    verifierPath: "scripts/verify-rcap-nevada-custom-pleading.mjs",
+    // The six tracks this implementation actually built, pinned. The
+    // sealing-mechanism correction moved nv_seal_probation_family and
+    // nv_repository_removal into the custom-pleading lane, which widens the
+    // Nevada assignment without building anything. Without this pin the
+    // assignment's own track list would sweep both into a completion nobody
+    // produced. The implemented six stay complete against the commit that
+    // produced them; the two added tracks are pending work.
+    implementedTrackIds: [
+      "nv_seal_conviction",
+      "nv_seal_decrim",
+      "nv_seal_multi",
+      "nv_seal_nonconviction",
+      "nv_seal_pardon",
+      "nv_seal_reentry"
+    ]
   },
   {
     jurisdiction: "SC",
@@ -3998,7 +4073,34 @@ function unresolvedOutputStrategyQuestionCount(inputs, jurisdiction, lane) {
     .length;
 }
 
-function implementationJobOverrides(lane, jurisdiction, inputs, rootDir) {
+/**
+ * Tracks a completed implementation's own assignment now carries but never
+ * built.
+ *
+ * A legal-design correction can widen an implementation lane after that lane's
+ * job was completed. The job's track list is read from the normalized design,
+ * so the widened tracks join the assignment silently, and a job left marked
+ * completed would then assert an implementation for them. Reading the delta
+ * against the pinned implemented set turns that into an expansion assignment
+ * instead: the built tracks stay complete against the commit that produced
+ * them, and the added tracks become work.
+ */
+function unbuiltAssignedTracks(record, stateTracks) {
+  if (!Array.isArray(record?.implementedTrackIds)) return [];
+  const built = new Set(record.implementedTrackIds);
+  return (stateTracks ?? [])
+    .map((track) => track.trackId)
+    .filter((trackId) => !built.has(trackId))
+    .sort((left, right) => left.localeCompare(right));
+}
+
+function implementationJobOverrides(
+  lane,
+  jurisdiction,
+  inputs,
+  rootDir,
+  stateTracks
+) {
   const completedOfficialPdf = COMPLETED_OFFICIAL_PDF_IMPLEMENTATIONS.find(
     (record) =>
       record.lane === lane && record.jurisdiction === jurisdiction
@@ -4034,6 +4136,52 @@ function implementationJobOverrides(lane, jurisdiction, inputs, rootDir) {
       completedCustomPleading.modulePath,
       completedCustomPleading.verifierPath
     ];
+    const unbuilt = unbuiltAssignedTracks(completedCustomPleading, stateTracks);
+    if (unbuilt.length > 0) {
+      // Reissued as a controlled expansion of the same assignment, not as a
+      // second job owning the same two files. The changed assignment produces a
+      // new branch through the ordinary fingerprint machinery and the delivered
+      // worker branch is left untouched for audit.
+      return {
+        status: "ready",
+        dependencies: completedCustomPleading.expansionDependencies ?? [],
+        model: "opus",
+        effort: "xhigh",
+        expectedOutputs: workerOutputs,
+        ownedPaths: workerOutputs,
+        implementedTrackIds: completedCustomPleading.implementedTrackIds,
+        priorCompletionCommit: completedCustomPleading.completionCommit,
+        integrationOwnedOutputs: [
+          `${PACKET_PROOF_DIR}/${jobId}.json`,
+          `${REVIEW_MANIFEST_DIR}/${jobId}.json`
+        ],
+        regressionVerifier: completedCustomPleading.verifierPath,
+        participantPacketProofRequired: true,
+        focusedValidation: [
+          `node scripts/rcap-factory-plan.mjs --check-job ${jobId}`,
+          `node ${completedCustomPleading.verifierPath}`
+        ],
+        commitSubject:
+          `feat(record-clearing): expand ${jurisdiction} custom pleading`,
+        executionNote:
+          `Expansion of an integrated implementation. ${completedCustomPleading.implementedTrackIds.join(
+            ", "
+          )} are built and integrated at ${completedCustomPleading.completionCommit}; ` +
+          `${unbuilt.join(", ")} joined this lane through an integrated legal-design ` +
+          "correction and are not built. Preserve every existing track, fixture and typed " +
+          "stop value-identically and add only what the correction established.",
+        stopCondition:
+          `Add ${unbuilt.join(", ")} to the existing module and verifier. The ` +
+          `${completedCustomPleading.implementedTrackIds.length} already-implemented tracks ` +
+          "and their fixtures must stay value-identical; a diff that changes one of them is " +
+          "the wrong change. Take each added track's components, roles, recipients and " +
+          "destination from the corrected memo and nowhere else. Do not create a second " +
+          "module, do not create a second job for these paths, do not present anything " +
+          "generated as an official form, produce the participant packet proof the lane " +
+          "requires, and keep runtime disabled. " +
+          TERMINAL_INSTRUCTION
+      };
+    }
     return {
       status: "completed",
       completionCommit: completedCustomPleading.completionCommit,
@@ -4520,6 +4668,21 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
           workerBranch,
           workerCommit,
           completionCommit: MEMO_CORRECTION_COMPLETION_COMMITS[jobId]
+        }
+      : { status: "ready" };
+  // A decision job closes on its committed decision record, exactly as an
+  // authority job closes on its acquisition record. The record has to be on
+  // disk; a completion commit alone asserts nothing.
+  const decisionCompletionOf = (jobId, slug) =>
+    DECISION_RECORD_COMPLETION_COMMITS[jobId] &&
+    fs.existsSync(
+      path.join(rootDir, `${FACTORY_DATA_DIR}/legal-design-decisions/${slug}.json`)
+    )
+      ? {
+          status: "completed",
+          workerBranch: WAVE_WORKER_BRANCHES[jobId],
+          workerCommit: WAVE_WORKER_COMMITS[jobId],
+          completionCommit: DECISION_RECORD_COMPLETION_COMMITS[jobId]
         }
       : { status: "ready" };
   const memoPath = (code) =>
@@ -5035,7 +5198,10 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
       strategyFamily: "legal_design_adjudication",
       trackIds: [],
       dependencies: ["rcap-hi-in-repo-identity-reconciliation-hcjdc-159"],
-      status: "ready",
+      ...decisionCompletionOf(
+        "rcap-hi-stage-one-expungement-filing-vehicle-current-law-reconciliation",
+        "hi-stage-one-expungement-filing-vehicle-current-law-reconciliation"
+      ),
       expectedOutputs: [
         decisionPath(
           "hi-stage-one-expungement-filing-vehicle-current-law-reconciliation"
@@ -5143,7 +5309,7 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
       reconciliationIds: ["structure:HI:HCJDC-159B:geometry-and-edition-asset"],
       downloadedSourceCount: 0,
       dependencies: ["rcap-hi-in-repo-identity-reconciliation-hcjdc-159"],
-      status: "ready",
+      ...completionOf("rcap-hi-hcjdc-159b-technical-structure-and-edition-asset"),
       expectedOutputs: [
         acquisitionPath("rcap-hi-hcjdc-159b-technical-structure-and-edition-asset")
       ],
@@ -5193,7 +5359,13 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
       dependencies: [
         "rcap-fl-source-identity-resolution-rule-3-989-continuation"
       ],
-      status: "ready",
+      ...memoCompletionOf(
+        "rcap-fl-rule-3-989-continuation-component-correction",
+        "FL",
+        "25aa993019c36979db11363907d3c64700afab6e4964e7ad59a9c8a075b84239",
+        "rcap-factory/rcap-fl-rule-3-989-continuation-component-correction-d37ecf99-270be4d4",
+        "074b07810b2905888b766c3475e9e072a7b11c05"
+      ),
       expectedOutputs: [memoPath("FL")],
       ownedPaths: [memoPath("FL")],
       requiredInputs: [
@@ -5246,7 +5418,7 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
       dependencies: [
         "rcap-fl-source-identity-resolution-rule-3-989-continuation"
       ],
-      status: "ready",
+      ...completionOf("rcap-fl-rule-3-989-sworn-statement-identity-currentness"),
       expectedOutputs: [
         acquisitionPath("rcap-fl-rule-3-989-sworn-statement-identity-currentness")
       ],
@@ -5365,7 +5537,13 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
     strategyFamily: "legal_design_normalization_amendment",
     trackIds: [],
     dependencies: [],
-    status: "ready",
+    ...memoCompletionOf(
+      "rcap-nv-sealing-mechanism-and-packet-capability-correction",
+      "NV",
+      "113a9728c08487ad09184fdd045da4d19b532adcca2b083059dbb24e1c84c3f5",
+      "rcap-factory/rcap-nv-sealing-mechanism-and-packet-capability-correction-d31659df-64b640c3",
+      "9ef2c869faeee51b85cbaca960ef98d155c35eac"
+    ),
     expectedOutputs: [memoPath("NV")],
     ownedPaths: [memoPath("NV")],
     requiredInputs: [
@@ -8513,6 +8691,21 @@ function buildTrackReconciliation(normalizedTracks, jobs, implementationRecords)
           trackId: track.trackId,
           disposition: "implementation_complete",
           completionCommit: implementationJobs[0].completionCommit,
+          evidencePath: implementationJobs[0].expectedOutputs[0]
+        };
+      }
+      // A reissued expansion assignment is not complete as a whole, and the
+      // tracks it already built did not stop being built when the lane widened.
+      // The pinned set is what the integrated commit actually produced.
+      if (
+        Array.isArray(implementationJobs[0].implementedTrackIds) &&
+        implementationJobs[0].implementedTrackIds.includes(track.trackId)
+      ) {
+        return {
+          jurisdiction: track.jurisdiction,
+          trackId: track.trackId,
+          disposition: "implementation_complete",
+          completionCommit: implementationJobs[0].priorCompletionCommit,
           evidencePath: implementationJobs[0].expectedOutputs[0]
         };
       }
