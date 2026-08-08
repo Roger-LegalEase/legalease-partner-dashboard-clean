@@ -639,8 +639,12 @@ export function planIntegrations(
  * conflict is impossible by construction, which is why this stops on a
  * verification failure instead of on a merge.
  *
- * Refuses unless the integration branch is clean, so a half-finished captain
- * edit cannot be swept into an integration commit.
+ * The clean-branch precondition is `assertCleanIntegrationBranch`, checked once
+ * before the first step rather than before each one. Checked per step it fires
+ * on the second: adopting the first completion is itself an uncommitted change,
+ * so a multi-job apply could never get past one job. The guard exists to stop a
+ * half-finished captain edit being swept into an integration commit, and
+ * checking it once at the start does that.
  */
 export function applyIntegrationStep(
   step,
@@ -648,12 +652,6 @@ export function applyIntegrationStep(
 ) {
   if (step.disposition !== "integrate") {
     throw new Error(`${step.jobId}: ${step.disposition} is not an integrable disposition`);
-  }
-  const dirty = gitLines(git, ["status", "--porcelain=v1", "--untracked-files=no"]);
-  if (dirty.length > 0) {
-    throw new Error(
-      "the integration branch has uncommitted tracked changes; commit or stash before applying"
-    );
   }
   const changed = gitLines(git, [
     "diff-tree",
@@ -685,6 +683,28 @@ export function applyIntegrationStep(
     commit: step.commit,
     appliedPaths: applied
   };
+}
+
+/**
+ * Refuses to start an apply run on a dirty integration branch.
+ *
+ * Called once, before the first step. See applyIntegrationStep for why it is
+ * not called per step.
+ */
+export function assertCleanIntegrationBranch({
+  rootDir = process.cwd(),
+  git = defaultGit(path.resolve(rootDir))
+} = {}) {
+  const dirty = gitLines(git, [
+    "status",
+    "--porcelain=v1",
+    "--untracked-files=no"
+  ]);
+  if (dirty.length > 0) {
+    throw new Error(
+      "the integration branch has uncommitted tracked changes; commit or stash before applying"
+    );
+  }
 }
 
 /** Reads a frozen wave manifest if one is present. */

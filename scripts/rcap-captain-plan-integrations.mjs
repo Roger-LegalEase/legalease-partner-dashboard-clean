@@ -12,6 +12,7 @@ import path from "node:path";
 import { loadFactoryPlan } from "./lib/rcap-factory/index.mjs";
 import {
   applyIntegrationStep,
+  assertCleanIntegrationBranch,
   discoverCompletions,
   planIntegrations,
   readWaveManifest
@@ -58,6 +59,8 @@ try {
       `refusing to apply against unfetched refs: ${discovery.fetch.detail}`
     );
   }
+  // Once, before the first adoption: after that the tree is dirty by design.
+  assertCleanIntegrationBranch({ rootDir });
   const applied = [];
   for (const step of integration.steps) {
     if (step.disposition !== "integrate") continue;
