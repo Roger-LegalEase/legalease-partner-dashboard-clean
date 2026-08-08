@@ -9,16 +9,31 @@
       "legalName": "Application for Expungement of a Non-Conviction Arrest Record, HRS § 831-3.2",
       "publicName": "Non-conviction arrest expungement",
       "controllingAuthority": {
-        "citations": ["HRS § 831-3.2", "Act 3, Session Laws of Hawaii 2025"],
+        "citations": [
+          "HRS § 831-3.2",
+          "Act 3, Session Laws of Hawaii 2025"
+        ],
         "summary": "Agency expungement through the Hawaii Criminal Justice Data Center at a single statewide office. Since July 1, 2025, HCJDC transmits every expungement order carrying a court case number to the Judiciary, which then seals or removes the court files from public electronic databases and issues an Order to Seal."
       },
-      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
-      "eligibleRecordTypes": ["arrest"],
-      "eligibleDispositions": ["arrest that did not result in a conviction, within the § 831-3.2 criteria"],
+      "effectiveDates": {
+        "effectiveFrom": "2025-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest"
+      ],
+      "eligibleDispositions": [
+        "arrest that did not result in a conviction, within the § 831-3.2 criteria"
+      ],
       "exclusions": [],
       "waitingPeriods": [],
       "outputStrategy": "official_pdf_fill",
-      "geography": { "scope": "statewide", "keys": [], "venue": "Statewide Hawaii agency process through HCJDC at a single statewide office." },
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Hawaii agency process through HCJDC at a single statewide office."
+      },
       "destination": {
         "kind": "agency",
         "name": "Hawaii Criminal Justice Data Center",
@@ -29,14 +44,27 @@
           "role": "primary_filing",
           "requirement": "required",
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "HCJDC-159",
-          "notes": "HCJDC expungement application."
+          "officialFormId": "HCJDC-159B",
+          "notes": "Stage two. HCJDC 159(b), Expungement Application, issued by the Hawaii Criminal Justice Data Center of the State of Hawaii Department of the Attorney General, statewide, current revision REV-2026-06-03 printed on the face as \"HCJDC 159(b) Rev. 06/03/2026\". This is the participant's own primary filing, completed and signed personally and submitted by mail to the Data Center. It is one document, not two: the repository formerly carried it under two identity keys because the \"(b)\" was read as a form variant, and the Data Center publishes exactly two forms in total, of which this is one. The Rev. 11/15/2019 copy is superseded and may never be selected as current. Structurally it is a flat PDF: measured directly, it has no /AcroForm in the document catalog, zero logical fields, zero terminal fields and no /Annots array at all, so zero widget annotations of any subtype. There is no field map to build and no acroform_fill implementation is possible against it. No source-materialization receipt exists and none may be created before the successor edition retains the asset, because Edition 1.2 retains no Hawaii packet form."
         }
       ],
       "participantInputs": [
-        { "key": "arrestDetails", "question": "What was the arrest — which agency, what date, and what were you accused of?", "requirement": "required" },
-        { "key": "disposition", "question": "How did the matter end?", "requirement": "required" },
-        { "key": "courtCaseNumber", "question": "If a court case was opened, what is the case number?", "requirement": "conditional", "conditionDescription": "Asked so the order can reach the Judiciary for sealing." }
+        {
+          "key": "arrestDetails",
+          "question": "What was the arrest — which agency, what date, and what were you accused of?",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the matter end?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtCaseNumber",
+          "question": "If a court case was opened, what is the case number?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked so the order can reach the Judiciary for sealing."
+        }
       ],
       "supportingDocuments": [
         {
@@ -69,8 +97,16 @@
         }
       ],
       "officialSources": [
-        { "title": "HRS § 831-3.2", "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol15_Ch0701-0853/HRS0831/", "retrievedOn": "2026-07-30" },
-        { "title": "Hawaii Criminal Justice Data Center, expungement application", "url": "https://ag.hawaii.gov/hcjdc/", "retrievedOn": "2026-07-30" }
+        {
+          "title": "HRS § 831-3.2",
+          "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol15_Ch0701-0853/HRS0831/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Hawaii Criminal Justice Data Center, expungement application",
+          "url": "https://ag.hawaii.gov/hcjdc/",
+          "retrievedOn": "2026-07-30"
+        }
       ],
       "rules": {
         "filing": "Submit the HCJDC application with photo identification, the money order and a stamped self-addressed envelope.",
@@ -131,15 +167,29 @@
       "legalName": "Expungement after Deferred Plea Discharge, Ch. 853 and HRS § 831-3.2(a)(5)",
       "publicName": "Deferred plea discharge, then expungement",
       "controllingAuthority": {
-        "citations": ["HRS ch. 853", "HRS § 831-3.2(a)(5)"],
+        "citations": [
+          "HRS ch. 853",
+          "HRS § 831-3.2(a)(5)"
+        ],
         "summary": "Staged. Stage 1 is the deferred plea, discharge and dismissal inside the criminal case. Stage 2 is the HCJDC application after a one-year wait running from discharge and dismissal, not from the plea."
       },
-      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
-      "eligibleRecordTypes": ["charge"],
-      "eligibleDispositions": ["deferred acceptance of guilty plea or deferred acceptance of no contest plea, discharged and dismissed"],
+      "effectiveDates": {
+        "effectiveFrom": "2025-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "deferred acceptance of guilty plea or deferred acceptance of no contest plea, discharged and dismissed"
+      ],
       "exclusions": [],
       "waitingPeriods": [
-        { "condition": "From discharge and dismissal, not from the plea", "duration": "One year" }
+        {
+          "condition": "From discharge and dismissal, not from the plea",
+          "duration": "One year"
+        }
       ],
       "outputStrategy": "official_pdf_fill",
       "geography": {
@@ -164,13 +214,25 @@
           "requirement": "required",
           "outputStrategy": "official_pdf_fill",
           "officialFormId": "HCJDC-159B",
-          "notes": "Stage 2 HCJDC 159(b) application, generated only after the waiting period has run."
+          "notes": "Stage two. HCJDC 159(b), Expungement Application, issued by the Hawaii Criminal Justice Data Center of the State of Hawaii Department of the Attorney General, statewide, current revision REV-2026-06-03 printed on the face as \"HCJDC 159(b) Rev. 06/03/2026\". This is the participant's own primary filing, completed and signed personally and submitted by mail to the Data Center. It is one document, not two: the repository formerly carried it under two identity keys because the \"(b)\" was read as a form variant, and the Data Center publishes exactly two forms in total, of which this is one. The Rev. 11/15/2019 copy is superseded and may never be selected as current. Structurally it is a flat PDF: measured directly, it has no /AcroForm in the document catalog, zero logical fields, zero terminal fields and no /Annots array at all, so zero widget annotations of any subtype. There is no field map to build and no acroform_fill implementation is possible against it. No source-materialization receipt exists and none may be created before the successor edition retains the asset, because Edition 1.2 retains no Hawaii packet form."
         }
       ],
       "participantInputs": [
-        { "key": "deferredPleaType", "question": "Did you enter a deferred acceptance of a guilty plea or a no contest plea?", "requirement": "required" },
-        { "key": "dischargeAndDismissalDate", "question": "On what date was the case discharged and dismissed? The one-year clock runs from that date, not from the plea.", "requirement": "required" },
-        { "key": "courtAndCaseNumber", "question": "Which court handled the case, and what is the case number?", "requirement": "required" }
+        {
+          "key": "deferredPleaType",
+          "question": "Did you enter a deferred acceptance of a guilty plea or a no contest plea?",
+          "requirement": "required"
+        },
+        {
+          "key": "dischargeAndDismissalDate",
+          "question": "On what date was the case discharged and dismissed? The one-year clock runs from that date, not from the plea.",
+          "requirement": "required"
+        },
+        {
+          "key": "courtAndCaseNumber",
+          "question": "Which court handled the case, and what is the case number?",
+          "requirement": "required"
+        }
       ],
       "supportingDocuments": [
         {
@@ -197,8 +259,16 @@
         }
       ],
       "officialSources": [
-        { "title": "HRS § 831-3.2", "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol15_Ch0701-0853/HRS0831/", "retrievedOn": "2026-07-30" },
-        { "title": "Hawaii Criminal Justice Data Center, HCJDC 159(b)", "url": "https://ag.hawaii.gov/hcjdc/", "retrievedOn": "2026-07-30" }
+        {
+          "title": "HRS § 831-3.2",
+          "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol15_Ch0701-0853/HRS0831/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Hawaii Criminal Justice Data Center, HCJDC 159(b)",
+          "url": "https://ag.hawaii.gov/hcjdc/",
+          "retrievedOn": "2026-07-30"
+        }
       ],
       "rules": {
         "filing": "Stage 1 happens in the underlying court. Stage 2: submit HCJDC 159(b) with identification, money order and a stamped envelope.",
@@ -281,15 +351,29 @@
       "legalName": "Expungement after a Deferred Plea on a § 712-1200 Charge",
       "publicName": "Deferred plea on a § 712-1200 charge, three-year wait",
       "controllingAuthority": {
-        "citations": ["HRS § 712-1200", "HCJDC application form"],
+        "citations": [
+          "HRS § 712-1200",
+          "HCJDC application form"
+        ],
         "summary": "Staged, as for the ordinary deferred-plea route, but the form applies a three-year waiting period. The statutory authority for that period and the current status of § 712-1200 are unresolved."
       },
-      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
-      "eligibleRecordTypes": ["charge"],
-      "eligibleDispositions": ["deferred plea on a § 712-1200 charge, discharged and dismissed"],
+      "effectiveDates": {
+        "effectiveFrom": "2025-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "deferred plea on a § 712-1200 charge, discharged and dismissed"
+      ],
       "exclusions": [],
       "waitingPeriods": [
-        { "condition": "Per the HCJDC form, for a § 712-1200 charge", "duration": "Three years. The statutory authority for this period is unresolved." }
+        {
+          "condition": "Per the HCJDC form, for a § 712-1200 charge",
+          "duration": "Three years. The statutory authority for this period is unresolved."
+        }
       ],
       "outputStrategy": "official_pdf_fill",
       "geography": {
@@ -314,13 +398,25 @@
           "requirement": "required",
           "outputStrategy": "official_pdf_fill",
           "officialFormId": "HCJDC-159B",
-          "notes": "Stage 2. Do not generate until the three-year rule is confirmed."
+          "notes": "Stage two. HCJDC 159(b), Expungement Application, issued by the Hawaii Criminal Justice Data Center of the State of Hawaii Department of the Attorney General, statewide, current revision REV-2026-06-03 printed on the face as \"HCJDC 159(b) Rev. 06/03/2026\". This is the participant's own primary filing, completed and signed personally and submitted by mail to the Data Center. It is one document, not two: the repository formerly carried it under two identity keys because the \"(b)\" was read as a form variant, and the Data Center publishes exactly two forms in total, of which this is one. The Rev. 11/15/2019 copy is superseded and may never be selected as current. Structurally it is a flat PDF: measured directly, it has no /AcroForm in the document catalog, zero logical fields, zero terminal fields and no /Annots array at all, so zero widget annotations of any subtype. There is no field map to build and no acroform_fill implementation is possible against it. No source-materialization receipt exists and none may be created before the successor edition retains the asset, because Edition 1.2 retains no Hawaii packet form."
         }
       ],
       "participantInputs": [
-        { "key": "chargeSection", "question": "Was the charge under HRS § 712-1200?", "requirement": "required" },
-        { "key": "dischargeAndDismissalDate", "question": "On what date was the case discharged and dismissed?", "requirement": "required" },
-        { "key": "courtAndCaseNumber", "question": "Which court handled the case, and what is the case number?", "requirement": "required" }
+        {
+          "key": "chargeSection",
+          "question": "Was the charge under HRS § 712-1200?",
+          "requirement": "required"
+        },
+        {
+          "key": "dischargeAndDismissalDate",
+          "question": "On what date was the case discharged and dismissed?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtAndCaseNumber",
+          "question": "Which court handled the case, and what is the case number?",
+          "requirement": "required"
+        }
       ],
       "supportingDocuments": [
         {
@@ -340,8 +436,16 @@
         }
       ],
       "officialSources": [
-        { "title": "HRS § 712-1200", "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0712/", "retrievedOn": "2026-07-30" },
-        { "title": "Hawaii Criminal Justice Data Center, HCJDC 159(b)", "url": "https://ag.hawaii.gov/hcjdc/", "retrievedOn": "2026-07-30" }
+        {
+          "title": "HRS § 712-1200",
+          "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0712/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Hawaii Criminal Justice Data Center, HCJDC 159(b)",
+          "url": "https://ag.hawaii.gov/hcjdc/",
+          "retrievedOn": "2026-07-30"
+        }
       ],
       "rules": {
         "filing": "Stage 1 happens in the underlying court. Stage 2: submit the HCJDC application with identification, money order and a stamped envelope.",
@@ -424,12 +528,22 @@
       "legalName": "Conviction Expungement, first-time drug offender, HRS § 706-622.5(4)",
       "publicName": "Conviction expungement, first-time drug offender",
       "controllingAuthority": {
-        "citations": ["HRS § 706-622.5(4)"],
-        "summary": "Staged. Stage 1 is a court order from the sentencing court; stage 2 is the HCJDC application. The stage-one filing vehicle is unresolved."
+        "citations": [
+          "HRS § 706-622.5(4)"
+        ],
+        "summary": "Two stages, both settled. Stage one is a written motion in the participant's own existing penal case, filed in the court that sentenced or convicted them, seeking a court order expunging the record of conviction; stage two is the HCJDC 159(b) Expungement Application submitted to the Hawaii Criminal Justice Data Center with a copy of that order attached. The stage-one vehicle is fixed by Haw. R. Penal P. 47(a), which provides that \"An application to the court for an order shall be by motion\", so Hawaii penal practice does not distinguish an application from a motion however the statute words it; the Rules of Penal Procedure govern because Rule 54(a) applies them to all penal proceedings and none of these provisions supplies its own procedure. Mandatory. 'the court shall issue a court order to expunge'. The proviso states conditions, not a discretion. The court has no listed ground to refuse a qualifying application. No official statewide Hawaii Judiciary expungement form exists for stage one in any circuit, so a controlled custom pleading is permitted and is the only available strategy. Venue follows the offence and is a participant input rather than a track constant. Nothing here makes the Hawaii implementation ready."
       },
-      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
-      "eligibleRecordTypes": ["conviction"],
-      "eligibleDispositions": ["first-time drug offender conviction within § 706-622.5(4)"],
+      "effectiveDates": {
+        "effectiveFrom": "2016-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-08"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "first-time drug offender conviction within § 706-622.5(4)"
+      ],
       "exclusions": [],
       "waitingPeriods": [],
       "outputStrategy": "custom_pleading",
@@ -448,20 +562,38 @@
           "role": "primary_filing",
           "requirement": "required",
           "outputStrategy": "custom_pleading",
-          "notes": "Stage 1 motion or application to the sentencing court. Blocked pending confirmation of the accepted filing vehicle and current statutory requirements."
+          "notes": "Stage one, and no longer blocked. A written motion under Haw. R. Penal P. 47(a), in the participant's own existing penal case, seeking an order expunging the record of conviction under HRS 706-622.5(4). It states the grounds and the relief sought, is accompanied by a memorandum where it involves a question of law, is supported by a Haw. R. Penal P. 47(d) declaration for facts not appearing of record, and carries a Rule 49(c) certificate of service on the prosecuting attorney. It is noticed for hearing under Rule 47(a) and Rule 45(c) unless presented ex parte. Required allegations: (1) The participant's identity and the criminal case: court, circuit, case number, offence and statute section, and date of judgment. (2) That the person was sentenced to probation under HRS 706-622.5. (3) That the person successfully completed the substance abuse treatment programme. (4) That the person complied with the other terms and conditions of probation. The Hawaii Supreme Court has held that a person who completed the probation term and was discharged, and so satisfied the disposition of the court under HRS 706-630, has in effect complied with the terms and conditions of probation for purposes of subsection (4): 129 H. 363, 300 P.3d 1022 (2013), printed in the case notes to the section. (5) That the person had not previously been sentenced under HRS 706-622.5 at the time of the sentence in question, which is what makes the one-time eligibility available. (6) That the person has not previously been granted an expungement of conviction under HRS 706-622.5 or HRS 706-622.8 — the bar in HRS 706-622.8 runs both ways. (7) The specific offence for which expungement is sought. The order reaches 'that particular offense', so the motion must identify it rather than the case as a whole. (8) The relief sought: a court order expunging the record of conviction for that offence. No official statewide Judiciary form exists, so this is a controlled custom pleading and there is no officialFormId to bind."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "The order expunging the record of conviction, lodged with the stage-one motion. No statute requires the movant to lodge one and no penal rule read here does either, but it is a required component on practical and procedural grounds: every one of the five provisions operates through an order the court issues, Rule 7(f)(3) of the Rules of the Circuit Courts compels a proposed order where the motion is presented ex parte, and stage two cannot begin without it because the Data Center requires a copy of the Order Granting the Expungement of Conviction to accompany the HCJDC 159(b) application. A participant who leaves the courthouse with a granted motion and no signed order cannot proceed."
         },
         {
           "role": "primary_filing",
           "requirement": "required",
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "HCJDC-159",
-          "notes": "Stage 2 HCJDC application. Definitively packet-capable; not blocked."
+          "officialFormId": "HCJDC-159B",
+          "notes": "Stage two. HCJDC 159(b), Expungement Application, issued by the Hawaii Criminal Justice Data Center of the State of Hawaii Department of the Attorney General, statewide, current revision REV-2026-06-03 printed on the face as \"HCJDC 159(b) Rev. 06/03/2026\". This is the participant's own primary filing, completed and signed personally and submitted by mail to the Data Center. It is one document, not two: the repository formerly carried it under two identity keys because the \"(b)\" was read as a form variant, and the Data Center publishes exactly two forms in total, of which this is one. The Rev. 11/15/2019 copy is superseded and may never be selected as current. Structurally it is a flat PDF: measured directly, it has no /AcroForm in the document catalog, zero logical fields, zero terminal fields and no /Annots array at all, so zero widget annotations of any subtype. There is no field map to build and no acroform_fill implementation is possible against it. No source-materialization receipt exists and none may be created before the successor edition retains the asset, because Edition 1.2 retains no Hawaii packet form."
         }
       ],
       "participantInputs": [
-        { "key": "convictionDetails", "question": "What was the conviction — which court, what offence, and what statute section?", "requirement": "required" },
-        { "key": "firstTimeOffender", "question": "Was this your first drug offence?", "requirement": "required" },
-        { "key": "sentenceCompletion", "question": "Have you completed the sentence, and on what date?", "requirement": "required" }
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, and what statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "firstTimeOffender",
+          "question": "Was this your first drug offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletion",
+          "question": "Have you completed the sentence, and on what date?",
+          "requirement": "required"
+        }
       ],
       "supportingDocuments": [
         {
@@ -482,59 +614,190 @@
       ],
       "manualCompletionItems": [
         {
-          "item": "Court-order number and date",
-          "whereInPacket": "HCJDC application, order reference fields",
-          "why": "Not available until the sentencing court signs the stage-one order. LegalEase does not review the order."
+          "item": "Signature and date on the motion and on the Rule 47(d) declaration.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
         },
         {
-          "item": "Signature and date",
-          "whereInPacket": "HCJDC application, signature block",
-          "why": "The applicant signs their own application."
+          "item": "The case number and the judgment date, where the participant reads them from their own court record.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "Court-order number and date, and the attached copy of the signed order",
+          "whereInPacket": "HCJDC 159(b) application, order reference fields",
+          "why": "Not available until the court signs the stage-one order. The participant obtains the order; LegalEase does not review it."
         }
       ],
       "officialSources": [
-        { "title": "HRS § 706-622.5", "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0706/", "retrievedOn": "2026-07-30" },
-        { "title": "Hawaii Criminal Justice Data Center, expungement application", "url": "https://ag.hawaii.gov/hcjdc/", "retrievedOn": "2026-07-30" }
+        {
+          "title": "HRS § 706-622.5",
+          "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0706/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Hawaii Criminal Justice Data Center, expungement application",
+          "url": "https://ag.hawaii.gov/hcjdc/",
+          "retrievedOn": "2026-07-30"
+        }
       ],
       "rules": {
-        "filing": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
-        "fees": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
-        "feeWaiver": "The source review does not address a fee waiver.",
-        "notice": "The sentencing court decides at stage 1; HCJDC processes at stage 2.",
-        "service": "Blocked pending confirmation. Service is among the stage-one items counsel must confirm.",
-        "participantSignature": "The applicant signs their own application.",
-        "notarization": "The source review does not state a notarization requirement."
+        "filing": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
+        "fees": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "feeWaiver": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
+        "notice": "No statutory notice. Not one of the five provisions requires notice to the prosecuting attorney, to a victim, to the Attorney General, to the Data Center or to any agency. The notice that exists is the service every filed document receives.",
+        "service": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
+        "participantSignature": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "notarization": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing."
       },
       "selfHelpStopConditions": [
-        "The sentencing court sets a contested hearing.",
+        "The prosecutor opposes, or the court sets a contested hearing.",
+        "The participant disputes whether probation was completed or whether the terms were complied with.",
+        "A prior expungement under HRS 706-622.5 or HRS 706-622.8 anywhere in the participant's history.",
         "Any immigration matter.",
-        "The participant wants to attack the underlying conviction."
+        "The participant wants to attack the underlying conviction rather than expunge it."
       ],
+      "_stageOneAndHcjdcReconciliation": {
+        "correctionJob": "rcap-hi-expungement-stage-one-and-hcjdc-159b-memo-correction",
+        "correctedOn": "2026-08-08",
+        "baseCommit": "7aaf916468800d42181158379c5262520c859a1b",
+        "controllingDecisions": {
+          "stageOne": "data/record-clearing/production-factory/legal-design-decisions/hi-stage-one-expungement-filing-vehicle-current-law-reconciliation.json",
+          "stageTwoIdentity": "data/record-clearing/production-factory/source-acquisition/rcap-hi-in-repo-identity-reconciliation-hcjdc-159.json",
+          "stageTwoTechnicalStructure": "data/record-clearing/production-factory/source-acquisition/rcap-hi-hcjdc-159b-technical-structure-and-edition-asset.json"
+        },
+        "stageOne": {
+          "governingStatute": "HRS 706-622.5(4)",
+          "statutoryWord": "written application",
+          "vehicle": "motion",
+          "vehicleBasis": "Haw. R. Penal P. 47(a): \"An application to the court for an order shall be by motion. A motion other than one made during a trial or hearing shall be in writing unless the court permits it to be made orally. It shall state the grounds upon which it is made and shall set forth the relief or order sought. A motion involving a question of law shall be accompanied by a memorandum in support of the motion. If a motion requires the consideration of facts not appearing of record, it shall be supported by affidavit or declaration.\"",
+          "rulesApply": "Haw. R. Penal P. 54(a) applies the Rules of Penal Procedure to all penal proceedings in all courts of the State, and Rule 54(b)'s exception for statutory proceedings with their own procedure does not bite because none of the five provisions supplies one. Rule 54(d) makes the Rules of Penal Procedure govern over the Rules of the Circuit Courts and the Rules of the District Courts in any conflict.",
+          "filingActor": "The person sentenced under this part, or a probation officer. The statute names both. A packet is built for the person; the probation-officer route is not a LegalEase output and should be named in the copy so a participant whose probation officer has already applied does not file a second time.",
+          "venue": "The sentencing court, being the court that sentenced the person to probation under HRS 706-622.5. See the common venue finding: the level follows the offence and is a participant input, not a track constant.",
+          "venueIsAParticipantInput": "The level follows the offence in the participant's own case and is not a track constant: the class C felony drug and property offences are circuit court matters, while a HRS 712-1249 three-grams-or-less possession and a HRS 291E-64 offence are violations and district court matters.",
+          "officialStatewideCourtForm": "None exists. See the official-form finding.",
+          "controlledCustomPleadingPermitted": true,
+          "requiredAllegations": [
+            "The participant's identity and the criminal case: court, circuit, case number, offence and statute section, and date of judgment.",
+            "That the person was sentenced to probation under HRS 706-622.5.",
+            "That the person successfully completed the substance abuse treatment programme.",
+            "That the person complied with the other terms and conditions of probation. The Hawaii Supreme Court has held that a person who completed the probation term and was discharged, and so satisfied the disposition of the court under HRS 706-630, has in effect complied with the terms and conditions of probation for purposes of subsection (4): 129 H. 363, 300 P.3d 1022 (2013), printed in the case notes to the section.",
+            "That the person had not previously been sentenced under HRS 706-622.5 at the time of the sentence in question, which is what makes the one-time eligibility available.",
+            "That the person has not previously been granted an expungement of conviction under HRS 706-622.5 or HRS 706-622.8 — the bar in HRS 706-622.8 runs both ways.",
+            "The specific offence for which expungement is sought. The order reaches 'that particular offense', so the motion must identify it rather than the case as a whole.",
+            "The relief sought: a court order expunging the record of conviction for that offence."
+          ],
+          "eligibilityStandard": "Objective and closed. Completion of the treatment programme and compliance with the other terms and conditions of probation, plus the one-time limit. There is no rehabilitation showing, no public-interest balancing and no waiting period.",
+          "countLimits": "One time only, for one particular offence. The subsection makes a person who had not previously been sentenced under the section 'eligible for one time only for expungement under this subsection', and HRS 706-622.8 adds that a person granted an expungement under HRS 706-622.8 or HRS 706-622.5(4) 'shall not be eligible for another expungement of conviction under this section or section 706-622.5'.",
+          "waitingPeriod": "None. The condition is completion, not elapsed time.",
+          "discretion": "Mandatory. 'the court shall issue a court order to expunge'. The proviso states conditions, not a discretion. The court has no listed ground to refuse a qualifying application.",
+          "service": "Haw. R. Penal P. 49(a): served on each party promptly after filing, with proof of service under Rule 49(c).",
+          "prosecutorOrAgencyNotice": "None prescribed by the statute. The prosecutor receives the motion as a party under Rule 49.",
+          "fee": "None prescribed by the statute. See the common fee finding.",
+          "feeBoundary": "Carried from the stage-one decision as it stands: no statutory fee on any of the five, and clerk cost practice open. A separate addendum job owns the court-fee question and its result is not imported here.",
+          "hearingTreatment": "No hearing required by the statute. A noticed motion under Haw. R. Penal P. 47(a) and 45(c).",
+          "proposedOrderTreatment": "Required as a packet component. The order is the operative instrument and stage two cannot start without a copy of it.",
+          "supportingDocuments": [
+            "The judgment or the court's record of the sentence, obtainable from the clerk. Participant obtains; LegalEase does not review it.",
+            "Proof of completion of the substance abuse treatment programme or of discharge from probation, where the participant has it. Participant obtains."
+          ],
+          "interactionWithStageTwo": "The court order is the precondition for stage two, not a substitute for it. The Data Center states that \"A copy of the Order Granting the Expungement of Conviction must be included with the Expungement Application\" and that conviction information is expunged \"from the statewide repository of adult criminal history record information only\", with records possibly retained by the arresting agency and the courts.",
+          "conclusion": "controlled_custom_pleading"
+        },
+        "stageTwo": {
+          "oneDocumentNotTwo": "The repository formerly carried this single application under two identity keys because the \"(b)\" in HCJDC 159(b) was read as a variant of a base form numbered 159. The Data Center publishes exactly two forms in total, HCJDC-073 and HCJDC 159(b), and the one application covers both the non-conviction and the conviction routes; the route difference appears in what the applicant attaches, not in which form they file. All eight Hawaii components that bind it now bind one identity.",
+          "canonicalIdentity": "HCJDC-159B",
+          "officialDocumentId": "HCJDC 159(b)",
+          "officialTitle": "Expungement Application",
+          "issuer": "State of Hawaii, Department of the Attorney General",
+          "issuingOffice": "Hawaii Criminal Justice Data Center",
+          "destination": "Statewide. The Data Center is a statewide unit of the Department of the Attorney General, not a court and not a judicial circuit, and it administers expungement for the whole State; the application is filed by mail with that single office.",
+          "role": "participant primary filing, completed and signed by the applicant personally",
+          "currentRevision": "REV-2026-06-03",
+          "revisionOnTheFace": "HCJDC 159(b) Rev. 06/03/2026, printed in a single-line footer at the bottom right of page 1",
+          "supersededRevision": "Rev. 11/15/2019. Superseded, and it may never be selected as current. The issuer publishes only the 06/03/2026 revision.",
+          "structure": "flat_pdf. Measured directly: PDF 1.6, one page, 181,711 bytes, sha256 1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a, not encrypted, no XFA, no /AcroForm in the document catalog, zero logical fields, zero terminal fields, and no /Annots array at all so zero annotations of any subtype and therefore zero widgets.",
+          "noInventedFields": "There is no field map to build and no acroform_fill implementation is possible against this document. No AcroForm field is asserted here and none may be inferred; the zeros are measurements, not assumptions.",
+          "runtimeReceiptBoundary": "No source-materialization receipt exists for this document and none may be created before the successor edition retains it. Edition 1.2 retains no Hawaii packet form at all, so the asset must be added by an edition amendment before any receipt or runtime binding.",
+          "unchangedByThisCorrection": "Nothing in the integrated identity decision is reopened. This memo edit records that decision's result; it does not revisit it."
+        },
+        "denominatorsAndScope": {
+          "tracksUnchanged": "Hawaii keeps nine review source slots and nine nodes. No track was added, removed, split or merged.",
+          "componentsChanged": "One proposed_order component was added to each of the five stage-one tracks, because the integrated decision establishes a proposed order as a required component on all five. No component was removed and no other component was added.",
+          "officialFormBindingsUnchanged": "Eight HCJDC bindings before and eight after. Six moved from the legacy key to the canonical one and two already carried the canonical one; none was created or destroyed. The added proposed_order components are custom_pleading and bind no official form.",
+          "unrelatedTrackUntouched": "hi_state_initiated_marijuana_pilot is outside this correction and is value-identical. It is the state-initiated arrest-record pilot and has no participant filing and no HCJDC component."
+        },
+        "correctedEffectiveDate": {
+          "was": "2025-07-01",
+          "now": "2016-07-01",
+          "why": "The memo recorded 2025-07-01 on all five, which is a stage-two date: it is when Act 3, Session Laws of Hawaii 2025 took effect and made the Data Center transmit expungement orders to the Judiciary. It is not the effective date of the stage-one authority. The corrected date is the one the integrated decision establishes for this track's own stage-one provision."
+        },
+        "openItemsCarriedOrCreated": [
+          "Clerk cost practice on a stage-one motion in an existing penal case, at release level. A separate addendum job owns the court-fee question; its result is deliberately not imported into this memo.",
+          "Whether the stage-one motion is properly presented ex parte or must always be noticed. The decision records this as an open point; the design treats it as a noticed motion, which is the safer of the two.",
+          "Stage-two residuals are unchanged and keep their existing owners: edition retention of the application, source materialization and a receipt, and page geometry for any future overlay renderer.",
+          "No template, specification row or packet-set entry exists for any of the five stage-one motions. The implementation lane now has the legal design for them."
+        ],
+        "retiredUnresolvedQuestions": [
+          {
+            "question": "The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked.",
+            "impact": "build_blocker",
+            "affectedElement": "correct_form",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+              "sourceHeading": "Hawaii operational amendments / True blockers retained",
+              "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
+            }
+          },
+          {
+            "question": "Whether the Hawaii Judiciary publishes a statewide stage-one form or expects a drafted motion remains unresolved.",
+            "impact": "build_blocker",
+            "affectedElement": "correct_form",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+              "sourceHeading": "Hawaii operational amendments / True blockers retained",
+              "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate."
+            }
+          }
+        ],
+        "retiredUnresolvedQuestionsNote": "Retired because the integrated stage-one decision answers them from primary authority: the filing vehicle, whether the Judiciary publishes a statewide stage-one form, and, on the three tracks that carried it, the fact that the governing text had not been read. Each is preserved verbatim with its provenance so the record shows what was asked and what closed it. The fee question is not retired; it is narrowed and kept at release level.",
+        "retiredLimitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate.",
+            "undeterminedElement": "correct_form",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+              "sourceHeading": "Hawaii operational amendments / True blockers retained",
+              "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Do not write a custom-pleading specification until the form question is resolved.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+              "sourceHeading": "TRACK 4 / required follow up",
+              "sourceStatement": "Do not write a custom-pleading specification until the form question is resolved.",
+              "normalizerInferred": true
+            }
+          }
+        ],
+        "retiredLimitationsNote": "Retired because the elements they recorded as undetermined are now determined, and because the two packet instructions they carried — not to write a custom-pleading specification, and not to build, until the stage-one procedure is established — are spent now that it is established. Statements and provenance are preserved verbatim here. Limitations that remain live, including the participant-obtains-the-order instruction and the manual-completion treatment of the order number and date, are untouched.",
+        "notClaimed": [
+          "The Hawaii implementation is not ready. This settles the design of one component on five tracks and builds nothing.",
+          "No packet becomes generatable, no renderer is assigned and no template is written.",
+          "No counsel approval is asserted.",
+          "packet_ready stays 0 and Hawaii stays runtime disabled."
+        ]
+      },
       "unresolvedQuestions": [
         {
-          "question": "The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked.",
-          "impact": "build_blocker",
-          "affectedElement": "correct_form",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
-            "sourceHeading": "Hawaii operational amendments / True blockers retained",
-            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
-          }
-        },
-        {
-          "question": "Whether the Hawaii Judiciary publishes a statewide stage-one form or expects a drafted motion remains unresolved.",
-          "impact": "build_blocker",
-          "affectedElement": "correct_form",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
-            "sourceHeading": "Hawaii operational amendments / True blockers retained",
-            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate."
-          }
-        },
-        {
-          "question": "Any court filing fee at stage one is unresolved.",
+          "question": "Whether any clerk's cost attaches to a stage-one motion filed in an existing penal case. Narrowed: none of the five provisions prescribes a fee, and the Judiciary publishes no filing fee for a motion in an existing penal case. Clerk cost practice is the only part still open, and it is participant-facing copy and a filing instruction rather than anything that changes the pleading.",
           "impact": "release_blocker",
           "affectedElement": "filing_process",
           "provenance": {
@@ -548,19 +811,8 @@
       ],
       "legalDesignDecision": {
         "status": "legal_design_approved_with_limitations",
-        "rationale": "Original review: \"Additional research required.\" The amendment splits the stages: \"Stage 2 is definitively packet-capable on the HCJDC application. Stage 1 may be custom_pleading once counsel confirms the current statute, accepted filing vehicle, required allegations, venue, and service. The need for a later court order is not itself a blocker.\" The stage-two design is imported; the stage-one blocker is preserved.",
+        "rationale": "Both stages are now reconciled against primary authority and the stage-one build blocker is closed. The vehicle is a written motion under Haw. R. Penal P. 47(a), which resolves the application-versus-motion question the memo carried since normalization: Rule 47(a) provides in terms that an application to the court for an order shall be by motion, so the statutory word does not change the instrument. The Rules of Penal Procedure govern because Rule 54(a) applies them to all penal proceedings and no expungement provision supplies its own procedure. No official statewide Judiciary expungement form exists in any circuit, which was established from the Judiciary's own published form inventory rather than from a failed search, so a controlled custom pleading is permitted and is the only available strategy; the content is prescribed by the statute and by Rule 47, so a generated motion has a specification to be audited against and nothing is invented. Service is Rule 49(a) on the prosecuting attorney as a party, with Rule 49(c) proof; there is no statutory notice and no statutory hearing, and the motion is designed as a noticed motion under Rule 47(a) and Rule 45(c). A proposed order is a required component because the order is the operative instrument and stage two cannot start without a copy of it. Stage two is one document, HCJDC 159(b) at REV-2026-06-03, and the two identity keys the repository formerly carried have been collapsed to it. What is settled is the design; the implementation is not ready and nothing here makes it so.",
         "limitations": [
-          {
-            "classification": "legal_design_blocker",
-            "statement": "The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate.",
-            "undeterminedElement": "correct_form",
-            "provenance": {
-              "classificationBasis": "explicit_state_addendum",
-              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
-              "sourceHeading": "Hawaii operational amendments / True blockers retained",
-              "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
-            }
-          },
           {
             "classification": "required_before_filing",
             "statement": "The need for a later court order is not itself a blocker. The participant obtains the order; the packet carries clear do-not-submit instructions until it is available.",
@@ -580,17 +832,6 @@
               "sourceHeading": "Hawaii operational amendments / Limitations reclassified as participant instructions",
               "sourceStatement": "For conviction-expungement routes, the court-order number, date, and attachment may remain `manual_completion_item` or `required_before_submission` fields. LegalEase does not review the court order."
             }
-          },
-          {
-            "classification": "packet_instruction",
-            "statement": "Do not write a custom-pleading specification until the form question is resolved.",
-            "provenance": {
-              "classificationBasis": "mechanical_translation",
-              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
-              "sourceHeading": "TRACK 4 / required follow up",
-              "sourceStatement": "Do not write a custom-pleading specification until the form question is resolved.",
-              "normalizerInferred": true
-            }
           }
         ]
       }
@@ -600,12 +841,22 @@
       "legalName": "Conviction Expungement, marijuana three grams or less, HRS § 706-622.5(5)",
       "publicName": "Conviction expungement, marijuana three grams or less",
       "controllingAuthority": {
-        "citations": ["HRS § 706-622.5(5)"],
-        "summary": "Staged. Stage 1 is a court order from the sentencing court; stage 2 is the HCJDC application. The stage-one filing vehicle is unresolved."
+        "citations": [
+          "HRS § 706-622.5(5)"
+        ],
+        "summary": "Two stages, both settled. Stage one is a written motion in the participant's own existing penal case, filed in the court that sentenced or convicted them, seeking a court order expunging the record of conviction; stage two is the HCJDC 159(b) Expungement Application submitted to the Hawaii Criminal Justice Data Center with a copy of that order attached. The stage-one vehicle is fixed by Haw. R. Penal P. 47(a), which provides that \"An application to the court for an order shall be by motion\", so Hawaii penal practice does not distinguish an application from a motion however the statute words it; the Rules of Penal Procedure govern because Rule 54(a) applies them to all penal proceedings and none of these provisions supplies its own procedure. Mandatory. 'the court shall grant an expungement order'. The only proviso is the quantity. No official statewide Hawaii Judiciary expungement form exists for stage one in any circuit, so a controlled custom pleading is permitted and is the only available strategy. Venue follows the offence and is a participant input rather than a track constant. Nothing here makes the Hawaii implementation ready."
       },
-      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
-      "eligibleRecordTypes": ["conviction"],
-      "eligibleDispositions": ["conviction for possession of three grams or less of marijuana within § 706-622.5(5)"],
+      "effectiveDates": {
+        "effectiveFrom": "2020-01-11",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-08"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "conviction for possession of three grams or less of marijuana within § 706-622.5(5)"
+      ],
       "exclusions": [],
       "waitingPeriods": [],
       "outputStrategy": "custom_pleading",
@@ -624,20 +875,38 @@
           "role": "primary_filing",
           "requirement": "required",
           "outputStrategy": "custom_pleading",
-          "notes": "Stage 1. Blocked pending confirmation of the accepted filing vehicle."
+          "notes": "Stage one, and no longer blocked. A written motion under Haw. R. Penal P. 47(a), in the participant's own existing penal case, seeking an order expunging the record of conviction under HRS 706-622.5(5). It states the grounds and the relief sought, is accompanied by a memorandum where it involves a question of law, is supported by a Haw. R. Penal P. 47(d) declaration for facts not appearing of record, and carries a Rule 49(c) certificate of service on the prosecuting attorney. It is noticed for hearing under Rule 47(a) and Rule 45(c) unless presented ex parte. Required allegations: (1) The participant's identity and the criminal case: court, circuit, case number and date of judgment. (2) That the conviction was under HRS 712-1249 for possession of marijuana. (3) That the amount possessed, as convicted, was three grams or less. (4) That the set of facts and circumstances giving rise to the conviction resulted in no other criminal charge. (5) The relief sought: an expungement order pertaining to the conviction for the offence. No official statewide Judiciary form exists, so this is a controlled custom pleading and there is no officialFormId to bind."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "The order expunging the record of conviction, lodged with the stage-one motion. No statute requires the movant to lodge one and no penal rule read here does either, but it is a required component on practical and procedural grounds: every one of the five provisions operates through an order the court issues, Rule 7(f)(3) of the Rules of the Circuit Courts compels a proposed order where the motion is presented ex parte, and stage two cannot begin without it because the Data Center requires a copy of the Order Granting the Expungement of Conviction to accompany the HCJDC 159(b) application. A participant who leaves the courthouse with a granted motion and no signed order cannot proceed."
         },
         {
           "role": "primary_filing",
           "requirement": "required",
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "HCJDC-159",
-          "notes": "Stage 2. Definitively packet-capable; not blocked."
+          "officialFormId": "HCJDC-159B",
+          "notes": "Stage two. HCJDC 159(b), Expungement Application, issued by the Hawaii Criminal Justice Data Center of the State of Hawaii Department of the Attorney General, statewide, current revision REV-2026-06-03 printed on the face as \"HCJDC 159(b) Rev. 06/03/2026\". This is the participant's own primary filing, completed and signed personally and submitted by mail to the Data Center. It is one document, not two: the repository formerly carried it under two identity keys because the \"(b)\" was read as a form variant, and the Data Center publishes exactly two forms in total, of which this is one. The Rev. 11/15/2019 copy is superseded and may never be selected as current. Structurally it is a flat PDF: measured directly, it has no /AcroForm in the document catalog, zero logical fields, zero terminal fields and no /Annots array at all, so zero widget annotations of any subtype. There is no field map to build and no acroform_fill implementation is possible against it. No source-materialization receipt exists and none may be created before the successor edition retains the asset, because Edition 1.2 retains no Hawaii packet form."
         }
       ],
       "participantInputs": [
-        { "key": "convictionDetails", "question": "What was the conviction — which court, what offence, and what statute section?", "requirement": "required" },
-        { "key": "quantity", "question": "Was the amount three grams or less?", "requirement": "required" },
-        { "key": "sentenceCompletion", "question": "Have you completed the sentence, and on what date?", "requirement": "required" }
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, and what statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "quantity",
+          "question": "Was the amount three grams or less?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletion",
+          "question": "Have you completed the sentence, and on what date?",
+          "requirement": "required"
+        }
       ],
       "supportingDocuments": [
         {
@@ -651,41 +920,159 @@
       ],
       "manualCompletionItems": [
         {
-          "item": "Court-order number and date",
-          "whereInPacket": "HCJDC application, order reference fields",
-          "why": "Not available until the sentencing court signs the stage-one order."
+          "item": "Signature and date on the motion and declaration.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "The case number and judgment date.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "Court-order number and date, and the attached copy of the signed order",
+          "whereInPacket": "HCJDC 159(b) application, order reference fields",
+          "why": "Not available until the court signs the stage-one order. The participant obtains the order; LegalEase does not review it."
         }
       ],
       "officialSources": [
-        { "title": "HRS § 706-622.5", "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0706/", "retrievedOn": "2026-07-30" }
+        {
+          "title": "HRS § 706-622.5",
+          "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0706/",
+          "retrievedOn": "2026-07-30"
+        }
       ],
       "rules": {
-        "filing": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
-        "fees": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
-        "feeWaiver": "The source review does not address a fee waiver.",
-        "notice": "The sentencing court decides at stage 1; HCJDC processes at stage 2.",
-        "service": "Blocked pending confirmation.",
-        "participantSignature": "The applicant signs their own application.",
-        "notarization": "The source review does not state a notarization requirement."
+        "filing": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
+        "fees": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "feeWaiver": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
+        "notice": "No statutory notice. Not one of the five provisions requires notice to the prosecuting attorney, to a victim, to the Attorney General, to the Data Center or to any agency. The notice that exists is the service every filed document receives.",
+        "service": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
+        "participantSignature": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "notarization": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing."
       },
       "selfHelpStopConditions": [
-        "The sentencing court sets a contested hearing.",
+        "Any other criminal charge arising from the same facts and circumstances, which defeats the route.",
+        "Any dispute about the quantity.",
+        "A prior expungement under HRS 706-622.5 or HRS 706-622.8.",
+        "The prosecutor opposes, or the court sets a contested hearing.",
         "Any immigration matter."
       ],
+      "_stageOneAndHcjdcReconciliation": {
+        "correctionJob": "rcap-hi-expungement-stage-one-and-hcjdc-159b-memo-correction",
+        "correctedOn": "2026-08-08",
+        "baseCommit": "7aaf916468800d42181158379c5262520c859a1b",
+        "controllingDecisions": {
+          "stageOne": "data/record-clearing/production-factory/legal-design-decisions/hi-stage-one-expungement-filing-vehicle-current-law-reconciliation.json",
+          "stageTwoIdentity": "data/record-clearing/production-factory/source-acquisition/rcap-hi-in-repo-identity-reconciliation-hcjdc-159.json",
+          "stageTwoTechnicalStructure": "data/record-clearing/production-factory/source-acquisition/rcap-hi-hcjdc-159b-technical-structure-and-edition-asset.json"
+        },
+        "stageOne": {
+          "governingStatute": "HRS 706-622.5(5)",
+          "statutoryWord": "motion",
+          "vehicle": "motion",
+          "vehicleBasis": "Haw. R. Penal P. 47(a): \"An application to the court for an order shall be by motion. A motion other than one made during a trial or hearing shall be in writing unless the court permits it to be made orally. It shall state the grounds upon which it is made and shall set forth the relief or order sought. A motion involving a question of law shall be accompanied by a memorandum in support of the motion. If a motion requires the consideration of facts not appearing of record, it shall be supported by affidavit or declaration.\"",
+          "rulesApply": "Haw. R. Penal P. 54(a) applies the Rules of Penal Procedure to all penal proceedings in all courts of the State, and Rule 54(b)'s exception for statutory proceedings with their own procedure does not bite because none of the five provisions supplies one. Rule 54(d) makes the Rules of Penal Procedure govern over the Rules of the Circuit Courts and the Rules of the District Courts in any conflict.",
+          "filingActor": "The person convicted. No probation-officer alternative in this subsection.",
+          "venue": "The convicting court. A HRS 712-1249 possession of three grams or less is a violation, and the pre-2020 form of the offence is a petty misdemeanour; both are district court matters. Venue is still a participant input.",
+          "venueIsAParticipantInput": "The level follows the offence in the participant's own case and is not a track constant: the class C felony drug and property offences are circuit court matters, while a HRS 712-1249 three-grams-or-less possession and a HRS 291E-64 offence are violations and district court matters.",
+          "officialStatewideCourtForm": "None exists. See the official-form finding.",
+          "controlledCustomPleadingPermitted": true,
+          "requiredAllegations": [
+            "The participant's identity and the criminal case: court, circuit, case number and date of judgment.",
+            "That the conviction was under HRS 712-1249 for possession of marijuana.",
+            "That the amount possessed, as convicted, was three grams or less.",
+            "That the set of facts and circumstances giving rise to the conviction resulted in no other criminal charge.",
+            "The relief sought: an expungement order pertaining to the conviction for the offence."
+          ],
+          "eligibilityStandard": "Objective and closed: quantity, statute of conviction, and no other charge arising from the same facts. No treatment, no compliance showing, no rehabilitation showing.",
+          "countLimits": "The subsection states no count limit of its own. One limit still reaches it from outside: HRS 706-622.8 provides that a person granted an expungement of conviction under HRS 706-622.8 or HRS 706-622.5(4) \"shall not be eligible for another expungement of conviction under this section or section 706-622.5\" — the whole of 706-622.5, which includes subsection (5). So a prior first-time-drug-offender expungement bars a later marijuana expungement, and the packet must screen for it. The converse is not stated: subsection (5) contains no bar of its own.",
+          "waitingPeriod": "None.",
+          "discretion": "Mandatory. 'the court shall grant an expungement order'. The only proviso is the quantity.",
+          "service": "Haw. R. Penal P. 49(a) and 49(c), as above.",
+          "prosecutorOrAgencyNotice": "None prescribed by the statute.",
+          "fee": "None prescribed by the statute. See the common fee finding.",
+          "feeBoundary": "Carried from the stage-one decision as it stands: no statutory fee on any of the five, and clerk cost practice open. A separate addendum job owns the court-fee question and its result is not imported here.",
+          "hearingTreatment": "No hearing required by the statute. A noticed motion.",
+          "proposedOrderTreatment": "Required as a packet component, on the same reasoning.",
+          "supportingDocuments": [
+            "The court record of the conviction and the charge, obtainable from the clerk, which is where the quantity and the absence of any other charge appear. Participant obtains."
+          ],
+          "interactionWithStageTwo": "The same as every other conviction route: the order is obtained first and a copy is attached to the HCJDC 159(b) application. The Data Center's published list of qualifying conviction provisions names HRS 706-622.5 without subdividing it, so subsection (5) is inside the agency's own enumeration.",
+          "conclusion": "controlled_custom_pleading"
+        },
+        "stageTwo": {
+          "oneDocumentNotTwo": "The repository formerly carried this single application under two identity keys because the \"(b)\" in HCJDC 159(b) was read as a variant of a base form numbered 159. The Data Center publishes exactly two forms in total, HCJDC-073 and HCJDC 159(b), and the one application covers both the non-conviction and the conviction routes; the route difference appears in what the applicant attaches, not in which form they file. All eight Hawaii components that bind it now bind one identity.",
+          "canonicalIdentity": "HCJDC-159B",
+          "officialDocumentId": "HCJDC 159(b)",
+          "officialTitle": "Expungement Application",
+          "issuer": "State of Hawaii, Department of the Attorney General",
+          "issuingOffice": "Hawaii Criminal Justice Data Center",
+          "destination": "Statewide. The Data Center is a statewide unit of the Department of the Attorney General, not a court and not a judicial circuit, and it administers expungement for the whole State; the application is filed by mail with that single office.",
+          "role": "participant primary filing, completed and signed by the applicant personally",
+          "currentRevision": "REV-2026-06-03",
+          "revisionOnTheFace": "HCJDC 159(b) Rev. 06/03/2026, printed in a single-line footer at the bottom right of page 1",
+          "supersededRevision": "Rev. 11/15/2019. Superseded, and it may never be selected as current. The issuer publishes only the 06/03/2026 revision.",
+          "structure": "flat_pdf. Measured directly: PDF 1.6, one page, 181,711 bytes, sha256 1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a, not encrypted, no XFA, no /AcroForm in the document catalog, zero logical fields, zero terminal fields, and no /Annots array at all so zero annotations of any subtype and therefore zero widgets.",
+          "noInventedFields": "There is no field map to build and no acroform_fill implementation is possible against this document. No AcroForm field is asserted here and none may be inferred; the zeros are measurements, not assumptions.",
+          "runtimeReceiptBoundary": "No source-materialization receipt exists for this document and none may be created before the successor edition retains it. Edition 1.2 retains no Hawaii packet form at all, so the asset must be added by an edition amendment before any receipt or runtime binding.",
+          "unchangedByThisCorrection": "Nothing in the integrated identity decision is reopened. This memo edit records that decision's result; it does not revisit it."
+        },
+        "denominatorsAndScope": {
+          "tracksUnchanged": "Hawaii keeps nine review source slots and nine nodes. No track was added, removed, split or merged.",
+          "componentsChanged": "One proposed_order component was added to each of the five stage-one tracks, because the integrated decision establishes a proposed order as a required component on all five. No component was removed and no other component was added.",
+          "officialFormBindingsUnchanged": "Eight HCJDC bindings before and eight after. Six moved from the legacy key to the canonical one and two already carried the canonical one; none was created or destroyed. The added proposed_order components are custom_pleading and bind no official form.",
+          "unrelatedTrackUntouched": "hi_state_initiated_marijuana_pilot is outside this correction and is value-identical. It is the state-initiated arrest-record pilot and has no participant filing and no HCJDC component."
+        },
+        "correctedEffectiveDate": {
+          "was": "2025-07-01",
+          "now": "2020-01-11",
+          "why": "The memo recorded 2025-07-01 on all five, which is a stage-two date: it is when Act 3, Session Laws of Hawaii 2025 took effect and made the Data Center transmit expungement orders to the Judiciary. It is not the effective date of the stage-one authority. The corrected date is the one the integrated decision establishes for this track's own stage-one provision."
+        },
+        "openItemsCarriedOrCreated": [
+          "Clerk cost practice on a stage-one motion in an existing penal case, at release level. A separate addendum job owns the court-fee question; its result is deliberately not imported into this memo.",
+          "Whether the stage-one motion is properly presented ex parte or must always be noticed. The decision records this as an open point; the design treats it as a noticed motion, which is the safer of the two.",
+          "Stage-two residuals are unchanged and keep their existing owners: edition retention of the application, source materialization and a receipt, and page geometry for any future overlay renderer.",
+          "No template, specification row or packet-set entry exists for any of the five stage-one motions. The implementation lane now has the legal design for them."
+        ],
+        "retiredUnresolvedQuestions": [
+          {
+            "question": "The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers.",
+            "impact": "build_blocker",
+            "affectedElement": "correct_form",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+              "sourceHeading": "Hawaii operational amendments / True blockers retained",
+              "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
+            }
+          }
+        ],
+        "retiredUnresolvedQuestionsNote": "Retired because the integrated stage-one decision answers them from primary authority: the filing vehicle, whether the Judiciary publishes a statewide stage-one form, and, on the three tracks that carried it, the fact that the governing text had not been read. Each is preserved verbatim with its provenance so the record shows what was asked and what closed it. The fee question is not retired; it is narrowed and kept at release level.",
+        "retiredLimitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers.",
+            "undeterminedElement": "correct_form",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+              "sourceHeading": "Hawaii operational amendments / True blockers retained",
+              "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate."
+            }
+          }
+        ],
+        "retiredLimitationsNote": "Retired because the elements they recorded as undetermined are now determined, and because the two packet instructions they carried — not to write a custom-pleading specification, and not to build, until the stage-one procedure is established — are spent now that it is established. Statements and provenance are preserved verbatim here. Limitations that remain live, including the participant-obtains-the-order instruction and the manual-completion treatment of the order number and date, are untouched.",
+        "notClaimed": [
+          "The Hawaii implementation is not ready. This settles the design of one component on five tracks and builds nothing.",
+          "No packet becomes generatable, no renderer is assigned and no template is written.",
+          "No counsel approval is asserted.",
+          "packet_ready stays 0 and Hawaii stays runtime disabled."
+        ]
+      },
       "unresolvedQuestions": [
         {
-          "question": "The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers.",
-          "impact": "build_blocker",
-          "affectedElement": "correct_form",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
-            "sourceHeading": "Hawaii operational amendments / True blockers retained",
-            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
-          }
-        },
-        {
-          "question": "Any court filing fee at stage one is unresolved.",
+          "question": "Whether any clerk's cost attaches to a stage-one motion filed in an existing penal case. Narrowed: none of the five provisions prescribes a fee, and the Judiciary publishes no filing fee for a motion in an existing penal case. Clerk cost practice is the only part still open, and it is participant-facing copy and a filing instruction rather than anything that changes the pleading.",
           "impact": "release_blocker",
           "affectedElement": "filing_process",
           "provenance": {
@@ -699,19 +1086,8 @@
       ],
       "legalDesignDecision": {
         "status": "legal_design_approved_with_limitations",
-        "rationale": "Original review: \"Additional research required.\" The amendment makes stage 2 definitively packet-capable and keeps the stage-one filing vehicle as a true blocker.",
+        "rationale": "Both stages are now reconciled against primary authority and the stage-one build blocker is closed. The vehicle is a written motion under Haw. R. Penal P. 47(a), which resolves the application-versus-motion question the memo carried since normalization: Rule 47(a) provides in terms that an application to the court for an order shall be by motion, so the statutory word does not change the instrument. The Rules of Penal Procedure govern because Rule 54(a) applies them to all penal proceedings and no expungement provision supplies its own procedure. No official statewide Judiciary expungement form exists in any circuit, which was established from the Judiciary's own published form inventory rather than from a failed search, so a controlled custom pleading is permitted and is the only available strategy; the content is prescribed by the statute and by Rule 47, so a generated motion has a specification to be audited against and nothing is invented. Service is Rule 49(a) on the prosecuting attorney as a party, with Rule 49(c) proof; there is no statutory notice and no statutory hearing, and the motion is designed as a noticed motion under Rule 47(a) and Rule 45(c). A proposed order is a required component because the order is the operative instrument and stage two cannot start without a copy of it. Stage two is one document, HCJDC 159(b) at REV-2026-06-03, and the two identity keys the repository formerly carried have been collapsed to it. What is settled is the design; the implementation is not ready and nothing here makes it so.",
         "limitations": [
-          {
-            "classification": "legal_design_blocker",
-            "statement": "The stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers.",
-            "undeterminedElement": "correct_form",
-            "provenance": {
-              "classificationBasis": "explicit_state_addendum",
-              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
-              "sourceHeading": "Hawaii operational amendments / True blockers retained",
-              "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate."
-            }
-          },
           {
             "classification": "manual_completion_item",
             "statement": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields. LegalEase does not review the court order.",
@@ -740,12 +1116,22 @@
       "legalName": "Conviction Expungement, first-time drug offender sentenced before July 1, 2004, HRS § 706-622.8",
       "publicName": "Conviction expungement, first-time drug offender sentenced before July 1, 2004",
       "controllingAuthority": {
-        "citations": ["HRS § 706-622.8"],
-        "summary": "Staged. Stage 1 is a court order from the sentencing court; stage 2 is the HCJDC application. The full current text, court standard, count limit and stage-one filing vehicle are unresolved."
+        "citations": [
+          "HRS § 706-622.8"
+        ],
+        "summary": "Two stages, both settled. Stage one is a written motion in the participant's own existing penal case, filed in the court that sentenced or convicted them, seeking a court order expunging the record of conviction; stage two is the HCJDC 159(b) Expungement Application submitted to the Hawaii Criminal Justice Data Center with a copy of that order attached. The stage-one vehicle is fixed by Haw. R. Penal P. 47(a), which provides that \"An application to the court for an order shall be by motion\", so Hawaii penal practice does not distinguish an application from a motion however the statute words it; the Rules of Penal Procedure govern because Rule 54(a) applies them to all penal proceedings and none of these provisions supplies its own procedure. Mandatory. 'The court shall issue a court order to expunge', subject only to the proviso. No official statewide Hawaii Judiciary expungement form exists for stage one in any circuit, so a controlled custom pleading is permitted and is the only available strategy. Venue follows the offence and is a participant input rather than a track constant. Nothing here makes the Hawaii implementation ready."
       },
-      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
-      "eligibleRecordTypes": ["conviction"],
-      "eligibleDispositions": ["first-time drug offender conviction sentenced before July 1, 2004, within § 706-622.8"],
+      "effectiveDates": {
+        "effectiveFrom": "2006-05-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-08"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "first-time drug offender conviction sentenced before July 1, 2004, within § 706-622.8"
+      ],
       "exclusions": [],
       "waitingPeriods": [],
       "outputStrategy": "custom_pleading",
@@ -764,20 +1150,38 @@
           "role": "primary_filing",
           "requirement": "required",
           "outputStrategy": "custom_pleading",
-          "notes": "Stage 1. Blocked pending the full statutory text and the accepted filing vehicle."
+          "notes": "Stage one, and no longer blocked. A written motion under Haw. R. Penal P. 47(a), in the participant's own existing penal case, seeking an order expunging the record of conviction under HRS 706-622.8. It states the grounds and the relief sought, is accompanied by a memorandum where it involves a question of law, is supported by a Haw. R. Penal P. 47(d) declaration for facts not appearing of record, and carries a Rule 49(c) certificate of service on the prosecuting attorney. It is noticed for hearing under Rule 47(a) and Rule 45(c) unless presented ex parte. Required allegations: (1) The participant's identity and the criminal case: court, circuit, case number, offence and statute section. (2) That the sentence was imposed before July 1, 2004. (3) That the sentence was for a first-time drug offence pursuant to HRS 706-622.5. (4) That the person otherwise meets all the requirements of HRS 706-622.5. (5) That the person successfully completed a substance abuse treatment programme. (6) That the person complied with the other terms and conditions set by the court. (7) That the person has not previously been granted an expungement of conviction under HRS 706-622.8 or HRS 706-622.5. (8) The relief sought: a court order expunging the record of conviction for the drug offence. No official statewide Judiciary form exists, so this is a controlled custom pleading and there is no officialFormId to bind."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "The order expunging the record of conviction, lodged with the stage-one motion. No statute requires the movant to lodge one and no penal rule read here does either, but it is a required component on practical and procedural grounds: every one of the five provisions operates through an order the court issues, Rule 7(f)(3) of the Rules of the Circuit Courts compels a proposed order where the motion is presented ex parte, and stage two cannot begin without it because the Data Center requires a copy of the Order Granting the Expungement of Conviction to accompany the HCJDC 159(b) application. A participant who leaves the courthouse with a granted motion and no signed order cannot proceed."
         },
         {
           "role": "primary_filing",
           "requirement": "required",
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "HCJDC-159",
-          "notes": "Stage 2. Definitively packet-capable; not blocked."
+          "officialFormId": "HCJDC-159B",
+          "notes": "Stage two. HCJDC 159(b), Expungement Application, issued by the Hawaii Criminal Justice Data Center of the State of Hawaii Department of the Attorney General, statewide, current revision REV-2026-06-03 printed on the face as \"HCJDC 159(b) Rev. 06/03/2026\". This is the participant's own primary filing, completed and signed personally and submitted by mail to the Data Center. It is one document, not two: the repository formerly carried it under two identity keys because the \"(b)\" was read as a form variant, and the Data Center publishes exactly two forms in total, of which this is one. The Rev. 11/15/2019 copy is superseded and may never be selected as current. Structurally it is a flat PDF: measured directly, it has no /AcroForm in the document catalog, zero logical fields, zero terminal fields and no /Annots array at all, so zero widget annotations of any subtype. There is no field map to build and no acroform_fill implementation is possible against it. No source-materialization receipt exists and none may be created before the successor edition retains the asset, because Edition 1.2 retains no Hawaii packet form."
         }
       ],
       "participantInputs": [
-        { "key": "convictionDetails", "question": "What was the conviction — which court, what offence, and what statute section?", "requirement": "required" },
-        { "key": "sentencingDate", "question": "On what date were you sentenced? This route applies to sentences before 1 July 2004.", "requirement": "required" },
-        { "key": "firstTimeOffender", "question": "Was this your first drug offence?", "requirement": "required" }
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, and what statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentencingDate",
+          "question": "On what date were you sentenced? This route applies to sentences before 1 July 2004.",
+          "requirement": "required"
+        },
+        {
+          "key": "firstTimeOffender",
+          "question": "Was this your first drug offence?",
+          "requirement": "required"
+        }
       ],
       "supportingDocuments": [
         {
@@ -791,56 +1195,151 @@
       ],
       "manualCompletionItems": [
         {
-          "item": "Court-order number and date",
-          "whereInPacket": "HCJDC application, order reference fields",
-          "why": "Not available until the sentencing court signs the stage-one order."
+          "item": "Signature and date on the motion and declaration.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "The case number and the sentencing date.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "Court-order number and date, and the attached copy of the signed order",
+          "whereInPacket": "HCJDC 159(b) application, order reference fields",
+          "why": "Not available until the court signs the stage-one order. The participant obtains the order; LegalEase does not review it."
         }
       ],
       "officialSources": [
-        { "title": "HRS § 706-622.8", "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0706/", "retrievedOn": "2026-07-30" }
-      ],
-      "rules": {
-        "filing": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
-        "fees": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
-        "feeWaiver": "The source review does not address a fee waiver.",
-        "notice": "The sentencing court decides at stage 1; HCJDC processes at stage 2.",
-        "service": "Blocked pending confirmation.",
-        "participantSignature": "The applicant signs their own application.",
-        "notarization": "The source review does not state a notarization requirement."
-      },
-      "selfHelpStopConditions": [
-        "The sentencing court sets a contested hearing.",
-        "Any immigration matter."
-      ],
-      "unresolvedQuestions": [
         {
-          "question": "The full current text, court standard, count limit, and stage-one filing vehicle under § 706-622.8 remain unresolved.",
-          "impact": "build_blocker",
-          "affectedElement": "correct_form",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
-            "sourceHeading": "Hawaii operational amendments / True blockers retained",
-            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
-          }
-        },
-        {
-          "question": "Full official text of § 706-622.8 has not been read.",
-          "impact": "build_blocker",
-          "affectedElement": "governing_mechanism",
-          "provenance": {
-            "classificationBasis": "mechanical_translation",
-            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
-            "sourceHeading": "TRACK 6 / required follow up",
-            "sourceStatement": "Read § 706-622.8 in full and acquire or rule out a statewide Judiciary form.",
-            "normalizerInferred": true
-          }
+          "title": "HRS § 706-622.8",
+          "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0706/",
+          "retrievedOn": "2026-07-30"
         }
       ],
-      "legalDesignDecision": {
-        "status": "legal_design_approved_with_limitations",
-        "rationale": "Original review: \"Additional research required.\" The amendment makes stage 2 definitively packet-capable and keeps the stage-one requirements as true blockers.",
-        "limitations": [
+      "rules": {
+        "filing": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
+        "fees": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "feeWaiver": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
+        "notice": "No statutory notice. Not one of the five provisions requires notice to the prosecuting attorney, to a victim, to the Attorney General, to the Data Center or to any agency. The notice that exists is the service every filed document receives.",
+        "service": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
+        "participantSignature": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "notarization": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing."
+      },
+      "selfHelpStopConditions": [
+        "A sentence imposed on or after July 1, 2004, which routes to HRS 706-622.5(4) instead.",
+        "The participant cannot obtain the record of a sentence more than twenty years old.",
+        "A prior expungement under HRS 706-622.5 or HRS 706-622.8.",
+        "The prosecutor opposes, or the court sets a contested hearing.",
+        "Any immigration matter."
+      ],
+      "_stageOneAndHcjdcReconciliation": {
+        "correctionJob": "rcap-hi-expungement-stage-one-and-hcjdc-159b-memo-correction",
+        "correctedOn": "2026-08-08",
+        "baseCommit": "7aaf916468800d42181158379c5262520c859a1b",
+        "controllingDecisions": {
+          "stageOne": "data/record-clearing/production-factory/legal-design-decisions/hi-stage-one-expungement-filing-vehicle-current-law-reconciliation.json",
+          "stageTwoIdentity": "data/record-clearing/production-factory/source-acquisition/rcap-hi-in-repo-identity-reconciliation-hcjdc-159.json",
+          "stageTwoTechnicalStructure": "data/record-clearing/production-factory/source-acquisition/rcap-hi-hcjdc-159b-technical-structure-and-edition-asset.json"
+        },
+        "stageOne": {
+          "governingStatute": "HRS 706-622.8",
+          "statutoryWord": "apply to the court",
+          "vehicle": "motion",
+          "vehicleBasis": "Haw. R. Penal P. 47(a): \"An application to the court for an order shall be by motion. A motion other than one made during a trial or hearing shall be in writing unless the court permits it to be made orally. It shall state the grounds upon which it is made and shall set forth the relief or order sought. A motion involving a question of law shall be accompanied by a memorandum in support of the motion. If a motion requires the consideration of facts not appearing of record, it shall be supported by affidavit or declaration.\"",
+          "rulesApply": "Haw. R. Penal P. 54(a) applies the Rules of Penal Procedure to all penal proceedings in all courts of the State, and Rule 54(b)'s exception for statutory proceedings with their own procedure does not bite because none of the five provisions supplies one. Rule 54(d) makes the Rules of Penal Procedure govern over the Rules of the Circuit Courts and the Rules of the District Courts in any conflict.",
+          "filingActor": "The person. Unlike HRS 706-622.5(4) and 706-622.9(3), this section names no probation officer.",
+          "venue": "The court that sentenced the person before July 1, 2004.",
+          "venueIsAParticipantInput": "The level follows the offence in the participant's own case and is not a track constant: the class C felony drug and property offences are circuit court matters, while a HRS 712-1249 three-grams-or-less possession and a HRS 291E-64 offence are violations and district court matters.",
+          "officialStatewideCourtForm": "None exists. See the official-form finding.",
+          "controlledCustomPleadingPermitted": true,
+          "requiredAllegations": [
+            "The participant's identity and the criminal case: court, circuit, case number, offence and statute section.",
+            "That the sentence was imposed before July 1, 2004.",
+            "That the sentence was for a first-time drug offence pursuant to HRS 706-622.5.",
+            "That the person otherwise meets all the requirements of HRS 706-622.5.",
+            "That the person successfully completed a substance abuse treatment programme.",
+            "That the person complied with the other terms and conditions set by the court.",
+            "That the person has not previously been granted an expungement of conviction under HRS 706-622.8 or HRS 706-622.5.",
+            "The relief sought: a court order expunging the record of conviction for the drug offence."
+          ],
+          "eligibilityStandard": "Objective and closed, with one incorporation: the person must 'otherwise meet all the requirements of section 706-622.5', which imports that section's eligibility criteria as they bear on the original sentence.",
+          "countLimits": "One. The section's own last sentence bars another expungement under HRS 706-622.8 or anywhere in HRS 706-622.5 once one has been granted under either HRS 706-622.8 or HRS 706-622.5(4).",
+          "waitingPeriod": "None going forward, but the section is defined by a backward-looking date: the sentence must predate July 1, 2004.",
+          "discretion": "Mandatory. 'The court shall issue a court order to expunge', subject only to the proviso.",
+          "service": "Haw. R. Penal P. 49(a) and 49(c).",
+          "prosecutorOrAgencyNotice": "None prescribed by the statute.",
+          "fee": "None prescribed by the statute. See the common fee finding.",
+          "feeBoundary": "Carried from the stage-one decision as it stands: no statutory fee on any of the five, and clerk cost practice open. A separate addendum job owns the court-fee question and its result is not imported here.",
+          "hearingTreatment": "No hearing required by the statute. A noticed motion.",
+          "proposedOrderTreatment": "Required as a packet component.",
+          "supportingDocuments": [
+            "The judgment or sentencing record showing a sentence imposed before July 1, 2004. Participant obtains. Records that old may not be in eCourt Kokua and may require a clerk's records request; that is a filing instruction, not a generation gate."
+          ],
+          "interactionWithStageTwo": "The same. The Data Center names HRS 706-622.8 in its published list of qualifying conviction provisions.",
+          "conclusion": "controlled_custom_pleading"
+        },
+        "stageTwo": {
+          "oneDocumentNotTwo": "The repository formerly carried this single application under two identity keys because the \"(b)\" in HCJDC 159(b) was read as a variant of a base form numbered 159. The Data Center publishes exactly two forms in total, HCJDC-073 and HCJDC 159(b), and the one application covers both the non-conviction and the conviction routes; the route difference appears in what the applicant attaches, not in which form they file. All eight Hawaii components that bind it now bind one identity.",
+          "canonicalIdentity": "HCJDC-159B",
+          "officialDocumentId": "HCJDC 159(b)",
+          "officialTitle": "Expungement Application",
+          "issuer": "State of Hawaii, Department of the Attorney General",
+          "issuingOffice": "Hawaii Criminal Justice Data Center",
+          "destination": "Statewide. The Data Center is a statewide unit of the Department of the Attorney General, not a court and not a judicial circuit, and it administers expungement for the whole State; the application is filed by mail with that single office.",
+          "role": "participant primary filing, completed and signed by the applicant personally",
+          "currentRevision": "REV-2026-06-03",
+          "revisionOnTheFace": "HCJDC 159(b) Rev. 06/03/2026, printed in a single-line footer at the bottom right of page 1",
+          "supersededRevision": "Rev. 11/15/2019. Superseded, and it may never be selected as current. The issuer publishes only the 06/03/2026 revision.",
+          "structure": "flat_pdf. Measured directly: PDF 1.6, one page, 181,711 bytes, sha256 1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a, not encrypted, no XFA, no /AcroForm in the document catalog, zero logical fields, zero terminal fields, and no /Annots array at all so zero annotations of any subtype and therefore zero widgets.",
+          "noInventedFields": "There is no field map to build and no acroform_fill implementation is possible against this document. No AcroForm field is asserted here and none may be inferred; the zeros are measurements, not assumptions.",
+          "runtimeReceiptBoundary": "No source-materialization receipt exists for this document and none may be created before the successor edition retains it. Edition 1.2 retains no Hawaii packet form at all, so the asset must be added by an edition amendment before any receipt or runtime binding.",
+          "unchangedByThisCorrection": "Nothing in the integrated identity decision is reopened. This memo edit records that decision's result; it does not revisit it."
+        },
+        "denominatorsAndScope": {
+          "tracksUnchanged": "Hawaii keeps nine review source slots and nine nodes. No track was added, removed, split or merged.",
+          "componentsChanged": "One proposed_order component was added to each of the five stage-one tracks, because the integrated decision establishes a proposed order as a required component on all five. No component was removed and no other component was added.",
+          "officialFormBindingsUnchanged": "Eight HCJDC bindings before and eight after. Six moved from the legacy key to the canonical one and two already carried the canonical one; none was created or destroyed. The added proposed_order components are custom_pleading and bind no official form.",
+          "unrelatedTrackUntouched": "hi_state_initiated_marijuana_pilot is outside this correction and is value-identical. It is the state-initiated arrest-record pilot and has no participant filing and no HCJDC component."
+        },
+        "correctedEffectiveDate": {
+          "was": "2025-07-01",
+          "now": "2006-05-01",
+          "why": "The memo recorded 2025-07-01 on all five, which is a stage-two date: it is when Act 3, Session Laws of Hawaii 2025 took effect and made the Data Center transmit expungement orders to the Judiciary. It is not the effective date of the stage-one authority. The corrected date is the one the integrated decision establishes for this track's own stage-one provision."
+        },
+        "openItemsCarriedOrCreated": [
+          "Clerk cost practice on a stage-one motion in an existing penal case, at release level. A separate addendum job owns the court-fee question; its result is deliberately not imported into this memo.",
+          "Whether the stage-one motion is properly presented ex parte or must always be noticed. The decision records this as an open point; the design treats it as a noticed motion, which is the safer of the two.",
+          "Stage-two residuals are unchanged and keep their existing owners: edition retention of the application, source materialization and a receipt, and page geometry for any future overlay renderer.",
+          "No template, specification row or packet-set entry exists for any of the five stage-one motions. The implementation lane now has the legal design for them."
+        ],
+        "retiredUnresolvedQuestions": [
+          {
+            "question": "The full current text, court standard, count limit, and stage-one filing vehicle under § 706-622.8 remain unresolved.",
+            "impact": "build_blocker",
+            "affectedElement": "correct_form",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+              "sourceHeading": "Hawaii operational amendments / True blockers retained",
+              "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
+            }
+          },
+          {
+            "question": "Full official text of § 706-622.8 has not been read.",
+            "impact": "build_blocker",
+            "affectedElement": "governing_mechanism",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+              "sourceHeading": "TRACK 6 / required follow up",
+              "sourceStatement": "Read § 706-622.8 in full and acquire or rule out a statewide Judiciary form.",
+              "normalizerInferred": true
+            }
+          }
+        ],
+        "retiredUnresolvedQuestionsNote": "Retired because the integrated stage-one decision answers them from primary authority: the filing vehicle, whether the Judiciary publishes a statewide stage-one form, and, on the three tracks that carried it, the fact that the governing text had not been read. Each is preserved verbatim with its provenance so the record shows what was asked and what closed it. The fee question is not retired; it is narrowed and kept at release level.",
+        "retiredLimitations": [
           {
             "classification": "legal_design_blocker",
             "statement": "The full current text, court standard, count limit, and stage-one filing vehicle under § 706-622.8 remain unresolved.",
@@ -850,16 +1349,6 @@
               "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
               "sourceHeading": "Hawaii operational amendments / True blockers retained",
               "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate."
-            }
-          },
-          {
-            "classification": "manual_completion_item",
-            "statement": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
-            "provenance": {
-              "classificationBasis": "explicit_state_addendum",
-              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
-              "sourceHeading": "Hawaii operational amendments / Limitations reclassified as participant instructions",
-              "sourceStatement": "For conviction-expungement routes, the court-order number, date, and attachment may remain `manual_completion_item` or `required_before_submission` fields. LegalEase does not review the court order."
             }
           },
           {
@@ -873,6 +1362,30 @@
               "normalizerInferred": true
             }
           }
+        ],
+        "retiredLimitationsNote": "Retired because the elements they recorded as undetermined are now determined, and because the two packet instructions they carried — not to write a custom-pleading specification, and not to build, until the stage-one procedure is established — are spent now that it is established. Statements and provenance are preserved verbatim here. Limitations that remain live, including the participant-obtains-the-order instruction and the manual-completion treatment of the order number and date, are untouched.",
+        "notClaimed": [
+          "The Hawaii implementation is not ready. This settles the design of one component on five tracks and builds nothing.",
+          "No packet becomes generatable, no renderer is assigned and no template is written.",
+          "No counsel approval is asserted.",
+          "packet_ready stays 0 and Hawaii stays runtime disabled."
+        ]
+      },
+      "unresolvedQuestions": [],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Both stages are now reconciled against primary authority and the stage-one build blocker is closed. The vehicle is a written motion under Haw. R. Penal P. 47(a), which resolves the application-versus-motion question the memo carried since normalization: Rule 47(a) provides in terms that an application to the court for an order shall be by motion, so the statutory word does not change the instrument. The Rules of Penal Procedure govern because Rule 54(a) applies them to all penal proceedings and no expungement provision supplies its own procedure. No official statewide Judiciary expungement form exists in any circuit, which was established from the Judiciary's own published form inventory rather than from a failed search, so a controlled custom pleading is permitted and is the only available strategy; the content is prescribed by the statute and by Rule 47, so a generated motion has a specification to be audited against and nothing is invented. Service is Rule 49(a) on the prosecuting attorney as a party, with Rule 49(c) proof; there is no statutory notice and no statutory hearing, and the motion is designed as a noticed motion under Rule 47(a) and Rule 45(c). A proposed order is a required component because the order is the operative instrument and stage two cannot start without a copy of it. Stage two is one document, HCJDC 159(b) at REV-2026-06-03, and the two identity keys the repository formerly carried have been collapsed to it. What is settled is the design; the implementation is not ready and nothing here makes it so.",
+        "limitations": [
+          {
+            "classification": "manual_completion_item",
+            "statement": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+              "sourceHeading": "Hawaii operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "For conviction-expungement routes, the court-order number, date, and attachment may remain `manual_completion_item` or `required_before_submission` fields. LegalEase does not review the court order."
+            }
+          }
         ]
       }
     },
@@ -881,12 +1394,22 @@
       "legalName": "Conviction Expungement, first-time property offender, HRS § 706-622.9",
       "publicName": "Conviction expungement, first-time property offender",
       "controllingAuthority": {
-        "citations": ["HRS § 706-622.9"],
-        "summary": "Staged. Stage 1 is a court order from the sentencing court; stage 2 is the HCJDC application. The full current text, eligibility standard, court discretion, count limit and stage-one filing vehicle are unresolved."
+        "citations": [
+          "HRS § 706-622.9"
+        ],
+        "summary": "Two stages, both settled. Stage one is a written motion in the participant's own existing penal case, filed in the court that sentenced or convicted them, seeking a court order expunging the record of conviction; stage two is the HCJDC 159(b) Expungement Application submitted to the Hawaii Criminal Justice Data Center with a copy of that order attached. The stage-one vehicle is fixed by Haw. R. Penal P. 47(a), which provides that \"An application to the court for an order shall be by motion\", so Hawaii penal practice does not distinguish an application from a motion however the statute words it; the Rules of Penal Procedure govern because Rule 54(a) applies them to all penal proceedings and none of these provisions supplies its own procedure. {\"subsection3\":\"Mandatory. 'the court shall issue', subject to the proviso.\",\"subsection4\":\"Mandatory once the findings are made — 'shall issue ... provided that (a) through (d)' — but two of the four are findings the court makes, so the outcome is not mechanical. There is then an express discretionary fallback: where the court cannot make the paragraph (b) finding, it 'may nevertheless' order expungement provided it finds the person successfully completed a substance abuse treatment programme. This is the only discretionary grant in any of the five statutes, and the packet copy must not describe subsection (4) relief as automatic.\"} No official statewide Hawaii Judiciary expungement form exists for stage one in any circuit, so a controlled custom pleading is permitted and is the only available strategy. Venue follows the offence and is a participant input rather than a track constant. Nothing here makes the Hawaii implementation ready."
       },
-      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
-      "eligibleRecordTypes": ["conviction"],
-      "eligibleDispositions": ["first-time property offender conviction within § 706-622.9"],
+      "effectiveDates": {
+        "effectiveFrom": "2016-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-08"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "first-time property offender conviction within § 706-622.9"
+      ],
       "exclusions": [],
       "waitingPeriods": [],
       "outputStrategy": "custom_pleading",
@@ -905,20 +1428,38 @@
           "role": "primary_filing",
           "requirement": "required",
           "outputStrategy": "custom_pleading",
-          "notes": "Stage 1. Blocked pending the full statutory text and the accepted filing vehicle."
+          "notes": "Stage one, and no longer blocked. A written motion under Haw. R. Penal P. 47(a), in the participant's own existing penal case, seeking an order expunging the record of conviction under HRS 706-622.9(3), and HRS 706-622.9(4) for a sentence imposed before June 22, 2006. It states the grounds and the relief sought, is accompanied by a memorandum where it involves a question of law, is supported by a Haw. R. Penal P. 47(d) declaration for facts not appearing of record, and carries a Rule 49(c) certificate of service on the prosecuting attorney. It is noticed for hearing under Rule 47(a) and Rule 45(c) unless presented ex parte. Required allegations: (1) Identity and the criminal case: court, circuit, case number, offence and chapter 708 section. (2) That the person was sentenced to probation under HRS 706-622.9. (3) That the person successfully completed the substance abuse treatment programme. (4) That the person complied with the other terms and conditions of probation. (5) That the person has not been previously convicted of a felony offence in this or another jurisdiction. (6) The particular offence for which expungement is sought. (7) The relief sought. (8) Identity and the criminal case. (9) That the sentence was imposed before June 22, 2006 for a class C felony property offence under chapter 708. (10) That the person would have qualified for sentencing under HRS 706-622.9 had the section existed, with the facts that support it. (11) That the person has complied with the terms of the sentence imposed by the court. (12) That the person has not been convicted of a felony offence in this or another jurisdiction before or after the conviction for which expungement is sought. (13) Facts supporting the court's finding that the person is currently nonviolent: current criminal history, the factual circumstances of the offence, and any other relevant information. (14) In the alternative, where the paragraph (b) finding cannot be made, that the person has successfully completed a substance abuse treatment programme. (15) That the person has not previously been granted an expungement of conviction under HRS 706-622.9(4). (16) The relief sought. No official statewide Judiciary form exists, so this is a controlled custom pleading and there is no officialFormId to bind."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "The order expunging the record of conviction, lodged with the stage-one motion. No statute requires the movant to lodge one and no penal rule read here does either, but it is a required component on practical and procedural grounds: every one of the five provisions operates through an order the court issues, Rule 7(f)(3) of the Rules of the Circuit Courts compels a proposed order where the motion is presented ex parte, and stage two cannot begin without it because the Data Center requires a copy of the Order Granting the Expungement of Conviction to accompany the HCJDC 159(b) application. A participant who leaves the courthouse with a granted motion and no signed order cannot proceed."
         },
         {
           "role": "primary_filing",
           "requirement": "required",
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "HCJDC-159",
-          "notes": "Stage 2. Definitively packet-capable; not blocked."
+          "officialFormId": "HCJDC-159B",
+          "notes": "Stage two. HCJDC 159(b), Expungement Application, issued by the Hawaii Criminal Justice Data Center of the State of Hawaii Department of the Attorney General, statewide, current revision REV-2026-06-03 printed on the face as \"HCJDC 159(b) Rev. 06/03/2026\". This is the participant's own primary filing, completed and signed personally and submitted by mail to the Data Center. It is one document, not two: the repository formerly carried it under two identity keys because the \"(b)\" was read as a form variant, and the Data Center publishes exactly two forms in total, of which this is one. The Rev. 11/15/2019 copy is superseded and may never be selected as current. Structurally it is a flat PDF: measured directly, it has no /AcroForm in the document catalog, zero logical fields, zero terminal fields and no /Annots array at all, so zero widget annotations of any subtype. There is no field map to build and no acroform_fill implementation is possible against it. No source-materialization receipt exists and none may be created before the successor edition retains the asset, because Edition 1.2 retains no Hawaii packet form."
         }
       ],
       "participantInputs": [
-        { "key": "convictionDetails", "question": "What was the conviction — which court, what offence, and what statute section?", "requirement": "required" },
-        { "key": "firstTimePropertyOffender", "question": "Was this your first property offence?", "requirement": "required" },
-        { "key": "sentenceCompletion", "question": "Have you completed the sentence, and on what date?", "requirement": "required" }
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, and what statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "firstTimePropertyOffender",
+          "question": "Was this your first property offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletion",
+          "question": "Have you completed the sentence, and on what date?",
+          "requirement": "required"
+        }
       ],
       "supportingDocuments": [
         {
@@ -932,56 +1473,168 @@
       ],
       "manualCompletionItems": [
         {
-          "item": "Court-order number and date",
-          "whereInPacket": "HCJDC application, order reference fields",
-          "why": "Not available until the sentencing court signs the stage-one order."
+          "item": "Signature and date on the motion and declaration.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "The case number and the sentencing date, which decides which subsection applies.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "Court-order number and date, and the attached copy of the signed order",
+          "whereInPacket": "HCJDC 159(b) application, order reference fields",
+          "why": "Not available until the court signs the stage-one order. The participant obtains the order; LegalEase does not review it."
         }
       ],
       "officialSources": [
-        { "title": "HRS § 706-622.9", "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0706/", "retrievedOn": "2026-07-30" }
-      ],
-      "rules": {
-        "filing": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
-        "fees": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
-        "feeWaiver": "The source review does not address a fee waiver.",
-        "notice": "The sentencing court decides at stage 1; HCJDC processes at stage 2.",
-        "service": "Blocked pending confirmation.",
-        "participantSignature": "The applicant signs their own application.",
-        "notarization": "The source review does not state a notarization requirement."
-      },
-      "selfHelpStopConditions": [
-        "The sentencing court sets a contested hearing.",
-        "Any immigration matter."
-      ],
-      "unresolvedQuestions": [
         {
-          "question": "The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 706-622.9 remain unresolved.",
-          "impact": "build_blocker",
-          "affectedElement": "correct_form",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
-            "sourceHeading": "Hawaii operational amendments / True blockers retained",
-            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
-          }
-        },
-        {
-          "question": "Full official text of § 706-622.9 has not been read.",
-          "impact": "build_blocker",
-          "affectedElement": "eligibility_branch",
-          "provenance": {
-            "classificationBasis": "mechanical_translation",
-            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
-            "sourceHeading": "TRACK 7 / required follow up",
-            "sourceStatement": "Read § 706-622.9 in full and acquire or rule out a statewide Judiciary form.",
-            "normalizerInferred": true
-          }
+          "title": "HRS § 706-622.9",
+          "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0706/",
+          "retrievedOn": "2026-07-30"
         }
       ],
-      "legalDesignDecision": {
-        "status": "legal_design_approved_with_limitations",
-        "rationale": "Original review: \"Additional research required.\" The amendment makes stage 2 definitively packet-capable and keeps the stage-one requirements as true blockers.",
-        "limitations": [
+      "rules": {
+        "filing": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
+        "fees": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "feeWaiver": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
+        "notice": "No statutory notice. Not one of the five provisions requires notice to the prosecuting attorney, to a victim, to the Attorney General, to the Data Center or to any agency. The notice that exists is the service every filed document receives.",
+        "service": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
+        "participantSignature": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "notarization": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing."
+      },
+      "selfHelpStopConditions": [
+        "Any prior or subsequent felony conviction in any jurisdiction.",
+        "A contested nonviolence finding under subsection (4)(d).",
+        "The court cannot make the subsection (4)(b) finding and the discretionary fallback is in play.",
+        "The prosecutor opposes, or the court sets a contested hearing.",
+        "Any immigration matter."
+      ],
+      "_stageOneAndHcjdcReconciliation": {
+        "correctionJob": "rcap-hi-expungement-stage-one-and-hcjdc-159b-memo-correction",
+        "correctedOn": "2026-08-08",
+        "baseCommit": "7aaf916468800d42181158379c5262520c859a1b",
+        "controllingDecisions": {
+          "stageOne": "data/record-clearing/production-factory/legal-design-decisions/hi-stage-one-expungement-filing-vehicle-current-law-reconciliation.json",
+          "stageTwoIdentity": "data/record-clearing/production-factory/source-acquisition/rcap-hi-in-repo-identity-reconciliation-hcjdc-159.json",
+          "stageTwoTechnicalStructure": "data/record-clearing/production-factory/source-acquisition/rcap-hi-hcjdc-159b-technical-structure-and-edition-asset.json"
+        },
+        "stageOne": {
+          "governingStatute": "HRS 706-622.9(3), and HRS 706-622.9(4) for a sentence imposed before June 22, 2006",
+          "statutoryWord": "written application, under both subsections",
+          "vehicle": "motion",
+          "vehicleBasis": "Haw. R. Penal P. 47(a): \"An application to the court for an order shall be by motion. A motion other than one made during a trial or hearing shall be in writing unless the court permits it to be made orally. It shall state the grounds upon which it is made and shall set forth the relief or order sought. A motion involving a question of law shall be accompanied by a memorandum in support of the motion. If a motion requires the consideration of facts not appearing of record, it shall be supported by affidavit or declaration.\"",
+          "rulesApply": "Haw. R. Penal P. 54(a) applies the Rules of Penal Procedure to all penal proceedings in all courts of the State, and Rule 54(b)'s exception for statutory proceedings with their own procedure does not bite because none of the five provisions supplies one. Rule 54(d) makes the Rules of Penal Procedure govern over the Rules of the Circuit Courts and the Rules of the District Courts in any conflict.",
+          "filingActor": "{\"subsection3\":\"The person sentenced under this part, or a probation officer.\",\"subsection4\":\"The person. Subsection (4) says 'upon written application from the person'.\"}",
+          "venue": "{\"subsection3\":\"The sentencing court.\",\"subsection4\":\"'a court' — the subsection says the person 'may apply to a court', then that 'The court, upon written application from the person, shall issue a court order'. The indefinite article is in the enacted text as printed. Nothing read here establishes that it means anything other than the court of the conviction, and nothing read here establishes that it means something wider. Recorded as an open point below rather than resolved by inference.\"}",
+          "venueIsAParticipantInput": "The level follows the offence in the participant's own case and is not a track constant: the class C felony drug and property offences are circuit court matters, while a HRS 712-1249 three-grams-or-less possession and a HRS 291E-64 offence are violations and district court matters.",
+          "officialStatewideCourtForm": "None exists. See the official-form finding.",
+          "controlledCustomPleadingPermitted": true,
+          "requiredAllegations": [
+            "Identity and the criminal case: court, circuit, case number, offence and chapter 708 section.",
+            "That the person was sentenced to probation under HRS 706-622.9.",
+            "That the person successfully completed the substance abuse treatment programme.",
+            "That the person complied with the other terms and conditions of probation.",
+            "That the person has not been previously convicted of a felony offence in this or another jurisdiction.",
+            "The particular offence for which expungement is sought.",
+            "The relief sought.",
+            "Identity and the criminal case.",
+            "That the sentence was imposed before June 22, 2006 for a class C felony property offence under chapter 708.",
+            "That the person would have qualified for sentencing under HRS 706-622.9 had the section existed, with the facts that support it.",
+            "That the person has complied with the terms of the sentence imposed by the court.",
+            "That the person has not been convicted of a felony offence in this or another jurisdiction before or after the conviction for which expungement is sought.",
+            "Facts supporting the court's finding that the person is currently nonviolent: current criminal history, the factual circumstances of the offence, and any other relevant information.",
+            "In the alternative, where the paragraph (b) finding cannot be made, that the person has successfully completed a substance abuse treatment programme.",
+            "That the person has not previously been granted an expungement of conviction under HRS 706-622.9(4).",
+            "The relief sought."
+          ],
+          "eligibilityStandard": "{\"subsection3\":\"Objective and closed: completion, compliance, and no prior felony conviction in any jurisdiction.\",\"subsection4\":\"Not purely objective. Paragraphs (a) and (c) are objective, but (b) and (d) are express court findings — that the person would in fact have qualified, and that the person is currently nonviolent on the court's own review. A generated motion can plead the facts; it cannot supply the finding.\"}",
+          "countLimits": "Subsection (3): 'that particular offense', and eligibility is lost by any prior felony conviction anywhere. Subsection (4): one expungement under that subsection, and any felony conviction before or after the offence defeats it.",
+          "waitingPeriod": "None under either subsection. Subsection (4) is bounded backward by the June 22, 2006 sentencing date.",
+          "discretion": "{\"subsection3\":\"Mandatory. 'the court shall issue', subject to the proviso.\",\"subsection4\":\"Mandatory once the findings are made — 'shall issue ... provided that (a) through (d)' — but two of the four are findings the court makes, so the outcome is not mechanical. There is then an express discretionary fallback: where the court cannot make the paragraph (b) finding, it 'may nevertheless' order expungement provided it finds the person successfully completed a substance abuse treatment programme. This is the only discretionary grant in any of the five statutes, and the packet copy must not describe subsection (4) relief as automatic.\"}",
+          "service": "Haw. R. Penal P. 49(a) and 49(c).",
+          "prosecutorOrAgencyNotice": "None prescribed by the statute, under either subsection. The prosecutor receives the motion as a party.",
+          "fee": "None prescribed by the statute. See the common fee finding.",
+          "feeBoundary": "Carried from the stage-one decision as it stands: no statutory fee on any of the five, and clerk cost practice open. A separate addendum job owns the court-fee question and its result is not imported here.",
+          "hearingTreatment": "No hearing required by either subsection. A subsection (4) motion is materially more likely to draw one, because the court must find the person currently nonviolent. That is a self-help stop if it becomes contested, not a reason to withhold the pleading.",
+          "proposedOrderTreatment": "Required as a packet component under both subsections.",
+          "supportingDocuments": [
+            "The judgment or sentencing record. Participant obtains.",
+            "Proof of completion of the substance abuse treatment programme, where the participant has it.",
+            "For subsection (4), the participant's own account of current circumstances bearing on the nonviolence finding. LegalEase asks structured questions and drafts from the answers; it does not assess or verify them."
+          ],
+          "interactionWithStageTwo": "The same. The Data Center names HRS 706-622.9 in its published list of qualifying conviction provisions, without subdividing it, so a subsection (4) order is inside the agency's enumeration.",
+          "conclusion": "controlled_custom_pleading",
+          "subsection4Route": {
+            "statute": "HRS 706-622.9(4)",
+            "whatItIs": "A second, retroactive route on the same track, for a person sentenced before June 22, 2006 for a class C felony property offence under chapter 708 who would have qualified had the section then existed. The memo did not previously represent it.",
+            "howItDiffers": "The actor is the person only, with no probation-officer alternative; the venue wording is 'a court' rather than 'the court', which is the one place in the five where the text does not fix venue; and the standard is not purely objective, because the court must find that the person would in fact have qualified and that the person is currently nonviolent, with a discretionary fallback where it cannot make the first finding.",
+            "howItIsRepresentedHere": "Within this track rather than as a new node. The sentencing date is a participant input and decides which subsection applies, and the subsection (4) allegations and findings are recorded in the required-allegations set and in the eligibility and discretion entries above. Whether it should instead become a separate component or its own track is a normalization decision the integrated decision expressly left open, and it is not taken here because it would move the node denominator.",
+            "openQuestion": "Venue under subsection (4): the text says 'a court' and does not tie the application to the court of conviction. Filing in the court of conviction satisfies any reading."
+          }
+        },
+        "stageTwo": {
+          "oneDocumentNotTwo": "The repository formerly carried this single application under two identity keys because the \"(b)\" in HCJDC 159(b) was read as a variant of a base form numbered 159. The Data Center publishes exactly two forms in total, HCJDC-073 and HCJDC 159(b), and the one application covers both the non-conviction and the conviction routes; the route difference appears in what the applicant attaches, not in which form they file. All eight Hawaii components that bind it now bind one identity.",
+          "canonicalIdentity": "HCJDC-159B",
+          "officialDocumentId": "HCJDC 159(b)",
+          "officialTitle": "Expungement Application",
+          "issuer": "State of Hawaii, Department of the Attorney General",
+          "issuingOffice": "Hawaii Criminal Justice Data Center",
+          "destination": "Statewide. The Data Center is a statewide unit of the Department of the Attorney General, not a court and not a judicial circuit, and it administers expungement for the whole State; the application is filed by mail with that single office.",
+          "role": "participant primary filing, completed and signed by the applicant personally",
+          "currentRevision": "REV-2026-06-03",
+          "revisionOnTheFace": "HCJDC 159(b) Rev. 06/03/2026, printed in a single-line footer at the bottom right of page 1",
+          "supersededRevision": "Rev. 11/15/2019. Superseded, and it may never be selected as current. The issuer publishes only the 06/03/2026 revision.",
+          "structure": "flat_pdf. Measured directly: PDF 1.6, one page, 181,711 bytes, sha256 1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a, not encrypted, no XFA, no /AcroForm in the document catalog, zero logical fields, zero terminal fields, and no /Annots array at all so zero annotations of any subtype and therefore zero widgets.",
+          "noInventedFields": "There is no field map to build and no acroform_fill implementation is possible against this document. No AcroForm field is asserted here and none may be inferred; the zeros are measurements, not assumptions.",
+          "runtimeReceiptBoundary": "No source-materialization receipt exists for this document and none may be created before the successor edition retains it. Edition 1.2 retains no Hawaii packet form at all, so the asset must be added by an edition amendment before any receipt or runtime binding.",
+          "unchangedByThisCorrection": "Nothing in the integrated identity decision is reopened. This memo edit records that decision's result; it does not revisit it."
+        },
+        "denominatorsAndScope": {
+          "tracksUnchanged": "Hawaii keeps nine review source slots and nine nodes. No track was added, removed, split or merged.",
+          "componentsChanged": "One proposed_order component was added to each of the five stage-one tracks, because the integrated decision establishes a proposed order as a required component on all five. No component was removed and no other component was added.",
+          "officialFormBindingsUnchanged": "Eight HCJDC bindings before and eight after. Six moved from the legacy key to the canonical one and two already carried the canonical one; none was created or destroyed. The added proposed_order components are custom_pleading and bind no official form.",
+          "unrelatedTrackUntouched": "hi_state_initiated_marijuana_pilot is outside this correction and is value-identical. It is the state-initiated arrest-record pilot and has no participant filing and no HCJDC component."
+        },
+        "correctedEffectiveDate": {
+          "was": "2025-07-01",
+          "now": "2016-07-01",
+          "why": "The memo recorded 2025-07-01 on all five, which is a stage-two date: it is when Act 3, Session Laws of Hawaii 2025 took effect and made the Data Center transmit expungement orders to the Judiciary. It is not the effective date of the stage-one authority. The corrected date is the one the integrated decision establishes for this track's own stage-one provision."
+        },
+        "openItemsCarriedOrCreated": [
+          "Clerk cost practice on a stage-one motion in an existing penal case, at release level. A separate addendum job owns the court-fee question; its result is deliberately not imported into this memo.",
+          "Whether the stage-one motion is properly presented ex parte or must always be noticed. The decision records this as an open point; the design treats it as a noticed motion, which is the safer of the two.",
+          "Stage-two residuals are unchanged and keep their existing owners: edition retention of the application, source materialization and a receipt, and page geometry for any future overlay renderer.",
+          "No template, specification row or packet-set entry exists for any of the five stage-one motions. The implementation lane now has the legal design for them."
+        ],
+        "retiredUnresolvedQuestions": [
+          {
+            "question": "The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 706-622.9 remain unresolved.",
+            "impact": "build_blocker",
+            "affectedElement": "correct_form",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+              "sourceHeading": "Hawaii operational amendments / True blockers retained",
+              "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
+            }
+          },
+          {
+            "question": "Full official text of § 706-622.9 has not been read.",
+            "impact": "build_blocker",
+            "affectedElement": "eligibility_branch",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+              "sourceHeading": "TRACK 7 / required follow up",
+              "sourceStatement": "Read § 706-622.9 in full and acquire or rule out a statewide Judiciary form.",
+              "normalizerInferred": true
+            }
+          }
+        ],
+        "retiredUnresolvedQuestionsNote": "Retired because the integrated stage-one decision answers them from primary authority: the filing vehicle, whether the Judiciary publishes a statewide stage-one form, and, on the three tracks that carried it, the fact that the governing text had not been read. Each is preserved verbatim with its provenance so the record shows what was asked and what closed it. The fee question is not retired; it is narrowed and kept at release level.",
+        "retiredLimitations": [
           {
             "classification": "legal_design_blocker",
             "statement": "The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 706-622.9 remain unresolved.",
@@ -991,16 +1644,6 @@
               "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
               "sourceHeading": "Hawaii operational amendments / True blockers retained",
               "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate."
-            }
-          },
-          {
-            "classification": "manual_completion_item",
-            "statement": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
-            "provenance": {
-              "classificationBasis": "explicit_state_addendum",
-              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
-              "sourceHeading": "Hawaii operational amendments / Limitations reclassified as participant instructions",
-              "sourceStatement": "For conviction-expungement routes, the court-order number, date, and attachment may remain `manual_completion_item` or `required_before_submission` fields. LegalEase does not review the court order."
             }
           },
           {
@@ -1014,6 +1657,30 @@
               "normalizerInferred": true
             }
           }
+        ],
+        "retiredLimitationsNote": "Retired because the elements they recorded as undetermined are now determined, and because the two packet instructions they carried — not to write a custom-pleading specification, and not to build, until the stage-one procedure is established — are spent now that it is established. Statements and provenance are preserved verbatim here. Limitations that remain live, including the participant-obtains-the-order instruction and the manual-completion treatment of the order number and date, are untouched.",
+        "notClaimed": [
+          "The Hawaii implementation is not ready. This settles the design of one component on five tracks and builds nothing.",
+          "No packet becomes generatable, no renderer is assigned and no template is written.",
+          "No counsel approval is asserted.",
+          "packet_ready stays 0 and Hawaii stays runtime disabled."
+        ]
+      },
+      "unresolvedQuestions": [],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Both stages are now reconciled against primary authority and the stage-one build blocker is closed. The vehicle is a written motion under Haw. R. Penal P. 47(a), which resolves the application-versus-motion question the memo carried since normalization: Rule 47(a) provides in terms that an application to the court for an order shall be by motion, so the statutory word does not change the instrument. The Rules of Penal Procedure govern because Rule 54(a) applies them to all penal proceedings and no expungement provision supplies its own procedure. No official statewide Judiciary expungement form exists in any circuit, which was established from the Judiciary's own published form inventory rather than from a failed search, so a controlled custom pleading is permitted and is the only available strategy; the content is prescribed by the statute and by Rule 47, so a generated motion has a specification to be audited against and nothing is invented. Service is Rule 49(a) on the prosecuting attorney as a party, with Rule 49(c) proof; there is no statutory notice and no statutory hearing, and the motion is designed as a noticed motion under Rule 47(a) and Rule 45(c). A proposed order is a required component because the order is the operative instrument and stage two cannot start without a copy of it. Stage two is one document, HCJDC 159(b) at REV-2026-06-03, and the two identity keys the repository formerly carried have been collapsed to it. What is settled is the design; the implementation is not ready and nothing here makes it so.",
+        "limitations": [
+          {
+            "classification": "manual_completion_item",
+            "statement": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+              "sourceHeading": "Hawaii operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "For conviction-expungement routes, the court-order number, date, and attachment may remain `manual_completion_item` or `required_before_submission` fields. LegalEase does not review the court order."
+            }
+          }
         ]
       }
     },
@@ -1022,14 +1689,33 @@
       "legalName": "Conviction Expungement, DUI under 21, HRS § 291E-64(e)",
       "publicName": "Conviction expungement, DUI under 21",
       "controllingAuthority": {
-        "citations": ["HRS § 291E-64(e)"],
-        "summary": "Staged. Stage 1 is a court order from the sentencing court; stage 2 is the HCJDC application. The full current text, eligibility standard, court discretion, count limit and stage-one filing vehicle are unresolved."
+        "citations": [
+          "HRS § 291E-64(e)"
+        ],
+        "summary": "Two stages, both settled. Stage one is a written motion in the participant's own existing penal case, filed in the court that sentenced or convicted them, seeking a court order expunging the record of conviction; stage two is the HCJDC 159(b) Expungement Application submitted to the Hawaii Criminal Justice Data Center with a copy of that order attached. The stage-one vehicle is fixed by Haw. R. Penal P. 47(a), which provides that \"An application to the court for an order shall be by motion\", so Hawaii penal practice does not distinguish an application from a motion however the statute words it; the Rules of Penal Procedure govern because Rule 54(a) applies them to all penal proceedings and none of these provisions supplies its own procedure. Not established as mandatory. This subsection is drafted differently from the other four: it says the person 'may apply to the court for an expungement order' if the conditions are met, and it does not say the court shall grant it. No source read here resolves whether a qualifying application must be granted. Recorded as an open point below. It does not block the build — the vehicle, the venue and the allegations are all settled — but the packet copy must not tell a participant the order is guaranteed. No official statewide Hawaii Judiciary expungement form exists for stage one in any circuit, so a controlled custom pleading is permitted and is the only available strategy. Venue follows the offence and is a participant input rather than a track constant. Nothing here makes the Hawaii implementation ready."
       },
-      "effectiveDates": { "effectiveFrom": "2025-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
-      "eligibleRecordTypes": ["conviction"],
-      "eligibleDispositions": ["conviction for operating a vehicle after consuming a measurable amount of alcohol while under 21, within § 291E-64(e)"],
-      "exclusions": [],
-      "waitingPeriods": [],
+      "effectiveDates": {
+        "effectiveFrom": "2024-07-02",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-08-08"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "conviction for operating a vehicle after consuming a measurable amount of alcohol while under 21, within § 291E-64(e)"
+      ],
+      "exclusions": [
+        "Persons in possession of a commercial learner's permit or a commercial driver's license.",
+        "A conviction sustained while operating a commercial motor vehicle.",
+        "A conviction sustained while transporting hazardous materials."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "The application may be made upon attaining the age of twenty-one, or thereafter, and only if the person has had no subsequent alcohol or drug related enforcement contacts.",
+          "duration": "until the applicant attains the age of twenty-one"
+        }
+      ],
       "outputStrategy": "custom_pleading",
       "geography": {
         "scope": "statewide",
@@ -1046,20 +1732,38 @@
           "role": "primary_filing",
           "requirement": "required",
           "outputStrategy": "custom_pleading",
-          "notes": "Stage 1. Blocked pending the full statutory text and the accepted filing vehicle."
+          "notes": "Stage one, and no longer blocked. A written motion under Haw. R. Penal P. 47(a), in the participant's own existing penal case, seeking an order expunging the record of conviction under HRS 291E-64(e). It states the grounds and the relief sought, is accompanied by a memorandum where it involves a question of law, is supported by a Haw. R. Penal P. 47(d) declaration for facts not appearing of record, and carries a Rule 49(c) certificate of service on the prosecuting attorney. It is noticed for hearing under Rule 47(a) and Rule 45(c) unless presented ex parte. Required allegations: (1) Identity and the criminal case: court, circuit, case number and date of judgment. (2) That the conviction was of a first-time violation under HRS 291E-64(b)(1), or under HRS 291-4.3 as it existed before Act 189, Session Laws of Hawaii 2000. (3) That the person had no prior alcohol enforcement contacts. HRS 291E-64(c) provides that any conviction or plea under the section is itself a prior alcohol enforcement contact. (4) That the person has attained the age of twenty-one. (5) That the person has fulfilled the terms of the sentence imposed by the court. (6) That the person has had no subsequent alcohol or drug related enforcement contacts. (7) That the person was not in possession of a commercial learner's permit or commercial driver's licence, and was not convicted in a commercial motor vehicle or while transporting hazardous materials. (8) The relief sought: an expungement order. No official statewide Judiciary form exists, so this is a controlled custom pleading and there is no officialFormId to bind."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "The order expunging the record of conviction, lodged with the stage-one motion. No statute requires the movant to lodge one and no penal rule read here does either, but it is a required component on practical and procedural grounds: every one of the five provisions operates through an order the court issues, Rule 7(f)(3) of the Rules of the Circuit Courts compels a proposed order where the motion is presented ex parte, and stage two cannot begin without it because the Data Center requires a copy of the Order Granting the Expungement of Conviction to accompany the HCJDC 159(b) application. A participant who leaves the courthouse with a granted motion and no signed order cannot proceed."
         },
         {
           "role": "primary_filing",
           "requirement": "required",
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "HCJDC-159",
-          "notes": "Stage 2. Definitively packet-capable; not blocked."
+          "officialFormId": "HCJDC-159B",
+          "notes": "Stage two. HCJDC 159(b), Expungement Application, issued by the Hawaii Criminal Justice Data Center of the State of Hawaii Department of the Attorney General, statewide, current revision REV-2026-06-03 printed on the face as \"HCJDC 159(b) Rev. 06/03/2026\". This is the participant's own primary filing, completed and signed personally and submitted by mail to the Data Center. It is one document, not two: the repository formerly carried it under two identity keys because the \"(b)\" was read as a form variant, and the Data Center publishes exactly two forms in total, of which this is one. The Rev. 11/15/2019 copy is superseded and may never be selected as current. Structurally it is a flat PDF: measured directly, it has no /AcroForm in the document catalog, zero logical fields, zero terminal fields and no /Annots array at all, so zero widget annotations of any subtype. There is no field map to build and no acroform_fill implementation is possible against it. No source-materialization receipt exists and none may be created before the successor edition retains the asset, because Edition 1.2 retains no Hawaii packet form."
         }
       ],
       "participantInputs": [
-        { "key": "convictionDetails", "question": "What was the conviction — which court, and on what date?", "requirement": "required" },
-        { "key": "ageAtOffence", "question": "How old were you at the time of the offence?", "requirement": "required" },
-        { "key": "sentenceCompletion", "question": "Have you completed the sentence, and on what date?", "requirement": "required" }
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, and on what date?",
+          "requirement": "required"
+        },
+        {
+          "key": "ageAtOffence",
+          "question": "How old were you at the time of the offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletion",
+          "question": "Have you completed the sentence, and on what date?",
+          "requirement": "required"
+        }
       ],
       "supportingDocuments": [
         {
@@ -1073,56 +1777,152 @@
       ],
       "manualCompletionItems": [
         {
-          "item": "Court-order number and date",
-          "whereInPacket": "HCJDC application, order reference fields",
-          "why": "Not available until the sentencing court signs the stage-one order."
+          "item": "Signature and date on the motion and declaration.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "The case number and the judgment date.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "Court-order number and date, and the attached copy of the signed order",
+          "whereInPacket": "HCJDC 159(b) application, order reference fields",
+          "why": "Not available until the court signs the stage-one order. The participant obtains the order; LegalEase does not review it."
         }
       ],
       "officialSources": [
-        { "title": "HRS § 291E-64", "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol05_Ch0261-0319/HRS0291E/", "retrievedOn": "2026-07-30" }
-      ],
-      "rules": {
-        "filing": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
-        "fees": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
-        "feeWaiver": "The source review does not address a fee waiver.",
-        "notice": "The sentencing court decides at stage 1; HCJDC processes at stage 2.",
-        "service": "Blocked pending confirmation.",
-        "participantSignature": "The applicant signs their own application.",
-        "notarization": "The source review does not state a notarization requirement."
-      },
-      "selfHelpStopConditions": [
-        "The sentencing court sets a contested hearing.",
-        "Any immigration matter."
-      ],
-      "unresolvedQuestions": [
         {
-          "question": "The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 291E-64(e) remain unresolved.",
-          "impact": "build_blocker",
-          "affectedElement": "correct_form",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
-            "sourceHeading": "Hawaii operational amendments / True blockers retained",
-            "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
-          }
-        },
-        {
-          "question": "Full official text of § 291E-64(e) has not been read.",
-          "impact": "build_blocker",
-          "affectedElement": "eligibility_branch",
-          "provenance": {
-            "classificationBasis": "mechanical_translation",
-            "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
-            "sourceHeading": "TRACK 8 / required follow up",
-            "sourceStatement": "Read § 291E-64(e) in full and acquire or rule out a statewide Judiciary form.",
-            "normalizerInferred": true
-          }
+          "title": "HRS § 291E-64",
+          "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol05_Ch0261-0319/HRS0291E/",
+          "retrievedOn": "2026-07-30"
         }
       ],
-      "legalDesignDecision": {
-        "status": "legal_design_approved_with_limitations",
-        "rationale": "Original review: \"Additional research required.\" The amendment makes stage 2 definitively packet-capable and keeps the stage-one requirements as true blockers.",
-        "limitations": [
+      "rules": {
+        "filing": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
+        "fees": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "feeWaiver": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
+        "notice": "No statutory notice. Not one of the five provisions requires notice to the prosecuting attorney, to a victim, to the Attorney General, to the Data Center or to any agency. The notice that exists is the service every filed document receives.",
+        "service": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
+        "participantSignature": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "notarization": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing."
+      },
+      "selfHelpStopConditions": [
+        "Any commercial learner's permit or commercial driver's licence, or a conviction in a commercial motor vehicle or while transporting hazardous materials, which excludes the route outright.",
+        "Any prior alcohol enforcement contact.",
+        "Any subsequent alcohol or drug related enforcement contact.",
+        "The participant is not yet twenty-one.",
+        "The prosecutor opposes, or the court sets a contested hearing.",
+        "Any immigration matter."
+      ],
+      "_stageOneAndHcjdcReconciliation": {
+        "correctionJob": "rcap-hi-expungement-stage-one-and-hcjdc-159b-memo-correction",
+        "correctedOn": "2026-08-08",
+        "baseCommit": "7aaf916468800d42181158379c5262520c859a1b",
+        "controllingDecisions": {
+          "stageOne": "data/record-clearing/production-factory/legal-design-decisions/hi-stage-one-expungement-filing-vehicle-current-law-reconciliation.json",
+          "stageTwoIdentity": "data/record-clearing/production-factory/source-acquisition/rcap-hi-in-repo-identity-reconciliation-hcjdc-159.json",
+          "stageTwoTechnicalStructure": "data/record-clearing/production-factory/source-acquisition/rcap-hi-hcjdc-159b-technical-structure-and-edition-asset.json"
+        },
+        "stageOne": {
+          "governingStatute": "HRS 291E-64(e)",
+          "statutoryWord": "apply to the court for an expungement order",
+          "vehicle": "motion",
+          "vehicleBasis": "Haw. R. Penal P. 47(a): \"An application to the court for an order shall be by motion. A motion other than one made during a trial or hearing shall be in writing unless the court permits it to be made orally. It shall state the grounds upon which it is made and shall set forth the relief or order sought. A motion involving a question of law shall be accompanied by a memorandum in support of the motion. If a motion requires the consideration of facts not appearing of record, it shall be supported by affidavit or declaration.\"",
+          "rulesApply": "Haw. R. Penal P. 54(a) applies the Rules of Penal Procedure to all penal proceedings in all courts of the State, and Rule 54(b)'s exception for statutory proceedings with their own procedure does not bite because none of the five provisions supplies one. Rule 54(d) makes the Rules of Penal Procedure govern over the Rules of the Circuit Courts and the Rules of the District Courts in any conflict.",
+          "filingActor": "The person convicted.",
+          "venue": "The convicting court. A HRS 291E-64 offence is a violation under subsection (i), so this is a district court matter. Venue is a participant input.",
+          "venueIsAParticipantInput": "The level follows the offence in the participant's own case and is not a track constant: the class C felony drug and property offences are circuit court matters, while a HRS 712-1249 three-grams-or-less possession and a HRS 291E-64 offence are violations and district court matters.",
+          "officialStatewideCourtForm": "None exists. See the official-form finding.",
+          "controlledCustomPleadingPermitted": true,
+          "requiredAllegations": [
+            "Identity and the criminal case: court, circuit, case number and date of judgment.",
+            "That the conviction was of a first-time violation under HRS 291E-64(b)(1), or under HRS 291-4.3 as it existed before Act 189, Session Laws of Hawaii 2000.",
+            "That the person had no prior alcohol enforcement contacts. HRS 291E-64(c) provides that any conviction or plea under the section is itself a prior alcohol enforcement contact.",
+            "That the person has attained the age of twenty-one.",
+            "That the person has fulfilled the terms of the sentence imposed by the court.",
+            "That the person has had no subsequent alcohol or drug related enforcement contacts.",
+            "That the person was not in possession of a commercial learner's permit or commercial driver's licence, and was not convicted in a commercial motor vehicle or while transporting hazardous materials.",
+            "The relief sought: an expungement order."
+          ],
+          "eligibilityStandard": "Objective and closed, and the only one of the five with an age condition and a clean-period condition running forward from the sentence.",
+          "countLimits": "One in substance. The route is confined to a first-time violation by a person with no prior alcohol enforcement contacts, and HRS 291E-64(c) makes any conviction or plea under the section a prior contact, so a second one cannot qualify. The subsection states no separate numeric limit.",
+          "waitingPeriod": "Yes, and it is the only waiting period in the five: the application may be made 'upon attaining the age of twenty-one, or thereafter'. The clean-period condition — no subsequent alcohol or drug related enforcement contacts — runs alongside it.",
+          "discretion": "Not established as mandatory. This subsection is drafted differently from the other four: it says the person 'may apply to the court for an expungement order' if the conditions are met, and it does not say the court shall grant it. No source read here resolves whether a qualifying application must be granted. Recorded as an open point below. It does not block the build — the vehicle, the venue and the allegations are all settled — but the packet copy must not tell a participant the order is guaranteed.",
+          "service": "Haw. R. Penal P. 49(a) and 49(c).",
+          "prosecutorOrAgencyNotice": "None prescribed by the statute.",
+          "fee": "None prescribed by the statute. See the common fee finding.",
+          "feeBoundary": "Carried from the stage-one decision as it stands: no statutory fee on any of the five, and clerk cost practice open. A separate addendum job owns the court-fee question and its result is not imported here.",
+          "hearingTreatment": "No hearing required by the statute. A noticed motion.",
+          "proposedOrderTreatment": "Required as a packet component.",
+          "supportingDocuments": [
+            "The judgment and the traffic abstract, obtainable from the court and from the Judiciary's records service. Participant obtains; LegalEase does not review them."
+          ],
+          "interactionWithStageTwo": "The same, and the Data Center's Frequently Asked Questions single this route out: \"Do I need to submit court documents with my expungement form? Yes, if you are submitting an expungement form for either Driving Under the Influence, Under the Age of Twenty-One conviction, or First-Time Drug Related/Property Offender conviction with the Expungement Application (HCJDC-159(b)).\" HRS 291E-64(e) also opens 'Notwithstanding section 831-3.2', which is the statute the stage-two application is filed under; the phrase clears the way for a court order despite the general arrest-record scheme rather than displacing stage two.",
+          "conclusion": "controlled_custom_pleading"
+        },
+        "stageTwo": {
+          "oneDocumentNotTwo": "The repository formerly carried this single application under two identity keys because the \"(b)\" in HCJDC 159(b) was read as a variant of a base form numbered 159. The Data Center publishes exactly two forms in total, HCJDC-073 and HCJDC 159(b), and the one application covers both the non-conviction and the conviction routes; the route difference appears in what the applicant attaches, not in which form they file. All eight Hawaii components that bind it now bind one identity.",
+          "canonicalIdentity": "HCJDC-159B",
+          "officialDocumentId": "HCJDC 159(b)",
+          "officialTitle": "Expungement Application",
+          "issuer": "State of Hawaii, Department of the Attorney General",
+          "issuingOffice": "Hawaii Criminal Justice Data Center",
+          "destination": "Statewide. The Data Center is a statewide unit of the Department of the Attorney General, not a court and not a judicial circuit, and it administers expungement for the whole State; the application is filed by mail with that single office.",
+          "role": "participant primary filing, completed and signed by the applicant personally",
+          "currentRevision": "REV-2026-06-03",
+          "revisionOnTheFace": "HCJDC 159(b) Rev. 06/03/2026, printed in a single-line footer at the bottom right of page 1",
+          "supersededRevision": "Rev. 11/15/2019. Superseded, and it may never be selected as current. The issuer publishes only the 06/03/2026 revision.",
+          "structure": "flat_pdf. Measured directly: PDF 1.6, one page, 181,711 bytes, sha256 1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a, not encrypted, no XFA, no /AcroForm in the document catalog, zero logical fields, zero terminal fields, and no /Annots array at all so zero annotations of any subtype and therefore zero widgets.",
+          "noInventedFields": "There is no field map to build and no acroform_fill implementation is possible against this document. No AcroForm field is asserted here and none may be inferred; the zeros are measurements, not assumptions.",
+          "runtimeReceiptBoundary": "No source-materialization receipt exists for this document and none may be created before the successor edition retains it. Edition 1.2 retains no Hawaii packet form at all, so the asset must be added by an edition amendment before any receipt or runtime binding.",
+          "unchangedByThisCorrection": "Nothing in the integrated identity decision is reopened. This memo edit records that decision's result; it does not revisit it."
+        },
+        "denominatorsAndScope": {
+          "tracksUnchanged": "Hawaii keeps nine review source slots and nine nodes. No track was added, removed, split or merged.",
+          "componentsChanged": "One proposed_order component was added to each of the five stage-one tracks, because the integrated decision establishes a proposed order as a required component on all five. No component was removed and no other component was added.",
+          "officialFormBindingsUnchanged": "Eight HCJDC bindings before and eight after. Six moved from the legacy key to the canonical one and two already carried the canonical one; none was created or destroyed. The added proposed_order components are custom_pleading and bind no official form.",
+          "unrelatedTrackUntouched": "hi_state_initiated_marijuana_pilot is outside this correction and is value-identical. It is the state-initiated arrest-record pilot and has no participant filing and no HCJDC component."
+        },
+        "correctedEffectiveDate": {
+          "was": "2025-07-01",
+          "now": "2024-07-02",
+          "why": "The memo recorded 2025-07-01 on all five, which is a stage-two date: it is when Act 3, Session Laws of Hawaii 2025 took effect and made the Data Center transmit expungement orders to the Judiciary. It is not the effective date of the stage-one authority. The corrected date is the one the integrated decision establishes for this track's own stage-one provision."
+        },
+        "openItemsCarriedOrCreated": [
+          "Clerk cost practice on a stage-one motion in an existing penal case, at release level. A separate addendum job owns the court-fee question; its result is deliberately not imported into this memo.",
+          "Whether the stage-one motion is properly presented ex parte or must always be noticed. The decision records this as an open point; the design treats it as a noticed motion, which is the safer of the two.",
+          "Stage-two residuals are unchanged and keep their existing owners: edition retention of the application, source materialization and a receipt, and page geometry for any future overlay renderer.",
+          "No template, specification row or packet-set entry exists for any of the five stage-one motions. The implementation lane now has the legal design for them."
+        ],
+        "retiredUnresolvedQuestions": [
+          {
+            "question": "The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 291E-64(e) remain unresolved.",
+            "impact": "build_blocker",
+            "affectedElement": "correct_form",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+              "sourceHeading": "Hawaii operational amendments / True blockers retained",
+              "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate. The stage-two HCJDC packet is not blocked."
+            }
+          },
+          {
+            "question": "Full official text of § 291E-64(e) has not been read.",
+            "impact": "build_blocker",
+            "affectedElement": "eligibility_branch",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+              "sourceHeading": "TRACK 8 / required follow up",
+              "sourceStatement": "Read § 291E-64(e) in full and acquire or rule out a statewide Judiciary form.",
+              "normalizerInferred": true
+            }
+          }
+        ],
+        "retiredUnresolvedQuestionsNote": "Retired because the integrated stage-one decision answers them from primary authority: the filing vehicle, whether the Judiciary publishes a statewide stage-one form, and, on the three tracks that carried it, the fact that the governing text had not been read. Each is preserved verbatim with its provenance so the record shows what was asked and what closed it. The fee question is not retired; it is narrowed and kept at release level.",
+        "retiredLimitations": [
           {
             "classification": "legal_design_blocker",
             "statement": "The full current text, eligibility standard, court discretion, count limit, and stage-one filing vehicle under § 291E-64(e) remain unresolved.",
@@ -1132,16 +1932,6 @@
               "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
               "sourceHeading": "Hawaii operational amendments / True blockers retained",
               "sourceStatement": "For HI-4 through HI-8, the stage-one conviction-expungement filing vehicle and current authoritative statutory requirements remain true legal-design blockers because they determine what pleading to generate."
-            }
-          },
-          {
-            "classification": "manual_completion_item",
-            "statement": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
-            "provenance": {
-              "classificationBasis": "explicit_state_addendum",
-              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
-              "sourceHeading": "Hawaii operational amendments / Limitations reclassified as participant instructions",
-              "sourceStatement": "For conviction-expungement routes, the court-order number, date, and attachment may remain `manual_completion_item` or `required_before_submission` fields. LegalEase does not review the court order."
             }
           },
           {
@@ -1155,6 +1945,30 @@
               "normalizerInferred": true
             }
           }
+        ],
+        "retiredLimitationsNote": "Retired because the elements they recorded as undetermined are now determined, and because the two packet instructions they carried — not to write a custom-pleading specification, and not to build, until the stage-one procedure is established — are spent now that it is established. Statements and provenance are preserved verbatim here. Limitations that remain live, including the participant-obtains-the-order instruction and the manual-completion treatment of the order number and date, are untouched.",
+        "notClaimed": [
+          "The Hawaii implementation is not ready. This settles the design of one component on five tracks and builds nothing.",
+          "No packet becomes generatable, no renderer is assigned and no template is written.",
+          "No counsel approval is asserted.",
+          "packet_ready stays 0 and Hawaii stays runtime disabled."
+        ]
+      },
+      "unresolvedQuestions": [],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Both stages are now reconciled against primary authority and the stage-one build blocker is closed. The vehicle is a written motion under Haw. R. Penal P. 47(a), which resolves the application-versus-motion question the memo carried since normalization: Rule 47(a) provides in terms that an application to the court for an order shall be by motion, so the statutory word does not change the instrument. The Rules of Penal Procedure govern because Rule 54(a) applies them to all penal proceedings and no expungement provision supplies its own procedure. No official statewide Judiciary expungement form exists in any circuit, which was established from the Judiciary's own published form inventory rather than from a failed search, so a controlled custom pleading is permitted and is the only available strategy; the content is prescribed by the statute and by Rule 47, so a generated motion has a specification to be audited against and nothing is invented. Service is Rule 49(a) on the prosecuting attorney as a party, with Rule 49(c) proof; there is no statutory notice and no statutory hearing, and the motion is designed as a noticed motion under Rule 47(a) and Rule 45(c). A proposed order is a required component because the order is the operative instrument and stage two cannot start without a copy of it. Stage two is one document, HCJDC 159(b) at REV-2026-06-03, and the two identity keys the repository formerly carried have been collapsed to it. What is settled is the design; the implementation is not ready and nothing here makes it so.",
+        "limitations": [
+          {
+            "classification": "manual_completion_item",
+            "statement": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Hawaii-Legal-Review.md",
+              "sourceHeading": "Hawaii operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "For conviction-expungement routes, the court-order number, date, and attachment may remain `manual_completion_item` or `required_before_submission` fields. LegalEase does not review the court order."
+            }
+          }
         ]
       }
     },
@@ -1163,19 +1977,33 @@
       "legalName": "State-Initiated Marijuana Expungement Pilot, Act 62 (2024), as amended in 2025",
       "publicName": "State-initiated marijuana expungement pilot",
       "controllingAuthority": {
-        "citations": ["Act 62, Session Laws of Hawaii 2024, as amended in 2025"],
+        "citations": [
+          "Act 62, Session Laws of Hawaii 2024, as amended in 2025"
+        ],
         "summary": "The state initiates the pilot and no participant filing was identified. Originally limited to Hawaii County records."
       },
-      "effectiveDates": { "effectiveFrom": "2024-07-01", "effectiveTo": null, "reviewedAsOf": "2026-07-30" },
-      "eligibleRecordTypes": ["conviction"],
-      "eligibleDispositions": ["marijuana convictions within the pilot's scope"],
+      "effectiveDates": {
+        "effectiveFrom": "2024-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "marijuana convictions within the pilot's scope"
+      ],
       "exclusions": [],
       "waitingPeriods": [],
       "outputStrategy": "process_guidance",
-      "guidanceRationales": ["no_participant_filing_exists"],
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
       "geography": {
         "scope": "county",
-        "keys": ["hawaii"],
+        "keys": [
+          "hawaii"
+        ],
         "venue": "Originally limited to Hawaii County records; current continuation, geographic reach, and operating status remain unresolved."
       },
       "destination": {
@@ -1192,13 +2020,25 @@
         }
       ],
       "participantInputs": [
-        { "key": "countyOfConviction", "question": "In which county was the conviction?", "requirement": "required" },
-        { "key": "recordStillVisible", "question": "Does the record still appear on a background check?", "requirement": "required" }
+        {
+          "key": "countyOfConviction",
+          "question": "In which county was the conviction?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordStillVisible",
+          "question": "Does the record still appear on a background check?",
+          "requirement": "required"
+        }
       ],
       "supportingDocuments": [],
       "manualCompletionItems": [],
       "officialSources": [
-        { "title": "Act 62, Session Laws of Hawaii 2024", "url": "https://www.capitol.hawaii.gov/", "retrievedOn": "2026-07-30" }
+        {
+          "title": "Act 62, Session Laws of Hawaii 2024",
+          "url": "https://www.capitol.hawaii.gov/",
+          "retrievedOn": "2026-07-30"
+        }
       ],
       "rules": {
         "filing": "none. The state initiates the pilot.",

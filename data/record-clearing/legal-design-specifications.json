@@ -13208,13 +13208,13 @@
         "HRS § 706-622.5(4)"
       ],
       "rules": {
-        "filing": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
-        "fees": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
-        "feeWaiver": "The source review does not address a fee waiver.",
-        "notice": "The sentencing court decides at stage 1; HCJDC processes at stage 2.",
-        "service": "Blocked pending confirmation. Service is among the stage-one items counsel must confirm.",
-        "participantSignature": "The applicant signs their own application.",
-        "notarization": "The source review does not state a notarization requirement."
+        "filing": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
+        "fees": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "feeWaiver": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
+        "notice": "No statutory notice. Not one of the five provisions requires notice to the prosecuting attorney, to a victim, to the Attorney General, to the Data Center or to any agency. The notice that exists is the service every filed document receives.",
+        "service": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
+        "participantSignature": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "notarization": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing."
       },
       "generationRequirements": [
         {
@@ -13234,19 +13234,23 @@
         }
       ],
       "packetInstructions": [
-        "Do not write a custom-pleading specification until the form question is resolved.",
         "The need for a later court order is not itself a blocker. The participant obtains the order; the packet carries clear do-not-submit instructions until it is available."
       ],
       "manualCompletionItems": [
         {
-          "item": "Court-order number and date",
-          "whereInPacket": "HCJDC application, order reference fields",
-          "why": "Not available until the sentencing court signs the stage-one order. LegalEase does not review the order."
+          "item": "Signature and date on the motion and on the Rule 47(d) declaration.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
         },
         {
-          "item": "Signature and date",
-          "whereInPacket": "HCJDC application, signature block",
-          "why": "The applicant signs their own application."
+          "item": "The case number and the judgment date, where the participant reads them from their own court record.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "Court-order number and date, and the attached copy of the signed order",
+          "whereInPacket": "HCJDC 159(b) application, order reference fields",
+          "why": "Not available until the court signs the stage-one order. The participant obtains the order; LegalEase does not review it."
         },
         {
           "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields. LegalEase does not review the court order.",
@@ -13277,50 +13281,56 @@
         },
         {
           "kind": "complete_field",
-          "description": "Court-order number and date — HCJDC application, order reference fields.",
+          "description": "Signature and date on the motion and on the Rule 47(d) declaration. — Stage-one motion, declaration and proposed order.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "complete_field",
-          "description": "Signature and date — HCJDC application, signature block.",
+          "description": "The case number and the judgment date, where the participant reads them from their own court record. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "sign",
-          "description": "The applicant signs their own application.",
+          "description": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "notarize",
-          "description": "The source review does not state a notarization requirement.",
+          "description": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "pay_fee",
-          "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "description": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "apply_fee_waiver",
-          "description": "The source review does not address a fee waiver.",
+          "description": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
           "requirement": "conditional",
           "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
           "requiredBeforeFiling": true
         },
         {
           "kind": "serve_party",
-          "description": "Blocked pending confirmation. Service is among the stage-one items counsel must confirm.",
+          "description": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
           "requirement": "required",
           "requiredBeforeFiling": false
         },
         {
           "kind": "file",
-          "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+          "description": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
@@ -13329,17 +13339,178 @@
         "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
         "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
         "Obtain Photo identification, money order, and stamped self-addressed envelope. Enclose these with the HCJDC application.",
-        "Court-order number and date — HCJDC application, order reference fields.",
-        "Signature and date — HCJDC application, signature block.",
-        "The applicant signs their own application.",
-        "The source review does not state a notarization requirement.",
-        "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
-        "The source review does not address a fee waiver."
+        "Signature and date on the motion and on the Rule 47(d) declaration. — Stage-one motion, declaration and proposed order.",
+        "The case number and the judgment date, where the participant reads them from their own court record. — Stage-one motion, declaration and proposed order.",
+        "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
+        "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
+        "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet."
       ],
       "stopConditions": [
-        "The sentencing court sets a contested hearing.",
+        "The prosecutor opposes, or the court sets a contested hearing.",
+        "The participant disputes whether probation was completed or whether the terms were complied with.",
+        "A prior expungement under HRS 706-622.5 or HRS 706-622.8 anywhere in the participant's history.",
         "Any immigration matter.",
-        "The participant wants to attack the underlying conviction."
+        "The participant wants to attack the underlying conviction rather than expunge it."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_first_time_drug_offender_expungement",
+      "componentId": "hi_first_time_drug_offender_expungement-proposed-order-2",
+      "role": "proposed_order",
+      "venue": "Statewide staged Hawaii process: court order from the sentencing court, then HCJDC application.",
+      "authority": [
+        "HRS § 706-622.5(4)"
+      ],
+      "rules": {
+        "filing": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
+        "fees": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "feeWaiver": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
+        "notice": "No statutory notice. Not one of the five provisions requires notice to the prosecuting attorney, to a victim, to the Attorney General, to the Data Center or to any agency. The notice that exists is the service every filed document receives.",
+        "service": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
+        "participantSignature": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "notarization": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing."
+      },
+      "generationRequirements": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, and what statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "firstTimeOffender",
+          "question": "Was this your first drug offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletion",
+          "question": "Have you completed the sentence, and on what date?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "The need for a later court order is not itself a blocker. The participant obtains the order; the packet carries clear do-not-submit instructions until it is available."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date on the motion and on the Rule 47(d) declaration.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "The case number and the judgment date, where the participant reads them from their own court record.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "Court-order number and date, and the attached copy of the signed order",
+          "whereInPacket": "HCJDC 159(b) application, order reference fields",
+          "why": "Not available until the court signs the stage-one order. The participant obtains the order; LegalEase does not review it."
+        },
+        {
+          "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields. LegalEase does not review the court order.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
+          "obtainedFrom": "The sentencing court, at stage 1",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Photo identification, money order, and stamped self-addressed envelope. Enclose these with the HCJDC application.",
+          "obtainedFrom": "The participant's own documents, a money order issuer, and a post office",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date on the motion and on the Rule 47(d) declaration. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number and the judgment date, where the participant reads them from their own court record. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
+        "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+        "Obtain Photo identification, money order, and stamped self-addressed envelope. Enclose these with the HCJDC application.",
+        "Signature and date on the motion and on the Rule 47(d) declaration. — Stage-one motion, declaration and proposed order.",
+        "The case number and the judgment date, where the participant reads them from their own court record. — Stage-one motion, declaration and proposed order.",
+        "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
+        "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
+        "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet."
+      ],
+      "stopConditions": [
+        "The prosecutor opposes, or the court sets a contested hearing.",
+        "The participant disputes whether probation was completed or whether the terms were complied with.",
+        "A prior expungement under HRS 706-622.5 or HRS 706-622.8 anywhere in the participant's history.",
+        "Any immigration matter.",
+        "The participant wants to attack the underlying conviction rather than expunge it."
       ],
       "templateStatus": "not_drafted"
     },
@@ -13353,13 +13524,13 @@
         "HRS § 706-622.5(5)"
       ],
       "rules": {
-        "filing": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
-        "fees": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
-        "feeWaiver": "The source review does not address a fee waiver.",
-        "notice": "The sentencing court decides at stage 1; HCJDC processes at stage 2.",
-        "service": "Blocked pending confirmation.",
-        "participantSignature": "The applicant signs their own application.",
-        "notarization": "The source review does not state a notarization requirement."
+        "filing": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
+        "fees": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "feeWaiver": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
+        "notice": "No statutory notice. Not one of the five provisions requires notice to the prosecuting attorney, to a victim, to the Attorney General, to the Data Center or to any agency. The notice that exists is the service every filed document receives.",
+        "service": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
+        "participantSignature": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "notarization": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing."
       },
       "generationRequirements": [
         {
@@ -13383,9 +13554,19 @@
       ],
       "manualCompletionItems": [
         {
-          "item": "Court-order number and date",
-          "whereInPacket": "HCJDC application, order reference fields",
-          "why": "Not available until the sentencing court signs the stage-one order."
+          "item": "Signature and date on the motion and declaration.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "The case number and judgment date.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "Court-order number and date, and the attached copy of the signed order",
+          "whereInPacket": "HCJDC 159(b) application, order reference fields",
+          "why": "Not available until the court signs the stage-one order. The participant obtains the order; LegalEase does not review it."
         },
         {
           "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields. LegalEase does not review the court order.",
@@ -13409,44 +13590,56 @@
         },
         {
           "kind": "complete_field",
-          "description": "Court-order number and date — HCJDC application, order reference fields.",
+          "description": "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number and judgment date. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "sign",
-          "description": "The applicant signs their own application.",
+          "description": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "notarize",
-          "description": "The source review does not state a notarization requirement.",
+          "description": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "pay_fee",
-          "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "description": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "apply_fee_waiver",
-          "description": "The source review does not address a fee waiver.",
+          "description": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
           "requirement": "conditional",
           "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
           "requiredBeforeFiling": true
         },
         {
           "kind": "serve_party",
-          "description": "Blocked pending confirmation.",
+          "description": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
           "requirement": "required",
           "requiredBeforeFiling": false
         },
         {
           "kind": "file",
-          "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+          "description": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
@@ -13454,14 +13647,169 @@
       "requiredBeforeFiling": [
         "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
         "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
-        "Court-order number and date — HCJDC application, order reference fields.",
-        "The applicant signs their own application.",
-        "The source review does not state a notarization requirement.",
-        "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
-        "The source review does not address a fee waiver."
+        "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+        "The case number and judgment date. — Stage-one motion, declaration and proposed order.",
+        "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
+        "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
+        "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet."
       ],
       "stopConditions": [
-        "The sentencing court sets a contested hearing.",
+        "Any other criminal charge arising from the same facts and circumstances, which defeats the route.",
+        "Any dispute about the quantity.",
+        "A prior expungement under HRS 706-622.5 or HRS 706-622.8.",
+        "The prosecutor opposes, or the court sets a contested hearing.",
+        "Any immigration matter."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_marijuana_three_grams_expungement",
+      "componentId": "hi_marijuana_three_grams_expungement-proposed-order-2",
+      "role": "proposed_order",
+      "venue": "Statewide staged Hawaii process: court order from the sentencing court, then HCJDC application.",
+      "authority": [
+        "HRS § 706-622.5(5)"
+      ],
+      "rules": {
+        "filing": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
+        "fees": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "feeWaiver": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
+        "notice": "No statutory notice. Not one of the five provisions requires notice to the prosecuting attorney, to a victim, to the Attorney General, to the Data Center or to any agency. The notice that exists is the service every filed document receives.",
+        "service": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
+        "participantSignature": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "notarization": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing."
+      },
+      "generationRequirements": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, and what statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "quantity",
+          "question": "Was the amount three grams or less?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletion",
+          "question": "Have you completed the sentence, and on what date?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "The participant obtains the order; the packet carries clear do-not-submit instructions until it is available."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date on the motion and declaration.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "The case number and judgment date.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "Court-order number and date, and the attached copy of the signed order",
+          "whereInPacket": "HCJDC 159(b) application, order reference fields",
+          "why": "Not available until the court signs the stage-one order. The participant obtains the order; LegalEase does not review it."
+        },
+        {
+          "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields. LegalEase does not review the court order.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
+          "obtainedFrom": "The sentencing court, at stage 1",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number and judgment date. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
+        "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+        "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+        "The case number and judgment date. — Stage-one motion, declaration and proposed order.",
+        "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
+        "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
+        "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet."
+      ],
+      "stopConditions": [
+        "Any other criminal charge arising from the same facts and circumstances, which defeats the route.",
+        "Any dispute about the quantity.",
+        "A prior expungement under HRS 706-622.5 or HRS 706-622.8.",
+        "The prosecutor opposes, or the court sets a contested hearing.",
         "Any immigration matter."
       ],
       "templateStatus": "not_drafted"
@@ -13476,13 +13824,13 @@
         "HRS § 706-622.8"
       ],
       "rules": {
-        "filing": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
-        "fees": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
-        "feeWaiver": "The source review does not address a fee waiver.",
-        "notice": "The sentencing court decides at stage 1; HCJDC processes at stage 2.",
-        "service": "Blocked pending confirmation.",
-        "participantSignature": "The applicant signs their own application.",
-        "notarization": "The source review does not state a notarization requirement."
+        "filing": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
+        "fees": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "feeWaiver": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
+        "notice": "No statutory notice. Not one of the five provisions requires notice to the prosecuting attorney, to a victim, to the Attorney General, to the Data Center or to any agency. The notice that exists is the service every filed document receives.",
+        "service": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
+        "participantSignature": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "notarization": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing."
       },
       "generationRequirements": [
         {
@@ -13501,14 +13849,22 @@
           "requirement": "required"
         }
       ],
-      "packetInstructions": [
-        "Do not build until the stage-one procedure is established."
-      ],
+      "packetInstructions": [],
       "manualCompletionItems": [
         {
-          "item": "Court-order number and date",
-          "whereInPacket": "HCJDC application, order reference fields",
-          "why": "Not available until the sentencing court signs the stage-one order."
+          "item": "Signature and date on the motion and declaration.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "The case number and the sentencing date.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "Court-order number and date, and the attached copy of the signed order",
+          "whereInPacket": "HCJDC 159(b) application, order reference fields",
+          "why": "Not available until the court signs the stage-one order. The participant obtains the order; LegalEase does not review it."
         },
         {
           "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
@@ -13532,44 +13888,56 @@
         },
         {
           "kind": "complete_field",
-          "description": "Court-order number and date — HCJDC application, order reference fields.",
+          "description": "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number and the sentencing date. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "sign",
-          "description": "The applicant signs their own application.",
+          "description": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "notarize",
-          "description": "The source review does not state a notarization requirement.",
+          "description": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "pay_fee",
-          "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "description": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "apply_fee_waiver",
-          "description": "The source review does not address a fee waiver.",
+          "description": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
           "requirement": "conditional",
           "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
           "requiredBeforeFiling": true
         },
         {
           "kind": "serve_party",
-          "description": "Blocked pending confirmation.",
+          "description": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
           "requirement": "required",
           "requiredBeforeFiling": false
         },
         {
           "kind": "file",
-          "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+          "description": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
@@ -13577,14 +13945,167 @@
       "requiredBeforeFiling": [
         "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
         "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
-        "Court-order number and date — HCJDC application, order reference fields.",
-        "The applicant signs their own application.",
-        "The source review does not state a notarization requirement.",
-        "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
-        "The source review does not address a fee waiver."
+        "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+        "The case number and the sentencing date. — Stage-one motion, declaration and proposed order.",
+        "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
+        "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
+        "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet."
       ],
       "stopConditions": [
-        "The sentencing court sets a contested hearing.",
+        "A sentence imposed on or after July 1, 2004, which routes to HRS 706-622.5(4) instead.",
+        "The participant cannot obtain the record of a sentence more than twenty years old.",
+        "A prior expungement under HRS 706-622.5 or HRS 706-622.8.",
+        "The prosecutor opposes, or the court sets a contested hearing.",
+        "Any immigration matter."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_pre_2004_drug_offender_expungement",
+      "componentId": "hi_pre_2004_drug_offender_expungement-proposed-order-2",
+      "role": "proposed_order",
+      "venue": "Statewide staged Hawaii process: court order from the sentencing court, then HCJDC application.",
+      "authority": [
+        "HRS § 706-622.8"
+      ],
+      "rules": {
+        "filing": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
+        "fees": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "feeWaiver": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
+        "notice": "No statutory notice. Not one of the five provisions requires notice to the prosecuting attorney, to a victim, to the Attorney General, to the Data Center or to any agency. The notice that exists is the service every filed document receives.",
+        "service": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
+        "participantSignature": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "notarization": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing."
+      },
+      "generationRequirements": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, and what statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentencingDate",
+          "question": "On what date were you sentenced? This route applies to sentences before 1 July 2004.",
+          "requirement": "required"
+        },
+        {
+          "key": "firstTimeOffender",
+          "question": "Was this your first drug offence?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date on the motion and declaration.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "The case number and the sentencing date.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "Court-order number and date, and the attached copy of the signed order",
+          "whereInPacket": "HCJDC 159(b) application, order reference fields",
+          "why": "Not available until the court signs the stage-one order. The participant obtains the order; LegalEase does not review it."
+        },
+        {
+          "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+          "obtainedFrom": "The sentencing court, at stage 1",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number and the sentencing date. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+        "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+        "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+        "The case number and the sentencing date. — Stage-one motion, declaration and proposed order.",
+        "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
+        "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
+        "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet."
+      ],
+      "stopConditions": [
+        "A sentence imposed on or after July 1, 2004, which routes to HRS 706-622.5(4) instead.",
+        "The participant cannot obtain the record of a sentence more than twenty years old.",
+        "A prior expungement under HRS 706-622.5 or HRS 706-622.8.",
+        "The prosecutor opposes, or the court sets a contested hearing.",
         "Any immigration matter."
       ],
       "templateStatus": "not_drafted"
@@ -13599,13 +14120,13 @@
         "HRS § 706-622.9"
       ],
       "rules": {
-        "filing": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
-        "fees": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
-        "feeWaiver": "The source review does not address a fee waiver.",
-        "notice": "The sentencing court decides at stage 1; HCJDC processes at stage 2.",
-        "service": "Blocked pending confirmation.",
-        "participantSignature": "The applicant signs their own application.",
-        "notarization": "The source review does not state a notarization requirement."
+        "filing": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
+        "fees": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "feeWaiver": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
+        "notice": "No statutory notice. Not one of the five provisions requires notice to the prosecuting attorney, to a victim, to the Attorney General, to the Data Center or to any agency. The notice that exists is the service every filed document receives.",
+        "service": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
+        "participantSignature": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "notarization": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing."
       },
       "generationRequirements": [
         {
@@ -13624,14 +14145,22 @@
           "requirement": "required"
         }
       ],
-      "packetInstructions": [
-        "Do not build until the stage-one procedure is established."
-      ],
+      "packetInstructions": [],
       "manualCompletionItems": [
         {
-          "item": "Court-order number and date",
-          "whereInPacket": "HCJDC application, order reference fields",
-          "why": "Not available until the sentencing court signs the stage-one order."
+          "item": "Signature and date on the motion and declaration.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "The case number and the sentencing date, which decides which subsection applies.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "Court-order number and date, and the attached copy of the signed order",
+          "whereInPacket": "HCJDC 159(b) application, order reference fields",
+          "why": "Not available until the court signs the stage-one order. The participant obtains the order; LegalEase does not review it."
         },
         {
           "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
@@ -13655,44 +14184,56 @@
         },
         {
           "kind": "complete_field",
-          "description": "Court-order number and date — HCJDC application, order reference fields.",
+          "description": "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number and the sentencing date, which decides which subsection applies. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "sign",
-          "description": "The applicant signs their own application.",
+          "description": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "notarize",
-          "description": "The source review does not state a notarization requirement.",
+          "description": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "pay_fee",
-          "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "description": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "apply_fee_waiver",
-          "description": "The source review does not address a fee waiver.",
+          "description": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
           "requirement": "conditional",
           "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
           "requiredBeforeFiling": true
         },
         {
           "kind": "serve_party",
-          "description": "Blocked pending confirmation.",
+          "description": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
           "requirement": "required",
           "requiredBeforeFiling": false
         },
         {
           "kind": "file",
-          "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+          "description": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
@@ -13700,14 +14241,167 @@
       "requiredBeforeFiling": [
         "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
         "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
-        "Court-order number and date — HCJDC application, order reference fields.",
-        "The applicant signs their own application.",
-        "The source review does not state a notarization requirement.",
-        "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
-        "The source review does not address a fee waiver."
+        "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+        "The case number and the sentencing date, which decides which subsection applies. — Stage-one motion, declaration and proposed order.",
+        "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
+        "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
+        "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet."
       ],
       "stopConditions": [
-        "The sentencing court sets a contested hearing.",
+        "Any prior or subsequent felony conviction in any jurisdiction.",
+        "A contested nonviolence finding under subsection (4)(d).",
+        "The court cannot make the subsection (4)(b) finding and the discretionary fallback is in play.",
+        "The prosecutor opposes, or the court sets a contested hearing.",
+        "Any immigration matter."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_first_time_property_offender_expungement",
+      "componentId": "hi_first_time_property_offender_expungement-proposed-order-2",
+      "role": "proposed_order",
+      "venue": "Statewide staged Hawaii process: court order from the sentencing court, then HCJDC application.",
+      "authority": [
+        "HRS § 706-622.9"
+      ],
+      "rules": {
+        "filing": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
+        "fees": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "feeWaiver": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
+        "notice": "No statutory notice. Not one of the five provisions requires notice to the prosecuting attorney, to a victim, to the Attorney General, to the Data Center or to any agency. The notice that exists is the service every filed document receives.",
+        "service": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
+        "participantSignature": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "notarization": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing."
+      },
+      "generationRequirements": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, what offence, and what statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "firstTimePropertyOffender",
+          "question": "Was this your first property offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletion",
+          "question": "Have you completed the sentence, and on what date?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date on the motion and declaration.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "The case number and the sentencing date, which decides which subsection applies.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "Court-order number and date, and the attached copy of the signed order",
+          "whereInPacket": "HCJDC 159(b) application, order reference fields",
+          "why": "Not available until the court signs the stage-one order. The participant obtains the order; LegalEase does not review it."
+        },
+        {
+          "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+          "obtainedFrom": "The sentencing court, at stage 1",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number and the sentencing date, which decides which subsection applies. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+        "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
+        "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+        "The case number and the sentencing date, which decides which subsection applies. — Stage-one motion, declaration and proposed order.",
+        "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
+        "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
+        "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet."
+      ],
+      "stopConditions": [
+        "Any prior or subsequent felony conviction in any jurisdiction.",
+        "A contested nonviolence finding under subsection (4)(d).",
+        "The court cannot make the subsection (4)(b) finding and the discretionary fallback is in play.",
+        "The prosecutor opposes, or the court sets a contested hearing.",
         "Any immigration matter."
       ],
       "templateStatus": "not_drafted"
@@ -13722,13 +14416,13 @@
         "HRS § 291E-64(e)"
       ],
       "rules": {
-        "filing": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
-        "fees": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
-        "feeWaiver": "The source review does not address a fee waiver.",
-        "notice": "The sentencing court decides at stage 1; HCJDC processes at stage 2.",
-        "service": "Blocked pending confirmation.",
-        "participantSignature": "The applicant signs their own application.",
-        "notarization": "The source review does not state a notarization requirement."
+        "filing": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
+        "fees": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "feeWaiver": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
+        "notice": "No statutory notice. Not one of the five provisions requires notice to the prosecuting attorney, to a victim, to the Attorney General, to the Data Center or to any agency. The notice that exists is the service every filed document receives.",
+        "service": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
+        "participantSignature": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "notarization": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing."
       },
       "generationRequirements": [
         {
@@ -13747,14 +14441,22 @@
           "requirement": "required"
         }
       ],
-      "packetInstructions": [
-        "Do not build until the stage-one procedure is established."
-      ],
+      "packetInstructions": [],
       "manualCompletionItems": [
         {
-          "item": "Court-order number and date",
-          "whereInPacket": "HCJDC application, order reference fields",
-          "why": "Not available until the sentencing court signs the stage-one order."
+          "item": "Signature and date on the motion and declaration.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "The case number and the judgment date.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "Court-order number and date, and the attached copy of the signed order",
+          "whereInPacket": "HCJDC 159(b) application, order reference fields",
+          "why": "Not available until the court signs the stage-one order. The participant obtains the order; LegalEase does not review it."
         },
         {
           "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
@@ -13778,44 +14480,56 @@
         },
         {
           "kind": "complete_field",
-          "description": "Court-order number and date — HCJDC application, order reference fields.",
+          "description": "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number and the judgment date. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "sign",
-          "description": "The applicant signs their own application.",
+          "description": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "notarize",
-          "description": "The source review does not state a notarization requirement.",
+          "description": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "pay_fee",
-          "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "description": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "apply_fee_waiver",
-          "description": "The source review does not address a fee waiver.",
+          "description": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
           "requirement": "conditional",
           "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
           "requiredBeforeFiling": true
         },
         {
           "kind": "serve_party",
-          "description": "Blocked pending confirmation.",
+          "description": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
           "requirement": "required",
           "requiredBeforeFiling": false
         },
         {
           "kind": "file",
-          "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+          "description": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
@@ -13823,14 +14537,169 @@
       "requiredBeforeFiling": [
         "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
         "Check your answer to \"What was the conviction — which court, and on what date?\" against Court order granting expungement, and correct the packet if they disagree.",
-        "Court-order number and date — HCJDC application, order reference fields.",
-        "The applicant signs their own application.",
-        "The source review does not state a notarization requirement.",
-        "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
-        "The source review does not address a fee waiver."
+        "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+        "The case number and the judgment date. — Stage-one motion, declaration and proposed order.",
+        "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
+        "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
+        "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet."
       ],
       "stopConditions": [
-        "The sentencing court sets a contested hearing.",
+        "Any commercial learner's permit or commercial driver's licence, or a conviction in a commercial motor vehicle or while transporting hazardous materials, which excludes the route outright.",
+        "Any prior alcohol enforcement contact.",
+        "Any subsequent alcohol or drug related enforcement contact.",
+        "The participant is not yet twenty-one.",
+        "The prosecutor opposes, or the court sets a contested hearing.",
+        "Any immigration matter."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "HI",
+      "trackId": "hi_under_21_dui_expungement",
+      "componentId": "hi_under_21_dui_expungement-proposed-order-2",
+      "role": "proposed_order",
+      "venue": "Statewide staged Hawaii process: court order from the sentencing court, then HCJDC application.",
+      "authority": [
+        "HRS § 291E-64(e)"
+      ],
+      "rules": {
+        "filing": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
+        "fees": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "feeWaiver": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
+        "notice": "No statutory notice. Not one of the five provisions requires notice to the prosecuting attorney, to a victim, to the Attorney General, to the Data Center or to any agency. The notice that exists is the service every filed document receives.",
+        "service": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
+        "participantSignature": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "notarization": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing."
+      },
+      "generationRequirements": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, and on what date?",
+          "requirement": "required"
+        },
+        {
+          "key": "ageAtOffence",
+          "question": "How old were you at the time of the offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletion",
+          "question": "Have you completed the sentence, and on what date?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date on the motion and declaration.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "The case number and the judgment date.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "Court-order number and date, and the attached copy of the signed order",
+          "whereInPacket": "HCJDC 159(b) application, order reference fields",
+          "why": "Not available until the court signs the stage-one order. The participant obtains the order; LegalEase does not review it."
+        },
+        {
+          "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
+          "whereInPacket": "Recorded by counsel as a limitation; place when the packet is drafted.",
+          "why": "Counsel classified this as an item the participant completes."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+          "obtainedFrom": "The sentencing court, at stage 1",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"What was the conviction — which court, and on what date?\" against Court order granting expungement, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number and the judgment date. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
+        "Check your answer to \"What was the conviction — which court, and on what date?\" against Court order granting expungement, and correct the packet if they disagree.",
+        "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+        "The case number and the judgment date. — Stage-one motion, declaration and proposed order.",
+        "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
+        "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
+        "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet."
+      ],
+      "stopConditions": [
+        "Any commercial learner's permit or commercial driver's licence, or a conviction in a commercial motor vehicle or while transporting hazardous materials, which excludes the route outright.",
+        "Any prior alcohol enforcement contact.",
+        "Any subsequent alcohol or drug related enforcement contact.",
+        "The participant is not yet twenty-one.",
+        "The prosecutor opposes, or the court sets a contested hearing.",
         "Any immigration matter."
       ],
       "templateStatus": "not_drafted"
@@ -103366,7 +104235,7 @@
       "jurisdiction": "HI",
       "trackId": "hi_nonconviction_expungement",
       "componentId": "hi_nonconviction_expungement-primary-filing-1",
-      "officialFormId": "HCJDC-159",
+      "officialFormId": "HCJDC-159B",
       "officialSourceUrl": null,
       "generationRequirements": [
         {
@@ -103662,8 +104531,8 @@
     {
       "jurisdiction": "HI",
       "trackId": "hi_first_time_drug_offender_expungement",
-      "componentId": "hi_first_time_drug_offender_expungement-primary-filing-2",
-      "officialFormId": "HCJDC-159",
+      "componentId": "hi_first_time_drug_offender_expungement-primary-filing-3",
+      "officialFormId": "HCJDC-159B",
       "officialSourceUrl": null,
       "generationRequirements": [
         {
@@ -103684,14 +104553,19 @@
       ],
       "manualCompletionItems": [
         {
-          "item": "Court-order number and date",
-          "whereInPacket": "HCJDC application, order reference fields",
-          "why": "Not available until the sentencing court signs the stage-one order. LegalEase does not review the order."
+          "item": "Signature and date on the motion and on the Rule 47(d) declaration.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
         },
         {
-          "item": "Signature and date",
-          "whereInPacket": "HCJDC application, signature block",
-          "why": "The applicant signs their own application."
+          "item": "The case number and the judgment date, where the participant reads them from their own court record.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "Court-order number and date, and the attached copy of the signed order",
+          "whereInPacket": "HCJDC 159(b) application, order reference fields",
+          "why": "Not available until the court signs the stage-one order. The participant obtains the order; LegalEase does not review it."
         },
         {
           "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields. LegalEase does not review the court order.",
@@ -103722,50 +104596,56 @@
         },
         {
           "kind": "complete_field",
-          "description": "Court-order number and date — HCJDC application, order reference fields.",
+          "description": "Signature and date on the motion and on the Rule 47(d) declaration. — Stage-one motion, declaration and proposed order.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "complete_field",
-          "description": "Signature and date — HCJDC application, signature block.",
+          "description": "The case number and the judgment date, where the participant reads them from their own court record. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "sign",
-          "description": "The applicant signs their own application.",
+          "description": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "notarize",
-          "description": "The source review does not state a notarization requirement.",
+          "description": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "pay_fee",
-          "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "description": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "apply_fee_waiver",
-          "description": "The source review does not address a fee waiver.",
+          "description": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
           "requirement": "conditional",
           "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
           "requiredBeforeFiling": true
         },
         {
           "kind": "serve_party",
-          "description": "Blocked pending confirmation. Service is among the stage-one items counsel must confirm.",
+          "description": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
           "requirement": "required",
           "requiredBeforeFiling": false
         },
         {
           "kind": "file",
-          "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+          "description": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
@@ -103774,20 +104654,21 @@
         "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
         "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
         "Obtain Photo identification, money order, and stamped self-addressed envelope. Enclose these with the HCJDC application.",
-        "Court-order number and date — HCJDC application, order reference fields.",
-        "Signature and date — HCJDC application, signature block.",
-        "The applicant signs their own application.",
-        "The source review does not state a notarization requirement.",
-        "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
-        "The source review does not address a fee waiver."
+        "Signature and date on the motion and on the Rule 47(d) declaration. — Stage-one motion, declaration and proposed order.",
+        "The case number and the judgment date, where the participant reads them from their own court record. — Stage-one motion, declaration and proposed order.",
+        "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
+        "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
+        "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet."
       ],
       "mappingStatus": "not_mapped"
     },
     {
       "jurisdiction": "HI",
       "trackId": "hi_marijuana_three_grams_expungement",
-      "componentId": "hi_marijuana_three_grams_expungement-primary-filing-2",
-      "officialFormId": "HCJDC-159",
+      "componentId": "hi_marijuana_three_grams_expungement-primary-filing-3",
+      "officialFormId": "HCJDC-159B",
       "officialSourceUrl": null,
       "generationRequirements": [
         {
@@ -103808,9 +104689,19 @@
       ],
       "manualCompletionItems": [
         {
-          "item": "Court-order number and date",
-          "whereInPacket": "HCJDC application, order reference fields",
-          "why": "Not available until the sentencing court signs the stage-one order."
+          "item": "Signature and date on the motion and declaration.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "The case number and judgment date.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "Court-order number and date, and the attached copy of the signed order",
+          "whereInPacket": "HCJDC 159(b) application, order reference fields",
+          "why": "Not available until the court signs the stage-one order. The participant obtains the order; LegalEase does not review it."
         },
         {
           "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields. LegalEase does not review the court order.",
@@ -103834,44 +104725,56 @@
         },
         {
           "kind": "complete_field",
-          "description": "Court-order number and date — HCJDC application, order reference fields.",
+          "description": "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number and judgment date. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "sign",
-          "description": "The applicant signs their own application.",
+          "description": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "notarize",
-          "description": "The source review does not state a notarization requirement.",
+          "description": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "pay_fee",
-          "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "description": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "apply_fee_waiver",
-          "description": "The source review does not address a fee waiver.",
+          "description": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
           "requirement": "conditional",
           "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
           "requiredBeforeFiling": true
         },
         {
           "kind": "serve_party",
-          "description": "Blocked pending confirmation.",
+          "description": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
           "requirement": "required",
           "requiredBeforeFiling": false
         },
         {
           "kind": "file",
-          "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+          "description": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
@@ -103879,19 +104782,21 @@
       "requiredBeforeFiling": [
         "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application. LegalEase does not review the court order.",
         "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
-        "Court-order number and date — HCJDC application, order reference fields.",
-        "The applicant signs their own application.",
-        "The source review does not state a notarization requirement.",
-        "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
-        "The source review does not address a fee waiver."
+        "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+        "The case number and judgment date. — Stage-one motion, declaration and proposed order.",
+        "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
+        "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
+        "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet."
       ],
       "mappingStatus": "not_mapped"
     },
     {
       "jurisdiction": "HI",
       "trackId": "hi_pre_2004_drug_offender_expungement",
-      "componentId": "hi_pre_2004_drug_offender_expungement-primary-filing-2",
-      "officialFormId": "HCJDC-159",
+      "componentId": "hi_pre_2004_drug_offender_expungement-primary-filing-3",
+      "officialFormId": "HCJDC-159B",
       "officialSourceUrl": null,
       "generationRequirements": [
         {
@@ -103912,9 +104817,19 @@
       ],
       "manualCompletionItems": [
         {
-          "item": "Court-order number and date",
-          "whereInPacket": "HCJDC application, order reference fields",
-          "why": "Not available until the sentencing court signs the stage-one order."
+          "item": "Signature and date on the motion and declaration.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "The case number and the sentencing date.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "Court-order number and date, and the attached copy of the signed order",
+          "whereInPacket": "HCJDC 159(b) application, order reference fields",
+          "why": "Not available until the court signs the stage-one order. The participant obtains the order; LegalEase does not review it."
         },
         {
           "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
@@ -103938,44 +104853,56 @@
         },
         {
           "kind": "complete_field",
-          "description": "Court-order number and date — HCJDC application, order reference fields.",
+          "description": "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number and the sentencing date. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "sign",
-          "description": "The applicant signs their own application.",
+          "description": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "notarize",
-          "description": "The source review does not state a notarization requirement.",
+          "description": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "pay_fee",
-          "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "description": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "apply_fee_waiver",
-          "description": "The source review does not address a fee waiver.",
+          "description": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
           "requirement": "conditional",
           "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
           "requiredBeforeFiling": true
         },
         {
           "kind": "serve_party",
-          "description": "Blocked pending confirmation.",
+          "description": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
           "requirement": "required",
           "requiredBeforeFiling": false
         },
         {
           "kind": "file",
-          "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+          "description": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
@@ -103983,19 +104910,21 @@
       "requiredBeforeFiling": [
         "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
         "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
-        "Court-order number and date — HCJDC application, order reference fields.",
-        "The applicant signs their own application.",
-        "The source review does not state a notarization requirement.",
-        "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
-        "The source review does not address a fee waiver."
+        "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+        "The case number and the sentencing date. — Stage-one motion, declaration and proposed order.",
+        "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
+        "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
+        "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet."
       ],
       "mappingStatus": "not_mapped"
     },
     {
       "jurisdiction": "HI",
       "trackId": "hi_first_time_property_offender_expungement",
-      "componentId": "hi_first_time_property_offender_expungement-primary-filing-2",
-      "officialFormId": "HCJDC-159",
+      "componentId": "hi_first_time_property_offender_expungement-primary-filing-3",
+      "officialFormId": "HCJDC-159B",
       "officialSourceUrl": null,
       "generationRequirements": [
         {
@@ -104016,9 +104945,19 @@
       ],
       "manualCompletionItems": [
         {
-          "item": "Court-order number and date",
-          "whereInPacket": "HCJDC application, order reference fields",
-          "why": "Not available until the sentencing court signs the stage-one order."
+          "item": "Signature and date on the motion and declaration.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "The case number and the sentencing date, which decides which subsection applies.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "Court-order number and date, and the attached copy of the signed order",
+          "whereInPacket": "HCJDC 159(b) application, order reference fields",
+          "why": "Not available until the court signs the stage-one order. The participant obtains the order; LegalEase does not review it."
         },
         {
           "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
@@ -104042,44 +104981,56 @@
         },
         {
           "kind": "complete_field",
-          "description": "Court-order number and date — HCJDC application, order reference fields.",
+          "description": "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number and the sentencing date, which decides which subsection applies. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "sign",
-          "description": "The applicant signs their own application.",
+          "description": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "notarize",
-          "description": "The source review does not state a notarization requirement.",
+          "description": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "pay_fee",
-          "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "description": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "apply_fee_waiver",
-          "description": "The source review does not address a fee waiver.",
+          "description": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
           "requirement": "conditional",
           "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
           "requiredBeforeFiling": true
         },
         {
           "kind": "serve_party",
-          "description": "Blocked pending confirmation.",
+          "description": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
           "requirement": "required",
           "requiredBeforeFiling": false
         },
         {
           "kind": "file",
-          "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+          "description": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
@@ -104087,19 +105038,21 @@
       "requiredBeforeFiling": [
         "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
         "Check your answer to \"What was the conviction — which court, what offence, and what statute section?\" against Court order granting expungement, and correct the packet if they disagree.",
-        "Court-order number and date — HCJDC application, order reference fields.",
-        "The applicant signs their own application.",
-        "The source review does not state a notarization requirement.",
-        "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
-        "The source review does not address a fee waiver."
+        "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+        "The case number and the sentencing date, which decides which subsection applies. — Stage-one motion, declaration and proposed order.",
+        "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
+        "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
+        "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet."
       ],
       "mappingStatus": "not_mapped"
     },
     {
       "jurisdiction": "HI",
       "trackId": "hi_under_21_dui_expungement",
-      "componentId": "hi_under_21_dui_expungement-primary-filing-2",
-      "officialFormId": "HCJDC-159",
+      "componentId": "hi_under_21_dui_expungement-primary-filing-3",
+      "officialFormId": "HCJDC-159B",
       "officialSourceUrl": null,
       "generationRequirements": [
         {
@@ -104120,9 +105073,19 @@
       ],
       "manualCompletionItems": [
         {
-          "item": "Court-order number and date",
-          "whereInPacket": "HCJDC application, order reference fields",
-          "why": "Not available until the sentencing court signs the stage-one order."
+          "item": "Signature and date on the motion and declaration.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "The case number and the judgment date.",
+          "whereInPacket": "Stage-one motion, declaration and proposed order",
+          "why": "Read by the participant from their own court record, or signed by them. LegalEase does not obtain or review the court record."
+        },
+        {
+          "item": "Court-order number and date, and the attached copy of the signed order",
+          "whereInPacket": "HCJDC 159(b) application, order reference fields",
+          "why": "Not available until the court signs the stage-one order. The participant obtains the order; LegalEase does not review it."
         },
         {
           "item": "The court-order number, date, and attachment may remain manual_completion_item or required_before_submission fields.",
@@ -104146,44 +105109,56 @@
         },
         {
           "kind": "complete_field",
-          "description": "Court-order number and date — HCJDC application, order reference fields.",
+          "description": "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The case number and the judgment date. — Stage-one motion, declaration and proposed order.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "sign",
-          "description": "The applicant signs their own application.",
+          "description": "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "notarize",
-          "description": "The source review does not state a notarization requirement.",
+          "description": "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "pay_fee",
-          "description": "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
+          "description": "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "apply_fee_waiver",
-          "description": "The source review does not address a fee waiver.",
+          "description": "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet.",
           "requirement": "conditional",
           "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
           "requiredBeforeFiling": true
         },
         {
           "kind": "serve_party",
-          "description": "Blocked pending confirmation.",
+          "description": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
           "requirement": "required",
           "requiredBeforeFiling": false
         },
         {
           "kind": "file",
-          "description": "Stage 1: file in the sentencing court. Stage 2: submit the HCJDC application with the court order attached.",
+          "description": "Stage one: file a written motion in the existing penal case, in the court that entered the judgment. Stage two: submit the HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center with a copy of the signed order attached.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
@@ -104191,11 +105166,13 @@
       "requiredBeforeFiling": [
         "Obtain Court order granting expungement. Obtain the signed order from the sentencing court and attach it to the HCJDC application.",
         "Check your answer to \"What was the conviction — which court, and on what date?\" against Court order granting expungement, and correct the packet if they disagree.",
-        "Court-order number and date — HCJDC application, order reference fields.",
-        "The applicant signs their own application.",
-        "The source review does not state a notarization requirement.",
-        "Any court filing fee at stage one is unresolved. An HCJDC application fee applies at stage 2.",
-        "The source review does not address a fee waiver."
+        "Signature and date on the motion and declaration. — Stage-one motion, declaration and proposed order.",
+        "The case number and the judgment date. — Stage-one motion, declaration and proposed order.",
+        "Court-order number and date, and the attached copy of the signed order — HCJDC 159(b) application, order reference fields.",
+        "The participant signs the motion personally, and signs the Haw. R. Penal P. 47(d) declaration.",
+        "None. Haw. R. Penal P. 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing.",
+        "No fee is prescribed by the statute on any of the five stage-one routes, and the Judiciary publishes no filing fee for a motion filed in an existing penal case. What remains open is clerk cost practice, which is recorded as a release-level question rather than answered here. An HCJDC application fee applies at stage two.",
+        "None arises from the statute. Haw. R. Penal P. Form B, the Request to Proceed Without Paying Filing Fees, is the companion to the Rule 40 post-conviction petition and is not a component of an expungement packet."
       ],
       "mappingStatus": "not_mapped"
     },

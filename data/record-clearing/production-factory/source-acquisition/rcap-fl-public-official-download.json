@@ -1,0 +1,338 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-fl-public-official-download",
+  "parentJobId": "AUTH-03-acquisition-campaign-tier-1",
+  "jurisdiction": "FL",
+  "lane": "source_acquisition",
+  "strategyFamily": "public_official_download",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "484e7543d7adcd422864350869bca1cd5a4d6249",
+  "generatedOn": "2026-08-08",
+  "shard": "F1",
+  "acquisitionIds": [
+    "acquire:FL:fl-rule-3-989-affidavit",
+    "acquire:FL:fl-rule-3-989-order",
+    "acquire:FL:fl-rule-3-989-petition"
+  ],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero, and here zero is the finding rather than a policy constraint. The download could not be performed because none of the three identities names a file that any official body publishes. The documents actually inspected — the current Florida Bar rules compilation and a superseded compilation still live on the Court's own media host — were retrieved into temporary storage outside the repository and discarded. Nothing entered version control, no materialization destination was written and no receipt was created.",
+  "generatedFrom": [
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/authority.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-fl-rule-3-989-sworn-statement-identity-currentness.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-fl-source-identity-resolution-rule-3-989-continuation.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-03-acquisition-campaign-tier-1.json"
+  ],
+  "controllingIntegratedDecisions": [
+    {
+      "jobId": "rcap-fl-source-identity-resolution-rule-3-989-continuation",
+      "status": "integrated_into_the_production_branch",
+      "carriedForward": "Rule 3.989 prescribes four forms and publishes them as text inside the rule; the Florida courts publish no fillable PDF of any of them. The Court's own Court Forms page lists eleven PDFs and none is an expunction or sealing form.",
+      "reopened": false
+    },
+    {
+      "jobId": "rcap-fl-rule-3-989-sworn-statement-identity-currentness",
+      "status": "integrated_into_the_production_branch",
+      "carriedForward": "Subdivision (a) is the Sworn Statement, retitled from Affidavit by SC19-1983 effective 2019-12-19; the affidavit role is retainable on all three affidavit components, and fl-trafficking-affidavit-2 is bound to the wrong rule and belongs under Rule 3.9895(b).",
+      "reopened": false
+    }
+  ],
+  "method": {
+    "description": "Attempted public official download of three Rule 3.989 identities, followed by independent re-verification of the controlling publication. The two integrated Florida decisions were treated as controlling and were not reopened; what this job adds is the acquisition attempt itself, a fresh digest comparison on the controlling compilation, the four printed form captions read from the current text, a complete reading of the compilation's amendment table to its final row, and a digest for the legacy trap that no prior job recorded.",
+    "retrievalDate": "2026-08-08",
+    "retrievalAttempted": true,
+    "measurementBasis": "freshly_measured_retrieved_bytes",
+    "tooling": "curl for retrieval and HTTP status; sha256 and byte counts on retrieved bytes; poppler (pdfinfo, pdftotext -layout) for structure, rule spans and amendment-table reads",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "authenticationUsed": false,
+    "sourcesDeposited": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "binariesCommitted": 0,
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "memoAltered": false,
+    "componentRebound": false,
+    "countyPacketUsed": false,
+    "ruleTextConvertedToForm": false,
+    "assignmentConstraintObserved": "The stop condition requires using only the assigned public official sources, recording provenance and hashes, stopping if identity, revision or issuer authority is uncertain, and not altering legal conclusions. Identity, revision and issuer are all certain for the rule; what is absent is a file. No legal conclusion is altered — the two integrated Florida decisions are carried forward, not revisited."
+  },
+  "finding": {
+    "headline": "The assignment is a download job for three documents that are not published as files. Rule 3.989's four forms exist as text printed inside the rule, and no official Florida body publishes a standalone binary for any of them. The correct result is not an acquisition failure but a statement that the acquisition premise is wrong: there is nothing to download, and there never was.",
+    "acquisitionRequired": false,
+    "acquisitionRequiredRationale": "No issuer interaction can produce a file the Supreme Court of Florida does not publish. The three queue rows should not remain open download jobs.",
+    "identityCertain": true,
+    "issuerCertain": true,
+    "revisionCertain": true,
+    "fileAbsent": true,
+    "whyThisIsNotAStopCondition": "The stop condition directs stopping where identity, revision or issuer authority is uncertain. None of the three is uncertain here. The rule's caption, its effective date, its promulgating court and its four printed form captions are all established from the current official text. Stopping would withhold a settled answer."
+  },
+  "resolvedIdentities": [
+    {
+      "acquisitionKey": "acquire:FL:fl-rule-3-989-petition",
+      "recordedDocumentId": "FL-RULE-3.989-PETITION",
+      "recordedRole": "primary_filing",
+      "resolvesTo": "Fla. R. Crim. P. 3.989(d)",
+      "subdivisionHeading": "Petition to Expunge or Seal",
+      "printedFormCaptionVerbatim": "PETITION TO EXPUNGE OR SEAL",
+      "printedOrderWithinTheRule": "fourth and last of the four forms",
+      "roleCorrect": true,
+      "roleAssessment": "primary_filing is right. Subdivision (d) is the instrument that opens the proceeding.",
+      "standaloneBinaryExists": false,
+      "boundComponents": [
+        {"trackId": "fl-expunction", "componentId": "fl-expunction-primary-filing-2"},
+        {"trackId": "fl-sealing", "componentId": "fl-sealing-primary-filing-2"},
+        {"trackId": "fl-10yr-bridge", "componentId": "fl-10yr-bridge-primary-filing-2"},
+        {"trackId": "fl-trafficking", "componentId": "fl-trafficking-primary-filing-1"}
+      ],
+      "trackCaveat": "fl-trafficking's primary filing is bound here, and the integrated sworn-statement decision established that the trafficking track's affidavit belongs under Rule 3.9895 rather than 3.989. Whether its petition likewise belongs under 3.9895 was expressly left open by that decision and is not decided here."
+    },
+    {
+      "acquisitionKey": "acquire:FL:fl-rule-3-989-affidavit",
+      "recordedDocumentId": "FL-RULE-3.989-AFFIDAVIT",
+      "recordedRole": "affidavit",
+      "resolvesTo": "Fla. R. Crim. P. 3.989(a)",
+      "subdivisionHeading": "Sworn Statement in Support of Petition",
+      "subdivisionHeadingVerbatim": "(a)    Sworn Statement in Support of Petition.",
+      "printedFormCaptionVerbatim": "SWORN STATEMENT",
+      "printedOrderWithinTheRule": "first of the four forms",
+      "roleCorrect": true,
+      "roleAssessment": "affidavit remains substantively correct. A sworn statement subscribed before an officer authorised to administer an oath is an affidavit in substance; the integrated decision established that the recorded title, not the role, is what is stale.",
+      "titleDefectCarriedForward": "The recorded identity string still says Affidavit. Rule 3.989 has been titled Sworn Statement since SC19-1983, effective 2019-12-19.",
+      "standaloneBinaryExists": false,
+      "boundComponents": [
+        {"trackId": "fl-expunction", "componentId": "fl-expunction-affidavit-3"},
+        {"trackId": "fl-sealing", "componentId": "fl-sealing-affidavit-3"},
+        {"trackId": "fl-trafficking", "componentId": "fl-trafficking-affidavit-2", "note": "bound to the wrong rule per the integrated decision; belongs under Rule 3.9895(b)"}
+      ]
+    },
+    {
+      "acquisitionKey": "acquire:FL:fl-rule-3-989-order",
+      "recordedDocumentId": "FL-RULE-3.989-ORDER",
+      "recordedRole": "proposed_order",
+      "resolvesTo": "Fla. R. Crim. P. 3.989(b) AND 3.989(c) — two forms, not one",
+      "twoFormsUnderOneIdentity": true,
+      "twoFormsUnderOneIdentityDetail": "Rule 3.989 prescribes two separate order forms and the recorded identity names only one. Subdivision (b) is the Order to Expunge; subdivision (c) is the Order to Seal. They implement different statutes and cannot be substituted for one another.",
+      "subdivisionB": {"heading": "Order to Expunge", "printedCaptionVerbatim": "ORDER TO EXPUNGE UNDER SECTION 943.0585, FLORIDA STATUTES, AND FLORIDA RULE OF CRIMINAL PROCEDURE 3.692", "statute": "§ 943.0585, Fla. Stat."},
+      "subdivisionC": {"heading": "Order to Seal", "printedCaptionVerbatim": "ORDER TO SEAL RECORDS UNDER SECTION 943.059, FLORIDA STATUTES, AND FLORIDA RULE OF CRIMINAL PROCEDURE 3.692", "statute": "§ 943.059, Fla. Stat."},
+      "roleCorrect": true,
+      "roleAssessment": "proposed_order is right for both. Each is signed by the judge, opening 'THIS CAUSE having come on to be heard before me this date'.",
+      "standaloneBinaryExists": false,
+      "boundComponents": [
+        {"trackId": "fl-expunction", "componentId": "fl-expunction-proposed-order-4", "correctSubdivision": "(b) Order to Expunge"},
+        {"trackId": "fl-sealing", "componentId": "fl-sealing-proposed-order-4", "correctSubdivision": "(c) Order to Seal"},
+        {"trackId": "fl-10yr-bridge", "componentId": "fl-10yr-bridge-proposed-order-3", "correctSubdivision": "not determined here — depends on whether the ten-year bridge route seeks expunction or sealing"},
+        {"trackId": "fl-trafficking", "componentId": "fl-trafficking-proposed-order-3", "correctSubdivision": "not determined here — may belong under Rule 3.9895"}
+      ],
+      "consequenceOfTheSingleIdentity": "Four components across four tracks bind one identity that stands for two mutually exclusive orders. An expunction track and a sealing track cannot correctly resolve to the same document. This is a live defect and it is the most consequential thing in this record.",
+      "notResolvedHere": "Which subdivision each of the four components should bind is a component-mapping decision. This job establishes that one identity cannot serve both and identifies the two it must split into; it does not perform the split, which is outside its owned path."
+    }
+  ],
+  "publicationForm": {
+    "verdict": "rule_text_only_no_standalone_official_binary_exists_for_any_of_the_three",
+    "reVerifiedIndependently": true,
+    "whatThatMeans": "A Rule 3.989 citation does not imply a form file. The four forms are printed inside the rule as text, in the order Sworn Statement, Order to Expunge, Order to Seal, Petition. There is no PDF, RTF or DOC of any of them on any official Florida host.",
+    "promulgatingSource": {
+      "what": "the Supreme Court of Florida's amending opinions",
+      "why": "The Court promulgates the Rules of Criminal Procedure under article V, section 2(a) of the Florida Constitution. The amended text is the text in the opinion.",
+      "controllingOpinionForTheCurrentText": {"style": "In re: Amendments to Florida Rules of Criminal Procedure 3.692 and 3.989 — 2019 Fast-Track Report", "caseNumber": "SC19-1983", "reporterCitation": "286 So. 3d 214 (Fla. 2019)", "date": "2019-12-19"}
+    },
+    "currentConsolidatedText": {
+      "what": "The Florida Bar rules compilation, Criminal Procedure Rules, edition dated July 13, 2026",
+      "status": "republication, not the promulgating source",
+      "url": "https://www-media.floridabar.org/uploads/2026/07/2026_01-JUL-Criminal-Procedure-Rules-7-13-2026-1.pdf",
+      "landingPage": "https://www.floridabar.org/rules/ctproc/",
+      "httpStatus": 200,
+      "bytes": 2029948,
+      "sha256": "471177c18f319af5a6e16a3e02f5aec7bdb865148a68a77c65bf47ae0034caa0",
+      "mimeType": "application/pdf",
+      "pages": 497,
+      "digestStability": "The integrated continuation decision recorded this exact digest and byte count on 2026-08-07. This job retrieved it again on 2026-08-08 and reproduced both exactly. The compilation is byte-stable across two sessions.",
+      "accessFact": "Returns HTTP 403 to a default automated user agent and HTTP 200 with a browser user agent and a referer. Bot filtering, not absence.",
+      "ruleLocation": "Rule 3.989 begins at compilation page 441; Rule 3.9895 at page 453."
+    },
+    "notAForm": "The compilation is a 497-page rules book with zero AcroForm fields. It is where the form text lives; it is not a form and must never be bound to a component or delivered to a participant."
+  },
+  "currentnessOfTheRule": {
+    "ruleCaptionVerbatim": "RULE 3.989. SWORN STATEMENT; PETITION; AND ORDER TO EXPUNGE OR SEAL FORMS",
+    "currentEffectiveDate": "2019-12-19",
+    "noLaterAmendment": {
+      "established": true,
+      "how": "The compilation's own Effective Date / Citation / Description table was read from the 12-19-19 row through to its final row, 10-1-25. The last row naming rule 3.989 is '12-19-19: 286 So.3d 214. Amended 3.692 and 3.989. Adopted 3.693, 3.694 and 3.9895'. No later row references 3.989.",
+      "tableFinalRowsRead": ["7-1-25: 411 So.3d 385. Amended 3.191 and 3.134.", "7-10-25: 415 So.3d 121. Amended 3.040.", "10-1-25: 418 So.3d 137. Amended 3.220."],
+      "corroboration": "The rule's own Committee Notes end with a 2019 Amendment note recording that the human-trafficking subdivisions were moved to rule 3.9895."
+    },
+    "newFindingOnRule3_9895": {
+      "finding": "Rule 3.9895 has been amended since the 2019 carve-out and Rule 3.989 has not. The compilation's amendment table carries '10-28-21: 344 So.3d 931. Amended 3.693, 3.986, 3.9895.'",
+      "captionVerbatim": "RULE 3.9895 HUMAN TRAFFICKING: SWORN STATEMENT; PETITION; AND ORDER TO EXPUNGE OR SEAL RECORDS",
+      "committeeNote": "2019 Amendment. Rule 3.9895 was previously a part of rule 3.989.",
+      "whyItMatters": "The integrated sworn-statement decision established that fl-trafficking-affidavit-2 belongs under Rule 3.9895(b) rather than 3.989(a). Its currentness is therefore October 2021, not December 2019. Anyone reconciling the trafficking components on the assumption that both rules share a 2019 effective date would be wrong by one amendment.",
+      "notPreviouslyRecorded": "No prior Florida job in this programme recorded the 2021 amendment to 3.9895."
+    },
+    "pendingAmendments": {
+      "status": "not_established",
+      "why": "Open Florida rules cases proposing amendments to 3.989 or 3.9895 were not exhaustively enumerated. The compilation records adopted amendments only. An adopted amendment after 2019-12-19 is affirmatively excluded for 3.989; a pending proposal is a different question and is not answered."
+    }
+  },
+  "flcourtsPublishesNoExpunctionForm": {
+    "established": true,
+    "checksCarriedForwardFromTheIntegratedDecision": [
+      "The Florida Courts Help expunge-and-seal page returns HTTP 200 with a soft-404 body reading that the requested page cannot be found, and has no archive snapshots.",
+      "The flcourts.gov form-database query for 'expunge' returns HTTP 200 with zero form results.",
+      "An Internet Archive CDX enumeration of flcourts.gov and flcourts-media.flcourts.gov filtered to URLs containing 'expunge' returns empty.",
+      "The Supreme Court's own Court Forms page lists eleven PDFs — name change, emeritus lawyer package, notice to invoke, civil indigency, in forma pauperis, jurisdiction brief template, AOSC13-7, the IOP manual, the Bar and UPL referee manuals and the strategic plan. No expunction or sealing form."
+    ],
+    "negativeIsAffirmative": "Four independent checks across two official hosts, including an archive enumeration that would have caught a withdrawn page. This is a proven absence, not a failed search."
+  },
+  "legacyTrap": {
+    "url": "https://flcourts-media.flcourts.gov/content/download/217910/file/Florida-Rules-of-Criminal-Procedure.pdf",
+    "httpStatus": 200,
+    "stillLiveOn": "2026-08-08",
+    "bytes": 2039270,
+    "sha256": "80c8295213762ba1d5fa22ce9b85b4a5b7ee8360a61f32d47eeaa7d8eb0fa039",
+    "embeddedDocumentTitle": "Florida Rules of Criminal Procedure Updated January 1, 2017",
+    "pages": 443,
+    "defect": "It predates the December 2019 amendment, so it still carries the superseded Affidavit title and still contains the human-trafficking subdivisions that were carved out into Rule 3.9895.",
+    "digestNewlyRecorded": "The integrated decision recorded this trap's URL, status, title and page count but not its digest. The digest is recorded here so the stale file can be recognised by bytes rather than by URL.",
+    "sizeTrap": "At 2,039,270 bytes it is LARGER than the current 2,029,948-byte compilation. Size is not currency, and a heuristic preferring the bigger rules book would select the 2017 text.",
+    "reading": "A live HTTP 200 on the Court's own media host is not currentness. Anyone reading Rule 3.989 from this file would reconstruct the pre-2019 rule and would find an Affidavit where the rule now has a Sworn Statement."
+  },
+  "sourceAvailabilityAndStructure": {
+    "officialSourceUrlForTheAssignedDocuments": null,
+    "binaryExists": false,
+    "bytes": null,
+    "sha256": null,
+    "mimeType": null,
+    "pages": null,
+    "geometry": null,
+    "encryption": null,
+    "xfa": null,
+    "fields": null,
+    "widgets": null,
+    "supersession": null,
+    "whyAllNull": "There is no binary for any of the three identities. Recording measurements here would be inventing them. Every measurement in this record is attached to a document actually retrieved and is identified as what it is — the current compilation, or the superseded one — neither of which is an assigned document.",
+    "sourceContractEligibility": {
+      "eligible": false,
+      "why": "An exact source contract pins a digest for a document. There is no document. The three identities cannot become source-contract eligible by any amount of retrieval.",
+      "whatWouldChangeIt": "Only the Supreme Court of Florida beginning to publish standalone form files, which nothing suggests it intends."
+    },
+    "materializationEligibility": {
+      "eligible": false,
+      "why": "Materialization presupposes a document with bytes. There is nothing to materialize and no receipt should ever be written for any of the three identities.",
+      "receiptCreatedByThisJob": false
+    }
+  },
+  "commercialUseAndLicensing": {
+    "status": "unresolved_and_split_across_two_publishers",
+    "theCourtsOwnText": "Florida court rules are the Supreme Court of Florida's own promulgated text. No licence or reuse statement was located on flcourts.gov governing it.",
+    "theBarCompilation": "The Florida Bar is a private organisation and its compilation is a republication. Any terms it carries govern its compilation, not the Court's underlying rule text, and the two must not be conflated.",
+    "queueRecordedPosition": "The queue records the publisher's licensing and commercial-use terms as unresolved on all three rows. That remains correct.",
+    "doNotInfer": "Public availability of a rules compilation is not permission to redistribute a derived form. And because the forms are rule text rather than files, the reuse question here is about reproducing statutory-style text, which is a different question from redistributing a government form file.",
+    "notAnswered": "No licence question was assigned to this job and none is decided. Escalation is human-only.",
+    "consequence": "generationAllowed must remain false on all three identities."
+  },
+  "doNotSubstitute": [
+    {"document": "the January 1, 2017 flcourts-media compilation at sha256 80c82952…0fa039", "why": "Still live at HTTP 200 on the Court's own media host, larger than the current compilation, and six years stale. It carries the superseded Affidavit title and the pre-carve-out human-trafficking subdivisions."},
+    {"document": "Fla. R. Crim. P. 3.9895", "why": "Human Trafficking: Sworn Statement; Petition; and Order to Expunge or Seal Records. Its forms are near-identical in shape to 3.989's but implement § 943.0583, a different statute and a different relief, and it has been amended since 3.989 was. One assigned component is already known to belong here."},
+    {"document": "Fla. R. Crim. P. 3.987", "why": "Motion for Postconviction Relief. The one nearby rule carrying additional-pages language, which makes it the top hit for any continuation-style keyword search in the criminal rules. Nothing to do with expunction."},
+    {"document": "Fla. R. Crim. P. 3.692", "why": "Petition to Seal or Expunge — the procedural rule, cited on the face of both order forms. It contains no forms. Citing it as the source of a form is the same rule-number-as-form-identity error resolved elsewhere in this programme."},
+    {"documentClass": "the FDLE application forms", "why": "FDLE 40-021, 40-025, 40-026 and 40-028 are the agency-stage applications resolved by a separate job now awaiting integration. They precede the court stage and are not Rule 3.989 forms."},
+    {"documentClass": "county and circuit clerk expunction packets", "why": "Local reproductions and repackagings across 20 circuits and 67 counties. None is a statewide form and none may be promoted to one."},
+    {"documentClass": "commercial rule republications", "why": "Several still title the rule 'Affidavit, Petition, and Order to Expunge or Seal Forms' — the pre-2019 title — and are a plausible origin of the affidavit framing that survives in the corpus."},
+    {"documentClass": "a PDF generated from the rule text by this programme or any vendor", "why": "Converting rule text into a form file would manufacture a document the Court does not publish and would give it a false provenance. Expressly not done here."}
+  ],
+  "terminalDisposition": "no_standalone_official_binary_exists_for_any_assigned_identity_rule_text_only_acquisition_premise_incorrect_and_one_identity_covers_two_forms",
+  "terminalDispositionDetail": {
+    "why": "The narrowest disposition the evidence supports. It is not unresolved_identity: all three resolve to named subdivisions of a rule whose caption, effective date, promulgating court and four printed form captions are established from the current official text. It is not acquisition_blocked: nothing blocked retrieval, and the compilation was retrieved twice at a stable digest. It is not simply identity_established_binary_unavailable, which is what the edition records — that phrasing asserts a file exists and is merely unobtained, and the opposite is true. And it is not a clean three-way resolution either, because the order identity stands for two mutually exclusive forms.",
+    "identitiesResolved": 3,
+    "subdivisionsTheyResolveTo": 4,
+    "binariesRetrievedForAssignedIdentities": 0,
+    "binariesInspectedAsContext": 2,
+    "hashesRecorded": 2,
+    "acquisitionRequired": false,
+    "newDefectsFound": 1,
+    "newDefectsFoundDetail": "FL-RULE-3.989-ORDER stands for both subdivision (b) Order to Expunge and subdivision (c) Order to Seal."
+  },
+  "affectedTracksAndComponents": {
+    "trackCount": 4,
+    "componentCount": 11,
+    "tracks": ["fl-expunction", "fl-sealing", "fl-10yr-bridge", "fl-trafficking"],
+    "byIdentity": {"petition": 4, "order": 4, "affidavit": 3},
+    "componentCountNote": "Eleven components bind the three assigned identities. The shard manifest records 19 assigned components for this job, which counts every component on the four assigned tracks rather than only those bound to these three identities; the remaining eight belong to other identities including the FDLE agency-stage forms and the resolved continuation artefact."
+  },
+  "edition13Impact": {
+    "publicationJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+    "editionAmendmentRequired": true,
+    "amendmentKind": "metadata_correction_and_identity_split_no_new_bytes",
+    "requiresNewBytes": false,
+    "requiresNewBytesNote": "None. There is nothing to retain for any of the three.",
+    "requiresMetadataCorrection": true,
+    "requiresMetadataCorrectionDetail": "All three rows record currentEditionStatus authority_unmanifested_source with requiredAcquisition 'Acquire the current official binary from the issuing authority and manifest it.' That asserts a file exists and has merely not been obtained. The correct record is that these are rule-text instruments with no standalone publication.",
+    "requiresAssetClassCorrection": true,
+    "requiresAssetClassCorrectionDetail": "The correct class is an authority-text component, not an unacquired packet_form.",
+    "requiresTitleCorrection": true,
+    "requiresTitleCorrectionDetail": "All three officialTitle fields are null and the affidavit identity's own name is six years stale. The correct titles are the printed form captions: SWORN STATEMENT, ORDER TO EXPUNGE, ORDER TO SEAL, PETITION TO EXPUNGE OR SEAL.",
+    "requiresIdentitySplit": true,
+    "requiresIdentitySplitDetail": "FL-RULE-3.989-ORDER must become two identities, one for subdivision (b) and one for subdivision (c). An expunction track and a sealing track cannot share one order identity.",
+    "requiresPhantomBinaryExpectationRemoval": true,
+    "requiresRevisionCorrection": true,
+    "requiresRevisionCorrectionDetail": "The rows record the revision as unconfirmed. Rule text carries an effective date rather than a form revision code: 2019-12-19 for Rule 3.989. Any Rule 3.9895 identity created for the trafficking components carries 2021-10-28 instead.",
+    "requiresRoleCorrection": false,
+    "requiresRoleCorrectionNote": "All three recorded roles — primary_filing, affidavit and proposed_order — are substantively correct.",
+    "requiresScopeCorrection": false,
+    "requiresLicenseDisposition": true,
+    "requiresLicenseDispositionNote": "Unresolved and split across two publishers. generation_allowed must remain no.",
+    "edition12Treatment": "immutable_unchanged",
+    "publicationPerformed": false
+  },
+  "implementationFamilyEffect": {
+    "family": "rcap-fl-official-pdf-family",
+    "affectedTracks": 4,
+    "affectedComponents": 11,
+    "effectOfThisJob": "Three Florida identities move from open download jobs to a settled negative: the documents are rule text and no file exists to acquire. Eleven components across four tracks stop waiting on a retrieval that can never succeed. A new defect is surfaced — one order identity standing for two mutually exclusive orders — which would have produced an expunction track and a sealing track resolving to the same document. The legacy trap gains a digest, and Rule 3.9895's 2021 amendment is recorded for the first time.",
+    "familyReadinessStatement": "The Florida official-PDF family remains fail-closed and this job does not move it. All four tracks carry outputStrategy official_pdf_fill for instruments that have no PDF at all, which is a design question this lane does not decide. No component is rebound, generation is not permitted, runtime is disabled and no field map is built. No packet becomes generatable and no renderer is assigned.",
+    "outputStrategyTension": "Eleven components are typed official_pdf_fill and there is no official PDF to fill. The same tension was already recorded for the affidavit identity by the integrated decision and for Louisiana elsewhere in this programme. Recorded, not resolved — resolving it is a legal-design decision."
+  },
+  "expectedDownstreamEffect": "Three Florida acquisition keys close without acquisition, and the reason is recorded as a proven negative rather than a failed retrieval: the Supreme Court of Florida publishes these four forms as text inside Rule 3.989 and no official host serves a standalone file for any of them. Eleven components across four tracks stop depending on an impossible download. One order identity is shown to stand for two mutually exclusive forms — Order to Expunge under § 943.0585 and Order to Seal under § 943.059 — which is a live defect that would have bound an expunction track and a sealing track to the same document. Rule 3.989 is confirmed unamended since 2019-12-19 by a complete reading of the compilation's amendment table to its final row, while Rule 3.9895 is newly recorded as amended on 2021-10-28, which changes the currentness of the trafficking components the integrated decision reassigned to it. The legacy 2017 compilation gains a digest and is shown to be larger than the current one, so size cannot be used as a currency heuristic. No binary is acquired, no receipt is created, nothing enters version control, no rule text is converted into a form, no county packet is substituted, no component is rebound, no memo is edited, no edition is published, no packet becomes generatable, no runtime is enabled and no track changes promotion state.",
+  "residualBlockers": [
+    {"id": "fl-order-identity-covers-two-forms", "question": "FL-RULE-3.989-ORDER stands for both subdivision (b) Order to Expunge and subdivision (c) Order to Seal, and four components across four tracks bind it.", "status": "handed_off", "owner": "the component-remap lane and the edition owner", "why": "The queue and the relationships are forbidden paths for this job. The two subdivisions and their statutes are supplied.", "severity": "highest in this record"},
+    {"id": "fl-rule-3989-phantom-acquisition-rows", "question": "Three queue rows and their blocker-ledger entries hold Florida open against binaries that do not exist.", "status": "handed_off", "owner": "the queue owner", "why": "Forbidden path. The correct disposition is supplied."},
+    {"id": "fl-rule-3989-asset-class", "question": "The three identities are carried as unacquired packet forms rather than as authority-text components.", "status": "handed_off", "owner": "rcap-nationwide-master-library-edition-1-3-publication", "why": "Edition 1.2 is immutable."},
+    {"id": "fl-output-strategy-for-rule-text", "question": "Eleven components are typed official_pdf_fill for instruments published only as rule text.", "status": "open", "owner": "the Florida legal-design owner", "why": "A design decision, not a source decision. It is the same question already adjudicated for Louisiana."},
+    {"id": "fl-trafficking-track-rule-3-9895", "question": "The trafficking track's affidavit is known to belong under Rule 3.9895(b); whether its petition and proposed order do likewise is unresolved, and 3.9895 carries a later effective date of 2021-10-28.", "status": "open", "owner": "the Florida legal-design owner", "why": "Left open by the integrated sworn-statement decision and not decided here. The 2021 amendment is newly recorded."},
+    {"id": "fl-10yr-bridge-order-subdivision", "question": "Whether fl-10yr-bridge's proposed order is an Order to Expunge or an Order to Seal.", "status": "open", "owner": "the Florida legal-design owner", "why": "It follows from which relief that route seeks, which is a legal-design fact this lane does not hold."},
+    {"id": "fl-rule-3989-licensing", "question": "Reuse terms for the rule text, split between the Court's own promulgated text and The Florida Bar's compilation.", "status": "open", "owner": "counsel", "why": "Two publishers, two possible positions, and neither located. Human-only escalation."},
+    {"id": "fl-pending-rule-amendments", "question": "Open rules cases proposing amendments to 3.989 or 3.9895.", "status": "open", "owner": "acquisition owner", "why": "Adopted amendments after 2019-12-19 are affirmatively excluded for 3.989. Pending proposals are a different question and were not enumerated."}
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "sourcesMaterialized": 0,
+    "sourceReceiptCountUnchanged": true,
+    "memoEdited": false,
+    "editionPublished": false,
+    "editionMutated": false,
+    "rendererImplemented": false,
+    "packetImplemented": false,
+    "componentRebound": false,
+    "ruleTextConvertedToForm": false,
+    "countyPacketSubstituted": false,
+    "generationAllowedChanged": false,
+    "issuerContacted": false,
+    "integrationPerformed": false,
+    "promotionPerformed": false,
+    "migrationPerformed": false,
+    "deploymentPerformed": false
+  }
+}
