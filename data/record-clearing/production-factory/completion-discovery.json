@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-captain-completion-discovery/v1",
-  "baseCommit": "74b6e95ecd5ee59bfa3600f83fd3d9f4e10e9700",
+  "baseCommit": "fcd42dda5864ba021072628649a6dce4430f813a",
   "fetch": {
     "remote": "origin",
     "refspecs": [
@@ -12,13 +12,13 @@
   },
   "remoteFactoryBranches": 198,
   "totals": {
-    "integrated_completion": 0,
-    "exact_completion": 6,
+    "integrated_completion": 1,
+    "exact_completion": 2,
     "valid_pre_claim_branch": 0,
     "valid_legacy_branch": 0,
     "partial_branch": 0,
     "incompatible_branch": 5,
-    "baseline_lease": 4,
+    "baseline_lease": 3,
     "no_branch": 232
   },
   "jobs": [
@@ -765,6 +765,43 @@
       "branches": []
     },
     {
+      "jobId": "rcap-fl-rule-3-989-continuation-component-correction",
+      "lane": "legal_design_normalization",
+      "jurisdiction": "FL",
+      "status": "ready",
+      "assignmentFingerprint": "270be4d48eec258aeb69eb3860d36f60925e5c2b2e9839952352d979e84e5831",
+      "canonicalBranch": "rcap-factory/rcap-fl-rule-3-989-continuation-component-correction-d37ecf99-270be4d4",
+      "legacyBranch": "rcap-factory/rcap-fl-rule-3-989-continuation-component-correction-d37ecf99",
+      "preClaimBranch": "rcap-factory/rcap-fl-rule-3-989-continuation-component-correction-d37ecf99-270be4d4",
+      "ownedPaths": [
+        "data/record-clearing/legal-design-intake/FL.memo.json"
+      ],
+      "expectedOutputs": [
+        "data/record-clearing/legal-design-intake/FL.memo.json"
+      ],
+      "classification": "exact_completion",
+      "completionBranch": "rcap-factory/rcap-fl-rule-3-989-continuation-component-correction-d37ecf99-270be4d4",
+      "completionCommit": "074b07810b2905888b766c3475e9e072a7b11c05",
+      "branches": [
+        {
+          "branch": "rcap-factory/rcap-fl-rule-3-989-continuation-component-correction-d37ecf99-270be4d4",
+          "commit": "074b07810b2905888b766c3475e9e072a7b11c05",
+          "keyKind": "canonical",
+          "subject": "fix(record-clearing): re-scope the Florida continuation component",
+          "parents": [
+            "95789664518ee3f7f2aeb9c12380dd9ba70d3b76"
+          ],
+          "changedPaths": [
+            "data/record-clearing/legal-design-intake/FL.memo.json"
+          ],
+          "missingOutputs": [],
+          "isBaselineLease": false,
+          "failures": [],
+          "classification": "exact_completion"
+        }
+      ]
+    },
+    {
       "jobId": "rcap-fl-staging-promotion",
       "lane": "staging_promotion",
       "jurisdiction": "FL",
@@ -1073,43 +1110,6 @@
       "completionBranch": null,
       "completionCommit": null,
       "branches": []
-    },
-    {
-      "jobId": "rcap-ia-rule-2-86-and-dci-76-component-remap",
-      "lane": "legal_design_normalization",
-      "jurisdiction": "IA",
-      "status": "ready",
-      "assignmentFingerprint": "1b91729dc6fb0c98b0c5c09dde5a69c23beacc739b9f86c98193518f1fb73da8",
-      "canonicalBranch": "rcap-factory/rcap-ia-rule-2-86-and-dci-76-component-remap-d72b2f26-1b91729d",
-      "legacyBranch": "rcap-factory/rcap-ia-rule-2-86-and-dci-76-component-remap-d72b2f26",
-      "preClaimBranch": "rcap-factory/rcap-ia-rule-2-86-and-dci-76-component-remap-d72b2f26-1b91729d",
-      "ownedPaths": [
-        "data/record-clearing/production-factory/legal-design-decisions/rcap-ia-rule-2-86-and-dci-76-component-remap.json"
-      ],
-      "expectedOutputs": [
-        "data/record-clearing/production-factory/legal-design-decisions/rcap-ia-rule-2-86-and-dci-76-component-remap.json"
-      ],
-      "classification": "exact_completion",
-      "completionBranch": "rcap-factory/rcap-ia-rule-2-86-and-dci-76-component-remap-d72b2f26-1b91729d",
-      "completionCommit": "83fd3dd752ee1df451264ea78a7cf9ff871174c3",
-      "branches": [
-        {
-          "branch": "rcap-factory/rcap-ia-rule-2-86-and-dci-76-component-remap-d72b2f26-1b91729d",
-          "commit": "83fd3dd752ee1df451264ea78a7cf9ff871174c3",
-          "keyKind": "canonical",
-          "subject": "fix(record-clearing): remap the Iowa components onto their real documents",
-          "parents": [
-            "74b6e95ecd5ee59bfa3600f83fd3d9f4e10e9700"
-          ],
-          "changedPaths": [
-            "data/record-clearing/production-factory/legal-design-decisions/rcap-ia-rule-2-86-and-dci-76-component-remap.json"
-          ],
-          "missingOutputs": [],
-          "isBaselineLease": false,
-          "failures": [],
-          "classification": "exact_completion"
-        }
-      ]
     },
     {
       "jobId": "rcap-ia-staging-promotion",
@@ -1524,43 +1524,6 @@
       "completionBranch": null,
       "completionCommit": null,
       "branches": []
-    },
-    {
-      "jobId": "rcap-ks-written-permission-authorization",
-      "lane": "source_acquisition",
-      "jurisdiction": "KS",
-      "status": "ready",
-      "assignmentFingerprint": "61336e5cd5b17160b9f040a1a98154ff26fb3f2181a0e6e44b03bbee8682ee4f",
-      "canonicalBranch": "rcap-factory/rcap-ks-written-permission-authorization-7197cc61-61336e5c",
-      "legacyBranch": "rcap-factory/rcap-ks-written-permission-authorization-7197cc61",
-      "preClaimBranch": "rcap-factory/rcap-ks-written-permission-authorization-7197cc61-61336e5c",
-      "ownedPaths": [
-        "data/record-clearing/production-factory/source-acquisition/rcap-ks-written-permission-authorization.json"
-      ],
-      "expectedOutputs": [
-        "data/record-clearing/production-factory/source-acquisition/rcap-ks-written-permission-authorization.json"
-      ],
-      "classification": "exact_completion",
-      "completionBranch": "rcap-factory/rcap-ks-written-permission-authorization-7197cc61-61336e5c",
-      "completionCommit": "be57be459e82443df62cac067a9d76dc3705bdf6",
-      "branches": [
-        {
-          "branch": "rcap-factory/rcap-ks-written-permission-authorization-7197cc61-61336e5c",
-          "commit": "be57be459e82443df62cac067a9d76dc3705bdf6",
-          "keyKind": "canonical",
-          "subject": "chore(record-clearing): own the KS written-permission question",
-          "parents": [
-            "74b6e95ecd5ee59bfa3600f83fd3d9f4e10e9700"
-          ],
-          "changedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-ks-written-permission-authorization.json"
-          ],
-          "missingOutputs": [],
-          "isBaselineLease": false,
-          "failures": [],
-          "classification": "exact_completion"
-        }
-      ]
     },
     {
       "jobId": "rcap-ky-17-142-segregation-ratification",
@@ -2803,10 +2766,10 @@
       "lane": "legal_output_review",
       "jurisdiction": "ND",
       "status": "blocked",
-      "assignmentFingerprint": "d97ef5f84fe6c156b65338981e704acf7c15c827496aaa2e3f4b851df2817824",
-      "canonicalBranch": "rcap-factory/rcap-nd-custom-pleading-completed-output-review-e545a015-d97ef5f8",
+      "assignmentFingerprint": "f4d542d2f2995adcbff6e82434a30adb9fa72bd15b078d634d48d39d468a073d",
+      "canonicalBranch": "rcap-factory/rcap-nd-custom-pleading-completed-output-review-e545a015-f4d542d2",
       "legacyBranch": "rcap-factory/rcap-nd-custom-pleading-completed-output-review-e545a015",
-      "preClaimBranch": "rcap-factory/rcap-nd-custom-pleading-completed-output-review-e545a015-d97ef5f8",
+      "preClaimBranch": "rcap-factory/rcap-nd-custom-pleading-completed-output-review-e545a015-f4d542d2",
       "ownedPaths": [
         "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-nd-custom-pleading.json"
       ],
@@ -2819,42 +2782,39 @@
       "branches": []
     },
     {
-      "jobId": "rcap-nd-custom-pleading-technical-review-correction",
-      "lane": "custom_pleading",
+      "jobId": "rcap-nd-custom-pleading-technical-visual-review",
+      "lane": "legal_output_review",
       "jurisdiction": "ND",
       "status": "ready",
-      "assignmentFingerprint": "29bd4a46d94be55526ee087447780a0db995a3cbfe5d7e21599813279ae3fd54",
-      "canonicalBranch": "rcap-factory/rcap-nd-custom-pleading-technical-review-correction-d296572c-29bd4a46",
-      "legacyBranch": "rcap-factory/rcap-nd-custom-pleading-technical-review-correction-d296572c",
-      "preClaimBranch": "rcap-factory/rcap-nd-custom-pleading-technical-review-correction-d296572c-29bd4a46",
+      "assignmentFingerprint": "2febdb851e10ade0e905443c7bd50472bd2ba4ba52c57f49933e47da32aa7f95",
+      "canonicalBranch": "rcap-factory/rcap-nd-custom-pleading-technical-visual-review-beae4951-2febdb85",
+      "legacyBranch": "rcap-factory/rcap-nd-custom-pleading-technical-visual-review-beae4951",
+      "preClaimBranch": "rcap-factory/rcap-nd-custom-pleading-technical-visual-review-beae4951-2febdb85",
       "ownedPaths": [
-        "scripts/verify-rcap-north-dakota-custom-pleading.mjs",
-        "src/lib/rcap/packets/jurisdictions/north-dakota/custom-pleading.ts"
+        "data/record-clearing/production-factory/technical-visual-reviews/completed-output/rcap-nd-custom-pleading.json"
       ],
       "expectedOutputs": [
-        "src/lib/rcap/packets/jurisdictions/north-dakota/custom-pleading.ts",
-        "scripts/verify-rcap-north-dakota-custom-pleading.mjs"
+        "data/record-clearing/production-factory/technical-visual-reviews/completed-output/rcap-nd-custom-pleading.json"
       ],
-      "classification": "exact_completion",
-      "completionBranch": "rcap-factory/rcap-nd-custom-pleading-technical-review-correction-d296572c-29bd4a46",
-      "completionCommit": "18e36165cafe75318063aa024ad4f67e7d16e5a6",
+      "classification": "integrated_completion",
+      "completionBranch": "rcap-factory/rcap-nd-custom-pleading-technical-visual-review-beae4951-2febdb85",
+      "completionCommit": "d716c3cc14b10a5a7d309ec112cf420dcebefdda",
       "branches": [
         {
-          "branch": "rcap-factory/rcap-nd-custom-pleading-technical-review-correction-d296572c-29bd4a46",
-          "commit": "18e36165cafe75318063aa024ad4f67e7d16e5a6",
+          "branch": "rcap-factory/rcap-nd-custom-pleading-technical-visual-review-beae4951-2febdb85",
+          "commit": "d716c3cc14b10a5a7d309ec112cf420dcebefdda",
           "keyKind": "canonical",
-          "subject": "fix(record-clearing): name the North Dakota municipal court correctly",
+          "subject": "docs(record-clearing): technically review rcap-nd-custom-pleading output",
           "parents": [
-            "74b6e95ecd5ee59bfa3600f83fd3d9f4e10e9700"
+            "2faea1123246a3f7095f4f17d6f82f29f158f7e1"
           ],
           "changedPaths": [
-            "scripts/verify-rcap-north-dakota-custom-pleading.mjs",
-            "src/lib/rcap/packets/jurisdictions/north-dakota/custom-pleading.ts"
+            "data/record-clearing/production-factory/technical-visual-reviews/completed-output/rcap-nd-custom-pleading.json"
           ],
           "missingOutputs": [],
           "isBaselineLease": false,
           "failures": [],
-          "classification": "exact_completion"
+          "classification": "integrated_completion"
         }
       ]
     },
@@ -3639,109 +3599,25 @@
       "expectedOutputs": [
         "data/record-clearing/production-factory/source-acquisition/rcap-oh-2953-321-local-form-and-fee-survey.json"
       ],
-      "classification": "baseline_lease",
+      "classification": "exact_completion",
       "completionBranch": "rcap-factory/rcap-oh-2953-321-local-form-and-fee-survey-7b38384a-3e40c8f9",
-      "completionCommit": "74b6e95ecd5ee59bfa3600f83fd3d9f4e10e9700",
+      "completionCommit": "9d4c35af2b185237dbb3fd7639d965bb0238f0ff",
       "branches": [
         {
           "branch": "rcap-factory/rcap-oh-2953-321-local-form-and-fee-survey-7b38384a-3e40c8f9",
-          "commit": "74b6e95ecd5ee59bfa3600f83fd3d9f4e10e9700",
+          "commit": "9d4c35af2b185237dbb3fd7639d965bb0238f0ff",
           "keyKind": "canonical",
-          "subject": "chore(record-clearing): regenerate evidence and freeze wave 4",
+          "subject": "chore(record-clearing): survey the Ohio 2953.321 local forms and fee practice",
           "parents": [
-            "7e4526cd9acf20ec4b17ac27e74303947e9cda23"
+            "74b6e95ecd5ee59bfa3600f83fd3d9f4e10e9700"
           ],
           "changedPaths": [
-            "data/record-clearing/production-factory/completion-discovery.json",
-            "data/record-clearing/production-factory/job-claims.json",
-            "data/record-clearing/production-factory/packet-proofs/rcap-ms-custom-pleading.json",
-            "data/record-clearing/production-factory/review-manifests/rcap-ms-custom-pleading.json",
-            "data/record-clearing/production-factory/wave-shard-manifest.json",
-            "planning/record-clearing-100-percent/production-plan.json",
-            "scripts/lib/rcap-factory/planner.mjs",
-            "scripts/rcap-freeze-wave-shards.mjs"
-          ],
-          "missingOutputs": [
             "data/record-clearing/production-factory/source-acquisition/rcap-oh-2953-321-local-form-and-fee-survey.json"
           ],
-          "isBaselineLease": true,
-          "failures": [
-            {
-              "code": "commit_subject_mismatch",
-              "message": "commit subject must be exactly \"chore(record-clearing): survey the Ohio 2953.321 local forms and fee practice\", found \"chore(record-clearing): regenerate evidence and freeze wave 4\""
-            },
-            {
-              "code": "outside_owned_paths",
-              "path": "data/record-clearing/production-factory/completion-discovery.json",
-              "message": "data/record-clearing/production-factory/completion-discovery.json is outside the job's ownedPaths"
-            },
-            {
-              "code": "outside_owned_paths",
-              "path": "data/record-clearing/production-factory/job-claims.json",
-              "message": "data/record-clearing/production-factory/job-claims.json is outside the job's ownedPaths"
-            },
-            {
-              "code": "forbidden_path",
-              "path": "data/record-clearing/production-factory/job-claims.json",
-              "message": "data/record-clearing/production-factory/job-claims.json matches forbidden path data/record-clearing/production-factory/job-claims.json"
-            },
-            {
-              "code": "outside_owned_paths",
-              "path": "data/record-clearing/production-factory/packet-proofs/rcap-ms-custom-pleading.json",
-              "message": "data/record-clearing/production-factory/packet-proofs/rcap-ms-custom-pleading.json is outside the job's ownedPaths"
-            },
-            {
-              "code": "forbidden_path",
-              "path": "data/record-clearing/production-factory/packet-proofs/rcap-ms-custom-pleading.json",
-              "message": "data/record-clearing/production-factory/packet-proofs/rcap-ms-custom-pleading.json matches forbidden path data/record-clearing/production-factory/packet-proofs"
-            },
-            {
-              "code": "global_generated_output",
-              "path": "data/record-clearing/production-factory/packet-proofs/rcap-ms-custom-pleading.json",
-              "message": "data/record-clearing/production-factory/packet-proofs/rcap-ms-custom-pleading.json is regenerated only by the integration captain"
-            },
-            {
-              "code": "outside_owned_paths",
-              "path": "data/record-clearing/production-factory/review-manifests/rcap-ms-custom-pleading.json",
-              "message": "data/record-clearing/production-factory/review-manifests/rcap-ms-custom-pleading.json is outside the job's ownedPaths"
-            },
-            {
-              "code": "forbidden_path",
-              "path": "data/record-clearing/production-factory/review-manifests/rcap-ms-custom-pleading.json",
-              "message": "data/record-clearing/production-factory/review-manifests/rcap-ms-custom-pleading.json matches forbidden path data/record-clearing/production-factory/review-manifests"
-            },
-            {
-              "code": "global_generated_output",
-              "path": "data/record-clearing/production-factory/review-manifests/rcap-ms-custom-pleading.json",
-              "message": "data/record-clearing/production-factory/review-manifests/rcap-ms-custom-pleading.json is regenerated only by the integration captain"
-            },
-            {
-              "code": "outside_owned_paths",
-              "path": "data/record-clearing/production-factory/wave-shard-manifest.json",
-              "message": "data/record-clearing/production-factory/wave-shard-manifest.json is outside the job's ownedPaths"
-            },
-            {
-              "code": "outside_owned_paths",
-              "path": "planning/record-clearing-100-percent/production-plan.json",
-              "message": "planning/record-clearing-100-percent/production-plan.json is outside the job's ownedPaths"
-            },
-            {
-              "code": "forbidden_path",
-              "path": "planning/record-clearing-100-percent/production-plan.json",
-              "message": "planning/record-clearing-100-percent/production-plan.json matches forbidden path planning/record-clearing-100-percent/production-plan.json"
-            },
-            {
-              "code": "outside_owned_paths",
-              "path": "scripts/lib/rcap-factory/planner.mjs",
-              "message": "scripts/lib/rcap-factory/planner.mjs is outside the job's ownedPaths"
-            },
-            {
-              "code": "outside_owned_paths",
-              "path": "scripts/rcap-freeze-wave-shards.mjs",
-              "message": "scripts/rcap-freeze-wave-shards.mjs is outside the job's ownedPaths"
-            }
-          ],
-          "classification": "baseline_lease"
+          "missingOutputs": [],
+          "isBaselineLease": false,
+          "failures": [],
+          "classification": "exact_completion"
         }
       ]
     },
@@ -3804,43 +3680,6 @@
       "completionBranch": null,
       "completionCommit": null,
       "branches": []
-    },
-    {
-      "jobId": "rcap-oh-marijuana-memo-amendment",
-      "lane": "legal_design_normalization",
-      "jurisdiction": "OH",
-      "status": "ready",
-      "assignmentFingerprint": "1f28c5f81d8637d04b2097b705f632090f8fccc63338ca23477d56e494403617",
-      "canonicalBranch": "rcap-factory/rcap-oh-marijuana-memo-amendment-8e081aef-1f28c5f8",
-      "legacyBranch": "rcap-factory/rcap-oh-marijuana-memo-amendment-8e081aef",
-      "preClaimBranch": "rcap-factory/rcap-oh-marijuana-memo-amendment-8e081aef-1f28c5f8",
-      "ownedPaths": [
-        "data/record-clearing/legal-design-intake/OH.memo.json"
-      ],
-      "expectedOutputs": [
-        "data/record-clearing/legal-design-intake/OH.memo.json"
-      ],
-      "classification": "exact_completion",
-      "completionBranch": "rcap-factory/rcap-oh-marijuana-memo-amendment-8e081aef-1f28c5f8",
-      "completionCommit": "fb0ffe2ebb4fe81645d0a9618610110918aff5ad",
-      "branches": [
-        {
-          "branch": "rcap-factory/rcap-oh-marijuana-memo-amendment-8e081aef-1f28c5f8",
-          "commit": "fb0ffe2ebb4fe81645d0a9618610110918aff5ad",
-          "keyKind": "canonical",
-          "subject": "fix(record-clearing): amend the Ohio marijuana expungement design",
-          "parents": [
-            "74b6e95ecd5ee59bfa3600f83fd3d9f4e10e9700"
-          ],
-          "changedPaths": [
-            "data/record-clearing/legal-design-intake/OH.memo.json"
-          ],
-          "missingOutputs": [],
-          "isBaselineLease": false,
-          "failures": [],
-          "classification": "exact_completion"
-        }
-      ]
     },
     {
       "jobId": "rcap-oh-staging-promotion",
@@ -5003,80 +4842,6 @@
       "completionBranch": null,
       "completionCommit": null,
       "branches": []
-    },
-    {
-      "jobId": "rcap-wa-cro-form-family-source-identity",
-      "lane": "source_acquisition",
-      "jurisdiction": "WA",
-      "status": "ready",
-      "assignmentFingerprint": "eabb9bce894c3956d356ef330ce8560a9b3c2c41c50a50a2bd6811b4cff58318",
-      "canonicalBranch": "rcap-factory/rcap-wa-cro-form-family-source-identity-f788cb5b-eabb9bce",
-      "legacyBranch": "rcap-factory/rcap-wa-cro-form-family-source-identity-f788cb5b",
-      "preClaimBranch": "rcap-factory/rcap-wa-cro-form-family-source-identity-f788cb5b-eabb9bce",
-      "ownedPaths": [
-        "data/record-clearing/production-factory/source-acquisition/rcap-wa-cro-form-family-source-identity.json"
-      ],
-      "expectedOutputs": [
-        "data/record-clearing/production-factory/source-acquisition/rcap-wa-cro-form-family-source-identity.json"
-      ],
-      "classification": "exact_completion",
-      "completionBranch": "rcap-factory/rcap-wa-cro-form-family-source-identity-f788cb5b-eabb9bce",
-      "completionCommit": "141799dd3f59d3e8b50ade96dc6950606aa84775",
-      "branches": [
-        {
-          "branch": "rcap-factory/rcap-wa-cro-form-family-source-identity-f788cb5b-eabb9bce",
-          "commit": "141799dd3f59d3e8b50ade96dc6950606aa84775",
-          "keyKind": "canonical",
-          "subject": "chore(record-clearing): resolve the Washington CRO form family",
-          "parents": [
-            "74b6e95ecd5ee59bfa3600f83fd3d9f4e10e9700"
-          ],
-          "changedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-wa-cro-form-family-source-identity.json"
-          ],
-          "missingOutputs": [],
-          "isBaselineLease": false,
-          "failures": [],
-          "classification": "exact_completion"
-        }
-      ]
-    },
-    {
-      "jobId": "rcap-wa-crop-memo-amendment",
-      "lane": "legal_design_normalization",
-      "jurisdiction": "WA",
-      "status": "ready",
-      "assignmentFingerprint": "cc57c34b74f1fd09606da12ab9c1bccd4941a6570530cc1f1359b2a681b6362c",
-      "canonicalBranch": "rcap-factory/rcap-wa-crop-memo-amendment-fbe07d37-cc57c34b",
-      "legacyBranch": "rcap-factory/rcap-wa-crop-memo-amendment-fbe07d37",
-      "preClaimBranch": "rcap-factory/rcap-wa-crop-memo-amendment-fbe07d37-cc57c34b",
-      "ownedPaths": [
-        "data/record-clearing/legal-design-intake/WA.memo.json"
-      ],
-      "expectedOutputs": [
-        "data/record-clearing/legal-design-intake/WA.memo.json"
-      ],
-      "classification": "exact_completion",
-      "completionBranch": "rcap-factory/rcap-wa-crop-memo-amendment-fbe07d37-cc57c34b",
-      "completionCommit": "17e28158320047e5bb767e1848ddada700ffa408",
-      "branches": [
-        {
-          "branch": "rcap-factory/rcap-wa-crop-memo-amendment-fbe07d37-cc57c34b",
-          "commit": "17e28158320047e5bb767e1848ddada700ffa408",
-          "keyKind": "canonical",
-          "subject": "fix(record-clearing): amend the Washington CROP venue and form design",
-          "parents": [
-            "74b6e95ecd5ee59bfa3600f83fd3d9f4e10e9700"
-          ],
-          "changedPaths": [
-            "data/record-clearing/legal-design-intake/WA.memo.json"
-          ],
-          "missingOutputs": [],
-          "isBaselineLease": false,
-          "failures": [],
-          "classification": "exact_completion"
-        }
-      ]
     },
     {
       "jobId": "rcap-wa-flat-pdf-overlay",

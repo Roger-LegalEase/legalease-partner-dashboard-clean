@@ -492,7 +492,15 @@ const COMPLETED_NORMALIZATIONS = Object.freeze([
     workerCommit: "ee749ed1e397ddb4bb25957ee28d83de9662f892",
     completionCommit: "8244dc1bf5c2bc24e0d6725e412dc01bfe308533",
     memoSha256:
-      "edf0f86c7eee382f6c0666e3a400b4b41bb5ffadc3a51610c12aacd6fe93b2f8"
+      "edf0f86c7eee382f6c0666e3a400b4b41bb5ffadc3a51610c12aacd6fe93b2f8",
+    // The CROP memo amendment. Both hashes are real historical states of the
+    // same file and either satisfies the on-disk check.
+    amendedByJobId: "rcap-wa-crop-memo-amendment",
+    amendedByWorkerCommit: "17e28158320047e5bb767e1848ddada700ffa408",
+    amendedByWorkerBranch:
+      "rcap-factory/rcap-wa-crop-memo-amendment-fbe07d37-cc57c34b",
+    amendedMemoSha256:
+      "8f43ce3e1b28cb4f4848f9e3705a5d151e02015685df3cb8be6e16463f0d3bb7"
   },
   {
     jurisdiction: "KY",
@@ -704,7 +712,15 @@ const COMPLETED_NORMALIZATIONS = Object.freeze([
     amendedByWorkerBranch:
       "rcap-factory/rcap-oh-automatic-sealing-memo-correction-3fc6dd43-1ae3d74c",
     amendedMemoSha256:
-      "1253b1a70ddd14a38992a11dd3943a6771b183a5fa95454edc0ebc6660409a21"
+      "1253b1a70ddd14a38992a11dd3943a6771b183a5fa95454edc0ebc6660409a21",
+    // The marijuana memo amendment. Third recorded state of the same file; the
+    // first two stay on the record rather than being overwritten by the newest.
+    secondAmendedByJobId: "rcap-oh-marijuana-memo-amendment",
+    secondAmendedByWorkerCommit: "fb0ffe2ebb4fe81645d0a9618610110918aff5ad",
+    secondAmendedByWorkerBranch:
+      "rcap-factory/rcap-oh-marijuana-memo-amendment-8e081aef-1f28c5f8",
+    secondAmendedMemoSha256:
+      "c7882683f5f8a15d47b643574240682b1cb24308203a1a71e3b36cea91b5a0d1"
   },
   {
     jurisdiction: "NV",
@@ -757,6 +773,57 @@ const COMPLETED_NORMALIZATIONS = Object.freeze([
       "4e0380c9738cb9c9be3747e125990d79c483afc2c31a99ac29e638ad8c94c385"
   }
 ]);
+
+/**
+ * The recorded states of one jurisdiction's memo, oldest first.
+ *
+ * A memo is amended more than once and every state stays on the record, so
+ * "has this amendment landed" is a question about position in that chain rather
+ * than about equality with one hash. Asking it as equality made an integrated
+ * amendment reopen as soon as a later one edited the same file.
+ */
+function memoStateChainFor(jurisdiction) {
+  const record = COMPLETED_NORMALIZATIONS.find(
+    (entry) => entry.jurisdiction === jurisdiction
+  );
+  return [
+    record?.memoSha256,
+    record?.amendedMemoSha256,
+    record?.secondAmendedMemoSha256
+  ].filter(Boolean);
+}
+
+/** The memo state a named amendment job produced, if one is recorded. */
+function memoStateProducedBy(jurisdiction, jobId) {
+  const record = COMPLETED_NORMALIZATIONS.find(
+    (entry) => entry.jurisdiction === jurisdiction
+  );
+  if (!record) return null;
+  if (record.amendedByJobId === jobId) return record.amendedMemoSha256 ?? null;
+  if (record.secondAmendedByJobId === jobId) {
+    return record.secondAmendedMemoSha256 ?? null;
+  }
+  return null;
+}
+
+/**
+ * True when the memo on disk has reached the given state or any state recorded
+ * after it. Reaching a later state is evidence the earlier one was passed
+ * through, not evidence it never happened.
+ */
+function memoHasReached(rootDir, jurisdiction, sha) {
+  if (!sha) return false;
+  const absolute = path.join(
+    rootDir,
+    `data/record-clearing/legal-design-intake/${jurisdiction}.memo.json`
+  );
+  if (!fs.existsSync(absolute)) return false;
+  const actual = sha256File(absolute);
+  const chain = memoStateChainFor(jurisdiction);
+  const target = chain.indexOf(sha);
+  if (target === -1) return actual === sha;
+  return chain.slice(target).includes(actual);
+}
 const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
   {
     jurisdiction: "AK",
@@ -4408,9 +4475,20 @@ export function buildFactoryPlan(options = {}) {
             downloadedSourceCount: 0
           }
         : {}),
-      status: fs.existsSync(path.join(rootDir, outputPath)) && !isMemo
-        ? "completed"
-        : "ready",
+      // A memo always exists, so presence cannot say whether this amendment
+      // landed. Its recorded output state can: the job is complete once the
+      // memo has reached the state it produced, or any state recorded after it.
+      status: isMemo
+        ? memoHasReached(
+            rootDir,
+            owner.jurisdiction,
+            memoStateProducedBy(owner.jurisdiction, owner.jobId)
+          )
+          ? "completed"
+          : "ready"
+        : fs.existsSync(path.join(rootDir, outputPath))
+          ? "completed"
+          : "ready",
       expectedOutputs: [outputPath],
       ownedPaths: [outputPath],
       requiredInputs: [
@@ -5472,6 +5550,15 @@ const CORRECTION_COMPLETIONS = Object.freeze({
       "rcap-factory/rcap-ms-custom-pleading-technical-review-correction-768c6cc3-fc6539d6",
     workerCommit: "57a49c24892e96c40fef2c91f8cfc41baae779df",
     completionCommit: "7e4526cd9acf20ec4b17ac27e74303947e9cda23"
+  },
+  // The municipal-court caption fix. Unlike Indiana and Mississippi, the defect
+  // was in the caption composer rather than a fixture, so the correction owns
+  // the module and the verifier the reviewer could not run.
+  "rcap-nd-custom-pleading-technical-review-correction": {
+    workerBranch:
+      "rcap-factory/rcap-nd-custom-pleading-technical-review-correction-d296572c-29bd4a46",
+    workerCommit: "18e36165cafe75318063aa024ad4f67e7d16e5a6",
+    completionCommit: "fcd42dda5864ba021072628649a6dce4430f813a"
   }
 });
 
@@ -6333,8 +6420,24 @@ function addWaveCorrectionAssignments({ addJob, rootDir }) {
           completionCommit: COMPLETED_AUTHORITY_JOB_COMMITS.get(jobId)
         }
       : { status: "ready" };
+  // A memo amendment closes when its own output landed, and stays closed when a
+  // later amendment edits the same memo again.
+  //
+  // This compared the memo's current hash against this amendment's hash alone,
+  // so the moment Ohio's marijuana amendment landed on top of the
+  // automatic-sealing one, the earlier amendment stopped matching and reverted
+  // to `ready`. Two active jobs then owned `OH.memo.json` and the whole plan
+  // failed validation on the collision — an integrated amendment reopening
+  // itself because a successor touched the same file, which is the disappearing
+  // act the Colorado permission gate and the Maryland migration gate both had.
+  //
+  // The recorded states of a memo are ordered: original, amended, second
+  // amended. An amendment is done once the file has reached its state, so it is
+  // complete when the current hash is its own or any state recorded after it.
+  // Reaching a later state is evidence the earlier one was passed through, not
+  // evidence it never happened.
   const memoCompletionOf = (jobId, code, sha, workerBranch, workerCommit) =>
-    memoCorrected(code, sha)
+    memoHasReached(rootDir, code, sha)
       ? {
           status: "completed",
           workerBranch,

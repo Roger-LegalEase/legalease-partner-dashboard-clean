@@ -58,11 +58,9 @@ const ACTIVE_SHARDS = [
     shard: "B4",
     lane: "custom_pleading",
     ownerSession: "SESSION_B",
-    jobIds: [
-      "rcap-nd-custom-pleading-technical-review-correction"
-    ],
+    jobIds: [],
     note:
-      "Opened by technical review, not by a new requirement. Indiana and Mississippi are both delivered and integrated: each replacement packet is generated, and in both cases the proof drift reopened the technical review rather than letting a stale approval carry over to new bytes. North Dakota takes their place, and it is a different kind of defect: the municipal-route caption reads 'IN THE MUNICIPAL COURT OF CASS COUNTY' and no such court exists, because North Dakota municipal courts are city courts named for a municipality under N.D.C.C. ch. 40-18. Indiana and Mississippi were fixture defects; this one is in the caption composer, which appends 'OF <COUNTY> COUNTY' unconditionally while the fixture's own ordinance citation already names Fargo. Scoped to the municipal route: the district-route captions are correct and are not touched. Its legal review stays blocked; Kansas, Minnesota, Missouri and New Jersey opened theirs on this wave's approvals."
+      "Empty because it delivered. North Dakota's correction is integrated: the caption composer appended 'OF <COUNTY> COUNTY' unconditionally and produced 'IN THE MUNICIPAL COURT OF CASS COUNTY', a court that does not exist — North Dakota municipal courts are city courts named for a municipality under N.D.C.C. ch. 40-18. Unlike the Indiana and Mississippi fixture defects, this one was in the composer, and that is where it was fixed. The verifier the reviewer could not get to run now runs and passes across all nine fixtures. The replacement packet proof and review manifest are generated, the new bytes reopened the technical review rather than letting a stale approval carry over, and the completed-output legal review stays blocked behind it. This shard refills when a review finds something, not on a schedule."
   },
   {
     shard: "B3",
@@ -84,14 +82,10 @@ const ACTIVE_SHARDS = [
     shard: "D1",
     lane: "legal_design_normalization",
     ownerSession: "SESSION_D",
-    jobIds: [
-      "rcap-oh-marijuana-memo-amendment",
-      "rcap-wa-crop-memo-amendment",
-      "rcap-ia-rule-2-86-and-dci-76-component-remap"
-    ],
+    jobIds: [],
     // D2 carries the Wyoming reads; D1's carried work is not reranked.
     note:
-      "The two questions that forced the B2 split are answered and integrated, and neither decision could amend its own state memo. These are the owners that can. Ohio carries the mechanism into OH.memo.json and fixes the two accuracy defects the decision found — the fee is division (G), and the 60-day and 30-day figures do not govern this route. Washington carries the venue conclusion and reopens the form blocker in the opposite direction, because the CRO pattern set exists. Iowa remaps six components that two completed resolutions found pointing at documents that do not exist as such. None of the three makes a track ready."
+      "All three delivered and integrated. Ohio carried the marijuana mechanism into OH.memo.json with the two accuracy defects fixed — the fee is division (G), and the 60-day and 30-day figures do not govern this route. Washington carried the CROP venue conclusion. Iowa remapped the six components that two completed resolutions found pointing at documents that do not exist as such. None of the three made a track ready, which was the point. The Ohio memo now carries three recorded states rather than two; the earlier automatic-sealing amendment stays complete rather than reopening because a successor touched the same file."
   },
   {
     shard: "D2",
@@ -138,12 +132,10 @@ const ACTIVE_SHARDS = [
     jobIds: [
       "rcap-mo-issuer-contact-authorization",
       "rcap-in-written-permission-authorization",
-      "rcap-ks-written-permission-authorization",
-      "rcap-oh-2953-321-local-form-and-fee-survey",
-      "rcap-wa-cro-form-family-source-identity"
+      "rcap-oh-2953-321-local-form-and-fee-survey"
     ],
     note:
-      "The permission and follow-up owners the completed decisions created. Colorado left this shard: its grant is recorded as a successor decision and its authorization is delivered, so the job that sought the permission is completed rather than reissued. Indiana and Kansas remain, each still sitting at a withheld licence with no route out but the asking. The Missouri request is drafted and deliberately unsent and what remains is the human authorization to send it. None of these jobs sends anything: drafting is the deliverable and sending is a separate human act. The Ohio and Washington source owners carry the one question each integrated decision expressly left open."
+      "The permission and follow-up owners the completed decisions created. Three have now left the shard satisfied: Colorado's grant is recorded as a successor decision, Kansas delivered its written-permission authorization, and Washington resolved the CRO form-family source identity. Indiana remains, still sitting at a withheld licence with no route out but the asking. The Missouri request is drafted and deliberately unsent and what remains is the human authorization to send it. None of these jobs sends anything: drafting is the deliverable and sending is a separate human act. The Ohio survey carries the local-form and fee question the integrated marijuana decision expressly left open."
   },
   {
     shard: "F3",
@@ -166,11 +158,12 @@ const ACTIVE_SHARDS = [
     ownerSession: "SESSION_R",
     jobIds: [
       "rcap-in-custom-pleading-technical-visual-review",
-      "rcap-ms-custom-pleading-technical-visual-review"
+      "rcap-ms-custom-pleading-technical-visual-review",
+      "rcap-nd-custom-pleading-technical-visual-review"
     ],
     reviewKind: "technical_visual_review",
     note:
-      "Technical and visual review only; this shard does not own any legal-review path. All five of its previous reads are integrated: Kansas, Minnesota, Missouri and New Jersey approved, and North Dakota held with a real finding that now has a correction owner. Indiana and Mississippi take their place and are here for the opposite reason from last wave — their corrections landed, their replacement packets are generated, and the new bytes reopened reviews that had already been recorded. A technical approval does not survive the output it approved being replaced."
+      "Technical and visual review only; this shard does not own any legal-review path. All three are here for one reason: their corrections landed, their replacement packets are generated, and the new bytes reopened reviews that had already been recorded. North Dakota joins Indiana and Mississippi this wave — its own held review is what produced the correction, and the correction replaced the output that review was written about, so the review it produced no longer describes anything on disk. A technical approval does not survive the output it approved being replaced, including when the approval and the replacement come from the same finding."
   },
   {
     shard: "R2",
