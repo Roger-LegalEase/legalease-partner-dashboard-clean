@@ -4,7 +4,7 @@
   "note": "Shard metadata is recorded here rather than on a claim because a job manifest is what a branch fingerprint is computed from: a coordination field inside the assignment would rename a worker's branch. Nothing here alters a semantic fingerprint or a branch key.",
   "reviewShardReservationNote": "The claim schema's ownerSession enum is SESSION_B through SESSION_F, and review is none of those. R1 and R2 are therefore reserved here rather than in job-claims.json. This manifest is the reservation of record for them; widening the claim enum would change the job manifest and, through it, worker branch identity.",
   "baseline": {
-    "baseCommit": "f35f634669effa4bcec01a51a16205cd690ab5f8",
+    "baseCommit": "db881e9d5547ac6c9b318fffdeab54aeb5643e1b",
     "authorityVersion": "master-library/1.2",
     "authorityEdition": "1.2"
   },
@@ -552,7 +552,7 @@
       },
       {
         "path": "planning/record-clearing-100-percent/production-plan.json",
-        "sha256": "98c12f11d44d80fc2f36fb74e00083a73665416411fc0b1a27333b741e75ddb9"
+        "sha256": "deee870f5712050feccab76f41fbbe9165a1d794a12f99ff838d7724a5f11a6e"
       },
       {
         "path": "src/lib/rcap/jurisdictions/packet-capability.ts",
@@ -580,7 +580,7 @@
     "candidateShards": 9,
     "activeJobs": 28,
     "candidateJobs": 18,
-    "awaitingIntegration": 3
+    "awaitingIntegration": 5
   },
   "shards": [
     {
@@ -636,7 +636,7 @@
           ],
           "assignedComponents": 56,
           "incrementalComponents": 56,
-          "alreadyHasPushedCompletion": true
+          "alreadyHasPushedCompletion": false
         },
         {
           "jobId": "rcap-wy-custom-pleading",
@@ -841,7 +841,7 @@
           "incrementalTrackIds": [],
           "assignedComponents": 0,
           "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": true
+          "alreadyHasPushedCompletion": false
         },
         {
           "jobId": "rcap-fl-rule-3-989-sworn-statement-and-3-9895-memo-correction",
@@ -1002,7 +1002,7 @@
           ],
           "assignedComponents": 19,
           "incrementalComponents": 19,
-          "alreadyHasPushedCompletion": true
+          "alreadyHasPushedCompletion": false
         },
         {
           "jobId": "rcap-id-shield-revision-and-bci-identity-correction",
@@ -1278,7 +1278,7 @@
           ],
           "assignedComponents": 13,
           "incrementalComponents": 13,
-          "alreadyHasPushedCompletion": false
+          "alreadyHasPushedCompletion": true
         },
         {
           "jobId": "rcap-ms-custom-pleading-completed-output-review",
@@ -1305,7 +1305,7 @@
           ],
           "assignedComponents": 15,
           "incrementalComponents": 15,
-          "alreadyHasPushedCompletion": false
+          "alreadyHasPushedCompletion": true
         },
         {
           "jobId": "rcap-ok-guidance-implementation-completed-output-review",
@@ -1330,7 +1330,7 @@
           ],
           "assignedComponents": 6,
           "incrementalComponents": 6,
-          "alreadyHasPushedCompletion": false
+          "alreadyHasPushedCompletion": true
         },
         {
           "jobId": "rcap-tn-guidance-implementation-completed-output-review",
@@ -1355,7 +1355,7 @@
           ],
           "assignedComponents": 2,
           "incrementalComponents": 2,
-          "alreadyHasPushedCompletion": false
+          "alreadyHasPushedCompletion": true
         },
         {
           "jobId": "rcap-nc-guidance-implementation-completed-output-review",
@@ -1378,7 +1378,7 @@
           ],
           "assignedComponents": 1,
           "incrementalComponents": 1,
-          "alreadyHasPushedCompletion": false
+          "alreadyHasPushedCompletion": true
         }
       ]
     },
@@ -1552,100 +1552,145 @@
       "ownerSession": "SESSION_A",
       "note": "Jobs whose completions are already pushed and verified. These are integration work for the next captain, not assignments. Populated from the discovery report rather than by hand.",
       "jobIds": [
-        "rcap-fl-public-official-download",
-        "rcap-hi-expungement-stage-one-and-hcjdc-159b-memo-correction",
-        "rcap-nv-custom-pleading"
+        "rcap-in-custom-pleading-completed-output-review",
+        "rcap-ms-custom-pleading-completed-output-review",
+        "rcap-nc-guidance-implementation-completed-output-review",
+        "rcap-ok-guidance-implementation-completed-output-review",
+        "rcap-tn-guidance-implementation-completed-output-review"
       ],
       "capacity": {
-        "jobs": 3,
-        "assignedTracks": 12,
-        "incrementalTracks": 12,
-        "assignedComponents": 75,
-        "incrementalComponents": 75
+        "jobs": 5,
+        "assignedTracks": 11,
+        "incrementalTracks": 11,
+        "assignedComponents": 37,
+        "incrementalComponents": 37
       },
       "jobs": [
         {
-          "jobId": "rcap-fl-public-official-download",
-          "lane": "source_acquisition",
-          "jurisdiction": "FL",
-          "status": "completed",
-          "semanticFingerprint": "321bcb1d3fe9ba79c1daca614f304a977548efaa4d9755ed237af034bca2cbd2",
-          "branch": "rcap-factory/rcap-fl-public-official-download-be035cc6-321bcb1d",
+          "jobId": "rcap-in-custom-pleading-completed-output-review",
+          "lane": "legal_output_review",
+          "jurisdiction": "IN",
+          "status": "ready",
+          "semanticFingerprint": "4ebdd0a2b34337a7a1b8d4f13682d5f8bb7b85e83854c55d258dbcabe3d1686e",
+          "branch": "rcap-factory/rcap-in-custom-pleading-completed-output-review-d7e57136-4ebdd0a2",
           "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-fl-public-official-download.json"
-          ],
-          "dependencies": [],
-          "assignedTrackIds": [
-            "fl-10yr-bridge",
-            "fl-expunction",
-            "fl-sealing",
-            "fl-trafficking"
-          ],
-          "incrementalTrackIds": [
-            "fl-10yr-bridge",
-            "fl-expunction",
-            "fl-sealing",
-            "fl-trafficking"
-          ],
-          "assignedComponents": 19,
-          "incrementalComponents": 19,
-          "alreadyHasPushedCompletion": true
-        },
-        {
-          "jobId": "rcap-hi-expungement-stage-one-and-hcjdc-159b-memo-correction",
-          "lane": "legal_design_normalization",
-          "jurisdiction": "HI",
-          "status": "completed",
-          "semanticFingerprint": "28c01c798bc09c36935dd87b9bb6c865a50e3b99045b21ae4ac7417f2fd24f8c",
-          "branch": "rcap-factory/rcap-hi-expungement-stage-one-and-hcjdc-159b-memo-correction-00b6c384-28c01c79",
-          "ownedPaths": [
-            "data/record-clearing/legal-design-intake/HI.memo.json"
+            "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-in-custom-pleading.json"
           ],
           "dependencies": [
-            "rcap-hi-hcjdc-159b-technical-structure-and-edition-asset",
-            "rcap-hi-in-repo-identity-reconciliation-hcjdc-159",
-            "rcap-hi-stage-one-expungement-filing-vehicle-current-law-reconciliation"
+            "rcap-in-custom-pleading"
           ],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
+          "assignedTrackIds": [
+            "in_collateral_action",
+            "in_conviction_serious_felony",
+            "in_supplemental_order"
+          ],
+          "incrementalTrackIds": [
+            "in_collateral_action",
+            "in_conviction_serious_felony",
+            "in_supplemental_order"
+          ],
+          "assignedComponents": 13,
+          "incrementalComponents": 13,
           "alreadyHasPushedCompletion": true
         },
         {
-          "jobId": "rcap-nv-custom-pleading",
-          "lane": "custom_pleading",
-          "jurisdiction": "NV",
-          "status": "completed",
-          "semanticFingerprint": "07a0327f54972de454f5d30e2c5fae486eb4ddf92a20b9714f9ec09de0ee4e58",
-          "branch": "rcap-factory/rcap-nv-custom-pleading-1783e4ea-07a0327f",
+          "jobId": "rcap-ms-custom-pleading-completed-output-review",
+          "lane": "legal_output_review",
+          "jurisdiction": "MS",
+          "status": "ready",
+          "semanticFingerprint": "a312b2ef4869a3a682d7cd165e834a4e871cd5ff3b9f099f9c2932002fa5d69e",
+          "branch": "rcap-factory/rcap-ms-custom-pleading-completed-output-review-f20967d1-a312b2ef",
           "ownedPaths": [
-            "scripts/verify-rcap-nevada-custom-pleading.mjs",
-            "src/lib/rcap/packets/jurisdictions/nevada/custom-pleading.ts"
+            "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-ms-custom-pleading.json"
           ],
-          "dependencies": [],
+          "dependencies": [
+            "rcap-ms-custom-pleading"
+          ],
           "assignedTrackIds": [
-            "nv_repository_removal",
-            "nv_seal_conviction",
-            "nv_seal_decrim",
-            "nv_seal_multi",
-            "nv_seal_nonconviction",
-            "nv_seal_pardon",
-            "nv_seal_probation_family",
-            "nv_seal_reentry"
+            "ms-drug-cd",
+            "ms-dui",
+            "ms-mip"
           ],
           "incrementalTrackIds": [
-            "nv_repository_removal",
-            "nv_seal_conviction",
-            "nv_seal_decrim",
-            "nv_seal_multi",
-            "nv_seal_nonconviction",
-            "nv_seal_pardon",
-            "nv_seal_probation_family",
-            "nv_seal_reentry"
+            "ms-drug-cd",
+            "ms-dui",
+            "ms-mip"
           ],
-          "assignedComponents": 56,
-          "incrementalComponents": 56,
+          "assignedComponents": 15,
+          "incrementalComponents": 15,
+          "alreadyHasPushedCompletion": true
+        },
+        {
+          "jobId": "rcap-nc-guidance-implementation-completed-output-review",
+          "lane": "legal_output_review",
+          "jurisdiction": "NC",
+          "status": "ready",
+          "semanticFingerprint": "f5c2611ccc22ef56726f4dd1be9b168239fd8568f4f9bd7056f1f07cd619a40f",
+          "branch": "rcap-factory/rcap-nc-guidance-implementation-completed-output-review-26ecc655-f5c2611c",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-nc-guidance-implementation.json"
+          ],
+          "dependencies": [
+            "rcap-nc-guidance-implementation"
+          ],
+          "assignedTrackIds": [
+            "nc_auto_146_a4"
+          ],
+          "incrementalTrackIds": [
+            "nc_auto_146_a4"
+          ],
+          "assignedComponents": 1,
+          "incrementalComponents": 1,
+          "alreadyHasPushedCompletion": true
+        },
+        {
+          "jobId": "rcap-ok-guidance-implementation-completed-output-review",
+          "lane": "legal_output_review",
+          "jurisdiction": "OK",
+          "status": "ready",
+          "semanticFingerprint": "3db5cd8b8b9d0706b04b4ac9480aa7a4ab7b4073dcd6833f2d779022399edc14",
+          "branch": "rcap-factory/rcap-ok-guidance-implementation-completed-output-review-a68a398b-3db5cd8b",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-ok-guidance-implementation.json"
+          ],
+          "dependencies": [
+            "rcap-ok-guidance-implementation"
+          ],
+          "assignedTrackIds": [
+            "ok_clean_slate",
+            "ok_osbi_portal"
+          ],
+          "incrementalTrackIds": [
+            "ok_clean_slate",
+            "ok_osbi_portal"
+          ],
+          "assignedComponents": 6,
+          "incrementalComponents": 6,
+          "alreadyHasPushedCompletion": true
+        },
+        {
+          "jobId": "rcap-tn-guidance-implementation-completed-output-review",
+          "lane": "legal_output_review",
+          "jurisdiction": "TN",
+          "status": "ready",
+          "semanticFingerprint": "d46a4c57590fc14d0bd84b64aaba19be230ee77be3cead5f587d6cc2b73f9548",
+          "branch": "rcap-factory/rcap-tn-guidance-implementation-completed-output-review-59205efa-d46a4c57",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-tn-guidance-implementation.json"
+          ],
+          "dependencies": [
+            "rcap-tn-guidance-implementation"
+          ],
+          "assignedTrackIds": [
+            "tn_acquittal_immediate",
+            "tn_trafficking_40_32_105"
+          ],
+          "incrementalTrackIds": [
+            "tn_acquittal_immediate",
+            "tn_trafficking_40_32_105"
+          ],
+          "assignedComponents": 2,
+          "incrementalComponents": 2,
           "alreadyHasPushedCompletion": true
         }
       ]
@@ -2267,5 +2312,5 @@
       ]
     }
   ],
-  "manifestSha256": "5538989a77b121fb03dfdb9ff9f0a0de7b5ff8dc3924adbcacda404e515eaafc"
+  "manifestSha256": "181fc23335e75443883fe7fa32ef91a345f5cf86cdd4d01bb44d41b9d5ec306c"
 }
