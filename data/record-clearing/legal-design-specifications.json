@@ -2115,6 +2115,12 @@
           "key": "circuitOfArrest",
           "question": "In which county and judicial circuit did the arrest happen?",
           "requirement": "required"
+        },
+        {
+          "key": "additionalDirectlyRelatedArrests",
+          "question": "Are there any other arrests you want expunged that arose directly from the same events as this one? For each, what was the arresting agency, the date of arrest, the case number and the charges?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where the participant reports more than one arrest, because § 943.0585(4)(c) limits expunction to one arrest or one incident unless the additional arrests directly relate to the original arrest and the order says so. The answer is repeated once per additional arrest in the body of the proposed order. LegalEase asks and drafts; it does not decide whether the arrests directly relate, and it obtains no record."
         }
       ],
       "packetInstructions": [
@@ -46534,6 +46540,870 @@
         "Federal, tribal, military and out-of-state records.",
         "Any participant whose goal is firearm rights, which sealing does not restore.",
         "Immigration exposure. Nevada sealing must not be described as having immigration effect."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "NV",
+      "trackId": "nv_seal_probation_family",
+      "componentId": "nv_seal_probation_family-primary-filing-4",
+      "role": "primary_filing",
+      "venue": "Not a filing route. The court or agency that handled the matter holds the record.",
+      "authority": [
+        "NRS 176A.245",
+        "NRS 176A.265",
+        "NRS 176A.295",
+        "NRS 176A.240",
+        "NRS 176A.260",
+        "NRS 176A.290",
+        "NRS 176A.850",
+        "NRS 179.2445"
+      ],
+      "rules": {
+        "filing": "Two mechanisms in one track. On the subsection 1 branch nothing is filed by the participant: the justice court, municipal court or district court orders the sealing itself after the discharge or dismissal, without a hearing, unless the Division petitions for good cause not to seal. On the subsection 2 branch the defendant files a petition in the court that handled the case, and not sooner than seven years after the conditional dismissal or the setting aside of the judgment.",
+        "fees": "None is prescribed. Neither NRS 176A.245, NRS 176A.265 nor NRS 176A.295 imposes, authorises or mentions a fee, on either branch. Whether a particular clerk charges a filing fee for the subsection 2 petition is not established by the sections and is recorded as an open question rather than asserted either way. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not by its terms reach these sections.",
+        "feeWaiver": "None prescribed by these sections. NRS 179.245(9) waives fees related to a petition for sealing under NRS 179.245 where the petitioner was being sex trafficked when the crime was committed; its text is confined to that section and it is not authority for a waiver here.",
+        "notice": "No notice duty falls on the participant on either branch. Under subsection 4 the court sends a copy of any sealing order to each agency or officer named in it and each must notify the court in writing of compliance, and under NRS 179.275 a copy also goes to the Central Repository and each named custodian.",
+        "service": "The sections prescribe none. On the subsection 1 branch there is nothing to serve. On the subsection 2 branch the sections require only \"the filing of a petition by the defendant\" and name no person to be served; the Division is the body given the right to object, and whether the petition must be served on it or on the prosecutor is not established by the text and is recorded as an open question.",
+        "participantSignature": "On the subsection 2 branch the petitioner signs the petition and the declaration personally. On the subsection 1 branch nothing is generated for the participant to sign.",
+        "notarization": "None required. The sections prescribe no verification or notarization."
+      },
+      "generationRequirements": [
+        {
+          "key": "prbProgramSection",
+          "question": "Was your case handled through a court treatment programme — for alcohol or other substance use, for mental illness or an intellectual disability, or for veterans and members of the military?",
+          "requirement": "required"
+        },
+        {
+          "key": "prbOutcome",
+          "question": "How did it end — discharged from probation, the case dismissed, conditionally dismissed, or the judgment set aside?",
+          "requirement": "required"
+        },
+        {
+          "key": "prbChargeType",
+          "question": "Was the charge battery constituting domestic violence, or driving or being in actual physical control of a vehicle under the influence, or the related controlled-substance driving offence?",
+          "requirement": "required",
+          "conditionDescription": "Asked because subsection 2 of NRS 176A.245, NRS 176A.265 and NRS 176A.295 moves a charge under NRS 200.485, NRS 484C.110 or NRS 484C.120 off the automatic branch and onto a petition that cannot be filed sooner than seven years after the conditional dismissal or set-aside. It is the question that decides whether anything is generated."
+        },
+        {
+          "key": "prbDispositionDate",
+          "question": "On what date were the charges conditionally dismissed or the judgment of conviction set aside?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only on the subsection 2 branch, because the seven-year period runs from that date and the petition cannot be filed before it elapses."
+        },
+        {
+          "key": "prbDischargeType",
+          "question": "If you were discharged from probation, was the discharge honourable or dishonourable?",
+          "requirement": "required",
+          "conditionDescription": "Asked because NRS 179.2445(2) removes the rebuttable presumption in favour of sealing for a defendant given a dishonorable discharge under NRS 176A.850, which changes what the participant should expect on the ordinary conviction track."
+        },
+        {
+          "key": "prbExcludedCharge",
+          "question": "Was the charge one of abuse, neglect or endangerment of a child, or abuse, neglect, exploitation, isolation or abandonment of an older person or a vulnerable person?",
+          "requirement": "required",
+          "conditionDescription": "Asked because subsection 3 of each section bars sealing outright in those cases, on both branches."
+        },
+        {
+          "key": "prbCourt",
+          "question": "Which court handled the case, and in which county? Was it a district, justice or municipal court?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "The sex trafficking fee waiver under NRS 179.245(9) is not a separate track but a cross-cutting entitlement that zeroes out every fee in the process, including fingerprints, criminal history and certified copies. It must be surfaced wherever a fee is mentioned."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Case number and the identity of the court that handled the case",
+          "whereInPacket": "Petition caption, on the subsection 2 branch only",
+          "why": "Taken from the participant's own court paperwork. LegalEase does not obtain or inspect the record."
+        },
+        {
+          "item": "The list of agencies and officers to be named in the sealing order",
+          "whereInPacket": "Proposed order, on the subsection 2 branch only",
+          "why": "Subsections 1 and 2 reach only records in the custody of the agencies and officers named in the court's order, so the list is operative text rather than formality, and it depends on which agencies touched the particular case."
+        },
+        {
+          "item": "Signature and date",
+          "whereInPacket": "Petition and declaration, on the subsection 2 branch only",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Case number and the identity of the court that handled the case — Petition caption, on the subsection 2 branch only.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The list of agencies and officers to be named in the sealing order — Proposed order, on the subsection 2 branch only.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — Petition and declaration, on the subsection 2 branch only.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "On the subsection 2 branch the petitioner signs the petition and the declaration personally. On the subsection 1 branch nothing is generated for the participant to sign.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "None required. The sections prescribe no verification or notarization.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "None is prescribed. Neither NRS 176A.245, NRS 176A.265 nor NRS 176A.295 imposes, authorises or mentions a fee, on either branch. Whether a particular clerk charges a filing fee for the subsection 2 petition is not established by the sections and is recorded as an open question rather than asserted either way. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not by its terms reach these sections.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None prescribed by these sections. NRS 179.245(9) waives fees related to a petition for sealing under NRS 179.245 where the petitioner was being sex trafficked when the crime was committed; its text is confined to that section and it is not authority for a waiver here.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The sections prescribe none. On the subsection 1 branch there is nothing to serve. On the subsection 2 branch the sections require only \"the filing of a petition by the defendant\" and name no person to be served; the Division is the body given the right to object, and whether the petition must be served on it or on the prosecutor is not established by the text and is recorded as an open question.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Two mechanisms in one track. On the subsection 1 branch nothing is filed by the participant: the justice court, municipal court or district court orders the sealing itself after the discharge or dismissal, without a hearing, unless the Division petitions for good cause not to seal. On the subsection 2 branch the defendant files a petition in the court that handled the case, and not sooner than seven years after the conditional dismissal or the setting aside of the judgment.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Case number and the identity of the court that handled the case — Petition caption, on the subsection 2 branch only.",
+        "The list of agencies and officers to be named in the sealing order — Proposed order, on the subsection 2 branch only.",
+        "Signature and date — Petition and declaration, on the subsection 2 branch only.",
+        "On the subsection 2 branch the petitioner signs the petition and the declaration personally. On the subsection 1 branch nothing is generated for the participant to sign.",
+        "None required. The sections prescribe no verification or notarization.",
+        "None is prescribed. Neither NRS 176A.245, NRS 176A.265 nor NRS 176A.295 imposes, authorises or mentions a fee, on either branch. Whether a particular clerk charges a filing fee for the subsection 2 petition is not established by the sections and is recorded as an open question rather than asserted either way. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not by its terms reach these sections.",
+        "None prescribed by these sections. NRS 179.245(9) waives fees related to a petition for sealing under NRS 179.245 where the petitioner was being sex trafficked when the crime was committed; its text is confined to that section and it is not authority for a waiver here."
+      ],
+      "stopConditions": [
+        "The charge was a violation of NRS 200.508 or NRS 200.5099, which subsection 3 of each section bars from sealing on both branches.",
+        "The Division of Parole and Probation petitions the court, for good cause shown, not to seal and requests a hearing. That is a contested proceeding.",
+        "Whether the defendant fulfilled the terms and conditions imposed by the court and the Division is disputed or unclear on the record; that is the condition on which both branches turn.",
+        "The programme was not completed and the defendant was sentenced rather than discharged or the case dismissed.",
+        "The seven-year period under subsection 2 has not elapsed, or its start date is uncertain because the record does not show clearly whether the disposition was a conditional dismissal, a set-aside or an ordinary dismissal.",
+        "Any dishonourable discharge, which under NRS 179.2445(2) removes the presumption on any later petition under NRS 179.245.",
+        "Any offence-category question. Nevada eligibility turns on category A through E felony, gross misdemeanour or misdemeanour and on whether the offence is a crime of violence, which is a legal classification driving a one-year versus ten-year answer on the ordinary tracks.",
+        "Any pending charge, and any conviction during the clean period other than a minor moving or standing traffic violation.",
+        "Records in more than one county, or in both municipal and justice or district court, where practice differs by court and prosecuting agency.",
+        "Federal, tribal, military and out-of-state records.",
+        "Any participant whose goal is firearm rights, which sealing does not restore.",
+        "Immigration exposure. Nevada sealing must not be described as having immigration effect."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "NV",
+      "trackId": "nv_seal_probation_family",
+      "componentId": "nv_seal_probation_family-proposed-order-5",
+      "role": "proposed_order",
+      "venue": "Not a filing route. The court or agency that handled the matter holds the record.",
+      "authority": [
+        "NRS 176A.245",
+        "NRS 176A.265",
+        "NRS 176A.295",
+        "NRS 176A.240",
+        "NRS 176A.260",
+        "NRS 176A.290",
+        "NRS 176A.850",
+        "NRS 179.2445"
+      ],
+      "rules": {
+        "filing": "Two mechanisms in one track. On the subsection 1 branch nothing is filed by the participant: the justice court, municipal court or district court orders the sealing itself after the discharge or dismissal, without a hearing, unless the Division petitions for good cause not to seal. On the subsection 2 branch the defendant files a petition in the court that handled the case, and not sooner than seven years after the conditional dismissal or the setting aside of the judgment.",
+        "fees": "None is prescribed. Neither NRS 176A.245, NRS 176A.265 nor NRS 176A.295 imposes, authorises or mentions a fee, on either branch. Whether a particular clerk charges a filing fee for the subsection 2 petition is not established by the sections and is recorded as an open question rather than asserted either way. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not by its terms reach these sections.",
+        "feeWaiver": "None prescribed by these sections. NRS 179.245(9) waives fees related to a petition for sealing under NRS 179.245 where the petitioner was being sex trafficked when the crime was committed; its text is confined to that section and it is not authority for a waiver here.",
+        "notice": "No notice duty falls on the participant on either branch. Under subsection 4 the court sends a copy of any sealing order to each agency or officer named in it and each must notify the court in writing of compliance, and under NRS 179.275 a copy also goes to the Central Repository and each named custodian.",
+        "service": "The sections prescribe none. On the subsection 1 branch there is nothing to serve. On the subsection 2 branch the sections require only \"the filing of a petition by the defendant\" and name no person to be served; the Division is the body given the right to object, and whether the petition must be served on it or on the prosecutor is not established by the text and is recorded as an open question.",
+        "participantSignature": "On the subsection 2 branch the petitioner signs the petition and the declaration personally. On the subsection 1 branch nothing is generated for the participant to sign.",
+        "notarization": "None required. The sections prescribe no verification or notarization."
+      },
+      "generationRequirements": [
+        {
+          "key": "prbProgramSection",
+          "question": "Was your case handled through a court treatment programme — for alcohol or other substance use, for mental illness or an intellectual disability, or for veterans and members of the military?",
+          "requirement": "required"
+        },
+        {
+          "key": "prbOutcome",
+          "question": "How did it end — discharged from probation, the case dismissed, conditionally dismissed, or the judgment set aside?",
+          "requirement": "required"
+        },
+        {
+          "key": "prbChargeType",
+          "question": "Was the charge battery constituting domestic violence, or driving or being in actual physical control of a vehicle under the influence, or the related controlled-substance driving offence?",
+          "requirement": "required",
+          "conditionDescription": "Asked because subsection 2 of NRS 176A.245, NRS 176A.265 and NRS 176A.295 moves a charge under NRS 200.485, NRS 484C.110 or NRS 484C.120 off the automatic branch and onto a petition that cannot be filed sooner than seven years after the conditional dismissal or set-aside. It is the question that decides whether anything is generated."
+        },
+        {
+          "key": "prbDispositionDate",
+          "question": "On what date were the charges conditionally dismissed or the judgment of conviction set aside?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only on the subsection 2 branch, because the seven-year period runs from that date and the petition cannot be filed before it elapses."
+        },
+        {
+          "key": "prbDischargeType",
+          "question": "If you were discharged from probation, was the discharge honourable or dishonourable?",
+          "requirement": "required",
+          "conditionDescription": "Asked because NRS 179.2445(2) removes the rebuttable presumption in favour of sealing for a defendant given a dishonorable discharge under NRS 176A.850, which changes what the participant should expect on the ordinary conviction track."
+        },
+        {
+          "key": "prbExcludedCharge",
+          "question": "Was the charge one of abuse, neglect or endangerment of a child, or abuse, neglect, exploitation, isolation or abandonment of an older person or a vulnerable person?",
+          "requirement": "required",
+          "conditionDescription": "Asked because subsection 3 of each section bars sealing outright in those cases, on both branches."
+        },
+        {
+          "key": "prbCourt",
+          "question": "Which court handled the case, and in which county? Was it a district, justice or municipal court?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "The sex trafficking fee waiver under NRS 179.245(9) is not a separate track but a cross-cutting entitlement that zeroes out every fee in the process, including fingerprints, criminal history and certified copies. It must be surfaced wherever a fee is mentioned."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Case number and the identity of the court that handled the case",
+          "whereInPacket": "Petition caption, on the subsection 2 branch only",
+          "why": "Taken from the participant's own court paperwork. LegalEase does not obtain or inspect the record."
+        },
+        {
+          "item": "The list of agencies and officers to be named in the sealing order",
+          "whereInPacket": "Proposed order, on the subsection 2 branch only",
+          "why": "Subsections 1 and 2 reach only records in the custody of the agencies and officers named in the court's order, so the list is operative text rather than formality, and it depends on which agencies touched the particular case."
+        },
+        {
+          "item": "Signature and date",
+          "whereInPacket": "Petition and declaration, on the subsection 2 branch only",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Case number and the identity of the court that handled the case — Petition caption, on the subsection 2 branch only.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The list of agencies and officers to be named in the sealing order — Proposed order, on the subsection 2 branch only.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — Petition and declaration, on the subsection 2 branch only.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "On the subsection 2 branch the petitioner signs the petition and the declaration personally. On the subsection 1 branch nothing is generated for the participant to sign.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "None required. The sections prescribe no verification or notarization.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "None is prescribed. Neither NRS 176A.245, NRS 176A.265 nor NRS 176A.295 imposes, authorises or mentions a fee, on either branch. Whether a particular clerk charges a filing fee for the subsection 2 petition is not established by the sections and is recorded as an open question rather than asserted either way. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not by its terms reach these sections.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None prescribed by these sections. NRS 179.245(9) waives fees related to a petition for sealing under NRS 179.245 where the petitioner was being sex trafficked when the crime was committed; its text is confined to that section and it is not authority for a waiver here.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The sections prescribe none. On the subsection 1 branch there is nothing to serve. On the subsection 2 branch the sections require only \"the filing of a petition by the defendant\" and name no person to be served; the Division is the body given the right to object, and whether the petition must be served on it or on the prosecutor is not established by the text and is recorded as an open question.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Two mechanisms in one track. On the subsection 1 branch nothing is filed by the participant: the justice court, municipal court or district court orders the sealing itself after the discharge or dismissal, without a hearing, unless the Division petitions for good cause not to seal. On the subsection 2 branch the defendant files a petition in the court that handled the case, and not sooner than seven years after the conditional dismissal or the setting aside of the judgment.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Case number and the identity of the court that handled the case — Petition caption, on the subsection 2 branch only.",
+        "The list of agencies and officers to be named in the sealing order — Proposed order, on the subsection 2 branch only.",
+        "Signature and date — Petition and declaration, on the subsection 2 branch only.",
+        "On the subsection 2 branch the petitioner signs the petition and the declaration personally. On the subsection 1 branch nothing is generated for the participant to sign.",
+        "None required. The sections prescribe no verification or notarization.",
+        "None is prescribed. Neither NRS 176A.245, NRS 176A.265 nor NRS 176A.295 imposes, authorises or mentions a fee, on either branch. Whether a particular clerk charges a filing fee for the subsection 2 petition is not established by the sections and is recorded as an open question rather than asserted either way. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not by its terms reach these sections.",
+        "None prescribed by these sections. NRS 179.245(9) waives fees related to a petition for sealing under NRS 179.245 where the petitioner was being sex trafficked when the crime was committed; its text is confined to that section and it is not authority for a waiver here."
+      ],
+      "stopConditions": [
+        "The charge was a violation of NRS 200.508 or NRS 200.5099, which subsection 3 of each section bars from sealing on both branches.",
+        "The Division of Parole and Probation petitions the court, for good cause shown, not to seal and requests a hearing. That is a contested proceeding.",
+        "Whether the defendant fulfilled the terms and conditions imposed by the court and the Division is disputed or unclear on the record; that is the condition on which both branches turn.",
+        "The programme was not completed and the defendant was sentenced rather than discharged or the case dismissed.",
+        "The seven-year period under subsection 2 has not elapsed, or its start date is uncertain because the record does not show clearly whether the disposition was a conditional dismissal, a set-aside or an ordinary dismissal.",
+        "Any dishonourable discharge, which under NRS 179.2445(2) removes the presumption on any later petition under NRS 179.245.",
+        "Any offence-category question. Nevada eligibility turns on category A through E felony, gross misdemeanour or misdemeanour and on whether the offence is a crime of violence, which is a legal classification driving a one-year versus ten-year answer on the ordinary tracks.",
+        "Any pending charge, and any conviction during the clean period other than a minor moving or standing traffic violation.",
+        "Records in more than one county, or in both municipal and justice or district court, where practice differs by court and prosecuting agency.",
+        "Federal, tribal, military and out-of-state records.",
+        "Any participant whose goal is firearm rights, which sealing does not restore.",
+        "Immigration exposure. Nevada sealing must not be described as having immigration effect."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "NV",
+      "trackId": "nv_seal_probation_family",
+      "componentId": "nv_seal_probation_family-declaration-and-verification-6",
+      "role": "declaration_and_verification",
+      "venue": "Not a filing route. The court or agency that handled the matter holds the record.",
+      "authority": [
+        "NRS 176A.245",
+        "NRS 176A.265",
+        "NRS 176A.295",
+        "NRS 176A.240",
+        "NRS 176A.260",
+        "NRS 176A.290",
+        "NRS 176A.850",
+        "NRS 179.2445"
+      ],
+      "rules": {
+        "filing": "Two mechanisms in one track. On the subsection 1 branch nothing is filed by the participant: the justice court, municipal court or district court orders the sealing itself after the discharge or dismissal, without a hearing, unless the Division petitions for good cause not to seal. On the subsection 2 branch the defendant files a petition in the court that handled the case, and not sooner than seven years after the conditional dismissal or the setting aside of the judgment.",
+        "fees": "None is prescribed. Neither NRS 176A.245, NRS 176A.265 nor NRS 176A.295 imposes, authorises or mentions a fee, on either branch. Whether a particular clerk charges a filing fee for the subsection 2 petition is not established by the sections and is recorded as an open question rather than asserted either way. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not by its terms reach these sections.",
+        "feeWaiver": "None prescribed by these sections. NRS 179.245(9) waives fees related to a petition for sealing under NRS 179.245 where the petitioner was being sex trafficked when the crime was committed; its text is confined to that section and it is not authority for a waiver here.",
+        "notice": "No notice duty falls on the participant on either branch. Under subsection 4 the court sends a copy of any sealing order to each agency or officer named in it and each must notify the court in writing of compliance, and under NRS 179.275 a copy also goes to the Central Repository and each named custodian.",
+        "service": "The sections prescribe none. On the subsection 1 branch there is nothing to serve. On the subsection 2 branch the sections require only \"the filing of a petition by the defendant\" and name no person to be served; the Division is the body given the right to object, and whether the petition must be served on it or on the prosecutor is not established by the text and is recorded as an open question.",
+        "participantSignature": "On the subsection 2 branch the petitioner signs the petition and the declaration personally. On the subsection 1 branch nothing is generated for the participant to sign.",
+        "notarization": "None required. The sections prescribe no verification or notarization."
+      },
+      "generationRequirements": [
+        {
+          "key": "prbProgramSection",
+          "question": "Was your case handled through a court treatment programme — for alcohol or other substance use, for mental illness or an intellectual disability, or for veterans and members of the military?",
+          "requirement": "required"
+        },
+        {
+          "key": "prbOutcome",
+          "question": "How did it end — discharged from probation, the case dismissed, conditionally dismissed, or the judgment set aside?",
+          "requirement": "required"
+        },
+        {
+          "key": "prbChargeType",
+          "question": "Was the charge battery constituting domestic violence, or driving or being in actual physical control of a vehicle under the influence, or the related controlled-substance driving offence?",
+          "requirement": "required",
+          "conditionDescription": "Asked because subsection 2 of NRS 176A.245, NRS 176A.265 and NRS 176A.295 moves a charge under NRS 200.485, NRS 484C.110 or NRS 484C.120 off the automatic branch and onto a petition that cannot be filed sooner than seven years after the conditional dismissal or set-aside. It is the question that decides whether anything is generated."
+        },
+        {
+          "key": "prbDispositionDate",
+          "question": "On what date were the charges conditionally dismissed or the judgment of conviction set aside?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only on the subsection 2 branch, because the seven-year period runs from that date and the petition cannot be filed before it elapses."
+        },
+        {
+          "key": "prbDischargeType",
+          "question": "If you were discharged from probation, was the discharge honourable or dishonourable?",
+          "requirement": "required",
+          "conditionDescription": "Asked because NRS 179.2445(2) removes the rebuttable presumption in favour of sealing for a defendant given a dishonorable discharge under NRS 176A.850, which changes what the participant should expect on the ordinary conviction track."
+        },
+        {
+          "key": "prbExcludedCharge",
+          "question": "Was the charge one of abuse, neglect or endangerment of a child, or abuse, neglect, exploitation, isolation or abandonment of an older person or a vulnerable person?",
+          "requirement": "required",
+          "conditionDescription": "Asked because subsection 3 of each section bars sealing outright in those cases, on both branches."
+        },
+        {
+          "key": "prbCourt",
+          "question": "Which court handled the case, and in which county? Was it a district, justice or municipal court?",
+          "requirement": "required"
+        }
+      ],
+      "packetInstructions": [
+        "The sex trafficking fee waiver under NRS 179.245(9) is not a separate track but a cross-cutting entitlement that zeroes out every fee in the process, including fingerprints, criminal history and certified copies. It must be surfaced wherever a fee is mentioned."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Case number and the identity of the court that handled the case",
+          "whereInPacket": "Petition caption, on the subsection 2 branch only",
+          "why": "Taken from the participant's own court paperwork. LegalEase does not obtain or inspect the record."
+        },
+        {
+          "item": "The list of agencies and officers to be named in the sealing order",
+          "whereInPacket": "Proposed order, on the subsection 2 branch only",
+          "why": "Subsections 1 and 2 reach only records in the custody of the agencies and officers named in the court's order, so the list is operative text rather than formality, and it depends on which agencies touched the particular case."
+        },
+        {
+          "item": "Signature and date",
+          "whereInPacket": "Petition and declaration, on the subsection 2 branch only",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Case number and the identity of the court that handled the case — Petition caption, on the subsection 2 branch only.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The list of agencies and officers to be named in the sealing order — Proposed order, on the subsection 2 branch only.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — Petition and declaration, on the subsection 2 branch only.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "On the subsection 2 branch the petitioner signs the petition and the declaration personally. On the subsection 1 branch nothing is generated for the participant to sign.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "None required. The sections prescribe no verification or notarization.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "None is prescribed. Neither NRS 176A.245, NRS 176A.265 nor NRS 176A.295 imposes, authorises or mentions a fee, on either branch. Whether a particular clerk charges a filing fee for the subsection 2 petition is not established by the sections and is recorded as an open question rather than asserted either way. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not by its terms reach these sections.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None prescribed by these sections. NRS 179.245(9) waives fees related to a petition for sealing under NRS 179.245 where the petitioner was being sex trafficked when the crime was committed; its text is confined to that section and it is not authority for a waiver here.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The sections prescribe none. On the subsection 1 branch there is nothing to serve. On the subsection 2 branch the sections require only \"the filing of a petition by the defendant\" and name no person to be served; the Division is the body given the right to object, and whether the petition must be served on it or on the prosecutor is not established by the text and is recorded as an open question.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "Two mechanisms in one track. On the subsection 1 branch nothing is filed by the participant: the justice court, municipal court or district court orders the sealing itself after the discharge or dismissal, without a hearing, unless the Division petitions for good cause not to seal. On the subsection 2 branch the defendant files a petition in the court that handled the case, and not sooner than seven years after the conditional dismissal or the setting aside of the judgment.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Case number and the identity of the court that handled the case — Petition caption, on the subsection 2 branch only.",
+        "The list of agencies and officers to be named in the sealing order — Proposed order, on the subsection 2 branch only.",
+        "Signature and date — Petition and declaration, on the subsection 2 branch only.",
+        "On the subsection 2 branch the petitioner signs the petition and the declaration personally. On the subsection 1 branch nothing is generated for the participant to sign.",
+        "None required. The sections prescribe no verification or notarization.",
+        "None is prescribed. Neither NRS 176A.245, NRS 176A.265 nor NRS 176A.295 imposes, authorises or mentions a fee, on either branch. Whether a particular clerk charges a filing fee for the subsection 2 petition is not established by the sections and is recorded as an open question rather than asserted either way. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not by its terms reach these sections.",
+        "None prescribed by these sections. NRS 179.245(9) waives fees related to a petition for sealing under NRS 179.245 where the petitioner was being sex trafficked when the crime was committed; its text is confined to that section and it is not authority for a waiver here."
+      ],
+      "stopConditions": [
+        "The charge was a violation of NRS 200.508 or NRS 200.5099, which subsection 3 of each section bars from sealing on both branches.",
+        "The Division of Parole and Probation petitions the court, for good cause shown, not to seal and requests a hearing. That is a contested proceeding.",
+        "Whether the defendant fulfilled the terms and conditions imposed by the court and the Division is disputed or unclear on the record; that is the condition on which both branches turn.",
+        "The programme was not completed and the defendant was sentenced rather than discharged or the case dismissed.",
+        "The seven-year period under subsection 2 has not elapsed, or its start date is uncertain because the record does not show clearly whether the disposition was a conditional dismissal, a set-aside or an ordinary dismissal.",
+        "Any dishonourable discharge, which under NRS 179.2445(2) removes the presumption on any later petition under NRS 179.245.",
+        "Any offence-category question. Nevada eligibility turns on category A through E felony, gross misdemeanour or misdemeanour and on whether the offence is a crime of violence, which is a legal classification driving a one-year versus ten-year answer on the ordinary tracks.",
+        "Any pending charge, and any conviction during the clean period other than a minor moving or standing traffic violation.",
+        "Records in more than one county, or in both municipal and justice or district court, where practice differs by court and prosecuting agency.",
+        "Federal, tribal, military and out-of-state records.",
+        "Any participant whose goal is firearm rights, which sealing does not restore.",
+        "Immigration exposure. Nevada sealing must not be described as having immigration effect."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "NV",
+      "trackId": "nv_repository_removal",
+      "componentId": "nv_repository_removal-primary-filing-1",
+      "role": "primary_filing",
+      "venue": "Not a filing route. The court or agency that handled the matter holds the record.",
+      "authority": [
+        "NRS 179A.160",
+        "NRS 179.245",
+        "NRS 179.255",
+        "NRS 179.275"
+      ],
+      "rules": {
+        "filing": "The participant applies in writing to the Central Repository for Nevada Records of Criminal History and to the agency which maintains the record, under NRS 179A.160(1). It is an agency application, not a court filing, and no order issues on it. There is no prescribed form and no prescribed manner of delivery.",
+        "fees": "None is prescribed. NRS 179A.160 imposes, authorises and mentions no fee for a removal request. The fees the Records, Communications and Compliance Division does charge are for obtaining a copy of a criminal history record, which is a different service the participant may want first, and are not a fee for this application. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not by its terms reach this section.",
+        "feeWaiver": "None prescribed by this section, and none needed for the application itself. NRS 179.245(9) waives fees related to a petition for sealing under NRS 179.245 where the petitioner was being sex trafficked when the crime was committed; its text is confined to that section.",
+        "notice": "None. NRS 179A.160 requires no notice to the prosecuting attorney, to any court or to any other person. The prosecuting attorney enters only through subsection 2(b), which lets a current certificate that the case is under active prosecution defeat the removal; that is the prosecutor's own act and not a notice the participant gives.",
+        "service": "No service in the litigation sense, because there is no court proceeding. The application is delivered to both recipients directly: the Central Repository and the agency which maintains the record. The section prescribes no method, so a method that produces proof of delivery is a filing instruction rather than a legal requirement.",
+        "participantSignature": "The applicant signs both copies of the application personally.",
+        "notarization": "None required. The section prescribes no verification or notarization."
+      },
+      "generationRequirements": [
+        {
+          "key": "rpoDisposition",
+          "question": "How did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "rpoDispositionFinalDate",
+          "question": "On what date did that outcome become final?",
+          "requirement": "required",
+          "conditionDescription": "Asked because NRS 179A.160(1) permits the application at any time after the dismissal, acquittal or favourable disposition is final. There is no waiting period, but finality is the condition."
+        },
+        {
+          "key": "rpoArrestIdentity",
+          "question": "Which agency arrested you, cited you or sought the warrant, on what date, and what case or event number does the record carry?",
+          "requirement": "required",
+          "conditionDescription": "Asked because the application must go to the agency which maintains the record as well as to the Central Repository, and must identify the record it asks to have removed."
+        },
+        {
+          "key": "rpoRepositoryShows",
+          "question": "Does the arrest still show on your Nevada criminal history from the repository?",
+          "requirement": "required",
+          "conditionDescription": "Asked because this route is about the repository's own record, and the answer decides whether there is anything to remove."
+        },
+        {
+          "key": "rpoDeferredOrPlea",
+          "question": "Was the case resolved through a deferred prosecution, a plea bargain, or any similar arrangement, rather than being dismissed outright or ending in acquittal?",
+          "requirement": "required",
+          "conditionDescription": "Asked because NRS 179A.160(2)(c) excludes those dispositions outright. A yes ends this route and routes the participant elsewhere."
+        },
+        {
+          "key": "rpoPriorFelonyOrGrossMisdemeanor",
+          "question": "Have you ever been convicted of a felony or a gross misdemeanour anywhere in the United States?",
+          "requirement": "required",
+          "conditionDescription": "Asked because NRS 179A.160(2)(d) excludes a person with any such prior conviction in any United States jurisdiction, not only in Nevada."
+        },
+        {
+          "key": "rpoSubsequentArrest",
+          "question": "Since the arrest, citation or warrant you want removed, have you been arrested for or charged with any other crime, apart from a minor traffic violation?",
+          "requirement": "required",
+          "conditionDescription": "Asked because NRS 179A.160(2)(e) excludes a person in that position."
+        },
+        {
+          "key": "rpoFormerNames",
+          "question": "What other names have you used, including any former legal names?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked where the participant reports having used another name, because the repository indexes by identity and an application under one name may not reach a record filed under another."
+        }
+      ],
+      "packetInstructions": [
+        "The sex trafficking fee waiver under NRS 179.245(9) is not a separate track but a cross-cutting entitlement that zeroes out every fee in the process, including fingerprints, criminal history and certified copies. It must be surfaced wherever a fee is mentioned."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "The mailing address of the agency which maintains the record",
+          "whereInPacket": "Address block of the duplicate application copy",
+          "why": "It varies with the arresting agency and LegalEase does not hold a directory of Nevada law-enforcement agency addresses. The participant supplies it."
+        },
+        {
+          "item": "Case or event number from the record",
+          "whereInPacket": "Identification block of both application copies",
+          "why": "Taken from the participant's own criminal history record or court paperwork. LegalEase does not obtain or inspect the record."
+        },
+        {
+          "item": "Signature and date",
+          "whereInPacket": "Signature block of both application copies",
+          "why": "The applicant signs their own application."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof of the favourable disposition. Request a certified copy of the dismissal, acquittal or other favourable disposition from the court that handled the case. NRS 179A.160 does not require it, but the Central Repository and the agency have to satisfy themselves that the disposition is favourable and final, and an application that carries the proof is the one that can be acted on. LegalEase names it; the participant obtains it and LegalEase does not review it.",
+          "obtainedFrom": "The court that handled the case",
+          "requirement": "conditional",
+          "conditionDescription": "Named wherever the participant's criminal history or court paperwork does not already show the disposition and its finality on its face. NRS 179A.160 does not require any attachment, so this is never a gate on generation.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "The mailing address of the agency which maintains the record — Address block of the duplicate application copy.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Case or event number from the record — Identification block of both application copies.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — Signature block of both application copies.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs both copies of the application personally.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "None required. The section prescribes no verification or notarization.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "None is prescribed. NRS 179A.160 imposes, authorises and mentions no fee for a removal request. The fees the Records, Communications and Compliance Division does charge are for obtaining a copy of a criminal history record, which is a different service the participant may want first, and are not a fee for this application. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not by its terms reach this section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None prescribed by this section, and none needed for the application itself. NRS 179.245(9) waives fees related to a petition for sealing under NRS 179.245 where the petitioner was being sex trafficked when the crime was committed; its text is confined to that section.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service in the litigation sense, because there is no court proceeding. The application is delivered to both recipients directly: the Central Repository and the agency which maintains the record. The section prescribes no method, so a method that produces proof of delivery is a filing instruction rather than a legal requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "The participant applies in writing to the Central Repository for Nevada Records of Criminal History and to the agency which maintains the record, under NRS 179A.160(1). It is an agency application, not a court filing, and no order issues on it. There is no prescribed form and no prescribed manner of delivery.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "The mailing address of the agency which maintains the record — Address block of the duplicate application copy.",
+        "Case or event number from the record — Identification block of both application copies.",
+        "Signature and date — Signature block of both application copies.",
+        "The applicant signs both copies of the application personally.",
+        "None required. The section prescribes no verification or notarization.",
+        "None is prescribed. NRS 179A.160 imposes, authorises and mentions no fee for a removal request. The fees the Records, Communications and Compliance Division does charge are for obtaining a copy of a criminal history record, which is a different service the participant may want first, and are not a fee for this application. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not by its terms reach this section.",
+        "None prescribed by this section, and none needed for the application itself. NRS 179.245(9) waives fees related to a petition for sealing under NRS 179.245 where the petitioner was being sex trafficked when the crime was committed; its text is confined to that section."
+      ],
+      "stopConditions": [
+        "The disposition was a deferred prosecution, plea bargain or other similar disposition, which NRS 179A.160(2)(c) excludes outright even though the participant will describe the outcome as favourable.",
+        "The participant has any prior conviction for a felony or gross misdemeanour in any jurisdiction in the United States, which NRS 179A.160(2)(d) excludes.",
+        "The participant has been arrested for or charged with another crime, other than a minor traffic violation, since the arrest, citation or warrant in question, which NRS 179A.160(2)(e) excludes.",
+        "The case is under active prosecution, or the participant is a fugitive.",
+        "Whether the disposition is \"favorable to the person\" is arguable on the record; that is the threshold legal characterisation on which the whole route turns and the section does not define it.",
+        "The participant also needs the court record sealed, which is a separate court petition on a different track and is not obtained by this application.",
+        "The Central Repository or the agency refuses the application, which the section provides no appeal from and which a participant should not litigate alone.",
+        "Any offence-category question. Nevada eligibility turns on category A through E felony, gross misdemeanour or misdemeanour and on whether the offence is a crime of violence, which is a legal classification driving a one-year versus ten-year answer on the ordinary tracks.",
+        "Records in more than one county, or held by more than one agency, where a single application will not reach every custodian.",
+        "Federal, tribal, military and out-of-state records.",
+        "Any participant whose goal is firearm rights, which sealing and removal do not restore.",
+        "Immigration exposure. Nevada sealing and repository removal must not be described as having immigration effect."
+      ],
+      "templateStatus": "not_drafted"
+    },
+    {
+      "jurisdiction": "NV",
+      "trackId": "nv_repository_removal",
+      "componentId": "nv_repository_removal-duplicate-submission-copy-2",
+      "role": "duplicate_submission_copy",
+      "venue": "Not a filing route. The court or agency that handled the matter holds the record.",
+      "authority": [
+        "NRS 179A.160",
+        "NRS 179.245",
+        "NRS 179.255",
+        "NRS 179.275"
+      ],
+      "rules": {
+        "filing": "The participant applies in writing to the Central Repository for Nevada Records of Criminal History and to the agency which maintains the record, under NRS 179A.160(1). It is an agency application, not a court filing, and no order issues on it. There is no prescribed form and no prescribed manner of delivery.",
+        "fees": "None is prescribed. NRS 179A.160 imposes, authorises and mentions no fee for a removal request. The fees the Records, Communications and Compliance Division does charge are for obtaining a copy of a criminal history record, which is a different service the participant may want first, and are not a fee for this application. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not by its terms reach this section.",
+        "feeWaiver": "None prescribed by this section, and none needed for the application itself. NRS 179.245(9) waives fees related to a petition for sealing under NRS 179.245 where the petitioner was being sex trafficked when the crime was committed; its text is confined to that section.",
+        "notice": "None. NRS 179A.160 requires no notice to the prosecuting attorney, to any court or to any other person. The prosecuting attorney enters only through subsection 2(b), which lets a current certificate that the case is under active prosecution defeat the removal; that is the prosecutor's own act and not a notice the participant gives.",
+        "service": "No service in the litigation sense, because there is no court proceeding. The application is delivered to both recipients directly: the Central Repository and the agency which maintains the record. The section prescribes no method, so a method that produces proof of delivery is a filing instruction rather than a legal requirement.",
+        "participantSignature": "The applicant signs both copies of the application personally.",
+        "notarization": "None required. The section prescribes no verification or notarization."
+      },
+      "generationRequirements": [
+        {
+          "key": "rpoDisposition",
+          "question": "How did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "rpoDispositionFinalDate",
+          "question": "On what date did that outcome become final?",
+          "requirement": "required",
+          "conditionDescription": "Asked because NRS 179A.160(1) permits the application at any time after the dismissal, acquittal or favourable disposition is final. There is no waiting period, but finality is the condition."
+        },
+        {
+          "key": "rpoArrestIdentity",
+          "question": "Which agency arrested you, cited you or sought the warrant, on what date, and what case or event number does the record carry?",
+          "requirement": "required",
+          "conditionDescription": "Asked because the application must go to the agency which maintains the record as well as to the Central Repository, and must identify the record it asks to have removed."
+        },
+        {
+          "key": "rpoRepositoryShows",
+          "question": "Does the arrest still show on your Nevada criminal history from the repository?",
+          "requirement": "required",
+          "conditionDescription": "Asked because this route is about the repository's own record, and the answer decides whether there is anything to remove."
+        },
+        {
+          "key": "rpoDeferredOrPlea",
+          "question": "Was the case resolved through a deferred prosecution, a plea bargain, or any similar arrangement, rather than being dismissed outright or ending in acquittal?",
+          "requirement": "required",
+          "conditionDescription": "Asked because NRS 179A.160(2)(c) excludes those dispositions outright. A yes ends this route and routes the participant elsewhere."
+        },
+        {
+          "key": "rpoPriorFelonyOrGrossMisdemeanor",
+          "question": "Have you ever been convicted of a felony or a gross misdemeanour anywhere in the United States?",
+          "requirement": "required",
+          "conditionDescription": "Asked because NRS 179A.160(2)(d) excludes a person with any such prior conviction in any United States jurisdiction, not only in Nevada."
+        },
+        {
+          "key": "rpoSubsequentArrest",
+          "question": "Since the arrest, citation or warrant you want removed, have you been arrested for or charged with any other crime, apart from a minor traffic violation?",
+          "requirement": "required",
+          "conditionDescription": "Asked because NRS 179A.160(2)(e) excludes a person in that position."
+        },
+        {
+          "key": "rpoFormerNames",
+          "question": "What other names have you used, including any former legal names?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked where the participant reports having used another name, because the repository indexes by identity and an application under one name may not reach a record filed under another."
+        }
+      ],
+      "packetInstructions": [
+        "The sex trafficking fee waiver under NRS 179.245(9) is not a separate track but a cross-cutting entitlement that zeroes out every fee in the process, including fingerprints, criminal history and certified copies. It must be surfaced wherever a fee is mentioned."
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "The mailing address of the agency which maintains the record",
+          "whereInPacket": "Address block of the duplicate application copy",
+          "why": "It varies with the arresting agency and LegalEase does not hold a directory of Nevada law-enforcement agency addresses. The participant supplies it."
+        },
+        {
+          "item": "Case or event number from the record",
+          "whereInPacket": "Identification block of both application copies",
+          "why": "Taken from the participant's own criminal history record or court paperwork. LegalEase does not obtain or inspect the record."
+        },
+        {
+          "item": "Signature and date",
+          "whereInPacket": "Signature block of both application copies",
+          "why": "The applicant signs their own application."
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof of the favourable disposition. Request a certified copy of the dismissal, acquittal or other favourable disposition from the court that handled the case. NRS 179A.160 does not require it, but the Central Repository and the agency have to satisfy themselves that the disposition is favourable and final, and an application that carries the proof is the one that can be acted on. LegalEase names it; the participant obtains it and LegalEase does not review it.",
+          "obtainedFrom": "The court that handled the case",
+          "requirement": "conditional",
+          "conditionDescription": "Named wherever the participant's criminal history or court paperwork does not already show the disposition and its finality on its face. NRS 179A.160 does not require any attachment, so this is never a gate on generation.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "complete_field",
+          "description": "The mailing address of the agency which maintains the record — Address block of the duplicate application copy.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Case or event number from the record — Identification block of both application copies.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature and date — Signature block of both application copies.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs both copies of the application personally.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "None required. The section prescribes no verification or notarization.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "None is prescribed. NRS 179A.160 imposes, authorises and mentions no fee for a removal request. The fees the Records, Communications and Compliance Division does charge are for obtaining a copy of a criminal history record, which is a different service the participant may want first, and are not a fee for this application. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not by its terms reach this section.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "None prescribed by this section, and none needed for the application itself. NRS 179.245(9) waives fees related to a petition for sealing under NRS 179.245 where the petitioner was being sex trafficked when the crime was committed; its text is confined to that section.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "No service in the litigation sense, because there is no court proceeding. The application is delivered to both recipients directly: the Central Repository and the agency which maintains the record. The section prescribes no method, so a method that produces proof of delivery is a filing instruction rather than a legal requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "The participant applies in writing to the Central Repository for Nevada Records of Criminal History and to the agency which maintains the record, under NRS 179A.160(1). It is an agency application, not a court filing, and no order issues on it. There is no prescribed form and no prescribed manner of delivery.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "The mailing address of the agency which maintains the record — Address block of the duplicate application copy.",
+        "Case or event number from the record — Identification block of both application copies.",
+        "Signature and date — Signature block of both application copies.",
+        "The applicant signs both copies of the application personally.",
+        "None required. The section prescribes no verification or notarization.",
+        "None is prescribed. NRS 179A.160 imposes, authorises and mentions no fee for a removal request. The fees the Records, Communications and Compliance Division does charge are for obtaining a copy of a criminal history record, which is a different service the participant may want first, and are not a fee for this application. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not by its terms reach this section.",
+        "None prescribed by this section, and none needed for the application itself. NRS 179.245(9) waives fees related to a petition for sealing under NRS 179.245 where the petitioner was being sex trafficked when the crime was committed; its text is confined to that section."
+      ],
+      "stopConditions": [
+        "The disposition was a deferred prosecution, plea bargain or other similar disposition, which NRS 179A.160(2)(c) excludes outright even though the participant will describe the outcome as favourable.",
+        "The participant has any prior conviction for a felony or gross misdemeanour in any jurisdiction in the United States, which NRS 179A.160(2)(d) excludes.",
+        "The participant has been arrested for or charged with another crime, other than a minor traffic violation, since the arrest, citation or warrant in question, which NRS 179A.160(2)(e) excludes.",
+        "The case is under active prosecution, or the participant is a fugitive.",
+        "Whether the disposition is \"favorable to the person\" is arguable on the record; that is the threshold legal characterisation on which the whole route turns and the section does not define it.",
+        "The participant also needs the court record sealed, which is a separate court petition on a different track and is not obtained by this application.",
+        "The Central Repository or the agency refuses the application, which the section provides no appeal from and which a participant should not litigate alone.",
+        "Any offence-category question. Nevada eligibility turns on category A through E felony, gross misdemeanour or misdemeanour and on whether the offence is a crime of violence, which is a legal classification driving a one-year versus ten-year answer on the ordinary tracks.",
+        "Records in more than one county, or held by more than one agency, where a single application will not reach every custodian.",
+        "Federal, tribal, military and out-of-state records.",
+        "Any participant whose goal is firearm rights, which sealing and removal do not restore.",
+        "Immigration exposure. Nevada sealing and repository removal must not be described as having immigration effect."
       ],
       "templateStatus": "not_drafted"
     },
@@ -99945,6 +100815,12 @@
           "key": "circuitOfArrest",
           "question": "In which county and judicial circuit did the arrest happen?",
           "requirement": "required"
+        },
+        {
+          "key": "additionalDirectlyRelatedArrests",
+          "question": "Are there any other arrests you want expunged that arose directly from the same events as this one? For each, what was the arresting agency, the date of arrest, the case number and the charges?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where the participant reports more than one arrest, because § 943.0585(4)(c) limits expunction to one arrest or one incident unless the additional arrests directly relate to the original arrest and the order says so. The answer is repeated once per additional arrest in the body of the proposed order. LegalEase asks and drafts; it does not decide whether the arrests directly relate, and it obtains no record."
         }
       ],
       "manualCompletionItems": [
@@ -100117,6 +100993,12 @@
           "key": "circuitOfArrest",
           "question": "In which county and judicial circuit did the arrest happen?",
           "requirement": "required"
+        },
+        {
+          "key": "additionalDirectlyRelatedArrests",
+          "question": "Are there any other arrests you want expunged that arose directly from the same events as this one? For each, what was the arresting agency, the date of arrest, the case number and the charges?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where the participant reports more than one arrest, because § 943.0585(4)(c) limits expunction to one arrest or one incident unless the additional arrests directly relate to the original arrest and the order says so. The answer is repeated once per additional arrest in the body of the proposed order. LegalEase asks and drafts; it does not decide whether the arrests directly relate, and it obtains no record."
         }
       ],
       "manualCompletionItems": [
@@ -100289,6 +101171,12 @@
           "key": "circuitOfArrest",
           "question": "In which county and judicial circuit did the arrest happen?",
           "requirement": "required"
+        },
+        {
+          "key": "additionalDirectlyRelatedArrests",
+          "question": "Are there any other arrests you want expunged that arose directly from the same events as this one? For each, what was the arresting agency, the date of arrest, the case number and the charges?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where the participant reports more than one arrest, because § 943.0585(4)(c) limits expunction to one arrest or one incident unless the additional arrests directly relate to the original arrest and the order says so. The answer is repeated once per additional arrest in the body of the proposed order. LegalEase asks and drafts; it does not decide whether the arrests directly relate, and it obtains no record."
         }
       ],
       "manualCompletionItems": [
@@ -100461,178 +101349,12 @@
           "key": "circuitOfArrest",
           "question": "In which county and judicial circuit did the arrest happen?",
           "requirement": "required"
-        }
-      ],
-      "manualCompletionItems": [
-        {
-          "item": "Notarised signature on the FDLE application",
-          "whereInPacket": "Stage 1 FDLE application, signature block",
-          "why": "The agency form requires a notarised signature."
         },
         {
-          "item": "Certificate number and issue date",
-          "whereInPacket": "Stage 2 petition, certificate reference",
-          "why": "Not available until FDLE issues the certificate. LegalEase does not verify the certificate."
-        },
-        {
-          "item": "Sworn affidavit signature",
-          "whereInPacket": "Stage 2 affidavit, jurat",
-          "why": "Notarised or sworn before a deputy clerk."
-        }
-      ],
-      "participantActionRequired": [
-        {
-          "kind": "obtain_document",
-          "description": "Obtain Certified disposition for each charge. Ask the clerk for a certified copy of the disposition for each charge. Certified copies and certified dispositions are county-dependent in cost.",
-          "obtainedFrom": "The clerk of the court where the case was filed",
-          "requirement": "required",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "confirm_answer",
-          "description": "Check your answer to \"How did the case end — no charges filed, dismissed, nolle prosequi, acquitted, or found not guilty?\" against Certified disposition for each charge, and correct the packet if they disagree.",
-          "requirement": "required",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "obtain_document",
-          "description": "Obtain Fingerprints. Have fingerprints taken and submit them with the FDLE application.",
-          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
-          "requirement": "required",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "obtain_document",
-          "description": "Obtain State Attorney or Statewide Prosecutor certified statement. Request the certified statement from the State Attorney's office for the circuit where the arrest occurred.",
-          "obtainedFrom": "The State Attorney or Statewide Prosecutor for the circuit",
-          "requirement": "required",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "obtain_document",
-          "description": "Obtain Certificate of Eligibility. FDLE issues the certificate after processing the Stage 1 application. Do not file the Stage 2 court packet until the valid certificate is obtained.",
-          "obtainedFrom": "Florida Department of Law Enforcement",
-          "requirement": "required",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "complete_field",
-          "description": "Notarised signature on the FDLE application — Stage 1 FDLE application, signature block.",
-          "requirement": "required",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "complete_field",
-          "description": "Certificate number and issue date — Stage 2 petition, certificate reference.",
-          "requirement": "required",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "complete_field",
-          "description": "Sworn affidavit signature — Stage 2 affidavit, jurat.",
-          "requirement": "required",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "sign",
-          "description": "Notarised signature on the FDLE application; sworn affidavit at Stage 2, notarised or sworn before a deputy clerk.",
-          "requirement": "required",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "notarize",
-          "description": "Required on the Stage 1 FDLE application and on the Stage 2 affidavit unless sworn before a deputy clerk.",
-          "requirement": "required",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "pay_fee",
-          "description": "$75 nonrefundable FDLE processing fee at Stage 1. Certified copies and certified dispositions are county-dependent.",
-          "requirement": "required",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "apply_fee_waiver",
-          "description": "The source review does not address a fee waiver for the FDLE processing fee.",
+          "key": "additionalDirectlyRelatedArrests",
+          "question": "Are there any other arrests you want expunged that arose directly from the same events as this one? For each, what was the arresting agency, the date of arrest, the case number and the charges?",
           "requirement": "conditional",
-          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "serve_party",
-          "description": "Certificate of service on three recipients at Stage 2.",
-          "requirement": "required",
-          "requiredBeforeFiling": false
-        },
-        {
-          "kind": "file",
-          "description": "Stage 1: submit the FDLE Application for Certificate of Eligibility with the certified dispositions, fingerprints, fee and prosecutor certified statement. Stage 2: file the petition, affidavit, certificate and proposed order with the circuit or county court in the circuit of arrest.",
-          "requirement": "required",
-          "requiredBeforeFiling": false
-        }
-      ],
-      "requiredBeforeFiling": [
-        "Obtain Certified disposition for each charge. Ask the clerk for a certified copy of the disposition for each charge. Certified copies and certified dispositions are county-dependent in cost.",
-        "Check your answer to \"How did the case end — no charges filed, dismissed, nolle prosequi, acquitted, or found not guilty?\" against Certified disposition for each charge, and correct the packet if they disagree.",
-        "Obtain Fingerprints. Have fingerprints taken and submit them with the FDLE application.",
-        "Obtain State Attorney or Statewide Prosecutor certified statement. Request the certified statement from the State Attorney's office for the circuit where the arrest occurred.",
-        "Obtain Certificate of Eligibility. FDLE issues the certificate after processing the Stage 1 application. Do not file the Stage 2 court packet until the valid certificate is obtained.",
-        "Notarised signature on the FDLE application — Stage 1 FDLE application, signature block.",
-        "Certificate number and issue date — Stage 2 petition, certificate reference.",
-        "Sworn affidavit signature — Stage 2 affidavit, jurat.",
-        "Notarised signature on the FDLE application; sworn affidavit at Stage 2, notarised or sworn before a deputy clerk.",
-        "Required on the Stage 1 FDLE application and on the Stage 2 affidavit unless sworn before a deputy clerk.",
-        "$75 nonrefundable FDLE processing fee at Stage 1. Certified copies and certified dispositions are county-dependent.",
-        "The source review does not address a fee waiver for the FDLE processing fee."
-      ],
-      "mappingStatus": "not_mapped"
-    },
-    {
-      "jurisdiction": "FL",
-      "trackId": "fl-expunction",
-      "componentId": "fl-expunction-continuation-6",
-      "officialFormId": "FL-RULE-3.989-CONTINUATION",
-      "officialSourceUrl": null,
-      "generationRequirements": [
-        {
-          "key": "disposition",
-          "question": "How did the case end — no charges filed, dismissed, nolle prosequi, acquitted, or found not guilty?",
-          "requirement": "required"
-        },
-        {
-          "key": "adjudicationOfGuilt",
-          "question": "Were you ever adjudicated guilty for anything arising from this arrest?",
-          "requirement": "required"
-        },
-        {
-          "key": "priorAdultAdjudication",
-          "question": "Have you ever been adjudicated guilty as an adult anywhere, or adjudicated delinquent for a felony?",
-          "requirement": "required"
-        },
-        {
-          "key": "offenceAndSection",
-          "question": "What was the offence and its statute section?",
-          "requirement": "required"
-        },
-        {
-          "key": "priorSealOrExpunge",
-          "question": "Have you ever had a Florida record sealed or expunged before? This relief is once per lifetime.",
-          "requirement": "required"
-        },
-        {
-          "key": "underSupervision",
-          "question": "Are you still under court supervision for this case?",
-          "requirement": "required"
-        },
-        {
-          "key": "pendingPetition",
-          "question": "Do you have another seal or expunge petition pending in any court?",
-          "requirement": "required"
-        },
-        {
-          "key": "circuitOfArrest",
-          "question": "In which county and judicial circuit did the arrest happen?",
-          "requirement": "required"
+          "conditionDescription": "Asked only where the participant reports more than one arrest, because § 943.0585(4)(c) limits expunction to one arrest or one incident unless the additional arrests directly relate to the original arrest and the order says so. The answer is repeated once per additional arrest in the body of the proposed order. LegalEase asks and drafts; it does not decide whether the arrests directly relate, and it obtains no record."
         }
       ],
       "manualCompletionItems": [
@@ -245955,17 +246677,17 @@
       "trackId": "nv_seal_deferred",
       "destination": {
         "kind": "court",
-        "name": "The Nevada court that handled the matter",
-        "detail": "The review assigns this track no generated filing. LegalEase detects the deferred-judgment posture, names NRS 176.211, explains how it differs from the ordinary non-conviction route, and routes accordingly."
+        "name": "The Nevada district court that deferred judgment",
+        "detail": "The district court that deferred judgment discharges, dismisses and then orders the sealing on its own, under NRS 176.211(5) and (6). Under subsection 8 the court sends a copy of the order to each agency or officer named in it and each must notify the court in writing of compliance, and under NRS 179.275 a copy also goes to the Central Repository for Nevada Records of Criminal History and to each named custodian. Nothing is submitted by the participant and LegalEase generates no filing."
       },
       "rules": {
-        "filing": "LegalEase generates no filing on this track.",
-        "fees": "Not determined. Any repository fee is waived for a victim of sex trafficking or involuntary servitude under NRS 179.245(9).",
-        "feeWaiver": "NRS 179.245(9) where it applies.",
-        "notice": "Not determined.",
-        "service": "none by the participant through LegalEase.",
-        "participantSignature": "not applicable. Nothing is generated for the participant to sign.",
-        "notarization": "none required."
+        "filing": "Nothing is filed by the participant and nothing can be. NRS 176.211(6) puts the sealing on the court's own motion once it finds the terms and conditions were met, and the section provides no application, petition or request for the defendant to make.",
+        "fees": "None. There is no participant filing to charge for, and NRS 176.211 prescribes no fee for the sealing it directs. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not reach this section; it is not needed here because there is no fee.",
+        "feeWaiver": "Not applicable. No fee arises on this route, so there is nothing to waive. NRS 179.245(9) applies to a petition under NRS 179.245, which is a different track.",
+        "notice": "No notice duty falls on the participant. The court sends a copy of the sealing order to each agency or officer named in it under NRS 176.211(8) and, under NRS 179.275, to the Central Repository and each named custodian; each such agency must advise the court of compliance.",
+        "service": "None. There is no document for the participant to serve. Under NRS 176.211(6) the Division of Parole and Probation or the prosecutor may petition the court, for good cause shown, not to seal and request a hearing; that is the only adversarial step the section contemplates and the participant does not initiate it.",
+        "participantSignature": "Not applicable. Nothing is generated for the participant to sign.",
+        "notarization": "None required. Nothing is generated."
       },
       "generationRequirements": [
         {
@@ -245975,13 +246697,19 @@
         },
         {
           "key": "dfjCourt",
-          "question": "Which court handled it, and in which county?",
+          "question": "Which court handled it, and in which county? Was it a district court, a justice court or a municipal court?",
           "requirement": "required"
         },
         {
           "key": "dfjCompletionDate",
           "question": "When did you finish the programme or agreement, and when was the case dismissed?",
           "requirement": "required"
+        },
+        {
+          "key": "dfjElderVulnerableCharge",
+          "question": "Was the charge one of abuse, neglect, exploitation, isolation or abandonment of an older person or a vulnerable person?",
+          "requirement": "required",
+          "conditionDescription": "Asked because NRS 176.211(7) withholds the sealing in that case even though the discharge and dismissal still stand. The answer changes what the participant should expect, not what is generated, because nothing is generated on this track."
         }
       ],
       "packetInstructions": [
@@ -245990,247 +246718,57 @@
       "participantActionRequired": [
         {
           "kind": "sign",
-          "description": "not applicable. Nothing is generated for the participant to sign.",
+          "description": "Not applicable. Nothing is generated for the participant to sign.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "notarize",
-          "description": "none required.",
+          "description": "None required. Nothing is generated.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "pay_fee",
-          "description": "Not determined. Any repository fee is waived for a victim of sex trafficking or involuntary servitude under NRS 179.245(9).",
+          "description": "None. There is no participant filing to charge for, and NRS 176.211 prescribes no fee for the sealing it directs. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not reach this section; it is not needed here because there is no fee.",
           "requirement": "required",
           "requiredBeforeFiling": true
         },
         {
           "kind": "apply_fee_waiver",
-          "description": "NRS 179.245(9) where it applies.",
+          "description": "Not applicable. No fee arises on this route, so there is nothing to waive. NRS 179.245(9) applies to a petition under NRS 179.245, which is a different track.",
           "requirement": "conditional",
           "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
           "requiredBeforeFiling": true
         },
         {
           "kind": "serve_party",
-          "description": "none by the participant through LegalEase.",
+          "description": "None. There is no document for the participant to serve. Under NRS 176.211(6) the Division of Parole and Probation or the prosecutor may petition the court, for good cause shown, not to seal and request a hearing; that is the only adversarial step the section contemplates and the participant does not initiate it.",
           "requirement": "required",
           "requiredBeforeFiling": false
         },
         {
           "kind": "file",
-          "description": "LegalEase generates no filing on this track.",
+          "description": "Nothing is filed by the participant and nothing can be. NRS 176.211(6) puts the sealing on the court's own motion once it finds the terms and conditions were met, and the section provides no application, petition or request for the defendant to make.",
           "requirement": "required",
           "requiredBeforeFiling": false
         }
       ],
       "requiredBeforeFiling": [
-        "not applicable. Nothing is generated for the participant to sign.",
-        "none required.",
-        "Not determined. Any repository fee is waived for a victim of sex trafficking or involuntary servitude under NRS 179.245(9).",
-        "NRS 179.245(9) where it applies."
+        "Not applicable. Nothing is generated for the participant to sign.",
+        "None required. Nothing is generated.",
+        "None. There is no participant filing to charge for, and NRS 176.211 prescribes no fee for the sealing it directs. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not reach this section; it is not needed here because there is no fee.",
+        "Not applicable. No fee arises on this route, so there is nothing to waive. NRS 179.245(9) applies to a petition under NRS 179.245, which is a different track."
       ],
       "stopConditions": [
-        "Every deferred judgment matter, until NRS 176.211 is read and its mechanism and timing established.",
-        "Any offence-category question. Nevada eligibility turns on category A through E felony, gross misdemeanour or misdemeanour and on whether the offence is a crime of violence, which is a legal classification driving a one-year versus ten-year answer.",
-        "Any pending charge, and any conviction during the clean period other than a minor moving or standing traffic violation.",
-        "Prosecutor refusal to stipulate, which converts the matter into a contested hearing.",
-        "Records in more than one county, or in both municipal and justice or district court, where the stipulation practice differs by prosecuting agency.",
-        "Federal, tribal, military and out-of-state records.",
-        "Any participant whose goal is firearm rights, which sealing does not restore.",
-        "Immigration exposure. Nevada sealing must not be described as having immigration effect."
-      ],
-      "guidanceStatus": "not_drafted",
-      "unitId": null,
-      "compositionMode": null,
-      "unitAvailable": true
-    },
-    {
-      "jurisdiction": "NV",
-      "trackId": "nv_seal_probation_family",
-      "destination": {
-        "kind": "court",
-        "name": "The Nevada court that handled the matter",
-        "detail": "The review assigns this track no generated filing. LegalEase detects which of the three outcomes applies, names the section, and routes."
-      },
-      "rules": {
-        "filing": "LegalEase generates no filing on this track.",
-        "fees": "Not determined. Any repository fee is waived for a victim of sex trafficking or involuntary servitude under NRS 179.245(9).",
-        "feeWaiver": "NRS 179.245(9) where it applies.",
-        "notice": "Not determined.",
-        "service": "none by the participant through LegalEase.",
-        "participantSignature": "not applicable. Nothing is generated for the participant to sign.",
-        "notarization": "none required."
-      },
-      "generationRequirements": [
-        {
-          "key": "prbOutcome",
-          "question": "How did your probation end — discharged, dismissed on conditions, or set aside?",
-          "requirement": "required"
-        },
-        {
-          "key": "prbDischargeType",
-          "question": "If you were discharged from probation, was the discharge honourable or dishonourable?",
-          "requirement": "required",
-          "conditionDescription": "Asked because a dishonourable discharge under NRS 176A.850 removes the rebuttable presumption that records should be sealed."
-        },
-        {
-          "key": "prbCourt",
-          "question": "Which court supervised the probation, and in which county?",
-          "requirement": "required"
-        }
-      ],
-      "packetInstructions": [
-        "The sex trafficking fee waiver under NRS 179.245(9) is not a separate track but a cross-cutting entitlement that zeroes out every fee in the process, including fingerprints, criminal history and certified copies. It must be surfaced wherever a fee is mentioned."
-      ],
-      "participantActionRequired": [
-        {
-          "kind": "sign",
-          "description": "not applicable. Nothing is generated for the participant to sign.",
-          "requirement": "required",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "notarize",
-          "description": "none required.",
-          "requirement": "required",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "pay_fee",
-          "description": "Not determined. Any repository fee is waived for a victim of sex trafficking or involuntary servitude under NRS 179.245(9).",
-          "requirement": "required",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "apply_fee_waiver",
-          "description": "NRS 179.245(9) where it applies.",
-          "requirement": "conditional",
-          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "serve_party",
-          "description": "none by the participant through LegalEase.",
-          "requirement": "required",
-          "requiredBeforeFiling": false
-        },
-        {
-          "kind": "file",
-          "description": "LegalEase generates no filing on this track.",
-          "requirement": "required",
-          "requiredBeforeFiling": false
-        }
-      ],
-      "requiredBeforeFiling": [
-        "not applicable. Nothing is generated for the participant to sign.",
-        "none required.",
-        "Not determined. Any repository fee is waived for a victim of sex trafficking or involuntary servitude under NRS 179.245(9).",
-        "NRS 179.245(9) where it applies."
-      ],
-      "stopConditions": [
-        "Every chapter 176A matter, until the three sections are read and their mechanisms and timing established.",
-        "Any dishonourable discharge, which changes the presumption on every later petition.",
-        "Any offence-category question. Nevada eligibility turns on category A through E felony, gross misdemeanour or misdemeanour and on whether the offence is a crime of violence, which is a legal classification driving a one-year versus ten-year answer.",
-        "Any pending charge, and any conviction during the clean period other than a minor moving or standing traffic violation.",
-        "Prosecutor refusal to stipulate, which converts the matter into a contested hearing.",
-        "Records in more than one county, or in both municipal and justice or district court, where the stipulation practice differs by prosecuting agency.",
-        "Federal, tribal, military and out-of-state records.",
-        "Any participant whose goal is firearm rights, which sealing does not restore.",
-        "Immigration exposure. Nevada sealing must not be described as having immigration effect."
-      ],
-      "guidanceStatus": "not_drafted",
-      "unitId": null,
-      "compositionMode": null,
-      "unitAvailable": true
-    },
-    {
-      "jurisdiction": "NV",
-      "trackId": "nv_repository_removal",
-      "destination": {
-        "kind": "agency",
-        "name": "Nevada Central Repository, Department of Public Safety",
-        "detail": "The Central Repository at the Nevada Department of Public Safety. LegalEase generates no filing: it explains the route, screens for the court sealing petition in parallel, and refers."
-      },
-      "rules": {
-        "filing": "LegalEase generates no filing on this track.",
-        "fees": "Not determined. Any repository fee is waived for a victim of sex trafficking or involuntary servitude under NRS 179.245(9).",
-        "feeWaiver": "NRS 179.245(9) where it applies.",
-        "notice": "Not determined.",
-        "service": "none by the participant through LegalEase.",
-        "participantSignature": "not applicable. Nothing is generated for the participant to sign.",
-        "notarization": "none required."
-      },
-      "generationRequirements": [
-        {
-          "key": "rpoDisposition",
-          "question": "How did the case end?",
-          "requirement": "required"
-        },
-        {
-          "key": "rpoRepositoryShows",
-          "question": "Does the arrest still show on your Nevada criminal history from the repository?",
-          "requirement": "required",
-          "conditionDescription": "Asked because this route is about the repository's own record, and the answer decides whether there is anything to remove."
-        }
-      ],
-      "packetInstructions": [
-        "The sex trafficking fee waiver under NRS 179.245(9) is not a separate track but a cross-cutting entitlement that zeroes out every fee in the process, including fingerprints, criminal history and certified copies. It must be surfaced wherever a fee is mentioned."
-      ],
-      "participantActionRequired": [
-        {
-          "kind": "sign",
-          "description": "not applicable. Nothing is generated for the participant to sign.",
-          "requirement": "required",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "notarize",
-          "description": "none required.",
-          "requirement": "required",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "pay_fee",
-          "description": "Not determined. Any repository fee is waived for a victim of sex trafficking or involuntary servitude under NRS 179.245(9).",
-          "requirement": "required",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "apply_fee_waiver",
-          "description": "NRS 179.245(9) where it applies.",
-          "requirement": "conditional",
-          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
-          "requiredBeforeFiling": true
-        },
-        {
-          "kind": "serve_party",
-          "description": "none by the participant through LegalEase.",
-          "requirement": "required",
-          "requiredBeforeFiling": false
-        },
-        {
-          "kind": "file",
-          "description": "LegalEase generates no filing on this track.",
-          "requirement": "required",
-          "requiredBeforeFiling": false
-        }
-      ],
-      "requiredBeforeFiling": [
-        "not applicable. Nothing is generated for the participant to sign.",
-        "none required.",
-        "Not determined. Any repository fee is waived for a victim of sex trafficking or involuntary servitude under NRS 179.245(9).",
-        "NRS 179.245(9) where it applies."
-      ],
-      "stopConditions": [
-        "Every repository matter, until NRS 179A.160 is read and its mechanism established.",
-        "Any participant who needs the court record sealed as well, which is a separate petition.",
-        "Any offence-category question. Nevada eligibility turns on category A through E felony, gross misdemeanour or misdemeanour and on whether the offence is a crime of violence, which is a legal classification driving a one-year versus ten-year answer.",
-        "Any pending charge, and any conviction during the clean period other than a minor moving or standing traffic violation.",
-        "Prosecutor refusal to stipulate, which converts the matter into a contested hearing.",
-        "Records in more than one county, or in both municipal and justice or district court, where the stipulation practice differs by prosecuting agency.",
+        "The charge was a violation of NRS 200.5099, which NRS 176.211(7) excludes from sealing even though the discharge and dismissal stand.",
+        "The Division of Parole and Probation or the prosecutor petitions the court, for good cause shown, not to seal and requests a hearing under NRS 176.211(6). That is a contested proceeding.",
+        "The deferral was terminated for violation of a term or condition and a judgment of conviction was entered under NRS 176.211(4).",
+        "The case was not in a district court. NRS 176.211(9)(a) confines the section to a district court of the State of Nevada, and a similar-looking disposition in a justice or municipal court is governed by a different section.",
+        "The dismissal was ordinary rather than following a deferral of judgment, which routes to a different track.",
+        "Any offence-category question. Nevada eligibility turns on category A through E felony, gross misdemeanour or misdemeanour and on whether the offence is a crime of violence, which is a legal classification driving a one-year versus ten-year answer on the ordinary tracks.",
+        "The record still appears months after the discharge and dismissal, which is a compliance question for the court under NRS 176.211(8) and not something a participant can cure by filing anything.",
+        "Records in more than one county, or in both municipal and justice or district court.",
         "Federal, tribal, military and out-of-state records.",
         "Any participant whose goal is firearm rights, which sealing does not restore.",
         "Immigration exposure. Nevada sealing must not be described as having immigration effect."
@@ -263833,6 +264371,19 @@
       "requiredBeforeFiling": true,
       "howToObtain": "Submit an Identification File Request for State of Nevada Records of Criminal History with fingerprints and the fee. NRS 179.245(2)(a) and NRS 179.255(3)(a) make it a statutory attachment. The NRS 179.245(9) sex trafficking waiver zeroes the fee where it applies.",
       "confirms": "seaAllNevadaRecords",
+      "collectedByLegalEase": false,
+      "inspectedByLegalEase": false,
+      "blocksGeneration": false
+    },
+    {
+      "jurisdiction": "NV",
+      "trackId": "nv_repository_removal",
+      "name": "Proof of the favourable disposition",
+      "obtainedFrom": "The court that handled the case",
+      "requirement": "conditional",
+      "conditionDescription": "Named wherever the participant's criminal history or court paperwork does not already show the disposition and its finality on its face. NRS 179A.160 does not require any attachment, so this is never a gate on generation.",
+      "requiredBeforeFiling": false,
+      "howToObtain": "Request a certified copy of the dismissal, acquittal or other favourable disposition from the court that handled the case. NRS 179A.160 does not require it, but the Central Repository and the agency have to satisfy themselves that the disposition is favourable and final, and an application that carries the proof is the one that can be acted on. LegalEase names it; the participant obtains it and LegalEase does not review it.",
       "collectedByLegalEase": false,
       "inspectedByLegalEase": false,
       "blocksGeneration": false

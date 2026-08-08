@@ -455,7 +455,7 @@
     {
       "batch": "C_custom_pleading",
       "label": "Custom pleading",
-      "trackCount": 92,
+      "trackCount": 94,
       "tracks": [
         {
           "jurisdiction": "AZ",
@@ -2891,6 +2891,78 @@
           ]
         },
         {
+          "jurisdiction": "NV",
+          "trackId": "nv_seal_probation_family",
+          "publicName": "Clearing a Nevada case after a court treatment programme, a conditional dismissal or a set-aside",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "\"Record sealing\", never expungement. The state agency states directly that sealing is not expungement because it does not authorize destruction of the records.",
+            "Sealing does not restore firearm rights. Only a pardon that does not restrict the right to bear arms does.",
+            "Nevada orders do not bind out-of-state agencies and do not reach federal, tribal, military or out-of-state records."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 9,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
+          "jurisdiction": "NV",
+          "trackId": "nv_repository_removal",
+          "publicName": "Getting a Nevada arrest off the state repository after a favourable outcome",
+          "outputStrategy": "custom_pleading",
+          "geographicScope": "statewide",
+          "legalDesignStatus": "legal_design_approved_with_limitations",
+          "legalStatus": "legal_review_pending",
+          "runtimeStatus": "runtime_disabled",
+          "legalDesignBlockers": [],
+          "scopeRestrictions": [
+            "\"Record sealing\", never expungement. The state agency states directly that sealing is not expungement because it does not authorize destruction of the records.",
+            "Sealing does not restore firearm rights. Only a pardon that does not restrict the right to bear arms does.",
+            "Nevada orders do not bind out-of-state agencies and do not reach federal, tribal, military or out-of-state records."
+          ],
+          "openLegalQuestions": [],
+          "participantActionCount": 10,
+          "blockers": [
+            {
+              "kind": "output_review_gate",
+              "statement": "Output review pending: counsel approved the design, not the produced document."
+            },
+            {
+              "kind": "visual_review_gate",
+              "statement": "Visual review not started."
+            },
+            {
+              "kind": "technical_proof_gate",
+              "statement": "Technical proof not started."
+            },
+            {
+              "kind": "source_gate",
+              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+            }
+          ]
+        },
+        {
           "jurisdiction": "OK",
           "trackId": "ok_18_19_nonconviction",
           "publicName": "Clear an Oklahoma arrest that did not end in a conviction",
@@ -5255,7 +5327,7 @@
     {
       "batch": "D_composed_or_process_guidance",
       "label": "Composed and process-guidance tracks",
-      "trackCount": 134,
+      "trackCount": 132,
       "tracks": [
         {
           "jurisdiction": "AK",
@@ -9072,10 +9144,7 @@
           "legalDesignStatus": "legal_design_approved_with_limitations",
           "legalStatus": "legal_review_pending",
           "runtimeStatus": "runtime_disabled",
-          "legalDesignBlockers": [
-            "Design undetermined: Reclassify Nevada from official_pdf_fill to custom_pleading (undetermined: correct_form)",
-            "Open question blocks the build (governing_mechanism): The text of NRS 176.211, including what it requires, whether any waiting period applies, and whether the sealing is automatic on dismissal or requires an application. The review classifies the track as process guidance only without reproducing the section."
-          ],
+          "legalDesignBlockers": [],
           "scopeRestrictions": [
             "\"Record sealing\", never expungement. The state agency states directly that sealing is not expungement because it does not authorize destruction of the records.",
             "Sealing does not restore firearm rights. Only a pardon that does not restrict the right to bear arms does.",
@@ -9095,108 +9164,6 @@
             {
               "kind": "technical_proof_gate",
               "statement": "Technical proof not started."
-            },
-            {
-              "kind": "legal_design_blocker",
-              "statement": "Design undetermined: Reclassify Nevada from official_pdf_fill to custom_pleading (undetermined: correct_form)"
-            },
-            {
-              "kind": "legal_design_blocker",
-              "statement": "Open question blocks the build (governing_mechanism): The text of NRS 176.211, including what it requires, whether any waiting period applies, and whether the sealing is automatic on dismissal or requires an application. The review classifies the track as process guidance only without reproducing the section."
-            },
-            {
-              "kind": "source_gate",
-              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
-            }
-          ]
-        },
-        {
-          "jurisdiction": "NV",
-          "trackId": "nv_seal_probation_family",
-          "publicName": "Clearing a Nevada case after probation, a conditional dismissal or a set-aside",
-          "outputStrategy": "process_guidance",
-          "geographicScope": "statewide",
-          "legalDesignStatus": "legal_design_approved_with_limitations",
-          "legalStatus": "legal_review_pending",
-          "runtimeStatus": "runtime_disabled",
-          "legalDesignBlockers": [
-            "Design undetermined: Reclassify Nevada from official_pdf_fill to custom_pleading (undetermined: correct_form)",
-            "Open question blocks the build (governing_mechanism): The texts of NRS 176A.245, NRS 176A.265 and NRS 176A.295, including what each requires, how they differ, and whether any produces sealing automatically. The review groups them as one track and classifies it as process guidance only without reproducing the sections."
-          ],
-          "scopeRestrictions": [
-            "\"Record sealing\", never expungement. The state agency states directly that sealing is not expungement because it does not authorize destruction of the records.",
-            "Sealing does not restore firearm rights. Only a pardon that does not restrict the right to bear arms does.",
-            "Nevada orders do not bind out-of-state agencies and do not reach federal, tribal, military or out-of-state records."
-          ],
-          "openLegalQuestions": [],
-          "participantActionCount": 6,
-          "blockers": [
-            {
-              "kind": "output_review_gate",
-              "statement": "Output review pending: counsel approved the design, not the produced document."
-            },
-            {
-              "kind": "visual_review_gate",
-              "statement": "Visual review not started."
-            },
-            {
-              "kind": "technical_proof_gate",
-              "statement": "Technical proof not started."
-            },
-            {
-              "kind": "legal_design_blocker",
-              "statement": "Design undetermined: Reclassify Nevada from official_pdf_fill to custom_pleading (undetermined: correct_form)"
-            },
-            {
-              "kind": "legal_design_blocker",
-              "statement": "Open question blocks the build (governing_mechanism): The texts of NRS 176A.245, NRS 176A.265 and NRS 176A.295, including what each requires, how they differ, and whether any produces sealing automatically. The review groups them as one track and classifies it as process guidance only without reproducing the sections."
-            },
-            {
-              "kind": "source_gate",
-              "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
-            }
-          ]
-        },
-        {
-          "jurisdiction": "NV",
-          "trackId": "nv_repository_removal",
-          "publicName": "Getting a Nevada arrest off the state repository after a favourable outcome",
-          "outputStrategy": "process_guidance",
-          "geographicScope": "statewide",
-          "legalDesignStatus": "legal_design_approved_with_limitations",
-          "legalStatus": "legal_review_pending",
-          "runtimeStatus": "runtime_disabled",
-          "legalDesignBlockers": [
-            "Design undetermined: Reclassify Nevada from official_pdf_fill to custom_pleading (undetermined: correct_form)",
-            "Open question blocks the build (governing_mechanism): The text of NRS 179A.160, including what counts as a favourable disposition for its purposes, what the request requires, and how the remedy interacts with a court sealing order under NRS 179.255. The review classifies the track as process guidance only without reproducing the section."
-          ],
-          "scopeRestrictions": [
-            "\"Record sealing\", never expungement. The state agency states directly that sealing is not expungement because it does not authorize destruction of the records.",
-            "Sealing does not restore firearm rights. Only a pardon that does not restrict the right to bear arms does.",
-            "Nevada orders do not bind out-of-state agencies and do not reach federal, tribal, military or out-of-state records."
-          ],
-          "openLegalQuestions": [],
-          "participantActionCount": 6,
-          "blockers": [
-            {
-              "kind": "output_review_gate",
-              "statement": "Output review pending: counsel approved the design, not the produced document."
-            },
-            {
-              "kind": "visual_review_gate",
-              "statement": "Visual review not started."
-            },
-            {
-              "kind": "technical_proof_gate",
-              "statement": "Technical proof not started."
-            },
-            {
-              "kind": "legal_design_blocker",
-              "statement": "Design undetermined: Reclassify Nevada from official_pdf_fill to custom_pleading (undetermined: correct_form)"
-            },
-            {
-              "kind": "legal_design_blocker",
-              "statement": "Open question blocks the build (governing_mechanism): The text of NRS 179A.160, including what counts as a favourable disposition for its purposes, what the request requires, and how the remedy interacts with a court sealing order under NRS 179.255. The review classifies the track as process guidance only without reproducing the section."
             },
             {
               "kind": "source_gate",

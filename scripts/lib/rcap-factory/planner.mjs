@@ -491,7 +491,21 @@ const COMPLETED_NORMALIZATIONS = Object.freeze([
       "rcap-factory/rcap-nv-legal-design-normalization-972fc317-34dc8759",
     completionCommit: "eb79b1eacdbfc45c06eae10b98a0ce62210dbe15",
     memoSha256:
-      "711b8df32c62507f6d4d711c9077630c873771e10631e0a9e5a48caaef788cc6"
+      "711b8df32c62507f6d4d711c9077630c873771e10631e0a9e5a48caaef788cc6",
+    // The normalization classified all three non-petition Nevada tracks as pure
+    // process guidance. The sealing-mechanism correction read NRS 179.259,
+    // 176.211 and 179.285 through 179.301 in their operative text and found two
+    // of the three carry an express participant instrument: nv_seal_probation_
+    // family has a subsection 2 petition with a proposed order, and
+    // nv_repository_removal is a written application to two recipients.
+    // nv_seal_deferred stays pure guidance, now established rather than
+    // assumed. The six implemented Nevada petition tracks are untouched.
+    amendedByJobId: "rcap-nv-sealing-mechanism-and-packet-capability-correction",
+    amendedByWorkerCommit: "9ef2c869faeee51b85cbaca960ef98d155c35eac",
+    amendedByWorkerBranch:
+      "rcap-factory/rcap-nv-sealing-mechanism-and-packet-capability-correction-d31659df-64b640c3",
+    amendedMemoSha256:
+      "113a9728c08487ad09184fdd045da4d19b532adcca2b083059dbb24e1c84c3f5"
   },
   {
     jurisdiction: "OK",

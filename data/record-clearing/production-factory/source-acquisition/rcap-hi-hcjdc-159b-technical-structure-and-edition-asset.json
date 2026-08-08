@@ -1,0 +1,578 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-hi-hcjdc-159b-technical-structure-and-edition-asset",
+  "parentJobId": "AUTH-03-acquisition-campaign-tier-1",
+  "jurisdiction": "HI",
+  "lane": "source_acquisition",
+  "strategyFamily": "source_identity_resolution",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "07486f222d9bfb24cfffe2d05f2988d83cd52a0d",
+  "generatedOn": "2026-08-07",
+  "reconciliationIds": [
+    "structure:HI:HCJDC-159B:geometry-and-edition-asset"
+  ],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero sources were downloaded into this repository, materialized into the source-materialization root, or retained anywhere under version control. A single transient verification copy of the issuer's published binary was fetched to a scratch path outside every worktree solely to take the measurements this assignment requires, compared byte for byte against the retained repository copy, and left outside the repository. See officialSourceVerification.transientVerificationFetch, which records that retrieval in full rather than concealing it inside a count the job pins at zero.",
+  "generatedFrom": [
+    "data/record-clearing/master-library/authority.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-hi-in-repo-identity-reconciliation-hcjdc-159.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-03-acquisition-campaign-tier-1.json"
+  ],
+  "controllingPrerequisite": {
+    "jobId": "rcap-hi-in-repo-identity-reconciliation-hcjdc-159",
+    "status": "integrated_and_not_reopened",
+    "conclusionsCarriedForward": [
+      "HCJDC 159(b) is one document; HCJDC-159 is not a second document.",
+      "Title: Expungement Application.",
+      "Issuer: State of Hawaii, Department of the Attorney General, Hawaii Criminal Justice Data Center.",
+      "Role: participant primary filing; scope statewide.",
+      "Current revision REV-2026-06-03; the Rev. 11/15/2019 revision is superseded.",
+      "The adopted edition retains no Hawaii packet form at all, so the successor edition adds a row rather than correcting one."
+    ],
+    "whatThisJobAdds": "The predecessor recorded widget count, page dimensions and page rotation as notEstablishedWithinThisAssignment because it was barred from opening the binary. This job opens it and measures them, and specifies the complete Edition 1.3 asset row.",
+    "contraryEvidenceFound": false,
+    "contraryEvidenceNote": "Every measurement below corroborates the integrated identity decision. Nothing in it is reopened."
+  },
+  "method": {
+    "description": "Direct structural measurement of the HCJDC 159(b) binary. The retained repository copy was located, hashed and measured; the issuer's currently published binary was retrieved once to a scratch path and hashed; the two were compared. Structure was measured with poppler-utils (pdfinfo, pdfinfo -box, pdffonts, pdfimages, pdftotext, pdftotext -bbox) and independently with pdf-lib reading the catalog, page dictionary and annotation arrays directly. Nothing was inferred from the absence of an AcroForm.",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "authenticationUsed": false,
+    "binariesDownloadedIntoRepository": 0,
+    "binariesMaterialized": 0,
+    "binariesCommitted": 0,
+    "receiptsCreated": 0,
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "editionPublished": false,
+    "memoAltered": false,
+    "componentRebound": false,
+    "rendererImplemented": false,
+    "byteVerificationMethod": "freshly_measured_local_bytes_compared_against_freshly_retrieved_issuer_bytes",
+    "measurementTools": [
+      "poppler-utils pdfinfo (document dictionary, page size, rotation, encryption, AcroForm presence, PDF version)",
+      "poppler-utils pdfinfo -box (per-page MediaBox, CropBox, BleedBox, TrimBox, ArtBox as resolved after spec defaulting)",
+      "poppler-utils pdffonts (font inventory and embedding state)",
+      "poppler-utils pdfimages -list (raster image inventory)",
+      "poppler-utils pdftotext and pdftotext -bbox (text layer and per-word geometry)",
+      "pdf-lib PDFDocument.load reading catalog /AcroForm, page /Annots, /Rotate and every page box directly"
+    ],
+    "zeroValuesAreMeasuredNotAssumed": "Each zero recorded below is the result of a measurement. Zero widget annotations was established by reading the page dictionary and finding no /Annots array at all, not by observing that pdfinfo reports Form: none. Zero raster images was established by an empty pdfimages -list. Absent page boxes are recorded as absent-and-defaulting, not as zero."
+  },
+  "identityConfirmedByMeasurement": {
+    "canonicalIdentifier": "HCJDC 159(b)",
+    "officialTitle": "Expungement Application",
+    "issuer": "State of Hawaii, Department of the Attorney General",
+    "issuingOffice": "Hawaii Criminal Justice Data Center",
+    "issuerStringOnTheFace": "Hawaii Criminal Justice Data Center, Department of the Attorney General",
+    "role": "participant_primary_filing",
+    "roleEvidenceOnTheFace": "The instrument is captioned Expungement Application, is completed and signed by the applicant personally, and is submitted by mail to HCJDC. It is the filing itself, not a cover, notice, order, instruction sheet or supporting attachment.",
+    "scope": "statewide",
+    "revision": "REV-2026-06-03",
+    "revisionMarkingOnTheFace": "HCJDC 159(b) Rev. 06/03/2026",
+    "revisionMarkingLocation": "single-line footer, bottom right of page 1, measured at x 472.31 to 571.47, PDF user-space baseline y 17.54",
+    "revisionMarkingCarriesTheIdentifier": true,
+    "revisionMarkingSignificance": "The face of the document prints the identifier and the revision together, so identifier, revision and bytes are pinned by one another. A copy whose footer does not read exactly HCJDC 159(b) Rev. 06/03/2026 is not this document.",
+    "priorRevisionSuperseded": "Rev. 11/15/2019",
+    "titleOnTheFace": "Expungement Application",
+    "titleLocation": "centred header, page 1, measured at x 241.20 to 370.72, PDF user-space baseline y 762.27",
+    "documentInformationDictionaryTitle": "",
+    "documentInformationDictionaryTitleNote": "The /Title entry is empty. The document title is established from the printed face, not from metadata. Recorded so no later reader treats the empty entry as a missing identity."
+  },
+  "officialSourceVerification": {
+    "officialCurrentLandingPage": "https://ag.hawaii.gov/hcjdc/hcjdc-forms/",
+    "officialCurrentLandingPageStatus": "HTTP/2 200, text/html, retrieved 2026-08-07",
+    "officialCurrentLandingPageFinding": "The page is titled HCJDC Forms and lists exactly two forms: Request for Criminal History Record Check (HCJDC-073) and Expungement Application (HCJDC 159(b)). It links exactly two PDFs: https://ag.hawaii.gov/hcjdc/files/2026/01/HCJDC-073_012026.pdf and https://ag.hawaii.gov/hcjdc/files/2026/06/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf. The index names the expungement form as HCJDC 159(b), with no separate HCJDC-159 entry.",
+    "alternateOfficialPage": "https://ag.hawaii.gov/hcjdc/expungements/",
+    "alternateOfficialPageStatus": "HTTP/2 200, text/html, retrieved 2026-08-07",
+    "alternateOfficialPageFinding": "Links the same single expungement binary at the same 2026/06 URL. Two independent official pages agree.",
+    "officialBinaryUrl": "https://ag.hawaii.gov/hcjdc/files/2026/06/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+    "retrievalDate": "2026-08-07",
+    "httpStatus": "HTTP/2 200",
+    "responseContentType": "application/pdf",
+    "responseLastModified": "Fri, 05 Jun 2026 22:58:31 GMT",
+    "responseETag": "\"eccaa410e88040568b54abe6ab140f2d\"",
+    "responseServer": "cloudflare",
+    "publicAccessStatus": "public_free_no_authentication",
+    "publicAccessDetail": "Direct GET succeeded with no login, no session cookie requirement, no interstitial, no CAPTCHA and no automation challenge. Cloudflare fronts the origin and set a __cf_bm cookie on the response, but did not gate the request. A subsequent HEAD returned the identical ETag and Last-Modified.",
+    "automatedRetrievalBlocked": false,
+    "transientVerificationFetch": {
+      "performed": true,
+      "purpose": "byte comparison and structural measurement only",
+      "destination": "a scratch path outside every git worktree and outside the source-materialization root",
+      "retainedInRepository": false,
+      "retainedInMaterializationRoot": false,
+      "committed": false,
+      "receiptWritten": false,
+      "countedAsDownloadedSource": false,
+      "countedAsDownloadedSourceRationale": "The assignment pins downloadedSourceCount at 0 and separately requires the official binary URL, retrieval date, HTTP status and public-access status. A verification read that retains nothing is not an acquisition. Recorded here in full so the retrieval is visible rather than implied."
+    },
+    "newerRevisionExists": false,
+    "newerRevisionBasis": "Both official HCJDC pages were read on 2026-08-07 and each links only the 2026/06 binary. The forms index enumerates the office's complete form inventory as two documents and shows no second or newer expungement application. The published binary's Last-Modified of 2026-06-05 is consistent with a 06/03/2026 revision and shows no republication since. This is a live reading taken today, which closes the hi-live-currentness residual the predecessor recorded as inherent.",
+    "supersessionConfirmed": {
+      "supersededRevision": "Rev. 11/15/2019",
+      "supersededSha256": "e9b084cea6c7b0bf27aae1c03937e28b33f7b3a8e4afe8173c766bc379b747f9",
+      "supersededBytes": 137157,
+      "basis": "Neither official page publishes it. The issuer publishes exactly one expungement application and it is the 06/03/2026 revision.",
+      "treatment": "must_not_be_bound_as_current_may_be_retained_as_supersession_evidence_only"
+    }
+  },
+  "technicalStructure": {
+    "measurementBasis": "measured_directly_from_the_binary_on_2026-08-07",
+    "bytes": 181711,
+    "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+    "mimeType": "application/pdf",
+    "mimeTypeBasis": "Declared as application/pdf by the issuer's Content-Type header and independently confirmed by file-magic identification as a PDF document, version 1.6.",
+    "pdfVersion": "1.6",
+    "pageCount": 1,
+    "encrypted": false,
+    "encryptionBasis": "pdfinfo reports Encrypted: no, and the trailer dictionary carries no /Encrypt entry. There is no owner password, no user password and no permissions dictionary; the catalog has no /Perms entry.",
+    "xfa": false,
+    "xfaBasis": "The document catalog has no /AcroForm entry at all, so there is no /AcroForm /XFA key. XFA absence here follows from the absence of the containing dictionary, not from an unread key.",
+    "acroFormPresent": false,
+    "logicalFields": 0,
+    "logicalFieldsBasis": "No /AcroForm in the document catalog, therefore no /Fields array and no logical field hierarchy.",
+    "terminalFields": 0,
+    "terminalFieldsBasis": "pdf-lib getForm().getFields() returned an empty array.",
+    "widgetAnnotations": 0,
+    "widgetAnnotationsBasis": "Measured, not inferred. Page 1's page dictionary carries no /Annots array whatsoever, so the total annotation count of every subtype is 0 and the widget subtype count is therefore 0. A flat PDF can carry orphan widget annotations that no AcroForm references; this one carries none.",
+    "annotationsOfAnySubtype": 0,
+    "structuralClass": "flat_pdf",
+    "structuralClassDetail": "Zero logical fields, zero terminal fields and zero widget annotations, confirmed by two independent readers. There is no field map to build for this document and no acroform_fill implementation is possible against it.",
+    "tagged": true,
+    "optimized": true,
+    "metadataStreamPresent": true,
+    "documentInformation": {
+      "title": "",
+      "subject": "",
+      "keywords": "",
+      "author": "Bishop, Jennifer N",
+      "creator": "Acrobat PDFMaker 26 for Word",
+      "producer": "Adobe PDF Library 26.1.59",
+      "creationDate": "2026-06-05T18:51:53Z",
+      "modDate": "2026-06-05T18:51:54Z",
+      "note": "The creation timestamp of 2026-06-05 sits two days after the printed 06/03/2026 revision date and matches the issuer's Last-Modified header, which is the expected relationship between a revision date and its publication."
+    },
+    "pageGeometry": [
+      {
+        "page": 1,
+        "widthPoints": 612,
+        "heightPoints": 792,
+        "nominalSize": "US Letter, 8.5 in x 11 in at 72 points per inch",
+        "rotation": 0,
+        "rotationBasis": "/Rotate 0 read from the page dictionary and confirmed by pdfinfo Page rot: 0.",
+        "mediaBox": [0, 0, 612, 792],
+        "mediaBoxPresent": true,
+        "cropBox": [0, 0, 612, 792],
+        "cropBoxPresent": true,
+        "bleedBox": [0, 0, 612, 792],
+        "bleedBoxPresent": false,
+        "trimBox": [0, 0, 612, 792],
+        "trimBoxPresent": false,
+        "artBox": [0, 0, 612, 792],
+        "artBoxPresent": false,
+        "boxDefaultingNote": "BleedBox, TrimBox and ArtBox are absent from the page dictionary. Under the PDF specification each defaults to the CropBox, which here equals the MediaBox, so their effective values are [0, 0, 612, 792]. The values are recorded as effective-after-defaulting with the absence flagged, rather than as measured-present or as zero."
+      }
+    ],
+    "pageDimensionsUniform": true,
+    "pageRotationUniform": true,
+    "uniformityNote": "Trivially uniform: the document is one page. Recorded explicitly because the assignment requires dimensions and rotation for every page and a single-page answer must not be mistaken for an unmeasured one.",
+    "fonts": {
+      "count": 9,
+      "allEmbedded": true,
+      "allSubset": true,
+      "allHaveToUnicode": true,
+      "nonEmbeddedCount": 0,
+      "inventory": [
+        { "name": "ODKUPG+SymbolMT", "type": "CID TrueType", "encoding": "Identity-H", "embedded": true, "subset": true, "toUnicode": true },
+        { "name": "IUIKJS+Wingdings-Regular", "type": "CID TrueType", "encoding": "Identity-H", "embedded": true, "subset": true, "toUnicode": true },
+        { "name": "WHIQXQ+Verdana", "type": "TrueType", "encoding": "WinAnsi", "embedded": true, "subset": true, "toUnicode": true },
+        { "name": "GJLYHW+ArialMT", "type": "TrueType", "encoding": "WinAnsi", "embedded": true, "subset": true, "toUnicode": true },
+        { "name": "CDIADE+Verdana-Bold", "type": "TrueType", "encoding": "WinAnsi", "embedded": true, "subset": true, "toUnicode": true },
+        { "name": "UMHEVU+Verdana-Italic", "type": "TrueType", "encoding": "WinAnsi", "embedded": true, "subset": true, "toUnicode": true },
+        { "name": "ODKUPG+Verdana-BoldItalic", "type": "TrueType", "encoding": "WinAnsi", "embedded": true, "subset": true, "toUnicode": true },
+        { "name": "IUIKJS+Calibri", "type": "TrueType", "encoding": "WinAnsi", "embedded": true, "subset": true, "toUnicode": true },
+        { "name": "FNUSTY+Calibri-Bold", "type": "TrueType", "encoding": "WinAnsi", "embedded": true, "subset": true, "toUnicode": true }
+      ],
+      "overlayConsequence": "Every font is an embedded subset. An overlay renderer cannot reuse a subset font resource to add new characters, because a subset carries only the glyphs the original document already prints. Overlay text must therefore be drawn with a font the renderer embeds itself. The Wingdings and SymbolMT subsets are the bullet and checkbox glyphs of the printed face, not interactive controls."
+    },
+    "imageInventory": {
+      "rasterImageCount": 0,
+      "basis": "pdfimages -list returned an empty inventory: no XObject images on any page.",
+      "consequence": "The document is entirely text and vector content. There is no scanned layer."
+    },
+    "textStructure": {
+      "imageOnly": false,
+      "searchableText": true,
+      "extractedCharacterCount": 6580,
+      "extractedWordCount": 851,
+      "perWordBoundingBoxesRecoverable": true,
+      "textLayerReliability": "high",
+      "textLayerReliabilityBasis": "The file is a tagged PDF generated by Acrobat PDFMaker 26 for Word from a word-processor original, carries zero raster images, and every one of its nine fonts is embedded with a ToUnicode map. Extraction produced 6,580 characters and 851 positioned words with no substitution artefacts, no missing-glyph markers and no reading-order breakage. Text extraction is a sound basis for locating printed labels; it is not itself a fill mechanism.",
+      "textLayerReliabilityCaveat": "Reliability of the text layer is a statement about reading the document, not about writing to it. It does not make the document fillable, and it does not substitute for the geometry an overlay must be keyed on."
+    },
+    "overlayCoordinateBasis": {
+      "stable": true,
+      "basisStatement": "Single page, /Rotate 0, MediaBox origin at (0, 0) coincident with the CropBox origin, MediaBox equal to CropBox. PDF user space is therefore identical to page space with no translation, no rotation and no scaling transform: a point at user-space (x, y) is at (x, y) on the printed page, measured from the bottom-left corner in points, over the range x in [0, 612] and y in [0, 792].",
+      "originConvention": "bottom_left_y_up",
+      "unit": "PostScript point, 1/72 inch",
+      "conversionNote": "pdftotext -bbox reports coordinates in a top-left, y-down frame. Converting to PDF user space on this document is y_user = 792 - y_topLeft, with x unchanged, because the MediaBox origin is (0, 0) and the page height is exactly 792. Any later overlay work that mixes the two frames without this conversion will place content upside down about the page's horizontal midline.",
+      "risks": [
+        "The single-page, unrotated, origin-at-zero geometry means an overlay needs no normalizing transform. That is the best case and it is what makes a coordinate overlay tractable here.",
+        "Every font is an embedded subset, so overlay text requires the renderer to embed its own font.",
+        "Coordinates are pinned to sha256 1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a. A future revision reflows the page and invalidates every anchor; the geometry must be re-measured against any new digest before it is reused."
+      ],
+      "measuredAnchors": {
+        "purpose": "Measured positions of the printed labels and rule lines, recorded as measurements of the page. This is not a field map, not a renderer specification and not an overlay implementation; none of those is this job's to produce, and the document has no fields to map.",
+        "frame": "PDF user space, bottom-left origin, points",
+        "entries": [
+          { "label": "Expungement Application (document title)", "baselineY": 762.27, "xRange": [241.20, 370.72] },
+          { "label": "Current Legal Name (Last, First, Middle) entry rule", "baselineY": 397.28, "xRange": [36.00, 570.20] },
+          { "label": "Other Names Used entry rule", "baselineY": 377.60, "xRange": [36.00, 569.23] },
+          { "label": "Social Security Number / Date of Birth / Sex entry rule", "baselineY": 357.92, "xRange": [36.00, 571.98] },
+          { "label": "Home Address entry rule", "baselineY": 329.00, "xRange": [36.00, 573.19] },
+          { "label": "Mailing Address entry rule", "baselineY": 309.32, "xRange": [36.00, 573.92] },
+          { "label": "Phone / Email entry rule", "baselineY": 289.64, "xRange": [36.00, 575.59] },
+          { "label": "Initial by all that apply (heading)", "baselineY": 269.96, "xRange": [36.00, 141.94] },
+          { "label": "Before submitting the application, confirm these items are complete (checklist heading)", "baselineY": 175.13, "xRange": [36.00, 307.61] },
+          { "label": "LEAVE BLANK; HCJDC USE ONLY", "baselineY": 156.91, "xRange": [414.36, 558.87] },
+          { "label": "applicant signature rule line", "baselineY": 101.26, "xRange": [36.00, 234.99] },
+          { "label": "date rule line", "baselineY": 101.26, "xRange": [245.19, 344.69] },
+          { "label": "HCJDC 159(b) Rev. 06/03/2026 (revision footer)", "baselineY": 17.54, "xRange": [472.31, 571.47] }
+        ]
+      }
+    }
+  },
+  "signatureAndRoleInventory": {
+    "signatureBlockCount": 1,
+    "signatureBlocks": [
+      {
+        "signatory": "the applicant, personally",
+        "elements": ["signature rule line", "date rule line"],
+        "geometry": "signature rule x 36.00 to 234.99 and date rule x 245.19 to 344.69, both at PDF user-space baseline y 101.26, with the printed labels Signature and Date immediately below at baseline y 89.14",
+        "witnessed": false,
+        "notarized": false,
+        "swornOrAffirmed": false,
+        "attorneySignature": false,
+        "basis": "The full text layer contains no occurrence of notary, notarial, witness, sworn, subscribed, affirmed or jurat, and no attorney or counsel signature line. The only occurrence of the word attorney on the face is in the issuer string Department of the Attorney General."
+      }
+    ],
+    "notAffidavitNote": "This instrument is an unsworn application, not an affidavit or sworn statement. Recorded expressly because a sibling Session F assignment concerns a Florida instrument that is sworn; the two must not be treated as the same document class.",
+    "requiredApplicantFields": [
+      { "field": "Current Legal Name (Last, First, Middle)", "entryMechanism": "printed rule line", "required": true },
+      { "field": "Other Names Used", "entryMechanism": "printed rule line", "required": true },
+      { "field": "Social Security Number", "entryMechanism": "printed rule line", "required": false, "note": "The face states SSN is optional and that if provided it is used only to aid in verifying that the correct record is expunged." },
+      { "field": "Date of Birth", "entryMechanism": "printed rule line", "required": true },
+      { "field": "Sex", "entryMechanism": "two printed rule marks labelled M and F", "required": true },
+      { "field": "Home Address", "entryMechanism": "printed rule line", "required": true },
+      { "field": "Mailing Address", "entryMechanism": "printed rule line", "required": true, "note": "Also listed on the pre-submission checklist." },
+      { "field": "Phone", "entryMechanism": "printed rule line", "required": true },
+      { "field": "Email", "entryMechanism": "printed rule line", "required": true },
+      { "field": "Initial: Expungement of Non-Conviction Information", "entryMechanism": "printed initial block, applicant initials the routes that apply", "required": "conditional_on_route" },
+      { "field": "Initial: Expungement of First-time Drug Offender, Property Offender, and/or DUI under 21", "entryMechanism": "printed initial block, applicant initials the routes that apply", "required": "conditional_on_route" },
+      { "field": "Pre-submission checklist: Signature of applicant", "entryMechanism": "printed checkbox glyph", "required": true },
+      { "field": "Pre-submission checklist: Mailing Address", "entryMechanism": "printed checkbox glyph", "required": true },
+      { "field": "Pre-submission checklist: Payment by money order or cashier's check issued in the United States, payable to State of Hawaii", "entryMechanism": "printed checkbox glyph", "required": true },
+      { "field": "Pre-submission checklist: Copy of valid government-issued photo ID of applicant", "entryMechanism": "printed checkbox glyph", "required": true },
+      { "field": "Pre-submission checklist: Court Order Granting Expungement, if applicable", "entryMechanism": "printed checkbox glyph", "required": "conditional_on_route" },
+      { "field": "Signature", "entryMechanism": "printed rule line", "required": true },
+      { "field": "Date", "entryMechanism": "printed rule line", "required": true }
+    ],
+    "requiredApplicantFieldCount": 18,
+    "entryMechanismNote": "Every entry above is a printed rule line, printed initial block or printed checkbox glyph on a flat page. None is an interactive form field, and the checkbox glyphs are Wingdings and SymbolMT characters in the page content stream, not widget annotations. The count of 18 is a count of places a participant must write, not a field count; the field count is zero.",
+    "agencyOnlyFields": [
+      {
+        "region": "LEAVE BLANK; HCJDC USE ONLY",
+        "geometry": "label at x 414.36 to 558.87, PDF user-space baseline y 156.91, marking the reserved region at the lower right of the checklist band",
+        "participantMustNotComplete": true,
+        "overlayConsequence": "An overlay renderer must never write into this region. It is the only agency-reserved area on the page and it sits inside the same horizontal band as participant checklist content, so a naive full-width overlay row would collide with it."
+      }
+    ],
+    "agencyOnlyFieldCount": 1,
+    "attachmentsRequiredByTheFace": [
+      "a copy of a valid government-issued photo ID of the applicant",
+      "a self-addressed stamped envelope",
+      "payment by United States money order or cashier's check payable to State of Hawaii",
+      "the Court Order Granting Expungement, on the conviction routes only"
+    ],
+    "filingDestinationOnTheFace": "Hawaii Criminal Justice Data Center, Attn: Expungement, 465 South King Street, Room 102, Honolulu, HI 96813",
+    "feesOnTheFace": "$35 first-time expungement; $50 non-first-time expungement; $20 duplicate copy of a certificate; each including a non-refundable $10 processing fee, refunded less the $10 if the application is denied.",
+    "statutoryBasesOnTheFace": [
+      "HRS 831-3.2 (expungement of non-conviction arrest information; certificate mailed within 120 days)",
+      "HRS 291E-0064(e) (operating a vehicle after consuming a measurable amount of alcohol, under 21)",
+      "HRS 706-622.5 (first-time drug offender)",
+      "HRS 706-622.8 (first-time drug offender prior to 2004)",
+      "HRS 706-622.9 (first-time property offender)",
+      "HRS 712-1200 (three-year wait after discharge and dismissal on a deferred plea)",
+      "HRS chapter 853 (deferred acceptance of guilty or nolo contendere plea; one-year wait)",
+      "HRS 706-607 and chapter 704 (involuntary hospitalization and acquittal or dismissal for physical or mental disease, disorder or defect)",
+      "HRS chapter 661B (redress eligibility, referenced in the non-conviction initial block)"
+    ],
+    "oneFormCoversBothRouteFamilies": "The single page carries both the non-conviction and the conviction initial blocks. This is the measured confirmation of the integrated finding that one document serves all eight Hawaii tracks; the route difference is expressed in which block the applicant initials and what they attach, not in which form they file."
+  },
+  "repositoryByteComparison": {
+    "byteIdentical": true,
+    "officialSha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+    "officialBytes": 181711,
+    "repositorySha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+    "repositoryBytes": 181711,
+    "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+    "presenceInThisWorktree": "absent; private/ is untracked and is not part of any factory worktree",
+    "copiesComparedCount": 3,
+    "copiesCompared": [
+      "the retained private-corpus copy at private/Nationwide Record Clearing/LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+      "the attorney-review packet source copy at artifacts/packet-delivery/attorney-review-packets/HI/sources/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+      "a second retained private-corpus copy in a sibling checkout of the same repository"
+    ],
+    "allCopiesAgree": true,
+    "finding": "Every retained copy carries sha256 1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a at 181,711 bytes, and the binary the issuer publishes today at the official URL carries the same digest and the same byte count. The retained repository binary is byte-identical to the official binary. The predecessor's identity conclusion is confirmed by fresh measurement rather than carried forward on recorded values, and the registry, the asset audit, the acquisition intelligence, three retained copies and the live issuer publication now all agree on one digest.",
+    "measurementDenominatorWarning": "There is no field-count denominator to reconcile for this document. Widget count and terminal-field count are both zero, so the widget-versus-terminal-field mismatch that misaligns AcroForm field maps cannot arise here."
+  },
+  "edition13AssetSpecification": {
+    "publicationJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+    "publicationPerformed": false,
+    "editionAmendmentRequired": true,
+    "amendmentKind": "new_row_plus_new_bytes",
+    "amendmentKindRationale": "The adopted edition retains no Hawaii packet form at all. There is no row to correct, so the successor edition adds one.",
+    "edition12Treatment": "immutable_unchanged",
+    "assetRow": {
+      "proposedWorkflowKey": "HI:HCJDC-159B:APPLICATION:EN",
+      "canonicalIdentifier": "HCJDC 159(b)",
+      "officialTitle": "Expungement Application",
+      "issuer": "State of Hawaii, Department of the Attorney General",
+      "issuingOffice": "Hawaii Criminal Justice Data Center",
+      "assetClass": "packet_form",
+      "packetCandidate": true,
+      "documentRole": "primary_filing",
+      "participantFacing": true,
+      "signatory": "the applicant, personally",
+      "revision": "REV-2026-06-03",
+      "revisionLabelOnTheFace": "HCJDC 159(b) Rev. 06/03/2026",
+      "scope": "statewide",
+      "language": "EN",
+      "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+      "bytes": 181711,
+      "mediaType": "application/pdf",
+      "pdfVersion": "1.6",
+      "pageCount": 1,
+      "pageWidthPoints": 612,
+      "pageHeightPoints": 792,
+      "pageRotation": 0,
+      "structuralClass": "flat_pdf",
+      "fieldCount": 0,
+      "fieldCountBasis": "widget_annotations_measured_at_zero_and_terminal_fields_measured_at_zero",
+      "fieldCountDisambiguation": "Edition state-manifest fieldCount is a widget count. Here the widget count and the terminal-field count are both zero, so the two readings coincide and the row carries no ambiguity.",
+      "encrypted": false,
+      "xfa": false,
+      "textLayer": "searchable_embedded_fonts_no_raster_images",
+      "officialLandingPage": "https://ag.hawaii.gov/hcjdc/hcjdc-forms/",
+      "officialBinaryUrl": "https://ag.hawaii.gov/hcjdc/files/2026/06/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+      "retrievalDate": "2026-08-07",
+      "retrievalStatus": "public_free_no_authentication_http_200",
+      "canonicalAuthorityPathProposal": "STATES/HI/02_PACKET_FORMS/HI__FORM__HCJDC-159B__expungement-application__REV-2026-06-03__EN.pdf",
+      "canonicalAuthorityPathNote": "Proposed to match the naming already used for retained packet forms in other states. The edition owner names its own paths; this is a proposal, not an assertion of an existing path.",
+      "duplicateRowProhibition": "One row for one document. No row may be created for HCJDC-159 as a distinct document, and no row may be created for a per-route variant. The single page carries both route families.",
+      "licenseDisposition": "no_published_redistribution_or_commercial_use_restriction_identified",
+      "licenseDispositionNote": "A negative finding on restriction, not an affirmative permission. No licence question was assigned to this job and none is answered here."
+    },
+    "supersessionRow": {
+      "kind": "supersession_record",
+      "documentIdentity": "the same Expungement Application at its Rev. 11/15/2019 revision",
+      "sha256": "e9b084cea6c7b0bf27aae1c03937e28b33f7b3a8e4afe8173c766bc379b747f9",
+      "bytes": 137157,
+      "adopted": false,
+      "purpose": "So a later reader cannot mistake the retained legacy copy for a second current form. Title and issuer agreement is not currentness."
+    },
+    "requiresNewBytes": true,
+    "requiresMetadataCorrection": true,
+    "requiresRoleCorrection": false,
+    "requiresScopeCorrection": false,
+    "requiresRevisionCorrection": false,
+    "requiresAssetClassCorrection": false,
+    "requiresPhantomBinaryRemoval": false,
+    "whatThisJobAddedToTheAmendment": "The predecessor could specify identity, title, issuer, role, revision, scope, digest and byte count. It could not specify pdfVersion, pageCount, page dimensions, rotation, fieldCount, widget count, encryption, XFA or text-layer class, because it was barred from opening the binary. Every one of those is now measured and supplied, so the successor edition can admit the row without a further measurement pass."
+  },
+  "materializationPrerequisites": {
+    "receiptCreatedByThisJob": false,
+    "receiptCreatedByThisJobRationale": "The assignment forbids writing a materialization receipt before the edition admits the asset, and this job owns a decision record rather than an authority asset path. No receipt was written and no binary entered version control.",
+    "remainingPrerequisites": [
+      {
+        "step": 1,
+        "prerequisite": "Edition 1.3 must admit the asset row specified above.",
+        "owner": "rcap-nationwide-master-library-edition-1-3-publication",
+        "status": "open",
+        "blocking": "Everything downstream. A source-materialization receipt maps a canonicalAuthorityPath inside the adopted authority archive to a materialization destination; with no edition row there is no canonicalAuthorityPath to map from.",
+        "readyToExecute": "yes, on the specification above; nothing further needs to be measured or acquired"
+      },
+      {
+        "step": 2,
+        "prerequisite": "The bytes must be carried into the authority archive at the canonical path the edition assigns.",
+        "owner": "the edition owner",
+        "status": "open",
+        "note": "The bytes exist in this repository and at the issuer, both at sha256 1cb4f3ac...d935a. Nothing needs to be acquired."
+      },
+      {
+        "step": 3,
+        "prerequisite": "A source-materialization receipt must be authored pinning expectedSha256 1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a and expectedBytes 181711, with a materializationDestination under official-pdf/HI/.",
+        "owner": "Session A captain",
+        "status": "open",
+        "note": "No Hawaii receipt exists today and no Hawaii asset is present in the materialized source root. Verification is a mechanical byte check once the receipt exists."
+      },
+      {
+        "step": 4,
+        "prerequisite": "The materialized file must be sealed into the source-materialization root at file mode 0444 with every containing directory at 0555.",
+        "owner": "Session A captain",
+        "status": "open"
+      },
+      {
+        "step": 5,
+        "prerequisite": "The eight duplicated component bindings must be collapsed to the single identity and pinned to the digest.",
+        "owner": "the component-remap and relationship-pinning lane",
+        "status": "handed_off_by_the_predecessor",
+        "note": "Carried forward unchanged. The relationships file and the acquisition queue are forbidden paths for this job."
+      }
+    ],
+    "notPrerequisites": [
+      "Nothing further needs to be measured. Widget count, page dimensions and rotation were the outstanding measurements and all three are now recorded.",
+      "Nothing needs to be acquired. The current official bytes are held at byte identity and were re-verified against the issuer today.",
+      "No currentness check is outstanding. Two official pages were read on 2026-08-07 and neither publishes a newer revision."
+    ]
+  },
+  "implementationFamilyRelationship": {
+    "affectedTracks": 8,
+    "affectedComponents": 8,
+    "affectedTrackIds": [
+      "hi_nonconviction_expungement",
+      "hi_first_time_drug_offender_expungement",
+      "hi_first_time_property_offender_expungement",
+      "hi_marijuana_three_grams_expungement",
+      "hi_pre_2004_drug_offender_expungement",
+      "hi_under_21_dui_expungement",
+      "hi_712_1200_deferred_expungement",
+      "hi_dag_danc_expungement"
+    ],
+    "effectOfThisJob": "The last unmeasured structural facts about the Hawaii expungement application are now recorded, and the successor edition has a complete asset row it can admit without a further measurement pass. No component is rebound, no renderer is assigned and no implementation family becomes ready.",
+    "rendererObservation": "A document with zero logical fields, zero terminal fields and zero widget annotations cannot be filled by an AcroForm renderer. Any implementation that consumes it would have to be a coordinate overlay keyed on the single unrotated 612 x 792 page measured above. That is an observation about the artifact. Assigning a renderer is not this job's act and is not performed here.",
+    "familyReadinessStatement": "No Hawaii implementation family is ready and this job does not assert that any is. Five of the eight tracks additionally carry a separate custom_pleading court-stage primary filing with no template, and the Hawaii custom-pleading lane is itself blocked on an undetermined correct_form. No Hawaii source-materialization receipt exists, no Hawaii asset is in the materialized source root, and every track-source relationship still records corpusState=unchecked with no pinned SHA-256.",
+    "outputStrategyObservation": "Two of the eight components sit on official_pdf_fill tracks and six sit on tracks whose primary strategy is custom_pleading. That distribution is legal-design state and is not changed here."
+  },
+  "expectedDownstreamEffect": "The Hawaii expungement application moves from an identified document with unmeasured structure to a fully measured one: PDF 1.6, one unrotated US Letter page at 612 x 792 points with MediaBox and CropBox both at the origin, zero logical fields, zero terminal fields, zero widget annotations, zero raster images, nine embedded font subsets and a reliable searchable text layer, at 181,711 bytes and sha256 1cb4f3ac...d935a, confirmed byte-identical to the binary the issuer publishes today. Edition 1.3 gains a complete packet_form asset row with every technical attribute supplied, plus a supersession record for the 2019 revision. The predecessor's hi-page-geometry residual closes and its hi-live-currentness residual closes. No receipt is created, no binary enters version control, no edition is published or amended, no renderer is assigned, no packet becomes generatable, no runtime is enabled and no track changes promotion state.",
+  "terminalDisposition": "structure_measured_and_edition_asset_specified_edition_amendment_and_materialization_remain_open",
+  "terminalDispositionDetail": {
+    "why": "The narrowest accurate result. It is not unresolved_identity: identity, title, issuer, role, scope, revision, bytes and every structural attribute are established, and the identity was independently reconfirmed against the live issuer publication today. It is not exact_identity_confirmed_source_materialized: no receipt exists, no asset is in the materialized source root, and this job is forbidden to create either. It is not edition_amendment_complete: the successor edition is unpublished and the asset row specified here is a handoff, not an adoption. What the record needed was the measurement the identity decision was barred from taking, and a complete asset specification for the successor edition; both are now supplied and what remains is an edition act and a captain act.",
+    "distinguishedFrom": {
+      "current_official_binary": "This is the current official binary, retrieved today at HTTP 200 and byte-identical to the retained copy. That much is affirmatively established, and it is a component of this disposition rather than the whole of it.",
+      "legacy_binary": "The Rev. 11/15/2019 copy at sha256 e9b084ce...747f9 and 137,157 bytes is the legacy binary. It is separately recorded, quarantined and not adopted.",
+      "nonexistent_standalone_document": "Not applicable. A standalone official binary exists, is published, and was retrieved.",
+      "unresolved_source": "Not applicable. Nothing about the source is unresolved."
+    },
+    "perReconciliation": {
+      "structure:HI:HCJDC-159B:geometry-and-edition-asset": "geometry_measured_in_full_and_edition_1_3_asset_row_specified"
+    }
+  },
+  "residualBlockers": [
+    {
+      "id": "hi-edition-retention",
+      "question": "The successor edition must admit the Hawaii expungement application; the adopted edition retains no Hawaii packet form.",
+      "status": "handed_off",
+      "owner": "rcap-nationwide-master-library-edition-1-3-publication",
+      "why": "Edition 1.2 is immutable and this job may not publish or amend an edition. The complete asset row is specified above and needs no further research.",
+      "carriedForwardFrom": "rcap-hi-in-repo-identity-reconciliation-hcjdc-159"
+    },
+    {
+      "id": "hi-materialization",
+      "question": "No Hawaii source-materialization receipt exists and no Hawaii asset is present in the materialized source root.",
+      "status": "open",
+      "owner": "Session A captain",
+      "why": "This job may not materialize a source or write a receipt, and the receipt cannot precede the edition row it maps from.",
+      "reopenCondition": "Closed when a receipt verifies against sha256 1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a at 181,711 bytes and the file is sealed into the root.",
+      "carriedForwardFrom": "rcap-hi-in-repo-identity-reconciliation-hcjdc-159"
+    },
+    {
+      "id": "hi-key-collapse-application",
+      "question": "Collapsing HCJDC-159 and HCJDC-159B to one identity and rebinding the eight components.",
+      "status": "handed_off",
+      "owner": "the component-remap and relationship-pinning lane",
+      "why": "The relationships file and the acquisition queue are forbidden paths for this job.",
+      "carriedForwardFrom": "rcap-hi-in-repo-identity-reconciliation-hcjdc-159"
+    },
+    {
+      "id": "hi-registry-scope-metadata",
+      "question": "Two source-artifact-registry rows still record the application as geographicScope=court_specific.",
+      "status": "handed_off",
+      "owner": "the registry owner",
+      "why": "Forbidden path for this job. The measurement corroborates the correction: the face of the document carries no court caption, no case-number line and no circuit designation, and directs filing to a single statewide executive office.",
+      "carriedForwardFrom": "rcap-hi-in-repo-identity-reconciliation-hcjdc-159"
+    },
+    {
+      "id": "hi-queue-repository-status",
+      "question": "Eight queue rows record repositoryStatus=no_repository_binary for a binary that is present and byte-identical to the issuer's publication.",
+      "status": "handed_off",
+      "owner": "the queue owner",
+      "why": "Forbidden path for this job.",
+      "carriedForwardFrom": "rcap-hi-in-repo-identity-reconciliation-hcjdc-159"
+    },
+    {
+      "id": "hi-overlay-renderer-absent",
+      "question": "No coordinate-overlay renderer exists for a zero-field flat PDF, and none is assigned here.",
+      "status": "open_and_outside_this_job",
+      "owner": "the implementation lane, after materialization",
+      "why": "The geometry an overlay would key on is now measured and recorded. Building the overlay is an implementation act this job may not perform."
+    },
+    {
+      "id": "hi-court-stage-templates",
+      "question": "Five of the eight tracks carry a separate custom_pleading court-stage primary filing with no template, and the Hawaii custom-pleading lane is blocked on an undetermined correct_form.",
+      "status": "open_and_outside_this_job",
+      "owner": "the Hawaii implementation lane",
+      "why": "Outside this assignment, which covers the HCJDC application only. Noted because those five tracks do not clear on this measurement alone.",
+      "carriedForwardFrom": "rcap-hi-in-repo-identity-reconciliation-hcjdc-159"
+    },
+    {
+      "id": "hi-anchor-revalidation",
+      "question": "The measured anchors are pinned to one digest and must be re-measured against any future revision.",
+      "status": "inherent",
+      "owner": "whoever consumes the geometry",
+      "why": "A revision reflows the page. Every coordinate above is valid only for sha256 1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a."
+    }
+  ],
+  "closedResiduals": [
+    {
+      "id": "hi-page-geometry",
+      "openedBy": "rcap-hi-in-repo-identity-reconciliation-hcjdc-159",
+      "question": "Widget count, page dimensions and rotation are unmeasured.",
+      "status": "closed",
+      "closedBy": "this job",
+      "result": "0 widget annotations and 0 annotations of any subtype; one page at 612 x 792 points; rotation 0."
+    },
+    {
+      "id": "hi-live-currentness",
+      "openedBy": "rcap-hi-in-repo-identity-reconciliation-hcjdc-159",
+      "question": "The currentness finding rested on a 2026-08-03 confirmation rather than a reading taken today.",
+      "status": "closed",
+      "closedBy": "this job",
+      "result": "Two official HCJDC pages and the binary itself were read on 2026-08-07. The published binary is byte-identical to the retained copy and no newer revision exists."
+    }
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "sourcesMaterialized": 0,
+    "memoEdited": false,
+    "editionPublished": false,
+    "editionMutated": false,
+    "rendererImplemented": false,
+    "packetImplemented": false,
+    "issuerContacted": false,
+    "integrationPerformed": false,
+    "promotionPerformed": false,
+    "migrationPerformed": false,
+    "deploymentPerformed": false
+  }
+}
