@@ -29,6 +29,7 @@
  * touch an adopted edition and does not enable runtime.
  */
 
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -372,17 +373,73 @@ export function buildEditionSuccessorPlan(rootDir = process.cwd()) {
   const handoff = readJsonIfPresent(rootDir, AMENDMENT_HANDOFF_PATH) ?? {};
   const decisions = readEditionDecisions(rootDir);
 
+  // Retention is a digest question, not a filesystem question.
+  //
+  // This read `fs.existsSync` alone, which means any file at the canonical path
+  // counted as the retained archive. That is the possession-for-permission
+  // error wearing different clothes: a published edition is identified by its
+  // bytes, and a path is not a byte. It surfaced when a re-compressed copy of
+  // Edition 1.1 — authentic content, `__MACOSX` resource forks, a different
+  // container and therefore a different digest — was placed at the canonical
+  // location and the plan immediately reported the grandparent as retained.
+  //
+  // `verified` is the only field a caller may treat as lineage. `present` is
+  // kept because "absent" and "present but not the pinned archive" are
+  // different problems with different fixes, and collapsing them would send
+  // someone hunting for a missing file that is sitting right there.
+  const archiveState = (archivePath, expectedSha256) => {
+    if (!archivePath) {
+      return { path: null, present: false, verified: false, reason: "no path recorded" };
+    }
+    if (!fs.existsSync(archivePath)) {
+      return { path: archivePath, present: false, verified: false, reason: "archive absent" };
+    }
+    if (!SHA256.test(expectedSha256 ?? "")) {
+      return {
+        path: archivePath,
+        present: true,
+        verified: false,
+        reason: "no expected digest recorded to verify against"
+      };
+    }
+    const actual = crypto
+      .createHash("sha256")
+      .update(fs.readFileSync(archivePath))
+      .digest("hex");
+    return {
+      path: archivePath,
+      present: true,
+      verified: actual === expectedSha256,
+      actualSha256: actual,
+      expectedSha256,
+      reason:
+        actual === expectedSha256
+          ? null
+          : "archive present but its digest is not the published edition's; a re-archived copy is not the archive"
+    };
+  };
+
+  const parentState = archiveState(
+    adopted.outputArchivePath ?? null,
+    handoff.adoptedArchiveSha256 ?? null
+  );
+  const grandparentState = archiveState(
+    adopted.parentArchivePath ?? null,
+    adopted.parentArchiveSha256 ?? null
+  );
+
   const lineage = {
     parentEdition: adopted.edition ?? null,
     parentArchivePath: adopted.outputArchivePath ?? null,
     parentArchiveSha256: handoff.adoptedArchiveSha256 ?? null,
-    parentArchiveRetained: adopted.outputArchivePath
-      ? fs.existsSync(adopted.outputArchivePath)
-      : false,
+    parentArchivePresent: parentState.present,
+    parentArchiveRetained: parentState.verified,
+    parentArchiveState: parentState,
     grandparentArchivePath: adopted.parentArchivePath ?? null,
-    grandparentArchiveRetained: adopted.parentArchivePath
-      ? fs.existsSync(adopted.parentArchivePath)
-      : false
+    grandparentArchiveSha256: adopted.parentArchiveSha256 ?? null,
+    grandparentArchivePresent: grandparentState.present,
+    grandparentArchiveRetained: grandparentState.verified,
+    grandparentArchiveState: grandparentState
   };
 
   const handoffByJob = new Map();

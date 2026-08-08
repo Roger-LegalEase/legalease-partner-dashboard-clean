@@ -3,8 +3,9 @@
   "generatedBy": "npm run rcap:freeze-wave-shards",
   "note": "Shard metadata is recorded here rather than on a claim because a job manifest is what a branch fingerprint is computed from: a coordination field inside the assignment would rename a worker's branch. Nothing here alters a semantic fingerprint or a branch key.",
   "reviewShardReservationNote": "The claim schema's ownerSession enum is SESSION_B through SESSION_F, and review is none of those. R1 and R2 are therefore reserved here rather than in job-claims.json. This manifest is the reservation of record for them; widening the claim enum would change the job manifest and, through it, worker branch identity.",
+  "shardIdentifiersAreNotSessions": "R1 and R2 are shard identifiers, not sessions. Both are owned by SESSION_R, which is the single human review session: R1 carries its technical and visual reads, R2 carries its completed-output legal reads, and the split exists so the two kinds of review cannot be recorded against each other's paths. They were briefly written as ownerSession SESSION_R1 and SESSION_R2, which reads as two review sessions and would have someone opening a second one. The human pool is exactly A, B, C, D, E, F and R; every shard here names one of those seven and no shard may name anything else.",
   "baseline": {
-    "baseCommit": "7e4526cd9acf20ec4b17ac27e74303947e9cda23",
+    "baseCommit": "74b6e95ecd5ee59bfa3600f83fd3d9f4e10e9700",
     "authorityVersion": "master-library/1.2",
     "authorityEdition": "1.2"
   },
@@ -196,7 +197,7 @@
       },
       {
         "path": "data/record-clearing/production-factory/job-claims.json",
-        "sha256": "0d7471c901bc9359f33f6669cc9e43b8ccec96ccc03376547bb739023569fd7b"
+        "sha256": "04c4d3ca730ac75dc4acc7a09643f4d7d1d78f3af831818f674531fc65c47da1"
       },
       {
         "path": "data/record-clearing/production-factory/legal-review-materialization-contract.json",
@@ -552,7 +553,7 @@
       },
       {
         "path": "planning/record-clearing-100-percent/production-plan.json",
-        "sha256": "06fc9e9507b25d15589453c249c2d65b0953cc692ad7a26f29777d610eb92f66"
+        "sha256": "8902fe375b91c7fe0556d0220696a510fac03cd2adc743bfebbbb91acef424f6"
       },
       {
         "path": "src/lib/rcap/jurisdictions/packet-capability.ts",
@@ -578,7 +579,7 @@
   "totals": {
     "activeShards": 15,
     "candidateShards": 7,
-    "activeJobs": 28,
+    "activeJobs": 27,
     "candidateJobs": 12,
     "awaitingIntegration": 0
   },
@@ -925,11 +926,11 @@
       "lane": "source_acquisition",
       "status": "active",
       "ownerSession": "SESSION_F",
-      "note": "Human-attended work only. The 281E metadata correction left this shard because it is delivered and integrated: all five of its corrections — role, workflow key, canonical path, title qualification and the primary-filing guard — are admitted into the Edition 1.3 candidate tranche, which prepares but does not publish. The Minnesota and Delaware retrievals still need a person in a browser, and the Wyoming survey needs a person telephoning clerks in 23 counties and is not a download. Delaware FORM-281 stays inside the attended retrieval and is not made a separate promise. All three are ranked, not promised.",
+      "note": "Minnesota left this shard satisfied: the project owner supplied all five current EXP forms and they are measured exactly under external custody, with EXP105 and EXP106 preserved as separate identities for their separate statutory routes. Delaware stays, and stays open on purpose — the drop supplied three of its five documents, and CIV_EXP_02_B and FORM-281 are still missing. A partially satisfied retrieval is not a finished one, so its two blockers are preserved rather than retired. Colorado JDF-2371 joins the shard because its licence gate opened: that job had been hard-coded blocked with the licence written only in a comment, so it stayed shut when the grant landed. It now derives from the licence and is ready to materialize. The Wyoming survey still needs a person telephoning clerks in 23 counties and is not a download.",
       "jobIds": [
-        "rcap-mn-attended-retrieval-currentness-comparison",
         "rcap-de-attended-retrieval-five-current-forms",
-        "rcap-wy-local-template-and-handout-survey"
+        "rcap-wy-local-template-and-handout-survey",
+        "rcap-co-jdf-2371-source-materialization"
       ],
       "capacity": {
         "jobs": 3,
@@ -939,25 +940,6 @@
         "incrementalComponents": 0
       },
       "jobs": [
-        {
-          "jobId": "rcap-mn-attended-retrieval-currentness-comparison",
-          "lane": "source_acquisition",
-          "jurisdiction": "MN",
-          "status": "ready",
-          "semanticFingerprint": "22ea085bb5fcc86424af098ffa0dd00b8de35c0c8756e526a016fdf49b22fc18",
-          "branch": "rcap-factory/rcap-mn-attended-retrieval-currentness-comparison-d56f0b7e-22ea085b",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-mn-attended-retrieval-currentness-comparison.json"
-          ],
-          "dependencies": [
-            "rcap-mn-official-download-automation-blocked"
-          ],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": false
-        },
         {
           "jobId": "rcap-de-attended-retrieval-five-current-forms",
           "lane": "source_acquisition",
@@ -993,6 +975,26 @@
           "assignedComponents": 0,
           "incrementalComponents": 0,
           "alreadyHasPushedCompletion": false
+        },
+        {
+          "jobId": "rcap-co-jdf-2371-source-materialization",
+          "lane": "source_acquisition",
+          "jurisdiction": "CO",
+          "status": "ready",
+          "semanticFingerprint": "222a779b266d201eb38455acde4c340e01588fb75af737cdea372e21fd0115f7",
+          "branch": "rcap-factory/rcap-co-jdf-2371-source-materialization-4720d7df-222a779b",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-co-jdf-2371-source-materialization.json"
+          ],
+          "dependencies": [
+            "rcap-co-jdf-2370-role-and-jdf-2371-mapping-correction",
+            "rcap-co-jdf-family-commercial-license"
+          ],
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
+          "alreadyHasPushedCompletion": false
         }
       ]
     },
@@ -1002,17 +1004,16 @@
       "lane": "source_acquisition",
       "status": "active",
       "ownerSession": "SESSION_F",
-      "note": "The permission and follow-up owners the completed decisions created. The Missouri hardened block and direct-issuer request are done and the request is drafted and deliberately unsent; what remains is the human authorization to send it, which is what the Missouri job here owns. The three written-permission owners exist because a licence decision that says no does not create the work of going and asking, and Colorado, Indiana and Kansas were each sitting at generation_permission_required with no route out. They are derived from the corpus, so the next withheld jurisdiction gets one automatically. None of them sends anything: drafting is the deliverable and sending is a separate human act. The Ohio and Washington source owners carry the one question each integrated decision expressly left open — Ohio's local forms and fee practice, and the CRO form family's mandatory-versus-pattern status and mapping.",
+      "note": "The permission and follow-up owners the completed decisions created. Colorado left this shard: its grant is recorded as a successor decision and its authorization is delivered, so the job that sought the permission is completed rather than reissued. Indiana and Kansas remain, each still sitting at a withheld licence with no route out but the asking. The Missouri request is drafted and deliberately unsent and what remains is the human authorization to send it. None of these jobs sends anything: drafting is the deliverable and sending is a separate human act. The Ohio and Washington source owners carry the one question each integrated decision expressly left open.",
       "jobIds": [
         "rcap-mo-issuer-contact-authorization",
-        "rcap-co-written-permission-authorization",
         "rcap-in-written-permission-authorization",
         "rcap-ks-written-permission-authorization",
         "rcap-oh-2953-321-local-form-and-fee-survey",
         "rcap-wa-cro-form-family-source-identity"
       ],
       "capacity": {
-        "jobs": 6,
+        "jobs": 5,
         "assignedTracks": 0,
         "incrementalTracks": 0,
         "assignedComponents": 0,
@@ -1031,25 +1032,6 @@
           ],
           "dependencies": [
             "rcap-mo-direct-issuer-request"
-          ],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": false
-        },
-        {
-          "jobId": "rcap-co-written-permission-authorization",
-          "lane": "source_acquisition",
-          "jurisdiction": "CO",
-          "status": "ready",
-          "semanticFingerprint": "83203c096a5371ccacaff2a7a16d4eaee09900573eeac1627ce51710b023bd49",
-          "branch": "rcap-factory/rcap-co-written-permission-authorization-32c46bf5-83203c09",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-co-written-permission-authorization.json"
-          ],
-          "dependencies": [
-            "rcap-co-jdf-family-commercial-license"
           ],
           "assignedTrackIds": [],
           "incrementalTrackIds": [],
@@ -1281,7 +1263,7 @@
       "shard": "R1",
       "lane": "legal_output_review",
       "status": "active",
-      "ownerSession": "SESSION_R1",
+      "ownerSession": "SESSION_R",
       "reviewKind": "technical_visual_review",
       "note": "Technical and visual review only; this shard does not own any legal-review path. All five of its previous reads are integrated: Kansas, Minnesota, Missouri and New Jersey approved, and North Dakota held with a real finding that now has a correction owner. Indiana and Mississippi take their place and are here for the opposite reason from last wave — their corrections landed, their replacement packets are generated, and the new bytes reopened reviews that had already been recorded. A technical approval does not survive the output it approved being replaced.",
       "jobIds": [
@@ -1357,7 +1339,7 @@
       "shard": "R2",
       "lane": "legal_output_review",
       "status": "active",
-      "ownerSession": "SESSION_R2",
+      "ownerSession": "SESSION_R",
       "reviewKind": "completed_output_legal_review",
       "note": "Completed-output legal review only; this shard does not own any technical-review path. These three are the families whose technical and visual review is recorded and approved. Recommendations only — recommend_adopt, recommend_correction or recommend_hold. Counsel remains the adopter.",
       "jobIds": [
@@ -1913,5 +1895,5 @@
       ]
     }
   ],
-  "manifestSha256": "961f600d6279bf9a05f1cc9a56f012b81dc738e9cec9a1512b1c111e9fc46781"
+  "manifestSha256": "8cd2e3c6aca45200058389bf9a7341c2ca1b89f9349f11b6e7f3cdd713111e16"
 }

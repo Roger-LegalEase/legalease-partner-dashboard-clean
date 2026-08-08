@@ -981,13 +981,29 @@ await check("packet, source-materialization, and normalization readiness fail cl
     if (record.lifecycle.workerReady) continue;
     assert.equal(record.receiptVerified, true, record.sourceIdentityKey);
     assert.equal(record.lifecycle.internalEvidenceRetained, true);
-    assert.equal(record.lifecycle.generationAllowed, false);
     assert.equal(record.lifecycle.implementationAssignable, false);
     assert.equal(record.lifecycle.runtimeEnabled, false);
-    assert.ok(
-      typeof record.blocker === "string" && record.blocker.length > 0,
-      `${record.sourceIdentityKey} withholds readiness and names no blocker`
-    );
+    // Withheld for one of two reasons, and they are not the same reason.
+    //
+    // No permission: generation stays off and a blocker names the open licence
+    // question. Permission granted but something else unfinished: the licence
+    // is genuinely resolved, so there is no licence blocker to name and
+    // demanding one would force a doubt that does not exist. What must hold in
+    // both is that nothing downstream moved — assignability and runtime are
+    // already asserted off above, for either reason.
+    if (record.lifecycle.workerReadAuthorized) {
+      assert.equal(
+        record.lifecycle.disposition,
+        "materialized_evidence_permitted_pending_non_permission_gates",
+        `${record.sourceIdentityKey} is permitted and not ready but does not say so`
+      );
+    } else {
+      assert.equal(record.lifecycle.generationAllowed, false);
+      assert.ok(
+        typeof record.blocker === "string" && record.blocker.length > 0,
+        `${record.sourceIdentityKey} withholds readiness and names no blocker`
+      );
+    }
   }
   for (const { job, source } of materiallyVerifiedSources) {
     const identity = projectedIdentityByKey.get(source.sourceIdentityKey);
@@ -4694,6 +4710,190 @@ function authorizationFixture(rootDir, decisions, { holdCommercialUse = [] } = {
   return buildSourceAuthorizationIndex(rootDir);
 }
 
+await check(
+  "a successor permission decision authorizes the same receipt without touching it",
+  () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-successor-permission-"));
+    try {
+      // The denial and the grant coexist. This is Colorado in August: a terminal
+      // `written_permission_required` that was correct when it was written, and
+      // a later grant that supersedes it. The denial is the reason the grant was
+      // sought, so erasing it would erase why the authorization exists.
+      const denial = {
+        jobId: "rcap-zz-family-commercial-license",
+        jurisdiction: "ZZ",
+        strategyFamily: "commercial_license",
+        terminalDisposition: "written_permission_required",
+        licenseAdopted: false,
+        generationAllowed: false
+      };
+      const grant = {
+        jobId: "rcap-zz-written-permission-authorization",
+        jurisdiction: "ZZ",
+        strategyFamily: "commercial_license",
+        supersedes: { decisionJobId: "rcap-zz-family-commercial-license" },
+        terminalDisposition: "authorized",
+        licenseAdopted: true,
+        generationAllowed: true
+      };
+
+      // Sorted by filename the denial reads last, so a last-writer index would
+      // resolve to the denial and the grant would silently do nothing.
+      const index = authorizationFixture(root, {
+        "rcap-zz-written-permission-authorization": grant,
+        "rcap-zz-family-commercial-license": denial
+      });
+
+      const resolved = authorizationFor(index, { jurisdiction: "ZZ" });
+      assert.equal(resolved.verdict, "authorized");
+      assert.equal(resolved.generationAllowed, true);
+      assert.equal(
+        resolved.decisionJobId,
+        "rcap-zz-written-permission-authorization",
+        "the successor must win over the decision it supersedes"
+      );
+
+      // The historical denial is still on disk, unedited. A successor records a
+      // new fact; it does not rewrite the record of the old one.
+      const denialPath = path.join(
+        root,
+        "data/record-clearing/production-factory/source-acquisition",
+        "rcap-zz-family-commercial-license.json"
+      );
+      assert.ok(fs.existsSync(denialPath));
+      const retained = JSON.parse(fs.readFileSync(denialPath, "utf8"));
+      assert.equal(retained.terminalDisposition, "written_permission_required");
+      assert.equal(retained.generationAllowed, false);
+      assert.equal(retained.licenseAdopted, false);
+
+      // The point of the whole exercise: one verified receipt, unchanged, goes
+      // from withheld to worker-ready purely because permission arrived. The
+      // evidence facts are identical on both sides — same receipt, not a new one.
+      const receipt = { receiptVerified: true };
+      // The denial-only world needs its own root. `authorizationFixture` writes
+      // decisions into a directory and never clears it, so reusing `root` here
+      // would leave the grant sitting alongside the denial and "before" would
+      // resolve to the grant — the test would then compare the granted state
+      // against itself and pass while proving nothing.
+      const denialOnlyRoot = fs.mkdtempSync(
+        path.join(os.tmpdir(), "rcap-successor-permission-denial-")
+      );
+      let before;
+      try {
+        before = deriveSourceLifecycle({
+          ...receipt,
+          authorization: authorizationFor(
+            authorizationFixture(denialOnlyRoot, {
+              "rcap-zz-family-commercial-license": denial
+            }),
+            { jurisdiction: "ZZ" }
+          )
+        });
+      } finally {
+        fs.rmSync(denialOnlyRoot, { recursive: true, force: true });
+      }
+      const after = deriveSourceLifecycle({ ...receipt, authorization: resolved });
+
+      for (const fact of [
+        "sourceIdentityExact",
+        "binaryMaterialized",
+        "binaryHashVerified",
+        "internalEvidenceRetained"
+      ]) {
+        assert.equal(before[fact], true, `${fact} must hold under the denial`);
+        assert.equal(
+          after[fact],
+          before[fact],
+          `${fact} is evidence and must not move when permission changes`
+        );
+      }
+
+      assert.equal(before.generationAllowed, false);
+      assert.equal(before.workerReady, false);
+      assert.equal(before.implementationAssignable, false);
+      assert.equal(after.generationAllowed, true);
+      assert.equal(after.workerReady, true);
+      assert.equal(after.implementationAssignable, true);
+
+      // Release stays independent of both.
+      assert.equal(after.runtimeEnabled, false);
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  }
+);
+
+await check(
+  "the live Colorado grant authorizes twelve preserved receipts",
+  () => {
+    const index = buildSourceAuthorizationIndex(ROOT);
+    const colorado = index.decisions.get("CO");
+    assert.ok(colorado, "Colorado must carry a licence decision");
+    assert.equal(colorado.verdict, "authorized");
+    assert.equal(
+      colorado.decisionJobId,
+      "rcap-co-written-permission-authorization"
+    );
+    assert.equal(
+      colorado.supersedes,
+      "rcap-co-jdf-family-commercial-license",
+      "the grant must name the denial it supersedes rather than replacing it silently"
+    );
+
+    // The superseded denial is still in the corpus and still says no.
+    const denial = JSON.parse(
+      fs.readFileSync(
+        path.join(
+          ROOT,
+          "data/record-clearing/production-factory/source-acquisition",
+          "rcap-co-jdf-family-commercial-license.json"
+        ),
+        "utf8"
+      )
+    );
+    assert.equal(denial.terminalDisposition, "written_permission_required");
+    assert.equal(denial.generationAllowed, false);
+
+    // The grant is honest about what backs it. No document was supplied, so no
+    // hash is asserted. An authorization must not read as better evidenced than
+    // it is.
+    const grant = JSON.parse(
+      fs.readFileSync(
+        path.join(
+          ROOT,
+          "data/record-clearing/production-factory/source-acquisition",
+          "rcap-co-written-permission-authorization.json"
+        ),
+        "utf8"
+      )
+    );
+    assert.equal(grant.provenance.kind, "project_owner_attestation");
+    assert.equal(grant.provenance.evidenceDocumentPresent, false);
+    assert.equal(grant.provenance.evidenceDocumentSha256, null);
+    assert.equal(grant.gates.evidenceFabricated, false);
+    assert.equal(grant.gates.priorDecisionRewritten, false);
+    assert.equal(grant.receiptTreatment.receiptsPreserved, 12);
+    assert.equal(grant.receiptTreatment.receiptsDeleted, 0);
+    assert.equal(grant.receiptTreatment.receiptsRewritten, 0);
+    assert.equal(grant.receiptTreatment.bytesRehashed, false);
+
+    // The grant is scoped. Reproduce and prefill only; everything a court or an
+    // outside party writes stays outside it.
+    for (const excluded of [
+      "altering the legal text of a form",
+      "sublicensing",
+      "resale of blank forms"
+    ]) {
+      assert.ok(
+        grant.authorizedScope.notGranted.includes(excluded),
+        `${excluded} must stay outside the grant`
+      );
+    }
+    assert.equal(grant.gates.counselAdoptionRecorded, false);
+    assert.equal(grant.gates.packetReadyUnchanged, true);
+  }
+);
+
 await check("materialization evidence never establishes generation permission", () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-source-authorization-"));
   try {
@@ -4901,24 +5101,49 @@ await check("retained evidence is auditable but never participant-facing", () =>
     assert.ok(fs.existsSync(path.join(ROOT, record.receiptPath)));
   }
 
-  // Colorado specifically: every one of its live receipts is withheld on
-  // written permission, and every one survives.
+  // Colorado specifically. This asserted that every Colorado receipt was
+  // withheld on written permission, which was the truth for as long as the
+  // answer was no. The grant arrived on 2026-08-08 and the assertion became a
+  // record of a fact that had expired — the failure mode this suite exists to
+  // catch, appearing in the suite itself.
+  //
+  // What survives the change is the part that was never about the answer: the
+  // receipts. Twelve of them, verified, on disk, unedited, through a denial and
+  // a grant. Permission moved; evidence did not. That is the invariant worth
+  // holding, so it is what is asserted now, alongside whichever verdict is
+  // currently live rather than a verdict frozen into the test.
   const colorado = retention.records.filter(
     (entry) => entry.jurisdiction === "CO"
   );
   assert.ok(colorado.length > 0);
   for (const record of colorado) {
-    assert.equal(record.authorizationVerdict, "written_permission_required");
-    assert.equal(record.blocker, "written_permission_required");
     assert.equal(record.receiptVerified, true);
-    assert.equal(
-      record.lifecycle.disposition,
-      "materialized_evidence_generation_permission_required"
-    );
+    assert.equal(record.lifecycle.internalEvidenceRetained, true);
+    assert.ok(fs.existsSync(path.join(ROOT, record.receiptPath)));
+    assert.equal(record.lifecycle.runtimeEnabled, false);
+    if (record.authorizationVerdict === "authorized") {
+      // Granted. Permission is real and buys exactly permission: the source is
+      // still not assignable, because a licence is not a field map.
+      assert.equal(record.lifecycle.generationAllowed, true);
+      assert.equal(record.lifecycle.workerReadAuthorized, true);
+      assert.equal(record.lifecycle.implementationAssignable, false);
+      assert.equal(
+        record.lifecycle.disposition,
+        "materialized_evidence_permitted_pending_non_permission_gates"
+      );
+    } else {
+      assert.equal(record.authorizationVerdict, "written_permission_required");
+      assert.equal(record.blocker, "written_permission_required");
+      assert.equal(record.lifecycle.generationAllowed, false);
+      assert.equal(
+        record.lifecycle.disposition,
+        "materialized_evidence_generation_permission_required"
+      );
+    }
   }
   assert.equal(
-    retention.totals.byJurisdictionWithheld.CO,
-    colorado.length,
+    retention.totals.byJurisdictionWithheld.CO ?? 0,
+    colorado.filter((entry) => !entry.lifecycle.workerReadAuthorized).length,
     "the withheld tally must derive from the live Colorado receipt set"
   );
 });

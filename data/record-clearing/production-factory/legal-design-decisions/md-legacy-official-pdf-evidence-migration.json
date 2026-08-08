@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "specificationId": "md-legacy-official-pdf-evidence-migration",
+  "jobId": "rcap-md-legacy-official-pdf-evidence-migration",
+  "jurisdiction": "MD",
+  "jurisdictionName": "Maryland",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "preparedOn": "2026-08-08",
+  "preparer": "Session A integration captain, executing rcap-md-legacy-official-pdf-evidence-migration",
+  "baseCommit": "74b6e95ecd5ee59bfa3600f83fd3d9f4e10e9700",
+  "whatThisDocumentIs": "The record that moves Maryland's official-PDF source evidence off the obsolete private-corpus dependency and onto the portable source lifecycle. Maryland's packet implementation was completed under the tranche-2 evidence model and is not reimplemented here. What is migrated is where the two source binaries are proved to live and how a consumer resolves them.",
+  "decisionSource": "The supplied CC-DC-CR-148 bytes measured under external human-input custody on 2026-08-08; the materialized copies of CC-DC-CR-148 and MDJ-008 under the sealed materialization root; their two source-materialization receipts; the source-artifact registry; the official-PDF source-assignment projection; and the retained tranche-2 implementation records.",
+
+  "obsoleteDependencyReplaced": {
+    "wasDependentOn": "private/Nationwide Record Clearing/LegalEase Maryland/forms/",
+    "dependencyState": "the directory does not exist in this environment and is not reconstructable from the repository",
+    "whyItWasNeverFixedByCopying": "Copying a source PDF back into the legacy private path would make the verifier pass without making the contract portable, and it would put a source binary inside the repository tree. The contract requires an exact immutable assignment plus a portable locator; a host-specific private tree is not that interface and cannot become one by being repopulated.",
+    "replacedWith": "receipt-backed portable materialization under the sealed root, addressed by identity key rather than by path"
+  },
+
+  "sources": [
+    {
+      "role": "primary_filing",
+      "documentId": "CC-DC-CR-148",
+      "officialTitle": "Petition for Shielding Under the Maryland Second Chance Act",
+      "revision": "07/2026",
+      "revisionSource": "printed_on_form_face_and_recorded_in_registry_as_CC-DC-CR-148_Rev_07_2026",
+      "issuer": "Maryland Judiciary",
+      "scope": "statewide",
+      "sourceIdentityKey": "rcap-md-cc-dc-cr-148-eee9a06118",
+      "bytes": 238823,
+      "sha256": "abcafbc298d56937ad41ba44675147942b1ab540325898917efafed3f5b43e3f",
+      "mediaType": "application/pdf",
+      "structuralClass": "clean_acroform",
+      "pageCount": 1,
+      "encrypted": false,
+      "xfa": false,
+      "acroFormFieldCount": 56,
+      "portableMaterializationDestination": "official-pdf/MD/MD__FORM__CC-DC-CR-148__petition-for-shielding-under-the-maryland-second-chance-act__REV-2026-07__EN.pdf",
+      "portableLocator": "attorney-review-package://STATES/MD/02_PACKET_FORMS/MD__FORM__CC-DC-CR-148__petition-for-shielding-under-the-maryland-second-chance-act__REV-2026-07__EN.pdf",
+      "readOnlyTreatment": "worker_read_only_no_modify",
+      "sourceReceipt": "data/record-clearing/production-factory/source-materialization-receipts/rcap-md-cc-dc-cr-148-eee9a06118.json",
+      "receiptState": "worker_ready",
+      "measurementBasis": "freshly_verified_local_bytes"
+    },
+    {
+      "role": "required_companion_notice",
+      "documentId": "MDJ-008",
+      "officialTitle": "Notice Regarding Restricted Information Pursuant to Rule 20-201.1",
+      "revision": "07/2026",
+      "revisionSource": "recorded_in_registry_as_MDJ-008_Rev_07_2026",
+      "issuer": "Maryland Judiciary",
+      "scope": "statewide",
+      "sourceIdentityKey": "rcap-md-mdj-008-bdcaa0d6fd",
+      "bytes": 248175,
+      "sha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+      "mediaType": "application/pdf",
+      "structuralClass": "clean_acroform",
+      "pageCount": 1,
+      "encrypted": false,
+      "xfa": false,
+      "acroFormFieldCount": 57,
+      "portableMaterializationDestination": "official-pdf/MD/MD__FORM__MDJ-008__notice-regarding-restricted-information-pursuant-to-rule-20-201-1__REV-2026-07__EN.pdf",
+      "portableLocator": "attorney-review-package://STATES/MD/02_PACKET_FORMS/MD__FORM__MDJ-008__notice-regarding-restricted-information-pursuant-to-rule-20-201-1__REV-2026-07__EN.pdf",
+      "readOnlyTreatment": "worker_read_only_no_modify",
+      "sourceReceipt": "data/record-clearing/production-factory/source-materialization-receipts/rcap-md-mdj-008-bdcaa0d6fd.json",
+      "receiptState": "worker_ready",
+      "measurementBasis": "freshly_verified_local_bytes"
+    }
+  ],
+
+  "consumerRelationship": {
+    "relationship": "CC-DC-CR-148 requires MDJ-008 as a companion filing",
+    "basis": "Maryland Rule 20-201.1 requires the restricted-information notice to accompany a filing that discloses restricted information. The shielding petition is such a filing.",
+    "consequence": "MDJ-008 is not an optional attachment and not a second petition. A Maryland packet that renders CC-DC-CR-148 without MDJ-008 is incomplete as filed.",
+    "companionContractPresent": true,
+    "companionContractVerified": "MDJ-008 is materialized portably under the same sealed root, with a receipt in worker_ready state and its hash freshly verified against the materialized bytes."
+  },
+
+  "implementationSourceResolution": {
+    "resolvesBy": "source identity key against a receipt in worker_ready state, then the receipt's materialization destination beneath the sealed root",
+    "doesNotResolveBy": [
+      "filename",
+      "directory scan",
+      "title similarity",
+      "file presence anywhere on disk",
+      "the legacy private path"
+    ],
+    "failClosed": "A consumer that cannot reach a worker_ready receipt for both identity keys does not fall back to any other copy. There is no repository-corpus fallback."
+  },
+
+  "independentCorroborationOfTheSuppliedBytes": {
+    "event": "The project owner supplied CC-DC-CR-148 on 2026-08-08 as a human-input drop, twice under two different filenames.",
+    "finding": "Both supplied copies are byte-identical to each other and to the already-materialized copy under the sealed root: 238,823 bytes, sha256 abcafbc298d56937ad41ba44675147942b1ab540325898917efafed3f5b43e3f.",
+    "why_it_matters": "The materialized copy and the owner's copy have independent provenance and agree exactly. That is corroboration of a sealed receipt from outside the receipt, which is stronger than re-reading the same file twice.",
+    "duplicateSuppliedCopy": {
+      "fileName": "ccdccr148 (1).pdf",
+      "treatment": "recorded as duplicate custody provenance only; no second identity was created"
+    },
+    "measurementsWereRecomputedNotAssumed": "Byte count, digest, page count, structural class and field count were all recomputed from the supplied bytes. They happen to agree with the expected historical measurement; nothing was forced to it."
+  },
+
+  "fieldCountDefinitionDiscrepancy": {
+    "observed": "The source-artifact registry records fieldCount 55 for CC-DC-CR-148 and 56 for MDJ-008. Direct inspection of the same bytes reports 56 and 57.",
+    "cause": "Both forms carry a single `Reset Form` push-button in the AcroForm dictionary. The registry counts fillable data fields; the inspector counts every AcroForm field, button included. Each number is correct under its own definition and the two differ by exactly that button on both forms.",
+    "notADataError": "Neither figure is wrong and neither binary changed. The hashes match on both sides.",
+    "whyItIsRecorded": "A field map drafted against 55 and validated against 56 reads as a missing field, and the natural next move — hunting for the field that is not there — wastes the reader's time on a definition mismatch. The counting basis travels with the number here so that cannot happen.",
+    "resetFormButtonIsNotParticipantData": "The push-button is a viewer control. It is never filled, never mapped, and never assigned to a participant or a third party."
+  },
+
+  "historicalCompletionPreserved": {
+    "preserved": true,
+    "packetReimplemented": false,
+    "legalDesignRerun": false,
+    "retainedHistoricalEvidence": [
+      "data/record-clearing/implementation-tranches/tranche-2.json",
+      "data/record-clearing/implementation-tranches/tranche-2-review-manifest.json",
+      "data/record-clearing/implementation-tranches/tranche-2-visual-review.json",
+      "data/record-clearing/implementation-tranches/tranche-2-legal-output-recommendation.json"
+    ],
+    "note": "The tranche-2 records are left exactly as written. Maryland's engineering was done under the evidence model of its day and that record stands; this migration changes where its sources are proved to live, not whether the work happened."
+  },
+
+  "whatPortabilityDoesNotEstablish": {
+    "technicalApproval": false,
+    "legalApproval": false,
+    "counselAdoption": false,
+    "packetReady": false,
+    "generationPermission": "unchanged by this record",
+    "statement": "A source being reachable through the portable lifecycle says only that the exact bytes can be found and proved. It says nothing about whether anyone has read Maryland's output, whether counsel has adopted it, or whether the packet may be produced. Those are separate gates, separately counted, and none of them moves here."
+  },
+
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "counselAdopted": false,
+    "productionEnabled": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceCopiedIntoLegacyPrivatePath": false,
+    "editionPublished": false,
+    "editionMutated": false,
+    "packetReimplemented": false,
+    "migrationPerformed": false,
+    "deploymentPerformed": false
+  }
+}

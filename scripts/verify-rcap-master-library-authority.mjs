@@ -103,8 +103,22 @@ if (authority.parentEdition) {
   if (!fs.existsSync(parentPath)) {
     failures.push(`Parent edition ${authority.parentEdition.edition} is not retained at ${parentPath}.`);
   } else {
-    if (sha256File(parentPath) !== authority.parentEdition.archiveSha256) {
-      failures.push(`Parent edition ${authority.parentEdition.edition} no longer matches its recorded SHA-256. A published edition is immutable.`);
+    const parentActual = sha256File(parentPath);
+    if (parentActual !== authority.parentEdition.archiveSha256) {
+      // Say what is actually wrong. "No longer matches" reads as tampering and
+      // sends a reader looking for who edited a published edition. The likelier
+      // cause, and the one seen here, is that a re-archived copy of the right
+      // content was put at this path: same files, repacked container, different
+      // digest. Both fail — an edition is identified by its bytes — but they are
+      // fixed in completely different places, so the message must tell them
+      // apart rather than assume the worse one.
+      failures.push(
+        `Parent edition ${authority.parentEdition.edition} at ${parentPath} does not match its recorded SHA-256. ` +
+          `Expected ${authority.parentEdition.archiveSha256}, found ${parentActual}. ` +
+          "A published edition is immutable and is identified by its exact archive bytes, so a " +
+          "re-compressed copy of the same content is not this edition. Restore the original archive; " +
+          "do not adjust the recorded digest to match a replacement."
+      );
     }
     if (governance.edition.parent_sha256 && governance.edition.parent_sha256 !== authority.parentEdition.archiveSha256) {
       failures.push("The adopted edition records a different parent SHA-256 than the authority record.");

@@ -1,0 +1,142 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-co-written-permission-authorization",
+  "parentJobId": "rcap-co-jdf-family-commercial-license",
+  "jurisdiction": "CO",
+  "lane": "source_acquisition",
+  "strategyFamily": "commercial_license",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "74b6e95ecd5ee59bfa3600f83fd3d9f4e10e9700",
+  "generatedOn": "2026-08-08",
+  "reconciliationIds": [
+    "permission:CO"
+  ],
+  "downloadedSourceCount": 0,
+  "supersedes": {
+    "decisionJobId": "rcap-co-jdf-family-commercial-license",
+    "decisionPath": "data/record-clearing/production-factory/source-acquisition/rcap-co-jdf-family-commercial-license.json",
+    "priorTerminalDisposition": "written_permission_required",
+    "priorGenerationAllowed": false,
+    "priorLicenseAdopted": false,
+    "priorDecisionRewritten": false,
+    "priorDecisionDeleted": false,
+    "note": "The prior decision was correct when it was made and is left exactly as written. It asked for a grant; a grant is now reported. A successor records the new fact; it does not edit the record of the old one."
+  },
+  "satisfiesReopeningCondition": {
+    "condition": "(a) a written grant from the Colorado Judicial Department permitting reproduction, prefilled distribution and inclusion in a paid self-help packet",
+    "satisfiedInSubstance": true,
+    "satisfiedInForm": false,
+    "formGap": "The prior decision required the grant to be in writing and retained in the repository. No permission document was supplied with this drop, so the writing is not retained and cannot be bound by hash."
+  },
+  "provenance": {
+    "kind": "project_owner_attestation",
+    "attestedBy": "project owner",
+    "reportedDate": "2026-08-08",
+    "suppliedWording": "Colorado has granted LegalEase permission to reproduce and prefill Colorado Judicial Branch JDF forms.",
+    "evidenceDocumentPresent": false,
+    "evidenceDocumentSha256": null,
+    "evidenceDocumentPath": null,
+    "evidenceDocumentNote": "No permission email, letter or saved document was present in the human-input drop. None was fabricated and no hash is asserted. This authorization rests on the project owner’s attestation alone.",
+    "attestationIsNotADocument": true,
+    "whatWouldStrengthenIt": "Retaining the actual grant — email, letter or published policy — under external custody and binding it by exact hash to this record."
+  },
+  "generationAllowed": true,
+  "licenseAdopted": true,
+  "permissionRequired": false,
+  "permissionObtained": true,
+  "terminalDisposition": "authorized",
+  "dispositionIsCurrentAndTerminal": true,
+  "authorizedScope": {
+    "granted": [
+      "reproduce Colorado Judicial Branch JDF forms",
+      "prefill Colorado Judicial Branch JDF forms"
+    ],
+    "notGranted": [
+      "altering the legal text of a form",
+      "altering revision marks",
+      "populating judicial findings",
+      "populating judge, clerk, prosecutor or agency fields",
+      "sublicensing",
+      "resale of blank forms",
+      "unrelated redistribution",
+      "claiming or implying Colorado endorsement"
+    ],
+    "scopeBoundaryNote": "Reproduce and prefill are participant-facing acts on participant-supplied facts. Everything a court or an outside party would write remains outside the grant, which is the same boundary the packet model already enforces for every other jurisdiction."
+  },
+  "appliesTo": {
+    "documentFamily": "Colorado Judicial Branch JDF forms",
+    "scopedToNamedDocuments": false,
+    "scopeNote": "The grant names the JDF family rather than a document list, so it applies at the family level exactly as the superseded denial did."
+  },
+  "receiptTreatment": {
+    "receiptsPreserved": 12,
+    "receiptsCreated": 0,
+    "receiptsDeleted": 0,
+    "receiptsRewritten": 0,
+    "bytesRecopied": false,
+    "bytesRehashed": false,
+    "note": "All twelve Colorado receipts are preserved value-identically. Authorization is a permission fact and materialization is an evidence fact; changing one must not touch the other. Nothing was recopied or rehashed merely because the licence changed."
+  },
+  "recomputedLifecycle": {
+    "binaryMaterialized": "unchanged_true",
+    "binaryHashVerified": "unchanged_true",
+    "internalEvidenceRetained": "unchanged_true",
+    "generationAllowed": "false_to_true",
+    "licenseAdopted": "false_to_true",
+    "workerReadAuthorized": "false_to_true",
+    "workerReady": "recomputed_from_receipt_and_authorization",
+    "implementationAssignable": "recomputed",
+    "runtimeEnabled": "unchanged_false"
+  },
+  "whatThisDoesNotUnblock": [
+    "Identity, role, scope or revision questions on any Colorado document.",
+    "Field-map construction, which has not been performed.",
+    "Legal-design questions on any Colorado track.",
+    "Technical review, completed-output legal review or counsel adoption.",
+    "Packet readiness, production enablement or runtime, all of which stay off."
+  ],
+  "doNotForceFamiliesReady": true,
+  "doNotForceFamiliesReadyNote": "The licence gate cleared. Every other gate is independent and still applies on its own terms. A Colorado family becomes ready only when all of its own blockers clear.",
+  "expectedDownstreamEffect": "Colorado moves from generation_permission_required to worker-authorized on the strength of a successor decision, while all twelve receipts stay byte-identical and the historical denial stays exactly as written. Whether any Colorado implementation becomes assignable is then decided by its own remaining gates, not by this record.",
+  "residualBlockers": [
+    {
+      "id": "co-permission-writing-not-retained",
+      "question": "The grant is attested but the writing itself is not retained and cannot be hash-bound.",
+      "status": "open",
+      "owner": "project owner or counsel",
+      "why": "The superseded decision expressly asked for a retained writing. Recording the gap is the honest treatment; ignoring it would make the authorization look better evidenced than it is."
+    },
+    {
+      "id": "co-field-maps-unbuilt",
+      "question": "No Colorado field map exists.",
+      "status": "open_and_outside_this_job",
+      "owner": "the implementation lane"
+    }
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "sourcesMaterialized": 0,
+    "sourceReceiptCountUnchanged": true,
+    "receiptsDeleted": 0,
+    "receiptsRewritten": 0,
+    "priorDecisionRewritten": false,
+    "evidenceFabricated": false,
+    "memoEdited": false,
+    "editionPublished": false,
+    "editionMutated": false,
+    "rendererImplemented": false,
+    "packetImplemented": false,
+    "componentRebound": false,
+    "counselAdoptionRecorded": false,
+    "integrationPerformed": false,
+    "promotionPerformed": false,
+    "migrationPerformed": false,
+    "deploymentPerformed": false
+  }
+}

@@ -72,8 +72,16 @@ try {
     console.log(`  tranche manifest sha256: ${plan.trancheManifestSha256}`);
     console.log(`  first tranche owner: ${plan.firstTrancheJobId}`);
     if (!plan.lineage.grandparentArchiveRetained) {
+      const state = plan.lineage.grandparentArchiveState ?? {};
       console.log(
-        `  LINEAGE INCOMPLETE: parent edition ${plan.lineage.parentEdition}'s own parent archive is absent at ${plan.lineage.grandparentArchivePath}`
+        `  LINEAGE INCOMPLETE: parent edition ${plan.lineage.parentEdition}'s own parent archive does not verify at ${plan.lineage.grandparentArchivePath}`
+      );
+      // "Absent" and "present but not the published bytes" send a reader to two
+      // different places. Say which one it is.
+      console.log(
+        state.present
+          ? `    ${state.reason}\n    expected ${state.expectedSha256}\n    found    ${state.actualSha256}`
+          : "    the archive is absent"
       );
     }
     console.log(

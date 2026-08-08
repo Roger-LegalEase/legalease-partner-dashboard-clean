@@ -136,18 +136,44 @@ export function buildSourceAuthorizationIndex(rootDir = process.cwd()) {
           )
         : null;
 
-      decisions.set(decision.jurisdiction, {
+      const supersededJobId =
+        decision.supersedes?.decisionJobId ?? decision.supersedesDecisionJobId ?? null;
+
+      const candidate = {
         jurisdiction: decision.jurisdiction,
         decisionJobId: decision.jobId ?? name.replace(/\.json$/u, ""),
         verdict: verdictFor(decision),
         licenseAdopted: decision.licenseAdopted === true,
         generationAllowed: decision.generationAllowed === true,
         terminalDisposition: decision.terminalDisposition ?? null,
+        supersedes: supersededJobId,
         scopedDocumentIds:
           scopedDocumentIds && scopedDocumentIds.size > 0
             ? scopedDocumentIds
             : null
-      });
+      };
+
+      // A jurisdiction can hold more than one licence decision at once, because
+      // a decision is a record of what was true when it was made and answers
+      // like these change. Colorado is the case: a terminal
+      // `written_permission_required` that was correct in August, and a later
+      // grant that supersedes it. Neither may overwrite the other — the denial
+      // is the reason the grant was sought, and deleting it would erase why the
+      // authorization exists.
+      //
+      // So the index resolves by lineage, not by filename order. A decision
+      // that names the one it supersedes wins over its parent; anything else
+      // falls back to first-writer, which keeps a stray file from silently
+      // unlocking a jurisdiction just by sorting late.
+      const existing = decisions.get(decision.jurisdiction);
+      if (!existing) {
+        decisions.set(decision.jurisdiction, candidate);
+      } else if (supersededJobId && supersededJobId === existing.decisionJobId) {
+        decisions.set(decision.jurisdiction, { ...candidate, supersededDecision: existing });
+      } else if (existing.supersedes === candidate.decisionJobId) {
+        // The successor was read first; keep it and record what it replaced.
+        decisions.set(decision.jurisdiction, { ...existing, supersededDecision: candidate });
+      }
     }
   }
 
@@ -250,12 +276,24 @@ export function deriveSourceLifecycle({
     workerReady,
     implementationAssignable: workerReady,
     runtimeEnabled: false,
+    // There are four states here, not three. The fourth appeared the moment
+    // Colorado's licence cleared: evidence verified, permission granted, and
+    // still not worker-ready because something that is not a permission — a
+    // field map, a role question, a legal-design blocker — has not passed.
+    //
+    // That case used to fall through to `binary_materialization_required`, which
+    // is the one thing it definitely is not. Its bytes are materialized and
+    // hash-verified; sending a reader to go materialize them wastes the trip and
+    // suggests the evidence is missing when the evidence is fine. Name it for
+    // what is actually holding it.
     disposition:
       receiptVerified && !permitted
         ? "materialized_evidence_generation_permission_required"
         : workerReady
           ? "materialized_evidence_worker_ready"
-          : "binary_materialization_required",
+          : receiptVerified
+            ? "materialized_evidence_permitted_pending_non_permission_gates"
+            : "binary_materialization_required",
     blocker: authorization?.blocker ?? null
   };
 }

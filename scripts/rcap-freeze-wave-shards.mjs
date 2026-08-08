@@ -124,12 +124,12 @@ const ACTIVE_SHARDS = [
     lane: "source_acquisition",
     ownerSession: "SESSION_F",
     jobIds: [
-      "rcap-mn-attended-retrieval-currentness-comparison",
       "rcap-de-attended-retrieval-five-current-forms",
-      "rcap-wy-local-template-and-handout-survey"
+      "rcap-wy-local-template-and-handout-survey",
+      "rcap-co-jdf-2371-source-materialization"
     ],
     note:
-      "Human-attended work only. The 281E metadata correction left this shard because it is delivered and integrated: all five of its corrections — role, workflow key, canonical path, title qualification and the primary-filing guard — are admitted into the Edition 1.3 candidate tranche, which prepares but does not publish. The Minnesota and Delaware retrievals still need a person in a browser, and the Wyoming survey needs a person telephoning clerks in 23 counties and is not a download. Delaware FORM-281 stays inside the attended retrieval and is not made a separate promise. All three are ranked, not promised."
+      "Minnesota left this shard satisfied: the project owner supplied all five current EXP forms and they are measured exactly under external custody, with EXP105 and EXP106 preserved as separate identities for their separate statutory routes. Delaware stays, and stays open on purpose — the drop supplied three of its five documents, and CIV_EXP_02_B and FORM-281 are still missing. A partially satisfied retrieval is not a finished one, so its two blockers are preserved rather than retired. Colorado JDF-2371 joins the shard because its licence gate opened: that job had been hard-coded blocked with the licence written only in a comment, so it stayed shut when the grant landed. It now derives from the licence and is ready to materialize. The Wyoming survey still needs a person telephoning clerks in 23 counties and is not a download."
   },
   {
     shard: "F2",
@@ -137,14 +137,13 @@ const ACTIVE_SHARDS = [
     ownerSession: "SESSION_F",
     jobIds: [
       "rcap-mo-issuer-contact-authorization",
-      "rcap-co-written-permission-authorization",
       "rcap-in-written-permission-authorization",
       "rcap-ks-written-permission-authorization",
       "rcap-oh-2953-321-local-form-and-fee-survey",
       "rcap-wa-cro-form-family-source-identity"
     ],
     note:
-      "The permission and follow-up owners the completed decisions created. The Missouri hardened block and direct-issuer request are done and the request is drafted and deliberately unsent; what remains is the human authorization to send it, which is what the Missouri job here owns. The three written-permission owners exist because a licence decision that says no does not create the work of going and asking, and Colorado, Indiana and Kansas were each sitting at generation_permission_required with no route out. They are derived from the corpus, so the next withheld jurisdiction gets one automatically. None of them sends anything: drafting is the deliverable and sending is a separate human act. The Ohio and Washington source owners carry the one question each integrated decision expressly left open — Ohio's local forms and fee practice, and the CRO form family's mandatory-versus-pattern status and mapping."
+      "The permission and follow-up owners the completed decisions created. Colorado left this shard: its grant is recorded as a successor decision and its authorization is delivered, so the job that sought the permission is completed rather than reissued. Indiana and Kansas remain, each still sitting at a withheld licence with no route out but the asking. The Missouri request is drafted and deliberately unsent and what remains is the human authorization to send it. None of these jobs sends anything: drafting is the deliverable and sending is a separate human act. The Ohio and Washington source owners carry the one question each integrated decision expressly left open."
   },
   {
     shard: "F3",
@@ -164,7 +163,7 @@ const ACTIVE_SHARDS = [
   {
     shard: "R1",
     lane: "legal_output_review",
-    ownerSession: "SESSION_R1",
+    ownerSession: "SESSION_R",
     jobIds: [
       "rcap-in-custom-pleading-technical-visual-review",
       "rcap-ms-custom-pleading-technical-visual-review"
@@ -176,7 +175,7 @@ const ACTIVE_SHARDS = [
   {
     shard: "R2",
     lane: "legal_output_review",
-    ownerSession: "SESSION_R2",
+    ownerSession: "SESSION_R",
     jobIds: [
       "rcap-ok-guidance-implementation-completed-output-review",
       "rcap-tn-guidance-implementation-completed-output-review",
@@ -456,6 +455,8 @@ try {
       "Shard metadata is recorded here rather than on a claim because a job manifest is what a branch fingerprint is computed from: a coordination field inside the assignment would rename a worker's branch. Nothing here alters a semantic fingerprint or a branch key.",
     reviewShardReservationNote:
       "The claim schema's ownerSession enum is SESSION_B through SESSION_F, and review is none of those. R1 and R2 are therefore reserved here rather than in job-claims.json. This manifest is the reservation of record for them; widening the claim enum would change the job manifest and, through it, worker branch identity.",
+    shardIdentifiersAreNotSessions:
+      "R1 and R2 are shard identifiers, not sessions. Both are owned by SESSION_R, which is the single human review session: R1 carries its technical and visual reads, R2 carries its completed-output legal reads, and the split exists so the two kinds of review cannot be recorded against each other's paths. They were briefly written as ownerSession SESSION_R1 and SESSION_R2, which reads as two review sessions and would have someone opening a second one. The human pool is exactly A, B, C, D, E, F and R; every shard here names one of those seven and no shard may name anything else.",
     baseline: {
       baseCommit: plan.baseCommit,
       authorityVersion: plan.authorityVersion,

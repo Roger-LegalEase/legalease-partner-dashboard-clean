@@ -1175,18 +1175,37 @@ assert.equal(
       );
       continue;
     }
-    // Not worker-ready: the reason must be explicit.
-    assert.equal(
-      record.lifecycle.workerReadAuthorized ||
+    // Not worker-ready: the reason must be explicit. There are two reasons a
+    // source can sit here and they are not interchangeable.
+    //
+    // Permission refused. The original case: no licence, so no read
+    // authorization, and a named blocker saying which licence question is open.
+    //
+    // Permission granted, other gates open. Colorado, once its grant landed. The
+    // licence is resolved and read authorization is real, but a field map or a
+    // legal-design question has not passed, so readiness is still withheld.
+    // There is no licence blocker to name here because the licence is not what
+    // is holding it — demanding one would push a reader toward inventing a
+    // permission doubt that does not exist. What must hold is that permission
+    // alone bought nothing downstream: assignability and runtime stay off.
+    if (record.lifecycle.workerReadAuthorized) {
+      assert.equal(
         record.lifecycle.implementationAssignable,
-      false,
-      `${record.sourceIdentityKey} withholds readiness while claiming authorization`
-    );
-    assert.ok(
-      typeof record.blocker === "string" && record.blocker.length > 0,
-      `${record.sourceIdentityKey} is not worker-ready and names no blocker`
-    );
-    assert.equal(record.lifecycle.generationAllowed, false);
+        false,
+        `${record.sourceIdentityKey} is permitted but not worker-ready, so it must not be implementation-assignable`
+      );
+      assert.equal(
+        record.lifecycle.disposition,
+        "materialized_evidence_permitted_pending_non_permission_gates",
+        `${record.sourceIdentityKey} is permitted and not worker-ready but does not say so in its disposition`
+      );
+    } else {
+      assert.ok(
+        typeof record.blocker === "string" && record.blocker.length > 0,
+        `${record.sourceIdentityKey} is not worker-ready and names no blocker`
+      );
+      assert.equal(record.lifecycle.generationAllowed, false);
+    }
     assert.equal(record.lifecycle.runtimeEnabled, false);
     // Evidence custody survives the refusal.
     assert.equal(record.receiptVerified, true);

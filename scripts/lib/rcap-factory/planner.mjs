@@ -195,6 +195,30 @@ function technicalReviewIsCurrent(rootDir, implementationJobId) {
  * corrected implementation clears the block by being re-reviewed rather than
  * by someone remembering to edit a list.
  */
+/**
+ * Status for an attended-retrieval assignment, from its own result record.
+ *
+ * These jobs ask a person to obtain a named set of documents, and a person can
+ * come back with some of them. Presence of a result file is therefore not the
+ * same as the assignment being done: Delaware's record exists and reports three
+ * of five, with FORM-281 and CIV_EXP_02_B still missing. Closing it because a
+ * file appeared would retire a live retrieval and lose the two blockers.
+ *
+ * So the record says whether it satisfied itself. `assignmentSatisfied: false`
+ * keeps the assignment open with its findings recorded; absent means the older
+ * records that predate the field are read as satisfied, which is what they were.
+ */
+function attendedRetrievalStatus(rootDir, outputPath) {
+  const absolute = path.join(rootDir, outputPath);
+  if (!fs.existsSync(absolute)) return "ready";
+  try {
+    const record = JSON.parse(fs.readFileSync(absolute, "utf8"));
+    return record.assignmentSatisfied === false ? "ready" : "completed";
+  } catch {
+    return "ready";
+  }
+}
+
 function implementationsRequiringCorrection(rootDir) {
   const requiring = new Set();
   for (const directory of [TECHNICAL_REVIEW_DIR, LEGAL_REVIEW_DIR]) {
@@ -3998,7 +4022,7 @@ export function buildFactoryPlan(options = {}) {
   });
 
   addCompletedMarylandChild({ addJob });
-  addMarylandLegacyEvidenceMigrationJob({ addJob });
+  addMarylandLegacyEvidenceMigrationJob({ addJob, rootDir, jobs });
   addOfficialPdfQueueRegenerationJob({ addJob });
   addCompletedGeorgiaChild({ addJob });
   addCompletedDcCustomPleadingChild({ addJob });
@@ -4420,9 +4444,17 @@ export function buildFactoryPlan(options = {}) {
     for (const [jurisdiction, decision] of [...authorization.decisions].sort(
       ([left], [right]) => left.localeCompare(right)
     )) {
-      if (permitsGeneration(decision.verdict)) continue;
       const jobId = `rcap-${jurisdiction.toLowerCase()}-written-permission-authorization`;
       const outputPath = `${FACTORY_DATA_DIR}/source-acquisition/${jobId}.json`;
+      const delivered = fs.existsSync(path.join(rootDir, outputPath));
+      // A delivered permission decision stays in the plan. Colorado showed why:
+      // the moment its grant landed, `permitsGeneration` went true and the very
+      // job that had obtained the grant stopped being generated — taking its
+      // claim and its provenance with it. This is the same disappearing act the
+      // technical-review corrections pulled, and it has the same fix. A job that
+      // produced a result is history; it is not made hypothetical by its own
+      // success.
+      if (permitsGeneration(decision.verdict) && !delivered) continue;
       addJob({
         lane: "source_acquisition",
         jurisdiction,
@@ -4431,14 +4463,16 @@ export function buildFactoryPlan(options = {}) {
         reconciliationIds: [`permission:${jurisdiction}`],
         downloadedSourceCount: 0,
         trackIds: [],
-        dependencies: [decision.decisionJobId],
-        status: fs.existsSync(path.join(rootDir, outputPath))
-          ? "completed"
-          : "ready",
+        dependencies: [decision.supersedes ?? decision.decisionJobId].filter(
+          (id) => id !== jobId
+        ),
+        status: delivered ? "completed" : "ready",
         expectedOutputs: [outputPath],
         ownedPaths: [outputPath],
         requiredInputs: [
-          `${FACTORY_DATA_DIR}/source-acquisition/${decision.decisionJobId}.json`,
+          `${FACTORY_DATA_DIR}/source-acquisition/${
+            decision.supersedes ?? decision.decisionJobId
+          }.json`,
           FACTORY_INPUT_PATHS.authority,
           FACTORY_INPUT_PATHS.sourceArtifacts
         ],
@@ -7522,7 +7556,18 @@ function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
   // The bytes are retained by the adopted edition, but no receipt exists and
   // the identity is absent from the materialized source root. Materialization
   // is gated on the licence: an unresolved licence is not permission to
-  // reproduce, so this stays blocked rather than ready.
+  // reproduce.
+  //
+  // That gate used to be a hard-coded `blocked`, with the reason written only
+  // in this comment. It was accurate while Colorado's answer was no, and it
+  // silently became wrong the moment the answer changed — the licence cleared
+  // and the job it had been holding stayed shut, for no reason a reader could
+  // see. Derive it instead, so the gate opens when its stated condition is met
+  // and closes when it is not.
+  const coloradoGeneration = authorizationFor(
+    buildSourceAuthorizationIndex(rootDir),
+    { jurisdiction: "CO" }
+  );
   addJob({
     lane: "source_acquisition",
     jurisdiction: "CO",
@@ -7534,7 +7579,16 @@ function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
       "rcap-co-jdf-2370-role-and-jdf-2371-mapping-correction",
       "rcap-co-jdf-family-commercial-license"
     ],
-    status: "blocked",
+    status: fs.existsSync(
+      path.join(
+        rootDir,
+        `${FACTORY_DATA_DIR}/source-acquisition/rcap-co-jdf-2371-source-materialization.json`
+      )
+    )
+      ? "completed"
+      : coloradoGeneration.generationAllowed
+        ? "ready"
+        : "blocked",
     expectedOutputs: [
       `${FACTORY_DATA_DIR}/source-acquisition/rcap-co-jdf-2371-source-materialization.json`
     ],
@@ -7584,7 +7638,10 @@ function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
       reconciliationIds: ["retrieval:MN:exp101-exp102-exp104-exp105-exp106"],
       downloadedSourceCount: 0,
       dependencies: ["rcap-mn-official-download-automation-blocked"],
-      status: "ready",
+      status: attendedRetrievalStatus(
+        rootDir,
+        `${FACTORY_DATA_DIR}/source-acquisition/rcap-mn-attended-retrieval-currentness-comparison.json`
+      ),
       expectedOutputs: [
         `${FACTORY_DATA_DIR}/source-acquisition/rcap-mn-attended-retrieval-currentness-comparison.json`
       ],
@@ -7643,7 +7700,10 @@ function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
       reconciliationIds: ["retrieval:DE:civ-exp-and-form-281"],
       downloadedSourceCount: 0,
       dependencies: ["rcap-de-official-download-automation-blocked"],
-      status: "ready",
+      status: attendedRetrievalStatus(
+        rootDir,
+        `${FACTORY_DATA_DIR}/source-acquisition/rcap-de-attended-retrieval-five-current-forms.json`
+      ),
       expectedOutputs: [
         `${FACTORY_DATA_DIR}/source-acquisition/rcap-de-attended-retrieval-five-current-forms.json`
       ],
@@ -8684,14 +8744,53 @@ function addOfficialPdfQueueRegenerationJob({ addJob }) {
  * assignment, identity keys, proof and review manifest that make a completion
  * legible to the current factory.
  */
-function addMarylandLegacyEvidenceMigrationJob({ addJob }) {
+function addMarylandLegacyEvidenceMigrationJob({ addJob, rootDir, jobs }) {
+  const outputPath = `${FACTORY_DATA_DIR}/legal-design-decisions/md-legacy-official-pdf-evidence-migration.json`;
+  // The status was the literal string "blocked", and the thing it named as the
+  // block — the Maryland shielding implementation — had already completed. So
+  // the gate could not open no matter what happened, and nothing on the job
+  // said why it was still shut. Same shape as the Colorado licence gate and the
+  // same fix: derive it from the conditions it claims to be waiting on.
+  //
+  // Two conditions, both stated in the stop condition. The implementation must
+  // be complete, and the two sources it consumes must be reachable through the
+  // portable lifecycle rather than the `private/` path the legacy evidence
+  // named — which is the entire point of the migration and cannot be assumed.
+  const dependencyComplete =
+    jobs.find((entry) => entry.jobId === "rcap-md-second-chance-shielding-completed")
+      ?.status === "completed";
+  const portableSourcesReceipted = [
+    "rcap-md-cc-dc-cr-148-eee9a06118",
+    "rcap-md-mdj-008-bdcaa0d6fd"
+  ].every((identityKey) => {
+    const receiptPath = path.join(
+      rootDir,
+      `${FACTORY_DATA_DIR}/source-materialization-receipts/${identityKey}.json`
+    );
+    if (!fs.existsSync(receiptPath)) return false;
+    try {
+      const receipt = JSON.parse(fs.readFileSync(receiptPath, "utf8"));
+      return (
+        receipt.workerReady === true &&
+        receipt.hashAndMediaVerified === true &&
+        typeof receipt.materializationDestination === "string" &&
+        !receipt.materializationDestination.startsWith("private/")
+      );
+    } catch {
+      return false;
+    }
+  });
   return addJob({
     lane: "platform_foundation",
     jurisdiction: "MD",
     jobId: "rcap-md-legacy-official-pdf-evidence-migration",
     strategyFamily: "legacy_completion_evidence_migration",
     executionScope: "captain",
-    status: "blocked",
+    status: fs.existsSync(path.join(rootDir, outputPath))
+      ? "completed"
+      : dependencyComplete && portableSourcesReceipted
+        ? "ready"
+        : "blocked",
     dependencies: ["rcap-md-second-chance-shielding-completed"],
     model: "opus",
     effort: "high",
@@ -9869,8 +9968,22 @@ function applyOfficialPdfAssignments({
         : "blocked_no_exact_identity_assignment";
     if (job.status === "completed") {
       if (!ready) {
+        // Name what stopped verifying. This threw with the fact alone, which
+        // says a completed job broke without saying what broke, and the whole
+        // plan is unbuildable until someone works it out by hand. The three
+        // ways it can happen — an identity that no longer resolves, an
+        // unmaterialized archive, an unfinished dependency — are recorded right
+        // here, so carry them into the message rather than making the reader
+        // rediscover them.
         throw new Error(
-          `${job.jobId} cannot remain completed after its exact source assignment stopped verifying.`
+          `${job.jobId} cannot remain completed after its exact source assignment stopped verifying: ` +
+            `${assignment.assignmentState}; ` +
+            `blockers [${assignment.assignmentBlockers.join(", ") || "none"}]; ` +
+            `unresolved or terminal identities [${
+              assignment.unresolvedOrTerminalIdentities
+                .map((identity) => identity.identityKey ?? identity.disposition)
+                .join(", ") || "none"
+            }].`
         );
       }
       assignment.assignmentState = "exact_pinned_assignment_implemented";
