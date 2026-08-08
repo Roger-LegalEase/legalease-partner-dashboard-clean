@@ -665,9 +665,9 @@ await check("all normalized tracks reconcile exactly once and completed tranches
     reconciliation.representedExactlyOnce,
     normalizedTrackCount
   );
-  // 187 -> 198 with the Indiana and Mississippi pleadings (3 + 3) and the
-  // Oklahoma, Tennessee and North Carolina guidance packets (2 + 2 + 1).
-  assert.equal(reconciliation.implementationComplete, 198);
+  // 198 -> 210 with the wave-3 pleadings (KS 2, MN 1, MO 2, WV 2) and guidance
+  // packets (NJ 1, NV 1, TX 1, VT 2).
+  assert.equal(reconciliation.implementationComplete, 210);
   assert.equal(
     reconciliation.pendingProductionJob,
     normalizedTrackCount - reconciliation.implementationComplete
@@ -3568,8 +3568,8 @@ await check("completed guidance packet proofs are exact and review-consumable", 
       entry.lane === "guidance_implementation" &&
       entry.participantPacketProofRequired === true
   );
-  // 34 -> 37 with the Oklahoma, Tennessee and North Carolina guidance packets.
-  assert.equal(completedGuidance.length, 37);
+  // 37 -> 41 with the New Jersey, Nevada, Texas and Vermont guidance packets.
+  assert.equal(completedGuidance.length, 41);
   for (const job of completedGuidance) {
     const proofPath =
       `data/record-clearing/production-factory/packet-proofs/${job.jobId}.json`;
@@ -3843,8 +3843,8 @@ await check("dashboard reports all 51 and preserves the red launch posture", () 
   assert.equal(status.totals.tracks, normalizedRegistry.trackCount);
   assert.equal(status.totals.normalized, normalizedRegistry.trackCount);
   // 137 -> 148 with the eleven tracks this wave's five implementations built.
-  assert.equal(status.totals.implementationComplete, 148);
-  assert.equal(status.totals.technicalProofPassed, 148);
+  assert.equal(status.totals.implementationComplete, 160);
+  assert.equal(status.totals.technicalProofPassed, 160);
   assert.equal(status.totals.visualProofPassed, 17);
   assert.equal(status.totals.legalRecommendationComplete, 19);
   assert.equal(status.totals.counselAdopted, 15);

@@ -361,7 +361,7 @@ const completedGuidanceJobs = factoryPlan.jobs.filter(
     entry.participantPacketProofRequired === true
 );
 // 34 -> 37 with the Oklahoma, Tennessee and North Carolina guidance packets.
-assert.equal(completedGuidanceJobs.length, 37);
+assert.equal(completedGuidanceJobs.length, 41);
 const expectedGuidanceCompletions = new Map([
   ["rcap-ak-guidance-implementation", ["36509c7377c5653db07fd5c43b3948aad079164a", 4]],
   ["rcap-ca-guidance-implementation", ["26b4661089849a67eb99bfae6598ba101f75cbbc", 3]],
@@ -399,7 +399,11 @@ const expectedGuidanceCompletions = new Map([
   ["rcap-ky-guidance-implementation", ["77cf1525b3333d6f69f9a76f013f39b66ad5513a", 2]],
   ["rcap-ok-guidance-implementation", ["80630a60928012c001ff107bac376845bfd74680", 2]],
   ["rcap-tn-guidance-implementation", ["80630a60928012c001ff107bac376845bfd74680", 2]],
-  ["rcap-nc-guidance-implementation", ["80630a60928012c001ff107bac376845bfd74680", 1]]
+  ["rcap-nc-guidance-implementation", ["80630a60928012c001ff107bac376845bfd74680", 1]],
+  ["rcap-nj-guidance-implementation", ["d58816f8fc75aa5156ff5e26c682e21ed1b31d39", 1]],
+  ["rcap-nv-guidance-implementation", ["d58816f8fc75aa5156ff5e26c682e21ed1b31d39", 1]],
+  ["rcap-tx-guidance-implementation", ["d58816f8fc75aa5156ff5e26c682e21ed1b31d39", 1]],
+  ["rcap-vt-guidance-implementation", ["d58816f8fc75aa5156ff5e26c682e21ed1b31d39", 2]]
 ]);
 let verifiedGuidancePacketCount = 0;
 let verifiedGuidancePageCount = 0;
@@ -472,15 +476,15 @@ for (const child of completedGuidanceJobs) {
 }
 // 108 -> 113 packets and 541 -> 578 pages with the Oklahoma (2/23),
 // Tennessee (2/9) and North Carolina (1/5) guidance packets.
-assert.equal(verifiedGuidancePacketCount, 113);
-assert.equal(verifiedGuidancePageCount, 578);
+assert.equal(verifiedGuidancePacketCount, 118);
+assert.equal(verifiedGuidancePageCount, 619);
 assert.deepEqual(productionPlan.participantPacketProofReconciliation, {
   schemaVersion: "rcap-participant-packet-proof/v1",
-  completedGuidanceJobsRequiringProof: 37,
-  proofsPresentAndVerified: 37,
-  assignedTracks: 113,
-  finalPackets: 113,
-  assembledPages: 578,
+  completedGuidanceJobsRequiringProof: 41,
+  proofsPresentAndVerified: 41,
+  assignedTracks: 118,
+  finalPackets: 118,
+  assembledPages: 619,
   proofDirectory: "data/record-clearing/production-factory/packet-proofs",
   evidenceSource:
     "Each integration-owned proof is generated from its committed regression verifier output; worker-authored proof assertions are not accepted.",
@@ -520,8 +524,8 @@ assert.deepEqual(productionPlan.guidanceLaneReconciliation, {
   workerImplementationStatus:
     guidanceImplementationPoolExhausted ? "complete" : "incomplete",
   technicalPacketProofStatus: "complete",
-  finalPackets: 113,
-  assembledPages: 578,
+  finalPackets: 118,
+  assembledPages: 619,
   blockedAdjudications: currentGuidanceAdjudicationJobs.filter(
     (entry) => entry.status === "blocked"
   ).length,
@@ -673,7 +677,7 @@ assert.equal(
 );
 // 73 -> 77 packet modules: Indiana and Mississippi custom pleading, Tennessee
 // and North Carolina guidance. Oklahoma guidance was already counted.
-assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 77);
+assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 85);
 assert.equal(
   officialPdfSourceContract.verifierBoundary.packetWorkerMaterializationPaths,
   0
@@ -698,12 +702,12 @@ assert.equal(
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedDocumentIdentities,
-  328
+  329
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedExactWorkerAssignments,
-  74
+  76
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
@@ -2259,7 +2263,7 @@ assert.equal(
   normalizedTrackCount
 );
 // 187 -> 198 with the eleven tracks this wave's five implementations built.
-assert.equal(factoryPlan.trackReconciliation.implementationComplete, 198);
+assert.equal(factoryPlan.trackReconciliation.implementationComplete, 210);
 assert.equal(
   factoryPlan.trackReconciliation.pendingProductionJob,
   normalizedTrackCount -
@@ -2895,8 +2899,8 @@ assert.deepEqual(
 assert.equal(status.totals.tracks, normalizedTrackCount);
 assert.equal(status.totals.normalized, normalizedTrackCount);
 // 137 -> 148 with the eleven tracks this wave's five implementations built.
-assert.equal(status.totals.implementationComplete, 148);
-assert.equal(status.totals.technicalProofPassed, 148);
+assert.equal(status.totals.implementationComplete, 160);
+assert.equal(status.totals.technicalProofPassed, 160);
 assert.equal(status.totals.visualProofPassed, 17);
 assert.equal(status.totals.legalRecommendationComplete, 19);
 assert.equal(status.totals.counselAdopted, 15);

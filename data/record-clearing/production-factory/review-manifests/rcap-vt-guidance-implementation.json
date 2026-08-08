@@ -1,0 +1,259 @@
+{
+  "schemaVersion": "rcap-factory-review-manifest/v1",
+  "jobId": "rcap-vt-guidance-implementation",
+  "lane": "guidance_implementation",
+  "jurisdiction": "VT",
+  "trackIds": [
+    "vt_diversion_post_charge",
+    "vt_diversion_pre_charge"
+  ],
+  "strategyFamily": "process_guidance",
+  "baseCommit": "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "generatedAt": "2026-08-08T14:48:45Z",
+  "syntheticData": true,
+  "filingUseAllowed": false,
+  "correctionRequired": false,
+  "outstandingCorrections": [],
+  "provenance": {
+    "workerBranch": "rcap-factory/rcap-vt-guidance-implementation-4b5af8d1-93d13925",
+    "workerCommit": "ac32a9241db46ece07898f09c4e1fe15bad2869e",
+    "captainIntegrationCommit": "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+    "normalizedLegalDesign": {
+      "memoPath": "data/record-clearing/legal-design-intake/VT.memo.json",
+      "memoSha256": "4bcd3fa16e73781234c2ebaabbd24e20dc25967049a86c66b6064aaa25fab079",
+      "memoVersion": "1.0.0"
+    },
+    "unresolvedReleaseQuestionCount": 2,
+    "unresolvedReleaseQuestions": [
+      {
+        "trackId": "vt_diversion_post_charge",
+        "affectedElement": "governing_mechanism",
+        "question": "Source correction recorded rather than carried. The controlling review placed the adult diversion tracks at 3 V.S.A. § 164(g) and (j), split on whether diversion was completed before or after 2002-07-01. Section 164 was read at its official locator on 2026-08-06 and the current scheme is at § 164(f), split on pre-charge versus post-charge rather than on that date. This track carries the post-charge branch at § 164(f)(5), where the court acts. What is not established is whether former § 164(g) or (j) survives anywhere in the current section for a person who completed diversion under the old scheme, which bears on whether an older completion has any route at all."
+      },
+      {
+        "trackId": "vt_diversion_pre_charge",
+        "affectedElement": "governing_mechanism",
+        "question": "What route, if any, exists for a person who successfully completed adult pre-charge diversion before 2025-07-01. Section 164(f)(4) limits the automatic deletion scheme to completions on or after that date, and whether the former § 164(g) petition route survives for earlier completions was not established from the official text on 2026-08-06. This is the exact population the controlling review assigned to VT-SEAL-11 under the former pre-2002 framing, so the question is squarely on this slot."
+      }
+    ],
+    "technicalInspectionState": "worker_technical_evidence_only",
+    "formalVisualReview": "pending",
+    "completedOutputLegalReview": "pending"
+  },
+  "artifactTracking": {
+    "generatedAssetsTracked": false,
+    "artifactDirectory": "artifacts/rcap-factory/reviews/rcap-vt-guidance-implementation",
+    "reviewManifestTracked": true,
+    "reviewManifestPath": "data/record-clearing/production-factory/review-manifests/rcap-vt-guidance-implementation.json",
+    "note": "Generated PDFs and PNGs are reproducible and ignored. This JSON manifest is the tracked proof record."
+  },
+  "reproducibility": {
+    "rendererVersion": "rcap-factory-shared-layout-pdf-png/v1",
+    "fixtureVersion": "rcap-factory-synthetic-fixture/v1",
+    "fixedPdfMetadataDate": "2000-01-01T00:00:00.000Z",
+    "sharedLayoutSha256": "4ac0e7c1f62fdfa83424fa6ed6750e7fff86ba9c695663d6343da80d41a33c00"
+  },
+  "packet": {
+    "fileName": "synthetic-review.pdf",
+    "relativePath": "artifacts/rcap-factory/reviews/rcap-vt-guidance-implementation/synthetic-review.pdf",
+    "sha256": "984c932be05b51865b6ae4a22834eda95d1596481a524ec6cb7bcbbd7ba0b0f3",
+    "bytes": 5728,
+    "pageCount": 2,
+    "structureClass": "flat_pdf"
+  },
+  "packetHashes": [
+    {
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-vt-guidance-implementation/synthetic-review.pdf",
+      "sha256": "984c932be05b51865b6ae4a22834eda95d1596481a524ec6cb7bcbbd7ba0b0f3"
+    }
+  ],
+  "pageCounts": {
+    "packet": 2,
+    "renderedImages": 2
+  },
+  "renderedPages": [
+    {
+      "page": 1,
+      "fileName": "page-001.png",
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-vt-guidance-implementation/pages/page-001.png",
+      "sha256": "7f3e3118345f64dd071ab81749dcf1418fbb2b5456639efef76c37e58fa60c2a",
+      "bytes": 6616,
+      "width": 612,
+      "height": 792
+    },
+    {
+      "page": 2,
+      "fileName": "page-002.png",
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-vt-guidance-implementation/pages/page-002.png",
+      "sha256": "d267b3ca3a633693e85d7fec0894a10d963c5d0971234c8baa228963e973a03e",
+      "bytes": 6616,
+      "width": 612,
+      "height": 792
+    }
+  ],
+  "implementationOutputs": [
+    {
+      "relativePath": "src/lib/rcap/packets/jurisdictions/vermont/guidance.ts",
+      "exists": true,
+      "kind": "file",
+      "bytes": 58273,
+      "sha256": "34fbbff90e9d0db87ce2c7d51a6cb4c357c1b1a85485fd4994bb5692ac8f446a"
+    },
+    {
+      "relativePath": "scripts/verify-rcap-vermont-guidance-implementation.mjs",
+      "exists": true,
+      "kind": "file",
+      "bytes": 40529,
+      "sha256": "51266d97044adb06e577fb6371cfeed3bd9c636a3d4981d19dbdcc7105c93bfe"
+    }
+  ],
+  "participantPacketProof": {
+    "status": "verified",
+    "sourceType": "integration_owned_factory_packet_proof",
+    "sourceManifestPath": "data/record-clearing/production-factory/packet-proofs/rcap-vt-guidance-implementation.json",
+    "sourceManifestSha256": "2e8b804a484464e2e66e12e30677a11da8b581683d57dc79c2139e7caaae0303",
+    "verifier": {
+      "path": "scripts/verify-rcap-vermont-guidance-implementation.mjs",
+      "sha256": "51266d97044adb06e577fb6371cfeed3bd9c636a3d4981d19dbdcc7105c93bfe",
+      "result": "passed"
+    },
+    "implementationOutputs": [
+      {
+        "path": "src/lib/rcap/packets/jurisdictions/vermont/guidance.ts",
+        "sha256": "34fbbff90e9d0db87ce2c7d51a6cb4c357c1b1a85485fd4994bb5692ac8f446a"
+      },
+      {
+        "path": "scripts/verify-rcap-vermont-guidance-implementation.mjs",
+        "sha256": "51266d97044adb06e577fb6371cfeed3bd9c636a3d4981d19dbdcc7105c93bfe"
+      }
+    ],
+    "finalPdfCount": 2,
+    "assembledPageCount": 8,
+    "packets": [
+      {
+        "trackId": "vt_diversion_post_charge",
+        "fileName": "vt_diversion_post_charge-technical-fixture.pdf",
+        "sha256": "30e5d6ae0710c102ad3197d4b1fd75865a3e15a1f65df6705c8ac16ffc5f67ef",
+        "pageCount": 4
+      },
+      {
+        "trackId": "vt_diversion_pre_charge",
+        "fileName": "vt_diversion_pre_charge-technical-fixture.pdf",
+        "sha256": "d813d79dce4065ad5efd619346d551aa7769da20cd549c3a02440cbb40bdf54b",
+        "pageCount": 4
+      }
+    ],
+    "deterministic": true,
+    "runtimeStatus": "runtime_disabled",
+    "visualProof": "pending",
+    "counselAdopted": false,
+    "productionEnabled": false,
+    "verified": true
+  },
+  "officialPdfImplementationProof": {
+    "status": "not_applicable",
+    "verified": null
+  },
+  "technicalChecklist": {
+    "status": "passed",
+    "items": [
+      {
+        "id": "synthetic-data-only",
+        "status": "passed",
+        "evidence": "Packet labels every value synthetic and not for filing."
+      },
+      {
+        "id": "focused-worker-validation",
+        "status": "passed",
+        "evidence": "2 focused command(s); 0 failure(s)."
+      },
+      {
+        "id": "deterministic-pdf",
+        "status": "passed",
+        "evidence": "Two renders matched SHA-256 984c932be05b51865b6ae4a22834eda95d1596481a524ec6cb7bcbbd7ba0b0f3."
+      },
+      {
+        "id": "pdf-page-count",
+        "status": "passed",
+        "evidence": "2 page(s) inspected from generated bytes."
+      },
+      {
+        "id": "deterministic-page-images",
+        "status": "passed",
+        "evidence": "2 PNG render(s) reproduced byte-for-byte."
+      },
+      {
+        "id": "expected-output-hashes",
+        "status": "passed",
+        "evidence": "2 of 2 expected outputs hashed."
+      },
+      {
+        "id": "participant-packet-proof",
+        "status": "passed",
+        "evidence": "2 final participant PDF hash(es), 8 total page(s), reconciled from data/record-clearing/production-factory/packet-proofs/rcap-vt-guidance-implementation.json."
+      }
+    ]
+  },
+  "visualChecklist": {
+    "status": "pending",
+    "items": [
+      {
+        "id": "visual-01",
+        "label": "Confirm every page is legible at normal zoom.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-02",
+        "label": "Confirm no text is clipped, overlapped, or outside page bounds.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-03",
+        "label": "Confirm page order and track labels match the assigned job.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-04",
+        "label": "Confirm checkbox, radio, overlay, and signature placement when applicable.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-05",
+        "label": "Confirm participant and third-party fields are visually distinguishable.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-06",
+        "label": "Record reviewer name, date, defects, and disposition; generation itself grants no approval.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      }
+    ]
+  },
+  "technicalProofPassed": true,
+  "visualProofPassed": false,
+  "legalRecommendationComplete": false,
+  "counselAdopted": false,
+  "runtimeStatus": "runtime_disabled",
+  "stagingPassed": false,
+  "productionEnabled": false
+}

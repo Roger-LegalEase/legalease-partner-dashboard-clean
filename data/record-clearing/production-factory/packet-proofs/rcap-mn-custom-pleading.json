@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "rcap-participant-packet-proof/v1",
+  "jobId": "rcap-mn-custom-pleading",
+  "parentJobId": "IMP-CP-04-single-petition-pleading-states",
+  "jurisdiction": "MN",
+  "completionCommit": "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+  "authorityEdition": "1.2",
+  "verifier": {
+    "path": "scripts/verify-rcap-minnesota-custom-pleading.mjs",
+    "sha256": "32e5d6c295159a0bf6ebfa348d47d3d82279a32611a3676e87ebbc0327f206de",
+    "result": "passed"
+  },
+  "implementationOutputs": [
+    {
+      "path": "src/lib/rcap/packets/jurisdictions/minnesota/custom-pleading.ts",
+      "sha256": "54428848ff2d96dd32bd3a52844415996d7aca6703a159522ef38f5cbb7681ce"
+    },
+    {
+      "path": "scripts/verify-rcap-minnesota-custom-pleading.mjs",
+      "sha256": "32e5d6c295159a0bf6ebfa348d47d3d82279a32611a3676e87ebbc0327f206de"
+    }
+  ],
+  "finalPdfCount": 1,
+  "assembledPageCount": 9,
+  "canonicalPacketCount": 1,
+  "variantPacketCount": 2,
+  "technicalFixtureCount": 3,
+  "technicalFixturePageCount": 23,
+  "samplePackets": [
+    {
+      "trackId": "mn_299c11_arrest_demand",
+      "fixtureId": "mn-299c11-dismissed-before-probable-cause-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "mn-299c11-dismissed-before-probable-cause-1-technical-fixture.pdf",
+      "assembledSha256": "aabb0c0bdfc481b000776b5bc75bf4ffb0aa8599df21581f1c4a826231fd234a",
+      "assembledPageCount": 9
+    },
+    {
+      "trackId": "mn_299c11_arrest_demand",
+      "fixtureId": "mn-299c11-all-six-custodians-3",
+      "sampleRole": "variant",
+      "variantOfTrackId": "mn_299c11_arrest_demand",
+      "assembledFileName": "mn-299c11-all-six-custodians-3-technical-fixture.pdf",
+      "assembledSha256": "c3a941e4168e7973d352d6818b99f262f246efa53de3d2d7c19d845a3567be61",
+      "assembledPageCount": 9
+    },
+    {
+      "trackId": "mn_299c11_arrest_demand",
+      "fixtureId": "mn-299c11-prosecutor-declined-bca-only-2",
+      "sampleRole": "variant",
+      "variantOfTrackId": "mn_299c11_arrest_demand",
+      "assembledFileName": "mn-299c11-prosecutor-declined-bca-only-2-technical-fixture.pdf",
+      "assembledSha256": "bbdad83241b5e1e469e9c9bfca4dd448d50d634f7ab9f11cc8097d3b2cf23921",
+      "assembledPageCount": 5
+    }
+  ],
+  "deterministic": true,
+  "generatedPacketBytesTracked": false,
+  "runtimeStatus": "runtime_disabled",
+  "technicalEvidence": "complete",
+  "visualProof": "pending",
+  "visualReview": "formal_visual_review_pending",
+  "completedOutputLegalReview": "pending",
+  "counselAdopted": false,
+  "packetReady": false,
+  "productionEnabled": false
+}

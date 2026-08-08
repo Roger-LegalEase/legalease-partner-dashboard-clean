@@ -1,0 +1,243 @@
+{
+  "schemaVersion": "rcap-factory-review-manifest/v1",
+  "jobId": "rcap-nj-guidance-implementation",
+  "lane": "guidance_implementation",
+  "jurisdiction": "NJ",
+  "trackIds": [
+    "nj_automated_clean_slate"
+  ],
+  "strategyFamily": "process_guidance",
+  "baseCommit": "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "generatedAt": "2026-08-08T14:48:45Z",
+  "syntheticData": true,
+  "filingUseAllowed": false,
+  "correctionRequired": false,
+  "outstandingCorrections": [],
+  "provenance": {
+    "workerBranch": "rcap-factory/rcap-nj-guidance-implementation-3c0bec01-8cd912b1",
+    "workerCommit": "dd5baf9bbf5824e615078877be3a21e6930ff65d",
+    "captainIntegrationCommit": "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+    "normalizedLegalDesign": {
+      "memoPath": "data/record-clearing/legal-design-intake/NJ.memo.json",
+      "memoSha256": "a8bd80789f88f4e81853fdbf195e5538c2cc76ea71a4838fe84bdb517c9e6d22",
+      "memoVersion": "1.0.0"
+    },
+    "unresolvedReleaseQuestionCount": 2,
+    "unresolvedReleaseQuestions": [
+      {
+        "trackId": "nj_automated_clean_slate",
+        "affectedElement": "governing_mechanism",
+        "question": "The status of A5095 and of any companion bill. This is a standing monitor rather than a one-time answer: when the automated process is established the Clean Slate petition route closes by operation of N.J.S.A. 2C:52-5.3 and the product must switch that track to verification and escalation."
+      },
+      {
+        "trackId": "nj_automated_clean_slate",
+        "affectedElement": "governing_mechanism",
+        "question": "Whether any partial automation is already running for cannabis records under N.J.S.A. 2C:52-5.2 and 2C:52-6.1, separately from the Clean Slate automation."
+      }
+    ],
+    "technicalInspectionState": "worker_technical_evidence_only",
+    "formalVisualReview": "pending",
+    "completedOutputLegalReview": "pending"
+  },
+  "artifactTracking": {
+    "generatedAssetsTracked": false,
+    "artifactDirectory": "artifacts/rcap-factory/reviews/rcap-nj-guidance-implementation",
+    "reviewManifestTracked": true,
+    "reviewManifestPath": "data/record-clearing/production-factory/review-manifests/rcap-nj-guidance-implementation.json",
+    "note": "Generated PDFs and PNGs are reproducible and ignored. This JSON manifest is the tracked proof record."
+  },
+  "reproducibility": {
+    "rendererVersion": "rcap-factory-shared-layout-pdf-png/v1",
+    "fixtureVersion": "rcap-factory-synthetic-fixture/v1",
+    "fixedPdfMetadataDate": "2000-01-01T00:00:00.000Z",
+    "sharedLayoutSha256": "c2bcd6b849e8bd2cf5e80114634f636b76202d2a7b8e2920c3f1c9a69d37aeaa"
+  },
+  "packet": {
+    "fileName": "synthetic-review.pdf",
+    "relativePath": "artifacts/rcap-factory/reviews/rcap-nj-guidance-implementation/synthetic-review.pdf",
+    "sha256": "770d9675b51e49f18f54bbe2d0c4a57982ac4cbed97f69529e411d508333c4d9",
+    "bytes": 3705,
+    "pageCount": 1,
+    "structureClass": "flat_pdf"
+  },
+  "packetHashes": [
+    {
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-nj-guidance-implementation/synthetic-review.pdf",
+      "sha256": "770d9675b51e49f18f54bbe2d0c4a57982ac4cbed97f69529e411d508333c4d9"
+    }
+  ],
+  "pageCounts": {
+    "packet": 1,
+    "renderedImages": 1
+  },
+  "renderedPages": [
+    {
+      "page": 1,
+      "fileName": "page-001.png",
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-nj-guidance-implementation/pages/page-001.png",
+      "sha256": "762e492d6388b30f2a78269a1d8195f7b5ca8de98ade24546ce320fb176d35c6",
+      "bytes": 6640,
+      "width": 612,
+      "height": 792
+    }
+  ],
+  "implementationOutputs": [
+    {
+      "relativePath": "src/lib/rcap/packets/jurisdictions/new-jersey/guidance.ts",
+      "exists": true,
+      "kind": "file",
+      "bytes": 48088,
+      "sha256": "6e4f51dc744d959fb56b027319cb521bbbb2990ce6ee8e83c4af301375a20f27"
+    },
+    {
+      "relativePath": "scripts/verify-rcap-new-jersey-guidance-implementation.mjs",
+      "exists": true,
+      "kind": "file",
+      "bytes": 38418,
+      "sha256": "48afe6536823188e22c60bc5ce30ba107ecbddfc7493e3a1659f640f652f9711"
+    }
+  ],
+  "participantPacketProof": {
+    "status": "verified",
+    "sourceType": "integration_owned_factory_packet_proof",
+    "sourceManifestPath": "data/record-clearing/production-factory/packet-proofs/rcap-nj-guidance-implementation.json",
+    "sourceManifestSha256": "2bbc4e5af52ab237e1bc60e39b8c323baec566da11d9cad8382564a45dee1d0d",
+    "verifier": {
+      "path": "scripts/verify-rcap-new-jersey-guidance-implementation.mjs",
+      "sha256": "48afe6536823188e22c60bc5ce30ba107ecbddfc7493e3a1659f640f652f9711",
+      "result": "passed"
+    },
+    "implementationOutputs": [
+      {
+        "path": "src/lib/rcap/packets/jurisdictions/new-jersey/guidance.ts",
+        "sha256": "6e4f51dc744d959fb56b027319cb521bbbb2990ce6ee8e83c4af301375a20f27"
+      },
+      {
+        "path": "scripts/verify-rcap-new-jersey-guidance-implementation.mjs",
+        "sha256": "48afe6536823188e22c60bc5ce30ba107ecbddfc7493e3a1659f640f652f9711"
+      }
+    ],
+    "finalPdfCount": 1,
+    "assembledPageCount": 12,
+    "packets": [
+      {
+        "trackId": "nj_automated_clean_slate",
+        "fileName": "nj_automated_clean_slate-technical-fixture.pdf",
+        "sha256": "60d74f003623d838cb93b930655454a63e19b1d98da8fd0739b1099e1e4d80a8",
+        "pageCount": 12
+      }
+    ],
+    "deterministic": true,
+    "runtimeStatus": "runtime_disabled",
+    "visualProof": "pending",
+    "counselAdopted": false,
+    "productionEnabled": false,
+    "verified": true
+  },
+  "officialPdfImplementationProof": {
+    "status": "not_applicable",
+    "verified": null
+  },
+  "technicalChecklist": {
+    "status": "passed",
+    "items": [
+      {
+        "id": "synthetic-data-only",
+        "status": "passed",
+        "evidence": "Packet labels every value synthetic and not for filing."
+      },
+      {
+        "id": "focused-worker-validation",
+        "status": "passed",
+        "evidence": "2 focused command(s); 0 failure(s)."
+      },
+      {
+        "id": "deterministic-pdf",
+        "status": "passed",
+        "evidence": "Two renders matched SHA-256 770d9675b51e49f18f54bbe2d0c4a57982ac4cbed97f69529e411d508333c4d9."
+      },
+      {
+        "id": "pdf-page-count",
+        "status": "passed",
+        "evidence": "1 page(s) inspected from generated bytes."
+      },
+      {
+        "id": "deterministic-page-images",
+        "status": "passed",
+        "evidence": "1 PNG render(s) reproduced byte-for-byte."
+      },
+      {
+        "id": "expected-output-hashes",
+        "status": "passed",
+        "evidence": "2 of 2 expected outputs hashed."
+      },
+      {
+        "id": "participant-packet-proof",
+        "status": "passed",
+        "evidence": "1 final participant PDF hash(es), 12 total page(s), reconciled from data/record-clearing/production-factory/packet-proofs/rcap-nj-guidance-implementation.json."
+      }
+    ]
+  },
+  "visualChecklist": {
+    "status": "pending",
+    "items": [
+      {
+        "id": "visual-01",
+        "label": "Confirm every page is legible at normal zoom.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-02",
+        "label": "Confirm no text is clipped, overlapped, or outside page bounds.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-03",
+        "label": "Confirm page order and track labels match the assigned job.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-04",
+        "label": "Confirm checkbox, radio, overlay, and signature placement when applicable.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-05",
+        "label": "Confirm participant and third-party fields are visually distinguishable.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-06",
+        "label": "Record reviewer name, date, defects, and disposition; generation itself grants no approval.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      }
+    ]
+  },
+  "technicalProofPassed": true,
+  "visualProofPassed": false,
+  "legalRecommendationComplete": false,
+  "counselAdopted": false,
+  "runtimeStatus": "runtime_disabled",
+  "stagingPassed": false,
+  "productionEnabled": false
+}

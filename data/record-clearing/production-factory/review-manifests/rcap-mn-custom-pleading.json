@@ -1,0 +1,239 @@
+{
+  "schemaVersion": "rcap-factory-review-manifest/v1",
+  "jobId": "rcap-mn-custom-pleading",
+  "lane": "custom_pleading",
+  "jurisdiction": "MN",
+  "trackIds": [
+    "mn_299c11_arrest_demand"
+  ],
+  "strategyFamily": "custom_pleading",
+  "baseCommit": "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "generatedAt": "2026-08-08T14:48:45Z",
+  "syntheticData": true,
+  "filingUseAllowed": false,
+  "correctionRequired": false,
+  "outstandingCorrections": [],
+  "provenance": {
+    "workerBranch": "rcap-factory/rcap-mn-custom-pleading-b5f21a53-e54a4052",
+    "workerCommit": "5dc96c76d15fc906ee03e64f560793d9254cf76a",
+    "captainIntegrationCommit": "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+    "normalizedLegalDesign": {
+      "memoPath": "data/record-clearing/legal-design-intake/MN.memo.json",
+      "memoSha256": "de2c6bfe28f21ebf05dea318373f3e26dbf18027fe75a88e8f619d1a324baac2",
+      "memoVersion": "1.0.0"
+    },
+    "unresolvedReleaseQuestionCount": 1,
+    "unresolvedReleaseQuestions": [
+      {
+        "trackId": "mn_299c11_arrest_demand",
+        "affectedElement": "correct_form",
+        "question": "The six Minnesota Judicial Branch sample § 299C.11 demand letters are not held in the corpus. They are official samples rather than approved forms, and the generated letters are drafted against the statute using them as references, so their absence does not prevent generation."
+      }
+    ],
+    "technicalInspectionState": "worker_technical_evidence_only",
+    "formalVisualReview": "pending",
+    "completedOutputLegalReview": "pending"
+  },
+  "artifactTracking": {
+    "generatedAssetsTracked": false,
+    "artifactDirectory": "artifacts/rcap-factory/reviews/rcap-mn-custom-pleading",
+    "reviewManifestTracked": true,
+    "reviewManifestPath": "data/record-clearing/production-factory/review-manifests/rcap-mn-custom-pleading.json",
+    "note": "Generated PDFs and PNGs are reproducible and ignored. This JSON manifest is the tracked proof record."
+  },
+  "reproducibility": {
+    "rendererVersion": "rcap-factory-shared-layout-pdf-png/v1",
+    "fixtureVersion": "rcap-factory-synthetic-fixture/v1",
+    "fixedPdfMetadataDate": "2000-01-01T00:00:00.000Z",
+    "sharedLayoutSha256": "0951bad9ed21b0f5695fb581749f74645c28ef9186fede0268e02406b8507d00"
+  },
+  "packet": {
+    "fileName": "synthetic-review.pdf",
+    "relativePath": "artifacts/rcap-factory/reviews/rcap-mn-custom-pleading/synthetic-review.pdf",
+    "sha256": "29594ca6903ea9f7057d7d829389371f3d5613b474820bc290066c7e44607378",
+    "bytes": 3688,
+    "pageCount": 1,
+    "structureClass": "flat_pdf"
+  },
+  "packetHashes": [
+    {
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-mn-custom-pleading/synthetic-review.pdf",
+      "sha256": "29594ca6903ea9f7057d7d829389371f3d5613b474820bc290066c7e44607378"
+    }
+  ],
+  "pageCounts": {
+    "packet": 1,
+    "renderedImages": 1
+  },
+  "renderedPages": [
+    {
+      "page": 1,
+      "fileName": "page-001.png",
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-mn-custom-pleading/pages/page-001.png",
+      "sha256": "f95048790795da31322cd78568aef465ab3d3f9e0219ec2ab5da0886b5f5ab1b",
+      "bytes": 6519,
+      "width": 612,
+      "height": 792
+    }
+  ],
+  "implementationOutputs": [
+    {
+      "relativePath": "src/lib/rcap/packets/jurisdictions/minnesota/custom-pleading.ts",
+      "exists": true,
+      "kind": "file",
+      "bytes": 50891,
+      "sha256": "54428848ff2d96dd32bd3a52844415996d7aca6703a159522ef38f5cbb7681ce"
+    },
+    {
+      "relativePath": "scripts/verify-rcap-minnesota-custom-pleading.mjs",
+      "exists": true,
+      "kind": "file",
+      "bytes": 46790,
+      "sha256": "32e5d6c295159a0bf6ebfa348d47d3d82279a32611a3676e87ebbc0327f206de"
+    }
+  ],
+  "participantPacketProof": {
+    "status": "verified",
+    "sourceType": "integration_owned_factory_packet_proof",
+    "sourceManifestPath": "data/record-clearing/production-factory/packet-proofs/rcap-mn-custom-pleading.json",
+    "sourceManifestSha256": "2cec51694fff85eeae317a3a272328d6c9f9ae2f5f206099c4356415b403d32a",
+    "verifier": {
+      "path": "scripts/verify-rcap-minnesota-custom-pleading.mjs",
+      "sha256": "32e5d6c295159a0bf6ebfa348d47d3d82279a32611a3676e87ebbc0327f206de",
+      "result": "passed"
+    },
+    "implementationOutputs": [
+      {
+        "path": "src/lib/rcap/packets/jurisdictions/minnesota/custom-pleading.ts",
+        "sha256": "54428848ff2d96dd32bd3a52844415996d7aca6703a159522ef38f5cbb7681ce"
+      },
+      {
+        "path": "scripts/verify-rcap-minnesota-custom-pleading.mjs",
+        "sha256": "32e5d6c295159a0bf6ebfa348d47d3d82279a32611a3676e87ebbc0327f206de"
+      }
+    ],
+    "finalPdfCount": 1,
+    "assembledPageCount": 9,
+    "packets": [
+      {
+        "trackId": "mn_299c11_arrest_demand",
+        "sampleRole": "canonical",
+        "fileName": "mn-299c11-dismissed-before-probable-cause-1-technical-fixture.pdf",
+        "sha256": "aabb0c0bdfc481b000776b5bc75bf4ffb0aa8599df21581f1c4a826231fd234a",
+        "pageCount": 9
+      }
+    ],
+    "deterministic": true,
+    "runtimeStatus": "runtime_disabled",
+    "visualProof": "pending",
+    "counselAdopted": false,
+    "productionEnabled": false,
+    "verified": true
+  },
+  "officialPdfImplementationProof": {
+    "status": "not_applicable",
+    "verified": null
+  },
+  "technicalChecklist": {
+    "status": "passed",
+    "items": [
+      {
+        "id": "synthetic-data-only",
+        "status": "passed",
+        "evidence": "Packet labels every value synthetic and not for filing."
+      },
+      {
+        "id": "focused-worker-validation",
+        "status": "passed",
+        "evidence": "2 focused command(s); 0 failure(s)."
+      },
+      {
+        "id": "deterministic-pdf",
+        "status": "passed",
+        "evidence": "Two renders matched SHA-256 29594ca6903ea9f7057d7d829389371f3d5613b474820bc290066c7e44607378."
+      },
+      {
+        "id": "pdf-page-count",
+        "status": "passed",
+        "evidence": "1 page(s) inspected from generated bytes."
+      },
+      {
+        "id": "deterministic-page-images",
+        "status": "passed",
+        "evidence": "1 PNG render(s) reproduced byte-for-byte."
+      },
+      {
+        "id": "expected-output-hashes",
+        "status": "passed",
+        "evidence": "2 of 2 expected outputs hashed."
+      },
+      {
+        "id": "participant-packet-proof",
+        "status": "passed",
+        "evidence": "1 final participant PDF hash(es), 9 total page(s), reconciled from data/record-clearing/production-factory/packet-proofs/rcap-mn-custom-pleading.json."
+      }
+    ]
+  },
+  "visualChecklist": {
+    "status": "pending",
+    "items": [
+      {
+        "id": "visual-01",
+        "label": "Confirm every page is legible at normal zoom.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-02",
+        "label": "Confirm no text is clipped, overlapped, or outside page bounds.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-03",
+        "label": "Confirm page order and track labels match the assigned job.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-04",
+        "label": "Confirm checkbox, radio, overlay, and signature placement when applicable.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-05",
+        "label": "Confirm participant and third-party fields are visually distinguishable.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-06",
+        "label": "Record reviewer name, date, defects, and disposition; generation itself grants no approval.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      }
+    ]
+  },
+  "technicalProofPassed": true,
+  "visualProofPassed": false,
+  "legalRecommendationComplete": false,
+  "counselAdopted": false,
+  "runtimeStatus": "runtime_disabled",
+  "stagingPassed": false,
+  "productionEnabled": false
+}

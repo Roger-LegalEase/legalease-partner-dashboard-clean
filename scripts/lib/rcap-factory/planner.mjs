@@ -1065,6 +1065,54 @@ const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
       "scripts/verify-rcap-north-carolina-guidance-implementation.mjs",
     verifierWorkerOwned: true,
     trackIds: ["nc_auto_146_a4"]
+  },
+  {
+    jurisdiction: "NJ",
+    workerBranch:
+      "rcap-factory/rcap-nj-guidance-implementation-3c0bec01-8cd912b1",
+    workerCommit: "dd5baf9bbf5824e615078877be3a21e6930ff65d",
+    completionCommit: "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+    modulePath: "src/lib/rcap/packets/jurisdictions/new-jersey/guidance.ts",
+    verifierPath: "scripts/verify-rcap-new-jersey-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: ["nj_automated_clean_slate"]
+  },
+  {
+    jurisdiction: "NV",
+    workerBranch:
+      "rcap-factory/rcap-nv-guidance-implementation-51a140f2-bab248fd",
+    workerCommit: "59ea67fd7ec896c7314271aa764e3968f27942f7",
+    completionCommit: "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+    modulePath: "src/lib/rcap/packets/jurisdictions/nevada/guidance.ts",
+    verifierPath: "scripts/verify-rcap-nevada-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    // The corrected assignment. The sealing-mechanism decision moved
+    // nv_seal_probation_family and nv_repository_removal into the
+    // custom-pleading lane, leaving this one route where the court seals on its
+    // own finding and the participant files and serves nothing.
+    trackIds: ["nv_seal_deferred"]
+  },
+  {
+    jurisdiction: "TX",
+    workerBranch:
+      "rcap-factory/rcap-tx-guidance-implementation-c631297a-6a29783f",
+    workerCommit: "fd759ae9d18346a22207cdf68abeaaa99dacb97a",
+    completionCommit: "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+    modulePath: "src/lib/rcap/packets/jurisdictions/texas/guidance.ts",
+    verifierPath: "scripts/verify-rcap-texas-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: ["tx_exp_discretionary"]
+  },
+  {
+    jurisdiction: "VT",
+    workerBranch:
+      "rcap-factory/rcap-vt-guidance-implementation-4b5af8d1-93d13925",
+    workerCommit: "ac32a9241db46ece07898f09c4e1fe15bad2869e",
+    completionCommit: "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+    modulePath: "src/lib/rcap/packets/jurisdictions/vermont/guidance.ts",
+    verifierPath: "scripts/verify-rcap-vermont-guidance-implementation.mjs",
+    verifierWorkerOwned: true,
+    trackIds: ["vt_diversion_post_charge", "vt_diversion_pre_charge"]
   }
 ]);
 const COMPLETED_OFFICIAL_PDF_IMPLEMENTATIONS = Object.freeze([
@@ -4329,6 +4377,40 @@ const COMPLETED_CUSTOM_PLEADING_IMPLEMENTATIONS = Object.freeze([
     modulePath:
       "src/lib/rcap/packets/jurisdictions/mississippi/custom-pleading.ts",
     verifierPath: "scripts/verify-rcap-mississippi-custom-pleading.mjs"
+  },
+  {
+    jurisdiction: "KS",
+    workerBranch: "rcap-factory/rcap-ks-custom-pleading-aa0987a3-d844e08a",
+    workerCommit: "23b7554ac8431e98efb62d99d954cd64bfa330dd",
+    completionCommit: "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+    modulePath: "src/lib/rcap/packets/jurisdictions/kansas/custom-pleading.ts",
+    verifierPath: "scripts/verify-rcap-kansas-custom-pleading.mjs"
+  },
+  {
+    jurisdiction: "MN",
+    workerBranch: "rcap-factory/rcap-mn-custom-pleading-b5f21a53-e54a4052",
+    workerCommit: "5dc96c76d15fc906ee03e64f560793d9254cf76a",
+    completionCommit: "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/minnesota/custom-pleading.ts",
+    verifierPath: "scripts/verify-rcap-minnesota-custom-pleading.mjs"
+  },
+  {
+    jurisdiction: "MO",
+    workerBranch: "rcap-factory/rcap-mo-custom-pleading-f79c2260-ef8dec21",
+    workerCommit: "55500bb29f35fa656518b108f894b55301d7afe4",
+    completionCommit: "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+    modulePath: "src/lib/rcap/packets/jurisdictions/missouri/custom-pleading.ts",
+    verifierPath: "scripts/verify-rcap-missouri-custom-pleading.mjs"
+  },
+  {
+    jurisdiction: "WV",
+    workerBranch: "rcap-factory/rcap-wv-custom-pleading-1caeb874-b7ae9b0c",
+    workerCommit: "67aaebf9647876abb5cf1c1a0bc2060ffe680af6",
+    completionCommit: "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+    modulePath:
+      "src/lib/rcap/packets/jurisdictions/west-virginia/custom-pleading.ts",
+    verifierPath: "scripts/verify-rcap-west-virginia-custom-pleading.mjs"
   }
 ]);
 
@@ -4362,7 +4444,15 @@ const COMPLETED_OUTPUT_REVIEW_ASSIGNMENTS = Object.freeze([
   "rcap-ms-custom-pleading",
   "rcap-ok-guidance-implementation",
   "rcap-tn-guidance-implementation",
-  "rcap-nc-guidance-implementation"
+  "rcap-nc-guidance-implementation",
+  "rcap-ks-custom-pleading",
+  "rcap-mn-custom-pleading",
+  "rcap-mo-custom-pleading",
+  "rcap-wv-custom-pleading",
+  "rcap-nj-guidance-implementation",
+  "rcap-nv-guidance-implementation",
+  "rcap-tx-guidance-implementation",
+  "rcap-vt-guidance-implementation"
 ]);
 
 // The deliverable-identity question South Carolina's custom-pleading job waits
@@ -4415,24 +4505,6 @@ function unresolvedOutputStrategyQuestionCount(inputs, jurisdiction, lane) {
  * instead: the built tracks stay complete against the commit that produced
  * them, and the added tracks become work.
  */
-/**
- * True once the Nevada sealing-mechanism correction is the memo on disk.
- *
- * Closes on the delivered blob, not on a commit asserting it closed, and
- * reverts by itself if the memo is ever replaced by anything else.
- */
-function nevadaSealingMechanismCorrected(rootDir) {
-  const memo = path.join(
-    rootDir,
-    "data/record-clearing/legal-design-intake/NV.memo.json"
-  );
-  return (
-    fs.existsSync(memo) &&
-    sha256File(memo) ===
-      "113a9728c08487ad09184fdd045da4d19b532adcca2b083059dbb24e1c84c3f5"
-  );
-}
-
 function unbuiltAssignedTracks(record, stateTracks) {
   if (!Array.isArray(record?.implementedTrackIds)) return [];
   const built = new Set(record.implementedTrackIds);
@@ -4561,73 +4633,6 @@ function implementationJobOverrides(
         "stops. No document here is presented as an official form. Visual proof and hash-bound " +
         "counsel adoption remain separate; runtime stays disabled. Do not scaffold, execute, " +
         "regenerate, enable, promote, or deploy this job."
-    };
-  }
-  // The Nevada guidance worker stopped rather than guess, and it was right to.
-  // The design did not establish whether these routes were automatic, whether
-  // a participant filed anything, or what the output strategy was, and none of
-  // that was answerable from a packet.
-  //
-  // The sealing-mechanism correction answered it from the operative statutory
-  // text, and the answer moved two of the three tracks out of this lane:
-  // nv_seal_probation_family has a subsection 2 petition and a proposed order,
-  // nv_repository_removal is an express written application to two recipients,
-  // and both are custom pleading. nv_seal_deferred stays pure guidance — under
-  // NRS 176.211(6) the court seals on its own finding, with no application from
-  // the participant and nothing for them to serve — and it is the whole of this
-  // assignment now. The lane list is read from the corrected design, so the
-  // scope follows the memo rather than this comment.
-  if (
-    lane === "guidance_implementation" &&
-    jurisdiction === "NV" &&
-    !fs.existsSync(
-      path.join(
-        rootDir,
-        "src/lib/rcap/packets/jurisdictions/nevada/guidance.ts"
-      )
-    )
-  ) {
-    const nevadaCorrected = nevadaSealingMechanismCorrected(rootDir);
-    return {
-      status: nevadaCorrected ? "ready" : "blocked",
-      dependencies: [
-        "rcap-nv-sealing-mechanism-and-packet-capability-correction"
-      ],
-      model: "opus",
-      effort: "xhigh",
-      executionNote: nevadaCorrected
-        ? "Reissued against the corrected design. This assignment is the pure-guidance " +
-          "Nevada routes only; nv_seal_probation_family and nv_repository_removal left this " +
-          "lane for custom pleading and belong to rcap-nv-custom-pleading, which owns the " +
-          "Nevada pleading module. Build no participant instrument here."
-        : "Do not scaffold or execute until " +
-          "rcap-nv-sealing-mechanism-and-packet-capability-correction is complete.",
-      stopCondition: nevadaCorrected
-        ? "Build guidance for the assigned pure-guidance Nevada routes and nothing else. " +
-          "Take the mechanism from the corrected memo: under NRS 176.211(6) the court orders " +
-          "the sealing itself, without a hearing and without any application from the " +
-          "participant, once it finds the terms and conditions were met, and each named " +
-          "agency reports its compliance back to the court. The participant files nothing and " +
-          "serves nothing, so there is no document to generate and no submission instruction " +
-          "to give. Say that the Division of Parole and Probation or the prosecutor may " +
-          "petition for good cause not to seal and request a hearing, and say it as the " +
-          "mechanism the statute provides — not as a likelihood, and not with any promise " +
-          "about how long a court takes. " +
-          "Do not generate a petition, an application, a proposed order or any other " +
-          "participant instrument; if a route needs one it is not yours. Do not claim the " +
-          "sealing has happened or will happen by a date. Keep runtime disabled and produce " +
-          "the participant packet proof the lane requires. " +
-          TERMINAL_INSTRUCTION
-        : "Blocked on the Nevada sealing-mechanism correction. For nv_repository_removal, " +
-          "nv_seal_deferred and nv_seal_probation_family the current design does not establish " +
-          "whether the route is automatic or requires a participant application, the governing " +
-          "mechanism, the output strategy, the exclusions, the waiting periods, the notice " +
-          "requirement or the fee. A guidance packet cannot be written against that, and writing " +
-          "one anyway would put a mechanism in front of a participant that nobody has " +
-          "established. Do not scaffold, do not create an implementation branch, do not resolve " +
-          "the mechanism question inside an implementation, and do not enable runtime, promote, " +
-          "or deploy. " +
-          TERMINAL_INSTRUCTION
     };
   }
   // Hawaii's custom-pleading lane owns the stage-one filing made in the

@@ -1,0 +1,271 @@
+{
+  "schemaVersion": "rcap-factory-review-manifest/v1",
+  "jobId": "rcap-ks-custom-pleading",
+  "lane": "custom_pleading",
+  "jurisdiction": "KS",
+  "trackIds": [
+    "ks-12-4516-municipal",
+    "ks-12-4516a-municipal-arrest"
+  ],
+  "strategyFamily": "custom_pleading",
+  "baseCommit": "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "generatedAt": "2026-08-08T14:48:45Z",
+  "syntheticData": true,
+  "filingUseAllowed": false,
+  "correctionRequired": false,
+  "outstandingCorrections": [],
+  "provenance": {
+    "workerBranch": "rcap-factory/rcap-ks-custom-pleading-aa0987a3-d844e08a",
+    "workerCommit": "23b7554ac8431e98efb62d99d954cd64bfa330dd",
+    "captainIntegrationCommit": "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+    "normalizedLegalDesign": {
+      "memoPath": "data/record-clearing/legal-design-intake/KS.memo.json",
+      "memoSha256": "24d65a98fa7e59466b59642c8ec90e62398891fffa0efad8f0b21ba24db47db1",
+      "memoVersion": "1.0.0"
+    },
+    "unresolvedReleaseQuestionCount": 4,
+    "unresolvedReleaseQuestions": [
+      {
+        "trackId": "ks-12-4516-municipal",
+        "affectedElement": "filing_process",
+        "question": "The municipal filing fee. K.S.A. 12-4516(g)(2) lets a municipal court prescribe a fee to be charged as costs, and the amount varies court by court with no statewide figure. No figure may be quoted until the participant's court is known."
+      },
+      {
+        "trackId": "ks-12-4516-municipal",
+        "affectedElement": "correct_form",
+        "question": "Which Kansas municipal courts publish their own current expungement forms or require their own process, and which govern expungement by charter ordinance rather than by K.S.A. 12-4516 directly. Kansas has hundreds of municipal courts and no unified municipal forms regime; a bounded sample confirmed that Wichita proceeds under Charter Ordinance No. 224 and publishes a Motion and Order, while Topeka publishes its own petition and order forms under K.S.A. 12-4516. The statewide controlled pleading is the fallback only where the local court publishes nothing."
+      },
+      {
+        "trackId": "ks-12-4516a-municipal-arrest",
+        "affectedElement": "filing_process",
+        "question": "The municipal filing fee. K.S.A. 12-4516a(b) lets a municipal court prescribe a fee to be charged as costs, and the amount varies court by court with no statewide figure. No figure may be quoted until the participant's court is known."
+      },
+      {
+        "trackId": "ks-12-4516a-municipal-arrest",
+        "affectedElement": "correct_form",
+        "question": "Which Kansas municipal courts publish their own current expungement forms or require their own process, and which govern expungement by charter ordinance rather than by K.S.A. 12-4516a directly. Kansas has hundreds of municipal courts and no unified municipal forms regime; a bounded sample confirmed that Wichita proceeds under Charter Ordinance No. 224 and publishes a Motion and Order, while Topeka publishes its own petition and order forms under K.S.A. 12-4516. The statewide controlled pleading is the fallback only where the local court publishes nothing."
+      }
+    ],
+    "technicalInspectionState": "worker_technical_evidence_only",
+    "formalVisualReview": "pending",
+    "completedOutputLegalReview": "pending"
+  },
+  "artifactTracking": {
+    "generatedAssetsTracked": false,
+    "artifactDirectory": "artifacts/rcap-factory/reviews/rcap-ks-custom-pleading",
+    "reviewManifestTracked": true,
+    "reviewManifestPath": "data/record-clearing/production-factory/review-manifests/rcap-ks-custom-pleading.json",
+    "note": "Generated PDFs and PNGs are reproducible and ignored. This JSON manifest is the tracked proof record."
+  },
+  "reproducibility": {
+    "rendererVersion": "rcap-factory-shared-layout-pdf-png/v1",
+    "fixtureVersion": "rcap-factory-synthetic-fixture/v1",
+    "fixedPdfMetadataDate": "2000-01-01T00:00:00.000Z",
+    "sharedLayoutSha256": "8f4fb6e18643bb00fdb7f25da6d2620275b9472d153d7c58fc352ecba3ec516f"
+  },
+  "packet": {
+    "fileName": "synthetic-review.pdf",
+    "relativePath": "artifacts/rcap-factory/reviews/rcap-ks-custom-pleading/synthetic-review.pdf",
+    "sha256": "78d1612490404d761ea86ab45223e075bdf268c1e019e87ec797dc3e237588d2",
+    "bytes": 5674,
+    "pageCount": 2,
+    "structureClass": "flat_pdf"
+  },
+  "packetHashes": [
+    {
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-ks-custom-pleading/synthetic-review.pdf",
+      "sha256": "78d1612490404d761ea86ab45223e075bdf268c1e019e87ec797dc3e237588d2"
+    }
+  ],
+  "pageCounts": {
+    "packet": 2,
+    "renderedImages": 2
+  },
+  "renderedPages": [
+    {
+      "page": 1,
+      "fileName": "page-001.png",
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-ks-custom-pleading/pages/page-001.png",
+      "sha256": "2923600bdf7cbb42f0ffbf8ba2fc8d094c8a80994521eccd733bda850ce4bc16",
+      "bytes": 6544,
+      "width": 612,
+      "height": 792
+    },
+    {
+      "page": 2,
+      "fileName": "page-002.png",
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-ks-custom-pleading/pages/page-002.png",
+      "sha256": "e3e79a101706463090ee8247396aedf5f1d91f6ca188d4c8987e338a5f3da2db",
+      "bytes": 6593,
+      "width": 612,
+      "height": 792
+    }
+  ],
+  "implementationOutputs": [
+    {
+      "relativePath": "src/lib/rcap/packets/jurisdictions/kansas/custom-pleading.ts",
+      "exists": true,
+      "kind": "file",
+      "bytes": 78297,
+      "sha256": "6c4c5ee92bcfc51946a0e5b6b5200fd1f7b8e7d7c0c9a99d17eed09bc78f393b"
+    },
+    {
+      "relativePath": "scripts/verify-rcap-kansas-custom-pleading.mjs",
+      "exists": true,
+      "kind": "file",
+      "bytes": 58187,
+      "sha256": "b4c631aeab4f6f0046f6856c9aa164b4b842ebcb005793415c386e7649241c39"
+    }
+  ],
+  "participantPacketProof": {
+    "status": "verified",
+    "sourceType": "integration_owned_factory_packet_proof",
+    "sourceManifestPath": "data/record-clearing/production-factory/packet-proofs/rcap-ks-custom-pleading.json",
+    "sourceManifestSha256": "628cb03a621aa4db6967346bd5b73caceb316a7bb7bf777c47345e49a97f1d50",
+    "verifier": {
+      "path": "scripts/verify-rcap-kansas-custom-pleading.mjs",
+      "sha256": "b4c631aeab4f6f0046f6856c9aa164b4b842ebcb005793415c386e7649241c39",
+      "result": "passed"
+    },
+    "implementationOutputs": [
+      {
+        "path": "src/lib/rcap/packets/jurisdictions/kansas/custom-pleading.ts",
+        "sha256": "6c4c5ee92bcfc51946a0e5b6b5200fd1f7b8e7d7c0c9a99d17eed09bc78f393b"
+      },
+      {
+        "path": "scripts/verify-rcap-kansas-custom-pleading.mjs",
+        "sha256": "b4c631aeab4f6f0046f6856c9aa164b4b842ebcb005793415c386e7649241c39"
+      }
+    ],
+    "finalPdfCount": 2,
+    "assembledPageCount": 12,
+    "packets": [
+      {
+        "trackId": "ks-12-4516-municipal",
+        "sampleRole": "canonical",
+        "fileName": "ks-municipal-conviction-three-year-1-technical-fixture.pdf",
+        "sha256": "6ed6f00e68f09ec9b02fd37374b6beca33c4043c504ad3c224786ccbe1f6a12c",
+        "pageCount": 6
+      },
+      {
+        "trackId": "ks-12-4516a-municipal-arrest",
+        "sampleRole": "canonical",
+        "fileName": "ks-municipal-arrest-mistaken-identity-1-technical-fixture.pdf",
+        "sha256": "d5cc0efe676297cddbdfd5f4b408fe730d5da5fe27e256e8b59707082a4f7694",
+        "pageCount": 6
+      }
+    ],
+    "deterministic": true,
+    "runtimeStatus": "runtime_disabled",
+    "visualProof": "pending",
+    "counselAdopted": false,
+    "productionEnabled": false,
+    "verified": true
+  },
+  "officialPdfImplementationProof": {
+    "status": "not_applicable",
+    "verified": null
+  },
+  "technicalChecklist": {
+    "status": "passed",
+    "items": [
+      {
+        "id": "synthetic-data-only",
+        "status": "passed",
+        "evidence": "Packet labels every value synthetic and not for filing."
+      },
+      {
+        "id": "focused-worker-validation",
+        "status": "passed",
+        "evidence": "2 focused command(s); 0 failure(s)."
+      },
+      {
+        "id": "deterministic-pdf",
+        "status": "passed",
+        "evidence": "Two renders matched SHA-256 78d1612490404d761ea86ab45223e075bdf268c1e019e87ec797dc3e237588d2."
+      },
+      {
+        "id": "pdf-page-count",
+        "status": "passed",
+        "evidence": "2 page(s) inspected from generated bytes."
+      },
+      {
+        "id": "deterministic-page-images",
+        "status": "passed",
+        "evidence": "2 PNG render(s) reproduced byte-for-byte."
+      },
+      {
+        "id": "expected-output-hashes",
+        "status": "passed",
+        "evidence": "2 of 2 expected outputs hashed."
+      },
+      {
+        "id": "participant-packet-proof",
+        "status": "passed",
+        "evidence": "2 final participant PDF hash(es), 12 total page(s), reconciled from data/record-clearing/production-factory/packet-proofs/rcap-ks-custom-pleading.json."
+      }
+    ]
+  },
+  "visualChecklist": {
+    "status": "pending",
+    "items": [
+      {
+        "id": "visual-01",
+        "label": "Confirm every page is legible at normal zoom.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-02",
+        "label": "Confirm no text is clipped, overlapped, or outside page bounds.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-03",
+        "label": "Confirm page order and track labels match the assigned job.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-04",
+        "label": "Confirm checkbox, radio, overlay, and signature placement when applicable.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-05",
+        "label": "Confirm participant and third-party fields are visually distinguishable.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-06",
+        "label": "Record reviewer name, date, defects, and disposition; generation itself grants no approval.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      }
+    ]
+  },
+  "technicalProofPassed": true,
+  "visualProofPassed": false,
+  "legalRecommendationComplete": false,
+  "counselAdopted": false,
+  "runtimeStatus": "runtime_disabled",
+  "stagingPassed": false,
+  "productionEnabled": false
+}
