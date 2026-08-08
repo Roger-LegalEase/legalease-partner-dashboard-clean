@@ -1,0 +1,300 @@
+{
+  "schemaVersion": 1,
+  "specificationId": "rcap-ky-void-seal-eligibility-bar-reconciliation",
+  "jobId": "rcap-ky-void-seal-eligibility-bar-reconciliation",
+  "jurisdiction": "KY",
+  "jurisdictionName": "Kentucky",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "preparedOn": "2026-08-08",
+  "preparer": "Session D1 legal-design worker, executing rcap-ky-void-seal-eligibility-bar-reconciliation",
+  "baseCommit": "469fb9e477891a2461bf48d27c9a52eaba9d8207",
+  "decisionSource": "KRS 218A.275 and KRS 218A.14151 read in full, each with its own history note, from the Kentucky Legislative Research Commission's own publication at apps.legislature.ky.gov. Read against the integrated Kentucky legal-design memo, the normalized track registry, the packet-set manifests and the authoritative blocker ledger.",
+  "whatThisDocumentIs": "The decision record that owns the question which split the Kentucky assignment: whether KRS 218A.275(12) absolutely bars a person whose possession charge was previously dismissed after a completed deferred prosecution under KRS 218A.14151, where the integrated memo records the bar and the controlling review does not. It settles that conflict from the statute rather than from either record, fixes the exact participant question and the stop that follows a disqualifying answer, and answers whether the route stays packet-capable once the bar is encoded. It amends no memo, regenerates no registry, implements nothing and asserts no counsel approval.",
+  "scopeOfThisJob": {
+    "ownedPath": "data/record-clearing/production-factory/legal-design-decisions/rcap-ky-void-seal-eligibility-bar-reconciliation.json",
+    "memoAmended": false,
+    "memoPath": "data/record-clearing/legal-design-intake/KY.memo.json",
+    "memoSha256AtDecision": "2328bbcbf8eca7e74772761b22d79e9d99de75e8d50222c4f513e952bafeeb19",
+    "globalRegistryRegenerated": false,
+    "rendererImplemented": false,
+    "sourceMaterialized": false,
+    "runtimeOrPromotionChanged": false,
+    "trackTouched": "None. This record adjudicates one question on ky_void_seal_controlled_substance and writes only itself.",
+    "questionsExpresslyNotReached": "ky_void_seal_marijuana_synthetic_salvia is split out and is being implemented in parallel. Nothing here touches its design and nothing here may be used to infer its eligibility: it is a different route on a different statute and this record makes no finding about it. The other ten Kentucky tracks are untouched. The track's own release blocker on the static legal propositions the generated motion asserts is counsel's to ratify and is not ratified here. The KRS 27A.099 exception scope is untouched. KRS 218A.14151 is examined only so far as KRS 218A.275(12) points at it; it is not normalized, it gains no source slot, and no view is expressed on whether it should become a track."
+  },
+  "questionPresented": {
+    "theQuestion": "Does KRS 218A.275(12) bar a person who previously had a possession charge dismissed after completing a deferred prosecution under KRS 218A.14151 from having a later possession conviction voided, and if so what must be asked before a packet is generated?",
+    "whyItMattered": "It decides whether the participant receives a packet at all. This is an eligibility gate and not pleading copy: a packet that asks nothing and files anyway sends a person to court to move for relief the statute forecloses, and it is the failure this record exists to prevent.",
+    "whyItWasOpen": "The two records in the repository disagree. The integrated memo carries the bar in its exclusions and in a build blocker, and records that the controlling review does not mention it. A conflict between a review and a memo is not resolved by preferring one of them."
+  },
+  "methodNote": "The conflict is resolved from the enacted text, not from either internal record and not from the fact that the memo is the later document. Both sections were read in full from the Legislative Research Commission's publication, which — unlike some states' — prints a complete history note under each section, so the effective date and the amending act are first-hand rather than reconstructed. The reciprocal provision in the other statute was then read, because a bar of this kind is only safe to encode once you know what the barred person was told about their own record.",
+  "controllingSources": [
+    {
+      "kind": "codified_statute",
+      "citation": "KRS 218A.275, Assessment and treatment program for first offenders of possession of controlled substance — Rescission of treatment order — Voiding of conviction — Sealing of records",
+      "issuer": "Kentucky Legislative Research Commission",
+      "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=40910",
+      "retrievedOn": "2026-08-08",
+      "effectiveDate": "July 12, 2012",
+      "historyNoteVerbatim": "History: Amended 2012 Ky. Acts ch. 156, sec. 8, effective July 12, 2012. -- Amended 2011 Ky. Acts ch. 2, sec. 21, effective June 8, 2011. -- Amended 2005 Ky. Acts ch. 99, sec. 549, effective June 20, 2005. -- Amended 1998 Ky. Acts ch. 426, sec. 489, effective July 15, 1998. -- Created 1992 Ky. Acts ch. 441, sec. 9, effective July 28, 1992.",
+      "verbatimText": {
+        "(8)": "Except as provided in subsection (12) of this section, in the case of any person who has been convicted for the first time of possession of controlled substances, the court may set aside and void the conviction upon satisfactory completion of treatment, probation, or other sentence, and issue to the person a certificate to that effect. A conviction voided under this subsection shall not be deemed a first offense for purposes of this chapter or deemed a conviction for purposes of disqualifications or disabilities imposed by law upon conviction of a crime. Voiding of a conviction under this subsection and dismissal may occur only once with respect to any person.",
+        "(9)": "If the court voids a conviction under this section, the court shall order the sealing of all records in the custody of the court and any records in the custody of any other agency or official, including law enforcement records, except as provided in KRS 27A.099. The court shall order the sealing on a form provided by the Administrative Office of the Courts. Every agency with records relating to the arrest, charge, or other matters arising out of the arrest or charge that is ordered to seal records, shall certify to the court within sixty (60) days of the entry of the order that the required sealing action has been completed.",
+        "(10)": "After the sealing of the record, the proceedings in the matter shall not be used against the defendant except for the purposes of determining the person's eligibility to have his or her conviction voided under subsection (8) of this section. The court and other agencies shall reply to any inquiry that no record exists on the matter. The person whose record has been sealed shall not have to disclose the fact of the record or any matter relating thereto on an application for employment, credit, or other type of application.",
+        "(11)": "Inspection of the sealed records may thereafter be permitted by the court pursuant to KRS 27A.099 or upon a motion by the person who is the subject of the records and only to those persons named in the motion or upon a motion of the prosecutor to verify a defendant's eligibility to have his or her conviction voided under subsection (8) of this section.",
+        "(12)": "A person who has previously had a charge of possession of controlled substances dismissed after completion of a deferred prosecution under KRS 218A.14151 shall not be eligible for voiding of conviction under this section."
+      },
+      "weight": "controlling"
+    },
+    {
+      "kind": "codified_statute",
+      "citation": "KRS 218A.14151, Deferred prosecution program for first and second offenders of KRS 218A.1415",
+      "issuer": "Kentucky Legislative Research Commission",
+      "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=40911",
+      "retrievedOn": "2026-08-08",
+      "effectiveDate": "July 12, 2012",
+      "historyNoteVerbatim": "History: Amended 2012 Ky. Acts ch. 156, sec. 9, effective July 12, 2012. -- Created 2011 Ky. Acts ch. 2, sec. 20, effective June 8, 2011.",
+      "verbatimText": {
+        "(1)": "A defendant charged with his or her first or second offense under KRS 218A.1415 may enter a deferred prosecution program subject to the following provisions: (a) The defendant requests deferred prosecution in writing on an application created under KRS 27A.099, and the prosecutor agrees; (b) The defendant shall not be required to plead guilty or enter an Alford plea as a condition of applying for participation in the deferred prosecution program; (c) The defendant agrees to the terms and conditions set forth by the Commonwealth's attorney and approved by the court, which may include any provision authorized for pretrial diversion pursuant to KRS 533.250(1)(h) and (2); and (d) The maximum length of participation in the program shall be two (2) years.",
+        "(2)": "If a prosecutor denies a defendant's request to enter a deferred prosecution program, the prosecutor shall state on the record the substantial and compelling reasons why the defendant cannot be safely and effectively supervised in the community, is not amenable to community-based treatment, or poses a significant risk to public safety.",
+        "(3)": "If the defendant successfully completes the deferred prosecution program, the charges against the defendant shall be dismissed, and all records relating to the case, including but not limited to arrest records and records relating to the charges, shall be sealed, except as provided in KRS 27A.099. The offense shall be deemed never to have occurred, except for the purposes of determining the defendant's eligibility for deferred prosecution under this section or voiding of the conviction under KRS 218A.275, and the defendant shall not be required to disclose the arrest or other information relating to the charges or participation in the program unless required to do so by state or federal law."
+      },
+      "weight": "controlling"
+    }
+  ],
+  "sourcesExpresslyNotRelieduponAsProof": [
+    "Neither internal record was treated as authority on the point they disagree about. The memo is not preferred because it is later and the review is not preferred because it is the controlling review; the statute decides.",
+    "No commercial code compilation, annotation, practitioner guide or law-firm page was used to establish any text. Several surfaced and none is relied on.",
+    "No Kentucky case law was read and none is cited. The provision is unambiguous on its face and nothing here turns on construction."
+  ],
+  "determination": {
+    "1_doesTheBarExist": {
+      "answer": "Yes, in terms, and the memo is right and the controlling review is wrong.",
+      "verbatim": "KRS 218A.275(12): \"A person who has previously had a charge of possession of controlled substances dismissed after completion of a deferred prosecution under KRS 218A.14151 shall not be eligible for voiding of conviction under this section.\"",
+      "since": "July 12, 2012, added by 2012 Ky. Acts ch. 156, sec. 8.",
+      "whyTheReviewCouldMissIt": "Recorded without excusing it. The bar is the last subsection of a long treatment-and-rehabilitation section whose first seven subsections are about assessment, transport, payment and probation, and it points outward at a section in a different part of the chapter. A reader working from the voiding subsection alone would not meet it. That is a reason it was missed and not a reason it is optional."
+    },
+    "2_isItAbsolute": {
+      "answer": "Yes. It is a hard bar, not a factor.",
+      "textualBasis": [
+        "It is written as a disqualification — \"shall not be eligible\" — and not as something the court weighs.",
+        "Subsection (8), the operative voiding power, is expressly subordinated to it: it opens \"Except as provided in subsection (12) of this section\". The bar is wired into the grant of power rather than bolted onto the end of the section, so a court has no discretion to void notwithstanding it.",
+        "Nothing in the section conditions the bar on the seriousness of the prior charge, the time elapsed, the county, or the prosecutor's position."
+      ],
+      "classification": "eligibility gate — build-level, and dispositive of whether a packet may be generated at all"
+    },
+    "3_whoIsBarred": {
+      "barred": "A person who previously had a charge of possession of controlled substances dismissed after completing a deferred prosecution under KRS 218A.14151. The trigger is completion followed by dismissal, which is the successful outcome described in KRS 218A.14151(3).",
+      "notBarredByThisSubsection": [
+        "A person who applied for deferred prosecution and was refused. KRS 218A.14151(1)(a) requires the prosecutor to agree, and (2) requires the prosecutor to state substantial and compelling reasons on the record for a denial. A refused applicant never entered the programme, so no charge was dismissed after completion.",
+        "A person who entered the programme and was removed from it under KRS 218A.14151(5)(c) and ordinarily prosecuted. There was no completion and no dismissal.",
+        "A person whose earlier charge was dismissed by some other route — an ordinary dismissal, an acquittal, pretrial diversion under KRS 533.250 standing alone, or any disposition that is not a completed KRS 218A.14151 deferred prosecution. The subsection names one programme and only that one.",
+        "A person whose only prior involvement was with a possession charge under KRS 218A.1416 or KRS 218A.1417. KRS 218A.14151 is available only on a charge under KRS 218A.1415, so a person charged under the other two possession sections could not have completed a deferred prosecution under it, while KRS 218A.275(8) reaches convictions under all three."
+      ],
+      "separateBarNotToBeConflated": "KRS 218A.275(8) independently provides that voiding \"may occur only once with respect to any person\". That is a different disqualification with a different trigger and the memo already carries it. A participant may fail either, and a screen that asks only one of the two questions is incomplete."
+    },
+    "4_theExactParticipantQuestion": {
+      "whyAnOrdinaryQuestionIsNotEnough": {
+        "finding": "This is the part that matters, and it comes out of the other statute. KRS 218A.14151(3) tells a person who completed the programme three things: the charges are dismissed, all records including arrest records are sealed, and \"the offense shall be deemed never to have occurred\". It then says the defendant \"shall not be required to disclose the arrest or other information relating to the charges or participation in the program unless required to do so by state or federal law\".",
+        "consequence": "A barred participant has been told by statute that it never happened and that they need not mention it. Asked an ordinary disclosure question — have you ever had a charge dismissed — they may answer no, truthfully as they understand it, and a packet would be generated for someone the statute forecloses. The screen must be written against that belief, not around it.",
+        "whatMakesTheQuestionLawful": "The same subsection carves this exact use out of the fiction: the offence is deemed never to have occurred \"except for the purposes of determining the defendant's eligibility for deferred prosecution under this section or voiding of the conviction under KRS 218A.275\". Determining voiding eligibility is one of the two express exceptions, so the question may be asked and the answer may be relied on. KRS 218A.275(10) and (11) say the same thing from the other side: sealed proceedings may be used to determine eligibility to void under subsection (8), and the prosecutor may move to inspect sealed records to verify it."
+      },
+      "requiredQuestion": {
+        "key": "vcsPriorDeferredProsecution",
+        "currentMemoWording": "Have you ever had a possession charge dismissed after completing a deferred prosecution programme under Kentucky law?",
+        "assessment": "Right subject, insufficient framing. It asks for a disclosure the participant has been told they do not owe, and it does not name the programme.",
+        "requiredWording": "Have you ever completed a Kentucky deferred prosecution programme for a drug possession charge and had that charge dismissed at the end of it — the programme under KRS 218A.14151, which you may have been told was a diversion or a deferral, and which you applied for in writing and the prosecutor agreed to? Answer yes even if the record was sealed afterwards, even if you were told the offence is treated as never having happened, and even if you have lawfully answered no to this question elsewhere. Kentucky law lets that record be looked at for this one purpose: deciding whether a conviction can be voided.",
+        "requirement": "required",
+        "mustBeAskedBefore": "any packet is generated",
+        "whyItIsNotPleadingCopy": "Nothing about this question appears in the motion. It decides whether there is a motion.",
+        "whatMustNotBeAsked": "Do not ask the participant to characterise their own eligibility, to say whether they think the bar applies, or to supply the statute number. Ask what happened to them."
+      },
+      "theCompanionQuestionAlreadyPresent": {
+        "key": "vcsPriorVoid",
+        "wording": "Have you ever had a conviction voided under Kentucky's drug possession statute before?",
+        "assessment": "Correct and retained. It screens the separate once-only bar in KRS 218A.275(8) and must not be merged with the deferred-prosecution question: they have different triggers and a participant can fail either one alone."
+      }
+    },
+    "5_theStopThatFollows": {
+      "onYes": {
+        "outcome": "Stop. No packet is generated and no motion is offered.",
+        "typedStop": "statutory_ineligibility",
+        "reasonToState": "KRS 218A.275(12) provides that a person who previously had a possession charge dismissed after completing a deferred prosecution under KRS 218A.14151 is not eligible to have a conviction voided under that section, and subsection (8) makes the voiding power itself subject to that exception.",
+        "whatToSayAboutWhyWeAsked": "That the sealed record can be looked at for this one purpose because KRS 218A.14151(3) says so, so answering yes cost the participant nothing they were entitled to keep.",
+        "destination": "A Kentucky attorney. The remaining questions — whether some other Kentucky record-clearing route reaches this conviction, and whether the earlier matter really was a KRS 218A.14151 deferred prosecution rather than something else called by the same word — are legal judgements this product does not make.",
+        "whatItMustNotDo": [
+          "It must not offer the motion anyway with a warning.",
+          "It must not route the participant to ky_void_seal_marijuana_synthetic_salvia, which is a different route on a different statute and whose eligibility this record does not decide.",
+          "It must not tell the participant they are ineligible for every Kentucky remedy. The finding is about this section."
+        ]
+      },
+      "onUncertain": {
+        "outcome": "Stop, and stop for the same reason.",
+        "why": "\"I completed some kind of programme and the charge went away, but I do not know which one\" is the most likely honest answer, precisely because the participant was told to forget it. Uncertainty here cannot be resolved by the product: the record is sealed, and KRS 218A.275(11) gives the tool to inspect it to the court and the prosecutor, not to the participant's document preparer.",
+        "typedStop": "eligibility_unverifiable",
+        "destination": "A Kentucky attorney, who can move under KRS 218A.275(11) or ask the prosecutor."
+      },
+      "onNo": {
+        "outcome": "Continue to the remaining eligibility elements.",
+        "caution": "A no on this question is not a finding of eligibility. First-offence status under subsection (8), the once-only bar, and satisfactory completion of treatment, probation or sentence all remain to be established, and the memo already carries them."
+      }
+    },
+    "6_isTheRouteStillPacketCapable": {
+      "answer": "Yes. The bar narrows the route; it does not empty it.",
+      "reasoning": [
+        "Deferred prosecution is not available on demand. KRS 218A.14151(1)(a) requires the prosecutor to agree, and (2) contemplates denial on stated grounds. Every person whose request was denied and who was then convicted of a first possession offence is outside the bar and inside the route.",
+        "Deferred prosecution reaches one charge only. KRS 218A.14151 is confined to KRS 218A.1415, while KRS 218A.275(8) reaches convictions for possession under KRS 218A.1415, 218A.1416 and 218A.1417. A person convicted of second- or third-degree possession who never faced a first-degree charge could not have completed a KRS 218A.14151 deferral at all.",
+        "The bar requires a prior completed deferral. It reaches the person who was given the programme, finished it, and was later convicted anyway. That is a real population and the legislature plainly meant to exclude it, but it is a subset and not the whole.",
+        "The relief itself is worth building for whoever is left. Subsection (8) sets aside and voids the conviction and issues a certificate; the conviction is not a first offence for chapter purposes and is not a conviction for disqualifications or disabilities imposed by law; subsection (9) seals all records including law enforcement records; and subsection (10) lets the court and agencies reply that no record exists and relieves the person of disclosing it on an application for employment, credit or other application. That is among the strongest outcomes in the Kentucky set."
+      ],
+      "whatWouldHaveMadeItNotWorthBuilding": "A bar that no participant could answer, or one that consumed the whole population. Neither is true here. If the answer had gone the other way it would have been a finding and not a disappointment, and it is recorded that way so a later reader knows the test was applied rather than assumed.",
+      "capabilityUnchanged": "The track stays custom_pleading with packetIdentity identified. Its instruments are unaffected: the generated motion, the official Order Voiding Conviction and Sealing Records the court signs, and the certificate of service. Nothing about the bar changes what is produced for a participant who passes the screen.",
+      "andTheTrackIsStillNotReady": "This record does not make it ready and must not be read as doing so. The release blocker on the static legal propositions the generated motion asserts is counsel's to ratify and is untouched."
+    },
+    "7_boundariesObserved": {
+      "onKrs218A14151": "It is read here only because KRS 218A.275(12) points at it and because its subsection (3) governs what the participant has been told. It is not normalized, it is not given a source slot, no track is created for it, and no view is expressed on whether it should become one. The memo's own note that this is an adjacent record-clearing mechanism the controlling review never identifies stands as it is, classified counsel_classification_required, and this record does not reclassify it.",
+      "onTheSiblingTrack": "ky_void_seal_marijuana_synthetic_salvia is being implemented in parallel. Its design is untouched and its eligibility is not inferred from this one. The two routes share a name pattern and nothing else that this record has established.",
+      "onAocForms": "KRS 218A.275(9) requires the sealing order to be made \"on a form provided by the Administrative Office of the Courts\", and the memo already binds an Order Voiding Conviction and Sealing Records at document code OVSR. Identifying, retrieving or measuring any Administrative Office of the Courts form is source acquisition and no such work was done here. The memo's mention of AOC-331 and AOC-333 belongs to the deferred-prosecution mechanism, not to this route, and the two must not be conflated."
+    }
+  },
+  "memoAmendmentImplied": {
+    "note": "This record owns no memo. The amendments below are stated so they can be applied and checked; none is applied here.",
+    "owner": "the Kentucky legal-design owner, through a Kentucky memo amendment job",
+    "items": [
+      {
+        "field": "ky_void_seal_controlled_substance.unresolvedQuestions, the eligibility_branch build blocker",
+        "recorded": "build_blocker: the bar \"must be encoded and confirmed before the route is built\" because the controlling review does not record it.",
+        "correct": "Retire against this record. The bar is confirmed verbatim from KRS 218A.275(12), effective July 12, 2012, and it is absolute because subsection (8) is expressly subject to it."
+      },
+      {
+        "field": "ky_void_seal_controlled_substance.participantInputs, vcsPriorDeferredProsecution",
+        "correct": "Replace the question text with the required wording in determination 4. The subject was right; the framing has to defeat the belief KRS 218A.14151(3) creates."
+      },
+      {
+        "field": "ky_void_seal_controlled_substance.selfHelpStopConditions",
+        "recorded": "\"Any prior deferred prosecution under KRS 218A.14151.\"",
+        "correct": "Keep it and make it a typed hard stop rather than a caution, and add a second stop for a participant who cannot say which programme they completed. Both stops end the route rather than warning inside it."
+      },
+      {
+        "field": "ky_void_seal_controlled_substance.exclusions",
+        "recorded": "\"Any person who has previously had a possession charge dismissed after completing a deferred prosecution under KRS 218A.14151. KRS 218A.275(12) makes that an absolute bar and the controlling review does not record it.\"",
+        "correct": "Correct as written and now confirmed. The clause \"and the controlling review does not record it\" may stay: it is true and it is the reason this job existed."
+      },
+      {
+        "field": "ky_void_seal_controlled_substance.legalDesignDecision.limitations",
+        "correct": "Record, as a packet_instruction, that the deferred-prosecution question must be asked and answered before generation, that a yes or an uncertain answer stops the route, and that the participant may be asked despite KRS 218A.14151(3) because that subsection expressly excepts a KRS 218A.275 voiding-eligibility determination from the offence being deemed never to have occurred."
+      }
+    ]
+  },
+  "affectedTracks": {
+    "ky_void_seal_controlled_substance": "One build blocker answered. No output-strategy change, no component change, no venue change, no destination change, no fee change. One participant input is rewritten and one stop condition is hardened.",
+    "tracksNotAffected": "ky_expungement_certification, ky_misdemeanor_expungement, ky_felony_vacatur_expungement, ky_felony_expungement_after_pardon, ky_automatic_nonconviction_expungement_verification, ky_nonconviction_expungement, ky_void_seal_marijuana_synthetic_salvia, ky_diversion_disposition_routing, ky_juvenile_record_expungement, ky_protective_order_record_expungement and ky_criminal_record_segregation. Kentucky keeps twelve nodes.",
+    "denominatorEffect": "None. Nothing is added, removed, split or merged.",
+    "packetCapabilityEffect": "Packet-capable, unchanged and now established rather than assumed. The track does not become ready: its release blocker on the motion's legal propositions is counsel's and stands."
+  },
+  "residualQuestions": [
+    {
+      "id": "ky-void-seal-motion-propositions",
+      "question": "The static legal propositions the generated motion asserts about the effect of voiding and sealing have not been ratified by counsel.",
+      "classification": "release_blocker",
+      "isBuildBlocker": false,
+      "owner": "counsel",
+      "note": "Untouched here. It is what holds this track, and no amount of eligibility work moves it."
+    },
+    {
+      "id": "ky-218a-275-12-temporal-reach",
+      "question": "Whether KRS 218A.275(12) bars a person whose KRS 218A.14151 deferred prosecution was completed and dismissed before the subsection took effect on July 12, 2012.",
+      "classification": "release_blocker",
+      "isBuildBlocker": false,
+      "owner": "the Kentucky legal-design owner or counsel",
+      "note": "New, and deliberately not answered. The subsection is drafted as a present eligibility condition keyed to a past fact and contains no temporal limit, but whether it reaches a pre-2012 completion is a construction question this assignment does not reach and guessing it would be inventing an eligibility rule. It is release-level rather than build-level because the screen asks the same question either way; what changes is only whether an early-completion participant is stopped."
+    },
+    {
+      "id": "ky-27a-099-exception-scope",
+      "question": "The scope of the KRS 27A.099 exception, which keeps some records outside the sealing order.",
+      "classification": "nonblocking_research_note",
+      "isBuildBlocker": false,
+      "owner": "the Kentucky legal-design owner",
+      "note": "Untouched. It bears on what the participant is promised about the seal, not on who receives a packet."
+    },
+    {
+      "id": "ky-218a-14151-classification",
+      "question": "Whether KRS 218A.14151 deferred prosecution should itself be normalized as a Kentucky record-clearing mechanism.",
+      "classification": "counsel_classification_required",
+      "isBuildBlocker": false,
+      "owner": "counsel",
+      "note": "The memo already records it as an observation and this record does not reclassify it. It is named again only because this job read the section and a later reader should know the reading did not turn into a normalization."
+    },
+    {
+      "id": "ky-void-seal-order-form-identity",
+      "question": "Whether the Order Voiding Conviction and Sealing Records at document code OVSR is the form KRS 218A.275(9) requires the Administrative Office of the Courts to provide.",
+      "classification": "release_blocker",
+      "isBuildBlocker": false,
+      "owner": "the source-acquisition lane",
+      "note": "No acquisition or measurement was performed here. The memo already binds the form; this record only observes that the statute requires an Administrative Office of the Courts form and that the two should be reconciled by whoever owns source identity."
+    }
+  ],
+  "blockerClassification": {
+    "buildBlockersClosed": "One: the KRS 218A.275(12) eligibility bar on ky_void_seal_controlled_substance.",
+    "releaseBlockersRetained": "The motion's unratified legal propositions, the KRS 27A.099 exception scope, the newly recorded temporal-reach question and the order-form identity.",
+    "monitoringQuestions": "None arising from this record.",
+    "whyNoTrackBecomesReady": "Counsel has not ratified what the motion asserts, and no eligibility finding can substitute for that."
+  },
+  "downstreamJobs": [
+    {
+      "owner": "the Kentucky legal-design owner",
+      "job": "a KY.memo.json amendment rewriting the deferred-prosecution question, hardening the stop, and retiring the build blocker",
+      "lane": "legal_design_normalization"
+    },
+    {
+      "owner": "counsel",
+      "job": "ratification of the motion's static legal propositions",
+      "lane": "review",
+      "note": "The gating item for this track."
+    },
+    {
+      "owner": "the Kentucky custom-pleading implementation owner",
+      "job": "the ky_void_seal_controlled_substance packet, once counsel has ratified",
+      "lane": "custom_pleading",
+      "note": "Not scheduled by this record and not made schedulable by it. The eligibility screen described here must be implemented as a pre-generation gate, not as copy inside the motion."
+    },
+    {
+      "owner": "the Kentucky legal-design owner or counsel",
+      "job": "the temporal reach of KRS 218A.275(12)",
+      "lane": "legal_design_normalization"
+    }
+  ],
+  "terminalDisposition": "krs_218a_275_12_is_an_absolute_eligibility_bar_confirmed_from_the_statute_the_memo_is_right_and_the_review_is_wrong_screen_before_generation_with_a_question_written_against_the_deemed_never_occurred_fiction_route_remains_packet_capable",
+  "terminalDispositionDetail": {
+    "why": "The narrowest accurate result. It resolves a disagreement between two internal records by going to the statute, and says which was right rather than splitting the difference. It does not stop at confirming the bar, because confirming a bar that the participant has been told to forget would leave the gate unbuildable. And it answers the capability question in the affirmative with reasons, which is a finding about who is left rather than an assurance.",
+    "questionsClosed": 1,
+    "questionsOpened": 2,
+    "tracksMadeReady": 0,
+    "participantInputsRewritten": 1,
+    "stopsAdded": 1
+  },
+  "runtimeEffect": {
+    "packetReadyChanged": false,
+    "packetReady": 0,
+    "memoEdited": false,
+    "globalRegistriesRegenerated": false,
+    "enabledJurisdictionsChanged": false,
+    "launchGateChanged": false,
+    "runtimeStatusChanged": false,
+    "promotionStatusChanged": false,
+    "tracksMadeReady": 0,
+    "sourcesMaterialized": 0,
+    "sourceReceiptsCreated": 0,
+    "binariesEnteringVersionControl": 0,
+    "rendererImplemented": false,
+    "packetImplemented": false,
+    "editionPublished": false,
+    "issuerContacted": false,
+    "clerkContacted": false,
+    "counselAdopted": false,
+    "feesPaid": 0,
+    "downloadedSourceCount": 0,
+    "downloadedSourceCountNote": "Zero. Two official statute publications were read for adjudication and held outside the repository. Nothing was retained as a repository source artifact, materialized, receipted or bound to any component. No acquisition occurred."
+  }
+}
