@@ -1421,8 +1421,8 @@
           "role": "primary_filing",
           "requirement": "required",
           "outputStrategy": "official_pdf_fill",
-          "officialFormId": "JDF-2370",
-          "notes": "The conduct-no-longer-prohibited set is JDF 2370, 2371 and 2374. Not yet acquired."
+          "officialFormId": "JDF-2371",
+          "notes": "JDF 2371, Motion to Seal Conviction Records - Conduct No Longer Prohibited, is the participant's motion and the document that carries this component. The conduct-no-longer-prohibited set published by the Colorado Judicial Branch under HB24-1133 is three documents with three distinct roles: JDF 2370 is the Guide and is instructions, JDF 2371 is the Motion, and JDF 2374 is the Order. This component was previously bound to JDF 2370, which is a two-page guide with six logical form fields and no signature block and cannot receive the participant data a fifty-one-field motion collects; that was a role mismatch, not an acquisition gap. All three documents are retained by adopted Edition 1.2 at pinned bytes, so nothing has to be obtained from the issuer. None is materialized and no receipt exists, and written permission from the Colorado Judicial Department is required before any participant-facing reproduction, prefill or paid distribution. No participant-facing generation is claimed here."
         },
         {
           "role": "proposed_order",
@@ -1457,8 +1457,8 @@
       "manualCompletionItems": [
         {
           "item": "Signature and date",
-          "whereInPacket": "JDF 2370, signature block",
-          "why": "The movant signs their own motion."
+          "whereInPacket": "JDF 2371, signature block",
+          "why": "The movant signs their own motion. The signature block is on JDF 2371; JDF 2370 is the guide and carries none."
         }
       ],
       "officialSources": [
@@ -1466,6 +1466,16 @@
           "title": "Colorado Judicial Branch, Seal My Case",
           "url": "https://www.coloradojudicial.gov/self-help/seal-my-case",
           "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "JDF 2371, Motion to Seal Conviction Records - Conduct No Longer Prohibited, Colorado Judicial Branch, form-face revision R: July 1, 2025 — the participant's motion and the primary filing for this track; retained by adopted Edition 1.2 at sha256 642558b85e3f3df8c15808369685bbe56398523c7794b6a949d20fd7b4f8b6d6, 669,287 bytes",
+          "url": "https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF2371.pdf",
+          "retrievedOn": "2026-07-31"
+        },
+        {
+          "title": "JDF 2370, Guide to Sealing Conviction Records - Conduct No Longer Prohibited, Colorado Judicial Branch, form-face revision R: July 1, 2025 — the issuer's guide; this track's instructions asset, serving no packet component and never itself a filing artifact; retained by adopted Edition 1.2 at sha256 cc0b5737ef0598f9e667e50b00aecbd95f53fdb9aa2bc546f8aaa910da480149, 614,271 bytes",
+          "url": "https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF2370.pdf",
+          "retrievedOn": "2026-07-31"
         }
       ],
       "rules": {
@@ -1483,6 +1493,44 @@
         "Whether the conduct falls in a qualifying category is unclear.",
         "Immigration, licensing or firearm consequences are in play."
       ],
+      "_jdfComponentRemap": {
+        "correctionJob": "rcap-co-jdf-2370-2371-component-remap-memo-correction",
+        "correctedOn": "2026-08-08",
+        "baseCommit": "95789664518ee3f7f2aeb9c12380dd9ba70d3b76",
+        "controllingDecisions": [
+          {
+            "path": "data/record-clearing/production-factory/source-acquisition/rcap-co-jdf-2370-role-and-jdf-2371-mapping-correction.json",
+            "question": "role:CO:JDF-2370:instructions and mapping:CO:JDF-2371:motion",
+            "confidence": "high"
+          },
+          {
+            "path": "data/record-clearing/production-factory/source-acquisition/rcap-co-jdf-family-commercial-license.json",
+            "question": "license:CO:JDF-FAMILY:commercial-use",
+            "terminalDisposition": "written_permission_required"
+          }
+        ],
+        "whatChanged": "Exactly one component binding. co_decriminalized_conduct_seal-primary-filing-1 was bound to JDF-2370 and is now bound to JDF-2371. Nothing else in the Colorado memo moved.",
+        "whyTheOldBindingWasWrong": "Authority role mismatch, not an acquisition gap. JDF 2370's own form face is titled 'Guide to Sealing Conviction Records - Conduct No Longer Prohibited', it runs two pages with six logical AcroForm fields and no signature block, and the source-artifact registry independently classifies it role='official guide', sourceTreatment='reference_only', runtimeEligibility='ineligible_never_a_participant_filing_artifact'. A guide cannot satisfy a primary_filing component. JDF 2371's form face is titled 'Motion to Seal Conviction Records - Conduct No Longer Prohibited', it carries fifty-one logical AcroForm fields and a signature block, and the registry classifies it role='participant court form'. Both carry the identical form-face revision string 'R: July 1, 2025', so the pair is co-revised and the role difference is not a revision artefact. JDF 2371 was bound to no component anywhere in the track-source relationships: the motion was orphaned while the guide was over-bound.",
+        "jdf2370Treatment": "Retained as this track's instructions asset. It is not deleted, not retired and not demoted below instructions; it simply stops standing in for the motion. It serves no packet component, because a guide is a guidance asset assembled around the packet rather than a member of it, so no instructions component was created for it and no new form mapping was added. Its identity is recorded in officialSources.",
+        "jdf2374Treatment": "Unchanged and value-identical. JDF 2374 remains the Order bound to co_decriminalized_conduct_seal-proposed-order-2, exactly as the design already carried it.",
+        "scopePreserved": "Statewide for both JDF 2370 and JDF 2371. Each is a Colorado Judicial Department form published centrally by the Colorado Judicial Branch for use in every judicial district, under C.R.S. section 24-72-711, a statute of statewide application. The track's geography.scope stays statewide and its venue statement is unchanged.",
+        "licenceDisposition": {
+          "adopted": "written_permission_required",
+          "preservedExactlyAsAdopted": true,
+          "statement": "Written permission from the Colorado Judicial Department is required before any participant-facing reproduction, prefill or paid distribution of the JDF record-sealing family. No instrument published by the Department or the Branch grants reproduction, redistribution, prefilled distribution or commercial use, and none places these forms in the public domain. The only located Judicial Branch terms-of-use instrument permits download for personal, non-commercial use only, requires copyright and proprietary notices to be kept intact, and directs anyone whose use exceeds fair use to seek permission directly from the copyright holder. The repository retains no written grant.",
+          "whatThisCorrectionDoesNotDo": "A corrected mapping is not a cleared licence. Establishing that JDF 2371 is the right document says nothing about whether LegalEase may reproduce or prefill it, and this correction makes no participant-facing generation claim. The absence of a copyright notice on the face of JDF 2370 or JDF 2371 is not permission either: notice has not been a condition of copyright in the United States since 1 March 1989, and the Department demonstrably does assert copyright on other JDF forms.",
+          "whatRemainsPermitted": "Naming the forms, citing their numbers and revisions, telling a participant which forms their situation requires, and linking the participant to the issuer's own publication so they obtain the official form from the court."
+        },
+        "materializationState": "not_materialized_no_receipt for both JDF 2370 and JDF 2371. The recorded field counts, six logical fields on JDF 2370 and fifty-one on JDF 2371, are historical AcroForm logical-field measurements; terminal-field and widget counts were never separately recorded, so no field-map denominator may be derived from either number and a map must be keyed on re-inspected terminal field names at materialization time.",
+        "denominatorsUnchanged": "One component keeps one official form. Colorado keeps eleven tracks and fifteen official-form bindings; no binding was added or removed, only retargeted. No unrelated Colorado form mapping was touched.",
+        "supersededMemoStatement": {
+          "field": "unresolvedQuestions.question (normalizer-inferred mechanical translation)",
+          "previousText": "JDF 2370, 2371 and 2374, the conduct-no-longer-prohibited set, have not been acquired.",
+          "whyCorrected": "Its premise is false on the adopted edition's own contents: all three documents are retained at pinned bytes and nothing has to be obtained from the issuer. The counsel statement it was translated from is preserved verbatim in its provenance and was not altered; only the normalizer's own rendering was corrected, and the question stays open as a release blocker because materialization and commercial permission are both genuinely outstanding."
+        },
+        "outOfScopeAndUntouched": "The eligibility build blocker on this track is untouched: the list of qualifying offence categories under C.R.S. section 24-72-711 still has to be confirmed, the statute is broader than the psilocybin example, and its scope will move as Colorado changes its criminal code. That is a different question with a different owner and this correction neither answers nor narrows it.",
+        "boundary": "This correction edits one component binding, one manual-completion location, one normalizer-inferred question and adds two provenance entries, all inside one track of CO.memo.json. It regenerates no registry, writes no relationship row, materializes no source, creates no receipt, touches no approval file and asserts no licence. packet_ready stays 0 and Colorado stays runtime disabled."
+      },
       "unresolvedQuestions": [
         {
           "question": "Read the full text of § 24-72-711 before launch and confirm the list of qualifying offense categories, since the statute is broader than the psilocybin example and its scope will move as Colorado changes its criminal code.",
@@ -1497,7 +1545,7 @@
           }
         },
         {
-          "question": "JDF 2370, 2371 and 2374, the conduct-no-longer-prohibited set, have not been acquired.",
+          "question": "The conduct-no-longer-prohibited set is not an acquisition gap and the premise that it has not been acquired is superseded: adopted Edition 1.2 retains all three documents at pinned bytes, JDF 2370 at 614,271 bytes and JDF 2371 at 669,287 bytes, and nothing has to be obtained from the Colorado Judicial Branch. Two things do remain open before release and both are recorded here rather than closed. First, none of the three is materialized and no source-materialization receipt exists for any of them, so no field map can be keyed and the historically recorded field counts must be re-inspected at materialization time rather than relied on. Second, and controlling, commercial permission is not granted: no instrument published by the Colorado Judicial Department or the Colorado Judicial Branch permits reproduction, prefilled distribution or commercial use of these forms, the only located Judicial Branch terms-of-use instrument restricts content to personal, non-commercial use and directs anyone exceeding fair use to seek permission from the copyright holder, and the repository retains no written grant. Until written permission exists, this track may name the forms, cite their numbers and revisions, and link the participant to the issuer's own publication, and may not reproduce, prefill or distribute them.",
           "impact": "release_blocker",
           "affectedElement": "correct_form",
           "provenance": {
