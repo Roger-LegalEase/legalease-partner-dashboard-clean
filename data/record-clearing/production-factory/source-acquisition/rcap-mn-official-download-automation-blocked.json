@@ -1,0 +1,326 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-mn-official-download-automation-blocked",
+  "parentJobId": "AUTH-06-source-gate-clearance",
+  "jurisdiction": "MN",
+  "lane": "source_acquisition",
+  "strategyFamily": "official_download_automation_blocked",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "2f72199a72bc84c0688dda0cc4d12fc3d587ca4a",
+  "generatedOn": "2026-08-08",
+  "shard": "F3",
+  "acquisitionIds": [
+    "acquire:MN:exp101",
+    "acquire:MN:exp102",
+    "acquire:MN:exp104",
+    "acquire:MN:exp105",
+    "acquire:MN:exp106"
+  ],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero, and here zero is the recorded disposition rather than a policy constraint. Retrieval was attempted against the issuer's own form index and site root and was refused by an interposed bot challenge before any document was served. Nothing entered version control, no materialization destination was written and no receipt was created.",
+  "generatedFrom": [
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/authority.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-06-source-gate-clearance.json"
+  ],
+  "method": {
+    "description": "Attempted official download of the five Minnesota expungement forms, followed by precise characterisation of what refused the request. The recorded block was re-tested rather than carried forward as an assertion, and the refusing layer was identified from response headers rather than inferred from the status code alone.",
+    "retrievalDate": "2026-08-08",
+    "retrievalAttempted": true,
+    "retrievalSucceeded": false,
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "authenticationUsed": false,
+    "sourcesDeposited": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "binariesCommitted": 0,
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "memoAltered": false,
+    "componentRebound": false,
+    "blockEvaded": false,
+    "assignmentConstraintObserved": "The stop condition requires preserving the 403/WAF or automation-blocked disposition distinctly, recording attended-retrieval evidence only, and never relabelling the source as generically missing or inferring an alternative. The block is characterised to the mitigation layer and the challenge type. No source is relabelled missing — all five are retained and adopted. No alternative is inferred and no mirror is substituted."
+  },
+  "blockCharacterisation": {
+    "verdict": "cloudflare_managed_challenge_http_403",
+    "distinctFrom": {
+      "notAMissingSource": "All five documents are retained in this repository and manifested by the adopted edition. Nothing is missing.",
+      "notAWithdrawnPage": "The form index is still indexed live and the queue records that no renumbering or supersession was found.",
+      "notAUserAgentFilter": "The identical 403 is returned to a default automated client and to an ordinary browser user-agent string. Changing the user agent changes nothing, which rules out simple agent filtering.",
+      "notAnUnreachableHost": "The host resolves and completes a TLS connection and returns a well-formed HTTP response. This is the opposite of the Montana case, where courts.mt.gov did not accept a connection at all.",
+      "notAServerErrorOrOutage": "A challenge page is served deliberately, with challenge-specific headers."
+    },
+    "evidence": {
+      "httpStatus": 403,
+      "httpVersion": "HTTP/2",
+      "responseHeaders": {
+        "cf-mitigated": "challenge",
+        "server": "cloudflare",
+        "cf-ray": "a27f96561bfae57e-IAD",
+        "server-timing": "chlray;desc=\"a27f96561bfae57e\""
+      },
+      "decisiveHeader": "cf-mitigated: challenge",
+      "decisiveHeaderMeaning": "Cloudflare states in the response itself that the request was mitigated by a challenge. This is the issuer's edge provider declaring the refusal, not an inference from a status code.",
+      "bodyTitle": "Just a moment...",
+      "bodyMarkers": ["cdn-cgi", "__cf", "challenge", "meta name=\"robots\" content=\"noindex,nofollow\""],
+      "bodyBytes": "5,556 to 5,697 depending on the path",
+      "challengeType": "interstitial managed challenge requiring browser JavaScript execution"
+    },
+    "probes": [
+      {"url": "https://www.mncourts.gov/GetForms.aspx?c=8&f=222", "userAgent": "browser", "result": "HTTP 403, cf-mitigated: challenge", "note": "the knownOfficialUrl recorded on the exp101 and exp102 queue rows"},
+      {"url": "https://www.mncourts.gov/GetForms.aspx?c=8&f=222", "userAgent": "default automated", "result": "HTTP 403"},
+      {"url": "https://www.mncourts.gov/", "userAgent": "browser", "result": "HTTP 403", "note": "the site root is challenged too, so this is not specific to the forms endpoint"},
+      {"url": "https://mncourts.gov/GetForms.aspx?c=8&f=222", "userAgent": "browser", "result": "HTTP 403", "note": "apex host, same result as www"},
+      {"url": "https://www.mncourts.gov/GetForms.aspx", "userAgent": "browser", "result": "HTTP 403"}
+    ],
+    "recordedBlockReconfirmed": true,
+    "recordedBlockText": "mncourts.gov returns HTTP 403 to automated retrieval on every URL pattern tried, so the printed revision could not be re-confirmed.",
+    "reconfirmationValue": "The recorded position was tested rather than assumed, and it holds. It is now characterised one level deeper than before: the refusing layer is Cloudflare, the mitigation is a managed challenge, and the challenge is JavaScript-gated rather than agent-gated. That distinction determines the remedy.",
+    "remedy": "A rendered-browser session that executes the challenge. This is an attended retrieval and it is the only legitimate route.",
+    "whatWasNotDone": [
+      "No attempt was made to solve, bypass, replay or otherwise defeat the Cloudflare challenge.",
+      "No user agent was spoofed beyond an ordinary browser string, and doing so changed nothing in any case.",
+      "No mirror, aggregator, cached copy or third-party reproduction was retrieved in place of the issuer.",
+      "No alternative source was inferred for any of the five identities.",
+      "No archived capture was promoted to a current source."
+    ]
+  },
+  "assignedIdentities": [
+    {
+      "acquisitionKey": "acquire:MN:exp101",
+      "documentId": "EXP101",
+      "workflowKey": "MN:EXP101:INSTRUCTIONS:EN",
+      "officialTitle": "Instructions for Expungement of Criminal Records (EXP101)",
+      "role": "instructions",
+      "issuer": "Minnesota Judicial Branch",
+      "retainedAndAdopted": true,
+      "editionAssetClass": "source_gated",
+      "editionStructuralClass": "scanned_pdf",
+      "editionRevision": "REV-UNKNOWN",
+      "editionBytes": 310217,
+      "auditStatus": "manifested_source_gated",
+      "repositoryRevisionText": null,
+      "boundComponents": [{"trackId": "mn_petition_609a02_subd3", "componentId": "mn_petition_609a02_subd3-instructions-4"}],
+      "blockedQuestion": "the printed revision, which could not be read because the retained copy is a scanned PDF and the issuer's current copy could not be retrieved",
+      "scannedPdfNote": "This is the only one of the five recorded as scanned_pdf. A scanned instructions sheet has no extractable revision text, so for this identity the block is the only route to a revision — there is no in-repository fallback."
+    },
+    {
+      "acquisitionKey": "acquire:MN:exp102",
+      "documentId": "EXP102",
+      "workflowKey": "MN:EXP102:PRIMARY_FILING:EN",
+      "officialTitle": "Petition for Expungement of Criminal Records (EXP102)",
+      "role": "primary_filing",
+      "issuer": "Minnesota Judicial Branch",
+      "retainedAndAdopted": true,
+      "editionAssetClass": "source_gated",
+      "editionStructuralClass": "flat_pdf",
+      "editionRevision": "REV-UNKNOWN",
+      "editionBytes": 214814,
+      "auditStatus": "manifested_source_gated",
+      "boundComponents": [
+        {"trackId": "mn_petition_15218", "componentId": "mn_petition_15218-primary-filing-1"},
+        {"trackId": "mn_petition_juvenile_as_adult", "componentId": "mn_petition_juvenile_as_adult-primary-filing-1"},
+        {"trackId": "mn_petition_609a02_subd3", "componentId": "mn_petition_609a02_subd3-primary-filing-1"}
+      ],
+      "significance": "The statewide petition vehicle and the most load-bearing of the five. All three assigned tracks bind it."
+    },
+    {
+      "acquisitionKey": "acquire:MN:exp104",
+      "documentId": "EXP104",
+      "workflowKey": "MN:EXP104:CERTIFICATE_OF_SERVICE:EN",
+      "officialTitle": "Proof of Service (EXP104)",
+      "role": "certificate_of_service",
+      "issuer": "Minnesota Judicial Branch",
+      "retainedAndAdopted": true,
+      "editionAssetClass": "source_gated",
+      "editionStructuralClass": "flat_pdf",
+      "editionRevision": "REV-UNKNOWN",
+      "editionBytes": 248691,
+      "auditStatus": "manifested_source_gated",
+      "boundComponents": [
+        {"trackId": "mn_petition_15218", "componentId": "mn_petition_15218-certificate-of-service-2"},
+        {"trackId": "mn_petition_juvenile_as_adult", "componentId": "mn_petition_juvenile_as_adult-certificate-of-service-2"},
+        {"trackId": "mn_petition_609a02_subd3", "componentId": "mn_petition_609a02_subd3-certificate-of-service-2"}
+      ],
+      "contrastWithIowa": "Minnesota publishes proof of service as a separate numbered form. Iowa, resolved elsewhere in this programme, publishes its certification as a boxed section inside each application. The two states are not modelled the same way and the Iowa finding must not be carried across."
+    },
+    {
+      "acquisitionKey": "acquire:MN:exp105",
+      "documentId": "EXP105",
+      "workflowKey": "MN:EXP105:PROPOSED_ORDER:EN",
+      "officialTitle": "Order on Petition for Expungement, Minn. Stat. § 609A.02 subd. 3 (EXP105)",
+      "role": "proposed_order",
+      "statute": "Minn. Stat. § 609A.02 subd. 3",
+      "issuer": "Minnesota Judicial Branch",
+      "retainedAndAdopted": true,
+      "editionAssetClass": "source_gated",
+      "editionStructuralClass": "flat_pdf",
+      "editionRevision": "REV-UNKNOWN",
+      "editionBytes": 195876,
+      "auditStatus": "manifested_source_gated",
+      "boundComponents": [{"trackId": "mn_petition_609a02_subd3", "componentId": "mn_petition_609a02_subd3-proposed-order-3"}]
+    },
+    {
+      "acquisitionKey": "acquire:MN:exp106",
+      "documentId": "EXP106",
+      "workflowKey": "MN:EXP106:PROPOSED_ORDER:EN",
+      "officialTitle": "Order on Petition for Expungement, Minn. Stat. § 152.18 (EXP106)",
+      "role": "proposed_order",
+      "statute": "Minn. Stat. § 152.18",
+      "issuer": "Minnesota Judicial Branch",
+      "retainedAndAdopted": true,
+      "editionAssetClass": "source_gated",
+      "editionStructuralClass": "flat_pdf",
+      "editionRevision": "REV-UNKNOWN",
+      "editionBytes": 183351,
+      "auditStatus": "manifested_source_gated",
+      "boundComponents": [
+        {"trackId": "mn_petition_15218", "componentId": "mn_petition_15218-proposed-order-3"},
+        {"trackId": "mn_petition_juvenile_as_adult", "componentId": "mn_petition_juvenile_as_adult-proposed-order-3"}
+      ],
+      "twoOrdersNotOne": "EXP105 and EXP106 are separate orders for separate statutory routes — § 609A.02 subd. 3 and § 152.18. They must not be collapsed into one proposed_order identity. The equivalent collapse was found and recorded for Florida's Rule 3.989 order identity, which stands for two mutually exclusive orders; Minnesota has correctly kept them apart and that must be preserved."
+    }
+  ],
+  "whatIsAndIsNotBlocked": {
+    "notBlocked": [
+      "Identity. All five document ids, titles, roles, issuer and statutory routes are established and recorded.",
+      "Retention. All five are present in this repository and manifested by the adopted edition at pinned digests and byte counts.",
+      "Binding. Ten component bindings across three tracks are correct as they stand and none requires rebinding."
+    ],
+    "blocked": [
+      "The printed revision of every one of the five. All carry REV-UNKNOWN and none has a captured repositoryRevisionText.",
+      "Currentness. Whether the retained bytes are still what the Minnesota Judicial Branch publishes today."
+    ],
+    "consequence": "The source gate is open on exactly one axis — currentness — for five otherwise complete identities. That is a narrow and well-defined remainder, and it is the whole of what the challenge withholds.",
+    "revUnknownCaveat": "REV-UNKNOWN on these five must not be swept by a later currentness pass. Whether it is a metadata gap or the correct value cannot be decided without reading a face, and four of the five are flat PDFs whose faces are in the repository but were not opened by this job because the assignment's question is issuer provenance, not retained structure. The Idaho pairing resolved elsewhere in this programme showed REV-UNKNOWN being correct on one asset and wrong on another in the same jurisdiction."
+  },
+  "adjacentRetainedAssetsObserved": {
+    "purpose": "Recorded because they sit in the same Minnesota set and a later worker searching for an unblocked substitute will encounter them.",
+    "items": [
+      {"artifactId": "exp101-spanish", "note": "Spanish language edition of the instructions, manifested_instruction at REV-2015-01. A language edition is not a revision and not a substitute for the English EXP101."},
+      {"artifactId": "exp101-hmong", "note": "Hmong language edition, REV-2015-01."},
+      {"artifactId": "exp101-somali", "note": "Somali language edition, REV-2015-01."},
+      {"artifactId": "exp103-current", "note": "Present in the repository as unmanifested_repository_asset with no edition row. Not among the five assigned identities and not bound to any assigned component."},
+      {"artifactId": "exp107-current", "note": "Recorded as excluded_or_retired_source. It must not be reached for as an alternative to any of the five."}
+    ],
+    "languageEditionTrap": "The three language editions carry REV-2015-01 while the English EXP101 carries REV-UNKNOWN. A reader could mistake the dated language edition for evidence of the English form's revision. They are separate assets with separate digests and the date on one says nothing about the other."
+  },
+  "commercialUse": {
+    "recorded": "None identified. Minnesota Judicial Branch forms carry no published non-commercial restriction.",
+    "assessment": "Carried forward unchanged. Not re-verified, because the site that would publish any terms is behind the same challenge that blocked the forms.",
+    "doNotInfer": "A negative finding on restriction is not a grant of permission, and this one could not be re-checked at source today."
+  },
+  "doNotSubstitute": [
+    {"documentClass": "a copy retrieved from a mirror, aggregator or cache while the issuer is challenged", "why": "The block is on the issuer's own site. Sourcing around it substitutes an unattributable copy for an official one and would close a currentness gate with evidence that cannot establish currentness."},
+    {"documentClass": "the Spanish, Hmong or Somali editions of EXP101", "why": "Language editions, not revisions, and not the English document any component binds."},
+    {"documentId": "EXP103", "why": "Retained but unmanifested, not assigned, and bound to nothing."},
+    {"documentId": "EXP107", "why": "Recorded as excluded or retired. It must not be revived as a substitute."},
+    {"documentId": "FEE102 and FEE103", "why": "The Minnesota fee-waiver affidavits, resolved by the sibling in-repository reconciliation. They are supporting instruments on the same tracks, not petitions or orders, and their asset-class defect is a separate matter."},
+    {"documentClass": "a county district court expungement form", "why": "The five are statewide Judicial Branch forms. A county variant must not be promoted to statewide, and the block is not a reason to relax that."}
+  ],
+  "sourceAvailabilityAndStructure": {
+    "officialSourceUrl": "https://www.mncourts.gov/GetForms.aspx?c=8&f=222",
+    "httpStatus": 403,
+    "publicAccessStatus": "public to a human with a browser; refused to automated retrieval by a managed challenge",
+    "bytesFromIssuer": null,
+    "sha256FromIssuer": null,
+    "mimeTypeFromIssuer": null,
+    "pagesFromIssuer": null,
+    "geometryFromIssuer": null,
+    "encryptionFromIssuer": null,
+    "xfaFromIssuer": null,
+    "fieldsFromIssuer": null,
+    "widgetsFromIssuer": null,
+    "whyAllNull": "Nothing was served. Recording the retained copy's measurements here and labelling them issuer provenance would be false attribution: retained bytes prove what this repository holds, not what the issuer publishes today. The edition's digests and byte counts are recorded above under each identity, attributed to the edition.",
+    "supersession": "not_established",
+    "supersessionNote": "The queue records that no renumbering or supersession was found and that the form numbers remain live in the index. That is an absence of contrary evidence, not a positive finding of currency."
+  },
+  "edition13Impact": {
+    "publicationJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+    "editionAmendmentRequired": false,
+    "editionAmendmentRequiredNote": "Nothing about the five edition rows is shown to be wrong by this job. Their identities, titles, roles and classes are consistent with the evidence available. The open item is a revision value that cannot be supplied until the challenge is passed.",
+    "requiresNewBytes": false,
+    "requiresRevisionCorrection": "unknown",
+    "requiresRevisionCorrectionDetail": "All five carry REV-UNKNOWN. Whether that is a gap or the correct value is precisely what the block withholds.",
+    "requiresAssetClassCorrection": false,
+    "requiresAssetClassCorrectionNote": "source_gated remains correct while the currentness gate is open.",
+    "requiresLicenseDisposition": false,
+    "recommendedRowAnnotation": "Each of the five rows should carry a note recording that its currentness is gated by a Cloudflare managed challenge at the issuer, so a later reader does not read REV-UNKNOWN as unfinished work nor the source gate as an unexplained hold.",
+    "edition12Treatment": "immutable_unchanged",
+    "publicationPerformed": false
+  },
+  "sourceMaterializationEligibility": {
+    "laterMaterializationPermitted": false,
+    "laterMaterializationPermittedDetail": "Not while currentness is unestablished. All five are source_gated, and materializing them would carry five unverified revisions into the runtime contract for three tracks.",
+    "receiptCreatedByThisJob": false,
+    "prerequisitesInOrder": [
+      "1. Retrieve the five forms through a rendered-browser session that passes the Cloudflare challenge.",
+      "2. Read the printed revision from each face, or record affirmatively that a face carries none.",
+      "3. Compare the retrieved bytes against the retained digests to settle currentness.",
+      "4. Clear the source gate if the comparison holds, and reclass from source_gated.",
+      "5. Only then author receipts with destinations under official-pdf/MN/."
+    ]
+  },
+  "implementationFamilyEffect": {
+    "family": "rcap-mn-official-pdf-family",
+    "affectedTracks": 3,
+    "affectedComponents": 10,
+    "effectOfThisJob": "This job is one of two open dependencies of rcap-mn-flat-pdf-overlay, which covers three Minnesota tracks; the other is the in-repository reconciliation, which is complete and integrated. It does not release that job, because the currentness question it exists to answer is answerable only by an attended retrieval. What it contributes is a block characterised to the mitigation layer, a precise statement of what is and is not withheld, and a named remedy.",
+    "familyReadinessStatement": "The Minnesota official-PDF family remains fail-closed and this job does not move it. All five assets stay source_gated at REV-UNKNOWN with runtime disabled, the sibling FEE102 asset-class defect is unrepaired, generation is not permitted, and no field map is built. No packet becomes generatable and no renderer is assigned.",
+    "netEffectOnBlockers": "One blocker is characterised rather than cleared, and the remedy is narrowed from an open acquisition to a single attended session covering five documents at one index URL."
+  },
+  "terminalDisposition": "official_download_refused_by_cloudflare_managed_challenge_all_five_identities_retained_and_adopted_currentness_alone_remains_blocked",
+  "terminalDispositionDetail": {
+    "why": "The narrowest disposition the evidence supports. It is not unresolved_identity: all five documents, titles, roles, issuer and statutory routes are established. It is not source_missing, which the stop condition expressly forbids and which would be false — every one of the five is retained and manifested. It is not a host outage: the server answers, and answers with a challenge that names itself in the response headers. What is blocked is one axis, currentness, and the remedy is an attended session.",
+    "identitiesAssigned": 5,
+    "identitiesRetainedAndAdopted": 5,
+    "binariesRetrievedFromIssuer": 0,
+    "hashesRecordedFromIssuer": 0,
+    "blockReconfirmed": true,
+    "blockCharacterisedToMitigationLayer": true,
+    "sourcesRelabelledMissing": 0,
+    "alternativesInferred": 0
+  },
+  "expectedDownstreamEffect": "The Minnesota source gate stays open and its cause is now characterised precisely: a Cloudflare managed challenge that declares itself in a cf-mitigated response header, returns HTTP 403 identically to automated and browser clients, and covers the site root as well as the form index. The remedy is named — one rendered-browser session covering all five documents at a single index URL — and the distinction from the Montana case, where the host accepts no connection at all, is recorded so the two are not treated as one kind of problem. All five identities are affirmatively confirmed retained and adopted rather than missing, which is the relabelling the assignment forbids. Ten component bindings across three tracks are confirmed correct. No binary is acquired, no receipt is created, nothing enters version control, no alternative is inferred, no mirror is substituted, no component is rebound, no memo is edited, no edition is published, no packet becomes generatable, no runtime is enabled and no track changes promotion state.",
+  "residualBlockers": [
+    {"id": "mn-cloudflare-managed-challenge", "question": "mncourts.gov refuses automated retrieval with a Cloudflare managed challenge on every path including the site root.", "status": "blocked_attended_retrieval_required", "owner": "acquisition owner", "why": "JavaScript-gated, not agent-gated. Changing the user agent changes nothing. The only legitimate route is a rendered-browser session.", "reopenCondition": "A successful attended retrieval of the five forms, followed by comparison against the retained digests."},
+    {"id": "mn-five-revisions-unknown", "question": "All five identities carry REV-UNKNOWN with no captured revision text.", "status": "blocked", "owner": "acquisition owner", "why": "Downstream of the challenge. Must not be swept in either direction until a face is read."},
+    {"id": "mn-exp101-scanned-pdf", "question": "EXP101 is a scanned PDF, so it has no extractable revision text even in the repository.", "status": "open", "owner": "acquisition owner", "why": "For this one identity there is no in-repository fallback at all; the issuer is the only route to a revision."},
+    {"id": "mn-currentness-not-supersession", "question": "No renumbering or supersession was found, but that is an absence of contrary evidence rather than a positive finding of currency.", "status": "inherent", "owner": "acquisition owner"},
+    {"id": "mn-fee102-asset-class", "question": "The sibling FEE102 and FEE103 fee-waiver affidavits are classed supporting_process and cannot back their fee_waiver components.", "status": "handed_off", "owner": "rcap-nationwide-master-library-edition-1-3-publication", "why": "Raised by the completed in-repository reconciliation. Recorded here because it is the other half of the Minnesota family's source position."},
+    {"id": "mn-commercial-use-unreverified", "question": "The recorded absence of a non-commercial restriction could not be re-checked, because any terms page sits behind the same challenge.", "status": "inherent", "owner": "acquisition owner"}
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "sourcesMaterialized": 0,
+    "sourceReceiptCountUnchanged": true,
+    "memoEdited": false,
+    "editionPublished": false,
+    "editionMutated": false,
+    "rendererImplemented": false,
+    "packetImplemented": false,
+    "componentRebound": false,
+    "issuerContacted": false,
+    "blockEvaded": false,
+    "mirrorSubstituted": false,
+    "sourceRelabelledMissing": false,
+    "alternativeInferred": false,
+    "integrationPerformed": false,
+    "promotionPerformed": false,
+    "migrationPerformed": false,
+    "deploymentPerformed": false
+  }
+}
