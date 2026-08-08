@@ -811,18 +811,27 @@ function memoStateProducedBy(jurisdiction, jobId) {
  * after it. Reaching a later state is evidence the earlier one was passed
  * through, not evidence it never happened.
  */
-function memoHasReached(rootDir, jurisdiction, sha) {
-  if (!sha) return false;
+function memoHasReached(rootDir, jurisdiction, accepted) {
+  // Callers pass one hash or several. Florida's continuation correction lists
+  // two, because a later binding correction moved the same memo on again and
+  // both states are its own delivered output as far as this job is concerned.
+  const states = [accepted].flat().filter(Boolean);
+  if (states.length === 0) return false;
   const absolute = path.join(
     rootDir,
     `data/record-clearing/legal-design-intake/${jurisdiction}.memo.json`
   );
   if (!fs.existsSync(absolute)) return false;
   const actual = sha256File(absolute);
+  if (states.includes(actual)) return true;
+  // Not an exact match, so fall back to position in the recorded chain: any
+  // state recorded after the earliest one this job accepts also counts.
   const chain = memoStateChainFor(jurisdiction);
-  const target = chain.indexOf(sha);
-  if (target === -1) return actual === sha;
-  return chain.slice(target).includes(actual);
+  const indexes = states
+    .map((state) => chain.indexOf(state))
+    .filter((index) => index !== -1);
+  if (indexes.length === 0) return false;
+  return chain.slice(Math.min(...indexes)).includes(actual);
 }
 const COMPLETED_GUIDANCE_IMPLEMENTATIONS = Object.freeze([
   {

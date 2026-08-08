@@ -1,0 +1,326 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-oh-2953-321-local-form-and-fee-survey",
+  "parentJobId": "AUTH-01-in-repo-authority-pinning",
+  "jurisdiction": "OH",
+  "lane": "source_acquisition",
+  "strategyFamily": "official_download_automation_blocked",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "74b6e95ecd5ee59bfa3600f83fd3d9f4e10e9700",
+  "generatedOn": "2026-08-08",
+  "reconciliationIds": [
+    "followup:OH:rcap-oh-2953-321-local-form-and-fee-survey"
+  ],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountMeaning": "No source was taken into custody, materialized or receipted, and no official form binary was retrieved: none was found to retrieve. Statutes and published pages were read; that is reading, not acquisition.",
+  "generatedFrom": [
+    "data/record-clearing/legal-design-intake/OH.memo.json",
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/production-factory/legal-design-decisions/rcap-oh-marijuana-governing-mechanism-reconciliation.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-01-in-repo-authority-pinning.json"
+  ],
+  "whatThisRecordAnswers": "The two release-blocker questions rcap-oh-marijuana-governing-mechanism-reconciliation left open on oh_marijuana_expungement: oh-marijuana-local-application-form and oh-marijuana-fee-and-indigency. It answers the fee question from the statute and answers the form question as far as the published record permits, marking exactly where the published record stops.",
+  "method": {
+    "description": "Statute-first, then a bounded publisher survey. Ohio Rev. Code sections 2953.321, 2953.32 and 2323.311 were read in full at the Legislative Service Commission's own publication of the Revised Code. The Supreme Court of Ohio's All Forms index was retrieved and its form categories enumerated rather than searched, so that the statewide negative rests on what the index contains and not on what a search failed to return. A bounded sample of Ohio courts was then probed directly. Every retrieval was classified by the repository's hardened acquisition-response validator.",
+    "issuerContactsMade": 0,
+    "clerkContacted": false,
+    "courtContacted": false,
+    "phoneCallMade": false,
+    "feesPaid": 0,
+    "binariesDownloaded": 0,
+    "receiptsWritten": 0,
+    "legalConclusionsAltered": false,
+    "memoAmended": false,
+    "editionMutated": false,
+    "marijuanaTrackMadeReady": false,
+    "byteVerificationMethod": "none_performed_no_official_form_located",
+    "perimeterEvasionAttempted": false,
+    "userAgentSpoofed": false
+  },
+  "statutoryBasis": {
+    "section": "Ohio Rev. Code § 2953.321",
+    "title": "Expungement of marijuana or hashish possession offenses",
+    "effective": "March 20, 2026",
+    "enactedBy": "Senate Bill 56, 136th General Assembly",
+    "sectionAgeAtSurvey": "four months and nineteen days",
+    "readAtSource": "https://codes.ohio.gov/ohio-revised-code/section-2953.321 on 2026-08-08; response sha256 c15bafb48fed090a8231dfa35be85e8e141d3aa7d06324888d7420fc78966378",
+    "lastUpdatedStamp": "Last updated February 2, 2026 at 1:03 PM",
+    "availableVersions": "One only — March 20, 2026, enacted by Senate Bill 56. The section has not been amended since enactment."
+  },
+  "localFormFinding": {
+    "statewideForm": {
+      "exists": false,
+      "verdict": "no_statewide_official_form_for_this_section_or_for_record_sealing_at_all",
+      "confidence": "high",
+      "howEstablished": "By enumerating the categories in the Supreme Court of Ohio's All Forms index, not by a search returning nothing. The index publishes Appellate Court; Benefits; Crime Victims 'Marsy's Law' Rights; Criminal Sentencing Commission; Forms submitted in PHV Portal; Forms filed with the Local Tribunal; Affidavits of Indigency; Attorney Registration; Attorney Services; Bar Admissions; Case Filing; CLE; Case Management and Statistical Reporting; Disciplinary; Dispute Resolution and Mediation; Domestic Relations and Juvenile Standardized; and Language Services. There is no record-sealing or expungement category, and the sole standardized litigant-facing family is Domestic Relations and Juvenile.",
+      "indexRetrieved": "https://www.supremecourt.ohio.gov/forms/ on 2026-08-08; 138250 bytes",
+      "indexDisclaimer": "The index carries its own disclaimer: 'These forms do not include instructions, legal advice regarding your rights and responsibilities, or legal options.'",
+      "consistentWith": "The mechanism decision's finding at determination item 9 that no statewide official form exists for this section and that custom_pleading is therefore the correct strategy. That finding is confirmed here from the publisher's own index rather than inferred."
+    },
+    "howOhioActuallyPublishesTheseForms": {
+      "pattern": "Each court publishes its own. Ohio record-sealing and expungement forms are court-created documents, produced by individual common pleas, municipal and county courts, with no statewide template behind them.",
+      "consequence": "The question 'how many materially different local packets exist' has no bounded answer. Ohio has 88 counties and, beneath them, common pleas, municipal, county and mayor's courts, each free to publish its own application. The number is large, unenumerated, and not obtainable from the published record."
+    },
+    "section2953321SpecificForm": {
+      "located": false,
+      "verdict": "none_located_in_a_bounded_survey",
+      "confidenceInTheNegative": "moderate_and_deliberately_not_higher",
+      "whatWasChecked": [
+        "The Supreme Court of Ohio All Forms index, enumerated in full.",
+        "The Franklin County Law Library's Marijuana Law guide, Expungement of Convictions page, last updated 2026-07-30 — a county law library's own current guide to exactly this subject, which discusses Ohio expungement under § 2953.32 and does not reference § 2953.321 or any form for it.",
+        "A bounded sample of court publishers, recorded individually below."
+      ],
+      "whatThisDoesAndDoesNotEstablish": {
+        "establishes": "That no § 2953.321 application form is discoverable in the statewide publisher's index or in the sample checked, four and a half months after the section took effect.",
+        "doesNotEstablish": "That no Ohio court publishes one. Hundreds of courts were not checked and cannot be checked from a desk.",
+        "doNotRecord": "No court is recorded here as publishing nothing. Absence of a form in a survey is absence of evidence about that court, not evidence of absence."
+      },
+      "whyANegativeIsPlausibleHere": "The section took effect on 2026-03-20 and is drafted as a closed remedial window reaching only dispositions before that date. A court has had one filing season with it. That makes a not-yet-published form unsurprising; it does not make it established."
+    },
+    "courtsSampled": [
+      {
+        "court": "Erie County Court",
+        "publisher": "https://www.eriecounty.oh.gov/SealingRecords.aspx",
+        "retrieval": "acquired, HTTP 200, 95084 bytes",
+        "publishesOwnSealingProcess": true,
+        "mentionsSection2953321": false,
+        "verbatim": "The statutes authorizing sealing and expunging of records are Ohio Revised Code sections 2953.31 to 2953.39. This area of the law changes often and it is recommended that you consider consulting an attorney to help you with the sealing process. The petition must be signed and filed with the court along with a $100.00 filing fee. If the charge was dismissed or if you were found not guilty, there is no filing fee.",
+        "significance": "The stated range '2953.31 to 2953.39' would encompass § 2953.321 numerically, but the page describes the ordinary sealing petition and its $100 fee, and nothing on it is addressed to the marijuana route. It is evidence about how this court charges for sealing petitions generally and about nothing else.",
+        "evidenceScope": "Erie County only."
+      },
+      {
+        "court": "Court of Common Pleas, Cuyahoga County",
+        "publisher": "https://cp.cuyahogacounty.gov/court-resources/expungements/",
+        "retrieval": "not_retrievable_by_machine",
+        "transportResult": "ECONNRESET at the TLS layer on two independent clients. No HTTP status, no response body, no perimeter vendor signature and no stated refusal.",
+        "treatment": "Recorded as a transport failure, not as a block and not as an absence. The court is independently known to publish an Expungement Application Packet, so the page exists and has content this survey could not read.",
+        "whatIsNotConcluded": "Nothing about whether Cuyahoga publishes a § 2953.321 form. The page was never read."
+      },
+      {
+        "court": "Franklin County Municipal Court",
+        "publisher": "https://municipalcourt.franklincountyohio.gov/Forms/Record-Sealing-and-Expungement/",
+        "retrieval": "blocked",
+        "httpStatus": 403,
+        "perimeterVendor": "akamai",
+        "disposition": "official_download_automation_blocked_attended_retrieval_required",
+        "secondAttempt": "The host also answers with a 301 redirect to franklincountymunicourt.org. The redirect was not followed to a second host and no attempt was made to evade the perimeter.",
+        "treatment": "A block, recorded as a block. This court publishes a Record Sealing and Expungement forms set; whether that set now includes a § 2953.321 application is behind the perimeter and is a question for attended retrieval.",
+        "evasionAttempted": false
+      }
+    ],
+    "mandatoryOrOptional": {
+      "question": "Is any local form mandatory, or merely optional?",
+      "verdict": "no_statewide_rule_makes_any_local_expungement_form_mandatory",
+      "whatIsEstablished": "Nothing in § 2953.321 requires a form. Division (C) prescribes the application's contents in three items and prescribes no instrument. An application satisfying (C)(1) to (3) is what the statute asks for.",
+      "whatIsNotEstablished": "Whether a particular court requires its own form as a matter of local practice or local rule. That is a per-court question and none was resolved.",
+      "theRuleThatMattersForTheProduct": "Because the statute prescribes the contents, a generated application can be audited against the section itself. That is what makes custom_pleading viable here and it does not depend on the local-form answer.",
+      "doNotPromote": "No local form may be promoted to statewide use. A form found in one county is authority for that county's practice and for nothing more, and no Ohio authority makes any county's expungement form statewide."
+    }
+  },
+  "feeFinding": {
+    "governingProvision": "Ohio Rev. Code § 2953.321(G)",
+    "verbatim": "Upon the filing of an application under this section, the applicant, unless indigent, shall pay a fee of fifty dollars. The court shall pay thirty dollars of the fee into the state treasury, with half of that amount credited to the attorney general reimbursement fund created by section 109.11 of the Revised Code, and shall pay twenty dollars of the fee into the county general revenue fund.",
+    "amount": "$50",
+    "amountIsStatutoryAndStatewide": true,
+    "distribution": {
+      "stateTreasury": "$30, of which half — $15 — is credited to the attorney general reimbursement fund created by § 109.11",
+      "countyGeneralRevenueFund": "$20"
+    },
+    "feeIsAPreconditionToTheHearing": {
+      "provision": "§ 2953.321(D)(1)",
+      "verbatim": "Upon the filing of an application under division (C) of this section and the payment of the fee described in division (G) of this section if applicable, the court shall set a date for a hearing and shall notify the prosecutor for the case of the hearing on the application.",
+      "consequence": "The court's duty to set a hearing is conditioned on filing and on payment where payment applies. A non-indigent applicant who files without paying has no entitlement to a hearing date. The phrase 'if applicable' is the carve-out for the indigent applicant and is the only thing in the section that makes indigency operative.",
+      "participantFacingConsequence": "The packet must tell the participant that the fee accompanies the application, not that it is billed later."
+    },
+    "noLocalCourtFeeIsAuthorizedBySection2953321": {
+      "finding": "§ 2953.321(G) authorizes a fee of fifty dollars and nothing else. It contains no local-court-fee clause.",
+      "theContrastThatEstablishesIt": {
+        "provision": "Ohio Rev. Code § 2953.32(A)(3)",
+        "verbatim": "An applicant may request the sealing or expungement of the records of more than one case in a single application under this section. Upon the filing of an application under this section, the applicant, unless the applicant presents a poverty affidavit showing that the applicant is indigent, shall pay an application fee of fifty dollars and may pay a local court fee of not more than fifty dollars, regardless of the number of records the application requests to have sealed or expunged.",
+        "readAtSource": "https://codes.ohio.gov/ohio-revised-code/section-2953.32 on 2026-08-08; response sha256 982ba5812c736d34cc0ecb438f113b90a0e946de183ee6f9bf5217ea2121db4e",
+        "why": "The General Assembly wrote an express local-fee authorisation into the general sealing section and omitted it from the marijuana section in the same chapter. The omission is the finding."
+      },
+      "observedInPractice": "Erie County Court states a $100.00 filing fee for a sealing petition — consistent with the § 2953.32 structure of a $50 application fee plus a local court fee of up to $50.",
+      "theRiskThisCreates": "A court that applies its ordinary sealing fee schedule to a § 2953.321 application would charge a participant more than the section authorises. The mismatch is foreseeable precisely because every court already has a sealing schedule and this section is new.",
+      "whatThePacketMustDo": "Quote § 2953.321(G) and its fifty dollars with the provision. Tell the participant the section authorises fifty dollars and that a court may quote a different figure, and that they should ask the clerk what the charge is for an application under section 2953.321 specifically.",
+      "whatThePacketMustNotDo": [
+        "Promise that fifty dollars is what the counter will charge.",
+        "Tell a participant that a higher local charge is unlawful. Whether a court may charge more under some other authority is a question for the court, and this record does not decide it."
+      ]
+    },
+    "noDismissalCarveOut": {
+      "finding": "§ 2953.321(G) has no carve-out for a dismissed charge. It reads 'Upon the filing of an application under this section, the applicant, unless indigent, shall pay a fee of fifty dollars', without qualification.",
+      "whyItMatters": "§ 2953.321(B) expressly reaches a person who 'was the defendant named in a dismissed complaint, indictment, or information'. Under Ohio's ordinary non-conviction practice a dismissed charge commonly attracts no filing fee at all — Erie County states exactly that: 'If the charge was dismissed or if you were found not guilty, there is no filing fee.' Under this section, a dismissed-charge marijuana applicant pays the fifty dollars unless indigent.",
+      "participantFacingConsequence": "A participant whose marijuana charge was dismissed may reasonably expect to pay nothing, having been told so by their court's general sealing page. The packet must not let that expectation stand unqualified."
+    },
+    "perApplicationAndPerCourt": {
+      "finding": "The fee is per application, and the number of applications is driven by the number of sentencing courts.",
+      "basis": [
+        "§ 2953.321(C): the person 'may apply to the sentencing court'. The forum follows the case.",
+        "§ 2953.321(C)(1): the application shall identify 'the offense for which the expungement is sought' and 'the court in which the conviction occurred, the plea of guilty was entered, or the charges were dismissed' — singular throughout.",
+        "§ 2953.321 contains no analogue to § 2953.32(A)(3)'s express permission to 'request the sealing or expungement of the records of more than one case in a single application' and its express 'regardless of the number of records' language."
+      ],
+      "established": "A participant with qualifying cases in more than one court must file in each of those courts, and each filing carries its own fifty dollars unless indigent.",
+      "notEstablished": "Whether one application may cover more than one qualifying case in the same court. § 2953.32 says expressly that it may; § 2953.321 is silent, and silence next to an express neighbouring provision cuts both ways. Recorded unresolved rather than resolved by analogy.",
+      "costConsequence": "The participant-facing cost is not a flat fifty dollars. It is fifty dollars times the number of sentencing courts, before any local charge."
+    }
+  },
+  "indigencyFinding": {
+    "whatTheSectionSays": "'unless indigent'. Two words. § 2953.321 prescribes no procedure, no affidavit, no form, no standard and no timing for establishing indigency, and defines the term nowhere.",
+    "whatTheSectionDoesWithIt": "It makes the fee inapplicable, which in turn makes the § 2953.321(D)(1) 'if applicable' condition fall away so the court's duty to set a hearing is triggered by filing alone.",
+    "candidateProceduresIdentified": [
+      {
+        "candidate": "The § 2953.32 poverty affidavit",
+        "provision": "Ohio Rev. Code § 2953.32(A)(3), 'unless the applicant presents a poverty affidavit showing that the applicant is indigent'",
+        "strength": "The closest analogue there is: the same chapter, the adjacent subject, the same fifty-dollar fee, and an expressly named instrument. A court running both routes will already have a poverty affidavit in its sealing packet.",
+        "weakness": "It is expressly attached to applications 'under this section', meaning § 2953.32. Nothing extends it to § 2953.321.",
+        "assessment": "The most likely practical route, and not established as the governing one."
+      },
+      {
+        "candidate": "The § 2323.311 affidavit of indigency",
+        "provision": "Ohio Rev. Code § 2323.311, Indigent litigants, effective March 22, 2019, House Bill 595, 132nd General Assembly",
+        "verbatim": "In order to qualify as an indigent litigant, the applicant shall file with the court in which a civil action or proceeding is filed an affidavit of indigency in a form approved by the supreme court, or, until that court approves such a form, a form that requests substantially the same financial information as the financial disclosure and affidavit of indigency form used by the public defender for the appointment of counsel in a criminal case.",
+        "readAtSource": "https://codes.ohio.gov/ohio-revised-code/section-2323.311 on 2026-08-08; response sha256 19273eb9f3ef3ca8862a7322e9b22cc89939bb82e6ac83d3dbcceb35524263ff",
+        "strength": "It is Ohio's general indigent-litigant mechanism and it contemplates a supreme-court-approved form, which would be statewide.",
+        "weakness": "It is confined by its own terms to 'a civil action or proceeding'. A § 2953.321 application is filed in the sentencing court in the criminal case, and the section does not characterise the proceeding as civil. Whether § 2323.311 reaches it is not established.",
+        "assessment": "Available in principle, uncertain in scope."
+      }
+    ],
+    "verdict": "unresolved_no_prescribed_procedure_exists_and_two_candidate_routes_compete",
+    "whatThePacketMayTellAParticipant": "That the section makes the fee inapplicable to an indigent applicant; that Ohio's general sealing statute uses a poverty affidavit for the same purpose and that many courts will expect something of that kind; and that the participant should ask the clerk what that court requires to establish indigency for an application under section 2953.321.",
+    "whatThePacketMustNotDo": [
+      "Promise a fee waiver. Indigency is a determination the court makes and this record does not predict it.",
+      "Assert that the § 2953.32 poverty affidavit is the required instrument for a § 2953.321 application. It is a strong analogue and not an established requirement.",
+      "Generate an affidavit of indigency on either statutory template as though the choice were settled."
+    ],
+    "whatWouldSettleIt": "A court's own published § 2953.321 filing instructions, a local rule, or a Supreme Court of Ohio approved affidavit of indigency form reaching this proceeding. None was located."
+  },
+  "additionalFindingsBearingOnParticipantCopy": [
+    {
+      "finding": "A hearing is mandatory and its timing is fixed.",
+      "provision": "§ 2953.321(D)(1) and (D)(2)",
+      "detail": "The court 'shall hold the hearing scheduled under this division', and 'shall hold the hearing not less than forty-five days and not more than ninety days after the date of the filing of the application.' There is no paper-only disposition.",
+      "why": "It is participant-facing expectation-setting and it bounds the timeline: not sooner than about six weeks, not later than about three months from filing."
+    },
+    {
+      "finding": "A probation investigation precedes the hearing.",
+      "provision": "§ 2953.321(D)(1)",
+      "detail": "'The court shall direct its regular probation officer, a state probation officer, or the department of probation of the county in which the applicant resides to make inquiries and written reports as the court requires concerning the applicant.'",
+      "note": "This confirms residual question oh-marijuana-probation-report as a real feature of the route rather than a possibility. What the investigation involves in practice remains unestablished, exactly as that question records."
+    },
+    {
+      "finding": "The evidentiary burden in (C)(2) is a records burden the participant must meet.",
+      "provision": "§ 2953.321(C)(2)",
+      "detail": "The application must 'include evidence' that the offence was one of the qualifying divisions of § 2925.11 and that the disposition 'occurred prior to the effective date of this section'. Naming the offence is not enough; the application carries evidence of the code division and of the date.",
+      "productConsequence": "This is a records-checklist obligation, not a drafting obligation, and it belongs in the participant's checklist: the entry, judgment or dismissal showing the exact § 2925.11 division and the date."
+    }
+  ],
+  "sourceReceiptAndAcquisitionEffect": {
+    "receiptCreated": false,
+    "receiptEligible": false,
+    "why": "No official form for this section was located, so there is no document to receipt. Nothing was retrieved from an unattended channel and pinned.",
+    "materializationEligible": false,
+    "sourceContractEligible": false
+  },
+  "editionConsequence": {
+    "kind": "no_amendment",
+    "why": "No document identity, revision, byte count or hash is established by this record, because no § 2953.321 form was located. There is no row to add, correct, retire or re-title.",
+    "notPerformedHere": "No edition is published, amended or mutated.",
+    "doNotSweep": "No Ohio row and no other jurisdiction's row is implicated."
+  },
+  "implementationFamilyConsequence": {
+    "currentMemoStrategy": "custom_pleading",
+    "recommendation": "Unchanged. The absence of any official form, statewide or local, is the affirmative case for custom_pleading rather than an obstacle to it: § 2953.321(C)(1) to (3) prescribes the application's contents, so a generated application has a specification to be audited against.",
+    "officialPdfFillPossible": false,
+    "officialPdfFillWhyNot": "There is no official PDF. No statewide form exists and no local § 2953.321 form was located.",
+    "unlocked": "none",
+    "unlockedDetail": "This record answers two release-blocker questions and unlocks no implementation family. The marijuana track is not made ready and the packet-capability position is unchanged.",
+    "whatItRemovesFromTheDownstreamPath": "The Ohio custom-pleading job no longer has to guess the fee, the fee's statutory basis, whether a local fee attaches, or whether an official form must be conformed to. It still must not assert an indigency procedure."
+  },
+  "blockerTreatment": [
+    {
+      "residualQuestionId": "oh-marijuana-local-application-form",
+      "sourceRecord": "rcap-oh-marijuana-governing-mechanism-reconciliation",
+      "status": "answered_as_far_as_the_published_record_permits",
+      "answer": "No statewide form exists, established by enumerating the statewide publisher's own index. No § 2953.321 local form was located in a bounded survey. Ohio publishes these forms court by court, so the count of materially different local packets is unbounded and not obtainable from a desk.",
+      "retirable": "partially",
+      "whatRemains": "Whether any individual court has published a § 2953.321 application. That is attended-retrieval and clerk-contact work, and it is not closed by this record.",
+      "owner": "the Ohio legal-design owner, with the residual enumeration owned by an attended-retrieval assignment"
+    },
+    {
+      "residualQuestionId": "oh-marijuana-fee-and-indigency",
+      "sourceRecord": "rcap-oh-marijuana-governing-mechanism-reconciliation",
+      "status": "fee_answered_indigency_unresolved",
+      "feeAnswer": "Fifty dollars under § 2953.321(G), statewide and statutory, split $30 state and $20 county, payable on filing and a precondition to the court's duty to set a hearing, with no local court fee authorised by the section and no dismissal carve-out, per application and therefore per sentencing court.",
+      "indigencyAnswer": "Unresolved. The section says only 'unless indigent' and prescribes no procedure; two candidate routes compete and neither is established.",
+      "retirable": "partially",
+      "owner": "the Ohio legal-design owner"
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "oh-2953-321-indigency-procedure",
+      "question": "What must an applicant file to establish indigency for the § 2953.321(G) fee?",
+      "status": "unresolved",
+      "candidates": [
+        "the § 2953.32(A)(3) poverty affidavit",
+        "the § 2323.311 affidavit of indigency in a supreme-court-approved form"
+      ],
+      "owner": "the Ohio legal-design owner",
+      "classification": "release_blocker"
+    },
+    {
+      "id": "oh-2953-321-multiple-cases-one-court",
+      "question": "May one application under § 2953.321 cover more than one qualifying case in the same sentencing court?",
+      "status": "unresolved",
+      "why": "§ 2953.32(A)(3) expressly permits it for the general sealing route. § 2953.321 is silent, and its (C)(1) contents are drafted in the singular. Silence beside an express neighbouring permission is not a permission and not a prohibition.",
+      "costConsequence": "It multiplies or does not multiply the fifty dollars for a participant with several qualifying cases in one court.",
+      "owner": "the Ohio legal-design owner",
+      "classification": "release_blocker"
+    },
+    {
+      "id": "oh-2953-321-local-fee-practice",
+      "question": "Do Ohio courts in fact charge a local court fee on a § 2953.321 application notwithstanding that the section authorises none?",
+      "status": "unresolved",
+      "why": "Courts have existing sealing schedules that include a local fee authorised by § 2953.32. Whether they apply those schedules to the new section is a practice question no published source answers.",
+      "owner": "an attended-retrieval or clerk-contact assignment",
+      "classification": "release_blocker"
+    },
+    {
+      "id": "oh-2953-321-local-form-enumeration",
+      "question": "Which Ohio courts, if any, publish a § 2953.321 application form?",
+      "status": "unresolved_bounded",
+      "surveyed": 3,
+      "surveyedDetail": "One read in full (Erie County Court), one behind an Akamai perimeter (Franklin County Municipal Court), one unreachable at the TLS layer (Court of Common Pleas, Cuyahoga County).",
+      "unsurveyed": "every other Ohio common pleas, municipal, county and mayor's court",
+      "doNotInfer": "No court is recorded as publishing nothing.",
+      "owner": "an attended-retrieval assignment",
+      "classification": "release_blocker"
+    },
+    {
+      "id": "oh-2953-321-cuyahoga-transport",
+      "question": "Why does cp.cuyahogacounty.gov reset the connection?",
+      "status": "unresolved_low_consequence",
+      "detail": "ECONNRESET at the TLS layer on two independent clients, with no HTTP status, no body and no perimeter vendor signature. It presents as a transport failure rather than as a stated refusal, and it is recorded as neither a block nor an absence.",
+      "owner": "acquisition owner",
+      "classification": "monitoring_question"
+    }
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "receiptsWritten": 0,
+    "localFormPromotedToStatewide": false,
+    "feeWaiverPromised": false,
+    "countyRecordedAsPublishingNothing": false,
+    "marijuanaTrackMadeReady": false,
+    "memoAmended": false,
+    "editionMutated": false
+  }
+}
