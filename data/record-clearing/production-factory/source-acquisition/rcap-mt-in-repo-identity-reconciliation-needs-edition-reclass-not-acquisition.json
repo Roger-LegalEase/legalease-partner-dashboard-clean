@@ -1,0 +1,351 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-mt-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition",
+  "parentJobId": "AUTH-02-component-remap-corrections",
+  "jurisdiction": "MT",
+  "lane": "source_acquisition",
+  "strategyFamily": "in_repo_identity_reconciliation",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "95789664518ee3f7f2aeb9c12380dd9ba70d3b76",
+  "generatedOn": "2026-08-08",
+  "reconciliationIds": [
+    "acquire:MT:expungementremovalrequestform-docx",
+    "acquire:MT:mt-oca-mmrta"
+  ],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero is correct and is the assignment's pinned value. Nothing was downloaded, no issuer was contacted, no file entered version control and no receipt was created. Both defects are edition-side and both were established from the bytes the adopted edition already retains.",
+  "generatedFrom": [
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/authority.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/acquisition-campaign.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/unresolved.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-02-component-remap-corrections.json"
+  ],
+  "method": {
+    "description": "Deterministic in-repository identity reconciliation. The two assigned identities were tested against the bytes the adopted edition already retains by extracting each Montana asset from the authority archive and reading its document body, then comparing what the artifact is against the class and document ID the edition assigns it and against the roles the bound components require.",
+    "measurementBasis": "freshly_measured_bytes_from_the_adopted_authority_archive",
+    "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+    "extractionNote": "Assets were read out of Expungement_AI_RCAP_Master_Library_Edition_1_2.zip into temporary storage outside the repository and outside every worktree. Nothing was retained, committed or materialized.",
+    "tooling": "zipfile plus WordprocessingML paragraph extraction for the .docx bodies; sha256 and byte counts taken on the extracted bytes",
+    "issuerContactsMade": 0,
+    "binariesDownloaded": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "binariesCommitted": 0,
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "memoAltered": false,
+    "componentRebound": false,
+    "assignmentConstraintObserved": "The stop condition confines this job to retained repository assets and deterministic identity mapping, with no download, no issuer contact, no legal-design change and no edition edit. Currentness against the publisher is expressly NOT asserted — both issuers were unreachable when last attempted and this job did not retry."
+  },
+  "finding": {
+    "headline": "Neither identity needs acquisition. Both bytes are retained and adopted. Both defects are in the edition's own metadata: one asset is classed as supporting_process when the artifact is a participant primary filing, and two plainly different documents share one document ID. The job name is exactly right — this is an edition reclass, not an acquisition.",
+    "acquisitionRequired": false,
+    "acquisitionRequiredRationale": "Nothing needs to be obtained from the Montana Department of Justice or from the Office of the Court Administrator. All three binaries behind the two identities are retained in the adopted edition at pinned digests. No issuer interaction can change an asset class or a document ID held in this repository.",
+    "whyThisMattersMoreThanUsual": "Both defects are of a kind that a remap cannot fix. Rebinding a component to a supporting_process asset still fails the authority gate, and rebinding two components to a shared document ID still produces a hash conflict. The correction has to happen in the successor edition."
+  },
+  "resolvedIdentities": [
+    {
+      "reconciliationId": "acquire:MT:expungementremovalrequestform-docx",
+      "assignedDocumentId": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+      "verdict": "retained_and_correctly_identified_but_classed_in_the_edition_as_a_class_that_cannot_back_its_components",
+      "defectClass": "authority_role_mismatch",
+      "officialTitleOnTheFace": "Expungement/Removal Request Form",
+      "officialTitleInTheEdition": "20240429-Updated-ExpungementRemovalRequestForm",
+      "titleObservation": "The edition's title is the publisher's filename, not the document's printed title. The face reads 'Expungement/Removal Request Form'.",
+      "issuer": "Montana Department of Justice, Division of Criminal Investigation, Criminal Records and Identification Services Section (CRISS)",
+      "issuerBasis": "The form's own submission block gives the CRISS address at 2225 11th Ave., PO Box 201403, Helena, MT 59620 with a CRISS telephone number, and states that CRISS will issue a confirmation letter once the request is processed.",
+      "retainedAt": {
+        "workflowKey": "MT:EXPUNGEMENTREMOVALREQUESTFORM.DOCX:SUPPORTING_FORM:EN",
+        "canonicalAuthorityPath": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+        "sha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+        "bytes": 84539,
+        "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "structuralClass": "docx",
+        "assetClassInTheEdition": "supporting_process",
+        "revisionInTheEdition": "REV-UNKNOWN",
+        "packetCandidate": false
+      },
+      "measuredStructure": {
+        "format": "WordprocessingML .docx, not a PDF and not an AcroForm",
+        "paragraphs": 28,
+        "pageCount": "not applicable — a .docx has no fixed pagination until rendered; the edition correctly records pages as null",
+        "fields": "none — the document uses printed underscore rules and Unicode ballot-box characters, not content controls or form fields",
+        "encryption": false,
+        "xfa": "not applicable",
+        "consequenceForImplementation": "A .docx with no form fields cannot be filled by an AcroForm renderer and cannot be overlaid by a coordinate renderer without first being converted to a fixed-layout format. That is a real implementation constraint and it is recorded, not resolved."
+      },
+      "roleEvidence": {
+        "componentsRequire": "primary_filing",
+        "artifactSupports": "primary_filing",
+        "basis": [
+          "The document is written in the first person by the applicant: 'I, (print legibly) _______ respectfully request an Expungement of a Conviction/Removal of an arrest, that occurred on (date of arrest/fingerprinted) _______.'",
+          "It carries a request-type selector with one checkbox per statutory route, and those checkboxes map one-to-one onto the five bound tracks.",
+          "It states its own submission requirements per route, gives the agency's mailing address, and states a 30-day processing period with a confirmation letter.",
+          "There is nothing supporting or ancillary about it: it is the instrument by which the participant asks CRISS to act."
+        ],
+        "requestTypeCheckboxes": [
+          {"checkbox": "Misdemeanor Conviction Expungement - (One Time Privilege) - Per MCA Title 46, Chapter 18, Part 11", "submissionRequires": "FD-258 Blue Applicant Fingerprint Card; Original Court Judgement; District Court Order of the Expungement", "boundTrack": "mt_misdemeanor_expungement"},
+          {"checkbox": "Marijuana Conviction Expungement - MCA Title 16, Chapter 12, Part 1", "submissionRequires": "Original Court Judgment; Court Order of the Expungement", "boundTracks": ["mt_mmrta_completed", "mt_mmrta_serving"]},
+          {"checkbox": "Non-Conviction Removal - MCA Title 44, Chapter 5, Part 2", "submissionRequires": "Court Judgment", "boundTrack": "mt_nonconviction_removal"},
+          {"checkbox": "Deferred Imposition/Prosecution: Dismissed - Criminal Justice Record Sealing", "submissionRequires": "Original Court Judgment; Court Order Dismissing Deferred Imposition/Prosecutions", "boundTrack": "mt_deferred_dismissal"}
+        ],
+        "checkboxToTrackCoverage": "All four printed request types are bound, and all five bound components are covered. The mapping is complete in both directions, which is independent confirmation that the five components name the right document.",
+        "verdict": "The edition class is wrong and the component role is right. The authority gate is correctly refusing a supporting_process asset for a primary_filing component; it is refusing on a true rule applied to a false class."
+      },
+      "participantFacing": true,
+      "signatory": "the applicant, personally",
+      "scope": "statewide",
+      "scopeBasis": "CRISS is a statewide section of the Montana Department of Justice's Division of Criminal Investigation and holds the statewide criminal history repository. The form is mailed to one Helena address for the whole State. It is not a court form and not county-specific.",
+      "sequencingObservation": "Three of the four request types require a court order to be attached before CRISS will act. The CRISS form is therefore the participant's filing at the agency stage, downstream of a court stage that produces the order. It is a primary filing of its own stage, not a secondary attachment to the court filing. Recorded because the supporting_process class may have been chosen on the mistaken view that anything downstream of a court order is ancillary.",
+      "currentness": "unconfirmed",
+      "currentnessDetail": "The edition records REV-UNKNOWN and freshness_status revision_confirmation_required. The queue records that dojmt.gov sits behind a bot challenge and the 2024-04-29 revision could not be re-retrieved, and that a 2023 PDF version is superseded and logged as such. The retained filename encodes 2024-04-29. This job did not attempt retrieval.",
+      "commercialUse": "The queue records 'None identified. The CRISS form is a state agency form, not licensed third-party material.' A negative finding on restriction, not an affirmative permission. No licence question was assigned to this job."
+    },
+    {
+      "reconciliationId": "acquire:MT:mt-oca-mmrta",
+      "assignedDocumentId": "MT-OCA-MMRTA",
+      "verdict": "two_retained_documents_share_one_document_id_and_must_be_separated_in_the_successor_edition",
+      "defectClass": "authority_hash_conflict",
+      "issuer": "Montana Office of the Court Administrator, under Montana Supreme Court order AF 22-0129",
+      "issuerBasis": "recorded in the acquisition intelligence and the queue; AF 22-0129 is confirmed there as the adopting order. Neither retained document prints an issuer attribution on its face, which is itself part of the provenance problem recorded below.",
+      "twoDistinctDocuments": [
+        {
+          "workflowKey": "MT:MT-OCA-MMRTA:ORDER:EN",
+          "officialTitle": "Proposed Order Granting Expungement, Resentencing, or Redesignation Under MMRTA",
+          "canonicalAuthorityPath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+          "sha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+          "bytes": 21143,
+          "revision": "SOURCE-2022-02",
+          "structuralClass": "docx",
+          "paragraphs": 44,
+          "role": "proposed_order",
+          "signatory": "the judge",
+          "signatoryBasis": "the document's final block reads 'Dated this ______ day of ___________________, 20____.' followed by '(Judge's signature)'",
+          "faceEvidence": [
+            "A three-way court selector: 'MONTANA ____________ JUDICIAL DISTRICT COURT, ____________ COUNTY', 'IN THE JUSTICE COURT OF ________________ COUNTY, STATE OF MONTANA', 'IN THE MUNICIPAL OR CITY COURT OF ________________, MONTANA'",
+            "Caption: 'In re the Expungement, Resentencing, or Redesignation of the Marijuana-Related Conviction of'",
+            "A petitioner contact block at the head with name, mailing address, city/state/zip, phone and optional e-mail"
+          ],
+          "boundComponents": ["mt_mmrta_completed-proposed-order-3", "mt_mmrta_serving-proposed-order-3"],
+          "componentRoleCorrect": true
+        },
+        {
+          "workflowKey": "MT:MT-OCA-MMRTA:SERVICE:EN",
+          "officialTitle": "Certificate of Service - MMRTA Petition",
+          "canonicalAuthorityPath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+          "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+          "bytes": 16815,
+          "revision": "SOURCE-2022-03",
+          "structuralClass": "docx",
+          "paragraphs": 20,
+          "role": "certificate_of_service",
+          "signatory": "the petitioner, personally",
+          "signatoryBasis": "the document's final block reads '(your signature)' followed by '(print your name)' — second-person self-represented phrasing, not a judicial signature",
+          "faceEvidence": [
+            "Caption: 'CERTIFICATE OF SERVICE'",
+            "'The undersigned hereby certifies that true and correct copies of the foregoing document were, this day, served upon the ...'",
+            "A service-target block captioned 'Name of County Attorney' with mailing address, city/state/zip, phone and optional e-mail"
+          ],
+          "boundComponents": ["mt_mmrta_completed-certificate-of-service-2", "mt_mmrta_serving-certificate-of-service-2"],
+          "componentRoleCorrect": true,
+          "provenanceCaveat": "The edition note records 'No printed form number or revision; verify current OCA publication and provenance before release.' The extracted body confirms it: the document prints no form number, no revision and no issuer attribution anywhere. The queue separately records that the only reachable copy of a certificate of service was an expressly unofficial county courtesy mirror, which was rejected rather than published. Whether the retained SERVICE bytes are the Office of the Court Administrator's own publication or something else is NOT established by this job and must not be assumed from the fact of retention."
+        }
+      ],
+      "areTheyGenuinelyDifferent": {
+        "answer": "yes, unambiguously",
+        "basis": "Different captions, different lengths (44 vs 20 paragraphs), different byte counts, different digests, different revisions, and — decisively — different signatories. One ends in a judge's signature line and the other in the petitioner's. A single document cannot be signed by both parties in both capacities.",
+        "consequence": "The hash conflict is not evidence of a corrupted or duplicated asset. It is evidence that the document_id field is being asked to identify two things at once."
+      },
+      "whyTheConflictArises": "The edition already distinguishes them by workflow key — MT:MT-OCA-MMRTA:ORDER:EN and MT:MT-OCA-MMRTA:SERVICE:EN — and by canonical path, revision and digest. Only the document_id is shared. Any join keyed on document_id therefore sees one identity with two digests, which is what produces four hash conflicts across the four bound components. The disambiguation the edition needs already exists in the workflow key; it simply is not carried in the document ID.",
+      "componentsAreCorrectlyRoled": "All four bound components already carry the right role — two certificate_of_service and two proposed_order — and each role already matches the workflow key that carries the right document. No component rebinding is required; the identifier is what must change.",
+      "scope": "statewide",
+      "scopeBasis": "Office of the Court Administrator forms adopted by Montana Supreme Court order AF 22-0129, with a court selector on the face spanning district, justice and municipal or city courts. Statewide by adoption, not county-specific.",
+      "currentness": "unconfirmed",
+      "currentnessDetail": "The queue records that courts.mt.gov was network-unreachable on 2026-08-03 and that archived replays of the form binaries returned 404. Both assets carry freshness_status source_or_currentness_gate_open. This job did not attempt retrieval."
+    }
+  ],
+  "editionReclassRequired": {
+    "isThisARemap": false,
+    "isThisAnAcquisition": false,
+    "isThisAnEditionReclass": true,
+    "whyARemapCannotFixIt": [
+      "For the CRISS form: the authority gate refuses a supporting_process asset for a primary_filing component. Rebinding the five components to any other retained Montana asset would be worse, because no other retained Montana asset is the CRISS request form. The class is what is wrong.",
+      "For MT-OCA-MMRTA: the four components are already bound to the correct roles and the edition already holds the correct two documents at the correct two digests. Rebinding cannot separate two documents that share one document ID. The identifier is what is wrong."
+    ],
+    "correctionsForTheSuccessorEdition": [
+      {
+        "item": "Reclass the CRISS Expungement/Removal Request Form from supporting_process to a class that can back a primary_filing component",
+        "documentId": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+        "from": "asset_class supporting_process, packet_candidate no, workflow key MT:EXPUNGEMENTREMOVALREQUESTFORM.DOCX:SUPPORTING_FORM:EN",
+        "to": "a packet-form class with a primary_filing document role",
+        "evidence": "See resolvedIdentities[0].roleEvidence. Four printed request types, first-person request language, agency submission block, applicant signature.",
+        "requiresNewBytes": false,
+        "kind": "asset_class_and_role_correction"
+      },
+      {
+        "item": "Correct the CRISS form's official_title from the publisher's filename to its printed title",
+        "from": "20240429-Updated-ExpungementRemovalRequestForm",
+        "to": "Expungement/Removal Request Form",
+        "kind": "title_correction",
+        "note": "Keep the 2024-04-29 date as revision evidence rather than as the title. The edition currently records revision REV-UNKNOWN while the filename encodes a date, which is the wrong way round."
+      },
+      {
+        "item": "Separate the two MMRTA documents under distinct document IDs",
+        "from": "both rows carry document_id MT-OCA-MMRTA",
+        "to": "one document ID for the proposed order and a different one for the certificate of service",
+        "evidence": "See resolvedIdentities[1].areTheyGenuinelyDifferent. Different captions, lengths, digests and signatories.",
+        "requiresNewBytes": false,
+        "kind": "document_id_separation",
+        "note": "The workflow keys already disambiguate correctly and should be left alone. Only the document_id needs to become unique."
+      },
+      {
+        "item": "Resolve the certificate of service's provenance before release",
+        "kind": "provenance_gate",
+        "note": "The retained SERVICE bytes carry no form number, no revision and no issuer attribution, and the queue records that the only reachable copy was a rejected unofficial county mirror. Retention is not provenance. This must not be cleared by assumption.",
+        "requiresNewBytes": "possibly — if the retained copy cannot be attributed to the Office of the Court Administrator, an authorized retrieval of the official copy is needed"
+      }
+    ]
+  },
+  "isTheCurrentRepositorySourceCorrectlyBound": {
+    "documentsRetained": true,
+    "documentsCorrectlyIdentified": true,
+    "componentRolesCorrect": true,
+    "editionClassCorrect": false,
+    "editionDocumentIdUnique": false,
+    "explanation": "Unusually for this lane, the component layer is entirely correct. All nine bindings name the right document and carry the right role. Every defect is on the edition side. This is why the job is a reclass and not a remap, and why no component rebinding is proposed.",
+    "queueContradiction": {
+      "queueSays": "repositoryStatus 'no_repository_binary' on all nine rows",
+      "editionSays": "All three binaries are retained with canonical paths, digests and byte counts.",
+      "resolution": "The queue rows are wrong on their face. This is the fourth jurisdiction in this wave showing the same conflation of 'no standalone binary at the expected identity' with 'no repository binary'.",
+      "correctionOwner": "the queue owner; the queue is not this job's to write"
+    }
+  },
+  "affectedTracksAndComponents": {
+    "trackCount": 5,
+    "componentCount": 9,
+    "documentCount": 3,
+    "tracks": ["mt_misdemeanor_expungement", "mt_mmrta_completed", "mt_mmrta_serving", "mt_deferred_dismissal", "mt_nonconviction_removal"],
+    "components": [
+      {"reconciliationId": "acquire:MT:expungementremovalrequestform-docx", "trackId": "mt_misdemeanor_expungement", "componentId": "mt_misdemeanor_expungement-primary-filing-5", "role": "primary_filing"},
+      {"reconciliationId": "acquire:MT:expungementremovalrequestform-docx", "trackId": "mt_mmrta_completed", "componentId": "mt_mmrta_completed-primary-filing-5", "role": "primary_filing"},
+      {"reconciliationId": "acquire:MT:expungementremovalrequestform-docx", "trackId": "mt_mmrta_serving", "componentId": "mt_mmrta_serving-primary-filing-5", "role": "primary_filing"},
+      {"reconciliationId": "acquire:MT:expungementremovalrequestform-docx", "trackId": "mt_deferred_dismissal", "componentId": "mt_deferred_dismissal-primary-filing-4", "role": "primary_filing"},
+      {"reconciliationId": "acquire:MT:expungementremovalrequestform-docx", "trackId": "mt_nonconviction_removal", "componentId": "mt_nonconviction_removal-primary-filing-1", "role": "primary_filing"},
+      {"reconciliationId": "acquire:MT:mt-oca-mmrta", "trackId": "mt_mmrta_completed", "componentId": "mt_mmrta_completed-certificate-of-service-2", "role": "certificate_of_service"},
+      {"reconciliationId": "acquire:MT:mt-oca-mmrta", "trackId": "mt_mmrta_completed", "componentId": "mt_mmrta_completed-proposed-order-3", "role": "proposed_order"},
+      {"reconciliationId": "acquire:MT:mt-oca-mmrta", "trackId": "mt_mmrta_serving", "componentId": "mt_mmrta_serving-certificate-of-service-2", "role": "certificate_of_service"},
+      {"reconciliationId": "acquire:MT:mt-oca-mmrta", "trackId": "mt_mmrta_serving", "componentId": "mt_mmrta_serving-proposed-order-3", "role": "proposed_order"}
+    ],
+    "twoTracksCarryBoth": "mt_mmrta_completed and mt_mmrta_serving each carry three of the nine components — the CRISS request form, the certificate of service and the proposed order — because the MMRTA route runs a court stage and an agency stage in sequence.",
+    "queueRoleLabelDefect": "The queue records expectedDocumentRole 'certificate_of_service' on the acquire:MT:mt-oca-mmrta row as a whole, but two of its four components are proposed_order. That is a second consequence of one identity standing for two documents: the row can only carry one role and it carries the wrong one for half its bindings."
+  },
+  "doNotSubstitute": [
+    {"documentId": "MT-FORM-A and MT-FORM-B", "why": "The two other retained Montana MMRTA docx assets, held source_gated with official titles recorded only as 'form-a' and 'form-b' at REV-UNKNOWN. They are companions to the proposed order, not the order and not the certificate of service, and they belong to a different assigned job. Their uninformative titles make them an easy wrong pick."},
+    {"documentId": "the superseded 2023 CRISS PDF", "why": "The queue records a 2023 PDF version of the CRISS form as superseded and logged. Same issuer, same purpose, different revision and different format. It must not be bound as current."},
+    {"sourceClass": "a county courtesy mirror of the MMRTA certificate of service", "why": "Expressly unofficial. The acquisition intelligence records that such a mirror was the only reachable copy and that it was rejected rather than published. Reachability is not provenance, and it must not be adopted now merely because the official source was unreachable."},
+    {"sourceClass": "a district court's local MMRTA packet", "why": "The Office of the Court Administrator forms are adopted statewide by AF 22-0129 and carry a district, justice and municipal court selector. A local packet is not the adopted form."},
+    {"documentClass": "the court order the CRISS form requires as an attachment", "why": "Three of the four CRISS request types require an existing court order to be attached. That order is an input the participant already holds, not a document this component generates, and it must not be confused with the proposed order the MMRTA court stage produces."}
+  ],
+  "edition13Impact": {
+    "publicationJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+    "editionAmendmentRequired": true,
+    "amendmentKind": "asset_class_and_identifier_correction_no_new_bytes",
+    "requiresNewBytes": false,
+    "requiresNewBytesNote": "None for the reclass or the identifier separation. All three binaries are retained at pinned digests. New bytes may be needed only if the certificate of service's provenance cannot be established from the retained copy.",
+    "requiresAssetClassCorrection": true,
+    "requiresRoleCorrection": true,
+    "requiresTitleCorrection": true,
+    "requiresIdentifierSeparation": true,
+    "requiresScopeCorrection": false,
+    "requiresRevisionCorrection": true,
+    "requiresRevisionCorrectionNote": "The CRISS row records REV-UNKNOWN while its own canonical filename encodes 2024-04-29. The date should be carried as revision evidence rather than left in the title.",
+    "requiresLicenseDisposition": false,
+    "requiresLicenseDispositionNote": "The queue records no restriction identified for either identity. A negative finding, not a permission.",
+    "requiresProvenanceResolution": true,
+    "requiresProvenanceResolutionNote": "For MT:MT-OCA-MMRTA:SERVICE:EN only.",
+    "edition12Treatment": "immutable_unchanged",
+    "publicationPerformed": false
+  },
+  "sourceMaterializationEligibility": {
+    "laterMaterializationPermitted": false,
+    "laterMaterializationPermittedDetail": "Not yet, and not merely for want of an assignment anchor. Materializing the CRISS form under its current supporting_process class would carry the role mismatch into the runtime contract, and materializing either MMRTA document under a shared document ID would carry the hash conflict into it. The edition reclass is a genuine precondition, not a formality.",
+    "receiptCreatedByThisJob": false,
+    "additionalObstacle": "All three assets are .docx. The materialization and rendering path in use is built around fixed-layout PDFs. Whether a .docx source can be materialized and rendered at all is an open question this job does not decide, and it is recorded so the reclass is not mistaken for the last remaining step.",
+    "prerequisitesInOrder": [
+      "1. Reclass the CRISS form and correct its title and revision in the successor edition.",
+      "2. Separate the two MMRTA document IDs in the successor edition.",
+      "3. Resolve the certificate of service's provenance, by authorized retrieval if the retained copy cannot be attributed.",
+      "4. Confirm currentness for all three assets against issuers that were unreachable on 2026-08-03.",
+      "5. Decide the .docx handling question before any receipt is authored.",
+      "6. Only then author receipts pinning the three digests recorded here."
+    ]
+  },
+  "implementationFamilyEffect": {
+    "family": "rcap-mt-official-pdf-family",
+    "affectedTracks": 5,
+    "affectedComponents": 9,
+    "affectedDocuments": 3,
+    "effectOfThisJob": "Two Montana identities move from 'no repository binary, acquire from the issuer' to retained, digest-pinned, body-read documents with a precise statement of what is wrong and where. The five role mismatches and the four hash conflicts both get a named cause and a named owner, and neither is an acquisition. Nine component bindings are confirmed correct as they stand, which removes remapping from the critical path entirely.",
+    "familyReadinessStatement": "The Montana official-PDF family remains fail-closed and this job does not move it. All three assets stay packet_candidate=no with runtime disabled, currentness is unconfirmed for all three, the certificate of service's provenance is unresolved, and all three are .docx rather than PDF. No packet becomes generatable, no renderer is assigned and no field map is built.",
+    "rendererObservation": "None of the three is an AcroForm or a PDF. They carry printed underscore rules and Unicode ballot boxes in WordprocessingML. Neither the acroform_fill lane nor the coordinate_overlay lane accepts a .docx as-is. Recorded as an observation about the artifacts; no lane is assigned."
+  },
+  "terminalDisposition": "both_identities_retained_and_correctly_bound_edition_reclass_and_identifier_separation_required_no_acquisition",
+  "terminalDispositionDetail": {
+    "why": "The narrowest disposition the evidence supports. It is not unresolved_identity: both issuers, both roles, all three documents and all nine bindings are established, and two of the three documents were read end to end. It is not acquisition_required: every byte is retained and adopted. It is not component_remap_required, which is what the parent job family would ordinarily produce — the components are already right and the defect is above them, in the edition's class and identifier fields.",
+    "acquisitionRequired": false,
+    "componentRebindingRequired": false,
+    "editionReclassRequired": true,
+    "identifierSeparationRequired": true,
+    "identitiesResolved": 2,
+    "documentsMeasured": 3,
+    "roleMismatchesExplained": 5,
+    "hashConflictsExplained": 4
+  },
+  "redundantAcquisitionWorkRemoved": {
+    "queueRowsClosableWithoutAcquisition": 9,
+    "acquisitionKeys": ["acquire:MT:expungementremovalrequestform-docx", "acquire:MT:mt-oca-mmrta"],
+    "downloadsAvoided": 2,
+    "rationale": "Neither key should remain an open download job. Both sets of bytes are retained and adopted, and no issuer interaction can correct an asset class or a duplicated document ID held in this repository. Note that this does not close the separate currentness question, which does require an authorized retrieval and is recorded as an open blocker.",
+    "importantCaveat": "Closing these as 'no acquisition required' must not be read as closing currentness. Both issuers were unreachable when last attempted and both assets remain currentness-unconfirmed."
+  },
+  "expectedDownstreamEffect": "Two Montana acquisition keys close without a download, and nine component bindings across five tracks are confirmed correct as they stand, so no Montana remapping is needed. Five authority role mismatches resolve to a single edition asset-class error, evidenced by a request form whose four printed request types map one-to-one onto the five bound tracks. Four authority hash conflicts resolve to two genuinely different documents — one judge-signed, one petitioner-signed — sharing a single document ID that the successor edition must split. Edition 1.3 receives four concrete corrections and needs no new bytes for any of them. No component is rebound, no receipt is created, no binary enters version control, no renderer is assigned, no memo is edited, no edition is published, no packet becomes generatable, no runtime is enabled and no track changes promotion state.",
+  "residualBlockers": [
+    {"id": "mt-criss-asset-class", "question": "The CRISS request form is classed supporting_process and cannot back its five primary_filing components.", "status": "handed_off", "owner": "rcap-nationwide-master-library-edition-1-3-publication", "why": "Edition 1.2 is immutable and this job may not amend an edition. The evidence and the target class are supplied."},
+    {"id": "mt-mmrta-document-id-collision", "question": "The proposed order and the certificate of service share document_id MT-OCA-MMRTA.", "status": "handed_off", "owner": "rcap-nationwide-master-library-edition-1-3-publication", "why": "Same reason. The workflow keys already disambiguate and should be preserved."},
+    {"id": "mt-mmrta-service-provenance", "question": "Whether the retained certificate of service is the Office of the Court Administrator's own publication.", "status": "unresolved", "owner": "acquisition owner", "why": "It prints no form number, no revision and no issuer attribution, and the only reachable copy on the last attempt was a rejected unofficial county mirror. Retention is not provenance and this must not be cleared by assumption."},
+    {"id": "mt-currentness-both-issuers-unreachable", "question": "Currentness for all three assets. dojmt.gov sits behind a bot challenge and courts.mt.gov was network-unreachable on 2026-08-03, with archived replays returning 404.", "status": "open", "owner": "acquisition owner", "why": "The assignment forbids downloading and issuer contact. Recorded as an authorized-retrieval item, not attempted here."},
+    {"id": "mt-docx-handling", "question": "Whether a .docx source can be materialized and rendered at all in the current pipeline.", "status": "open_and_outside_this_job", "owner": "the implementation lane", "why": "All three Montana assets are WordprocessingML with no form fields. Neither renderer lane accepts a .docx as-is. This sits behind the edition reclass, not in front of it."},
+    {"id": "mt-queue-role-label-on-the-shared-row", "question": "The acquire:MT:mt-oca-mmrta queue row carries expectedDocumentRole certificate_of_service while two of its four components are proposed_order.", "status": "handed_off", "owner": "the queue owner", "why": "Forbidden path. It resolves automatically once the two document IDs are separated."},
+    {"id": "mt-queue-repository-status", "question": "Nine queue rows record no_repository_binary for assets the edition retains at pinned digests.", "status": "handed_off", "owner": "the queue owner", "why": "Forbidden path. Fourth jurisdiction in this wave with the same conflation; the generator is the better fix."}
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "sourcesMaterialized": 0,
+    "sourceReceiptCountUnchanged": true,
+    "memoEdited": false,
+    "editionPublished": false,
+    "editionMutated": false,
+    "rendererImplemented": false,
+    "packetImplemented": false,
+    "fieldMapBuilt": false,
+    "componentRebound": false,
+    "issuerContacted": false,
+    "integrationPerformed": false,
+    "promotionPerformed": false,
+    "migrationPerformed": false,
+    "deploymentPerformed": false
+  }
+}
