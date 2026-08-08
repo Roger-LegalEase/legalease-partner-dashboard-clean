@@ -134,10 +134,11 @@ const ACTIVE_SHARDS = [
     ownerSession: "SESSION_F",
     jobIds: [
       "rcap-mo-issuer-contact-authorization",
-      "rcap-in-written-permission-authorization"
+      "rcap-in-written-permission-authorization",
+      "rcap-ks-form-currentness-verification"
     ],
     note:
-      "The permission and follow-up owners the completed decisions created. Three have now left the shard satisfied: Colorado's grant is recorded as a successor decision, Kansas delivered its written-permission authorization, and Washington resolved the CRO form-family source identity. Indiana remains, still sitting at a withheld licence with no route out but the asking. The Missouri request is drafted and deliberately unsent and what remains is the human authorization to send it. None of these jobs sends anything: drafting is the deliverable and sending is a separate human act. The Ohio survey left the shard too: its local-form and fee question is answered and integrated."
+      "The permission and follow-up owners the completed decisions created. Three have now left the shard satisfied: Colorado's grant is recorded as a successor decision, Kansas delivered its written-permission authorization, and Washington resolved the CRO form-family source identity. Indiana remains, still sitting at a withheld licence with no route out but the asking. The Missouri request is drafted and deliberately unsent and what remains is the human authorization to send it. None of these jobs sends anything: drafting is the deliverable and sending is a separate human act. The Ohio survey left the shard too: its local-form and fee question is answered and integrated. Kansas joins with a currentness owner and not a licence one: the project owner reports a hard-copy grant whose scan has not arrived, and permission would not answer this question in any case. Nine Council documents, three of them recorded from 2013 and 2016, behind an Akamai perimeter that returns 403 to automation. Whether those revisions are still current is independent of who may reproduce them, and a packet built on a superseded form is wrong whoever authorized it."
   },
   {
     shard: "F3",

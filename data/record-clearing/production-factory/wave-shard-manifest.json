@@ -5,7 +5,7 @@
   "reviewShardReservationNote": "The claim schema's ownerSession enum is SESSION_B through SESSION_F, and review is none of those. R1 and R2 are therefore reserved here rather than in job-claims.json. This manifest is the reservation of record for them; widening the claim enum would change the job manifest and, through it, worker branch identity.",
   "shardIdentifiersAreNotSessions": "R1 and R2 are shard identifiers, not sessions. Both are owned by SESSION_R, which is the single human review session: R1 carries its technical and visual reads, R2 carries its completed-output legal reads, and the split exists so the two kinds of review cannot be recorded against each other's paths. They were briefly written as ownerSession SESSION_R1 and SESSION_R2, which reads as two review sessions and would have someone opening a second one. The human pool is exactly A, B, C, D, E, F and R; every shard here names one of those seven and no shard may name anything else.",
   "baseline": {
-    "baseCommit": "baab79ce5f6360a57db50f9f3ffdeb23c49a1bc5",
+    "baseCommit": "469fb9e477891a2461bf48d27c9a52eaba9d8207",
     "authorityVersion": "master-library/1.2",
     "authorityEdition": "1.2"
   },
@@ -13,7 +13,7 @@
     "normalizedTracks": 497,
     "representedExactlyOnce": 497,
     "implementationComplete": 223,
-    "jobs": 476,
+    "jobs": 477,
     "generatedFrom": [
       {
         "path": "data/rcap-all50/all-state-build-manifest.json",
@@ -553,7 +553,7 @@
       },
       {
         "path": "planning/record-clearing-100-percent/production-plan.json",
-        "sha256": "0f072aec114e8839b9f6aed4796d83613320df5e6cb0f001c642c320dda46c6f"
+        "sha256": "9cbf3280319e4eda4ab4bc5900c5922c5be8c1216d04ade7788853b13b525342"
       },
       {
         "path": "src/lib/rcap/jurisdictions/packet-capability.ts",
@@ -579,7 +579,7 @@
   "totals": {
     "activeShards": 16,
     "candidateShards": 7,
-    "activeJobs": 23,
+    "activeJobs": 24,
     "candidateJobs": 12,
     "awaitingIntegration": 0
   },
@@ -924,13 +924,14 @@
       "lane": "source_acquisition",
       "status": "active",
       "ownerSession": "SESSION_F",
-      "note": "The permission and follow-up owners the completed decisions created. Three have now left the shard satisfied: Colorado's grant is recorded as a successor decision, Kansas delivered its written-permission authorization, and Washington resolved the CRO form-family source identity. Indiana remains, still sitting at a withheld licence with no route out but the asking. The Missouri request is drafted and deliberately unsent and what remains is the human authorization to send it. None of these jobs sends anything: drafting is the deliverable and sending is a separate human act. The Ohio survey left the shard too: its local-form and fee question is answered and integrated.",
+      "note": "The permission and follow-up owners the completed decisions created. Three have now left the shard satisfied: Colorado's grant is recorded as a successor decision, Kansas delivered its written-permission authorization, and Washington resolved the CRO form-family source identity. Indiana remains, still sitting at a withheld licence with no route out but the asking. The Missouri request is drafted and deliberately unsent and what remains is the human authorization to send it. None of these jobs sends anything: drafting is the deliverable and sending is a separate human act. The Ohio survey left the shard too: its local-form and fee question is answered and integrated. Kansas joins with a currentness owner and not a licence one: the project owner reports a hard-copy grant whose scan has not arrived, and permission would not answer this question in any case. Nine Council documents, three of them recorded from 2013 and 2016, behind an Akamai perimeter that returns 403 to automation. Whether those revisions are still current is independent of who may reproduce them, and a packet built on a superseded form is wrong whoever authorized it.",
       "jobIds": [
         "rcap-mo-issuer-contact-authorization",
-        "rcap-in-written-permission-authorization"
+        "rcap-in-written-permission-authorization",
+        "rcap-ks-form-currentness-verification"
       ],
       "capacity": {
-        "jobs": 2,
+        "jobs": 3,
         "assignedTracks": 0,
         "incrementalTracks": 0,
         "assignedComponents": 0,
@@ -969,6 +970,23 @@
           "dependencies": [
             "rcap-in-commercial-license"
           ],
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
+          "alreadyHasPushedCompletion": false
+        },
+        {
+          "jobId": "rcap-ks-form-currentness-verification",
+          "lane": "source_acquisition",
+          "jurisdiction": "KS",
+          "status": "ready",
+          "semanticFingerprint": "84875e4803da4a0ddeb4587a33f8ecc27094315a18b6848f3eec779caea76576",
+          "branch": "rcap-factory/rcap-ks-form-currentness-verification-38c77485-84875e48",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-ks-form-currentness-verification.json"
+          ],
+          "dependencies": [],
           "assignedTrackIds": [],
           "incrementalTrackIds": [],
           "assignedComponents": 0,
@@ -1826,5 +1844,5 @@
       ]
     }
   ],
-  "manifestSha256": "26d846df4c9088ac78e70fdc278d30cbbff7b1710a0ee89ee7756df31214a3bc"
+  "manifestSha256": "350f7025596a47079129010723618d54259158ca0f3676c6a442b6d42c91b808"
 }

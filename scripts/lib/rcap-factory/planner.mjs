@@ -7972,6 +7972,89 @@ function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
     });
   }
 
+  // --- Kansas ----------------------------------------------------------
+  //
+  // Kansas has two independent gates and they are constantly confused for one
+  // another, because both look like "the forms are not usable yet".
+  //
+  // The licence gate is the Council's commercial-use term. The currentness gate
+  // is whether the nine recorded revisions are still the Council's current
+  // revisions — unanswerable by machine, because the Legal Forms pages return
+  // HTTP 403 behind an Akamai perimeter, and three of the nine date from 2013
+  // and 2016.
+  //
+  // A grant of permission would answer the first and would not touch the second.
+  // Permission to reproduce a revision does not make that revision current, and
+  // a packet built on a superseded form is wrong whoever authorized it. So this
+  // owner exists whatever the licence does, and it is deliberately not dependent
+  // on the permission record.
+  const ksCommercialLicense = path.join(
+    rootDir,
+    `${FACTORY_DATA_DIR}/source-acquisition/rcap-ks-commercial-license.json`
+  );
+  if (fs.existsSync(ksCommercialLicense)) {
+    addJob({
+      lane: "source_acquisition",
+      jurisdiction: "KS",
+      jobId: "rcap-ks-form-currentness-verification",
+      strategyFamily: "official_download_automation_blocked",
+      reconciliationIds: ["currentness:KS:judicial-council-record-clearing-forms"],
+      downloadedSourceCount: 0,
+      dependencies: [],
+      status: attendedRetrievalStatus(
+        rootDir,
+        `${FACTORY_DATA_DIR}/source-acquisition/rcap-ks-form-currentness-verification.json`
+      ),
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/source-acquisition/rcap-ks-form-currentness-verification.json`
+      ],
+      ownedPaths: [
+        `${FACTORY_DATA_DIR}/source-acquisition/rcap-ks-form-currentness-verification.json`
+      ],
+      requiredInputs: [
+        `${FACTORY_DATA_DIR}/source-acquisition/rcap-ks-commercial-license.json`,
+        `${FACTORY_DATA_DIR}/source-acquisition/rcap-ks-written-permission-authorization.json`,
+        FACTORY_INPUT_PATHS.authority,
+        FACTORY_INPUT_PATHS.sourceArtifacts,
+        FACTORY_INPUT_PATHS.acquisitionDocuments
+      ],
+      participantPacketProofRequired: false,
+      model: "codex",
+      effort: "xhigh",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job rcap-ks-form-currentness-verification"
+      ],
+      commitSubject:
+        "chore(record-clearing): verify the Kansas Judicial Council form revisions",
+      executionNote:
+        "Currentness only. This job does not ask whether Kansas permits reproduction and its " +
+        "answer does not depend on the answer to that question.",
+      stopCondition:
+        "For each of the nine Kansas Judicial Council record-clearing documents recorded in " +
+        "the excluded set of rcap-ks-commercial-license, determine from the Council's own " +
+        "current publication: the current official title, the current form number, the current " +
+        "printed revision as read from the form face, whether the retained bytes are that " +
+        "revision, whether a successor revision exists, and — if a permission document is " +
+        "later evidenced — whether that permission covers the successor revision. " +
+        "Record each of the six answers separately per document. \"Still current\" and \"could " +
+        "not be determined\" are different findings and the second is acceptable; asserting " +
+        "the first without seeing the form face is not. " +
+        "The HTTP 403 is an Akamai perimeter and is a block, not evidence that a document is " +
+        "absent or that a revision is current. Do not evade the perimeter, do not spoof a user " +
+        "agent, do not retrieve through a mirror, a cache, a scraper service or any route the " +
+        "issuer does not offer. Retrieve through a legitimate human-in-browser session or " +
+        "record that you could not. " +
+        "Permission is not currentness. Do not infer that a granted permission makes the " +
+        "revision it names current, do not stamp a retrieved revision onto held bytes, and do " +
+        "not relabel a retained asset missing. If a permission letter itself reproduces a form " +
+        "or names its revision, that evidence counts only so far as it goes to currentness. " +
+        "Do not adopt a licence, do not set generationAllowed, do not create a source receipt " +
+        "from a blocked channel, do not amend or publish an edition, do not enable runtime, " +
+        "promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
   // --- Delaware --------------------------------------------------------
   //
   // The worst kind of block: HTTP 200 with a 247-byte F5/BIG-IP rejection body

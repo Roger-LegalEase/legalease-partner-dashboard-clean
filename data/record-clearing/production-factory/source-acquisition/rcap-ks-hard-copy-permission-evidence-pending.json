@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-ks-hard-copy-permission-evidence-pending",
+  "parentJobId": "rcap-ks-written-permission-authorization",
+  "jurisdiction": "KS",
+  "lane": "source_acquisition",
+  "strategyFamily": "commercial_license",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "469fb9e477891a2461bf48d27c9a52eaba9d8207",
+  "generatedOn": "2026-08-08",
+  "reconciliationIds": ["permission:KS"],
+  "downloadedSourceCount": 0,
+
+  "isNotADecision": true,
+  "isNotALicence": true,
+  "grantsNothing": true,
+  "whatThisRecordIs": "A holding record for a reported Kansas permission whose evidence has not arrived. It exists so that the report is not lost and is not mistaken for a grant. It supersedes nothing, adopts nothing and authorizes nothing.",
+  "whatThisRecordIsNot": "It is not the successor authorization. That record is deliberately not created, because creating it would require asserting an issuer, a signer, a date, a covered form set and a list of authorized acts that no document in this repository supports.",
+
+  "attestation": {
+    "kind": "project_owner_interim_attestation",
+    "attestedBy": "project owner",
+    "reportedDate": "2026-08-08",
+    "reportedSubstance": "LegalEase has received a hard-copy grant of permission for Kansas. The original paper authorization is retained and a scan is being supplied to the Codespace.",
+    "evidenceDocumentPresent": false,
+    "evidenceDocumentSha256": null,
+    "evidenceDocumentPath": null,
+    "scanSearched": true,
+    "scanSearchResult": "absent",
+    "scanSearchDetail": "The Codespace and every human-input and authority-evidence custody root were searched for a file resembling KS_Judicial_Council_Permission.pdf and for any Kansas-named permission scan. No PDF or image has been supplied since the 2026-08-08 drop, which contained Maryland, Minnesota, Delaware and Master Library files and no Kansas document. Nothing was found under any name."
+  },
+
+  "whyGenerationIsNotEnabled": {
+    "generationAllowed": false,
+    "licenseAdopted": false,
+    "permissionObtained": false,
+    "workerReadAuthorized": false,
+    "implementationAssignable": false,
+    "reason": "The reported grant is described only as \"permission for Kansas\". That phrase does not distinguish the acts the product actually performs, and the Kansas restriction is written in terms of specific acts: sold, republished, or otherwise transferred for compensation or other value. A permission to \"use\" the forms and a permission to reproduce, prefill and deliver them inside a paid service are different permissions, and only the document says which one was given.",
+    "whatWouldChangeIt": "The scan, hashed and held under external custody, read page by page, with its issuer, signer, title, date, covered form identities, authorized acts, restrictions and duration transcribed from the document rather than from the report of it."
+  },
+
+  "permissionsHeldOpenPendingTheDocument": {
+    "note": "Each is recorded as unresolved rather than false, because the document may grant some of them. Not one may be set from the attestation.",
+    "reproduceBlankOfficialForms": "unresolved",
+    "reproduceCompletedOrPartiallyCompletedForms": "unresolved",
+    "electronicallyPrefillParticipantSuppliedInformation": "unresolved",
+    "prefillDeterministicCaseInformation": "unresolved",
+    "distributeCompletedFormsToTheParticipant": "unresolved",
+    "useInAPaidOrCommercialService": "unresolved",
+    "storeSourceCopiesInternally": "unresolved",
+    "modifyOfficialTextOrLayout": "unresolved",
+    "redistributeBlankForms": "unresolved",
+    "sublicense": "unresolved",
+    "useKansasJudicialCouncilNamesOrMarks": "unresolved",
+    "claimEndorsement": "unresolved"
+  },
+
+  "coveredFormsPending": {
+    "resolved": false,
+    "candidateSet": "the nine Kansas Judicial Council documents recorded in the excluded set of rcap-ks-commercial-license",
+    "whyNotBound": "A grant is bound to the identities the document names. Binding the candidate set now would assume the letter covers all nine, and a letter that enumerates form numbers covers those numbers and no others.",
+    "mustNotExtendTo": [
+      "local court forms not issued by the Kansas Judicial Council",
+      "forms belonging to another publisher",
+      "forms outside the stated subject matter",
+      "future revisions unless the authorization expressly covers successor revisions"
+    ]
+  },
+
+  "historicalRecordPreserved": {
+    "record": "rcap-ks-written-permission-authorization",
+    "conclusionWasCorrectWhenMade": true,
+    "asOf": "the state of the world before any grant was received",
+    "recordedThen": {
+      "requestDrafted": true,
+      "requestSent": false,
+      "permissionObtained": false,
+      "generationAllowed": false,
+      "licenseAdopted": false,
+      "implementationAssignable": false
+    },
+    "notRewritten": "The historical decision is left exactly as written and its worker is not represented as mistaken. It recorded that permission had not been obtained, which was true. A later grant does not make an accurate record inaccurate.",
+    "terminalExclusionStillGoverns": "rcap-ks-commercial-license remains the resolving decision for KS. Its terminal disposition deliberately_excluded_commercial_license is untouched and Kansas stays fail-closed."
+  },
+
+  "currentnessIsSeparate": {
+    "statement": "Permission does not answer currentness, and this record does not pretend it might. Whatever the letter grants, the question of whether the nine recorded revisions are still the Council's current revisions is unaffected by it.",
+    "owner": "rcap-ks-form-currentness-verification",
+    "carriedFrom": "the ks-permission-revision-currency question recorded as not_re_verifiable_by_machine"
+  },
+
+  "terminalDisposition": "reported_grant_without_evidence_no_authorization_derived",
+  "expectedDownstreamEffect": "None. No Kansas identity changes state, no receipt is created or altered, no track becomes ready, no row is admitted to an edition, and the Kansas exclusion stands exactly as it did. The only thing that changes is that the report is on the record with its evidence gap named.",
+
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "counselAdopted": false,
+    "productionEnabled": false,
+    "binariesEnteringVersionControl": 0,
+    "receiptsCreated": 0,
+    "receiptsDeleted": 0,
+    "receiptsRewritten": 0,
+    "priorDecisionRewritten": false,
+    "priorDecisionDeleted": false,
+    "editionPublished": false,
+    "editionMutated": false,
+    "generationEnabled": false
+  }
+}

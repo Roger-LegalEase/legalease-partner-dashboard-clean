@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "specificationId": "ks-rule-123-rationale-correction",
+  "jurisdiction": "KS",
+  "jurisdictionName": "Kansas",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "preparedOn": "2026-08-08",
+  "preparer": "Session A integration captain",
+  "baseCommit": "469fb9e477891a2461bf48d27c9a52eaba9d8207",
+
+  "whatThisDocumentIs": "A narrow correction to one sentence of derived rationale. It corrects why a thing is prohibited. It does not change whether it is prohibited, and it changes nothing else about Kansas.",
+
+  "correctedStatement": {
+    "record": "data/record-clearing/production-factory/source-acquisition/rcap-ks-commercial-license.json",
+    "location": "prohibitedWorkarounds[0].why — the entry prohibiting relabelling the Kansas official-form routes as custom pleading",
+    "asWritten": "K.S.A. 21-6614 routes run on the Council's forms, and Kansas Supreme Court Rule 123(a) requires substantial compliance with the forms on the Council's website.",
+    "defect": "Read in a sentence about petitions, this says Rule 123(a) compels substantial compliance with the Council's expungement petitions and orders. It does not.",
+    "workerBlobUnchanged": true,
+    "whyNotEditedInPlace": "That record is an integrated worker result and is not a captain-owned path. A correction to derived rationale is recorded as its own document; the worker's blob is preserved exactly."
+  },
+
+  "whatRule123ActuallySays": {
+    "citation": "Kansas Supreme Court Rule 123(a), Cover Sheet Required",
+    "verbatim": "A party that files a case must submit a cover sheet with the initial pleading or complete the information required for electronically filing a new case. The judicial administrator may exclude categories of cases from this requirement. The cover sheet must be in substantial compliance with the forms located on the judicial council website.",
+    "readAtSource": "https://kscourts.gov/KSCourts/media/KsCourts/Rules/Rule-123.pdf; 111471 bytes; sha256 d37fe1114e93a0585d5dabc86650005df48cf53e7bb31257260d1f662ea8006f",
+    "scope": "The whole of Rule 123 is titled \"Cover Sheet; Privacy Policy Regarding Personal Identifiers\". Its remaining subsections govern cover-sheet handling, confidential information and redaction of personal identifiers. It says nothing about petitions or orders.",
+    "provenance": "Established at source by the worker executing rcap-ks-written-permission-authorization, which recorded the correction and expressly left it unapplied because the record needing correction was not its owned path."
+  },
+
+  "theCorrection": {
+    "rule123GovernsTheCriminalCoverSheet": true,
+    "rule123GovernsThePetitions": false,
+    "rule123GovernsTheOrders": false,
+    "whyThePetitionsAreStillTheCouncilsForms": "By the Council's statutory mission and by settled Kansas practice, not by Rule 123.",
+    "doNotUseRule123AsTheReproductionRestrictionForThePetitionFamily": "The restriction on reproducing the petitions is the Council's copyright term, which applies to every form on its Legal Forms pages regardless of which rule compels which document. Rule 123 is a filing requirement, not a reproduction restriction, and citing it as one would put a filing rule in the place where the copyright term belongs."
+  },
+
+  "whatDoesNotChange": {
+    "terminalDisposition": "deliberately_excluded_commercial_license",
+    "dispositionReopened": false,
+    "whyUnaffected": "The exclusion never rested on Rule 123. It rests on the Council's copyright term, which is unaffected by which rule compels which document.",
+    "prohibitedWorkaroundSurvives": "Relabelling the Kansas official-form routes as custom pleading remains prohibited, and on firmer ground than the rule citation gave it: redrawing the Council's petition produces a derivative of the copyrighted work, which is a copyright problem whether or not any rule compels the form.",
+    "unrelatedConclusionsUntouched": [
+      "every Kansas legal-design conclusion",
+      "every Kansas form-role conclusion",
+      "the separate criminal-cover-sheet identity resolution",
+      "every affected-track listing and count"
+    ]
+  },
+
+  "relationshipToTheReportedPermission": {
+    "note": "If a hard-copy Kansas grant is evidenced and covers the petition family, permission for those forms derives from the grant itself. It does not derive from re-reading Rule 123, and this correction must not be used to suggest that the petitions were reproducible all along.",
+    "permissionRecordPending": "data/record-clearing/production-factory/source-acquisition/rcap-ks-hard-copy-permission-evidence-pending.json"
+  },
+
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "counselAdopted": false,
+    "productionEnabled": false,
+    "generationAllowed": false,
+    "licenseAdopted": false,
+    "workerBlobEdited": false,
+    "dispositionChanged": false,
+    "binariesEnteringVersionControl": 0
+  }
+}

@@ -4824,6 +4824,112 @@ await check(
 );
 
 await check(
+  "a reported Kansas grant without its document authorizes nothing",
+  () => {
+    // The owner reported a hard-copy Kansas permission and the scan had not
+    // arrived. The failure this guards is the tempting one: recording the
+    // successor authorization anyway and filling its twelve permission fields
+    // from the phrase "permission for Kansas", which distinguishes none of them.
+    const pendingPath = path.join(
+      ROOT,
+      "data/record-clearing/production-factory/source-acquisition",
+      "rcap-ks-hard-copy-permission-evidence-pending.json"
+    );
+    assert.ok(fs.existsSync(pendingPath));
+    const pending = JSON.parse(fs.readFileSync(pendingPath, "utf8"));
+
+    // It says plainly that it is not a licence, and nothing is asserted about a
+    // document that was not read.
+    assert.equal(pending.isNotADecision, true);
+    assert.equal(pending.grantsNothing, true);
+    assert.equal(pending.attestation.evidenceDocumentPresent, false);
+    assert.equal(pending.attestation.evidenceDocumentSha256, null);
+    assert.equal(pending.gates.generationEnabled, false);
+
+    // Every distinguishable permission is held open. Not one may be true, and
+    // not one may be false either — the document may yet grant it.
+    for (const [act, state] of Object.entries(
+      pending.permissionsHeldOpenPendingTheDocument
+    )) {
+      if (act === "note") continue;
+      assert.equal(
+        state,
+        "unresolved",
+        `${act} must stay unresolved until the document is read`
+      );
+    }
+
+    // Kansas is still fail-closed, and still by the decision that closed it.
+    const index = buildSourceAuthorizationIndex(ROOT);
+    const kansas = index.decisions.get("KS");
+    assert.ok(kansas);
+    assert.equal(kansas.decisionJobId, "rcap-ks-commercial-license");
+    assert.equal(kansas.generationAllowed, false);
+    assert.equal(kansas.licenseAdopted, false);
+    const resolved = authorizationFor(index, { jurisdiction: "KS" });
+    assert.equal(resolved.generationAllowed, false);
+    assert.equal(resolved.workerReadAuthorized, false);
+
+    // The historical worker recorded that permission had not been obtained.
+    // That was true when written and is left exactly as written.
+    const historical = JSON.parse(
+      fs.readFileSync(
+        path.join(
+          ROOT,
+          "data/record-clearing/production-factory/source-acquisition",
+          "rcap-ks-written-permission-authorization.json"
+        ),
+        "utf8"
+      )
+    );
+    assert.equal(historical.currentEffectUnchanged.generationAllowed, false);
+    assert.equal(historical.currentEffectUnchanged.licenseAdopted, false);
+    assert.equal(pending.gates.priorDecisionRewritten, false);
+    assert.equal(pending.gates.priorDecisionDeleted, false);
+    assert.equal(pending.gates.receiptsDeleted, 0);
+    assert.equal(pending.gates.receiptsRewritten, 0);
+  }
+);
+
+await check(
+  "Kansas currentness is owned separately from Kansas permission",
+  () => {
+    // Two gates that look alike from a distance. Permission answers whether the
+    // forms may be reproduced; currentness answers whether these are still the
+    // forms. A grant would settle the first and leave the second exactly where
+    // it was, so the currentness owner must not depend on the licence.
+    const plan = buildFactoryPlan({ rootDir: ROOT });
+    const currentness = plan.jobs.find(
+      (job) => job.jobId === "rcap-ks-form-currentness-verification"
+    );
+    assert.ok(currentness, "Kansas must carry a currentness owner");
+    assert.equal(currentness.jurisdiction, "KS");
+    assert.deepEqual(
+      currentness.dependencies,
+      [],
+      "currentness must not wait on the licence question"
+    );
+    assert.ok(
+      /Permission is not currentness/u.test(currentness.stopCondition),
+      "the owner must say that a grant does not make a revision current"
+    );
+    assert.ok(
+      /do not set generationAllowed/u.test(currentness.stopCondition),
+      "a currentness owner must not be able to adopt a licence"
+    );
+
+    // Nothing Kansas is releasable, whatever was reported.
+    for (const job of plan.jobs.filter((entry) => entry.jurisdiction === "KS")) {
+      assert.notEqual(job.status, "in_progress");
+    }
+    const staging = plan.jobs.find(
+      (job) => job.jobId === "rcap-ks-staging-promotion"
+    );
+    assert.equal(staging.status, "blocked");
+  }
+);
+
+await check(
   "the live Colorado grant authorizes twelve preserved receipts",
   () => {
     const index = buildSourceAuthorizationIndex(ROOT);
