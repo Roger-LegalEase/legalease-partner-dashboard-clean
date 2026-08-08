@@ -70,7 +70,7 @@ const DIRECT_DOCUMENT_IDS = new Set([
   "PRB Certificate of Expungement for Military Application",
   "PRB Certificate of Expungement for Military Eligibility Acknowledgement"
 ]);
-const RULE_298_ID = "Ill. S. Ct. R. 298 Application for Waiver of Court Fees";
+const RULE_298_ID = "FW-CIV-APPLICATION";
 const UNMANIFESTED_DOCUMENT_IDS = new Set([
   "EXP-AD Additional Cases Expungement",
   "CXP Additional Cannabis Convictions",

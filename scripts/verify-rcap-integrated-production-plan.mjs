@@ -661,7 +661,7 @@ assert.equal(officialPdfSourceContract.totals.pendingAssignmentFamilies, 0);
 assert.equal(officialPdfSourceContract.totals.projectedDocumentIdentities, 328);
 assert.equal(
   officialPdfSourceContract.totals.projectedExactWorkerAssignments,
-  76
+  63
 );
 assert.equal(
   officialPdfSourceContract.totals.materializationBlockedFamilies,
@@ -707,7 +707,7 @@ assert.equal(
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedExactWorkerAssignments,
-  76
+  63
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
@@ -717,7 +717,7 @@ assert.equal(
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedUnresolvedIdentities,
-  174
+  173
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
@@ -782,13 +782,13 @@ assert.equal(
   "runtime_disabled"
 );
 assert.equal(officialPdfSourceProjection.coverage.queueIdentityCount, 328);
-assert.equal(officialPdfSourceProjection.coverage.assignmentEligibleCount, 76);
+assert.equal(officialPdfSourceProjection.coverage.assignmentEligibleCount, 63);
 assert.deepEqual(
   officialPdfSourceProjection.coverage.countsByDisposition,
   {
-    deliberately_excluded_commercial_license: 9,
+    deliberately_excluded_commercial_license: 25,
     // Two identities became exactly worker-assignable in wave 3.
-    exact_worker_assignable: 76,
+    exact_worker_assignable: 63,
     // Completed acquisition decisions settled these identities. For all but one
     // the adopted edition manifests no asset, so there is no portable contract
     // to assign. Vermont's 600-00228 is the exception: the edition retains the
@@ -796,15 +796,15 @@ assert.deepEqual(
     // false and records no byte count, which withholds the contract just the
     // same. None of them is eligible.
     identity_resolved_materialization_required: 26,
-    legal_design_or_technical_policy_blocked: 13,
+    legal_design_or_technical_policy_blocked: 12,
     local_scope_identity: 1,
     // One fewer: the Illinois notice-of-court-date role correction settled it.
-    role_mismatch: 4,
+    role_mismatch: 3,
     // Three fewer: Louisiana's arts. 993, 995 and 998 were source-gated PDF
     // captures of statutory text the issuer publishes only as HTML. They left
     // the official-PDF lane with their six components.
     source_gated_identity: 25,
-    unresolved_identity: 174
+    unresolved_identity: 173
   }
 );
 assert.equal(legalReviewMaterializationContract.assignmentCount, 24);
@@ -831,8 +831,8 @@ const exactOfficialPdfChildren = factoryPlan.jobs.filter(
 const assignedOfficialPdfIdentityKeys = exactOfficialPdfChildren.flatMap(
   (child) => child.officialPdfAssignment.identityKeys
 );
-assert.equal(assignedOfficialPdfIdentityKeys.length, 76);
-assert.equal(new Set(assignedOfficialPdfIdentityKeys).size, 76);
+assert.equal(assignedOfficialPdfIdentityKeys.length, 63);
+assert.equal(new Set(assignedOfficialPdfIdentityKeys).size, 63);
 // Every eligible identity is either assigned to an owning implementation job or
 // explicitly recorded as having no lane to own it. New Jersey's CN-10557 and New
 // York's CPL 160.59 packet are the second case: the projection resolved them
@@ -862,7 +862,7 @@ assert.equal(
     (child) =>
       child.officialPdfAssignment.newImplementationIdentityKeys
   ).length,
-  74
+  61
 );
 assert.equal(
   exactOfficialPdfChildren.flatMap(

@@ -277,6 +277,41 @@ export function buildLegalReviewMaterializationContract(rootDir) {
   });
 }
 
+/**
+ * Jurisdictions with an integrated commercial-use denial.
+ *
+ * A licence decision is terminal in the negative when it adopts no licence and
+ * forbids generation. Read from the decision corpus so a later grant lifts the
+ * exclusion by itself, and a later denial applies without anyone remembering
+ * to extend a list.
+ */
+function licenseDeniedJurisdictionSet(rootDir) {
+  const directory = path.join(
+    rootDir,
+    "data/record-clearing/production-factory/source-acquisition"
+  );
+  const denied = new Set();
+  if (!fs.existsSync(directory)) return denied;
+  for (const name of fs.readdirSync(directory).sort()) {
+    if (!name.endsWith(".json")) continue;
+    let decision;
+    try {
+      decision = JSON.parse(fs.readFileSync(path.join(directory, name), "utf8"));
+    } catch {
+      continue;
+    }
+    if (decision?.strategyFamily !== "commercial_license") continue;
+    if (typeof decision.jurisdiction !== "string") continue;
+    if (
+      decision.licenseAdopted === false &&
+      decision.generationAllowed === false
+    ) {
+      denied.add(decision.jurisdiction);
+    }
+  }
+  return denied;
+}
+
 export function buildOfficialPdfSourceProjection(rootDir) {
   const queue = readJson(rootDir, OFFICIAL_PDF_PRODUCTION_QUEUE_PATH);
   const reconciliation = readJson(rootDir, OFFICIAL_PDF_RECONCILIATION_PATH);
@@ -288,6 +323,17 @@ export function buildOfficialPdfSourceProjection(rootDir) {
   const excludedKansasIds = new Set(
     (ksExclusion.excludedDocuments ?? []).map((entry) => entry.documentId)
   );
+  // Jurisdictions whose commercial-use question has an integrated, terminal
+  // negative answer. Read from the decision records rather than from a
+  // per-jurisdiction list, because a list only covers the jurisdiction someone
+  // remembered: this gate was Kansas-only, and Colorado's JDF licence — a
+  // terminal `written_permission_required` with licenseAdopted false and
+  // generationAllowed false — was enforced only as a side effect of JDF-2370
+  // carrying a role conflict. When the integrated CO remap rebound those
+  // components onto JDF-2371, that side effect disappeared and an unlicensed
+  // document became worker-assignable. A licence denial has to exclude the
+  // family it denies, not the one document that happened to be flagged.
+  const licenseDeniedJurisdictions = licenseDeniedJurisdictionSet(rootDir);
   const coRoleConflictIds = new Set(
     sourceRequirementRows(coRequirements)
       .filter(
@@ -319,6 +365,7 @@ export function buildOfficialPdfSourceProjection(rootDir) {
         jurisdiction,
         document,
         excludedKansasIds,
+        licenseDeniedJurisdictions,
         coRoleConflictIds,
         decisionsByComponent
       });
@@ -863,6 +910,7 @@ function officialPdfDisposition({
   jurisdiction,
   document,
   excludedKansasIds,
+  licenseDeniedJurisdictions,
   coRoleConflictIds,
   decisionsByComponent
 }) {
@@ -870,6 +918,12 @@ function officialPdfDisposition({
     jurisdiction === "KS" &&
     excludedKansasIds.has(document.officialFormId)
   ) {
+    return "deliberately_excluded_commercial_license";
+  }
+  // Checked before every positive disposition below. Reproducing a publisher's
+  // form in a paid packet without permission is not a technical question and
+  // no amount of source readiness answers it.
+  if (licenseDeniedJurisdictions.has(jurisdiction)) {
     return "deliberately_excluded_commercial_license";
   }
   if (jurisdiction === "CA" && document.officialFormId === "SDSC-CRM-307") {

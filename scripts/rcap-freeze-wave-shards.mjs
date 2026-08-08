@@ -29,7 +29,7 @@ export const WAVE_SHARD_MANIFEST_PATH =
   "data/record-clearing/production-factory/wave-shard-manifest.json";
 
 /**
- * Wave 3 — the shards this pass freezes.
+ * Wave 4 — the shards this pass freezes.
  *
  * Jobs that already carry a pushed, verified worker completion are deliberately
  * absent from every assignment shard: commissioning one of those is what this
@@ -41,51 +41,40 @@ const ACTIVE_SHARDS = [
     shard: "B1",
     lane: "custom_pleading",
     ownerSession: "SESSION_B",
-    jobIds: ["rcap-nv-custom-pleading", "rcap-wy-custom-pleading"],
+    jobIds: ["rcap-wy-custom-pleading", "rcap-hi-custom-pleading"],
     note:
-      "Nevada first: it is an expansion of an integrated implementation, so six of its eight assigned tracks are already built and must stay value-identical. Its incremental scope is nv_seal_probation_family and nv_repository_removal, 14 components."
+      "Wyoming carries over unfinished. Hawaii is promoted: its stage-one filing vehicle was the longest-standing legal-design blocker in the plan and the integrated memo correction closed it, so the five conviction tracks are buildable for the first time."
   },
   {
     shard: "B2",
     lane: "custom_pleading",
     ownerSession: "SESSION_B",
     jobIds: ["rcap-oh-custom-pleading", "rcap-wa-custom-pleading"],
-    note: "The two largest clean ready pleading assignments with complete legal design, no active memo correction and no source or venue blocker."
+    note: "Carried over unfinished from the previous wave; not reranked."
+  },
+  {
+    shard: "B3",
+    lane: "custom_pleading",
+    ownerSession: "SESSION_B",
+    jobIds: ["rcap-ky-custom-pleading", "rcap-va-custom-pleading"],
+    note:
+      "Promoted from the previous wave's candidate ranking without reranking. Nebraska is deliberately not promoted: its memo still carries unresolved venue and packet-component questions, and its branch is a lease."
   },
   {
     shard: "C1",
     lane: "guidance_implementation",
     ownerSession: "SESSION_C",
-    jobIds: ["rcap-nv-guidance-implementation"],
-    note:
-      "The corrected Nevada pure-guidance assignment, re-scoped to nv_seal_deferred alone. It is the only ready guidance job in the plan that does not already have a pushed worker completion."
-  },
-  {
-    shard: "C2",
-    lane: "guidance_implementation",
-    ownerSession: "SESSION_C",
     jobIds: [],
     note:
-      "Empty by evidence, not by omission. New Jersey, Texas and Vermont were the next guidance priorities and all three already carry verified worker completions on pushed branches. They are integration work, not assignments, and appear in the INTEGRATION shard."
+      "The guidance lane is exhausted: no guidance implementation job in the plan is ready. Every one is either completed or blocked behind a legal-design question. It refills when a memo correction lands, not before."
   },
   {
     shard: "D1",
     lane: "legal_design_normalization",
     ownerSession: "SESSION_D",
-    jobIds: [
-      "rcap-hi-expungement-stage-one-and-hcjdc-159b-memo-correction",
-      "rcap-fl-rule-3-989-sworn-statement-and-3-9895-memo-correction",
-      "rcap-il-rule-298-fw-civ-component-remap-memo-correction"
-    ],
-    note: "Three memo corrections, three different memos. Each unblocks an implementation family."
-  },
-  {
-    shard: "D2",
-    lane: "legal_design_normalization",
-    ownerSession: "SESSION_D",
-    jobIds: ["rcap-hi-stage-one-court-fee-addendum"],
+    jobIds: ["rcap-vt-200-00130-source-identity-resolution"],
     note:
-      "The Hawaii fee addendum owns a decision record, not HI.memo.json, so it can run beside D1's Hawaii memo correction without two jobs owning one memo. It blocks nothing."
+      "The only ready legal-design job left. Every memo correction this wave commissioned is integrated."
   },
   {
     shard: "E1",
@@ -93,7 +82,7 @@ const ACTIVE_SHARDS = [
     ownerSession: "SESSION_E",
     jobIds: [],
     note:
-      "Empty because no official-PDF implementation job is ready. Every acroform_fill, flat_pdf_overlay and composed_route job in the plan is blocked on a source, licence or edition gate that this pass did not close. Forcing a family ready would put an unresolved source in front of a participant."
+      "Still empty. No acroform_fill, flat_pdf_overlay or composed_route job is ready: each remains blocked on an authority asset the adopted edition does not manifest. Session E cannot start until the first Edition 1.3 tranche publishes."
   },
   {
     shard: "E2",
@@ -107,48 +96,48 @@ const ACTIVE_SHARDS = [
     lane: "source_acquisition",
     ownerSession: "SESSION_F",
     jobIds: [
-      "rcap-fl-public-official-download",
-      "rcap-id-shield-revision-and-bci-identity-correction",
-      "rcap-il-notice-of-court-date-statewide-role-correction"
+      "rcap-mn-official-download-automation-blocked",
+      "rcap-de-official-download-automation-blocked"
     ],
-    note: "Families one source decision from readiness, with official evidence available."
+    note: "Carried over unfinished; not reranked."
   },
   {
     shard: "F2",
     lane: "source_acquisition",
     ownerSession: "SESSION_F",
     jobIds: [
-      "rcap-ia-source-identity-resolution-certification-of-service",
-      "rcap-me-form-face-title-correction",
-      "rcap-mi-mc-227-revision-3-25-correction"
+      "rcap-mo-official-download-automation-blocked",
+      "rcap-in-commercial-license",
+      "rcap-mo-direct-issuer-request"
     ],
-    note: "Exact source identities and face-of-document corrections."
+    note: "Promoted from the previous wave's candidate ranking."
   },
   {
     shard: "F3",
     lane: "source_acquisition",
     ownerSession: "SESSION_F",
     jobIds: [
-      "rcap-mn-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition",
-      "rcap-mn-official-download-automation-blocked",
-      "rcap-de-official-download-automation-blocked"
+      "rcap-fl-not-required-design-reconciliation",
+      "rcap-ia-in-repo-identity-reconciliation-already-retained-under-another-identity",
+      "rcap-ia-not-required-design-reconciliation"
     ],
-    note: "In-repository identity reconciliation and blocked-automation dispositions."
+    note:
+      "Promoted from the previous wave's candidate ranking. All three had lease branches at the start of this pass and no worker commit; they are reissued to the same shard rather than recommissioned elsewhere."
   },
   {
     shard: "R1",
     lane: "legal_output_review",
     ownerSession: "SESSION_R1",
     jobIds: [
-      "rcap-in-custom-pleading-completed-output-review",
-      "rcap-ms-custom-pleading-completed-output-review",
-      "rcap-ok-guidance-implementation-completed-output-review",
-      "rcap-tn-guidance-implementation-completed-output-review",
-      "rcap-nc-guidance-implementation-completed-output-review"
+      "rcap-ks-custom-pleading-completed-output-review",
+      "rcap-mo-custom-pleading-completed-output-review",
+      "rcap-wv-custom-pleading-completed-output-review",
+      "rcap-nj-guidance-implementation-completed-output-review",
+      "rcap-tx-guidance-implementation-completed-output-review"
     ],
     reviewKind: "technical_and_visual",
     note:
-      "Page inspection may be divided among read-only vision workers; one primary review agent writes the result. The review is not performed by the integration captain, and it does not mark itself complete."
+      "Refilled: R1 delivered its first five results this pass, three technically approved and two returned correction_required. This shard reviews the wave-3 implementations."
   },
   {
     shard: "R2",
@@ -163,7 +152,7 @@ const ACTIVE_SHARDS = [
     ],
     reviewKind: "completed_output_legal_review_preparation",
     note:
-      "Produces counsel-ready recommendations — adopt, correct or hold. Counsel remains the adopter; this shard may not record adoption and may not mark a packet ready."
+      "Carried over unfinished; not reranked. Produces counsel-ready recommendations only — counsel remains the adopter."
   },
   {
     shard: "INTEGRATION",
@@ -172,77 +161,65 @@ const ACTIVE_SHARDS = [
     jobIds: [],
     fromDiscovery: true,
     note:
-      "Jobs whose completions are already pushed and verified. These are integration work for the next captain, not assignments. Populated from the discovery report rather than by hand."
+      "Jobs whose completions are already pushed and verified, populated from the committed discovery report rather than by hand."
   }
 ];
 
 /**
- * Wave 4 — ranked now, reserved by nobody.
+ * Wave 5 — ranked now, reserved by nobody.
  */
 const CANDIDATE_SHARDS = [
   {
     shard: "B1",
     lane: "custom_pleading",
-    jobIds: ["rcap-ky-custom-pleading", "rcap-va-custom-pleading"]
+    jobIds: ["rcap-ct-custom-pleading", "rcap-id-custom-pleading"]
   },
   {
     shard: "B2",
     lane: "custom_pleading",
-    jobIds: ["rcap-ne-custom-pleading", "rcap-nc-custom-pleading"]
+    jobIds: ["rcap-az-custom-pleading", "rcap-nc-custom-pleading"]
   },
   {
     shard: "C1",
     lane: "guidance_implementation",
     jobIds: [],
-    note: "No unbuilt guidance assignment remains ready. The lane refills when a memo correction lands."
-  },
-  {
-    shard: "D1",
-    lane: "legal_design_normalization",
-    jobIds: ["rcap-vt-200-00130-source-identity-resolution"]
+    note: "Exhausted. Refills only when a memo correction reopens a guidance route."
   },
   {
     shard: "E1",
     lane: "acroform_fill",
     jobIds: [],
-    note: "Refills when the first Edition 1.3 tranche publishes and its families' sources become worker-assignable."
+    note:
+      "Refills when the first Edition 1.3 tranche publishes and its families' sources become worker-assignable. Nothing may be forced ready before then."
   },
   {
     shard: "F1",
     lane: "source_acquisition",
     jobIds: [
-      "rcap-mo-official-download-automation-blocked",
-      "rcap-in-commercial-license",
-      "rcap-mo-direct-issuer-request"
-    ]
-  },
-  {
-    shard: "F2",
-    lane: "source_acquisition",
-    jobIds: [
-      "rcap-az-not-required-design-reconciliation",
-      "rcap-fl-not-required-design-reconciliation",
-      "rcap-ia-not-required-design-reconciliation"
-    ]
-  },
-  {
-    shard: "F3",
-    lane: "source_acquisition",
-    jobIds: [
+      "rcap-de-direct-issuer-request",
       "rcap-ma-attended-retrieval-100k-petition-for-expungement",
-      "rcap-ma-attended-retrieval-mps-petition-to-expunge",
-      "rcap-ma-attended-retrieval-ocp-petition-to-seal"
+      "rcap-ma-attended-retrieval-mps-petition-to-expunge"
     ],
-    note: "Attended retrievals. Each needs a person at a terminal, so these are ranked but not promised."
+    note: "The Massachusetts retrievals each need a person at a terminal, so they are ranked but not promised."
   },
   {
     shard: "R1",
     lane: "legal_output_review",
     jobIds: [
+      "rcap-mn-custom-pleading-completed-output-review",
+      "rcap-nv-guidance-implementation-completed-output-review",
+      "rcap-vt-guidance-implementation-completed-output-review",
+      "rcap-sc-custom-pleading-completed-output-review"
+    ]
+  },
+  {
+    shard: "R2",
+    lane: "legal_output_review",
+    jobIds: [
       "rcap-oh-guidance-implementation-completed-output-review",
       "rcap-ri-guidance-implementation-completed-output-review",
-      "rcap-sc-custom-pleading-completed-output-review",
-      "rcap-wi-custom-pleading-completed-output-review"
+      "rcap-wi-custom-pleading-completed-output-review",
+      "rcap-wv-guidance-implementation-completed-output-review"
     ]
   }
 ];
@@ -322,7 +299,7 @@ try {
       : definition.jobIds;
     const jobs = jobIds.filter((jobId) => byJobId.has(jobId)).map(describe);
     return {
-      wave: status === "active" ? 3 : 4,
+      wave: status === "active" ? 4 : 5,
       shard: definition.shard,
       lane: definition.lane,
       status,
@@ -455,7 +432,7 @@ try {
   );
   for (const shard of manifest.shards) {
     console.log(
-      `  ${shard.status === "active" ? "wave 3" : "wave 4"} ${shard.shard.padEnd(12)} ${String(
+      `  ${shard.status === "active" ? "wave 4" : "wave 5"} ${shard.shard.padEnd(12)} ${String(
         shard.capacity.jobs
       ).padStart(2)} job(s) ${String(shard.capacity.incrementalTracks).padStart(
         2

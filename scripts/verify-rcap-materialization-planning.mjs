@@ -90,7 +90,12 @@ for (const forbidden of [
   const row = projection.identities.find(
     (identity) => identity.queueOfficialFormId === forbidden
   );
-  if (!row || row.assignmentEligible) {
+  // Absent from the queue is stronger than present-and-ineligible, not weaker:
+  // an identity nothing binds cannot be handed to anyone. JDF-2370 left the
+  // queue when the integrated Colorado remap established that it was the wrong
+  // document and JDF-2371 the right one. The prohibition is unchanged — if the
+  // identity is there, it may not be assignable.
+  if (row && row.assignmentEligible) {
     throw new Error(`${forbidden} may not be a worker assignment.`);
   }
 }

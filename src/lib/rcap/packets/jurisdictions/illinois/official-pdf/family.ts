@@ -32,7 +32,7 @@ export const ILLINOIS_OFFICIAL_PDF_COMPONENT_DOCUMENT_IDS = [
   "EXP-AD Case List",
   "EXP-AD Order Granting",
   "EXP-AD Additional Cases Expungement",
-  "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
+  "FW-CIV-APPLICATION",
   "CXP Motion to Vacate and Expunge",
   "CXP Additional Cannabis Convictions",
   "CXP Getting Started Motion to Vacate and Expunge",
@@ -111,7 +111,7 @@ export const ILLINOIS_OFFICIAL_PDF_DOCUMENT_BOUNDARIES:
     },
     {
       componentDocumentId:
-        "Ill. S. Ct. R. 298 Application for Waiver of Court Fees",
+        "FW-CIV-APPLICATION",
       authorityState: "retained_packet_asset_component_mapping_pending",
       expectedSha256:
         "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5",
