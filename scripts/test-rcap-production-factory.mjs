@@ -4888,6 +4888,197 @@ await check("retained evidence is auditable but never participant-facing", () =>
   );
 });
 
+
+// ---------------------------------------------------------------------------
+// Review-lane ownership
+//
+// One job used to ask a single worker for a page-by-page visual review and a
+// completed-output legal review, into one file. Those are different
+// competencies and different accountabilities, and one artifact for both meant
+// technical approval could read as legal approval.
+// ---------------------------------------------------------------------------
+
+await check("technical and legal review are independently owned", () => {
+  const technical = plan.jobs.filter(
+    (job) => job.strategyFamily === "technical_visual_review"
+  );
+  const legal = plan.jobs.filter(
+    (job) => job.strategyFamily === "completed_output_legal_review"
+  );
+  assert.ok(technical.length > 0 && legal.length > 0);
+  assert.equal(technical.length, legal.length, "every family needs both reads");
+
+  // 1-3. Different paths, and neither may write the other's result.
+  const technicalPaths = new Set(technical.flatMap((job) => job.ownedPaths));
+  const legalPaths = new Set(legal.flatMap((job) => job.ownedPaths));
+  for (const owned of technicalPaths) {
+    assert.equal(legalPaths.has(owned), false, owned);
+    assert.match(owned, /technical-visual-reviews/u);
+  }
+  for (const owned of legalPaths) {
+    assert.equal(technicalPaths.has(owned), false, owned);
+    assert.match(owned, /legal-output-reviews/u);
+  }
+  for (const job of technical) {
+    assert.match(job.stopCondition, /not a legal review/iu);
+    assert.equal(
+      job.ownedPaths.some((owned) => owned.includes("legal-output-reviews")),
+      false
+    );
+  }
+  for (const job of legal) {
+    assert.match(job.stopCondition, /not a technical review/iu);
+    assert.equal(
+      job.ownedPaths.some((owned) =>
+        owned.includes("technical-visual-reviews")
+      ),
+      false
+    );
+  }
+
+  // 4-6. Neither result advances adoption or readiness, and neither may
+  //      record adoption at all.
+  for (const job of [...technical, ...legal]) {
+    assert.match(job.stopCondition, /do not mark counsel adoption/iu);
+    assert.match(job.stopCondition, /packet-ready/iu);
+    assert.match(job.stopCondition, /do not enable runtime/iu);
+  }
+  assert.equal(
+    plan.sourceSummary.runtime.normalizedPacketReadyTracks,
+    0,
+    "a recorded review must not advance packet readiness"
+  );
+
+  // 7. Correction-required output blocks the legal read of that output.
+  const correctionRequired = new Set(
+    plan.trackReconciliation.assignments
+      .filter((entry) => entry.currentOutputStatus === "correction_required")
+      .map((entry) => entry.correctionJobId)
+      .filter(Boolean)
+  );
+  assert.ok(correctionRequired.size > 0, "expected open corrections");
+  for (const correctionJobId of correctionRequired) {
+    const implementationJobId = correctionJobId.replace(
+      /-technical-review-correction$/u,
+      ""
+    );
+    const legalJob = legal.find(
+      (job) => job.jobId === `${implementationJobId}-completed-output-review`
+    );
+    assert.ok(legalJob, implementationJobId);
+    assert.equal(
+      legalJob.status,
+      "blocked",
+      `${implementationJobId}: legal review must wait for the corrected packet`
+    );
+  }
+
+  // 12. No two active review jobs own one path.
+  const active = plan.jobs.filter((job) =>
+    ["ready", "blocked", "in_progress", "planned"].includes(job.status)
+  );
+  const owners = new Map();
+  for (const job of active) {
+    for (const owned of job.ownedPaths) {
+      const existing = owners.get(owned);
+      assert.equal(
+        existing === undefined || existing === job.jobId,
+        true,
+        `${owned} is owned by both ${existing} and ${job.jobId}`
+      );
+      owners.set(owned, job.jobId);
+    }
+  }
+});
+
+await check("a legacy combined artifact is never counted as legal review", () => {
+  const legalDir =
+    "data/record-clearing/production-factory/legal-output-reviews/completed-output";
+  const technicalDir =
+    "data/record-clearing/production-factory/technical-visual-reviews/completed-output";
+  const migrated = [
+    "rcap-in-custom-pleading",
+    "rcap-ms-custom-pleading",
+    "rcap-nc-guidance-implementation",
+    "rcap-ok-guidance-implementation",
+    "rcap-tn-guidance-implementation"
+  ];
+  for (const implementationJobId of migrated) {
+    // 11. The artifact at the legal path is a migration marker, not a review.
+    const marker = readJson(`${legalDir}/${implementationJobId}.json`);
+    assert.equal(
+      marker.schemaVersion,
+      "rcap-legacy-combined-review-migration/v1"
+    );
+    assert.equal(marker.completedOutputLegalReviewPerformed, false);
+    assert.equal(marker.technicalOnly, true);
+    assert.equal(marker.counselAdopted, false);
+    assert.equal(marker.packetReady, false);
+    assert.match(marker.originalWorkerBranch, /^rcap-factory\//u);
+    assert.match(marker.originalWorkerCommit, /^[0-9a-f]{40}$/u);
+
+    // The technical findings survive in full, under the right owner.
+    const technical = readJson(`${technicalDir}/${implementationJobId}.json`);
+    assert.equal(technical.reviewKind, "technical_visual_review");
+    assert.equal(technical.completedOutputLegalReview, "pending");
+    assert.equal(technical.counselAdopted, false);
+    assert.equal(technical.packetReady, false);
+    assert.equal(technical.productionEnabled, false);
+    assert.equal(technical.runtimeStatus, "runtime_disabled");
+    assert.equal(
+      technical.provenance.originalWorkerCommit,
+      marker.originalWorkerCommit
+    );
+    assert.ok(Array.isArray(technical.packets) && technical.packets.length > 0);
+    assert.equal(technical.result, marker.originalTechnicalResult);
+  }
+
+  // §4.2 dispositions, read from the migrated records rather than asserted.
+  const expected = {
+    "rcap-in-custom-pleading": "correction_required",
+    "rcap-ms-custom-pleading": "correction_required",
+    "rcap-ok-guidance-implementation": "technical_approved",
+    "rcap-tn-guidance-implementation": "technical_approved",
+    "rcap-nc-guidance-implementation": "technical_approved"
+  };
+  for (const [implementationJobId, result] of Object.entries(expected)) {
+    assert.equal(
+      readJson(`${technicalDir}/${implementationJobId}.json`).result,
+      result,
+      implementationJobId
+    );
+  }
+});
+
+await check("an implementation correction reissues rather than competes", () => {
+  const corrections = plan.jobs.filter(
+    (job) => job.strategyFamily === "implementation_correction"
+  );
+  assert.ok(corrections.length > 0);
+  for (const correction of corrections) {
+    const implementationJobId = correction.jobId.replace(
+      /-technical-review-correction$/u,
+      ""
+    );
+    const implementation = plan.jobs.find(
+      (job) => job.jobId === implementationJobId
+    );
+    assert.ok(implementation, implementationJobId);
+    // Same module and verifier: one owner, not two.
+    assert.deepEqual(
+      [...correction.ownedPaths].sort(),
+      [...implementation.expectedOutputs].sort(),
+      `${correction.jobId} must own exactly the implementation's paths`
+    );
+    // The historical completion stays on the record.
+    assert.equal(implementation.status, "completed");
+    // Pinned to the evidence the reviewer actually read.
+    assert.match(correction.executionNote, /Pinned to the exact evidence/u);
+    assert.match(correction.stopCondition, /do not carry the/iu);
+    assert.equal(correction.participantPacketProofRequired, true);
+  }
+});
+
 if (failures.length > 0) {
   console.error("RCAP production factory tests failed:");
   for (const failure of failures) console.error(`  - ${failure}`);

@@ -4,7 +4,7 @@
   "note": "Shard metadata is recorded here rather than on a claim because a job manifest is what a branch fingerprint is computed from: a coordination field inside the assignment would rename a worker's branch. Nothing here alters a semantic fingerprint or a branch key.",
   "reviewShardReservationNote": "The claim schema's ownerSession enum is SESSION_B through SESSION_F, and review is none of those. R1 and R2 are therefore reserved here rather than in job-claims.json. This manifest is the reservation of record for them; widening the claim enum would change the job manifest and, through it, worker branch identity.",
   "baseline": {
-    "baseCommit": "ba82fe3e01dafbb51045902bb3f149ba87cb5a05",
+    "baseCommit": "c6cd2e91b05a8bb942fac25f4b203e3caa9d4f86",
     "authorityVersion": "master-library/1.2",
     "authorityEdition": "1.2"
   },
@@ -12,7 +12,7 @@
     "normalizedTracks": 497,
     "representedExactlyOnce": 497,
     "implementationComplete": 212,
-    "jobs": 430,
+    "jobs": 455,
     "generatedFrom": [
       {
         "path": "data/rcap-all50/all-state-build-manifest.json",
@@ -552,7 +552,7 @@
       },
       {
         "path": "planning/record-clearing-100-percent/production-plan.json",
-        "sha256": "efc3a3c0ae3cda15aceae1de99ac6ff69c5a07bf29c2d92da3a95a664e10232f"
+        "sha256": "0305f3d8858a3dd4d638ed16ec213c4cd7b95d0c4d7dd2b98a662fe809452e53"
       },
       {
         "path": "src/lib/rcap/jurisdictions/packet-capability.ts",
@@ -1200,14 +1200,15 @@
           "jobId": "rcap-ks-custom-pleading-completed-output-review",
           "lane": "legal_output_review",
           "jurisdiction": "KS",
-          "status": "ready",
-          "semanticFingerprint": "4315109ec085660402c4891ab166530eefe232474702e77bb5fa14de9deb0644",
-          "branch": "rcap-factory/rcap-ks-custom-pleading-completed-output-review-671673be-4315109e",
+          "status": "blocked",
+          "semanticFingerprint": "2039790a20ad0a2ba6796289d2f7c5b5bc32641495b746a078f93c70730df193",
+          "branch": "rcap-factory/rcap-ks-custom-pleading-completed-output-review-671673be-2039790a",
           "ownedPaths": [
             "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-ks-custom-pleading.json"
           ],
           "dependencies": [
-            "rcap-ks-custom-pleading"
+            "rcap-ks-custom-pleading",
+            "rcap-ks-custom-pleading-technical-visual-review"
           ],
           "assignedTrackIds": [
             "ks-12-4516-municipal",
@@ -1225,14 +1226,15 @@
           "jobId": "rcap-mo-custom-pleading-completed-output-review",
           "lane": "legal_output_review",
           "jurisdiction": "MO",
-          "status": "ready",
-          "semanticFingerprint": "b17908c2d9453b7f40b371dd61f03e1c5e5e5b3c594e19d76bcdff8ada93d9fd",
-          "branch": "rcap-factory/rcap-mo-custom-pleading-completed-output-review-6da86813-b17908c2",
+          "status": "blocked",
+          "semanticFingerprint": "2d6f7743d2c5e96b4b0e5a8297206888d961d80d020435330a1a999cc20469c5",
+          "branch": "rcap-factory/rcap-mo-custom-pleading-completed-output-review-6da86813-2d6f7743",
           "ownedPaths": [
             "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-mo-custom-pleading.json"
           ],
           "dependencies": [
-            "rcap-mo-custom-pleading"
+            "rcap-mo-custom-pleading",
+            "rcap-mo-custom-pleading-technical-visual-review"
           ],
           "assignedTrackIds": [
             "mo-311-326-minor-in-possession",
@@ -1250,14 +1252,15 @@
           "jobId": "rcap-wv-custom-pleading-completed-output-review",
           "lane": "legal_output_review",
           "jurisdiction": "WV",
-          "status": "ready",
-          "semanticFingerprint": "c5015c3c1a92d7081a42e742bbd62d82630d053f70aa2ecb9122fce940058fd1",
-          "branch": "rcap-factory/rcap-wv-custom-pleading-completed-output-review-a66b0d0a-c5015c3c",
+          "status": "blocked",
+          "semanticFingerprint": "b4ac6f86b5c2efbe10d52d5557a6f7846c47c796aa393671bd709b7696900c01",
+          "branch": "rcap-factory/rcap-wv-custom-pleading-completed-output-review-a66b0d0a-b4ac6f86",
           "ownedPaths": [
             "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-wv-custom-pleading.json"
           ],
           "dependencies": [
-            "rcap-wv-custom-pleading"
+            "rcap-wv-custom-pleading",
+            "rcap-wv-custom-pleading-technical-visual-review"
           ],
           "assignedTrackIds": [
             "wv_drug_conditional_discharge",
@@ -1275,14 +1278,15 @@
           "jobId": "rcap-nj-guidance-implementation-completed-output-review",
           "lane": "legal_output_review",
           "jurisdiction": "NJ",
-          "status": "ready",
-          "semanticFingerprint": "c7d301890046153f2b86b7dad3ee84c7a8a94fd3f9113dc5685fc2899797e35d",
-          "branch": "rcap-factory/rcap-nj-guidance-implementation-completed-output-review-8d50c6a0-c7d30189",
+          "status": "blocked",
+          "semanticFingerprint": "f2b2fac2764f0bf00c2ecacf542c8f917cfa5343f54870b2e283f46d9500c18d",
+          "branch": "rcap-factory/rcap-nj-guidance-implementation-completed-output-review-8d50c6a0-f2b2fac2",
           "ownedPaths": [
             "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-nj-guidance-implementation.json"
           ],
           "dependencies": [
-            "rcap-nj-guidance-implementation"
+            "rcap-nj-guidance-implementation",
+            "rcap-nj-guidance-implementation-technical-visual-review"
           ],
           "assignedTrackIds": [
             "nj_automated_clean_slate"
@@ -1298,14 +1302,15 @@
           "jobId": "rcap-tx-guidance-implementation-completed-output-review",
           "lane": "legal_output_review",
           "jurisdiction": "TX",
-          "status": "ready",
-          "semanticFingerprint": "95afa993fd64817e1e5b5f860f65f0fc4184d67b192301fadd173d53c3cead6a",
-          "branch": "rcap-factory/rcap-tx-guidance-implementation-completed-output-review-a94dfd2a-95afa993",
+          "status": "blocked",
+          "semanticFingerprint": "a1e5f23724f6259708fca04c4e9415e9f550ebe670de81595abc9447b6c0761d",
+          "branch": "rcap-factory/rcap-tx-guidance-implementation-completed-output-review-a94dfd2a-a1e5f237",
           "ownedPaths": [
             "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-tx-guidance-implementation.json"
           ],
           "dependencies": [
-            "rcap-tx-guidance-implementation"
+            "rcap-tx-guidance-implementation",
+            "rcap-tx-guidance-implementation-technical-visual-review"
           ],
           "assignedTrackIds": [
             "tx_exp_discretionary"
@@ -1346,14 +1351,15 @@
           "jobId": "rcap-ky-guidance-implementation-completed-output-review",
           "lane": "legal_output_review",
           "jurisdiction": "KY",
-          "status": "ready",
-          "semanticFingerprint": "a785843dde9b59939bdab94afce58f48f3aa75e3dd07f7393d79fad3cd957f97",
-          "branch": "rcap-factory/rcap-ky-guidance-implementation-completed-output-review-b5b8194f-a785843d",
+          "status": "blocked",
+          "semanticFingerprint": "312f909b005afeee0fc4d0a857078555bacef6a0f940a94635a7eff0d67dd578",
+          "branch": "rcap-factory/rcap-ky-guidance-implementation-completed-output-review-b5b8194f-312f909b",
           "ownedPaths": [
             "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-ky-guidance-implementation.json"
           ],
           "dependencies": [
-            "rcap-ky-guidance-implementation"
+            "rcap-ky-guidance-implementation",
+            "rcap-ky-guidance-implementation-technical-visual-review"
           ],
           "assignedTrackIds": [
             "ky_automatic_nonconviction_expungement_verification",
@@ -1371,14 +1377,15 @@
           "jobId": "rcap-nd-custom-pleading-completed-output-review",
           "lane": "legal_output_review",
           "jurisdiction": "ND",
-          "status": "ready",
-          "semanticFingerprint": "1677feef08c9f90ba30ac53dab5cac71a4320a635b202cbed13417522307280e",
-          "branch": "rcap-factory/rcap-nd-custom-pleading-completed-output-review-e545a015-1677feef",
+          "status": "blocked",
+          "semanticFingerprint": "f4d542d2f2995adcbff6e82434a30adb9fa72bd15b078d634d48d39d468a073d",
+          "branch": "rcap-factory/rcap-nd-custom-pleading-completed-output-review-e545a015-f4d542d2",
           "ownedPaths": [
             "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-nd-custom-pleading.json"
           ],
           "dependencies": [
-            "rcap-nd-custom-pleading"
+            "rcap-nd-custom-pleading",
+            "rcap-nd-custom-pleading-technical-visual-review"
           ],
           "assignedTrackIds": [
             "nd-dui-record-seal",
@@ -1402,14 +1409,15 @@
           "jobId": "rcap-nh-guidance-implementation-completed-output-review",
           "lane": "legal_output_review",
           "jurisdiction": "NH",
-          "status": "ready",
-          "semanticFingerprint": "0d4b4706439e3b909ff3c8708a75df17e9532542ab3580e555080aa1cdd2f0ae",
-          "branch": "rcap-factory/rcap-nh-guidance-implementation-completed-output-review-1fa6beca-0d4b4706",
+          "status": "blocked",
+          "semanticFingerprint": "88f01fdf29ff65801c3525b92725e30b9fcdf48831cace40f654cfd3b50e1ef1",
+          "branch": "rcap-factory/rcap-nh-guidance-implementation-completed-output-review-1fa6beca-88f01fdf",
           "ownedPaths": [
             "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-nh-guidance-implementation.json"
           ],
           "dependencies": [
-            "rcap-nh-guidance-implementation"
+            "rcap-nh-guidance-implementation",
+            "rcap-nh-guidance-implementation-technical-visual-review"
           ],
           "assignedTrackIds": [
             "nh_auto_nonconviction",
@@ -1429,14 +1437,15 @@
           "jobId": "rcap-nm-guidance-implementation-completed-output-review",
           "lane": "legal_output_review",
           "jurisdiction": "NM",
-          "status": "ready",
-          "semanticFingerprint": "1048c5eefce3a3bee9cfd0307a38208c8837265de6f36ccf87e0c4cec05bb1d4",
-          "branch": "rcap-factory/rcap-nm-guidance-implementation-completed-output-review-178c3205-1048c5ee",
+          "status": "blocked",
+          "semanticFingerprint": "8c7194640f326dc17d76ef6a5a0f6e2b30a3d816499b9e9f5e0769f449809c7b",
+          "branch": "rcap-factory/rcap-nm-guidance-implementation-completed-output-review-178c3205-8c719464",
           "ownedPaths": [
             "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-nm-guidance-implementation.json"
           ],
           "dependencies": [
-            "rcap-nm-guidance-implementation"
+            "rcap-nm-guidance-implementation",
+            "rcap-nm-guidance-implementation-technical-visual-review"
           ],
           "assignedTrackIds": [
             "nm_cannabis",
@@ -1454,14 +1463,15 @@
           "jobId": "rcap-ny-guidance-implementation-completed-output-review",
           "lane": "legal_output_review",
           "jurisdiction": "NY",
-          "status": "ready",
-          "semanticFingerprint": "b18e78a7bfcf5067af9f6c41c9f0aef443a953c49e7dc876015bec0e09182169",
-          "branch": "rcap-factory/rcap-ny-guidance-implementation-completed-output-review-f81658aa-b18e78a7",
+          "status": "blocked",
+          "semanticFingerprint": "73df09b6c8cfdd72a547318b39db3d4a328142d2d9c0164849a0bb37493cedc5",
+          "branch": "rcap-factory/rcap-ny-guidance-implementation-completed-output-review-f81658aa-73df09b6",
           "ownedPaths": [
             "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-ny-guidance-implementation.json"
           ],
           "dependencies": [
-            "rcap-ny-guidance-implementation"
+            "rcap-ny-guidance-implementation",
+            "rcap-ny-guidance-implementation-technical-visual-review"
           ],
           "assignedTrackIds": [
             "ny_160_50_nonconviction",
@@ -1763,14 +1773,15 @@
           "jobId": "rcap-mn-custom-pleading-completed-output-review",
           "lane": "legal_output_review",
           "jurisdiction": "MN",
-          "status": "ready",
-          "semanticFingerprint": "3fae2c48e2aa27aec3166d2232ed0845e289c6ede36865e6145e9b51fd254f1f",
-          "branch": "rcap-factory/rcap-mn-custom-pleading-completed-output-review-2864a303-3fae2c48",
+          "status": "blocked",
+          "semanticFingerprint": "f282a2ebd313f26d84693d3dc2d531441628f66353bd92dda3afeb9f862df564",
+          "branch": "rcap-factory/rcap-mn-custom-pleading-completed-output-review-2864a303-f282a2eb",
           "ownedPaths": [
             "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-mn-custom-pleading.json"
           ],
           "dependencies": [
-            "rcap-mn-custom-pleading"
+            "rcap-mn-custom-pleading",
+            "rcap-mn-custom-pleading-technical-visual-review"
           ],
           "assignedTrackIds": [
             "mn_299c11_arrest_demand"
@@ -1786,14 +1797,15 @@
           "jobId": "rcap-nv-guidance-implementation-completed-output-review",
           "lane": "legal_output_review",
           "jurisdiction": "NV",
-          "status": "ready",
-          "semanticFingerprint": "b84fc3aa64cb2d345cd355062fa188157089ad3e1de8cf7dddb33483324c2ac0",
-          "branch": "rcap-factory/rcap-nv-guidance-implementation-completed-output-review-f4282298-b84fc3aa",
+          "status": "blocked",
+          "semanticFingerprint": "d12c409d9cb2e7b1016cee704218b048e3c6f3e3dd024d81b1b3f0541519f4f8",
+          "branch": "rcap-factory/rcap-nv-guidance-implementation-completed-output-review-f4282298-d12c409d",
           "ownedPaths": [
             "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-nv-guidance-implementation.json"
           ],
           "dependencies": [
-            "rcap-nv-guidance-implementation"
+            "rcap-nv-guidance-implementation",
+            "rcap-nv-guidance-implementation-technical-visual-review"
           ],
           "assignedTrackIds": [
             "nv_seal_deferred"
@@ -1809,14 +1821,15 @@
           "jobId": "rcap-vt-guidance-implementation-completed-output-review",
           "lane": "legal_output_review",
           "jurisdiction": "VT",
-          "status": "ready",
-          "semanticFingerprint": "4795854310a55a553877f215d7ee6db1fe6bd990fb73750a4b340466443263b9",
-          "branch": "rcap-factory/rcap-vt-guidance-implementation-completed-output-review-b16bf26e-47958543",
+          "status": "blocked",
+          "semanticFingerprint": "997d514cd01e8a297af1cf1afae9513b0bd372a3db5da2edeb686b99fb4f04b7",
+          "branch": "rcap-factory/rcap-vt-guidance-implementation-completed-output-review-b16bf26e-997d514c",
           "ownedPaths": [
             "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-vt-guidance-implementation.json"
           ],
           "dependencies": [
-            "rcap-vt-guidance-implementation"
+            "rcap-vt-guidance-implementation",
+            "rcap-vt-guidance-implementation-technical-visual-review"
           ],
           "assignedTrackIds": [
             "vt_diversion_post_charge",
@@ -1834,14 +1847,15 @@
           "jobId": "rcap-sc-custom-pleading-completed-output-review",
           "lane": "legal_output_review",
           "jurisdiction": "SC",
-          "status": "ready",
-          "semanticFingerprint": "6f1e655f391a4985daef816065e873aa91608e7b55aae1321b57721c935213b6",
-          "branch": "rcap-factory/rcap-sc-custom-pleading-completed-output-review-70119e39-6f1e655f",
+          "status": "blocked",
+          "semanticFingerprint": "dbb7e299a6a2488094e95829ff6406ef87103af41e7f9f17ff7ec157fddf82f6",
+          "branch": "rcap-factory/rcap-sc-custom-pleading-completed-output-review-70119e39-dbb7e299",
           "ownedPaths": [
             "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-sc-custom-pleading.json"
           ],
           "dependencies": [
-            "rcap-sc-custom-pleading"
+            "rcap-sc-custom-pleading",
+            "rcap-sc-custom-pleading-technical-visual-review"
           ],
           "assignedTrackIds": [
             "sc_17_1_40_general_sessions",
@@ -1898,14 +1912,15 @@
           "jobId": "rcap-oh-guidance-implementation-completed-output-review",
           "lane": "legal_output_review",
           "jurisdiction": "OH",
-          "status": "ready",
-          "semanticFingerprint": "3b5685099f488d44830d3e1db9c380f2054144857ceeb5f4b7ad1f57cca0f67f",
-          "branch": "rcap-factory/rcap-oh-guidance-implementation-completed-output-review-8a21dade-3b568509",
+          "status": "blocked",
+          "semanticFingerprint": "acaaea3750567bca231017cb1163a0fe76e1c38d3962f21792f0f0591f34b7ec",
+          "branch": "rcap-factory/rcap-oh-guidance-implementation-completed-output-review-8a21dade-acaaea37",
           "ownedPaths": [
             "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-oh-guidance-implementation.json"
           ],
           "dependencies": [
-            "rcap-oh-guidance-implementation"
+            "rcap-oh-guidance-implementation",
+            "rcap-oh-guidance-implementation-technical-visual-review"
           ],
           "assignedTrackIds": [
             "oh_2953_36_trafficking",
@@ -1925,14 +1940,15 @@
           "jobId": "rcap-ri-guidance-implementation-completed-output-review",
           "lane": "legal_output_review",
           "jurisdiction": "RI",
-          "status": "ready",
-          "semanticFingerprint": "67f05d57efa0d02a2f423a4ffda1d468c63bf0589964bba6bc6a1ec83525bd61",
-          "branch": "rcap-factory/rcap-ri-guidance-implementation-completed-output-review-a32d5b90-67f05d57",
+          "status": "blocked",
+          "semanticFingerprint": "3886668158826e14d8df1b47e519f43dc0b5135dd6628119807c92a8639017d4",
+          "branch": "rcap-factory/rcap-ri-guidance-implementation-completed-output-review-a32d5b90-38866681",
           "ownedPaths": [
             "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-ri-guidance-implementation.json"
           ],
           "dependencies": [
-            "rcap-ri-guidance-implementation"
+            "rcap-ri-guidance-implementation",
+            "rcap-ri-guidance-implementation-technical-visual-review"
           ],
           "assignedTrackIds": [
             "ri_commercial_sexual_activity",
@@ -1950,14 +1966,15 @@
           "jobId": "rcap-wi-custom-pleading-completed-output-review",
           "lane": "legal_output_review",
           "jurisdiction": "WI",
-          "status": "ready",
-          "semanticFingerprint": "464d8863302c2fc0f27d7c44c05894315f153e2a62be3443ba8e9be0d42007e9",
-          "branch": "rcap-factory/rcap-wi-custom-pleading-completed-output-review-cbe5437a-464d8863",
+          "status": "blocked",
+          "semanticFingerprint": "5a07f78ffc4cb12f176b25049e1a2d23e8d2d73ee5cec5063fd8429fc7f50916",
+          "branch": "rcap-factory/rcap-wi-custom-pleading-completed-output-review-cbe5437a-5a07f78f",
           "ownedPaths": [
             "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-wi-custom-pleading.json"
           ],
           "dependencies": [
-            "rcap-wi-custom-pleading"
+            "rcap-wi-custom-pleading",
+            "rcap-wi-custom-pleading-technical-visual-review"
           ],
           "assignedTrackIds": [
             "wi_exp_certificate_of_discharge_followup"
@@ -1973,14 +1990,15 @@
           "jobId": "rcap-wv-guidance-implementation-completed-output-review",
           "lane": "legal_output_review",
           "jurisdiction": "WV",
-          "status": "ready",
-          "semanticFingerprint": "24fcb8053b5da2dd4fe3723b067612444675150dba13368fbd0fc925e979944c",
-          "branch": "rcap-factory/rcap-wv-guidance-implementation-completed-output-review-737a0aa2-24fcb805",
+          "status": "blocked",
+          "semanticFingerprint": "3af0199e72f63b4c99d67e1cfada1a23479dd348ff52202059f6bdcda9132ed4",
+          "branch": "rcap-factory/rcap-wv-guidance-implementation-completed-output-review-737a0aa2-3af0199e",
           "ownedPaths": [
             "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-wv-guidance-implementation.json"
           ],
           "dependencies": [
-            "rcap-wv-guidance-implementation"
+            "rcap-wv-guidance-implementation",
+            "rcap-wv-guidance-implementation-technical-visual-review"
           ],
           "assignedTrackIds": [
             "wv_common_conv_procedure",
@@ -1999,5 +2017,5 @@
       ]
     }
   ],
-  "manifestSha256": "6d3903d280a2fc90e2a58aa72b79423155b3aca5deaeabdb31e16c15de4af0cb"
+  "manifestSha256": "c4a25b93715cbaba1fa905d5e3f2c6f43df608f444bf91d192755e7991e3004e"
 }

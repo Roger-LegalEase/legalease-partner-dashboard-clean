@@ -130,6 +130,98 @@ export const WAVE_INTEGRATION_VALIDATION = Object.freeze([
 const IMPLEMENTATION_DIR = "data/record-clearing/implementation-tranches";
 const CANONICAL_JOBS_DIR = "planning/record-clearing-100-percent/jobs";
 const REVIEW_MANIFEST_DIR = "data/record-clearing/production-factory/review-manifests";
+// Technical/visual review and completed-output legal review are different
+// competencies with different accountabilities, so they get different owners
+// and different paths. The legal directory keeps its existing name: renaming
+// it would churn provenance for no gain.
+const TECHNICAL_REVIEW_DIR =
+  "data/record-clearing/production-factory/technical-visual-reviews/completed-output";
+const LEGAL_REVIEW_DIR =
+  "data/record-clearing/production-factory/legal-output-reviews/completed-output";
+
+/**
+ * Implementations whose current output is known defective.
+ *
+ * Read from the recorded technical result rather than asserted here, so a
+ * corrected implementation clears the block by being re-reviewed rather than
+ * by someone remembering to edit a list.
+ */
+function implementationsRequiringCorrection(rootDir) {
+  const requiring = new Set();
+  for (const directory of [TECHNICAL_REVIEW_DIR, LEGAL_REVIEW_DIR]) {
+    const absolute = path.join(rootDir ?? process.cwd(), directory);
+    if (!fs.existsSync(absolute)) continue;
+    for (const name of fs.readdirSync(absolute).sort()) {
+      if (!name.endsWith(".json")) continue;
+      let record;
+      try {
+        record = JSON.parse(
+          fs.readFileSync(path.join(absolute, name), "utf8")
+        );
+      } catch {
+        continue;
+      }
+      if (record?.result === "correction_required") {
+        requiring.add(name.replace(/\.json$/u, ""));
+      }
+    }
+  }
+  return requiring;
+}
+
+/**
+ * Completion state for a technical/visual review job.
+ *
+ * A recorded result completes it, whether the finding was approval or a
+ * defect: the review happened either way, and a defect is a result, not an
+ * absence.
+ */
+function technicalReviewCompletion(rootDir, implementationJobId) {
+  const absolute = path.join(
+    rootDir ?? process.cwd(),
+    `${TECHNICAL_REVIEW_DIR}/${implementationJobId}.json`
+  );
+  if (!fs.existsSync(absolute)) return { status: "ready" };
+  let record;
+  try {
+    record = JSON.parse(fs.readFileSync(absolute, "utf8"));
+  } catch {
+    return { status: "ready" };
+  }
+  if (record?.reviewKind !== "technical_visual_review") return { status: "ready" };
+  return {
+    status: "completed",
+    ...(record.provenance?.originalWorkerBranch
+      ? { workerBranch: record.provenance.originalWorkerBranch }
+      : {}),
+    ...(record.provenance?.originalWorkerCommit
+      ? { workerCommit: record.provenance.originalWorkerCommit }
+      : {})
+  };
+}
+
+/**
+ * True once a technical/visual review of this implementation's current output
+ * is recorded and approved. A legacy combined artifact never counts: it was
+ * produced under an ownership model that could not distinguish the two reads.
+ */
+function technicalReviewApproved(rootDir, implementationJobId) {
+  const absolute = path.join(
+    rootDir ?? process.cwd(),
+    `${TECHNICAL_REVIEW_DIR}/${implementationJobId}.json`
+  );
+  if (!fs.existsSync(absolute)) return false;
+  try {
+    const record = JSON.parse(fs.readFileSync(absolute, "utf8"));
+    return (
+      record?.reviewKind === "technical_visual_review" &&
+      record?.result === "technical_approved"
+    );
+  } catch {
+    return false;
+  }
+}
+
 const PACKET_PROOF_DIR = "data/record-clearing/production-factory/packet-proofs";
 const OFFICIAL_PDF_PROOF_DIR =
   "data/record-clearing/production-factory/official-pdf-proofs";
@@ -3906,10 +3998,17 @@ export function buildFactoryPlan(options = {}) {
       sourceMaterializationFoundation.jobId
   });
 
-  // One completed-output review assignment per implementation whose finished
-  // output was handed to review. It depends on the implementation and on the
-  // integration-owned evidence, and it is ready — the review itself is the work
-  // that has not been done, not a prerequisite that is missing.
+  // Two review assignments per implementation family, with different owners
+  // and different output paths.
+  //
+  // There was one job, and it asked a single worker for a page-by-page visual
+  // review *and* a completed-output legal review, into one file. Those are
+  // different competencies and different accountabilities: a technical
+  // reviewer confirming that no page is blank and no execution block is
+  // pre-filled is not the person qualified to say the venue is right, and
+  // neither of them is counsel. One artifact for both meant technical approval
+  // could read as legal approval, which is the one inference that must never
+  // be available.
   for (const implementationJobId of COMPLETED_OUTPUT_REVIEW_ASSIGNMENTS) {
     const implementation = jobs.find(
       (job) => job.jobId === implementationJobId
@@ -3924,25 +4023,82 @@ export function buildFactoryPlan(options = {}) {
     ) {
       continue;
     }
+    const technicalResultPath =
+      `${TECHNICAL_REVIEW_DIR}/${implementationJobId}.json`;
+    const legalResultPath =
+      `${LEGAL_REVIEW_DIR}/${implementationJobId}.json`;
+    const correctionRequired =
+      implementationsRequiringCorrection(rootDir).has(implementationJobId);
+    const technicalApproved =
+      technicalReviewApproved(rootDir, implementationJobId);
+
+    addJob({
+      lane: "legal_output_review",
+      jurisdiction: implementation.jurisdiction,
+      jobId: `${implementationJobId}-technical-visual-review`,
+      strategyFamily: "technical_visual_review",
+      trackIds: implementation.trackIds,
+      dependencies: [implementationJobId],
+      // Recorded once a technical result exists for this output. A
+      // correction-required implementation is not re-opened here: the current
+      // output was reviewed and found defective, and the re-review belongs to
+      // the corrected packet, which does not exist yet.
+      ...technicalReviewCompletion(rootDir, implementationJobId),
+      expectedOutputs: [technicalResultPath],
+      ownedPaths: [technicalResultPath],
+      requiredInputs: [
+        packetProof,
+        reviewManifest,
+        ...(implementation.expectedOutputs ?? [])
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "high",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job " +
+          `${implementationJobId}-technical-visual-review`
+      ],
+      commitSubject:
+        `docs(record-clearing): technically review ${implementationJobId} output`,
+      executionNote:
+        "Technical and visual review only. Page inspection may be divided among read-only " +
+        "vision workers; one primary reviewer writes the result.",
+      stopCondition:
+        "Read every rendered page and record what is physically on it: deterministic " +
+        "rendering against the recorded packet hashes, page counts, clipping, overlap, blank " +
+        "pages, stranded headings, execution blocks, protected fields, appearance streams, " +
+        "page order, official-source visual fidelity and generated-file tracking. " +
+        "This is not a legal review. Do not assess the governing mechanism, eligibility, " +
+        "waiting period, venue, filing actor, destination, required allegations or any " +
+        "participant-facing legal statement, and do not write to the completed-output " +
+        "legal-review result — a different owner holds that path. " +
+        "Technical approval establishes nothing beyond itself: it is not legal approval, not " +
+        "counsel adoption, not packet readiness and not production enablement. Do not mark " +
+        "counsel adoption, do not mark any route packet-ready, and do not enable runtime, " +
+        "promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+
     addJob({
       lane: "legal_output_review",
       jurisdiction: implementation.jurisdiction,
       jobId: `${implementationJobId}-completed-output-review`,
-      strategyFamily: "completed_output_review",
+      strategyFamily: "completed_output_legal_review",
       trackIds: implementation.trackIds,
-      dependencies: [implementationJobId],
-      status: "ready",
-      expectedOutputs: [
-        `${FACTORY_DATA_DIR}/legal-output-reviews/completed-output/` +
-          `${implementationJobId}.json`
+      dependencies: [
+        implementationJobId,
+        `${implementationJobId}-technical-visual-review`
       ],
-      ownedPaths: [
-        `${FACTORY_DATA_DIR}/legal-output-reviews/completed-output/` +
-          `${implementationJobId}.json`
-      ],
+      // A legal read of output that is already known defective reviews a
+      // document nobody will ship. It waits for the correction and the
+      // re-review, and says so rather than sitting ready.
+      status: correctionRequired || !technicalApproved ? "blocked" : "ready",
+      expectedOutputs: [legalResultPath],
+      ownedPaths: [legalResultPath],
       requiredInputs: [
         packetProof,
         reviewManifest,
+        technicalResultPath,
         ...(implementation.expectedOutputs ?? []),
         `data/record-clearing/legal-design-intake/${implementation.jurisdiction}.memo.json`,
         FACTORY_INPUT_PATHS.normalizedTracks,
@@ -3958,24 +4114,183 @@ export function buildFactoryPlan(options = {}) {
       ],
       commitSubject:
         `docs(record-clearing): review ${implementationJobId} completed output`,
-      executionNote:
-        "The technical evidence is integrated and deterministic. This job is the " +
-        "formal read of the finished participant-facing output, which no verifier " +
-        "performs.",
+      executionNote: correctionRequired
+        ? "Blocked behind an implementation correction: the reviewed output is known " +
+          "defective and the corrected packet has not been produced or technically reviewed."
+        : technicalApproved
+          ? "Technical and visual review is recorded and approved. This job is the formal " +
+            "legal read of the finished participant-facing output, which no verifier performs."
+          : "Blocked until technical and visual review of this output is recorded.",
       stopCondition:
-        "Perform, and record the result of, a formal page-by-page visual review of every " +
-        "rendered page and a completed-output legal review of the assembled documents. " +
-        "Verify: that each document's participant and outside-party roles are what the " +
-        "design assigns, and that nothing generated is presented as another party's or a " +
-        "court's instrument; that every field or document belonging to an outside party is " +
-        "left blank or omitted rather than filled; that the venue and submission destination " +
-        "on each route are correct; that the fee statements and manual-completion " +
-        "instructions are correct and complete; that the self-help stops and attorney " +
-        "handoffs fire where they should and route somewhere real. Record exact defects and " +
-        "a recommendation for or against counsel adoption. " +
-        "Recording a recommendation is not adopting it: do not mark counsel adoption, do not " +
-        "edit packet text, legal conclusions, track strategy or authority classification, do " +
-        "not mark any route packet-ready, and do not enable runtime, promote, or deploy. " +
+        "Perform, and record the result of, a completed-output legal review of the assembled " +
+        "documents. Verify the governing mechanism, the eligibility boundary, the waiting " +
+        "period, the venue, the filing actor, the destination, the required allegations, the " +
+        "document roles, the source identity, the outside-party boundaries, service, the fee " +
+        "statements, the proposed-order treatment, the self-help stops and every " +
+        "participant-facing legal statement. Confirm that nothing generated is presented as " +
+        "another party's or a court's instrument and that every outside-party field is left " +
+        "blank rather than filled. " +
+        "Record exact defects and exactly one recommendation: recommend_adopt, " +
+        "recommend_correction or recommend_hold. " +
+        "This is not a technical review and you do not own the technical result. Recording a " +
+        "recommendation is not adopting it: counsel is the adopter. Do not mark counsel " +
+        "adoption, do not edit packet text, legal conclusions, track strategy or authority " +
+        "classification, do not mark any route packet-ready, and do not enable runtime, " +
+        "promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  // Implementation corrections opened by technical review.
+  //
+  // Each is a reissue of the assignment that produced the defect, owning the
+  // same module and verifier — not a second job racing the first for the same
+  // two files. Each is pinned to the exact blobs and evidence the reviewer
+  // read, so a correction written against a module that has since moved is
+  // caught rather than silently applied to something else.
+  const reviewCorrections = [
+    {
+      implementationJobId: "rcap-in-custom-pleading",
+      jurisdiction: "IN",
+      modulePath: "src/lib/rcap/packets/jurisdictions/indiana/custom-pleading.ts",
+      verifierPath: "scripts/verify-rcap-indiana-custom-pleading.mjs",
+      moduleSha256:
+        "aff728a43c2e97c654f48185b46d51c020f9cf56f932f5ad0e5a37061eb79df8",
+      verifierSha256:
+        "ef4cda4cb5428b22c60b89744975f73eda02d7aed4c78bccaa8d5d8c4f64ae21",
+      packetProofSha256:
+        "89b7ba8a8b105dcb0cd48aba42ef2ffe4c8b371773fdb4195def2425f2de62e5",
+      technicalReviewSha256:
+        "452f0dd5eea085b3f7302110a71d222a8e40f23e362e3fb1ab410f2f61c888c8",
+      fixtureIds: ["in-collateral-action-section-4-marked-expunged-2"],
+      commitSubject:
+        "fix(record-clearing): reconcile the Indiana collateral-action variant",
+      executionNote:
+        "One variant packet, one contradiction. collateralActionType says specialized " +
+        "driving privileges; the inherited relationship narrative describes a civil " +
+        "forfeiture, and both render on the same page.",
+      stop:
+        "Make the action type and the relationship narrative describe one action. The " +
+        "fixture's collateralActionType and the participant's own words in Section III " +
+        "currently contradict each other on a single page, and variantPurpose does not " +
+        "disclose that the action-type branch is what this variant exercises: state every " +
+        "material branch it covers. " +
+        "Correct the fixture and the variant's declared purpose, not the pleading template: " +
+        "the template renders whatever the fixture supplies and is not the defect. Preserve " +
+        "the Indiana memo, the legal-design specifications, component identity and roles, " +
+        "packet structure, and every unrelated canonical and variant packet " +
+        "value-identically."
+    },
+    {
+      implementationJobId: "rcap-ms-custom-pleading",
+      jurisdiction: "MS",
+      modulePath:
+        "src/lib/rcap/packets/jurisdictions/mississippi/custom-pleading.ts",
+      verifierPath: "scripts/verify-rcap-mississippi-custom-pleading.mjs",
+      moduleSha256:
+        "8a54e7f002d23b853a9597c6ce13e0e51b8ae66c76ec038e0e4f368efb8f0e04",
+      verifierSha256:
+        "28ed0a99ce7152fb5434f899618e820e5864bd902927eb4413d60e02570f2016",
+      packetProofSha256:
+        "b441744b2bb2abe1ec85f14d46d9657949252398441108971e3ba0a5ef8b7a61",
+      technicalReviewSha256:
+        "1dcd516a2d2d26213c2d4c478f582a160dd9c1367295c877c6d31b54acd87571",
+      fixtureIds: [
+        "ms-drug-cd-paraphernalia-justice-court-2",
+        "ms-mip-convicted-and-sentence-completed-2"
+      ],
+      commitSubject:
+        "fix(record-clearing): reconcile the Mississippi variant venues",
+      executionNote:
+        "Two variant packets whose dependent facts describe two different counties at " +
+        "once. A caption in one county, a residence, arresting agency and prosecuting " +
+        "authority in another.",
+      stop:
+        "Make each affected fixture describe one coherent jurisdiction. Reconcile, per " +
+        "fixture: court level, court county, participant residence, arresting agency, " +
+        "prosecuting authority, prosecutorial district, the approved-as-to-form addressee, " +
+        "the certificate-of-service recipient and the cause-number style, so that the " +
+        "caption, the body, the proposed order and the certificate of service all name the " +
+        "same forum and the same parties. " +
+        "Do not change the legal template to accommodate contradictory fixture data: the " +
+        "template is correct and the fixtures are not. Preserve the Mississippi memo, the " +
+        "legal design, every canonical packet, every unaffected variant, component roles " +
+        "and the outside-party protections value-identically."
+    }
+  ];
+  for (const correction of reviewCorrections) {
+    const implementation = jobs.find(
+      (job) => job.jobId === correction.implementationJobId
+    );
+    if (!implementation) continue;
+    if (
+      !implementationsRequiringCorrection(rootDir).has(
+        correction.implementationJobId
+      )
+    ) {
+      continue;
+    }
+    addJob({
+      lane: "custom_pleading",
+      jurisdiction: correction.jurisdiction,
+      jobId: `${correction.implementationJobId}-technical-review-correction`,
+      strategyFamily: "implementation_correction",
+      trackIds: implementation.trackIds,
+      dependencies: [
+        correction.implementationJobId,
+        `${correction.implementationJobId}-technical-visual-review`
+      ],
+      status: "ready",
+      expectedOutputs: [correction.modulePath, correction.verifierPath],
+      ownedPaths: [correction.modulePath, correction.verifierPath],
+      requiredInputs: [
+        `${PACKET_PROOF_DIR}/${correction.implementationJobId}.json`,
+        `${REVIEW_MANIFEST_DIR}/${correction.implementationJobId}.json`,
+        `${TECHNICAL_REVIEW_DIR}/${correction.implementationJobId}.json`,
+        `data/record-clearing/legal-design-intake/${correction.jurisdiction}.memo.json`,
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.packetSetManifests
+      ],
+      regressionVerifier: correction.verifierPath,
+      participantPacketProofRequired: true,
+      // These tracks are built. The correction owns the module they live in
+      // and repairs its current output; it does not re-implement them, and
+      // they stay attributed to the commit that produced them.
+      implementedTrackIds: implementation.trackIds,
+      priorCompletionCommit: implementation.completionCommit,
+      // The correction regenerates the implementation's evidence, and like
+      // every job it also carries its own review manifest.
+      integrationOwnedOutputs: [
+        `${REVIEW_MANIFEST_DIR}/${correction.implementationJobId}-technical-review-correction.json`,
+        `${PACKET_PROOF_DIR}/${correction.implementationJobId}.json`,
+        `${REVIEW_MANIFEST_DIR}/${correction.implementationJobId}.json`
+      ],
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job " +
+          `${correction.implementationJobId}-technical-review-correction`,
+        `node ${correction.verifierPath}`
+      ],
+      commitSubject: correction.commitSubject,
+      executionNote:
+        `${correction.executionNote} Pinned to the exact evidence the reviewer read: ` +
+        `module ${correction.moduleSha256.slice(0, 12)}, verifier ` +
+        `${correction.verifierSha256.slice(0, 12)}, packet proof ` +
+        `${correction.packetProofSha256.slice(0, 12)}, technical review ` +
+        `${correction.technicalReviewSha256.slice(0, 12)}. Affected fixture(s): ` +
+        `${correction.fixtureIds.join(", ")}.`,
+      stopCondition:
+        `${correction.stop} ` +
+        "Regenerate only the technical evidence the change affects. The historical " +
+        "completion of this implementation stays on the record; what changes is the " +
+        "current output's status. Leave the current output correction-required until a " +
+        "replacement packet proof validates — the integration captain owns the proof, the " +
+        "review manifest and the supersession of the previous technical result, and a new " +
+        "technical review is required before legal review resumes. " +
+        "Do not create a second job owning this module or verifier, do not carry the " +
+        "previous approval forward, do not mark counsel adoption, do not mark any route " +
+        "packet-ready, and do not enable runtime, promote, or deploy. " +
         TERMINAL_INSTRUCTION
     });
   }
@@ -9496,8 +9811,18 @@ function buildTrackReconciliation(normalizedTracks, jobs, implementationRecords)
           job.trackIds.includes(track.trackId)
       )
       .sort(compareJobs);
+    // A correction reissues the assignment that produced the defect: same
+    // module, same verifier, same tracks, one owner. It is not a second job
+    // competing for the work, and the completed implementation it corrects is
+    // still what built the tracks. Counting both as pending owners would make
+    // opening any correction look like a double assignment.
     const implementationJobs = implementationCandidates.filter(
-      (job) => job.strategyFamily !== "legal_design_adjudication"
+      (job) =>
+        job.strategyFamily !== "legal_design_adjudication" &&
+        job.strategyFamily !== "implementation_correction"
+    );
+    const correctionJobs = implementationCandidates.filter(
+      (job) => job.strategyFamily === "implementation_correction"
     );
     const adjudicationJobs = implementationCandidates.filter(
       (job) => job.strategyFamily === "legal_design_adjudication"
@@ -9516,7 +9841,16 @@ function buildTrackReconciliation(normalizedTracks, jobs, implementationRecords)
           trackId: track.trackId,
           disposition: "implementation_complete",
           completionCommit: implementationJobs[0].completionCommit,
-          evidencePath: implementationJobs[0].expectedOutputs[0]
+          evidencePath: implementationJobs[0].expectedOutputs[0],
+          // The implementation is built and integrated; its current output is
+          // known defective and is being corrected. Both facts travel together
+          // so neither is mistaken for the other.
+          ...(correctionJobs.length > 0
+            ? {
+                currentOutputStatus: "correction_required",
+                correctionJobId: correctionJobs[0].jobId
+              }
+            : {})
         };
       }
       // A reissued expansion assignment is not complete as a whole, and the
