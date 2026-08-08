@@ -1,0 +1,237 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-mo-official-download-automation-blocked",
+  "parentJobId": "AUTH-06-source-gate-clearance",
+  "jurisdiction": "MO",
+  "lane": "source_acquisition",
+  "strategyFamily": "official_download_automation_blocked",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "db1d5d24989d81f7c5dd009101f7bc5532a8b8f7",
+  "shard": "F2",
+  "generatedOn": "2026-08-08",
+  "acquisitionIds": ["acquire:MO:cr300", "acquire:MO:cr301", "acquire:MO:gn10"],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero. Retrieval was attempted against the issuer's own forms index and refused before any document was served. The refusal was classified by the hardened acquisition-response validator, which returns acquired=false, contentSha256=null and receiptEligible=false. Nothing entered version control and no receipt was created.",
+  "generatedFrom": [
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/authority.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-06-source-gate-clearance.json"
+  ],
+  "method": {
+    "description": "Attempted official download of three Missouri documents, refusal classified with the hardened acquisition-response validator rather than by reading the status code, and the resulting disposition recorded per identity against what the repository already holds.",
+    "retrievalDate": "2026-08-08",
+    "retrievalAttempted": true,
+    "retrievalSucceeded": false,
+    "validatorUsed": "scripts/lib/rcap-factory/acquisition-response.mjs classifyAcquisitionResponse with expectedAsset.kind=pdf",
+    "issuerContactsMade": 0,
+    "binariesDownloaded": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "binariesCommitted": 0,
+    "editionMutated": false,
+    "memoAltered": false,
+    "componentRebound": false,
+    "blockEvaded": false,
+    "assignmentConstraintObserved": "The stop condition requires preserving the 403/WAF disposition distinctly, recording attended-retrieval evidence only, and never relabelling the source as generically missing or inferring an alternative. The block is characterised to its vendor and signal. No source is relabelled missing. No alternative is inferred — in particular the circuit-court mirror the queue records for GN10 is expressly rejected rather than used."
+  },
+  "blockCharacterisation": {
+    "verdict": "official_download_automation_blocked_attended_retrieval_required",
+    "validatorResult": {
+      "acquired": false,
+      "disposition": "official_download_automation_blocked_attended_retrieval_required",
+      "vendor": "cloudflare",
+      "signals": ["cf_challenge_platform"],
+      "blockFingerprint": "b0e9b9766ca0dd6cfa9cd91c655a0e44575f6e5a448102523708015dbe4aafa6",
+      "bodyBytes": 2128,
+      "status": 403,
+      "contentSha256": null,
+      "receiptEligible": false,
+      "workerReadyContract": false,
+      "failure": "cloudflare returned cf_challenge_platform at HTTP 403"
+    },
+    "evidence": {
+      "httpStatus": 403,
+      "httpVersion": "HTTP/2",
+      "server": "cloudflare",
+      "cfRay": "a280acba99bdb133-ATL",
+      "contentType": "text/html",
+      "bodyBytes": 2128,
+      "bodyTitle": "Error 403",
+      "bodyIsIssuerBranded": true,
+      "bodyIsIssuerBrandedDetail": "The refusal page is styled by the Missouri Courts themselves — it loads https://www.courts.mo.gov/mod/img/header.png as a banner — while being served through Cloudflare with a challenge-platform signal. It is an origin-branded error page in front of a Cloudflare mitigation, not the stock Cloudflare interstitial."
+    },
+    "probes": [
+      {"url": "https://www.courts.mo.gov/page.jsp?id=525", "result": "HTTP 403"},
+      {"url": "https://www.courts.mo.gov/", "result": "HTTP 403", "note": "the site root is refused too"},
+      {"url": "https://www.courts.mo.gov/page.jsp?id=8063", "result": "HTTP 403"}
+    ],
+    "knownOfficialUrlRefused": "https://www.courts.mo.gov/page.jsp?id=191585, the forms index recorded on all three queue rows, sits on the same refused host.",
+    "distinctFromSiblingBlocks": {
+      "versusMinnesota": "Minnesota is also Cloudflare and also 403, but it serves the stock 'Just a moment...' interstitial and returns cf-mitigated: challenge. Missouri returns an issuer-branded Error 403 page with a challenge-platform signal and no cf-mitigated header. Same vendor, different configuration and different body.",
+      "versusDelaware": "Delaware is an F5 BIG-IP ASM policy returning HTTP 200 with a 'Request Rejected' body. Missouri returns an honest 403. The Delaware case is the one where status alone misleads.",
+      "versusMontana": "Montana's courts.mt.gov accepts no connection at all. Missouri answers, and answers with a refusal.",
+      "whyThisMatters": "Four blocked jurisdictions, four distinct signatures. A single automation-blocked label across them would lose the fact that only one is evadable-looking, only one is a true outage, and each needs a different remedy."
+    },
+    "notAMissingSource": "The Missouri Office of the State Courts Administrator publishes all three documents and its forms index lists them. Nothing is missing.",
+    "remedy": "An attended human-in-browser session. That is the only legitimate route and none was attempted.",
+    "whatWasNotDone": ["No attempt to solve, replay or bypass the Cloudflare challenge.", "No user agent spoofed beyond an ordinary browser string.", "No mirror, aggregator or cached copy retrieved in place of the issuer.", "No alternative document inferred for any of the three."]
+  },
+  "assignedIdentities": [
+    {
+      "acquisitionKey": "acquire:MO:cr300",
+      "documentId": "CR300",
+      "officialTitle": "Petition for Correction of Arrest/Court Records - Identity Theft",
+      "role": "primary_filing",
+      "issuer": "Missouri Office of the State Courts Administrator",
+      "boundComponents": 1,
+      "editionStatus": "authority_mapped_source_gated",
+      "retainedInTheEdition": true,
+      "retainedAs": {"workflowKey": "MO:CR300:PETITION:EN", "revision": "REV-2010-04", "assetClass": "source_gated", "structuralClass": "acroform_pdf", "pages": 1, "fieldCount": 54, "bytes": 468880, "sha256": "0bdda44514ec4505d736c1648502bc768d48fab5cfc63d51635e57f9380aaf44"},
+      "blockedQuestion": "whether a reissue has occurred",
+      "reissueEvidence": "The queue records that the forms index reports the CR300/CR301/CR375 set as Updated 01/01/25 while the retained corpus copy is stamped OSCA (04-10). A 2025 index date against a 2010 retained stamp points to a reissue, and the 403 is what prevents confirming it.",
+      "consequenceIfStale": "The retained copy would be fifteen years out of date on a primary filing. This is the sharpest of the three."
+    },
+    {
+      "acquisitionKey": "acquire:MO:cr301",
+      "documentId": "CR301",
+      "officialTitle": "Petition for Expungement — Mistaken Identity (CR301)",
+      "role": "primary_filing",
+      "issuer": "Missouri Office of the State Courts Administrator",
+      "boundComponents": 1,
+      "editionStatus": "authority_mapped_source_gated",
+      "retainedInTheEdition": true,
+      "retainedAs": {"workflowKey": "MO:CR301:PRIMARY_FILING:EN", "revision": "REV-2017-07", "assetClass": "source_gated", "structuralClass": "clean_acroform", "fieldCount": 50, "bytes": 952015, "sha256": "5f4fecf410664cc725e298e2d96f3aa0448acaa800dc559e548f8f2e38a3f9f8"},
+      "blockedQuestion": "whether the same 01/01/25 index reissue reaches CR301, whose retained stamp is OSCA (07-17)",
+      "statutoryNote": "The edition records that § 610.145.1(1) makes this a petition on a form approved by the Office of the State Courts Administrator and supplied by the clerk, which is why the route is official_pdf_fill and a custom pleading is not lawfully available on that section. That makes an accurate current form indispensable rather than merely preferable."
+    },
+    {
+      "acquisitionKey": "acquire:MO:gn10",
+      "documentId": "GN10",
+      "officialTitle": "Motion and Affidavit in Support of Request to Proceed As a Poor Person",
+      "role": "fee_waiver",
+      "issuer": "Missouri Office of the State Courts Administrator",
+      "boundComponents": 6,
+      "boundComponentsNote": "the widest reach of the three",
+      "editionStatus": "authority_mapped_source_gated",
+      "retainedInTheEdition": true,
+      "retainedAs": {"workflowKey": "MO:GN10:MOTION:EN", "revision": "REV-2015-07", "assetClass": "source_gated", "structuralClass": "docx", "bytes": 39193, "sha256": "13ff25147df2c70eec85b2d498f486aae9c2b46c535f9f9d7992b6247480421e"},
+      "blockedQuestion": "the current revision",
+      "mirrorExpresslyRejected": {
+        "whatTheQueueRecords": "The only reachable copy is a circuit-court mirror stamped OSCA (10-06), which is likely superseded and is not evidence about the current revision.",
+        "decision": "Not used, not retrieved and not recorded as a source. A circuit-court mirror is neither the issuer nor evidence of what the issuer publishes, and reaching for it because the issuer is refused is precisely the inference the stop condition forbids.",
+        "additionalReason": "Its OSCA (10-06) stamp is older than the retained OSCA (07-15) copy, so it could not establish currency even if it were authoritative."
+      },
+      "docxNote": "GN10 is the only one of the three that is a .docx. Whether a .docx source can be materialized and rendered at all is an open pipeline question recorded elsewhere for Montana and Delaware."
+    }
+  ],
+  "whatIsAndIsNotBlocked": {
+    "notBlocked": ["Identity, title, role and issuer for all three.", "Retention — all three are retained and manifested by the adopted edition at pinned digests.", "Component bindings — eight across the assigned tracks, correct as they stand."],
+    "blocked": ["Currentness for all three.", "Confirmation or refutation of the 01/01/25 index reissue affecting CR300 and CR301.", "The current revision of GN10."],
+    "consequence": "Missouri's gate is open on currentness alone, but with a concrete and unusually strong reason to think two of the three retained copies are stale — a 2025 index date against 2010 and 2017 retained stamps."
+  },
+  "sourceAvailabilityAndStructure": {
+    "officialIndexUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+    "httpStatus": 403,
+    "publicAccessStatus": "public to a human with a browser; refused to automated retrieval",
+    "bytesFromIssuer": null,
+    "sha256FromIssuer": null,
+    "mimeTypeFromIssuer": null,
+    "pagesFromIssuer": null,
+    "geometryFromIssuer": null,
+    "encryptionFromIssuer": null,
+    "xfaFromIssuer": null,
+    "fieldsFromIssuer": null,
+    "widgetsFromIssuer": null,
+    "whyAllNull": "No document was served. The 2,128 bytes returned are a refusal page, and the validator explicitly nulls contentSha256 for a blocked response because a blocked response has no document digest. Retained measurements are recorded per identity above and attributed to the edition, never to the issuer.",
+    "supersession": "suspected_for_cr300_and_cr301_unconfirmed",
+    "supersessionNote": "A 01/01/25 index date against retained OSCA (04-10) and OSCA (07-17) stamps is evidence of a reissue, not proof of one. It is recorded as suspected and is exactly what the attended retrieval must settle."
+  },
+  "sourceContractAndMaterialization": {
+    "sourceContractEligible": false,
+    "sourceContractEligibleWhy": "An exact contract pins a digest as current. Currentness is unestablished for all three and actively doubted for two.",
+    "materializationEligible": false,
+    "materializationEligibleWhy": "All three are source_gated. Materializing would carry a suspected-stale primary filing into the runtime contract for the identity-theft and mistaken-identity routes.",
+    "receiptCreatedByThisJob": false,
+    "receiptPrinciple": "A receipt is evidence custody, not generation permission — and here not even custody is in question, because nothing was served."
+  },
+  "licensing": {
+    "recorded": "None identified for Missouri court forms.",
+    "assessment": "Carried forward and not re-verified, because any terms page sits on the same refused host.",
+    "doNotInfer": "A negative finding on restriction is not a grant of permission."
+  },
+  "doNotSubstitute": [
+    {"documentClass": "the circuit-court GN10 mirror stamped OSCA (10-06)", "why": "Named in the queue as the only reachable copy. Not the issuer, older than the retained copy, and reaching for it because the issuer is blocked is the inference this assignment forbids."},
+    {"documentId": "CR145, CR360, CR375", "why": "Retained Missouri packet forms at REV-2024-04 and REV-2024-10. They are current and adjacent, which makes them tempting as evidence that the whole Missouri set is current. They say nothing about CR300, CR301 or GN10."},
+    {"documentId": "FI-05", "why": "The Confidential Case Filing Information Sheet, resolved by a separate completed job. A cover sheet, not a petition or a fee-waiver motion."},
+    {"documentClass": "any copy retrieved from a mirror or aggregator while the issuer is refused", "why": "Cannot establish currentness, which is the only thing at issue."}
+  ],
+  "edition13Impact": {
+    "publicationJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+    "editionAmendmentRequired": false,
+    "editionAmendmentRequiredNote": "Nothing about the three rows is shown to be wrong. Their identities, titles, roles and classes are consistent with the evidence. The open item is currentness, which no edition edit can supply.",
+    "requiresNewBytes": "unknown",
+    "requiresNewBytesDetail": "If the 01/01/25 reissue is real, CR300 and CR301 need new bytes. That is exactly what the attended retrieval settles.",
+    "recommendedRowAnnotation": "Each of the three rows should record that its currentness is gated by a Cloudflare refusal at the issuer, and the CR300 and CR301 rows should additionally record the 01/01/25 index date as a live supersession suspicion rather than leaving freshness merely 'unconfirmed'.",
+    "edition12Treatment": "immutable_unchanged",
+    "publicationPerformed": false
+  },
+  "implementationFamilyEffect": {
+    "family": "rcap-mo-official-pdf-family",
+    "affectedTracks": 7,
+    "affectedComponents": 8,
+    "effectOfThisJob": "This job is one of three open dependencies of the Missouri implementation jobs; the superseded-source-replacement job is complete and integrated and the direct-issuer-request job is the third. It does not release them. It characterises the refusal to its vendor and signal, records a concrete supersession suspicion for two of the three identities, and expressly refuses the one reachable mirror.",
+    "familyReadinessStatement": "The Missouri official-PDF family remains fail-closed and this job does not move it. All three assets stay source_gated with runtime disabled, two are suspected stale, generation is not permitted and no field map is built.",
+    "netEffectOnBlockers": "One blocker characterised rather than cleared, and one supersession suspicion promoted from an index observation to a recorded finding."
+  },
+  "terminalDisposition": "official_download_refused_by_cloudflare_at_http_403_all_three_identities_retained_currentness_blocked_and_reissue_suspected_for_two",
+  "terminalDispositionDetail": {
+    "why": "The narrowest disposition the evidence supports. It is not unresolved_identity: all three documents, titles, roles and issuer are established and retained. It is not source_missing, which the stop condition forbids and which would be false. It is not acquired: the validator returns acquired=false with a null digest. And it is not a bare currentness hold, because for two identities there is affirmative evidence pointing at a reissue.",
+    "identitiesAssigned": 3,
+    "identitiesRetainedAndAdopted": 3,
+    "binariesRetrievedFromIssuer": 0,
+    "hashesRecordedFromIssuer": 0,
+    "blockClassifiedByValidator": true,
+    "sourcesRelabelledMissing": 0,
+    "alternativesInferred": 0,
+    "mirrorsRejected": 1
+  },
+  "expectedDownstreamEffect": "Missouri's refusal is recorded as a Cloudflare challenge-platform mitigation at HTTP 403 behind an issuer-branded error page, classified by the hardened validator rather than by status code, with acquired=false and a null digest. It is distinguished from the three other blocked jurisdictions in this programme, which use three different mechanisms and need three different remedies. A concrete supersession suspicion is recorded for CR300 and CR301 — a 01/01/25 index date against retained 2010 and 2017 stamps — turning a vague currentness hold into a specific question an attended session can answer in one visit. The one reachable GN10 mirror is expressly rejected with reasons. No binary is acquired, no receipt is created, nothing enters version control, no alternative is inferred, no source is relabelled missing, no component is rebound, no memo is edited, no edition is published, no runtime is enabled and no track changes promotion state.",
+  "residualBlockers": [
+    {"id": "mo-cloudflare-403", "question": "courts.mo.gov refuses automated retrieval with a Cloudflare challenge-platform mitigation at HTTP 403, including the site root.", "status": "blocked_attended_retrieval_required", "owner": "acquisition owner", "reopenCondition": "A successful attended retrieval of the three documents."},
+    {"id": "mo-cr300-cr301-reissue-suspected", "question": "The forms index reports the CR300/CR301/CR375 set Updated 01/01/25 against retained OSCA (04-10) and OSCA (07-17) stamps.", "status": "blocked", "owner": "acquisition owner", "why": "Affirmative evidence of a reissue that cannot be confirmed while the host refuses. If real, a fifteen-year-stale primary filing is bound.", "severity": "high"},
+    {"id": "mo-gn10-revision", "question": "GN10's current revision is unknown and the only reachable copy is an older circuit mirror.", "status": "blocked", "owner": "acquisition owner"},
+    {"id": "mo-gn10-docx-handling", "question": "GN10 is a .docx and neither renderer lane accepts one as-is.", "status": "open_and_outside_this_job", "owner": "the implementation lane"},
+    {"id": "mo-licensing-unreverified", "question": "The recorded absence of a restriction could not be re-checked behind the refusal.", "status": "inherent", "owner": "acquisition owner"}
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "sourcesMaterialized": 0,
+    "sourceReceiptCountUnchanged": true,
+    "memoEdited": false,
+    "editionPublished": false,
+    "editionMutated": false,
+    "rendererImplemented": false,
+    "packetImplemented": false,
+    "componentRebound": false,
+    "issuerContacted": false,
+    "blockEvaded": false,
+    "mirrorSubstituted": false,
+    "sourceRelabelledMissing": false,
+    "alternativeInferred": false,
+    "integrationPerformed": false,
+    "promotionPerformed": false,
+    "migrationPerformed": false,
+    "deploymentPerformed": false
+  }
+}
