@@ -2799,7 +2799,9 @@ export function buildFactoryPlan(options = {}) {
       // it said why — the same shut gate as the Colorado licence and the
       // Maryland migration. It is the question Virginia's custom pleading waits
       // on, so leaving it shut blocks the lane behind it indefinitely.
-      ...decisionRecordCompletion(rootDir, "rcap-va-2026-2027-statutory-cutover", {
+      // The slug is the record's filename, which carries no `rcap-` prefix —
+      // it must match expectedOutputs above or the job never closes.
+      ...decisionRecordCompletion(rootDir, "va-2026-2027-statutory-cutover", {
         workerBranch: WAVE_WORKER_BRANCHES["rcap-va-2026-2027-statutory-cutover"],
         workerCommit: WAVE_WORKER_COMMITS["rcap-va-2026-2027-statutory-cutover"],
         completionCommit:
@@ -2863,7 +2865,7 @@ export function buildFactoryPlan(options = {}) {
       // Derived for the same reason as the cutover job above.
       ...decisionRecordCompletion(
         rootDir,
-        "rcap-va-cc-1201-source-identity-materialization",
+        "va-cc-1201-source-identity-materialization",
         {
           workerBranch:
             WAVE_WORKER_BRANCHES["rcap-va-cc-1201-source-identity-materialization"],

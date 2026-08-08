@@ -83,23 +83,18 @@ const ACTIVE_SHARDS = [
     lane: "legal_design_normalization",
     ownerSession: "SESSION_D",
     jobIds: [
-      "rcap-ky-void-seal-eligibility-bar-reconciliation",
-      "rcap-va-2026-2027-statutory-cutover"
     ],
     // D2 carries the Wyoming reads; D1's carried work is not reranked.
     note:
-      "Refilled by two blocked implementations. Kentucky owns the KRS 218A.275(12) bar that split its custom-pleading assignment: read the statute, encode the bar, determine the participant question and the stop that follows a disqualifying answer, and say whether the route remains packet-capable once it is encoded — a route that stops most applicants may still be worth building and one that can never produce a filing is not. Virginia owns the statutory cutover: which § 19.2-392.2 version governs a packet generated now, which takes effect 2026-12-01, whether a future-effective successor track or a versioned packet is required, what the current tracks' effectiveTo treatment should be, whether current-law packets can be built before the cutover at all, and the packet-copy and routing consequences. Neither owner may implement a packet and neither owns its state memo. The previous three delivered and integrated. Ohio carried the marijuana mechanism into OH.memo.json with the two accuracy defects fixed — the fee is division (G), and the 60-day and 30-day figures do not govern this route. Washington carried the CROP venue conclusion. Iowa remapped the six components that two completed resolutions found pointing at documents that do not exist as such. None of the three made a track ready, which was the point. The Ohio memo now carries three recorded states rather than two; the earlier automatic-sealing amendment stays complete rather than reopening because a successor touched the same file."
+      "Empty again, and quickly. Both reads that refilled it delivered inside the same pass and are integrated: Kentucky's KRS 218A.275(12) eligibility bar, which decides whether that route offers a packet at all, and Virginia's 2026-2027 statutory cutover. Virginia custom pleading now narrows from two blocking questions to one — the official-form identity, which is Session F's and sits in F4. D2 still carries nothing new; both Wyoming reads also landed this pass. Ohio carried the marijuana mechanism into OH.memo.json with the two accuracy defects fixed — the fee is division (G), and the 60-day and 30-day figures do not govern this route. Washington carried the CROP venue conclusion. Iowa remapped the six components that two completed resolutions found pointing at documents that do not exist as such. None of the three made a track ready, which was the point. The Ohio memo now carries three recorded states rather than two; the earlier automatic-sealing amendment stays complete rather than reopening because a successor touched the same file."
   },
   {
     shard: "D2",
     lane: "legal_design_normalization",
     ownerSession: "SESSION_D",
-    jobIds: [
-      "rcap-wy-governing-mechanism-and-currency-reconciliation",
-      "rcap-wy-eligibility-waiting-period-and-effect-reconciliation"
-    ],
+    jobIds: [],
     note:
-      "The two Wyoming reads that block its custom-pleading lane: a statutory sweep of the 2025 and 2026 sessions with the missing enactment dates and the felony-deferral gap, and the substantive reads on the status-offence definition and the restoration asymmetry between sections 7-13-1501 and 7-13-1502(m). Different reads, so different owners; neither owns WY.memo.json."
+      "Both Wyoming reads delivered and are integrated: the statutory sweep of the 2025 and 2026 sessions with the missing enactment dates and the felony-deferral gap, and the substantive reads on the status-offence definition and the restoration asymmetry between sections 7-13-1501 and 7-13-1502(m). Neither owned WY.memo.json, so the memo amendment they imply is a separate owner and Wyoming custom pleading stays blocked until it lands. The governing-mechanism branch was a refused baseline lease at the start of this pass and carried real work by the end of it; refusing it then and adopting it now is one rule applied twice."
   },
   {
     shard: "E1",

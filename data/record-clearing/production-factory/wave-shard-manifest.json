@@ -5,7 +5,7 @@
   "reviewShardReservationNote": "The claim schema's ownerSession enum is SESSION_B through SESSION_F, and review is none of those. R1 and R2 are therefore reserved here rather than in job-claims.json. This manifest is the reservation of record for them; widening the claim enum would change the job manifest and, through it, worker branch identity.",
   "shardIdentifiersAreNotSessions": "R1 and R2 are shard identifiers, not sessions. Both are owned by SESSION_R, which is the single human review session: R1 carries its technical and visual reads, R2 carries its completed-output legal reads, and the split exists so the two kinds of review cannot be recorded against each other's paths. They were briefly written as ownerSession SESSION_R1 and SESSION_R2, which reads as two review sessions and would have someone opening a second one. The human pool is exactly A, B, C, D, E, F and R; every shard here names one of those seven and no shard may name anything else.",
   "baseline": {
-    "baseCommit": "469fb9e477891a2461bf48d27c9a52eaba9d8207",
+    "baseCommit": "9b7c72779f8f0cd5220874cd03d5f1f7245d0050",
     "authorityVersion": "master-library/1.2",
     "authorityEdition": "1.2"
   },
@@ -197,7 +197,7 @@
       },
       {
         "path": "data/record-clearing/production-factory/job-claims.json",
-        "sha256": "963709a03e08015d73220caa0049fff15f39d7365682e0c42edc81ed5cac5977"
+        "sha256": "8ee9af9e3759f9cccbc4bbaa2652807ef6ba4ef50f41032d6a49c00897dea387"
       },
       {
         "path": "data/record-clearing/production-factory/legal-review-materialization-contract.json",
@@ -553,7 +553,7 @@
       },
       {
         "path": "planning/record-clearing-100-percent/production-plan.json",
-        "sha256": "9cbf3280319e4eda4ab4bc5900c5922c5be8c1216d04ade7788853b13b525342"
+        "sha256": "9712b22129111cb0b476636f49909a9f6634eace27c03306ec1ce051b9e2f5d2"
       },
       {
         "path": "src/lib/rcap/jurisdictions/packet-capability.ts",
@@ -579,7 +579,7 @@
   "totals": {
     "activeShards": 16,
     "candidateShards": 7,
-    "activeJobs": 24,
+    "activeJobs": 20,
     "candidateJobs": 12,
     "awaitingIntegration": 0
   },
@@ -700,56 +700,16 @@
       "lane": "legal_design_normalization",
       "status": "active",
       "ownerSession": "SESSION_D",
-      "note": "Refilled by two blocked implementations. Kentucky owns the KRS 218A.275(12) bar that split its custom-pleading assignment: read the statute, encode the bar, determine the participant question and the stop that follows a disqualifying answer, and say whether the route remains packet-capable once it is encoded — a route that stops most applicants may still be worth building and one that can never produce a filing is not. Virginia owns the statutory cutover: which § 19.2-392.2 version governs a packet generated now, which takes effect 2026-12-01, whether a future-effective successor track or a versioned packet is required, what the current tracks' effectiveTo treatment should be, whether current-law packets can be built before the cutover at all, and the packet-copy and routing consequences. Neither owner may implement a packet and neither owns its state memo. The previous three delivered and integrated. Ohio carried the marijuana mechanism into OH.memo.json with the two accuracy defects fixed — the fee is division (G), and the 60-day and 30-day figures do not govern this route. Washington carried the CROP venue conclusion. Iowa remapped the six components that two completed resolutions found pointing at documents that do not exist as such. None of the three made a track ready, which was the point. The Ohio memo now carries three recorded states rather than two; the earlier automatic-sealing amendment stays complete rather than reopening because a successor touched the same file.",
-      "jobIds": [
-        "rcap-ky-void-seal-eligibility-bar-reconciliation",
-        "rcap-va-2026-2027-statutory-cutover"
-      ],
+      "note": "Empty again, and quickly. Both reads that refilled it delivered inside the same pass and are integrated: Kentucky's KRS 218A.275(12) eligibility bar, which decides whether that route offers a packet at all, and Virginia's 2026-2027 statutory cutover. Virginia custom pleading now narrows from two blocking questions to one — the official-form identity, which is Session F's and sits in F4. D2 still carries nothing new; both Wyoming reads also landed this pass. Ohio carried the marijuana mechanism into OH.memo.json with the two accuracy defects fixed — the fee is division (G), and the 60-day and 30-day figures do not govern this route. Washington carried the CROP venue conclusion. Iowa remapped the six components that two completed resolutions found pointing at documents that do not exist as such. None of the three made a track ready, which was the point. The Ohio memo now carries three recorded states rather than two; the earlier automatic-sealing amendment stays complete rather than reopening because a successor touched the same file.",
+      "jobIds": [],
       "capacity": {
-        "jobs": 2,
+        "jobs": 0,
         "assignedTracks": 0,
         "incrementalTracks": 0,
         "assignedComponents": 0,
         "incrementalComponents": 0
       },
-      "jobs": [
-        {
-          "jobId": "rcap-ky-void-seal-eligibility-bar-reconciliation",
-          "lane": "legal_design_normalization",
-          "jurisdiction": "KY",
-          "status": "ready",
-          "semanticFingerprint": "32ea116bc93b101f48a574c705ed9ec5d4bbfd234a89f59af03fb23ca1bdefe3",
-          "branch": "rcap-factory/rcap-ky-void-seal-eligibility-bar-reconciliation-15190b16-32ea116b",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/legal-design-decisions/rcap-ky-void-seal-eligibility-bar-reconciliation.json"
-          ],
-          "dependencies": [],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": false
-        },
-        {
-          "jobId": "rcap-va-2026-2027-statutory-cutover",
-          "lane": "legal_design_normalization",
-          "jurisdiction": "VA",
-          "status": "ready",
-          "semanticFingerprint": "aef008e13e84d388cf4d423bce75edafa806fef42694ad78b5d763111e3cdd40",
-          "branch": "rcap-factory/rcap-va-2026-2027-statutory-cutover-46df2fe6-aef008e1",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/legal-design-decisions/va-2026-2027-statutory-cutover.json"
-          ],
-          "dependencies": [
-            "rcap-va-legal-design-normalization"
-          ],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": false
-        }
-      ]
+      "jobs": []
     },
     {
       "wave": 4,
@@ -757,54 +717,16 @@
       "lane": "legal_design_normalization",
       "status": "active",
       "ownerSession": "SESSION_D",
-      "note": "The two Wyoming reads that block its custom-pleading lane: a statutory sweep of the 2025 and 2026 sessions with the missing enactment dates and the felony-deferral gap, and the substantive reads on the status-offence definition and the restoration asymmetry between sections 7-13-1501 and 7-13-1502(m). Different reads, so different owners; neither owns WY.memo.json.",
-      "jobIds": [
-        "rcap-wy-governing-mechanism-and-currency-reconciliation",
-        "rcap-wy-eligibility-waiting-period-and-effect-reconciliation"
-      ],
+      "note": "Both Wyoming reads delivered and are integrated: the statutory sweep of the 2025 and 2026 sessions with the missing enactment dates and the felony-deferral gap, and the substantive reads on the status-offence definition and the restoration asymmetry between sections 7-13-1501 and 7-13-1502(m). Neither owned WY.memo.json, so the memo amendment they imply is a separate owner and Wyoming custom pleading stays blocked until it lands. The governing-mechanism branch was a refused baseline lease at the start of this pass and carried real work by the end of it; refusing it then and adopting it now is one rule applied twice.",
+      "jobIds": [],
       "capacity": {
-        "jobs": 2,
+        "jobs": 0,
         "assignedTracks": 0,
         "incrementalTracks": 0,
         "assignedComponents": 0,
         "incrementalComponents": 0
       },
-      "jobs": [
-        {
-          "jobId": "rcap-wy-governing-mechanism-and-currency-reconciliation",
-          "lane": "legal_design_normalization",
-          "jurisdiction": "WY",
-          "status": "ready",
-          "semanticFingerprint": "ac6e7bccc21d1e3fdacd9ed6c36c03252859aa2b78838c097217332a5d6186db",
-          "branch": "rcap-factory/rcap-wy-governing-mechanism-and-currency-reconciliation-590b7d1d-ac6e7bcc",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-governing-mechanism-and-currency-reconciliation.json"
-          ],
-          "dependencies": [],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": false
-        },
-        {
-          "jobId": "rcap-wy-eligibility-waiting-period-and-effect-reconciliation",
-          "lane": "legal_design_normalization",
-          "jurisdiction": "WY",
-          "status": "ready",
-          "semanticFingerprint": "7d5ae2ef385d5bd473eb9c912c94721b98ba89fe5015b0eaeffea69a7bf79864",
-          "branch": "rcap-factory/rcap-wy-eligibility-waiting-period-and-effect-reconciliation-42b720cf-7d5ae2ef",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-eligibility-waiting-period-and-effect-reconciliation.json"
-          ],
-          "dependencies": [],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": false
-        }
-      ]
+      "jobs": []
     },
     {
       "wave": 4,
@@ -1844,5 +1766,5 @@
       ]
     }
   ],
-  "manifestSha256": "350f7025596a47079129010723618d54259158ca0f3676c6a442b6d42c91b808"
+  "manifestSha256": "f001bf2ff4519a8f57080955f9f4c255cab0c5a5d09e8bf6f89733f671663ed0"
 }
