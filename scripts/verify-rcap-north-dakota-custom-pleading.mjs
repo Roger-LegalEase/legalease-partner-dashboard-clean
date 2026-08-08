@@ -752,10 +752,11 @@ const FIXTURES = [
     trackId: "nd-seal-misdemeanor-conviction",
     variantOf: "nd-misdemeanor-seal-positive-1",
     variantPurpose:
-      "A municipal case changes the caption, the respondent § 12-60.1-03(4) names and the judge's title on the proposed order.",
+      "A municipal case changes the caption, the respondent § 12-60.1-03(4) names and the judge's title on the proposed order. The caption names the city, not a county: a North Dakota municipal court is established by a city under N.D.C.C. § 40-18.1-01(1) and hears the ordinances of a city served by it under § 40-18.1-02(1), so the locality answer is the city.",
     answers: chapterBase({
       sealCourtType: "municipal",
       sealProsecutorOffice: "city attorney",
+      sealCounty: "Fargo",
       sealCaseNumber: "M-2016-00471"
     })
   },
@@ -790,6 +791,7 @@ const FIXTURES = [
       "An ordinance charge changes what § 39-08-01.6(1) requires the petition to show: the ordinance is named and its equivalence to § 39-08-01 has to be demonstrated from its text.",
     answers: duiBase({
       duiCourtType: "municipal",
+      duiCounty: "Fargo",
       duiChargedUnder: "ordinance",
       duiOrdinanceCitation: "Fargo Municipal Code § 8-0301, driving under the influence",
       duiCaseNumber: "M-2016-01902"
@@ -916,6 +918,19 @@ const NEGATIVE = [
       trackId,
       { ...fixtureFor(trackId), sealProsecutorOffice: "city attorney" },
       "nd-prosecutor-office-does-not-match-court"
+    ],
+    // A municipal court belongs to a city, so a county answer leaves the court
+    // unidentifiable and the caption cannot be written.
+    [
+      "a municipal case gives its locality as a county",
+      trackId,
+      {
+        ...fixtureFor(trackId),
+        sealCourtType: "municipal",
+        sealProsecutorOffice: "city attorney",
+        sealCounty: "Cass County"
+      },
+      "nd-municipal-court-named-by-county"
     ]
   ]),
   // The felony bar, computed from the chapter alone.
@@ -949,6 +964,20 @@ const NEGATIVE = [
     "nd-seal-pardoned-conviction",
     { ...fixtureFor("nd-seal-pardoned-conviction"), sealPardonDate: "some time a few years ago" },
     "nd-pardon-date-not-established"
+  ],
+  // The same municipal-caption failure on the two routes that do not run
+  // through the Chapter 12-60.1 screen.
+  [
+    "a municipal impaired-driving case gives its locality as a county",
+    "nd-dui-record-seal",
+    { ...fixtureFor("nd-dui-record-seal"), duiCourtType: "municipal", duiCounty: "Cass County" },
+    "nd-municipal-court-named-by-county"
+  ],
+  [
+    "a municipal marijuana case gives its locality as a county",
+    "nd-marijuana-first-offense-seal",
+    { ...fixtureFor("nd-marijuana-first-offense-seal"), mjCourtType: "municipal", mjCounty: "Cass County" },
+    "nd-municipal-court-named-by-county"
   ],
   // The impaired-driving route.
   [
@@ -1183,7 +1212,7 @@ ok(ND_OUTSIDE_PARTY_KEYS.length >= 10, "The outside-party key guard was narrowed
 ok(ND_REFERRAL.length > 20, "The default referral destination is empty.");
 
 note(
-  `4. Stops: ${stopped} negative cases across all ${ASSIGNED.length} routes fail closed with the expected typed stop, a reason, a destination and a next step; ${stopIdsSeen.size} distinct stop families are exercised, covering missing participant facts, any request to populate outside-party content, statutory exclusions, an incomplete sentence, outstanding restitution, a conviction in the look-back, a pending charge, a mismatched prosecuting office, the violence-and-intimidation bar, a conditional or non-covering pardon, the commercial-driver exclusion, both seven-year clean-period failures, an unidentified ordinance, a non-first offence, an unsettled two-year period, other charges in the same case, and three separate quantity failures; ${branchRejected} out-of-list branch values rejected; three unassigned track identifiers refused; eight closed lists hold their size.`
+  `4. Stops: ${stopped} negative cases across all ${ASSIGNED.length} routes fail closed with the expected typed stop, a reason, a destination and a next step; ${stopIdsSeen.size} distinct stop families are exercised, covering missing participant facts, any request to populate outside-party content, statutory exclusions, an incomplete sentence, outstanding restitution, a conviction in the look-back, a pending charge, a mismatched prosecuting office, a municipal case captioned from a county, the violence-and-intimidation bar, a conditional or non-covering pardon, the commercial-driver exclusion, both seven-year clean-period failures, an unidentified ordinance, a non-first offence, an unsettled two-year period, other charges in the same case, and three separate quantity failures; ${branchRejected} out-of-list branch values rejected; three unassigned track identifiers refused; eight closed lists hold their size.`
 );
 
 // ---------------------------------------------------------------------------
@@ -1453,8 +1482,8 @@ ok(
   "The petitioner's reasons were rewritten rather than carried through verbatim."
 );
 ok(
-  misdemeanorFacts.countyName === "Cass",
-  `The county name was not reduced for a line that already prints "County": got "${misdemeanorFacts.countyName}".`
+  misdemeanorFacts.captionLocality === "Cass" && misdemeanorFacts.captionLocalityKind === "county",
+  `The county name was not reduced for a line that already prints "County": got "${misdemeanorFacts.captionLocality}" (${misdemeanorFacts.captionLocalityKind}).`
 );
 ok(
   /IN THE DISTRICT COURT OF CASS COUNTY, STATE OF NORTH DAKOTA/.test(misdemeanorFacts.courtLine),
@@ -1464,17 +1493,76 @@ ok(
   /office of the State's Attorney for Cass County/.test(misdemeanorFacts.respondentOffice),
   "The respondent is not the office § 12-60.1-03(4) names for a district court case."
 );
+ok(
+  misdemeanorFacts.packetCaseReference === "Cass County",
+  `A district case reference does not name the county: got "${misdemeanorFacts.packetCaseReference}".`
+);
 
+// A municipal court is a city court. N.D.C.C. § 40-18.1-01(1) has the governing
+// body of a city establish it and § 40-18.1-02(1) gives it the ordinances of a
+// city served by the court, so there is no municipal court of a county. This
+// pins the correction: the caption names the city, and the word COUNTY may not
+// appear in a municipal court line at all.
 const municipalFacts = deriveNorthDakotaFacts("nd-seal-misdemeanor-conviction", {
   ...fixtureFor("nd-seal-misdemeanor-conviction"),
   sealCourtType: "municipal",
-  sealProsecutorOffice: "city attorney"
+  sealProsecutorOffice: "city attorney",
+  sealCounty: "Fargo"
 });
 ok(
-  /IN THE MUNICIPAL COURT OF/.test(municipalFacts.courtLine) &&
-    /prosecuting official for the municipality/.test(municipalFacts.respondentOffice),
-  "A municipal case does not change the court line and the respondent."
+  municipalFacts.courtLine === "IN THE MUNICIPAL COURT OF THE CITY OF FARGO, STATE OF NORTH DAKOTA",
+  `A municipal caption does not name the city whose court it is: got "${municipalFacts.courtLine}".`
 );
+ok(
+  !/\bCOUNTY\b/.test(municipalFacts.courtLine),
+  `A municipal caption names a county, and no North Dakota municipal court is a county court: got "${municipalFacts.courtLine}".`
+);
+ok(
+  municipalFacts.captionLocality === "Fargo" && municipalFacts.captionLocalityKind === "city",
+  `A municipal case does not resolve its locality as a city: got "${municipalFacts.captionLocality}" (${municipalFacts.captionLocalityKind}).`
+);
+ok(
+  /prosecuting official for the City of Fargo/.test(municipalFacts.respondentOffice),
+  `The respondent is not the office § 12-60.1-03(4) names for a municipal case: got "${municipalFacts.respondentOffice}".`
+);
+ok(
+  municipalFacts.packetCaseReference === "City of Fargo",
+  `A municipal case reference does not name the city: got "${municipalFacts.packetCaseReference}".`
+);
+// "City of" is stripped where the participant supplies it, and a trailing
+// "City" that is part of the name is left alone.
+for (const [answer, expected] of [
+  ["City of Fargo", "Fargo"],
+  ["the City of Grand Forks", "Grand Forks"],
+  ["Valley City", "Valley City"]
+]) {
+  const facts = deriveNorthDakotaFacts("nd-seal-misdemeanor-conviction", {
+    ...fixtureFor("nd-seal-misdemeanor-conviction"),
+    sealCourtType: "municipal",
+    sealProsecutorOffice: "city attorney",
+    sealCounty: answer
+  });
+  ok(
+    facts.captionLocality === expected,
+    `A municipal locality answered as "${answer}" resolved to "${facts.captionLocality}" rather than "${expected}".`
+  );
+}
+// Every route composes its caption through the same helper, so no route may
+// keep the old unconditional "OF <COUNTY> COUNTY" form on a municipal case.
+for (const [trackId, overrides] of [
+  ["nd-dui-record-seal", { duiCourtType: "municipal", duiCounty: "Fargo" }],
+  ["nd-marijuana-first-offense-seal", { mjCourtType: "municipal", mjCounty: "Fargo" }]
+]) {
+  const facts = deriveNorthDakotaFacts(trackId, { ...fixtureFor(trackId), ...overrides });
+  ok(
+    facts.courtLine === "IN THE MUNICIPAL COURT OF THE CITY OF FARGO, STATE OF NORTH DAKOTA",
+    `${trackId}: a municipal caption does not name the city: got "${facts.courtLine}".`
+  );
+  ok(
+    facts.packetCaseReference === "City of Fargo",
+    `${trackId}: a municipal case reference does not name the city: got "${facts.packetCaseReference}".`
+  );
+}
 
 // No branch answer reaches a rendered sentence as a bare word.
 for (const fixture of FIXTURES) {
@@ -1554,7 +1642,7 @@ ok(
 );
 
 note(
-  "6. Values: the petitioner's reasons are carried through verbatim, the county is reduced only for the line that already prints the word, the court line and the respondent follow the petitioner's own answers, no branch answer reaches a sentence as a bare word, every declared required input reaches the fact bag, both conditional orders carry their condition fact, and all four regression variants assemble to different bytes from their canonical fixture."
+  "6. Values: the petitioner's reasons are carried through verbatim, the county is reduced only for the line that already prints the word, the court line and the respondent follow the petitioner's own answers, no branch answer reaches a sentence as a bare word, every declared required input reaches the fact bag, both conditional orders carry their condition fact, and all four regression variants assemble to different bytes from their canonical fixture. On the municipal branch the caption names the city rather than a county on all three routes that offer it — a North Dakota municipal court is established by a city under N.D.C.C. § 40-18.1-01(1) and hears the ordinances of a city served by it under § 40-18.1-02(1), so no municipal court line may contain the word COUNTY — the respondent and the packet case reference name the same city, a supplied \"City of\" prefix is stripped while a name ending in \"City\" is left intact, and a municipal case whose locality is answered as a county stops on every route."
 );
 
 // ---------------------------------------------------------------------------
