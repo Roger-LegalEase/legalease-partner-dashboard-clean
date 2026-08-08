@@ -1,0 +1,366 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-de-official-download-automation-blocked",
+  "parentJobId": "AUTH-03-acquisition-campaign-tier-1",
+  "jurisdiction": "DE",
+  "lane": "source_acquisition",
+  "strategyFamily": "official_download_automation_blocked",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "2f72199a72bc84c0688dda0cc4d12fc3d587ca4a",
+  "generatedOn": "2026-08-08",
+  "shard": "F3",
+  "acquisitionIds": [
+    "acquire:DE:civ-exp-02-a",
+    "acquire:DE:civ-exp-02-b",
+    "acquire:DE:civ-exp-04-a",
+    "acquire:DE:civ-exp-08-a",
+    "acquire:DE:form-281"
+  ],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero, and the way this zero was nearly not zero is the most important thing in this record. The issuer's perimeter refuses automated retrieval while returning HTTP 200 OK, so a status-only check would have recorded five successful acquisitions of a 247-byte rejection page. Nothing entered version control, no materialization destination was written and no receipt was created.",
+  "generatedFrom": [
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/authority.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-03-acquisition-campaign-tier-1.json"
+  ],
+  "method": {
+    "description": "Attempted official download of the five Delaware expungement documents, characterisation of what refused the requests, and reconstruction of the five identities from a retained repository capture of the Delaware Courts' own forms index rather than from a live fetch. Identity was established without touching the blocked perimeter; only currentness depends on it.",
+    "retrievalDate": "2026-08-08",
+    "retrievalAttempted": true,
+    "retrievalSucceeded": false,
+    "identityBasis": "retained_repository_capture_of_the_official_index",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "authenticationUsed": false,
+    "sourcesDeposited": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "binariesCommitted": 0,
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "memoAltered": false,
+    "componentRebound": false,
+    "blockEvaded": false,
+    "assignmentConstraintObserved": "The stop condition requires preserving the 403/WAF disposition distinctly, recording attended-retrieval evidence only, and never relabelling the source as generically missing or inferring an alternative. The WAF is characterised to the product family and its behaviour. No source is relabelled missing. No alternative is inferred: the LegalEase replica page held in the corpus is expressly rejected rather than used, and Form 281E is expressly refused as a substitute for Form 281."
+  },
+  "blockCharacterisation": {
+    "verdict": "f5_big_ip_asm_waf_rejection_served_with_http_200_ok",
+    "headline": "The Delaware perimeter does not return 403. It returns 200 OK with a 247-byte body reading 'Request Rejected'. Every status-code-based success check passes against a document that was never served.",
+    "whyThisMattersMoreThanTheBlockItself": "An acquisition pipeline that keys on HTTP status would record five successful downloads, hash 247 bytes of rejection HTML, and pin those digests as official provenance for a petition, an extension sheet and two court orders. The block is ordinary; the false success signal is the hazard.",
+    "evidence": {
+      "httpStatus": 200,
+      "httpStatusText": "200 OK",
+      "contentLength": 247,
+      "contentType": "text/html; charset=utf-8",
+      "bodyVerbatim": "<html><head><title>Request Rejected</title></head><body>The requested URL was rejected. Please consult with your administrator.<br><br>Your support ID is: 15117310737377602000<br><br><a href='javascript:history.back();'>[Go Back]</a></body></html>",
+      "responseHeaders": {"X-Frame-Options": "SAMEORIGIN", "X-XSS-Protection": "1; mode=block", "X-Content-Type-Options": "nosniff", "Cache-Control": "no-cache", "Pragma": "no-cache", "Connection": "close"},
+      "noServerBanner": "The response carries no Server header. The 'Request Rejected / support ID' body together with this header set is the signature of an F5 BIG-IP Application Security Manager policy.",
+      "supportIdRotatesPerRequest": true,
+      "supportIdSamples": ["15117310737377602000", "15117310741460724351", "15117310737444736550", "15117310741460724447"],
+      "supportIdSignificance": "A different support ID on every request proves the WAF is evaluating each request live. This is not a cached error page, a stale CDN object or a broken route — it is an active policy decision taken per request."
+    },
+    "scope": {
+      "finding": "The rejection is not specific to the forms endpoint and not specific to the Judiciary.",
+      "probes": [
+        {"url": "https://courts.delaware.gov/forms/", "result": "HTTP 200, Request Rejected"},
+        {"url": "https://courts.delaware.gov/", "result": "HTTP 200, Request Rejected", "note": "the site root itself"},
+        {"url": "https://courts.delaware.gov/superior/", "result": "HTTP 200, Request Rejected"},
+        {"url": "https://courts.delaware.gov/familycourt/", "result": "HTTP 200, Request Rejected"},
+        {"url": "https://courts.delaware.gov/forms/index.aspx", "result": "HTTP 200, Request Rejected"},
+        {"url": "https://courts.delaware.gov/superior/forms.aspx", "result": "HTTP 200, Request Rejected"},
+        {"url": "https://courts.delaware.gov/help/expungement/", "result": "HTTP 200, Request Rejected"},
+        {"url": "https://attorneygeneral.delaware.gov/", "result": "HTTP 200, Request Rejected", "note": "a different State of Delaware agency behind the same policy"},
+        {"url": "https://delcourts.delaware.gov/", "result": "no connection established", "note": "a distinct condition from the WAF rejection; this host does not answer at all"}
+      ],
+      "conclusion": "A State of Delaware perimeter policy covering at least the Judiciary and the Department of Justice, not a courts-specific or forms-specific rule.",
+      "userAgentIrrelevant": "The identical rejection is returned to a default automated client and to an ordinary browser user-agent string."
+    },
+    "distinctFrom": {
+      "notAMissingSource": "All five documents are published by the Delaware Courts and are listed in the Judiciary's own forms index, a capture of which this repository retains. Nothing is missing.",
+      "notAnHttp403": "This must not be recorded as a 403. It is a 200. Recording it as a 403 would make the two Delaware and Minnesota blocks look identical when their failure signatures are opposite, and would leave the false-success hazard undocumented.",
+      "notAnUnreachableHost": "The host resolves, completes TLS and returns a well-formed response. Contrast courts.mt.gov, which accepts no connection, and delcourts.delaware.gov above, which also does not answer.",
+      "notACloudflareChallenge": "There is no cf-mitigated header, no cf-ray, no JavaScript interstitial and no 'Just a moment' page. This is a different product with different behaviour from the Minnesota block characterised in the sibling job of this shard."
+    },
+    "remedy": "An attended retrieval from a real browser session, which is the only legitimate route. No amount of automated retry, header adjustment or agent substitution is appropriate, and none was attempted.",
+    "whatWasNotDone": [
+      "No attempt to evade, tune around or defeat the WAF policy.",
+      "No user agent spoofed beyond an ordinary browser string, which changed nothing.",
+      "No mirror, aggregator, cache or third-party reproduction retrieved in place of the issuer.",
+      "No alternative document inferred for any of the five identities.",
+      "The retained LegalEase replica page was expressly NOT used as a source."
+    ]
+  },
+  "identityReconstructedWithoutTheIssuer": {
+    "basis": "A retained repository capture of the Delaware Courts forms index, held at private/Nationwide Record Clearing/LegalEase Delaware/list.aspx.html.",
+    "whyThisIsLegitimate": "It is a retained repository asset, not a live fetch, and it is a capture of the Judiciary's own index carrying the index's Title, Revision Date, Court and Style columns. It establishes identity. It cannot establish currentness, and is not used for that.",
+    "captureCurrencyCaveat": "The capture's own date is not independently established. Its newest listed revision date is 06/16/2026, so it was taken on or after that date, which places it within roughly two months of this record. That bounds it; it does not date it.",
+    "allFiveIdentitiesResolved": true
+  },
+  "assignedIdentities": [
+    {
+      "acquisitionKey": "acquire:DE:civ-exp-02-a",
+      "documentId": "CIV_EXP_02_A",
+      "officialTitle": "Expungement Petition Form",
+      "indexRevisionDate": "06/12/2024",
+      "court": "Delaware Superior Court",
+      "style": "Fill-In Form",
+      "role": "primary_filing",
+      "roleCorrect": true,
+      "participantFacing": true,
+      "signatory": "the petitioner, sworn to and subscribed before a Clerk of Court or Notary Public",
+      "statutoryContext": "11 Del. C. § 4374 discretionary expungement; the face refers to § 4376(a)",
+      "retainedInTheEdition": false,
+      "boundComponents": [
+        {"trackId": "de_discretionary_superior_court", "componentId": "de_discretionary_superior_court-primary-filing-1"},
+        {"trackId": "de_pardon_expungement", "componentId": "de_pardon_expungement-primary-filing-1"}
+      ],
+      "corroboratedFormFaceStamp": "CIV_EXP_02_A Updated 6/12/2024",
+      "corroborationSource": "the retained replica page, which is not an official source but whose transcribed face stamp agrees exactly with the official index's revision date"
+    },
+    {
+      "acquisitionKey": "acquire:DE:civ-exp-02-b",
+      "documentId": "CIV_EXP_02_B",
+      "officialTitle": "Expungement Petition Form Additional Charges Extension Sheet",
+      "indexRevisionDate": "06/12/2024",
+      "court": "Delaware Superior Court",
+      "style": "Fill-In Form",
+      "role": "continuation",
+      "roleCorrect": true,
+      "participantFacing": true,
+      "retainedInTheEdition": false,
+      "boundComponents": [{"trackId": "de_discretionary_superior_court", "componentId": "de_discretionary_superior_court-continuation-2"}],
+      "corroboratedFormFaceStamp": "CIV_EXP_02_B Updated 06/12/2024",
+      "genuineContinuationNote": "Unlike the Arizona and Florida continuation identities resolved elsewhere in this programme, which named documents no issuer publishes, this one is real: the Delaware Superior Court publishes a numbered extension sheet and CIV_EXP_02_A's own face cross-references it — 'any additional charges are listed on Superior Court Form: CIV_EXP_02_B'. A continuation identity is not automatically an artefact and this one must not be retired by analogy."
+    },
+    {
+      "acquisitionKey": "acquire:DE:civ-exp-04-a",
+      "documentId": "CIV_EXP_04_A",
+      "officialTitle": "Expungement Order Granting Form",
+      "indexRevisionDate": "05/29/2024",
+      "court": "Delaware Superior Court",
+      "role": "proposed_order",
+      "roleCorrect": true,
+      "participantFacing": false,
+      "signatory": "the judicial officer",
+      "retainedInTheEdition": false,
+      "boundComponents": [{"trackId": "de_discretionary_superior_court", "componentId": "de_discretionary_superior_court-proposed-order-3"}],
+      "corroboratedFormFaceStamp": "CIV_EXP_04_A Updated 05/29/2024",
+      "courtCompletedNote": "The retained replica marks the five order forms 'court-completed · disabled for intake'. Whether a Delaware petitioner is expected to lodge a proposed order is a legal-design question this lane does not decide."
+    },
+    {
+      "acquisitionKey": "acquire:DE:civ-exp-08-a",
+      "documentId": "CIV_EXP_08_A",
+      "officialTitle": "Expungement New Order Granting after Pardon",
+      "indexRevisionDate": "05/30/2024",
+      "court": "Delaware Superior Court",
+      "role": "proposed_order",
+      "roleCorrect": true,
+      "participantFacing": false,
+      "signatory": "the judicial officer",
+      "retainedInTheEdition": false,
+      "boundComponents": [{"trackId": "de_pardon_expungement", "componentId": "de_pardon_expungement-proposed-order-2"}],
+      "corroboratedFormFaceStamp": "CIV_EXP_08_A Updated 05/30/2024",
+      "routeSpecific": "This is the pardon-route order and is correctly bound only to de_pardon_expungement. It must not be interchanged with CIV_EXP_04_A, the general granting order."
+    },
+    {
+      "acquisitionKey": "acquire:DE:form-281",
+      "documentId": "FORM-281",
+      "officialTitle": "Petition For Expungement of Adult Record",
+      "indexRevisionDate": "11/26/2025",
+      "court": "Delaware Family Court",
+      "style": "Petition",
+      "role": "primary_filing",
+      "roleCorrect": true,
+      "participantFacing": true,
+      "retainedInTheEdition": false,
+      "boundComponents": [{"trackId": "de_discretionary_family_court", "componentId": "de_discretionary_family_court-primary-filing-1"}],
+      "courtDistinction": "Family Court, not Superior Court. Delaware runs adult expungement through two different courts with two different form families, and Form 281 is the Family Court vehicle while the CIV_EXP series is the Superior Court vehicle. The four assigned CIV_EXP identities and this one are not interchangeable.",
+      "newestOfTheFive": "At 11/26/2025 it is by eighteen months the most recently revised of the five, which makes any carried-forward assumption about it the least safe."
+    }
+  ],
+  "form281VersusForm281E": {
+    "severity": "high",
+    "finding": "The adopted edition retains Form 281E and does not retain Form 281, and it records 281E under a role and a title that make it look like Form 281.",
+    "form281": {"documentId": "FORM-281", "officialTitle": "Petition For Expungement of Adult Record", "indexRevisionDate": "11/26/2025", "court": "Family Court", "style": "Petition", "role": "primary_filing", "retained": false, "assigned": true},
+    "form281E": {"documentId": "FORM-281E", "officialTitleInTheIndex": "281E - Adult Expungement Charge Extension Sheet", "indexRevisionDate": "09/21/2018", "court": "Family Court", "style": "Fill-In Form", "actualRole": "continuation", "retained": true, "assigned": false},
+    "editionRowDefects": {
+      "workflowKey": "DE:FORM-281E:PETITION:EN",
+      "recordedDocumentRole": "PETITION",
+      "recordedOfficialTitle": "Petition for Expungement of Adult Record Charge Sheet",
+      "recordedNotes": "Official DOCX continuation sheet.",
+      "internalContradiction": "The same row calls the document a PETITION in its workflow key and its document_role, and a continuation sheet in its notes. Both cannot be right, and the notes are right.",
+      "titleDefect": "The recorded title splices Form 281's title onto the charge sheet, producing 'Petition for Expungement of Adult Record Charge Sheet'. The index calls it '281E - Adult Expungement Charge Extension Sheet'. The recorded string is not the issuer's."
+    },
+    "consequenceIfUncorrected": "A worker looking for the Delaware Family Court adult expungement petition would search the edition, find a row whose role is PETITION and whose title begins 'Petition for Expungement of Adult Record', and bind it. They would have bound an extension sheet, seven years stale, to a primary_filing component, and the actual petition — revised 11/26/2025 — would remain unmanifested and unnoticed.",
+    "sevenYearGap": "281E is dated 09/21/2018 and Form 281 is dated 11/26/2025. Form-number adjacency across a seven-year gap is exactly the kind of near-miss that survives review.",
+    "correctionOwner": "the edition owner for the role and title; the acquisition owner for retrieving Form 281 itself",
+    "appliedByThisJob": false
+  },
+  "adjacentDelawareFormsObserved": {
+    "purpose": "Recorded from the retained index capture so the assigned five are not confused with their siblings, and so the Superior Court order family is visible as a set.",
+    "superiorCourtOrderFamily": [
+      {"code": "CIV_EXP_01_A", "title": "Expungement Order Denying - No Hearing Form", "revisionDate": "06/06/2024"},
+      {"code": "CIV_EXP_03_A", "title": "Expungement Order Granting - In Part and Denying In Part Form", "revisionDate": "05/22/2024"},
+      {"code": "CIV_EXP_04_A", "title": "Expungement Order Granting Form", "revisionDate": "05/29/2024", "assigned": true},
+      {"code": "CIV_EXP_05_A", "title": "Expungement Order Denying - After Hearing Form", "revisionDate": "05/29/2024"},
+      {"code": "CIV_EXP_08_A", "title": "Expungement New Order Granting after Pardon", "revisionDate": "05/30/2024", "assigned": true}
+    ],
+    "fiveOrdersTwoAssigned": "The Superior Court publishes five expungement orders and only two are assigned. The three unassigned ones are denial and partial-grant orders, which a packet would not generate, but their existence explains why the granting orders carry disambiguating names.",
+    "instructionsAndGuides": [
+      {"code": "CIV_EXP_06_A", "title": "Expungement Superior Court FAQ", "revisionDate": "06/13/2024", "retainedInEdition": true, "editionTitle": "A Guide to Expungement of Adult Record"},
+      {"code": "CIV_EXP_07_A", "title": "Expungement Instructions for Superior Court", "revisionDate": "10/04/2024", "retainedInEdition": true},
+      {"code": "1021IP", "title": "Adult Expungement Instruction Packet, FAQ and Forms", "revisionDate": "10/06/2023", "court": "Family Court", "retainedInEdition": true}
+    ],
+    "editionTitleMismatchObserved": "The edition records CIV_EXP_06_A as 'A Guide to Expungement of Adult Record' while the index calls it 'Expungement Superior Court FAQ'. Not assigned to this job and not corrected here; recorded as observed.",
+    "juvenileFamily": [
+      {"code": "282D", "title": "Petition for Expungement of Juvenile Record (Discretionary)", "revisionDate": "11/26/2025"},
+      {"code": "282M", "title": "Petition for Expungement of Juvenile Record (Mandatory)", "revisionDate": "11/26/2025"},
+      {"code": "282E", "title": "Petition for Expungement of Juvenile Record Charge Sheet", "revisionDate": "11/26/2025"}
+    ],
+    "juvenileNote": "The 282 series is juvenile and none of it is assigned. It shares the 11/26/2025 revision date with Form 281, which suggests a single Family Court revision pass, and its 282E charge sheet mirrors 281E — so the petition-versus-charge-sheet confusion has a juvenile twin waiting.",
+    "indexScale": "The index's own category header reads 'Expungement of Criminal Records (25 Forms)'."
+  },
+  "replicaPageMustNotBeSubstituted": {
+    "artifact": "private/Nationwide Record Clearing/LegalEase Delaware/Delaware-Expungement-Forms.html",
+    "whatItIs": "A LegalEase-built HTML reproduction, self-described in its own markup as 'Delaware Superior Court Expungement — Petition & Orders (Faithful Replica)' and 'Faithful B/W replica of the DE Superior Court expungement forms. No house styling.'",
+    "status": "not_an_official_source",
+    "howItWasUsed": "Only to corroborate the form-face 'Updated' stamps against the official index's revision dates. All four Superior Court stamps agree exactly with the index. It supplied no identity, no title and no provenance.",
+    "howItMustNotBeUsed": "It must never be bound to a component, materialized, receipted, or offered as the official form. It is a replica of a document, produced by this programme, and giving it provenance would be circular.",
+    "whyItIsDangerous": "It is well made, it carries correct form codes and correct update stamps, and it sits in the same corpus folder as genuine captures. It is the single most plausible wrong pick in the Delaware set once the issuer is unreachable."
+  },
+  "whatIsAndIsNotBlocked": {
+    "notBlocked": ["Identity, title, issuing court, style and index revision date for all five, from a retained capture of the Judiciary's own index.", "Role, which is correct on all five as recorded.", "Component bindings, which are correct as they stand — five components across three tracks."],
+    "blocked": ["Every byte. No binary was retrieved for any of the five.", "Bytes, SHA-256, MIME, page count, geometry, encryption, XFA, field and widget counts — all null for all five.", "Currentness against the issuer today.", "The printed revision on each form face, as distinct from the index's revision-date column."],
+    "consequence": "Delaware is further from readiness than Minnesota. Minnesota has all five documents retained and needs only a currentness check; Delaware has none of the five retained and needs an actual acquisition, which the WAF prevents."
+  },
+  "sourceAvailabilityAndStructure": {
+    "officialIndexUrl": "https://courts.delaware.gov/forms/",
+    "httpStatus": 200,
+    "httpStatusIsMisleading": true,
+    "publicAccessStatus": "public to a human with a browser; refused to automated retrieval by a WAF that reports success",
+    "bytesFromIssuer": null,
+    "sha256FromIssuer": null,
+    "mimeTypeFromIssuer": null,
+    "pagesFromIssuer": null,
+    "geometryFromIssuer": null,
+    "encryptionFromIssuer": null,
+    "xfaFromIssuer": null,
+    "fieldsFromIssuer": null,
+    "widgetsFromIssuer": null,
+    "whyAllNull": "No document was served. The only bytes the perimeter returned were 247 bytes of rejection HTML, which are not a document and are recorded as evidence of the block rather than as a measurement of anything.",
+    "supersession": "not_established",
+    "supersessionNote": "Index revision dates are recorded for all five but no earlier revision of any of them was observed, so no supersession chain can be drawn."
+  },
+  "commercialUse": {
+    "recorded": "The publisher's licensing and commercial-use terms for these documents are unresolved.",
+    "assessment": "Unchanged and not re-verifiable. Any terms of use the Delaware Judiciary publishes sit behind the same WAF that blocked the forms, so the question cannot be moved today in either direction.",
+    "doNotInfer": "Neither silence nor permission may be inferred. Nothing was read."
+  },
+  "doNotSubstitute": [
+    {"documentId": "FORM-281E", "why": "The Family Court Adult Expungement Charge Extension Sheet, dated 09/21/2018, retained by the edition under a PETITION role with a spliced title. It is not Form 281 and is seven years older. This is the highest-risk substitution in the Delaware set."},
+    {"document": "the LegalEase replica page", "why": "A reproduction built by this programme and self-labelled a replica. Not an official source. See replicaPageMustNotBeSubstituted."},
+    {"documentId": "CIV_EXP_01_A, CIV_EXP_03_A, CIV_EXP_05_A", "why": "The three unassigned Superior Court orders — deny-no-hearing, grant-in-part, deny-after-hearing. Adjacent codes in the same family with near-identical naming."},
+    {"documentId": "the 282 juvenile series", "why": "282D, 282M and 282E are juvenile petitions and a juvenile charge sheet, all revised 11/26/2025 alongside Form 281. The shared date makes them look like the same release; they are a different remedy for a different population."},
+    {"documentId": "CIV_EXP_06_A, CIV_EXP_07_A, FORM-1021IP", "why": "Instructions, FAQ and an instruction packet. All three are retained by the edition, which makes them the easiest Delaware assets to reach for — and none is a filable form."},
+    {"crossCourt": "a Superior Court CIV_EXP form used for the Family Court track, or Form 281 used for a Superior Court track", "why": "Delaware runs adult expungement through two courts with two form families. The de_discretionary_family_court track takes Form 281; the two Superior Court tracks take the CIV_EXP series."},
+    {"documentClass": "any copy retrieved from a mirror or aggregator while the issuer is blocked", "why": "The block is on the issuer's own perimeter. An unattributable copy cannot establish provenance and must not be used to close an acquisition."}
+  ],
+  "edition13Impact": {
+    "publicationJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+    "editionAmendmentRequired": true,
+    "amendmentKind": "role_and_title_correction_now_plus_five_new_rows_when_acquisition_becomes_possible",
+    "requiresNewBytes": true,
+    "requiresNewBytesDetail": "None of the five assigned identities is retained. Five new rows are needed and none of the bytes can be obtained until the WAF is passed.",
+    "requiresRoleCorrection": true,
+    "requiresRoleCorrectionDetail": "DE:FORM-281E:PETITION:EN records document_role PETITION for a charge extension sheet. The correct role is a continuation, which the row's own notes already state.",
+    "requiresTitleCorrection": true,
+    "requiresTitleCorrectionDetail": "DE:FORM-281E official_title reads 'Petition for Expungement of Adult Record Charge Sheet', which splices Form 281's title onto the charge sheet. The index title is '281E - Adult Expungement Charge Extension Sheet'.",
+    "requiresWorkflowKeyCorrection": true,
+    "requiresWorkflowKeyCorrectionDetail": "The key DE:FORM-281E:PETITION:EN encodes the wrong role and would need regenerating with the corrected one.",
+    "correctionsApplicableNow": "The 281E role, title and key defects can be corrected immediately from the retained index capture. They do not wait on the WAF.",
+    "requiresLicenseDisposition": true,
+    "requiresLicenseDispositionNote": "Unresolved and unverifiable while the perimeter blocks the terms pages.",
+    "adjacentRowObserved": "CIV_EXP_06_A's edition title differs from the index title. Not assigned and not corrected here.",
+    "edition12Treatment": "immutable_unchanged",
+    "publicationPerformed": false
+  },
+  "sourceMaterializationEligibility": {
+    "laterMaterializationPermitted": false,
+    "laterMaterializationPermittedDetail": "Nothing can be materialized because nothing is retained. All five identities are authority_unmanifested_source with no repository binary, and the acquisition that would supply bytes is blocked.",
+    "receiptCreatedByThisJob": false,
+    "prerequisitesInOrder": [
+      "1. Retrieve the five documents through an attended browser session at courts.delaware.gov.",
+      "2. Read the printed revision from each face and compare it against the index revision dates recorded here.",
+      "3. Admit five new rows to the successor edition.",
+      "4. Correct the FORM-281E role, title and workflow key, which does not wait on any of the above.",
+      "5. Resolve licensing.",
+      "6. Only then author receipts with destinations under official-pdf/DE/."
+    ]
+  },
+  "implementationFamilyEffect": {
+    "family": "rcap-de-official-pdf-family",
+    "affectedTracks": 3,
+    "affectedComponents": 5,
+    "effectOfThisJob": "Five Delaware identities move from null titles, null issuers and no evidence to fully named documents with issuing court, style, role and index revision date, established without touching the blocked perimeter. A high-severity edition defect is surfaced that would have bound a 2018 charge extension sheet to a primary_filing component in place of a petition revised in 2025. The block itself is characterised as a WAF that returns HTTP 200, which is a pipeline hazard well beyond Delaware.",
+    "familyReadinessStatement": "The Delaware official-PDF family remains fail-closed and this job does not move it. None of the five assigned documents is retained, no bytes exist, currentness is unestablished, licensing is unresolved and unverifiable, generation is not permitted, runtime is disabled and no field map is built. No packet becomes generatable and no renderer is assigned.",
+    "structuralObservation": "The index styles CIV_EXP_02_A and CIV_EXP_02_B as Fill-In Forms, which suggests fillable PDFs, but no structure was measured because no binary was served. Nothing about field or widget counts is asserted."
+  },
+  "terminalDisposition": "official_download_refused_by_a_waf_returning_http_200_all_five_identities_named_from_a_retained_official_index_no_bytes_obtained",
+  "terminalDispositionDetail": {
+    "why": "The narrowest disposition the evidence supports. It is not unresolved_identity: all five documents, titles, issuing courts, roles and index revision dates are established. It is not source_missing, which the stop condition forbids and which would be false — the Delaware Judiciary publishes all five and its own index lists them. It is not an HTTP 403 block: it is a 200, and conflating the two would erase the finding that matters most. And it is not acquired: not one byte of any assigned document was served.",
+    "identitiesAssigned": 5,
+    "identitiesNamed": 5,
+    "identitiesRetained": 0,
+    "binariesRetrievedFromIssuer": 0,
+    "hashesRecordedFromIssuer": 0,
+    "blockCharacterisedToProductFamily": true,
+    "sourcesRelabelledMissing": 0,
+    "alternativesInferred": 0,
+    "editionDefectsFound": 1
+  },
+  "expectedDownstreamEffect": "Delaware's acquisition block is recorded as what it actually is: an F5 BIG-IP ASM policy that rejects automated requests while returning HTTP 200 OK with a 247-byte body and a support ID that rotates per request. That signature is now on record, and with it the hazard that a status-code-based pipeline would have booked five successful downloads of a rejection page and pinned its digest as official provenance for a petition and two court orders. All five assigned identities gain a title, an issuing court, a style, a role and an index revision date, reconstructed from a retained capture of the Judiciary's own index without touching the perimeter. A high-severity edition defect is surfaced: Form 281E, a 2018 charge extension sheet, is retained under a PETITION role with a title spliced from Form 281, while Form 281 itself — the Family Court petition revised 11/26/2025 — is unmanifested; that role and title correction can be made now and does not wait on the block. No binary is acquired, no receipt is created, nothing enters version control, no alternative is inferred, no replica is substituted, no component is rebound, no memo is edited, no edition is published, no packet becomes generatable, no runtime is enabled and no track changes promotion state.",
+  "residualBlockers": [
+    {"id": "de-waf-returns-http-200", "question": "courts.delaware.gov rejects automated retrieval with an F5 BIG-IP ASM policy that returns HTTP 200 OK.", "status": "blocked_attended_retrieval_required", "owner": "acquisition owner", "why": "Covers the site root, every path tried and at least one other State of Delaware agency. Support ID rotates per request, so the policy is live. The only legitimate route is an attended browser session.", "reopenCondition": "A successful attended retrieval of the five documents."},
+    {"id": "de-status-code-false-success", "question": "Any acquisition check keying on HTTP status will read Delaware as a success.", "status": "open", "owner": "the acquisition tooling owner", "why": "Not Delaware-specific. Any WAF configured this way defeats a status-only check, and the 247-byte body is the only signal. Worth a guard in the retrieval path.", "severity": "pipeline-wide"},
+    {"id": "de-form-281e-role-and-title", "question": "DE:FORM-281E is recorded as a PETITION with a title spliced from Form 281, and its own notes call it a continuation sheet.", "status": "handed_off", "owner": "rcap-nationwide-master-library-edition-1-3-publication", "why": "Correctable now from the retained index; does not wait on the block.", "severity": "high"},
+    {"id": "de-form-281-unmanifested", "question": "Form 281, the Family Court adult expungement petition revised 11/26/2025, is not retained.", "status": "blocked", "owner": "acquisition owner", "why": "Downstream of the WAF. It is the newest of the five and the one a reader is most likely to think they already have."},
+    {"id": "de-five-identities-no-bytes", "question": "None of the five assigned documents is retained; no bytes, digests or structure exist for any of them.", "status": "blocked", "owner": "acquisition owner"},
+    {"id": "de-printed-revisions-unread", "question": "Index revision dates are recorded for all five, but no printed form-face revision was read from any binary.", "status": "blocked", "owner": "acquisition owner", "why": "An index date and a printed face stamp are different evidence. The retained replica corroborates four of them but is not an official source."},
+    {"id": "de-licensing-unverifiable", "question": "Licensing and commercial-use terms are unresolved and cannot be checked while the perimeter blocks the terms pages.", "status": "blocked", "owner": "acquisition owner or counsel"},
+    {"id": "de-proposed-order-lodging-practice", "question": "Whether a Delaware petitioner lodges a proposed order, given the orders are court-completed.", "status": "open_and_outside_this_job", "owner": "the Delaware legal-design owner"},
+    {"id": "de-civ-exp-06-a-title-mismatch", "question": "The edition's title for CIV_EXP_06_A differs from the Judiciary index title.", "status": "open_and_outside_this_job", "owner": "the edition owner"}
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "sourcesMaterialized": 0,
+    "sourceReceiptCountUnchanged": true,
+    "memoEdited": false,
+    "editionPublished": false,
+    "editionMutated": false,
+    "rendererImplemented": false,
+    "packetImplemented": false,
+    "componentRebound": false,
+    "issuerContacted": false,
+    "blockEvaded": false,
+    "mirrorSubstituted": false,
+    "replicaSubstituted": false,
+    "sourceRelabelledMissing": false,
+    "alternativeInferred": false,
+    "integrationPerformed": false,
+    "promotionPerformed": false,
+    "migrationPerformed": false,
+    "deploymentPerformed": false
+  }
+}
