@@ -717,10 +717,13 @@ const FIXTURES = [
     trackId: IN_COLLATERAL_ACTION,
     variantOf: "in-collateral-action-forfeiture-section-2-1",
     variantPurpose:
-      "The section the original expungement was granted under changes the operative direction of the order: the design has the court expunge the related action after a Section 1 to 3 grant and mark it expunged after a Section 4 or 5 grant. That is a different order, not a different word.",
+      "Two material branches, and the variant exercises both. First, the section the original expungement was granted under changes the operative direction of the order: the design has the court expunge the related action after a Section 1 to 3 grant and mark it expunged after a Section 4 or 5 grant. That is a different order, not a different word. Second, the collateral-action type changes the recital naming what the related action is, from a civil forfeiture proceeding to a petition for specialized driving privileges — so the petitioner's account of how that action relates to the expunged matter changes with it, because the two describe the same proceeding or the packet contradicts itself.",
     answers: collateralBase({
       originalExpungementSection: "4",
-      collateralActionType: "specialized driving privileges"
+      collateralActionType: "specialized driving privileges",
+      collateralActionCauseNumber: "03C01-2106-MI-000842",
+      relationshipToExpungedMatter:
+        "After the case that was expunged, my licence was suspended and I petitioned this same court for specialized driving privileges so that I could keep getting to work. That petition names the same suspension that came out of the charge in the expunged case, and it is still on the court's records under its own cause number."
     })
   },
   {
@@ -1485,8 +1488,50 @@ ok(
   "Two fixtures assemble to identical bytes."
 );
 
+// A fixture that overrides the collateral-action type while inheriting a
+// relationship narrative written for a different proceeding renders a packet
+// that contradicts itself: the recital names one action and the petitioner's
+// own account describes another. Nothing else in this file could catch it,
+// because both halves are individually valid. Every collateral-action fixture's
+// narrative must name the proceeding its own answer declares, and must not name
+// any of the others.
+const COLLATERAL_NARRATIVE_SIGNATURES = {
+  seizure: { requires: /seiz/i, forbids: /forfeiture|driving privileges|administrative (hearing|proceeding)/i },
+  civil_forfeiture: { requires: /forfeit/i, forbids: /driving privileges|administrative (hearing|proceeding)/i },
+  specialized_driving_privileges: { requires: /driving privileges/i, forbids: /forfeit|seiz/i },
+  administrative_proceeding: { requires: /administrative/i, forbids: /forfeit|seiz|driving privileges/i }
+};
+let collateralNarrativesChecked = 0;
+for (const fixture of FIXTURES.filter((f) => f.trackId === IN_COLLATERAL_ACTION)) {
+  const facts = deriveIndianaFacts(fixture.trackId, fixture.answers);
+  const signature = COLLATERAL_NARRATIVE_SIGNATURES[facts.collateralActionType];
+  ok(
+    Boolean(signature),
+    `${fixture.fixtureId}: the collateral-action type ${facts.collateralActionType} has no narrative signature to check against.`
+  );
+  if (!signature) continue;
+  ok(
+    signature.requires.test(facts.relationshipToExpungedMatter),
+    `${fixture.fixtureId}: the action type is ${facts.collateralActionType} but the petitioner's account of the relationship never mentions it: ${facts.relationshipToExpungedMatter}`
+  );
+  ok(
+    !signature.forbids.test(facts.relationshipToExpungedMatter),
+    `${fixture.fixtureId}: the action type is ${facts.collateralActionType} but the petitioner's account describes a different proceeding: ${facts.relationshipToExpungedMatter}`
+  );
+  // And the same divergence must not survive into the rendered recital.
+  ok(
+    signature.requires.test(facts.collateralActionTypeSentence),
+    `${fixture.fixtureId}: the recital naming the related action does not name ${facts.collateralActionType}.`
+  );
+  collateralNarrativesChecked += 1;
+}
+ok(
+  collateralNarrativesChecked >= 2,
+  `Only ${collateralNarrativesChecked} collateral-action fixtures were checked for narrative coherence.`
+);
+
 note(
-  "6. Values: the petitioner's answers are carried through verbatim into every statement of fact, the original-section answer changes the operative direction of a collateral-action order from expunge to mark-expunged, the consent answer changes the petition's recital, the exhibit headline, the exhibit body and the filing warning together, the offence recital refuses to decide the section classification, the amendment caveat refuses to decide which amendment gives greater relief, every declared required input reaches the fact bag, no derived sentence carries a bare branch answer, and all six fixtures assemble to distinct bytes."
+  "6. Values: the petitioner's answers are carried through verbatim into every statement of fact, every collateral-action fixture's relationship narrative names the proceeding its own action-type answer declares and names none of the others, the original-section answer changes the operative direction of a collateral-action order from expunge to mark-expunged, the consent answer changes the petition's recital, the exhibit headline, the exhibit body and the filing warning together, the offence recital refuses to decide the section classification, the amendment caveat refuses to decide which amendment gives greater relief, every declared required input reaches the fact bag, no derived sentence carries a bare branch answer, and all six fixtures assemble to distinct bytes."
 );
 
 // ---------------------------------------------------------------------------
