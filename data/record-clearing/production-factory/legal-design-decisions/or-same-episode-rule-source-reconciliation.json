@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "specificationId": "or-same-episode-rule-source-reconciliation",
+  "jobId": "rcap-or-same-episode-rule-source-reconciliation",
+  "jurisdiction": "OR",
+  "jurisdictionName": "Oregon",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "preparedOn": "2026-08-08",
+  "preparer": "Session D legal-design worker, executing rcap-or-same-episode-rule-source-reconciliation",
+  "baseCommit": "95789664518ee3f7f2aeb9c12380dd9ba70d3b76",
+  "decisionSource": "The current codified text of ORS 137.225 in the Oregon Legislature's 2025 Edition, read in full and retrieved in this job; the enrolled Oregon Laws 2025 chapter 349 and Oregon Laws 2024 chapter 70 section 55 as published by the Legislature, read with their drafting marks intact; the Legislature's own ORS annotations for chapter 137; the Oregon Judicial Department's own Court of Appeals media release for the governing decision; and the Legislature's 2025 special session and 2026 regular session tables of sections amended, repealed or added to. Read against the integrated Oregon legal-design memo, the normalized track registry and the authoritative blocker ledger.",
+  "whatThisDocumentIs": "The decision record that resolves the Oregon same-episode conflict. The integrated Oregon memo carries, on or_conviction_setaside and or_contempt_setaside, a release blocker recording that the controlling review states a conviction arising from the same criminal episode does not count as a disqualifying other conviction — calling the same-episode rule the clearest treatment of any single doctrine in the series and directing that it be preserved in the engine — while the enacted text of Oregon Laws 2025 chapter 349 reads the other way on its face. The normalizing worker deliberately declined to override counsel and preserved the conflict. This record settles it from the statute, its drafting history and Oregon appellate authority. It amends no memo, regenerates no registry, implements nothing, enables nothing and asserts no counsel approval.",
+  "scopeOfThisJob": {
+    "ownedPath": "data/record-clearing/production-factory/legal-design-decisions/or-same-episode-rule-source-reconciliation.json",
+    "memoAmended": false,
+    "memoPath": "data/record-clearing/legal-design-intake/OR.memo.json",
+    "memoSha256AtDecision": "1dc9f4fab0f1e2572f192414f0a8d1fab4cc55e76c380c430828921b01dd450a",
+    "globalRegistryRegenerated": false,
+    "rendererImplemented": false,
+    "sourceMaterialized": false,
+    "runtimeOrPromotionChanged": false,
+    "siblingJobNotTouched": "The Oregon 2025 monetary-obligations question is a separate frozen job, rcap-or-2025-monetary-obligations-scope-reconciliation, with its own owned decision record. It shares affected tracks with this one and is neither resolved nor prejudged here.",
+    "questionsExpresslyNotReached": "The categorical exclusion lists in ORS 137.225(5), (6) and (7)(a)(A), and the mapping of person-felony and person Class A misdemeanor definitions in the rules of the Oregon Criminal Justice Commission to particular offences, remain a separate open question on or_conviction_setaside and are not answered here. The Oregon State Police record-check fee question is likewise untouched."
+  },
+  "questionPresented": {
+    "theConflict": "The controlling review states that a conviction arising from the same criminal episode as the offence being set aside does not count as a disqualifying other conviction, calls the same-episode rule the clearest treatment of any single doctrine in the series, and directs that it be preserved in the engine. The enacted text of ORS 137.225(7)(a)(B) disqualifies a person convicted of any other offence within the applicable period 'whether or not the other conviction is for conduct associated with the same criminal episode'.",
+    "whatHadToBeEstablished": "Whether the same-episode rule operates as counsel's treatment states or as the enacted text reads; the conflicting language identified exactly; the affected Oregon track IDs; the eligibility and screening impact; the packet impact; and whether the conflict is build-level or release-level.",
+    "whyItMattered": "A same-episode conviction is the commonest possible companion to the conviction a participant wants set aside — two counts in one case, or two cases from one incident. If the review were right, most multi-count Oregon applicants remain eligible; if the enacted text is right, many are barred. Telling a barred person they qualify is the more damaging of the two errors, because they file, pay and are refused."
+  },
+  "methodNote": "The assignment forbids resolving the conflict by preferring one source because it is more convenient, so the work was done in the order that makes preference impossible. The current codified subsection was read first and in full. The enrolled acts were then read with their drafting marks intact, to establish not merely what the text says but whether chapter 349 changed it — because a review can be wrong about the law or merely stale, and those call for different remedies. Oregon appellate authority was then sought, on the reasoning that a doctrine counsel calls settled ought to appear in the case law, and it does appear there, on the opposite side. Every one of the three load-bearing propositions in this record — the current text, the pre-existence of the disputed phrase, and the appellate holding — was retrieved directly in this job from the Legislature's or the Judiciary's own channel and is quoted rather than characterised.",
+  "controllingSources": [
+    {
+      "kind": "codified_statute",
+      "citation": "ORS 137.225(7), Order setting aside conviction, contempt finding or record of criminal charge; fees; prerequisites; limitations",
+      "issuer": "Oregon Legislative Assembly, ORS 2025 Edition",
+      "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors137.html",
+      "retrievedOn": "2026-08-08",
+      "retrievedInThisJob": true,
+      "verbatimText": "(7)(a) Notwithstanding subsection (5) of this section, the provisions of subsection (1)(a) of this section do not apply to: (A) A conviction for a state or municipal traffic offense. (B) A person convicted of any other offense, excluding motor vehicle violations and unlawful possession of a controlled substance constituting a drug enforcement misdemeanor as described in ORS 475.896, or found in contempt of court for violating an order related to abuse or a person crime, within the following applicable time period immediately preceding the filing of the motion pursuant to subsection (1)(a) of this section, whether or not the other conviction is for conduct associated with the same criminal episode that caused the conviction, or with the same course of conduct that caused the finding, that is sought to be set aside: (i) For a motion concerning a Class B felony, seven years. (ii) For a motion concerning a Class C felony or a finding of a person in contempt of court for violating an order related to abuse or a person crime, five years. (iii) For a motion concerning a Class A misdemeanor, three years. (iv) For a motion concerning a Class B or Class C misdemeanor a violation or a finding of contempt of court not described in sub-subparagraph (ii) of this subparagraph, one year. (C) A person who at the time the motion described in this section is pending before the court is under charge of commission of any crime or contempt of court for violating an order related to abuse or a person crime. (b) A single violation, other than a motor vehicle violation, within the time period specified in paragraph (a)(B) of this subsection is not a conviction under this subsection. Notwithstanding subsection (1) of this section, a conviction that has been set aside under this section shall be considered for the purpose of determining whether paragraph (a)(B) of this subsection is applicable.",
+      "exhaustivenessCheck": "The word 'episode' appears exactly once in the whole of ORS 137.225, and it appears in the disqualifying clause quoted above. There is no same-episode allowance, exception or carve-out anywhere else in the section. That is a full-text check of all thirteen subsections, not a reading of the subsection alone.",
+      "structuralNote": "Paragraph (7)(a) opens 'Notwithstanding subsection (5) of this section', so the bar overrides the special eligibility routes in subsection (5). A participant who qualifies under one of those routes is still caught by (7)(a)(B).",
+      "sourceCredit": "The section's source note ends '2024 c.70 §55; 2025 c.349 §1'.",
+      "weight": "controlling"
+    },
+    {
+      "kind": "enrolled_session_law",
+      "citation": "Oregon Laws 2025, chapter 349 (House Bill 2492), section 1, amending ORS 137.225",
+      "issuer": "Oregon Legislative Assembly, Legislative Counsel",
+      "url": "https://www.oregonlegislature.gov/bills_laws/lawsstatutes/2025orlaw0349.pdf",
+      "retrievedOn": "2026-08-08",
+      "retrievedInThisJob": true,
+      "bytes": 40316,
+      "sha256": "87f053f8dc691bd1771b0ae32bbb826f8dced07ebf2dce2bc6059218e42ed36b",
+      "draftingMarksFinding": "The disputed phrase is pre-existing text carried forward, not new text added by chapter 349. Oregon enrolled acts print new matter in bold and matter to be omitted in bracketed italics. The enrolled paragraph reads: '[(b)] (B) A person convicted[, within the following applicable time period immediately preceding the filing of the motion pursuant to subsection (1) of this section,] of any other offense, excluding motor vehicle violations and unlawful possession of a controlled substance constituting a drug enforcement misdemeanor as described in section 35, chapter 70, Oregon Laws 2024, or found in contempt of court for violating an order related to abuse or a person crime, within the following applicable time period immediately preceding the filing of the motion pursuant to subsection (1)(a) of this section, whether or not the other conviction is for conduct associated with the same criminal episode that caused the [arrest, citation, charge or] conviction, or with the same course of conduct that caused the finding, that is sought to be set aside:'",
+      "whyThatSettlesProvenance": "The decisive tell needs no typography at all and is visible in the extracted text: chapter 349 struck the words '[arrest, citation, charge or]' from inside the same-episode phrase. A bracketed deletion can only sit inside text that already existed, so the surrounding phrase pre-dates the act. What chapter 349 did to paragraph (7) was renumber it, relocate the lookback clause, add the contempt-finding language and add ', or with the same course of conduct that caused the finding,'. It did not touch the same-episode treatment.",
+      "applicability": "Section 2 of the act provides: 'The amendments to ORS 137.225 by section 1 of this 2025 Act apply to motions filed on or after the effective date of this 2025 Act.' Approved by the Governor and filed with the Secretary of State on June 20, 2025; effective date January 1, 2026. The act contains no effective-date section of its own — section 2 is the applicability clause and the January 1, 2026 date is Legislative Counsel's notation of the constitutional default.",
+      "weight": "controlling"
+    },
+    {
+      "kind": "enrolled_session_law",
+      "citation": "Oregon Laws 2024, chapter 70, section 55, amending ORS 137.225",
+      "issuer": "Oregon Legislative Assembly, Legislative Counsel",
+      "url": "https://www.oregonlegislature.gov/bills_laws/lawsstatutes/2024orlaw0070.pdf",
+      "retrievedOn": "2026-08-08",
+      "operativeFinding": "The predecessor paragraph read: '(b) A person convicted, within the following applicable time period immediately preceding the filing of the motion pursuant to subsection (1) of this section, of any other offense, excluding motor vehicle violations and unlawful possession of a controlled substance constituting a drug enforcement misdemeanor as described in section 35 of this 2024 Act, whether or not the other conviction is for conduct associated with the same criminal episode that caused the arrest, citation, charge or conviction that is sought to be set aside:'. The same-episode phrase is unmarked there too, so it pre-dates 2024 as well.",
+      "furtherTracing": "The phrase was traced back through the Legislature's own enrolled acts and is present and unmarked in 2021 chapter 486 section 1, 2021 chapter 207 section 1, 2015 chapter 235 section 1 and 2013 chapter 390 section 1. Its origin year is earlier still and was not established, because the Legislature's site serves enrolled chapter PDFs only from 2013 forward. Pre-2013 is the established floor, not the origin.",
+      "weight": "controlling_on_provenance"
+    },
+    {
+      "kind": "appellate_authority_via_official_annotation",
+      "citation": "State v. Jensen, 279 Or App 323, 379 P3d 792 (2016), Sup Ct review denied",
+      "issuer": "Oregon Legislative Assembly, official ORS annotations for chapter 137",
+      "url": "https://www.oregonlegislature.gov/bills_laws/ors/ano137.html",
+      "retrievedOn": "2026-08-08",
+      "retrievedInThisJob": true,
+      "verbatimAnnotation": "Where defendant was convicted of two counts of third-degree rape arising from former relationship with victim, defendant is not eligible for expunction under subsection (8)(b) because subsection (6)(b) limits eligibility to individual who has not been convicted of any other offense in 10-year period preceding filing of motion for expungement, including conviction for conduct associated with same criminal episode. State v. Jensen, 279 Or App 323, 379 P3d 792 (2016), Sup Ct review denied",
+      "corroboration": "Independently confirmed on the Oregon Judicial Department's own channel: the Court of Appeals media release of June 29, 2016 records the holding as 'a defendant cannot have more than one conviction in the 10-year period immediately preceding a motion to set aside a conviction, even if the other conviction arises from the same criminal episode', and the disposition as Affirmed. https://www.courts.oregon.gov/news/Lists/ArticleNews/Attachments/426/press_06-29-16.doc.pdf",
+      "transferability": "Jensen construes the pre-2021 numbering. Former (6)(b) is the direct ancestor of today's (7)(a)(B) and former (8)(b) is the ancestor of the subsection (5) route that today's (7)(a) expressly overrides by its 'Notwithstanding subsection (5)' opener. The structural holding therefore transfers, and it transfers onto language that has not changed.",
+      "supportingAnnotations": "Two further annotations on the same official page run the same way: 'This section excludes from its benefits expunction for persons convicted of more than one offense even though convictions occurred in same action for separate counts under same statute.' State v. Adams, 57 Or App 725, 646 P2d 37 (1982); State v. Spivak, 130 Or App 153, 880 P2d 964 (1994), Sup Ct review denied. And: 'Court lacks authority to effect post-conviction merger of convictions to qualify person to have conviction set aside.' State v. Jansen, 197 Or App 251, 105 P3d 928 (2005).",
+      "weight": "controlling_appellate_construction"
+    },
+    {
+      "kind": "legislative_table",
+      "citation": "Oregon Laws 2025 special session and Oregon Laws 2026 tables of sections amended, repealed or added to",
+      "issuer": "Oregon Legislative Assembly, Legislative Counsel",
+      "url": "https://www.oregonlegislature.gov/bills_laws/lawsstatutes/2026OrLawAR.pdf",
+      "siblingUrls": [
+        "https://www.oregonlegislature.gov/bills_laws/lawsstatutes/2025S1OrLawAR.pdf"
+      ],
+      "retrievedOn": "2026-08-08",
+      "operativeFinding": "ORS 137.225 has not been amended since chapter 349. The 2025 special session table contains no ORS chapter 137 section at all. The 2026 regular session table lists ORS 137.172, 137.227, 137.228, 137.320, 137.370 and 137.865 for chapter 137, and 137.225 is not among them. The codified source note ending at '2025 c.349 §1' is consistent with both.",
+      "whyItWasNecessary": "The Legislature states that the 2025 Edition does not include changes enacted during the 2025 special session or the 2026 regular session, so the Edition alone cannot establish currency. The two later sessions were checked against their own tables, which is the reconciliation the publisher's instruction calls for.",
+      "weight": "controlling_on_currency"
+    }
+  ],
+  "sourcesExpresslyNotRelieduponAsProof": [
+    "No commercial compilation was used to establish any text. Justia, oregon.public.law, Casetext, FindLaw and law-firm pages are excluded as controlling by the assignment and none is cited for any proposition here. This matters more than usual in Oregon, because the controlling review's own primary authority was a Justia compilation and oregon.public.law, which is what the memo's authority refresh was ordered to correct.",
+    "The controlling review's statement of the same-episode rule is the statement under examination and is not treated as authority for its own correctness.",
+    "The Jensen opinion's own text was not obtained and is not quoted. The holding is taken from two official secondary channels — the Legislature's own annotations and the Judiciary's own media release — and is labelled as such rather than presented as a reading of the opinion.",
+    "No inference is drawn from the absence of an Oregon Judicial Department form or instruction addressing same-episode convictions."
+  ],
+  "determination": {
+    "1_doesASameEpisodeConvictionDisqualify": "Yes, where it falls within the applicable lookback period. ORS 137.225(7)(a)(B) forecloses a same-episode exception in terms: the other conviction disqualifies 'whether or not the other conviction is for conduct associated with the same criminal episode that caused the conviction ... that is sought to be set aside'. Same-episode status is expressly made irrelevant to the bar.",
+    "2_theConflictingLanguageExactly": "The review's proposition is that same-episode status defeats disqualification. The statutory words that contradict it are the eleven-word qualifier 'whether or not the other conviction is for conduct associated with the same criminal episode' in ORS 137.225(7)(a)(B). There is no counterpart provision anywhere in the section supporting the review, and the word 'episode' occurs nowhere else in it.",
+    "3_whichSourceGoverns": "The enacted text governs and the review is wrong, in the strong form in which it is stated. The review does not merely misdescribe a detail: it asserts as the clearest treatment of any single doctrine in the series a rule that is the exact inverse of the only same-episode language in the statute, and it directs that the inverted rule be preserved in the engine. Following that direction would have built the bar backwards.",
+    "4_isTheReviewMerelyStale": "No, and this is the finding that decides the remedy. Staleness was the plausible and charitable explanation — that the review described pre-2025 law and chapter 349 changed it. It is not available. The same-episode phrase is pre-existing text that chapter 349 carried forward unchanged, established from the enrolled act's own drafting marks and from the deletion of '[arrest, citation, charge or]' from inside the phrase, and it is present and unmarked in every enrolled amendment back to 2013. The review is therefore wrong about current law and would have been wrong about the law at any point in the last decade or more. Anyone reasoning that chapter 349 changed the rule is also mistaken.",
+    "5_canBothBeTrueOnDifferentFacts": "Only in a timing sense, and not as doctrine. The bar bites only where the other conviction falls 'within the ... applicable time period immediately preceding the filing of the motion'. A same-episode conviction is roughly contemporaneous with the one being set aside, and because the eligibility clock in subsection (1)(b) and the lookback in (7)(a)(B)(i) to (iv) run the same durations, a same-episode conviction will often have aged out of the window by the time the motion may be filed. It still bites where the two windows are mismatched: separate judgments entered on different dates, counts of different offence classes, or a shorter eligibility route paired with a longer lookback — which is the mismatch that defeated the applicant in Jensen, where eligibility ran under one route and the ten-year bar under another. Two modifiers cut the other way: (7)(b) excludes a single non-motor-vehicle violation from counting, and a conviction already set aside still counts. The correct framing is that a same-episode conviction is disqualifying while it sits inside the lookback window and harmless once it does not. What is categorically false is that same-episode status itself defeats disqualification.",
+    "6_affectedTracks": {
+      "or_conviction_setaside": "Directly affected. It carries the release blocker in terms, and it carries the participant input cvsSameEpisode, whose condition description currently records that the review and the enacted text disagree and that no eligibility statement is made where this is in play. That was the right holding position and it can now be replaced with a rule.",
+      "or_contempt_setaside": "Directly affected, and on this track the enacted text reaches further than on the other. It carries the same release blocker and the input cntSameEpisode. Chapter 349 added ', or with the same course of conduct that caused the finding,' to (7)(a)(B), which extends the same irrelevance to the course of conduct behind a contempt finding, and (7)(a)(B)(ii) places a contempt finding for violating an order related to abuse or a person crime in the five-year tier. So for contempt the statute now says expressly what it previously said only for convictions.",
+      "notAffected": "or_arrest_no_charges, or_dismissed_charge, or_acquittal and or_137_225_1d are unaffected. Subsection (7)(a) by its terms disapplies only subsection (1)(a), the conviction and contempt route; the arrest, citation, dismissal and acquittal routes sit in subsection (1)(c) and (1)(d) and are governed by the separate exclusions in subsection (8). or_marijuana_setaside is unaffected by this question and stays deferred. The six or-ls slots are unaffected.",
+      "trackCountUnchanged": "Oregon keeps thirteen review source slots and thirteen nodes. This record creates, removes, splits and merges nothing."
+    },
+    "7_eligibilityAndScreeningImpact": "The screen must be rebuilt around the lookback window rather than around the episode. cvsSameEpisode and cntSameEpisode may keep being asked, because the answer is still needed, but the answer no longer exonerates: it identifies a conviction that must then be tested against the applicable period. To apply (7)(a)(B) the screen needs, for every other conviction the participant discloses, its date, its offence class and whether it is a motor vehicle violation, a single non-motor-vehicle violation, or unlawful possession of a controlled substance constituting a drug enforcement misdemeanour under ORS 475.896. The memo's cvsOtherConvictions input already asks for other convictions and dates and already records the carve-outs, so the change is to how the two answers are combined, not to what is collected. One consequence should be stated plainly because it is counter-intuitive and adverse: a participant with two counts from one incident is not automatically eligible, and must not be told that they are.",
+    "8_packetImpact": "None to the generated documents. Both affected tracks are official_pdf_fill on the Oregon Judicial Department Criminal Set-Aside (Adult Cases) packet, their component sets are unchanged, and no component, form, field or proposed order is added, removed or rebound. The statute governs who may file, not what is filed. The impact is confined to eligibility screening and to participant-facing copy, and the copy consequence is specific: any wording that tells a participant a same-episode conviction does not count against them is wrong and must not ship.",
+    "9_buildLevelOrReleaseLevel": "Release-level, and the memo classified it correctly. It changes no document, no field, no destination and no filing vehicle, so nothing about the build depends on it; it changes what the product may tell a participant about eligibility, which is a release gate. The registry bears this out: neither affected track carries this item among its legalDesignBlockers, because it was recorded as an unresolvedQuestion at release impact rather than as an undetermined design element. The correct disposition is that the release blocker can now be closed on the enacted text.",
+    "10_doesThisChangeAnyIntegratedOregonWork": "No implementation exists to change. Neither affected track is packet ready, both are runtime disabled pending output review, and no Oregon renderer, specification or template is touched by this record."
+  },
+  "residualQuestions": [
+    {
+      "id": "or-episode-no-definition-governs-137-225",
+      "question": "No definition of 'criminal episode' governs ORS 137.225 by its own terms. ORS 137.225(13) defines only 'Affidavit', 'Order related to abuse or a person crime' and 'Sex crime'. The general definition in ORS 131.505(4) — 'continuous and uninterrupted conduct that establishes at least one offense and is so joined in time, place and circumstances that such conduct is directed to the accomplishment of a single criminal objective' — is limited on its face to ORS 131.505 to 131.525 and is not incorporated into ORS 137.225.",
+      "whyItIsSmallHere": "It is a genuine definitional gap but it barely bites on this question, because (7)(a)(B) makes same-episode status irrelevant either way. The definition would matter to a rule that turned on the episode; the statute's rule does not.",
+      "classification": "nonblocking_research_note",
+      "isBuildBlocker": false,
+      "owner": "monitor only"
+    },
+    {
+      "id": "or-episode-jensen-opinion-text-not-obtained",
+      "question": "The Jensen opinion's own text was not retrieved. The holding rests on the Legislature's official annotation and the Judicial Department's own Court of Appeals media release, which agree with each other and with the statute.",
+      "retrievalDetail": "The Oregon Judicial Department digital collection at cdm17027.contentdm.oclc.org and ojd.contentdm.oclc.org refused connection, courts.oregon.gov/publications/coa/Documents/A157199.pdf returns HTTP 200 but serves a soft 404 page, and no archived capture of either path exists.",
+      "classification": "release_blocker",
+      "isBuildBlocker": false,
+      "whyNotABuildBlocker": "The determination does not depend on the opinion's reasoning. The statutory text alone resolves the question; Jensen corroborates it. Reading the opinion would matter for release copy that characterises the case law, not for the rule.",
+      "owner": "legal design, if release copy cites the case"
+    },
+    {
+      "id": "or-episode-no-decision-on-current-numbering",
+      "question": "No Oregon appellate decision construing (7)(a)(B) in its post-chapter-349 numbering was found.",
+      "analysis": "Expected rather than troubling: the amendments apply only to motions filed on or after January 1, 2026. Jensen construes the ancestor provision, and because chapter 349 carried the operative phrase forward unchanged, the construction attaches to the same words.",
+      "classification": "nonblocking_research_note",
+      "isBuildBlocker": false,
+      "owner": "monitor only"
+    },
+    {
+      "id": "or-episode-phrase-origin-year",
+      "question": "The year the same-episode phrase first entered ORS 137.225 was not established. It is present and unmarked in every enrolled amendment the Legislature publishes online, back to 2013 chapter 390; pre-2013 chapter PDFs are not served at the Legislature's session-law path.",
+      "whyItDoesNotMatter": "Nothing in the determination turns on the origin year. Pre-2013 is a floor, and it is already far earlier than the review, so the review cannot be defended as describing superseded law.",
+      "classification": "nonblocking_research_note",
+      "isBuildBlocker": false,
+      "owner": "monitor only"
+    },
+    {
+      "id": "or-episode-review-reliability",
+      "question": "The controlling review asserted, as the clearest treatment of any single doctrine in the series, a rule that is the inverse of the statute and has been for over a decade, and directed that it be built into the engine.",
+      "consequence": "This is recorded because it bears on more than this question. The Oregon review's own primary authority was a commercial compilation, its readiness record already carried official_authority_refresh_required, and this is the second Oregon finding in this wave in which the review describes something the enacted law does not contain — the other being its account of the 2025 monetary-obligations relief, which describes a superseded draft. Other unverified doctrinal statements in the same review should be treated as unconfirmed until read against primary authority, rather than inherited.",
+      "classification": "release_blocker",
+      "isBuildBlocker": false,
+      "owner": "legal design and the Oregon review owner"
+    }
+  ],
+  "requiredCaptainFollowUp": [
+    "This record does not amend OR.memo.json and may not. The release blocker still reads as an open conflict on both or_conviction_setaside and or_contempt_setaside, and the condition descriptions on cvsSameEpisode and cntSameEpisode still say the sources disagree and that no eligibility statement is made. A separate memo-amendment job is needed to replace the holding position with the rule and to state the lookback-window test.",
+    "Counsel's limitation 'Preserve the same-episode rule in the engine' is carried on or_conviction_setaside as a manual completion item. It must not be implemented as written. Whoever owns the memo amendment should retire or invert it explicitly rather than leaving it to be read literally by an implementer.",
+    "The authoritative blocker ledger carries this as an open release blocker on both tracks. It can be closed against this record by its owner; the ledger is a forbidden path for this job.",
+    "The Oregon review's reliability finding above should reach whoever owns the Oregon legal review, because it is a second instance of the same failure mode in one wave."
+  ],
+  "terminalDisposition": "enacted_text_governs_same_episode_conviction_disqualifies_within_the_lookback_window_review_superseded_release_blocker_closable",
+  "terminalDispositionDetail": {
+    "why": "The narrowest accurate result. It is not unresolved: the statutory text is unambiguous on its face, the drafting history shows the phrase is long-standing rather than new, and Oregon appellate authority construes it the same way. It is not a flat 'same-episode convictions always disqualify' either, because the bar is bounded by the lookback window, and stating it without that bound would replace one wrong rule with another. It is not build-level, because nothing generated changes.",
+    "conflictResolution": "The enacted text governs. The review was not preferred against, nor was the statute preferred for convenience: the charitable explanation for the review — that it described superseded law — was tested against the enrolled acts and eliminated, and only then was the review set aside."
+  },
+  "runtimeEffect": {
+    "packetReadyChanged": false,
+    "packetReady": 0,
+    "memoEdited": false,
+    "globalRegistriesRegenerated": false,
+    "enabledJurisdictionsChanged": false,
+    "launchGateChanged": false,
+    "runtimeStatusChanged": false,
+    "promotionStatusChanged": false,
+    "sourcesMaterialized": 0,
+    "sourceReceiptsCreated": 0,
+    "binariesEnteringVersionControl": 0,
+    "rendererImplemented": false,
+    "editionPublished": false,
+    "issuerContacted": false,
+    "feesPaid": 0,
+    "downloadedSourceCount": 0,
+    "downloadedSourceCountNote": "Public legislative and judicial texts were read for adjudication. None was retained as a repository source artifact, materialized, or bound to any component. No acquisition occurred."
+  }
+}
