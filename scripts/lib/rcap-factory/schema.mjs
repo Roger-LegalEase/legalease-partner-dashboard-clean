@@ -564,8 +564,14 @@ function validateSourceMaterializationInputs(job, issues) {
     "binary_materialized_hash_verified"
   ]);
   const authorityStates = new Set(["authority_asset_known"]);
+  // Three states, not two. Bytes can be materialized and hash-verified while
+  // the controlling licence decision withholds permission to reproduce them —
+  // Colorado and now Indiana are both in exactly that position. Collapsing it
+  // into the other two would force a withheld source to claim either that its
+  // bytes are missing or that a worker may use them, and both are false.
   const readinessStates = new Set([
     "binary_materialization_required",
+    "generation_permission_required",
     "worker_ready"
   ]);
   const seen = new Set();
@@ -628,7 +634,9 @@ function validateSourceMaterializationInputs(job, issues) {
       );
     }
     if (!readinessStates.has(input.workerReadiness)) {
-      issues.push(`${prefix}.workerReadiness must be binary_materialization_required or worker_ready.`);
+      issues.push(
+        `${prefix}.workerReadiness must be binary_materialization_required, generation_permission_required or worker_ready.`
+      );
     }
     if (input.workerMayRead !== true || input.workerMayModify !== false) {
       issues.push(`${prefix} must grant read-only worker access.`);

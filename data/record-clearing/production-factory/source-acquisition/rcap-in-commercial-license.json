@@ -1,0 +1,348 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-in-commercial-license",
+  "parentJobId": "AUTH-03-acquisition-campaign-tier-1",
+  "jurisdiction": "IN",
+  "lane": "source_acquisition",
+  "strategyFamily": "commercial_license",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "db1d5d24989d81f7c5dd009101f7bc5532a8b8f7",
+  "shard": "F2",
+  "generatedOn": "2026-08-08",
+  "acquisitionIds": [
+    "acquire:IN:cca-conviction-expungement-order",
+    "acquire:IN:cca-conviction-expungement-petition",
+    "acquire:IN:cca-section-1-expungement-order",
+    "acquire:IN:cca-section-1-non-conviction-expungement-petition"
+  ],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero. Nothing was downloaded and no issuer or publisher was contacted. The bundles behind all four identities are already retained in the adopted edition, so availability was never the open question \u2014 permission is.",
+  "generationAllowed": false,
+  "generationAllowedNote": "False, and it must stay false. The authority-output contract permits generationAllowed=true only where licenseAdopted=true and adoptedLicense.sha256 pins a written licence. No licence exists for Coalition for Court Access material, so the only admissible value is false.",
+  "licenseAdopted": false,
+  "adoptedLicense": null,
+  "licenseAdoptedNote": "No written licence has been sought, obtained or adopted. Obtaining one requires publisher contact and counsel review, which this assignment does not authorize.",
+  "generatedFrom": [
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/authority.json",
+    "data/record-clearing/master-library/repository-asset-audit.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-in-in-repo-identity-reconciliation-already-retained-under-another-identity.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-03-acquisition-campaign-tier-1.json"
+  ],
+  "method": {
+    "description": "Separation of the availability gate from the commercial-permission gate for four Indiana dossier identities, and resolution of the four identities onto the two retained bundles that actually carry them. No publisher was contacted and no licence was sought, because obtaining a written licence is a human act this assignment does not authorize.",
+    "measurementBasis": "adopted_edition_rows_and_retained_bundle_measurements",
+    "issuerContactsMade": 0,
+    "publisherContactsMade": 0,
+    "licenceSought": false,
+    "licenceObtained": false,
+    "binariesDownloaded": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "binariesCommitted": 0,
+    "editionMutated": false,
+    "memoAltered": false,
+    "componentRebound": false,
+    "routeRelabelled": false,
+    "assignmentConstraintObserved": "The stop condition requires treating availability and commercial permission as separate gates, keeping generationAllowed false unless a written adopted licence is present, never relabelling the route as custom pleading, resolving the four logical dossier identities onto two shared licensed PDF bundles, retaining all four identity mappings, and not duplicating binaries. All six are observed."
+  },
+  "finding": {
+    "headline": "Availability is cleared and permission is not. All four identities resolve onto two bundles the adopted edition already retains at pinned digests, so nothing needs acquiring. What blocks Indiana is that no written licence has been adopted for Coalition for Court Access material, and without one generationAllowed must stay false however available the bundles are.",
+    "availabilityGate": "clear",
+    "permissionGate": "closed",
+    "acquisitionRequired": false,
+    "acquisitionRequiredRationale": "Both bundles are retained and manifested. Acquiring them again would duplicate binaries, which the stop condition forbids."
+  },
+  "twoGatesKeptSeparate": {
+    "principle": "Availability answers 'can the bytes be obtained'. Permission answers 'may they be reproduced in a generated packet'. They are independent, and Indiana is the clearest case in the programme of one being open while the other is shut.",
+    "availability": {
+      "state": "satisfied",
+      "evidence": "The adopted edition retains IN:CCA-SECTION1-PETITION-ORDER:PACKET:EN and the three CCA-XP-0220-70xx conviction inserts, all as packet_form with pinned digests and byte counts, and the repository asset audit records them present with hashState=match.",
+      "consequence": "No download, no issuer contact and no attended retrieval is needed for any of the four identities."
+    },
+    "permission": {
+      "state": "not_established",
+      "evidence": "The queue records for all four identities that 'The publisher's licensing and commercial-use terms for this document are unresolved.' No written licence is adopted anywhere in this repository.",
+      "consequence": "generationAllowed remains false on every Indiana packet row, and this job does not change it.",
+      "whyPossessionIsNotPermission": "The bundles are retained because they were imported into the corpus and adopted as evidence of identity. Retention is custody of evidence. It is not a grant of the right to reproduce Coalition material inside a product a participant pays for, and nothing in the edition purports to be such a grant."
+    },
+    "doNotCollapse": "Recording Indiana as 'source acquired' because the bundles are present would collapse the two gates and would read as readiness. Recording it as 'source missing' would be false. The accurate record is available-but-unlicensed."
+  },
+  "fourIdentitiesTwoBundles": {
+    "resolution": "The four logical dossier identities are two petitions and their two orders across two statutory routes, and each route's petition and order live in one shared bundle rather than as four separate documents.",
+    "bundleA": {
+      "workflowKey": "IN:CCA-SECTION1-PETITION-ORDER:PACKET:EN",
+      "officialTitle": "Coalition for Court Access Section 1 Non-Conviction Expungement Petition and Order Bundle",
+      "revision": "SOURCE-2021",
+      "assetClass": "packet_form",
+      "structuralClass": "acroform_pdf",
+      "bytes": 2946894,
+      "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+      "pages": 15,
+      "carriesIdentities": [
+        "acquire:IN:cca-section-1-non-conviction-expungement-petition",
+        "acquire:IN:cca-section-1-expungement-order"
+      ],
+      "whereEachLives": {
+        "petition": "pages 3 to 6, printed form code CCA-XP-0120-7000, with a Certificate of Service at page 6 and an insert placeholder at page 4",
+        "order": "pages 9 to 15, printed form code CCA-XP-0120-7006, with insert placeholders at pages 10 and 11 and a continuation sheet at page 15"
+      },
+      "pageMapBasis": "measured page by page in the completed in-repository reconciliation for Indiana, which read each page's printed footer form code",
+      "statute": "I.C. 35-38-9-1"
+    },
+    "bundleB": {
+      "identity": "the CCA conviction insert set",
+      "carriesIdentities": [
+        "acquire:IN:cca-conviction-expungement-petition",
+        "acquire:IN:cca-conviction-expungement-order"
+      ],
+      "members": [
+        {
+          "workflowKey": "IN:CCA-XP-0220-7008:PETITION:EN",
+          "officialTitle": "Conviction Expungement Insert - I.C. 35-38-9-2",
+          "revision": "REV-2020-02",
+          "pages": 3,
+          "fieldCount": 143,
+          "bytes": 3981416,
+          "sha256": "2c4aaf4a68b06f192e5f0c4b9bbfe0dd4c04b4b1f5e0fbab879bb450223e78f0",
+          "scope": "misdemeanor convictions and qualifying felonies reduced to misdemeanors"
+        },
+        {
+          "workflowKey": "IN:CCA-XP-0220-7009:PETITION:EN",
+          "officialTitle": "Conviction Expungement Insert - I.C. 35-38-9-3",
+          "revision": "REV-2020-02",
+          "pages": 3,
+          "fieldCount": 134,
+          "bytes": 2620327,
+          "sha256": "499ed8a49c785fa949bcce19c3783f84318b73bc162cb5db8576094a321990b1",
+          "scope": "qualifying felonies that did not result in bodily injury"
+        },
+        {
+          "workflowKey": "IN:CCA-XP-0220-7010:PETITION:EN",
+          "officialTitle": "Conviction Expungement Insert - I.C. 35-38-9-4",
+          "revision": "REV-2020-02",
+          "pages": 3,
+          "fieldCount": 137,
+          "bytes": 784143,
+          "sha256": "b613c145701a5185fd11d4df61efad5d3b352fc13987581531267868724fbf4b",
+          "scope": "qualifying felonies that did not result in serious bodily injury"
+        }
+      ],
+      "structuralNote": "The conviction route is served by three statutory-branch inserts rather than one document, and the edition types all three as PETITION. The assigned conviction order identity has no separately retained order asset; it is carried by the same Coalition material.",
+      "openStructuralQuestion": "Which of the three inserts carries the conviction order, or whether the order is a section of each, was not established by this job and is not its question. It is recorded so the mapping is not assumed."
+    },
+    "allFourMappingsRetained": true,
+    "allFourMappingsRetainedNote": "No identity is collapsed away. Each of the four keeps its own mapping onto the bundle and page range that carries it, which is what the stop condition requires \u2014 resolve to two bundles, retain four mappings.",
+    "noBinaryDuplication": "One bundle per route. Acquiring or licensing bundle A twice, once for its petition identity and once for its order identity, would duplicate a binary for no reason and is expressly avoided."
+  },
+  "componentReach": {
+    "trackCount": 5,
+    "componentCount": 10,
+    "tracks": [
+      "in_arrest_no_charges",
+      "in_section1_petition",
+      "in_conviction_misd",
+      "in_conviction_d6",
+      "in_conviction_felony"
+    ],
+    "byIdentity": [
+      {
+        "acquisitionKey": "acquire:IN:cca-section-1-non-conviction-expungement-petition",
+        "role": "primary_filing",
+        "components": [
+          "in_arrest_no_charges-primary-filing-1",
+          "in_section1_petition-primary-filing-1"
+        ]
+      },
+      {
+        "acquisitionKey": "acquire:IN:cca-section-1-expungement-order",
+        "role": "proposed_order",
+        "components": [
+          "in_arrest_no_charges-proposed-order-2",
+          "in_section1_petition-proposed-order-2"
+        ]
+      },
+      {
+        "acquisitionKey": "acquire:IN:cca-conviction-expungement-petition",
+        "role": "primary_filing",
+        "components": [
+          "in_conviction_misd-primary-filing-1",
+          "in_conviction_d6-primary-filing-1",
+          "in_conviction_felony-primary-filing-1"
+        ]
+      },
+      {
+        "acquisitionKey": "acquire:IN:cca-conviction-expungement-order",
+        "role": "proposed_order",
+        "components": [
+          "in_conviction_misd-proposed-order-2",
+          "in_conviction_d6-proposed-order-2",
+          "in_conviction_felony-proposed-order-2"
+        ]
+      }
+    ],
+    "everyPrimaryFilingOnEveryIndianaTrack": "All five assigned tracks take their primary filing from Coalition material. The permission gate therefore governs whether Indiana can produce a packet at all, not merely whether one attachment is reproducible."
+  },
+  "publisherAndLicensingPosition": {
+    "publisher": "Coalition for Court Access",
+    "publisherCharacter": "not a court and not a state agency. The Coalition is an access-to-justice body whose forms the Indiana Office of Judicial Administration endorses in places, but endorsement is not authorship and does not put the material into the public domain.",
+    "endorsementObserved": "The edition records that the CCA-XP-0320-7000B conviction petition instructions are 'endorsed by the Indiana Office of Judicial Administration'. That is an endorsement of instructions, not a licence for the petition and order bundles.",
+    "distinguishFromStateForms": "Where a state judiciary publishes its own form, the licensing question is usually about the state's terms of use. Here the material is a third party's, which is why this identity carries a commercial_license strategy rather than a public_official_download one.",
+    "licenceStatus": "none_adopted",
+    "licenceStatusEvidence": "No written licence for Coalition material exists anywhere in this repository, and the queue records the terms as unresolved on all four rows.",
+    "generationAllowed": false,
+    "generationAllowedUnchanged": true,
+    "whatWouldChangeIt": "A written licence, adopted into the repository and pinned, permitting reproduction of the named bundles in a generated participant packet. Obtaining it is a human act \u2014 publisher contact and, in all likelihood, counsel review of the terms.",
+    "notAttempted": "No approach to the Coalition was made. The assignment authorizes recording the position, not negotiating it.",
+    "relatedAdjacentFinding": "The completed Indiana in-repository reconciliation recorded that the three attachment identities it resolved carry 'None identified' for commercial use. That is a negative finding on three specific attachment rows and is not a licence for the petition and order bundles governed here. The two must not be read together."
+  },
+  "routeMustNotBeRelabelled": {
+    "prohibition": "never relabel the route as custom pleading",
+    "whyItIsTempting": "The bundles are unlicensed and every Indiana primary filing depends on them. Reclassifying Indiana to custom_pleading would appear to route around the licence problem by drafting instead of reproducing.",
+    "whyItIsWrong": [
+      "It would change an adopted legal-design strategy from a source-acquisition record, which is out of this lane's authority entirely.",
+      "It would assert that a drafted pleading is lawfully available on these statutory routes, which no Indiana legal-design record establishes.",
+      "The licence question would not go away \u2014 it would be hidden, because the drafted document would still be derived from the Coalition's structure."
+    ],
+    "notDone": true,
+    "outputStrategyUnchanged": "All five tracks remain official_pdf_fill."
+  },
+  "sourceContractAndMaterialization": {
+    "sourceContractEligible": false,
+    "sourceContractEligibleWhy": "The bytes are retained, adopted and digest-pinned, so the identity side of a contract is satisfiable. The governance side is not: an exact source contract that fed generation would assert a right this programme does not hold.",
+    "materializationEligible": false,
+    "materializationEligibleWhy": "Materialization moves bytes into the sealed root for a worker to consume in generation. Doing that for unlicensed third-party material would put the licence question downstream of the act it governs.",
+    "receiptCreatedByThisJob": false,
+    "receiptPrinciple": "A receipt is evidence custody, not generation permission. Even a byte-perfect receipt for these bundles would not make them generatable, and writing one now would invite exactly that misreading.",
+    "evidenceOnlyPosture": "The retained bundles are correctly held as evidence of identity. That posture is unchanged by this job and is the right one until a licence exists."
+  },
+  "edition13Impact": {
+    "publicationJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+    "editionAmendmentRequired": true,
+    "amendmentKind": "metadata_correction_and_licence_disposition_no_new_bytes",
+    "requiresNewBytes": false,
+    "requiresNewBytesNote": "None. Both bundles are retained at pinned digests.",
+    "requiresMetadataCorrection": true,
+    "requiresMetadataCorrectionDetail": "All four rows record currentEditionStatus authority_unmanifested_source with requiredAcquisition 'Acquire the current official binary from the issuing authority and manifest it.' Two of the four additionally record repositoryStatus repository_path_recorded_but_no_registry_row. All of that describes an acquisition gap. There is none \u2014 the bundles are retained and adopted. The correct record is available, unlicensed, and mapped onto two bundles.",
+    "requiresLicenceDisposition": true,
+    "requiresLicenceDispositionDetail": "Every Indiana packet row should carry an explicit unlicensed-third-party-material disposition so that generation_allowed=no is legible as a governance decision rather than as an unfinished gate.",
+    "requiresIdentityMapping": true,
+    "requiresIdentityMappingDetail": "Four identities onto two bundles with page ranges for the Section 1 pair, retaining all four mappings.",
+    "requiresRoleCorrection": false,
+    "requiresScopeCorrection": false,
+    "requiresRevisionCorrection": false,
+    "edition12Treatment": "immutable_unchanged",
+    "publicationPerformed": false
+  },
+  "doNotSubstitute": [
+    {
+      "documentId": "CCA-SECTION1-INSERTS",
+      "why": "The Facts, Findings and Exhibit insert bundle, retained separately at REV-2020-01. The Section 1 petition-and-order bundle's pages 4, 10 and 11 are placeholders instructing the filer to remove them and insert from this asset. It is a companion, not the petition or the order."
+    },
+    {
+      "documentId": "CCA-SECTION1-INSTRUCTIONS and CCA-XP-0320-7000B",
+      "why": "Instructions for the non-conviction and conviction routes. Retained, and neither is filable."
+    },
+    {
+      "documentClass": "an Indiana Office of Judicial Administration form offered as a licence-free equivalent",
+      "why": "Form ACR is the only OJA document in the Indiana set and it is a notice, not a petition. There is no state-published equivalent of the Coalition petitions to substitute, which is precisely why the licence gate is load-bearing."
+    },
+    {
+      "documentClass": "a county reproduction of the Coalition forms",
+      "why": "A county copy of third-party material carries the same licence question and adds a scope defect."
+    },
+    {
+      "documentClass": "a drafted custom pleading",
+      "why": "Expressly prohibited by the stop condition. See routeMustNotBeRelabelled."
+    }
+  ],
+  "implementationFamilyEffect": {
+    "family": "rcap-in-official-pdf-family",
+    "affectedTracks": 5,
+    "affectedComponents": 10,
+    "effectOfThisJob": "Four Indiana identities move from an apparent acquisition gap to a recorded licence gap, mapped onto two retained bundles with page ranges for the Section 1 pair. The distinction matters because the two states call for opposite work: an acquisition gap needs a retrieval, and this needs a written permission. No acquisition should now be scheduled for Indiana.",
+    "familyReadinessStatement": "The Indiana official-PDF family remains fail-closed and this job does not move it. generation_allowed stays no on every Indiana row, no licence is adopted, no receipt exists, no materialization is permitted, runtime is disabled and no field map is built. Every one of the five assigned tracks takes its primary filing from unlicensed third-party material, so the licence gate governs whether Indiana can produce a packet at all.",
+    "netEffect": "The blocker is not removed but it is correctly named, and the wrong remedies \u2014 acquire it again, or relabel the route as custom pleading \u2014 are both foreclosed with reasons."
+  },
+  "terminalDisposition": "available_but_unlicensed_four_identities_resolve_to_two_retained_bundles_generation_remains_prohibited_pending_a_written_licence",
+  "terminalDispositionDetail": {
+    "why": "The narrowest disposition the evidence supports. It is not unresolved_identity: all four resolve onto retained, adopted, digest-pinned bundles with page ranges for two of them. It is not acquisition_required: acquiring again would duplicate binaries, which the stop condition forbids. It is not licensed: no written licence exists. And it is not a custom-pleading route, which the stop condition prohibits and which would hide rather than solve the problem.",
+    "identitiesAssigned": 4,
+    "identitiesResolved": 4,
+    "bundlesTheyResolveTo": 2,
+    "mappingsRetained": 4,
+    "binariesDuplicated": 0,
+    "licencesObtained": 0,
+    "generationAllowedChanged": false,
+    "routeRelabelled": false
+  },
+  "expectedDownstreamEffect": "Indiana stops looking like an acquisition problem and is recorded as what it is: material that is entirely available and not permitted. Four dossier identities resolve onto two retained bundles \u2014 the fifteen-page Section 1 petition-and-order bundle, with the petition at pages 3 to 6 and the order at pages 9 to 15, and the three conviction inserts \u2014 with all four mappings retained and no binary duplicated. The permission gate is stated as a governance decision rather than an unfinished acquisition, so no retrieval is scheduled and no receipt is written that could be misread as authorization. The two wrong remedies are foreclosed: re-acquiring the bundles, and relabelling the route as custom pleading. No publisher is contacted, no licence is sought or obtained, no binary enters version control, no receipt is created, no component is rebound, no adopted strategy is altered, no memo is edited, no edition is published, no packet becomes generatable, no runtime is enabled and no track changes promotion state.",
+  "residualBlockers": [
+    {
+      "id": "in-written-licence-absent",
+      "question": "No written licence for Coalition for Court Access material is adopted, and every Indiana primary filing depends on it.",
+      "status": "blocked_human_only",
+      "owner": "the programme owner and counsel",
+      "why": "Obtaining a licence requires publisher contact and terms review. Expressly outside this assignment.",
+      "severity": "governs the whole jurisdiction",
+      "reopenCondition": "A written licence adopted into the repository and pinned."
+    },
+    {
+      "id": "in-edition-rows-describe-an-acquisition-gap",
+      "question": "Four rows record authority_unmanifested_source with a retrieval instruction for material that is retained.",
+      "status": "handed_off",
+      "owner": "rcap-nationwide-master-library-edition-1-3-publication"
+    },
+    {
+      "id": "in-conviction-order-location",
+      "question": "Which conviction insert carries the conviction order, or whether it is a section of each.",
+      "status": "open_and_outside_this_job",
+      "owner": "the component-remap lane",
+      "why": "Not established here and not assumed. The conviction petition and order identities both map to the same insert set."
+    },
+    {
+      "id": "in-section1-placeholder-pages",
+      "question": "Pages 4, 10 and 11 of the Section 1 bundle are remove-and-insert instruction sheets.",
+      "status": "open_and_outside_this_job",
+      "owner": "the Indiana implementation lane"
+    },
+    {
+      "id": "in-bundle-currentness",
+      "question": "The Section 1 bundle is retained at SOURCE-2021 and the conviction inserts at REV-2020-02; currentness rests on a 2026-08-03 confirmation.",
+      "status": "open",
+      "owner": "acquisition owner",
+      "why": "Secondary to the licence gate \u2014 there is no point refreshing bytes that may not be reproduced."
+    }
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "sourcesMaterialized": 0,
+    "sourceReceiptCountUnchanged": true,
+    "memoEdited": false,
+    "editionPublished": false,
+    "editionMutated": false,
+    "rendererImplemented": false,
+    "packetImplemented": false,
+    "componentRebound": false,
+    "generationAllowedChanged": false,
+    "routeRelabelledAsCustomPleading": false,
+    "binariesDuplicated": 0,
+    "publisherContacted": false,
+    "licenceObtained": false,
+    "integrationPerformed": false,
+    "promotionPerformed": false,
+    "migrationPerformed": false,
+    "deploymentPerformed": false
+  }
+}

@@ -1,0 +1,223 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-mo-direct-issuer-request",
+  "parentJobId": "AUTH-03-acquisition-campaign-tier-1",
+  "jurisdiction": "MO",
+  "lane": "source_acquisition",
+  "strategyFamily": "direct_issuer_request",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "db1d5d24989d81f7c5dd009101f7bc5532a8b8f7",
+  "shard": "F2",
+  "generatedOn": "2026-08-08",
+  "acquisitionIds": ["acquire:MO:cr143", "acquire:MO:cr310", "acquire:MO:cr311", "acquire:MO:cr370"],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero. This job prepares a request; it does not send one and does not download. No issuer was contacted, nothing entered version control and no receipt was created.",
+  "generatedFrom": [
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/authority.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-mo-official-download-automation-blocked.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-03-acquisition-campaign-tier-1.json"
+  ],
+  "method": {
+    "description": "Preparation of a bounded direct request to the Missouri Office of the State Courts Administrator for four documents that are identified by number and title but for which no revision is published in any reachable source. The request is drafted, scoped and recorded here. It is not sent, and sending requires separate authorization the assignment expressly withholds.",
+    "requestPrepared": true,
+    "requestSent": false,
+    "requestSentNote": "The stop condition reads 'Do not send it without separate authorization.' No authorization exists in this assignment, so the request is prepared and left unsent.",
+    "issuerContactsMade": 0,
+    "binariesDownloaded": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "binariesCommitted": 0,
+    "editionMutated": false,
+    "memoAltered": false,
+    "componentRebound": false,
+    "assignmentConstraintObserved": "The stop condition requires preparing a bounded issuer request, recording its exact disposition, not sending it without separate authorization, and never relabelling a direct-request source as a failed download. All four are observed. The disposition is recorded as prepared-and-unsent, which is neither an acquisition nor a failure."
+  },
+  "finding": {
+    "headline": "Four Missouri documents are identified by number, title and issuing authority but have no published revision anywhere reachable, and none is retained. They are not download failures — they are documents whose revision the issuer has never published in a form this programme can read, which is why the assigned strategy is a direct request rather than a download.",
+    "whyNotADownload": "The three download-strategy Missouri identities in the sibling job are refused by a Cloudflare mitigation. These four are different: even were the site reachable, the queue records for each that it is 'identified by number and title; no revision published in a reachable source.' The gap is publication, not access, and asking the issuer is the designed remedy.",
+    "mustNotBeRelabelled": "Recording these as failed downloads would erase that distinction and would send a later worker to retry a retrieval that was never the right instrument."
+  },
+  "assignedIdentities": [
+    {
+      "acquisitionKey": "acquire:MO:cr143",
+      "documentId": "CR143",
+      "officialTitle": "Petition for Expungement of Arrest Records, SJRC",
+      "role": "proposed_order",
+      "boundComponents": 1,
+      "editionStatus": "authority_unmanifested_source",
+      "retained": false,
+      "revisionPublished": false,
+      "revisionNote": "Identified by number and title; no revision published in a reachable source.",
+      "adjacencyCaution": "The edition separately retains MO:CR145:PETITION:EN, 'Petition for Expungement of Arrest Records', REV-2024-04, as a packet_form. CR143 and CR145 share almost the whole title and differ by two digits. CR143's assigned role here is proposed_order while CR145 is the petition, so they are not the same instrument despite the shared name and must not be conflated."
+    },
+    {
+      "acquisitionKey": "acquire:MO:cr310",
+      "documentId": "CR310",
+      "officialTitle": "Petition for Correction of Arrest/Court Records — Identity Theft",
+      "role": "proposed_order",
+      "boundComponents": 1,
+      "editionStatus": "authority_unmanifested_source",
+      "retained": false,
+      "revisionPublished": false,
+      "pairing": "CR310 is the order paired with CR300, the identity-theft petition, which is retained at REV-2010-04 and is under a suspected 01/01/25 reissue recorded by the sibling automation-blocked job. The petition and its order should be confirmed together."
+    },
+    {
+      "acquisitionKey": "acquire:MO:cr311",
+      "documentId": "CR311",
+      "officialTitle": "Petition for Expungement — Mistaken Identity, OSCA",
+      "role": "proposed_order",
+      "boundComponents": 1,
+      "editionStatus": "authority_unmanifested_source",
+      "retained": false,
+      "revisionPublished": false,
+      "pairing": "CR311 is the order paired with CR301, the mistaken-identity petition retained at REV-2017-07 and likewise under the suspected 01/01/25 reissue."
+    },
+    {
+      "acquisitionKey": "acquire:MO:cr370",
+      "documentId": "CR370",
+      "officialTitle": "Petition for Expungement — Section 610.140, RSMo., SJRC",
+      "role": "proposed_order",
+      "boundComponents": 2,
+      "boundComponentsNote": "the widest reach of the four",
+      "editionStatus": "authority_unmanifested_source",
+      "retained": false,
+      "revisionPublished": false,
+      "revisionNote": "Identified by number and title in the Missouri Courts index and in circuit clerk form indexes; no revision published in a reachable source.",
+      "pairing": "CR370 is the order paired with CR360, the § 610.140 general expungement petition retained at REV-2024-10 as a packet_form. The edition's own note on CR360 records that its 'companion judgment/order remains missing' — CR370 is that companion.",
+      "significance": "This is the most consequential of the four. CR360 is a current, adopted, packet-candidate petition whose order has never been obtained, so the § 610.140 route can produce a petition with no order to accompany it."
+    }
+  ],
+  "allFourAreOrders": {
+    "observation": "Every one of the four assigned identities carries the role proposed_order.",
+    "consequence": "This job is, in substance, the Missouri proposed-order gap. Missouri's petitions are largely retained — CR145, CR360, CR375 at 2024 revisions, CR300 and CR301 older — while the orders that accompany them are not retained at all.",
+    "designQuestionNotDecidedHere": "Whether a Missouri petitioner lodges a proposed order, and whether a packet should generate one, is a legal-design question. This lane records that the documents exist, are identified, and are unobtained."
+  },
+  "preparedRequest": {
+    "status": "prepared_not_sent",
+    "recipient": "Missouri Office of the State Courts Administrator",
+    "recipientBasis": "the issuing authority recorded on all four queue rows and the publisher of the Missouri Courts forms index",
+    "channelNotSelected": "No channel is chosen here. Selecting one and sending is the authorized human step.",
+    "scope": "bounded to the four assigned documents and to two questions per document",
+    "questionsPerDocument": [
+      "What is the current revision or OSCA stamp of the form, as printed on its face?",
+      "Where is the current official copy published, or may a copy be provided?"
+    ],
+    "whatItDoesNotAsk": [
+      "No licence, redistribution or commercial-use permission is requested. That is a separate gate and a separate authorization.",
+      "No bulk or programmatic access is requested.",
+      "No access accommodation around the Cloudflare mitigation is requested — that is the sibling job's attended-retrieval remedy, not a matter for the issuer."
+    ],
+    "requestBody": "Request to the Office of the State Courts Administrator for the current revision and official publication location of four Missouri court forms: CR143 Petition for Expungement of Arrest Records; CR310 Petition for Correction of Arrest/Court Records — Identity Theft; CR311 Petition for Expungement — Mistaken Identity; and CR370 Petition for Expungement — Section 610.140, RSMo. For each, the printed revision or OSCA stamp on the current form face, and the current official publication location. No other information is sought.",
+    "expectedDisposition": "One of: the issuer publishes the revision and location, closing all four; the issuer supplies copies, converting these to retained assets pending a licence position; or the issuer declines or does not respond, in which case the identities stay unmanifested and the disposition is recorded as issuer_did_not_supply rather than as a download failure.",
+    "authorizationRequired": true,
+    "authorizationRequiredDetail": "Sending is contact with a government office on behalf of this programme. The assignment withholds it and nothing here should be read as authorizing it."
+  },
+  "sourceAvailabilityAndStructure": {
+    "officialIndexUrl": "https://www.courts.mo.gov/page.jsp?id=191585",
+    "indexAccessibility": "the recorded index sits on a host that refuses automated retrieval with a Cloudflare mitigation at HTTP 403, established by the sibling job in this shard",
+    "binaryExists": "presumed, on the strength of the issuer indexing all four by number and title; not observed",
+    "bytes": null,
+    "sha256": null,
+    "mimeType": null,
+    "pages": null,
+    "geometry": null,
+    "encryption": null,
+    "xfa": null,
+    "fields": null,
+    "widgets": null,
+    "whyAllNull": "No document was obtained and none is retained. Recording measurements would be inventing them.",
+    "supersession": "not_established",
+    "revision": "unpublished_in_any_reachable_source_for_all_four"
+  },
+  "sourceContractAndMaterialization": {
+    "sourceContractEligible": false,
+    "sourceContractEligibleWhy": "No bytes, no digest, no revision. Nothing to pin.",
+    "materializationEligible": false,
+    "materializationEligibleWhy": "Materialization presupposes a retained document. None of the four is retained.",
+    "receiptCreatedByThisJob": false,
+    "receiptPrinciple": "A receipt is evidence custody. There is no evidence to take custody of."
+  },
+  "licensing": {
+    "status": "not_assigned_and_not_answered",
+    "note": "The queue records no commercial-use question on these rows. The prepared request deliberately does not ask for permission, because availability and permission are separate gates and mixing them into one approach would confuse both."
+  },
+  "doNotSubstitute": [
+    {"documentId": "CR145", "why": "'Petition for Expungement of Arrest Records', REV-2024-04, retained and adopted. It shares nearly the whole title with CR143 and differs by two digits, and it is a petition where CR143 is assigned as an order. The single easiest wrong pick in the Missouri set."},
+    {"documentId": "CR360", "why": "The § 610.140 petition, REV-2024-10, retained. CR370 is its companion order, not the petition itself."},
+    {"documentId": "CR300 and CR301", "why": "The identity-theft and mistaken-identity petitions, retained and handled by the sibling automation-blocked job. CR310 and CR311 are their orders."},
+    {"documentClass": "a circuit clerk's local order template", "why": "Circuit clerk form indexes list CR370 by number, which will surface local reproductions. A local template is not the OSCA form and must not be promoted to statewide."},
+    {"documentClass": "a drafted proposed order", "why": "Missouri's tracks are official-form routes. Drafting an order because the official one is unobtained would change an adopted strategy, which is not this job's to do."}
+  ],
+  "edition13Impact": {
+    "publicationJobId": "rcap-nationwide-master-library-edition-1-3-publication",
+    "editionAmendmentRequired": true,
+    "amendmentKind": "metadata_correction_now_plus_four_new_rows_if_the_request_succeeds",
+    "requiresNewBytes": true,
+    "requiresNewBytesDetail": "None of the four is retained. Four new rows are needed and the bytes depend on the issuer.",
+    "requiresMetadataCorrection": true,
+    "requiresMetadataCorrectionDetail": "All four rows record requiredAcquisition 'Acquire the current official binary from the issuing authority and manifest it', which reads as an ordinary download instruction. The correct record is that the revision is unpublished and the designed remedy is a direct issuer request, not a retrieval.",
+    "requiresRoleCorrection": false,
+    "requiresScopeCorrection": false,
+    "requiresLicenseDisposition": false,
+    "cr360CompanionNote": "The CR360 row's own note records that its companion judgment/order remains missing. Once CR370 is obtained, that note resolves.",
+    "edition12Treatment": "immutable_unchanged",
+    "publicationPerformed": false
+  },
+  "implementationFamilyEffect": {
+    "family": "rcap-mo-official-pdf-family",
+    "affectedTracks": 5,
+    "affectedComponents": 5,
+    "effectOfThisJob": "The Missouri proposed-order gap is named as a gap of publication rather than of access, a bounded request is drafted and ready for an authorized sender, and the four order-to-petition pairings are recorded so the issuer can be asked once rather than four times. No family is unlocked.",
+    "familyReadinessStatement": "The Missouri official-PDF family remains fail-closed and this job does not move it. None of the four is retained, the sibling download job is blocked, the § 610.140 route still has a petition without an order, generation is not permitted and runtime is disabled.",
+    "netEffect": "The remaining Missouri work is now two clearly separated human actions: one attended browser session for the three blocked downloads, and one authorized issuer contact for these four unpublished revisions."
+  },
+  "terminalDisposition": "direct_issuer_request_prepared_and_unsent_four_orders_identified_with_no_published_revision_and_none_retained",
+  "terminalDispositionDetail": {
+    "why": "The narrowest disposition the evidence supports. It is not a failed download, which the stop condition forbids and which would misdescribe the gap. It is not unresolved_identity: all four are identified by number, title, role and issuing authority. It is not acquisition_required in the retrieval sense — the designed instrument is a request, and it is prepared. What remains is an authorization this assignment does not grant.",
+    "identitiesAssigned": 4,
+    "identitiesIdentified": 4,
+    "identitiesRetained": 0,
+    "requestsPrepared": 1,
+    "requestsSent": 0,
+    "binariesObtained": 0,
+    "relabelledAsFailedDownload": false
+  },
+  "expectedDownstreamEffect": "Four Missouri proposed orders are recorded as documents whose revision the issuer has never published in a reachable source, which is a different condition from the Cloudflare refusal affecting the sibling Missouri identities and calls for a different remedy. A single bounded request covering all four is drafted, scoped to revision and publication location only, deliberately excluding any licence or access request, and left unsent pending the authorization the assignment withholds. Each order is paired to the petition it accompanies, including CR370 to CR360, whose edition row already records that its companion order is missing. The CR143 versus CR145 near-miss is named. No issuer is contacted, no binary is obtained, no receipt is created, nothing enters version control, no source is relabelled a failed download, no component is rebound, no memo is edited, no edition is published, no runtime is enabled and no track changes promotion state.",
+  "residualBlockers": [
+    {"id": "mo-direct-request-authorization", "question": "The prepared request cannot be sent without separate authorization.", "status": "blocked_human_only", "owner": "the programme owner", "why": "Contact with a government office on this programme's behalf. Expressly withheld by the assignment.", "reopenCondition": "An authorized sender transmits the prepared request."},
+    {"id": "mo-four-orders-unretained", "question": "CR143, CR310, CR311 and CR370 are unretained with no revision, digest or structure.", "status": "blocked", "owner": "acquisition owner"},
+    {"id": "mo-cr360-companion-order", "question": "The adopted § 610.140 petition CR360 has no companion order, and CR370 is it.", "status": "blocked", "owner": "acquisition owner", "severity": "highest of the four", "why": "A current adopted packet-candidate petition whose order cannot be produced."},
+    {"id": "mo-order-lodging-design", "question": "Whether a Missouri petitioner lodges a proposed order at all.", "status": "open_and_outside_this_job", "owner": "the Missouri legal-design owner"},
+    {"id": "mo-cr143-versus-cr145", "question": "CR143 is assigned as an order while the retained CR145 is a petition of almost the same title.", "status": "open", "owner": "the issuer request", "why": "The prepared request's title-and-revision question resolves it."}
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "sourceReceiptsCreated": 0,
+    "sourcesMaterialized": 0,
+    "sourceReceiptCountUnchanged": true,
+    "memoEdited": false,
+    "editionPublished": false,
+    "editionMutated": false,
+    "rendererImplemented": false,
+    "packetImplemented": false,
+    "componentRebound": false,
+    "issuerContacted": false,
+    "requestSent": false,
+    "relabelledAsFailedDownload": false,
+    "integrationPerformed": false,
+    "promotionPerformed": false,
+    "migrationPerformed": false,
+    "deploymentPerformed": false
+  }
+}

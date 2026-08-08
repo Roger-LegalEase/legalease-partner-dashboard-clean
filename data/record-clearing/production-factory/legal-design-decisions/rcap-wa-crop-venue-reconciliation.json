@@ -1,0 +1,282 @@
+{
+  "schemaVersion": 1,
+  "specificationId": "rcap-wa-crop-venue-reconciliation",
+  "jobId": "rcap-wa-crop-venue-reconciliation",
+  "jurisdiction": "WA",
+  "jurisdictionName": "Washington",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "preparedOn": "2026-08-08",
+  "preparer": "Session D1 legal-design worker, executing rcap-wa-crop-venue-reconciliation",
+  "baseCommit": "2faea1123246a3f7095f4f17d6f82f29f158f7e1",
+  "decisionSource": "RCW 9.97.010 and RCW 9.97.020 read in full at the Washington State Legislature's own publication; the Administrative Office of the Courts' published Certificate of Restoration of Opportunity pattern form set and its Instructions, at the Washington Courts' own forms site. Read against the integrated Washington legal-design memo, the normalized track registry and the authoritative blocker ledger.",
+  "whatThisDocumentIs": "The decision record that settles venue for wa_crop_certificate_of_restoration. The integrated memo carried a release blocker asking which superior courts have declined to consider certificate applications, on the reasoning that RCW 9.97.020 permits certain superior courts to decline and a packet must not send a participant to a court that will not hear them; its geography and destination both told the participant to confirm the receiving court with the clerk before filing. That question turns out to be the wrong question, and the statute answers the right one on its own face. The record also resolves, within the assignment's terms, the correct form. It amends no memo, regenerates no registry, implements nothing and asserts no counsel approval.",
+  "scopeOfThisJob": {
+    "ownedPath": "data/record-clearing/production-factory/legal-design-decisions/rcap-wa-crop-venue-reconciliation.json",
+    "memoAmended": false,
+    "memoPath": "data/record-clearing/legal-design-intake/WA.memo.json",
+    "memoSha256AtDecision": "edf0f86c7eee382f6c0666e3a400b4b41bb5ffadc3a51610c12aacd6fe93b2f8",
+    "globalRegistryRegenerated": false,
+    "rendererImplemented": false,
+    "sourceMaterialized": false,
+    "runtimeOrPromotionChanged": false,
+    "trackTouched": "None. This record adjudicates a question about wa_crop_certificate_of_restoration and writes only itself.",
+    "questionsExpresslyNotReached": "The twelve other Washington tracks are untouched, including the two clean vacatur routes and the nine official_pdf_fill vacatur tracks. The memo's separate release blocker about which counties impose additional local requirements on a vacation petition, and what the vacation filing fees are in district, municipal and superior court, concerns the vacatur family and is not this track's question; nothing here resolves it."
+  },
+  "questionPresented": {
+    "theQuestion": "Under RCW 9.97.020, which court may a certificate application statutorily be filed in, and which courts will actually entertain it — the assignment requires those to be answered as two questions rather than one.",
+    "whyItMattered": "The memo's design made the participant confirm the receiving court with the clerk before filing, which is a routing step the product cannot verify and cannot generate around. If the practical venue really were unknowable in advance, one statewide packet would be impossible and the track would need county-specific routing.",
+    "whyItWasOpen": "The memo read the statute for eligibility, effect and the exemption list, and correctly noticed that the section lets certain superior courts decline. It did not reach the sentence that says which court may not decline."
+  },
+  "methodNote": "The assignment forbids resolving the venue by choosing the convenient reading and forbids stating that a court will hear an application unless official authority supports it. Both are satisfied the same way: the answer is not an inference about what courts do, it is a statutory prohibition on what one court may do. The statute was read in full rather than for the operative subsection, which is how the decline provision's second half was found. The Administrative Office of the Courts' own instructions were then read as the state's own account of what a participant is told, and they agree with the statute in terms.",
+  "controllingSources": [
+    {
+      "kind": "codified_statute",
+      "citation": "RCW 9.97.010(2), Definitions — \"Qualified court\"",
+      "issuer": "Washington State Legislature",
+      "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=9.97.010",
+      "retrievedOn": "2026-08-08",
+      "verbatimText": "\"Qualified court\" means any Washington superior court in the county where an applicant resides or that has sentenced or adjudicated the applicant. If the sentencing or adjudicating court was a court of limited jurisdiction then a qualified court is the superior court in the county of the applicant's conviction or adjudication.",
+      "historyNote": "[ 2016 c 81 s 2 .]",
+      "operativeFinding": "Venue is defined, closed and always superior court. There are at most two qualified courts for any applicant: the superior court of the county of residence, and the superior court of the county of conviction or adjudication. Where the conviction was in a district or municipal court, the qualified court is the superior court in that county — the court of limited jurisdiction that convicted the applicant is never itself a qualified court.",
+      "weight": "controlling"
+    },
+    {
+      "kind": "codified_statute",
+      "citation": "RCW 9.97.020, Certificate of restoration of opportunity",
+      "issuer": "Washington State Legislature",
+      "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=9.97.020",
+      "retrievedOn": "2026-08-08",
+      "historyNote": "[ 2021 c 219 s 3 ; 2017 3rd sp.s. c 6 s 806 ; 2017 c 281 s 35 ; 2016 c 81 s 3 .]",
+      "operativeFindings": {
+        "subsection 2": "\"A qualified court has jurisdiction to issue a certificate of restoration of opportunity to a qualified applicant.\" The court determines in its discretion whether the certificate applies to all past criminal history or only to the convictions or adjudications in the jurisdiction of the court, and determines whether to issue by determining whether the applicant is a qualified applicant as defined in RCW 9.97.010.",
+        "subsection 6": "\"In all cases, an applicant must provide notice to the prosecutor in the county where he or she seeks a certificate of restoration of opportunity of the pendency of such application. If the applicant has been sentenced by any other jurisdiction in the five years preceding the application for a certificate, the applicant must also notify the prosecuting attorney in those jurisdictions. The prosecutor in the county where an applicant applies for a certificate shall provide the court with a report of the applicant's criminal history.\"",
+        "subsection 7": "\"Application for a certificate of restoration of opportunity must be filed as a civil action.\"",
+        "subsection 8": "\"A superior court in the county in which the applicant resides may decline to consider the application for certificate of restoration of opportunity. If the superior court in which the applicant resides declines to consider the application, the court must dismiss the application without prejudice and the applicant may refile the application in another qualified court. The court must state the reason for the dismissal on the order. If the court determines that the applicant does not meet the required qualifications, then the court must dismiss the application without prejudice and state the reason(s) on the order. The superior court in the county of the applicant's conviction or adjudication may not decline to consider the application.\"",
+        "subsection 9": "\"Unless the qualified court determines that a hearing on an application for certificate of restoration is necessary, the court must decide without a hearing whether to grant the certificate of restoration of opportunity based on a review of the application filed by the applicant and pleadings filed by the prosecuting attorney.\"",
+        "subsection 10": "The clerk of the court in which the certificate is granted transmits it to the Washington State Patrol identification section, which updates its records.",
+        "subsection 11": "\"The administrative office of the courts shall develop and prepare instructions, forms, and an informational brochure designed to assist applicants applying for a certificate of restoration of opportunity.\" The instructions must include \"at least, a sample of a standard application and a form order\"; masters were to be distributed to all county clerks and all superior courts by January 1, 2017; translations into the significant non-English-speaking languages of the state were to be distributed by the same date; and the office must update them when changes in the law make an update necessary."
+      },
+      "theDecisiveSentence": "The last sentence of subsection (8). The power to decline is given to one court and expressly withheld from the other, so the venue question has a guaranteed answer that does not depend on any court's practice.",
+      "weight": "controlling"
+    },
+    {
+      "kind": "state_court_administrator_form_set",
+      "citation": "Certificate of Restoration of Opportunity pattern forms, Washington Courts, published by the Administrative Office of the Courts under RCW 9.97.020(11)",
+      "issuer": "Washington State Administrative Office of the Courts",
+      "url": "https://www.courts.wa.gov/forms/?fa=forms.contribute&formID=102",
+      "retrievedOn": "2026-08-08",
+      "inventory": [
+        {
+          "id": "CROP Brochure",
+          "title": "Certificate of Restoration of Opportunity – Brochure",
+          "revised": "12/2019"
+        },
+        {
+          "id": "CROP Instructions",
+          "title": "Instructions for a Certificate of Restoration of Opportunity",
+          "revised": "01/2020"
+        },
+        {
+          "id": "CRO 01.0100",
+          "title": "Petition for Certificate of Restoration of Opportunity",
+          "revised": "12/2016"
+        },
+        {
+          "id": "CRO 01.0200",
+          "title": "Notice of Filing a Petition for Certificate of Restoration of Opportunity",
+          "revised": "06/2016"
+        },
+        {
+          "id": "CRO 01.0300",
+          "title": "Proof of Service of Notice of Filing a Petition for Certificate of Restoration of Opportunity",
+          "revised": "06/2016"
+        },
+        {
+          "id": "CRO 01.0600",
+          "title": "Order of Dismissal of Petition for Certificate of Restoration of Opportunity",
+          "revised": "06/2016"
+        },
+        {
+          "id": "CRO 01.0700",
+          "title": "Order and Certificate of Restoration of Opportunity",
+          "revised": "06/2016"
+        }
+      ],
+      "translationsPublished": "The forms index publishes static translations in Chinese, Korean, Russian, Spanish and Vietnamese, which is what RCW 9.97.020(11)(d) requires.",
+      "publisherCaveatVerbatim": "\"Note: Additional documents may be required by local county superior court rules.\"",
+      "operativeFinding": "A complete statewide pattern form set exists and has existed since 2016, which is what the statute directed. The set is not a single form: it is a petition, a notice, a proof of service, a dismissal order and the order and certificate, which is the same shape as the memo's own component set.",
+      "weight": "controlling_for_the_form_question"
+    },
+    {
+      "kind": "state_court_administrator_instructions",
+      "citation": "Instructions for a Certificate of Restoration of Opportunity, CROi 01.0100 (12/2019), published 01/2020",
+      "issuer": "Washington State Administrative Office of the Courts",
+      "url": "https://www.courts.wa.gov/forms/documents/CROP%20instructions%20English%202020%2001.pdf",
+      "retrievedOn": "2026-08-08",
+      "pages": 5,
+      "verbatimVenueGuidance": "\"Section 1: You must file your petition in a qualified court. A 'Qualified Court' is the superior court in the county: a. where you live, or b. where you were convicted or adjudicated, or c. where the district or municipal court that convicted you is located. Check the box that applies.\"",
+      "verbatimFilingGuidance": "\"Bring your petition with all your attachments, including the notice/s sent to the prosecuting attorney/ies, to the superior court clerk's office to file.\"",
+      "verbatimFeeGuidance": "\"Filing fee: There is a filing fee for the CROP petition. If you cannot afford to pay the filing fee, you can ask the court for a fee waiver using the GR 34 motion for fee waiver.\" The instructions link the GR 34 fee-waiver form set at https://www.courts.wa.gov/forms/?fa=forms.contribute&formID=87.",
+      "verbatimNoticeGuidance": "\"You must notify the prosecuting attorney of the county where you file your petition. If a court in another county sentenced you within the past five years, you must also send\" notice to that county's prosecuting attorney.",
+      "verbatimOutcomeGuidance": "\"The court may decide to grant the petition without a hearing. The court will send you notice of any hearing. Go to any hearing that the court schedules. The court may dismiss your petition. If the court dismisses your petition, the court must explain the reason for dismissal in the Order of Dismissal of Petition for Certificate of Restoration of Opportunity, form CRO 01.0600. If the court dismissed your petition, you may file again when you've remedied the reason for the dismissal. You may re-file in the same county or in another county with a qualified court.\"",
+      "characterOfTheProceeding": "\"A CROP is a civil court order\" and \"Your papers will be filed as a public court record and will start a civil court case\", which matches RCW 9.97.020(7).",
+      "weight": "controlling_for_what_a_participant_is_told"
+    }
+  ],
+  "sourcesExpresslyNotRelieduponAsProof": [
+    "No commercial compilation, practitioner guide or advocacy page was used to establish any text.",
+    "No inference was drawn from the absence of a reported decision. The venue answer does not depend on case law because the statute forecloses the question.",
+    "No county clerk was contacted and no county practice was sampled. The answer deliberately does not rest on practice."
+  ],
+  "determination": {
+    "1_courtsTheStatuteAuthorizes": "Superior courts only, and at most two of them for any applicant. RCW 9.97.010(2) defines a qualified court as any Washington superior court in the county where the applicant resides or that has sentenced or adjudicated the applicant, and provides that where the sentencing or adjudicating court was a court of limited jurisdiction, the qualified court is the superior court in the county of conviction or adjudication. A district or municipal court is never a qualified court, even where it is the court that convicted the applicant.",
+    "2_courtsWithSubjectMatterJurisdiction": "The same set, and the statute says so directly: RCW 9.97.020(2) provides that a qualified court has jurisdiction to issue a certificate to a qualified applicant. Jurisdiction and authorisation are coextensive here, which is not always true and is why the assignment asked for them separately.",
+    "3_courtsPermittedToDeclineOrTransfer": {
+      "mayDecline": "One only: the superior court in the county in which the applicant resides. If it declines it must dismiss without prejudice, must state the reason on the order, and the applicant may refile in another qualified court.",
+      "mayNotDecline": "The superior court in the county of the applicant's conviction or adjudication. RCW 9.97.020(8) provides in terms that it \"may not decline to consider the application\". This is the finding that resolves the release blocker.",
+      "transfer": "The statute provides no transfer mechanism. The remedy for a declining court is dismissal without prejudice and refiling by the applicant, not transfer by the court. A packet must therefore not tell a participant their case will be moved for them.",
+      "dismissalForNonQualification": "Separate from declining. A court that determines the applicant does not meet the required qualifications must also dismiss without prejudice and state the reasons on the order, and that is available to any qualified court including the court of conviction. Declining to consider and dismissing for non-qualification are different acts with the same procedural consequence, and only the first is confined to the county of residence."
+    },
+    "4_clerkIntakePractice": "Not established, and not needed. The instructions direct the applicant to bring the petition and attachments to the superior court clerk's office to file, and the proceeding is a civil action under RCW 9.97.020(7), so intake is ordinary civil intake. No county-specific intake requirement was located, and none is asserted.",
+    "5_localProceduralVariation": "Real but bounded, and the publisher says so: the Washington Courts forms index carries the note \"Additional documents may be required by local county superior court rules.\" That is a cover-sheet and local-rule question about what accompanies the petition. It does not touch which court may hear it, and it cannot make a court of conviction decline, because the statute forbids that.",
+    "6_participantClerkConfirmation": "A prudent practice step, and it must not be presented as a legal prerequisite. Nothing in RCW 9.97.010, RCW 9.97.020 or the Administrative Office of the Courts' instructions requires a participant to confirm anything with a clerk before filing. The memo's current design — geography.venue and destination.detail both telling the participant to confirm the receiving court before filing — was a reasonable safeguard while the venue was thought to be practice-dependent, but on the statute it is an improper substitute for resolved venue: it hands the participant a question the law has already answered, and it makes generation contingent on an unverifiable step. The right treatment is to route to the court that may not decline and to keep a local-rules check as an ordinary filing instruction about accompanying documents.",
+    "7_exactPermissibleVenue": "The superior court in the county where the applicant resides, or the superior court in the county of the applicant's conviction or adjudication. Where the applicant lives in the county of conviction the two coincide. Where the conviction was in a district or municipal court the qualified court is the superior court of that county.",
+    "8_filingCourtForThePacket": "The superior court in the county of the applicant's conviction or adjudication. That is the recommended route because it is the only one the statute guarantees will be considered. The county of residence remains statutorily available and may be more convenient, and a participant who prefers it may use it, but the packet must tell them plainly that a residence-county superior court may decline, that the consequence is dismissal without prejudice with the reason stated on the order, and that they may then refile in the county of conviction.",
+    "9_participantDestination": "The superior court clerk's office of the chosen qualified county, filed as a civil action, with notice to the prosecuting attorney of that county and to the prosecuting attorney of any other jurisdiction that sentenced the applicant within the preceding five years.",
+    "10_canOneStatewidePacketBeGenerated": "Yes. The venue rule is statewide and closed, the county is a participant input rather than a routing branch, and the state publishes one statewide pattern form set with a county name written at the top of the first page of the petition. Nothing about the mechanism requires a per-county variant.",
+    "11_isCountySpecificRoutingRequired": "No. It would have been required only if the practical venue were unknowable, which is what the memo assumed. The county of conviction cannot decline, so there is always one venue that works and the packet can name it without knowing anything about local practice.",
+    "12_canTheCropTrackBeReleasedToCustomPleading": {
+      "answer": "Not as it stands, and not because of venue.",
+      "venuePart": "The venue release blocker is answered and can be closed. Nothing about venue holds the track back any longer.",
+      "formPart": "The strategy question is now the live one, and it points the other way from the memo. The memo's build blocker recorded that whether a Washington Courts pattern form exists was unresolved and answered it in the negative on the evidence then available. A complete statewide pattern form set exists and has since 2016, published by the Administrative Office of the Courts under a statutory duty: CRO 01.0100 petition, CRO 01.0200 notice, CRO 01.0300 proof of service, CRO 01.0700 order and certificate, plus a dismissal order the court issues, instructions and a brochure. The memo's three generated components map one to one onto CRO 01.0100, CRO 01.0200 with CRO 01.0300, and CRO 01.0700.",
+      "whatFollows": "Whether the track stays custom_pleading or becomes official_pdf_fill is a memo decision that turns on a question this record does not answer: whether the CRO forms are mandatory or merely pattern. RCW 9.97.020(11)(b) requires the instructions to include \"a sample of a standard application and a form order\", and the word sample points toward pattern rather than mandatory. Binding the forms would also require acquiring and pinning five binaries, which is source acquisition and is outside this assignment. The honest position is that the venue blocker is closed, the form finding is handed to the memo amendment, and the track is not released by this record."
+    },
+    "13_buildLevelOrReleaseLevel": {
+      "venue": "Release-level, and now closed. It changed what the participant is told about where to go, not what document is produced.",
+      "form": "Build-level, and now answered rather than closed. The memo classified the form question as a build blocker and was right to: which instrument is generated depends on it. This record supplies the answer; the memo amendment applies it.",
+      "localRules": "Release-level and open. Which counties require additional accompanying documents under local superior court rules is participant-facing filing-instruction copy.",
+      "fee": "Release-level and partly answered. The instructions state that there is a filing fee and that a participant who cannot pay may seek a waiver by GR 34 motion. The amount is not stated by the instructions and is not asserted here."
+    }
+  },
+  "memoAccuracyFindings": {
+    "note": "Three statements in the integrated memo are overtaken by this record. None is within this job's owned path and none is corrected here; all are handed off.",
+    "items": [
+      {
+        "field": "unresolvedQuestions, the venue release blocker",
+        "memoSays": "\"Which superior courts have declined to consider certificate applications, since RCW 9.97.020 permits certain superior courts to do so and the packet must not send a participant to a court that will not hear them.\"",
+        "theStatuteSays": "The question does not need an answer. Only the residence-county superior court may decline, and the superior court in the county of conviction or adjudication may not. Routing to the latter makes the survey unnecessary.",
+        "severity": "the question is answered by being dissolved rather than researched",
+        "owner": "the Washington memo amendment"
+      },
+      {
+        "field": "unresolvedQuestions, the form build blocker",
+        "memoSays": "\"Whether a Washington Courts pattern form exists for an RCW 9.97.020 application ... The review's own note that Part 3 should be revisited if RCW 9.97.020 turns out to have no pattern form is answered in the affirmative on the evidence available.\"",
+        "theRecordSays": "A complete pattern form set exists and has since 2016, mandated by RCW 9.97.020(11) and published by the Administrative Office of the Courts. The memo's conclusion is wrong on this point, and it is the more consequential of the two because it decides the output strategy.",
+        "severity": "substantive; it bears directly on whether the track is custom_pleading or official_pdf_fill",
+        "owner": "the Washington memo amendment, with a source-acquisition job for the five binaries"
+      },
+      {
+        "field": "geography.venue and destination.detail",
+        "memoSays": "That the venue question \"is asked and confirmed with the clerk before filing\" and that \"the receiving court is confirmed before filing\".",
+        "theRecordSays": "Clerk confirmation is prudent practice, not a legal prerequisite, and as a design device it substitutes an unverifiable participant step for a venue the statute fixes. Venue should be stated, with the residence-county decline risk disclosed.",
+        "severity": "design; it is the difference between a packet that routes and a packet that defers",
+        "owner": "the Washington memo amendment"
+      }
+    ]
+  },
+  "affectedTrack": {
+    "trackId": "wa_crop_certificate_of_restoration",
+    "effect": "The venue release blocker is answered. No output strategy change, no component change and no eligibility change is made by this record; the form finding is supplied for the memo amendment to act on. The track stays not packet-ready.",
+    "componentMapping": "For the amendment's benefit: primary_filing corresponds to CRO 01.0100; notice_package corresponds to CRO 01.0200 with CRO 01.0300; proposed_order corresponds to CRO 01.0700. CRO 01.0600 is the court's dismissal order and is not a participant component. records_checklist and filing_instructions remain process guidance.",
+    "tracksNotAffected": "wa_vac_misdemeanor_ordinary, wa_vac_domestic_violence, wa_vac_cannabis, wa_vac_substance_use_disorder, wa_vac_treaty_fishing, wa_vac_homicide_victim_prostitution, wa_vac_survivor_misdemeanor, wa_vac_felony, wa_vac_survivor_felony, wa_vac_post_probation_9_95_240, wa_del_nonconviction and wa_blake_vacatur_and_lfo_refund. Washington keeps thirteen slots and thirteen nodes.",
+    "denominatorEffect": "None. Nothing is added, removed, split or merged."
+  },
+  "residualQuestions": [
+    {
+      "id": "wa-crop-forms-mandatory-or-pattern",
+      "question": "Whether the CRO 01.xxxx forms are mandatory forms that a superior court must accept and a filer must use, or pattern forms a filer may adapt.",
+      "classification": "build_blocker",
+      "isBuildBlocker": true,
+      "whyItIsBuildLevel": "It decides whether the track is official_pdf_fill on the state's forms or custom_pleading conforming to them, which decides what is generated.",
+      "whatWouldSettleIt": "The Washington court rule governing the status of Administrative Office of the Courts forms, read against the statutory word \"sample\" in RCW 9.97.020(11)(b). Not read here.",
+      "owner": "the Washington legal-design owner"
+    },
+    {
+      "id": "wa-crop-form-acquisition",
+      "question": "The five CRO binaries and the instructions have not been acquired, pinned or measured, and no Washington source-materialization receipt exists for them.",
+      "classification": "build_blocker",
+      "isBuildBlocker": true,
+      "note": "Acquisition is outside this assignment, which permits reading official primary authority and no more. The documents were read; nothing was retained, materialized or bound.",
+      "owner": "the source-acquisition lane"
+    },
+    {
+      "id": "wa-crop-local-superior-court-rules",
+      "question": "Which county superior courts require additional documents under local rules, as the Washington Courts forms index warns they may.",
+      "classification": "release_blocker",
+      "isBuildBlocker": false,
+      "whyNotBuildLevel": "It concerns what accompanies the petition, not which instrument is generated or which court hears it. A local-rules check is an ordinary filing instruction.",
+      "owner": "the Washington legal-design owner"
+    },
+    {
+      "id": "wa-crop-filing-fee-amount",
+      "question": "The amount of the superior court civil filing fee for a CROP petition. The instructions confirm a fee exists and that a GR 34 motion for fee waiver is available; they do not state the amount and this record does not assert one.",
+      "classification": "release_blocker",
+      "isBuildBlocker": false,
+      "owner": "the Washington legal-design owner"
+    },
+    {
+      "id": "wa-crop-scope-of-certificate-discretion",
+      "question": "RCW 9.97.020(2)(a) lets the court decide in its discretion whether the certificate covers all past criminal history or only the convictions in that court's jurisdiction. Which way a given court exercises that discretion is not predictable and is not established here.",
+      "classification": "release_blocker",
+      "isBuildBlocker": false,
+      "whyItMatters": "It bears on the choice of venue in a way the participant should understand: filing in the county of conviction guarantees the application is considered, but the certificate a court issues may be limited to that court's own convictions. A participant with convictions in several counties should be told that, not left to discover it.",
+      "owner": "the Washington legal-design owner"
+    },
+    {
+      "id": "wa-crop-declining-county-survey",
+      "question": "Which residence-county superior courts in fact decline, and how often.",
+      "classification": "monitoring_question",
+      "isBuildBlocker": false,
+      "whyItIsOnlyMonitoring": "It was the memo's release blocker and it is downgraded rather than answered. The design no longer depends on it, because the packet routes to the court that may not decline. It would be useful colour for copy about the residence-county option and nothing more.",
+      "owner": "monitor"
+    },
+    {
+      "id": "wa-crop-product-scope-boundary",
+      "question": "A certificate operates on collateral consequences and not on the record, and its exemption list is long. Whether the product should offer it alongside a vacatur route, or only after one, is a product-scope question rather than a legal one.",
+      "classification": "product_scope_boundary",
+      "isBuildBlocker": false,
+      "owner": "product"
+    }
+  ],
+  "requiredCaptainFollowUp": [
+    "This record does not amend WA.memo.json and may not. The venue release blocker still reads as open and should be retired against this record; the geography.venue and destination.detail clerk-confirmation language should be replaced with the statutory venue and the residence-county decline disclosure.",
+    "The form build blocker should be reopened in the opposite direction from the memo's conclusion: the pattern set exists. That amendment should decide custom_pleading against official_pdf_fill, and should commission acquisition of CRO 01.0100, 01.0200, 01.0300, 01.0700 and the instructions.",
+    "The authoritative blocker ledger carries the venue question as an open release blocker on this track and can be closed against this record by its owner.",
+    "The downstream implementation job for this track is the Washington custom-pleading job. This record removes venue from its path and adds a form question it must not guess at."
+  ],
+  "terminalDisposition": "venue_fixed_by_statute_county_of_conviction_may_not_decline_one_statewide_packet_possible_form_question_reopened",
+  "terminalDispositionDetail": {
+    "why": "The narrowest accurate result. It is not unresolved: RCW 9.97.010(2) closes the set of courts and RCW 9.97.020(8) closes the decline question. It is not a readiness statement: a build-level form question is now open, and it is open in the direction the memo did not expect. And it does not assert that any particular court will hear an application as a matter of practice — it relies on a statutory prohibition against declining, which is the only kind of assurance the assignment permits.",
+    "howTheDivergenceWasHandled": "The assignment asked what a participant is told when the statutory venue and the practical venue diverge. On this statute they do not diverge in the way the memo feared: the legislature anticipated the divergence and legislated for it, by letting the residence court decline and forbidding the conviction court to. The participant is told to file in the county of conviction, and is told what happens if they choose their home county instead."
+  },
+  "runtimeEffect": {
+    "packetReadyChanged": false,
+    "packetReady": 0,
+    "memoEdited": false,
+    "globalRegistriesRegenerated": false,
+    "enabledJurisdictionsChanged": false,
+    "launchGateChanged": false,
+    "runtimeStatusChanged": false,
+    "promotionStatusChanged": false,
+    "sourcesMaterialized": 0,
+    "sourceReceiptsCreated": 0,
+    "binariesEnteringVersionControl": 0,
+    "rendererImplemented": false,
+    "editionPublished": false,
+    "issuerContacted": false,
+    "feesPaid": 0,
+    "downloadedSourceCount": 0,
+    "downloadedSourceCountNote": "Public statutory texts and the Administrative Office of the Courts' published instructions were read for adjudication. Nothing was retained as a repository source artifact, materialized, or bound to any component. No acquisition occurred."
+  }
+}
