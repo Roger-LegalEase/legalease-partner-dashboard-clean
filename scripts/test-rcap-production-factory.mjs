@@ -118,16 +118,19 @@ import {
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(SCRIPT_DIR, "..");
 const EXPECTED_BASE = "8df94fbaa66c06bf0ba677ee4f5fb417ad08cdc8";
-// Advanced to the commit that carries the authorized Hawaii HCJDC scope
+// Advanced to the commit that carries the authorized Massachusetts structure
 // correction. source-artifact-registry.json is again the only protected-path
-// change between the previous base and this one, and it is the same false
-// positive the Colorado correction addressed: a scope heuristic reading a
-// mailing address as a court-specific marker, this time on a document that is
-// not a court form at all. The guard still refuses any later change to a
-// protected path; it does not refuse a correction an integrated authority
-// decision established and a captain commit recorded.
+// change between the previous base and this one, and this time it is not a
+// heuristic false positive but a measurement: three rows recorded the 100K
+// petition, TC0021 and TC0057 as clean AcroForms with xfa false, and the
+// official bytes each of them pins carry a full /XFA packet array. The field
+// counts were right and the class was wrong. Each corrected row names the
+// integrated download job that measured it, and the correction is what moves
+// those documents out of the AcroForm lane. The guard still refuses any later
+// change to a protected path; it does not refuse a correction an integrated
+// authority decision established and a captain commit recorded.
 const AUTHORIZED_INTEGRATED_CONTENT_BASE =
-  "4a6c2b2f3edb02fa2acdd5dd84530a00444e4ef2";
+  "d922d553e6846a43072b7862376e4b739234b305";
 const results = [];
 const failures = [];
 
