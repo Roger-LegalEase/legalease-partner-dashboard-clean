@@ -1,0 +1,500 @@
+{
+  "schemaVersion": 1,
+  "specificationId": "va-cc-1201-source-identity-materialization",
+  "jobId": "rcap-va-cc-1201-source-identity-materialization",
+  "jurisdiction": "VA",
+  "jurisdictionName": "Virginia",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "preparedOn": "2026-08-09",
+  "preparer": "Session F source and authority worker, executing rcap-va-cc-1201-source-identity-materialization",
+  "baseCommit": "afc51ba03dc06cdc35e87748897a175791d93c4d",
+  "decisionSource": "The Office of the Executive Secretary's own current forms library at vacourts.gov, read on 2026-08-09: the forms home index, the Circuit Court index, and the Criminal Sealing Forms index and its listing page. Every instrument named below was retrieved from the OES's own static path and measured at first hand with the committed factory PDF inspector. Read against the integrated Virginia legal-design memo and the two tracks assigned to Virginia custom pleading.",
+  "whatThisDocumentIs": "The source-identity record for the CC-1201 series and for the question the normalization pass could not answer: whether the Office of the Executive Secretary publishes a statewide instrument for va_exp_absolute_pardon or va_exp_identity_used_by_another. It amends no memo, regenerates no registry, implements nothing, materializes no binary into custody and asserts no counsel approval.",
+  "scopeOfThisJob": {
+    "ownedPath": "data/record-clearing/production-factory/legal-design-decisions/va-cc-1201-source-identity-materialization.json",
+    "memoAmended": false,
+    "memoPath": "data/record-clearing/legal-design-intake/VA.memo.json",
+    "componentRebound": false,
+    "editionMutated": false,
+    "binariesCommitted": 0,
+    "receiptsWritten": 0,
+    "sourceMaterializedIntoCustody": false,
+    "sourceMaterializedIntoCustodyNote": "The job title carries the word materialization, but this assignment owns a legal-design decision path and not a receipt or an external-custody path. The nine documents below were retrieved and measured transiently in a session scratchpad outside the repository and outside the sealed materialization root, and were retained nowhere. Materialization into custody requires an assignment that owns the receipt, and this is not one."
+  },
+  "questionPresented": {
+    "theQuestion": "Does the Office of the Executive Secretary publish a separate statewide instrument for va_exp_absolute_pardon or va_exp_identity_used_by_another, and what is the identity, role, revision, currentness, scope and status of each instrument in the current CC-1201 series?",
+    "whyItMattered": "It decides the output strategy. If a statewide instrument exists for either route, that route is official-PDF work and the custom pleading is the wrong document.",
+    "whyItWasOpen": "Every plausible CC-1201 and CC-1203 path returned 404 on the normalization pass while CC-1473 retrieved cleanly from the same library. That was recorded, correctly, as a retrieval failure rather than a finding."
+  },
+  "theRetrievalFailureIsExplained": {
+    "cause": "The criminal sealing forms are not served from the general circuit-court static directory. They live under their own subdirectory, /static/forms/circuit/crim_sealing/, behind their own index page at /forms/circuit/crim_sealing/home. CC-1473 sits in the general directory, which is why it retrieved from a path its siblings do not share.",
+    "confirmation": "Requesting cc1201.pdf, cc1201a.pdf, cc1203.pdf, cc1203a.pdf, cc1203b.pdf and cc1206.pdf from /static/forms/circuit/ returns 404 for every one. Requesting the same six names from /static/forms/circuit/crim_sealing/ returns all six.",
+    "alsoStale": "Two index paths recorded in earlier passes are themselves gone: /forms/circuit/circuit.html and /courtadmin/aoc/djs/programs/drc/forms.html both return 404 while /forms/home.html is live. The library was reorganised.",
+    "lesson": "The 404s were a directory-layout fact, not a statement about the forms. The assignment's instruction that failure to find is not proof of absence is vindicated: all six forms exist and are current."
+  },
+  "methodNote": {
+    "everyResponseClassified": "Every retrieval was run through the repository's hardened acquisition-response validator before any digest was reported.",
+    "issuerContacted": false,
+    "clerkContacted": false,
+    "perimeterEncountered": false,
+    "perimeterEvasionAttempted": false,
+    "mirrorOrAggregatorUsed": false,
+    "mirrorOrAggregatorUsedNote": "No unofficial mirror, aggregator or third-party form site was consulted or adopted as authority. Every byte measured came from vacourts.gov.",
+    "measurementBasis": "scripts/rcap-factory-inspect-pdf.mjs, run against the retrieved bytes; form faces read with a text extractor to obtain the printed title, statute line and revision stamp."
+  },
+  "determination": {
+    "1_isThereAStatewideInstrumentForVaExpAbsolutePardon": {
+      "answer": "searched, not found",
+      "whatWasSearched": [
+        "the OES forms home index, enumerated",
+        "the Circuit Court forms index",
+        "the Criminal Sealing Forms index and its full listing page, enumerated to nine documents",
+        "the general circuit static directory by direct request for CC-1470 through CC-1478"
+      ],
+      "whatWasNotSearched": "The OES's district-court libraries, any local circuit court's own published forms, and any OES instrument outside the CC-14xx and criminal-sealing ranges.",
+      "notRecordedAs": "'No such form exists'. That is not established and this record does not say it.",
+      "supportingObservation": "The route's statutory design does not obviously call for a petition form. Va. Code § 2.2-402 routes an absolute pardon from the Secretary of the Commonwealth, and the memo's own design is a written transmittal enclosing the pardon rather than a petition. A jurisdiction that does not require a petition would have no reason to publish one.",
+      "supportingObservationIsNotProof": "It explains why a form might not exist. It does not establish that none does."
+    },
+    "2_isThereAStatewideInstrumentForVaExpIdentityUsedByAnother": {
+      "answer": "searched, not found",
+      "whatWasSearched": "the same libraries and the same direct-request range",
+      "closestPublishedInstrument": "CC-1473, Petition for Expungement Filed in a Circuit Court – Acquittal/Dismissal, which its own face scopes to Va. Code § 19.2-392.2(A).",
+      "whyThatIsNotTheAnswer": "This track runs on § 19.2-392.2(B) through (H). CC-1473's face names subsection (A) and nothing else. The assignment's prohibition on substituting CC-1473 outside § 19.2-392.2(A) is confirmed at source rather than assumed.",
+      "notRecordedAs": "'No such form exists'."
+    },
+    "3_theCc1201SeriesIsASealingSeriesNotAnExpungementSeries": {
+      "finding": "This is the decisive finding and it reframes the assignment's premise. Every instrument in the CC-1201 and CC-1203 series is a sealing instrument under Va. Code § 19.2-392.12 and § 19.2-392.12:1. Neither assigned track is a sealing track: both run on § 19.2-392.2, which is expungement.",
+      "evidence": "Each form's own printed title carries its statute. CC-1201 reads 'PETITION FOR SEALING PURSUANT TO VA. CODE § 19.2-392.12'. CC-1203 reads 'PETITION FOR SEALING PURSUANT TO VA. CODE § 19.2-392.12:1(A) AND/OR (B)'. The index groups them as 'Criminal Sealing Petitions and Motion Forms'.",
+      "consequence": "The CC-1201 series cannot serve either assigned track and must not be bound to either. Sealing and expungement are different remedies with different statutes, different eligibility and different effects.",
+      "doNotSubstitute": "No member of the sealing series may stand in for an expungement instrument on any § 19.2-392.2 route, however close the title looks."
+    },
+    "4_whatTheCc1201SeriesDoesServe": "Virginia's sealing regime. The series is live, current and complete, and it is relevant to any Virginia sealing track the registry carries or later adds. It is recorded here in full so that a future sealing assignment does not have to rediscover the directory move.",
+    "5_mandatoryStandardOrOptional": {
+      "answer": "OES master forms, use not compelled by anything read here",
+      "evidence": [
+        "Every form face carries a '(MASTER)' designation in its footer, which is the OES's own convention for the master copy of a form it maintains.",
+        "The Criminal Sealing Forms index describes them as 'available as Adobe Acrobat PDF documents' designed for completion and printing, and says nothing about compulsory use.",
+        "The index itself warns of local variation: 'Please note that due to the potential for local variations in practice, you may wish to contact the clerk of the relevant circuit court for more information.'"
+      ],
+      "notAsserted": "That no rule or local rule compels them anywhere in Virginia. No court rule was read on this pass and none is cited here.",
+      "scope": "statewide",
+      "scopeBasis": "Published by the Office of the Executive Secretary on the statewide judiciary site, in a statewide library, with no county qualifier. The 'For Circuit Court Use Only' and 'For Circuit and District Courts Use' groupings are court-level, not county-level."
+    },
+    "6_outputStrategyConsequence": {
+      "va_exp_absolute_pardon": "custom_pleading stands. No statewide instrument was found for the route, and the memo's design — a written transmittal to the circuit court of the locality of conviction enclosing the absolute pardon — remains the correct shape.",
+      "va_exp_identity_used_by_another": "custom_pleading stands. No statewide instrument was found for § 19.2-392.2(B) through (H), and CC-1473 is scoped away from it on its own face.",
+      "thisIsANegativeFindingNotAConfirmation": "Both answers rest on 'searched, not found'. They are strong enough to leave the current strategy in place and not strong enough to close the question. If an instrument later surfaces for either route, the strategy decision must be revisited.",
+      "whatWouldChangeIt": "An OES instrument whose face names § 19.2-392.2(B)–(H) or § 19.2-392.2(I)–(L).",
+      "decisionOwner": "the Virginia legal-design owner. This record supplies the source facts; it does not make the memo's strategy decision."
+    }
+  },
+  "instruments": [
+    {
+      "formNumber": "CC-1201",
+      "officialTitle": "Petition for Sealing Pursuant to Va. Code § 19.2-392.12",
+      "titleSource": "the issuer's index and the form's own printed face",
+      "role": "petition",
+      "participantFacing": true,
+      "signatory": "petitioner",
+      "statute": "Va. Code § 19.2-392.12",
+      "remedy": "sealing",
+      "revision": "07/26",
+      "revisionSource": "printed footer: 'FORM CC-1201, (MASTER) 07/26'",
+      "masterDesignation": true,
+      "scope": "statewide",
+      "courtLevel": "Circuit Court use only",
+      "officialUrl": "https://www.vacourts.gov/static/forms/circuit/crim_sealing/cc1201.pdf",
+      "mediaType": "application/pdf",
+      "httpStatus": 200,
+      "acquisitionDisposition": "acquired_public_official_download",
+      "byteLength": 282919,
+      "sha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+      "structure": {
+        "structureClass": "clean_acroform",
+        "pageCount": 4,
+        "pageGeometry": "612 x 792 points, rotation 0, all pages",
+        "encrypted": false,
+        "xfaPresent": false,
+        "logicalFieldCount": 90,
+        "terminalFieldCount": 90,
+        "widgetAnnotationCount": 103,
+        "widgetTypes": ["button", "checkbox", "text"],
+        "signatureBlocks": 2,
+        "duplicateFieldNames": [],
+        "javaScriptPresent": "action buttons present; a 'Clear All Data' control appears on the face, which is a form-reset button rather than a data field"
+      },
+      "servesAssignedTrack": false
+    },
+    {
+      "formNumber": "CC-1201(A)",
+      "officialTitle": "Addendum to Petition for Sealing Pursuant to Va. Code § 19.2-392.12",
+      "role": "addendum",
+      "participantFacing": true,
+      "statute": "Va. Code § 19.2-392.12",
+      "remedy": "sealing",
+      "revision": "07/26",
+      "revisionSource": "printed footer: 'FORM CC-1201(A), (MASTER) 07/26'",
+      "masterDesignation": true,
+      "scope": "statewide",
+      "officialUrl": "https://www.vacourts.gov/static/forms/circuit/crim_sealing/cc1201a.pdf",
+      "mediaType": "application/pdf",
+      "httpStatus": 200,
+      "acquisitionDisposition": "acquired_public_official_download",
+      "byteLength": 175523,
+      "sha256": "01427e4ea4dce8ea5b053bb681556533c1313a8fd362983a9616465acdf6a8ed",
+      "structure": {
+        "structureClass": "clean_acroform",
+        "pageCount": 3,
+        "pageGeometry": "612 x 792 points, rotation 0, all pages",
+        "encrypted": false,
+        "xfaPresent": false,
+        "logicalFieldCount": 97,
+        "terminalFieldCount": 97,
+        "widgetAnnotationCount": 97,
+        "widgetTypes": ["button", "checkbox", "text"],
+        "signatureBlocks": 0,
+        "duplicateFieldNames": []
+      },
+      "relationship": "CC-1201 and CC-1201(A) cross-reference each other on their faces; the addendum extends the master petition and is not a standalone filing.",
+      "servesAssignedTrack": false
+    },
+    {
+      "formNumber": "CC-1203",
+      "officialTitle": "Petition for Sealing Pursuant to Va. Code § 19.2-392.12:1(A) and/or (B)",
+      "role": "petition",
+      "participantFacing": true,
+      "signatory": "petitioner",
+      "statute": "Va. Code § 19.2-392.12:1(A) and/or (B)",
+      "remedy": "sealing",
+      "revision": "07/26",
+      "revisionSource": "printed footer",
+      "masterDesignation": true,
+      "scope": "statewide",
+      "courtLevel": "Circuit Court use only",
+      "officialUrl": "https://www.vacourts.gov/static/forms/circuit/crim_sealing/cc1203.pdf",
+      "mediaType": "application/pdf",
+      "httpStatus": 200,
+      "acquisitionDisposition": "validator_false_negative_see_validatorFinding",
+      "byteLength": 320887,
+      "sha256": "25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a",
+      "structure": {
+        "structureClass": "clean_acroform",
+        "pageCount": 6,
+        "pageGeometry": "612 x 792 points, rotation 0, all pages",
+        "encrypted": false,
+        "xfaPresent": false,
+        "logicalFieldCount": 131,
+        "terminalFieldCount": 131,
+        "widgetAnnotationCount": 131,
+        "widgetTypes": ["button", "checkbox", "text"],
+        "signatureBlocks": 2,
+        "duplicateFieldNames": []
+      },
+      "servesAssignedTrack": false
+    },
+    {
+      "formNumber": "CC-1203(A)",
+      "officialTitle": "Addendum to Petition for Sealing Pursuant to Va. Code § 19.2-392.12:1(A)",
+      "role": "addendum",
+      "statute": "Va. Code § 19.2-392.12:1(A)",
+      "remedy": "sealing",
+      "revision": "07/26",
+      "masterDesignation": true,
+      "scope": "statewide",
+      "officialUrl": "https://www.vacourts.gov/static/forms/circuit/crim_sealing/cc1203a.pdf",
+      "mediaType": "application/pdf",
+      "httpStatus": 200,
+      "acquisitionDisposition": "acquired_public_official_download",
+      "byteLength": 158456,
+      "sha256": "3f9bb4dcc114dc5a36aaf14439841dfd536ca8e84febbc01aca52792dc190da1",
+      "structure": {
+        "structureClass": "clean_acroform",
+        "pageCount": 3,
+        "pageGeometry": "612 x 792 points, rotation 0, all pages",
+        "encrypted": false,
+        "xfaPresent": false,
+        "logicalFieldCount": 96,
+        "terminalFieldCount": 96,
+        "widgetAnnotationCount": 96,
+        "widgetTypes": ["button", "checkbox", "text"],
+        "signatureBlocks": 0,
+        "duplicateFieldNames": []
+      },
+      "servesAssignedTrack": false
+    },
+    {
+      "formNumber": "CC-1203(B)",
+      "officialTitle": "Addendum to Petition for Sealing Pursuant to Va. Code § 19.2-392.12:1(B)",
+      "role": "addendum",
+      "statute": "Va. Code § 19.2-392.12:1(B)",
+      "remedy": "sealing",
+      "revision": "07/26",
+      "masterDesignation": true,
+      "scope": "statewide",
+      "officialUrl": "https://www.vacourts.gov/static/forms/circuit/crim_sealing/cc1203b.pdf",
+      "mediaType": "application/pdf",
+      "httpStatus": 200,
+      "acquisitionDisposition": "acquired_public_official_download",
+      "byteLength": 112343,
+      "sha256": "9ec9a6b12adb3a3f14ec0afd39ddcfab4ec00ec2fa441ff5e1648ffb8b334781",
+      "structure": {
+        "structureClass": "clean_acroform",
+        "pageCount": 2,
+        "pageGeometry": "612 x 792 points, rotation 0, all pages",
+        "encrypted": false,
+        "xfaPresent": false,
+        "logicalFieldCount": 44,
+        "terminalFieldCount": 44,
+        "widgetAnnotationCount": 44,
+        "widgetTypes": ["button", "checkbox", "text"],
+        "signatureBlocks": 0,
+        "duplicateFieldNames": []
+      },
+      "servesAssignedTrack": false,
+      "doNotConflateWithCc1203a": "CC-1203(A) and CC-1203(B) are addenda for different subsections of the same section and are not interchangeable. Their field counts differ by more than a factor of two."
+    },
+    {
+      "formNumber": "CC-1206",
+      "officialTitle": "Motion to Access a Sealed Court Record",
+      "role": "motion",
+      "statute": "the sealing regime; the face is a motion to access rather than to seal",
+      "remedy": "access to a sealed record",
+      "revision": "07/26",
+      "masterDesignation": true,
+      "scope": "statewide",
+      "courtLevel": "Circuit and District Courts",
+      "courtLevelNote": "The only instrument in the set the index places in both court levels.",
+      "officialUrl": "https://www.vacourts.gov/static/forms/circuit/crim_sealing/cc1206.pdf",
+      "mediaType": "application/pdf",
+      "httpStatus": 200,
+      "acquisitionDisposition": "validator_false_negative_see_validatorFinding",
+      "byteLength": 126237,
+      "sha256": "d1fceed9c09b82c7608cd25357ffe734e9735bc036eab931967b560c55ba2b3c",
+      "structure": {
+        "structureClass": "clean_acroform",
+        "pageCount": 3,
+        "pageGeometry": "612 x 792 points, rotation 0, all pages",
+        "encrypted": false,
+        "xfaPresent": false,
+        "logicalFieldCount": 30,
+        "terminalFieldCount": 30,
+        "widgetAnnotationCount": 30,
+        "widgetTypes": ["button", "checkbox", "text"],
+        "signatureBlocks": 0,
+        "duplicateFieldNames": []
+      },
+      "servesAssignedTrack": false,
+      "productScopeNote": "A motion to access a sealed record is the opposite of the product's direction of travel. It is recorded for completeness of the series and is not a packet candidate."
+    },
+    {
+      "formNumber": "CC-1473",
+      "officialTitle": "Petition for Expungement Filed in a Circuit Court – Acquittal/Dismissal",
+      "role": "petition",
+      "participantFacing": true,
+      "signatory": "petitioner",
+      "statute": "Va. Code § 19.2-392.2(A), with § 19.2-392.2(K) also cited on the face",
+      "remedy": "expungement",
+      "revision": "07/26",
+      "revisionSource": "printed footer: 'FORM CC-1473 07/26'",
+      "scope": "statewide",
+      "officialUrl": "https://www.vacourts.gov/static/forms/circuit/cc1473.pdf",
+      "directoryNote": "Served from the general circuit static directory, not from crim_sealing. That is why it retrieved on the normalization pass when its sealing siblings did not.",
+      "mediaType": "application/pdf",
+      "httpStatus": 200,
+      "acquisitionDisposition": "acquired_public_official_download",
+      "byteLength": 120875,
+      "sha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+      "structure": {
+        "structureClass": "clean_acroform",
+        "pageCount": 2,
+        "pageGeometry": "612 x 792 points, rotation 0, all pages",
+        "encrypted": false,
+        "xfaPresent": false,
+        "logicalFieldCount": 40,
+        "terminalFieldCount": 40,
+        "widgetAnnotationCount": 42,
+        "widgetTypes": ["button", "checkbox", "text"],
+        "signatureBlocks": 0,
+        "duplicateFieldNames": []
+      },
+      "servesAssignedTrack": false,
+      "substitutionProhibition": "CC-1473 may not be substituted outside Va. Code § 19.2-392.2(A). Its face names subsection (A) and neither assigned track runs on it. The prohibition the assignment carried is confirmed at source and is reaffirmed here."
+    },
+    {
+      "formNumber": "CC-1201 Instructions",
+      "officialTitle": "Instructions for the CC-1201 sealing petition",
+      "role": "instructions",
+      "participantFacing": true,
+      "filed": false,
+      "officialUrl": "https://www.vacourts.gov/static/forms/circuit/crim_sealing/cc1201inst.pdf",
+      "mediaType": "application/pdf",
+      "httpStatus": 200,
+      "acquisitionDisposition": "acquired_public_official_download",
+      "byteLength": 788156,
+      "sha256": "516bf45ab58cccbf52683752bd4542cdc675034e2bf5592e48c2f552c51ccb6b",
+      "servesAssignedTrack": false
+    },
+    {
+      "formNumber": "CC-1203 Instructions",
+      "officialTitle": "Instructions for the CC-1203 sealing petition",
+      "role": "instructions",
+      "filed": false,
+      "officialUrl": "https://www.vacourts.gov/static/forms/circuit/crim_sealing/cc1203inst.pdf",
+      "mediaType": "application/pdf",
+      "httpStatus": 200,
+      "acquisitionDisposition": "acquired_public_official_download",
+      "byteLength": 928192,
+      "sha256": "b1829409cec3abfb587ee9120d479e812db68d377808329966219d1c8a2a655d",
+      "servesAssignedTrack": false
+    },
+    {
+      "formNumber": "CC-1206 Instructions",
+      "officialTitle": "Instructions for the CC-1206 motion",
+      "role": "instructions",
+      "filed": false,
+      "officialUrl": "https://www.vacourts.gov/static/forms/circuit/crim_sealing/cc1206inst.pdf",
+      "mediaType": "application/pdf",
+      "httpStatus": 200,
+      "acquisitionDisposition": "acquired_public_official_download",
+      "byteLength": 162709,
+      "sha256": "6d54c24c8f90cd5f7255ae33ccc0b29819d88138d6cb66038349393a47e4231c",
+      "servesAssignedTrack": false
+    }
+  ],
+  "validatorFinding": {
+    "severity": "high",
+    "finding": "The repository's hardened acquisition-response validator returns a false negative on two genuine official PDFs.",
+    "affected": ["CC-1203", "CC-1206"],
+    "symptom": "HTTP 200, content-type application/pdf, no perimeter and no block signature, yet the validator fails them at the expected_structure check with 'no page objects found' and refuses to emit a digest.",
+    "proofTheDocumentsAreSound": [
+      "pdfinfo parses both: CC-1203 is 6 pages, CC-1206 is 3 pages, both letter, both AcroForm, neither encrypted.",
+      "The committed factory PDF inspector parses both and reports clean_acroform with full field inventories — 131 fields on CC-1203 and 30 on CC-1206.",
+      "Both begin with the %PDF-1.6 signature.",
+      "Two independent HTTP clients returned byte-identical responses: CC-1203 at 320887 bytes sha256 25d08cb3…, CC-1206 at 126237 bytes sha256 d1fceed9…. The discrepancy is in the validator, not the transport."
+    ],
+    "whyItMatters": "The validator's whole purpose is to fail closed on rejection pages disguised as documents. A false negative on a real document is the mirror-image defect: it makes an acquirable official form look unacquirable, and it would push a job toward attended retrieval or toward recording an identity as unavailable when the bytes are freely served.",
+    "whatWasNotDone": "The validator was not weakened, bypassed or edited, and no acquired disposition was asserted for these two files. They are recorded as measured, with the validator's verdict recorded alongside rather than overwritten.",
+    "owner": "the factory infrastructure owner",
+    "recommendation": "Reproduce against these two exact digests, which are stable, before changing anything. Both are PDF 1.6 with a binary comment line using a CR-only terminator after the header, which is a plausible place for a page-tree walk to lose its footing."
+  },
+  "affectedTracks": [
+    {
+      "trackId": "va_exp_absolute_pardon",
+      "statute": "Va. Code § 19.2-392.2(I), (K), (L) and § 2.2-402",
+      "currentOutputStrategy": "custom_pleading",
+      "recommendedOutputStrategy": "custom_pleading, unchanged",
+      "instrumentFound": null,
+      "componentsAffected": ["primary_filing"],
+      "componentsRebound": 0
+    },
+    {
+      "trackId": "va_exp_identity_used_by_another",
+      "statute": "Va. Code § 19.2-392.2(B)–(H)",
+      "currentOutputStrategy": "custom_pleading",
+      "recommendedOutputStrategy": "custom_pleading, unchanged",
+      "instrumentFound": null,
+      "componentsAffected": ["primary_filing", "misidentification_motion", "commonwealth_service"],
+      "componentsRebound": 0
+    }
+  ],
+  "sourceConsequence": {
+    "sourceContractEligible": false,
+    "materializationEligible": false,
+    "why": "Neither assigned track has an instrument to contract for. The ten documents measured here belong to a different remedy or a different subsection and are bound to no assigned component.",
+    "digestsAreReusable": true,
+    "digestsAreReusableNote": "If a Virginia sealing track is later assigned, or if CC-1473 is bound to a § 19.2-392.2(A) route, the identities, revisions, byte counts and digests recorded here are the verification target. A future retrieval that differs means the issuer republished.",
+    "licensing": {
+      "status": "not_established",
+      "note": "No terms of use or reproduction permission was read for the OES forms library on this pass, and Virginia is not among the jurisdictions covered by the project-owner permission attestations. Nothing here asserts that reproduction is permitted or prohibited.",
+      "doesNotBlock": "Custom pleading conforming to Virginia practice, which is what both assigned tracks generate."
+    }
+  },
+  "editionConsequence": {
+    "kind": "new_rows_evidence_only",
+    "amendmentRequired": false,
+    "amendmentRequiredNote": "No Edition 1.2 row is wrong. The edition retains none of these ten documents, so there is nothing to correct, retire or re-title.",
+    "recommendedSuccessorTreatment": "Evidence-only rows for the ten documents measured here — six sealing instruments, three instruction documents and CC-1473 — recording identity, title, statute, remedy, role, revision, scope, media type, byte count and SHA-256, each marked not generation-authorized pending a Virginia licensing position.",
+    "edition13": "Edition 1.3 is published and is untouched. No edition was published, amended or mutated by this record.",
+    "doNotSweep": "No other Virginia row and no other jurisdiction's row is implicated."
+  },
+  "memoAccuracyFindings": [
+    {
+      "memoLocation": "va_exp_identity_used_by_another, components[0].notes",
+      "memoText": "No official Supreme Court of Virginia form for t… (truncated in the memo record)",
+      "finding": "Consistent with this record. No instrument for § 19.2-392.2(B)–(H) was found, and CC-1473 is scoped away from the route on its own face. The memo's position is corroborated rather than corrected.",
+      "correctedHere": false
+    },
+    {
+      "memoLocation": "both tracks, outputStrategy",
+      "finding": "custom_pleading stands for both. This record supplies no reason to change either, and it is not this record's decision to make.",
+      "correctedHere": false
+    }
+  ],
+  "residualQuestions": [
+    {
+      "id": "va-exp-instrument-negative-is-bounded",
+      "question": "Is there any OES instrument for § 19.2-392.2(B)–(H) or § 19.2-392.2(I)–(L) outside the libraries and number ranges searched here?",
+      "status": "searched_not_found",
+      "classification": "build_blocker_downgraded_to_monitoring",
+      "whyDowngraded": "Both assigned tracks already build custom pleadings, so a not-found answer changes nothing today. It would only matter if an instrument later surfaced.",
+      "whatWouldSettleIt": "An enumeration of the OES's complete circuit-court form index, or a clerk's confirmation.",
+      "owner": "the Virginia legal-design owner"
+    },
+    {
+      "id": "va-cc1203-cc1206-validator-false-negative",
+      "question": "Why does the acquisition-response validator report 'no page objects found' for two well-formed PDF 1.6 documents?",
+      "status": "open",
+      "classification": "infrastructure_defect",
+      "severity": "high",
+      "owner": "the factory infrastructure owner"
+    },
+    {
+      "id": "va-forms-library-paths-stale-in-repo",
+      "question": "Earlier recorded Virginia form paths are stale: /forms/circuit/circuit.html and /courtadmin/aoc/djs/programs/drc/forms.html both 404, and the sealing forms moved under /static/forms/circuit/crim_sealing/.",
+      "status": "established",
+      "owner": "the acquisition-queue owner",
+      "correctedHere": false,
+      "correctedHereRationale": "Those registries are forbidden paths for this job."
+    },
+    {
+      "id": "va-oes-licensing",
+      "question": "May LegalEase reproduce OES forms in a participant packet?",
+      "status": "unresolved",
+      "owner": "a Virginia licensing determination that does not yet exist",
+      "blocks": "any Virginia official-PDF route, if one is ever bound",
+      "doesNotBlock": "the two assigned custom-pleading tracks"
+    },
+    {
+      "id": "va-local-circuit-variation",
+      "question": "Which circuit courts impose local requirements on an expungement filing?",
+      "status": "unresolved",
+      "why": "The issuer's own index warns of 'potential for local variations in practice' and directs the filer to the clerk of the relevant circuit court. No county was surveyed.",
+      "classification": "release_blocker",
+      "owner": "the Virginia legal-design owner"
+    }
+  ],
+  "requiredCaptainFollowUp": [
+    "This record does not amend VA.memo.json and may not. The memo's custom_pleading strategy for both tracks is corroborated and needs no change on this evidence.",
+    "The acquisition queue's Virginia form paths should be corrected: the criminal sealing forms live under /static/forms/circuit/crim_sealing/, and two recorded index paths now 404.",
+    "The CC-1203 and CC-1206 validator false negative should be raised with the factory infrastructure owner against the two digests recorded here before any acquisition job treats those forms as unavailable.",
+    "If a Virginia sealing track is ever added, the complete current series is measured here and does not need reacquiring to be identified."
+  ],
+  "terminalDisposition": "cc_1201_series_resolved_as_a_sealing_series_neither_assigned_expungement_track_has_a_statewide_instrument_custom_pleading_stands",
+  "runtimeEffect": {
+    "runtimeStatus": "runtime_disabled",
+    "packetReady": 0,
+    "enabledJurisdictions": 0,
+    "launchGate": "red",
+    "productionEnabled": false,
+    "virginiaTracksMadeReady": false,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "receiptsWritten": 0,
+    "memoAmended": false,
+    "componentRebound": false,
+    "editionMutated": false
+  }
+}

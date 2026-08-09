@@ -1,0 +1,319 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-in-written-permission-authorization",
+  "parentJobId": "AUTH-05-acquisition-campaign-tier-2",
+  "jurisdiction": "IN",
+  "lane": "source_acquisition",
+  "strategyFamily": "written_permission_request",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "c4010b89ce77954e641b40bc08ac700bc16c52a9",
+  "generatedOn": "2026-08-09",
+  "reconciliationIds": [
+    "permission:IN"
+  ],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero. No Indiana form, bundle or insert was retrieved. What was read is the publisher's own public terms-of-service and contact pages, to establish who holds the rights and how a request reaches them.",
+  "generatedFrom": [
+    "data/record-clearing/production-factory/source-acquisition/rcap-in-commercial-license.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-in-in-repo-identity-reconciliation-already-retained-under-another-identity.json",
+    "data/record-clearing/master-library/authority.json"
+  ],
+  "whatThisRecordIs": "The owner of record for the Indiana written-permission question: who holds the rights, how a request reaches them, exactly what a request must cover, and the drafted request itself.",
+  "whatThisRecordIsNot": [
+    "A licence, a grant or an acquisition.",
+    "A contact with any publisher, court or clerk.",
+    "A reopening of rcap-in-commercial-license, whose terminal disposition stands unchanged: generation is not permitted.",
+    "A record of counsel adoption."
+  ],
+  "indianaIsNotCoveredByTheSettledAttestations": {
+    "statement": "The project-owner permission attestations that are controlling for Colorado, Kansas, Washington, Delaware and Minnesota do not reach Indiana. Indiana has no attestation and no grant.",
+    "consequence": "license_unresolved remains the correct and current controlling state for Indiana, and this job exists because of it.",
+    "doNotGeneralise": "Nothing about the five attested jurisdictions may be read across to Indiana. The publisher is different, the material is different and no one has attested to anything here."
+  },
+  "method": {
+    "description": "Rights-holder identification from the publisher's own current publication, and request scoping from the integrated Indiana licence decision. The publisher's terms of service and contact pages were read at first hand; the copyright holder, the reuse restrictions and the contact route were taken verbatim from them. No form, bundle or insert was retrieved.",
+    "issuerContacted": false,
+    "publisherContacted": false,
+    "courtOrClerkContacted": false,
+    "requestSent": false,
+    "emailSent": false,
+    "letterSent": false,
+    "phoneCallMade": false,
+    "feesPaid": 0,
+    "binariesDownloaded": 0,
+    "restrictedFormsReproduced": 0,
+    "licenceDecisionReopened": false,
+    "counselAdoptionRecorded": false,
+    "receiptsWritten": 0,
+    "byteVerificationMethod": "none_performed_no_document_is_in_scope_for_this_job"
+  },
+  "rightsHolder": {
+    "verdict": "identified_and_different_from_the_publisher_named_in_the_integrated_decision",
+    "confidence": "high",
+    "currentAssertedCopyrightHolder": "Indiana Legal Help, Inc.",
+    "evidence": [
+      "The site publishing this material asserts, in its own footer on every page read, 'Copyright © 2026 Indiana Legal Help'.",
+      "Its Terms of Service name the entity as 'Indiana Legal Help, Inc.' throughout, and give its postal address as Indiana Legal Help, Inc., 615 North Alabama Street, Suite 426, Indianapolis, IN 46204.",
+      "The Terms speak in the first person about 'ILH content' and about rights in 'the compilation and arrangement of materials … trademarks, logos, trade names, service marks, and other forms of intellectual property'."
+    ],
+    "publisherNamedInTheIntegratedDecision": "Coalition for Court Access",
+    "discrepancy": {
+      "finding": "rcap-in-commercial-license identifies the publisher as the Coalition for Court Access. The site that publishes this material today asserts copyright in the name of Indiana Legal Help, Inc., a distinct incorporated entity.",
+      "whyItMattersForThisJob": "This job's whole output is who to ask. A request addressed to a body that does not hold the rights is not a request; it is a delay. The two names must be reconciled before anything is sent.",
+      "whatIsNotAsserted": [
+        "That the Coalition for Court Access does not hold rights. It may hold them, or hold them jointly, or have assigned them, or the two bodies may be the same programme under a later corporate name. None of that was established.",
+        "That the integrated decision is wrong. It recorded the publisher correctly as at the evidence it had.",
+        "That a licence from either body would be ineffective."
+      ],
+      "howToResolveIt": "Address the request to Indiana Legal Help, Inc. as the entity currently asserting copyright, name the Coalition for Court Access in the body as the body under whose name the forms were produced, and ask expressly which entity holds the rights. A request that asks the question survives either answer.",
+      "prudentAddressee": "both"
+    },
+    "publisherCharacter": {
+      "notACourt": true,
+      "notAStateAgency": true,
+      "detail": "Carried forward from the integrated decision and unchanged: this is a third party's material, endorsed in places by the Indiana Office of Judicial Administration. Endorsement is not authorship and does not put the material in the public domain. The 'Inc.' in the current copyright line confirms a private legal entity rather than a public body.",
+      "contrastWithKansas": "Kansas's rights holder is the Kansas Judicial Council, an independent agency in the judicial branch under K.S.A. 20-2201. Indiana's is a private corporation. The two are not comparable and the Kansas request is not a template for this one."
+    }
+  },
+  "contactRoute": {
+    "status": "read_at_first_hand_from_the_publishers_own_current_terms_page",
+    "readOn": "2026-08-09",
+    "routes": [
+      {
+        "route": "email",
+        "value": "administrator@indianalegalhelp.org",
+        "provenance": "Published on the Terms of Service page under 'Contact Information: If you have questions about these Terms of Service, please contact us at: Email:'. The address is served behind the site's email-obfuscation script and was recovered from the page's own encoded attribute; it was not guessed and no address pattern was inferred.",
+        "recommendedFor": "primary route — a written request that produces a written answer capable of being pinned by SHA-256 if granted"
+      },
+      {
+        "route": "postal",
+        "value": "Indiana Legal Help, Inc., 615 North Alabama Street, Suite 426, Indianapolis, IN 46204",
+        "provenance": "Published on the same Terms of Service page under 'Mail:'.",
+        "recommendedFor": "a counterpart hard copy where counsel wants a signed instrument"
+      },
+      {
+        "route": "site contact form",
+        "value": "https://indianalegalhelp.org/contact-us/",
+        "recommendedFor": "not recommended — a form submission does not reliably produce a citable written answer"
+      }
+    ],
+    "noTelephoneRoutePublished": "None was found on the terms or contact pages.",
+    "humanActionRequired": "A person confirms the addressee and sends. Nothing here sends anything."
+  },
+  "publisherTermsAsRead": {
+    "source": "https://indianalegalhelp.org/terms-of-service/, read 2026-08-09, HTTP 200",
+    "restrictionsOnUse": {
+      "verbatim": "You agree not to download, display, or use any ILH content: without express authorization, for any commercial purpose, for any political purpose, in connection with products or services that are not those of ILH, in any manner that is likely to cause confusion among consumers, that disparages or discredits Indiana Legal Help, Inc., that dilutes the strength of Indiana Legal Help, Inc.'s property, or that otherwise infringes intellectual property rights.",
+      "significance": "The commercial prohibition is explicit and it is the first item on the list. It is not boilerplate about attribution; it names commercial purpose directly."
+    },
+    "prohibitedActs": {
+      "verbatim": "Remove or alter trademark, copyright, or other intellectual property notices … Use ILH content in a manner suggesting unauthorized association with our services … Make modifications to ILH content without express authorization … Copy, reproduce, distribute, or create derivative works from ILH content without express authorization",
+      "significance": "Copy, reproduce, distribute and derivative works are all gated on express authorization. Generating a filled instance of one of these bundles is at minimum reproduction and arguably a derivative work; both are named."
+    },
+    "automationRestriction": {
+      "verbatim": "Artificial Intelligence Restrictions: Accessing or using ILH by mechanical, programmatic, robotic, scripted, or any other automated means is strictly prohibited. Unless otherwise authorized by Indiana Legal Help, Inc. in writing, use of ILH is permitted only by individual users engaged in active user sessions",
+      "significanceForAcquisition": "This is a stated prohibition on automated access, not a technical block. No perimeter refused anything: the pages answered HTTP 200. The restriction is contractual and it binds regardless of whether a server enforces it.",
+      "consequence": "Any future retrieval of Indiana material from this publisher must be attended human-in-browser, and must not be scripted, whatever the HTTP status says. An acquisition job that treats a 200 as permission to automate would breach a term the publisher states in writing.",
+      "disclosureAboutThisPass": "Four pages on this host were fetched programmatically before this term was read — the home page, the terms page, the who-we-are page and the contact page. No form, bundle or insert was fetched, nothing was reproduced, and nothing was retained beyond the quotations recorded here. The term is recorded now so that it governs from here on, and the drafted request discloses the position rather than leaving it unsaid."
+    },
+    "copyrightNotice": "Copyright © 2026 Indiana Legal Help",
+    "expressAuthorizationIsTheExemption": "Every relevant restriction is qualified by 'without express authorization'. The terms therefore contemplate that authorization can be given, which is exactly what a request would seek."
+  },
+  "requestScope": {
+    "principle": "Name the entity, name the documents, name the acts, and ask a question that survives either answer. Ask for what the product needs and no more.",
+    "mustCover": [
+      {
+        "element": "which_entity_holds_the_rights",
+        "detail": "Ask expressly whether Indiana Legal Help, Inc., the Coalition for Court Access, or both hold the rights in the expungement bundles and inserts. This is the first question because every other answer depends on it."
+      },
+      {
+        "element": "identity_of_the_requester",
+        "detail": "LegalEase, named plainly as a commercial provider whose participants pay a fee. The terms turn on commercial purpose; concealing it would make any grant worthless."
+      },
+      {
+        "element": "the_exact_documents",
+        "detail": "The two retained bundles and the three conviction inserts, by workflow key, title and revision, so that a grant cannot later be read as covering more or less than was asked."
+      },
+      {
+        "element": "the_exact_acts_sought",
+        "detail": "Reproduce each named document as a packet component; generate a completed instance populated with an individual participant's own answers; deliver that completed instance to that participant in a paid product. Stated in the terms' own vocabulary — copy, reproduce, distribute, derivative work, commercial purpose — so the answer maps onto the restriction."
+      },
+      {
+        "element": "authorization_to_retrieve_by_automated_means",
+        "detail": "Distinct from reproduction and easy to overlook. The terms prohibit programmatic access outright and permit it only where authorized in writing. Without that, even acquiring current bytes for a licensed packet must be done by a person, every revision, forever. Ask for it explicitly."
+      },
+      {
+        "element": "the_acts_not_sought",
+        "detail": "No exclusivity, no sub-licensing, no right to modify the substance of a form, no right to remove or alter any copyright or trademark notice, no right to sell the blank bundles, and no claim of association or endorsement. The terms prohibit each of these by name; disclaiming them makes a grant easier to give."
+      },
+      {
+        "element": "attribution_and_integrity_undertakings",
+        "detail": "That each document keeps its printed form code and revision and its intellectual-property notices intact, that its substance is not altered, and that every packet states plainly that it is not produced or endorsed by the publisher or by any Indiana court."
+      },
+      {
+        "element": "currency_undertaking",
+        "detail": "That published revisions will be tracked and a superseded revision will not be distributed once replaced."
+      },
+      {
+        "element": "the_form_of_the_answer_sought",
+        "detail": "A written answer by reply email or on letterhead, naming the documents and the permitted acts. A verbal assurance cannot be pinned by SHA-256 and cannot be adopted as a licence."
+      },
+      {
+        "element": "an_explicit_no_is_useful",
+        "detail": "A recorded refusal converts license_unresolved into a disposition confirmed by the rights holder, which is more durable than a position taken on published terms alone."
+      }
+    ],
+    "documentsInScope": [
+      {
+        "workflowKey": "IN:CCA-SECTION1-PETITION-ORDER:PACKET:EN",
+        "officialTitle": "Coalition for Court Access Section 1 Non-Conviction Expungement Petition and Order Bundle",
+        "revision": "SOURCE-2021",
+        "pages": 15,
+        "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+        "statute": "I.C. 35-38-9-1",
+        "carriesRoles": ["primary_filing", "proposed_order"],
+        "note": "One bundle carrying two logical identities: the petition at pages 3-6, printed form code CCA-XP-0120-7000, and the order at pages 9-15, printed form code CCA-XP-0120-7006. A grant must reach the bundle, because the petition cannot be reproduced without it."
+      },
+      {
+        "workflowKey": "IN:CCA-XP-0220-7008:PETITION:EN",
+        "officialTitle": "Conviction Expungement Insert - I.C. 35-38-9-2",
+        "revision": "REV-2020-02",
+        "pages": 3,
+        "sha256": "2c4aaf4a68b06f192e5f0c4b9bbfe0dd4c04b4b1f5e0fbab879bb450223e78f0",
+        "scope": "misdemeanor convictions and qualifying felonies reduced to misdemeanors"
+      },
+      {
+        "workflowKey": "IN:CCA-XP-0220-7009:PETITION:EN",
+        "officialTitle": "Conviction Expungement Insert - I.C. 35-38-9-3",
+        "revision": "REV-2020-02",
+        "pages": 3,
+        "sha256": "499ed8a49c785fa949bcce19c3783f84318b73bc162cb5db8576094a321990b1",
+        "scope": "qualifying felonies that did not result in bodily injury"
+      },
+      {
+        "workflowKey": "IN:CCA-XP-0220-7010:PETITION:EN",
+        "officialTitle": "Conviction Expungement Insert - I.C. 35-38-9-4",
+        "revision": "REV-2020-02",
+        "pages": 3,
+        "sha256": "b613c145701a5185fd11d4df61efad5d3b352fc13987581531267868724fbf4b",
+        "scope": "qualifying felonies that did not result in serious bodily injury"
+      }
+    ],
+    "documentsInScopeNote": "Four logical acquisition identities resolve to these five retained assets. The conviction order identity has no separately retained asset and is carried by the same publisher's material; a request should say so rather than name a document that may not exist.",
+    "affectedTracks": [
+      "in_arrest_no_charges",
+      "in_section1_petition",
+      "in_conviction_misd",
+      "in_conviction_d6",
+      "in_conviction_felony"
+    ],
+    "affectedTrackCount": 5,
+    "affectedComponentCount": 10
+  },
+  "draftedRequest": {
+    "status": "drafted_not_sent",
+    "sendingIsAHumanAct": true,
+    "sendingRequiresSeparateAuthorization": true,
+    "authorizationHeld": false,
+    "owner": "counsel",
+    "preSendChecklist": [
+      "Confirm counsel authorizes the request and in whose name it is sent.",
+      "Confirm administrator@indianalegalhelp.org is still the published contact on the day of sending.",
+      "Decide whether to send a counterpart to the Coalition for Court Access; the entity question is unresolved and a copy costs nothing.",
+      "Confirm the five documents and their revisions are still the publisher's current ones, which no one has established and which the automation restriction means a person must check.",
+      "Replace every bracketed placeholder."
+    ],
+    "medium": "email",
+    "subject": "Request for express written authorization — Indiana expungement forms",
+    "body": "Dear Indiana Legal Help,\n\nI write to request express written authorization under your Terms of Service, which provide that ILH content may not be copied, reproduced, distributed or used to create derivative works without express authorization, and may not be used for any commercial purpose without express authorization.\n\nA question first. Your site asserts copyright in the name of Indiana Legal Help, Inc., while the expungement bundles and inserts we are asking about were produced under the name of the Coalition for Court Access. Could you tell us which entity holds the rights in these documents, and whether this request should be directed elsewhere or in addition? We would rather ask than assume.\n\nWho we are. LegalEase is a commercial provider of self-help record-clearing packets. We are not a legal aid organisation, we do not provide legal advice or legal representation, and participants pay us a fee. We say so plainly because your terms turn on commercial purpose, and an authorization granted on a misunderstanding would serve neither of us.\n\nWhat we do. A participant answers questions about their own record. From those answers we assemble a packet the participant files themselves: the court's forms completed with the participant's own information, together with plain-language instructions on where to file, whom to serve and what to expect. We do not obtain, inspect, hold or verify anyone's criminal record, and we do not decide anyone's eligibility for them.\n\nWhat we ask authorization to do. Specifically, and only:\n\n  1. to reproduce each of the documents listed below as a component of a self-help packet;\n  2. to generate a completed instance of each, populated with an individual participant's own answers;\n  3. to deliver that completed instance to that participant, in a product for which the participant pays a fee; and\n  4. to retrieve the current published version of each document by automated means, so that we can keep pace with your revisions. We note your Terms prohibit programmatic access unless authorized in writing, and we are asking for that authorization rather than assuming it. If you would prefer that we retrieve them manually, we will.\n\nThe documents:\n\n  - Coalition for Court Access Section 1 Non-Conviction Expungement Petition and Order Bundle (2021), fifteen pages, containing the petition at form code CCA-XP-0120-7000 and the order at form code CCA-XP-0120-7006\n  - Conviction Expungement Insert - I.C. 35-38-9-2 (rev. 02/2020)\n  - Conviction Expungement Insert - I.C. 35-38-9-3 (rev. 02/2020)\n  - Conviction Expungement Insert - I.C. 35-38-9-4 (rev. 02/2020)\n\nWhat we are not asking for. We do not seek exclusivity. We do not seek any right to sub-license. We do not seek to alter the substance of any document, and we would not remove or alter any copyright, trademark or other notice. We do not seek to sell the blank forms as a product in themselves, and we would make no claim of association with or endorsement by Indiana Legal Help, the Coalition for Court Access, or any Indiana court.\n\nWhat we undertake. Each document would keep its printed form code, its revision and its notices intact. We would track your published revisions and would not distribute a superseded version once you replace it. Every packet would state plainly that it is not produced, reviewed or endorsed by you or by any Indiana court.\n\nWhy we ask. Without authorization we cannot serve Indiana participants on these routes at all, and we will not work around your terms by redrawing your documents as pleadings of our own.\n\nWhat we ask of you. A written answer, by reply or on letterhead, stating which of the four uses above are authorized and on what conditions, if any. A refusal, if that is your decision, is equally useful to us and we will record and respect it.\n\nWith thanks for your time.\n\n[Name]\n[Title]\nLegalEase\n[Address]\n[Telephone]\n[Email]",
+    "placeholders": ["[Name]", "[Title]", "[Address]", "[Telephone]", "[Email]"],
+    "draftIsNotPermission": "This draft is text. It confers nothing, presumes nothing about the answer, and must never be recorded, summarised or reported as a licence, a pending licence, or a softening of the current position."
+  },
+  "currentEffectUnchanged": {
+    "licenceDisposition": "available_but_unlicensed_four_identities_resolve_to_two_retained_bundles_generation_remains_prohibited_pending_a_written_licence",
+    "generationAllowed": false,
+    "licenseAdopted": false,
+    "adoptedLicense": null,
+    "retainedBinariesTreatment": "The retained Indiana binaries stay materialized and hash-verified and are not generation-authorized. No receipt may be deleted or altered, no source becomes worker-ready, no Indiana packet may be generated, and runtime stays disabled.",
+    "runtimeStatus": "runtime_disabled",
+    "packetReady": 0,
+    "enabledJurisdictions": 0,
+    "possessionIsNotPermission": "The bundles are retained and hash-verified. Holding them answers nothing about whether they may be reproduced.",
+    "routeMustNotBeRelabelled": "Redrawing these bundles as a custom pleading to escape the terms would produce a derivative work of the publisher's material — an act the terms name expressly — while misreporting the route's true output strategy. Carried forward from the integrated decision and reaffirmed."
+  },
+  "reopeningCondition": {
+    "reopensOn": "Express written authorization from the entity that holds the rights, specific to commercial reproduction, generation and delivery, recorded in the repository and pinned by SHA-256 as an adopted licence.",
+    "onGrant": "Adopt the grant as a pinned licence, set generationAllowed true against it, and reopen the four acquisition keys. Confirm first whether the grant also covers automated retrieval; if it does not, every future acquisition stays attended.",
+    "onRefusal": "Record the refusal against permission:IN. license_unresolved becomes a disposition confirmed by the rights holder rather than one taken on published terms.",
+    "unchangedFrom": "rcap-in-commercial-license"
+  },
+  "editionConsequence": {
+    "kind": "no_amendment",
+    "why": "This record establishes no document identity, revision, byte count or hash, and changes no Indiana row. The retained assets keep their current disposition exactly as the edition records it.",
+    "edition13": "Edition 1.3 is published and is untouched. No edition was published, amended or mutated.",
+    "doNotSweep": "No row outside Indiana is implicated, and no Indiana row is altered."
+  },
+  "implementationFamilyConsequence": {
+    "unlocked": "none",
+    "detail": "No implementation family is unlocked. The five Indiana tracks and their ten components remain source-gated. What this record changes is that the path to unlocking them is now owned, addressed and drafted rather than unowned and vague — and that the addressee has been corrected before anyone spent a letter on it."
+  },
+  "unresolved": [
+    {
+      "id": "in-permission-which-entity",
+      "question": "Does Indiana Legal Help, Inc., the Coalition for Court Access, or both hold the rights in these bundles and inserts?",
+      "status": "unresolved",
+      "why": "The current publication asserts copyright for Indiana Legal Help, Inc.; the documents were produced under the Coalition's name. Nothing read establishes the relationship between the two.",
+      "consequence": "Addressee, not outcome. The drafted request asks the question directly.",
+      "owner": "resolved by the answer to the request itself"
+    },
+    {
+      "id": "in-permission-terms-if-granted",
+      "question": "Would authorization be granted, and on what terms?",
+      "status": "unasked",
+      "why": "This job is barred from contacting the publisher. Drafting the request does not ask it."
+    },
+    {
+      "id": "in-automated-retrieval-prohibited-by-terms",
+      "question": "All future Indiana acquisition from this publisher is contractually restricted to attended human-in-browser retrieval.",
+      "status": "established_and_binding",
+      "why": "The publisher's Terms of Service prohibit mechanical, programmatic, robotic and scripted access outright, absent written authorization. No server blocks it; the restriction is contractual, which is why an HTTP 200 must not be read as consent.",
+      "consequence": "Any Indiana acquisition or currentness job must be scoped as attended work, not as a download.",
+      "owner": "the acquisition owner"
+    },
+    {
+      "id": "in-revision-currency",
+      "question": "Are the 2021 bundle and the three 02/2020 inserts still the publisher's current versions?",
+      "status": "unresolved",
+      "why": "Not established by any record, and the automation restriction means it cannot be established by a scripted check. The inserts are over six years old.",
+      "consequence": "An authorization granted over a superseded list would have to be sought again.",
+      "owner": "an attended currentness assignment"
+    },
+    {
+      "id": "in-conviction-order-identity",
+      "question": "The conviction order acquisition identity has no separately retained asset.",
+      "status": "carried_forward_unresolved",
+      "from": "rcap-in-commercial-license",
+      "owner": "the Indiana source-identity owner"
+    }
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "receiptsWritten": 0,
+    "receiptsAlteredOrDeleted": 0,
+    "sourceContractsWritten": 0,
+    "workerReadySourcesCreated": 0,
+    "licenceAdopted": false,
+    "generationAllowedSet": false,
+    "licenceRelabelled": false,
+    "requestSent": false,
+    "publisherContacted": false,
+    "editionMutated": false,
+    "counselAdoptionRecorded": false
+  }
+}

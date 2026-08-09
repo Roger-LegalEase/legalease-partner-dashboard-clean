@@ -1,0 +1,218 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-mo-issuer-contact-authorization",
+  "parentJobId": "AUTH-05-acquisition-campaign-tier-2",
+  "jurisdiction": "MO",
+  "lane": "source_acquisition",
+  "strategyFamily": "direct_issuer_request",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "afc51ba03dc06cdc35e87748897a175791d93c4d",
+  "generatedOn": "2026-08-09",
+  "reconciliationIds": [
+    "followup:MO:rcap-mo-issuer-contact-authorization"
+  ],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero. Nothing was retrieved. The only network activity was a re-probe of the Missouri Courts channel to record its current state, which produced a block and no document.",
+  "generatedFrom": [
+    "data/record-clearing/production-factory/source-acquisition/rcap-mo-direct-issuer-request.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-mo-official-download-automation-blocked.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-mo-superseded-source-replacement.json"
+  ],
+  "whatThisRecordIs": "The owner of record for one dependency: the Missouri direct-issuer request is drafted and cannot be sent without an authorized human sending it. This record names the dependency exactly, names who can discharge it, specifies what must be recorded when it is discharged, and records that it has not been discharged.",
+  "whatThisRecordIsNot": [
+    "A sending of the request.",
+    "A claim that contact occurred.",
+    "A claim of receipt, of a revision, or that the four documents do not exist.",
+    "A re-drafting of the request, which is complete and owned by rcap-mo-direct-issuer-request.",
+    "An acquisition. A drafted request is not an acquisition and an authorized one would not be either."
+  ],
+  "method": {
+    "description": "Dependency scoping from the integrated Missouri direct-issuer decision, plus one re-probe of the issuer's published channel to record whether the recorded block still holds. No contact of any kind was made.",
+    "requestSent": false,
+    "issuerContacted": false,
+    "clerkContacted": false,
+    "emailSent": false,
+    "letterSent": false,
+    "phoneCallMade": false,
+    "binariesDownloaded": 0,
+    "receiptsWritten": 0,
+    "requestRedrafted": false,
+    "byteVerificationMethod": "none_performed_no_document_is_in_scope_for_this_job"
+  },
+  "dependency": {
+    "id": "mo-direct-request-authorization",
+    "statement": "The prepared Missouri direct-issuer request cannot be sent without separate authorization. Sending is contact with a government office on this programme's behalf.",
+    "status": "open_unchanged",
+    "classification": "human_action_required",
+    "carriedFrom": "rcap-mo-direct-issuer-request, residual blocker mo-direct-request-authorization",
+    "discharged": false,
+    "dischargedOn": null,
+    "outcomeRecorded": false,
+    "whyMachineCannotDischargeIt": "It is not a retrieval problem and no amount of research substitutes for it. The instrument the assignment designed is a request to a public office, and only a person with authority may send it.",
+    "whoCanDischargeIt": {
+      "authorizer": "the programme owner",
+      "sender": "a person the programme owner authorizes to correspond with a state court administrative office on the programme's behalf",
+      "authorizerAndSenderMayDiffer": true,
+      "note": "The record of the outcome should name both, because an authorization given to one person and exercised by another is a different fact from either alone."
+    }
+  },
+  "theRequestBeingAuthorized": {
+    "ownedBy": "rcap-mo-direct-issuer-request",
+    "status": "prepared_not_sent",
+    "recipient": "Missouri Office of the State Courts Administrator",
+    "recipientBasis": "the issuing authority recorded on all four queue rows and the publisher of the Missouri Courts forms index",
+    "scope": "four documents, two questions each",
+    "questionsPerDocument": [
+      "What is the current revision or OSCA stamp of the form, as printed on its face?",
+      "Where is the current official copy published, or may a copy be provided?"
+    ],
+    "documents": [
+      { "formNumber": "CR143", "title": "Petition for Expungement of Arrest Records" },
+      { "formNumber": "CR310", "title": "Petition for Correction of Arrest/Court Records — Identity Theft" },
+      { "formNumber": "CR311", "title": "Petition for Expungement — Mistaken Identity" },
+      { "formNumber": "CR370", "title": "Petition for Expungement — Section 610.140, RSMo" }
+    ],
+    "whatItDoesNotAsk": [
+      "No licence, redistribution or commercial-use permission. That is a separate gate needing its own authorization.",
+      "No bulk or programmatic access.",
+      "No accommodation around the Cloudflare mitigation. That is the sibling job's attended-retrieval remedy and is not the issuer's problem."
+    ],
+    "unchangedByThisRecord": true
+  },
+  "channelState": {
+    "reProbedOn": "2026-08-09",
+    "purpose": "To record whether the recorded automation block still holds, so that an authorized sender knows the state of the published channel before choosing how to correspond. Not an attempt to acquire.",
+    "urls": [
+      "https://www.courts.mo.gov/",
+      "https://www.courts.mo.gov/page.jsp?id=525",
+      "https://www.courts.mo.gov/page.jsp?id=280"
+    ],
+    "httpStatus": 403,
+    "perimeterVendor": "cloudflare",
+    "blockSignal": "cf_challenge_platform",
+    "disposition": "official_download_automation_blocked_attended_retrieval_required",
+    "classifiedBy": "scripts/lib/rcap-factory/acquisition-response.mjs",
+    "verdict": "the recorded block reproduces in full and is current, host-wide",
+    "evasionAttempted": false,
+    "challengeSolvedOrReplayed": false,
+    "userAgentSpoofed": false,
+    "consequence": "The published channel remains closed to automation. That is a reason the request exists; it is not a reason to send it without authorization, and it does not make the documents absent.",
+    "blockIsNotAbsence": "Nothing here suggests CR143, CR310, CR311 or CR370 do not exist. The channel refused automation and disclosed nothing about any document."
+  },
+  "contactRouteForTheAuthorizedSender": {
+    "status": "not_established_at_first_hand",
+    "why": "The issuer's own contact pages are on the blocked host. No open official Missouri page read on this pass carried the office's address, so no contact detail is asserted here as verified.",
+    "whatIsKnown": "Missouri publications place the Office of State Courts Administrator at 2112 Industrial Drive, PO Box 104480, Jefferson City, Missouri, with a published general telephone line. That is reported, not verified at first hand, and it is recorded as a starting point rather than as an established route.",
+    "instructionToTheSender": "Confirm the current address, the correct recipient within the office and the preferred correspondence channel from the issuer's own site in an ordinary browser before sending. The site answers a person; it refuses automation.",
+    "doNotInfer": "Do not treat the address above as verified, and do not send to it without confirming it."
+  },
+  "outcomeToBeRecordedWhenDischarged": {
+    "recordHere": true,
+    "recordHereNote": "This record is the place the outcome belongs. It is deliberately left open rather than closed, so that discharging the dependency has somewhere to land.",
+    "required": [
+      "who authorized the sending, and on what date",
+      "who sent it, through which channel, and on what date",
+      "the date of any reply, or the fact and date of non-reply",
+      "per document — CR143, CR310, CR311, CR370 — the current revision or OSCA stamp as the issuer states it",
+      "per document, the current official publication location, or the fact that the issuer supplied a copy, or the fact that the issuer declined",
+      "the exact wording of anything the issuer says about whether a form still exists"
+    ],
+    "permittedDispositions": [
+      {
+        "disposition": "issuer_published_revision_and_location",
+        "meaning": "All four identities close on identity and currentness. Licensing remains a separate unanswered gate."
+      },
+      {
+        "disposition": "issuer_supplied_copies",
+        "meaning": "The documents become retained assets pending a licence position. Bytes supplied by the issuer are not permission to reproduce them."
+      },
+      {
+        "disposition": "issuer_did_not_supply",
+        "meaning": "The identities stay unmanifested. Recorded as issuer_did_not_supply — never as a failed download, which would misdescribe the gap and would put a retrieval remedy on a problem retrieval cannot solve."
+      }
+    ],
+    "prohibitedDispositions": [
+      "any disposition asserting a revision the issuer did not state",
+      "any disposition asserting the documents do not exist",
+      "relabelling the outcome as a download failure",
+      "treating a supplied copy as a licence"
+    ]
+  },
+  "whatStaysBlockedMeanwhile": {
+    "missouriOfficialPdfFamily": "blocked",
+    "identitiesAssigned": 4,
+    "identitiesRetained": 0,
+    "highestSeverityConsequence": {
+      "id": "mo-cr360-companion-order",
+      "detail": "The adopted § 610.140 petition CR360 is a current retained packet candidate whose companion order, CR370, cannot be produced. A petition without its order is not a releasable packet, and no amount of source work on CR360 changes that.",
+      "carriedFrom": "rcap-mo-direct-issuer-request"
+    },
+    "runtimeStatus": "runtime_disabled",
+    "packetReady": 0,
+    "enabledJurisdictions": 0
+  },
+  "editionConsequence": {
+    "kind": "no_amendment",
+    "why": "This record establishes no identity, revision, byte count or hash, and touches no Missouri row. It records a dependency and its undischarged state.",
+    "edition13": "Edition 1.3 is published and is untouched. No edition was published, amended or mutated.",
+    "conditionalFutureConsequence": "If the issuer later supplies copies, the consequence would be new bytes and new rows. Nothing establishes that today and no amendment is proposed.",
+    "doNotSweep": "No row outside Missouri is implicated, and no Missouri row is altered."
+  },
+  "implementationFamilyConsequence": {
+    "unlocked": "none",
+    "detail": "No Missouri official-PDF work is unlocked and no track is made ready. What this record does is stop the dependency being invisible: it was previously recorded only as a residual blocker inside another job's list, and it now has an owner, a specified discharge, and a defined place for its outcome."
+  },
+  "unresolved": [
+    {
+      "id": "mo-direct-request-authorization",
+      "question": "Who authorizes the sending of the prepared request, and when is it sent?",
+      "status": "human_action_required",
+      "exactDependency": "A person with authority to correspond with the Missouri Office of the State Courts Administrator on this programme's behalf authorizes and sends the prepared request.",
+      "owner": "the programme owner",
+      "blocks": [
+        "the current revision of CR143, CR310, CR311 and CR370",
+        "the official publication location of all four",
+        "the CR360 companion-order gap",
+        "the CR143-versus-CR145 identity question"
+      ]
+    },
+    {
+      "id": "mo-osca-contact-route",
+      "question": "The issuer's current published contact details were not read at first hand.",
+      "status": "unresolved",
+      "why": "The issuer's own site returns a Cloudflare 403 to automation, and no open official Missouri page read on this pass carried the office's contact block.",
+      "consequence": "Bounded. It is a step for the authorized sender, who will be using a browser in any case.",
+      "owner": "the authorized sender"
+    },
+    {
+      "id": "mo-order-lodging-design",
+      "question": "Whether a Missouri petitioner lodges a proposed order at all.",
+      "status": "carried_forward_open_and_outside_this_job",
+      "owner": "the Missouri legal-design owner"
+    },
+    {
+      "id": "mo-licensing-separate",
+      "question": "Whether Missouri material may be reproduced in a paid packet.",
+      "status": "not_asked_and_not_in_scope",
+      "why": "The prepared request deliberately asks nothing about licensing. Missouri is not among the jurisdictions covered by the project-owner permission attestations, and no permission position exists for it.",
+      "owner": "a separate authorization"
+    }
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "receiptsWritten": 0,
+    "requestSent": false,
+    "issuerContacted": false,
+    "contactClaimed": false,
+    "revisionClaimed": false,
+    "nonexistenceClaimed": false,
+    "relabelledAsFailedDownload": false,
+    "editionMutated": false
+  }
+}

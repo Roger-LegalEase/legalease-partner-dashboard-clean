@@ -1,0 +1,222 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-de-direct-issuer-request",
+  "parentJobId": "AUTH-05-acquisition-campaign-tier-2",
+  "jurisdiction": "DE",
+  "lane": "source_acquisition",
+  "strategyFamily": "direct_issuer_request",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "afc51ba03dc06cdc35e87748897a175791d93c4d",
+  "generatedOn": "2026-08-09",
+  "acquisitionIds": [
+    "acquire:DE:de-sbi-mandatory-expungement-application"
+  ],
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero. No binary was retrieved, and the central finding of this record is that there may be no binary of this kind to retrieve.",
+  "trackIds": [
+    "de_mandatory_expungement"
+  ],
+  "generatedFrom": [
+    "data/record-clearing/legal-design-track-source-relationships.json",
+    "data/record-clearing/master-library/authoritative-blocker-ledger.json",
+    "data/record-clearing/master-library/authority.json",
+    "data/record-clearing/master-library/source-acquisition-queue.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/acquisition-campaign.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/unresolved.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-05-acquisition-campaign-tier-2.json"
+  ],
+  "assignedIdentity": {
+    "acquisitionKey": "acquire:DE:de-sbi-mandatory-expungement-application",
+    "expectedDocumentId": "DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION",
+    "expectedDocumentRole": "primary_filing",
+    "recordedTitle": "Delaware State Police, Expungements — official process source",
+    "recordedTitleAssessment": "That is a description of a web page, not the title of a document. The queue row itself concedes the point: it names a process source rather than a form, and issuingAuthority is null.",
+    "track": "de_mandatory_expungement",
+    "component": "de_mandatory_expungement-primary-filing-1",
+    "recordedOfficialUrl": "https://dsp.delaware.gov/expungements/",
+    "legalBasis": [
+      "11 Del. C. § 4373",
+      "11 Del. C. § 4373(d) and (e), authorizing the State Bureau of Identification to promulgate procedures, forms, regulations, and a fee schedule"
+    ],
+    "currentEditionStatus": "authority_unmanifested_source",
+    "repositoryStatus": "no_repository_binary"
+  },
+  "issuerIsNotTheJudiciary": {
+    "statement": "This identity belongs to the Delaware State Police, State Bureau of Identification. It is not a Judiciary form and must not be handled as one.",
+    "why": "Delaware runs two expungement routes with two different bodies. Mandatory expungement under 11 Del. C. § 4373 is administered by the State Bureau of Identification. Discretionary expungement runs through the courts, and that is the route the CIV_EXP series and FORM-281 serve.",
+    "consequenceForThisJob": "The blocked-perimeter finding recorded for the Judiciary's site says nothing about this issuer, and the attended-retrieval job for the five Judiciary documents does not reach this one."
+  },
+  "permissionScopeWarning": {
+    "settledAttestationDoesNotReachThisDocument": true,
+    "why": "The Delaware project-owner permission attestation is recorded at family level for 'current Delaware official record-clearing forms used by RCAP', and its family members are the five Judiciary documents — CIV_EXP_02_A, CIV_EXP_02_B, CIV_EXP_04_A, CIV_EXP_08_A and FORM-281. It states in terms that it does not extend to 'forms issued by another publisher'. The State Bureau of Identification is another publisher.",
+    "consequence": "Whatever this request produces, its licensing position is open. A document supplied by the Bureau would be an acquisition, not an authorization.",
+    "doNotInfer": "Do not read the settled Delaware permission across to Bureau material. Delaware being an attested jurisdiction does not make every Delaware document permitted.",
+    "attestationNotReopened": "The attestation itself is settled, current and untouched by this record. Nothing here reopens it, narrows it, or asks for further proof of it."
+  },
+  "channelState": {
+    "probedOn": "2026-08-09",
+    "recordedUrlResult": {
+      "url": "https://dsp.delaware.gov/expungements/",
+      "httpStatus": 404,
+      "acquired": false,
+      "block": null,
+      "assessment": "A genuine 404 from a live host, not a perimeter refusal. There is no WAF vendor, no challenge and no rejection body — the host simply does not serve that path."
+    },
+    "hostIsUp": {
+      "url": "https://dsp.delaware.gov/",
+      "httpStatus": 200,
+      "byteLength": 70671,
+      "assessment": "The issuer's site is reachable and answers ordinary requests. This is not an automation-blocked channel and no attended retrieval is required to look at it."
+    },
+    "furtherPathsProbed": [
+      { "url": "https://dsp.delaware.gov/state-bureau-of-identification/", "httpStatus": 200, "byteLength": 61349, "finding": "The Bureau's own page is live and carries no link containing 'expunge'." },
+      { "url": "https://dsp.delaware.gov/sbi/", "httpStatus": 404 },
+      { "url": "https://dsp.delaware.gov/expungement/", "httpStatus": 404 },
+      { "url": "https://dsp.delaware.gov/sbi-expungements/", "httpStatus": 404 }
+    ],
+    "verdict": "the_recorded_landing_page_has_moved_or_been_retired",
+    "whatIsNotConcluded": "That the Bureau publishes nothing about expungement. Four paths were tried on one host and the site was not exhaustively walked. Failure to find is not proof of absence, and this record does not treat it as such.",
+    "perimeterEvasionAttempted": false
+  },
+  "centralFinding": {
+    "headline": "The evidence points to there being no downloadable Bureau application form at all, and the request must be framed to allow for that answer.",
+    "basis": "Delaware's published guidance on the mandatory route describes it as a contact-and-letter process rather than a form-download process: a person contacts the State Bureau of Identification to determine eligibility, and where eligible the Bureau provides a letter with further instructions. That is a correspondence workflow, not a published instrument.",
+    "corroboration": "The queue row's own recorded title is 'Delaware State Police, Expungements — official process source' with a null issuingAuthority, which is what a row looks like when someone recorded a process page because no form could be found.",
+    "statutoryContext": "11 Del. C. § 4373 empowers the Bureau to promulgate procedures, forms, regulations and a fee schedule. Empowerment to promulgate a form is not evidence that a form was promulgated or published, and the section read at source concerns the Bureau's custody and notification duties and its consultation with the court on a standard form of order — an order, not an application.",
+    "whyThisMattersMoreThanALocationQuestion": "If no application form exists, the component de_mandatory_expungement-primary-filing-1 cannot be satisfied by acquisition at any price, and the track's whole output strategy is wrong: there is nothing to fill. That is a design consequence, not a retrieval one, and it must not be discovered at build time.",
+    "confidence": "moderate — sufficient to require the question to be asked, not sufficient to answer it"
+  },
+  "preparedRequest": {
+    "status": "prepared_not_sent",
+    "recipient": "Delaware State Police, State Bureau of Identification",
+    "recipientBasis": "The body 11 Del. C. § 4373 charges with administering mandatory expungement and with promulgating its procedures, forms and fees.",
+    "channelNotSelected": "No channel is chosen here. Selecting one and sending is the authorized human step.",
+    "scope": "one identity, four questions, nothing else",
+    "questions": [
+      "Does the Bureau publish an application form for a mandatory expungement under 11 Del. C. § 4373 that a member of the public completes and submits? If so, what is its exact title and form number, and what is the revision printed on its face?",
+      "If such a form exists, where is the current official copy published, or may a copy be provided?",
+      "If no such form exists, what is the correct way for an eligible person to initiate a mandatory expungement — and is the process the one described in Delaware's public guidance, in which a person contacts the Bureau, the Bureau determines eligibility, and the Bureau issues a letter with further instructions?",
+      "What is the current fee for a mandatory expungement application, and under which regulation or schedule is it set?"
+    ],
+    "whyTheThirdQuestionIsThere": "It is the question the record actually needs. A request that asks only where a form is published cannot receive the answer 'there is no form', and would come back empty in a way that looks like a retrieval failure.",
+    "whatItDoesNotAsk": [
+      "No licence, redistribution or commercial-use permission. That is a separate gate needing its own authorization, and the settled Delaware attestation does not reach this publisher.",
+      "No bulk or programmatic access.",
+      "No eligibility determination for any individual. This programme does not act for a participant and must not appear to.",
+      "Nothing about the Judiciary's CIV_EXP series or FORM-281, which belong to a different issuer and a different job."
+    ],
+    "requestBody": "Request to the Delaware State Police, State Bureau of Identification, concerning mandatory expungement under 11 Del. C. § 4373. Whether the Bureau publishes an application form that a member of the public completes and submits; if so, its exact title, form number and the revision printed on its face, and where the current official copy is published or whether a copy may be provided; if not, the correct way for an eligible person to initiate a mandatory expungement, and whether that is the contact-and-letter process described in Delaware's public guidance; and the current fee for a mandatory expungement application together with the regulation or schedule that sets it. No other information is sought, and no determination about any individual is requested.",
+    "expectedDisposition": "One of: the Bureau names and publishes a form, closing the identity on identity and currentness; the Bureau supplies a copy, converting the identity to a retained asset pending a licence position; the Bureau confirms there is no public application form and describes the correspondence process, in which case the identity is retired as a non-document and the component needs a design decision rather than an acquisition; or the Bureau declines or does not respond, in which case the disposition is issuer_did_not_supply.",
+    "authorizationRequired": true,
+    "authorizationRequiredDetail": "Sending is contact with a state law-enforcement agency on this programme's behalf. The assignment withholds it and nothing here should be read as authorizing it.",
+    "requestSent": false,
+    "relabelledAsFailedDownload": false,
+    "relabelledAsFailedDownloadNote": "This is a direct-request source and must never be recorded as a failed download. The 404 on the recorded URL is a stale-link fact about one path; it is not the reason this identity is unmanifested. The reason is that nobody has yet asked the issuer whether the document exists."
+  },
+  "contactRouteForTheAuthorizedSender": {
+    "status": "not_established_at_first_hand",
+    "why": "The recorded landing page 404s and the Bureau's live page carries no expungement link, so no published correspondence address for this subject was read at first hand.",
+    "instructionToTheSender": "Locate the Bureau's current expungement contact from the live dsp.delaware.gov site, which answers ordinary requests, and confirm the recipient before sending.",
+    "doNotInfer": "Do not send to the 404'd path's implied contact, and do not substitute a general departmental address without checking it reaches the Bureau."
+  },
+  "sourceContractAndMaterialization": {
+    "sourceContractEligible": false,
+    "materializationEligible": false,
+    "receiptCreated": false,
+    "why": "There is no identified document, no bytes, no revision and no hash. Nothing here is receipt-eligible, and no receipt may be created from a 404 or from a process description.",
+    "workerReadySourcesCreated": 0
+  },
+  "doNotSubstitute": [
+    {
+      "candidate": "CIV_EXP_02_A or any CIV_EXP document",
+      "why": "Judiciary forms for the discretionary Superior Court route. Different issuer, different statutory route, different component."
+    },
+    {
+      "candidate": "FORM-281",
+      "why": "The Family Court primary petition. Different court, different route."
+    },
+    {
+      "candidate": "FORM-281E",
+      "why": "A historical extension sheet, and never FORM-281. It is not this document either, and the two must stay distinct."
+    },
+    {
+      "candidate": "the Board of Pardons application",
+      "why": "Pardon is a separate remedy with a separate body. It is not a mandatory expungement application."
+    },
+    {
+      "candidate": "the standard form of order the Bureau develops with the court under § 4373",
+      "why": "An order is not an application. The component needing this identity is a primary filing."
+    }
+  ],
+  "editionConsequence": {
+    "kind": "no_amendment",
+    "why": "No identity, revision, byte count or hash is established, so there is no row to add, correct or retire. The identity keeps its authority_unmanifested_source status exactly as recorded.",
+    "edition13": "Edition 1.3 is published and is untouched. No edition was published, amended or mutated.",
+    "conditionalFutureConsequence": "If the Bureau confirms there is no public application form, the consequence would be retirement of DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION as a non-document normalization artifact and a legal-design decision on the component. If the Bureau supplies a form, the consequence would be a new row and new bytes. Neither is established and neither is proposed.",
+    "doNotSweep": "No other Delaware row and no other jurisdiction's row is implicated."
+  },
+  "implementationFamilyConsequence": {
+    "unlocked": "none",
+    "detail": "de_mandatory_expungement stays source-gated and its primary filing remains unmanifested. No Delaware family is made ready and runtime is untouched.",
+    "riskSurfaced": "The track may not be an official-PDF route at all. Until the issuer answers, an implementation plan that assumes a fillable Bureau application is building on an assumption nobody has tested."
+  },
+  "residualBlockers": [
+    {
+      "id": "de-sbi-request-authorization",
+      "question": "The prepared request cannot be sent without separate authorization.",
+      "status": "blocked_human_only",
+      "owner": "the programme owner",
+      "why": "Contact with a state law-enforcement agency on this programme's behalf. Expressly withheld by the assignment.",
+      "reopenCondition": "An authorized sender transmits the prepared request and the outcome is recorded here."
+    },
+    {
+      "id": "de-sbi-form-may-not-exist",
+      "question": "Whether the Bureau publishes any public application form for mandatory expungement.",
+      "status": "open",
+      "severity": "highest",
+      "owner": "the issuer request",
+      "why": "It decides whether this is an acquisition problem or a design problem, and the two have nothing in common."
+    },
+    {
+      "id": "de-sbi-landing-page-stale",
+      "question": "The recorded official URL https://dsp.delaware.gov/expungements/ returns 404 while the host is live.",
+      "status": "established",
+      "owner": "the acquisition-queue owner",
+      "correctedHere": false,
+      "correctedHereRationale": "The source-acquisition queue is a forbidden path for this job.",
+      "instruction": "The row's knownOfficialUrl should be corrected or cleared. It must not be re-probed as though it were a transient failure: it is a live host answering 404."
+    },
+    {
+      "id": "de-sbi-licensing-unresolved",
+      "question": "Whether Bureau material may be reproduced in a paid packet.",
+      "status": "open",
+      "owner": "acquisition owner or counsel",
+      "why": "The settled Delaware attestation is scoped to the Judiciary family and expressly does not extend to another publisher's forms."
+    },
+    {
+      "id": "de-sbi-fee",
+      "question": "The current mandatory-expungement fee and the regulation that sets it.",
+      "status": "open",
+      "owner": "the issuer request",
+      "why": "Delaware guidance reports an administrative fee payable to the Bureau alongside the civil filing fee, but no figure was established at source here and none is asserted."
+    }
+  ],
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "receiptsWritten": 0,
+    "requestSent": false,
+    "issuerContacted": false,
+    "relabelledAsFailedDownload": false,
+    "permissionAttestationReopened": false,
+    "permissionExtendedToAnotherPublisher": false,
+    "editionMutated": false
+  }
+}
