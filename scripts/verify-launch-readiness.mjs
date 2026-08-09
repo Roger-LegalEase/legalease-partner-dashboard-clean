@@ -95,8 +95,28 @@ if (!fs.existsSync(path.join(rootDir, "docs/RCAP_INDEPENDENCE.md")) || !independ
   failures.push("RCAP independence documentation is missing or incomplete.");
 }
 
-if (!proxySource.includes("INTERNAL_ADMIN_ACCESS_TOKEN") || !proxySource.includes("Authorization") || !proxySource.includes("/internal/:path*")) {
+// The "/internal/:path*" matcher entry this used to require no longer exists. Host-based
+// product routing needed one catch-all matcher, so /internal protection moved into the
+// middleware body: it matches pathname.startsWith("/internal") and denies by default.
+// Requiring the old literal asserted an implementation detail, not the property that
+// matters, so it failed while the route was in fact protected. These checks assert the
+// gate itself, including the deny path the old check never looked at. The behavioral
+// coverage lives in scripts/verify-internal-admin-browser-access.mjs, which drives the
+// gate and runs in npm test.
+if (
+  !proxySource.includes("INTERNAL_ADMIN_ACCESS_TOKEN") ||
+  !proxySource.includes("Authorization") ||
+  !proxySource.includes('startsWith("/internal")') ||
+  !proxySource.includes("hasInternalAdminSession") ||
+  !proxySource.includes("return unauthorized()")
+) {
   failures.push("Internal route protection is not configured.");
+}
+
+// The catch-all matcher is what actually delivers /internal requests to the middleware.
+// Without it the gate above is unreachable and every internal route is open.
+if (!proxySource.includes("export const config") || !proxySource.includes("matcher")) {
+  failures.push("Internal route protection is not wired into the proxy matcher.");
 }
 
 if (!proxySource.includes("NODE_ENV") || !proxySource.includes("production")) {
