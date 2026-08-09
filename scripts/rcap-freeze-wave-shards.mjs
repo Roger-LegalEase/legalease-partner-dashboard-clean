@@ -183,14 +183,10 @@ const ACTIVE_SHARDS = [
     shard: "R2",
     lane: "legal_output_review",
     ownerSession: "SESSION_R",
-    jobIds: [
-      "rcap-ok-guidance-implementation-completed-output-review",
-      "rcap-tn-guidance-implementation-completed-output-review",
-      "rcap-nc-guidance-implementation-completed-output-review"
-    ],
+    jobIds: [],
     reviewKind: "completed_output_legal_review",
     note:
-      "Completed-output legal review only; this shard does not own any technical-review path. These three are the families whose technical and visual review is recorded and approved. Recommendations only — recommend_adopt, recommend_correction or recommend_hold. Counsel remains the adopter."
+      "Empty, and emptied by the answer rather than by the work. External counsel has adopted these families under the project owner\u2019s standing attestation, so Oklahoma, Tennessee and North Carolina — along with Kansas, Minnesota, Missouri and New Jersey — no longer need a completed-output legal read. Seven such jobs are cancelled as satisfied. The only way to have closed them otherwise would have been for a worker to write recommend_adopt: a recommendation nobody made, attributed to a session that did not make it. This shard refills if a family falls outside the standing adoption or a post-2026-08-08 change materially alters the legal document. Technical and visual review is untouched and still required; it is R1\u2019s and it is not satisfied by adoption."
   },
   {
     shard: "INTEGRATION",

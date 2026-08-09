@@ -219,6 +219,55 @@ function attendedRetrievalStatus(rootDir, outputPath) {
   }
 }
 
+const STANDING_EXTERNAL_COUNSEL_ADOPTION_PATH =
+  "data/record-clearing/template-families/EXT-ADOPT-01-standing-external-counsel-adoption.json";
+
+/**
+ * The standing external counsel adoption, read once per plan build.
+ *
+ * Counsel adoption is a record layer, never a field a generator writes: a
+ * review manifest must carry `counselAdopted: false` because a generator has no
+ * standing to adopt anything. So coverage is derived here, from the adoption
+ * record, and the generated evidence is left alone.
+ */
+function standingCounselAdoption(rootDir) {
+  const absolute = path.join(
+    rootDir ?? process.cwd(),
+    STANDING_EXTERNAL_COUNSEL_ADOPTION_PATH
+  );
+  if (!fs.existsSync(absolute)) return null;
+  try {
+    const record = JSON.parse(fs.readFileSync(absolute, "utf8"));
+    if (record.status !== "adopted") return null;
+    return {
+      recordId: record.recordId,
+      adoptedOn: record.adoptedOn,
+      attestedBy: record.provenance?.attestedBy ?? null,
+      reviewedThrough: record.provenance?.authorityReviewedThrough ?? null,
+      families: new Set(
+        (record.boundFamilies ?? []).map((entry) => entry.familyJobId)
+      )
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Whether the standing adoption reaches one implementation family.
+ *
+ * A correction-required family is deliberately excluded even though it is bound:
+ * adoption does not make a defective artifact the current packet. It attaches
+ * again once the correction lands and the family matches the adopted design,
+ * which needs no new external request because a correction that does not change
+ * legal substance is not a new legal document.
+ */
+function standingAdoptionCovers(adoption, rootDir, implementationJobId) {
+  if (!adoption) return false;
+  if (!adoption.families.has(implementationJobId)) return false;
+  return !implementationsRequiringCorrection(rootDir).has(implementationJobId);
+}
+
 function implementationsRequiringCorrection(rootDir) {
   const requiring = new Set();
   for (const directory of [TECHNICAL_REVIEW_DIR, LEGAL_REVIEW_DIR]) {
@@ -4372,6 +4421,7 @@ export function buildFactoryPlan(options = {}) {
   // neither of them is counsel. One artifact for both meant technical approval
   // could read as legal approval, which is the one inference that must never
   // be available.
+  const standingAdoption = standingCounselAdoption(rootDir);
   for (const implementationJobId of COMPLETED_OUTPUT_REVIEW_ASSIGNMENTS) {
     const implementation = jobs.find(
       (job) => job.jobId === implementationJobId
@@ -4455,7 +4505,23 @@ export function buildFactoryPlan(options = {}) {
       // A legal read of output that is already known defective reviews a
       // document nobody will ship. It waits for the correction and the
       // re-review, and says so rather than sitting ready.
-      status: correctionRequired || !technicalApproved ? "blocked" : "ready",
+      //
+      // Where external counsel has already adopted the family, this job is
+      // satisfied rather than outstanding. Leaving it ready would commission a
+      // Session R legal read of something counsel has adopted, and the only way
+      // to "complete" it would be for a worker to write recommend_adopt — a
+      // recommendation nobody made, attributed to a session that did not make
+      // it. Cancelled with its reason recorded is the honest state: the legal
+      // gate is closed, by counsel, on a different path.
+      ...(standingAdoptionCovers(
+        standingAdoption,
+        rootDir,
+        implementationJobId
+      ) && technicalApproved && !correctionRequired
+        ? { status: "cancelled" }
+        : {
+            status: correctionRequired || !technicalApproved ? "blocked" : "ready"
+          }),
       expectedOutputs: [legalResultPath],
       ownedPaths: [legalResultPath],
       requiredInputs: [
@@ -4480,10 +4546,21 @@ export function buildFactoryPlan(options = {}) {
       executionNote: correctionRequired
         ? "Blocked behind an implementation correction: the reviewed output is known " +
           "defective and the corrected packet has not been produced or technically reviewed."
-        : technicalApproved
-          ? "Technical and visual review is recorded and approved. This job is the formal " +
-            "legal read of the finished participant-facing output, which no verifier performs."
-          : "Blocked until technical and visual review of this output is recorded.",
+        : standingAdoptionCovers(standingAdoption, rootDir, implementationJobId) &&
+            technicalApproved
+          ? "Satisfied, not outstanding. External counsel has adopted this family under " +
+            `${STANDING_EXTERNAL_COUNSEL_ADOPTION_PATH}` +
+            `, attested by ${standingAdoption?.attestedBy ?? "the project owner"} on ` +
+            `${standingAdoption?.adoptedOn ?? "2026-08-08"} against the legal corpus reviewed ` +
+            `through ${standingAdoption?.reviewedThrough ?? "2026-08-08"}. Do not commission a ` +
+            "Session R legal read of it: the only way to close that job would be for a worker " +
+            "to write recommend_adopt, which is a recommendation nobody made attributed to a " +
+            "session that did not make it. Technical and visual review is unaffected and " +
+            "remains required."
+          : technicalApproved
+            ? "Technical and visual review is recorded and approved. This job is the formal " +
+              "legal read of the finished participant-facing output, which no verifier performs."
+            : "Blocked until technical and visual review of this output is recorded.",
       stopCondition:
         "Perform, and record the result of, a completed-output legal review of the assembled " +
         "documents. Verify the governing mechanism, the eligibility boundary, the waiting " +

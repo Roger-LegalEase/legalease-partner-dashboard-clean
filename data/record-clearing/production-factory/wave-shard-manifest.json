@@ -5,7 +5,7 @@
   "reviewShardReservationNote": "The claim schema's ownerSession enum is SESSION_B through SESSION_F, and review is none of those. R1 and R2 are therefore reserved here rather than in job-claims.json. This manifest is the reservation of record for them; widening the claim enum would change the job manifest and, through it, worker branch identity.",
   "shardIdentifiersAreNotSessions": "R1 and R2 are shard identifiers, not sessions. Both are owned by SESSION_R, which is the single human review session: R1 carries its technical and visual reads, R2 carries its completed-output legal reads, and the split exists so the two kinds of review cannot be recorded against each other's paths. They were briefly written as ownerSession SESSION_R1 and SESSION_R2, which reads as two review sessions and would have someone opening a second one. The human pool is exactly A, B, C, D, E, F and R; every shard here names one of those seven and no shard may name anything else.",
   "baseline": {
-    "baseCommit": "05c168e70aee524b795a4e2f712a05cedb3e65db",
+    "baseCommit": "360e61dacab7b3ad395d1dc94519ecf1c584efd1",
     "authorityVersion": "master-library/1.2",
     "authorityEdition": "1.2"
   },
@@ -553,7 +553,7 @@
       },
       {
         "path": "planning/record-clearing-100-percent/production-plan.json",
-        "sha256": "93c846603b4259453770cf33083c68edb91dac412f79dd0256e5ce1115ffd1b1"
+        "sha256": "a42f0958261f59bc40390aed9e34e023d2dfeddb7a769463b06f7e217bd73337"
       },
       {
         "path": "src/lib/rcap/jurisdictions/packet-capability.ts",
@@ -579,7 +579,7 @@
   "totals": {
     "activeShards": 16,
     "candidateShards": 7,
-    "activeJobs": 21,
+    "activeJobs": 18,
     "candidateJobs": 12,
     "awaitingIntegration": 0
   },
@@ -1232,97 +1232,16 @@
       "status": "active",
       "ownerSession": "SESSION_R",
       "reviewKind": "completed_output_legal_review",
-      "note": "Completed-output legal review only; this shard does not own any technical-review path. These three are the families whose technical and visual review is recorded and approved. Recommendations only — recommend_adopt, recommend_correction or recommend_hold. Counsel remains the adopter.",
-      "jobIds": [
-        "rcap-ok-guidance-implementation-completed-output-review",
-        "rcap-tn-guidance-implementation-completed-output-review",
-        "rcap-nc-guidance-implementation-completed-output-review"
-      ],
+      "note": "Empty, and emptied by the answer rather than by the work. External counsel has adopted these families under the project owner’s standing attestation, so Oklahoma, Tennessee and North Carolina — along with Kansas, Minnesota, Missouri and New Jersey — no longer need a completed-output legal read. Seven such jobs are cancelled as satisfied. The only way to have closed them otherwise would have been for a worker to write recommend_adopt: a recommendation nobody made, attributed to a session that did not make it. This shard refills if a family falls outside the standing adoption or a post-2026-08-08 change materially alters the legal document. Technical and visual review is untouched and still required; it is R1’s and it is not satisfied by adoption.",
+      "jobIds": [],
       "capacity": {
-        "jobs": 3,
-        "assignedTracks": 5,
-        "incrementalTracks": 5,
-        "assignedComponents": 9,
-        "incrementalComponents": 9
+        "jobs": 0,
+        "assignedTracks": 0,
+        "incrementalTracks": 0,
+        "assignedComponents": 0,
+        "incrementalComponents": 0
       },
-      "jobs": [
-        {
-          "jobId": "rcap-ok-guidance-implementation-completed-output-review",
-          "lane": "legal_output_review",
-          "jurisdiction": "OK",
-          "status": "ready",
-          "semanticFingerprint": "61ac39d289490d3a3640eeaf1a4d36656400e2893fb3293626c22cae5552c259",
-          "branch": "rcap-factory/rcap-ok-guidance-implementation-completed-output-review-a68a398b-61ac39d2",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-ok-guidance-implementation.json"
-          ],
-          "dependencies": [
-            "rcap-ok-guidance-implementation",
-            "rcap-ok-guidance-implementation-technical-visual-review"
-          ],
-          "assignedTrackIds": [
-            "ok_clean_slate",
-            "ok_osbi_portal"
-          ],
-          "incrementalTrackIds": [
-            "ok_clean_slate",
-            "ok_osbi_portal"
-          ],
-          "assignedComponents": 6,
-          "incrementalComponents": 6,
-          "alreadyHasPushedCompletion": false
-        },
-        {
-          "jobId": "rcap-tn-guidance-implementation-completed-output-review",
-          "lane": "legal_output_review",
-          "jurisdiction": "TN",
-          "status": "ready",
-          "semanticFingerprint": "9446e00200d42f3e1592ad129f705cd32450027e938fe98d98511f2549d37476",
-          "branch": "rcap-factory/rcap-tn-guidance-implementation-completed-output-review-59205efa-9446e002",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-tn-guidance-implementation.json"
-          ],
-          "dependencies": [
-            "rcap-tn-guidance-implementation",
-            "rcap-tn-guidance-implementation-technical-visual-review"
-          ],
-          "assignedTrackIds": [
-            "tn_acquittal_immediate",
-            "tn_trafficking_40_32_105"
-          ],
-          "incrementalTrackIds": [
-            "tn_acquittal_immediate",
-            "tn_trafficking_40_32_105"
-          ],
-          "assignedComponents": 2,
-          "incrementalComponents": 2,
-          "alreadyHasPushedCompletion": false
-        },
-        {
-          "jobId": "rcap-nc-guidance-implementation-completed-output-review",
-          "lane": "legal_output_review",
-          "jurisdiction": "NC",
-          "status": "ready",
-          "semanticFingerprint": "464910359530b01a9125d0f7d2b8851b49696fc81fe23d0be611250b723d4b78",
-          "branch": "rcap-factory/rcap-nc-guidance-implementation-completed-output-review-26ecc655-46491035",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-nc-guidance-implementation.json"
-          ],
-          "dependencies": [
-            "rcap-nc-guidance-implementation",
-            "rcap-nc-guidance-implementation-technical-visual-review"
-          ],
-          "assignedTrackIds": [
-            "nc_auto_146_a4"
-          ],
-          "incrementalTrackIds": [
-            "nc_auto_146_a4"
-          ],
-          "assignedComponents": 1,
-          "incrementalComponents": 1,
-          "alreadyHasPushedCompletion": false
-        }
-      ]
+      "jobs": []
     },
     {
       "wave": 4,
@@ -1542,9 +1461,9 @@
           "jobId": "rcap-mn-custom-pleading-completed-output-review",
           "lane": "legal_output_review",
           "jurisdiction": "MN",
-          "status": "ready",
-          "semanticFingerprint": "ceab6af09d1f40d47d0205e695c7da042cf6d573137ed2e6d18bed3b7854c5ea",
-          "branch": "rcap-factory/rcap-mn-custom-pleading-completed-output-review-2864a303-ceab6af0",
+          "status": "cancelled",
+          "semanticFingerprint": "8f268fe917cb677e21d30fd94da2e85d7648139c0ff45dbb90e990526ecc70b7",
+          "branch": "rcap-factory/rcap-mn-custom-pleading-completed-output-review-2864a303-8f268fe9",
           "ownedPaths": [
             "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-mn-custom-pleading.json"
           ],
@@ -1786,5 +1705,5 @@
       ]
     }
   ],
-  "manifestSha256": "bbcaf6d11da8b1dae61c98c8a496c6e209c95004f7537c455288fcc4d06fb352"
+  "manifestSha256": "6524b1e9c3ffbdc87d7fef6029573a1b95836dafc59a709f094380634195d25f"
 }
