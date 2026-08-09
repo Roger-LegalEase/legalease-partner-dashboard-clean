@@ -62,6 +62,8 @@ const REGISTRY = [
     note: "requires NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY" },
   { file: "test-first-admin-supabase-lifecycle.mjs", group: "database",
     note: "invitation lifecycle against a live schema" },
+  { file: "verify-onboarding-tenant-isolation.mjs", group: "database",
+    note: "RLS cross-tenant proof; needs RCAP_TEST_DATABASE_URL (scripts/local-onboarding-db.sh up)" },
 
   // --- staging: hosted acceptance, release gate only ------------------------------------
   { file: "capture-first-admin-acceptance.mjs", group: "staging",
