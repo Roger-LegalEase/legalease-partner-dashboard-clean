@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-ma-public-official-download-ocp-petition-to-seal",
+  "parentJobId": "AUTH-05-acquisition-campaign-tier-2",
+  "jurisdiction": "MA",
+  "lane": "source_acquisition",
+  "strategyFamily": "public_official_download",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "4fbe7b21ea63d78edd9e0b6b06ad587901e92951",
+  "generatedOn": "2026-08-09",
+  "reconciliationIds": [
+    "download:MA:ocp-petition-to-seal"
+  ],
+  "acquisitionIds": [
+    "acquire:MA:petition-to-seal-office-of-the-commissioner-of-probation"
+  ],
+  "downloadedSourceCount": 1,
+  "supersedes": {
+    "jobId": "rcap-ma-attended-retrieval-ocp-petition-to-seal",
+    "note": "The attended assignment for this document was never executed and acquired no bytes. It is superseded, not deleted, and its slug stays addressable."
+  },
+  "generatedFrom": [
+    "data/record-clearing/production-factory/source-acquisition/rcap-ma-official-download-automation-blocked.json",
+    "data/record-clearing/master-library/authority.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json"
+  ],
+  "method": {
+    "description": "Public official download of one Massachusetts document. The official index at https://www.mass.gov/lists/court-forms-for-criminal-records was fetched first and the document's own link read from it; the binary was then fetched by direct HTTPS GET from the URL recorded below. The response was classified by the repository's own hardened acquisition validator (scripts/lib/rcap-factory/acquisition-response.mjs), which ran block detection first and found no perimeter signature. Every property recorded here was measured from the retrieved bytes: the digest with SHA-256, the page count, encryption, AcroForm and XFA structure, the document-level JavaScript name tree, the widget annotations page by page and the terminal field list with its types, and the revision block read from the extracted form face.",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "authenticationUsed": false,
+    "binariesDownloaded": 1,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "thirdPartySubstituteUsed": false,
+    "heldOrCommercialCopySubstituted": false,
+    "binaryDeposition": "The retrieved binary is not committed. This job's ownedPaths are limited to this single production-factory JSON file, and the bytes were measured outside the repository and left there.",
+    "byteVerificationMethod": "fresh_https_get_then_sha256_and_structure_measured_from_the_retrieved_bytes",
+    "byteVerificationNote": "Every digest, count and structural fact in this record was measured in this job from the bytes this job retrieved. Nothing is carried forward from the registry, the intelligence or a held copy.",
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "memoAltered": false
+  },
+  "automationBlockRetest": {
+    "recordedStatus": "BLOCKED — every /doc/…/download endpoint returned HTTP 403 to automated agents on both GET and HEAD, recorded 2026-08-03 and reproduced 2026-08-07.",
+    "retestedOn": "2026-08-09",
+    "agent": "curl with its own default user-agent, no browser header set, no cookie, no referer, redirects followed, 120s timeout, from this codespace's network",
+    "result": "not_reproduced",
+    "resultDetail": "The official index and all five assigned binary endpoints answered HTTP 200 with application/pdf. No perimeter signature was present in any response: the hardened validator's block detector matched nothing.",
+    "earlierRecordTreatment": "The earlier 403 is left exactly as written. It was an access fact about one agent, one network and one date, and this retest is another one. Neither overturns the other and the blocked record is not rewritten.",
+    "evasionUsed": false,
+    "evasionNote": "No control was evaded. The user-agent was not spoofed — the earlier retest that produced the 403 sent a Chrome 126 string and this one sent curl's own — no cookie or token was replayed, no mirror was used, and no route the issuer does not offer was tried."
+  },
+  "validatorClassification": {
+    "validator": "scripts/lib/rcap-factory/acquisition-response.mjs",
+    "expectedAssetKind": "pdf",
+    "expectedPageCount": 1,
+    "acquired": true,
+    "disposition": "acquired_public_official_download",
+    "blockDetected": null,
+    "receiptEligible": true,
+    "workerReadyContract": true,
+    "findings": [],
+    "failures": [],
+    "receiptNote": "receiptEligible is the validator's classification of the response. No materialization receipt is created by this job: a receipt is the materialization owner's artifact and this record is a source contract, not a receipt."
+  },
+  "totals": {
+    "assignedAcquisitions": 1,
+    "binariesRetrieved": 1,
+    "revisionsConfirmedFromFace": 0,
+    "revisionsUnresolved": 1,
+    "correctionsRaised": 0
+  },
+  "acquisitions": [
+    {
+      "acquisitionId": "acquire:MA:petition-to-seal-office-of-the-commissioner-of-probation",
+      "documentId": "MA Petition to Seal",
+      "documentRole": "primary_filing",
+      "trackIds": [
+        "ma-seal-admin"
+      ],
+      "componentIds": [
+        "ma-seal-admin-primary-filing-1"
+      ],
+      "disposition": "acquired_public_official_download",
+      "issuingBody": "Massachusetts Probation Service",
+      "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+      "retrievedFromUrl": "https://www.mass.gov/doc/petition-to-seal-form/download",
+      "retrievedFromUrlBasis": "direct_official_url_reached_from_the_official_index",
+      "retrievalDate": "2026-08-09",
+      "httpStatus": 200,
+      "responseContentType": "application/pdf",
+      "redirected": false,
+      "officialTitleAsPublished": "PETITION TO SEAL",
+      "officialTitleSource": "form_face_heading",
+      "statutoryCitationOnFace": "G.L. c. 276, §§ 100A and 100B (named in the Part A selections on the face)",
+      "indexDescriptionAsPublished": "The official index lists this form as \"Petition to Seal Form (English, PDF 211.8 KB) … (4/12).\"",
+      "sha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+      "sizeBytes": 216883,
+      "pageCount": 1,
+      "encrypted": false,
+      "acroFormPresent": true,
+      "xfaPresent": false,
+      "xfaPackets": [],
+      "needsRendering": false,
+      "documentLevelJavaScript": false,
+      "documentLevelJavaScriptEntries": 0,
+      "widgetAnnotationCount": 23,
+      "widgetAnnotationsPerPage": [
+        23
+      ],
+      "terminalFieldCount": 23,
+      "terminalFieldTypes": {
+        "/Tx": 13,
+        "/Sig": 3,
+        "/Btn": 7
+      },
+      "structuralClass": "clean_acroform",
+      "resolvedRevision": "REV-NONE-ON-FACE",
+      "revisionStatus": "no_printed_revision_on_face",
+      "revisionEvidence": "The retrieved page carries no revision block anywhere. The full extracted text was searched for a revision marker and there is none. No revision is invented and the index's \"(4/12)\" is recorded below as an index description, not as a face revision.",
+      "assignmentExpectation": "AcroForm, 1 page, no printed revision; Part A boxes 1 to 4 are one document and box 4 is an in-form selection",
+      "assignmentExpectationAgreement": "agrees",
+      "redistributionRestriction": "none identified — no restriction is published on the forms index or the how-to pages; a Commonwealth copyright and service-mark notice is present",
+      "commercialUseRestriction": "none identified",
+      "authenticationRequired": false,
+      "feeRequired": false,
+      "partABox4": {
+        "isSeparateDocument": false,
+        "evidence": "Part A of the retrieved page carries boxes 1, 2, 3 and 4 in one numbered list under the single instruction \"SELECT appropriate box(es).\" Box 4 reads \"Section 100A - Chapter 276. Recorded offense which is no longer a crime, except where the elements of the offense continue to be a crime under a different designation.\" It is a selection inside this document.",
+        "consequence": "acquire:MA:petition-to-seal-office-of-the-commissioner-of-probation-part-a-box-4 resolves to these same bytes and this same digest. It is not a sixth Massachusetts document and no separate download job exists for it."
+      }
+    }
+  ],
+  "sourceContract": {
+    "isTheSourceContract": true,
+    "note": "This record is the source contract for these bytes. The exact URL, the byte count and the full digest recorded above are the contract; nothing upstream of them is — not the acquisition intelligence, not the source-artifact registry, and not the Edition 1.2 manifest.",
+    "sha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+    "sizeBytes": 216883,
+    "retrievedFromUrl": "https://www.mass.gov/doc/petition-to-seal-form/download"
+  },
+  "correctionsRaised": [],
+  "unresolved": [
+    {
+      "question": "What revision is this form?",
+      "status": "unresolved_no_face_revision",
+      "why": "The face carries none. The index description says (4/12) and the PDF CreationDate is 2019-03-12 with a ModDate of 2026-02-27, so three different dates are available and none of them is a printed revision. The document is identified by its digest here, not by a revision."
+    }
+  ],
+  "currentness": {
+    "status": "confirmed_against_the_issuer_index_on_this_date",
+    "note": "The document was retrieved today from the Commonwealth's own current index, so these bytes are what the issuer publishes on 2026-08-09. That is a statement about this retrieval and this date and about nothing else."
+  },
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "editionMutated": false,
+    "editionPublished": false,
+    "rendererChosen": false,
+    "materializationReceiptCreated": false
+  }
+}
