@@ -24,6 +24,10 @@ import { SessionPartnerError } from "@/lib/partners/session-partner";
 import { isRcapPartnerOnboardingEnabled } from "@/lib/partners/onboarding/feature";
 import { getPartnerOnboardingPortal } from "@/lib/partners/onboarding/service";
 import { OnboardingDashboardCard } from "@/app/partner/onboarding/OnboardingDashboardCard";
+import {
+  nextActionOwnerLabel,
+  workspaceStatusLabel
+} from "@/lib/partners/onboarding/partner-labels";
 
 export const dynamic = "force-dynamic";
 
@@ -114,10 +118,10 @@ export default async function PartnerDashboardPage() {
             <OnboardingDashboardCard
               completionPercentage={onboarding.workspace.completionPercentage}
               status={onboarding.workspace.status}
-              statusLabel={onboardingStatusLabel(onboarding.workspace.status)}
+              statusLabel={workspaceStatusLabel(onboarding.workspace.status)}
               blockerCopy={onboarding.workspace.blockerCopy}
               nextActionCopy={onboarding.workspace.nextActionCopy}
-              nextActionOwner={onboardingOwnerLabel(onboarding.workspace.nextActionOwner)}
+              nextActionOwner={nextActionOwnerLabel(onboarding.workspace.nextActionOwner)}
               targetLaunchDate={onboarding.workspace.targetLaunchDate}
               href="/partner/onboarding"
               actionLabel={onboardingDashboardActionLabel(onboarding)}
@@ -255,27 +259,6 @@ function Header({
       </p>
     </div>
   );
-}
-
-function onboardingStatusLabel(status: string) {
-  const labels: Record<string, string> = {
-    draft: "Draft",
-    commercially_blocked: "Commercial step required",
-    setup_in_progress: "Setup in progress",
-    waiting_on_partner: "Updates requested",
-    ready_for_review: "Awaiting LegalEase review",
-    ready_to_launch: "Ready for launch preparation",
-    live: "Live",
-    paused: "Paused",
-    closed: "Closed"
-  };
-  return labels[status] ?? "Program setup";
-}
-
-function onboardingOwnerLabel(owner: "partner" | "legalease" | "none") {
-  if (owner === "partner") return "Your organization";
-  if (owner === "legalease") return "LegalEase";
-  return "No action needed";
 }
 
 function onboardingDashboardActionLabel(

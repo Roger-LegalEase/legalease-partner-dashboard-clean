@@ -19,6 +19,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { decideConfirmedSectionSave } from "@/lib/partners/onboarding/client-save-order";
+import { sectionStatusLabel } from "@/lib/partners/onboarding/partner-labels";
 import {
   ACCESS_CODE_STRUCTURES,
   CONTACT_ROLES,
@@ -913,19 +914,6 @@ function sectionBadgeTone(
   }
   if (status === "in_progress" || status === "submitted") return "blue";
   return "neutral";
-}
-
-function sectionStatusLabel(status: OnboardingSectionStatus) {
-  const labels: Record<OnboardingSectionStatus, string> = {
-    not_started: "Not started",
-    in_progress: "In progress",
-    submitted: "Submitted",
-    needs_changes: "Needs changes",
-    approved: "Approved",
-    waived: "Waived",
-    not_applicable: "Not applicable"
-  };
-  return labels[status];
 }
 
 function OrganizationContactsFields(props: FieldRendererProps) {

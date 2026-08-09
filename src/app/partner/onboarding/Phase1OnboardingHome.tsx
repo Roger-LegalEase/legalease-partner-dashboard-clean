@@ -35,6 +35,7 @@ export type Phase1OnboardingHomeProps = {
   agreements: Array<{
     label: string;
     statusLabel: string;
+    detail: string | null;
     downloadHref: string | null;
   }>;
   activity: Array<{
@@ -238,21 +239,26 @@ export function Phase1OnboardingHome({
                 Agreements and procurement
               </h2>
               {agreements.length > 0 ? (
-                <dl className="mt-3 grid gap-3">
+                <dl className="mt-3 grid gap-4">
                   {agreements.map((agreement) => (
-                    <div key={agreement.label} className="flex items-start justify-between gap-3">
-                      <dt className="text-sm leading-5 text-[#5C5750]">{agreement.label}</dt>
-                      <dd className="shrink-0 text-right text-sm font-bold text-[#0F1E3D]">
-                        <span>{agreement.statusLabel}</span>
-                        {agreement.downloadHref ? (
-                          <Link
-                            className="mt-1 block min-h-8 text-xs text-teal underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal"
-                            href={agreement.downloadHref}
-                          >
-                            Download finalized copy
-                          </Link>
-                        ) : null}
-                      </dd>
+                    <div key={agreement.label} className="grid gap-1">
+                      <div className="flex items-start justify-between gap-3">
+                        <dt className="min-w-0 text-sm leading-5 text-[#5C5750]">{agreement.label}</dt>
+                        <dd className="shrink-0 text-right text-sm font-bold text-[#0F1E3D]">
+                          <span>{agreement.statusLabel}</span>
+                          {agreement.downloadHref ? (
+                            <Link
+                              className="mt-1 block min-h-8 text-xs text-teal underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal"
+                              href={agreement.downloadHref}
+                            >
+                              Download finalized copy
+                            </Link>
+                          ) : null}
+                        </dd>
+                      </div>
+                      {agreement.detail ? (
+                        <p className="text-xs leading-5 text-[#8A8278]">{agreement.detail}</p>
+                      ) : null}
                     </div>
                   ))}
                 </dl>

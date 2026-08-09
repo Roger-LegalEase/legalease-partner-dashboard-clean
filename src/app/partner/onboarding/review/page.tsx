@@ -6,6 +6,10 @@ import {
   getOnboardingFieldsForSection
 } from "@/lib/partners/onboarding/schema";
 import { getPartnerOnboardingPortal } from "@/lib/partners/onboarding/service";
+import {
+  sectionStatusLabel,
+  workspaceStatusLabel
+} from "@/lib/partners/onboarding/partner-labels";
 import type {
   OnboardingPartnerData,
   OnboardingSectionKey
@@ -35,7 +39,7 @@ export default async function PartnerOnboardingReviewPage() {
     key: section.key,
     title: section.title,
     status: section.status,
-    statusLabel: statusLabel(section.status),
+    statusLabel: sectionStatusLabel(section.status),
     editHref: `/partner/onboarding/${section.key}`,
     fields: reviewFields(
       section.key,
@@ -100,9 +104,7 @@ export default async function PartnerOnboardingReviewPage() {
           ].includes(portal.workspace.status)
             ? {
                 submittedAt: portal.workspace.submittedAt,
-                statusLabel: submittedWorkspaceStatusLabel(
-                  portal.workspace.status
-                ),
+                statusLabel: workspaceStatusLabel(portal.workspace.status),
                 historical: portal.workspace.status !== "ready_for_review"
               }
             : null
@@ -162,24 +164,6 @@ function reviewValue(value: unknown): string | number | boolean | null | string[
     });
   }
   return "Saved";
-}
-
-function statusLabel(status: string) {
-  return status
-    .split("_")
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
-}
-
-function submittedWorkspaceStatusLabel(status: string) {
-  const labels: Record<string, string> = {
-    ready_for_review: "Awaiting LegalEase review",
-    ready_to_launch: "Ready for launch preparation",
-    live: "Live",
-    paused: "Paused",
-    closed: "Closed"
-  };
-  return labels[status] ?? "Submitted";
 }
 
 function isUnauthenticated(error: unknown) {

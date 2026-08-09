@@ -9,6 +9,13 @@ import {
   getPartnerOnboardingPortal,
   type PartnerOnboardingPortal
 } from "@/lib/partners/onboarding/service";
+import {
+  agreementStatusLabel,
+  agreementTypeLabel,
+  nextActionOwnerLabel,
+  sectionStatusLabel,
+  workspaceStatusLabel
+} from "@/lib/partners/onboarding/partner-labels";
 import { Phase1OnboardingHome } from "./Phase1OnboardingHome";
 
 export const dynamic = "force-dynamic";
@@ -127,7 +134,7 @@ async function Phase1PartnerOnboardingPage() {
         targetLaunchDate={portal.workspace.targetLaunchDate}
         blockerCopy={portal.workspace.blockerCopy}
         nextActionCopy={portal.workspace.nextActionCopy}
-        nextActionOwner={ownerLabel(portal.workspace.nextActionOwner)}
+        nextActionOwner={nextActionOwnerLabel(portal.workspace.nextActionOwner)}
         dominantHref={dominantHref}
         dominantLabel={
           portal.role === "partner_staff"
@@ -153,8 +160,9 @@ async function Phase1PartnerOnboardingPage() {
         }))}
         commercial={commercialSummary(portal)}
         agreements={portal.agreements.map((agreement) => ({
-          label: agreementLabel(agreement.type),
-          statusLabel: enumLabel(agreement.status),
+          label: agreementTypeLabel(agreement.type),
+          statusLabel: agreementStatusLabel(agreement.status),
+          detail: agreement.partnerSafeDetail,
           downloadHref:
             agreement.finalizedAssetId &&
             ["finalized", "executed", "approved"].includes(agreement.status)
@@ -177,40 +185,6 @@ function Shell({ children, wide = false }: { children: React.ReactNode; wide?: b
       <div className={`mx-auto px-4 py-10 md:px-6 ${wide ? "max-w-7xl" : "max-w-4xl"}`}>{children}</div>
     </main>
   );
-}
-
-function workspaceStatusLabel(status: string) {
-  const labels: Record<string, string> = {
-    draft: "Draft",
-    commercially_blocked: "Commercial step required",
-    setup_in_progress: "Setup in progress",
-    waiting_on_partner: "Updates requested",
-    ready_for_review: "Awaiting LegalEase review",
-    ready_to_launch: "Ready for launch preparation",
-    live: "Live",
-    paused: "Paused",
-    closed: "Closed"
-  };
-  return labels[status] ?? "Program setup";
-}
-
-function sectionStatusLabel(status: string) {
-  const labels: Record<string, string> = {
-    not_started: "Not started",
-    in_progress: "In progress",
-    submitted: "Submitted",
-    needs_changes: "Needs changes",
-    approved: "Approved",
-    waived: "Waived",
-    not_applicable: "Not applicable"
-  };
-  return labels[status] ?? "Pending";
-}
-
-function ownerLabel(owner: "partner" | "legalease" | "none") {
-  if (owner === "partner") return "Your organization";
-  if (owner === "legalease") return "LegalEase";
-  return "No action needed";
 }
 
 function sectionSummary(
@@ -246,21 +220,4 @@ function commercialSummary(portal: PartnerOnboardingPortal) {
     detail:
       "LegalEase recorded the applicable paid invoice, approved purchase order, or authorized internal clearance."
   };
-}
-
-function agreementLabel(type: string) {
-  const labels: Record<string, string> = {
-    order_form: "Order Form",
-    master_services_agreement: "Master Services Agreement",
-    data_privacy_security_addendum: "Data / Privacy / Security Addendum",
-    procurement_requirements: "Procurement requirements"
-  };
-  return labels[type] ?? "Agreement";
-}
-
-function enumLabel(value: string) {
-  return value
-    .split("_")
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
 }
