@@ -84,7 +84,18 @@ const homeBase = {
     detail: "Synthetic commercial clearance."
   },
   agreements: [],
-  activity: []
+  activity: [],
+  // Resolved on the server in the real page. Required, not optional: a partner-facing
+  // screen that renders without a support destination is the defect this prop exists to
+  // prevent, so the fixture supplies it rather than the component defaulting it away.
+  support: {
+    email: "partners@legalease.com",
+    mailtoHref: "mailto:partners@legalease.com",
+    label: "partners@legalease.com",
+    accessibleName: "Email LegalEase partner support at partners@legalease.com",
+    configured: false
+  },
+  supportHref: "mailto:partners@legalease.com"
 };
 const staffHomeHtml = render(Phase1OnboardingHome, {
   ...homeBase,
@@ -109,7 +120,20 @@ const reviewBase = {
   canSubmit: false,
   canEdit: false,
   isPartnerStaff: false,
-  workspaceVersion: 12
+  workspaceVersion: 12,
+  // These two are required props that the fixture never supplied, so every render below
+  // threw before reaching a single assertion. That is why this verifier was never wired
+  // into a gate: it could not pass. pendingPrefillSections is read unconditionally in the
+  // component body, and support backs the submission-failure route to LegalEase.
+  pendingPrefillSections: [],
+  support: {
+    email: "partners@legalease.com",
+    mailtoHref: "mailto:partners@legalease.com",
+    label: "partners@legalease.com",
+    accessibleName: "Email LegalEase partner support at partners@legalease.com",
+    configured: false
+  },
+  supportHref: "mailto:partners@legalease.com"
 };
 const submittedReviewHtml = render(OnboardingReviewClient, {
   ...reviewBase,
@@ -163,7 +187,10 @@ const editorBase = {
   assets: [],
   previousHref: "/partner/onboarding/organization_contacts",
   nextHref:
-    "/partner/onboarding/geography_audience_language_accessibility"
+    "/partner/onboarding/geography_audience_language_accessibility",
+  // Also required and also never supplied — the editor reads it while deciding which
+  // fields still need partner confirmation.
+  pendingPrefillFieldKeys: []
 };
 const staffEditorHtml = render(OnboardingSectionEditor, {
   ...editorBase,
