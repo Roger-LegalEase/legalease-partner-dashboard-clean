@@ -4728,7 +4728,17 @@ export function buildFactoryPlan(options = {}) {
       : owner.lane === "source_acquisition"
         ? acquisitionPathFor
         : decisionPath;
-    const present = fs.existsSync(path.join(rootDir, outputPath));
+    // A memo always exists, so presence cannot say whether an amendment landed.
+    // Left on presence alone this job read `completed` the moment it was
+    // created, which hid a real Session D delivery from integration entirely —
+    // the worst version of the failure, because nothing looked wrong. A memo
+    // owner is complete when the memo carries the bytes the amendment produced.
+    const present = owner.ownsMemo === true
+      ? owner.deliveredMemoSha256
+        ? fs.existsSync(path.join(rootDir, outputPath)) &&
+          sha256File(path.join(rootDir, outputPath)) === owner.deliveredMemoSha256
+        : false
+      : fs.existsSync(path.join(rootDir, outputPath));
     addJob({
       lane: owner.lane,
       jurisdiction: "WY",
@@ -5653,6 +5663,8 @@ const WYOMING_LEGAL_DESIGN_OWNERS = Object.freeze([
     strategyFamily: "legal_design_normalization_amendment",
     ownsMemo: true,
     jurisdiction: "WY",
+    deliveredMemoSha256:
+      "1789f299766709081cc98492c25d3641f22ecce75f9449439db54b12319ced3f",
     model: "opus",
     subject:
       "fix(record-clearing): amend the Wyoming memo for the published filing requirements",
