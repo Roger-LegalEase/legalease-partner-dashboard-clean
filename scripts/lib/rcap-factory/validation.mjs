@@ -805,17 +805,48 @@ function inspectProtectedContentChanges(
 ) {
   const failures = [];
   const untracked = new Set(untrackedPaths);
+  // Naming a runtime flag is not setting one.
+  //
+  // These matched the bare identifier on any changed line, which caught the
+  // opposite of what they exist to catch: a worker verifier whose whole job is
+  // to refuse runtime-enabling values has to name them to forbid them, and
+  // Wyoming's guidance verifier was rejected for carrying its own table of
+  // patterns that must never appear in an owned artifact. A guard that fails on
+  // the guard is a false blocker, and the way past it would have been for the
+  // worker to weaken its own check.
+  //
+  // What a worker may not do is *set* one of these to an enabling value, and
+  // every real enablement is an assignment. The real runtime and enablement
+  // surfaces are unreachable anyway: they are forbidden by path above, so this
+  // is the second layer rather than the only one. Disabling values and
+  // prohibitions pass; `productionEnabled: true` does not.
   const protectedLinePatterns = [
     {
       code: "packet_ready_change",
-      pattern: /\bpacket_ready\b/i,
-      message: "packet_ready content may not change in a worker job"
+      pattern: /\bpacket_?ready\b\s*[:=]\s*(?:true\b|["']?[1-9])/i,
+      message: "packet_ready may not be set to a ready value in a worker job"
     },
     {
       code: "enabled_jurisdiction_change",
       pattern:
-        /\b(?:enabledJurisdictions|ENABLED_JURISDICTIONS|productionEnabled|production_enabled|runtimeEnabled|runtime_enabled|liveEnabled)\b/i,
-      message: "enabled-jurisdiction/runtime content may not change in a worker job"
+        /\b(?:enabledJurisdictions|ENABLED_JURISDICTIONS|enabled_jurisdictions)\b\s*[:=]\s*["']?[1-9]/i,
+      message: "enabled jurisdictions may not be set above zero in a worker job"
+    },
+    {
+      code: "runtime_enablement_change",
+      pattern:
+        /\b(?:productionEnabled|production_enabled|runtimeEnabled|runtime_enabled|liveEnabled)\b\s*[:=]\s*true\b/i,
+      message: "runtime enablement may not be set true in a worker job"
+    },
+    {
+      code: "runtime_disable_removed",
+      pattern: /\b(?:runtimeDisabled|runtime_disabled)\b\s*[:=]\s*false\b/i,
+      message: "a worker job may not turn runtime_disabled off"
+    },
+    {
+      code: "runtime_status_change",
+      pattern: /\bruntime_?status\b\s*[:=]\s*["']?runtime_enabled\b/i,
+      message: "a worker job may not set runtime_status to runtime_enabled"
     }
   ];
 
