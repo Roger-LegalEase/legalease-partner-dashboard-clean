@@ -1,0 +1,179 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-ma-public-official-download-mps-petition-to-expunge",
+  "parentJobId": "AUTH-05-acquisition-campaign-tier-2",
+  "jurisdiction": "MA",
+  "lane": "source_acquisition",
+  "strategyFamily": "public_official_download",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "4fbe7b21ea63d78edd9e0b6b06ad587901e92951",
+  "generatedOn": "2026-08-09",
+  "reconciliationIds": [
+    "download:MA:mps-petition-to-expunge"
+  ],
+  "acquisitionIds": [
+    "acquire:MA:massachusetts-probation-service-petition-to-expunge"
+  ],
+  "downloadedSourceCount": 1,
+  "supersedes": {
+    "jobId": "rcap-ma-attended-retrieval-mps-petition-to-expunge",
+    "note": "The attended assignment for this document was never executed and acquired no bytes. It is superseded, not deleted, and its slug stays addressable."
+  },
+  "generatedFrom": [
+    "data/record-clearing/production-factory/source-acquisition/rcap-ma-official-download-automation-blocked.json",
+    "data/record-clearing/master-library/authority.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json"
+  ],
+  "method": {
+    "description": "Public official download of one Massachusetts document. The official index at https://www.mass.gov/lists/court-forms-for-criminal-records was fetched first and the document's own link read from it; the binary was then fetched by direct HTTPS GET from the URL recorded below. The response was classified by the repository's own hardened acquisition validator (scripts/lib/rcap-factory/acquisition-response.mjs), which ran block detection first and found no perimeter signature. Every property recorded here was measured from the retrieved bytes: the digest with SHA-256, the page count, encryption, AcroForm and XFA structure, the document-level JavaScript name tree, the widget annotations page by page and the terminal field list with its types, and the revision block read from the extracted form face.",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "authenticationUsed": false,
+    "binariesDownloaded": 1,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "thirdPartySubstituteUsed": false,
+    "heldOrCommercialCopySubstituted": false,
+    "binaryDeposition": "The retrieved binary is not committed. This job's ownedPaths are limited to this single production-factory JSON file, and the bytes were measured outside the repository and left there.",
+    "byteVerificationMethod": "fresh_https_get_then_sha256_and_structure_measured_from_the_retrieved_bytes",
+    "byteVerificationNote": "Every digest, count and structural fact in this record was measured in this job from the bytes this job retrieved. Nothing is carried forward from the registry, the intelligence or a held copy.",
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "memoAltered": false
+  },
+  "automationBlockRetest": {
+    "recordedStatus": "BLOCKED — every /doc/…/download endpoint returned HTTP 403 to automated agents on both GET and HEAD, recorded 2026-08-03 and reproduced 2026-08-07.",
+    "retestedOn": "2026-08-09",
+    "agent": "curl with its own default user-agent, no browser header set, no cookie, no referer, redirects followed, 120s timeout, from this codespace's network",
+    "result": "not_reproduced",
+    "resultDetail": "The official index and all five assigned binary endpoints answered HTTP 200 with application/pdf. No perimeter signature was present in any response: the hardened validator's block detector matched nothing.",
+    "earlierRecordTreatment": "The earlier 403 is left exactly as written. It was an access fact about one agent, one network and one date, and this retest is another one. Neither overturns the other and the blocked record is not rewritten.",
+    "evasionUsed": false,
+    "evasionNote": "No control was evaded. The user-agent was not spoofed — the earlier retest that produced the 403 sent a Chrome 126 string and this one sent curl's own — no cookie or token was replayed, no mirror was used, and no route the issuer does not offer was tried."
+  },
+  "validatorClassification": {
+    "validator": "scripts/lib/rcap-factory/acquisition-response.mjs",
+    "expectedAssetKind": "pdf",
+    "expectedPageCount": 1,
+    "acquired": true,
+    "disposition": "acquired_public_official_download",
+    "blockDetected": null,
+    "receiptEligible": true,
+    "workerReadyContract": true,
+    "findings": [],
+    "failures": [],
+    "receiptNote": "receiptEligible is the validator's classification of the response. No materialization receipt is created by this job: a receipt is the materialization owner's artifact and this record is a source contract, not a receipt."
+  },
+  "totals": {
+    "assignedAcquisitions": 1,
+    "binariesRetrieved": 1,
+    "revisionsConfirmedFromFace": 0,
+    "revisionsUnresolved": 1,
+    "correctionsRaised": 1
+  },
+  "acquisitions": [
+    {
+      "acquisitionId": "acquire:MA:massachusetts-probation-service-petition-to-expunge",
+      "documentId": "MPS Petition to Expunge",
+      "documentRole": "primary_filing",
+      "trackIds": [
+        "ma-expunge-time"
+      ],
+      "componentIds": [
+        "ma-expunge-time-primary-filing-1"
+      ],
+      "disposition": "acquired_public_official_download",
+      "issuingBody": "Massachusetts Probation Service, Trial Court of Massachusetts",
+      "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+      "retrievedFromUrl": "https://www.mass.gov/doc/courts-dwnld-petition-to-expunge-form/download",
+      "retrievedFromUrlBasis": "the downloadable alternative the intelligence records as alternateOfficialUrl, reached from the official index entry \"Petition to Expunge Form\", which links to https://www.mass.gov/info-details/massachusetts-probation-service-petition-to-expunge-form",
+      "retrievalDate": "2026-08-09",
+      "httpStatus": 200,
+      "responseContentType": "application/pdf",
+      "redirected": false,
+      "officialTitleAsPublished": null,
+      "officialTitleSource": "not_readable_from_face",
+      "statutoryCitationOnFace": "G.L. c. 276, §§ 100F, 100G or 100H (per the index and the info page; not readable from the retrieved face)",
+      "indexDescriptionAsPublished": "The official index lists this form as \"Petition to Expunge Form … (10/11/18)\".",
+      "sha256": "878ec5f84781138738c3de98a5813eb30f42d36b5bba6f468e5e768612943c81",
+      "sizeBytes": 3131095,
+      "pageCount": 1,
+      "encrypted": false,
+      "acroFormPresent": true,
+      "xfaPresent": true,
+      "xfaPackets": [
+        "config",
+        "template",
+        "localeSet",
+        "datasets",
+        "xmpmeta",
+        "xfdf",
+        "form"
+      ],
+      "needsRendering": true,
+      "documentLevelJavaScript": true,
+      "documentLevelJavaScriptEntries": 3,
+      "widgetAnnotationCount": 0,
+      "widgetAnnotationsPerPage": [
+        0
+      ],
+      "terminalFieldCount": 0,
+      "terminalFieldTypes": {},
+      "structuralClass": "dynamic_xfa_shell_no_acroform_widget_shadow",
+      "resolvedRevision": "REV-UNREADABLE-FROM-FACE",
+      "revisionStatus": "not_machine_readable_from_face",
+      "revisionEvidence": "The single rendered page is the Adobe LiveCycle placeholder — \"Please wait... If this message is not eventually replaced by the proper contents of the document, your PDF viewer may not be able to display this type of document.\" The document carries /NeedsRendering true and no AcroForm widget shadow, so the form face exists only inside the XFA template and no revision can be read from the rendered page. No revision is supplied from the index, the filename or the retained legacy copy.",
+      "assignmentExpectation": "an XFA LiveCycle shell whose printed revision is not machine-readable; record that the revision could not be read from the face rather than supplying one from an index, a filename or the retained legacy copy",
+      "assignmentExpectationAgreement": "agrees",
+      "redistributionRestriction": "none identified — no restriction is published on the forms index or the how-to pages; a Commonwealth copyright and service-mark notice is present",
+      "commercialUseRestriction": "none identified",
+      "authenticationRequired": false,
+      "feeRequired": false
+    }
+  ],
+  "sourceContract": {
+    "isTheSourceContract": true,
+    "note": "This record is the source contract for these bytes. The exact URL, the byte count and the full digest recorded above are the contract; nothing upstream of them is — not the acquisition intelligence, not the source-artifact registry, and not the Edition 1.2 manifest.",
+    "sha256": "878ec5f84781138738c3de98a5813eb30f42d36b5bba6f468e5e768612943c81",
+    "sizeBytes": 3131095,
+    "retrievedFromUrl": "https://www.mass.gov/doc/courts-dwnld-petition-to-expunge-form/download"
+  },
+  "correctionsRaised": [
+    {
+      "kind": "retained_legacy_artifact_is_not_this_document",
+      "severity": "high",
+      "observation": "The repository's retained Massachusetts Probation Service copy is a 13,137-byte, 2-page, zero-field flat PDF. The current official binary is 3,131,095 bytes, 1 page and a dynamic XFA shell. They are not the same artifact and the legacy copy is not current materialization evidence for this document.",
+      "correctTo": "retire the 13 KB legacy artifact as a legacy copy; it is not eligible to stand for these bytes",
+      "owner": "source-artifact registry and Edition candidate intake — planning-owned, not this job's path"
+    }
+  ],
+  "unresolved": [
+    {
+      "question": "What printed revision does this document's form face carry?",
+      "status": "unresolved_face_not_machine_readable",
+      "why": "The face is inside the XFA template and the rendered page is the LiveCycle placeholder. The index says 10/11/18 and the PDF CreationDate is 2018-10-11, which is corroboration of identity only. Neither is a face revision and neither is recorded as one. Reading the face needs an XFA-capable renderer, which is a separate decision with its own owner."
+    },
+    {
+      "question": "Which XFA strategy does this document take — convert, flatten-and-overlay, or hand off to the interactive form?",
+      "status": "referred_to_the_xfa_strategy_owner",
+      "why": "A dynamic XFA shell with no widget shadow cannot be filled by an AcroForm filler at all. That is a renderer decision and this job does not make one."
+    }
+  ],
+  "currentness": {
+    "status": "confirmed_against_the_issuer_index_on_this_date",
+    "note": "The document was retrieved today from the Commonwealth's own current index, so these bytes are what the issuer publishes on 2026-08-09. That is a statement about this retrieval and this date and about nothing else."
+  },
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "editionMutated": false,
+    "editionPublished": false,
+    "rendererChosen": false,
+    "materializationReceiptCreated": false
+  }
+}
