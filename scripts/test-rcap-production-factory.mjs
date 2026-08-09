@@ -109,6 +109,7 @@ import {
   validateNormalizationReadinessRecord
 } from "./lib/rcap-factory/normalization-readiness.mjs";
 import {
+  buildOfficialPdfSourceProjection,
   validateLegalReviewMaterializationContract,
   validateOfficialPdfSourceProjection
 } from "./lib/rcap-factory/materialization-planning.mjs";
@@ -5112,14 +5113,59 @@ await check(
     ]);
     const memoPath = path.join(ROOT, "data/record-clearing/legal-design-intake/WY.memo.json");
     assert.ok(fs.existsSync(memoPath), "the memo exists regardless of delivery");
-    const delivered =
-      crypto.createHash("sha256").update(fs.readFileSync(memoPath)).digest("hex") ===
-      "1789f299766709081cc98492c25d3641f22ecce75f9449439db54b12319ced3f";
+    const digest = crypto
+      .createHash("sha256")
+      .update(fs.readFileSync(memoPath))
+      .digest("hex");
+    // Advanced when the remaining-track eligibility encoding landed. Delivery is
+    // position in the recorded chain of memo states, not equality with one hash:
+    // asked as equality, this amendment reopened as `ready` the moment a later
+    // amendment edited the same memo, and two owners of one path then both read
+    // active. Presence still means nothing — a digest in no recorded state is
+    // still undelivered, which is what the negative control below proves.
+    const RECORDED_STATES = [
+      "1789f299766709081cc98492c25d3641f22ecce75f9449439db54b12319ced3f",
+      "de2239036a9b2fbda8f6ce7c18a85c3da67c290cf68159929bd46d8c77ddb679"
+    ];
+    const delivered = RECORDED_STATES.includes(digest);
     assert.equal(
       job.status,
       delivered ? "completed" : "ready",
       "completion must follow the delivered digest, not the file's existence"
     );
+
+    // The second owner of the same memo. Two amendments never own the path at
+    // once: the earlier one is complete because the chain moved past it.
+    const second = plan.jobs.find(
+      (entry) => entry.jobId === "rcap-wy-remaining-track-legal-design-amendment"
+    );
+    assert.ok(second);
+    assert.deepEqual(second.ownedPaths, [
+      "data/record-clearing/legal-design-intake/WY.memo.json"
+    ]);
+    assert.equal(
+      second.status,
+      digest === RECORDED_STATES[1] ? "completed" : "ready"
+    );
+
+    // Negative control: a memo whose bytes match no recorded state is
+    // undelivered however plainly the file exists.
+    const strayRoot = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-stray-memo-"));
+    try {
+      const strayDir = path.join(strayRoot, "data/record-clearing/legal-design-intake");
+      fs.mkdirSync(strayDir, { recursive: true });
+      fs.writeFileSync(path.join(strayDir, "WY.memo.json"), "{}\n");
+      const strayDigest = crypto
+        .createHash("sha256")
+        .update(fs.readFileSync(path.join(strayDir, "WY.memo.json")))
+        .digest("hex");
+      assert.ok(
+        !RECORDED_STATES.includes(strayDigest),
+        "a memo that exists is not thereby a memo that was delivered"
+      );
+    } finally {
+      fs.rmSync(strayRoot, { recursive: true, force: true });
+    }
   }
 );
 
@@ -5237,6 +5283,190 @@ await check(
       assert.ok(liveBlockers.has(independent), `${independent} must still gate independently`);
     }
     assert.equal(plan.runtime?.packetReady ?? 0, 0);
+  }
+);
+
+await check(
+  "the Kansas per-document exclusion is resolved through supersession",
+  () => {
+    const index = buildSourceAuthorizationIndex(ROOT);
+    const projection = buildOfficialPdfSourceProjection(ROOT);
+    const kansas = projection.identities.filter(
+      (identity) => identity.jurisdiction === "KS"
+    );
+    assert.ok(kansas.length > 0, "the Kansas family must be in the projection");
+
+    const COVERED = [
+      "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+      "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+      "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
+      "KSJC-NOTICE-OF-HEARING-12-2016",
+      "KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016",
+      "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+      "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+      "KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022",
+      "KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022"
+    ];
+    const identityFor = (documentId) =>
+      kansas.find((identity) => identity.queueOfficialFormId === documentId);
+
+    // 1. The nine covered identities are not denied by the superseded decision.
+    for (const documentId of COVERED) {
+      const resolved = authorizationFor(index, { jurisdiction: "KS", documentId });
+      assert.equal(
+        resolved.generationAllowed,
+        true,
+        `${documentId} must resolve authorized`
+      );
+      assert.equal(
+        resolved.decisionJobId,
+        "rcap-ks-project-owner-permission-authorization"
+      );
+      const identity = identityFor(documentId);
+      assert.ok(identity, `${documentId} must appear in the projection`);
+      assert.notEqual(
+        identity.disposition,
+        "deliberately_excluded_commercial_license",
+        `${documentId} must not carry the superseded licence exclusion`
+      );
+      assert.ok(
+        !(identity.assignmentBlockers ?? []).includes(
+          "deliberately_excluded_commercial_license"
+        )
+      );
+      // Permission removed the permission blocker and nothing else.
+      assert.equal(identity.assignmentEligible, false);
+      assert.ok(
+        (identity.assignmentBlockers ?? []).length > 0,
+        `${documentId}: an authorized source is not thereby ready`
+      );
+    }
+
+    // 2. A document outside the nine remains excluded. The criminal cover sheet
+    //    is bound to five Kansas routes and is outside the attested family on
+    //    either reading of its issuer.
+    const outside = identityFor("KS-CRIMINAL-COVER-SHEET-10-14-2025");
+    assert.ok(outside, "the Kansas criminal cover sheet must be in the projection");
+    assert.equal(outside.disposition, "deliberately_excluded_commercial_license");
+    assert.equal(
+      authorizationFor(index, {
+        jurisdiction: "KS",
+        documentId: "KS-CRIMINAL-COVER-SHEET-10-14-2025"
+      }).generationAllowed,
+      false
+    );
+    // And nothing sweeps in a Kansas form nobody has considered. That holds
+    // because the jurisdiction-level commercial-use question is recorded as
+    // open: a document the grant does not name falls through to it and fails
+    // closed there, rather than reaching the no-restriction default.
+    assert.ok(
+      index.licenseRequiredJurisdictions.has("KS"),
+      "Kansas must carry an open jurisdiction-level commercial-use question"
+    );
+    assert.equal(
+      authorizationFor(index, {
+        jurisdiction: "KS",
+        documentId: "KS-SOME-FORM-NOBODY-HAS-CONSIDERED"
+      }).generationAllowed,
+      false
+    );
+
+    // 3. Historical records remain intact, unrewritten, still saying no.
+    const historical = JSON.parse(
+      fs.readFileSync(
+        path.join(
+          ROOT,
+          "data/record-clearing/production-factory/source-acquisition",
+          "rcap-ks-commercial-license.json"
+        ),
+        "utf8"
+      )
+    );
+    assert.equal(historical.generationAllowed, false);
+    assert.equal(historical.licenseAdopted, false);
+    assert.ok((historical.excludedDocuments ?? []).length > 0);
+    assert.equal(index.decisions.get("KS").supersedes, "rcap-ks-commercial-license");
+
+    // 4. Source currentness is independent of permission. Every covered Kansas
+    //    identity still carries an unresolved or gated source state.
+    for (const documentId of COVERED) {
+      const identity = identityFor(documentId);
+      assert.ok(
+        ["unresolved_identity", "source_gated_identity"].includes(
+          identity.disposition
+        ),
+        `${documentId} must keep a real source blocker, found ${identity.disposition}`
+      );
+    }
+
+    // 5. Missing bytes remain missing: no Kansas identity became worker
+    //    assignable, and none claims an exact source contract it does not hold.
+    for (const identity of kansas) {
+      assert.notEqual(identity.disposition, "exact_worker_assignable");
+      assert.equal(identity.assignmentEligible, false);
+      assert.equal(identity.grantsSourceApproval, false);
+      assert.equal(identity.grantsPacketReady, false);
+      assert.equal(identity.grantsRuntimeEnablement, false);
+    }
+
+    // 6. Role mismatch remains blocking, and is reached only after permission:
+    //    a denied jurisdiction never gets that far, and an authorized one still
+    //    stops on it.
+    const roleMismatched = projection.identities.filter(
+      (identity) => identity.disposition === "role_mismatch"
+    );
+    assert.ok(roleMismatched.length > 0, "role_mismatch must still gate somewhere");
+    for (const identity of roleMismatched) {
+      assert.equal(identity.assignmentEligible, false);
+    }
+
+    // 7. Runtime is untouched.
+    const plan = buildFactoryPlan({ rootDir: ROOT });
+    assert.equal(plan.runtime?.packetReady ?? 0, 0);
+    assert.equal(plan.runtime?.enabledJurisdictions ?? 0, 0);
+
+    // The defect this replaced: a superseded per-document refusal outranking
+    // the grant that superseded it. Asserted at the resolver on a fixture, so
+    // the guard outlives any live Kansas state — a scoped grant that names its
+    // predecessor wins for the documents it names and for no others.
+    const scopedRoot = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-ks-scoped-"));
+    try {
+      const fixture = authorizationFixture(scopedRoot, {
+        "rcap-zz-commercial-license": {
+          jobId: "rcap-zz-commercial-license",
+          jurisdiction: "ZZ",
+          strategyFamily: "commercial_license",
+          terminalDisposition: "deliberately_excluded_commercial_license",
+          licenseAdopted: false,
+          generationAllowed: false,
+          excludedDocuments: [{ documentId: "ZZ-ONE" }, { documentId: "ZZ-TWO" }]
+        },
+        "rcap-zz-project-owner-permission-authorization": {
+          jobId: "rcap-zz-project-owner-permission-authorization",
+          jurisdiction: "ZZ",
+          strategyFamily: "commercial_license",
+          terminalDisposition: "authorized",
+          licenseAdopted: true,
+          generationAllowed: true,
+          supersedes: { decisionJobId: "rcap-zz-commercial-license" },
+          coveredDocuments: [{ documentId: "ZZ-ONE" }]
+        }
+      }, { holdCommercialUse: ["ZZ"] });
+      assert.equal(
+        authorizationFor(fixture, { jurisdiction: "ZZ", documentId: "ZZ-ONE" })
+          .generationAllowed,
+        true,
+        "a scoped grant must reach the document it names"
+      );
+      assert.equal(
+        authorizationFor(fixture, { jurisdiction: "ZZ", documentId: "ZZ-TWO" })
+          .generationAllowed,
+        false,
+        "a scoped grant must not reach a document it does not name"
+      );
+    } finally {
+      fs.rmSync(scopedRoot, { recursive: true, force: true });
+    }
   }
 );
 

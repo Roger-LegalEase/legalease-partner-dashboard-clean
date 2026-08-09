@@ -3,8 +3,8 @@ import fs from "node:fs";
 import path from "node:path";
 
 import {
-  buildSourceAuthorizationIndex,
-  permitsGeneration
+  authorizationFor,
+  buildSourceAuthorizationIndex
 } from "./source-authorization.mjs";
 
 export const LEGAL_REVIEW_MATERIALIZATION_CONTRACT_PATH =
@@ -283,57 +283,47 @@ export function buildLegalReviewMaterializationContract(rootDir) {
 }
 
 /**
- * Jurisdictions with an integrated commercial-use denial.
- *
- * A licence decision is terminal in the negative when it adopts no licence and
- * forbids generation. Read from the decision corpus so a later grant lifts the
- * exclusion by itself, and a later denial applies without anyone remembering
- * to extend a list.
+ * The jurisdiction-level licence gate used to live here as its own set, built
+ * from the same authorization index and consulted after a Kansas-only
+ * per-document exclusion that had no supersession check at all. Both are now
+ * one per-document question asked of the canonical resolver inside
+ * `officialPdfDisposition`, which is the only place a licence decides anything
+ * about a source. See the comment there.
  */
-function licenseDeniedJurisdictionSet(rootDir) {
-  // Ask the authorization index what is true now, rather than the pile of
-  // decision files what was ever true.
-  //
-  // This scanned every commercial-licence decision and denied a jurisdiction if
-  // any of them said no. A denial is a record of what was true when it was
-  // made, and this treated it as permanent: Indiana's project-owner attestation
-  // expressly supersedes rcap-in-commercial-license and resolves authorized,
-  // and Indiana still came out of here denied, so the official-PDF projection
-  // kept excluding it on a licence question that had been answered.
-  //
-  // The index already resolves lineage — a successor that names the decision it
-  // supersedes wins over its parent — and it is the same resolver every other
-  // permission consumer uses. Reading it here means supersession works for every
-  // jurisdiction, with no per-jurisdiction exception and no list of attested
-  // states to keep in step.
-  //
-  // Fail-closed is unchanged. A denial with no successor still resolves to a
-  // non-permitting verdict and still lands in this set, and a jurisdiction with
-  // an open licence question that nobody has answered is still withheld.
-  const index = buildSourceAuthorizationIndex(rootDir);
-  const denied = new Set();
-  for (const [jurisdiction, decision] of index.decisions) {
-    if (!permitsGeneration(decision.verdict)) denied.add(jurisdiction);
-  }
-  for (const jurisdiction of index.licenseRequiredJurisdictions ?? []) {
-    // An unanswered commercial-use hold is not a grant. It denies unless a
-    // decision resolves it, which the loop above has already established.
-    if (!index.decisions.has(jurisdiction)) denied.add(jurisdiction);
-  }
-  return denied;
-}
 
 export function buildOfficialPdfSourceProjection(rootDir) {
   const queue = readJson(rootDir, OFFICIAL_PDF_PRODUCTION_QUEUE_PATH);
   const reconciliation = readJson(rootDir, OFFICIAL_PDF_RECONCILIATION_PATH);
   const registry = readJson(rootDir, SOURCE_ARTIFACT_REGISTRY_PATH);
   const normalizationInput = readJson(rootDir, NORMALIZATION_INPUT_PATH);
-  const ksExclusion = readJson(rootDir, KS_COMMERCIAL_EXCLUSION_PATH);
   const coRequirements = readJson(rootDir, CO_SOURCE_REQUIREMENTS_PATH);
   const decisionsByComponent = readCompletedSourceDecisions(rootDir);
-  const excludedKansasIds = new Set(
-    (ksExclusion.excludedDocuments ?? []).map((entry) => entry.documentId)
-  );
+  // The per-document form of the supersession defect already fixed at the
+  // jurisdiction level for Indiana.
+  //
+  // Kansas was the one jurisdiction with a hard-coded per-document exclusion
+  // set, built unconditionally from rcap-ks-commercial-license.json's
+  // excludedDocuments with no supersession check and evaluated before the
+  // supersession-aware jurisdiction check below. A superseded refusal therefore
+  // outranked the grant that superseded it, and the nine documents the
+  // project-owner attestation names stayed dispositioned
+  // deliberately_excluded_commercial_license after the licence question was
+  // answered.
+  //
+  // Both checks are now one question asked of the canonical resolver, per
+  // document: it already resolves lineage, and it already understands a
+  // decision that scopes itself to named documents. That means the grant
+  // reaches exactly the documents it names, a Kansas document outside the nine
+  // still falls through to the open jurisdiction-level question and stays
+  // fail-closed, and no jurisdiction is named in this file at all. The
+  // historical decision is left where it is, unedited: it is a record of what
+  // was true when it was made.
+  //
+  // Fail-closed is unchanged. license_unresolved, written_permission_required
+  // and an unanswered commercial-use hold all withhold, and this says nothing
+  // about whether a source is current, whether its bytes are held, or whether
+  // its role matches — those are separate gates and stay separate.
+  const authorizationIndex = buildSourceAuthorizationIndex(rootDir);
   // Jurisdictions whose commercial-use question has an integrated, terminal
   // negative answer. Read from the decision records rather than from a
   // per-jurisdiction list, because a list only covers the jurisdiction someone
@@ -344,7 +334,6 @@ export function buildOfficialPdfSourceProjection(rootDir) {
   // components onto JDF-2371, that side effect disappeared and an unlicensed
   // document became worker-assignable. A licence denial has to exclude the
   // family it denies, not the one document that happened to be flagged.
-  const licenseDeniedJurisdictions = licenseDeniedJurisdictionSet(rootDir);
   const coRoleConflictIds = new Set(
     sourceRequirementRows(coRequirements)
       .filter(
@@ -375,8 +364,7 @@ export function buildOfficialPdfSourceProjection(rootDir) {
       const disposition = officialPdfDisposition({
         jurisdiction,
         document,
-        excludedKansasIds,
-        licenseDeniedJurisdictions,
+        authorizationIndex,
         coRoleConflictIds,
         decisionsByComponent
       });
@@ -920,21 +908,24 @@ export function sha256File(filePath) {
 function officialPdfDisposition({
   jurisdiction,
   document,
-  excludedKansasIds,
-  licenseDeniedJurisdictions,
+  authorizationIndex,
   coRoleConflictIds,
   decisionsByComponent
 }) {
-  if (
-    jurisdiction === "KS" &&
-    excludedKansasIds.has(document.officialFormId)
-  ) {
-    return "deliberately_excluded_commercial_license";
-  }
   // Checked before every positive disposition below. Reproducing a publisher's
   // form in a paid packet without permission is not a technical question and
   // no amount of source readiness answers it.
-  if (licenseDeniedJurisdictions.has(jurisdiction)) {
+  //
+  // Asked per document, because a grant may name the documents it covers. A
+  // document a scoped grant does not name is not swept in by its jurisdiction,
+  // and permission is never inferred from currentness or from custody of the
+  // bytes.
+  if (
+    !authorizationFor(authorizationIndex, {
+      jurisdiction,
+      documentId: document.officialFormId
+    }).generationAllowed
+  ) {
     return "deliberately_excluded_commercial_license";
   }
   if (jurisdiction === "CA" && document.officialFormId === "SDSC-CRM-307") {
