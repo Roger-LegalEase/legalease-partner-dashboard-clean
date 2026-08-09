@@ -1,0 +1,173 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-ma-public-official-download-tc0021",
+  "parentJobId": "AUTH-05-acquisition-campaign-tier-2",
+  "jurisdiction": "MA",
+  "lane": "source_acquisition",
+  "strategyFamily": "public_official_download",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "4fbe7b21ea63d78edd9e0b6b06ad587901e92951",
+  "generatedOn": "2026-08-09",
+  "reconciliationIds": [
+    "download:MA:tc0021"
+  ],
+  "acquisitionIds": [
+    "acquire:MA:tc0021"
+  ],
+  "downloadedSourceCount": 1,
+  "supersedes": {
+    "jobId": "rcap-ma-attended-retrieval-tc0021",
+    "note": "The attended assignment for this document was never executed and acquired no bytes. It is superseded, not deleted, and its slug stays addressable."
+  },
+  "generatedFrom": [
+    "data/record-clearing/production-factory/source-acquisition/rcap-ma-official-download-automation-blocked.json",
+    "data/record-clearing/master-library/authority.json",
+    "planning/record-clearing-100-percent/acquisition-intelligence/documents.json"
+  ],
+  "method": {
+    "description": "Public official download of one Massachusetts document. The official index at https://www.mass.gov/lists/court-forms-for-criminal-records was fetched first and the document's own link read from it; the binary was then fetched by direct HTTPS GET from the URL recorded below. The response was classified by the repository's own hardened acquisition validator (scripts/lib/rcap-factory/acquisition-response.mjs), which ran block detection first and found no perimeter signature. Every property recorded here was measured from the retrieved bytes: the digest with SHA-256, the page count, encryption, AcroForm and XFA structure, the document-level JavaScript name tree, the widget annotations page by page and the terminal field list with its types, and the revision block read from the extracted form face.",
+    "issuerContactsMade": 0,
+    "feesPaid": 0,
+    "authenticationUsed": false,
+    "binariesDownloaded": 1,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "thirdPartySubstituteUsed": false,
+    "heldOrCommercialCopySubstituted": false,
+    "binaryDeposition": "The retrieved binary is not committed. This job's ownedPaths are limited to this single production-factory JSON file, and the bytes were measured outside the repository and left there.",
+    "byteVerificationMethod": "fresh_https_get_then_sha256_and_structure_measured_from_the_retrieved_bytes",
+    "byteVerificationNote": "Every digest, count and structural fact in this record was measured in this job from the bytes this job retrieved. Nothing is carried forward from the registry, the intelligence or a held copy.",
+    "legalConclusionsAltered": false,
+    "editionMutated": false,
+    "memoAltered": false
+  },
+  "automationBlockRetest": {
+    "recordedStatus": "BLOCKED — every /doc/…/download endpoint returned HTTP 403 to automated agents on both GET and HEAD, recorded 2026-08-03 and reproduced 2026-08-07.",
+    "retestedOn": "2026-08-09",
+    "agent": "curl with its own default user-agent, no browser header set, no cookie, no referer, redirects followed, 120s timeout, from this codespace's network",
+    "result": "not_reproduced",
+    "resultDetail": "The official index and all five assigned binary endpoints answered HTTP 200 with application/pdf. No perimeter signature was present in any response: the hardened validator's block detector matched nothing.",
+    "earlierRecordTreatment": "The earlier 403 is left exactly as written. It was an access fact about one agent, one network and one date, and this retest is another one. Neither overturns the other and the blocked record is not rewritten.",
+    "evasionUsed": false,
+    "evasionNote": "No control was evaded. The user-agent was not spoofed — the earlier retest that produced the 403 sent a Chrome 126 string and this one sent curl's own — no cookie or token was replayed, no mirror was used, and no route the issuer does not offer was tried."
+  },
+  "validatorClassification": {
+    "validator": "scripts/lib/rcap-factory/acquisition-response.mjs",
+    "expectedAssetKind": "pdf",
+    "expectedPageCount": 2,
+    "acquired": true,
+    "disposition": "acquired_public_official_download",
+    "blockDetected": null,
+    "receiptEligible": true,
+    "workerReadyContract": true,
+    "findings": [],
+    "failures": [],
+    "receiptNote": "receiptEligible is the validator's classification of the response. No materialization receipt is created by this job: a receipt is the materialization owner's artifact and this record is a source contract, not a receipt."
+  },
+  "totals": {
+    "assignedAcquisitions": 1,
+    "binariesRetrieved": 1,
+    "revisionsConfirmedFromFace": 1,
+    "revisionsUnresolved": 0,
+    "correctionsRaised": 1
+  },
+  "acquisitions": [
+    {
+      "acquisitionId": "acquire:MA:tc0021",
+      "documentId": "TC0021",
+      "documentRole": "primary_filing",
+      "trackIds": [
+        "ma-expunge-mj"
+      ],
+      "componentIds": [
+        "ma-expunge-mj-primary-filing-1"
+      ],
+      "disposition": "acquired_public_official_download",
+      "issuingBody": "Trial Court of Massachusetts (standardized across BMC, District, Juvenile and Superior)",
+      "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+      "retrievedFromUrl": "https://www.mass.gov/doc/petition-for-expungement-of-marijuana-offenses-form/download",
+      "retrievedFromUrlBasis": "direct_official_url_reached_from_the_official_index",
+      "retrievalDate": "2026-08-09",
+      "httpStatus": 200,
+      "responseContentType": "application/pdf",
+      "redirected": false,
+      "officialTitleAsPublished": "PETITION FOR EXPUNGEMENT OF MARIJUANA OFFENSES",
+      "officialTitleSource": "form_face_heading",
+      "statutoryCitationOnFace": "G.L. c. 276, § 100K¼",
+      "indexDescriptionAsPublished": "The official index lists this form as \"Petition for Expungement of Marijuana Offenses Form (English, PDF 1.33 MB) … (11/8/22).\"",
+      "sha256": "a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c",
+      "sizeBytes": 1393680,
+      "pageCount": 2,
+      "encrypted": false,
+      "acroFormPresent": true,
+      "xfaPresent": true,
+      "xfaPackets": [
+        "config",
+        "template",
+        "localeSet",
+        "datasets",
+        "xmpmeta",
+        "xfdf",
+        "form"
+      ],
+      "needsRendering": false,
+      "documentLevelJavaScript": true,
+      "documentLevelJavaScriptEntries": 3,
+      "widgetAnnotationCount": 29,
+      "widgetAnnotationsPerPage": [
+        28,
+        1
+      ],
+      "terminalFieldCount": 29,
+      "terminalFieldTypes": {
+        "/Tx": 10,
+        "/Btn": 19
+      },
+      "structuralClass": "xfa_hybrid_with_acroform_widget_shadow",
+      "resolvedRevision": "REV-2022-11",
+      "revisionStatus": "confirmed_printed_face",
+      "revisionEvidence": "The face prints \"Standardized (Multi - BMC, DC, JC, SC)-Criminal-TC0021 (11/22)\" on both pages, read from the retrieved bytes.",
+      "assignmentExpectation": "printed revision 11/22, XFA with document-level JavaScript, 2 pages; the measured structure settles the repository's own contradiction about whether TC0021 is a clean AcroForm or XFA",
+      "assignmentExpectationAgreement": "agrees",
+      "redistributionRestriction": "none identified — no restriction is published on the forms index or the how-to pages; a Commonwealth copyright and service-mark notice is present",
+      "commercialUseRestriction": "none identified",
+      "authenticationRequired": false,
+      "feeRequired": false
+    }
+  ],
+  "sourceContract": {
+    "isTheSourceContract": true,
+    "note": "This record is the source contract for these bytes. The exact URL, the byte count and the full digest recorded above are the contract; nothing upstream of them is — not the acquisition intelligence, not the source-artifact registry, and not the Edition 1.2 manifest.",
+    "sha256": "a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c",
+    "sizeBytes": 1393680,
+    "retrievedFromUrl": "https://www.mass.gov/doc/petition-for-expungement-of-marijuana-offenses-form/download"
+  },
+  "correctionsRaised": [
+    {
+      "kind": "source_artifact_registry_row_contradiction_settled",
+      "severity": "high",
+      "observation": "The source-artifact registry row for TC0021 records technicalClass clean_acroform, fieldCount 29 and xfa false. The free text on the same record and the Edition 1.2 manifest row say XFA. The retrieved bytes settle it: the AcroForm dictionary carries a full /XFA packet array (config, template, localeSet, datasets, xmpmeta, xfdf, form) from Adobe LiveCycle Designer 11.0, with three document-level JavaScript entries. The document is XFA.",
+      "correctTo": "technicalClass xfa_hybrid_with_acroform_widget_shadow, xfa true. The recorded fieldCount 29 is correct and is confirmed: 29 widget annotations and 29 terminal fields, 28 on page 1 and 1 on page 2. Only the class and the xfa flag are wrong.",
+      "owner": "source-artifact registry and the Edition 1.2 manifest — planning-owned, not this job's path",
+      "downstream": "rcap-ma-tc0021-source-structure-resolution is the job that owns stating which of the two contradicting statements is wrong. The measurement it needs is recorded here; the finding is still its own to make."
+    }
+  ],
+  "unresolved": [],
+  "currentness": {
+    "status": "confirmed_against_the_issuer_index_on_this_date",
+    "note": "The document was retrieved today from the Commonwealth's own current index, so these bytes are what the issuer publishes on 2026-08-09. That is a statement about this retrieval and this date and about nothing else."
+  },
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "editionMutated": false,
+    "editionPublished": false,
+    "rendererChosen": false,
+    "materializationReceiptCreated": false
+  }
+}
