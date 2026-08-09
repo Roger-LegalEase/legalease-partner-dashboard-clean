@@ -2,6 +2,238 @@
   "_controllingReview": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md, sha256 d5f841bee36ba0a11287762694eb7fcdfec2b0cb56d2639b00171a601d5886db, materialized from Expungement_AI_RCAP_Master_Library_Edition_1_2.zip (sha256 7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd). Edition 1.2 is the controlling review source.",
   "_sourceSlotAccounting": "Three review source slots, each accounted for exactly once as a direct 1:1 relief track: WY-NC-01 -> wy_nc_1401, WY-MISD-01 -> wy_misd_1501, WY-FEL-01 -> wy_fel_1502. No splits, merges, replacements, supporting-action nodes, routing nodes, local variants or deferrals. WY-COMMON is shared procedure stated once in the review and is not a source slot; per the adopted Utah treatment of UT-COMMON it is distributed into each track's rules, stop conditions and warnings rather than modelled as a node. The seven SPECIALIZED MATTERS in the review are expressly outside core scope, are not source slots, and are carried as stop conditions and scope restrictions.",
   "_officialAuthorityConfirmation": "Statutory text confirmed against the official Wyoming Legislature publication (wyoleg.gov, Title 7 statutes, retrieved 2026-08-05) and effective dates against the official enrolled acts: 2011 SF0088 (creates W.S. 7-13-1502, effective July 1, 2011); 2014 HB0006, Enrolled Act No. 9 (amends 7-13-1501(a)(intro) and (ii) and 7-13-1502(a)(iv)(E), effective July 1, 2014); 2019 HB0044, Enrolled Act No. 17 (amends 7-13-1401(a)(intro), creates new subsection (k), effective July 1, 2019). effectiveFrom records the date the current operative text of each section took effect. The review's primary-source table cites Justia and FindLaw; those are unofficial mirrors and are not treated as controlling here.",
+  "_publishedSourceFilingRequirements": {
+    "controllingDecision": {
+      "specificationId": "wy-published-source-filing-requirements",
+      "path": "data/record-clearing/production-factory/legal-design-decisions/wy-published-source-filing-requirements.json",
+      "sha256": "ce8e19119435ac55782480f054b8d2b7eecbc0975c16cc8dee800d8406b9dc50",
+      "preparedOn": "2026-08-09",
+      "evidenceType": "project_owner_supplied_published_source_review",
+      "whatThisIsNot": "This is not a completed telephone survey of all 23 Wyoming counties, and must never be represented as one. It is a review of published sources, and its reach is exactly what publication reaches.",
+      "whatItSettles": "The statewide packet-component question, from the statutes and published statewide guidance.",
+      "whatItCannotSettle": "Anything a county does not publish. Unpublished local preference is not covered by a published-source review, by definition.",
+      "carriedBy": "rcap-wy-published-source-filing-requirements-memo-amendment",
+      "carriedOn": "2026-08-09"
+    },
+    "statewideFormConclusion": {
+      "statewidePetitionFormPublished": false,
+      "statewideProposedOrderTemplatePublished": false,
+      "consequence": "Both statewide documents are controlled custom pleading. That is an affirmative conclusion and not a fallback: there is no statewide template to fill, so there is nothing an official_pdf_fill strategy could bind to, and the route is not blocked merely because no official template exists.",
+      "priorTreatment": "The absence of a statewide form was carried on all three tracks as an open packet-assembly question that read as a build blocker. It is retired against this conclusion rather than deleted, and its narrowed remainder is recorded on each track.",
+      "doNotConvert": "Do not convert any Wyoming statewide track to official_pdf_fill, do not bind a Casper Municipal Court packet to a statewide track, and do not invent an official form number. There is no Wyoming statewide expungement form number to cite."
+    },
+    "requiredStatewideConclusions": [
+      {
+        "id": 1,
+        "conclusion": "Wyoming publishes no statewide petition form."
+      },
+      {
+        "id": 2,
+        "conclusion": "Wyoming publishes no statewide proposed-order template."
+      },
+      {
+        "id": 3,
+        "conclusion": "The participant must file a properly drafted and verified petition."
+      },
+      {
+        "id": 4,
+        "conclusion": "The participant must prepare a proposed Order for Expungement."
+      },
+      {
+        "id": 5,
+        "conclusion": "No civil summons is required under the statewide model."
+      },
+      {
+        "id": 6,
+        "conclusion": "No praecipe is required."
+      },
+      {
+        "id": 7,
+        "conclusion": "Where the applicable statute requires service, it is the verified petition that is served, on the prosecuting attorney and — on the two conviction routes — on the Wyoming Division of Criminal Investigation. On the W.S. § 7-13-1401 route the Division of Criminal Investigation is not a service recipient, which is recorded on that track and is not disturbed here."
+      },
+      {
+        "id": 8,
+        "conclusion": "Prosecutor notice to identifiable victims is outside-party work."
+      },
+      {
+        "id": 9,
+        "conclusion": "The statewide packet must not generate or complete victim notice."
+      },
+      {
+        "id": 10,
+        "conclusion": "The proposed order must be available to the court, while the timing of its submission may remain a local filing-practice question."
+      },
+      {
+        "id": 11,
+        "conclusion": "Casper Municipal Court is the only publicly identified local-form exception."
+      },
+      {
+        "id": 12,
+        "conclusion": "Casper forms apply only to Casper Municipal Court."
+      },
+      {
+        "id": 13,
+        "conclusion": "Casper forms do not apply to Natrona County Circuit Court."
+      },
+      {
+        "id": 14,
+        "conclusion": "Casper forms do not apply to Natrona County District Court."
+      },
+      {
+        "id": 15,
+        "conclusion": "Casper forms do not apply statewide."
+      }
+    ],
+    "corePacketComposition": {
+      "appliesTo": "each assigned statewide track, as applicable to that route",
+      "contains": [
+        "verified petition",
+        "proposed Order for Expungement",
+        "filing instructions",
+        "service instructions",
+        "route-specific supporting-item checklist"
+      ],
+      "mustNotContain": [
+        "summons",
+        "praecipe",
+        "prosecutor notice to victims",
+        "prosecutor response",
+        "Division of Criminal Investigation action",
+        "judicial findings",
+        "populated judge signature",
+        "populated judicial date",
+        "clerk certification",
+        "completed proof of service before service occurs",
+        "a Casper Municipal Court form outside Casper Municipal Court",
+        "any assertion that the court, the prosecutor, the Division of Criminal Investigation, a victim, a clerk or an agency has acted"
+      ],
+      "why": "Each excluded item is either not required by the statewide statutes and published guidance, or is an act performed by the court or by an outside party. A packet that pre-completes another actor's work misrepresents what has happened.",
+      "proposedOrderExecutionState": {
+        "findings": "blank",
+        "date": "blank",
+        "judgeSignature": "blank",
+        "clerkOrCourtExecutionFields": "blank",
+        "why": "The order is prepared for the court's use and is not executed by anyone in this packet. Only the judge signs it and only the court dates and enters it."
+      },
+      "componentInventoryUnchanged": "This amendment adds and removes no component. Each of the three tracks keeps its five components in their existing order and identity: primary_filing, proposed_order, verification, certificate_of_service and filing_instructions."
+    },
+    "statutoryFilingFeesByRoute": [
+      {
+        "statute": "W.S. § 7-13-1401",
+        "route": "arrest, unfiled charge, acquittal, or dismissal",
+        "statutoryFilingFee": "$0",
+        "trackId": "wy_nc_1401",
+        "recordedInTheMemoAs": "rules.fees \"none\", which is this schema's sentinel for a rule that does not apply, and destination.detail, which states that no filing fee applies under § 7-13-1401."
+      },
+      {
+        "statute": "W.S. § 7-13-1501",
+        "route": "eligible misdemeanor conviction",
+        "statutoryFilingFee": "$100 per petition",
+        "trackId": "wy_misd_1501",
+        "recordedInTheMemoAs": "rules.fees \"$100 filing fee per petition.\""
+      },
+      {
+        "statute": "W.S. § 7-13-1502",
+        "route": "eligible felony conviction",
+        "statutoryFilingFee": "$300 per petition",
+        "trackId": "wy_fel_1502",
+        "recordedInTheMemoAs": "rules.fees \"$300 filing fee per petition.\""
+      },
+      {
+        "statute": "W.S. § 14-6-241",
+        "route": "juvenile relief",
+        "statutoryFilingFee": "$0",
+        "trackId": null,
+        "note": "Recorded for completeness from the controlling decision. No Wyoming track in this memo carries juvenile relief, so no fee is carried onto a track for it and none may be inferred onto one."
+      }
+    ],
+    "feeBoundaries": {
+      "distinctFromTheStatutoryFilingFee": [
+        "copying costs",
+        "certification costs",
+        "postage",
+        "record-retrieval costs",
+        "other local administrative costs not established as statutory filing fees"
+      ],
+      "why": "They are different charges with different payees and they move independently of the statute. Folding them into the filing fee would misstate what the clerk requires at the counter.",
+      "waiverProcedure": "not_established",
+      "noWaiverAsserted": "No fee is described as waived anywhere in this memo and no indigency procedure or fee-waiver form is asserted. If one exists it must be established separately, on its own evidence.",
+      "whyRulesFeeWaiverStaysNone": "rules.feeWaiver reads \"none\" on all three tracks and is deliberately left alone. In this schema \"none\" means the rule does not apply and emits no participant action; replacing it with prose would emit a conditional apply-for-fee-waiver action and would thereby invent the very procedure that is not established. The same reasoning keeps rules.fees at \"none\" on wy_nc_1401, where a prose value would emit a pay-a-fee action on a route whose statutory filing fee is zero."
+    },
+    "localFilingPreferences": {
+      "twentyThreeCountyTelephoneSurveyCompleted": false,
+      "doNotRecordAsComplete": "No Wyoming county has been telephoned. The controlling evidence is a review of published sources and must never be represented as a completed survey.",
+      "owner": "rcap-wy-local-template-and-handout-survey, which stays open and is neither closed nor deleted by this amendment",
+      "narrowedRemainingScope": [
+        "local cover sheet",
+        "copy count",
+        "electronic versus paper filing",
+        "filing method",
+        "chambers copy",
+        "whether the proposed order is submitted initially or later",
+        "unpublished local template",
+        "unpublished additional service document",
+        "other court-specific filing mechanics"
+      ],
+      "classification": "local practice, carried on each track at release level rather than as a build blocker, because filing mechanics are not the legal document.",
+      "mustNotBlockGeneration": "An unpublished local preference does not block generation of the statewide verified petition and proposed Order for Expungement.",
+      "escalationRule": "If a later county answer changes the statewide legal document rather than only its filing method, that exact issue returns to legal design before release. A different cover sheet is a preference; a different required allegation is not."
+    },
+    "casperLocalOverride": {
+      "court": "Casper Municipal Court",
+      "onlyPubliclyIdentifiedLocalFormException": true,
+      "decisionRecord": {
+        "specificationId": "wy-casper-municipal-court-local-override",
+        "path": "data/record-clearing/production-factory/legal-design-decisions/wy-casper-municipal-court-local-override.json",
+        "sha256": "ff23c9208e9912dcafc70ddd610599ad5f07f3b7036447b18f52954472df3b42"
+      },
+      "publiclyPostedLocalPacketCategories": [
+        "adult status offenses",
+        "adult non-status offenses",
+        "juvenile offenses",
+        "arrests and dismissed charges"
+      ],
+      "boundary": {
+        "contentsImportedIntoStatewideTemplates": false,
+        "treatedAsMandatoryStatewideForms": false,
+        "appliedToNatronaCountyCircuitCourt": false,
+        "appliedToNatronaCountyDistrictCourt": false,
+        "appliedStatewide": false,
+        "boundToAnyTrackInThisMemo": false
+      },
+      "permission": {
+        "reproductionOrPrefill": "unresolved",
+        "claimedHere": "none",
+        "owner": "the ordinary source lifecycle — source identity, currentness, permission and technical treatment",
+        "isItABlocker": "No. The unresolved permission is not a blocker on the statewide custom pleading, because the statewide route does not use a Casper form. It gates only any future use of the Casper packets themselves."
+      },
+      "why": "A municipal court's forms govern that municipal court. Promoting them to a circuit or district court, or statewide, would put the wrong document in the wrong forum."
+    },
+    "packetCapability": {
+      "participantFacing": true,
+      "whoFiles": "the participant files the verified petition",
+      "proposedOrder": "prepared for the court's use and delivered unexecuted",
+      "coreStatewidePacketLegallyBuildable": true,
+      "localFilingPreferences": "a post-generation or release handoff, not a build gate",
+      "casper": "a separate local override outside every statewide track",
+      "downstream": "The statewide custom-pleading assignment becomes eligible for reissuance once this memo amendment is integrated.",
+      "whatThisIsNot": "This is not an implementation, not a readiness statement and not an adoption. No packet is implemented, no track is declared ready, no counsel adoption is recorded, no runtime is enabled and no route is promoted."
+    },
+    "preservedUnchanged": "Every unrelated Wyoming determination is preserved value-identically: the governing mechanism, the current-law currency notes, the felony-deferral treatment, the status-offence definition question, the eligibility exclusions, the waiting periods and their anchors, the § 7-13-1501 versus § 7-13-1502 legal-effect distinction, the venue conclusions already established, participant inputs unrelated to packet composition, release questions unrelated to filing documents, and every track's runtime-disabled status. The two integrated Wyoming legal decisions are not reopened, no track is split or merged, and Wyoming keeps three slots and three nodes.",
+    "runtimeEffect": {
+      "packetReady": 0,
+      "enabledJurisdictionCount": 0,
+      "launchGate": "red",
+      "productionEnablement": "not enabled",
+      "runtimeEnablement": "disabled",
+      "routePromoted": false,
+      "counselAdoptionRecorded": false,
+      "implementationMarkedComplete": false,
+      "sourceReceiptsCreated": 0,
+      "casperFormsAcquired": 0,
+      "countiesTelephoned": 0
+    }
+  },
   "schemaVersion": 1,
   "jurisdiction": "WY",
   "memoVersion": "1.0.0",
@@ -77,7 +309,7 @@
           "role": "proposed_order",
           "requirement": "required",
           "outputStrategy": "custom_pleading",
-          "notes": "Order for Expungement, which the Wyoming Judicial Branch expects the petitioner to have ready for the judge's signature. The order directs that the court file be placed under seal, available for inspection only by order of the court, and that a certified copy be transmitted to the Division of Criminal Investigation."
+          "notes": "Order for Expungement, which the Wyoming Judicial Branch expects the petitioner to have ready for the judge's signature. The order directs that the court file be placed under seal, available for inspection only by order of the court, and that a certified copy be transmitted to the Division of Criminal Investigation. The order is proposed and is generated unexecuted: its findings, its date, the judge's signature block and every clerk or court execution field are left blank, and nothing in it asserts that the court has acted. It is prepared so it is available to the court; whether it goes in with the initial filing or is brought later is that court's filing practice."
         },
         {
           "role": "verification",
@@ -95,7 +327,7 @@
           "role": "filing_instructions",
           "requirement": "required",
           "outputStrategy": "process_guidance",
-          "notes": "Filing, service and timing sheet: call the clerk about local templates and formatting before finalizing; file; serve the prosecuting attorney; no order may issue before 20 days after service; if the prosecutor objects the court sets a hearing; if no objection the court may summarily enter the order on finding eligibility."
+          "notes": "Filing, service and timing sheet: call the clerk about local templates and formatting before finalizing; file; serve the prosecuting attorney; no order may issue before 20 days after service; if the prosecutor objects the court sets a hearing; if no objection the court may summarily enter the order on finding eligibility. No civil summons and no praecipe are required on this route under the statewide statutes and published guidance, and neither is generated. The clerk call covers local filing mechanics only — cover sheet, copy count, electronic or paper filing, chambers copy, and whether the proposed order goes in with the initial filing or is brought later — because Wyoming publishes no statewide form for either document and there is no local template outside Casper Municipal Court that this route uses."
         }
       ],
       "_participantInputsNote": "What LegalEase asks. Generation runs on the participant's answers. The DCI criminal history and the court docket named below are records the participant obtains; neither is required before a packet is generated.",
@@ -241,7 +473,7 @@
         }
       ],
       "rules": {
-        "filing": "File the verified Petition for Expungement and the proposed Order for Expungement with the clerk of the court in which the proceeding occurred or would have occurred. Call that clerk about local templates and formatting before finalizing, because Wyoming publishes no statewide form and county, municipal and circuit courts may have their own.",
+        "filing": "File the verified Petition for Expungement and the proposed Order for Expungement with the clerk of the court in which the proceeding occurred or would have occurred. Wyoming publishes no statewide petition form and no statewide proposed-order template, so both documents are drafted and are complete as drafted. Call that clerk about that court's own filing mechanics — cover sheet, copy count, electronic or paper filing, whether a chambers copy is wanted, and whether the proposed order is submitted with the initial filing or brought later — not about whether the document itself is right.",
         "fees": "none",
         "feeWaiver": "none",
         "notice": "The prosecuting attorney reviews the petition. No order may be granted before the expiration of 20 days after service on the prosecuting attorney. If the prosecutor objects the court sets a hearing; if no objection is filed the court may summarily enter the order on finding the petitioner eligible.",
@@ -260,11 +492,91 @@
         "Federal, tribal or out-of-state records.",
         "Records of a juvenile matter, which are handled under Wyo. Stat. § 14-6-241 and § 14-6-440 outside this track."
       ],
+      "_statewideFilingRequirements": {
+        "controllingDecision": "wy-published-source-filing-requirements",
+        "decisionRecordSha256": "ce8e19119435ac55782480f054b8d2b7eecbc0975c16cc8dee800d8406b9dc50",
+        "carriedBy": "rcap-wy-published-source-filing-requirements-memo-amendment",
+        "reviewedThrough": "2026-08-09",
+        "statewideForm": {
+          "petitionFormPublished": false,
+          "proposedOrderTemplatePublished": false,
+          "outputStrategy": "custom_pleading",
+          "outputStrategyBasis": "An affirmative conclusion. There is no statewide template to fill, so the verified petition and the Order for Expungement are controlled custom pleading and the route is not blocked merely because no official template exists.",
+          "officialFormId": null,
+          "doNotInventOne": "There is no Wyoming statewide expungement form number and none may be cited."
+        },
+        "coreComposition": {
+          "contains": [
+            "verified petition",
+            "proposed Order for Expungement",
+            "filing instructions",
+            "service instructions",
+            "route-specific supporting-item checklist"
+          ],
+          "mustNotContain": [
+            "summons",
+            "praecipe",
+            "prosecutor notice to victims",
+            "prosecutor response",
+            "Division of Criminal Investigation action",
+            "judicial findings",
+            "populated judge signature",
+            "populated judicial date",
+            "clerk certification",
+            "completed proof of service before service occurs",
+            "a Casper Municipal Court form",
+            "any assertion that the court, the prosecutor, the Division of Criminal Investigation, a victim, a clerk or an agency has acted"
+          ],
+          "componentsUnchanged": "The five existing components carry this composition. None is added and none is removed."
+        },
+        "summonsAndPraecipe": {
+          "summonsRequired": false,
+          "praecipeRequired": false,
+          "basis": "Neither is required by the statewide statutes or the published statewide guidance for this route.",
+          "generated": "neither"
+        },
+        "service": "Where service is required on this route it is the verified petition that is served, on the prosecuting attorney. The Division of Criminal Investigation is not a service recipient on this track and this amendment does not make it one.",
+        "victimNotice": "The controlling section prescribes no victim notice on this route, and none is generated. Where any other route's prosecutor gives victim notice that is outside-party work and is not this packet's to produce.",
+        "proposedOrder": {
+          "preparedBy": "the participant",
+          "executedBy": "no one in this packet",
+          "findings": "blank",
+          "date": "blank",
+          "judgeSignature": "blank",
+          "clerkOrCourtExecutionFields": "blank",
+          "availability": "must be available to the court",
+          "submissionTiming": "may be a local filing-practice question and is not settled statewide"
+        },
+        "statutoryFilingFee": {
+          "statute": "W.S. § 7-13-1401",
+          "amount": "$0. No statutory filing fee applies on this route.",
+          "distinctFrom": [
+            "copying costs",
+            "certification costs",
+            "postage",
+            "record-retrieval costs",
+            "other local administrative costs not established as statutory filing fees"
+          ],
+          "waiver": "not established; no waiver is asserted and no indigency procedure or fee-waiver form is invented"
+        },
+        "casperBoundary": "Casper Municipal Court is the only publicly identified local-form exception and its four publicly posted packet categories bind that court alone. They are not imported into this track's templates, are not treated as mandatory statewide forms, and do not apply to Natrona County Circuit Court, to Natrona County District Court, or statewide. Their reproduction and prefill permission is unresolved, is owned by the ordinary source lifecycle, and is not a blocker on this statewide custom pleading.",
+        "localPracticeIsNotABuildGate": "The unpublished local filing preferences that remain are carried in this track's unresolvedQuestions at release level. They do not block generation of the verified petition or the proposed order. If a county answer changes the statewide legal document rather than only its filing method, that exact issue returns to legal design before release.",
+        "twentyThreeCountySurvey": "Not performed and not claimed. No Wyoming county has been telephoned. rcap-wy-local-template-and-handout-survey remains open and is neither closed nor deleted.",
+        "readiness": "This track does not become ready and no packet becomes generatable by this amendment alone. The statewide custom-pleading assignment becomes eligible for reissuance once this memo amendment is integrated.",
+        "retiredBuildBlocker": {
+          "priorQuestion": "Which Wyoming courts publish local expungement templates? Not surveyed, and resolvable by a clerk survey across the 23 counties.",
+          "priorImpact": "build_blocker",
+          "priorAffectedElement": "packet_components",
+          "retiredNotDeleted": "The entry is kept, narrowed and reclassified rather than removed. Its counsel provenance is preserved verbatim.",
+          "nowImpact": "release_blocker",
+          "why": "The published half of the question is answered, and what remains is unpublished filing preference. A release blocker permits the build and forbids packet readiness, which is exactly the position this question now occupies."
+        }
+      },
       "_unresolvedQuestionsNote": "Preserved from the controlling review with impact and affected element, plus one provenance note raised by this normalization.",
       "unresolvedQuestions": [
         {
-          "question": "Which Wyoming courts publish local expungement templates? Not surveyed, and resolvable by a clerk survey across the 23 counties.",
-          "impact": "build_blocker",
+          "question": "Which unpublished local filing preferences apply in the court where this petition will be filed: local cover sheet, copy count, electronic versus paper filing, filing method, chambers copy, whether the proposed Order for Expungement is submitted with the initial filing or later, any unpublished local template, any unpublished additional service document, and other court-specific filing mechanics. This is the narrowed remainder of the original packet-assembly question, which asked which Wyoming courts publish local expungement templates. The published half is answered: Wyoming publishes no statewide petition form and no statewide proposed-order template, and Casper Municipal Court is the only publicly identified local-form exception, whose packets bind that court alone. What remains is unpublished preference, which is filing mechanics rather than the legal document, so it is release-level and does not block generation of the statewide verified petition and proposed order. It is owned by rcap-wy-local-template-and-handout-survey, which remains open: no Wyoming county has been telephoned and the survey must not be recorded as complete. Escalation: if a county's answer changes the statewide legal document rather than only how it is filed, that exact issue returns to legal design before release.",
+          "impact": "release_blocker",
           "affectedElement": "packet_components",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
@@ -482,7 +794,7 @@
           "role": "proposed_order",
           "requirement": "required",
           "outputStrategy": "custom_pleading",
-          "notes": "Order for Expungement for the judge's signature, directing that the court file be sealed and available for inspection only by order of the court, and that a certified copy be transmitted to the Division of Criminal Investigation."
+          "notes": "Order for Expungement for the judge's signature, directing that the court file be sealed and available for inspection only by order of the court, and that a certified copy be transmitted to the Division of Criminal Investigation. The order is proposed and is generated unexecuted: its findings, its date, the judge's signature block and every clerk or court execution field are left blank, and nothing in it asserts that the court has acted. It is prepared so it is available to the court; whether it goes in with the initial filing or is brought later is that court's filing practice."
         },
         {
           "role": "verification",
@@ -500,7 +812,7 @@
           "role": "filing_instructions",
           "requirement": "required",
           "outputStrategy": "process_guidance",
-          "notes": "Filing, fee, service and timing sheet, including the $100 fee, the two service recipients, the 30-day objection window for the prosecutor or a victim, the possibility of a hearing where the court requests a DCI report and the petitioner objects to it, and the once-per-lifetime disclosure."
+          "notes": "Filing, fee, service and timing sheet, including the $100 fee, the two service recipients, the 30-day objection window for the prosecutor or a victim, the possibility of a hearing where the court requests a DCI report and the petitioner objects to it, and the once-per-lifetime disclosure. No civil summons and no praecipe are required on this route under the statewide statutes and published guidance, and neither is generated. Notice to identifiable victims is given by the prosecuting attorney. It is outside-party work: this packet neither generates it nor completes it, and nothing in the packet asserts that it has happened. The clerk call covers local filing mechanics only — cover sheet, copy count, electronic or paper filing, chambers copy, and whether the proposed order goes in with the initial filing or is brought later — because Wyoming publishes no statewide form for either document and there is no local template outside Casper Municipal Court that this route uses."
         }
       ],
       "_participantInputsNote": "What LegalEase asks. The status-offense question is asked but not answered by LegalEase: see the legal-design blocker below.",
@@ -650,7 +962,7 @@
         }
       ],
       "rules": {
-        "filing": "File the verified Petition for Expungement of Records of Conviction and the proposed Order for Expungement with the clerk of the convicting court. Call that clerk about local templates and formatting before finalizing.",
+        "filing": "File the verified Petition for Expungement of Records of Conviction and the proposed Order for Expungement with the clerk of the convicting court. Wyoming publishes no statewide petition form and no statewide proposed-order template, so both documents are drafted and are complete as drafted. Call that clerk about that court's own filing mechanics — cover sheet, copy count, electronic or paper filing, whether a chambers copy is wanted, and whether the proposed order is submitted with the initial filing or brought later — not about whether the document itself is right.",
         "fees": "$100 filing fee per petition.",
         "feeWaiver": "none",
         "notice": "The prosecuting attorney and any identifiable victim have 30 days to object; the prosecutor, not the petitioner, notifies identifiable victims. A hearing is also set where the court requests a report from the Division of Criminal Investigation and the petitioner objects to it. The court must find both that the petitioner is eligible and that the petitioner does not represent a substantial danger to himself, any identifiable victim or society before issuing the order.",
@@ -672,6 +984,86 @@
         "Federal, tribal or out-of-state records.",
         "The underlying matter was a felony deferral rather than a misdemeanor one; § 7-13-1502 requires a conviction and there may be no route. Stop and refer."
       ],
+      "_statewideFilingRequirements": {
+        "controllingDecision": "wy-published-source-filing-requirements",
+        "decisionRecordSha256": "ce8e19119435ac55782480f054b8d2b7eecbc0975c16cc8dee800d8406b9dc50",
+        "carriedBy": "rcap-wy-published-source-filing-requirements-memo-amendment",
+        "reviewedThrough": "2026-08-09",
+        "statewideForm": {
+          "petitionFormPublished": false,
+          "proposedOrderTemplatePublished": false,
+          "outputStrategy": "custom_pleading",
+          "outputStrategyBasis": "An affirmative conclusion. There is no statewide template to fill, so the verified petition and the Order for Expungement are controlled custom pleading and the route is not blocked merely because no official template exists.",
+          "officialFormId": null,
+          "doNotInventOne": "There is no Wyoming statewide expungement form number and none may be cited."
+        },
+        "coreComposition": {
+          "contains": [
+            "verified petition",
+            "proposed Order for Expungement",
+            "filing instructions",
+            "service instructions",
+            "route-specific supporting-item checklist"
+          ],
+          "mustNotContain": [
+            "summons",
+            "praecipe",
+            "prosecutor notice to victims",
+            "prosecutor response",
+            "Division of Criminal Investigation action",
+            "judicial findings",
+            "populated judge signature",
+            "populated judicial date",
+            "clerk certification",
+            "completed proof of service before service occurs",
+            "a Casper Municipal Court form",
+            "any assertion that the court, the prosecutor, the Division of Criminal Investigation, a victim, a clerk or an agency has acted"
+          ],
+          "componentsUnchanged": "The five existing components carry this composition. None is added and none is removed."
+        },
+        "summonsAndPraecipe": {
+          "summonsRequired": false,
+          "praecipeRequired": false,
+          "basis": "Neither is required by the statewide statutes or the published statewide guidance for this route.",
+          "generated": "neither"
+        },
+        "service": "The verified petition is served on the prosecuting attorney and on the Wyoming Division of Criminal Investigation.",
+        "victimNotice": "Notice to identifiable victims is given by the prosecuting attorney. It is outside-party work: this packet neither generates it nor completes it, and nothing in the packet asserts that it has happened.",
+        "proposedOrder": {
+          "preparedBy": "the participant",
+          "executedBy": "no one in this packet",
+          "findings": "blank",
+          "date": "blank",
+          "judgeSignature": "blank",
+          "clerkOrCourtExecutionFields": "blank",
+          "availability": "must be available to the court",
+          "submissionTiming": "may be a local filing-practice question and is not settled statewide"
+        },
+        "statutoryFilingFee": {
+          "statute": "W.S. § 7-13-1501",
+          "amount": "$100 per petition.",
+          "distinctFrom": [
+            "copying costs",
+            "certification costs",
+            "postage",
+            "record-retrieval costs",
+            "other local administrative costs not established as statutory filing fees"
+          ],
+          "waiver": "not established; no waiver is asserted and no indigency procedure or fee-waiver form is invented"
+        },
+        "casperBoundary": "Casper Municipal Court is the only publicly identified local-form exception and its four publicly posted packet categories bind that court alone. They are not imported into this track's templates, are not treated as mandatory statewide forms, and do not apply to Natrona County Circuit Court, to Natrona County District Court, or statewide. Their reproduction and prefill permission is unresolved, is owned by the ordinary source lifecycle, and is not a blocker on this statewide custom pleading.",
+        "localPracticeIsNotABuildGate": "The unpublished local filing preferences that remain are carried in this track's unresolvedQuestions at release level. They do not block generation of the verified petition or the proposed order. If a county answer changes the statewide legal document rather than only its filing method, that exact issue returns to legal design before release.",
+        "twentyThreeCountySurvey": "Not performed and not claimed. No Wyoming county has been telephoned. rcap-wy-local-template-and-handout-survey remains open and is neither closed nor deleted.",
+        "readiness": "This track does not become ready and no packet becomes generatable by this amendment alone. The statewide custom-pleading assignment becomes eligible for reissuance once this memo amendment is integrated.",
+        "retiredBuildBlocker": {
+          "priorQuestion": "Which Wyoming courts publish local expungement templates? Not surveyed, and resolvable by a clerk survey across the 23 counties.",
+          "priorImpact": "build_blocker",
+          "priorAffectedElement": "packet_components",
+          "retiredNotDeleted": "The entry is kept, narrowed and reclassified rather than removed. Its counsel provenance is preserved verbatim.",
+          "nowImpact": "release_blocker",
+          "why": "The published half of the question is answered, and what remains is unpublished filing preference. A release blocker permits the build and forbids packet readiness, which is exactly the position this question now occupies."
+        }
+      },
       "_unresolvedQuestionsNote": "Preserved from the controlling review with impact and affected element, plus one provenance note raised by this normalization.",
       "unresolvedQuestions": [
         {
@@ -686,8 +1078,8 @@
           }
         },
         {
-          "question": "Which Wyoming courts publish local expungement templates? Not surveyed, and resolvable by a clerk survey across the 23 counties.",
-          "impact": "build_blocker",
+          "question": "Which unpublished local filing preferences apply in the court where this petition will be filed: local cover sheet, copy count, electronic versus paper filing, filing method, chambers copy, whether the proposed Order for Expungement is submitted with the initial filing or later, any unpublished local template, any unpublished additional service document, and other court-specific filing mechanics. This is the narrowed remainder of the original packet-assembly question, which asked which Wyoming courts publish local expungement templates. The published half is answered: Wyoming publishes no statewide petition form and no statewide proposed-order template, and Casper Municipal Court is the only publicly identified local-form exception, whose packets bind that court alone. What remains is unpublished preference, which is filing mechanics rather than the legal document, so it is release-level and does not block generation of the statewide verified petition and proposed order. It is owned by rcap-wy-local-template-and-handout-survey, which remains open: no Wyoming county has been telephoned and the survey must not be recorded as complete. Escalation: if a county's answer changes the statewide legal document rather than only how it is filed, that exact issue returns to legal design before release.",
+          "impact": "release_blocker",
           "affectedElement": "packet_components",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
@@ -905,7 +1297,7 @@
           "role": "proposed_order",
           "requirement": "required",
           "outputStrategy": "custom_pleading",
-          "notes": "Order for Expungement for the judge's signature, directing that the court files be sealed and available for inspection only by order of the court, that a certified copy be transmitted to the Division of Criminal Investigation, and reciting the restoration-of-rights effect under subsection (m)."
+          "notes": "Order for Expungement for the judge's signature, directing that the court files be sealed and available for inspection only by order of the court, that a certified copy be transmitted to the Division of Criminal Investigation, and reciting the restoration-of-rights effect under subsection (m). The order is proposed and is generated unexecuted: its findings, its date, the judge's signature block and every clerk or court execution field are left blank, and nothing in it asserts that the court has acted. It is prepared so it is available to the court; whether it goes in with the initial filing or is brought later is that court's filing practice."
         },
         {
           "role": "verification",
@@ -923,7 +1315,7 @@
           "role": "filing_instructions",
           "requirement": "required",
           "outputStrategy": "process_guidance",
-          "notes": "Filing, fee, service and timing sheet, including the $300 fee, the two service recipients, the 90-day objection window, the four-month minimum engagement, the § 7-13-1502(j) immunity provision, and the once-per-lifetime disclosure."
+          "notes": "Filing, fee, service and timing sheet, including the $300 fee, the two service recipients, the 90-day objection window, the four-month minimum engagement, the § 7-13-1502(j) immunity provision, and the once-per-lifetime disclosure. No civil summons and no praecipe are required on this route under the statewide statutes and published guidance, and neither is generated. Notice to identifiable victims is given by the prosecuting attorney. It is outside-party work: this packet neither generates it nor completes it, and nothing in the packet asserts that it has happened. The clerk call covers local filing mechanics only — cover sheet, copy count, electronic or paper filing, chambers copy, and whether the proposed order goes in with the initial filing or is brought later — because Wyoming publishes no statewide form for either document and there is no local template outside Casper Municipal Court that this route uses."
         }
       ],
       "_participantInputsNote": "What LegalEase asks. The exclusion-list and other-felony characterisations are asked but not decided by LegalEase: see the legal-design blockers below.",
@@ -1087,7 +1479,7 @@
         }
       ],
       "rules": {
-        "filing": "File the verified Petition for Expungement of Records of Conviction and the proposed Order for Expungement with the clerk of the convicting court. Call that clerk about local templates and formatting before finalizing.",
+        "filing": "File the verified Petition for Expungement of Records of Conviction and the proposed Order for Expungement with the clerk of the convicting court. Wyoming publishes no statewide petition form and no statewide proposed-order template, so both documents are drafted and are complete as drafted. Call that clerk about that court's own filing mechanics — cover sheet, copy count, electronic or paper filing, whether a chambers copy is wanted, and whether the proposed order is submitted with the initial filing or brought later — not about whether the document itself is right.",
         "fees": "$300 filing fee per petition.",
         "feeWaiver": "none",
         "notice": "The prosecuting attorney has 90 days to object and no order may be granted before that window closes; the prosecutor, not the petitioner, notifies identifiable victims. The court must find both that the petitioner is eligible and that the petitioner does not represent a substantial danger to himself, any identifiable victim or society. If no objection is filed the court may summarily enter the order on finding eligibility.",
@@ -1108,6 +1500,86 @@
         "Immigration consequences.",
         "Federal, tribal or out-of-state records."
       ],
+      "_statewideFilingRequirements": {
+        "controllingDecision": "wy-published-source-filing-requirements",
+        "decisionRecordSha256": "ce8e19119435ac55782480f054b8d2b7eecbc0975c16cc8dee800d8406b9dc50",
+        "carriedBy": "rcap-wy-published-source-filing-requirements-memo-amendment",
+        "reviewedThrough": "2026-08-09",
+        "statewideForm": {
+          "petitionFormPublished": false,
+          "proposedOrderTemplatePublished": false,
+          "outputStrategy": "custom_pleading",
+          "outputStrategyBasis": "An affirmative conclusion. There is no statewide template to fill, so the verified petition and the Order for Expungement are controlled custom pleading and the route is not blocked merely because no official template exists.",
+          "officialFormId": null,
+          "doNotInventOne": "There is no Wyoming statewide expungement form number and none may be cited."
+        },
+        "coreComposition": {
+          "contains": [
+            "verified petition",
+            "proposed Order for Expungement",
+            "filing instructions",
+            "service instructions",
+            "route-specific supporting-item checklist"
+          ],
+          "mustNotContain": [
+            "summons",
+            "praecipe",
+            "prosecutor notice to victims",
+            "prosecutor response",
+            "Division of Criminal Investigation action",
+            "judicial findings",
+            "populated judge signature",
+            "populated judicial date",
+            "clerk certification",
+            "completed proof of service before service occurs",
+            "a Casper Municipal Court form",
+            "any assertion that the court, the prosecutor, the Division of Criminal Investigation, a victim, a clerk or an agency has acted"
+          ],
+          "componentsUnchanged": "The five existing components carry this composition. None is added and none is removed."
+        },
+        "summonsAndPraecipe": {
+          "summonsRequired": false,
+          "praecipeRequired": false,
+          "basis": "Neither is required by the statewide statutes or the published statewide guidance for this route.",
+          "generated": "neither"
+        },
+        "service": "The verified petition is served on the prosecuting attorney and on the Wyoming Division of Criminal Investigation.",
+        "victimNotice": "Notice to identifiable victims is given by the prosecuting attorney. It is outside-party work: this packet neither generates it nor completes it, and nothing in the packet asserts that it has happened.",
+        "proposedOrder": {
+          "preparedBy": "the participant",
+          "executedBy": "no one in this packet",
+          "findings": "blank",
+          "date": "blank",
+          "judgeSignature": "blank",
+          "clerkOrCourtExecutionFields": "blank",
+          "availability": "must be available to the court",
+          "submissionTiming": "may be a local filing-practice question and is not settled statewide"
+        },
+        "statutoryFilingFee": {
+          "statute": "W.S. § 7-13-1502",
+          "amount": "$300 per petition.",
+          "distinctFrom": [
+            "copying costs",
+            "certification costs",
+            "postage",
+            "record-retrieval costs",
+            "other local administrative costs not established as statutory filing fees"
+          ],
+          "waiver": "not established; no waiver is asserted and no indigency procedure or fee-waiver form is invented"
+        },
+        "casperBoundary": "Casper Municipal Court is the only publicly identified local-form exception and its four publicly posted packet categories bind that court alone. They are not imported into this track's templates, are not treated as mandatory statewide forms, and do not apply to Natrona County Circuit Court, to Natrona County District Court, or statewide. Their reproduction and prefill permission is unresolved, is owned by the ordinary source lifecycle, and is not a blocker on this statewide custom pleading.",
+        "localPracticeIsNotABuildGate": "The unpublished local filing preferences that remain are carried in this track's unresolvedQuestions at release level. They do not block generation of the verified petition or the proposed order. If a county answer changes the statewide legal document rather than only its filing method, that exact issue returns to legal design before release.",
+        "twentyThreeCountySurvey": "Not performed and not claimed. No Wyoming county has been telephoned. rcap-wy-local-template-and-handout-survey remains open and is neither closed nor deleted.",
+        "readiness": "This track does not become ready and no packet becomes generatable by this amendment alone. The statewide custom-pleading assignment becomes eligible for reissuance once this memo amendment is integrated.",
+        "retiredBuildBlocker": {
+          "priorQuestion": "Which Wyoming courts publish local expungement templates? Not surveyed, and resolvable by a clerk survey across the 23 counties.",
+          "priorImpact": "build_blocker",
+          "priorAffectedElement": "packet_components",
+          "retiredNotDeleted": "The entry is kept, narrowed and reclassified rather than removed. Its counsel provenance is preserved verbatim.",
+          "nowImpact": "release_blocker",
+          "why": "The published half of the question is answered, and what remains is unpublished filing preference. A release blocker permits the build and forbids packet readiness, which is exactly the position this question now occupies."
+        }
+      },
       "_unresolvedQuestionsNote": "Preserved from the controlling review with impact and affected element, plus one provenance note raised by this normalization.",
       "unresolvedQuestions": [
         {
@@ -1133,8 +1605,8 @@
           }
         },
         {
-          "question": "Which Wyoming courts publish local expungement templates? Not surveyed, and resolvable by a clerk survey across the 23 counties.",
-          "impact": "build_blocker",
+          "question": "Which unpublished local filing preferences apply in the court where this petition will be filed: local cover sheet, copy count, electronic versus paper filing, filing method, chambers copy, whether the proposed Order for Expungement is submitted with the initial filing or later, any unpublished local template, any unpublished additional service document, and other court-specific filing mechanics. This is the narrowed remainder of the original packet-assembly question, which asked which Wyoming courts publish local expungement templates. The published half is answered: Wyoming publishes no statewide petition form and no statewide proposed-order template, and Casper Municipal Court is the only publicly identified local-form exception, whose packets bind that court alone. What remains is unpublished preference, which is filing mechanics rather than the legal document, so it is release-level and does not block generation of the statewide verified petition and proposed order. It is owned by rcap-wy-local-template-and-handout-survey, which remains open: no Wyoming county has been telephoned and the survey must not be recorded as complete. Escalation: if a county's answer changes the statewide legal document rather than only how it is filed, that exact issue returns to legal design before release.",
+          "impact": "release_blocker",
           "affectedElement": "packet_components",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",

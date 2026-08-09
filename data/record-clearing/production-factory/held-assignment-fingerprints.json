@@ -7,7 +7,6 @@
   "workersMayNotCreateEntries": true,
   "inferenceProhibited": "No alias is ever derived automatically. A historical fingerprint is recoverable only when a human captain wrote it down here with the evidence that identifies the one commit it admits.",
   "newWorkScaffoldsAgainstCanonicalOnly": "An alias never changes the current canonical branch key. New workers scaffold against the current fingerprint and are unaffected.",
-
   "entries": [
     {
       "aliasId": "wy-published-source-filing-requirements-memo-amendment-2026-08-09",
@@ -17,14 +16,15 @@
       "historicalBranch": "rcap-factory/rcap-wy-published-source-filing-requirements-memo-amendment-8036a3a8-10f21427",
       "expectedWorkerCommit": "c7efa7e99ecbf3ebebd2bc174ac03371342d9fc2",
       "expectedCommitSubject": "fix(record-clearing): amend the Wyoming memo for the published filing requirements",
-      "expectedChangedPaths": ["data/record-clearing/legal-design-intake/WY.memo.json"],
+      "expectedChangedPaths": [
+        "data/record-clearing/legal-design-intake/WY.memo.json"
+      ],
       "expectedOutputPath": "data/record-clearing/legal-design-intake/WY.memo.json",
       "expectedOutputSha256": "1789f299766709081cc98492c25d3641f22ecce75f9449439db54b12319ced3f",
       "expectedOutputGitBlob": "c80c772757fda89f4c194d28091699f6b19eab9c",
       "acceptedParentCommit": "360e61dacab7b3ad395d1dc94519ecf1c584efd1",
       "parentMustBeInIntegrationAncestry": true,
-      "status": "available",
-
+      "status": "consumed",
       "reasonFingerprintChanged": {
         "summary": "The captain corrected a defect in the job's own assignment metadata; the worker's assignment substance did not change.",
         "detail": [
@@ -40,6 +40,15 @@
           "ba590ad36b4fce9605f52d0f87c34056ea0b6364",
           "c8c3fd614f94b0099476e07938117ce1e2badc82"
         ]
+      },
+      "consumed": {
+        "consumedOn": "2026-08-09",
+        "consumedBy": "Session A integration captain",
+        "integratedWorkerCommit": "c7efa7e99ecbf3ebebd2bc174ac03371342d9fc2",
+        "integratedOutputSha256": "1789f299766709081cc98492c25d3641f22ecce75f9449439db54b12319ced3f",
+        "memoDigestBefore": "8788564390c3d4ad1c9e9fd90e3dcf6311ccba4557b481a306790214f8d3c0bf",
+        "memoDigestAfter": "1789f299766709081cc98492c25d3641f22ecce75f9449439db54b12319ced3f",
+        "note": "One-time and now spent. The delivery is integrated at the exact worker blob; the branch is unmodified. A second attempt to use this alias fails closed on held_alias_consumed."
       }
     }
   ]
