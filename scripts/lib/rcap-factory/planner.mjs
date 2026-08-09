@@ -4718,8 +4718,16 @@ export function buildFactoryPlan(options = {}) {
       `${FACTORY_DATA_DIR}/legal-design-decisions/${owner.jobId}.json`;
     const acquisitionPathFor =
       `${FACTORY_DATA_DIR}/source-acquisition/${owner.jobId}.json`;
-    const outputPath =
-      owner.lane === "source_acquisition" ? acquisitionPathFor : decisionPath;
+    // A memo amendment owns the memo. Deriving its output path from the lane
+    // gave the Wyoming amendment a decision-record path, so the worker that did
+    // exactly the right thing — edit WY.memo.json — came back holding a file the
+    // assignment said it did not own, and integration refused it. The job's
+    // purpose is the memo; the path has to say so.
+    const outputPath = owner.ownsMemo === true
+      ? `data/record-clearing/legal-design-intake/${owner.jurisdiction ?? "WY"}.memo.json`
+      : owner.lane === "source_acquisition"
+        ? acquisitionPathFor
+        : decisionPath;
     const present = fs.existsSync(path.join(rootDir, outputPath));
     addJob({
       lane: owner.lane,
@@ -5643,6 +5651,8 @@ const WYOMING_LEGAL_DESIGN_OWNERS = Object.freeze([
     jobId: "rcap-wy-published-source-filing-requirements-memo-amendment",
     lane: "legal_design_normalization",
     strategyFamily: "legal_design_normalization_amendment",
+    ownsMemo: true,
+    jurisdiction: "WY",
     model: "opus",
     subject:
       "fix(record-clearing): amend the Wyoming memo for the published filing requirements",
