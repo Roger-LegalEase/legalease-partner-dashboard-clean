@@ -5,7 +5,7 @@
   "reviewShardReservationNote": "The claim schema's ownerSession enum is SESSION_B through SESSION_F, and review is none of those. R1 and R2 are therefore reserved here rather than in job-claims.json. This manifest is the reservation of record for them; widening the claim enum would change the job manifest and, through it, worker branch identity.",
   "shardIdentifiersAreNotSessions": "R1 and R2 are shard identifiers, not sessions. Both are owned by SESSION_R, which is the single human review session: R1 carries its technical and visual reads, R2 carries its completed-output legal reads, and the split exists so the two kinds of review cannot be recorded against each other's paths. They were briefly written as ownerSession SESSION_R1 and SESSION_R2, which reads as two review sessions and would have someone opening a second one. The human pool is exactly A, B, C, D, E, F and R; every shard here names one of those seven and no shard may name anything else.",
   "baseline": {
-    "baseCommit": "0892ddfc0dbd4f52d8bc5bff2b7e6ecf5e4a5a93",
+    "baseCommit": "a96654fae9ced566d31d39c2efa0cc81c6a7a6a7",
     "authorityVersion": "master-library/1.2",
     "authorityEdition": "1.2"
   },
@@ -553,7 +553,7 @@
       },
       {
         "path": "planning/record-clearing-100-percent/production-plan.json",
-        "sha256": "9556c241eacc353eecde06cb2ebe7adfd04a0d495980bffb5b37c76e09d1b5c1"
+        "sha256": "45c3e2b3d0fce0f6305b1c51b2e4ec70551867fb103074b0633dbeec635084e2"
       },
       {
         "path": "src/lib/rcap/jurisdictions/packet-capability.ts",
@@ -873,8 +873,8 @@
           "lane": "legal_output_review",
           "jurisdiction": "WY",
           "status": "ready",
-          "semanticFingerprint": "6030af34635e6a67b7833f3ba0bbca6cf3b9abf2529e9f3c871fa658d20cc04e",
-          "branch": "rcap-factory/rcap-wy-custom-pleading-clean-tracks-technical-visual-review-ba1e3ed3-6030af34",
+          "semanticFingerprint": "7c0fb3311d7ff463a638db3b5e902b348d3c7694ae2ebc0db93deb0672750042",
+          "branch": "rcap-factory/rcap-wy-custom-pleading-clean-tracks-technical-visual-review-ba1e3ed3-7c0fb331",
           "ownedPaths": [
             "data/record-clearing/production-factory/technical-visual-reviews/completed-output/rcap-wy-custom-pleading-clean-tracks.json"
           ],
@@ -1530,5 +1530,5 @@
       ]
     }
   ],
-  "manifestSha256": "22b0af69e03237b44f5e5ed6d1aacfcc8015c0f3987f8a8f1277e868a272ad26"
+  "manifestSha256": "9285af3b650b0246c5179606ba9e1d2e7259a4fed503d3b94f31493c271c700f"
 }
