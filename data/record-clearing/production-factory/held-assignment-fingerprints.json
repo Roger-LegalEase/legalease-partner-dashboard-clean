@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "rcap-held-assignment-fingerprint/v1",
+  "whatThisIs": "Explicit, one-time aliases that let an already-delivered worker branch be recovered after the captain corrected the assignment metadata its branch key was computed from.",
+  "whyItExists": "A branch key carries the assignment fingerprint. Correcting a genuine defect in a job's captain-owned metadata therefore renames the branch out from under a worker who has already delivered against it. Without an explicit alias the completion is unreachable, and the only alternatives are asking the worker to redo finished work or weakening branch identity for everything.",
+  "whatItIsNot": "It is not a fallback. It never accepts a branch because the job id matches, because the suffix resembles a fingerprint, because the output file exists, or because the commit is somewhere in history. Every field below is checked exactly, and an unlisted historical fingerprint still fails closed.",
+  "ownership": "captain_only",
+  "workersMayNotCreateEntries": true,
+  "inferenceProhibited": "No alias is ever derived automatically. A historical fingerprint is recoverable only when a human captain wrote it down here with the evidence that identifies the one commit it admits.",
+  "newWorkScaffoldsAgainstCanonicalOnly": "An alias never changes the current canonical branch key. New workers scaffold against the current fingerprint and are unaffected.",
+
+  "entries": [
+    {
+      "aliasId": "wy-published-source-filing-requirements-memo-amendment-2026-08-09",
+      "jobId": "rcap-wy-published-source-filing-requirements-memo-amendment",
+      "historicalAssignmentFingerprint": "10f21427",
+      "currentAssignmentFingerprint": "f21a5f2b",
+      "historicalBranch": "rcap-factory/rcap-wy-published-source-filing-requirements-memo-amendment-8036a3a8-10f21427",
+      "expectedWorkerCommit": "c7efa7e99ecbf3ebebd2bc174ac03371342d9fc2",
+      "expectedCommitSubject": "fix(record-clearing): amend the Wyoming memo for the published filing requirements",
+      "expectedChangedPaths": ["data/record-clearing/legal-design-intake/WY.memo.json"],
+      "expectedOutputPath": "data/record-clearing/legal-design-intake/WY.memo.json",
+      "expectedOutputSha256": "1789f299766709081cc98492c25d3641f22ecce75f9449439db54b12319ced3f",
+      "expectedOutputGitBlob": "c80c772757fda89f4c194d28091699f6b19eab9c",
+      "acceptedParentCommit": "360e61dacab7b3ad395d1dc94519ecf1c584efd1",
+      "parentMustBeInIntegrationAncestry": true,
+      "status": "available",
+
+      "reasonFingerprintChanged": {
+        "summary": "The captain corrected a defect in the job's own assignment metadata; the worker's assignment substance did not change.",
+        "detail": [
+          "The factory job derived its output path from its lane, so this memo amendment was assigned a legal-design-decision output path rather than the state memo.",
+          "The worker delivered correctly: it amended data/record-clearing/legal-design-intake/WY.memo.json, which is what a memo amendment exists to do.",
+          "Integration refused the branch because that file was outside the ownedPaths the assignment declared.",
+          "The captain corrected ownedPaths so a memo amendment owns the memo.",
+          "Correcting ownedPaths changed the canonical assignment fingerprint, and with it the branch key, orphaning a branch that had already been delivered.",
+          "The legal substance of the assignment and its intended output did not change. Only the captain's description of where the output lives was wrong, and only that was corrected.",
+          "The worker branch is therefore recoverable only through this explicit alias, and is not rewritten, rebased, renamed or force-pushed."
+        ],
+        "correctedByCaptainCommits": [
+          "ba590ad36b4fce9605f52d0f87c34056ea0b6364",
+          "c8c3fd614f94b0099476e07938117ce1e2badc82"
+        ]
+      }
+    }
+  ]
+}

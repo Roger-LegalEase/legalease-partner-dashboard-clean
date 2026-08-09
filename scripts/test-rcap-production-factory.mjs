@@ -86,6 +86,8 @@ import {
 import {
   COMPLETION_CLASSIFICATIONS,
   candidateBranchKeys,
+  readHeldAssignmentAliases,
+  heldAliasFailures,
   discoverCompletions,
   factoryFetchRefspecs,
   planIntegrations
@@ -4820,6 +4822,157 @@ await check(
     } finally {
       fs.rmSync(root, { recursive: true, force: true });
     }
+  }
+);
+
+await check(
+  "a held assignment alias recovers exactly one delivered branch and nothing else",
+  () => {
+    // The captain corrected a defect in this job's own metadata after a worker
+    // had already delivered against it, which changed the branch key. The alias
+    // is the written-down way back. Every pin on it is load-bearing, so each is
+    // broken here in turn and each must fail closed on its own.
+    const aliases = readHeldAssignmentAliases(ROOT);
+    const alias = aliases.find(
+      (entry) =>
+        entry.jobId === "rcap-wy-published-source-filing-requirements-memo-amendment"
+    );
+    assert.ok(alias, "the Wyoming held alias must exist");
+
+    const plan = buildFactoryPlan({ rootDir: ROOT });
+    const job = plan.jobs.find((entry) => entry.jobId === alias.jobId);
+    assert.ok(job);
+
+    const good = {
+      alias,
+      job,
+      branch: alias.historicalBranch,
+      commit: alias.expectedWorkerCommit,
+      subject: alias.expectedCommitSubject,
+      parents: [alias.acceptedParentCommit],
+      changedPaths: [...alias.expectedChangedPaths],
+      outputSha256: alias.expectedOutputSha256,
+      outputBlob: alias.expectedOutputGitBlob
+    };
+    assert.deepEqual(heldAliasFailures(good), [], "the exact delivery must pass");
+
+    // 3. An arbitrary historical fingerprint is not admitted: the alias is
+    //    matched by its exact branch, not by shape.
+    assert.ok(
+      heldAliasFailures({ ...good, branch: `${alias.historicalBranch}-deadbeef` }).some(
+        (failure) => failure.code === "held_alias_branch"
+      )
+    );
+    // 4. Same job, different commit.
+    assert.ok(
+      heldAliasFailures({ ...good, commit: "0".repeat(40) }).some(
+        (failure) => failure.code === "held_alias_commit"
+      )
+    );
+    // 5. Same commit, different path.
+    assert.ok(
+      heldAliasFailures({
+        ...good,
+        changedPaths: ["data/record-clearing/legal-design-intake/CO.memo.json"]
+      }).some((failure) => failure.code === "held_alias_changed_paths")
+    );
+    // 6. Right path, wrong blob.
+    assert.ok(
+      heldAliasFailures({ ...good, outputSha256: "f".repeat(64) }).some(
+        (failure) => failure.code === "held_alias_output_digest"
+      )
+    );
+    // 7. Wrong subject.
+    assert.ok(
+      heldAliasFailures({ ...good, subject: "chore: something else" }).some(
+        (failure) => failure.code === "held_alias_subject"
+      )
+    );
+    // 8. Parent outside the accepted ancestry.
+    assert.ok(
+      heldAliasFailures({ ...good, parents: ["1".repeat(40)] }).some(
+        (failure) => failure.code === "held_alias_parent"
+      )
+    );
+    // 9. A consumed alias is one-time and cannot be replayed.
+    assert.ok(
+      heldAliasFailures({ ...good, alias: { ...alias, status: "consumed" } }).some(
+        (failure) => failure.code === "held_alias_consumed"
+      )
+    );
+    // The alias must still describe what the corrected job actually wants.
+    assert.ok(
+      heldAliasFailures({
+        ...good,
+        job: { ...job, ownedPaths: ["data/record-clearing/legal-design-intake/ZZ.memo.json"] }
+      }).some((failure) => failure.code === "held_alias_output_contract")
+    );
+  }
+);
+
+await check(
+  "held aliases are explicit, never inferred, and leave canonical keys alone",
+  () => {
+    const plan = buildFactoryPlan({ rootDir: ROOT });
+    const job = plan.jobs.find(
+      (entry) =>
+        entry.jobId === "rcap-wy-published-source-filing-requirements-memo-amendment"
+    );
+    const aliases = readHeldAssignmentAliases(ROOT);
+
+    // 1/2. With the registry the historical branch is a candidate; without it
+    //      the branch is unreachable and the delivery cannot be recovered.
+    const withAliases = candidateBranchKeys(job, aliases);
+    const without = candidateBranchKeys(job, []);
+    assert.equal(withAliases.held.length, 1);
+    assert.equal(without.held.length, 0);
+
+    // 11. An alias never displaces or alters the current canonical key, so new
+    //     workers scaffold against the current fingerprint exactly as before.
+    assert.equal(withAliases.canonical, without.canonical);
+    assert.equal(withAliases.preClaim, without.preClaim);
+    assert.equal(withAliases.legacy, without.legacy);
+    assert.ok(!withAliases.held.includes(withAliases.canonical));
+
+    // A job with no alias gets none: aliases are not inferred from job ids.
+    const other = plan.jobs.find((entry) => entry.jobId === "rcap-ky-custom-pleading-clean-tracks");
+    assert.equal(candidateBranchKeys(other, aliases).held.length, 0);
+
+    // 12. A coordination-only change does not need an alias, because the claim
+    //     is already outside the fingerprint.
+    assert.equal(
+      candidateBranchKeys({ ...job, assignmentClaim: { ownerSession: "SESSION_D" } }, aliases)
+        .canonical,
+      withAliases.canonical
+    );
+  }
+);
+
+await check(
+  "correcting ownedPaths does not complete a memo job on file presence",
+  () => {
+    // The memo exists whatever happens, so presence cannot mean delivered. This
+    // is the regression for the bug that briefly hid a real Session D delivery
+    // from discovery: the job read completed the moment its path was corrected.
+    const plan = buildFactoryPlan({ rootDir: ROOT });
+    const job = plan.jobs.find(
+      (entry) =>
+        entry.jobId === "rcap-wy-published-source-filing-requirements-memo-amendment"
+    );
+    assert.ok(job);
+    assert.deepEqual(job.ownedPaths, [
+      "data/record-clearing/legal-design-intake/WY.memo.json"
+    ]);
+    const memoPath = path.join(ROOT, "data/record-clearing/legal-design-intake/WY.memo.json");
+    assert.ok(fs.existsSync(memoPath), "the memo exists regardless of delivery");
+    const delivered =
+      crypto.createHash("sha256").update(fs.readFileSync(memoPath)).digest("hex") ===
+      "1789f299766709081cc98492c25d3641f22ecce75f9449439db54b12319ced3f";
+    assert.equal(
+      job.status,
+      delivered ? "completed" : "ready",
+      "completion must follow the delivered digest, not the file's existence"
+    );
   }
 );
 

@@ -24,6 +24,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 import { spawnSync } from "node:child_process";
 
 import { assignmentFingerprint, scaffoldKeyFor } from "./scaffold.mjs";
@@ -41,6 +42,7 @@ export const COMPLETION_CLASSIFICATIONS = Object.freeze([
   "exact_completion",
   "valid_pre_claim_branch",
   "valid_legacy_branch",
+  "held_alias_completion",
   "partial_branch",
   "incompatible_branch",
   "baseline_lease",
@@ -121,14 +123,142 @@ export function fetchFactoryRefs({
  * All three are looked up. A completion is not less real for being under an
  * older key, and the branch is never renamed to make it look tidier.
  */
-export function candidateBranchKeys(job) {
+/**
+ * The sha256 of a blob as committed, read as bytes.
+ *
+ * The shared git wrapper returns trimmed strings, which is fine for a subject
+ * and wrong for a content digest: trailing bytes are content. This reads the
+ * blob directly so the digest is of what the worker actually committed.
+ */
+function committedBlobSha256(rootDir, commit, relativePath) {
+  const result = spawnSync(
+    "git",
+    ["-C", rootDir, "cat-file", "blob", `${commit}:${relativePath}`],
+    { encoding: "buffer", maxBuffer: 256 * 1024 * 1024 }
+  );
+  if (result.status !== 0 || !result.stdout) return null;
+  return crypto.createHash("sha256").update(result.stdout).digest("hex");
+}
+
+export const HELD_ASSIGNMENT_FINGERPRINT_PATH =
+  "data/record-clearing/production-factory/held-assignment-fingerprints.json";
+
+/**
+ * Captain-recorded aliases for branches delivered before an assignment was
+ * corrected.
+ *
+ * A branch key carries the assignment fingerprint, so correcting a genuine
+ * defect in a job's captain-owned metadata renames the branch out from under a
+ * worker who has already delivered. This is the narrow, explicit way back: one
+ * written-down entry, pinned to one commit, one subject, one changed path and
+ * one output digest.
+ *
+ * It is never inferred. An unlisted historical fingerprint fails closed exactly
+ * as it did before this existed.
+ */
+export function readHeldAssignmentAliases(rootDir) {
+  const absolute = path.join(rootDir ?? process.cwd(), HELD_ASSIGNMENT_FINGERPRINT_PATH);
+  if (!fs.existsSync(absolute)) return [];
+  try {
+    const record = JSON.parse(fs.readFileSync(absolute, "utf8"));
+    return Array.isArray(record?.entries) ? record.entries : [];
+  } catch {
+    return [];
+  }
+}
+
+/** The aliases a given job may use: available only, and matched by job id. */
+export function heldAliasesForJob(aliases, job) {
+  return (aliases ?? []).filter(
+    (entry) => entry?.jobId === job.jobId && entry?.status === "available"
+  );
+}
+
+/**
+ * Every reason this branch is not the delivery the alias admits.
+ *
+ * Written as a list rather than a boolean because "rejected" is not useful on
+ * its own: the whole point of an alias is that somebody has to be able to see
+ * which pin failed and decide whether the entry is wrong or the branch is.
+ */
+export function heldAliasFailures({
+  alias,
+  job,
+  branch,
+  commit,
+  subject,
+  parents,
+  changedPaths,
+  outputSha256,
+  outputBlob
+}) {
+  const failures = [];
+  const eq = (actual, expected, code, label) => {
+    if (expected !== undefined && expected !== null && actual !== expected) {
+      failures.push({
+        code,
+        message: `${label} is ${actual ?? "absent"}; the held alias admits only ${expected}`
+      });
+    }
+  };
+  eq(job.jobId, alias.jobId, "held_alias_job", "job id");
+  eq(branch, alias.historicalBranch, "held_alias_branch", "branch");
+  eq(commit, alias.expectedWorkerCommit, "held_alias_commit", "worker commit");
+  eq(subject, alias.expectedCommitSubject, "held_alias_subject", "commit subject");
+  eq(outputSha256, alias.expectedOutputSha256, "held_alias_output_digest", "delivered output digest");
+  if (alias.expectedOutputGitBlob) {
+    eq(outputBlob, alias.expectedOutputGitBlob, "held_alias_output_blob", "delivered output blob");
+  }
+  if (alias.acceptedParentCommit && !(parents ?? []).includes(alias.acceptedParentCommit)) {
+    failures.push({
+      code: "held_alias_parent",
+      message: `parent ${(parents ?? []).join(", ") || "absent"} is not the accepted integration ancestor ${alias.acceptedParentCommit}`
+    });
+  }
+  const expectedPaths = [...(alias.expectedChangedPaths ?? [])].sort();
+  const actualPaths = [...(changedPaths ?? [])].sort();
+  if (JSON.stringify(expectedPaths) !== JSON.stringify(actualPaths)) {
+    failures.push({
+      code: "held_alias_changed_paths",
+      message: `changed paths [${actualPaths.join(", ")}] are not the approved historical delivery [${expectedPaths.join(", ")}]`
+    });
+  }
+  // The corrected job must actually want what the alias admits. An alias that
+  // no longer matches the current contract is a stale entry, not a licence.
+  if (
+    alias.expectedOutputPath &&
+    !(job.ownedPaths ?? []).includes(alias.expectedOutputPath)
+  ) {
+    failures.push({
+      code: "held_alias_output_contract",
+      message: `${alias.expectedOutputPath} is not an owned path of the corrected assignment`
+    });
+  }
+  if (alias.status === "consumed") {
+    failures.push({
+      code: "held_alias_consumed",
+      message: `held alias ${alias.aliasId} has already been consumed and is one-time`
+    });
+  }
+  return failures;
+}
+
+export function candidateBranchKeys(job, heldAliases = []) {
   const canonical = scaffoldKeyFor(job.jobId, { job, model: job.model });
   const legacy = scaffoldKeyFor(job.jobId);
   const preClaim = scaffoldKeyFor(
     job.jobId,
     preClaimAssignmentFingerprint(job)
   );
-  return { canonical, legacy, preClaim };
+  // Held keys are read from the alias entries rather than computed. They cannot
+  // be derived: the fingerprint they carry belongs to an assignment that no
+  // longer exists, which is the entire reason the entry has to be written down.
+  const held = heldAliasesForJob(heldAliases, job).map((entry) =>
+    entry.historicalBranch.startsWith(FACTORY_BRANCH_PREFIX)
+      ? entry.historicalBranch.slice(FACTORY_BRANCH_PREFIX.length)
+      : entry.historicalBranch
+  );
+  return { canonical, legacy, preClaim, held };
 }
 
 /**
@@ -167,7 +297,7 @@ function gitValue(git, args) {
  */
 export function verifyBranchCompletion(
   job,
-  { git, branch, commit, integrationRef = "HEAD" }
+  { git, branch, commit, integrationRef = "HEAD", rootDir = process.cwd() }
 ) {
   const failures = [];
 
@@ -258,23 +388,62 @@ export function verifyBranchCompletion(
   // What can be read is the binding the marker exists to create: the branch key
   // carries the assignment fingerprint, so a branch under a key no current or
   // historical fingerprint produces is carrying an assignment nobody issued.
-  const keys = candidateBranchKeys(job);
+  const heldAliases = readHeldAssignmentAliases(rootDir);
+  const keys = candidateBranchKeys(job, heldAliases);
   const branchKey = branch.startsWith(FACTORY_BRANCH_PREFIX)
     ? branch.slice(FACTORY_BRANCH_PREFIX.length)
     : branch;
+  // Resolution order is deliberate: the current assignment first, then the
+  // coordination-equivalent form, then an explicitly written-down historical
+  // alias, then the narrow legacy form. An alias is consulted last among the
+  // identity forms and never displaces the canonical key.
+  const matchingAlias = heldAliasesForJob(heldAliases, job).find((entry) => {
+    const key = entry.historicalBranch.startsWith(FACTORY_BRANCH_PREFIX)
+      ? entry.historicalBranch.slice(FACTORY_BRANCH_PREFIX.length)
+      : entry.historicalBranch;
+    return key === branchKey;
+  });
   const keyKind =
     branchKey === keys.canonical
       ? "canonical"
       : branchKey === keys.preClaim
         ? "pre_claim"
-        : branchKey === keys.legacy
-          ? "legacy"
-          : "unrecognized";
+        : matchingAlias
+          ? "held"
+          : branchKey === keys.legacy
+            ? "legacy"
+            : "unrecognized";
   if (keyKind === "unrecognized") {
     failures.push({
       code: "assignment_marker_identity",
       message: `branch key ${branchKey} matches no assignment fingerprint this job has held`
     });
+  }
+  if (keyKind === "held") {
+    // Matching the key is the beginning, not the end. The alias pins one commit,
+    // one subject, one parent, one changed-path set and one output digest, and
+    // every one of them is checked before this branch is treated as delivered
+    // work. A held key with the wrong anything fails closed.
+    const outputPath = matchingAlias.expectedOutputPath;
+    const outputBlob = outputPath
+      ? gitValue(git, ["rev-parse", `${commit}:${outputPath}`])
+      : null;
+    const outputSha256 = outputPath
+      ? committedBlobSha256(rootDir, commit, outputPath)
+      : null;
+    for (const failure of heldAliasFailures({
+      alias: matchingAlias,
+      job,
+      branch,
+      commit,
+      subject,
+      parents,
+      changedPaths,
+      outputSha256,
+      outputBlob
+    })) {
+      failures.push(failure);
+    }
   }
 
   const missingOutputs = (job.expectedOutputs ?? []).filter(
@@ -332,6 +501,10 @@ function classifyVerification(verification, integrated) {
   if (verification.missingOutputs.length > 0) return "partial_branch";
   if (verification.keyKind === "pre_claim") return "valid_pre_claim_branch";
   if (verification.keyKind === "legacy") return "valid_legacy_branch";
+  // A held branch that passed every pin on its alias is a delivered completion.
+  // It is classified as its own kind rather than folded into `exact_completion`
+  // so a reader can always see that it arrived through a recorded alias.
+  if (verification.keyKind === "held") return "held_alias_completion";
   return "exact_completion";
 }
 
@@ -388,12 +561,17 @@ export function discoverCompletions(
     return statuses.includes(job.status);
   });
 
+  const heldAliasRegistry = readHeldAssignmentAliases(rootDir);
   const jobs = selected.map((job) => {
-    const keys = candidateBranchKeys(job);
+    const keys = candidateBranchKeys(job, heldAliasRegistry);
     const candidateBranches = [
       ...new Set([
         `${FACTORY_BRANCH_PREFIX}${keys.canonical}`,
         `${FACTORY_BRANCH_PREFIX}${keys.preClaim}`,
+        // Explicitly held historical branches. Listed so a delivered completion
+        // is reachable at all; every pin on the alias is still checked before
+        // it counts as one.
+        ...(keys.held ?? []).map((key) => `${FACTORY_BRANCH_PREFIX}${key}`),
         `${FACTORY_BRANCH_PREFIX}${keys.legacy}`,
         // Anything else scaffolded for this job id under some other assignment
         // — a reissued assignment leaves the previous worker's branch behind
@@ -415,6 +593,7 @@ export function discoverCompletions(
       const found = byBranch.get(branch);
       if (!found) continue;
       const verification = verifyBranchCompletion(job, {
+        rootDir,
         git,
         branch,
         commit: found.commit,
@@ -498,7 +677,8 @@ function jobBranchPattern(jobId) {
 const INTEGRABLE = new Set([
   "exact_completion",
   "valid_pre_claim_branch",
-  "valid_legacy_branch"
+  "valid_legacy_branch",
+  "held_alias_completion"
 ]);
 
 /**
