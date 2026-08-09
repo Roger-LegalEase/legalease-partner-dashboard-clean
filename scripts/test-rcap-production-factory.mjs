@@ -4833,11 +4833,16 @@ await check(
     // is the written-down way back. Every pin on it is load-bearing, so each is
     // broken here in turn and each must fail closed on its own.
     const aliases = readHeldAssignmentAliases(ROOT);
-    const alias = aliases.find(
+    const recorded = aliases.find(
       (entry) =>
         entry.jobId === "rcap-wy-published-source-filing-requirements-memo-amendment"
     );
-    assert.ok(alias, "the Wyoming held alias must exist");
+    assert.ok(recorded, "the Wyoming held alias must exist");
+    // The live entry is consumed once its delivery is integrated, which is the
+    // point of a one-time alias. The acceptance path is exercised against an
+    // available copy so this test asserts the mechanism rather than the current
+    // consumption state; the consumed case is asserted explicitly below.
+    const alias = { ...recorded, status: "available" };
 
     const plan = buildFactoryPlan({ rootDir: ROOT });
     const job = plan.jobs.find((entry) => entry.jobId === alias.jobId);
@@ -4894,9 +4899,11 @@ await check(
         (failure) => failure.code === "held_alias_parent"
       )
     );
-    // 9. A consumed alias is one-time and cannot be replayed.
+    // 9. A consumed alias is one-time and cannot be replayed. The live entry is
+    //    consumed, so this is asserted against the record as it actually stands.
+    assert.equal(recorded.status, "consumed", "the Wyoming delivery is integrated");
     assert.ok(
-      heldAliasFailures({ ...good, alias: { ...alias, status: "consumed" } }).some(
+      heldAliasFailures({ ...good, alias: recorded }).some(
         (failure) => failure.code === "held_alias_consumed"
       )
     );
@@ -4918,7 +4925,12 @@ await check(
       (entry) =>
         entry.jobId === "rcap-wy-published-source-filing-requirements-memo-amendment"
     );
-    const aliases = readHeldAssignmentAliases(ROOT);
+    // Available copies: a consumed alias is deliberately not offered as a
+    // candidate branch, so availability is what this test is about.
+    const aliases = readHeldAssignmentAliases(ROOT).map((entry) => ({
+      ...entry,
+      status: "available"
+    }));
 
     // 1/2. With the registry the historical branch is a candidate; without it
     //      the branch is unreachable and the delivery cannot be recovered.

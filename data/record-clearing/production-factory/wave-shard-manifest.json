@@ -5,7 +5,7 @@
   "reviewShardReservationNote": "The claim schema's ownerSession enum is SESSION_B through SESSION_F, and review is none of those. R1 and R2 are therefore reserved here rather than in job-claims.json. This manifest is the reservation of record for them; widening the claim enum would change the job manifest and, through it, worker branch identity.",
   "shardIdentifiersAreNotSessions": "R1 and R2 are shard identifiers, not sessions. Both are owned by SESSION_R, which is the single human review session: R1 carries its technical and visual reads, R2 carries its completed-output legal reads, and the split exists so the two kinds of review cannot be recorded against each other's paths. They were briefly written as ownerSession SESSION_R1 and SESSION_R2, which reads as two review sessions and would have someone opening a second one. The human pool is exactly A, B, C, D, E, F and R; every shard here names one of those seven and no shard may name anything else.",
   "baseline": {
-    "baseCommit": "d41563338df5a1558502a9b68413ae90fedbd57e",
+    "baseCommit": "22e73c1f583c6d447b304ab4e304c2b7bc55efad",
     "authorityVersion": "master-library/1.2",
     "authorityEdition": "1.2"
   },
@@ -553,7 +553,7 @@
       },
       {
         "path": "planning/record-clearing-100-percent/production-plan.json",
-        "sha256": "bd76ea9ece1ea61cb006a77e446023f6589c051f6b183ca89c91cb61762a0c19"
+        "sha256": "ff4224e51c9b1924a7a3720780c25709e903f73f13770e9f19724cffc8015afd"
       },
       {
         "path": "src/lib/rcap/jurisdictions/packet-capability.ts",
@@ -641,16 +641,17 @@
       "lane": "custom_pleading",
       "status": "active",
       "ownerSession": "SESSION_B",
-      "note": "Both promoted rows changed shape rather than being reranked. Kentucky was one assignment over two tracks and is now one over one: ky_void_seal_controlled_substance carries an eligibility bar its own memo records and the controlling review does not — KRS 218A.275(12) absolutely bars anyone previously dismissed after a KRS 218A.14151 deferred prosecution — and that decides whether the participant receives a packet at all, not how one is worded. It is split out to a Session D owner and the combined assignment is superseded, not completed. The marijuana/synthetic/salvia sibling carries no such bar and is here on its own so one unresolved eligibility question does not hold a deliverable track for a second wave. Virginia leaves the shard entirely: both its tracks are blocked on two independent questions — which version of Va. Code § 19.2-392.2 governs a packet generated now, and whether the Office of the Executive Secretary publishes a statewide instrument for either route. The second one decides whether a custom pleading is even the right document, so drafting first would risk building the wrong artifact rather than an early draft of the right one. Nebraska is still deliberately not promoted: unresolved venue and packet-component questions, and its branch is a lease.",
+      "note": "Wyoming joins, reissued rather than self-narrowed. Its statewide core packet is settled by the integrated memo amendment — verified petition, proposed order, filing and service instructions, route-specific supporting-item checklist, across all three tracks — with summons, praecipe, executed judicial fields, prosecutor response, victim notice, DCI action, completed proof of service and every Casper local form excluded. The 23-county local-practice survey stays open and does not gate it: what it asks is how a county wants the filing handled, and none of that changes the document. Both previously promoted rows changed shape rather than being reranked. Kentucky was one assignment over two tracks and is now one over one: ky_void_seal_controlled_substance carries an eligibility bar its own memo records and the controlling review does not — KRS 218A.275(12) absolutely bars anyone previously dismissed after a KRS 218A.14151 deferred prosecution — and that decides whether the participant receives a packet at all, not how one is worded. It is split out to a Session D owner and the combined assignment is superseded, not completed. The marijuana/synthetic/salvia sibling carries no such bar and is here on its own so one unresolved eligibility question does not hold a deliverable track for a second wave. Virginia leaves the shard entirely: both its tracks are blocked on two independent questions — which version of Va. Code § 19.2-392.2 governs a packet generated now, and whether the Office of the Executive Secretary publishes a statewide instrument for either route. The second one decides whether a custom pleading is even the right document, so drafting first would risk building the wrong artifact rather than an early draft of the right one. Nebraska is still deliberately not promoted: unresolved venue and packet-component questions, and its branch is a lease.",
       "jobIds": [
-        "rcap-ky-custom-pleading-clean-tracks"
+        "rcap-ky-custom-pleading-clean-tracks",
+        "rcap-wy-custom-pleading"
       ],
       "capacity": {
-        "jobs": 1,
-        "assignedTracks": 1,
-        "incrementalTracks": 1,
-        "assignedComponents": 3,
-        "incrementalComponents": 3
+        "jobs": 2,
+        "assignedTracks": 4,
+        "incrementalTracks": 4,
+        "assignedComponents": 18,
+        "incrementalComponents": 18
       },
       "jobs": [
         {
@@ -673,6 +674,32 @@
           ],
           "assignedComponents": 3,
           "incrementalComponents": 3,
+          "alreadyHasPushedCompletion": false
+        },
+        {
+          "jobId": "rcap-wy-custom-pleading",
+          "lane": "custom_pleading",
+          "jurisdiction": "WY",
+          "status": "ready",
+          "semanticFingerprint": "48d6b7c090a014fdca76c3abee64d570ba5f92df002e1af96438a05eaabfbce3",
+          "branch": "rcap-factory/rcap-wy-custom-pleading-05f655d3-48d6b7c0",
+          "ownedPaths": [
+            "scripts/verify-rcap-wyoming-custom-pleading.mjs",
+            "src/lib/rcap/packets/jurisdictions/wyoming/custom-pleading.ts"
+          ],
+          "dependencies": [],
+          "assignedTrackIds": [
+            "wy_fel_1502",
+            "wy_misd_1501",
+            "wy_nc_1401"
+          ],
+          "incrementalTrackIds": [
+            "wy_fel_1502",
+            "wy_misd_1501",
+            "wy_nc_1401"
+          ],
+          "assignedComponents": 15,
+          "incrementalComponents": 15,
           "alreadyHasPushedCompletion": false
         }
       ]
@@ -700,36 +727,16 @@
       "lane": "legal_design_normalization",
       "status": "active",
       "ownerSession": "SESSION_D",
-      "note": "Refilled by the Wyoming published-source review. The project owner supplied a review of published sources — not a completed 23-county telephone survey, and it is not recorded as one — settling that Wyoming publishes no statewide petition form and no statewide proposed-order template. Both documents are therefore controlled custom pleading, which turns a standing correct_form blocker into an affirmative conclusion. A decision record cannot amend a state memo, so this owner carries the conclusions and the statutory per-route filing fees into WY.memo.json; Session B then implements from the corrected memo rather than from the decision, and Wyoming custom pleading is blocked on exactly this one job and nothing else. Earlier in the pass: both reads that refilled this shard delivered inside the same pass and are integrated: Kentucky's KRS 218A.275(12) eligibility bar, which decides whether that route offers a packet at all, and Virginia's 2026-2027 statutory cutover. Virginia custom pleading now narrows from two blocking questions to one — the official-form identity, which is Session F's and sits in F4. D2 still carries nothing new; both Wyoming reads also landed this pass. Ohio carried the marijuana mechanism into OH.memo.json with the two accuracy defects fixed — the fee is division (G), and the 60-day and 30-day figures do not govern this route. Washington carried the CROP venue conclusion. Iowa remapped the six components that two completed resolutions found pointing at documents that do not exist as such. None of the three made a track ready, which was the point. The Ohio memo now carries three recorded states rather than two; the earlier automatic-sealing amendment stays complete rather than reopening because a successor touched the same file.",
-      "jobIds": [
-        "rcap-wy-published-source-filing-requirements-memo-amendment"
-      ],
+      "note": "Empty. The Wyoming memo amendment delivered and is integrated, recovered through an explicit held-fingerprint alias after a captain correction to the assignment metadata had orphaned its branch. Originally: refilled by the Wyoming published-source review. The project owner supplied a review of published sources — not a completed 23-county telephone survey, and it is not recorded as one — settling that Wyoming publishes no statewide petition form and no statewide proposed-order template. Both documents are therefore controlled custom pleading, which turns a standing correct_form blocker into an affirmative conclusion. A decision record cannot amend a state memo, so this owner carries the conclusions and the statutory per-route filing fees into WY.memo.json; Session B then implements from the corrected memo rather than from the decision, and Wyoming custom pleading is blocked on exactly this one job and nothing else. Earlier in the pass: both reads that refilled this shard delivered inside the same pass and are integrated: Kentucky's KRS 218A.275(12) eligibility bar, which decides whether that route offers a packet at all, and Virginia's 2026-2027 statutory cutover. Virginia custom pleading now narrows from two blocking questions to one — the official-form identity, which is Session F's and sits in F4. D2 still carries nothing new; both Wyoming reads also landed this pass. Ohio carried the marijuana mechanism into OH.memo.json with the two accuracy defects fixed — the fee is division (G), and the 60-day and 30-day figures do not govern this route. Washington carried the CROP venue conclusion. Iowa remapped the six components that two completed resolutions found pointing at documents that do not exist as such. None of the three made a track ready, which was the point. The Ohio memo now carries three recorded states rather than two; the earlier automatic-sealing amendment stays complete rather than reopening because a successor touched the same file.",
+      "jobIds": [],
       "capacity": {
-        "jobs": 1,
+        "jobs": 0,
         "assignedTracks": 0,
         "incrementalTracks": 0,
         "assignedComponents": 0,
         "incrementalComponents": 0
       },
-      "jobs": [
-        {
-          "jobId": "rcap-wy-published-source-filing-requirements-memo-amendment",
-          "lane": "legal_design_normalization",
-          "jurisdiction": "WY",
-          "status": "ready",
-          "semanticFingerprint": "f21a5f2b99c30bfbf21d8f3d389e90536ed741ebac0782e36ed93858ae968c56",
-          "branch": "rcap-factory/rcap-wy-published-source-filing-requirements-memo-amendment-8036a3a8-f21a5f2b",
-          "ownedPaths": [
-            "data/record-clearing/legal-design-intake/WY.memo.json"
-          ],
-          "dependencies": [],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": false
-        }
-      ]
+      "jobs": []
     },
     {
       "wave": 4,
@@ -1705,5 +1712,5 @@
       ]
     }
   ],
-  "manifestSha256": "fe531837934b71afa3ed3141c4a1c8c99868d72e03d7e7ca95af5cdf51375107"
+  "manifestSha256": "bd947bd0aef3a5c41b06a611db05bf069a1fcfc50f438fcb8ad0dfa03c603192"
 }

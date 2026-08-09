@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-captain-completion-discovery/v1",
-  "baseCommit": "20266097b8d0232b24d32d9bf66992695c6152a2",
+  "baseCommit": "22e73c1f583c6d447b304ab4e304c2b7bc55efad",
   "fetch": {
     "remote": "origin",
     "refspecs": [
@@ -16,7 +16,7 @@
     "exact_completion": 0,
     "valid_pre_claim_branch": 0,
     "valid_legacy_branch": 0,
-    "held_alias_completion": 1,
+    "held_alias_completion": 0,
     "partial_branch": 0,
     "incompatible_branch": 2,
     "baseline_lease": 2,
@@ -4892,11 +4892,11 @@
       "jobId": "rcap-wy-custom-pleading",
       "lane": "custom_pleading",
       "jurisdiction": "WY",
-      "status": "blocked",
-      "assignmentFingerprint": "abeab10c22fd384979003fdf708976998e6146fc43fa6369c0ac32170f79feea",
-      "canonicalBranch": "rcap-factory/rcap-wy-custom-pleading-05f655d3-abeab10c",
+      "status": "ready",
+      "assignmentFingerprint": "48d6b7c090a014fdca76c3abee64d570ba5f92df002e1af96438a05eaabfbce3",
+      "canonicalBranch": "rcap-factory/rcap-wy-custom-pleading-05f655d3-48d6b7c0",
       "legacyBranch": "rcap-factory/rcap-wy-custom-pleading-05f655d3",
-      "preClaimBranch": "rcap-factory/rcap-wy-custom-pleading-05f655d3-8d0adc8d",
+      "preClaimBranch": "rcap-factory/rcap-wy-custom-pleading-05f655d3-8dc10e50",
       "ownedPaths": [
         "scripts/verify-rcap-wyoming-custom-pleading.mjs",
         "src/lib/rcap/packets/jurisdictions/wyoming/custom-pleading.ts"
@@ -4949,43 +4949,6 @@
       "completionBranch": null,
       "completionCommit": null,
       "branches": []
-    },
-    {
-      "jobId": "rcap-wy-published-source-filing-requirements-memo-amendment",
-      "lane": "legal_design_normalization",
-      "jurisdiction": "WY",
-      "status": "ready",
-      "assignmentFingerprint": "f21a5f2b99c30bfbf21d8f3d389e90536ed741ebac0782e36ed93858ae968c56",
-      "canonicalBranch": "rcap-factory/rcap-wy-published-source-filing-requirements-memo-amendment-8036a3a8-f21a5f2b",
-      "legacyBranch": "rcap-factory/rcap-wy-published-source-filing-requirements-memo-amendment-8036a3a8",
-      "preClaimBranch": "rcap-factory/rcap-wy-published-source-filing-requirements-memo-amendment-8036a3a8-f21a5f2b",
-      "ownedPaths": [
-        "data/record-clearing/legal-design-intake/WY.memo.json"
-      ],
-      "expectedOutputs": [
-        "data/record-clearing/legal-design-intake/WY.memo.json"
-      ],
-      "classification": "held_alias_completion",
-      "completionBranch": "rcap-factory/rcap-wy-published-source-filing-requirements-memo-amendment-8036a3a8-10f21427",
-      "completionCommit": "c7efa7e99ecbf3ebebd2bc174ac03371342d9fc2",
-      "branches": [
-        {
-          "branch": "rcap-factory/rcap-wy-published-source-filing-requirements-memo-amendment-8036a3a8-10f21427",
-          "commit": "c7efa7e99ecbf3ebebd2bc174ac03371342d9fc2",
-          "keyKind": "held",
-          "subject": "fix(record-clearing): amend the Wyoming memo for the published filing requirements",
-          "parents": [
-            "360e61dacab7b3ad395d1dc94519ecf1c584efd1"
-          ],
-          "changedPaths": [
-            "data/record-clearing/legal-design-intake/WY.memo.json"
-          ],
-          "missingOutputs": [],
-          "isBaselineLease": false,
-          "failures": [],
-          "classification": "held_alias_completion"
-        }
-      ]
     },
     {
       "jobId": "rcap-wy-staging-promotion",

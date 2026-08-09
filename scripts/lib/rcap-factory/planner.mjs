@@ -475,7 +475,15 @@ const COMPLETED_NORMALIZATIONS = Object.freeze([
     workerCommit: "c27e1d9d6bc732e159b4cbe68b3f4705ede0a9a3",
     completionCommit: "e49729d9f34adb3762a53b971ae23ab9389bdcfd",
     memoSha256:
-      "8788564390c3d4ad1c9e9fd90e3dcf6311ccba4557b481a306790214f8d3c0bf"
+      "8788564390c3d4ad1c9e9fd90e3dcf6311ccba4557b481a306790214f8d3c0bf",
+    // The published-source filing-requirements amendment. Both hashes are real
+    // historical states of the same file and either satisfies the on-disk check.
+    amendedByJobId: "rcap-wy-published-source-filing-requirements-memo-amendment",
+    amendedByWorkerCommit: "c7efa7e99ecbf3ebebd2bc174ac03371342d9fc2",
+    amendedByWorkerBranch:
+      "rcap-factory/rcap-wy-published-source-filing-requirements-memo-amendment-8036a3a8-10f21427",
+    amendedMemoSha256:
+      "1789f299766709081cc98492c25d3641f22ecce75f9449439db54b12319ced3f"
   },
   {
     jurisdiction: "SD",
@@ -6207,8 +6215,23 @@ function implementationJobOverrides(
     const designOwners = WYOMING_LEGAL_DESIGN_OWNERS.map((entry) => entry.jobId).filter(
       (jobId) => jobId !== "rcap-wy-local-template-and-handout-survey"
     );
-    const openDesign = designOwners.filter(
-      (jobId) =>
+    // Ask each owner the question it actually answers. A decision owner leaves a
+    // decision record; a memo owner leaves the memo in the state its amendment
+    // produced. Looking for a decision file from a memo owner asks for something
+    // it was never assigned to write, and the gate then never opens no matter
+    // what the worker delivers.
+    const openDesign = designOwners.filter((jobId) => {
+      const owner = WYOMING_LEGAL_DESIGN_OWNERS.find(
+        (entry) => entry.jobId === jobId
+      );
+      if (owner?.ownsMemo === true) {
+        return !memoHasReached(
+          rootDir,
+          owner.jurisdiction ?? "WY",
+          owner.deliveredMemoSha256
+        );
+      }
+      return (
         !fs.existsSync(
           path.join(
             rootDir,
@@ -6218,7 +6241,8 @@ function implementationJobOverrides(
         !fs.existsSync(
           path.join(rootDir, `${FACTORY_DATA_DIR}/legal-design-decisions/${jobId}.json`)
         )
-    );
+      );
+    });
     if (!settled || openDesign.length > 0) {
       return {
         status: "blocked",
