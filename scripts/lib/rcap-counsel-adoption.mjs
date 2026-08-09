@@ -604,10 +604,178 @@ function assertCommitProvenance(root, config, implementationBoundPaths) {
     { cwd: root, encoding: "utf8" }
   );
   if (current.status !== 0) {
-    throw new Error(
-      `${config.familyId} approved implementation paths have drifted from ${config.integratedImplementationCommit}; renewed counsel adoption is required`
+    const drifted = git(root, [
+      "diff",
+      "--name-only",
+      config.integratedImplementationCommit,
+      "--",
+      ...implementationBoundPaths
+    ])
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean);
+    const covered = drifted.every((relativePath) =>
+      standingAdoptionCoversRegeneration(root, config, relativePath)
     );
+    if (!covered) {
+      throw new Error(
+        `${config.familyId} approved implementation paths have drifted from ${config.integratedImplementationCommit}; renewed counsel adoption is required`
+      );
+    }
   }
+}
+
+/**
+ * Whether the standing adoption reaches a regenerated bound artifact.
+ *
+ * Counsel adopted a legal document. The review manifest that records it also
+ * records the SHA-256 and byte size of every render, so a shared-renderer
+ * correction moves those digests without touching a word: the pagination fix
+ * that stopped VERIFICATION and CERTIFICATE OF SERVICE standing alone at the
+ * foot of a page moved six of Georgia's nine packets and changed no text, no
+ * page count, no route, no component and no fixture.
+ *
+ * Asked as plain byte equality that reads as "the approved implementation has
+ * drifted", and the only ways past it were to leave the manifest asserting
+ * digests the renderer no longer produces, or to leave a real layout defect
+ * unfixed. The standing external counsel adoption already answers the question
+ * — it continues across "a PDF hash change from pagination or appearance
+ * correction" — and a recorded applicability record names the artifact it was
+ * applied to.
+ *
+ * Two conditions, both required, and the second is recomputed here rather than
+ * believed: an applicability record must name this family, this artifact and
+ * this adopted commit; and the two versions of the artifact must be identical
+ * once the four measurement fields are removed. Anything else — a page count, a
+ * route, a component, a fixture, a word, or drift in any other bound path —
+ * fails and still demands renewal. This distinguishes the document from the
+ * measurement of the document; it narrows nothing about legal content.
+ */
+function standingAdoptionCoversRegeneration(root, config, relativePath) {
+  const applicability = readApplicabilityRecords(root).find(
+    (record) =>
+      record?.appliesTo?.familyId === config.familyId &&
+      record?.appliesTo?.artifactPath === relativePath &&
+      record?.historicalAdoptionPreserved?.integratedImplementationCommit ===
+        config.integratedImplementationCommit &&
+      record?.whatMoved?.kind === "layout_only" &&
+      record?.boundary?.substantiveLegalReviewPerformed === false
+  );
+  if (!applicability) return false;
+
+  const previous = spawnSync(
+    "git",
+    ["show", `${config.integratedImplementationCommit}:${relativePath}`],
+    { cwd: root, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 }
+  );
+  if (previous.status !== 0) return false;
+  const absolute = path.join(root, relativePath);
+  if (!fs.existsSync(absolute)) return false;
+  let before;
+  let after;
+  try {
+    before = JSON.parse(previous.stdout);
+    after = JSON.parse(fs.readFileSync(absolute, "utf8"));
+  } catch {
+    return false;
+  }
+  const MEASUREMENT_FIELDS = new Set([
+    "sha256",
+    "assembledSha256",
+    "assembledBytes",
+    "byteSize"
+  ]);
+  const withoutMeasurements = (value) => {
+    if (Array.isArray(value)) return value.map(withoutMeasurements);
+    if (value && typeof value === "object") {
+      const out = {};
+      for (const key of Object.keys(value).sort()) {
+        if (MEASUREMENT_FIELDS.has(key)) continue;
+        out[key] = withoutMeasurements(value[key]);
+      }
+      return out;
+    }
+    return value;
+  };
+  return (
+    JSON.stringify(withoutMeasurements(before)) ===
+    JSON.stringify(withoutMeasurements(after))
+  );
+}
+
+/**
+ * Whether a re-pin of an adoption record moves only measurement.
+ *
+ * Exported for the recording script, which otherwise has two doors: refuse, or
+ * `--renewed-counsel-adoption`, which asserts a renewal that did not happen. A
+ * layout-only regeneration is neither. The comparison strips exactly the fields
+ * that are digests or byte counts of a render — including the family hash that
+ * is itself a digest of them — and requires everything else to be identical:
+ * routes, statuses, scope completion, page counts, fixture ids, file names,
+ * declared branch variants, specification hashes and adoption metadata all
+ * still have to match, and an applicability record has to name the family.
+ */
+export function adoptionRepinIsMeasurementOnly(root, existing, replacement) {
+  // Digests and byte counts of renders, and the two digests computed from them.
+  //
+  // `controllingReviewSha256` and `templateFamilySha256` are safe to strip here
+  // only because the review manifest they measure is separately proven — by
+  // recomputation, not assertion — to be identical once its own measurement
+  // fields are removed. `authorityArchiveSha256` is deliberately absent: the
+  // controlling authority is not a measurement of a render, and if it moves this
+  // is not a layout-only regeneration.
+  const MEASUREMENT_FIELDS = new Set([
+    "sha256",
+    "assembledSha256",
+    "assembledBytes",
+    "byteSize",
+    "templateFamilySha256",
+    "controllingReviewSha256"
+  ]);
+  const strip = (value) => {
+    if (Array.isArray(value)) return value.map(strip);
+    if (value && typeof value === "object") {
+      const out = {};
+      for (const key of Object.keys(value).sort()) {
+        if (MEASUREMENT_FIELDS.has(key)) continue;
+        out[key] = strip(value[key]);
+      }
+      return out;
+    }
+    return value;
+  };
+  if (JSON.stringify(strip(existing)) !== JSON.stringify(strip(replacement))) {
+    return false;
+  }
+  const moved = (replacement.completedScopes ?? []).filter((scope, index) => {
+    const before = (existing.completedScopes ?? [])[index];
+    return JSON.stringify(before) !== JSON.stringify(scope);
+  });
+  if (moved.length === 0) return true;
+  const applicability = readApplicabilityRecords(root);
+  return moved.every((scope) =>
+    applicability.some(
+      (record) =>
+        record?.appliesTo?.familyId === scope.familyId &&
+        record?.whatMoved?.kind === "layout_only" &&
+        record?.boundary?.substantiveLegalReviewPerformed === false
+    )
+  );
+}
+
+function readApplicabilityRecords(root) {
+  const directory = path.join(root, "data/record-clearing/template-families");
+  if (!fs.existsSync(directory)) return [];
+  const records = [];
+  for (const name of fs.readdirSync(directory).sort()) {
+    if (!/^EXT-ADOPT-.*-APPLICABILITY-.*\.json$/u.test(name)) continue;
+    try {
+      records.push(JSON.parse(fs.readFileSync(path.join(directory, name), "utf8")));
+    } catch {
+      continue;
+    }
+  }
+  return records;
 }
 
 function buildLegalDesignSpecificationHashes(

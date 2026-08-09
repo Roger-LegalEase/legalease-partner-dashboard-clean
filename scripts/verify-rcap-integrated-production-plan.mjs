@@ -2488,6 +2488,14 @@ for (const completedTrack of completed) {
         "guidance_implementation"
       ].includes(entry.lane) &&
       entry.strategyFamily !== "legal_design_adjudication" &&
+      // A component-scoped owner claims named components rather than a track.
+      // Wyoming's filing-instructions guidance is a required component of a
+      // delivered custom-pleading track, in a different lane, owned one
+      // component at a time. Counting it as a track claim reads an owner of the
+      // part that was never built as a second owner of finished work. The
+      // factory suite checks the components it names against what the completed
+      // implementation actually built, so it cannot reach into that.
+      !Array.isArray(entry.implementationComponentIds) &&
       entry.jurisdiction === completedTrack.jurisdiction &&
       entry.trackIds.includes(completedTrack.trackId)
   );

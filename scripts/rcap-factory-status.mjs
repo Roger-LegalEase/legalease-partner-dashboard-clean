@@ -40,7 +40,15 @@ const TERMINAL_LEGAL_STATUSES = new Set([
 
 const TRUSTED_COUNSEL_ADOPTIONS = Object.freeze({
   "ADOPT-01-custom-pleading-family-adoption.json": {
-    sha256: "3fa444381d1750a2ff85af86303d0f53c600a54f09e3f006a1489d8f824898f7",
+    // Advanced from 3fa44438 when Georgia's rendered evidence was regenerated
+    // after the shared custom-pleading engine stopped letting VERIFICATION and
+    // CERTIFICATE OF SERVICE stand alone at the foot of a page. Six of nine
+    // Georgia packets moved digest; no text, page count, route, component or
+    // fixture moved, and the standing external counsel adoption continues
+    // across exactly that. The seal's substantive half — the fourteen approved
+    // route ids below — is unchanged, and the pre-repin digest is preserved in
+    // EXT-ADOPT-01-APPLICABILITY-01-georgia-layout-only-regeneration.json.
+    sha256: "c1c60d37aa9cfcfc9fc615a9972c1c617bf69200bcdafb808a0516f4562b6b77",
     scopes: {
       "tranche-1-mississippi-petitions": [
         "ms-fel",

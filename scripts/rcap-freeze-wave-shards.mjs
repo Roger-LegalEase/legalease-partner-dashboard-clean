@@ -74,9 +74,9 @@ const ACTIVE_SHARDS = [
     shard: "C1",
     lane: "guidance_implementation",
     ownerSession: "SESSION_C",
-    jobIds: [],
+    jobIds: ["rcap-wy-guidance-implementation"],
     note:
-      "The guidance lane is exhausted: no guidance implementation job in the plan is ready. Every one is either completed or blocked behind a legal-design question. It refills when a memo correction lands, not before."
+      "The lane refills with one job, and it is the narrowest kind there is: a single component. Wyoming's wy_nc_1401 is implemented and integrated — verified petition, proposed order, statutory verification, certificate of service — and the fifth required component of its own packet set is filing instructions declared process_guidance, which no lane owned. Guidance jobs are generated from tracks whose own strategy is process_guidance, so a guidance component sitting inside a custom-pleading track was invisible to the rule that creates them, and the packet has been complete-looking and not filing-complete ever since. This owner builds that one component, through the shared process-guidance engine, with its own module and its own verifier. It does not touch the custom-pleading module: those four components are another assignment's delivered work and its owned paths, and asking this session to touch them would put two lanes on one unit. It does not touch wy_misd_1501 or wy_fel_1502, which are blocked on their own legal-design questions. Implementing it does not make the packet filing-complete either — that follows only once the component is integrated and technically reviewed, and the integration captain records it from the regenerated proof. Wyoming is not alone in this shape: 185 further required components across sixteen jurisdictions are excluded from a delivered lane with no owner, and they are pinned by name in the factory suite so none can be lost and none can be added silently. They are the next C waves, ranked behind this one because Wyoming is the family whose proof already states the gap. Previously: the guidance lane was exhausted."
   },
   {
     shard: "D1",
@@ -137,14 +137,9 @@ const ACTIVE_SHARDS = [
     lane: "source_acquisition",
     ownerSession: "SESSION_F",
     jobIds: [
-      "rcap-ma-public-official-download-100k-petition-for-expungement",
-      "rcap-ma-public-official-download-mps-petition-to-expunge",
-      "rcap-ma-public-official-download-ocp-petition-to-seal",
-      "rcap-ma-public-official-download-tc0021",
-      "rcap-ma-public-official-download-tc0057"
     ],
     note:
-      "The five Massachusetts rows are the same five documents and are no longer attended work. The automation block no longer reproduces: the official URLs answer HTTP 200 with valid source documents and the hardened validator classifies each as acquired_public_official_download with receiptEligible true, so the condition the attended assignment existed to work around is gone and these are ordinary public official downloads, machine-executable end to end. The attended assignments are superseded rather than deleted — none of them was ever executed and no bytes were acquired under them — and the record that captured the 403 stays exactly as written, because a 403 was always an access fact about one agent on one date. Each worker records the exact URL, byte count and full digest it measures; those are the source contract and nothing upstream of them is. Expected faces: 12/20/18 on the s. 100K petition, which is the form revision even where the file was republished later; an XFA LiveCycle shell on the MPS petition whose printed revision is not machine-readable and must be recorded as unreadable rather than supplied from an index; a one-page AcroForm with no printed revision on the OCP petition to seal, whose Part A boxes 1 to 4 are one document and whose box 4 is an in-form selection and not a sixth document; 11/22 on TC0021; and 2/24 on the face of TC0057, with the index label 3/24 recorded as an index date and not as the printed revision. Previously: the shard emptied and refilled. All three of its previous rows — the Florida and Iowa not-required design reconciliations and the Iowa in-repo identity reconciliation — are complete and integrated; DCI-76 resolved to page 1 of a retained three-page packet and its remap is now D1's. What replaces them is the Massachusetts attended-retrieval set and the Delaware direct-issuer request. Every one of these is human-attended or human-sent work: the five Massachusetts documents sit behind a perimeter that refuses automation, and the Delaware request is drafted and sent by a person or not at all. They are ranked, not promised, and none of them may create a receipt from an unattended retrieval."
+      "Empty because it delivered, in one wave. All five Massachusetts public official downloads have pushed exact completions and are awaiting integration, so they sit in the INTEGRATION shard rather than being refrozen as assignments — a job with delivered bytes is not assignable work. They were reissued from attended retrievals at the start of this wave because the automation block stopped reproducing, and the reissue is what made them executable at all. Previously: the five Massachusetts rows are the same five documents and are no longer attended work. The automation block no longer reproduces: the official URLs answer HTTP 200 with valid source documents and the hardened validator classifies each as acquired_public_official_download with receiptEligible true, so the condition the attended assignment existed to work around is gone and these are ordinary public official downloads, machine-executable end to end. The attended assignments are superseded rather than deleted — none of them was ever executed and no bytes were acquired under them — and the record that captured the 403 stays exactly as written, because a 403 was always an access fact about one agent on one date. Each worker records the exact URL, byte count and full digest it measures; those are the source contract and nothing upstream of them is. Expected faces: 12/20/18 on the s. 100K petition, which is the form revision even where the file was republished later; an XFA LiveCycle shell on the MPS petition whose printed revision is not machine-readable and must be recorded as unreadable rather than supplied from an index; a one-page AcroForm with no printed revision on the OCP petition to seal, whose Part A boxes 1 to 4 are one document and whose box 4 is an in-form selection and not a sixth document; 11/22 on TC0021; and 2/24 on the face of TC0057, with the index label 3/24 recorded as an index date and not as the printed revision. Previously: the shard emptied and refilled. All three of its previous rows — the Florida and Iowa not-required design reconciliations and the Iowa in-repo identity reconciliation — are complete and integrated; DCI-76 resolved to page 1 of a retained three-page packet and its remap is now D1's. What replaces them is the Massachusetts attended-retrieval set and the Delaware direct-issuer request. Every one of these is human-attended or human-sent work: the five Massachusetts documents sit behind a perimeter that refuses automation, and the Delaware request is drafted and sent by a person or not at all. They are ranked, not promised, and none of them may create a receipt from an unattended retrieval."
   },
   {
     // F4 carries a job whose lane is legal_design_normalization rather than
@@ -368,7 +363,17 @@ try {
       ? [...alreadyCompleted].sort((left, right) => left.localeCompare(right))
       : definition.jobIds;
     for (const jobId of jobIds) {
-      const problems = preflight(jobId, status, definition.shard);
+      // The integration shard is the one place a pushed completion belongs.
+      //
+      // Preflight refuses to freeze a job that already has one, which is right
+      // for an assignment shard — commissioning work that is already delivered
+      // is how a wave gets spent twice. It is exactly backwards here: this
+      // shard is populated *from* the discovery report and holds nothing else.
+      // The first time a wave delivered into it, the freeze refused its own
+      // integration queue and the shards could not be refrozen at all.
+      const problems = definition.fromDiscovery
+        ? []
+        : preflight(jobId, status, definition.shard);
       if (problems.length > 0) {
         throw new Error(
           `${definition.shard} may not freeze ${jobId}: ${problems.join("; ")}`

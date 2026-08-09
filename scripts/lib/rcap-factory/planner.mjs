@@ -335,6 +335,38 @@ function decisionRecordCompletion(rootDir, slug, provenance = {}) {
  * defect: the review happened either way, and a defect is a result, not an
  * absence.
  */
+/**
+ * Status for an edition tranche publication, from its own publication record.
+ *
+ * An edition is published once and is immutable, so the question is not whether
+ * the work can be done but whether it has been. The record must say the
+ * publication was performed, name this job, and carry the tranche manifest
+ * digest the current successor plan admits — otherwise the plan has moved on
+ * and the tranche on disk is not the one this job is for.
+ */
+function editionTranchePublished(rootDir, jobId, expectedTrancheManifestSha256) {
+  const absolute = path.join(
+    rootDir ?? process.cwd(),
+    `${FACTORY_DATA_DIR}/authority/${jobId.replace(/^rcap-nationwide-/u, "")}.json`
+  );
+  if (!fs.existsSync(absolute)) return { status: "ready" };
+  let record;
+  try {
+    record = JSON.parse(fs.readFileSync(absolute, "utf8"));
+  } catch {
+    return { status: "ready" };
+  }
+  if (record?.publicationPerformed !== true) return { status: "ready" };
+  if (record?.jobId !== jobId) return { status: "ready" };
+  if (
+    expectedTrancheManifestSha256 &&
+    record?.tranche?.trancheManifestSha256 !== expectedTrancheManifestSha256
+  ) {
+    return { status: "ready" };
+  }
+  return { status: "completed" };
+}
+
 function technicalReviewCompletion(rootDir, implementationJobId) {
   const absolute = path.join(
     rootDir ?? process.cwd(),
@@ -2185,6 +2217,7 @@ export function buildFactoryPlan(options = {}) {
     workerCommit,
     implementationState,
     supersededBy,
+    implementationComponentIds,
     implementedTrackIds,
     priorCompletionCommit,
     regressionVerifier,
@@ -2289,6 +2322,14 @@ export function buildFactoryPlan(options = {}) {
     }
     // A split assignment records what replaced it, so "cancelled" is never
     // read as "abandoned" or as "delivered".
+    if (
+      Array.isArray(implementationComponentIds) &&
+      implementationComponentIds.length > 0
+    ) {
+      // The exact components this job builds, where it builds part of a track
+      // rather than the whole of one.
+      job.implementationComponentIds = sortedUnique(implementationComponentIds);
+    }
     if (Array.isArray(supersededBy) && supersededBy.length > 0) {
       job.supersededBy = sortedUnique(supersededBy);
     }
@@ -4147,7 +4188,25 @@ export function buildFactoryPlan(options = {}) {
       dependencies: [
         ...new Set(trancheRows.map((row) => row.jobId))
       ].sort((left, right) => left.localeCompare(right)),
-      status: "ready",
+      // Closed by its own publication record, not asserted ready forever.
+      //
+      // This was a hard-coded `ready`, so the tranche read as outstanding work
+      // after it had been published: the archive was written, digest-matched
+      // and recorded, and the plan still advertised the job. A hard-coded
+      // status is a statement nothing can falsify, which is the same shape as
+      // the gates that stayed shut after their reason expired — here it stayed
+      // open after its work was done, and a session was commissioned to publish
+      // an edition that already existed.
+      //
+      // The record has to say the publication happened and name this job, and
+      // the tranche it published has to be the tranche the current plan admits.
+      // A record from a different tranche, or one that only exists, does not
+      // close it.
+      ...editionTranchePublished(
+        rootDir,
+        "rcap-nationwide-master-library-edition-1-3-tranche-1-publication",
+        successorPlan?.trancheManifestSha256
+      ),
       expectedOutputs: [
         `${FACTORY_DATA_DIR}/authority/master-library-edition-1-3-tranche-1-publication.json`
       ],
@@ -4288,6 +4347,114 @@ export function buildFactoryPlan(options = {}) {
     rootDir,
     jobsByLaneAndState
   });
+
+  // The guidance component inside a delivered custom-pleading track.
+  //
+  // Guidance jobs are generated from tracks whose own output strategy is
+  // process_guidance. A process-guidance *component* declared inside a
+  // custom-pleading track is invisible to that rule, so it has no owner in any
+  // lane — and Wyoming is where that became load-bearing: wy_nc_1401 is
+  // implemented, its four custom-pleading components render, and the fifth
+  // required component of its own packet set is filing instructions that nobody
+  // is assigned to build. The packet is real and it is not what the participant
+  // files.
+  //
+  // This owner is deliberately the narrowest thing that closes it: one
+  // jurisdiction, one track, one component, in the lane whose strategy the
+  // component declares. It does not touch the custom-pleading module, and the
+  // custom-pleading assignment is not reopened — asking Session B to build
+  // guidance would put two lanes on one delivered unit.
+  //
+  // Wyoming is not the only track with this shape. Every other one is named in
+  // the pinned backlog the shared regression carries, so none of them can be
+  // lost, and none can be added without the regression saying so.
+  const wyomingGuidanceComponent = {
+    trackId: "wy_nc_1401",
+    componentId: "wy_nc_1401-filing-instructions-5"
+  };
+  const wyomingGuidanceVerifier =
+    "scripts/verify-rcap-wyoming-guidance-implementation.mjs";
+  const wyomingGuidanceModule =
+    "src/lib/rcap/packets/jurisdictions/wyoming/guidance.ts";
+  if (
+    (inputs?.packetSetManifests?.packetSets ?? []).some(
+      (set) =>
+        set.trackId === wyomingGuidanceComponent.trackId &&
+        (set.components ?? []).some(
+          (component) =>
+            component.componentId === wyomingGuidanceComponent.componentId &&
+            component.outputStrategy === "process_guidance"
+        )
+    )
+  ) {
+    addJob({
+      lane: "guidance_implementation",
+      jurisdiction: "WY",
+      jobId: "rcap-wy-guidance-implementation",
+      strategyFamily: "process_guidance",
+      trackIds: [wyomingGuidanceComponent.trackId],
+      implementationComponentIds: [wyomingGuidanceComponent.componentId],
+      dependencies: ["rcap-wy-custom-pleading-clean-tracks"],
+      status:
+        fs.existsSync(path.join(rootDir, wyomingGuidanceModule)) &&
+        fs.existsSync(path.join(rootDir, wyomingGuidanceVerifier))
+          ? "completed"
+          : "ready",
+      expectedOutputs: [wyomingGuidanceModule, wyomingGuidanceVerifier],
+      ownedPaths: [wyomingGuidanceModule, wyomingGuidanceVerifier],
+      requiredInputs: [
+        FACTORY_INPUT_PATHS.packetSetManifests,
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.blockerLedger,
+        "data/record-clearing/legal-design-intake/WY.memo.json",
+        "src/lib/rcap/packets/engines/process-guidance.ts",
+        "src/lib/rcap/packets/assemble.ts"
+      ],
+      regressionVerifier: wyomingGuidanceVerifier,
+      participantPacketProofRequired: true,
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job rcap-wy-guidance-implementation",
+        `node ${wyomingGuidanceVerifier}`
+      ],
+      commitSubject:
+        "feat(record-clearing): implement WY filing-instructions guidance",
+      executionNote:
+        "The one required component of wy_nc_1401's packet set that its delivered " +
+        "custom-pleading implementation does not own. Implement only " +
+        `${wyomingGuidanceComponent.componentId}. The custom-pleading module and its ` +
+        "verifier belong to another assignment and are not yours to edit.",
+      stopCondition:
+        `Implement exactly ${wyomingGuidanceComponent.componentId} — the filing and ` +
+        "service instructions for wy_nc_1401 — through the shared process-guidance " +
+        "engine, with its own module and its own committed regression verifier. " +
+        "Take every fact from the integrated WY memo and the packet-set manifest and " +
+        "from nowhere else: the statutory filing fee is $0 under W.S. section " +
+        "7-13-1401 and is not a waiver, the petition is served on the prosecuting " +
+        "attorney, the Division of Criminal Investigation is not a service recipient " +
+        "on this track, there is no summons, praecipe, victim-notice instrument or " +
+        "prosecutor response, and no service fact may be stated as completed. " +
+        "Wyoming publishes no statewide petition form, so cite no form number. County " +
+        "filing practice is unpublished local preference owned by " +
+        "rcap-wy-local-template-and-handout-survey: say what the statute requires and " +
+        "say plainly where local practice governs, rather than asserting a county's " +
+        "preference the survey has not established. " +
+        "Do not implement, edit, re-render or re-verify the custom-pleading " +
+        "components: the verified petition, the proposed order, the statutory " +
+        "verification and the certificate of service are delivered and integrated, " +
+        "and their module and verifier are another assignment's owned paths. Do not " +
+        "touch wy_misd_1501 or wy_fel_1502, which remain blocked on their own " +
+        "legal-design questions. " +
+        "Implementing this component does not make the wy_nc_1401 packet " +
+        "filing-complete: that follows only once this component is implemented, " +
+        "integrated and technically reviewed, and it is recorded by the integration " +
+        "captain from the regenerated proof rather than claimed here. Do not declare " +
+        "a track ready, do not record counsel adoption, and do not enable runtime, " +
+        "promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
 
   addJob({
     lane: "flat_pdf_overlay",
@@ -11969,10 +12136,39 @@ function buildTrackReconciliation(normalizedTracks, jobs, implementationRecords)
     // competing for the work, and the completed implementation it corrects is
     // still what built the tracks. Counting both as pending owners would make
     // opening any correction look like a double assignment.
+    // A component-scoped owner is not a competing owner of the track.
+    //
+    // One track's packet set can span lanes: Kentucky's AOC-334 is
+    // official_pdf_fill inside a custom-pleading track, and Wyoming's filing
+    // instructions are process_guidance inside one. This rule assumed one track
+    // meant one implementation, so the only expressible states were "the
+    // custom-pleading job owns the whole track" or "two jobs are fighting over
+    // it" — and the component nobody built had nowhere to be owned from.
+    //
+    // A job that names `implementationComponentIds` claims exactly those
+    // components and makes no claim on the rest of the track. It is checked
+    // below for overlap with its siblings, so this is a narrower claim rather
+    // than an exemption: two owners still cannot name one component.
+    const componentScopedJobs = implementationCandidates.filter(
+      (job) => Array.isArray(job.implementationComponentIds)
+    );
+    const seenComponentOwners = new Map();
+    for (const job of componentScopedJobs) {
+      for (const componentId of job.implementationComponentIds) {
+        if (seenComponentOwners.has(componentId)) {
+          throw new Error(
+            `${key} component ${componentId} is claimed by both ` +
+              `${seenComponentOwners.get(componentId)} and ${job.jobId}.`
+          );
+        }
+        seenComponentOwners.set(componentId, job.jobId);
+      }
+    }
     const implementationJobs = implementationCandidates.filter(
       (job) =>
         job.strategyFamily !== "legal_design_adjudication" &&
-        job.strategyFamily !== "implementation_correction"
+        job.strategyFamily !== "implementation_correction" &&
+        !Array.isArray(job.implementationComponentIds)
     );
     const correctionJobs = implementationCandidates.filter(
       (job) => job.strategyFamily === "implementation_correction"

@@ -5,6 +5,7 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 
 import {
+  adoptionRepinIsMeasurementOnly,
   buildCurrentCounselAdoptionRecords
 } from "./lib/rcap-counsel-adoption.mjs";
 
@@ -16,6 +17,16 @@ if (!args.has("--apply")) {
   );
 }
 const renewedApproval = args.has("--renewed-counsel-adoption");
+// A third door, narrower than renewal and not a substitute for it.
+//
+// A shared-renderer correction moves the digests an adoption record measures
+// without touching the document it adopts. With only "refuse" and
+// "--renewed-counsel-adoption" available, the choices were to leave the record
+// asserting digests nothing produces any more, or to claim a renewal that did
+// not happen. This permits the re-pin when the difference is confined to
+// measurement and an applicability record names the family — and refuses on
+// anything else, including every field that carries legal meaning.
+const standingApplicability = args.has("--standing-adoption-applicability");
 
 const records = await buildCurrentCounselAdoptionRecords({ rootDir });
 for (const [relativePath, record] of records) {
@@ -29,7 +40,20 @@ for (const [relativePath, record] of records) {
         ["cat-file", "-e", `HEAD:${relativePath}`],
         { cwd: rootDir, encoding: "utf8" }
       ).status === 0;
-    if (existing !== serialized && committed && !renewedApproval) {
+    const measurementOnly =
+      standingApplicability &&
+      (() => {
+        try {
+          return adoptionRepinIsMeasurementOnly(
+            rootDir,
+            JSON.parse(existing),
+            record
+          );
+        } catch {
+          return false;
+        }
+      })();
+    if (existing !== serialized && committed && !renewedApproval && !measurementOnly) {
       throw new Error(
         `${relativePath} differs from the current approved hashes; refusing to overwrite it without --renewed-counsel-adoption and a new direct counsel instruction.`
       );

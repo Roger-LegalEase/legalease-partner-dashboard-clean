@@ -5,7 +5,7 @@
   "reviewShardReservationNote": "The claim schema's ownerSession enum is SESSION_B through SESSION_F, and review is none of those. R1 and R2 are therefore reserved here rather than in job-claims.json. This manifest is the reservation of record for them; widening the claim enum would change the job manifest and, through it, worker branch identity.",
   "shardIdentifiersAreNotSessions": "R1 and R2 are shard identifiers, not sessions. Both are owned by SESSION_R, which is the single human review session: R1 carries its technical and visual reads, R2 carries its completed-output legal reads, and the split exists so the two kinds of review cannot be recorded against each other's paths. They were briefly written as ownerSession SESSION_R1 and SESSION_R2, which reads as two review sessions and would have someone opening a second one. The human pool is exactly A, B, C, D, E, F and R; every shard here names one of those seven and no shard may name anything else.",
   "baseline": {
-    "baseCommit": "25fe3a606187ad87be151c9e80babbf44a33d474",
+    "baseCommit": "4fbe7b21ea63d78edd9e0b6b06ad587901e92951",
     "authorityVersion": "master-library/1.2",
     "authorityEdition": "1.2"
   },
@@ -13,7 +13,7 @@
     "normalizedTracks": 497,
     "representedExactlyOnce": 497,
     "implementationComplete": 225,
-    "jobs": 494,
+    "jobs": 495,
     "generatedFrom": [
       {
         "path": "data/rcap-all50/all-state-build-manifest.json",
@@ -101,7 +101,7 @@
       },
       {
         "path": "data/record-clearing/implementation-tranches/tranche-3-review-manifest.json",
-        "sha256": "322636876880f4497a5f419f1579fd652f6754669b756b2d5fe6cd16ef83705a"
+        "sha256": "7d6a17365fedd7b2454c819bc8dddff9c8ebeb54a420324e7049a312a1e57967"
       },
       {
         "path": "data/record-clearing/implementation-tranches/tranche-3-visual-review.json",
@@ -553,7 +553,7 @@
       },
       {
         "path": "planning/record-clearing-100-percent/production-plan.json",
-        "sha256": "fc0dd708ecd4e4637d5c6cd17ad94a7a95c8a42248f7545c59eda8c373c1e3ee"
+        "sha256": "a458920303d0efee59d1f8b91f41812704fd6d4037f0da41991709c3f95391f9"
       },
       {
         "path": "src/lib/rcap/jurisdictions/packet-capability.ts",
@@ -579,9 +579,9 @@
   "totals": {
     "activeShards": 16,
     "candidateShards": 7,
-    "activeJobs": 14,
+    "activeJobs": 10,
     "candidateJobs": 12,
-    "awaitingIntegration": 0
+    "awaitingIntegration": 5
   },
   "shards": [
     {
@@ -658,16 +658,43 @@
       "lane": "guidance_implementation",
       "status": "active",
       "ownerSession": "SESSION_C",
-      "note": "The guidance lane is exhausted: no guidance implementation job in the plan is ready. Every one is either completed or blocked behind a legal-design question. It refills when a memo correction lands, not before.",
-      "jobIds": [],
+      "note": "The lane refills with one job, and it is the narrowest kind there is: a single component. Wyoming's wy_nc_1401 is implemented and integrated — verified petition, proposed order, statutory verification, certificate of service — and the fifth required component of its own packet set is filing instructions declared process_guidance, which no lane owned. Guidance jobs are generated from tracks whose own strategy is process_guidance, so a guidance component sitting inside a custom-pleading track was invisible to the rule that creates them, and the packet has been complete-looking and not filing-complete ever since. This owner builds that one component, through the shared process-guidance engine, with its own module and its own verifier. It does not touch the custom-pleading module: those four components are another assignment's delivered work and its owned paths, and asking this session to touch them would put two lanes on one unit. It does not touch wy_misd_1501 or wy_fel_1502, which are blocked on their own legal-design questions. Implementing it does not make the packet filing-complete either — that follows only once the component is integrated and technically reviewed, and the integration captain records it from the regenerated proof. Wyoming is not alone in this shape: 185 further required components across sixteen jurisdictions are excluded from a delivered lane with no owner, and they are pinned by name in the factory suite so none can be lost and none can be added silently. They are the next C waves, ranked behind this one because Wyoming is the family whose proof already states the gap. Previously: the guidance lane was exhausted.",
+      "jobIds": [
+        "rcap-wy-guidance-implementation"
+      ],
       "capacity": {
-        "jobs": 0,
-        "assignedTracks": 0,
-        "incrementalTracks": 0,
-        "assignedComponents": 0,
-        "incrementalComponents": 0
+        "jobs": 1,
+        "assignedTracks": 1,
+        "incrementalTracks": 1,
+        "assignedComponents": 5,
+        "incrementalComponents": 5
       },
-      "jobs": []
+      "jobs": [
+        {
+          "jobId": "rcap-wy-guidance-implementation",
+          "lane": "guidance_implementation",
+          "jurisdiction": "WY",
+          "status": "ready",
+          "semanticFingerprint": "989538d54120df503ad5bef3d7f2eddd9326e7a1c56c7374e35085f7434cb5da",
+          "branch": "rcap-factory/rcap-wy-guidance-implementation-847e0f53-989538d5",
+          "ownedPaths": [
+            "scripts/verify-rcap-wyoming-guidance-implementation.mjs",
+            "src/lib/rcap/packets/jurisdictions/wyoming/guidance.ts"
+          ],
+          "dependencies": [
+            "rcap-wy-custom-pleading-clean-tracks"
+          ],
+          "assignedTrackIds": [
+            "wy_nc_1401"
+          ],
+          "incrementalTrackIds": [
+            "wy_nc_1401"
+          ],
+          "assignedComponents": 5,
+          "incrementalComponents": 5,
+          "alreadyHasPushedCompletion": false
+        }
+      ]
     },
     {
       "wave": 4,
@@ -859,118 +886,16 @@
       "lane": "source_acquisition",
       "status": "active",
       "ownerSession": "SESSION_F",
-      "note": "The five Massachusetts rows are the same five documents and are no longer attended work. The automation block no longer reproduces: the official URLs answer HTTP 200 with valid source documents and the hardened validator classifies each as acquired_public_official_download with receiptEligible true, so the condition the attended assignment existed to work around is gone and these are ordinary public official downloads, machine-executable end to end. The attended assignments are superseded rather than deleted — none of them was ever executed and no bytes were acquired under them — and the record that captured the 403 stays exactly as written, because a 403 was always an access fact about one agent on one date. Each worker records the exact URL, byte count and full digest it measures; those are the source contract and nothing upstream of them is. Expected faces: 12/20/18 on the s. 100K petition, which is the form revision even where the file was republished later; an XFA LiveCycle shell on the MPS petition whose printed revision is not machine-readable and must be recorded as unreadable rather than supplied from an index; a one-page AcroForm with no printed revision on the OCP petition to seal, whose Part A boxes 1 to 4 are one document and whose box 4 is an in-form selection and not a sixth document; 11/22 on TC0021; and 2/24 on the face of TC0057, with the index label 3/24 recorded as an index date and not as the printed revision. Previously: the shard emptied and refilled. All three of its previous rows — the Florida and Iowa not-required design reconciliations and the Iowa in-repo identity reconciliation — are complete and integrated; DCI-76 resolved to page 1 of a retained three-page packet and its remap is now D1's. What replaces them is the Massachusetts attended-retrieval set and the Delaware direct-issuer request. Every one of these is human-attended or human-sent work: the five Massachusetts documents sit behind a perimeter that refuses automation, and the Delaware request is drafted and sent by a person or not at all. They are ranked, not promised, and none of them may create a receipt from an unattended retrieval.",
-      "jobIds": [
-        "rcap-ma-public-official-download-100k-petition-for-expungement",
-        "rcap-ma-public-official-download-mps-petition-to-expunge",
-        "rcap-ma-public-official-download-ocp-petition-to-seal",
-        "rcap-ma-public-official-download-tc0021",
-        "rcap-ma-public-official-download-tc0057"
-      ],
+      "note": "Empty because it delivered, in one wave. All five Massachusetts public official downloads have pushed exact completions and are awaiting integration, so they sit in the INTEGRATION shard rather than being refrozen as assignments — a job with delivered bytes is not assignable work. They were reissued from attended retrievals at the start of this wave because the automation block stopped reproducing, and the reissue is what made them executable at all. Previously: the five Massachusetts rows are the same five documents and are no longer attended work. The automation block no longer reproduces: the official URLs answer HTTP 200 with valid source documents and the hardened validator classifies each as acquired_public_official_download with receiptEligible true, so the condition the attended assignment existed to work around is gone and these are ordinary public official downloads, machine-executable end to end. The attended assignments are superseded rather than deleted — none of them was ever executed and no bytes were acquired under them — and the record that captured the 403 stays exactly as written, because a 403 was always an access fact about one agent on one date. Each worker records the exact URL, byte count and full digest it measures; those are the source contract and nothing upstream of them is. Expected faces: 12/20/18 on the s. 100K petition, which is the form revision even where the file was republished later; an XFA LiveCycle shell on the MPS petition whose printed revision is not machine-readable and must be recorded as unreadable rather than supplied from an index; a one-page AcroForm with no printed revision on the OCP petition to seal, whose Part A boxes 1 to 4 are one document and whose box 4 is an in-form selection and not a sixth document; 11/22 on TC0021; and 2/24 on the face of TC0057, with the index label 3/24 recorded as an index date and not as the printed revision. Previously: the shard emptied and refilled. All three of its previous rows — the Florida and Iowa not-required design reconciliations and the Iowa in-repo identity reconciliation — are complete and integrated; DCI-76 resolved to page 1 of a retained three-page packet and its remap is now D1's. What replaces them is the Massachusetts attended-retrieval set and the Delaware direct-issuer request. Every one of these is human-attended or human-sent work: the five Massachusetts documents sit behind a perimeter that refuses automation, and the Delaware request is drafted and sent by a person or not at all. They are ranked, not promised, and none of them may create a receipt from an unattended retrieval.",
+      "jobIds": [],
       "capacity": {
-        "jobs": 5,
+        "jobs": 0,
         "assignedTracks": 0,
         "incrementalTracks": 0,
         "assignedComponents": 0,
         "incrementalComponents": 0
       },
-      "jobs": [
-        {
-          "jobId": "rcap-ma-public-official-download-100k-petition-for-expungement",
-          "lane": "source_acquisition",
-          "jurisdiction": "MA",
-          "status": "ready",
-          "semanticFingerprint": "68d97f25b3eff18aaf06ca8277bb4eca5cef7a0539f341e43ea2d9e20a9ac70c",
-          "branch": "rcap-factory/rcap-ma-public-official-download-100k-petition-for-expungement-5a20fc17-68d97f25",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-100k-petition-for-expungement.json"
-          ],
-          "dependencies": [
-            "rcap-ma-official-download-automation-blocked"
-          ],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": false
-        },
-        {
-          "jobId": "rcap-ma-public-official-download-mps-petition-to-expunge",
-          "lane": "source_acquisition",
-          "jurisdiction": "MA",
-          "status": "ready",
-          "semanticFingerprint": "93ccd0043727e3bafdee58797cc22156778e900ddda2f7e6c7520b32cb75d057",
-          "branch": "rcap-factory/rcap-ma-public-official-download-mps-petition-to-expunge-3f05c9be-93ccd004",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-mps-petition-to-expunge.json"
-          ],
-          "dependencies": [
-            "rcap-ma-official-download-automation-blocked"
-          ],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": false
-        },
-        {
-          "jobId": "rcap-ma-public-official-download-ocp-petition-to-seal",
-          "lane": "source_acquisition",
-          "jurisdiction": "MA",
-          "status": "ready",
-          "semanticFingerprint": "289f1c4e926d96345ea9e15b6caa65cc346ca7c6f332ab8d504ba1b7aa5f47d6",
-          "branch": "rcap-factory/rcap-ma-public-official-download-ocp-petition-to-seal-ed84fb2a-289f1c4e",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-ocp-petition-to-seal.json"
-          ],
-          "dependencies": [
-            "rcap-ma-official-download-automation-blocked"
-          ],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": false
-        },
-        {
-          "jobId": "rcap-ma-public-official-download-tc0021",
-          "lane": "source_acquisition",
-          "jurisdiction": "MA",
-          "status": "ready",
-          "semanticFingerprint": "e151bd65d60614ebf040ff56bc18ddf4a8531467a05654a01109f707389f39e3",
-          "branch": "rcap-factory/rcap-ma-public-official-download-tc0021-28ac28cb-e151bd65",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-tc0021.json"
-          ],
-          "dependencies": [
-            "rcap-ma-official-download-automation-blocked"
-          ],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": false
-        },
-        {
-          "jobId": "rcap-ma-public-official-download-tc0057",
-          "lane": "source_acquisition",
-          "jurisdiction": "MA",
-          "status": "ready",
-          "semanticFingerprint": "089eb4b59ef53a5d737b82d70b10356557052649c4ea4d2b8734ffce892b30f5",
-          "branch": "rcap-factory/rcap-ma-public-official-download-tc0057-19105562-089eb4b5",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-tc0057.json"
-          ],
-          "dependencies": [
-            "rcap-ma-official-download-automation-blocked"
-          ],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": false
-        }
-      ]
+      "jobs": []
     },
     {
       "wave": 4,
@@ -1172,15 +1097,117 @@
       "status": "active",
       "ownerSession": "SESSION_A",
       "note": "Jobs whose completions are already pushed and verified, populated from the committed discovery report rather than by hand.",
-      "jobIds": [],
+      "jobIds": [
+        "rcap-ma-public-official-download-100k-petition-for-expungement",
+        "rcap-ma-public-official-download-mps-petition-to-expunge",
+        "rcap-ma-public-official-download-ocp-petition-to-seal",
+        "rcap-ma-public-official-download-tc0021",
+        "rcap-ma-public-official-download-tc0057"
+      ],
       "capacity": {
-        "jobs": 0,
+        "jobs": 5,
         "assignedTracks": 0,
         "incrementalTracks": 0,
         "assignedComponents": 0,
         "incrementalComponents": 0
       },
-      "jobs": []
+      "jobs": [
+        {
+          "jobId": "rcap-ma-public-official-download-100k-petition-for-expungement",
+          "lane": "source_acquisition",
+          "jurisdiction": "MA",
+          "status": "ready",
+          "semanticFingerprint": "68d97f25b3eff18aaf06ca8277bb4eca5cef7a0539f341e43ea2d9e20a9ac70c",
+          "branch": "rcap-factory/rcap-ma-public-official-download-100k-petition-for-expungement-5a20fc17-68d97f25",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-100k-petition-for-expungement.json"
+          ],
+          "dependencies": [
+            "rcap-ma-official-download-automation-blocked"
+          ],
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
+          "alreadyHasPushedCompletion": true
+        },
+        {
+          "jobId": "rcap-ma-public-official-download-mps-petition-to-expunge",
+          "lane": "source_acquisition",
+          "jurisdiction": "MA",
+          "status": "ready",
+          "semanticFingerprint": "93ccd0043727e3bafdee58797cc22156778e900ddda2f7e6c7520b32cb75d057",
+          "branch": "rcap-factory/rcap-ma-public-official-download-mps-petition-to-expunge-3f05c9be-93ccd004",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-mps-petition-to-expunge.json"
+          ],
+          "dependencies": [
+            "rcap-ma-official-download-automation-blocked"
+          ],
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
+          "alreadyHasPushedCompletion": true
+        },
+        {
+          "jobId": "rcap-ma-public-official-download-ocp-petition-to-seal",
+          "lane": "source_acquisition",
+          "jurisdiction": "MA",
+          "status": "ready",
+          "semanticFingerprint": "289f1c4e926d96345ea9e15b6caa65cc346ca7c6f332ab8d504ba1b7aa5f47d6",
+          "branch": "rcap-factory/rcap-ma-public-official-download-ocp-petition-to-seal-ed84fb2a-289f1c4e",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-ocp-petition-to-seal.json"
+          ],
+          "dependencies": [
+            "rcap-ma-official-download-automation-blocked"
+          ],
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
+          "alreadyHasPushedCompletion": true
+        },
+        {
+          "jobId": "rcap-ma-public-official-download-tc0021",
+          "lane": "source_acquisition",
+          "jurisdiction": "MA",
+          "status": "ready",
+          "semanticFingerprint": "e151bd65d60614ebf040ff56bc18ddf4a8531467a05654a01109f707389f39e3",
+          "branch": "rcap-factory/rcap-ma-public-official-download-tc0021-28ac28cb-e151bd65",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-tc0021.json"
+          ],
+          "dependencies": [
+            "rcap-ma-official-download-automation-blocked"
+          ],
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
+          "alreadyHasPushedCompletion": true
+        },
+        {
+          "jobId": "rcap-ma-public-official-download-tc0057",
+          "lane": "source_acquisition",
+          "jurisdiction": "MA",
+          "status": "ready",
+          "semanticFingerprint": "089eb4b59ef53a5d737b82d70b10356557052649c4ea4d2b8734ffce892b30f5",
+          "branch": "rcap-factory/rcap-ma-public-official-download-tc0057-19105562-089eb4b5",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-tc0057.json"
+          ],
+          "dependencies": [
+            "rcap-ma-official-download-automation-blocked"
+          ],
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
+          "alreadyHasPushedCompletion": true
+        }
+      ]
     },
     {
       "wave": 5,
@@ -1627,5 +1654,5 @@
       ]
     }
   ],
-  "manifestSha256": "50f5b960c82a319ee88883c6d0269987a93ad187fd5935921fe8dbea1dc22599"
+  "manifestSha256": "7541d24c0ad1b078a8ac4ff1f2c6d45894182b85a63514ad8bf61cf68bd67e47"
 }

@@ -93,6 +93,7 @@ import {
   planIntegrations
 } from "./lib/rcap-factory/completion-discovery.mjs";
 import {
+  adoptionRepinIsMeasurementOnly,
   ADOPTION_RECORD_PATHS,
   buildCurrentCounselAdoptionRecords
 } from "./lib/rcap-counsel-adoption.mjs";
@@ -736,12 +737,54 @@ await check("all normalized tracks reconcile exactly once and completed tranches
   // reconciliation attributes them to the commit that produced them. Any active
   // job carrying a completed track *without* pinning it is still a second owner
   // for work already done, and still fails here.
+  // Second exception, and it is narrower than the first. A component-scoped job
+  // claims named components rather than a track: Wyoming's filing-instructions
+  // guidance is a required component of a delivered custom-pleading track, in a
+  // different lane, and its owner names that one component and nothing else.
+  // Read as a track claim it looks like a second owner of finished work; it is
+  // an owner of the part that was never built. It is checked below against what
+  // the completed job actually implemented, so it cannot reach into it.
   for (const track of completed) {
+    const componentScopedClaimants = plan.jobs.filter(
+      (job) =>
+        ["planned", "ready", "blocked", "in_progress"].includes(job.status) &&
+        implementationLanes.has(job.lane) &&
+        Array.isArray(job.implementationComponentIds) &&
+        job.jurisdiction === track.jurisdiction &&
+        job.trackIds.includes(track.trackId)
+    );
+    for (const claimant of componentScopedClaimants) {
+      const proofPath = path.join(
+        ROOT,
+        "data/record-clearing/production-factory/packet-proofs",
+        `${track.implementationJobId ?? ""}.json`
+      );
+      const implemented = fs.existsSync(proofPath)
+        ? new Set(
+            (JSON.parse(fs.readFileSync(proofPath, "utf8")).componentScope
+              ?.tracks ?? [])
+              .filter((entry) => entry.trackId === track.trackId)
+              .flatMap((entry) =>
+                (entry.implementedComponents ?? []).map(
+                  (component) => component.componentId
+                )
+              )
+          )
+        : new Set();
+      for (const componentId of claimant.implementationComponentIds) {
+        assert.equal(
+          implemented.has(componentId),
+          false,
+          `${claimant.jobId} claims ${componentId}, which the completed implementation already built`
+        );
+      }
+    }
     const claimants = plan.jobs.filter(
       (job) =>
         ["planned", "ready", "blocked", "in_progress"].includes(job.status) &&
         implementationLanes.has(job.lane) &&
         job.strategyFamily !== "legal_design_adjudication" &&
+        !Array.isArray(job.implementationComponentIds) &&
         job.jurisdiction === track.jurisdiction &&
         job.trackIds.includes(track.trackId)
     );
@@ -5312,6 +5355,286 @@ await check(
       assert.ok(liveBlockers.has(independent), `${independent} must still gate independently`);
     }
     assert.equal(plan.runtime?.packetReady ?? 0, 0);
+  }
+);
+
+await check(
+  "a layout-only regeneration re-pins measurement and nothing else",
+  () => {
+    const familiesDir = path.join(ROOT, "data/record-clearing/template-families");
+    const applicability = JSON.parse(
+      fs.readFileSync(
+        path.join(
+          familiesDir,
+          "EXT-ADOPT-01-APPLICABILITY-01-georgia-layout-only-regeneration.json"
+        ),
+        "utf8"
+      )
+    );
+
+    // What it is, and what it carefully is not.
+    assert.equal(applicability.whatMoved.kind, "layout_only");
+    assert.equal(applicability.boundary.substantiveLegalReviewPerformed, false);
+    assert.equal(applicability.boundary.newCounselRequestMade, false);
+    assert.equal(
+      applicability.derivesFrom.standingAdoptionRecordId,
+      "EXT-ADOPT-01-standing-external-counsel-adoption"
+    );
+    // It derives from a standing adoption that already answers this question.
+    const standing = JSON.parse(
+      fs.readFileSync(
+        path.join(familiesDir, applicability.derivesFrom.standingAdoptionPath.split("/").pop()),
+        "utf8"
+      )
+    );
+    assert.equal(standing.status, "adopted");
+    assert.ok(
+      standing.continuityPolicy.doesNotRequireNewAdoptionFor.some((entry) =>
+        /pagination or appearance correction/u.test(entry)
+      ),
+      "the standing adoption must be what permits a layout-only re-pin"
+    );
+
+    // The historical adoption keeps every fact counsel actually decided.
+    const adoption = JSON.parse(
+      fs.readFileSync(
+        path.join(familiesDir, "ADOPT-01-custom-pleading-family-adoption.json"),
+        "utf8"
+      )
+    );
+    assert.equal(adoption.adoptedOn, "2026-08-04");
+    assert.equal(adoption.approvedByRole, "licensed_counsel");
+    assert.equal(adoption.blanketFutureApproval, false);
+    assert.equal(adoption.productionEnabled, false);
+    const georgia = adoption.completedScopes.find(
+      (scope) => scope.familyId === "tranche-3-georgia-superior-court-pleadings"
+    );
+    assert.equal(georgia.approvedRouteIds.length, 9);
+    assert.equal(georgia.status, "counsel_adopted");
+    // And the pre-repin state stays recoverable rather than being forgotten.
+    assert.match(
+      applicability.historicalAdoptionPreserved.recordSha256BeforeRepin,
+      /^[0-9a-f]{64}$/u
+    );
+    assert.equal(
+      applicability.historicalAdoptionPreserved.integratedImplementationCommit,
+      "037d1a2ce2bccd0dffc243e213a26c5019865561"
+    );
+    assert.equal(applicability.historicalAdoptionPreserved.rewritten, false);
+
+    // Page counts did not move. A pagination fix that changed a page count
+    // would not be layout-only in any sense that matters.
+    for (const packet of applicability.whatMoved.packets) {
+      assert.equal(packet.pageCountBefore, packet.pageCountAfter, packet.fixtureId);
+    }
+    assert.ok(applicability.whatMoved.packetsMoved > 0);
+
+    // The gate refuses anything that is not measurement. Asserted on fixtures,
+    // so it holds after Georgia's own drift is long gone.
+    const base = JSON.parse(JSON.stringify(adoption));
+    const measurementMoved = JSON.parse(JSON.stringify(adoption));
+    measurementMoved.completedScopes[1].reviewArtifacts[0].sha256 = "f".repeat(64);
+    assert.equal(
+      adoptionRepinIsMeasurementOnly(ROOT, base, measurementMoved),
+      true,
+      "a moved render digest is measurement"
+    );
+    for (const mutate of [
+      (record) => {
+        record.completedScopes[1].approvedRouteIds.pop();
+      },
+      (record) => {
+        record.completedScopes[1].representativePackets[0].pageCount += 1;
+      },
+      (record) => {
+        record.completedScopes[1].hashBoundScope.authorityArchiveSha256 =
+          "a".repeat(64);
+      },
+      (record) => {
+        record.adoptedOn = "2026-09-01";
+      },
+      (record) => {
+        record.completedScopes[1].status = "renewed";
+      }
+    ]) {
+      const substantive = JSON.parse(JSON.stringify(adoption));
+      mutate(substantive);
+      assert.equal(
+        adoptionRepinIsMeasurementOnly(ROOT, base, substantive),
+        false,
+        "a substantive change must still require renewed counsel adoption"
+      );
+    }
+
+    // Nothing about this touches runtime or the technical gate.
+    assert.equal(applicability.runtimeEffect.packetReady, 0);
+    assert.equal(applicability.runtimeEffect.productionEnabled, false);
+    assert.equal(applicability.runtimeEffect.launchGate, "red");
+  }
+);
+
+await check(
+  "every required component excluded from a delivered lane has one owner",
+  () => {
+    // A packet proof that reports four rendered components and stops reads as a
+    // finished packet. Wyoming is where that stopped being an abstraction: its
+    // custom-pleading unit is delivered and integrated, and the fifth required
+    // component of wy_nc_1401's own packet set — filing instructions, declared
+    // process_guidance — had no owner in any lane, because guidance jobs are
+    // generated from tracks whose own strategy is process_guidance and a
+    // component inside a custom-pleading track is invisible to that rule.
+    //
+    // The property: a required component that a delivered implementation
+    // deliberately does not build is owned by exactly one downstream job, or it
+    // is on a pinned backlog that names it. Nothing may be silently unowned,
+    // and nothing may silently leave the backlog either — a component that
+    // gains an owner has to be taken off it deliberately.
+    const plan = buildFactoryPlan({ rootDir: ROOT });
+    const packetSets = JSON.parse(
+      fs.readFileSync(
+        path.join(ROOT, "data/record-clearing/legal-design-packet-set-manifests.json"),
+        "utf8"
+      )
+    ).packetSets;
+    const componentIndex = new Map();
+    for (const set of packetSets) {
+      for (const component of set.components ?? []) {
+        componentIndex.set(component.componentId, {
+          ...component,
+          trackId: set.trackId,
+          jurisdiction: set.jurisdiction
+        });
+      }
+    }
+
+    // Who builds a component. Three ways a job can claim one, and no more:
+    // by naming it directly, by carrying it in an official-PDF assignment, or
+    // by owning the whole guidance track it belongs to.
+    const owners = new Map();
+    const claim = (componentId, jobId) => {
+      owners.set(componentId, [...(owners.get(componentId) ?? []), jobId]);
+    };
+    for (const job of plan.jobs) {
+      if (job.status === "cancelled") continue;
+      for (const componentId of job.implementationComponentIds ?? []) {
+        claim(componentId, job.jobId);
+      }
+      for (const use of job.officialPdfAssignment?.componentUses ?? []) {
+        claim(use.componentId, job.jobId);
+      }
+      if (job.lane === "guidance_implementation" && !job.implementationComponentIds) {
+        for (const set of packetSets) {
+          if (!(job.trackIds ?? []).includes(set.trackId)) continue;
+          for (const component of set.components ?? []) {
+            if (component.outputStrategy === "process_guidance") {
+              claim(component.componentId, job.jobId);
+            }
+          }
+        }
+      }
+    }
+
+    const proofDir = path.join(
+      ROOT,
+      "data/record-clearing/production-factory/packet-proofs"
+    );
+    const excluded = [];
+    for (const name of fs.readdirSync(proofDir).sort()) {
+      const proof = JSON.parse(
+        fs.readFileSync(path.join(proofDir, name), "utf8")
+      );
+      if (!proof.componentScope) continue;
+      for (const track of proof.componentScope.tracks) {
+        for (const componentId of track.filingCompleteBlockedBy ?? []) {
+          excluded.push(componentId);
+        }
+      }
+    }
+    assert.ok(
+      excluded.length > 0,
+      "no delivered implementation records an excluded required component, so this proves nothing"
+    );
+
+    // Wyoming is owned, exactly once, by the guidance assignment.
+    assert.deepEqual(owners.get("wy_nc_1401-filing-instructions-5"), [
+      "rcap-wy-guidance-implementation"
+    ]);
+    const wyomingOwner = plan.jobs.find(
+      (job) => job.jobId === "rcap-wy-guidance-implementation"
+    );
+    assert.equal(wyomingOwner.lane, "guidance_implementation");
+    assert.deepEqual(wyomingOwner.implementationComponentIds, [
+      "wy_nc_1401-filing-instructions-5"
+    ]);
+    // It owns the component and not the delivered unit beside it.
+    assert.ok(
+      !wyomingOwner.ownedPaths.includes(
+        "src/lib/rcap/packets/jurisdictions/wyoming/custom-pleading.ts"
+      )
+    );
+
+    // Nobody is claimed twice, anywhere.
+    for (const componentId of excluded) {
+      const claimed = owners.get(componentId) ?? [];
+      assert.ok(
+        claimed.length <= 1,
+        `${componentId} is claimed by ${claimed.join(", ")}`
+      );
+    }
+
+    // What remains unowned is exactly this, and it is a backlog rather than a
+    // silence. Each entry is a jurisdiction and the output strategy of the
+    // components its delivered packets declare and nobody builds. Wyoming is
+    // absent because it now has an owner; the day another jurisdiction gets one
+    // this list moves, deliberately.
+    const PINNED_UNOWNED = {
+      "HI:official_pdf_fill": 5,
+      "IN:official_pdf_fill": 2,
+      "KS:process_guidance": 2,
+      "KY:official_pdf_fill": 1,
+      "MO:process_guidance": 2,
+      "MS:process_guidance": 6,
+      "ND:process_guidance": 5,
+      "NV:process_guidance": 26,
+      "OH:official_pdf_fill": 4,
+      "OH:process_guidance": 12,
+      "OK:process_guidance": 37,
+      "SC:process_guidance": 44,
+      "TN:process_guidance": 20,
+      "TX:process_guidance": 8,
+      "WA:process_guidance": 5,
+      "WI:process_guidance": 1,
+      "WV:process_guidance": 5
+    };
+    const observedUnowned = {};
+    for (const componentId of excluded) {
+      if ((owners.get(componentId) ?? []).length === 1) continue;
+      const component = componentIndex.get(componentId);
+      assert.ok(component, `${componentId} is not declared by any packet set`);
+      const key = `${component.jurisdiction}:${component.outputStrategy}`;
+      observedUnowned[key] = (observedUnowned[key] ?? 0) + 1;
+    }
+    assert.deepEqual(
+      observedUnowned,
+      PINNED_UNOWNED,
+      "the unowned-component backlog moved; add or remove an owner deliberately"
+    );
+
+    // The backlog is a build gap and nothing else: no delivered packet claims
+    // to be filing-complete while it carries an excluded required component.
+    for (const name of fs.readdirSync(proofDir).sort()) {
+      const proof = JSON.parse(
+        fs.readFileSync(path.join(proofDir, name), "utf8")
+      );
+      if (!proof.componentScope) continue;
+      for (const track of proof.componentScope.tracks) {
+        if ((track.filingCompleteBlockedBy ?? []).length > 0) {
+          assert.equal(track.filingComplete, false, `${name}:${track.trackId}`);
+        }
+      }
+      assert.equal(proof.packetReady, false);
+      assert.equal(proof.productionEnabled, false);
+    }
   }
 );
 
