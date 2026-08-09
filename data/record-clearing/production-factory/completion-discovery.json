@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-captain-completion-discovery/v1",
-  "baseCommit": "360e61dacab7b3ad395d1dc94519ecf1c584efd1",
+  "baseCommit": "c8c3fd614f94b0099476e07938117ce1e2badc82",
   "fetch": {
     "remote": "origin",
     "refspecs": [
@@ -17,8 +17,8 @@
     "valid_pre_claim_branch": 0,
     "valid_legacy_branch": 0,
     "partial_branch": 0,
-    "incompatible_branch": 2,
-    "baseline_lease": 3,
+    "incompatible_branch": 3,
+    "baseline_lease": 2,
     "no_branch": 228
   },
   "jobs": [
@@ -4964,78 +4964,33 @@
       "expectedOutputs": [
         "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-published-source-filing-requirements-memo-amendment.json"
       ],
-      "classification": "baseline_lease",
+      "classification": "incompatible_branch",
       "completionBranch": "rcap-factory/rcap-wy-published-source-filing-requirements-memo-amendment-8036a3a8-10f21427",
-      "completionCommit": "360e61dacab7b3ad395d1dc94519ecf1c584efd1",
+      "completionCommit": "c7efa7e99ecbf3ebebd2bc174ac03371342d9fc2",
       "branches": [
         {
           "branch": "rcap-factory/rcap-wy-published-source-filing-requirements-memo-amendment-8036a3a8-10f21427",
-          "commit": "360e61dacab7b3ad395d1dc94519ecf1c584efd1",
+          "commit": "c7efa7e99ecbf3ebebd2bc174ac03371342d9fc2",
           "keyKind": "canonical",
-          "subject": "feat(record-clearing): settle the Wyoming statewide packet from the published-source review",
+          "subject": "fix(record-clearing): amend the Wyoming memo for the published filing requirements",
           "parents": [
-            "05c168e70aee524b795a4e2f712a05cedb3e65db"
+            "360e61dacab7b3ad395d1dc94519ecf1c584efd1"
           ],
           "changedPaths": [
-            "data/record-clearing/production-factory/completion-discovery.json",
-            "data/record-clearing/production-factory/legal-design-decisions/wy-casper-municipal-court-local-override.json",
-            "data/record-clearing/production-factory/legal-design-decisions/wy-published-source-filing-requirements.json",
-            "data/record-clearing/production-factory/wave-shard-manifest.json",
-            "planning/record-clearing-100-percent/production-plan.json",
-            "scripts/lib/rcap-factory/planner.mjs",
-            "scripts/rcap-freeze-wave-shards.mjs"
+            "data/record-clearing/legal-design-intake/WY.memo.json"
           ],
           "missingOutputs": [
             "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-published-source-filing-requirements-memo-amendment.json"
           ],
-          "isBaselineLease": true,
+          "isBaselineLease": false,
           "failures": [
             {
-              "code": "commit_subject_mismatch",
-              "message": "commit subject must be exactly \"fix(record-clearing): amend the Wyoming memo for the published filing requirements\", found \"feat(record-clearing): settle the Wyoming statewide packet from the published-source review\""
-            },
-            {
               "code": "outside_owned_paths",
-              "path": "data/record-clearing/production-factory/completion-discovery.json",
-              "message": "data/record-clearing/production-factory/completion-discovery.json is outside the job's ownedPaths"
-            },
-            {
-              "code": "outside_owned_paths",
-              "path": "data/record-clearing/production-factory/legal-design-decisions/wy-casper-municipal-court-local-override.json",
-              "message": "data/record-clearing/production-factory/legal-design-decisions/wy-casper-municipal-court-local-override.json is outside the job's ownedPaths"
-            },
-            {
-              "code": "outside_owned_paths",
-              "path": "data/record-clearing/production-factory/legal-design-decisions/wy-published-source-filing-requirements.json",
-              "message": "data/record-clearing/production-factory/legal-design-decisions/wy-published-source-filing-requirements.json is outside the job's ownedPaths"
-            },
-            {
-              "code": "outside_owned_paths",
-              "path": "data/record-clearing/production-factory/wave-shard-manifest.json",
-              "message": "data/record-clearing/production-factory/wave-shard-manifest.json is outside the job's ownedPaths"
-            },
-            {
-              "code": "outside_owned_paths",
-              "path": "planning/record-clearing-100-percent/production-plan.json",
-              "message": "planning/record-clearing-100-percent/production-plan.json is outside the job's ownedPaths"
-            },
-            {
-              "code": "forbidden_path",
-              "path": "planning/record-clearing-100-percent/production-plan.json",
-              "message": "planning/record-clearing-100-percent/production-plan.json matches forbidden path planning/record-clearing-100-percent/production-plan.json"
-            },
-            {
-              "code": "outside_owned_paths",
-              "path": "scripts/lib/rcap-factory/planner.mjs",
-              "message": "scripts/lib/rcap-factory/planner.mjs is outside the job's ownedPaths"
-            },
-            {
-              "code": "outside_owned_paths",
-              "path": "scripts/rcap-freeze-wave-shards.mjs",
-              "message": "scripts/rcap-freeze-wave-shards.mjs is outside the job's ownedPaths"
+              "path": "data/record-clearing/legal-design-intake/WY.memo.json",
+              "message": "data/record-clearing/legal-design-intake/WY.memo.json is outside the job's ownedPaths"
             }
           ],
-          "classification": "baseline_lease"
+          "classification": "incompatible_branch"
         }
       ]
     },
