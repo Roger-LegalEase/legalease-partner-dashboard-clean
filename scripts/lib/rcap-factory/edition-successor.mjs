@@ -243,9 +243,67 @@ function derivedHandoffItems(decision) {
   return items;
 }
 
-function assetRowFrom(decision) {
-  const row = decision.assetSpecification?.assetRow;
-  if (!row) return null;
+/**
+ * Every asset row a decision carries, in a deterministic order.
+ *
+ * One decision described one asset, so the reader took `assetRow`, singular.
+ * A record that measures five documents in one pass then had two ways to be
+ * read and both were wrong: name one of the five and four disappear without a
+ * trace, or name none and the whole record defers as though it supplied no
+ * measurement at all. Massachusetts hit the second — five rows, all correct,
+ * all invisible — and the worker refused to nominate one, which was right.
+ *
+ * A record may now carry `assetRows` and be read whole. Singular records are
+ * untouched and still yield exactly one row. Order is the record's own, so the
+ * plan is byte-stable; anything malformed fails closed rather than shrinking
+ * the set quietly.
+ */
+function assetRowsFrom(decision) {
+  const spec = decision.assetSpecification ?? {};
+  const declared = Array.isArray(spec.assetRows)
+    ? spec.assetRows
+    : spec.assetRow
+      ? [spec.assetRow]
+      : [];
+  if (declared.length === 0) return { rows: [], failures: [] };
+
+  const failures = [];
+  const rows = [];
+  const seenIdentifiers = new Set();
+  const seenPaths = new Set();
+  for (const [index, raw] of declared.entries()) {
+    if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
+      failures.push(`asset row ${index} is not an object`);
+      continue;
+    }
+    const row = normalizeAssetRow(decision, raw);
+    if (!row.canonicalIdentifier) {
+      failures.push(`asset row ${index} carries no canonical identifier`);
+      continue;
+    }
+    // A repeated identifier or canonical path means two rows claim one asset.
+    // Whichever is right, the record cannot say, and silently keeping the first
+    // would publish an identity nobody chose.
+    if (seenIdentifiers.has(row.canonicalIdentifier)) {
+      failures.push(
+        `asset row ${index} repeats canonical identifier ${row.canonicalIdentifier}`
+      );
+      continue;
+    }
+    if (row.canonicalPath && seenPaths.has(row.canonicalPath)) {
+      failures.push(
+        `asset row ${index} repeats canonical path ${row.canonicalPath}`
+      );
+      continue;
+    }
+    seenIdentifiers.add(row.canonicalIdentifier);
+    if (row.canonicalPath) seenPaths.add(row.canonicalPath);
+    rows.push(row);
+  }
+  return { rows, failures };
+}
+
+function normalizeAssetRow(decision, row) {
   // Field names vary between decision records because each one was written by
   // the worker who measured it. The alternatives below are the names actually
   // used, not a speculative superset: a row is read or it is deferred, and a
@@ -278,7 +336,8 @@ function assetRowFrom(decision) {
     pageCount: row.pageCount ?? null,
     structuralClass: row.structuralClass ?? null,
     licenseDisposition: row.licenseDisposition ?? null,
-    supersedes: decision.assetSpecification?.supersessionRow ?? null
+    supersedes:
+      row.supersedes ?? decision.assetSpecification?.supersessionRow ?? null
   };
 }
 
@@ -554,43 +613,86 @@ export function buildEditionSuccessorPlan(rootDir = process.cwd()) {
     handoffByJob.set(key, [...(handoffByJob.get(key) ?? []), item]);
   }
 
-  const candidates = decisions.map((decision) => {
-    const assetRow = assetRowFrom(decision);
+  // One candidate per asset row, and one row-less candidate for a decision that
+  // measures nothing — a metadata correction is still a candidate. A decision
+  // carrying five rows is therefore five candidates, evaluated on their own
+  // merits, and a row that fails takes no sibling with it.
+  const candidates = decisions.flatMap((decision) => {
+    const { rows, failures } = assetRowsFrom(decision);
     const handoffItems = [
       ...(handoffByJob.get(decision.jobId) ?? []),
       ...((decision.impact?.amendmentHandoffItems ?? []).filter(Boolean)),
       ...derivedHandoffItems(decision)
     ];
-    const candidate = { decision, assetRow, handoffItems };
-    const missing = evaluateCandidate(candidate, lineage);
-    return {
-      jobId: decision.jobId,
-      jurisdiction: decision.jurisdiction,
-      recordPath: decision.recordPath,
-      requiresNewBytes:
-        decision.impact?.requiresNewBytes === true ||
-        decision.assetSpecification?.requiresNewBytes === true,
-      assetRow,
-      correctedManifestRows: handoffItems.flatMap((item) =>
-        item.manifestRows ?? (item.manifestRow ? [item.manifestRow] : [])
-      ),
-      admitted: missing.length === 0,
-      unmetCriteria: [...new Set(missing.map((entry) => entry.criterion))].sort(),
-      blockers: missing
+    const correctedManifestRows = handoffItems.flatMap((item) =>
+      item.manifestRows ?? (item.manifestRow ? [item.manifestRow] : [])
+    );
+    const requiresNewBytes =
+      decision.impact?.requiresNewBytes === true ||
+      decision.assetSpecification?.requiresNewBytes === true;
+    const build = (assetRow, extraBlockers = []) => {
+      const missing = [
+        ...extraBlockers,
+        ...evaluateCandidate({ decision, assetRow, handoffItems }, lineage)
+      ];
+      return {
+        jobId: decision.jobId,
+        // A decision that emits more than one row needs more than one
+        // candidate key, or two rows collide in every downstream report.
+        candidateId: assetRow?.canonicalIdentifier
+          ? `${decision.jobId}::${assetRow.canonicalIdentifier}`
+          : decision.jobId,
+        jurisdiction: decision.jurisdiction,
+        recordPath: decision.recordPath,
+        requiresNewBytes,
+        assetRow,
+        correctedManifestRows,
+        admitted: missing.length === 0,
+        unmetCriteria: [...new Set(missing.map((entry) => entry.criterion))].sort(),
+        blockers: missing
+      };
     };
+    // A malformed row is reported against the decision that carries it and
+    // never removes a sibling that is well formed.
+    const malformed = failures.map((detail) => ({
+      criterion: "exact_source_identity",
+      detail
+    }));
+    if (rows.length === 0) {
+      return [build(null, malformed)];
+    }
+    const built = rows.map((row) => build(row));
+    if (malformed.length > 0) {
+      built.push({
+        jobId: decision.jobId,
+        candidateId: `${decision.jobId}::malformed-rows`,
+        jurisdiction: decision.jurisdiction,
+        recordPath: decision.recordPath,
+        requiresNewBytes,
+        assetRow: null,
+        correctedManifestRows,
+        admitted: false,
+        unmetCriteria: ["exact_source_identity"],
+        blockers: malformed
+      });
+    }
+    return built;
   });
 
-  const admitted = candidates
-    .filter((candidate) => candidate.admitted)
-    .sort((left, right) => left.jobId.localeCompare(right.jobId));
-  const deferred = candidates
-    .filter((candidate) => !candidate.admitted)
-    .sort((left, right) => left.jobId.localeCompare(right.jobId));
+  const byCandidateId = (left, right) =>
+    left.candidateId.localeCompare(right.candidateId);
+  const admitted = candidates.filter((candidate) => candidate.admitted).sort(byCandidateId);
+  const deferred = candidates.filter((candidate) => !candidate.admitted).sort(byCandidateId);
 
   const tranche = {
     trancheId: "master-library-edition-1-3-tranche-1",
     successorEdition: "1.3",
     predecessorEdition: lineage.parentEdition,
+    // Deliberately not carrying candidateId. Tranche 1 is published and its
+    // publication record pins this manifest digest; adding a field to an
+    // admitted row would move the digest and make a published tranche read as
+    // outstanding work. The backlog carries the identifier instead, which is
+    // where a multi-row decision actually needs telling apart.
     rows: admitted.map((candidate) => ({
       jobId: candidate.jobId,
       jurisdiction: candidate.jurisdiction,
@@ -642,6 +744,10 @@ export function buildEditionSuccessorPlan(rootDir = process.cwd()) {
     trancheManifestSha256: canonicalSha256(tranche),
     successorBacklog: deferred.map((candidate) => ({
       jobId: candidate.jobId,
+      candidateId: candidate.candidateId,
+      ...(candidate.assetRow?.canonicalIdentifier
+        ? { canonicalIdentifier: candidate.assetRow.canonicalIdentifier }
+        : {}),
       jurisdiction: candidate.jurisdiction,
       recordPath: candidate.recordPath,
       unmetCriteria: candidate.unmetCriteria,

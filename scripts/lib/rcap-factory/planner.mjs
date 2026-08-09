@@ -1643,6 +1643,10 @@ const DECISION_RECORD_COMPLETION_COMMITS = Object.freeze({
     "01b28373ad3c572fea667bb76f3fd8f4d6f08ed6"
 });
 const WAVE_WORKER_BRANCHES = Object.freeze({
+  "rcap-ma-edition-successor-handoff":
+    "rcap-factory/rcap-ma-edition-successor-handoff-a8fd4ab1-dd2b2200",
+  "rcap-ma-tc0021-source-structure-resolution":
+    "rcap-factory/rcap-ma-tc0021-source-structure-resolution-7074b7b5-83d147d9",
   "rcap-ma-public-official-download-100k-petition-for-expungement":
     "rcap-factory/rcap-ma-public-official-download-100k-petition-for-expungement-5a20fc17-68d97f25",
   "rcap-ma-public-official-download-mps-petition-to-expunge":
@@ -1767,6 +1771,8 @@ const WAVE_WORKER_BRANCHES = Object.freeze({
     "rcap-factory/rcap-nj-guidance-implementation-technical-visual-review-d5ed9fc8-e480293a"
 });
 const WAVE_WORKER_COMMITS = Object.freeze({
+  "rcap-ma-edition-successor-handoff": "38312fa26304aa8d75c1aba7f5c1d653c250d525",
+  "rcap-ma-tc0021-source-structure-resolution": "e6268de083070c5a97a2b67daba8b2c9655934d9",
   "rcap-ma-public-official-download-100k-petition-for-expungement": "b928d29f9500945840dd36c5882c58ff56d168ac",
   "rcap-ma-public-official-download-mps-petition-to-expunge": "3e88ec62982b1784405703aaa94c84b86318480f",
   "rcap-ma-public-official-download-ocp-petition-to-seal": "e52e4c19d0e6cbb3ed729bab5d7c3273c0ad47fa",
@@ -1886,6 +1892,17 @@ const WAVE_WORKER_COMMITS = Object.freeze({
     "123fc9a4506b242270ad527686958de522563791"
 });
 const COMPLETED_AUTHORITY_JOB_COMMITS = new Map([
+  // The Massachusetts Edition handoff and the TC0021 structure finding. The
+  // handoff authors five candidate rows; the resolution ratifies the registry
+  // correction that moved TC0021 out of the AcroForm lane.
+  [
+    "rcap-ma-edition-successor-handoff",
+    "4c3b20709b7d4258721e5cb91bd96b31b69228c7"
+  ],
+  [
+    "rcap-ma-tc0021-source-structure-resolution",
+    "d30a3dde61080b0e46349e3d4db807341c5c63e4"
+  ],
   // The five Massachusetts public official downloads. The automation block did
   // not reproduce and every assigned endpoint answered HTTP 200 with a valid
   // PDF, so these are ordinary downloads and each record is its own source
@@ -9476,20 +9493,35 @@ function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
       commitSubject:
         "chore(record-clearing): materialize the five MA official sources",
       executionNote:
-        "Blocked until the Edition handoff lands. A receipt written before the controlling " +
-        "successor identity is admitted pins bytes to an identity the authority layer has not " +
-        "issued, which is the one thing the materialization boundary exists to prevent.",
+        "Ready: the Edition handoff landed and each of the five documents has an exact candidate " +
+        "asset row carrying its digest, byte count, role, scope, revision and canonical " +
+        "authority path. The receipt binds bytes to that exact candidate identity, which is why " +
+        "the identity has to exist first and why publication does not have to have happened " +
+        "yet — admission needs the bytes to be locatable beneath the root, and installing them " +
+        "is this job. Requiring an admitted tranche instead would deadlock the two against each " +
+        "other forever.",
       stopCondition:
         "Install the five Massachusetts binaries into the sealed external materialization root " +
         "under official-pdf/MA/, reverify each installed file against the SHA-256 and byte count " +
         "its source contract pins, and only then write one receipt per document. " +
-        "Every precondition must hold before a receipt exists: the controlling successor " +
-        "identity is admitted, an exact source contract exists, the bytes are installed in the " +
-        "external root, and the installed bytes reverify. If any one of them does not hold, " +
-        "record which and write no receipt for that document. " +
-        "No binary enters version control. Do not amend or republish an edition, do not choose " +
-        "a renderer, do not declare a route ready, and do not enable runtime, promote, or " +
-        "deploy. " +
+        "Four preconditions must hold per document before its receipt exists: an exact candidate " +
+        "asset row names the identity the receipt binds to, an exact source contract exists, the " +
+        "bytes are installed in the external root, and the installed bytes reverify byte for " +
+        "byte. Where any one does not hold, record which and write no receipt for that document. " +
+        "Five documents, five identities, five receipts. The OCP petition to seal is one form: " +
+        "its Part A boxes 1 to 4 are choices inside it and box 4 gets no identity and no receipt " +
+        "of its own. The retained 13,137-byte two-page flat Probation Service copy is retired and " +
+        "may not be installed, reverified against, or allowed to stand for the current " +
+        "3,131,095-byte dynamic XFA shell. " +
+        "Preserve the official bytes exactly: install them as retrieved, do not flatten, " +
+        "re-save, repair, linearize, decrypt or strip anything, and do not modify a source to " +
+        "make it easier to render later. " +
+        "No binary enters version control. Do not retrieve any document again — the bytes are " +
+        "the ones the integrated source contracts already measured. Do not amend, publish or " +
+        "republish an edition; Edition 1.3 is immutable. Do not choose a renderer for any of " +
+        "them: four are XFA and belong to the XFA rendering policy, and the OCP AcroForm is not " +
+        "yours to lane either. Do not declare a route ready, and do not enable runtime, promote, " +
+        "or deploy. " +
         TERMINAL_INSTRUCTION
     });
   }
@@ -9513,6 +9545,12 @@ function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
     jurisdiction: "NATIONWIDE",
     jobId: xfaPolicyJobId,
     strategyFamily: "renderer_policy",
+    // Captain-owned. It is not a jurisdiction's job and not a worker shard's:
+    // sixteen identities across three states wait on the same six questions,
+    // and answering them per state is how three incompatible answers get
+    // written. Left unseated it was ready and ownerless, which is the same
+    // thing as unowned.
+    executionScope: "captain",
     dependencies: [],
     ...completion(xfaPolicyJobId),
     expectedOutputs: [

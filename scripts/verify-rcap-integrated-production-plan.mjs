@@ -720,9 +720,10 @@ assert.equal(
   ).length
 );
 // 85 -> 88 packet modules: the Hawaii custom pleading and the clean Ohio and
-// Washington splits each landed one. 88 -> 89 with Kentucky's clean track, and
-// 89 -> 90 with Wyoming's.
-assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 90);
+// Washington splits each landed one. 88 -> 89 with Kentucky's clean track,
+// 89 -> 90 with Wyoming's custom pleading, and 90 -> 91 with the Wyoming
+// filing-instructions guidance module that completed its packet set.
+assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 91);
 assert.equal(
   officialPdfSourceContract.verifierBoundary.packetWorkerMaterializationPaths,
   0

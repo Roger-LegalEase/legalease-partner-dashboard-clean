@@ -110,6 +110,10 @@ import {
   validateNormalizationReadinessRecord
 } from "./lib/rcap-factory/normalization-readiness.mjs";
 import {
+  EDITION_SUCCESSOR_PLAN_PATH,
+  buildEditionSuccessorPlan
+} from "./lib/rcap-factory/edition-successor.mjs";
+import {
   buildOfficialPdfSourceProjection,
   validateLegalReviewMaterializationContract,
   validateOfficialPdfSourceProjection
@@ -117,6 +121,20 @@ import {
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(SCRIPT_DIR, "..");
+/**
+ * A ready job a worker could actually be handed.
+ *
+ * These checks scaffold a job, and a captain-scoped job cannot be scaffolded by
+ * design — the XFA rendering policy is the first ready job in the plan and is
+ * the captain's. Picking the first ready job of any scope made a correct
+ * ownership decision look like a scaffolding defect.
+ */
+const readyWorkerJob = (plan) =>
+  plan.jobs.find(
+    (entry) =>
+      entry.status === "ready" && (entry.executionScope ?? "worker") === "worker"
+  ) ?? plan.jobs[0];
+
 const EXPECTED_BASE = "8df94fbaa66c06bf0ba677ee4f5fb417ad08cdc8";
 // Advanced to the commit that carries the authorized Massachusetts structure
 // correction. source-artifact-registry.json is again the only protected-path
@@ -367,6 +385,7 @@ await check("factory assignment canonicalization is locale-independent and round
   const assigned = plan.jobs.find(
     (job) =>
       job.status === "ready" &&
+      (job.executionScope ?? "worker") === "worker" &&
       (job.officialPdfAssignment?.identityKeys?.length ?? 0) === 0
   );
   const scaffold = buildScaffoldPlan({
@@ -2687,6 +2706,7 @@ await check("worker prompt is short, stable, and contains only contract sections
     plan.jobs.find(
       (entry) =>
         entry.status === "ready" &&
+        (entry.executionScope ?? "worker") === "worker" &&
         !entry.jobId.endsWith("-legal-design-normalization")
     ) ?? plan.jobs[0];
   const options = {
@@ -2827,7 +2847,7 @@ await check("worker prompt is short, stable, and contains only contract sections
 });
 
 await check("scaffold is deterministic, isolated, and dry-run by default", () => {
-  const job = plan.jobs.find((entry) => entry.status === "ready") ?? plan.jobs[0];
+  const job = readyWorkerJob(plan);
   const options = {
     rootDir: ROOT,
     job,
@@ -2870,7 +2890,7 @@ await check("scaffold is deterministic, isolated, and dry-run by default", () =>
 // different branch and leaves the superseded one in place, unrewritten.
 
 await check("worker branch identity follows the assignment, not just the job", () => {
-  const job = plan.jobs.find((entry) => entry.status === "ready") ?? plan.jobs[0];
+  const job = readyWorkerJob(plan);
   const options = {
     rootDir: ROOT,
     job,
@@ -3110,7 +3130,7 @@ await check("captain reserves a job to a session and workers cannot rewrite it",
 // integration path stays strict about the subject it accepts.
 
 await check("worker commit subjects are gated before push", () => {
-  const job = plan.jobs.find((entry) => entry.status === "ready") ?? plan.jobs[0];
+  const job = readyWorkerJob(plan);
   assert.ok(job.commitSubject, "every job must pin a commit subject");
 
   // The prompt renders the same field the gate and the planner compare, so the
@@ -3270,7 +3290,7 @@ await check("official-PDF scaffold marker is exact, portable, and cannot broaden
 });
 
 await check("scaffold marker pins plan and job provenance", () => {
-  const job = plan.jobs.find((entry) => entry.status === "ready") ?? plan.jobs[0];
+  const job = readyWorkerJob(plan);
   const markerPath = path.join(ROOT, "tmp/rcap-factory/job.json");
   assert.equal(fs.existsSync(markerPath), false, `${markerPath} already exists`);
   fs.mkdirSync(path.dirname(markerPath), { recursive: true });
@@ -3308,7 +3328,7 @@ await check("completed jobs validate against a captain-anchored immutable scaffo
   const anchorPath = path.join(anchorDirectory, "job.json");
   assert.equal(fs.existsSync(markerPath), false, `${markerPath} already exists`);
   const assignedJob = structuredClone(
-    plan.jobs.find((entry) => entry.status === "ready")
+    readyWorkerJob(plan)
   );
   assignedJob.jobId = "rcap-final-pending-completion-regression";
   if (assignedJob.assignmentClaim) {
@@ -3361,7 +3381,7 @@ await check("completed jobs validate against a captain-anchored immutable scaffo
 });
 
 await check("scaffold marker preserves the complete non-disposable worktree contract", () => {
-  const job = plan.jobs.find((entry) => entry.status === "ready") ?? plan.jobs[0];
+  const job = readyWorkerJob(plan);
   const markerPath = path.join(ROOT, "tmp/rcap-factory/job.json");
   const currentHead = git(["rev-parse", "HEAD"]).trim();
   const currentBranch = git(["branch", "--show-current"]).trim();
@@ -3457,7 +3477,7 @@ await check("worker checkout cannot bypass the scaffold contract by deleting its
     assert.equal(run(["switch", "-c", "rcap-factory/missing-marker-test"]).status, 0);
     assert.equal(isWorkerScaffoldCheckout(tempRoot), true);
     const workerJob = {
-      ...(plan.jobs.find((entry) => entry.status === "ready") ?? plan.jobs[0]),
+      ...(readyWorkerJob(plan)),
       baseCommit: run(["rev-parse", "HEAD"]).stdout.trim()
     };
     const report = validateJobWorkspace(workerJob, {
@@ -5675,6 +5695,229 @@ await check(
       }
       assert.equal(proof.packetReady, false);
       assert.equal(proof.productionEnabled, false);
+    }
+  }
+);
+
+await check(
+  "a decision may carry many asset rows and lose none of them",
+  () => {
+    // The reader took `assetRow`, singular, so a record measuring five
+    // documents in one pass had two ways to be read and both were wrong: name
+    // one of the five and four vanish without a trace, or name none and the
+    // record defers as though it measured nothing. Massachusetts hit the
+    // second — five rows, all correct, all invisible — and its worker refused
+    // to nominate one, which was right.
+    const plan = buildEditionSuccessorPlan(ROOT);
+    const tracked = JSON.parse(
+      fs.readFileSync(path.join(ROOT, EDITION_SUCCESSOR_PLAN_PATH), "utf8")
+    );
+
+    // 6. Byte-deterministic: the tracked plan is what the builder produces, and
+    //    two builds agree.
+    assert.deepEqual(plan, tracked, "the tracked successor plan is stale");
+    assert.equal(
+      JSON.stringify(buildEditionSuccessorPlan(ROOT)),
+      JSON.stringify(plan),
+      "the successor plan is not byte-deterministic"
+    );
+
+    const everyCandidate = [
+      ...plan.candidateTranche.rows.map((row) => ({ ...row, admitted: true })),
+      ...plan.successorBacklog
+    ];
+
+    // 2 and 3. Five Massachusetts rows, five candidates, none dropped.
+    const MASSACHUSETTS_ROWS = [
+      "MA-PROBATION-SERVICE",
+      "OCP-PETITION-TO-SEAL",
+      "PETITION-FOR-EXPUNGEMENT-100K",
+      "TC0021",
+      "TC0057"
+    ];
+    const handoffCandidates = everyCandidate.filter(
+      (entry) => entry.jobId === "rcap-ma-edition-successor-handoff"
+    );
+    assert.equal(handoffCandidates.length, 5, "the handoff must yield five candidates");
+    assert.deepEqual(
+      handoffCandidates.map((entry) => entry.canonicalIdentifier).sort(),
+      [...MASSACHUSETTS_ROWS].sort()
+    );
+
+    // 4. No sixth row invented for the OCP Part A box 4, which is a choice
+    //    inside one form rather than a document.
+    assert.equal(
+      handoffCandidates.some((entry) =>
+        /box[-_ ]?4/iu.test(entry.canonicalIdentifier ?? "")
+      ),
+      false
+    );
+    const handoffRecord = JSON.parse(
+      fs.readFileSync(
+        path.join(
+          ROOT,
+          "data/record-clearing/production-factory/source-acquisition/rcap-ma-edition-successor-handoff.json"
+        ),
+        "utf8"
+      )
+    );
+    assert.equal(handoffRecord.edition13AssetSpecification.assetRows.length, 5);
+
+    // 1. A legacy singular record still yields exactly one candidate. Asserted
+    //    against the live corpus, so it holds for the records that actually
+    //    exist rather than for a fixture shaped to pass.
+    const singularJobs = new Set();
+    const acquisitionDir = path.join(
+      ROOT,
+      "data/record-clearing/production-factory/source-acquisition"
+    );
+    for (const name of fs.readdirSync(acquisitionDir).sort()) {
+      if (!name.endsWith(".json")) continue;
+      let record;
+      try {
+        record = JSON.parse(
+          fs.readFileSync(path.join(acquisitionDir, name), "utf8")
+        );
+      } catch {
+        continue;
+      }
+      const spec = record.edition13AssetSpecification;
+      if (spec?.assetRow && !Array.isArray(spec?.assetRows)) {
+        singularJobs.add(record.jobId ?? name.replace(/\.json$/u, ""));
+      }
+    }
+    assert.ok(singularJobs.size > 0, "no singular record exists, so this proves nothing");
+    for (const jobId of singularJobs) {
+      assert.equal(
+        everyCandidate.filter((entry) => entry.jobId === jobId).length,
+        1,
+        `${jobId} must still yield exactly one candidate`
+      );
+    }
+
+    // Every candidate is processed exactly once, across the whole plan.
+    const ids = everyCandidate.map(
+      (entry) => entry.candidateId ?? `${entry.jobId}::${entry.canonicalIdentifier ?? ""}`
+    );
+    assert.equal(new Set(ids).size, ids.length, "a candidate is reported twice");
+    assert.equal(
+      plan.totals.candidatesRead,
+      everyCandidate.length,
+      "candidatesRead must count every candidate"
+    );
+    assert.equal(plan.totals.admitted + plan.totals.deferred, plan.totals.candidatesRead);
+
+    // The published tranche digest is untouched by all of this: tranche 1 is
+    // published and its record pins this manifest.
+    assert.equal(
+      plan.trancheManifestSha256,
+      "a4217636dbfbe098c6a1203fbd16d2893a982a83d88053141b6af36a6251d8bd"
+    );
+
+    // 5. Duplicate identifiers and duplicate canonical paths fail closed, and a
+    //    malformed row never deletes a well-formed sibling. Asserted on a
+    //    fixture corpus so it holds after Massachusetts is long published.
+    const fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-successor-"));
+    try {
+      const dir = path.join(
+        fixtureRoot,
+        "data/record-clearing/production-factory/source-acquisition"
+      );
+      fs.mkdirSync(dir, { recursive: true });
+      const row = (identifier, extra = {}) => ({
+        canonicalIdentifier: identifier,
+        workflowKey: `ZZ:${identifier}:PETITION:EN`,
+        officialTitle: identifier,
+        role: "PETITION",
+        scope: "statewide",
+        revision: "REV-2026-01",
+        language: "EN",
+        assetClass: "packet_form",
+        canonicalPath: `STATES/ZZ/02_PACKET_FORMS/${identifier}.pdf`,
+        sha256: "a".repeat(64),
+        bytes: 1024,
+        mediaType: "application/pdf",
+        pageCount: 1,
+        structuralClass: "clean_acroform",
+        ...extra
+      });
+      const write = (name, assetRows) =>
+        fs.writeFileSync(
+          path.join(dir, `${name}.json`),
+          `${JSON.stringify(
+            {
+              jobId: name,
+              jurisdiction: "ZZ",
+              edition13Impact: {
+                editionAmendmentRequired: true,
+                requiresNewBytes: true
+              },
+              edition13AssetSpecification: { assetRows }
+            },
+            null,
+            2
+          )}\n`
+        );
+      write("rcap-zz-duplicate-identifier", [row("ZZ-ONE"), row("ZZ-ONE")]);
+      write("rcap-zz-duplicate-path", [
+        row("ZZ-TWO"),
+        row("ZZ-THREE", {
+          canonicalPath: "STATES/ZZ/02_PACKET_FORMS/ZZ-TWO.pdf"
+        })
+      ]);
+      write("rcap-zz-malformed-sibling", [row("ZZ-FOUR"), null]);
+      const fixturePlan = buildEditionSuccessorPlan(fixtureRoot);
+      const fixtureCandidates = [
+        ...fixturePlan.candidateTranche.rows,
+        ...fixturePlan.successorBacklog
+      ];
+      const forJob = (jobId) =>
+        fixtureCandidates.filter((entry) => entry.jobId === jobId);
+
+      // A repeated identifier is kept once and the repeat is reported, never
+      // silently accepted and never silently dropped.
+      const duplicates = forJob("rcap-zz-duplicate-identifier");
+      assert.equal(
+        duplicates.filter((entry) => entry.canonicalIdentifier === "ZZ-ONE").length,
+        1
+      );
+      assert.ok(
+        duplicates.some((entry) =>
+          (entry.blockers ?? []).some((blocker) =>
+            /repeats canonical identifier/u.test(blocker.detail ?? "")
+          )
+        ),
+        "a repeated identifier must be reported"
+      );
+
+      const duplicatePaths = forJob("rcap-zz-duplicate-path");
+      assert.ok(
+        duplicatePaths.some((entry) =>
+          (entry.blockers ?? []).some((blocker) =>
+            /repeats canonical path/u.test(blocker.detail ?? "")
+          )
+        ),
+        "a repeated canonical path must be reported"
+      );
+
+      // The well-formed sibling survives the malformed one.
+      const malformed = forJob("rcap-zz-malformed-sibling");
+      assert.ok(
+        malformed.some((entry) => entry.canonicalIdentifier === "ZZ-FOUR"),
+        "a malformed row must not delete a well-formed sibling"
+      );
+      assert.ok(
+        malformed.some((entry) =>
+          (entry.blockers ?? []).some((blocker) =>
+            /is not an object/u.test(blocker.detail ?? "")
+          )
+        )
+      );
+      // Nothing here was admitted: a fixture cannot publish.
+      assert.equal(fixturePlan.publicationPerformed, false);
+      assert.equal(fixturePlan.editionMutated, false);
+    } finally {
+      fs.rmSync(fixtureRoot, { recursive: true, force: true });
     }
   }
 );

@@ -5,7 +5,7 @@
   "reviewShardReservationNote": "The claim schema's ownerSession enum is SESSION_B through SESSION_F, and review is none of those. R1 and R2 are therefore reserved here rather than in job-claims.json. This manifest is the reservation of record for them; widening the claim enum would change the job manifest and, through it, worker branch identity.",
   "shardIdentifiersAreNotSessions": "R1 and R2 are shard identifiers, not sessions. Both are owned by SESSION_R, which is the single human review session: R1 carries its technical and visual reads, R2 carries its completed-output legal reads, and the split exists so the two kinds of review cannot be recorded against each other's paths. They were briefly written as ownerSession SESSION_R1 and SESSION_R2, which reads as two review sessions and would have someone opening a second one. The human pool is exactly A, B, C, D, E, F and R; every shard here names one of those seven and no shard may name anything else.",
   "baseline": {
-    "baseCommit": "a96654fae9ced566d31d39c2efa0cc81c6a7a6a7",
+    "baseCommit": "d30a3dde61080b0e46349e3d4db807341c5c63e4",
     "authorityVersion": "master-library/1.2",
     "authorityEdition": "1.2"
   },
@@ -209,11 +209,11 @@
       },
       {
         "path": "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json",
-        "sha256": "643243e88f581e011a1eb97139b867f0d8ffb8357bafeb39e13cc09150d9fd23"
+        "sha256": "18c7c1c0bb1f31ca1fe98fc056b744bd5171f56dc57eb4ce29b688d6fbb006f5"
       },
       {
         "path": "data/record-clearing/production-factory/official-pdf-source-contract-reconciliation.json",
-        "sha256": "d4a271941f06005f6e42648d4c57863d0e3a168af357434f3db1cb47355dce4a"
+        "sha256": "e0ea0bef647daf29d7b0b60bcd5a61fcbde33c27a375108a41508d6730bd385b"
       },
       {
         "path": "data/record-clearing/source-artifact-registry.json",
@@ -553,7 +553,7 @@
       },
       {
         "path": "planning/record-clearing-100-percent/production-plan.json",
-        "sha256": "45c3e2b3d0fce0f6305b1c51b2e4ec70551867fb103074b0633dbeec635084e2"
+        "sha256": "89833e6ee779f7a7ca74d523db4cff121b0259d26c497c9bfb484c9edb85dd2c"
       },
       {
         "path": "src/lib/rcap/jurisdictions/packet-capability.ts",
@@ -579,7 +579,7 @@
   "totals": {
     "activeShards": 16,
     "candidateShards": 7,
-    "activeJobs": 7,
+    "activeJobs": 8,
     "candidateJobs": 12,
     "awaitingIntegration": 2
   },
@@ -817,16 +817,38 @@
       "lane": "source_acquisition",
       "status": "active",
       "ownerSession": "SESSION_F",
-      "note": "Empty because both rows delivered while this checkpoint was running. rcap-ma-edition-successor-handoff and rcap-ma-tc0021-source-structure-resolution have pushed exact completions and move to the INTEGRATION shard: a job with delivered bytes is not assignable work. Neither is integrated here — this checkpoint is Wyoming's and integrating Session F's source work in it would mix two unrelated provenance chains — and neither job definition, fingerprint, owned path, expected output, commit subject nor branch key is touched by the move. They are the next captain pass. Previously: Massachusetts refilled with the two owners its own delivered evidence created. All five public official downloads are integrated: HTTP 200 on every assigned endpoint, five source contracts carrying exact URL, digest, byte count, page count, structure and face revision, and no receipt written by any of them — a receipt is the materialization owner's artifact and each record says so. What the downloads deliberately did not do is author an Edition identity, and rcap-ma-edition-successor-handoff does exactly that and nothing else: five candidate asset rows for the next successor tranche, revisions taken from the face rather than the index, no sixth row for the OCP petition's Part A box 4, and the 13 KB flat legacy Probation Service copy retired rather than allowed to stand for a 3.1 MB dynamic XFA shell. rcap-ma-tc0021-source-structure-resolution joins because its blocker cleared: the binary was opened and carries a full /XFA packet array, so the job that owns stating which of the repository’s two contradicting statements was wrong can now make its finding. rcap-ma-source-materialization sits behind the handoff and is deliberately blocked — bytes are installed and reverified before a receipt exists, and never before an admitted identity. Previously: all five Massachusetts public official downloads had pushed exact completions and were awaiting integration, so they sit in the INTEGRATION shard rather than being refrozen as assignments — a job with delivered bytes is not assignable work. They were reissued from attended retrievals at the start of this wave because the automation block stopped reproducing, and the reissue is what made them executable at all. Previously: the five Massachusetts rows are the same five documents and are no longer attended work. The automation block no longer reproduces: the official URLs answer HTTP 200 with valid source documents and the hardened validator classifies each as acquired_public_official_download with receiptEligible true, so the condition the attended assignment existed to work around is gone and these are ordinary public official downloads, machine-executable end to end. The attended assignments are superseded rather than deleted — none of them was ever executed and no bytes were acquired under them — and the record that captured the 403 stays exactly as written, because a 403 was always an access fact about one agent on one date. Each worker records the exact URL, byte count and full digest it measures; those are the source contract and nothing upstream of them is. Expected faces: 12/20/18 on the s. 100K petition, which is the form revision even where the file was republished later; an XFA LiveCycle shell on the MPS petition whose printed revision is not machine-readable and must be recorded as unreadable rather than supplied from an index; a one-page AcroForm with no printed revision on the OCP petition to seal, whose Part A boxes 1 to 4 are one document and whose box 4 is an in-form selection and not a sixth document; 11/22 on TC0021; and 2/24 on the face of TC0057, with the index label 3/24 recorded as an index date and not as the printed revision. Previously: the shard emptied and refilled. All three of its previous rows — the Florida and Iowa not-required design reconciliations and the Iowa in-repo identity reconciliation — are complete and integrated; DCI-76 resolved to page 1 of a retained three-page packet and its remap is now D1's. What replaces them is the Massachusetts attended-retrieval set and the Delaware direct-issuer request. Every one of these is human-attended or human-sent work: the five Massachusetts documents sit behind a perimeter that refuses automation, and the Delaware request is drafted and sent by a person or not at all. They are ranked, not promised, and none of them may create a receipt from an unattended retrieval.",
-      "jobIds": [],
+      "note": "One row, and it is the first Massachusetts job that touches bytes since the downloads. The Edition handoff and the TC0021 structure finding are both integrated, so each of the five documents now has an exact candidate asset row naming the identity a receipt would bind to, and the last thing standing between the corpus and a materialized Massachusetts source is installing the bytes it already measured. It installs into the sealed external root, reverifies each file byte for byte against the digest and size its own source contract pins, and only then writes one receipt per identity — five documents, five identities, five receipts, with no sixth for the OCP Part A box 4 and nothing at all for the retired 13,137-byte flat Probation Service copy. It preserves the official bytes exactly: no flattening, re-saving, repairing or stripping, because a source modified to be easier to render later is no longer the source. It chooses no renderer — four of the five are XFA and belong to the nationwide policy, and the OCP AcroForm is not this job’s to lane either — and it publishes no edition. Previously: both rows delivered while this checkpoint was running. rcap-ma-edition-successor-handoff and rcap-ma-tc0021-source-structure-resolution have pushed exact completions and move to the INTEGRATION shard: a job with delivered bytes is not assignable work. Neither is integrated here — this checkpoint is Wyoming's and integrating Session F's source work in it would mix two unrelated provenance chains — and neither job definition, fingerprint, owned path, expected output, commit subject nor branch key is touched by the move. They are the next captain pass. Previously: Massachusetts refilled with the two owners its own delivered evidence created. All five public official downloads are integrated: HTTP 200 on every assigned endpoint, five source contracts carrying exact URL, digest, byte count, page count, structure and face revision, and no receipt written by any of them — a receipt is the materialization owner's artifact and each record says so. What the downloads deliberately did not do is author an Edition identity, and rcap-ma-edition-successor-handoff does exactly that and nothing else: five candidate asset rows for the next successor tranche, revisions taken from the face rather than the index, no sixth row for the OCP petition's Part A box 4, and the 13 KB flat legacy Probation Service copy retired rather than allowed to stand for a 3.1 MB dynamic XFA shell. rcap-ma-tc0021-source-structure-resolution joins because its blocker cleared: the binary was opened and carries a full /XFA packet array, so the job that owns stating which of the repository’s two contradicting statements was wrong can now make its finding. rcap-ma-source-materialization sits behind the handoff and is deliberately blocked — bytes are installed and reverified before a receipt exists, and never before an admitted identity. Previously: all five Massachusetts public official downloads had pushed exact completions and were awaiting integration, so they sit in the INTEGRATION shard rather than being refrozen as assignments — a job with delivered bytes is not assignable work. They were reissued from attended retrievals at the start of this wave because the automation block stopped reproducing, and the reissue is what made them executable at all. Previously: the five Massachusetts rows are the same five documents and are no longer attended work. The automation block no longer reproduces: the official URLs answer HTTP 200 with valid source documents and the hardened validator classifies each as acquired_public_official_download with receiptEligible true, so the condition the attended assignment existed to work around is gone and these are ordinary public official downloads, machine-executable end to end. The attended assignments are superseded rather than deleted — none of them was ever executed and no bytes were acquired under them — and the record that captured the 403 stays exactly as written, because a 403 was always an access fact about one agent on one date. Each worker records the exact URL, byte count and full digest it measures; those are the source contract and nothing upstream of them is. Expected faces: 12/20/18 on the s. 100K petition, which is the form revision even where the file was republished later; an XFA LiveCycle shell on the MPS petition whose printed revision is not machine-readable and must be recorded as unreadable rather than supplied from an index; a one-page AcroForm with no printed revision on the OCP petition to seal, whose Part A boxes 1 to 4 are one document and whose box 4 is an in-form selection and not a sixth document; 11/22 on TC0021; and 2/24 on the face of TC0057, with the index label 3/24 recorded as an index date and not as the printed revision. Previously: the shard emptied and refilled. All three of its previous rows — the Florida and Iowa not-required design reconciliations and the Iowa in-repo identity reconciliation — are complete and integrated; DCI-76 resolved to page 1 of a retained three-page packet and its remap is now D1's. What replaces them is the Massachusetts attended-retrieval set and the Delaware direct-issuer request. Every one of these is human-attended or human-sent work: the five Massachusetts documents sit behind a perimeter that refuses automation, and the Delaware request is drafted and sent by a person or not at all. They are ranked, not promised, and none of them may create a receipt from an unattended retrieval.",
+      "jobIds": [
+        "rcap-ma-source-materialization"
+      ],
       "capacity": {
-        "jobs": 0,
+        "jobs": 1,
         "assignedTracks": 0,
         "incrementalTracks": 0,
         "assignedComponents": 0,
         "incrementalComponents": 0
       },
-      "jobs": []
+      "jobs": [
+        {
+          "jobId": "rcap-ma-source-materialization",
+          "lane": "source_acquisition",
+          "jurisdiction": "MA",
+          "status": "ready",
+          "semanticFingerprint": "2b1fab980439bfb0c487ed422bc5bc70a0cefcde344f66deb300d812b831220d",
+          "branch": "rcap-factory/rcap-ma-source-materialization-e01cc36e-2b1fab98",
+          "ownedPaths": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-ma-source-materialization.json"
+          ],
+          "dependencies": [
+            "rcap-ma-edition-successor-handoff"
+          ],
+          "assignedTrackIds": [],
+          "incrementalTrackIds": [],
+          "assignedComponents": 0,
+          "incrementalComponents": 0,
+          "alreadyHasPushedCompletion": false
+        }
+      ]
     },
     {
       "wave": 4,
@@ -1044,9 +1066,9 @@
           "jobId": "rcap-ma-edition-successor-handoff",
           "lane": "source_acquisition",
           "jurisdiction": "MA",
-          "status": "ready",
-          "semanticFingerprint": "dd2b22000514a2fc9584cc5a697493061d7baeb250ba6e27d5acc74d18f86243",
-          "branch": "rcap-factory/rcap-ma-edition-successor-handoff-a8fd4ab1-dd2b2200",
+          "status": "completed",
+          "semanticFingerprint": "8d43f22579e10c0354a4000ca12c20f49c557ac5d7c50f0579dfb849c5b31070",
+          "branch": "rcap-factory/rcap-ma-edition-successor-handoff-a8fd4ab1-8d43f225",
           "ownedPaths": [
             "data/record-clearing/production-factory/source-acquisition/rcap-ma-edition-successor-handoff.json"
           ],
@@ -1067,9 +1089,9 @@
           "jobId": "rcap-ma-tc0021-source-structure-resolution",
           "lane": "source_acquisition",
           "jurisdiction": "MA",
-          "status": "ready",
-          "semanticFingerprint": "83d147d9cc2e3792be54d3107acfacf579a8885fd9ee03799543beb18e6d192f",
-          "branch": "rcap-factory/rcap-ma-tc0021-source-structure-resolution-7074b7b5-83d147d9",
+          "status": "completed",
+          "semanticFingerprint": "f454aa1c1cc53e5080417f9dd9fee36939ece17a427d72ef98679523a656df77",
+          "branch": "rcap-factory/rcap-ma-tc0021-source-structure-resolution-7074b7b5-f454aa1c",
           "ownedPaths": [
             "data/record-clearing/production-factory/source-acquisition/rcap-ma-tc0021-source-structure-resolution.json"
           ],
@@ -1530,5 +1552,5 @@
       ]
     }
   ],
-  "manifestSha256": "9285af3b650b0246c5179606ba9e1d2e7259a4fed503d3b94f31493c271c700f"
+  "manifestSha256": "ca026b88a5aa7ce92db47fdd4ba4c004a9cf54b60de6101450c848fd64573f91"
 }
