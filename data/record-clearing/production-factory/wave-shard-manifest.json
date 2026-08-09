@@ -5,7 +5,7 @@
   "reviewShardReservationNote": "The claim schema's ownerSession enum is SESSION_B through SESSION_F, and review is none of those. R1 and R2 are therefore reserved here rather than in job-claims.json. This manifest is the reservation of record for them; widening the claim enum would change the job manifest and, through it, worker branch identity.",
   "shardIdentifiersAreNotSessions": "R1 and R2 are shard identifiers, not sessions. Both are owned by SESSION_R, which is the single human review session: R1 carries its technical and visual reads, R2 carries its completed-output legal reads, and the split exists so the two kinds of review cannot be recorded against each other's paths. They were briefly written as ownerSession SESSION_R1 and SESSION_R2, which reads as two review sessions and would have someone opening a second one. The human pool is exactly A, B, C, D, E, F and R; every shard here names one of those seven and no shard may name anything else.",
   "baseline": {
-    "baseCommit": "360e61dacab7b3ad395d1dc94519ecf1c584efd1",
+    "baseCommit": "d41563338df5a1558502a9b68413ae90fedbd57e",
     "authorityVersion": "master-library/1.2",
     "authorityEdition": "1.2"
   },
@@ -553,7 +553,7 @@
       },
       {
         "path": "planning/record-clearing-100-percent/production-plan.json",
-        "sha256": "a42f0958261f59bc40390aed9e34e023d2dfeddb7a769463b06f7e217bd73337"
+        "sha256": "bd76ea9ece1ea61cb006a77e446023f6589c051f6b183ca89c91cb61762a0c19"
       },
       {
         "path": "src/lib/rcap/jurisdictions/packet-capability.ts",
@@ -717,10 +717,10 @@
           "lane": "legal_design_normalization",
           "jurisdiction": "WY",
           "status": "ready",
-          "semanticFingerprint": "10f21427444375e134405840c3bdd4296ccae788457d684cdb281126dadff6c7",
-          "branch": "rcap-factory/rcap-wy-published-source-filing-requirements-memo-amendment-8036a3a8-10f21427",
+          "semanticFingerprint": "f21a5f2b99c30bfbf21d8f3d389e90536ed741ebac0782e36ed93858ae968c56",
+          "branch": "rcap-factory/rcap-wy-published-source-filing-requirements-memo-amendment-8036a3a8-f21a5f2b",
           "ownedPaths": [
-            "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-published-source-filing-requirements-memo-amendment.json"
+            "data/record-clearing/legal-design-intake/WY.memo.json"
           ],
           "dependencies": [],
           "assignedTrackIds": [],
@@ -1705,5 +1705,5 @@
       ]
     }
   ],
-  "manifestSha256": "6524b1e9c3ffbdc87d7fef6029573a1b95836dafc59a709f094380634195d25f"
+  "manifestSha256": "fe531837934b71afa3ed3141c4a1c8c99868d72e03d7e7ca95af5cdf51375107"
 }
