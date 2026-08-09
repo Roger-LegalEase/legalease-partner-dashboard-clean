@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "specificationId": "wy-casper-municipal-court-local-override",
+  "jurisdiction": "WY",
+  "jurisdictionName": "Wyoming",
+  "preparedOn": "2026-08-09",
+  "preparer": "Session A integration captain",
+  "parentDecision": "wy-published-source-filing-requirements",
+
+  "whatThisIs": "A narrow local override for Casper Municipal Court, and a fence around it. Casper is the only publicly identified Wyoming local-form exception; this record exists so the exception cannot spread.",
+
+  "court": {
+    "name": "Casper Municipal Court",
+    "level": "municipal",
+    "scope": "this court only"
+  },
+
+  "publiclyAvailablePackets": [
+    { "packet": "adult status offenses" },
+    { "packet": "adult non-status offenses" },
+    { "packet": "juvenile offenses" },
+    { "packet": "arrests and dismissed charges" }
+  ],
+
+  "bindingLimits": {
+    "boundToStatewideTracks": false,
+    "boundToNatronaCountyCircuitCourt": false,
+    "boundToNatronaCountyDistrictCourt": false,
+    "why": "A municipal court's forms govern that municipal court. Promoting them to a circuit or district court, or to statewide use, would put the wrong document in the wrong forum — and Natrona County is exactly where that mistake is easiest to make, because Casper sits in it.",
+    "resolverGuard": "No statewide Wyoming component may select a Casper packet, and no Casper packet may satisfy a statewide primary-filing component."
+  },
+
+  "reproductionPermission": {
+    "status": "unresolved",
+    "generationAllowed": false,
+    "licenseAdopted": false,
+    "owner": "the ordinary source and authorization lifecycle",
+    "note": "Whether LegalEase may reproduce or prefill these local forms is determined the same way as any other publisher's forms: identity, currentness, licence. Public availability is not permission, and the statewide project-owner attestations do not reach a municipal publisher's forms.",
+    "untilResolved": "The statewide custom-pleading packet remains the default everywhere outside the exact Casper local-form scope."
+  },
+
+  "effectOnTheStatewidePacket": "None. The statewide core packet is unchanged by the existence of this exception, and does not wait on it.",
+
+  "gates": {
+    "packetReadyUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "counselAdopted": false,
+    "productionEnabled": false,
+    "binariesEnteringVersionControl": 0
+  }
+}

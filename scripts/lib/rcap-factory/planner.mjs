@@ -5559,6 +5559,40 @@ const WYOMING_LEGAL_DESIGN_OWNERS = Object.freeze([
       "runtime, promote, or deploy."
   },
   {
+    // Session A does not edit a worker-owned memo. The published-source review
+    // settles facts WY.memo.json does not yet carry — no statewide petition or
+    // proposed-order template, the four excluded documents, the statutory fee
+    // per route — and a memo amendment is a legal-design act with its own owner.
+    jobId: "rcap-wy-published-source-filing-requirements-memo-amendment",
+    lane: "legal_design_normalization",
+    strategyFamily: "legal_design_normalization_amendment",
+    model: "opus",
+    subject:
+      "fix(record-clearing): amend the Wyoming memo for the published filing requirements",
+    note:
+      "The project owner's published-source review answers the statewide packet-component question, and the decision record cannot amend the state memo itself. This job does. It owns WY.memo.json and nothing else.",
+    stop:
+      "Carry the recorded published-source conclusions into WY.memo.json: Wyoming publishes " +
+      "no statewide petition form and no statewide proposed-order template, so the verified " +
+      "petition and the Order for Expungement are controlled custom pleading rather than an " +
+      "unresolved correct_form question; the participant prepares the order; no civil summons " +
+      "and no praecipe are required; where the statute requires service it is the petition " +
+      "that is served on the prosecuting attorney and DCI; prosecutor notice to identifiable " +
+      "victims is outside-party work; and the proposed order must be available for the judge, " +
+      "with initial-filing practice court-specific rather than statewide. " +
+      "Record the statutory filing fee per route — $0 under W.S. section 7-13-1401, $100 per " +
+      "petition under 7-13-1501, $300 per petition under 7-13-1502, $0 under 14-6-241 — and " +
+      "keep copy, certification, postage and record-retrieval charges distinct from it. Do not " +
+      "describe a waiver procedure; none is established. " +
+      "Retire the correct_form blocker on the affirmative conclusion, not by deletion. Do not " +
+      "record the 23-county survey as complete: no county has been telephoned, and its " +
+      "remaining scope is unpublished local preference. Keep Casper Municipal Court separate " +
+      "and do not bind its packets to any statewide track or to Natrona County Circuit or " +
+      "District Court. " +
+      "Own only WY.memo.json. Do not implement a packet, do not declare a track ready, and do " +
+      "not enable runtime, promote, or deploy."
+  },
+  {
     jobId: "rcap-wy-local-template-and-handout-survey",
     lane: "source_acquisition",
     strategyFamily: "official_download_automation_blocked",
@@ -5566,7 +5600,11 @@ const WYOMING_LEGAL_DESIGN_OWNERS = Object.freeze([
     subject:
       "chore(record-clearing): survey the Wyoming local templates under attended access",
     note:
-      "A 23-county clerk survey and a handout-currency check. Neither is answerable from the published record alone, and both gate the packet components on all three tracks.",
+      "A 23-county clerk survey and a handout-currency check, narrowed by the project owner's " +
+      "published-source review. It no longer gates the packet components: the statewide " +
+      "question — what the participant files — is answered, and what remains is unpublished " +
+      "local preference, which is release-level. The survey is NOT complete and must never be " +
+      "recorded as complete: no county has been telephoned.",
     stop:
       "Establish, by attended human contact with the Wyoming courts: which of the 23 " +
       "counties publish a local expungement template, what each published template is, and " +
@@ -5578,7 +5616,14 @@ const WYOMING_LEGAL_DESIGN_OWNERS = Object.freeze([
       "record a county as having no template merely because none was found. Record exactly " +
       "what each clerk said and what remains unanswered. " +
       "Do not create a source receipt from an unattended retrieval, do not stamp a revision " +
-      "onto held bytes, and do not enable runtime, promote, or deploy."
+      "onto held bytes, and do not enable runtime, promote, or deploy. " +
+      "Scope is now local practice only: local cover sheet, copy count, filing method, " +
+      "electronic against paper filing, chambers-copy requirement, whether the proposed order " +
+      "is filed initially or brought to a hearing, any unpublished local template, and any " +
+      "additional local service document. The statewide packet-component question is settled " +
+      "and is not reopened here. If a county's answer changes the statewide legal document " +
+      "rather than the way it is filed, stop and say so: that is a legal-design question with " +
+      "its own owner, not a filing preference."
   }
 ]);
 
@@ -6041,23 +6086,93 @@ function implementationJobOverrides(
   // pleading cannot be drafted against that, and the assignment was standing
   // ready with every one of those questions open.
   if (lane === "custom_pleading" && jurisdiction === "WY") {
+    // Wyoming waited on three questions. Two were legal-design reads and both
+    // are integrated. The third was a 23-county clerk survey, and it was the
+    // wrong gate: it was holding the statewide packet on unpublished local
+    // preference. A published-source review has now settled what the
+    // participant files — Wyoming publishes no statewide petition and no
+    // statewide proposed-order template, so both are custom pleading, and that
+    // is an answer rather than an unresolved correct_form question.
+    //
+    // What the survey still asks is how a given county wants it filed: cover
+    // sheet, copy count, paper or electronic, chambers copy, whether the
+    // proposed order goes in at filing or is carried to the hearing. Those are
+    // release-level and none of them changes the document. So the survey stays
+    // open, keeps its blockers, and no longer gates generation.
+    const settled = fs.existsSync(
+      path.join(
+        rootDir,
+        `${FACTORY_DATA_DIR}/legal-design-decisions/wy-published-source-filing-requirements.json`
+      )
+    );
+    const designOwners = WYOMING_LEGAL_DESIGN_OWNERS.map((entry) => entry.jobId).filter(
+      (jobId) => jobId !== "rcap-wy-local-template-and-handout-survey"
+    );
+    const openDesign = designOwners.filter(
+      (jobId) =>
+        !fs.existsSync(
+          path.join(
+            rootDir,
+            `${FACTORY_DATA_DIR}/legal-design-decisions/${jobId.replace(/^rcap-/u, "")}.json`
+          )
+        ) &&
+        !fs.existsSync(
+          path.join(rootDir, `${FACTORY_DATA_DIR}/legal-design-decisions/${jobId}.json`)
+        )
+    );
+    if (!settled || openDesign.length > 0) {
+      return {
+        status: "blocked",
+        dependencies: settled ? openDesign : designOwners,
+        model: "opus",
+        effort: "xhigh",
+        executionNote:
+          settled
+            ? "Blocked on the remaining Wyoming legal-design reads. The statewide " +
+              "packet-component question is settled and is not what is holding this."
+            : "Blocked on Wyoming's own open questions, not on a source or licence gate.",
+        stopCondition:
+          "Blocked on the Wyoming legal-design questions owned by " +
+          `${(settled ? openDesign : designOwners).join(", ")}. ` +
+          "Do not draft a pleading against an unresolved governing mechanism and do not infer " +
+          "a waiting period or an eligibility branch. Do not enable runtime, promote, or " +
+          "deploy. " +
+          TERMINAL_INSTRUCTION
+      };
+    }
     return {
-      status: "blocked",
-      dependencies: WYOMING_LEGAL_DESIGN_OWNERS.map((entry) => entry.jobId),
       model: "opus",
       effort: "xhigh",
       executionNote:
-        "Blocked on Wyoming's own open questions, not on a source or licence gate. Every " +
-        "assigned track carries an unresolved governing mechanism; the packet components " +
-        "depend on a 23-county local-template survey that has not been run; and the " +
-        "misdemeanour and felony routes carry unresolved waiting-period and eligibility " +
-        "questions on top of that.",
+        "The statewide core packet is settled by the project owner's published-source review, " +
+        "recorded at " +
+        `${FACTORY_DATA_DIR}/legal-design-decisions/wy-published-source-filing-requirements.json. ` +
+        "Wyoming publishes no statewide petition form and no statewide proposed-order " +
+        "template, so both are controlled custom pleading. The 23-county survey is NOT " +
+        "complete and is deliberately not a dependency: what it still asks is local filing " +
+        "preference, which is release-level and changes no document.",
       stopCondition:
-        "Blocked on the Wyoming legal-design questions owned by " +
-        `${WYOMING_LEGAL_DESIGN_OWNERS.map((entry) => entry.jobId).join(", ")}. ` +
-        "Do not draft a pleading against an unresolved governing mechanism, do not infer a " +
-        "waiting period or an eligibility branch, do not assume a county publishes a local " +
-        "template that nobody has surveyed, and do not enable runtime, promote, or deploy. " +
+        "Implement exactly the statewide core participant packet for wy_nc_1401, " +
+        "wy_misd_1501 and wy_fel_1502: a verified petition, a proposed Order for " +
+        "Expungement, filing and service instructions, and a route-specific supporting-item " +
+        "checklist. " +
+        "Include no summons and no praecipe — neither is required by the statewide statutes " +
+        "or guidance. Where the applicable statute requires service, it is the petition that " +
+        "is served on the prosecuting attorney and DCI, not a summons. " +
+        "Write nothing that belongs to another actor: no prosecutor notice to victims, no " +
+        "prosecutor response, no DCI action, no judicial findings, no judge signature, no " +
+        "clerk certification, and no completed proof of service before service has happened. " +
+        "Carry the statutory filing fee per route from the decision record — $0 under " +
+        "W.S. § 7-13-1401, $100 per petition under § 7-13-1501, $300 per petition under " +
+        "§ 7-13-1502 — and keep copy, certification, postage and record-retrieval charges " +
+        "distinct from it. Do not describe a fee waiver; none is established. " +
+        "The proposed order must be available for the judge. Whether it accompanies the " +
+        "initial filing is court-specific, so the instructions must say so rather than assert " +
+        "one practice statewide. " +
+        "Use no Casper Municipal Court form. Casper is the only published local-form " +
+        "exception, its packets bind to that court alone, and they may not be promoted to " +
+        "Natrona County Circuit or District Court or to statewide use. " +
+        "Do not enable runtime, promote, or deploy. " +
         TERMINAL_INSTRUCTION
     };
   }

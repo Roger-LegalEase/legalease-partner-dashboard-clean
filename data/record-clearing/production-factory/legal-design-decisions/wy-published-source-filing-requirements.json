@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "specificationId": "wy-published-source-filing-requirements",
+  "jurisdiction": "WY",
+  "jurisdictionName": "Wyoming",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "preparedOn": "2026-08-09",
+  "preparer": "Session A integration captain, recording a project-owner-supplied published-source review",
+
+  "provenance": {
+    "evidenceType": "project_owner_supplied_published_source_review",
+    "suppliedBy": "project owner",
+    "suppliedOn": "2026-08-09",
+    "underlyingResearchInRepositoryCustody": false,
+    "whatThisIsNot": "This is not a completed telephone survey of all 23 Wyoming counties, and must never be represented as one. It is a review of published sources, and its reach is exactly what publication reaches.",
+    "whatItSettles": "The statewide packet-component question, from the statutes and published statewide guidance.",
+    "whatItCannotSettle": "Anything a county does not publish. Unpublished local preference is not covered by a published-source review, by definition."
+  },
+
+  "statewideConclusions": [
+    { "id": 1, "conclusion": "Wyoming publishes no statewide petition form." },
+    { "id": 2, "conclusion": "Wyoming publishes no statewide proposed-order template." },
+    { "id": 3, "conclusion": "A properly drafted and verified petition is required." },
+    { "id": 4, "conclusion": "The participant must prepare an Order for Expungement." },
+    { "id": 5, "conclusion": "No civil summons is required by the statewide statutes or guidance." },
+    { "id": 6, "conclusion": "No praecipe is required." },
+    { "id": 7, "conclusion": "The petition, rather than a summons, is served on the prosecuting attorney and DCI where the applicable statute requires service." },
+    { "id": 8, "conclusion": "Prosecutor notice to identifiable victims is outside-party work." },
+    { "id": 9, "conclusion": "The proposed order should be available for the judge; whether it must accompany the initial filing may be court-specific." },
+    { "id": 10, "conclusion": "Casper Municipal Court is the only publicly identified local-form exception." },
+    { "id": 11, "conclusion": "Casper's forms apply only to Casper Municipal Court and may not be promoted to Natrona County Circuit Court, Natrona County District Court, or statewide use." }
+  ],
+
+  "filingFeesByRoute": [
+    { "statute": "W.S. § 7-13-1401", "route": "arrest, unfiled charge, acquittal, or dismissal", "statutoryFilingFee": "$0", "trackId": "wy_nc_1401" },
+    { "statute": "W.S. § 7-13-1501", "route": "eligible misdemeanor conviction", "statutoryFilingFee": "$100 per petition", "trackId": "wy_misd_1501" },
+    { "statute": "W.S. § 7-13-1502", "route": "eligible felony conviction", "statutoryFilingFee": "$300 per petition", "trackId": "wy_fel_1502" },
+    { "statute": "W.S. § 14-6-241", "route": "juvenile relief", "statutoryFilingFee": "$0" }
+  ],
+  "feeBoundaries": {
+    "distinctFromTheStatutoryFilingFee": ["copy charges", "certification charges", "postage", "record-retrieval charges"],
+    "why": "They are different charges with different payees and they move independently of the statute. Folding them into the filing fee would misstate what the clerk requires at the counter.",
+    "waiverProcedure": "not_established",
+    "doNotInventAWaiver": "No waiver procedure is asserted. If one exists it must be established separately, on its own evidence."
+  },
+
+  "corePacketComponents": {
+    "outputStrategy": "controlled_custom_pleading",
+    "why": "No statewide official template exists for either document, so there is nothing to fill. Custom pleading is the affirmative conclusion, not a fallback.",
+    "included": [
+      "verified petition",
+      "proposed order",
+      "filing and service instructions",
+      "route-specific supporting-item checklist"
+    ],
+    "excluded": [
+      "summons",
+      "praecipe",
+      "prosecutor notice to victims",
+      "prosecutor response",
+      "DCI action",
+      "judicial findings",
+      "judge signature",
+      "clerk certification",
+      "completed proof of service before service occurs",
+      "any Casper form outside Casper Municipal Court"
+    ],
+    "exclusionRationale": "Each excluded item is either not required by the statewide statutes and guidance, or is an act performed by a court or an outside party. A packet that pre-completes another actor's work misrepresents what happened."
+  },
+
+  "correctFormBlockerResolved": {
+    "resolved": true,
+    "priorTreatment": "the absence of a statewide form was carried as an unresolved correct_form question",
+    "currentTreatment": "an affirmative custom-pleading conclusion",
+    "why": "\"No statewide form exists\" is an answer. Carrying it as an open question kept a release blocker against a document that will never be published."
+  },
+
+  "localPracticeTreatment": {
+    "twentyThreeCountySurveyCompleted": false,
+    "doNotMarkCompleted": "No county was telephoned. The survey is not done and must not be recorded as done.",
+    "narrowedRemainingPurpose": [
+      "local cover sheet",
+      "copy count",
+      "filing method",
+      "electronic versus paper filing",
+      "chambers-copy requirement",
+      "whether the proposed order is filed initially or brought to a hearing",
+      "any unpublished local template",
+      "any additional local service document"
+    ],
+    "classification": "local_practice_or_release_level",
+    "mustNotBlockStatewideGeneration": "An unpublished local preference does not block generation of the statewide core petition and proposed order. It would only do so if the live legal design establishes that the document itself changes — a filing preference is not a different document.",
+    "escalationCondition": "If a particular answer changes the statewide legal document, it stops being a local preference and becomes a legal-design question with its own owner."
+  },
+
+  "casperException": {
+    "court": "Casper Municipal Court",
+    "onlyPubliclyIdentifiedLocalFormException": true,
+    "publiclyAvailablePackets": [
+      "adult status offenses",
+      "adult non-status offenses",
+      "juvenile offenses",
+      "arrests and dismissed charges"
+    ],
+    "boundToStatewideTracks": false,
+    "boundToNatronaCountyCircuitCourt": false,
+    "boundToNatronaCountyDistrictCourt": false,
+    "reproductionOrPrefillPermission": "unresolved",
+    "permissionOwner": "the ordinary source and authorization lifecycle",
+    "untilResolved": "The statewide custom-pleading packet remains the default outside the exact Casper local-form scope.",
+    "why": "A municipal court's forms govern that municipal court. Promoting them to a circuit or district court, or statewide, would file the wrong document in the wrong forum."
+  },
+
+  "runtimeEffect": {
+    "packetReady": 0,
+    "enabledJurisdictions": 0,
+    "launchGate": "red",
+    "productionEnabled": false,
+    "runtimeEnabled": false,
+    "routePromoted": false,
+    "counselAdoptionRecordedHere": false,
+    "technicalReviewStillRequired": true
+  }
+}
