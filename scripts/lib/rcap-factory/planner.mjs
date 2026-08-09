@@ -483,7 +483,18 @@ const COMPLETED_NORMALIZATIONS = Object.freeze([
     amendedByWorkerBranch:
       "rcap-factory/rcap-wy-published-source-filing-requirements-memo-amendment-8036a3a8-10f21427",
     amendedMemoSha256:
-      "1789f299766709081cc98492c25d3641f22ecce75f9449439db54b12319ced3f"
+      "1789f299766709081cc98492c25d3641f22ecce75f9449439db54b12319ced3f",
+    // The remaining-track eligibility encoding. It moves wy_misd_1501 and
+    // wy_fel_1502 and preserves wy_nc_1401 byte-identically, so this is a third
+    // real historical state of the same file rather than a replacement of the
+    // second.
+    secondAmendedByJobId: "rcap-wy-remaining-track-legal-design-amendment",
+    secondAmendedByWorkerCommit:
+      "9aba54d4fcdc5c5156a92c6e60daa95f983d2a3a",
+    secondAmendedByWorkerBranch:
+      "rcap-factory/rcap-wy-remaining-track-legal-design-amendment-14eb8c33-570a1a0f",
+    secondAmendedMemoSha256:
+      "de2239036a9b2fbda8f6ce7c18a85c3da67c290cf68159929bd46d8c77ddb679"
   },
   {
     jurisdiction: "SD",
@@ -4740,11 +4751,18 @@ export function buildFactoryPlan(options = {}) {
     // Left on presence alone this job read `completed` the moment it was
     // created, which hid a real Session D delivery from integration entirely —
     // the worst version of the failure, because nothing looked wrong. A memo
-    // owner is complete when the memo carries the bytes the amendment produced.
+    // owner is complete when the memo carries the bytes the amendment produced
+    // — or any state the record carries after them. Asked as equality, an
+    // integrated amendment reopened the moment a later amendment edited the same
+    // memo, and two owners of one path then both read active.
     const present = owner.ownsMemo === true
       ? owner.deliveredMemoSha256
         ? fs.existsSync(path.join(rootDir, outputPath)) &&
-          sha256File(path.join(rootDir, outputPath)) === owner.deliveredMemoSha256
+          memoHasReached(
+            rootDir,
+            owner.jurisdiction ?? "WY",
+            owner.deliveredMemoSha256
+          )
         : false
       : fs.existsSync(path.join(rootDir, outputPath));
     addJob({
@@ -5714,6 +5732,8 @@ const WYOMING_LEGAL_DESIGN_OWNERS = Object.freeze([
     strategyFamily: "legal_design_normalization_amendment",
     ownsMemo: true,
     jurisdiction: "WY",
+    deliveredMemoSha256:
+      "de2239036a9b2fbda8f6ce7c18a85c3da67c290cf68159929bd46d8c77ddb679",
     model: "opus",
     subject: "fix(record-clearing): encode the remaining Wyoming eligibility rules",
     note:
