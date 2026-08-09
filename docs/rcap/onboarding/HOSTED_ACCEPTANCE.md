@@ -19,6 +19,57 @@ now proves RLS isolation against a real PostgreSQL. What none of them can reach:
 | Storage privacy and signed-URL expiry | Requires the Storage service, not just the `storage.*` tables |
 | Browser journeys of signed-in screens | Every authenticated screen resolves a session first |
 
+## Access status — what is missing, and who supplies it
+
+Checked on branch `fix/rcap-onboarding-commercial-readiness`. None of this is available to
+an automated session in this environment, so the lane below has **not** been executed.
+
+| # | Required | Repository variable / artifact | Who supplies it | Status |
+| --- | --- | --- | --- | --- |
+| A-1 | Dedicated non-production Supabase project | project reference | Roger / infra owner | **Missing.** No staging project is documented or configured |
+| A-2 | Staging API origin | `NEXT_PUBLIC_SUPABASE_URL` | same as A-1 | Missing |
+| A-3 | Staging anon key | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | same as A-1 | Missing |
+| A-4 | Staging service-role key | `SUPABASE_SERVICE_ROLE_KEY` | same as A-1 | Missing |
+| A-5 | Staging Postgres connection | `RCAP_TEST_DATABASE_URL` | same as A-1 | Missing |
+| A-6 | Preview/staging deployment | Vercel project + environment | Roger / Vercel owner | Missing. No `.vercel` directory, no Vercel token, `vercel` CLI absent |
+| A-7 | Staging Auth redirect URLs | Supabase Auth settings | same as A-1 | Missing |
+| A-8 | Staging feature flags | `RCAP_PARTNER_ONBOARDING_ENABLED`, `RCAP_ONBOARDING_PREFILL_ENABLED` set to `true` in the preview environment only | same as A-6 | Missing |
+| A-9 | Test mailbox / email capture | destination for `RCAP_PARTNER_SUPPORT_EMAIL` and invitation mail | Roger / email admin | Missing |
+| A-10 | Mailbox monitoring proof | see "Support mailbox" below | Roger / email admin | Missing — business-operational |
+
+Also unavailable, which forecloses the local substitutes:
+
+- The Supabase CLI is not installed, and `supabase start` requires Docker. Docker image
+  layer pulls are refused by the environment proxy (`403` from the registry CDN), so a
+  local Supabase stack cannot be brought up either.
+- `api.supabase.com` and `api.vercel.com` are unreachable through the proxy (connection
+  fails, no HTTP status), so the management APIs cannot be driven even with a token.
+
+### Safety gap found while looking for the staging target
+
+The instruction for this lane is to prove a chosen project is *not* production by comparing
+its project reference against the documented production reference. **No production project
+reference is recorded anywhere in this repository** — `docs/supabase-partner-setup.md` uses
+the placeholder `your-project-ref`. That comparison is therefore impossible as written.
+
+Before any remote database work, record the production project reference in the deployment
+documentation so a non-production target can be positively distinguished rather than
+assumed. Until then, the safest reading is that no remote project in this repository can be
+proven non-production.
+
+### First command once access is supplied
+
+```bash
+# 1. Prove the target is not production before touching it.
+echo "$NEXT_PUBLIC_SUPABASE_URL"        # must be the staging ref, never the production ref
+
+# 2. Apply migrations in the proven order, then confirm isolation on the real database.
+RCAP_TEST_DATABASE_URL="postgres://...<staging>..." \
+  node scripts/verify-onboarding-tenant-isolation.mjs
+```
+
+If step 2 passes against staging, continue from §1 below.
+
 ## Prerequisites
 
 - An isolated Supabase staging project (never production)
