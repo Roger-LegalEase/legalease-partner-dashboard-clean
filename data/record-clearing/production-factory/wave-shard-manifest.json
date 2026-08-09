@@ -5,7 +5,7 @@
   "reviewShardReservationNote": "The claim schema's ownerSession enum is SESSION_B through SESSION_F, and review is none of those. R1 and R2 are therefore reserved here rather than in job-claims.json. This manifest is the reservation of record for them; widening the claim enum would change the job manifest and, through it, worker branch identity.",
   "shardIdentifiersAreNotSessions": "R1 and R2 are shard identifiers, not sessions. Both are owned by SESSION_R, which is the single human review session: R1 carries its technical and visual reads, R2 carries its completed-output legal reads, and the split exists so the two kinds of review cannot be recorded against each other's paths. They were briefly written as ownerSession SESSION_R1 and SESSION_R2, which reads as two review sessions and would have someone opening a second one. The human pool is exactly A, B, C, D, E, F and R; every shard here names one of those seven and no shard may name anything else.",
   "baseline": {
-    "baseCommit": "bc704e0feaa6b5b3d4393bd3513fa5ce2ea5df97",
+    "baseCommit": "25fe3a606187ad87be151c9e80babbf44a33d474",
     "authorityVersion": "master-library/1.2",
     "authorityEdition": "1.2"
   },
@@ -1627,5 +1627,5 @@
       ]
     }
   ],
-  "manifestSha256": "1f97ca7c15c7b830dce9f13cef5f7d02ae402acaed156cdc59422dcbdf8a4bb1"
+  "manifestSha256": "50f5b960c82a319ee88883c6d0269987a93ad187fd5935921fe8dbea1dc22599"
 }
