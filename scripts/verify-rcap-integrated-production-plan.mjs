@@ -329,9 +329,16 @@ for (const child of factoryPlan.jobs.filter((entry) =>
     "guidance_implementation"
   ].includes(entry.lane)
 )) {
+  // A component-scoped job renders one component into another lane's assembled
+  // packet and publishes no packet row, so its evidence is the track proof,
+  // which names it as the owner of the component it built. Requiring a proof of
+  // its own would produce an empty one or restate the track's under a second
+  // name; the factory suite checks the naming, so this is where the evidence
+  // lives rather than permission to ship without any.
   assert.equal(
     child.participantPacketProofRequired,
-    child.strategyFamily !== "legal_design_adjudication",
+    child.strategyFamily !== "legal_design_adjudication" &&
+      !Array.isArray(child.implementationComponentIds),
     child.jobId
   );
   assert.ok(

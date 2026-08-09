@@ -838,11 +838,49 @@ await check("packet, source-materialization, and normalization readiness fail cl
     "guidance_implementation"
   ]);
   for (const job of plan.jobs.filter((entry) => packetLanes.has(entry.lane))) {
+    // A component-scoped job publishes no packet row of its own: it renders one
+    // component into another lane's assembled packet, and the track proof is
+    // where its evidence lives. The naming is checked below rather than
+    // assumed, so this is a different place to record evidence and not
+    // permission to ship without it.
     assert.equal(
       job.participantPacketProofRequired,
-      job.strategyFamily !== "legal_design_adjudication",
+      job.strategyFamily !== "legal_design_adjudication" &&
+        !Array.isArray(job.implementationComponentIds),
       job.jobId
     );
+    if (Array.isArray(job.implementationComponentIds)) {
+      const named = job.implementationComponentIds.every((componentId) =>
+        fs
+          .readdirSync(
+            path.join(ROOT, "data/record-clearing/production-factory/packet-proofs")
+          )
+          .some((name) => {
+            const proof = JSON.parse(
+              fs.readFileSync(
+                path.join(
+                  ROOT,
+                  "data/record-clearing/production-factory/packet-proofs",
+                  name
+                ),
+                "utf8"
+              )
+            );
+            return (proof.componentScope?.tracks ?? []).some((track) =>
+              (track.excludedComponents ?? []).some(
+                (component) =>
+                  component.componentId === componentId &&
+                  component.implementedBy === job.jobId
+              )
+            );
+          })
+      );
+      assert.equal(
+        named,
+        true,
+        `${job.jobId} builds components no track proof records it as building`
+      );
+    }
     assert.match(job.regressionVerifier, /^scripts\/verify-rcap-.+\.mjs$/, job.jobId);
     assert.ok(
       job.expectedOutputs.includes(job.regressionVerifier) ||

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-captain-completion-discovery/v1",
-  "baseCommit": "931ca36c639832eb9cc7eb8891977c9ae98333a8",
+  "baseCommit": "0892ddfc0dbd4f52d8bc5bff2b7e6ecf5e4a5a93",
   "fetch": {
     "remote": "origin",
     "refspecs": [
@@ -10,17 +10,17 @@
     "fetched": true,
     "detail": null
   },
-  "remoteFactoryBranches": 220,
+  "remoteFactoryBranches": 222,
   "totals": {
     "integrated_completion": 5,
-    "exact_completion": 0,
+    "exact_completion": 2,
     "valid_pre_claim_branch": 0,
     "valid_legacy_branch": 0,
     "held_alias_completion": 0,
     "partial_branch": 0,
     "incompatible_branch": 2,
-    "baseline_lease": 3,
-    "no_branch": 222
+    "baseline_lease": 2,
+    "no_branch": 220
   },
   "jobs": [
     {
@@ -1746,10 +1746,27 @@
       "expectedOutputs": [
         "data/record-clearing/production-factory/source-acquisition/rcap-ma-edition-successor-handoff.json"
       ],
-      "classification": "no_branch",
-      "completionBranch": null,
-      "completionCommit": null,
-      "branches": []
+      "classification": "exact_completion",
+      "completionBranch": "rcap-factory/rcap-ma-edition-successor-handoff-a8fd4ab1-dd2b2200",
+      "completionCommit": "38312fa26304aa8d75c1aba7f5c1d653c250d525",
+      "branches": [
+        {
+          "branch": "rcap-factory/rcap-ma-edition-successor-handoff-a8fd4ab1-dd2b2200",
+          "commit": "38312fa26304aa8d75c1aba7f5c1d653c250d525",
+          "keyKind": "canonical",
+          "subject": "docs(record-clearing): hand the five MA sources to the next edition",
+          "parents": [
+            "2623973b89943efc2a0d2d5a284ca4db90278b3f"
+          ],
+          "changedPaths": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-ma-edition-successor-handoff.json"
+          ],
+          "missingOutputs": [],
+          "isBaselineLease": false,
+          "failures": [],
+          "classification": "exact_completion"
+        }
+      ]
     },
     {
       "jobId": "rcap-ma-legal-output-review",
@@ -1846,10 +1863,27 @@
       "expectedOutputs": [
         "data/record-clearing/production-factory/source-acquisition/rcap-ma-tc0021-source-structure-resolution.json"
       ],
-      "classification": "no_branch",
-      "completionBranch": null,
-      "completionCommit": null,
-      "branches": []
+      "classification": "exact_completion",
+      "completionBranch": "rcap-factory/rcap-ma-tc0021-source-structure-resolution-7074b7b5-83d147d9",
+      "completionCommit": "e6268de083070c5a97a2b67daba8b2c9655934d9",
+      "branches": [
+        {
+          "branch": "rcap-factory/rcap-ma-tc0021-source-structure-resolution-7074b7b5-83d147d9",
+          "commit": "e6268de083070c5a97a2b67daba8b2c9655934d9",
+          "keyKind": "canonical",
+          "subject": "docs(record-clearing): resolve the MA TC0021 form structure",
+          "parents": [
+            "2623973b89943efc2a0d2d5a284ca4db90278b3f"
+          ],
+          "changedPaths": [
+            "data/record-clearing/production-factory/source-acquisition/rcap-ma-tc0021-source-structure-resolution.json"
+          ],
+          "missingOutputs": [],
+          "isBaselineLease": false,
+          "failures": [],
+          "classification": "exact_completion"
+        }
+      ]
     },
     {
       "jobId": "rcap-md-legal-output-review",
@@ -4917,10 +4951,10 @@
       "lane": "legal_output_review",
       "jurisdiction": "WY",
       "status": "ready",
-      "assignmentFingerprint": "6627eac77fcf4506b161caac4628ed21a9659030732468b983e521ebebcb302f",
-      "canonicalBranch": "rcap-factory/rcap-wy-custom-pleading-clean-tracks-technical-visual-review-ba1e3ed3-6627eac7",
+      "assignmentFingerprint": "6030af34635e6a67b7833f3ba0bbca6cf3b9abf2529e9f3c871fa658d20cc04e",
+      "canonicalBranch": "rcap-factory/rcap-wy-custom-pleading-clean-tracks-technical-visual-review-ba1e3ed3-6030af34",
       "legacyBranch": "rcap-factory/rcap-wy-custom-pleading-clean-tracks-technical-visual-review-ba1e3ed3",
-      "preClaimBranch": "rcap-factory/rcap-wy-custom-pleading-clean-tracks-technical-visual-review-ba1e3ed3-6627eac7",
+      "preClaimBranch": "rcap-factory/rcap-wy-custom-pleading-clean-tracks-technical-visual-review-ba1e3ed3-6030af34",
       "ownedPaths": [
         "data/record-clearing/production-factory/technical-visual-reviews/completed-output/rcap-wy-custom-pleading-clean-tracks.json"
       ],
@@ -4931,75 +4965,6 @@
       "completionBranch": null,
       "completionCommit": null,
       "branches": []
-    },
-    {
-      "jobId": "rcap-wy-guidance-implementation",
-      "lane": "guidance_implementation",
-      "jurisdiction": "WY",
-      "status": "ready",
-      "assignmentFingerprint": "989538d54120df503ad5bef3d7f2eddd9326e7a1c56c7374e35085f7434cb5da",
-      "canonicalBranch": "rcap-factory/rcap-wy-guidance-implementation-847e0f53-989538d5",
-      "legacyBranch": "rcap-factory/rcap-wy-guidance-implementation-847e0f53",
-      "preClaimBranch": "rcap-factory/rcap-wy-guidance-implementation-847e0f53-989538d5",
-      "ownedPaths": [
-        "scripts/verify-rcap-wyoming-guidance-implementation.mjs",
-        "src/lib/rcap/packets/jurisdictions/wyoming/guidance.ts"
-      ],
-      "expectedOutputs": [
-        "src/lib/rcap/packets/jurisdictions/wyoming/guidance.ts",
-        "scripts/verify-rcap-wyoming-guidance-implementation.mjs"
-      ],
-      "classification": "baseline_lease",
-      "completionBranch": "rcap-factory/rcap-wy-guidance-implementation-847e0f53-989538d5",
-      "completionCommit": "5e927deb9f250a701124e6df0f5f192ea739c3a2",
-      "branches": [
-        {
-          "branch": "rcap-factory/rcap-wy-guidance-implementation-847e0f53-989538d5",
-          "commit": "5e927deb9f250a701124e6df0f5f192ea739c3a2",
-          "keyKind": "canonical",
-          "subject": "chore(record-clearing): refreeze the wave shards at the current tip",
-          "parents": [
-            "18e59eebe0e2577067e476c01023d1e71357b358"
-          ],
-          "changedPaths": [
-            "data/record-clearing/production-factory/completion-discovery.json",
-            "data/record-clearing/production-factory/wave-shard-manifest.json",
-            "planning/record-clearing-100-percent/production-plan.json"
-          ],
-          "missingOutputs": [
-            "src/lib/rcap/packets/jurisdictions/wyoming/guidance.ts",
-            "scripts/verify-rcap-wyoming-guidance-implementation.mjs"
-          ],
-          "isBaselineLease": true,
-          "failures": [
-            {
-              "code": "commit_subject_mismatch",
-              "message": "commit subject must be exactly \"feat(record-clearing): implement WY filing-instructions guidance\", found \"chore(record-clearing): refreeze the wave shards at the current tip\""
-            },
-            {
-              "code": "outside_owned_paths",
-              "path": "data/record-clearing/production-factory/completion-discovery.json",
-              "message": "data/record-clearing/production-factory/completion-discovery.json is outside the job's ownedPaths"
-            },
-            {
-              "code": "outside_owned_paths",
-              "path": "data/record-clearing/production-factory/wave-shard-manifest.json",
-              "message": "data/record-clearing/production-factory/wave-shard-manifest.json is outside the job's ownedPaths"
-            },
-            {
-              "code": "outside_owned_paths",
-              "path": "planning/record-clearing-100-percent/production-plan.json",
-              "message": "planning/record-clearing-100-percent/production-plan.json is outside the job's ownedPaths"
-            },
-            {
-              "code": "forbidden_path",
-              "path": "planning/record-clearing-100-percent/production-plan.json",
-              "message": "planning/record-clearing-100-percent/production-plan.json matches forbidden path planning/record-clearing-100-percent/production-plan.json"
-            }
-          ],
-          "classification": "baseline_lease"
-        }
-      ]
     },
     {
       "jobId": "rcap-wy-legal-output-review",

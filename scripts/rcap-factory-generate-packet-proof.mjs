@@ -201,6 +201,7 @@ const samplePackets =
 // distinction between an implemented component, a component owned by another
 // lane, technical fixtures and a filing-complete packet.
 const componentScope = buildComponentScope();
+const assembledFilingSet = buildAssembledFilingSet(componentScope);
 const proof = {
   schemaVersion: "rcap-participant-packet-proof/v1",
   jobId: job.jobId,
@@ -226,6 +227,7 @@ const proof = {
   ),
   ...variantEvidence,
   ...(componentScope ? { componentScope } : {}),
+  ...(assembledFilingSet ? { assembledFilingSet } : {}),
   samplePackets,
   deterministic: true,
   generatedPacketBytesTracked: false,
@@ -424,6 +426,50 @@ function fail(message) {
  * so a family the manifest does not describe records nothing rather than
  * recording a guess. Absence of a declaration is never read as completeness.
  */
+/**
+ * The job that builds one component, from the live plan.
+ *
+ * Three ways a job can claim a component and no more: naming it directly in
+ * `implementationComponentIds`, carrying it in an official-PDF assignment, or
+ * owning the whole guidance track it belongs to. A component nobody claims
+ * returns null, which is a gap rather than a silence.
+ */
+function ownerOfComponent(component) {
+  const claimants = [];
+  for (const entry of plan.jobs ?? []) {
+    if (entry.status === "cancelled") continue;
+    if (entry.jobId === job.jobId) continue;
+    if ((entry.implementationComponentIds ?? []).includes(component.componentId)) {
+      claimants.push(entry);
+      continue;
+    }
+    if (
+      (entry.officialPdfAssignment?.componentUses ?? []).some(
+        (use) => use.componentId === component.componentId
+      )
+    ) {
+      claimants.push(entry);
+      continue;
+    }
+    if (
+      entry.lane === "guidance_implementation" &&
+      !entry.implementationComponentIds &&
+      (entry.trackIds ?? []).includes(component.trackId) &&
+      component.outputStrategy === "process_guidance"
+    ) {
+      claimants.push(entry);
+    }
+  }
+  if (claimants.length !== 1) return null;
+  const owner = claimants[0];
+  return {
+    jobId: owner.jobId,
+    lane: owner.lane,
+    status: owner.status,
+    completionCommit: owner.completionCommit ?? null
+  };
+}
+
 function buildComponentScope() {
   const manifestPath = path.join(
     ROOT,
@@ -453,6 +499,7 @@ function buildComponentScope() {
     if (!set) continue;
     const describe = (component) => ({
       componentId: component.componentId,
+      trackId,
       role: component.role,
       order: component.order,
       requirement: component.requirement,
@@ -472,12 +519,43 @@ function buildComponentScope() {
     const outstanding = excluded.filter(
       (component) => component.requirement === "required"
     );
+    // Who builds the components this lane does not, and whether they have.
+    //
+    // "Excluded from this lane" and "nobody is building it" are different
+    // facts, and reporting only the first reads a delivered component as a gap.
+    // Wyoming is the case: its filing-instructions component belongs to the
+    // guidance lane, that lane has an owner and the owner has delivered, and
+    // the track is component-complete while this proof's own assembled output
+    // is still four documents of five.
+    const elsewhere = excluded.map((component) => {
+      const owner = ownerOfComponent(component);
+      return {
+        ...component,
+        ...(owner
+          ? {
+              implementedBy: owner.jobId,
+              implementedByLane: owner.lane,
+              implementationStatus: owner.status,
+              ...(owner.completionCommit
+                ? { implementationCommit: owner.completionCommit }
+                : {})
+            }
+          : { implementedBy: null, implementationStatus: "no_owner" })
+      };
+    });
+    const unowned = elsewhere.filter(
+      (component) =>
+        component.requirement === "required" &&
+        component.implementationStatus !== "completed"
+    );
     tracks.push({
       trackId,
       packetSetId: set.packetSetId,
       declaredComponentCount: (set.components ?? []).length,
       implementedComponents: implemented,
-      excludedComponents: excluded,
+      excludedComponents: elsewhere,
+      // This lane's own coverage. Unchanged in meaning: false wherever a
+      // required component of the track is built somewhere else.
       filingComplete: outstanding.length === 0,
       ...(outstanding.length > 0
         ? {
@@ -485,7 +563,27 @@ function buildComponentScope() {
               (component) => component.componentId
             )
           }
-        : {})
+        : {}),
+      // The track's own question, and a different one: does every required
+      // component have an integrated implementation, in whatever lane owns it.
+      componentImplementationComplete: unowned.length === 0,
+      ...(unowned.length > 0
+        ? {
+            componentImplementationBlockedBy: unowned.map(
+              (component) => component.componentId
+            )
+          }
+        : {}),
+      // The page set, split by what the participant does with it. A guidance
+      // sheet travels in the packet and is not filed; a pleading is filed. The
+      // split is read from each component's declared role and strategy, so it
+      // cannot drift from the packet set.
+      courtFilingComponents: (set.components ?? [])
+        .filter((component) => component.outputStrategy !== "process_guidance")
+        .map((component) => component.componentId),
+      participantOnlyComponents: (set.components ?? [])
+        .filter((component) => component.outputStrategy === "process_guidance")
+        .map((component) => component.componentId)
     });
   }
   if (tracks.length === 0) return null;
@@ -502,5 +600,93 @@ function buildComponentScope() {
       "not the complete filing. It says nothing about legal review, counsel " +
       "adoption, packet readiness or runtime, which remain separate and closed.",
     tracks
+  };
+}
+
+/**
+ * The assembled packet as the participant receives it, across every lane.
+ *
+ * This proof's own verifier renders the components this lane owns, so on a
+ * multi-lane track its page count is the lane's and not the packet's. Wyoming's
+ * custom-pleading verifier assembles four documents and nine pages; the packet
+ * the participant receives is five components and thirteen pages, and the
+ * verifier that proves that belongs to the guidance lane.
+ *
+ * So the other lane's committed verifier is run and its published figures are
+ * read. Nothing is recomputed here and nothing is assumed: where a verifier
+ * publishes no assembled figure, this records that it publishes none rather
+ * than inventing one, and where it publishes no digest, no digest is asserted.
+ */
+function buildAssembledFilingSet(scope) {
+  if (!scope) return null;
+  const contributors = new Map();
+  for (const track of scope.tracks) {
+    for (const component of track.excludedComponents ?? []) {
+      if (component.implementationStatus !== "completed") continue;
+      if (!component.implementedBy) continue;
+      contributors.set(component.implementedBy, track.trackId);
+    }
+  }
+  if (contributors.size === 0) return null;
+
+  const lanes = [];
+  for (const [jobId, trackId] of [...contributors.entries()].sort()) {
+    const contributor = (plan.jobs ?? []).find((entry) => entry.jobId === jobId);
+    if (!contributor?.regressionVerifier) continue;
+    const run = spawnSync(
+      process.execPath,
+      [path.join(ROOT, contributor.regressionVerifier)],
+      {
+        cwd: ROOT,
+        encoding: "utf8",
+        maxBuffer: 32 * 1024 * 1024,
+        env: { ...process.env, RCAP_TECHNICAL_FIXTURES_ENABLED: "true" }
+      }
+    );
+    if (run.status !== 0) {
+      fail(
+        `${contributor.regressionVerifier} did not pass, so its assembled figures cannot be recorded.`
+      );
+    }
+    const output = `${run.stdout ?? ""}\n${run.stderr ?? ""}`;
+    // The one line the guidance lane publishes its assembled figures on. Read
+    // strictly: a shape this does not match records nothing rather than a guess.
+    const context = output.match(
+      /(\d+)\s+components?\s+in\s+order\s+1-(\d+),\s+assembled\s+to\s+(\d+)\s+pages,\s+with\s+the\s+sheet\s+at\s+pages\s+(\d+)-(\d+)\s+and\s+(\d+)\s+pages?\s+of\s+its\s+own/u
+    );
+    lanes.push({
+      trackId,
+      contributedBy: jobId,
+      lane: contributor.lane,
+      verifier: {
+        path: contributor.regressionVerifier,
+        sha256: fileSha256(path.join(ROOT, contributor.regressionVerifier)),
+        result: "passed"
+      },
+      ...(context
+        ? {
+            assembledComponentCount: Number(context[1]),
+            assembledPageCount: Number(context[3]),
+            contributedPageRange: {
+              startPage: Number(context[4]),
+              endPage: Number(context[5])
+            },
+            contributedPageCount: Number(context[6])
+          }
+        : {
+            assembledFiguresPublished: false,
+            assembledFiguresNote:
+              "This verifier publishes no assembled component or page figure in a readable form, so none is recorded."
+          }),
+      assembledSha256: null,
+      assembledSha256Note:
+        "No committed verifier publishes a digest for the assembled multi-lane packet. It is deterministic — the contributing verifier proves byte-identical output across two runs — but it is not published, so none is asserted here."
+    });
+  }
+  if (lanes.length === 0) return null;
+  return {
+    meaning:
+      "The packet the participant receives, assembled across every lane that contributes to the track. It is not this proof's own page count, which covers only the components this lane renders.",
+    lanes
   };
 }

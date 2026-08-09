@@ -367,6 +367,67 @@ function editionTranchePublished(rootDir, jobId, expectedTrancheManifestSha256) 
   return { status: "completed" };
 }
 
+/**
+ * Implementation outputs of every other lane that builds a component of this
+ * track. A component-scoped job's module and verifier are part of what a
+ * reviewer reads, and leaving them out let the fingerprint miss a whole lane.
+ */
+function contributingImplementationOutputs(rootDir, implementationJobId, planJobs) {
+  const proofPath = path.join(
+    rootDir ?? process.cwd(),
+    `${PACKET_PROOF_DIR}/${implementationJobId}.json`
+  );
+  if (!fs.existsSync(proofPath)) return [];
+  let proof;
+  try {
+    proof = JSON.parse(fs.readFileSync(proofPath, "utf8"));
+  } catch {
+    return [];
+  }
+  const outputs = [];
+  for (const lane of proof.assembledFilingSet?.lanes ?? []) {
+    if (lane.verifier?.path) outputs.push(lane.verifier.path);
+  }
+  for (const track of proof.componentScope?.tracks ?? []) {
+    for (const component of track.excludedComponents ?? []) {
+      if (component.implementationStatus !== "completed") continue;
+      const contributor = component.implementedBy;
+      if (!contributor) continue;
+      // The module beside the verifier, taken from the plan rather than guessed.
+      const owner = (planJobs ?? []).find((entry) => entry.jobId === contributor);
+      for (const output of owner?.expectedOutputs ?? []) outputs.push(output);
+    }
+  }
+  return outputs;
+}
+
+/** The exact fixtures the proof records, canonical and variant kept apart. */
+function reviewedFixtureIds(rootDir, packetProofPath) {
+  const absolute = path.join(rootDir ?? process.cwd(), packetProofPath);
+  if (!fs.existsSync(absolute)) return {};
+  let proof;
+  try {
+    proof = JSON.parse(fs.readFileSync(absolute, "utf8"));
+  } catch {
+    return {};
+  }
+  const samples = proof.samplePackets ?? [];
+  const pick = (role) =>
+    samples
+      .filter((entry) =>
+        role === "canonical"
+          ? (entry.sampleRole ?? "canonical") === "canonical"
+          : entry.sampleRole === "variant"
+      )
+      .map((entry) => entry.fixtureId ?? entry.trackId)
+      .filter(Boolean)
+      .sort();
+  return {
+    canonicalFixtureIds: pick("canonical"),
+    variantFixtureIds: pick("variant")
+  };
+}
+
 function technicalReviewCompletion(rootDir, implementationJobId) {
   const absolute = path.join(
     rootDir ?? process.cwd(),
@@ -2257,6 +2318,7 @@ export function buildFactoryPlan(options = {}) {
     workerCommit,
     implementationState,
     supersededBy,
+    reviewedArtifacts,
     implementationComponentIds,
     implementedTrackIds,
     priorCompletionCommit,
@@ -2362,6 +2424,11 @@ export function buildFactoryPlan(options = {}) {
     }
     // A split assignment records what replaced it, so "cancelled" is never
     // read as "abandoned" or as "delivered".
+    if (reviewedArtifacts) {
+      // The exact bytes a review assignment is a review of. Part of the branch
+      // fingerprint, so changed artifacts mean a changed assignment.
+      job.reviewedArtifacts = reviewedArtifacts;
+    }
     if (
       Array.isArray(implementationComponentIds) &&
       implementationComponentIds.length > 0
@@ -4451,7 +4518,12 @@ export function buildFactoryPlan(options = {}) {
         "src/lib/rcap/packets/assemble.ts"
       ],
       regressionVerifier: wyomingGuidanceVerifier,
-      participantPacketProofRequired: true,
+      // No packet proof of its own. This lane renders one component into
+      // another lane's assembled packet and publishes no packet row, so a proof
+      // here would either be empty or would restate the custom-pleading track's
+      // evidence under a second name. The track's proof carries all five
+      // components and names this job as the owner of the fifth.
+      participantPacketProofRequired: false,
       model: "opus",
       effort: "xhigh",
       focusedValidation: [
@@ -4986,6 +5058,66 @@ export function buildFactoryPlan(options = {}) {
       implementationsRequiringCorrection(rootDir).has(implementationJobId);
     const technicalApproved =
       technicalReviewApproved(rootDir, implementationJobId);
+    // What this review is a review *of*.
+    //
+    // The assignment named the proof and the manifest by path, so the branch
+    // key stayed the same however much the artifacts under those paths moved.
+    // Wyoming is where that became load-bearing: the assignment was written
+    // when the packet was four components, a fifth was implemented in another
+    // lane, and the same branch key still resolved — so a reviewer could have
+    // opened a scaffold for the four-component unit and a result written
+    // against it would have read as current. A review is only as good as the
+    // bytes it read, so the bytes are in the fingerprint: change any of them
+    // and the assignment is a different assignment with a different branch.
+    // Scoped, deliberately, to reviews whose packet spans more than one lane.
+    //
+    // The property is general — a review assignment should be keyed to the
+    // bytes it is a review of — and applying it to every family is the right
+    // end state. It is not done here because it renames twenty review branches,
+    // four of which have already been delivered and integrated, and recovering
+    // those needs an explicit held-fingerprint alias each with its own
+    // evidence. That is its own pass. What is closed here is the case that made
+    // it load-bearing: a packet assembled from two lanes, where the assignment
+    // named the proof by path and so survived a whole component being added.
+    // The single-lane gap is left visible rather than silently half-fixed.
+    const multiLaneProof = (() => {
+      try {
+        return (
+          (JSON.parse(fs.readFileSync(path.join(rootDir, packetProof), "utf8"))
+            .assembledFilingSet?.lanes ?? []).length > 0
+        );
+      } catch {
+        return false;
+      }
+    })();
+    const reviewedArtifacts = !multiLaneProof ? null : {
+      reviewKind: "technical_visual_review",
+      technicalResultPath,
+      packetProof: {
+        path: packetProof,
+        sha256: sha256File(path.join(rootDir, packetProof))
+      },
+      reviewManifest: {
+        path: reviewManifest,
+        sha256: sha256File(path.join(rootDir, reviewManifest))
+      },
+      implementationOutputs: [
+        // Every lane that contributes a component to this track, not only the
+        // lane that owns the proof.
+        ...(implementation.expectedOutputs ?? []),
+        ...contributingImplementationOutputs(rootDir, implementationJobId, jobs)
+      ]
+        .filter((relativePath, index, all) => all.indexOf(relativePath) === index)
+        .sort()
+        .filter((relativePath) =>
+          fs.existsSync(path.join(rootDir, relativePath))
+        )
+        .map((relativePath) => ({
+          path: relativePath,
+          sha256: sha256File(path.join(rootDir, relativePath))
+        })),
+      ...reviewedFixtureIds(rootDir, packetProof)
+    };
 
     addJob({
       lane: "legal_output_review",
@@ -4993,6 +5125,7 @@ export function buildFactoryPlan(options = {}) {
       jobId: `${implementationJobId}-technical-visual-review`,
       strategyFamily: "technical_visual_review",
       trackIds: implementation.trackIds,
+      reviewedArtifacts,
       dependencies: [implementationJobId],
       // Recorded once a technical result exists for this output. A
       // correction-required implementation is not re-opened here: the current

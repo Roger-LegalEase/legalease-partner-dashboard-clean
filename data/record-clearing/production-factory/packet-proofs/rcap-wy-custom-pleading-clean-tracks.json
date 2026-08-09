@@ -39,6 +39,7 @@
         "implementedComponents": [
           {
             "componentId": "wy_nc_1401-primary-filing-1",
+            "trackId": "wy_nc_1401",
             "role": "primary_filing",
             "order": 1,
             "requirement": "required",
@@ -46,6 +47,7 @@
           },
           {
             "componentId": "wy_nc_1401-proposed-order-2",
+            "trackId": "wy_nc_1401",
             "role": "proposed_order",
             "order": 2,
             "requirement": "required",
@@ -53,6 +55,7 @@
           },
           {
             "componentId": "wy_nc_1401-verification-3",
+            "trackId": "wy_nc_1401",
             "role": "verification",
             "order": 3,
             "requirement": "required",
@@ -60,6 +63,7 @@
           },
           {
             "componentId": "wy_nc_1401-certificate-of-service-4",
+            "trackId": "wy_nc_1401",
             "role": "certificate_of_service",
             "order": 4,
             "requirement": "required",
@@ -69,17 +73,55 @@
         "excludedComponents": [
           {
             "componentId": "wy_nc_1401-filing-instructions-5",
+            "trackId": "wy_nc_1401",
             "role": "filing_instructions",
             "order": 5,
             "requirement": "required",
             "outputStrategy": "process_guidance",
-            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own",
+            "implementedBy": "rcap-wy-guidance-implementation",
+            "implementedByLane": "guidance_implementation",
+            "implementationStatus": "completed"
           }
         ],
         "filingComplete": false,
         "filingCompleteBlockedBy": [
           "wy_nc_1401-filing-instructions-5"
+        ],
+        "componentImplementationComplete": true,
+        "courtFilingComponents": [
+          "wy_nc_1401-primary-filing-1",
+          "wy_nc_1401-proposed-order-2",
+          "wy_nc_1401-verification-3",
+          "wy_nc_1401-certificate-of-service-4"
+        ],
+        "participantOnlyComponents": [
+          "wy_nc_1401-filing-instructions-5"
         ]
+      }
+    ]
+  },
+  "assembledFilingSet": {
+    "meaning": "The packet the participant receives, assembled across every lane that contributes to the track. It is not this proof's own page count, which covers only the components this lane renders.",
+    "lanes": [
+      {
+        "trackId": "wy_nc_1401",
+        "contributedBy": "rcap-wy-guidance-implementation",
+        "lane": "guidance_implementation",
+        "verifier": {
+          "path": "scripts/verify-rcap-wyoming-guidance-implementation.mjs",
+          "sha256": "2aa2ddfa0bcbcc7b9e048accaedcd0d651214b828603a48014254b3f60725ae9",
+          "result": "passed"
+        },
+        "assembledComponentCount": 5,
+        "assembledPageCount": 13,
+        "contributedPageRange": {
+          "startPage": 10,
+          "endPage": 13
+        },
+        "contributedPageCount": 4,
+        "assembledSha256": null,
+        "assembledSha256Note": "No committed verifier publishes a digest for the assembled multi-lane packet. It is deterministic — the contributing verifier proves byte-identical output across two runs — but it is not published, so none is asserted here."
       }
     ]
   },

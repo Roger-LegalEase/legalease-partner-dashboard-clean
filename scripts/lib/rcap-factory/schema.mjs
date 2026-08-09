@@ -420,11 +420,26 @@ export function validateJob(job) {
         );
       }
     }
+    // A component-scoped job renders into another lane's assembled packet and
+    // publishes no packet row of its own, so a proof here would be empty or
+    // would restate the track's evidence under a second name. Its evidence is
+    // the track proof, which names it as the owner of the component it built —
+    // and the factory suite checks that naming, so this is a different place to
+    // record the evidence rather than permission to ship without any.
     if (
       job.strategyFamily !== "legal_design_adjudication" &&
+      !Array.isArray(job.implementationComponentIds) &&
       job.participantPacketProofRequired !== true
     ) {
       add("packet implementation jobs must require participant packet proof.");
+    }
+    if (
+      Array.isArray(job.implementationComponentIds) &&
+      job.participantPacketProofRequired === true
+    ) {
+      add(
+        "a component-scoped implementation records its evidence in the track proof, not its own."
+      );
     }
   }
 
