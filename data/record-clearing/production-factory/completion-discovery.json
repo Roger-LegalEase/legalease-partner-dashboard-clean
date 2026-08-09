@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-captain-completion-discovery/v1",
-  "baseCommit": "d41563338df5a1558502a9b68413ae90fedbd57e",
+  "baseCommit": "20266097b8d0232b24d32d9bf66992695c6152a2",
   "fetch": {
     "remote": "origin",
     "refspecs": [
@@ -16,8 +16,9 @@
     "exact_completion": 0,
     "valid_pre_claim_branch": 0,
     "valid_legacy_branch": 0,
+    "held_alias_completion": 1,
     "partial_branch": 0,
-    "incompatible_branch": 3,
+    "incompatible_branch": 2,
     "baseline_lease": 2,
     "no_branch": 228
   },
@@ -4964,14 +4965,14 @@
       "expectedOutputs": [
         "data/record-clearing/legal-design-intake/WY.memo.json"
       ],
-      "classification": "incompatible_branch",
+      "classification": "held_alias_completion",
       "completionBranch": "rcap-factory/rcap-wy-published-source-filing-requirements-memo-amendment-8036a3a8-10f21427",
       "completionCommit": "c7efa7e99ecbf3ebebd2bc174ac03371342d9fc2",
       "branches": [
         {
           "branch": "rcap-factory/rcap-wy-published-source-filing-requirements-memo-amendment-8036a3a8-10f21427",
           "commit": "c7efa7e99ecbf3ebebd2bc174ac03371342d9fc2",
-          "keyKind": "unrecognized",
+          "keyKind": "held",
           "subject": "fix(record-clearing): amend the Wyoming memo for the published filing requirements",
           "parents": [
             "360e61dacab7b3ad395d1dc94519ecf1c584efd1"
@@ -4981,13 +4982,8 @@
           ],
           "missingOutputs": [],
           "isBaselineLease": false,
-          "failures": [
-            {
-              "code": "assignment_marker_identity",
-              "message": "branch key rcap-wy-published-source-filing-requirements-memo-amendment-8036a3a8-10f21427 matches no assignment fingerprint this job has held"
-            }
-          ],
-          "classification": "incompatible_branch"
+          "failures": [],
+          "classification": "held_alias_completion"
         }
       ]
     },
