@@ -676,7 +676,17 @@ assert.equal(
   const withheld = [...authorization.decisions]
     .filter(([, decision]) => !permitsGeneration(decision.verdict))
     .map(([jurisdiction]) => jurisdiction);
-  assert.ok(withheld.length > 0);
+  // No jurisdiction currently withholds: every licence question has been
+  // answered by a project-owner attestation. The rule below still governs any
+  // that does, and the withholding vocabulary is asserted directly so the gate
+  // is exercised even with nothing live to observe.
+  for (const verdict of [
+    "written_permission_required",
+    "deliberately_excluded_commercial_license",
+    "license_unresolved"
+  ]) {
+    assert.equal(permitsGeneration(verdict), false);
+  }
   for (const family of officialPdfSourceContract.families) {
     if (!withheld.includes(family.jurisdiction)) continue;
     assert.equal(

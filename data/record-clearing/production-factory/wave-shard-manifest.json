@@ -5,7 +5,7 @@
   "reviewShardReservationNote": "The claim schema's ownerSession enum is SESSION_B through SESSION_F, and review is none of those. R1 and R2 are therefore reserved here rather than in job-claims.json. This manifest is the reservation of record for them; widening the claim enum would change the job manifest and, through it, worker branch identity.",
   "shardIdentifiersAreNotSessions": "R1 and R2 are shard identifiers, not sessions. Both are owned by SESSION_R, which is the single human review session: R1 carries its technical and visual reads, R2 carries its completed-output legal reads, and the split exists so the two kinds of review cannot be recorded against each other's paths. They were briefly written as ownerSession SESSION_R1 and SESSION_R2, which reads as two review sessions and would have someone opening a second one. The human pool is exactly A, B, C, D, E, F and R; every shard here names one of those seven and no shard may name anything else.",
   "baseline": {
-    "baseCommit": "1d41f177b1301473f4a13baff8565a49cffc6e14",
+    "baseCommit": "0ca0bae78900710231a5327dfb92519f1bbc809e",
     "authorityVersion": "master-library/1.2",
     "authorityEdition": "1.2"
   },
@@ -553,7 +553,7 @@
       },
       {
         "path": "planning/record-clearing-100-percent/production-plan.json",
-        "sha256": "2013a12abf347c6056b1feb0cc7194d6d198d632ec096226a3e19a1b246b68f5"
+        "sha256": "a709a7852beb9437fe8483c7b464c6deaefec166b1ef93dbf2165e9422fa62cf"
       },
       {
         "path": "src/lib/rcap/jurisdictions/packet-capability.ts",
@@ -1524,5 +1524,5 @@
       ]
     }
   ],
-  "manifestSha256": "d10de1475d3f0b079e311e8626fd78d21d26aa133097ddbb98e09f91b4982823"
+  "manifestSha256": "53b1d904936e7be4b0a219fbe3c70f293a0064e20d6773ce89760c65750c9daf"
 }

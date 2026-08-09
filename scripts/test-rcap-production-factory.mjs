@@ -868,10 +868,28 @@ await check("packet, source-materialization, and normalization readiness fail cl
   const withheldJurisdictions = [...authorizationIndex.decisions]
     .filter(([, decision]) => !permitsGeneration(decision.verdict))
     .map(([jurisdiction]) => jurisdiction);
-  assert.ok(
-    withheldJurisdictions.length > 0,
-    "the corpus must still contain at least one withholding licence decision"
-  );
+  // Every jurisdiction that had a licence question now carries a project-owner
+  // attestation, so no live decision withholds. That is an answer, not a hole:
+  // what must keep holding is that a withholding decision still withholds, so
+  // the rule is exercised against a decision rather than against the roster.
+  for (const jurisdiction of withheldJurisdictions) {
+    assert.equal(
+      permitsGeneration(authorizationIndex.decisions.get(jurisdiction).verdict),
+      false
+    );
+  }
+  for (const verdict of [
+    "written_permission_required",
+    "deliberately_excluded_commercial_license",
+    "license_unresolved"
+  ]) {
+    assert.equal(
+      permitsGeneration(verdict),
+      false,
+      `${verdict} must never permit generation`
+    );
+  }
+  assert.equal(permitsGeneration("authorized"), true);
   for (const jurisdiction of withheldJurisdictions) {
     const assigned = officialJobs.filter(
       (job) => job.jurisdiction === jurisdiction
@@ -5097,6 +5115,107 @@ await check(
 );
 
 await check(
+  "the Missouri and Indiana attestations authorize their families and nothing else",
+  () => {
+    const index = buildSourceAuthorizationIndex(ROOT);
+
+    // 2. The attestation is the current authorization for both.
+    for (const [code, jobId] of [
+      ["MO", "rcap-mo-project-owner-permission-authorization"],
+      ["IN", "rcap-in-project-owner-permission-authorization"]
+    ]) {
+      const decision = index.decisions.get(code);
+      assert.ok(decision, code);
+      assert.equal(decision.decisionJobId, jobId);
+      assert.equal(decision.verdict, "authorized");
+      const resolved = authorizationFor(index, { jurisdiction: code });
+      assert.equal(resolved.generationAllowed, true);
+      assert.equal(resolved.licenseAdopted, true);
+      assert.equal(resolved.workerReadAuthorized, true);
+    }
+
+    // Indiana's grant names the exclusion it supersedes rather than replacing
+    // it silently. Missouri had no decision at all — it passed by silence.
+    assert.equal(
+      index.decisions.get("IN").supersedes,
+      "rcap-in-commercial-license"
+    );
+
+    // 1. The historical records survive, unrewritten, still saying what they said.
+    const read = (name) =>
+      JSON.parse(
+        fs.readFileSync(
+          path.join(ROOT, "data/record-clearing/production-factory/source-acquisition", name),
+          "utf8"
+        )
+      );
+    const priorIndiana = read("rcap-in-commercial-license.json");
+    assert.equal(priorIndiana.generationAllowed, false);
+    for (const name of [
+      "rcap-in-written-permission-authorization.json",
+      "rcap-mo-issuer-contact-authorization.json",
+      "rcap-mo-direct-issuer-request.json"
+    ]) {
+      assert.ok(fs.existsSync(
+        path.join(ROOT, "data/record-clearing/production-factory/source-acquisition", name)
+      ), `${name} must be preserved`);
+    }
+
+    // 4. An unrelated publisher is not swept in by a family-level grant.
+    const unrelated = authorizationFor(index, {
+      jurisdiction: "ZZ",
+      documentId: "SOME-OTHER-PUBLISHER-FORM"
+    });
+    assert.notEqual(unrelated.decisionJobId, "rcap-mo-project-owner-permission-authorization");
+    assert.notEqual(unrelated.decisionJobId, "rcap-in-project-owner-permission-authorization");
+
+    // 7. Permission buys permission. Court and outside-party work stays out.
+    for (const [name, code] of [
+      ["rcap-mo-project-owner-permission-authorization.json", "MO"],
+      ["rcap-in-project-owner-permission-authorization.json", "IN"]
+    ]) {
+      const grant = read(name);
+      assert.equal(grant.provenance.evidenceType, "project_owner_attestation");
+      assert.equal(grant.provenance.repositoryCopyAvailable, false);
+      assert.equal(grant.provenance.documentHashAvailable, false);
+      assert.equal(grant.gates.evidenceFabricated, false);
+      assert.equal(grant.gates.judicialFieldsAuthorized, false);
+      assert.equal(grant.gates.outsidePartyFieldsAuthorized, false);
+      assert.equal(grant.gates.priorDecisionRewritten, false);
+      assert.equal(grant.gates.productionEnabled, false);
+      for (const excluded of [
+        "populating judicial findings",
+        "populating judge signatures",
+        "populating clerk fields",
+        "claiming that a filing occurred",
+        "applying this state's permission to another state's forms"
+      ]) {
+        assert.ok(grant.boundaries.notGranted.includes(excluded), `${code}: ${excluded}`);
+      }
+      // 5/6. Permission is not currentness and creates no bytes.
+      assert.equal(grant.receiptTreatment.receiptsCreated, 0);
+      assert.equal(grant.receiptTreatment.bytesRehashed, false);
+      // 8. Edition 1.3 is not rewritten to record an external permission fact.
+      assert.equal(grant.editionTreatment.edition13Mutated, false);
+    }
+
+    // Missouri keeps its missing-source question; Indiana keeps currentness.
+    const missouri = read("rcap-mo-project-owner-permission-authorization.json");
+    assert.ok(/does not create a missing document/u.test(
+      missouri.sourceQuestionsRemainSeparate.statement
+    ));
+    assert.equal(
+      missouri.sourceQuestionsRemainSeparate.directIssuerRequestReframed
+        .doNotSendToReconfirmRights,
+      true
+    );
+    const indiana = read("rcap-in-project-owner-permission-authorization.json");
+    assert.ok(/does not make a retained revision current/u.test(indiana.currentnessNotEstablished));
+    assert.ok(indiana.accessControlsNotWaived.permittedRoutes.length > 0);
+  }
+);
+
+await check(
   "the Kansas project-owner attestation authorizes exactly the nine covered forms",
   () => {
     // This test previously asserted that Kansas stayed fail-closed while a
@@ -5513,7 +5632,24 @@ await check("retained evidence is auditable but never participant-facing", () =>
   const withheld = retention.records.filter(
     (entry) => entry.receiptVerified && !entry.lifecycle.workerReadAuthorized
   );
-  assert.ok(withheld.length > 0, "expected at least one withheld source");
+  // No source is currently withheld: every licence question has been answered by
+  // a project-owner attestation. The property under test is that a withheld
+  // source stays out of participant generation, so it is asserted of whatever is
+  // withheld — and separately, that the derivation still withholds when
+  // permission is absent, which no longer has a live example to observe.
+  assert.equal(
+    deriveSourceLifecycle({
+      receiptVerified: true,
+      authorization: {
+        verdict: "license_unresolved",
+        workerReadAuthorized: false,
+        licenseAdopted: false,
+        blocker: "license_unresolved"
+      }
+    }).workerReady,
+    false,
+    "an unpermitted source must never be worker-ready"
+  );
   const assignableIdentityKeys = new Set(
     plan.jobs.flatMap((job) =>
       (job.sourceMaterializationInputs ?? []).map(

@@ -1,0 +1,169 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-mo-project-owner-permission-authorization",
+  "jurisdiction": "MO",
+  "lane": "source_acquisition",
+  "strategyFamily": "commercial_license",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "0ca0bae",
+  "generatedOn": "2026-08-09",
+  "reconciliationIds": [
+    "permission:MO"
+  ],
+  "downloadedSourceCount": 0,
+  "licenseAdopted": true,
+  "generationAllowed": true,
+  "terminalDisposition": "authorized",
+  "dispositionIsCurrentAndTerminal": true,
+  "whatThisRecordIs": "The current controlling permission state for the Missouri Courts / Office of State Courts Administrator record-clearing form family assigned to the RCAP Missouri workflow, recorded from the project owner's attestation.",
+  "priorState": {
+    "hadRecordedLicenceDecision": false,
+    "resolvedAs": "no_license_restriction",
+    "meaning": "Missouri had no recorded licence decision, so it passed by silence rather than by permission. This replaces silence with an affirmative grant and sets licenseAdopted true."
+  },
+  "provenance": {
+    "evidenceType": "project_owner_attestation",
+    "attestedBy": "Roger Roman",
+    "attestedRole": "LegalEase project owner",
+    "attestedDate": "2026-08-08",
+    "underlyingPermissionRetainedExternally": true,
+    "repositoryCopyAvailable": false,
+    "documentHashAvailable": false,
+    "additionalEvidenceRequired": false,
+    "whatIsNotAsserted": [
+      "an individual grantor",
+      "a signer or their title",
+      "a letter date",
+      "a document hash",
+      "a publisher email",
+      "a bar number",
+      "any term the project owner did not provide"
+    ],
+    "whyNotAsserted": "None of it was supplied. An attestation is not a document and must not be dressed as one."
+  },
+  "authorizedActs": {
+    "permissionObtained": true,
+    "generationAllowed": true,
+    "licenseAdopted": true,
+    "commercialUseAuthorized": true,
+    "prefillAuthorized": true,
+    "participantDistributionAuthorized": true,
+    "internalStorageAuthorized": true,
+    "workerReadAuthorized": true,
+    "additionalPermissionEvidenceRequired": false,
+    "granted": [
+      "reproduce blank official forms",
+      "reproduce partially completed forms",
+      "reproduce completed participant-controlled portions of forms",
+      "electronically prefill participant-supplied information",
+      "electronically prefill deterministic case information",
+      "supply completed or partially completed forms to participants",
+      "use the forms in LegalEase's paid document-preparation service",
+      "retain source copies internally",
+      "use source copies for implementation, testing and verification",
+      "render the forms as part of an assembled participant packet"
+    ]
+  },
+  "familyScope": {
+    "family": "the Missouri Courts / Office of State Courts Administrator record-clearing form family assigned to the RCAP Missouri workflow",
+    "scopedToNamedDocuments": false,
+    "scopeNote": "Recorded at family level, as the attestation was given. Applying it to the family means a revision update within the same issuing authority and form family does not reopen the permission question.",
+    "covers": [
+      "participant filings",
+      "official attachments",
+      "case-information sheets",
+      "proposed orders",
+      "continuation pages",
+      "related participant-facing record-clearing forms"
+    ],
+    "outsideTheFamily": "A genuinely new publisher or an unrelated form family stays outside this attestation unless the live authorization model identifies it as part of the same covered RCAP family."
+  },
+  "retiredBlockers": {
+    "note": "These no longer apply to covered identities. They are retired because the question they asked is answered, not because they were wrong.",
+    "blockers": [
+      "written_permission_required",
+      "commercial_permission_required",
+      "license_unresolved",
+      "permission_evidence_pending"
+    ]
+  },
+  "boundaries": {
+    "notGranted": [
+      "altering official legal wording",
+      "altering form titles or revision marks",
+      "populating judicial findings",
+      "populating judge signatures",
+      "populating clerk fields",
+      "populating prosecutor positions",
+      "populating agency decisions",
+      "populating outside-party attestations",
+      "populating service-completion facts before service",
+      "claiming that a filing occurred",
+      "claiming that relief was granted",
+      "claiming endorsement by the issuing authority",
+      "applying this state's permission to another state's forms"
+    ],
+    "prefillLimit": "Only participant-controlled and deterministic fields permitted by the existing field classification may be prefilled.",
+    "thirdPartyFieldRuleUnchanged": "Judge, clerk, prosecutor, agency, notary and process-server fields stay blank unless the governing form expressly assigns the field to the participant."
+  },
+  "historicalRecordsPreserved": {
+    "preserved": true,
+    "rewritten": false,
+    "deleted": false,
+    "records": [
+      "rcap-mo-issuer-contact-authorization",
+      "rcap-mo-direct-issuer-request"
+    ],
+    "note": "Their permission-required conclusions were accurate before this attestation reached the factory. A later grant does not make an accurate record inaccurate, and the workers are not represented as mistaken."
+  },
+  "receiptTreatment": {
+    "receiptsCreated": 0,
+    "receiptsDeleted": 0,
+    "receiptsRewritten": 0,
+    "bytesRecopied": false,
+    "bytesRehashed": false,
+    "note": "Authorization is a permission fact and materialization is an evidence fact. No receipt is touched because the licence answer moved."
+  },
+  "editionTreatment": {
+    "edition13Mutated": false,
+    "note": "Edition 1.3 is published and immutable. An external authorization fact does not rewrite it; if the canonical model needs an edition consequence it is recorded as a successor handoff."
+  },
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "counselAdopted": false,
+    "productionEnabled": false,
+    "binariesEnteringVersionControl": 0,
+    "evidenceFabricated": false,
+    "priorDecisionRewritten": false,
+    "priorDecisionDeleted": false,
+    "judicialFieldsAuthorized": false,
+    "outsidePartyFieldsAuthorized": false
+  },
+  "sourceQuestionsRemainSeparate": {
+    "statement": "Permission does not create a missing document. Every Missouri source and currentness question stands exactly as it did.",
+    "open": [
+      "current published revision",
+      "exact official title",
+      "official publication location",
+      "the missing proposed-order source",
+      "any superseded retained revision",
+      "exact source bytes",
+      "structural measurements",
+      "source materialization",
+      "source receipt",
+      "field map"
+    ],
+    "directIssuerRequestReframed": {
+      "job": "rcap-mo-direct-issuer-request",
+      "wasFramedAs": "a permission request",
+      "nowFramedAs": "a source-identity, revision and official-publication-location request",
+      "why": "Its permission limb is closed by the attestation. Sending it to reconfirm rights the project owner has attested are held would ask a question already answered. What it may still usefully ask is where the form is published and which revision is current.",
+      "doNotSendToReconfirmRights": true
+    },
+    "doNotClaimAcquisition": "A proposed order is not acquired because LegalEase may use it. Permission and possession are different facts."
+  },
+  "expectedResolution": "Missouri may now resolve permissionObtained true and generationAllowed true while remaining workerReady false and implementationAssignable false on a precise missing-source or currentness blocker."
+}
