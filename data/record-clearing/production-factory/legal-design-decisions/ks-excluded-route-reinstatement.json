@@ -1,0 +1,579 @@
+{
+  "schemaVersion": 1,
+  "specificationId": "ks-excluded-route-reinstatement",
+  "jobId": "rcap-ks-excluded-route-reinstatement",
+  "parentJobId": "EXC-01-ks-commercial-use-determination",
+  "jurisdiction": "KS",
+  "jurisdictionName": "Kansas",
+  "lane": "legal_design_normalization",
+  "strategyFamily": "legal_design_adjudication",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "preparedOn": "2026-08-09",
+  "preparer": "Session F source and authority worker",
+  "baseCommit": "8a1803336220be3de6cd163a3e914b0e9ebdea4a",
+
+  "whatThisDocumentIs": "A per-route adjudication of what the adopted Kansas permission does and does not reinstate. The licence exclusion that closed six Kansas routes has been superseded by an attested grant covering nine named Judicial Council documents. This record decides, route by route, whether that route is reinstated, which of the nine it needs, what output strategy it takes, and what still holds it. It implements nothing, creates no receipt, binds no source and marks no track ready.",
+
+  "scopeOfThisJob": {
+    "owns": "data/record-clearing/production-factory/legal-design-decisions/ks-excluded-route-reinstatement.json and nothing else.",
+    "doesNotOwn": [
+      "KS.memo.json — the memo amendment this record implies belongs to a separate owner and is specified below",
+      "the official-PDF source assignment projection, which is generated and is a forbidden path here",
+      "the source-acquisition queue and the acquisition intelligence",
+      "any source receipt or materialization record",
+      "scripts/lib/rcap-factory/materialization-planning.mjs, where the confirmed defect below lives"
+    ],
+    "doesNotDecide": [
+      "whether any Kansas revision is the Council's current revision — that is open and its owner is named",
+      "whether any Kansas track is releasable",
+      "field ownership maps, renderer selection or packet assembly"
+    ]
+  },
+
+  "decisionSource": {
+    "supersedingPermission": {
+      "record": "data/record-clearing/production-factory/source-acquisition/rcap-ks-project-owner-permission-authorization.json",
+      "terminalDisposition": "authorized",
+      "licenseAdopted": true,
+      "generationAllowed": true,
+      "attestedBy": "Roger Roman, LegalEase project owner",
+      "attestedDate": "2026-08-08",
+      "supersedes": "rcap-ks-commercial-license",
+      "evidenceBasis": "project-owner attestation; the hard copy is retained by the project owner and is not bound by hash in the repository. The project owner determined the attestation is controlling. This record does not reopen that."
+    },
+    "supersededExclusion": {
+      "record": "data/record-clearing/production-factory/source-acquisition/rcap-ks-commercial-license.json",
+      "terminalDisposition": "deliberately_excluded_commercial_license",
+      "preserved": true,
+      "notRewritten": "The exclusion was correct when it was made and is left exactly as written. What changed is the fact it rested on, not its reasoning."
+    },
+    "currentnessOwner": {
+      "record": "data/record-clearing/production-factory/source-acquisition/rcap-ks-form-currentness-verification.json",
+      "generatedOn": "2026-08-09",
+      "headline": "All seven retained documents print exactly the revision the repository records for them. Currentness against the Council's own current publication is undetermined for all nine, because www.kjc.ks.gov returns HTTP 403 to automation behind Akamai and the Judicial Branch self-help channel is separately behind a Cloudflare 403."
+    }
+  },
+
+  "reinstatementStandard": {
+    "statement": "Reinstatement is per route and is not automatic. The exclusion was terminal and correct; the fact it rested on has changed. A route is reinstated only in respect of the gate the licence actually closed, and remains held by any identity, currentness, role, scope or legal-design gate the licence never touched.",
+    "whatTheGrantDoes": "It removes the commercial-reproduction gate from nine named documents. Nothing else.",
+    "whatTheGrantDoesNot": [
+      "make any revision current",
+      "supply bytes for a document the corpus does not hold under a bound identity",
+      "resolve the identity of a document outside the nine",
+      "authorize completing a field the governing form assigns to a court, clerk, prosecutor, law-enforcement agency or other outside party",
+      "answer a venue, docketing, fee or packet-composition question"
+    ],
+    "headlineResult": "The licence gate is lifted on all six routes and on all nine covered documents. No route becomes buildable. Every one of the six is still held by at least one gate the licence never reached, and the holder differs by route."
+  },
+
+  "controllingSources": [
+    "data/record-clearing/production-factory/source-acquisition/rcap-ks-project-owner-permission-authorization.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-ks-commercial-license.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-ks-form-currentness-verification.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-ks-source-identity-resolution-criminal-cover-sheet.json",
+    "data/record-clearing/production-factory/legal-design-decisions/ks-rule-123-rationale-correction.json",
+    "data/record-clearing/legal-design-intake/KS.memo.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/jobs/EXC-01-ks-commercial-use-determination.json"
+  ],
+
+  "permissionScope": {
+    "coveredDocumentCount": 9,
+    "coveredDocumentIds": [
+      "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+      "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+      "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
+      "KSJC-NOTICE-OF-HEARING-12-2016",
+      "KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016",
+      "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+      "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+      "KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022",
+      "KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022"
+    ],
+    "scopeIsAList": "The grant scopes by naming the nine, not by naming a family. A document nobody has considered cannot be swept in by category, and anything off this list falls through to the open jurisdiction-level question and stays fail-closed.",
+    "boundariesThatSurviveReinstatement": [
+      "changing official legal text, titles, numbers or revision marks",
+      "filling judicial findings",
+      "filling judge signatures",
+      "filling clerk fields",
+      "filling prosecutor fields",
+      "filling court dates",
+      "filling service-completion facts",
+      "filling outside-party attestations",
+      "claiming endorsement by Kansas",
+      "applying this permission to forms issued by another publisher"
+    ],
+    "prefillMeaning": "Deterministic case information means facts already fixed by the participant's own record — case number, county, court, charge, disposition date. It does not extend to a finding, an order, a hearing date the court has not set, or a fact about service that has not happened."
+  },
+
+  "firstHandEvidenceEstablishedByThisJob": {
+    "why": "Two of the nine were recorded as held by no adopted edition, and the criminal cover sheet's revision was recorded as uncorroborated. Both statements were true of the sources those records could read. The repository's own artifact registry points at retained binaries that neither record measured, and this job measured them.",
+    "method": "Bytes read and hashed at first hand from the paths the source-artifact registry records; page faces and footers read page by page with pdftotext; AcroForm structure measured with scripts/rcap-factory-inspect-pdf.mjs. No perimeter was probed, no request was sent to any Kansas publisher, no binary was copied, materialized, committed or receipted.",
+    "issuerContacted": false,
+    "perimeterProbed": false,
+    "binariesDownloaded": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "measurements": [
+      {
+        "documentId": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+        "registryArtifactId": "petition-for-expungement-of-conviction-or-diversion-82022",
+        "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase Kansas/Petition for Expungement of Conviction or Diversion 82022.pdf",
+        "sha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+        "bytes": 234581,
+        "mediaType": "application/pdf",
+        "faceTitle": "PETITION FOR EXPUNGEMENT OF CONVICTION OR DIVERSION",
+        "faceStatuteLine": "Pursuant to K.S.A. 21-6614.",
+        "printedRevisionOnFace": "Rev. KSJC 08/2022",
+        "printedRevisionAppearsOn": "all six pages",
+        "documentTitleMetadata": "Petition for Expungement of Conviction or Diversion, August 2022",
+        "pageCount": 6,
+        "pageSizes": ["612x792"],
+        "pageRotations": [0],
+        "encrypted": false,
+        "xfa": false,
+        "acroFormPresent": true,
+        "logicalFieldCount": 35,
+        "terminalFieldCount": 35,
+        "widgetAnnotationCount": 35,
+        "multiWidgetFieldCount": 0,
+        "denominatorNote": "Logical, terminal and widget counts agree at 35. There is no competing denominator for this document and a field map keys on 35 names.",
+        "fieldBreakdown": { "text": 26, "checkBoxes": 9 },
+        "fieldsAppearOnPages": [1, 2, 3],
+        "signatureFields": 0,
+        "actionButtons": 0,
+        "javaScript": false,
+        "structuralClass": "clean_acroform",
+        "identityFinding": "This is the document the four K.S.A. 21-6614 routes and the K.S.A. 22-4908 route name as their primary filing, established from its printed face and statute line rather than from its filename."
+      },
+      {
+        "documentId": "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
+        "registryArtifactId": "order-denying-expungement-of-conviction-or-diversion-122016",
+        "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase Kansas/Order Denying Expungement of Conviction or Diversion 122016.pdf",
+        "sha256": "b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba",
+        "bytes": 126038,
+        "mediaType": "application/pdf",
+        "faceTitle": "ORDER DENYING EXPUNGEMENT",
+        "faceStatuteLine": "Pursuant to K.S.A. 21-6614.",
+        "printedRevisionOnFace": "KSJC 12/2016",
+        "printedRevisionAppearsOn": "all three pages, as 'KSJC 12/2016  Page n of 3'",
+        "documentTitleMetadata": "Order Denying Expungement of Conviction or Diversion, December 2016",
+        "pageCount": 3,
+        "pageSizes": ["612x792"],
+        "pageRotations": [0],
+        "encrypted": false,
+        "xfa": false,
+        "acroFormPresent": true,
+        "logicalFieldCount": 51,
+        "terminalFieldCount": 51,
+        "widgetAnnotationCount": 51,
+        "multiWidgetFieldCount": 0,
+        "denominatorNote": "Logical, terminal and widget counts agree at 51.",
+        "fieldBreakdown": { "text": 45, "checkBoxes": 6 },
+        "fieldsAppearOnPages": [1, 2, 3],
+        "signatureFields": 0,
+        "actionButtons": 0,
+        "javaScript": false,
+        "structuralClass": "clean_acroform",
+        "titlePrecisionFinding": "The printed face title is the bare 'ORDER DENYING EXPUNGEMENT'; the qualifier 'of Conviction or Diversion' is carried by the statute line and by the document metadata, not by the title. The recorded title is a descriptive expansion, and a title-match test against the face would fail on the recorded string. This is the same pattern the currentness owner found on the granting order."
+      },
+      {
+        "documentId": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+        "registryArtifactId": "criminal-cover-sheet-102025",
+        "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+        "sha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60",
+        "bytes": 126589,
+        "mediaType": "application/pdf",
+        "faceTitle": "CRIMINAL COVER SHEET",
+        "printedRevisionOnFace": "10/14/2025",
+        "printedRevisionLocation": "bottom right of the single page, as a bare date with no issuer mark",
+        "documentTitleMetadata": "Criminal Cover Sheet, October 2025",
+        "documentCreationDate": "2025-10-14",
+        "pageCount": 1,
+        "encrypted": false,
+        "xfa": false,
+        "acroFormPresent": true,
+        "logicalFieldCount": 36,
+        "structuralClass": "clean_acroform",
+        "issuerMarkFinding": "The retained bytes carry no 'KSJC' mark and no copyright notice anywhere on the face. Every one of the nine covered Council forms prints one — either 'KSJC <rev>' or '<rev> © KSJC' — in its page footer. This document prints only a bare date.",
+        "faceTextOnRole": "'This form is required for use by the Clerk of the District Court for the purposes of initiating the criminal docket sheet. ... A new case will not be accepted without a cover sheet attached.'"
+      }
+    ]
+  },
+
+  "corpusFindingThatChangesTheRemedy": {
+    "finding": "The two documents recorded as held by no adopted edition are held by the repository. KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022 and KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016 are both present in the private corpus, both measured above, both printing exactly the revision their recorded identity asserts.",
+    "whatWasCorrectBefore": "The currentness owner said they are not retained by adopted Edition 1.2 and that the archive holds no Kansas conviction-or-diversion petition at all. That is true of the edition and is not corrected here. The edition does not claim to hold them.",
+    "whatChanges": "The gap is not an acquisition gap. It is an edition and identity-binding gap. The bytes exist, they are measured, and their printed faces match the recorded identity. The remedy is an Edition amendment binding the two artifacts to their identities, not a retrieval from a publisher that refuses automation.",
+    "whyThisMatters": "An acquisition-shaped remedy waits on a human opening kjc.ks.gov in a browser. An edition-binding remedy waits on nobody. Recording the wrong one would leave four of the six routes parked behind an attended retrieval they do not need.",
+    "whatItDoesNotEstablish": [
+      "that either retained revision is the Council's current revision — that is undetermined for all nine and this job did not touch it",
+      "that the artifacts are eligible for a receipt — they carry the pre-batch-1 unclassified treatment and no exact source contract, and promoting them is the edition owner's act",
+      "that either document may be bound before the currentness question is answered"
+    ],
+    "registryTreatmentToday": "Both artifacts carry sourceTreatment 'unclassified_pre_batch_1_import' and runtimeEligibility 'ineligible_pending_source_legal_technical_visual_approval', while the five source-gated Kansas artifacts carry 'source_gated'. That difference in treatment, not absence, is what keeps them out of the projection.",
+    "owner": "the Master Library edition owner, as an Edition 1.3 amendment candidate; the identity binding is theirs and not this job's"
+  },
+
+  "confirmedProjectionDefect": {
+    "statement": "The nine covered Kansas identities are still dispositioned deliberately_excluded_commercial_license in the official-PDF source assignment projection, and that is a code defect rather than a licence fact.",
+    "verifiedHow": "The supersession-aware authorization index was built from the integrated corpus at this base commit and asked for each of the nine by documentId. It resolves the Kansas decision to rcap-ks-project-owner-permission-authorization, verdict 'authorized', supersedes rcap-ks-commercial-license, scoped to nine documents, and returns 'authorized' for all nine.",
+    "whereTheDefectIs": {
+      "file": "scripts/lib/rcap-factory/materialization-planning.mjs",
+      "construction": "excludedKansasIds is built unconditionally from rcap-ks-commercial-license.json's excludedDocuments list, with no supersession check.",
+      "branch": "officialPdfDisposition() returns deliberately_excluded_commercial_license for any KS document in that set, and that branch is evaluated before the supersession-aware licenseDeniedJurisdictions check that immediately follows it.",
+      "consequence": "A superseded refusal outranks the grant that superseded it, for Kansas only, and only because Kansas is the one jurisdiction with a hard-coded per-document exclusion set."
+    },
+    "sameDefectClass": "This is the shape the Colorado JDF-2371 gate had — a licence written into a hard-coded branch, so the gate stayed shut when the grant landed — and the shape the jurisdiction-level gate had for Indiana before the supersession fix at this base commit. Kansas was left behind because its exclusion is per-document rather than per-jurisdiction.",
+    "correctionRequired": "Resolve the Kansas per-document exclusion through buildSourceAuthorizationIndex/authorizationFor, as licenseDeniedJurisdictionSet already does, so a superseding grant is honoured for the documents it names and the exclusion continues to apply to every document it does not. Fail-closed behaviour must be unchanged: a Kansas document outside the nine still resolves non-permitting.",
+    "correctionOwner": "the factory/platform owner. This is a shared-library path and is outside this job's owned paths; it is stated here and deliberately not applied.",
+    "doNotApplyByHand": "The projection is generated. It must not be edited to show the reinstatement; it must be regenerated after the resolver is corrected.",
+    "labellingHazardToCheckAtTheSameTime": {
+      "observation": "Four of the nine projection rows carry an officialDocument value with the revision suffix stripped — KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD, KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET, KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION and KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET — while their queueOfficialFormId carries the full identifier.",
+      "whyItMatters": "authorizationFor matches a scoped grant by exact documentId string. Those four truncated strings resolve license_unresolved, verified live. The disposition branch today reads officialFormId, which is the full identifier, so this is not what is excluding them now.",
+      "hazard": "If the corrected resolver is wired to officialDocument rather than officialFormId, exactly the four Kansas documents closest to assignable — the four whose sourceIdentityState is already exact_source_requirement_ready — would fail closed under a second, different verdict, and it would read as a second licence problem when it is a string-shape problem.",
+      "instruction": "Wire the resolver to the full identifier, and reconcile the four truncated officialDocument labels separately."
+    }
+  },
+
+  "determination": {
+    "routesConsidered": 6,
+    "routesWhereTheLicenceGateIsLifted": 6,
+    "routesReinstatedForImplementation": 0,
+    "perRoute": [
+      {
+        "trackId": "ks-21-6614-conviction",
+        "statute": "K.S.A. 21-6614(a)(1)",
+        "outputStrategy": "official_pdf_fill",
+        "outputStrategyUnchanged": true,
+        "licenceGate": "lifted",
+        "reinstated": "partially — the licence no longer holds this route, and other gates do",
+        "documentsThisRouteNeeds": [
+          { "componentId": "ks-21-6614-conviction-cover-sheet-1", "role": "cover_sheet", "documentId": "KS-CRIMINAL-COVER-SHEET-10-14-2025", "coveredByPermission": false, "state": "outside the attested nine-document family; identity unresolved as to issuer and revision" },
+          { "componentId": "ks-21-6614-conviction-primary-filing-2", "role": "primary_filing", "documentId": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022", "coveredByPermission": true, "state": "bytes held and measured; not bound by any adopted edition; currentness undetermined" },
+          { "componentId": "ks-21-6614-conviction-notice-3", "role": "notice", "documentId": "KSJC-NOTICE-OF-HEARING-12-2016", "coveredByPermission": true, "state": "retained by Edition 1.2; face prints KSJC 12/2016; currentness undetermined" },
+          { "componentId": "ks-21-6614-conviction-cover-sheet-4", "role": "cover_sheet", "documentId": "KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016", "coveredByPermission": true, "state": "retained by Edition 1.2; currentness undetermined; archive filename reads like an order and must not satisfy an order role" },
+          { "componentId": "ks-21-6614-conviction-proposed-order-5", "role": "proposed_order", "documentId": "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022", "coveredByPermission": true, "state": "retained by Edition 1.2; face prints Rev. KSJC 08/2022; court-completed order" },
+          { "componentId": "ks-21-6614-conviction-proposed-order-6", "role": "proposed_order", "documentId": "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016", "coveredByPermission": true, "state": "bytes held and measured; not bound by any adopted edition; role question raised below" },
+          { "componentId": "ks-21-6614-conviction-process-guidance-7", "role": "process_guidance", "documentId": null, "coveredByPermission": "not_applicable", "state": "LegalEase-authored guidance; no official source; unaffected by the licence in either direction" }
+        ],
+        "whatStillHoldsIt": [
+          "the criminal cover sheet is outside the permission and its identity is unresolved",
+          "two of its five covered documents are not bound by any adopted edition",
+          "currentness is undetermined for all nine",
+          "venue where the arrest county and the convicting county differ — K.S.A. 21-6614(a)(1) directs the petition to the convicting court while the Council's instructions say the county of arrest",
+          "the seven-year DUI window has no correct box on the Rev. KSJC 08/2022 petition — item 8 Option A offers 1, 3, 5 and 10 while the form's own chart carries a 7-year row",
+          "the criminal cover sheet against the K.S.A. 21-6614(g)(3) docketing rule",
+          "the amount of the non-judicial personnel charge actually imposed under 2026 Senate Bill 430"
+        ],
+        "licenceWasNeverTheOnlyBlocker": true
+      },
+      {
+        "trackId": "ks-21-6614-diversion",
+        "statute": "K.S.A. 21-6614(a)(2)",
+        "outputStrategy": "official_pdf_fill",
+        "outputStrategyUnchanged": true,
+        "licenceGate": "lifted",
+        "reinstated": "partially — the licence no longer holds this route, and other gates do",
+        "documentsThisRouteNeeds": "the same seven components as ks-21-6614-conviction, with the same document bindings and the same covered/uncovered split",
+        "whatStillHoldsIt": [
+          "the criminal cover sheet is outside the permission and its identity is unresolved",
+          "two of its five covered documents are not bound by any adopted edition",
+          "currentness is undetermined for all nine",
+          "venue on the diversion lane — K.S.A. 21-6614(a)(2) directs the petition to the district court rather than a convicting court",
+          "the cover sheet against the K.S.A. 21-6614(g)(3) docketing rule, which is sharper here because a fulfilled diversion may have no original criminal action docketed against the participant"
+        ],
+        "licenceWasNeverTheOnlyBlocker": true
+      },
+      {
+        "trackId": "ks-21-6614-prostitution-coercion",
+        "statute": "K.S.A. 21-6614(b)",
+        "outputStrategy": "official_pdf_fill",
+        "outputStrategyUnchanged": true,
+        "licenceGate": "lifted",
+        "reinstated": "partially — and this is the route the licence came closest to being the whole of",
+        "documentsThisRouteNeeds": "the same seven components as ks-21-6614-conviction, with the same document bindings and the same covered/uncovered split",
+        "whatStillHoldsIt": [
+          "the criminal cover sheet is outside the permission and its identity is unresolved",
+          "two of its five covered documents are not bound by any adopted edition",
+          "currentness is undetermined for all nine"
+        ],
+        "licenceWasNeverTheOnlyBlocker": true,
+        "distinctiveNote": "This is the only one of the six carrying no independent venue, docketing, fee or packet-composition question of its own. Everything still holding it is a source question, and every one of those source questions is answerable without contacting a Kansas publisher except currentness. It is therefore the route to watch: it is the first that would become implementable, and it must not be forced ready ahead of the currentness answer."
+      },
+      {
+        "trackId": "ks-21-6614-specialty-court",
+        "statute": "K.S.A. 21-6614(a)(3)",
+        "outputStrategy": "official_pdf_fill",
+        "outputStrategyUnchanged": true,
+        "licenceGate": "lifted",
+        "reinstated": "partially — the licence no longer holds this route, and other gates do",
+        "documentsThisRouteNeeds": "the same seven components as ks-21-6614-conviction, plus ks-21-6614-specialty-court-fee-waiver-8, a fee_waiver component with no official source",
+        "feeWaiverComponentDisposition": "No official Kansas form exists for the K.S.A. 21-6614(a)(3) fee-waiver request. That component is not an official-PDF component and neither the exclusion nor the grant ever reached it. It is unaffected in both directions and must not be counted as reinstated.",
+        "whatStillHoldsIt": [
+          "the criminal cover sheet is outside the permission and its identity is unresolved",
+          "two of its five covered documents are not bound by any adopted edition",
+          "currentness is undetermined for all nine",
+          "how Kansas district courts handle the fee-waiver request in practice, and what showing they expect"
+        ],
+        "licenceWasNeverTheOnlyBlocker": true
+      },
+      {
+        "trackId": "ks-22-2410-arrest",
+        "statute": "K.S.A. 22-2410",
+        "outputStrategy": "official_pdf_fill",
+        "outputStrategyUnchanged": true,
+        "licenceGate": "lifted",
+        "reinstated": "no — and reinstating it would be the worst of the six",
+        "documentsThisRouteNeeds": [
+          { "componentId": "ks-22-2410-arrest-cover-sheet-1", "role": "cover_sheet", "documentId": "KS-CRIMINAL-COVER-SHEET-10-14-2025", "coveredByPermission": false, "state": "outside the attested nine-document family; identity unresolved" },
+          { "componentId": "ks-22-2410-arrest-primary-filing-2", "role": "primary_filing", "documentId": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013", "coveredByPermission": true, "state": "retained by Edition 1.2; face prints KSJC 02/2013 on every page; exact source requirement ready" },
+          { "componentId": "ks-22-2410-arrest-cover-sheet-3", "role": "cover_sheet", "documentId": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016", "coveredByPermission": true, "state": "retained by Edition 1.2; exact source requirement ready" },
+          { "componentId": "ks-22-2410-arrest-process-guidance-4", "role": "process_guidance", "documentId": null, "coveredByPermission": "not_applicable", "state": "LegalEase-authored guidance" },
+          { "componentId": "ks-22-2410-arrest-proposed-order-5", "role": "proposed_order", "documentId": null, "coveredByPermission": "not_applicable", "state": "no official source. The Council publishes an order cover sheet for the Kansas Bureau of Investigation but no arrest-record granting order." }
+        ],
+        "bothCoveredDocumentsAreHeld": true,
+        "whyNotReinstated": "This is the one route whose entire covered document set is retained, measured and faithfully labelled, so permission and bytes are both satisfied. It is also the route where a superseded form would do the most damage. The petition was last revised February 2013 and 2025 House Bill 2393 amended K.S.A. 22-2410 afterwards — adding the (a)(2) mandatory expungement category, restating the docket fee and broadening the (b)(3)(B) fee exemption. A form predating those amendments may no longer collect what the statute now requires. Permission to reproduce a revision does not make it current, and a route reinstated onto a superseded form is worse than one left closed.",
+        "whatStillHoldsIt": [
+          "the 2013 petition against the 2025 House Bill 2393 amendments — the highest-priority currentness question in Kansas",
+          "the criminal cover sheet is outside the permission and its identity is unresolved",
+          "the proposed-order component has no official source and it is unsettled whether Kansas district courts expect one on an arrest-record petition"
+        ],
+        "licenceWasNeverTheOnlyBlocker": true
+      },
+      {
+        "trackId": "ks-22-4908-registration-relief",
+        "statute": "K.S.A. 22-4908",
+        "outputStrategy": null,
+        "outputStrategyFinding": "This track carries no declared output strategy in the track registry, while its two own documents are official Judicial Council PDFs and its five siblings all declare official_pdf_fill. The absent declaration is not a finding of this job and is not supplied here: declaring a route's output strategy is a legal-design act with its own owner. It is recorded because the assignment asks what output strategy each route takes, and for this one the honest answer is that the registry does not say.",
+        "licenceGate": "lifted",
+        "reinstated": "partially — and it is the strongest of the six on source",
+        "documentsThisRouteNeeds": [
+          { "componentId": "ks-22-4908-registration-relief-primary-filing-1", "role": "primary_filing", "documentId": "KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022", "coveredByPermission": true, "state": "retained by Edition 1.2; face prints 06/2022 © KSJC; exact source requirement ready" },
+          { "componentId": "ks-22-4908-registration-relief-cover-sheet-2", "role": "cover_sheet", "documentId": "KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022", "coveredByPermission": true, "state": "retained by Edition 1.2; exact source requirement ready" },
+          { "componentId": "ks-22-4908-registration-relief-primary-filing-3", "role": "primary_filing", "documentId": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022", "coveredByPermission": true, "state": "bytes held and measured; not bound by any adopted edition; currentness undetermined" },
+          { "componentId": "ks-22-4908-registration-relief-process-guidance-4", "role": "process_guidance", "documentId": null, "coveredByPermission": "not_applicable", "state": "LegalEase-authored guidance" }
+        ],
+        "noCriminalCoverSheetDependency": true,
+        "distinctiveNote": "This is the only one of the six that does not bind the criminal cover sheet, so the single uncovered document in the Kansas set does not touch it. Both of its own documents are covered, retained, faithfully labelled and already at exact_source_requirement_ready, and the 06/2022 revision is corroborated from inside the document itself: its explanatory pages cite 'K.S.A. 22-4908, as amended 2022 S.B. 366', so the stamp is a real revision date rather than a packaging date.",
+        "whatStillHoldsIt": [
+          "its third component binds the conviction-or-diversion petition, which is not bound by any adopted edition",
+          "currentness against the Council's current publication is undetermined for all nine",
+          "no declared output strategy",
+          "whether the registration-relief petition and the combined K.S.A. 21-6614 expungement petition are filed as one document, as two in one filing, or sequentially — subsection (i) permits combining them, the Council publishes the two petitions separately, and whether one or two docket fees are charged is not stated"
+        ],
+        "licenceWasNeverTheOnlyBlocker": true
+      }
+    ]
+  },
+
+  "routesOutsideThisAdjudication": {
+    "trackIds": ["ks-12-4516-municipal", "ks-12-4516a-municipal-arrest"],
+    "why": "Both are custom_pleading routes under K.S.A. 12-4516 and 12-4516a. The exclusion never closed them and the grant does not reach them. Their blockers are the municipal forms landscape and the court-by-court filing fee, and nothing here changes either.",
+    "doNotSweepIn": "They must not be counted as reinstated, because they were never excluded."
+  },
+
+  "criminalCoverSheetDetermination": {
+    "documentId": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+    "boundToRoutes": ["ks-21-6614-conviction", "ks-21-6614-diversion", "ks-21-6614-prostitution-coercion", "ks-21-6614-specialty-court", "ks-22-2410-arrest"],
+    "insideTheAttestedFamily": false,
+    "why": "The grant scopes itself to nine named documents and this is not one of them. It therefore falls through to the open jurisdiction-level question and stays fail-closed. The scoped exclusion for documents outside the attested family is preserved exactly as the permission record requires.",
+    "revisionFindingFromRetainedBytes": {
+      "priorVerdict": "asserted_revision_uncorroborated, with the Council's published labelling recorded as 12-2014",
+      "priorVerdictWasCorrectOnItsEvidence": "Yes. That job deliberately declined to retrieve the document body from a publisher whose forms are commercially restricted, and it expressly said it could not byte-verify the Council's file. It reached the right verdict on the evidence it allowed itself.",
+      "newEvidence": "The retained artifact prints 10/14/2025 on its face and its document metadata records a creation date of 2025-10-14 and a title of 'Criminal Cover Sheet, October 2025'. The asserted revision is corroborated by the bytes the repository holds.",
+      "whatThatDoesNotSettle": "It does not establish what the Council publishes today. The 12-2014 labelling on Council document pages and a retained artifact printing 10/14/2025 can both be true — of different files, or of the same file at different times — and the block prevents distinguishing them.",
+      "issuerAttributionNowInDoubt": "The retained artifact carries no KSJC mark and no copyright notice, while all nine covered Council forms carry one in the page footer. The recorded identity attributes this document to the Kansas Judicial Council. That attribution is not supported by anything on the document's own face.",
+      "twoReadingsBothStillOpen": [
+        "a later Council revision that dropped the footer convention, with the 12-2014 page labels stale",
+        "a criminal cover sheet published by someone other than the Council — the Office of Judicial Administration or a district — in which case the Council's current criminal cover sheet may still be 12-2014"
+      ],
+      "whyItDoesNotChangeTheLicenceAnswer": "Both readings land in the same place. If it is a Council form, the grant does not name it. If it is not a Council form, the grant does not reach it. Either way it is outside the attested family and stays fail-closed, and that is the answer regardless of which reading is right."
+    },
+    "substitutionRemainsProhibited": [
+      "the Kansas Judicial Branch civil cover sheet, which is a different document for different proceedings",
+      "a district's own cover sheet as a statewide identity",
+      "treating downloadability as permission"
+    ],
+    "correctionStillRequired": "Either correct the document identifier to the revision the issuer publishes, or produce an official Kansas source for the 10/14/2025 revision. Do not retain the 2025 identifier while citing a 12-2014 file as its source. That correction touches the acquisition queue and the track-source relationships and is not this job's to make.",
+    "owner": "the acquisition owner for the issuer question; the legal-design or edition owner for the identifier"
+  },
+
+  "roleAndFieldConstraintsThatSurviveReinstatement": {
+    "why": "The assignment requires that no reinstated route assume authority the permission withholds. These are the places in the Kansas set where a naive implementation would assume it.",
+    "constraints": [
+      {
+        "documentId": "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
+        "measuredFieldCount": 51,
+        "observation": "The document is a court-completed order. Its first page reads 'On this ___ day of ___ 20___, the Court considers the Petition for Expungement filed herein. The State appears by ___, assistant county/district attorney or designee.' Its fields include 'The State appears by', 'IT IS THEREFORE ORDERED this', 'having reviewed the file', 'The Court' and 'upon agreement of the parties'.",
+        "automatedOwnershipHazard": "The factory's field-ownership heuristic proposes ten of these fields as participant-owned and none as third-party, because it keys on the word 'petitioner'. On this document the recitals beginning 'The petitioner...' are what the court writes about the participant, not what the participant writes. Accepting the heuristic here would prefill judicial findings, which the permission expressly does not authorize.",
+        "instruction": "No field on this document may be treated as participant-owned without an express finding that the governing form assigns it to the participant. The heuristic's proposal is unapproved and must not be adopted as a starting point."
+      },
+      {
+        "documentId": "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+        "registryRole": "companion proposed order / court-completed order",
+        "instruction": "Judicial findings and the judge's signature stay blank. The route may lodge it; it may not complete it."
+      },
+      {
+        "documentId": "KSJC-NOTICE-OF-HEARING-12-2016",
+        "observation": "The face reads 'The court will hold hearing on this matter on ___ day of ___, 20___, at __:__ a.m./p.m. at the ___ County Courthouse, in division ___ room ___', and carries a Certificate of Service and Mailing dated by the participant after service.",
+        "consequence": "The hearing date, time, division and room are court-set and are court dates within the permission's exclusions. The certificate date is a service-completion fact. Both are outside the prefill authorization even though the participant signs and serves the notice. The component can be delivered only with those blocks left for completion by hand, and the packet guidance must say so.",
+        "instruction": "Do not prefill the hearing block or the certificate date. Do not treat the participant's signature line as authority to complete the court's part of the form."
+      },
+      {
+        "documentId": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+        "measuredFieldCount": 35,
+        "automatedOwnershipHazard": "The same heuristic proposes 'JUDICIAL DISTRICT' as a third-party judge field. It is the caption's judicial-district number, which is deterministic case information the participant supplies. The heuristic errs in both directions across this set and is evidence, not a map.",
+        "instruction": "Field ownership for this document is established by reading the form, not by accepting the proposal."
+      },
+      {
+        "documentId": "KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016",
+        "observation": "The archive filename records this asset as 'order-of-expungement-of-conviction-or-diversion' with no 'cover-sheet' in it, and its slug is truncated. Read from the filename it looks like the granting order for that route, or like the Order Denying at the same revision. It is neither: its face says COVER SHEET and its whole content is defendant identification for transmission to the Kansas Bureau of Investigation.",
+        "instruction": "Bind to the cover_sheet role only. It must not satisfy KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016 and it must not satisfy any order role."
+      }
+    ],
+    "roleQuestionRaisedNotDecided": {
+      "question": "Whether a pre-drafted Order Denying Expungement belongs in a participant's packet at all.",
+      "why": "It is bound as a proposed_order on four routes. A denial order is the document a court signs when it refuses the relief the participant is asking for, and every field on it is a judicial recital. Whether the Kansas practice is that a petitioner lodges both a granting and a denying order, or whether this document is packet furniture that came in with the Council's set, is a legal-design question.",
+      "notDecidedHere": "This job adjudicates reinstatement, not component composition, and it does not remap a component.",
+      "owner": "the Kansas legal-design owner",
+      "consequenceIfItIsTheWrongDocument": "Two of the six routes would lose a component rather than gain a source, and the conviction-family packet would need one fewer document rather than one more binding."
+    }
+  },
+
+  "memoAmendmentImplied": {
+    "owner": "a Session D Kansas memo amendment owning data/record-clearing/legal-design-intake/KS.memo.json",
+    "whyNotAppliedHere": "A decision record cannot amend a state memo, and KS.memo.json is a required input to this job rather than one of its owned paths.",
+    "amendments": [
+      {
+        "target": "tracks[0..4] and tracks[7] — ks-21-6614-conviction, ks-21-6614-diversion, ks-21-6614-prostitution-coercion, ks-21-6614-specialty-court, ks-22-2410-arrest and ks-22-4908-registration-relief",
+        "locations": "the unresolvedQuestions entry and the legalDesignDecision.limitations entry on each of those six tracks whose text is 'Whether the Kansas Judicial Council will permit LegalEase to generate and deliver its copyrighted expungement forms in a paid packet' and 'Every Kansas official-form route is source-gated on that licence until permission is confirmed'",
+        "change": "Retire the licence question as answered, citing rcap-ks-project-owner-permission-authorization and its adoption date, and record that the answer covers exactly nine named Council documents.",
+        "doNotDo": "Do not delete the limitation and leave nothing. The route is still source-gated, on currentness and on the documents outside the nine, and a memo that says the licence is settled without saying what replaced it reads as a released route.",
+        "replaceWith": "A limitation naming the two gates that remain: currentness against the Council's current publication, undetermined for all nine; and the criminal cover sheet, which is outside the permission on either reading of its issuer."
+      },
+      {
+        "target": "ks-22-2410-arrest",
+        "change": "Keep the House Bill 2393 currentness question and raise it to the route's controlling blocker. It was previously one of several; with the licence answered it is the thing standing between this route and implementation, and it is the highest-priority Kansas currentness question."
+      },
+      {
+        "target": "ks-22-4908-registration-relief",
+        "change": "Record that the route declares no output strategy while binding two official Council PDFs, and name the owner who must declare it."
+      },
+      {
+        "target": "ks-12-4516-municipal and ks-12-4516a-municipal-arrest",
+        "change": "None. Neither was excluded and neither is reinstated. Recorded so a later reader does not infer a change from the jurisdiction-level news."
+      }
+    ],
+    "checkAfterApplying": "The six tracks must still carry a source gate after the amendment. If any becomes unblocked by the memo edit alone, the edit went too far."
+  },
+
+  "residualQuestions": [
+    {
+      "id": "ks-currentness-councils-current-publication",
+      "question": "What revision does the Kansas Judicial Council publish today for each of the nine documents?",
+      "status": "human_action_required",
+      "exactDependency": "A person opens https://www.kjc.ks.gov/legal-forms/expungement-adult and its sibling pages in an ordinary browser and reads the KSJC footer stamp on each of the nine.",
+      "whyMachineCannot": "Akamai returns HTTP 403 to automation across the whole host, and the Judicial Branch self-help channel is separately behind a Cloudflare 403. Neither perimeter may be evaded.",
+      "blocksRoutes": "all six",
+      "owner": "an attended-retrieval assignment or the acquisition owner"
+    },
+    {
+      "id": "ks-2013-arrest-petition-against-hb-2393",
+      "question": "Has the Petition for Expungement of Arrest Record been revised since February 2013, and does the 2013 revision still collect what K.S.A. 22-2410 requires after 2025 House Bill 2393?",
+      "status": "unresolved",
+      "priority": "highest of the nine",
+      "blocksRoutes": "ks-22-2410-arrest",
+      "owner": "the same attended retrieval"
+    },
+    {
+      "id": "ks-two-documents-held-but-unbound",
+      "question": "The conviction-or-diversion petition and the order denying expungement are held and measured but bound by no adopted edition.",
+      "status": "open",
+      "remedyKind": "edition_identity_binding_not_acquisition",
+      "blocksRoutes": "ks-21-6614-conviction, ks-21-6614-diversion, ks-21-6614-prostitution-coercion, ks-21-6614-specialty-court and ks-22-4908-registration-relief",
+      "owner": "the Master Library edition owner"
+    },
+    {
+      "id": "ks-projection-honours-superseded-exclusion",
+      "question": "The official-PDF projection still excludes the nine on a licence that has been superseded.",
+      "status": "confirmed_defect_reported_not_applied",
+      "blocksRoutes": "all six, and it is the reason none of them shows the reinstatement",
+      "owner": "the factory/platform owner"
+    },
+    {
+      "id": "ks-criminal-cover-sheet-issuer-and-revision",
+      "question": "Who publishes the criminal cover sheet bound to five Kansas routes, and at what revision?",
+      "status": "open",
+      "newEvidence": "The retained artifact corroborates 10/14/2025 on its own face and carries no Council mark.",
+      "blocksRoutes": "ks-21-6614-conviction, ks-21-6614-diversion, ks-21-6614-prostitution-coercion, ks-21-6614-specialty-court and ks-22-2410-arrest",
+      "owner": "the acquisition owner"
+    },
+    {
+      "id": "ks-order-denying-role",
+      "question": "Whether a pre-drafted Order Denying Expungement belongs in a participant packet.",
+      "status": "raised_not_decided",
+      "owner": "the Kansas legal-design owner"
+    },
+    {
+      "id": "ks-permission-document-not-in-custody",
+      "question": "The hard-copy grant is retained by the project owner and is not bound by hash in the repository.",
+      "status": "accepted_by_project_owner",
+      "why": "Recorded so the evidence basis stays legible. The project owner determined the attestation is controlling and it is not reopened here. If the document later enters custody and is narrower than the attested scope, the document governs and this adjudication is superseded with it."
+    }
+  ],
+
+  "terminalDisposition": "licence_exclusion_superseded_no_route_reinstated_for_implementation",
+  "terminalDispositionMeaning": "The commercial-licence gate is answered and no longer holds any Kansas route. Zero of the six become implementable, because each is independently held. The Kansas backlog stops being a permission problem and becomes a currentness and identity problem, which is a different queue with a different owner.",
+  "dispositionIsCurrentAndTerminalForTheLicenceQuestionOnly": true,
+
+  "whatThisDoesNotDo": {
+    "noTrackMarkedReady": true,
+    "noPacketImplemented": true,
+    "noReceiptCreated": true,
+    "noSourceBound": true,
+    "noEditionAmended": true,
+    "noEditionPublished": true,
+    "noComponentRemapped": true,
+    "noMemoEdited": true,
+    "noGeneratedRegistryRegenerated": true,
+    "noBinaryCommitted": true,
+    "noIssuerContacted": true,
+    "noPerimeterProbedOrEvaded": true,
+    "priorDecisionRewritten": false,
+    "priorDecisionDeleted": false
+  },
+
+  "runtimeEffect": {
+    "runtimeStatus": "runtime_disabled",
+    "packetReadyCount": 0,
+    "enabledJurisdictionCount": 0,
+    "launchGate": "red",
+    "productionEnablement": "disabled",
+    "kansasOfficialFormRoutesReleasable": false,
+    "statement": "Every Kansas route stays source-gated and runtime disabled. Answering the licence question moves no gate by itself."
+  },
+
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "counselAdopted": false,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "receiptsWritten": 0,
+    "editionMutated": false,
+    "editionPublished": false,
+    "memoAltered": false,
+    "evidenceFabricated": false,
+    "judicialFieldsAuthorized": false,
+    "outsidePartyFieldsAuthorized": false,
+    "scopedExclusionPreservedForDocumentsOutsideTheAttestedFamily": true
+  }
+}
